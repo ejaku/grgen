@@ -446,10 +446,10 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		Collection restEdges = graph.getEdges(new HashSet());
 		restEdges.removeAll(stmtCtx.processedEdges);
 		
-//		for(Iterator it = restEdges.iterator(); it.hasNext();) {
-//			Edge edge = (Edge) it.next();
-//			makeEdgeJoin(edge, false, stmtCtx, stmt);
-//		}
+		for(Iterator it = restEdges.iterator(); it.hasNext();) {
+			Edge edge = (Edge) it.next();
+			makeEdgeJoin(edge, false, stmtCtx, stmt);
+		}
 
 		StringBuffer front = new StringBuffer();
 		for(Iterator it = stmtCtx.processedNodes.iterator(); it.hasNext();) {
@@ -465,8 +465,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		debug.leaving();
 		
-//		String res = "SELECT " + front.toString() + " FROM " + stmt.toString();
-		String res = "SELECT * FROM " + stmt.toString();
+		String res = "SELECT " + front.toString() + " FROM " + stmt.toString();
+//		String res = "SELECT * FROM " + stmt.toString();
 
 		
 		File f = new File("stmt_" + act.getIdent() + ".txt");
@@ -474,7 +474,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			f.createNewFile();
 			FileOutputStream fos = new FileOutputStream(f);
 			PrintStream ps = new PrintStream(fos);
-			ps.println("EXPLAIN " + res);
+			ps.println("PREPARE " + act.getIdent() + " AS " + res);
 			fos.close();
 		} catch(IOException e) {
 		}
