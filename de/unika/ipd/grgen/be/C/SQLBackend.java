@@ -656,7 +656,7 @@ public abstract class SQLBackend extends CBackend {
     // Make some additional types needed for the action implementation.
     sb = new StringBuffer();
     makeActionTypes(sb);
-    writeFile("action_types.inc", sb);
+    writeFile("action_types" + inc_extension, sb);
 
     // Make action information
     sb = new StringBuffer();
@@ -678,13 +678,13 @@ public abstract class SQLBackend extends CBackend {
           + " },\n");
     }
     sb.append("};\n");
-    writeFile("action_impl_map.inc", sb);
+    writeFile("action_impl_map" + inc_extension, sb);
 
     // Emit the settings specified in the grgen config file.
     // these contain table and column names, etc.
     sb = new StringBuffer();
     addSettings(sb);
-    writeFile("settings.inc", sb);
+    writeFile("settings." + inc_extension, sb);
   }
 
   /**
