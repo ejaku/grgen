@@ -717,25 +717,23 @@ patternNodeOcc returns [ BaseNode res = initNode() ]
 
 patternReversedEdge returns [ BaseNode res = null ]
   {
-  	boolean negated = false;
   	BaseNode type = edgeRoot;
   }
   : LARROW res=edgeDecl MINUS
-  | (NOTLARROW { negated = true; } | LARROW) (COLON type=identUse)? m:MINUS {
+  | LARROW (COLON type=identUse)? m:MINUS {
 		IdentNode id = defineAnonymous("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type, negated);
+		res = new AnonymousEdgeDeclNode(id, type);
     }
   ;
 
 patternEdge returns [ BaseNode res = null ]
 	{
-		boolean negated = false;
 		BaseNode type = edgeRoot;
 	}
   : MINUS res=edgeDecl RARROW
-  | (NOTMINUS { negated = true; } | MINUS) (COLON type=identUse)? m:RARROW {
+  | MINUS (COLON type=identUse)? m:RARROW {
 		IdentNode id = defineAnonymous("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type, negated);
+		res = new AnonymousEdgeDeclNode(id, type);
   }
   ;
 
@@ -864,10 +862,10 @@ replaceNodeOcc returns [ BaseNode res = initNode() ]
   }
   ;
 
-anonymousEdge [ boolean negated ] returns [ BaseNode res = null ]
+anonymousEdge returns [ BaseNode res = null ]
 	: MINUS m:RARROW {
 		IdentNode id = defineAnonymous("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, edgeRoot, negated);
+		res = new AnonymousEdgeDeclNode(id, edgeRoot);
 	}
 	;
 
@@ -920,7 +918,7 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 		IdentNode id, type;
 	}
 	: id=identDecl COLON type=identUse {
-		res = new EdgeDeclNode(id, type, false);
+		res = new EdgeDeclNode(id, type);
 	}
 	;
 
@@ -1237,8 +1235,6 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW    : "->"  ;
 LARROW    : "<-"  ;
-NOTMINUS  : "!-"  ;
-NOTLARROW : "!<-" ;
 DOUBLECOLON : "::" ;
 BXOR			:	'^'		;
 BOR				:	'|'		;
