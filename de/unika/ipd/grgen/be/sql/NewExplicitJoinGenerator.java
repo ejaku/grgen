@@ -346,8 +346,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(int i = 0; i < paths.length; i++) {
 				StringBuffer sb = new StringBuffer();
 				paths[i].dump(sb);
-				System.out.println("path " + i);
-				System.out.println(sb.toString());
 				debug.report(NOTE, "path " + i);
 				debug.report(NOTE, sb.toString());
 			}
@@ -469,7 +467,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	    Term notNull = factory.expression(Opcodes.NOT, factory.expression(Opcodes.ISNULL, colId));
 	    
 	    seq.scheduleCond(notNull, dependsOn);
-	    System.out.println("End of last: "+ what+ " Begin: "+dependsOn);
 	}
 
 
