@@ -25,7 +25,7 @@ public class DefaultAttributes extends HashMap implements Attributes {
 	 * @see de.unika.ipd.grgen.util.Attributes#get(java.lang.String)
 	 */
 	public Object get(String key) {
-		return get(key);
+		return super.get(key);
 	}
 	
 	/**
@@ -53,6 +53,6 @@ public class DefaultAttributes extends HashMap implements Attributes {
 	 * @see de.unika.ipd.grgen.util.Attributes#put(java.lang.String, java.lang.Object)
 	 */
 	public void put(String key, Object value) {
-		put(key, value);
+		super.put(key, value);
 	}
 }
