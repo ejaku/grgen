@@ -14,6 +14,9 @@ import java.util.List;
  */
 public interface StatementFactory {
 
+	String COUNT = "count";
+	String SUM = "sum";
+	
 	/**
 	 * Make an expression with a variable amount of operands.
 	 * @param op The opcode.
@@ -35,9 +38,9 @@ public interface StatementFactory {
 	Term expression(int opcode, Term exp0, Term exp1, Term exp2);
 	
 	/**
-	 * Construct an expression from two others. 
-	 * If <code>exp0</code> is <code>null</code> then the result will be 
-	 * <code>exp1</code> and the opcode is ignored. If <code>exp0</code> is not 
+	 * Construct an expression from two others.
+	 * If <code>exp0</code> is <code>null</code> then the result will be
+	 * <code>exp1</code> and the opcode is ignored. If <code>exp0</code> is not
 	 * <code>null</code>, then the result is the same as obtained with
 	 * {@link #expression(Opcode, Term, Term)}. The same is true vice versa.
 	 * You may <i>not</i> pass two <code>null</code> values.
@@ -114,10 +117,19 @@ public interface StatementFactory {
 	Term constantNull();
 	
 	/**
+	 * Get a coumn that results from the application of an
+	 * aggregate function such as <code>sum</code> or <code>count</code>.
+	 * @param which aggregate function. See {@link Aggregate}.
+	 * @param col The column the aggregate shall be applied to.
+	 * @return The column defined by the aggregate.
+	 */
+	Aggregate aggregate(int which, Column col);
+	
+	/**
 	 * Make a simple query.
-	 * It will follow the 
+	 * It will follow the
 	 * <pre>SELECT ... FROM ... WHERE ... </pre>
-	 * scheme. 
+	 * scheme.
 	 * @param columns Columns to project from.
 	 * @param relations The relations to join over.
 	 * @param cond The join condition.
@@ -126,8 +138,8 @@ public interface StatementFactory {
 	Query simpleQuery(List columns, List relations, Term cond);
 	
 	/**
-	 * Make a query with explicitly given joins. 
-	 * @param columns The columns to project from. 
+	 * Make a query with explicitly given joins.
+	 * @param columns The columns to project from.
 	 * @param relation The relation.
 	 * @return The query.
 	 */
@@ -136,7 +148,7 @@ public interface StatementFactory {
 	/**
 	 * Join over two relations.
 	 * This makes an <i>join</i>.
-	 * @param kind The kind of join ({@link INNER}, {@link LEFT_OUTER} or 
+	 * @param kind The kind of join ({@link INNER}, {@link LEFT_OUTER} or
 	 * {@link RIGHT_OUTER}).
 	 * @param left The left relation.
 	 * @param right The right  relation.
