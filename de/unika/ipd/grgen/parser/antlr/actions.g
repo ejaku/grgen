@@ -351,8 +351,8 @@ patternEdge returns [ BaseNode res = null ]
 
 			//Add homomorphic nodes
 			for(int i = 0; i < idents.length; i++)
-				for(int j = 0 /*i + 1*/; j < idents.length; j++)
-					if (i != j) colls[i].addChild(idents[j]);
+				for(int j = i + 1; j < idents.length; j++)
+					colls[i].addChild(idents[j]);
     }
   ;
 
@@ -512,5 +512,6 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 	{ BaseNode id; }
 	: id=identUse { c.addChild(id); } (COMMA id=identUse { c.addChild(id); })*
 	;*/
+
 
 
