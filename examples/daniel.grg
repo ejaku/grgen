@@ -193,3 +193,12 @@ test bug {
 	}
 }
 
+test hardcore {
+	pattern {
+		a: Node;
+		negative {
+			a --> b: Node;
+			c: Node;
+		}
+	}
+}
