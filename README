@@ -1,5 +1,7 @@
 INSTALL:
-	build.sh
+	add java
+	need antlr.jar and jargs.jar in /usr/public/tools/grs_tools/
+	make
 
 USE:
 	run.sh <grg-file> <output-dir>
