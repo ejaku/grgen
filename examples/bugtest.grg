@@ -1,20 +1,5 @@
 actions incrementer using Firm;
 
-/*
-rule SubType {
-	pattern {
-		x: Node;
-	}
-	negative {
-		x: Add;
-	}
-	replace{}
-}
-*/
-
-
-//!!!! Im Moment wird nur "uberpr"uft, ob eine (named) Edge mehr als einmal in einem Graphen benutzt wird.
-//!!!! TODO: Bei Wiederbenutzung m"ussen gleiche Nodes dranh"angen.
 rule ReUsedEdges {
 	pattern {
 		node (x,y,z): Node;
@@ -26,8 +11,6 @@ rule ReUsedEdges {
 //		x -e-> z;      //error
 	}
 	negative {
-//Laesst man die Kommentare in diesem neg genau so wie sie jetzt sind, dann fliegt ne assertion.
-//Die anderen 3 Mglk. diese 2 Zeilen auszukommentieren laufen durch.
 		x -e-> y;      //ok
 //		x -e-> z;      //error
 	}
