@@ -20,6 +20,8 @@ import java.io.PrintStream;
 import java.util.Vector;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.Collections;
 
 
 
@@ -110,6 +112,21 @@ public class InformationCollector extends CBackend
 	/* maps a subcondition to the action it belongs to */
 	protected Map conditionsAction = new HashMap();
 
+	protected Collection typeConditions;
+	/* maps a subcondition to the condition number created for it */
+	protected Map typeConditionNumbers = new HashMap();
+	/* maps a subcondition to a Collection of nodes involved in */
+	protected Map typeConditionsInvolvedNodes = new HashMap();
+	/* maps asubconditoin to a Collection of edges involved in */
+	protected Map typeConditionsInvolvedEdges = new HashMap();
+	/* maps a subcibdition to the action id of the action
+	   that sub conditon belongs to*/
+	protected Map typeConditionsActionId = new HashMap();
+	/* maps a subcondition to the action it belongs to */
+	protected Map typeConditionsAction = new HashMap();
+
+	
+	
 	/* maps an action id to a Node Object which is that actions start node  */
 	protected Node[] start_node;
 	
@@ -141,6 +158,8 @@ public class InformationCollector extends CBackend
 	//the replacement step according to the given action
 	protected Collection[] newEdgesOfAction;
 	
+
+	
 	/* compares conditions by their condition numbers */
 	protected Comparator conditionsComparator = new Comparator()
 	{
@@ -156,6 +175,25 @@ public class InformationCollector extends CBackend
 		}
 	};
 	
+	protected Comparator typeConditionsComparator = new Comparator()
+	{
+		public int compare(Object o1, Object o2) {
+			//if o1 and o2 are Collections, the the conditions represented
+			//by this collections are type conditions, which are conditions
+			//about the types of nodes and edges. The collections contain
+			//exactly all types, which the corresponding node or edge needs
+			//not to be of!
+			Collection type_col1 = (Collection)o1;
+			Collection type_col2 = (Collection)o2;
+			int cmp =
+				((Integer) typeConditionNumbers.get(type_col1)).compareTo(
+					(Integer)typeConditionNumbers.get(type_col2));
+			if (cmp == 0 && o1 != o2)
+				return 1;
+			return cmp;
+		}
+	};
+
 	/* compares integer objects */
 	protected Comparator integerComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
@@ -376,10 +414,93 @@ public class InformationCollector extends CBackend
 		}
 		//store the overall number of (sub)conditions
 		n_conditions = subConditionCounter;
+
+
+		/* collect the type constaraints of the node of all actions pattern graphs */
+		int typeConditionCounter = n_conditions;
+		typeConditions = new TreeSet(typeConditionsComparator);
 		
+		for(Iterator it = actionMap.keySet().iterator(); it.hasNext(); ) {
+			//get the current action
+			Action act = (Action) it.next();
+
+			if (act instanceof MatchingAction) {
+
+				/* for all nodes of the current MatchingActions pattern graph
+				   extract that nodes type constraints */
+				PatternGraph pattern = ((MatchingAction)act).getPattern();
+				Iterator pattern_node_it = pattern.getNodes().iterator();
+				for ( ; pattern_node_it.hasNext() ; ) {
+					Node node = (Node) pattern_node_it.next();
+					
+					//if node has type costraints, register the as conditions
+					if (! node.getConstraints().isEmpty()) {
+						
+						//note that a type condition is the set of all types,
+						//the corresponding node/edge is not allowed to be of
+						Collection type_condition = node.getConstraints();
+						
+						//...create condition numbers
+						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						
+						//...extract the pattern nodes and edges involved in the condition
+						Collection involvedNodes = new HashSet();
+						involvedNodes.add(node);
+						//and at these Collections to prepared Maps
+						typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
+						typeConditionsInvolvedEdges.put(type_condition, Collections.EMPTY_SET);
+						
+						//...store the id of the action that condition belogs to
+						typeConditionsActionId.put(type_condition, actionMap.get(act));
+						
+						//...store the action the condition belongs to
+						typeConditionsAction.put(type_condition, act);
+						
+						//store the subcondition in an ordered Collection
+						typeConditions.add(type_condition);
+					}
+				}
+				//do the same thing for all edges of the current pattern
+				Iterator pattern_edge_it = pattern.getEdges().iterator();
+				for ( ; pattern_edge_it.hasNext() ; ) {
+					Edge edge = (Edge) pattern_edge_it.next();
+					
+					//if node has type costraints, register the as conditions
+					if (! edge.getConstraints().isEmpty()) {
+						
+						//note that a type condition is the set of all types,
+						//the corresponding edge is not allowed to be of
+						Collection type_condition = edge.getConstraints();
+						
+						//...create condition numbers
+						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
+						
+						//...extract the pattern edges and edges involved in the condition
+						Collection involvedEdges = new HashSet();
+						involvedEdges.add(edge);
+						//and at these Collections to prepared Maps
+						typeConditionsInvolvedNodes.put(type_condition, Collections.EMPTY_SET);
+						typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
+						
+						//...store the id of the action that condition belogs to
+						typeConditionsActionId.put(type_condition, actionMap.get(act));
+						
+						//...store the action the condition belongs to
+						typeConditionsAction.put(type_condition, act);
+						
+						//store the subcondition in an ordered Collection
+						typeConditions.add(type_condition);
+					}
+				}
+			}
+		}
+		//update the overall number of conditions, such that type
+		//conditions are also included
+		n_conditions = typeConditionCounter;
 
 
-		/* for all conditions the pairs (pattern_node_num, attr_id), which occur
+		/* for all conditions (not type conditions!) the pairs
+		   (pattern_node_num, attr_id), which occur
 		   in qualifications at the leafes of the condition, are needed.
 		   To obtain that compute a map
 		      condition_num -> pattern_node_num_ -> { attr_ids }
@@ -718,7 +839,7 @@ public class InformationCollector extends CBackend
 	 * @return   a Collection of all that nodes
 	 *
 	 */
-	private Collection collectInvolvedNodes(Expression expr) {
+	protected Collection collectInvolvedNodes(Expression expr) {
 		
 		Collection ret = new HashSet(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
@@ -749,7 +870,7 @@ public class InformationCollector extends CBackend
 	 * @return   a Collection of all that edges
 	 *
 	 */
-	private Collection collectInvolvedEdges(Expression expr) {
+	protected Collection collectInvolvedEdges(Expression expr) {
 			
 		Collection ret = new HashSet(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
@@ -1007,7 +1128,7 @@ public class InformationCollector extends CBackend
 	}
 	/**  computes matrices for all actions which show wether two pattern nodes
 	 *   are allowed to be identified by the matcher */
-	private void collectPotHomInfo () {
+	protected void collectPotHomInfo () {
 
 		//tells wether two pattern nodes of a given action are pot hom or not
 		//e.g. : potHomMatrices[act_id][node_1][node_2]
