@@ -950,7 +950,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			//Nodes that occur in a NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
 			if (!patternNodes.contains(node1) || !patternNodes.contains(node2))
-				error.error("Node "+node1.getIdent()+" and node "+node2.getIdent()+" must not be homomorphic." +
+				error.error("In action "+act.getIdent()+": Node "+node1.getIdent()+" and node "+node2.getIdent()+" must not be homomorphic." +
 						"(Because one of them is used in a negative section but not in the pattern)");
 		}
 
