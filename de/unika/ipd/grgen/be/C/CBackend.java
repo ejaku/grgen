@@ -51,29 +51,29 @@ public abstract class CBackend extends IDBase implements Backend {
 		return unit;
 	}
 	
-  /**
-   * Mangle an identifier.
-   * @param id The identifier. 
-   * @return A mangled name.
-   */
-  protected String mangle(Identifiable id) {
-  	String clsName = id.getClass().getName();
-  	String s = id.getIdent().toString();
-
+	/**
+	 * Mangle an identifier.
+	 * @param id The identifier. 
+	 * @return A mangled name.
+	 */
+	protected String mangle(Identifiable id) {
+		String clsName = id.getClass().getName();
+	  	String s = id.getIdent().toString();
+	
 		s = s.replaceAll("_", "__");
 		s = s.replace('$', '_');
-  		
+	  		
 		return s;
-  }
+	}
 
-  /**
-   * Write a character sequence to a file using the path set.
-   * @param filename The filename.
-   * @param cs A character sequence.
-   */
-  protected void writeFile(String filename, CharSequence cs) {
-  	writeFile(new File(path, filename), cs);
-  }
+	/**
+	 * Write a character sequence to a file using the path set.
+	 * @param filename The filename.
+	 * @param cs A character sequence.
+	 */
+	protected void writeFile(String filename, CharSequence cs) {
+	  	writeFile(new File(path, filename), cs);
+	}
 	
 	/**
 	 * Make C defines for each type in a type map.
