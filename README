@@ -7,4 +7,5 @@ USE:
 	. update.sh
 	make
 
-
+generate convinience headers:
+	xsltproc o2c.xsl <output-dir>/overview.xml
