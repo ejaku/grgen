@@ -905,6 +905,9 @@ public abstract class SQLBackend extends CBackend {
 	}
 	
 	protected void genAttrTableGetAndSet(StringBuffer sb, String name, AttributeTable table) {
+		
+		sb.append("#define GR_HAVE_").append(name.toUpperCase()).append("_ATTR 1\n\n");
+
 		sb.append("static const char *cmd_create_" + name + "_attr = \n\"");
 		tableFactory.originalNodeAttrTable().dumpDecl(sb);
 		sb.append("\";\n\n");
@@ -931,6 +934,14 @@ public abstract class SQLBackend extends CBackend {
 	protected void genAttrTableCmd() {
 		StringBuffer sb = new StringBuffer();
 
+		sb.append("\n/** The boolean True Value */\n");
+		addStringDefine(sb, "GR_BOOLEAN_TRUE", getTrueValue());
+		
+		sb.append("\n/** The boolean False Value */\n");
+		addStringDefine(sb, "GR_BOOLEAN_FALSE", getFalseValue());
+		
+		sb.append("\n");
+		
 		genAttrTableGetAndSet(sb, "node", tableFactory.originalNodeAttrTable());
 		genAttrTableGetAndSet(sb, "edge", tableFactory.originalEdgeAttrTable());		
 		
@@ -940,7 +951,7 @@ public abstract class SQLBackend extends CBackend {
 	/**
 	 * Creates the commands for creating attribute tables
 	 */
-	protected void genAttrTableCmdNew() {
+	protected void genAttrTableCmdOld() {
 		StringBuffer sb;
 		Map maps[]         = new Map[]    { nodeAttrMap,           edgeAttrMap };
 		Map ty_maps[]      = new Map[]    { nodeTypeMap,           edgeTypeMap };
