@@ -370,6 +370,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			    // Last processed element of last path must not be null
 
 				if (graphIsNAC && endOfLast != null) {
+				//TODO: && endOfLast is in currGraph.   != null is not correct in all cases.
 				    // Get first non-processed element of current path
 				    IdTable begOfThis = currPath.getFirstNonProcessedElement(seq, tableFactory);
 				    if (begOfThis != null) //path has been completely processed.
@@ -940,7 +941,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		}
 
 		/**
-		 * Checks node1 and node2 allowed to be homomorphic. This check 
+		 * Checks node1 and node2 allowed to be homomorphic. This check
 		 * assumes that the nodes are declared homomorphic.
 		 * @param node1
 		 * @param node2
