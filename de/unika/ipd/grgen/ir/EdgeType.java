@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Map;
+import java.util.List;
+import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * An edge type.
@@ -14,7 +18,7 @@ import java.util.Map;
 public class EdgeType extends InheritanceType {
 	
 	/** The connection assertions. */
-	private final Set connectionAsserts = new HashSet();
+	private final List connectionAsserts = new LinkedList();
 	
 	/**
 	 * Make a new edge type.
@@ -22,6 +26,24 @@ public class EdgeType extends InheritanceType {
 	 */
 	public EdgeType(Ident ident, int modifiers) {
 		super("edge type", ident, modifiers);
+	}
+	
+	/**
+	 * Sorts the Connection assertion of this edge type, such that the
+	 * computed graph model digest is stable according to semantically
+	 * euivalent connection aasertions. The order of the sorting is given
+	 * by the <code>compareTo</code> method.
+	 *
+	 */
+	public void canonicalizeConnAsserts()
+	{
+		Collections.sort(connectionAsserts, new Comparator() {
+			public int compare(Object o1, Object o2) {
+				ConnAssert ca1 = (ConnAssert) o1;
+				ConnAssert ca2 = (ConnAssert) o2;
+				return ca1.compareTo(ca2);
+			}
+		});
 	}
 	
 	/**
@@ -45,6 +67,18 @@ public class EdgeType extends InheritanceType {
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
 	
-	
-	
+	void addToDigest(StringBuffer sb) {
+
+		super.addToDigest(sb);
+
+		sb.append('[');
+		int i = 0;
+		for(Iterator it = connectionAsserts.iterator(); it.hasNext(); i++) {
+			ConnAssert ca = (ConnAssert) it.next();
+			if(i > 0)
+				sb.append(',');
+			sb.append(ca.toString());
+		}
+		 sb.append(']');
+	}
 }

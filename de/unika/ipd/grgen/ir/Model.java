@@ -51,6 +51,8 @@ public class Model extends Identifiable {
 		for(Iterator it = types.iterator(); it.hasNext();) {
 			Type ty = (Type) it.next();
 			ty.canonicalize();
+			if (ty instanceof EdgeType)
+				((EdgeType)ty).canonicalizeConnAsserts();
 		}
 	}
 

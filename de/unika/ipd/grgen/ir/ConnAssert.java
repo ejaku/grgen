@@ -66,4 +66,40 @@ public class ConnAssert extends IR {
 		fields.put("src_type", new SingleIterator(getSrcType()));
 		fields.put("tgt_type", new SingleIterator(getTgtType()));
 	}
+
+	public boolean equals(ConnAssert ca) {
+		return
+			srcLower == ca.srcLower &&
+			srcUpper == ca.srcUpper &&
+			tgtLower == ca.tgtLower &&
+			tgtUpper == ca.tgtUpper &&
+			getSrcType() == ca.getSrcType() &&
+			getTgtType() == ca.getTgtType();
+	}
+	
+	/**
+	 * Compares two Connection Asserts.
+	 * @return a negative integer, zero, or a positive integer as the
+     * 	       argument is less than, equal to, or greater than
+     *	       <code>this</code> connection assertion.
+	 */
+	public int compareTo(ConnAssert ca) {
+		if (this.equals(ca)) return 0;
+		if (this.srcLower < ca.srcLower)
+			if (this.srcUpper < ca.srcUpper)
+				if (this.tgtLower < ca.tgtLower)
+					if (this.tgtUpper < ca.tgtUpper)
+						return -1;
+		return 1;
+	}
+	
+	public String toString() {
+		return
+			getName() +
+			" {" +
+			"("+ srcType +" [" + srcLower + ".." + srcUpper + "])," +
+			"("+ tgtType +" [" + tgtLower + ".." + tgtUpper + "])" +
+			"}";
+	}
 }
+
