@@ -58,6 +58,9 @@ public abstract class MatchingAction extends Action {
 		return neg;  	
   	}
 
+	public boolean hasNeg() {
+		return neg.getNodes().hasNext();
+	}
 
 	/**
 	 * Return a list of conditions.

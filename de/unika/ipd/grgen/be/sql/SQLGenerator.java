@@ -126,16 +126,19 @@ public class SQLGenerator extends Base {
 		Graph gr  = act.getPattern();
 		Graph neg = act.getNeg(); 
 		//TODO DG first design
-		Query outer = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
-		Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, outer.getRelations());
-		Term cond = outer.getCondition();
-		if (cond==null) {
-			cond = factory.constant(true);
+		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
+
+		if (act.hasNeg()) {
+			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, q.getRelations());
+			Term cond = q.getCondition();
+			if (cond==null) {
+				cond = factory.constant(true);
+			}
+			cond = factory.expression(Opcodes.AND, cond, factory.expression(Opcodes.NOT, 
+						factory.expression(Opcodes.EXISTS, factory.expression(inner))));
+			q.setCondition(cond);
 		}
-		cond = factory.expression(Opcodes.AND, cond, factory.expression(Opcodes.NOT, 
-					factory.expression(Opcodes.EXISTS, factory.expression(inner))));
-		outer.setCondition(cond);
-		return outer;
+		return q;
 	}
 	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
