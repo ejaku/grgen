@@ -27,7 +27,7 @@ public class CollectResolver extends Resolver {
 				if(!resolver.resolve(c, i))
 					res = false;
 		} else
-			reportError(c, "Expecting \"" + BaseNode.getName(CollectNode.class) 
+			reportError(node, "Expecting \"" + BaseNode.getName(CollectNode.class) 
 				+ "\", found \"" + c.getName() + "\" instead.");
 		
 		return res;

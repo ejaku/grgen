@@ -4,6 +4,7 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -196,25 +197,25 @@ public class Graph extends IR {
 
 		return res;
 	}
-
+	
 	/**
 	 * Get the set of all incoming edges for a node.
 	 * @param n The node.
-	 * @return A set containing all edges, that point to this node.
+	 * @param c A set where the edges are put to.
 	 */
-	public Set getIncoming(Node n) {
+	public void getIncoming(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
-		return getEdgeSet(gn.incoming.iterator());		
+		c.addAll(gn.incoming);
 	}
 	
 	/**
 	 * Get the set of outgoing edges for a node.
 	 * @param n The node.
-	 * @return A set containing all edges, that leave this node.
+	 * @param c A set where the edges are put to.
 	 */
-	public Set getOutgoing(Node n) {
+	public void getOutgoing(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
-		return getEdgeSet(gn.outgoing.iterator());		
+		c.addAll(gn.outgoing);
 	}
 	
 	/**

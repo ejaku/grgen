@@ -23,16 +23,10 @@ public class PatternNode extends BaseNode {
 	/** Index of the connections collect node. */
 	private static final int CONNECTIONS = 0;
 	
-	/** Index of the single node collect node. */
-	private static final int SINGLE_NODES = 1;
-
 	/** Connections checker. */
 	private static final Checker connectionsChecker =
-	  new CollectChecker(new SimpleChecker(ConnectionNode.class));
+	  new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
 	  
-	private static final Checker singleNodeChecker = 
-		new CollectChecker(new SimpleChecker(SingleNodeConnNode.class));
-
 	static {
 		setName(PatternNode.class, "pattern");
 	}
@@ -40,12 +34,10 @@ public class PatternNode extends BaseNode {
 	/**
 	 * A new pattern node
 	 * @param c A collection containing connection nodes
-	 * @param s A collection containing single node nodes.
 	 */
-	public PatternNode(Coords coords, BaseNode c, BaseNode s) {
+	public PatternNode(Coords coords, BaseNode c) {
 		super(coords);
 		addChild(c);
-		addChild(s);
 	}
 	
 	/**
@@ -54,12 +46,12 @@ public class PatternNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(CONNECTIONS, connectionsChecker)
-			&& checkChild(SINGLE_NODES, singleNodeChecker);
+		return checkChild(CONNECTIONS, connectionsChecker);
 	}
 	
 	/**
-	 * Get an iterator iterating over all connections in this pattern.
+	 * Get an iterator iterating over all connections characters 
+	 * in this pattern.
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
@@ -78,15 +70,8 @@ public class PatternNode extends BaseNode {
 		Set res = new HashSet();
 		
 		for(Iterator it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
-			ConnectionNode conn = (ConnectionNode) it.next();
-			
-			res.add(conn.getLeft());
-			res.add(conn.getRight());
-		}
-		
-		for(Iterator it = getChild(SINGLE_NODES).getChildren(); it.hasNext();) {
-			SingleNodeConnNode sn = (SingleNodeConnNode) it.next();
-			res.add(sn.getNode());
+			ConnectionCharacter conn = (ConnectionCharacter) it.next();
+			conn.addNodes(res);
 		}
 		
 		return res;
@@ -112,11 +97,6 @@ public class PatternNode extends BaseNode {
 		for(Iterator it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
 			ConnectionNode conn = (ConnectionNode) it.next();
 			conn.addToGraph(gr);
-		}
-		
-		for(Iterator it = getChild(SINGLE_NODES).getChildren(); it.hasNext();) {
-			SingleNodeConnNode sn = (SingleNodeConnNode) it.next();
-			sn.addToGraph(gr);
 		}
 		
 		return gr;

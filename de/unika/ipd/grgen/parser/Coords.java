@@ -50,22 +50,6 @@ public class Coords implements Location {
 		this.filename = filename;
 	}
   
-  /**
-   * Construct coordinates from an antlr token. The filename is set
-   * to the default filename.
-   * @param tok The antlr token.
-   */
-  public Coords(antlr.Token tok) {
-    this(tok.getLine(), tok.getColumn());
-  }
-  
-  /**
-   * Get the coordinates from an antlr recognition exception.
-   * @param e The antlr recognition exception.
-   */
-  public Coords(antlr.RecognitionException e) {
-  	this(e.getLine(), e.getColumn(), e.getFilename());
-  }
   
   /**
    * Make coordinates just from line and column. The filename is set 
@@ -77,10 +61,6 @@ public class Coords implements Location {
     this(line, col, null);
   }
 
-	public Coords(antlr.Token tok, antlr.Parser parser) {
-		this(tok);
-		filename = parser.getFilename();
-	}
 
   /**
    * Checks, wheather the coordinates are valid.

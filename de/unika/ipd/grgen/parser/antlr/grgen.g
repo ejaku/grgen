@@ -1,11 +1,16 @@
 
 header {
-    package de.unika.ipd.grgen.parser;
+    package de.unika.ipd.grgen.parser.antlr;
 
 		import java.util.Iterator;
+		import java.util.List;
+		import java.util.LinkedList;
 		import java.util.Map;
 		import java.util.HashMap;
 		
+		import de.unika.ipd.grgen.parser.Symbol;
+		import de.unika.ipd.grgen.parser.SymbolTable;
+		import de.unika.ipd.grgen.parser.Scope;
     import de.unika.ipd.grgen.ast.*;
     import de.unika.ipd.grgen.util.report.*;
     import de.unika.ipd.grgen.Main;
@@ -19,7 +24,7 @@ header {
 
 class GRParser extends Parser;
 options {
-    k=3;
+   k=3;
 //    codeGenMakeSwitchThreshold = 2;
 //	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;   
@@ -450,7 +455,7 @@ patternPart returns [ BaseNode res = initNode() ]
   ;
 
 replacePart returns [ BaseNode res = initNode() ]
-	: r:"replace" LBRACE! res=patternBody[getCoords(r)] RBRACE!
+	: r:"replace" LBRACE! res=replaceBody[getCoords(r)] RBRACE!
 	;
 
 redirectPart [ CollectNode collect ]
@@ -515,24 +520,21 @@ patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
   : { 
   		BaseNode s;
   		CollectNode connections = new CollectNode();
-  		CollectNode singleNodes = new CollectNode();
-  		
-  	  res = new PatternNode(coords, connections, singleNodes);
+  	  res = new PatternNode(coords, connections);
     }
-    ( patternStmt[connections, singleNodes] SEMI )*
+    ( patternStmt[connections] SEMI )*
   ;
 
-patternStmt [ BaseNode connCollect, BaseNode snCollect ]
-	{ BaseNode n; }
-	: connections[connCollect, snCollect]
-  | "node" nodeDecl ( COMMA nodeDecl )* 
-  | "edge" edgeDecl ( COMMA edgeDecl )*
+patternStmt [ BaseNode connCollect ]
+	{ BaseNode n, o; }
+	: patternConnections[connCollect]
+  | "node" patternNodeDecl ( COMMA patternNodeDecl )* 
 	;
 
-connections [ BaseNode connColl, BaseNode snColl ]
+patternConnections [ BaseNode connColl ]
   { BaseNode n; }
-  : n=nodeOcc (continuation[n,connColl] | { 
-  	snColl.addChild(new SingleNodeConnNode(n));
+  : n=patternNodeOcc (patternContinuation[n,connColl] | { 
+  	connColl.addChild(new SingleNodeConnNode(n));
   })
   ;
 
@@ -541,10 +543,132 @@ connections [ BaseNode connColl, BaseNode snColl ]
  * seperated and delimited by parantheses.
  * all produced connection nodes are appended to the collect node
  */
-continuation [ BaseNode left, BaseNode collect ]
+patternContinuation [ BaseNode left, BaseNode collect ]
   { BaseNode n; }
-  : n=pair[left, collect] (continuation[n, collect])?
-  | LPAREN continuation[left, collect] ( COMMA continuation[left, collect] )* RPAREN
+  : n=patternPair[left, collect] (patternContinuation[n, collect])?
+  | LPAREN patternContinuation[left, collect] 
+    ( COMMA patternContinuation[left, collect] )* RPAREN
+  ;
+
+/**
+ * An edge node pair.
+ * This rule builds a connection node with the parameter left, 
+ * the edge and the patternNodeOcc
+ * and appends this connection node to the children of coll.
+ * The rule returns the right node (the one from the nodeOcc rule)
+ * It also treats reversed edges (a <-- b).
+ */
+patternPair [ BaseNode left, BaseNode coll ] 
+  returns [ BaseNode res = initNode() ]
+	{ 
+		BaseNode e;
+  }
+	:	e=patternEdge res=patternNodeOcc {
+			coll.addChild(new ConnectionNode(left, e, res));
+	  }
+	| e=patternReversedEdge res=patternNodeOcc {
+		  coll.addChild(new ConnectionNode(res, e, left));
+	  }
+ 	;
+
+/**
+ * The occurrence of a node in a pattern part is the usage of an
+ * identifier (must be a declared node) or a pattern node declaration
+ */
+patternNodeOcc returns [ BaseNode res = initNode() ]
+  : res=identUse 
+  | res=patternNodeDecl
+  ;
+  
+
+patternReversedEdge returns [ BaseNode res = null ]
+  { 
+  	boolean negated = false; 
+  	BaseNode type = edgeRoot;
+  }
+  : LARROW res=edgeDecl MINUS
+  | (NOTLARROW { negated = true; } | LARROW) (COLON type=identUse)? m:MINUS {
+		IdentNode id = defineAnonymous("edge", getCoords(m));
+		res = new AnonymousEdgeDeclNode(id, type, negated);
+    }
+  ;
+
+patternEdge returns [ BaseNode res = null ]
+	{
+		boolean negated = false;
+		BaseNode type = edgeRoot;
+	}
+  : MINUS res=edgeDecl RARROW
+  | (NOTMINUS { negated = true; } | MINUS) (COLON type=identUse)? m:RARROW {
+		IdentNode id = defineAnonymous("edge", getCoords(m));
+		res = new AnonymousEdgeDeclNode(id, type, negated);
+  }
+  ;
+  
+patternNodeDecl returns [ BaseNode res = initNode() ]
+  { 
+    IdentNode id;
+  	BaseNode type; 
+  	List ids;
+  }
+  : id=identDecl COLON! type=identUse {
+  	res = new NodeDeclNode(id, type);
+  }            
+  | LPAREN { ids = new LinkedList(); } id=identDecl { ids.add(id); }
+    (COMMA id=identDecl { ids.add(id); })* RPAREN 
+
+  | LPAREN { ids = new LinkedList(); } id=identDecl { ids.add(id); }
+    (TILDE id=identDecl {	ids.add(id); })* RPAREN COLON type=identUse {
+    	
+    	int i = 0;
+    	CollectNode coll = new CollectNode();
+    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
+    		IdentNode ident = (IdentNode) it.next();
+    		if(i == 0)
+    			res = new NodeDeclNode(ident, type, coll);
+    		else 
+					coll.addChild(new NodeDeclNode(ident, type));
+    	}
+    }
+  ;
+
+/**
+ * Pattern bodies consist of connection nodes
+ * The connection nodes in the collect node from subgraphSpec are integrated
+ * In the collect node of the pattern node.
+ */
+replaceBody [ Coords coords ] returns [ BaseNode res = initNode() ]
+  : { 
+  		BaseNode s;
+  		CollectNode connections = new CollectNode();
+  	  res = new PatternNode(coords, connections);
+    }
+    ( replaceStmt[connections] SEMI )*
+  ;
+
+replaceStmt [ BaseNode connCollect ]
+	{ BaseNode n; }
+	: replaceConnections[connCollect]
+  | "node" replaceNodeDecl ( COMMA replaceNodeDecl )* 
+	;
+
+replaceConnections [ BaseNode connColl ]
+  { BaseNode n; }
+  : n=replaceNodeOcc (replaceContinuation[n, connColl] | { 
+  	connColl.addChild(new SingleNodeConnNode(n));
+  })
+  ;
+
+/**
+ * Acontinuation is a list of edge node pairs or a list of these pair lists, comma
+ * seperated and delimited by parantheses.
+ * all produced connection nodes are appended to the collect node
+ */
+replaceContinuation [ BaseNode left, BaseNode collect ]
+  { BaseNode n; }
+  : n=replacePair[left, collect] (replaceContinuation[n, collect])?
+  | LPAREN replaceContinuation[left, collect] 
+    ( COMMA replaceContinuation[left, collect] )* RPAREN
   ;
 
 /**
@@ -553,33 +677,61 @@ continuation [ BaseNode left, BaseNode collect ]
  * and appends this connection node to the children of coll.
  * The rule returns the right node (the one from the nodeOcc rule)
  */
-pair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = initNode() ]
-	{ 
-		BaseNode e;
-		boolean negated = false;
-  }
-	:	(e=edge | e=negatedEdge { negated = true; }) res=nodeOcc {
-			coll.addChild(new ConnectionNode(left, e, res, negated));
-  	};
+replacePair [ BaseNode left, BaseNode coll ] 
+  returns [ BaseNode res = initNode() ]
+	{ BaseNode e; }
+	:	e=replaceEdge res=replaceNodeOcc {
+		  coll.addChild(new ConnectionNode(left, e, res));
+  	}
+  | e=replaceReversedEdge res=replaceNodeOcc {
+  	  coll.addChild(new ConnectionNode(res, e, left));
+    };
+
+replaceEdge returns [ BaseNode res = null ] 
+  { BaseNode type = edgeRoot; }
+	: MINUS res=edgeDecl RARROW
+	| MINUS res=identUse RARROW
+	| m:MINUS (COLON type=identUse)? RARROW {
+		IdentNode id = defineAnonymous("edge", getCoords(m));
+		res = new AnonymousEdgeDeclNode(id, type);
+	}
+	;
+
+replaceReversedEdge returns [ BaseNode res = null ] 
+  { BaseNode type = edgeRoot; }
+	: LARROW res=edgeDecl MINUS
+	| LARROW res=identUse MINUS
+	| m:LARROW(COLON type=identUse)? MINUS {
+		IdentNode id = defineAnonymous("edge", getCoords(m));
+		res = new AnonymousEdgeDeclNode(id, type);
+	}
+	;
 
 /**
  * The occurrence of a node.
  * A node occurrence is either the declaration of a new node, a usage of
  * a already declared node or a usage combined with a type change.
  */
-nodeOcc returns [ BaseNode res = initNode() ]
+replaceNodeOcc returns [ BaseNode res = initNode() ]
 	{ 
 		CollectNode coll = new CollectNode(); 
 	  IdentNode id;
 	}
   : res=identUse 
-  | res=nodeDecl
+  | res=replaceNodeDecl
   | res=identUse c:DOUBLECOLON id=identUse {
   	res = new NodeTypeChangeNode(getCoords(c), res, id);	
   }
   ;
 
-nodeDecl returns [ BaseNode res = initNode() ]
+anonymousEdge [ boolean negated ] returns [ BaseNode res = null ]
+	: MINUS m:RARROW {
+		IdentNode id = defineAnonymous("edge", getCoords(m));
+		res = new AnonymousEdgeDeclNode(id, edgeRoot, negated);
+	}
+	;		
+
+replaceNodeDecl returns [ BaseNode res = initNode() ]
   { 
     IdentNode id;
   	BaseNode type; 
@@ -589,25 +741,8 @@ nodeDecl returns [ BaseNode res = initNode() ]
   }            
   ;
 
-negatedEdge returns [ BaseNode res = null ]
-	: NOT MINUS res=identUse RARROW
-	| NOT res=anonymousEdge[true]
-	;
-
-edge returns [ BaseNode res = null ] 
-	: MINUS res=edgeDecl RARROW
-	| MINUS res=identUse RARROW 
-	| res=anonymousEdge[false]
-	;
 	
-anonymousEdge [ boolean negated ] returns [ BaseNode res = null ]
-	: m:RARROW {
-		IdentNode id = defineAnonymous("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, edgeRoot, negated);
-	}
-	;		
-	
-edgeDecl returns [ BaseNode res = null ]
+edgeDecl returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode id, type;
 	}
@@ -809,7 +944,7 @@ unaryExpr returns [ BaseNode res = initNode() ]
 		res.addChild(op);
 	}
 	| PLUS res=unaryExpr
-	| p:LPAREN id=identUse RPAREN op=unaryExpr {
+	| p:"cast" LT id=identUse GT LPAREN op=expr RPAREN {
 		res = new CastNode(getCoords(p));
 		res.addChild(id);
 		res.addChild(op);
@@ -900,6 +1035,8 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW    : "->"  ;
 LARROW    : "<-"  ;
+NOTMINUS  : "!-"  ;
+NOTLARROW : "!<-" ;
 DOUBLECOLON : "::" ;
 BXOR			:	'^'		;
 BOR				:	'|'		;

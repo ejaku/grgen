@@ -76,11 +76,12 @@ public class IdentNode extends BaseNode {
 	 * declares an entity. To resolve this declared entity from the name,
 	 * an ident node (which gets the name from the symbol defined
 	 * by the symbol definition) has a declaration as its only child.
-	 *  
 	 * @param n The declaration this ident represents.
+	 * @return For convenience, this method returns <code>this</code>.
 	 */
-  public void setDecl(DeclNode n) {
+  public IdentNode setDecl(DeclNode n) {
     decl = n;
+    return this;
   }
 
   /**

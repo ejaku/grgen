@@ -14,7 +14,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  *  
  */
-public class NodeTypeChangeNode extends BaseNode implements NodeProducer {
+public class NodeTypeChangeNode extends BaseNode implements NodeCharacter {
 
 	static {
 		setName(NodeTypeChangeNode.class, "node type change");

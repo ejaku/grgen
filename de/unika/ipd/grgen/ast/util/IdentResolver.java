@@ -86,7 +86,7 @@ public abstract class IdentResolver extends Resolver {
 				}
 			
 			res = false;
-			reportError(c, "Identifier \"" + c + "\" is a \"" + get 
+			reportError(n, "Identifier \"" + c + "\" is a \"" + get 
 				+ "\" but " + expectList + " " + verb + " expected");
 			
 		} else

@@ -5,8 +5,10 @@
 package de.unika.ipd.grgen.ir;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import de.unika.ipd.grgen.util.GraphDumpVisitor;
 import de.unika.ipd.grgen.util.GraphDumpable;
@@ -41,16 +43,18 @@ public class DumpVisitor extends GraphDumpVisitor {
 
 	private void dumpGraph(Graph gr, String prefix) {
 		Map prefixMap = new HashMap();
+		Set nodes = gr.getNodes();
 		
 		debug.entering();
 		dumper.beginSubgraph(gr);
 		
-		for(Iterator it = gr.getNodes().iterator(); it.hasNext();) {
+		for(Iterator it = nodes.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			debug.report(NOTE, "node: " + n);
 			PrefixNode pn = new PrefixNode(n, prefix);		
 			prefixMap.put(n, pn);
 			dumper.node(pn);
+			
 		}
 		
 		for(Iterator it = gr.getEdges().iterator(); it.hasNext();) {
@@ -71,7 +75,27 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumper.edge(from, e);
 			dumper.edge(e, to);
 		}
-				
+
+		Set homSet = new HashSet();
+		Set processedNodes = new HashSet();
+		
+		for(Iterator it = nodes.iterator(); it.hasNext(); ) {
+			Node n = (Node) it.next();
+			homSet.clear();
+			n.getHomomorphic(homSet);
+			
+			if(!homSet.isEmpty() && !processedNodes.contains(n)) {
+				for(Iterator homIt = homSet.iterator(); homIt.hasNext();) {
+					Node hom = (Node) homIt.next();
+					PrefixNode from = (PrefixNode) prefixMap.get(n);
+					PrefixNode to = (PrefixNode) prefixMap.get(hom);
+					dumper.edge(from, to, "hom", GraphDumper.DASHED);  
+				}
+			}
+			
+			processedNodes.add(n);
+		}
+		
 		dumper.endSubgraph();
 		debug.leaving();
 	}

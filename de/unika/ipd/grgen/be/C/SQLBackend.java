@@ -307,11 +307,15 @@ public abstract class SQLBackend extends CBackend {
     Set edges = new HashSet();
     Set negatedEdges = gr.getNegatedEdges();
     
-    Set[] incidentSets = new Set[2];
+    // Two sets for incoming/outgoing edges.
+    Set[] incidentSets = new Set[] {
+    	new HashSet(), new HashSet()
+    };
+    
+    // Edge table column for incoming/outgoing edges.
 		final String[] incidentCols = new String[] {
 			colEdgesSrcId, colEdgesTgtId
 		};
-
 
     Set workset = new HashSet();
     workset.addAll(nodes);
@@ -325,7 +329,7 @@ public abstract class SQLBackend extends CBackend {
       int typeId = getTypeId(nodeTypeMap, n.getType());
 
       workset.remove(n);
-
+      
       // Add this node to the table and column list			
       addToList(nodeTables, tableNodes + " AS " + mangledNode);
 			addToList(nodeCols, nodeCol);
@@ -340,12 +344,18 @@ public abstract class SQLBackend extends CBackend {
       // Make this node unequal to all other nodes.
       for (Iterator iter = workset.iterator(); iter.hasNext();) {
         Node other = (Node) iter.next();
-        addToCond(nodeWhere, nodeCol + " <> " 
-          + getNodeCol(other, colNodesId) + BREAK_LINE);
+        
+        // Just add an <>, if the other node is not homomorphic to n
+        // If it was, we cannot node, if it is equal or not equal to n
+        if(!n.isHomomorphic(other))
+        	addToCond(nodeWhere, nodeCol + " <> " 
+          	+ getNodeCol(other, colNodesId) + BREAK_LINE);
       }
 
-			incidentSets[0] = gr.getOutgoing(n);
-			incidentSets[1] = gr.getIncoming(n);
+			incidentSets[0].clear();
+			incidentSets[1].clear();
+			gr.getOutgoing(n, incidentSets[0]);
+			gr.getIncoming(n, incidentSets[1]);
 			
 			String lastJoinOn = nodeCol;
 

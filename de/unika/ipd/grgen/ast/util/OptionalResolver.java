@@ -16,12 +16,17 @@ import de.unika.ipd.grgen.ast.BaseNode;
  */
 public class OptionalResolver extends OneOfResolver {
 
-	private static final Resolver alwaysSucceed = new Resolver() {
+	/** An "always succeed resolver. */
+  private static final Resolver alwaysSucceed = new Resolver() {
 		public boolean resolve(BaseNode node, int child) {
 			return true;
 		}
 	};
 
+	/**
+	 * Make a new optional resolver. 
+	 * @param resolver The resolver, that is optional.
+	 */
 	public OptionalResolver(Resolver resolver) {
 		super(new Resolver[] { resolver, alwaysSucceed });
 	}

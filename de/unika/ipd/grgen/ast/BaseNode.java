@@ -54,7 +54,7 @@ public abstract class BaseNode extends Base
 	private static Scope currScope = Scope.getInvalid(); 
 	
 	/** Print verbose error messages. */
-	private static boolean verboseErrorMsg = false;
+	private static boolean verboseErrorMsg = true;
 	
 	/** Has this base node already been checked? */ 
 	private boolean checked = false;
@@ -194,7 +194,13 @@ public abstract class BaseNode extends Base
    * @return The name
    */
   public String getName() {
-  	return getName(getClass());
+  	Class cls = getClass();
+  	String name = getName(cls);
+  	
+  	if(verboseErrorMsg) 
+  		name += " <" + getId() + "," + shortClassName(cls) + ">"; 
+  	
+  	return name;
   }
 
 	/** 
@@ -225,12 +231,7 @@ public abstract class BaseNode extends Base
 	 * @param msg The message to report.
 	 */
 	public final void reportError(String msg) {
-		String verbose = "";
-		if(verboseErrorMsg)
-		  verbose = getName() + " (node class: " + shortClassName(getClass()) 
-		  	+ ", id: " + getId() + "): ";
-		  	
-		error.error(getCoords(), verbose + msg + ".");
+		error.error(getCoords(), "At " + getName() + ": " + msg + ".");
 	}
 
 	/**
@@ -324,9 +325,8 @@ public abstract class BaseNode extends Base
 		if(cls.isInstance(child)) 
 			res = true;
 		else
-			child.reportError("child " + childNum + " \"" + child.getName() 
-				+ "\" (" + shortClassName(child.getClass()) + ", " + child.getId() 
-				+ ") needs to be instance of \"" + shortClassName(cls) + "\"");
+			reportError("child " + childNum + " \"" + child.getName() + "\"" 
+				+ " needs to be instance of \"" + shortClassName(cls) + "\"");
 		return res;
 	}
 	

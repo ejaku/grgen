@@ -4,6 +4,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Set;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
@@ -16,7 +18,7 @@ import de.unika.ipd.grgen.ir.Graph;
  * This AST node is used only for nodes that occur without an edge connection
  * to the rest of the graph.
  */
-public class SingleNodeConnNode extends BaseNode {
+public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter {
 
 	/** Index of the node in the children array. */
 	private static final int NODE = 0;
@@ -58,8 +60,8 @@ public class SingleNodeConnNode extends BaseNode {
   /**
    * @see de.unika.ipd.grgen.ast.GraphObjectNode#addToGraph(de.unika.ipd.grgen.ir.Graph)
    */
-  protected void addToGraph(Graph gr) {
-  	NodeProducer n = (NodeProducer) getChild(NODE);
+  public void addToGraph(Graph gr) {
+  	NodeCharacter n = (NodeCharacter) getChild(NODE);
   	gr.addSingleNode(n.getNode());
   }
 
@@ -68,6 +70,26 @@ public class SingleNodeConnNode extends BaseNode {
    */
   protected boolean check() {
   	return checkChild(NODE, nodeChecker);
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdge(java.util.Set)
+   */
+  public void addEdge(Set set) {
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
+   */
+  public void addNodes(Set set) {
+		set.add(getChild(NODE));
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated()
+   */
+  public boolean isNegated() {
+    return false;
   }
 
 }

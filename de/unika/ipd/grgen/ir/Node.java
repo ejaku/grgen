@@ -4,12 +4,20 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * A node in a graph 
+ * A node in a graph.
  */
 public class Node extends Entity {
   
+  /** The type, the node will have after a rule has been applied. */
   private NodeType replaceType;
+  
+  /** A set of nodes, that are homomorphic to this one. */
+  private Set homomorphicNodes = new HashSet();
   
   /**
    * Make a new node.
@@ -38,6 +46,11 @@ public class Node extends Entity {
 		return replaceType;
   }
   
+  /**
+   * Set the type that will become the new type of the node
+   * after a rule has been applied.
+   * @param nt The new type of the node.
+   */
   public void setReplaceType(NodeType nt) {
 		replaceType = nt;  	
   }
@@ -49,4 +62,34 @@ public class Node extends Entity {
   public boolean typeChanges() {
   	return !replaceType.isEqual(getNodeType());
   }
+
+	/**
+	 * Add a node that is homomorphic to this one.
+	 * It does not care, if you add <code>this</code>. This method adds
+	 * this node to the homomorphic set of <code>n</code>. 
+	 * 
+	 * @param n Another node.
+	 */
+	public void addHomomorphic(Node n) {
+		homomorphicNodes.add(n);
+		n.homomorphicNodes.add(this);
+	}
+	
+	/**
+	 * Put all nodes, that are homomoprohic to this one in a given set.
+	 * @param addTo The set to put them all into.
+	 */
+	public void getHomomorphic(Collection addTo) {
+		addTo.addAll(homomorphicNodes);
+	}
+	
+	/**
+	 * Check, if a node may be just homomorphic and not isomorphic to this one
+	 * @param n The other node.
+	 * @return true, if <code>n</code> and this node can be identified by
+	 * the matching morphism, false if not.
+	 */
+	public boolean isHomomorphic(Node n) {
+		return homomorphicNodes.contains(n);
+	}
 }

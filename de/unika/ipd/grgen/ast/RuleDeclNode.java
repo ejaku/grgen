@@ -114,9 +114,9 @@ public class RuleDeclNode extends ActionDeclNode {
 			
 			// The right hand side may not contain negated edges.			
 			for(Iterator it = right.getConnections(); it.hasNext();) {
-				ConnectionNode conn = (ConnectionNode) it.next();
-				EdgeDeclNode edge = (EdgeDeclNode) conn.getEdge();
-				if(edge.isNegated()) {
+				BaseNode conn = (BaseNode) it.next();
+				ConnectionCharacter cc = (ConnectionCharacter) conn;
+				if(cc.isNegated()) {
 					conn.reportError("Edge may not be negated on the right hand side");
 					redirs = false;
 				} 

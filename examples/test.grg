@@ -13,18 +13,36 @@ edge class E1 extends Edge {
   a: int;
 }
 
+rule Test1 {
+  pattern {
+    node (op0 ~ op1):N1, add:Node;
+//    node op0:N1, op1:N1, add:Node;
 
+    op0 <-- add --> op1;
+  }
+  replace {
+    op0 <-- add::N2 --> op1;
+  }
+}
+
+
+/*
   rule RuleA {
     pattern {
-      a:N1 -> b:N2 -E1-> c:Node;
+      a:N1 --> b:N2 -E1-> c:Node;
+      a --> b --> c --> d;
     }
     cond {
       2 + 3 + 4 < 2 * 12 && false && a.x;
     }
     replace {
-      a::Node -E1-> b -> c;
+      a::Node;
+      a -E1-> b --> c;
     }
   }
+  */
+
+  
 /*
   rule RuleB {
     pattern {

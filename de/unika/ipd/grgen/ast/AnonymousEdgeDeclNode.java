@@ -13,14 +13,22 @@ import de.unika.ipd.grgen.ir.IR;
  */
 public class AnonymousEdgeDeclNode extends EdgeDeclNode {
 
+	static {
+		setName(AnonymousEdgeDeclNode.class, "anonymous edge");
+	}
+
   /**
    * @param n The identifier of the anonymous edge.
    * @param e The type of the edge.
    * @param negated Shall the edge be negated.
    */
-  public AnonymousEdgeDeclNode(IdentNode n, BaseNode e, boolean negated) {
-    super(n, e, negated);
+  public AnonymousEdgeDeclNode(IdentNode id, BaseNode type, boolean negated) {
+    super(id, type, negated);
   }
+
+	public AnonymousEdgeDeclNode(IdentNode id, BaseNode type) {
+		this(id, type, false);
+	}
 
   /**
    * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()

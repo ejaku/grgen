@@ -17,7 +17,7 @@ import jargs.gnu.CmdLineParser;
 
 import de.unika.ipd.grgen.ir.DumpVisitor;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.parser.*;
+import de.unika.ipd.grgen.parser.antlr.*;
 import de.unika.ipd.grgen.util.*;
 import de.unika.ipd.grgen.util.report.*;
 import de.unika.ipd.grgen.ast.*;
@@ -375,12 +375,12 @@ public class Main extends Base {
 		if(!parseInput(inputFile))
 			System.exit(1);
 
+		if(dumpAST)
+			dumpVCG(root, new GraphDumpVisitor(), "ast-pre-resolve");
+
 		// Do identifier resolution (Rewrites the AST)
-		if(!resolveAST()) {
-			if(dumpAST)
-				dumpVCG(root, new GraphDumpVisitor(), "ast-resolve-error");
+		if(!resolveAST()) 
 			System.exit(2);
-		}
 		
 		// Dump the rewritten AST.
 		if(dumpAST) 

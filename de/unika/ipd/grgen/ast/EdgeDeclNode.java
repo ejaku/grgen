@@ -9,7 +9,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
-public class EdgeDeclNode extends DeclNode {
+public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 
 	static {
 		setName(EdgeDeclNode.class, "edge declaration");

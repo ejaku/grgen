@@ -5,6 +5,8 @@
 package de.unika.ipd.grgen.ast;
 
 
+import java.util.Set;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.EdgeResolver;
@@ -17,7 +19,7 @@ import de.unika.ipd.grgen.ir.Graph;
  * Node that represents a Connection
  * Children are: Node, Edge, Node
  */
-public class ConnectionNode extends BaseNode {
+public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	static {
 		setName(ConnectionNode.class, "connection");
@@ -69,39 +71,29 @@ public class ConnectionNode extends BaseNode {
 		addResolver(RIGHT, nodeResolver);		
 		addResolver(EDGE, new EdgeResolver(getScope(), edge.getCoords(), negated));
 	}
+	
+	/**
+	 * Construct a new connection node.
+	 * Just a convenience constructor for 
+	 * {@link #ConnectionNode(BaseNode, BaseNode, BaseNode, boolean)}
+	 * <code>negated</code> is set to false implicitly.
+	 * @param n1 The source node.
+	 * @param edge The edge.
+	 * @param n2 The target node.
+	 */
+	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
+		this(n1, edge, n2, false);
+	}		
+	
 
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(LEFT, nodeChecker)
-			&& checkChild(EDGE, EdgeDeclNode.class)
-			&& checkChild(RIGHT, nodeChecker);
-	}
-	
-	/**
-	 * Get the left (source) node of this connection. 
-	 * @return The source node of the connection.
-	 */
-	public BaseNode getLeft() {
-		return getChild(0);
-	}
-	
-	/**
-	 * Get the edge AST node representing this connection.
-	 * @return The edge AST node.
-	 */
-	public BaseNode getEdge() {
-		return getChild(1);
-	}
-	
-	/**
-	 * Get the right (target) node of this connection. 
-	 * @return The target node of the connection.
-	 */
-	public BaseNode getRight() {
-		return getChild(2);
+		return checkChild(LEFT, NodeCharacter.class)
+			&& checkChild(EDGE, EdgeCharacter.class)
+			&& checkChild(RIGHT, NodeCharacter.class);
 	}
 	
 	/**
@@ -109,17 +101,40 @@ public class ConnectionNode extends BaseNode {
 	 * This method should only be used by {@link PatternNode#constructIR()}. 
 	 * @param gr The IR graph.
 	 */	
-	protected void addToGraph(Graph gr) {
+	public void addToGraph(Graph gr) {
 		// After the AST is checked, this cast must succeed.
-		NodeProducer left, right;
-		EdgeDeclNode edge;
+		NodeCharacter left, right;
+		EdgeCharacter edge;
 			
 		// Again, after the AST is checked, these casts must succeed.
-		left = (NodeProducer) getLeft();
-		right = (NodeProducer) getRight();
-		edge = (EdgeDeclNode) getEdge();
+		left = (NodeCharacter) getChild(LEFT);
+		right = (NodeCharacter) getChild(RIGHT);
+		edge = (EdgeCharacter) getChild(EDGE);
 			
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
 	}
 	
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
+   */
+  public void addEdge(Set set) {
+		set.add(getChild(EDGE));
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
+   */
+  public void addNodes(Set set) {
+		set.add(getChild(LEFT));
+		set.add(getChild(RIGHT));
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated()
+   */
+  public boolean isNegated() {
+  	// TODO Right behaviour here please.
+    return false;
+  }
+
 }
