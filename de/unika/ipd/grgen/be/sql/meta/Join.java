@@ -8,7 +8,7 @@ package de.unika.ipd.grgen.be.sql.meta;
 
 
 /**
- * A join. 
+ * A join.
  */
 public interface Join extends Relation {
 
@@ -19,5 +19,6 @@ public interface Join extends Relation {
 	Relation getLeft();
 	Relation getRight();
 	Term getCondition();
+	void setCondition(Term term);
 	
 }
