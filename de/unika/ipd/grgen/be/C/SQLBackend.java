@@ -915,20 +915,18 @@ public abstract class SQLBackend extends CBackend {
 
 		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
 		
-		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = (Entity) it.next();
+		for(int i = 1; i < table.columnCount(); i++) {
 			sb.append("  { \"");
-			table.genGetStmt(sb, table.colEntity(ent));
+			table.genGetStmt(sb, table.getColumn(i));
 			sb.append("\", -1 },\n");
 		}
 		sb.append("  { NULL, -1 }\n");
 		sb.append("};\n\n");
 		
 		sb.append("static prepared_query_t cmd_set_").append(name).append("_attr[] = {\n");
-		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = (Entity) it.next();
+		for(int i = 1; i < table.columnCount(); i++) {
 			sb.append("  { \"");
-			table.genUpdateStmt(sb, table.colEntity(ent));
+			table.genUpdateStmt(sb, table.getColumn(i));
 			sb.append("\", -1 },\n");
 		}
 		sb.append("  { NULL, -1 }\n");
