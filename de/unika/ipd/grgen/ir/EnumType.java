@@ -30,6 +30,14 @@ public class EnumType extends PrimitiveType {
 	public void addItem(Ident name) {
 		items.add(name);
 	}
+	
+	/**
+	 * Return iterator of all identifiers in the enum type.
+	 * @return An iterator with idents.
+	 */
+	public Iterator getItems() {
+		return items.iterator();
+	}
 
   /**
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
