@@ -1,5 +1,5 @@
 actions bugtest;// using Firm;
-/*
+
 rule ReUsedEdges {
 	pattern {
 		node (x,y,z): Node;
@@ -9,21 +9,22 @@ rule ReUsedEdges {
 		x -e:Edge-> y; //ok
 //		x -e-> y;      //duplicate error
 //		x -e-> y;      //error
-	}
 	negative {
 		x -e-> y;      //ok
 //		x -e-> z;      //error
+		a:Node;
+	}
 	}
 	replace{
 		x -e-> y;      //ok
 //		x -e-> z;      //error
 	}
 }
-*/
+
 
 /*
-//All edges get coalesced. 
-//The pattern-anon with neg-anon is ok. 
+//All edges get coalesced.
+//The pattern-anon with neg-anon is ok.
 //e with f is wrong.
 //pattern-anon with e/f should be wrong; or not?
 //Fixed
@@ -31,11 +32,11 @@ rule bug12 {
   pattern {
     node (a, b):Node;
     a --> b;
-  }
   negative {
 	a --> b;
 	a -e:Edge-> b;
 	a -f:Edge-> b;
+  }
   }
   replace {
   }
@@ -45,9 +46,9 @@ rule bug12 {
 rule subgraph {
   pattern {
     a:Node;
-  }
   negative {
-    a;
+    a --> b:Node;
+  }
   }
   replace {
   }
