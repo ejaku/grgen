@@ -5,10 +5,6 @@
 package de.unika.ipd.grgen.be.C;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -56,26 +52,6 @@ public abstract class CBackend extends IDBase implements Backend {
 	}
 	
   /**
-   * Write a string buffer to a file.
-   * @param fname The name of the file.
-   * @param sb The string buffer to write to the file.
-   */
-  public void writeFile(String fname, StringBuffer sb) {
-    try {
-      FileOutputStream fos = 
-      	new FileOutputStream(new File(path, fname));
-      PrintStream ps = new PrintStream(fos);
-      
-      ps.print(sb);
-      fos.close();
-    } catch (FileNotFoundException e) {
-      error.error(e.getMessage());
-    } catch (IOException e) {
-      error.error(e.getMessage());
-    }
-  }
-  
-  /**
    * Mangle an identifier.
    * @param id The identifier. 
    * @return A mangled name.
@@ -90,6 +66,14 @@ public abstract class CBackend extends IDBase implements Backend {
 		return s;
   }
 
+  /**
+   * Write a character sequence to a file using the path set.
+   * @param filename The filename.
+   * @param cs A character sequence.
+   */
+  protected void writeFile(String filename, CharSequence cs) {
+  	writeFile(new File(path, filename), cs);
+  }
 	
 	/**
 	 * Make C defines for each type in a type map.

@@ -40,7 +40,7 @@ public class CSQLFormatter implements SQLFormatter {
 	public String makeNodeTypeIsA(Node n, SQLMangler mangler) {
 		//return nodeTypeIsAFunc + "(" + mangler.getNodeCol(n, parameters.getColNodesId()) 
 		// 	+ "," + id.getId(n.getNodeType()) + ")";
-		return "TRUE";
+		return "xx";
 	}
 	
 	public String makeEdgeTypeIsA(Edge e, SQLMangler mangler) {

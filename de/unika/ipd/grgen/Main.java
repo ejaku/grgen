@@ -52,9 +52,6 @@ public class Main extends Base {
 	private Reporter debugReporter;
 	private Handler debugHandler;
 	
-	/** enable debugging */
-	private boolean debugEnabled;
-	
 	/** enable ast printing */
 	private boolean dumpAST;
 	
@@ -94,6 +91,7 @@ public class Main extends Base {
 	private void printUsage() {
 		System.out.println("usage: grgen [options] filename");
 		System.out.println("Options are:");
+		System.out.println("  -n, --new-technology              enable unmature features");
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
@@ -176,7 +174,7 @@ public class Main extends Base {
 		prefs = Preferences.userNodeForPackage(getClass());
 		
 		// Debugging has an empty reporter if the flag is not set
-		if(debugEnabled) {
+		if(enableDebug) {
 			if(graphic) {
 				debugHandler = new TreeHandler();
 				debugPanel = getTreePanel((TreeHandler) debugHandler);
@@ -213,6 +211,7 @@ public class Main extends Base {
 			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
+			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
 			
 			CmdLineParser.Option beOpt =
 				parser.addStringOption('b', "backend");
@@ -231,11 +230,12 @@ public class Main extends Base {
 			
 			dumpAST = parser.getOptionValue(astDumpOpt) != null;
 			dumpIR = parser.getOptionValue(irDumpOpt) != null;
-			debugEnabled = parser.getOptionValue(debugOpt) != null;
+			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
+			enableNT = parser.getOptionValue(ntOpt) != null;
 			
 			/* deactivate graphic if no debug output */
-			if (!debugEnabled)
+			if (!enableDebug)
 				graphic = false;
 			
 			debugFilter = (String) parser.getOptionValue(debugFilterOpt);

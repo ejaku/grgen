@@ -55,6 +55,11 @@ public abstract class IDBase extends Base implements TypeID {
 	/** Get the IR root node. */
 	protected abstract Unit getUnit(); 
 	
+	private boolean[][] nodeTypeIsAMatrix;
+	
+	private boolean[][] edgeTypeIsAMatrix;
+	
+	
 	/**
 	 * Assign an id to each type in the IR graph.
 	 * This method puts all IR object in the IR graph that are instance of
@@ -162,7 +167,7 @@ public abstract class IDBase extends Base implements TypeID {
 	 * @return A set containing all node types <code>nt</code> is compatible with.
 	 */
 	public final Set getIsA(NodeType nt) {
-		return getIsA(nt, nodeTypeMap);
+		return getIsA(nt, new HashMap());
 	}
 	
 	/**
@@ -171,7 +176,7 @@ public abstract class IDBase extends Base implements TypeID {
 	 * @return A set containing all edge types <code>et</code> is compatible with.
 	 */
 	public final Collection getIsA(EdgeType et) {
-		return getIsA(et, edgeTypeMap);
+		return getIsA(et, new HashMap());
 	}
 	
 	protected final boolean[][] computeIsA(Map typeMap) {
@@ -182,8 +187,8 @@ public abstract class IDBase extends Base implements TypeID {
 			maxId = id > maxId ? id : maxId;
 		}
 		
-		boolean[] helper = new boolean[maxId];
-		boolean[][] res = new boolean[maxId][maxId];
+		boolean[] helper = new boolean[maxId + 1];
+		boolean[][] res = new boolean[maxId + 1][maxId + 1];
 		
 		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
@@ -193,6 +198,14 @@ public abstract class IDBase extends Base implements TypeID {
 		return res;
 	}
 	
+	public final boolean[][] getNodeTypeIsAMatrix() {
+		return nodeTypeIsAMatrix;
+	}
+	
+	public final boolean[][] getEdgeTypeIsAMatrix() {
+		return edgeTypeIsAMatrix;
+	}
+
 	private final void computeIsAHelper(InheritanceType ty, Map typeMap, boolean[][] res,
 			boolean[] alreadyDone) {
 		
@@ -269,6 +282,10 @@ public abstract class IDBase extends Base implements TypeID {
 		makeAttrIds(edgeAttrMap,  EdgeType.class);
 		makeEnumIds(enumMap);
 		makeActionIds(actionMap);
+		
+		nodeTypeIsAMatrix = computeIsA(nodeTypeMap);
+		edgeTypeIsAMatrix = computeIsA(edgeTypeMap);
+		
 	}
 
 }

@@ -19,7 +19,9 @@ import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.ExplicitJoinGenerator;
+import de.unika.ipd.grgen.be.sql.PlainSQLFormatter;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
+import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.Edge;
@@ -53,12 +55,11 @@ public abstract class SQLBackend extends CBackend {
 		
 	protected SQLParameters parameters = new PreferencesSQLParameters();
 	
-	protected final CSQLFormatter sqlFormatter = new CSQLFormatter(parameters, this);
+	protected final SQLFormatter sqlFormatter = new PlainSQLFormatter(parameters, this, true);
 	
-	protected final SQLGenerator sqlGen = 
-		new ExplicitJoinGenerator(parameters, sqlFormatter, this);
-	
-	// protected final SQLGenerator sqlGen = new SQLGenerator(parameters, sqlFormatter, this);	
+	protected final SQLGenerator sqlGen = enableNT  
+			? new ExplicitJoinGenerator(parameters, sqlFormatter, this)
+			: new SQLGenerator(parameters, sqlFormatter, this); 
 	
 	protected Map matchMap = new HashMap();
 	
@@ -98,8 +99,8 @@ public abstract class SQLBackend extends CBackend {
 		addStringDefine(sb, "DBNAME", dbName);
 		addStringDefine(sb, "DBNAME_PREFIX", dbNamePrefix);
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
-		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", sqlFormatter.nodeTypeIsAFunc);
-		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", sqlFormatter.edgeTypeIsAFunc);
+		//addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", sqlFormatter.nodeTypeIsAFunc);
+		//addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", sqlFormatter.edgeTypeIsAFunc);
 		addStringDefine(sb, "TABLE_NODES", parameters.getTableNodes());
 		addStringDefine(sb, "TABLE_EDGES", parameters.getTableEdges());
 		addStringDefine(sb, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());

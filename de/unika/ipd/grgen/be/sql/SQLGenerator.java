@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be.sql;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,7 +73,7 @@ public class SQLGenerator extends Base implements SQLMangler {
 	}
 	
 	protected String getBreakLine() {
-		return "\f";
+		return " ";
 	}
 	
 	/**
@@ -125,7 +126,19 @@ public class SQLGenerator extends Base implements SQLMangler {
 		return join(a.toString(), b.toString(), link);
 	}
 	
-	public String genMatchStatement(MatchingAction act, List matchedNodes, 
+
+	public final String genMatchStatement(MatchingAction act, List matchedNodes, 
+			List matchedEdges) {
+		String res = makeMatchStatement(act, matchedNodes, matchedEdges);
+		
+		if(enableDebug) {
+			writeFile(new File("stmt_" + act.getIdent() + ".txt"), res);
+		}
+		
+		return res; 
+	}
+	
+	protected String makeMatchStatement(MatchingAction act, List matchedNodes, 
 			List matchedEdges) {
 		
 		debug.entering();

@@ -19,4 +19,8 @@ public interface TypeID {
 	
 	int getId(EdgeType et);
 	
+	boolean[][] getNodeTypeIsAMatrix();
+	
+	boolean[][] getEdgeTypeIsAMatrix();
+	
 }

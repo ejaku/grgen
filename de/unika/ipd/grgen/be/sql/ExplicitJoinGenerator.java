@@ -390,7 +390,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.SQLGenerator#genMatchStatement(de.unika.ipd.grgen.ir.MatchingAction, java.util.List, java.util.List)
 	 */
-	public String genMatchStatement(MatchingAction act, List matchedNodes,
+	protected String makeMatchStatement(MatchingAction act, List matchedNodes,
 			List matchedEdges) {
 
 		debug.entering();
@@ -478,7 +478,17 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			fos.close();
 		} catch(IOException e) {
 		}
-		
+
+		f = new File("stmt_exp_" + act.getIdent() + ".txt");
+		try {
+			f.createNewFile();
+			FileOutputStream fos = new FileOutputStream(f);
+			PrintStream ps = new PrintStream(fos);
+			ps.println("EXPLAIN " + res);
+			fos.close();
+		} catch(IOException e) {
+		}
+
 		
 		return res; 
 	}
