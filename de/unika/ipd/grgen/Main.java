@@ -364,6 +364,12 @@ public class Main extends Base {
 			System.err.println("backend factory error: " + e.getMessage());
 		}
 		
+		if (ErrorReporter.getErrorCount() > 0) {
+			System.err.println("There were " + ErrorReporter.getErrorCount() + " error(s)");
+			System.exit(3);
+		}
+		else if (ErrorReporter.getWarnCount() > 0)
+			System.err.println("There were " + ErrorReporter.getWarnCount() + " warning(s)");
 	}
  
  	/**
