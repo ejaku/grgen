@@ -50,7 +50,6 @@ public abstract class MatchingAction extends Action {
 		return pattern;
 	}
   
-
 	public void addNegGraph(Graph neg) {
 		if(neg.getNodes().hasNext()) {
 			neg.setNameSuffix("negative");

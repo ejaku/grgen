@@ -30,7 +30,7 @@ public class Test extends MatchingAction {
 	 * identifiers, so they have to be coalesced right now, when both
 	 * sides of the rule are known and set up.
 	 */
-	private void coalesceAnonymousEdges()
+	public void coalesceAnonymousEdges()
 	{
 		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();

@@ -50,7 +50,7 @@ public class Rule extends MatchingAction
 		setChildrenNames(childrenNames);
 		this.right = right;
 		right.setNameSuffix("replace");
-		coalesceAnonymousEdges();
+		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
 	
 	/**
@@ -107,16 +107,18 @@ public class Rule extends MatchingAction
 	 * identifiers, so they have to be coalesced right now, when both
 	 * sides of the rule are known and set up.
 	 */
-	private void coalesceAnonymousEdges()
+	public void coalesceAnonymousEdges()
 	{
-		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();) {
+		for(Iterator it = pattern.getEdges(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if (e.isAnonymous()) {
+				System.out.println(e);
 				right.replaceSimilarEdges(pattern, e);
-
+	
 				for(Iterator nIt = getNegs(); nIt.hasNext();) {
 					Graph neg = (Graph) nIt.next();
+					System.out.println(neg);
 					neg.replaceSimilarEdges(pattern, e);
 				}
 			}
