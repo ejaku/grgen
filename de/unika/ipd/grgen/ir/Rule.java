@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.util.ArrayIterator;
-import de.unika.ipd.grgen.ast.OpNode;
 
 /**
  * A replacement rule.

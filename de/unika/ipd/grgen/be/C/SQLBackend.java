@@ -4,11 +4,30 @@
  */
 package de.unika.ipd.grgen.be.C;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
+import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
+import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Redirection;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import java.util.prefs.Preferences;
 
 /**
  * A generator to generate SQL statements for a grgen specification.
@@ -18,13 +37,16 @@ public abstract class SQLBackend extends CBackend {
 	/** if 0, the query should not be limited. */
 	protected int limitQueryResults;
 	
-	/** Name of the database */
+	/** Name of the database. */  
 	protected String dbName;
 	
-	protected String dbNamePrefix;
+	protected String dbNamePrefix = "gr_";
 	
-	protected String stmtPrefix;
+	protected String stmtPrefix = "stmt_";
 	
+	private RewriteGenerator rewriteGenerator = new SPORewriteGenerator();
+
+	/*	
 	protected String tableNodes;
 	
 	protected String tableEdges;
@@ -52,14 +74,17 @@ public abstract class SQLBackend extends CBackend {
 	protected String edgeTypeIsAFunc;
 	
 	protected String nodeTypeIsAFunc;
+	*/
+	
+	protected CSQLGenerator sqlGen;
 	
 	protected Map matchMap = new HashMap();
-	
 	
 	/**
 	 * Make a new SQL Generator.
 	 */
 	public SQLBackend() {
+		/*
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
 		
 		dbNamePrefix = prefs.get("dbNamePrefix", "gr_");
@@ -80,6 +105,7 @@ public abstract class SQLBackend extends CBackend {
 		colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
 		
 		limitQueryResults = prefs.getInt("limitQueryResults", 0);
+		*/
 	}
 	
 	/**
@@ -112,20 +138,20 @@ public abstract class SQLBackend extends CBackend {
 		addStringDefine(sb, "DBNAME", dbName);
 		addStringDefine(sb, "DBNAME_PREFIX", dbNamePrefix);
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
-		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", nodeTypeIsAFunc);
-		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", edgeTypeIsAFunc);
-		addStringDefine(sb, "TABLE_NODES", tableNodes);
-		addStringDefine(sb, "TABLE_EDGES", tableEdges);
-		addStringDefine(sb, "TABLE_NODE_ATTRS", tableNodeAttrs);
-		addStringDefine(sb, "TABLE_EDGE_ATTRS", tableEdgeAttrs);
-		addStringDefine(sb, "COL_NODES_ID", colNodesId);
-		addStringDefine(sb, "COL_NODES_TYPE_ID", colNodesTypeId);
-		addStringDefine(sb, "COL_EDGES_ID", colEdgesId);
-		addStringDefine(sb, "COL_EDGES_TYPE_ID", colEdgesTypeId);
-		addStringDefine(sb, "COL_EDGES_SRC_ID", colEdgesSrcId);
-		addStringDefine(sb, "COL_EDGES_TGT_ID", colEdgesTgtId);
-		addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", colNodeAttrNodeId);
-		addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", colEdgeAttrEdgeId);
+		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", sqlGen.nodeTypeIsAFunc);
+		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", sqlGen.edgeTypeIsAFunc);
+		addStringDefine(sb, "TABLE_NODES", sqlGen.tableNodes);
+		addStringDefine(sb, "TABLE_EDGES", sqlGen.tableEdges);
+		addStringDefine(sb, "TABLE_NODE_ATTRS", sqlGen.tableNodeAttrs);
+		addStringDefine(sb, "TABLE_EDGE_ATTRS", sqlGen.tableEdgeAttrs);
+		addStringDefine(sb, "COL_NODES_ID", sqlGen.colNodesId);
+		addStringDefine(sb, "COL_NODES_TYPE_ID", sqlGen.colNodesTypeId);
+		addStringDefine(sb, "COL_EDGES_ID", sqlGen.colEdgesId);
+		addStringDefine(sb, "COL_EDGES_TYPE_ID", sqlGen.colEdgesTypeId);
+		addStringDefine(sb, "COL_EDGES_SRC_ID", sqlGen.colEdgesSrcId);
+		addStringDefine(sb, "COL_EDGES_TGT_ID", sqlGen.colEdgesTgtId);
+		addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", sqlGen.colNodeAttrNodeId);
+		addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", sqlGen.colEdgeAttrEdgeId);
 		
 		// Dump the databases type corresponding to the ID type.
 		addStringDefine(sb, "DB_ID_TYPE", getIdType());
@@ -176,67 +202,8 @@ public abstract class SQLBackend extends CBackend {
 	 */
 	protected abstract void genQuery(StringBuffer sb, String query);
 	
-	/**
-	 * Make an SQL table identifier out of an edge.
-	 * @param e The edge to mangle.
-	 * @return An identifier usable in SQL statements and unique for
-	 * each edge.
-	 */
-	private String mangleEdge(Edge e) {
-		return "e" + e.getId();
-	}
 	
-	private String mangleNode(Node n) {
-		return "n" + n.getId();
-	}
-	
-	private String getEdgeCol(Edge e, String col) {
-		return mangleEdge(e) + "." + col;
-	}
-	
-	private String getNodeCol(Node n, String col) {
-		return mangleNode(n) + "." + col;
-	}
-	/**
-	 * Add something to a string buffer.
-	 * If the string buffer is empty, <code>start</code> is appended. If
-	 * it is not empty, <code>sep</code> is appended. Afterwards,
-	 * <code>add</code> is appended.
-	 * @param sb The string buffer to add to.
-	 * @param start The start string.
-	 * @param sep The seperator string.
-	 * @param add The actual string to add.
-	 */
-	private void addTo(StringBuffer sb, String start, String sep, String add) {
-		if (sb.length() == 0)
-			sb.append(start);
-		else
-			sb.append(sep);
-		
-		sb.append(add);
-	}
-	
-	private void addToCond(StringBuffer sb, String add) {
-		addTo(sb, "", " AND ", add);
-	}
-	
-	private void addToList(StringBuffer sb, String table) {
-		addTo(sb, "", ", ", table);
-	}
-	
-	private String join(String a, String b, String link) {
-		if (a.length() == 0)
-			return b;
-		else if (b.length() == 0)
-			return a;
-		else
-			return a + link + b;
-	}
-	
-	private String join(StringBuffer a, StringBuffer b, String link) {
-		return join(a.toString(), b.toString(), link);
-	}
-	
+	/*
 	private void makeJoin(StringBuffer sb, Graph gr, Edge e1, Edge e2) {
 		Node[] nodes =
 		{ gr.getSource(e1), gr.getTarget(e1), gr.getSource(e2), gr.getTarget(e2)};
@@ -259,7 +226,9 @@ public abstract class SQLBackend extends CBackend {
 						+ names[j]
 						+ BREAK_LINE);
 	}
-	
+	*/
+
+	/*
 	protected String genMatchStatement(
 		MatchingAction act,
 		List matchedNodes,
@@ -468,6 +437,7 @@ public abstract class SQLBackend extends CBackend {
 		// TODO
 		return null;
 	}
+	*/
 	
 	/**
 	 * Output some data structures needed especially by the SQL backend.
@@ -530,6 +500,135 @@ public abstract class SQLBackend extends CBackend {
 		};
 	}
 	
+	private class SQLRewriteHandler implements RewriteHandler {
+		
+		private Match match;
+		private StringBuffer sb;
+		private Rule rule;
+		private Map insertedNodesIndexMap = new HashMap();
+		private Collection nodesToInsert = null;
+				
+		SQLRewriteHandler(Match match, StringBuffer sb) {
+			this.match = match;
+			this.sb = sb;
+		}
+		
+		public void start(Rule rule) {
+			this.rule = rule;
+		}
+		
+		
+		public void finish() {
+		}
+		
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#changeNodeTypes(java.util.Map)
+		 */
+		public void changeNodeTypes(Map nodeTypeMap) {
+			for(Iterator it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
+				Node n = (Node) it.next();
+				Integer nid = (Integer) match.nodeIndexMap.get(n);
+				int tid = getId(n.getReplaceType());
+				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");\n");
+			}
+		}
+
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdges(java.util.Collection)
+		 */
+		public void deleteEdges(Collection edges) {
+			for (Iterator it = edges.iterator(); it.hasNext();) {
+				Edge e = (Edge) it.next();
+				sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));\n");
+			}
+		}
+
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdgesOfNodes(java.util.Collection)
+		 */
+		public void deleteEdgesOfNodes(Collection nodes) {
+			for (Iterator it = nodes.iterator(); it.hasNext();) {
+				Node n = (Node) it.next();
+				Integer nid = (Integer) match.nodeIndexMap.get(n);
+				sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));\n");
+			}
+		}
+
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteNodes(java.util.Collection)
+		 */
+		public void deleteNodes(Collection nodes) {
+			for (Iterator it = nodes.iterator(); it.hasNext();) {
+				Node n = (Node) it.next();
+				Integer nid = (Integer) match.nodeIndexMap.get(n);
+				sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));\n");
+			}
+		}
+
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
+		 */
+		public void insertEdges(Collection edges) {
+			Graph right = rule.getRight();
+			
+			for (Iterator it = edges.iterator(); it.hasNext();) {
+				Edge e = (Edge) it.next();
+				
+				int etid = getId(e.getEdgeType());
+				Node src = right.getSource(e);
+				Node tgt = right.getTarget(e);
+				String leftNode, rightNode;
+				
+				if (nodesToInsert.contains(src))
+					leftNode = "inserted_nodes[" + insertedNodesIndexMap.get(src) + "]";
+				else
+					leftNode = "GET_MATCH_NODE(" + match.nodeIndexMap.get(src) + ")";
+				
+				if (nodesToInsert.contains(tgt))
+					rightNode = "inserted_nodes[" + insertedNodesIndexMap.get(tgt) + "]";
+				else
+					rightNode = "GET_MATCH_NODE(" + match.nodeIndexMap.get(tgt) + ")";
+				
+				sb.append(
+					"  INSERT_EDGE(" + etid + ", " + leftNode + ", " + rightNode + ");\n");
+			}
+
+		}
+
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
+		 */
+		public void insertNodes(Collection nodes) {
+			nodesToInsert = nodes;
+			
+			/*
+			 * We need an array to save the IDs of the inserted nodes, since
+			 * they might be needed when inserting the new edges further down
+			 * this routine.
+			 */
+			sb.append("  gr_id_t inserted_nodes[" + nodes.size() + "];\n");
+			
+			/*
+			 * Generate node creation statements and save the newly created
+			 * IDs in the array.
+			 */
+			int i = 0;
+			for (Iterator it = nodes.iterator(); it.hasNext(); i++) {
+				Node n = (Node) it.next();
+				sb.append("  inserted_nodes[" + i + "] = INSERT_NODE("
+							  + getId(n.getNodeType()) + ");\n");
+				insertedNodesIndexMap.put(n, new Integer(i));
+			}
+
+		}
+		/**
+		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#getRequiredRewriteGenerator()
+		 */
+		public Class getRequiredRewriteGenerator() {
+			return SPORewriteGenerator.class;
+		}
+	}
+	
 	/**
 	 * Make the finish code of a rule
 	 * @param sb The string buffer to put the code to.
@@ -537,8 +636,9 @@ public abstract class SQLBackend extends CBackend {
 	 * @param id The id number of the rule.
 	 * @param m The match structure as supplied by
 	 * {@link #genMatch(StringBuffer, MatchingAction, int)}.
+	 * @deprecated We use the {@link RewriteGenerator}/{@link RewriteHandler} mechanism.
 	 */
-	protected void genRuleFinish(StringBuffer sb, Rule r, int id, Match m) {
+	protected void genRuleFinishOld(StringBuffer sb, Rule r, int id, Match m) {
 		Collection commonNodes = r.getCommonNodes();
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
@@ -577,7 +677,7 @@ public abstract class SQLBackend extends CBackend {
 			for (Iterator it = nodesToInsert.iterator(); it.hasNext(); i++) {
 				Node n = (Node) it.next();
 				sb.append("  inserted_nodes[" + i + "] = INSERT_NODE("
-							  + getTypeId(nodeTypeMap, n.getNodeType()) + ");\n");
+							  + getId(n.getNodeType()) + ");\n");
 				insertedNodesIndexMap.put(n, new Integer(i));
 			}
 			
@@ -600,8 +700,8 @@ public abstract class SQLBackend extends CBackend {
 				
 				sb.append("  REDIR_" + dir + "(GET_MATCH_NODE("
 							  + fromId + ")" + ", inserted_nodes[" + toId + "], "
-							  + getTypeId(edgeTypeMap, redir.edgeType) + ", "
-							  + getTypeId(nodeTypeMap, redir.nodeType) + ");\n");
+							  + getId(redir.edgeType) + ", "
+							  + getId(redir.nodeType) + ");\n");
 			}
 		}
 		
@@ -625,7 +725,7 @@ public abstract class SQLBackend extends CBackend {
 			Node n = (Node) it.next();
 			Integer nid = (Integer) m.nodeIndexMap.get(n);
 			if (n.typeChanges()) {
-				int tid = getTypeId(nodeTypeMap, n.getReplaceType());
+				int tid = getId(n.getReplaceType());
 				sb.append(
 					"  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");\n");
 			}
@@ -652,7 +752,7 @@ public abstract class SQLBackend extends CBackend {
 				// What does it mean anyway in a replace statment???
 				continue;
 			
-			int etid = getTypeId(edgeTypeMap, e.getEdgeType());
+			int etid = getId(e.getEdgeType());
 			Node src = right.getSource(e);
 			Node tgt = right.getTarget(e);
 			String leftNode, rightNode;
@@ -686,8 +786,12 @@ public abstract class SQLBackend extends CBackend {
 		
 		sb.append("static FINISH_PROTOTYPE(" + finishIdent + ")\n{\n");
 		
-		if (a instanceof Rule)
-			genRuleFinish(sb, (Rule) a, id, m);
+		if(a instanceof Rule) {
+			Rule r = (Rule) a;
+			rewriteGenerator.rewrite(r, new SQLRewriteHandler(m, sb));
+		}
+			
+		// genRuleFinish(sb, (Rule) a, id, m);
 		
 		sb.append("  return 1;\n}\n\n");
 	}
@@ -707,7 +811,7 @@ public abstract class SQLBackend extends CBackend {
 		
 		// Dump the SQL statement
 		sb.append("static const char *stmt_" + actionIdent + " = \n");
-		sb.append(formatString(genMatchStatement(a, nodes, edges)) + ";\n\n");
+		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges)) + ";\n\n");
 		
 		// Make an array of strings that contains the node names.
 		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
@@ -794,7 +898,7 @@ public abstract class SQLBackend extends CBackend {
 		writeFile("settings" + incExtension, sb);
 		
 		// creation of ATTR tables
-		genAttrTableCmd();
+		//genAttrTableCmd();
 	}
 	
 	/**
@@ -828,101 +932,102 @@ public abstract class SQLBackend extends CBackend {
 	/**
 	 * Creates the commands for creating attribute tables
 	 */
-	protected void genAttrTableCmd() {
-		StringBuffer sb;
-		Map maps[]         = new Map[]    { nodeAttrMap,          edgeAttrMap };
-		Map ty_maps[]      = new Map[]    { nodeTypeMap,          edgeTypeMap };
-		String tbl_names[] = new String[] { tableNodeAttrs,       tableEdgeAttrs };
-		String col_names[] = new String[] { colNodesId,           colEdgesId };
-		String names[]     = new String[] { "node",               "edge" };
-		String defines[]   = new String[] { "GR_HAVE_NODE_ATTR",  "GR_HAVE_EDGE_ATTR" };
-		
-		sb = new StringBuffer();
-		sb.append("/*\n * This file was generated by grgen, don't edit\n */\n\n");
-		
-		// create node & edge attributes create table commands
-		for (int i = 0; i < maps.length; ++i) {
-			
-			if (maps[i].size() > 0)
-				sb.append("#define " + defines[i] + " 1\n");
-			else
-				sb.append("#undef " + defines[i] + "\n");
-			
-			sb.append("\n/**\n * The SQL command for creating the " + names[i] + " attribute table\n */\n");
-			sb.append("static const char *cmd_create_" + names[i] + "_attr = \n");
-			sb.append("\"CREATE TABLE " + tbl_names[i] + " (\" \\\n");
-			sb.append("\"" + col_names[i] + " " + getIdType() + " NOT NULL PRIMARY KEY\" \\\n");
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
-				Entity ent = (Entity) it.next();
-				Type ty = ent.getType();
-				int id = getTypeId(ty_maps[i], ent.getOwner());
-				String name = ent.getIdent() + "_" + id;
-				
-				sb.append("\", " + name + " " + getSQLType(ty) + " \" \\\n");
-			}
-			sb.append("\")\";\n\n");
-		}
-		
-		sb.append("\n/** The boolean True Value */\n");
-		addStringDefine(sb, "GR_BOOLEAN_TRUE", getTrueValue());
-		
-		sb.append("\n/** The boolean False Value */\n");
-		addStringDefine(sb, "GR_BOOLEAN_FALSE", getFalseValue());
-		
-		sb.append("\n");
-		
-		// create get table
-		for (int i = 0; i < maps.length; ++i) {
-			String[] lines = new String[maps[i].size()];
-			
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
-				Entity ent = (Entity) it.next();
-				Type ty = ent.getType();
-				int id = getTypeId(ty_maps[i], ent.getOwner());
-				String name = ent.getIdent() + "_" + id;
-				int index = ((Integer) maps[i].get(ent)).intValue();
-				
-				lines[index] = "\"" +
-					"SELECT " + name + " FROM " + tbl_names[i] +
-					" WHERE " + col_names[i] + " = " +
-					firstIdMarker("%d", getIdType()) + "\"";
-			}
-			sb.append("/** The table of all get commaned for " + names[i] + " attributes. */\n");
-			sb.append("static prepared_query_t cmd_get_" + names[i] + "_attr[] = {\n");
-			for(int j = 0; j < lines.length; ++j) {
-				sb.append("  { " + lines[j] + ", -1 },\n");
-			}
-			sb.append("  { NULL, -1 },\n");
-			sb.append("};\n\n");
-		}
-		
-		// create set table
-		for (int i = 0; i < maps.length; ++i) {
-			String[] lines = new String[maps[i].size()];
-			
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
-				Entity ent = (Entity) it.next();
-				Type ty = ent.getType();
-				int id = getTypeId(ty_maps[i], ent.getOwner());
-				String name = ent.getIdent() + "_" + id;
-				int index = ((Integer) maps[i].get(ent)).intValue();
-				
-				lines[index] = "\"" +
-					"UPDATE " + tbl_names[i] + " SET " + name + " = " + firstIdMarker("%s", getSQLType(ty)) +
-					" WHERE " + col_names[i] + " = " + nextIdMarker("%d", getIdType()) + "\"";
-			}
-			sb.append("/** The table of all set commaned for " + names[i] + " attributes. */\n");
-			sb.append("static prepared_query_t cmd_set_" + names[i] + "_attr[] = {\n");
-			for(int j = 0; j < lines.length; ++j) {
-				sb.append("  { " + lines[j] + ", -1 },\n");
-			}
-			sb.append("  { NULL, -1 },\n");
-			sb.append("};\n\n");
-		}
-		
-		writeFile("attr_tbl_cmd" + incExtension, sb);
-	}
 	
+//	protected void genAttrTableCmd() {
+//		StringBuffer sb;
+//		Map maps[]         = new Map[]    { nodeAttrMap,           edgeAttrMap };
+//		Map ty_maps[]      = new Map[]    { nodeTypeMap,           edgeTypeMap };
+//		String tbl_names[] = new String[] { sqlGen.tableNodeAttrs, sqlGen.tableEdgeAttrs };
+//		String col_names[] = new String[] { sqlGen.colNodesId,     sqlGen.colEdgesId };
+//		String names[]     = new String[] { "node",               "edge" };
+//		String defines[]   = new String[] { "GR_HAVE_NODE_ATTR",  "GR_HAVE_EDGE_ATTR" };
+//		
+//		sb = new StringBuffer();
+//		sb.append("/*\n * This file was generated by grgen, don't edit\n */\n\n");
+//		
+//		// create node & edge attributes create table commands
+//		for (int i = 0; i < maps.length; ++i) {
+//			
+//			if (maps[i].size() > 0)
+//				sb.append("#define " + defines[i] + " 1\n");
+//			else
+//				sb.append("#undef " + defines[i] + "\n");
+//			
+//			sb.append("\n/**\n * The SQL command for creating the " + names[i] + " attribute table\n */\n");
+//			sb.append("static const char *cmd_create_" + names[i] + "_attr = \n");
+//			sb.append("\"CREATE TABLE " + tbl_names[i] + " (\" \\\n");
+//			sb.append("\"" + col_names[i] + " " + getIdType() + " NOT NULL PRIMARY KEY\" \\\n");
+//			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
+//				Entity ent = (Entity) it.next();
+//				Type ty = ent.getType();
+//				int id = getTypeId(ty_maps[i], ent.getOwner());
+//				String name = ent.getIdent() + "_" + id;
+//				
+//				sb.append("\", " + name + " " + getSQLType(ty) + " \" \\\n");
+//			}
+//			sb.append("\")\";\n\n");
+//		}
+//		
+//		sb.append("\n/** The boolean True Value */\n");
+//		addStringDefine(sb, "GR_BOOLEAN_TRUE", getTrueValue());
+//		
+//		sb.append("\n/** The boolean False Value */\n");
+//		addStringDefine(sb, "GR_BOOLEAN_FALSE", getFalseValue());
+//		
+//		sb.append("\n");
+//		
+//		// create get table
+//		for (int i = 0; i < maps.length; ++i) {
+//			String[] lines = new String[maps[i].size()];
+//			
+//			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
+//				Entity ent = (Entity) it.next();
+//				Type ty = ent.getType();
+//				int id = getTypeId(ty_maps[i], ent.getOwner());
+//				String name = ent.getIdent() + "_" + id;
+//				int index = ((Integer) maps[i].get(ent)).intValue();
+//				
+//				lines[index] = "\"" +
+//					"SELECT " + name + " FROM " + tbl_names[i] +
+//					" WHERE " + col_names[i] + " = " +
+//					firstIdMarker("%d", getIdType()) + "\"";
+//			}
+//			sb.append("/** The table of all get commaned for " + names[i] + " attributes. */\n");
+//			sb.append("static prepared_query_t cmd_get_" + names[i] + "_attr[] = {\n");
+//			for(int j = 0; j < lines.length; ++j) {
+//				sb.append("  { " + lines[j] + ", -1 },\n");
+//			}
+//			sb.append("  { NULL, -1 },\n");
+//			sb.append("};\n\n");
+//		}
+//		
+//		// create set table
+//		for (int i = 0; i < maps.length; ++i) {
+//			String[] lines = new String[maps[i].size()];
+//			
+//			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
+//				Entity ent = (Entity) it.next();
+//				Type ty = ent.getType();
+//				int id = getTypeId(ty_maps[i], ent.getOwner());
+//				String name = ent.getIdent() + "_" + id;
+//				int index = ((Integer) maps[i].get(ent)).intValue();
+//				
+//				lines[index] = "\"" +
+//					"UPDATE " + tbl_names[i] + " SET " + name + " = " + firstIdMarker("%s", getSQLType(ty)) +
+//					" WHERE " + col_names[i] + " = " + nextIdMarker("%d", getIdType()) + "\"";
+//			}
+//			sb.append("/** The table of all set commaned for " + names[i] + " attributes. */\n");
+//			sb.append("static prepared_query_t cmd_set_" + names[i] + "_attr[] = {\n");
+//			for(int j = 0; j < lines.length; ++j) {
+//				sb.append("  { " + lines[j] + ", -1 },\n");
+//			}
+//			sb.append("  { NULL, -1 },\n");
+//			sb.append("};\n\n");
+//		}
+//		
+//		writeFile("attr_tbl_cmd" + incExtension, sb);
+//	}
+
 	/**
 	 * Returns the first Id marker.
 	 *

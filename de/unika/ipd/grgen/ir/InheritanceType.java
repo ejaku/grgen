@@ -29,6 +29,14 @@ public abstract class InheritanceType extends CompoundType {
     inherits = new HashSet();
     orderedInherits = new LinkedList();
   }
+  
+  /**
+   * Is this inheritance type the root of a ingeritance hierachy.
+   * @return true, if this type does not inherit from some other type.
+   */
+  public boolean isRoot() {
+  	return inherits.isEmpty();
+  }
 
 	/**
 	 * Add a type, this type inherits from.

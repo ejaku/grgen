@@ -17,5 +17,5 @@ public interface Id {
 	 * respectively) differ.
 	 * @return A new id.
 	 */
-	public abstract String getId();
+	String getId();
 }

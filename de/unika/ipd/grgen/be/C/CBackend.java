@@ -15,9 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.be.sql.IDBase;
 import de.unika.ipd.grgen.ir.Action;
-import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
@@ -25,7 +24,6 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
@@ -36,23 +34,6 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public abstract class CBackend extends IDBase implements Backend {
 
-  /** node type to type id map. (Type -> Integer) */
-	protected Map nodeTypeMap = new HashMap();
-	
-	/** node type to type id map. (Type -> Integer) */
-	protected Map edgeTypeMap = new HashMap();
-	
-	/** node attribute map. (Entity -> Integer) */
-	protected Map nodeAttrMap = new HashMap();
-
-	/** node attribute map. (Entity -> Integer) */
-	protected Map edgeAttrMap = new HashMap();
-
-	/** enum value map. (Enum -> Integer) */
-	protected Map enumMap = new HashMap();
-
-	/** action map. (Action -> Integer) */
-	protected Map actionMap = new HashMap();
 
 	/** The unit to generate code for. */
 	protected Unit unit;
@@ -366,8 +347,6 @@ public abstract class CBackend extends IDBase implements Backend {
 		}
 		sb.append("};\n");
 	}
-	
-
 
 	protected void makeActionMap(StringBuffer sb, Map map) {
 		Action[] actions = new Action[map.size()];
@@ -660,12 +639,6 @@ public abstract class CBackend extends IDBase implements Backend {
     this.path = new File(outputPath);
     path.mkdirs();
     
-		makeTypeIds(nodeTypeMap,  NodeType.class);
-		makeTypeIds(edgeTypeMap,  EdgeType.class);
-		makeAttrIds(nodeAttrMap,  NodeType.class);
-		makeAttrIds(edgeAttrMap,  EdgeType.class);
-		makeEnumIds(enumMap);
-		makeActionIds(actionMap);
   }
 
   /**
@@ -762,8 +735,6 @@ public abstract class CBackend extends IDBase implements Backend {
     return id;
   }
 
-	public static final char BREAK_LINE = '\f';
-
   /**
    * Format a string into a C string.
    * This takes a Java string and produces a C string literal of it by escaping
@@ -789,11 +760,13 @@ public abstract class CBackend extends IDBase implements Backend {
 				case '\n':
 					sb.append("\\n");
 					break;
+/*					
 				case '\f':
 					// Ignore the BREAK_LINE, if it is the last character
 				  if(i != s.length() - 1)
 						sb.append("\" \\\n\"");
 					break;
+					*/
 				default:
 					sb.append(ch);
 			}
