@@ -1,0 +1,10 @@
+INSTALL:
+	build.sh
+
+USE:
+	run.sh <grg-file> <output-dir>
+	cd <output-dir>
+	. update.sh
+	make
+
+
