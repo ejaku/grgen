@@ -51,14 +51,14 @@ public class EdgeResolver extends IdentResolver {
   			Symbol.Definition def = scope.defineAnonymous("edge", coords);
   			res = new EdgeDeclNode(new IdentNode(def), ty, negated);
   		} else
-  			n.reportError("identifier \"" + n + "\" is expected to declare "
+  			reportError(n, "identifier \"" + n + "\" is expected to declare "
   			  + "an edge type not a \"" + ty.getName() + "\"");
   	} else if(d instanceof EdgeDeclNode) {
 			res = d;
   	}
   		
   	else
-  		n.reportError("edge or edge type expected");
+  		reportError(n, "edge or edge type expected");
   	
     return res;
   }

@@ -5,7 +5,6 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.*;
-import de.unika.ipd.grgen.util.Base;
 
 /**
  * An identifier resover. 
@@ -13,7 +12,7 @@ import de.unika.ipd.grgen.util.Base;
  * declared by an identifier and replaces the ident node by the resolved 
  * node. 
  */
-public abstract class IdentResolver extends Base implements Resolver {
+public abstract class IdentResolver extends Resolver {
 
 	/** 
 	 * The class of the resolved node must be in the set, otherwise,
@@ -87,13 +86,11 @@ public abstract class IdentResolver extends Base implements Resolver {
 				}
 			
 			res = false;
-			c.reportError("Identifier \"" + c + "\" is a \"" + get 
+			reportError(c, "Identifier \"" + c + "\" is a \"" + get 
 				+ "\" but " + expectList + " " + verb + " expected");
 			
-		} 
-		
-		//else
-		//	n.reportError("Expected an identifier, not a \"" + c.getName() + "\"");
+		} else
+		  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
 		
 		debug.leaving();
 		return res;

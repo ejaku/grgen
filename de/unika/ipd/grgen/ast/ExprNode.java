@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.IdentExprResolver;
+import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -22,13 +23,13 @@ public abstract class ExprNode extends BaseNode {
 	}
 	
 	protected static final Resolver identExprResolver = 
-		new IdentExprResolver(new DeclResolver(DeclNode.class));
+		new OptionalResolver(new IdentExprResolver(new DeclResolver(DeclNode.class)));
 
   /**
    * Make a new expression
    */
   public ExprNode(Coords coords) {
-  	super(coords);
+		super(coords);
   }
 
   /**

@@ -124,6 +124,8 @@ public class RuleDeclNode extends ActionDeclNode {
 		}
 		
 		if(childTypes) {
+			
+			// All conditions must be of type boolean.
 			cond = true;
 			for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 				ExprNode e = (ExprNode) it.next();

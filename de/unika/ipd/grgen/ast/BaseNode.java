@@ -538,18 +538,23 @@ public abstract class BaseNode extends Base
 			Integer pos = (Integer) i.next();
 			Resolver resolver = (Resolver) resolvers.get(pos);
 
-			if(!resolver.resolve(this, pos.intValue()))
+			if(!resolver.resolve(this, pos.intValue())) {
+				debug.report(NOTE, "resolve error");
 				local = false;
+				resolver.printErrors();
+			}
 		}
 		
 		setResolved(local);
 		  	
-		 ext = true;
+		ext = true;
 		for(Iterator it = getChildren(); it.hasNext(); ) {
 			BaseNode child = (BaseNode) it.next();
 			if(!child.getResolve())
 				ext = false;
 		}
+
+		debug.report(NOTE, "local: " + local + ", ext: " + ext);
 
   	debug.leaving();
   	return ext && local;

@@ -10,7 +10,7 @@ import de.unika.ipd.grgen.ast.IdentExprNode;
 /**
  * Resolves the ident node behind an ident expr node.
  */
-public class IdentExprResolver implements Resolver {
+public class IdentExprResolver extends Resolver {
 
 	private Resolver resolver;
 

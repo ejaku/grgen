@@ -8,7 +8,7 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A checker which checks, if the type of a declaration is in a given set.
+ * A checker which checks, if a given AST node ist instance of some types.
  */
 public class MultChecker implements Checker {
 
@@ -18,8 +18,8 @@ public class MultChecker implements Checker {
 	/**
 	 * Make a new decl mult type checker giving an array of classes.
 	 * The type child of the declaration must be instance of one of the classes
-	 * specified in the array
-	 * @param validTypes The classes to check for.
+	 * specified in the array.
+	 * @param validTypes The classes a given node is to be checked against.
 	 */
 	public MultChecker(Class[] validTypes) {
 		this.validTypes = validTypes;

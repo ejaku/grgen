@@ -9,7 +9,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 
-public class NodeDeclNode extends DeclNode {
+public class NodeDeclNode extends DeclNode implements NodeProducer {
 
 	static {
 		setName(NodeDeclNode.class, "node");
@@ -33,7 +33,6 @@ public class NodeDeclNode extends DeclNode {
   		&& checkChild(1, NodeTypeNode.class);
   }
   
-  
   /**
    * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
    */
@@ -50,9 +49,7 @@ public class NodeDeclNode extends DeclNode {
 		NodeTypeNode tn = (NodeTypeNode) getDeclType();
 		NodeType nt = tn.getNodeType();
 		
-		Node n = new Node(getIdentNode().getIdent(), nt);
-		
-		return n;
+		return new Node(getIdentNode().getIdent(), nt);
 	}
 	 
 

@@ -562,9 +562,21 @@ pair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = initNode() ]
 			coll.addChild(new ConnectionNode(left, e, res, negated));
   	};
 
+/**
+ * The occurrence of a node.
+ * A node occurrence is either the declaration of a new node, a usage of
+ * a already declared node or a usage combined with a type change.
+ */
 nodeOcc returns [ BaseNode res = initNode() ]
-	{ CollectNode coll = new CollectNode(); }
-  : (res=identUse | res=nodeDecl) 
+	{ 
+		CollectNode coll = new CollectNode(); 
+	  IdentNode id;
+	}
+  : res=identUse 
+  | res=nodeDecl
+  | res=identUse c:DOUBLECOLON id=identUse {
+  	res = new NodeTypeChangeNode(getCoords(c), res, id);	
+  }
   ;
 
 nodeDecl returns [ BaseNode res = initNode() ]
@@ -573,9 +585,8 @@ nodeDecl returns [ BaseNode res = initNode() ]
   	BaseNode type; 
   }
   : id=identDecl COLON! type=identUse {
-  	
   	res = new NodeDeclNode(id, type);
-    }            
+  }            
   ;
 
 negatedEdge returns [ BaseNode res = null ]
@@ -648,6 +659,8 @@ popScope! options { defaultErrorHandler = false; }  {
   BaseNode.setCurrScope(currScope);    
     
 } : ;
+
+
 
 // Expressions
 
@@ -887,6 +900,7 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW    : "->"  ;
 LARROW    : "<-"  ;
+DOUBLECOLON : "::" ;
 BXOR			:	'^'		;
 BOR				:	'|'		;
 LOR				:	"||"	;

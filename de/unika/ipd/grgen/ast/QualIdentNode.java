@@ -86,14 +86,25 @@ public class QualIdentNode extends DeclExprNode {
 		return res;
 	}
 	
+	
+	
 	/**
 	 * The declaration 
 	 * @see de.unika.ipd.grgen.ast.DeclExprNode#resolveDecl()
 	 */
 	protected DeclNode resolveDecl() {
 		assertResolved();
-		ExprNode member = (ExprNode) getChild(MEMBER);
-		return member.getDecl();		
+		
+		DeclNode member = (DeclNode) getChild(MEMBER);
+		return member;
 	}
+
+  /**
+   * @see de.unika.ipd.grgen.ast.BaseNode#check()
+   */
+  protected boolean check() {
+  	// TODO: Correct implementation here!
+    return true;
+  }
 
 }

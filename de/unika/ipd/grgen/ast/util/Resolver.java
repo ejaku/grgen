@@ -4,12 +4,45 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * something, that resolves a node to another node.
  */
-public interface Resolver {
+public abstract class Resolver extends Base {
+	
+	protected static class ErrorMessage {
+		
+		private BaseNode node;
+		
+		private String msg;
+		
+		private Resolver resolver;
+		
+		public ErrorMessage(Resolver resolver, BaseNode node, String msg) {
+			this.resolver = resolver;
+			this.node = node;
+			this.msg = msg;
+		}
+		
+		public void print() {
+			node.reportError(msg);
+		}
+		
+		public Resolver getResolver() {
+			return resolver;
+		}
+		
+	}
+	
+	/** A collection holding all error messages, this resolver produced. */
+	private Collection errorMessages = new LinkedList();
 
 	/**
 	 * Resolve a node.
@@ -18,6 +51,38 @@ public interface Resolver {
 	 * children.
 	 * @return true, if the resolving was successful, false, if not.
 	 */
-	public boolean resolve(BaseNode node, int child);
+	public abstract boolean resolve(BaseNode node, int child);
+	
+	/**
+	 * Report an error during resolution.
+	 * Some resolvers might want to overwrite this method, so 
+	 * {@link BaseNode#reportError(String)} is not used directly. 
+	 * @param node The node that caused the error.
+	 * @param msg The error message to be printed.
+	 */
+	protected void reportError(BaseNode node, String msg) {
+		errorMessages.add(new ErrorMessage(this, node, msg));
+	}
+	
+	/**
+	 * Set the place, where error messages are put to.
+	 * This can be used by resolvers, which call other resolvers to collect
+	 * the error messages of these subresolvers. 
+	 * @param c A collection, where objects instance of {@link ErrorMessage}
+	 * are inserted.
+	 */
+	protected final void setErrorQueue(Collection c) {
+		errorMessages = c;
+	}
+	
+	/**
+	 * Print all error messages concerning this resolver.
+	 */
+	public void printErrors() {
+		for(Iterator it = errorMessages.iterator(); it.hasNext();) {
+			ErrorMessage msg = (ErrorMessage) it.next();
+			msg.print();
+		}
+	}
 
 }

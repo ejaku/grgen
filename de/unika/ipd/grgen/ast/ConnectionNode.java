@@ -5,8 +5,11 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.EdgeResolver;
+import de.unika.ipd.grgen.ast.util.MultChecker;
+import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Graph;
 
@@ -35,8 +38,17 @@ public class ConnectionNode extends BaseNode {
 	private static final int RIGHT= 2;
 	
 	/** Resolver for the nodes. */
-	private static final Resolver nodeResolver = 
+	private static final Resolver oldNodeResolver = 
 		new DeclResolver(NodeDeclNode.class);
+
+	private static final Resolver nodeResolver = 
+		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
+
+	private static final Checker nodeChecker = 
+		new MultChecker(new Class[] { 
+			NodeDeclNode.class, NodeTypeChangeNode.class
+		});
+		
 
 	/**
 	 * Construct a new connection node. 
@@ -63,9 +75,9 @@ public class ConnectionNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(LEFT, NodeDeclNode.class)
+		return checkChild(LEFT, nodeChecker)
 			&& checkChild(EDGE, EdgeDeclNode.class)
-			&& checkChild(RIGHT, NodeDeclNode.class);
+			&& checkChild(RIGHT, nodeChecker);
 	}
 	
 	/**
@@ -91,7 +103,7 @@ public class ConnectionNode extends BaseNode {
 	public BaseNode getRight() {
 		return getChild(2);
 	}
-
+	
 	/**
 	 * This adds the connection to an IR graph.
 	 * This method should only be used by {@link PatternNode#constructIR()}. 
@@ -99,12 +111,12 @@ public class ConnectionNode extends BaseNode {
 	 */	
 	protected void addToGraph(Graph gr) {
 		// After the AST is checked, this cast must succeed.
-		NodeDeclNode left, right;
+		NodeProducer left, right;
 		EdgeDeclNode edge;
 			
 		// Again, after the AST is checked, these casts must succeed.
-		left = (NodeDeclNode) getLeft();
-		right = (NodeDeclNode) getRight();
+		left = (NodeProducer) getLeft();
+		right = (NodeProducer) getRight();
 		edge = (EdgeDeclNode) getEdge();
 			
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());

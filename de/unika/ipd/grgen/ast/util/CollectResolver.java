@@ -10,14 +10,10 @@ import de.unika.ipd.grgen.ast.CollectNode;
 /**
  * 
  */
-public class CollectResolver implements Resolver {
+public class CollectResolver extends Resolver {
 
   private Resolver resolver;
 
-  /**
-   * @param pos
-   * @param classes
-   */
   public CollectResolver(Resolver resolver) {
     this.resolver = resolver;
   }
@@ -30,10 +26,10 @@ public class CollectResolver implements Resolver {
 			for(int i = 0; i < c.children(); i++)
 				if(!resolver.resolve(c, i))
 					res = false;
-		} 
+		} else
+			reportError(c, "Expecting \"" + BaseNode.getName(CollectNode.class) 
+				+ "\", found \"" + c.getName() + "\" instead.");
 		
-		//	c.reportError("Expecting \"" + BaseNode.getName(CollectNode.class) 
-		//		+ "\", found \"" + c.getName() + "\" instead.");
 		return res;
 	}
 

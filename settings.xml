@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE preferences SYSTEM 'http://java.sun.com/dtd/preferences.dtd'>
+
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map />
+    <node name="de">
+      <map />
+      <node name="unika">
+        <map />
+        <node name="ipd">
+          <map />
+          <node name="grgen">
+            <map>
+              <entry key="backendFactory" value="de.unika.ipd.grgen.be.C.CBackendFactory" />
+            </map>
+            <node name="be">
+              <map />
+              <node name="C">
+                <map>
+                  <entry key="statementPrefix" value="stmt_" />
+                  <entry key="colNodesTypeId" value="type_id" />
+                  <entry key="colEdgesId" value="edge_id" />
+                  <entry key="colEdgesTypeId" value="type_id" />
+                  <entry key="colEdgeAttrEdgeId" value="edge_id" />
+                  <entry key="tableNodes" value="nodes" />
+                  <entry key="colNodeAttrNodeId" value="node_id" />
+                  <entry key="tableNodeAttrs" value="node_attrs" />
+                  <entry key="tableEdges" value="edges" />
+                  <entry key="nodeTypeIsAFunc" value="node_type_is_a" />
+                  <entry key="colNodesId" value="node_id" />
+                  <entry key="edgeTypeIsAFunc" value="edge_type_is_a" />
+                  <entry key="dbNamePrefix" value="gr_" />
+                  <entry key="colEdgesSrcId" value="src_id" />
+                  <entry key="colEdgesTgtId" value="tgt_id" />
+                  <entry key="soNamePrefix" value="msql_" />
+                  <entry key="generator" value="de.unika.ipd.grgen.be.C.MySQLGenerator" />
+                  <entry key="tableEdgeAttrs" value="edge_attrs" />
+                </map>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>
+
