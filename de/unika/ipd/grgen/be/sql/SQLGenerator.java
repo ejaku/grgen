@@ -556,8 +556,8 @@ public class SQLGenerator extends Base {
 	 * 5		edges.type_id = $E_TYPE_ID$
 	 * 5b		src.type_id = $SRC_TYPE_ID$
 	 * 6	GROUP BY src.node_id
-	 * 7	HAVING NOT (count(src.node_id) >= $SRC_RANGE_LOWER$ AND
-	 * 8		count(src.node_id) <= $SRC_RANGE_UPPER$);
+	 * 7	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
+	 * 8		count(src.node_id) > $SRC_RANGE_UPPER$;
 	 *
 	 * for target:
 	 * 1	SELECT tgt.node_id, count(tgt.node_id)
@@ -567,16 +567,17 @@ public class SQLGenerator extends Base {
 	 * 5		edges.type_id = $E_TYPE_ID$
 	 * 5b		tgt.type_id = $TGT_TYPE_ID$
 	 * 6	GROUP BY tgt.node_id
-	 * 7	HAVING NOT (count(tgt.node_id) >= $TGT_RANGE_LOWER$ AND
-	 * 8		count(tgt.node_id) <= $TGT_RANGE_UPPER$);
+	 * 7	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
+	 * 8		count(tgt.node_id) > $TGT_RANGE_UPPER$;
 	 *
-	 * @return   a String containing the statements.
+	 * @return  a List containing the src and tgt sql conn assert statements
+	 * 			in an alternating order.
 	 */
-	public void genValidateStatements(
-		StringBuffer sb,
+	public List genValidateStatements(
 		List srcTypes, List srcRange,  List tgtTypes, List tgtRange, List edgeTypes,
 		TypeStatementFactory stmtFactory, GraphTableFactory tableFactory) {
 		
+		List res = new ArrayList();
 		List srcColumns = new LinkedList();
 		List tgtColumns = new LinkedList();
 		List relations = new LinkedList();
@@ -612,10 +613,10 @@ public class SQLGenerator extends Base {
 			Term tmp1, srcCond, tgtCond, srcHaving, tgtHaving;
 			NodeType srcType = (NodeType)srcTypes.get(i);
 			NodeType tgtType = (NodeType)tgtTypes.get(i);
-			int srcRangeUpper = ((int[])srcRange.get(i))[0];
-			int srcRangeLower = ((int[])srcRange.get(i))[1];
-			int tgtRangeUpper = ((int[])tgtRange.get(i))[0];
-			int tgtRangeLower = ((int[])tgtRange.get(i))[1];
+			int srcRangeLower = ((int[])srcRange.get(i))[0];
+			int srcRangeUpper = ((int[])srcRange.get(i))[1];
+			int tgtRangeLower = ((int[])tgtRange.get(i))[0];
+			int tgtRangeUpper = ((int[])tgtRange.get(i))[1];
 			EdgeType edgeType = (EdgeType)edgeTypes.get(i);
 			
 			// 5: edges.type_id = $E_TYPE_ID$
@@ -627,15 +628,15 @@ public class SQLGenerator extends Base {
 			srcCond = buildValidStmtTID(stmtFactory, srcTable, srcType, srcCond);
 			
 			// 5b:		tgt.type_id = $TGT_TYPE_ID$
-			srcCond = buildValidStmtTID(stmtFactory, tgtTable, tgtType, tgtCond);
+			tgtCond = buildValidStmtTID(stmtFactory, tgtTable, tgtType, tgtCond);
 			
-			// 7:	HAVING NOT (count(src.node_id) >= $SRC_RANGE_LOWER$ AND
-			// 8:		count(src.node_id) <= $SRC_RANGE_UPPER$);
+			// 7:	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
+			// 8:		count(src.node_id) > $SRC_RANGE_UPPER$;
 			srcHaving = buildValidStmtHaving(stmtFactory, srcTable,
 											 srcRangeLower, srcRangeUpper);
 			
-			// 7:	HAVING NOT (count(tgt.node_id) >= $TGT_RANGE_LOWER$ AND
-			// 8:		count(tgt.node_id) <= $TGT_RANGE_UPPER$);
+			// 7:	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
+			// 8:		count(tgt.node_id) > $TGT_RANGE_UPPER$;
 			tgtHaving = buildValidStmtHaving(stmtFactory, tgtTable,
 											 tgtRangeLower, tgtRangeUpper);
 			
@@ -643,11 +644,11 @@ public class SQLGenerator extends Base {
 												srcGroupBy, srcHaving);
 			Query tgt = stmtFactory.simpleQuery(tgtColumns, relations, tgtCond,
 												tgtGroupBy, tgtHaving);
-			src.dump(sb);
-			sb.append("\n\n");
-			tgt.dump(sb);
-			sb.append("\n\n");
+			
+			res.add(src.dump(new StringBuffer()));
+			res.add(tgt.dump(new StringBuffer()));
 		}
+		return res;
 	}
 	
 	private Term buildValidStmtTID(TypeStatementFactory stmtFactory,
@@ -662,21 +663,19 @@ public class SQLGenerator extends Base {
 									  NodeTable table, int lower, int upper) {
 		Term tmp1, tmp2, tmp3;
 		
-		// 7:	HAVING NOT (count(src.node_id) >= $SRC_RANGE_LOWER$ AND
+		// 7:	HAVING count(src.node_id) < $LOWER$ OR
 		Column c =  stmtFactory.aggregate(Aggregate.COUNT, table.colId());
 		tmp3 = stmtFactory.expression(c);
 		tmp2 = stmtFactory.constant(lower);
-		tmp1 = stmtFactory.expression(Opcodes.GE, tmp3, tmp2);
+		tmp1 = stmtFactory.expression(Opcodes.LT, tmp3, tmp2);
 		
-		// 8:		count(src.node_id) <= $SRC_RANGE_UPPER$);
+		// 8:		count(src.node_id) > $UPPER$;
 		tmp2 = stmtFactory.constant(upper);
-		tmp2 = stmtFactory.expression(Opcodes.LE, tmp3, tmp2);
+		tmp2 = stmtFactory.expression(Opcodes.GT, tmp3, tmp2);
 		
-		// AND
-		tmp1 = stmtFactory.expression(Opcodes.AND, tmp1, tmp2);
+		// OR
+		tmp1 = stmtFactory.expression(Opcodes.OR, tmp1, tmp2);
 		
-		// NOT
-		tmp1 = stmtFactory.expression(Opcodes.NOT, tmp1);
 		return tmp1;
 	}
 	
@@ -713,6 +712,7 @@ public class SQLGenerator extends Base {
 		columns.add(stmtFactory.aggregate(Aggregate.COUNT, tgtTable.colId()));
 	}
 }
+
 
 
 
