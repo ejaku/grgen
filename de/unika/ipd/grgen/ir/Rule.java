@@ -62,9 +62,8 @@ public class Rule extends MatchingAction {
 	 * of the rule.
 	 */
 	public Collection getCommonNodes() {
-		Collection common = pattern.getNodes(new HashSet());
-		Collection rightNodes = right.getNodes(new HashSet());
-		common.retainAll(rightNodes);
+		Collection common = new HashSet(pattern.getNodes());
+		common.retainAll(right.getNodes());
 		return common;
 	}
 
@@ -73,10 +72,8 @@ public class Rule extends MatchingAction {
 	 * @return The set containing all common edges.
 	 */
 	public Collection getCommonEdges() {
-		Collection common = pattern.getEdges(new HashSet());
-		Collection rightEdges = right.getEdges(new HashSet());
-		right.getEdges(rightEdges);
-		common.retainAll(rightEdges);
+		Collection common = new HashSet(pattern.getEdges());
+		common.retainAll(right.getEdges());
 		return common;
 	}
 

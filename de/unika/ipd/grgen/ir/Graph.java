@@ -11,6 +11,7 @@ import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.ReadOnlyCollection;
 
 /**
  * A graph pattern.
@@ -160,41 +161,43 @@ public class Graph extends IR {
 	}
 
 	/**
-	 * Get a set containing all nodes in this graph.
-	 * @param A collection to put all the nodes in.
+	 * Get a read-only collection containing all nodes in this graph.
+	 * @return A collection containing all nodes in this graph.
+	 * @note The collection is read-only and may not be modified.
+	 */
+	public Collection getNodes() {
+		return ReadOnlyCollection.get(nodes.keySet());
+	}
+	
+	/**
+	 * Get a read-only collection containing all edges in this graph.
+	 * @return A collection containing all edges in this graph.
+	 * @note The collection is read-only and may not be modified.
+	 */
+	public Collection getEdges() {
+		return ReadOnlyCollection.get(edges.keySet());
+	}
+	
+	/**
+	 * Put all nodes in this graph into a collection.
+	 * @param c The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection getNodes(Collection col) {
-		col.addAll(nodes.keySet());
-		return col;
+	public Collection putNodes(Collection c) {
+		c.addAll(nodes.keySet());
+		return c;
 	}
-
+	
 	/**
-	 * Get an iterator iterating over all nodes.
-	 * @return An iterator iterating over all nodes.
-	 */
-	public Iterator getNodes() {
-		return getNodes(new LinkedList()).iterator();
-	}
-
-	/**
-	 * Get a set containing all edges in this graph.
-	 * @param col A collection to put all the edges in.
+	 * Put all edges in this graph into a collection.
+	 * @param c The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection getEdges(Collection col) {
-		col.addAll(edges.keySet());
-		return col;
+	public Collection putEdges(Collection c) {
+		c.addAll(edges.keySet());
+		return c;
 	}
-
-	/**
-	 * Get an iterator iterating over all nodes.
-	 * @return An iterator iterating over all nodes.
-	 */
-	public Iterator getEdges() {
-		return getEdges(new LinkedList()).iterator();
-	}
-
+	
 	private Set getEdgeSet(Iterator it) {
 		Set res = new HashSet();
 		while(it.hasNext())
@@ -314,8 +317,9 @@ public class Graph extends IR {
 		Node src = gr.getSource(edge);
 		Node tgt = gr.getTarget(edge);
 		EdgeType edgeType = edge.getEdgeType();
+		Collection edgesSet = new LinkedList(edges.keySet());
 
-		for(Iterator it = getEdges(); it.hasNext();) {
+		for(Iterator it = edgesSet.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 
 			if(src == getSource(e) && tgt == getTarget(e)
@@ -392,17 +396,17 @@ public class Graph extends IR {
 		return checkEdge(edge);
 	}
 
+	/**
+	 * Check, if this graph is a subgraph of another one.
+	 * @param g The other graph.
+	 * @return true, if all nodes and edges of this graph are
+	 * also contained in g.
+	 */
 	public boolean isSubOf(Graph g) {
-		Collection c = getNodes(new HashSet());
-		c.removeAll(g.getNodes(new HashSet()));
-		if (c.size() != 0)
+		if(!nodes.keySet().containsAll(g.getNodes()))
 			return false;
-
-		c.clear();
-
-		c = getEdges(new HashSet());
-		c.removeAll(g.getEdges(new HashSet()));
-		if (c.size() != 0)
+		
+		if(!edges.keySet().containsAll(g.getEdges()))
 			return false;
 
 		return true;

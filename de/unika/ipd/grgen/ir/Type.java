@@ -20,7 +20,7 @@ public abstract class Type extends Identifiable implements Comparable {
 	public static final int IS_INTEGER = 1;
 	public static final int IS_BOOLEAN = 2;
 	public static final int IS_STRING  = 3;
-
+	
 	/** The identifier used to declare this type */
 	private Ident ident;
 

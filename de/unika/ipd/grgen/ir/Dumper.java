@@ -35,12 +35,12 @@ public class Dumper {
 	private final void dump(Graph g, GraphDumper gd) {
 		gd.beginSubgraph(g);
 		
-		for(Iterator it = g.getNodes(); it.hasNext();) {
+		for(Iterator it = g.getNodes().iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			gd.node(g.getLocalDumpable(n));
 		}
 		
-		for(Iterator it = g.getEdges(); it.hasNext();) {
+		for(Iterator it = g.getEdges().iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			GraphDumpable edge = g.getLocalDumpable(e);
 			GraphDumpable src = g.getLocalDumpable(g.getSource(e));
@@ -85,14 +85,14 @@ public class Dumper {
 			dump(g, gd);
 			
 			if(interGraphEdges) {
-				for(Iterator nt = g.getNodes(); nt.hasNext();) {
+				for(Iterator nt = g.getNodes().iterator(); nt.hasNext();) {
 					Node n = (Node) nt.next();
 					if(pattern.hasNode(n))
 						gd.edge(pattern.getLocalDumpable(n), g.getLocalDumpable(n), "",
 										GraphDumper.DOTTED);
 				}
 				
-				for(Iterator nt = g.getEdges(); nt.hasNext();) {
+				for(Iterator nt = g.getEdges().iterator(); nt.hasNext();) {
 					Edge e = (Edge) nt.next();
 					if(pattern.hasEdge(e))
 						gd.edge(pattern.getLocalDumpable(e), g.getLocalDumpable(e), "",

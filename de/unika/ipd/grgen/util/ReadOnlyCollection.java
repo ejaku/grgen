@@ -18,27 +18,35 @@ import java.util.Map;
 public class ReadOnlyCollection implements Collection {
 
 	private final Collection coll;
+	private final boolean strict;
 	
 	private static final Map cache = new CacheMap(127);
 	
-	public static final Collection EMPTY = new ReadOnlyCollection(new LinkedList());
+	public static final Collection EMPTY
+		= new ReadOnlyCollection(new LinkedList(), false);
 	
 	public static Collection get(Collection coll) {
 		if(cache.containsKey(coll))
 			return (Collection) cache.get(coll);
 		else {
-			Collection res = new ReadOnlyCollection(coll);
+			Collection res = new ReadOnlyCollection(coll, true);
 			cache.put(coll, res);
 			return res;
 		}
 	}
 	
 	public static Collection getSingle(Collection coll) {
-		return new ReadOnlyCollection(coll);
+		return new ReadOnlyCollection(coll, true);
 	}
 	
-	private ReadOnlyCollection(Collection coll) {
+	protected ReadOnlyCollection(Collection coll, boolean strict) {
 		this.coll = coll;
+		this.strict = strict;
+	}
+	
+	private final void modify() {
+		if(strict)
+			throw new UnsupportedOperationException("collection not writable");
 	}
 	
 	public int size() {
@@ -46,6 +54,7 @@ public class ReadOnlyCollection implements Collection {
 	}
 	
 	public void clear() {
+		modify();
 	}
 	
 	public boolean isEmpty() {
@@ -57,6 +66,7 @@ public class ReadOnlyCollection implements Collection {
 	}
 	
 	public boolean add(Object p1) {
+		modify();
 		return false;
 	}
 	
@@ -65,10 +75,12 @@ public class ReadOnlyCollection implements Collection {
 	}
 	
 	public boolean remove(Object p1) {
+		modify();
 		return false;
 	}
 	
 	public boolean addAll(Collection p1) {
+		modify();
 		return false;
 	}
 	
@@ -77,10 +89,12 @@ public class ReadOnlyCollection implements Collection {
 	}
 	
 	public boolean removeAll(Collection p1) {
+		modify();
 		return false;
 	}
 	
 	public boolean retainAll(Collection p1) {
+		modify();
 		return false;
 	}
 	

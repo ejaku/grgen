@@ -46,7 +46,7 @@ public abstract class MatchingAction extends Action {
 	}
 
 	public void addNegGraph(PatternGraph neg) {
-		if(neg.getNodes().hasNext()) {
+		if(!neg.getNodes().isEmpty()) {
 			neg.setNameSuffix("negative");
 			negs.add(neg);
 		}
@@ -69,7 +69,7 @@ public abstract class MatchingAction extends Action {
 	 * sides of the rule are known and set up.
 	 */
 	public void coalesceAnonymousEdges() {
-		for(Iterator it = pattern.getEdges(); it.hasNext();) {
+		for(Iterator it = pattern.getEdges().iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 
 			if (e.isAnonymous()) {

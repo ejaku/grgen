@@ -53,7 +53,8 @@ public class Util {
 			PrintStream ps = new PrintStream(fos);
 			
 			ps.print(cs);
-			fos.close();
+			ps.flush();
+			ps.close();
 			
 		} catch(FileNotFoundException e) {
 			reporter.error(e.toString());

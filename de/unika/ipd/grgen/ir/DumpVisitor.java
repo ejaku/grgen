@@ -4,13 +4,13 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.*;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import de.unika.ipd.grgen.util.GraphDumpVisitor;
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumpableProxy;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.Walkable;
 
 /**
  * A IR pretty graph dumper.
@@ -39,10 +39,7 @@ public class DumpVisitor extends GraphDumpVisitor {
 	
 	private void dumpGraph(Graph gr, String prefix) {
 		Map prefixMap = new HashMap();
-		Set nodes = new HashSet();
-		Set edges = new HashSet();
-		
-		gr.getNodes(nodes);
+		Collection nodes = gr.getNodes();
 		
 		dumper.beginSubgraph(gr);
 		
@@ -54,9 +51,8 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumper.node(pn);
 			
 		}
-		
-		edges.clear();
-		gr.getEdges(edges);
+
+		Collection edges = gr.getEdges();
 		
 		for(Iterator it = edges.iterator(); it.hasNext();) {
 			Edge edge = (Edge) it.next();
