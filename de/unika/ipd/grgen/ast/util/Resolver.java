@@ -10,7 +10,6 @@ import java.util.Collection;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * something, that resolves a node to another node.
