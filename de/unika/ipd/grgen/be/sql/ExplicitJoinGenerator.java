@@ -103,11 +103,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	};
 	
-	/**
-	 * Expresses an (undirected) path through the graph.
-	 * A search path always consists of edges. A single node is not a search path. 
-	 * Edges can be reversed, since search paths do not care of the edge directions.
-	 */
+	
+	
 	private static class SearchPath {
 		
 		private final List edges = new LinkedList(); 
@@ -136,11 +133,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			}
 		}
 		
-		/**
-		 * Dump the search path to a string buffer.
-		 * @param sb The string buffer.
-		 * @param g The graph, the search path lies in.
-		 */
 		public void dump(StringBuffer sb, Graph g) {
 			for(Iterator it = edges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
@@ -152,34 +144,18 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 						+ " reverse: " + reverse + "\n");
 			}
 		}
-
-		/**
-		 * Add an edge to the search path.
-		 * @param edge The edge.
-		 * @param reverse The direction. If true, the edge is traversed from head to tail 
-		 * (it is reversed), if false, it is traversed the "usual" way, from tail to head.
-		 */
+		
 		public void add(Edge edge, boolean reverse) {
 			edges.add(edge);
 			if(reverse)
 				reverseEdges.add(edge);
 		}
 		
-		/**
-		 * Check, if an edge is reversed.
-		 * See {@link #add(Edge, boolean)} for an explanation of reverse edges.
-		 * @param edge The edge.
-		 * @return true, if the edge is reversed, false if not.
-		 */
 		public boolean isReverse(Edge edge) {
 			return reverseEdges.contains(edge);
 		}
 	}
 	
-	/**
-	 * Auxillary class used to hold common data used in the recursive 
-	 * {@link ExplicitJoinGenerator#visitNode(VisitContext, SearchPath, Node)} method.
-	 */
 	private static class VisitContext {
 		final Set visited = new HashSet();
 		final List paths = new LinkedList(); 
@@ -193,61 +169,40 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
-	/**
-	 * Build a search path from a given node on.
-	 * This method builds a search part starting at <code>start</code> by traversing
-	 * the edge which leads to the cheapest node in terms of the comparator in the
-	 * {@link VisitContext} object.
-	 * After traversing an edge, the method calls itself recursively to proceed building
-	 * the search path. At split points (nodes with a degree > 3 of not visited nodes) 
-	 * a new search path is set up and pursued. 
-	 * @param ctx The visit context.
-	 * @param path The search path object to add to.
-	 * @param start The start node.
-	 */
 	private void visitNode(VisitContext ctx, SearchPath path, Node start) {
 		
-		Collection visited = ctx.visited;
-
 		debug.entering();
 		
-		// If this node has already been visited, exit.
-		if(visited.contains(start))
+		if(ctx.visited.contains(start))
 			return;
 		
-		// Add the node to the visited nodes.
-		visited.add(start);
+		ctx.visited.add(start);
 
 		debug.report(NOTE, "start: " + start);
 		
 		int index = 0;
+		Collection visited = ctx.visited;
 		Graph g = ctx.graph;
- 
 		Map edges = new HashMap();
 		List nodes = new LinkedList();
 		Set reverse = new HashSet();
-
-		// Look at all outgoing edges. 
+		
 		for(Iterator it = g.getOutgoing(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node tgt = g.getTarget(edge);
 			
-			// If the node has not been visited yet, it is recorded and associated
-			// with the corresponding edge.
-			if(!visited.contains(tgt) && !edge.isNegated()) {
+			if(!visited.contains(tgt)) {
 				nodes.add(tgt);
 				edges.put(tgt, edge);
 				index++;
 			}
 		}
 
-		// Same for incoming edges.
 		for(Iterator it = g.getIncoming(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node src = g.getSource(edge);
 			
-			// Incoming edges are also recorded in the reverse set.
-			if(!visited.contains(src) && !edge.isNegated()) {
+			if(!visited.contains(src)) {
 				reverse.add(edge);
 				nodes.add(src);
 				edges.put(src, edge);
@@ -255,16 +210,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			}
 		}
 
-		// Sort the nodes to set the cheapest ones at the beginning of the array.
 		Node[] nodeArr = (Node[]) nodes.toArray(new Node[nodes.size()]);
 		Arrays.sort(nodeArr, ctx.comparator);
-		
 		
 		for(int i = 0; i < nodeArr.length; i++) {
 			Node n = nodeArr[i];
 			debug.report(NOTE, "index " + i + ": " + n);
 			
-			if(!visited.contains(n)) {
+			if(!ctx.visited.contains(n)) {
 				SearchPath sp = path;
 				
 				if(i > 0) {
@@ -273,7 +226,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				}
 				
 				Edge edge = (Edge) edges.get(n);
-				assert edge != null : "There must be an edge for the node";
 				sp.add(edge, reverse.contains(edge));
 				visitNode(ctx, sp, n);
 			}	
@@ -282,33 +234,22 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		debug.leaving();
 	}
 	
-	/**
-	 * Compute a list with all search paths.
-	 * @param pattern The graph to do it for.
-	 * @return An array containing all search paths computed.
-	 */
 	private SearchPath[] computeSearchPaths(Graph pattern) {
-
-		debug.entering();
 
 		Collection rest = pattern.getNodes(new HashSet());
 		Iterator edgeIterator = pattern.getEdges();
 		Comparator comparator = new NodeComparator(pattern);
 
-		// Return an empty array, if the graph contains no nodes or edges.
-		// Note, that an empty search path is also returned, if the graph only 
-		// consists of nodes.
+		debug.entering();
+		
 		if(rest.isEmpty() || !edgeIterator.hasNext())
 			return new SearchPath[0];			
 		
 		VisitContext ctx = new VisitContext(pattern, comparator);
 
-		// Do as long there are nodes left to work on.
-		// This loop only makes more than one iteration, if the graph is not connected.
 		do {
 			debug.report(NOTE, "rest: " + rest);
 			
-			// Find the cheapest node and start a search path there.
 			Node cheapest = getCheapest(rest.iterator(), comparator);
 			SearchPath path = new SearchPath();
 			ctx.paths.add(path);
@@ -316,15 +257,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			debug.report(NOTE, "cheapest: " + cheapest);
 			
 			visitNode(ctx, path, cheapest);
-
-			// If we tried to start a search path at a single node (a node without incident
-			// edges), we remove the (empty) search path from out list.
-			if(path.edges.isEmpty()) 
-				ctx.paths.remove(path);
-
-			// remove all visited nodes from the working set.
 			rest.removeAll(ctx.visited);
-			
 		} while(!rest.isEmpty());
 			
 		debug.leaving();
@@ -363,7 +296,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	/**
 	 * An auxillary class to treat conds.
-	 * For each condition term, there is one object of this class. 
 	 */
 	static class CondState {
 		
@@ -380,17 +312,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			this.usedEntities = usedEntities;
 		}
 
-		/**
-		 * Check, if the condition can be "delivered".
-		 * This is the case, if <code>ent</code> occurrs in the condition term and
-		 * all entities used in the condition term have already been 
-		 * processed. This is neccessary, since the condition term will reference 
-		 * columns in their attribute tables so they have to be processed already 
-		 * (their attribute tables have to be in the join).
-		 * @param ent The entity to check for.
-		 * @param processed A set of all processed entities.
-		 * @return true, if the condition term can be incorporated in the join, false, if not.
-		 */
 		private boolean canDeliver(Entity ent, Collection processed) {
 			return usedEntities.contains(ent) && processed.containsAll(usedEntities);
 		}
@@ -610,14 +531,10 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.SQLGenerator#genMatchStatement(de.unika.ipd.grgen.ir.MatchingAction, java.util.List, java.util.List)
-	 */
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes,
-			List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
+			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeTables) {
 		debug.entering();
 		
-		Graph graph = act.getPattern();
 		SearchPath[] paths = computeSearchPaths(graph);
 		
 		for(int i = 0; i < paths.length; i++) {
