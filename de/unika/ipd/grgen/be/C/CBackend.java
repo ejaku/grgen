@@ -266,7 +266,7 @@ public abstract class CBackend extends Base implements Backend {
 		Map typeMap, String add) {
 		
 		String[] name = new String[attrMap.size()];
-		String[] type_name = new String[attrMap.size()];
+		Type[] types = new Type[attrMap.size()];
 		Integer[] owner = new Integer[attrMap.size()];
 		
 		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
@@ -274,14 +274,15 @@ public abstract class CBackend extends Base implements Backend {
 			int index = ((Integer) attrMap.get(ent)).intValue();
 			name[index] = ent.getIdent().toString();
 			owner[index] = new Integer(getTypeId(typeMap, ent.getOwner()));
-			type_name[index] = ent.getOwner().getIdent().toString();
+			types[index] = ent.getType();
 		}
 		
-		sb.append("static attr_t " + add + "_attr_map[] = {\n");
+		sb.append("/** The attribute map for " + add + " attributes. */\n");
+		sb.append("static const attr_t " + add + "_attr_map[] = {\n");
 		for(int i = 0; i < name.length; i++) {
-			sb.append("  { " + owner[i] + ", " + formatString(name[i]) + " },\n");
+			sb.append("  { " + owner[i] + ", " + formatString(name[i]) + ", " + types[i].classify() + " },\n");
 		}
-		sb.append("  { 0, NULL }\n};\n\n");
+		sb.append("  { 0, NULL, 0 }\n};\n\n");
 		
 	}
 	
@@ -338,6 +339,7 @@ public abstract class CBackend extends Base implements Backend {
 			matrix[tid][tid] = 1;
 		}
 		
+		buf.append("/** The matrix showing valid type attributes for " + add + " */\n");
 		buf.append("static char " + add + "_is_a_matrix[" + maxTypeId + "]["
 			+ maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
@@ -346,9 +348,17 @@ public abstract class CBackend extends Base implements Backend {
 				buf.append((j != 0 ? ", " : "") + matrix[i][j]);
 			buf.append(" },\n"); 
 		}
-		buf.append("};\n");
+		buf.append("};\n\n");
 	}
 	
+	/**
+	 * Make the attribute matrix for a given attribute type.
+	 * 
+	 * @param sb      The string buffer to add the code to.
+	 * @param add     The mattrix prefix.
+	 * @param attrMap The map of all attributes.
+	 * @param typeMap The type map to use.
+	 */
 	protected void makeAttrMatrix(StringBuffer sb, String add, 
 		Map attrMap, Map typeMap) {
 			
@@ -363,7 +373,7 @@ public abstract class CBackend extends Base implements Backend {
 			matrix[typeId][attrId] = 1;
 		}
 	
-		sb.append("static char " + add + "_attr_matrix[" + maxTypeId + "]["
+		sb.append("static const char " + add + "_attr_matrix[" + maxTypeId + "]["
 			+ maxAttrId + "] = {\n");
 		
 		for(int i = 0; i < maxTypeId; i++) {
@@ -588,10 +598,18 @@ public abstract class CBackend extends Base implements Backend {
 	 * @param sb The string buffer to the stuff to.
 	 */
 	protected void makeCTypes(StringBuffer sb) {
-		sb.append("/** The attrinbute type. */\n");
+		sb.append("/** The attribute type classification. */\n");
+		sb.append("typedef enum _attribute_type {\n");
+		sb.append("  AT_TYPE_INTEGER = " + Type.IS_INTEGER + ", /**< an integer or enum */\n");
+		sb.append("  AT_TYPE_BOOLEAN = " + Type.IS_INTEGER + ", /**< a boolean */\n");
+		sb.append("  AT_TYPE_STRING  = " + Type.IS_INTEGER + ", /**< a string */\n");
+		sb.append("} attribute_type;\n\n");
+		
+		sb.append("/** The attribute type. */\n");
 		sb.append("typedef struct {\n"
-			+ "  int type_id;      /**< the ID of attributes type */\n"
-			+ "  const char *name; /**< the name of the attribute */\n"
+			+ "  int type_id;       /**< the ID of attributes type */\n"
+			+ "  const char *name;  /**< the name of the attribute */\n"
+			+ "  attribute_type at; /**< the attribute type kind */\n"
 			+ "} attr_t;\n\n");
 			
 		sb.append("/** The type of an action. */\n");
