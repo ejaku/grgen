@@ -909,7 +909,7 @@ public abstract class SQLBackend extends CBackend {
 		tableFactory.originalNodeAttrTable().dumpDecl(sb);
 		sb.append("\";\n\n");
 
-		sb.append("static prepared_query_t cmd_get_node_attr[] = {\n");
+		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
 		for(int i = 0; i < table.columnCount(); i++) {
 			sb.append("  { \"");
 			table.genGetStmt(sb, table.getColumn(i));
@@ -918,7 +918,7 @@ public abstract class SQLBackend extends CBackend {
 		sb.append("  { NULL, -1 }\n");
 		sb.append("};\n\n");
 		
-		sb.append("static prepared_query_t cmd_set_node_attr[] = {\n");
+		sb.append("static prepared_query_t cmd_set_").append(name).append("_attr[] = {\n");
 		for(int i = 0; i < table.columnCount(); i++) {
 			sb.append("  { \"");
 			table.genUpdateStmt(sb, table.getColumn(i));
