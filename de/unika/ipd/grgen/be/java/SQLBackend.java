@@ -12,9 +12,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
+import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
@@ -35,9 +36,6 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** The SQL code generator. */
 	private final SQLGenerator sqlGen;
 	
-	/** The SQL code formatter. */
-	private final SQLFormatter sqlFormatter;
-	
 	/** The database context. */
 	private Queries queries;
 	
@@ -53,12 +51,14 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** Has the {@link #init(Unit, ErrorReporter, String)} method already been called. */
 	private boolean initialized = false;
 	
+	private TypeStatementFactory factory;
+	
 	
 	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
 		this.params = params;
-		this.sqlFormatter = new JavaSQLFormatter(params, this);
-		this.sqlGen = new SQLGenerator(params, sqlFormatter, this);
+		this.sqlGen = new SQLGenerator(params, this);
 		this.connectionFactory = connectionFactory;
+		this.factory = new DefaultStatementFactory(); 
 	}
 	
 	private final void assertInitialized() {
@@ -83,7 +83,7 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
 
-			SQLAction act = new SQLAction(a, this, queries, sqlGen, reporter);
+			SQLAction act = new SQLAction(a, this, queries, sqlGen, factory, reporter);
 			actions.put(a.getIdent().toString(), act);
 			
 			debug.report(NOTE, "action: " + a.getIdent());

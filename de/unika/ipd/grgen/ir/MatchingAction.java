@@ -6,7 +6,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Iterator;
 
-import de.unika.ipd.grgen.util.SingleIterator;
+import de.unika.ipd.grgen.util.ArrayIterator;
 
 /**
  * An action that represents something that does graph matching.
@@ -20,6 +20,11 @@ public abstract class MatchingAction extends Action {
 
 	/** The graph pattern to match against. */
 	protected Graph pattern;
+
+	/**
+	 * The condition of this rule.
+	 */
+	protected Condition condition = new Condition();
 
   /**
    * @param name The name of this action.
@@ -44,7 +49,16 @@ public abstract class MatchingAction extends Action {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-  	return new SingleIterator(pattern);
+  	return new ArrayIterator(new Object[] { pattern, condition });
   }
+
+
+	/**
+	 * Return a list of conditions.
+	 * @return The conditions.
+	 */
+	public Condition getCondition() {
+		return condition;
+	}
 
 }

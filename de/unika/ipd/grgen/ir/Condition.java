@@ -23,11 +23,18 @@ public class Condition extends IR {
 	
 	/**
 	 * Method add adds an element to the list of conditions.
-	 *
-	 * @param    acond               an IR
+	 * @param expression An expression.
 	 */
-	public void add(IR acond) {
-		conditions.add(acond);
+	public void add(Expression expression) {
+		conditions.add(expression);
+	}
+	
+	/**
+	 * Get an iterator over all conditions.
+	 * @return The iterator.
+	 */
+	public Iterator get() {
+		return conditions.iterator();
 	}
 	
 	/**

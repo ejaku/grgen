@@ -10,6 +10,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
@@ -158,7 +159,7 @@ public class RuleDeclNode extends ActionDeclNode {
 		// add Cond statments to the IR
 		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 			OpNode op = (OpNode) it.next();
-			rule.getCondition().add(op.getIR());
+			rule.getCondition().add((Expression) op.checkIR(Expression.class));
 		}
 		
 		// add Eval statments to the IR

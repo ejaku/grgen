@@ -59,8 +59,29 @@ public class Operator extends Expression
     this.opCode = opCode;
 	}
 	
+  /**
+   * Get the opcode of this operator.
+   * @return The opcode.
+   */
 	public int getOpCode() {
 		return opCode;
+	}
+	
+	/**
+	 * Get the number of operands.
+	 * @return The number of operands.
+	 */
+	public int operandCount() {
+		return operands.size();
+	}
+	
+	/**
+	 * Get the ith operand.
+	 * @param index The index of the operand
+	 * @return The operand, if <code>index</code> was valid, <code>null</code> if not.
+	 */
+	public Expression getOperand(int index) {
+		return index >= 0 || index < operands.size() ? (Expression) operands.get(index) : null; 
 	}
 
 	/**

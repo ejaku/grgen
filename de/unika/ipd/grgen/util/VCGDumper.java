@@ -140,7 +140,10 @@ public class VCGDumper implements GraphDumper
 		String col = getColor(d.getNodeColor());
 		Integer shp = new Integer(d.getNodeShape());
 		
-		String info = escapeString(d.getNodeInfo());
+		String info = d.getNodeInfo();
+		if(info != null)
+			info = escapeString(info);
+		
 		String label = escapeString(d.getNodeLabel());
 		
 		String s = "title:\"" + getPrefix() + d.getNodeId()

@@ -10,26 +10,22 @@ node class IRNode extends Node {
   c:string;
 } 
 
+node class Add extends IRNode {
+}
 
 
-  test Simple {
+  rule Simple {
     pattern {
       node a:IRNode, b:Node; 
 
-      a --> b (-e:Edge-> c:Node, --> d:Node, -:Edge-> x);
-
-      x:Node;
+      a --> b;
+    }
+    cond {
+      a.a == 3;
+    }
+    replace {
+      a;
     }
   }
 
   
-  rule ARule {
-    pattern {
-
-      add:Node (--> op0:Node --> op2:Node, --> op1:Node);
-      
-    }
-    replace {
-      op0 --> abc:Node ;
-    }
-  }

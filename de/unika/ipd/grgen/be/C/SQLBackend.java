@@ -19,11 +19,13 @@ import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.ExplicitJoinGenerator;
-import de.unika.ipd.grgen.be.sql.PlainSQLFormatter;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
-import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
+import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Graph;
@@ -59,13 +61,15 @@ public abstract class SQLBackend extends CBackend {
 		
 	protected SQLParameters parameters = new PreferencesSQLParameters();
 	
-	protected final SQLFormatter sqlFormatter = new PlainSQLFormatter(parameters, this, true);
+	protected TypeStatementFactory factory = new DefaultStatementFactory(); 
 	
 	protected final SQLGenerator sqlGen = enableNT  
-			? new ExplicitJoinGenerator(parameters, sqlFormatter, this)
-			: new SQLGenerator(parameters, sqlFormatter, this); 
+			? new ExplicitJoinGenerator(parameters, this)
+			: new SQLGenerator(parameters, this); 
 	
 	protected Map matchMap = new HashMap();
+
+	protected DefaultGraphTableFactory tableFactory;
 	
 	/**
 	 * Make a new SQL Generator.
@@ -765,6 +769,8 @@ public abstract class SQLBackend extends CBackend {
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genMatch(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
 	protected void genMatch(StringBuffer sb, MatchingAction a, int id) {
+		System.out.println(a.getIdent().toString());
+		
 		String actionIdent = mangle(a);
 		String stmtIdent = "stmt_" + actionIdent;
 		String matchIdent = "match_" + actionIdent;
@@ -776,7 +782,7 @@ public abstract class SQLBackend extends CBackend {
 		
 		// Dump the SQL statement
 		sb.append("static const char *stmt_" + actionIdent + " = \n");
-		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges)) + ";\n\n");
+		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges, tableFactory, factory)) + ";\n\n");
 		
 		// Make an array of strings that contains the node names.
 		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
@@ -873,6 +879,9 @@ public abstract class SQLBackend extends CBackend {
 		super.init(unit, reporter, outputPath);
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
 		makeTypes();
+		
+		tableFactory = new DefaultGraphTableFactory(parameters, nodeAttrMap.keySet(),
+				edgeAttrMap.keySet());
 	}
 	
 	/**
@@ -895,10 +904,43 @@ public abstract class SQLBackend extends CBackend {
 		}
 	}
 	
+	protected void genAttrTableGetAndSet(StringBuffer sb, String name, AttributeTable table) {
+		sb.append("static const char *cmd_create_" + name + "_attr = \n\"");
+		tableFactory.originalNodeAttrTable().dumpDecl(sb);
+		sb.append("\";\n\n");
+
+		sb.append("static prepared_query_t cmd_get_node_attr[] = {\n");
+		for(int i = 0; i < table.columnCount(); i++) {
+			sb.append("  { \"");
+			table.genGetStmt(sb, table.getColumn(i));
+			sb.append("\", -1 },\n");
+		}
+		sb.append("  { NULL, -1 }\n");
+		sb.append("};\n\n");
+		
+		sb.append("static prepared_query_t cmd_set_node_attr[] = {\n");
+		for(int i = 0; i < table.columnCount(); i++) {
+			sb.append("  { \"");
+			table.genUpdateStmt(sb, table.getColumn(i));
+			sb.append("\", -1 },\n");
+		}
+		sb.append("  { NULL, -1 }\n");
+		sb.append("};\n\n");
+	}
+	
+	protected void genAttrTableCmd() {
+		StringBuffer sb = new StringBuffer();
+
+		genAttrTableGetAndSet(sb, "node", tableFactory.originalNodeAttrTable());
+		genAttrTableGetAndSet(sb, "edge", tableFactory.originalEdgeAttrTable());		
+		
+		writeFile("attr_tbl_cmd" + incExtension, sb);
+	}
+	
 	/**
 	 * Creates the commands for creating attribute tables
 	 */
-	protected void genAttrTableCmd() {
+	protected void genAttrTableCmdNew() {
 		StringBuffer sb;
 		Map maps[]         = new Map[]    { nodeAttrMap,           edgeAttrMap };
 		Map ty_maps[]      = new Map[]    { nodeTypeMap,           edgeTypeMap };

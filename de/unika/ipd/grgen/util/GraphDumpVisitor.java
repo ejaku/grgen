@@ -35,17 +35,11 @@ public class GraphDumpVisitor extends Base implements Visitor {
   	GraphDumpable gd = (GraphDumpable) n;
 		dumper.node(gd);
 		
-		debug.entering();
-		debug.report(NOTE, "visiting " + n);
-		
 		Iterator it = n.getWalkableChildren();
 		for(int i = 0; it.hasNext(); i++) {
 			GraphDumpable target = (GraphDumpable) it.next();
-			debug.report(NOTE, "edge to " + target);
 			dumper.edge(gd, target, gd.getEdgeLabel(i));
 		}
-		
-		debug.leaving();
   }
 
 }

@@ -375,5 +375,30 @@ public class Graph extends IR {
   public Iterator getWalkableChildren() {
   	return nodes.values().iterator();
   }
+  
+  /**
+   * Check, if a node is a single node.
+   * A node is <i>single</i>, if all of its incident or excident edges are negated.
+   * Note that a node with node edges in or outgoing is also single.  
+   * @param node The node.
+   * @return true, if the node is single, false if bot.
+   */
+  public boolean isSingle(Node node) {
+  	GraphNode gn = checkNode(node);
+  	
+  	for(Iterator it = gn.incoming.iterator(); it.hasNext();) {
+  		Edge e = (Edge) it.next();
+  		if(!e.isNegated())
+  			return false;
+  	}
+  	
+  	for(Iterator it = gn.outgoing.iterator(); it.hasNext();) {
+  		Edge e = (Edge) it.next();
+  		if(!e.isNegated())
+  			return false;
+  	}
+
+  	return true;
+  }
 
 }

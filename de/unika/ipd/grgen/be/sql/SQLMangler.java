@@ -7,6 +7,7 @@
 package de.unika.ipd.grgen.be.sql;
 
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
 
 
@@ -29,19 +30,23 @@ public interface SQLMangler {
 	 */
 	public String mangleEdge(Edge e);
 
+	public String mangleEntity(Entity ent); 
+	
 	/**
 	 * Make a SQL column expression for a node and a given column name.
 	 * @param e The node.
 	 * @param col The column.
 	 * @return The column expression.
 	 */
-	public String getNodeCol(Node n, String col);
+	// public String getNodeCol(Node n, String col);
 
 	/**
 	 * Mangle an identifiable object to a valid SQL identifier.
 	 * @param id The identifiable object. 
 	 * @return A valid SQL identifier.
 	 */
-	public String getEdgeCol(Edge e, String col);
+	// public String getEdgeCol(Edge e, String col);
+	
+	// public String getEntityCol(Entity e, String col);
 	
 }

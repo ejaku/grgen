@@ -20,6 +20,7 @@ import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.TypeID;
+import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.util.Base;
@@ -221,7 +222,7 @@ class SQLAction implements Action, RewriteHandler {
 	List rewriteSteps = new LinkedList();
 	
 	SQLAction(MatchingAction action, TypeID typeId, Queries queries, SQLGenerator generator,
-			ErrorReporter reporter) {
+			TypeStatementFactory factory, ErrorReporter reporter) {
 		this.action = action;
 		this.queries = queries;
 		this.typeId = typeId;
@@ -230,7 +231,9 @@ class SQLAction implements Action, RewriteHandler {
 		// Generate the SQL match statement.
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
-		String stmtString = generator.genMatchStatement(action, nodes, edges);
+		
+		// TODO Add table factory.
+		String stmtString = generator.genMatchStatement(action, nodes, edges, null, factory);
 		
 		// Put the matched nodes and edges in map with their index in the match.
 		int i = 0;

@@ -34,11 +34,6 @@ public class Rule extends MatchingAction
 	private List redirections = new LinkedList();
 	
 	/**
-	 * The condition of this rule.
-	 */
-	private Condition condition = new Condition();
-		
-	/**
 	 * The evaluation of this rule.
 	 */
 	private Evaluation evaluation = new Evaluation();
@@ -93,15 +88,6 @@ public class Rule extends MatchingAction
 	public List getRedirections()
 	{
 		return redirections;
-	}
-	
-	/**
-	 * Return a list of conditions.
-	 * @return The conditions.
-	 */
-	public Condition getCondition()
-	{
-		return condition;
 	}
 	
 	/**
@@ -183,6 +169,6 @@ public class Rule extends MatchingAction
 	public Iterator getWalkableChildren()
 	{
 		return new ArrayIterator(new Object[] { pattern, right,
-				condition, evaluation});
+				condition, evaluation });
 	}
 }

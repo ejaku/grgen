@@ -14,13 +14,10 @@ import java.util.Set;
 public class Group extends Identifiable {
 	
 	/** Set of the group's members (tests, rules, ...) */
-	private Set members;
+	private Set members = new HashSet();
 	
 	public Group(Ident ident) {
 		super("group", ident);
-		
-		// TODO Perhaps move set creation to a factory
-		members = new HashSet();
 	}
 
 	/**
