@@ -103,11 +103,11 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		private static final String[] heads = new String[] { " -", " <-" };
 		private static final String[] tails = new String[] { "-> ", "- " };
 		
-		public void dump(StringBuffer sb, Graph g) {
+		public void dumpOld(StringBuffer sb, Graph g) {
 
 			if(!edges.isEmpty()) {
 				Edge first = (Edge) edges.get(0);
-				Node curr = g.getSource(first);
+				Node curr = isReverse(first) ? g.getTarget(first) : g.getSource(first);
 				
 				sb.append(curr.getIdent());
 				
@@ -120,6 +120,18 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					sb.append(heads[ind] + edge.getIdent() 
 							+ tails[ind] + node.getIdent());
 				}
+			}
+		}
+		
+		public void dump(StringBuffer sb, Graph g) {
+			for(Iterator it = edges.iterator(); it.hasNext();) {
+				Edge edge = (Edge) it.next();
+				Node src = g.getSource(edge);
+				Node tgt = g.getTarget(edge);
+				boolean reverse = isReverse(edge);
+				
+				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent() 
+						+ " " + reverse + "\n");
 			}
 		}
 		
@@ -163,6 +175,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		Graph g = ctx.graph;
 		Map edges = new HashMap();
 		List nodes = new LinkedList();
+		Set reverse = new HashSet();
 		
 		for(Iterator it = g.getOutgoing(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
@@ -175,12 +188,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			}
 		}
 
-		int reverseStartIndex = index;
 		for(Iterator it = g.getIncoming(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node src = g.getSource(edge);
 			
 			if(!visited.contains(src)) {
+				reverse.add(edge);
 				nodes.add(src);
 				edges.put(src, edge);
 				index++;
@@ -202,7 +215,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					ctx.paths.add(sp);
 				}
 				
-				sp.add((Edge) edges.get(n), i >= reverseStartIndex);
+				Edge edge = (Edge) edges.get(n);
+				sp.add(edge, reverse.contains(edge));
 				visitNode(ctx, sp, n);
 			}	
 		}
@@ -431,30 +445,33 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 
 		StringBuffer front = new StringBuffer();
-		for(Iterator it = graph.getNodes(matchedNodes).iterator(); it.hasNext();) {
+		for(Iterator it = stmtCtx.processedNodes.iterator(); it.hasNext();) {
 			Node node = (Node) it.next();
+			matchedNodes.add(node);
 			addToList(front, getNodeCol(node, parameters.getColNodesId()));
 		}
 
-		for(Iterator it = graph.getEdges(matchedEdges).iterator(); it.hasNext();) {
+		for(Iterator it = stmtCtx.processedEdges.iterator(); it.hasNext();) {
 			Edge edge = (Edge) it.next();
+			matchedEdges.add(edge);
 			addToList(front, getEdgeCol(edge, parameters.getColEdgesId()));
 		}
 		
 		debug.leaving();
 		
 		String res = "SELECT " + front.toString() + " FROM " + stmt.toString();
+
 		
 		File f = new File("stmt_" + act.getIdent() + ".txt");
-		
 		try {
 			f.createNewFile();
 			FileOutputStream fos = new FileOutputStream(f);
 			PrintStream ps = new PrintStream(fos);
-			ps.println(res);
+			ps.println("PREPARE " + act.getIdent() + " AS " + res);
 			fos.close();
 		} catch(IOException e) {
 		}
+		
 		
 		return res; 
 	}

@@ -91,6 +91,7 @@ public class SQLGenerator extends Base implements SQLMangler {
 	 */
 	public String mangleNode(Node n) {
 		return "n_" + mangle(n);
+		// return "n" + n.getId();
 	}
 
 	/**
@@ -100,6 +101,7 @@ public class SQLGenerator extends Base implements SQLMangler {
 	 */
 	public String mangleEdge(Edge e) {
 		return "e_" + mangle(e);
+		// return "e" + e.getId();
 	}
 
 	/**
