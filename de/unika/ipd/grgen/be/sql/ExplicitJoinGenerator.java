@@ -584,9 +584,13 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges,
-																		 GraphTableFactory tableFactory, TypeStatementFactory factory) {
+	protected Query makeMatchStatement(MatchCtx ctx) {
 		debug.entering();
+		MatchingAction act = ctx.action;
+		TypeStatementFactory factory = ctx.stmtFactory;
+		GraphTableFactory tableFactory = ctx.tableFactory;
+		List matchedNodes = ctx.matchedNodes;
+		List matchedEdges = ctx.matchedEdges;
 
 		//Build a list with all graphs of this matching action
 		LinkedList graphs = new LinkedList();

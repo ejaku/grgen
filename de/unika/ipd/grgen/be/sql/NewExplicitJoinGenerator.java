@@ -271,9 +271,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		return cheapest;
 	}
 	
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges,
-																		 GraphTableFactory tableFactory, TypeStatementFactory factory) {
+	protected Query makeMatchStatement(MatchCtx ctx) {
 		debug.entering();
+		MatchingAction act = ctx.action;
+		TypeStatementFactory factory = ctx.stmtFactory;
+		GraphTableFactory tableFactory = ctx.tableFactory;
+		List matchedNodes = ctx.matchedNodes;
+		List matchedEdges = ctx.matchedEdges;
 		
 		Map neutralMap = new HashMap();
 		Graph pattern = act.getPattern();
@@ -710,9 +714,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 		/**
 		 * Make the condition term that is to be added to a node join.
+		 * @param g The graph the node is in.
 		 * @param node The node.
 		 */
-		private void addNodeJoinCond(Node node) {
+		private void addNodeJoinCond(Graph g, Node node) {
 			Collection dep = new LinkedList();
 			NodeTable nodeTable = tableFactory.nodeTable(node);
 			
@@ -721,10 +726,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Term res = factory.isA(nodeTable, node.getNodeType(), typeID);
 			
 			// Make the clauses guaranteeing injectiveness
-			for(Iterator it = processedEntities.iterator(); it.hasNext();) {
-				Object obj = it.next();
-				if(obj instanceof Node) {
-					Node curr = (Node) obj;
+			// This must be done on the graph level; walking on processedEntities
+			// is not sufficient!
+			for(Iterator it = g.getNodes(); it.hasNext();) {
+				Node curr = (Node) it.next();
+				if(processedEntities.contains(curr)) {
 					NodeTable currTable = tableFactory.nodeTable(curr);
 					
 					if(!node.isHomomorphic(curr)) {
@@ -819,17 +825,19 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * was already made and leaves it out if this was the case.
 		 * Additionally, a join over the attribute table is performed, if
 		 * the node occurs in a condition.
+		 * @param g The graph the node is in.
 		 * @param node The node.
 		 * @param joinMethod The kind of join (inner, outer, etc.)
+		 * @param nac If true, the graph is considered a negative one.
 		 */
-		private void addNodeJoin(Node node, int joinMethod, boolean nac) {
+		private void addNodeJoin(Graph g, Node node, int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(node)) {
 				if(!nac)
 					matchedNodes.add(node);
 				
 				NodeTable nodeTable = tableFactory.nodeTable(node);
 				addJoin(nodeTable, joinMethod);
-				addNodeJoinCond(node);
+				addNodeJoinCond(g, node);
 				
 				if(occurInCond.contains(node)) {
 					AttributeTable attrTable = tableFactory.nodeAttrTable(node);
@@ -888,9 +896,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node secondNode = g.getEnd(edge, reverse);
 				boolean nac = sp.isNAC();
 				
-				addNodeJoin(firstNode, joinMethod, nac);
+				addNodeJoin(g, firstNode, joinMethod, nac);
 				addEdgeJoin(g, edge, reverse, joinMethod, nac);
-				addNodeJoin(secondNode, joinMethod, nac);
+				addNodeJoin(g, secondNode, joinMethod, nac);
 			}
 		}
 		

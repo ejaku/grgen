@@ -5,13 +5,13 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import de.unika.ipd.grgen.be.*;
-
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.VCGDumper;
@@ -75,19 +75,44 @@ public class SQLGenerator extends Base {
 		return join(a.toString(), b.toString(), link);
 	}
 	
+	public static final class MatchCtx {
+		public final List matchedNodes = new LinkedList();
+		public final List matchedEdges = new LinkedList();
+
+		final MatchingAction action;
+		final GraphTableFactory tableFactory;
+		final TypeStatementFactory stmtFactory;
+		final Sys system;
+		
+		private MatchCtx(Sys system, MatchingAction action,
+										 GraphTableFactory tableFactory,
+										 TypeStatementFactory stmtFactory) {
+			this.system = system;
+			this.action = action;
+			this.tableFactory = tableFactory;
+			this.stmtFactory = stmtFactory;
+		}
+	}
 	
-	public final String genMatchStatement(MatchingAction act, List matchedNodes,
-										  List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+	public final MatchCtx makeMatchContext(Sys system, MatchingAction action,
+																				 GraphTableFactory tableFactory,
+																				 TypeStatementFactory stmtFactory) {
+		return new MatchCtx(system, action, tableFactory, stmtFactory);
+	}
+	
+	public final String genMatchStatement(MatchCtx matchCtx) {
+
 		StringBuffer sb = new StringBuffer();
-		Query q = makeMatchStatement(act, matchedNodes, matchedEdges, tableFactory, factory);
+		Query q = makeMatchStatement(matchCtx);
 		q.dump(sb);
 		String res = sb.toString();
 		
-		if(enableDebug) {
-			writeFile(new File("stmt_" + act.getIdent() + ".txt"), res);
+		if(matchCtx.system.backendEmitDebugFiles()) {
+			writeFile(new File("stmt_" + matchCtx.action.getIdent() + ".txt"), res);
 			
 			try {
-				FileOutputStream fos = new FileOutputStream(new File("stmt_" + act.getIdent() + ".vcg"));
+				File f = new File("stmt_" + matchCtx.action.getIdent() + ".vcg");
+				FileOutputStream fos = new FileOutputStream(f);
 				PrintStream ps = new PrintStream(fos);
 				GraphDumper dumper = new VCGDumper(ps);
 				q.graphDump(dumper);
@@ -97,17 +122,20 @@ public class SQLGenerator extends Base {
 		return res;
 	}
 	
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes,
-									   List matchedEdges, GraphTableFactory tableFactory,
-									   TypeStatementFactory factory) {
+	protected Query makeMatchStatement(MatchCtx ctx) {
+		MatchingAction act = ctx.action;
+		TypeStatementFactory factory = ctx.stmtFactory;
+		GraphTableFactory tableFactory = ctx.tableFactory;
+		List matchedNodes = ctx.matchedNodes;
+		List matchedEdges = ctx.matchedEdges;
+		
 		Graph gr  = act.getPattern();
-		Query q = makeQuery(act, gr, matchedNodes, matchedEdges,
-							tableFactory, factory, new LinkedList());
+		Query q = makeQuery(ctx, gr, new LinkedList(), true);
 		
 		// create subQueries for negative parts
 		for(Iterator it = act.getNegs(); it.hasNext();) {
 			Graph neg = (Graph) it.next();
-			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, q.getRelations());
+			Query inner = makeQuery(ctx, neg, q.getRelations(), true);
 			
 			// simplify select part of inner query, because existence of tuples is sufficient
 			// in an 'exists' condition
@@ -129,8 +157,15 @@ public class SQLGenerator extends Base {
 		return q;
 	}
 	
-	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges,
-							  GraphTableFactory tableFactory,	TypeStatementFactory factory, List excludeTables) {
+	protected Query makeQuery(MatchCtx ctx, Graph graph,
+														List excludeTables, boolean isNeg) {
+		
+		MatchingAction act = ctx.action;
+		TypeStatementFactory factory = ctx.stmtFactory;
+		GraphTableFactory tableFactory = ctx.tableFactory;
+		List matchedNodes = ctx.matchedNodes;
+		List matchedEdges = ctx.matchedEdges;
+
 		debug.entering();
 		Collection nodes = graph.getNodes(new HashSet());
 		Collection edges = new HashSet();
@@ -182,7 +217,8 @@ public class SQLGenerator extends Base {
 			nodeTableMap.put(n, table);
 			
 			// Add it also to the result list.
-			matchedNodes.add(n);
+			if(!isNeg)
+				matchedNodes.add(n);
 			
 			// Add node type constraint
 			nodeCond = factory.expression(Opcodes.AND, nodeCond,
@@ -240,7 +276,8 @@ public class SQLGenerator extends Base {
 																  typeID));
 						
 						// Add it also to the edge result list.
-						matchedEdges.add(e);
+						if(!isNeg)
+							matchedEdges.add(e);
 					}
 					
 					Term edgeColExpr = factory.expression(edgeTable.colEndId(src));
