@@ -21,7 +21,7 @@ rule ReUsedEdges {
 }
 */
 
-
+/*
 //All edges get coalesced. 
 //The pattern-anon with neg-anon is ok. 
 //e with f is wrong.
@@ -40,4 +40,15 @@ rule bug12 {
   replace {
   }
 }
+*/
 
+rule subgraph {
+  pattern {
+    a:Node;
+  }
+  negative {
+    a;
+  }
+  replace {
+  }
+}
