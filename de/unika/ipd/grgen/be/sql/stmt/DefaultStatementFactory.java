@@ -381,7 +381,7 @@ public class DefaultStatementFactory extends Base
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#constant(boolean)
 	 */
 	public Term constant(boolean bool) {
-		return new ConstantTerm(dialect.constantOpcode(bool));
+		return new ConstantTerm(bool ? "TRUE" : "FALSE");
 	}
 	
 	private static class DefaultQuery extends DefaultDebug implements Query {
@@ -674,14 +674,15 @@ public class DefaultStatementFactory extends Base
 		return new AggregateColumn(which, col);
 	}
 	
-	private static class UpdateStmt extends DefaultDebug implements ManipulationStatement {
+	private static abstract class ManipulationStmt extends DefaultDebug
+		implements ManipulationStatement {
 		
-		private final Table table;
-		private final Collection columns;
-		private final Collection exprs;
-		private final Term condition;
+		protected final Table table;
+		protected final Collection columns;
+		protected final Collection exprs;
+		protected final Term condition;
 		
-		UpdateStmt(Table table, List columns, List exprs, Term condition) {
+		ManipulationStmt(Table table, List columns, List exprs, Term condition) {
 			assert columns.size() == exprs.size();
 			this.table = table;
 			this.columns = columns;
@@ -689,7 +690,51 @@ public class DefaultStatementFactory extends Base
 			this.condition = condition;
 		}
 		
+		public Collection manipulatedColumns() {
+			return ReadOnlyCollection.get(columns);
+		}
 		
+		public Table manipulatedTable() {
+			return table;
+		}
+	}
+
+	private static class InsertStmt extends ManipulationStmt {
+		InsertStmt(Table table, List cols, List exprs) {
+			super(table, cols, exprs, null);
+		}
+
+		public void dump(PrintStream ps) {
+			ps.print("INSERT INTO ");
+			table.dump(ps);
+			ps.print(" (");
+			
+			int i = 0;
+			for(Iterator it = columns.iterator(); it.hasNext();) {
+				Column c = (Column) it.next();
+				ps.print(c.getDeclName());
+
+				if(it.hasNext())
+					ps.print(", ");
+			}
+			
+			ps.print(") VALUES (");
+			for(Iterator it = exprs.iterator(); it.hasNext();) {
+				Term t = (Term) it.next();
+				t.dump(ps);
+
+				if(it.hasNext())
+					ps.print(", ");
+			}
+			ps.print(')');
+		}
+	}
+	
+	private static class UpdateStmt extends ManipulationStmt {
+		UpdateStmt(Table table, List cols, List exprs, Term cond) {
+			super(table, cols, exprs, cond);
+		}
+
 		public void dump(PrintStream ps) {
 			ps.print("UPDATE ");
 			table.dump(ps);
@@ -702,9 +747,12 @@ public class DefaultStatementFactory extends Base
 				Column c = (Column) it.next();
 				Term t = (Term) jt.next();
 				
-				c.dump(ps);
+				ps.print(c.getDeclName());
 				ps.print(" = ");
 				t.dump(ps);
+				
+				if(it.hasNext())
+					ps.print(", ");
 			}
 			
 			if(condition != null) {
@@ -712,15 +760,6 @@ public class DefaultStatementFactory extends Base
 				condition.dump(ps);
 			}
 		}
-		
-		public Collection manipulatedColumns() {
-			return ReadOnlyCollection.get(columns);
-		}
-		
-		public Table manipulatedTable() {
-			return table;
-		}
-		
 	}
 	
 	/**
@@ -741,6 +780,14 @@ public class DefaultStatementFactory extends Base
 		return new UpdateStmt(table, columns, exprs, cond);
 	}
 	
+	public ManipulationStatement makeInsert(Table table, List columns, List exprs) {
+		
+		assert columns.size() == exprs.size() && columns.size() > 0
+			: "There must be as many terms as columns";
+		
+		return new InsertStmt(table, columns, exprs);
+	}
+
 }
 
 

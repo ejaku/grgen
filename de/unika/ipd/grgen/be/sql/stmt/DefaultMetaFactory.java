@@ -127,6 +127,11 @@ public class DefaultMetaFactory implements MetaFactory {
 		return stmt.makeUpdate(table, columns, exprs, cond);
 	}
 	
+	public ManipulationStatement makeInsert(Table table, List columns, List exprs) {
+		return stmt.makeInsert(table, columns, exprs);
+	}
+
+	
 	public NodeTable nodeTable(Node node) {
 		return table.nodeTable(node);
 	}

@@ -197,6 +197,10 @@ public interface StatementFactory {
 	 * for each column. There must be exactly as many terms as
 	 * there are columns.
 	 * @param cond The condition for the update.
+	 * @return A manipulation statement.
+	 * @note This method expects <code>columns.size() == exprs.size()</code>.
 	 */
 	ManipulationStatement makeUpdate(Table table, List columns, List exprs, Term cond);
+	
+	ManipulationStatement makeInsert(Table table, List columns, List exprs);
 }
