@@ -320,7 +320,7 @@ public abstract class SQLBackend extends CBackend {
 
       Node n = (Node) it.next();
       String mangledNode = mangleNode(n);
-      String lastJoinOn = mangledNode;
+      String nodeCol = getNodeCol(n, colNodesId);
 
       int typeId = getTypeId(nodeTypeMap, n.getType());
 
@@ -328,7 +328,7 @@ public abstract class SQLBackend extends CBackend {
 
       // Add this node to the table and column list			
       addToList(nodeTables, tableNodes + " AS " + mangledNode);
-			addToList(nodeCols, getNodeCol(n, colNodesId));
+			addToList(nodeCols, nodeCol);
 			
 			// Add it also to the result list.
 			matchedNodes.add(n);
@@ -340,12 +340,14 @@ public abstract class SQLBackend extends CBackend {
       // Make this node unequal to all other nodes.
       for (Iterator iter = workset.iterator(); iter.hasNext();) {
         Node other = (Node) iter.next();
-        addToCond(nodeWhere, mangledNode + " <> " + mangleNode(other) 
-        	+ BREAK_LINE);
+        addToCond(nodeWhere, nodeCol + " <> " 
+          + getNodeCol(other, colNodesId) + BREAK_LINE);
       }
 
 			incidentSets[0] = gr.getOutgoing(n);
 			incidentSets[1] = gr.getIncoming(n);
+			
+			String lastJoinOn = nodeCol;
 
       // Make this node equal to all source and target nodes of the
       // outgoing and incoming edges.
