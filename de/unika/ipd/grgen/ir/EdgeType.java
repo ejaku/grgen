@@ -35,7 +35,7 @@ public class EdgeType extends InheritanceType {
 	 * by the <code>compareTo</code> method.
 	 *
 	 */
-	public void canonicalizeConnAsserts()
+	public void canonicalizeConnectionAsserts()
 	{
 		Collections.sort(connectionAsserts, new Comparator() {
 			public int compare(Object o1, Object o2) {

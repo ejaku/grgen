@@ -52,7 +52,7 @@ public class Model extends Identifiable {
 			Type ty = (Type) it.next();
 			ty.canonicalize();
 			if (ty instanceof EdgeType)
-				((EdgeType)ty).canonicalizeConnAsserts();
+				((EdgeType)ty).canonicalizeConnectionAsserts();
 		}
 	}
 

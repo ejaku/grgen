@@ -78,7 +78,7 @@ public class ConnAssert extends IR {
 	}
 	
 	/**
-	 * Compares two Connection Asserts.
+	 * Compares a given connection assert with <code>this</code> one.
 	 * @return a negative integer, zero, or a positive integer as the
      * 	       argument is less than, equal to, or greater than
      *	       <code>this</code> connection assertion.
