@@ -3,7 +3,7 @@
 	<xsl:template match="/unit">
 <xsl:text>
 #include &lt;gr/gr.h&gt;
-#include "o2c.h"
+#include "grs_ids.h"
 
 /**
  * Fills in the grs_ids structure. 
