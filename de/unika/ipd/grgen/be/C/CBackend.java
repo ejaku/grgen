@@ -212,19 +212,20 @@ public abstract class CBackend extends IDBase implements Backend {
 		// (not used) is the number of entries in the type map.
 		short[][] matrix = getIsAMatrix(forNode);
 		int maxTypeId = matrix.length;
-		String matrixName = add + "_is_a_matrix";
+		String matrixName = add + "_type_is_a_matrix";
 		
 		buf.append("/** The matrix showing valid type attributes for " + add + ". */\n");
-		buf.append("static const char " + add + "_type_is_a_matrix[" + maxTypeId + "]["
+		buf.append("static const char " + matrixName + "[" + maxTypeId + "]["
 								 + maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
 			buf.append("  { ");
 			for(int j = 0; j < maxTypeId; j++) {
 				buf.append(j != 0 ? ", " : "");
-				//buf.append(matrix[i][j] ? '1' : '0');
 				buf.append(matrix[i][j]);
 			}
 			buf.append(" }, /* ");
+			buf.append(i);
+			buf.append(' ');
 			buf.append(getTypeName(forNode, i));
 			buf.append(" */\n");
 		}
@@ -748,5 +749,6 @@ public abstract class CBackend extends IDBase implements Backend {
   }
 	
 }
+
 
 
