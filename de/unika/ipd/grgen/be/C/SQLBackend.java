@@ -816,13 +816,17 @@ public abstract class SQLBackend extends CBackend {
 				String name = ent.getIdent() + "_" + id;
 				int index = ((Integer) maps[i].get(ent)).intValue();
 								
-				lines[index] = "  \"SELECT " + name + " FROM " + tbl_names[i] + " WHERE " + col_names[i] + " = %d\",\n";
+				lines[index] = "\"" +	
+					"SELECT " + name + " FROM " + tbl_names[i] + 
+					" WHERE " + col_names[i] + " = " + 
+					firstIdMarker("%d", getIdType()) + "\"";
 			}
 			sb.append("/** The table of all get commaned for " + names[i] + " attributes. */\n");
-			sb.append("static const char * cmd_get_" + names[i] + "_attr[] = {\n");
+			sb.append("static prepared_query_t cmd_get_" + names[i] + "_attr[] = {\n");
 			for(int j = 0; j < lines.length; ++j) {
-				sb.append(lines[j]);
+				sb.append("  { " + lines[j] + ", -1 },\n");
 			}
+			sb.append("  { NULL, -1 },\n");
 			sb.append("};\n\n");
 		}
 					 		
@@ -837,17 +841,42 @@ public abstract class SQLBackend extends CBackend {
 				String name = ent.getIdent() + "_" + id;
 				int index = ((Integer) maps[i].get(ent)).intValue();
 
-				lines[index] = "  \"UPDATE " + tbl_names[i] + " SET " + name + " = %s WHERE " + col_names[i] + " = %d\",\n";
+				lines[index] = "\"" +  
+					"UPDATE " + tbl_names[i] + " SET " + name + " = " + firstIdMarker("%s", getSQLType(ty)) + 
+					" WHERE " + col_names[i] + " = " + nextIdMarker("%d", getIdType()) + "\"";
 			}
 			sb.append("/** The table of all set commaned for " + names[i] + " attributes. */\n");
-			sb.append("static const char * cmd_set_" + names[i] + "_attr[] = {\n");
+			sb.append("static prepared_query_t cmd_set_" + names[i] + "_attr[] = {\n");
 			for(int j = 0; j < lines.length; ++j) {
-				sb.append(lines[j]);
+				sb.append("  { " + lines[j] + ", -1 },\n");
 			}
+			sb.append("  { NULL, -1 },\n");
 			sb.append("};\n\n");
 		}
 					 		
 		writeFile("attr_tbl_cmd" + incExtension, sb);
+	}
+	
+	/**
+	 * Returns the first Id marker.
+	 * 
+	 * @param fmt    A string containing the type for non-prepared execution
+	 * @param p_fmt  A string containing the type for prepared execution
+	 * @return
+	 */
+	String firstIdMarker(String fmt, String p_fmt) {
+		return fmt;
+	}
+	
+	/**
+	 * Returns the next Id marker.
+	 * 
+	 * @param fmt    A string containing the type for non-prepared execution
+	 * @param p_fmt  A string containing the type for prepared execution
+	 * @return
+	 */
+	String nextIdMarker(String fmt, String p_fmt) {
+		return fmt;
 	}
 	
 }

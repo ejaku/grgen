@@ -345,8 +345,9 @@ public abstract class CBackend extends Base implements Backend {
 		// (not used) is the number of entries in the type map. 
 		int maxTypeId = typeMap.size();
 		
-		int[][] matrix = new int[maxTypeId][maxTypeId];
+		int[][] matrix   = new int[maxTypeId][maxTypeId];
 		
+		// calculate the is_a relation
 		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
 			int tid = getTypeId(typeMap, ty);
@@ -362,7 +363,7 @@ public abstract class CBackend extends Base implements Backend {
 		}
 		
 		buf.append("/** The matrix showing valid type attributes for " + add + " */\n");
-		buf.append("static char " + add + "_is_a_matrix[" + maxTypeId + "]["
+		buf.append("static const char " + add + "_is_a_matrix[" + maxTypeId + "]["
 			+ maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
 			buf.append("  { ");
@@ -374,10 +375,52 @@ public abstract class CBackend extends Base implements Backend {
 	}
 	
 	/**
+	 * Make an array that represents the super type relation.
+	 * @param buf The string buffer to add the code to.
+	 * @param typeMap The type map to use.
+	 * @param add A string to add to the identifier.
+	 */
+	protected void makeSuperType(StringBuffer buf, Map typeMap, String add) {
+		Map isaMap = new HashMap();
+		
+		// since all type id's are given from zero on, the maximum type id
+		// (not used) is the number of entries in the type map. 
+		int maxTypeId = typeMap.size();
+		
+		int [] superType = new int[maxTypeId];
+		
+		// calculate the super type relation		
+		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+			InheritanceType ty = (InheritanceType) it.next();
+			int tid = getTypeId(typeMap, ty);
+			Set isa = getIsA(ty, isaMap);
+
+			superType[tid] = -1;
+						
+			for (Iterator i = isa.iterator(); i.hasNext();) {
+				InheritanceType inhty = (InheritanceType) i.next();
+				if (inhty.isDirectSuperTypeOf(ty)) {
+					superType[tid] = getTypeId(typeMap, inhty);
+					break;
+				}
+			}
+		}
+				
+		buf.append("/** The array containing the direct super type relation. */\n");
+		buf.append("static const gr_id_t " + add + "_super_type[" + maxTypeId + "] = {\n  ");
+		for(int i = 0; i < maxTypeId; i++) {
+			buf.append(superType[i] + ", ");
+			if ((i % 8) == 7)
+				buf.append("\n  ");
+		}
+		buf.append("};\n\n");		
+	}
+	
+	/**
 	 * Make the attribute matrix for a given attribute type.
 	 * 
 	 * @param sb      The string buffer to add the code to.
-	 * @param add     The mattrix prefix.
+	 * @param add     The matrix prefix.
 	 * @param attrMap The map of all attributes.
 	 * @param typeMap The type map to use.
 	 */
@@ -532,7 +575,7 @@ public abstract class CBackend extends Base implements Backend {
 	}
 
 	/**
-	 * Adds a XML enumvalue tag to the string buffer.
+	 * Adds a XML enum value tag to the string buffer.
 	 * 
 	 * @param depth  indentation depth.
 	 * @param sb     the string buffer.
@@ -759,12 +802,19 @@ public abstract class CBackend extends Base implements Backend {
 		makeEnumDeclarations(sb, enumMap);
 		writeFile("enums" + incExtension, sb);
 
-		// Make the "is a" matrix.
-		sb = new StringBuffer();		
-		makeIsAMatrix(sb, nodeTypeMap, "node");
-		makeIsAMatrix(sb, edgeTypeMap, "edge");
-		writeFile("is_a" + incExtension, sb);
+	  // Make the "is a" matrices.
+	  sb = new StringBuffer();		
+	  makeIsAMatrix(sb, nodeTypeMap, "node");
+	  makeIsAMatrix(sb, edgeTypeMap, "edge");
+	  writeFile("is_a" + incExtension, sb);
 
+	  // Make the "super type" arrays.
+	  sb = new StringBuffer();		
+	  makeSuperType(sb, nodeTypeMap, "node");
+	  makeSuperType(sb, edgeTypeMap, "edge");
+  	writeFile("super_type" + incExtension, sb);
+
+		// Make the attribute matrices
 		sb = new StringBuffer();
 		makeAttrMatrix(sb, "node", nodeAttrMap, nodeTypeMap);
 		makeAttrMatrix(sb, "edge", edgeAttrMap, edgeTypeMap);

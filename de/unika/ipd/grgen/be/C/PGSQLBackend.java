@@ -13,6 +13,8 @@ import de.unika.ipd.grgen.be.BackendFactory;
  */
 public class PGSQLBackend extends SQLBackend implements BackendFactory {
 
+	protected int nextId;
+	
   /**
    * @see de.unika.ipd.grgen.be.C.SQLBackend#getIdType()
    */
@@ -24,7 +26,7 @@ public class PGSQLBackend extends SQLBackend implements BackendFactory {
    * @see de.unika.ipd.grgen.be.C.SQLBackend#getBooleanType()
    */
   protected String getBooleanType() {
-	  return "boolean";
+	  return "int"; // query can only handle "int" yet // "boolean";
   }
 
   /**
@@ -61,6 +63,22 @@ public class PGSQLBackend extends SQLBackend implements BackendFactory {
    */
   protected void genQuery(StringBuffer sb, String query) {
 		sb.append("query(PGSQL_PARAM, " + query + ");\n");
+  }
+
+  /* (non-Javadoc)
+   * @see de.unika.ipd.grgen.be.C.SQLBackend#firstIdMarker(java.lang.String)
+   */
+  String firstIdMarker(String fmt, String p_fmt) {
+  	nextId = 0;
+  	return nextIdMarker(fmt, p_fmt);
+  }
+
+  /* (non-Javadoc)
+   * @see de.unika.ipd.grgen.be.C.SQLBackend#nextIdMarker(java.lang.String)
+   */
+  String nextIdMarker(String fmt, String p_fmt) {
+		++nextId;
+		return "$" + nextId + "[" + p_fmt + "]";
   }
 
   /**

@@ -62,6 +62,20 @@ public class MySQLBackend extends SQLBackend implements BackendFactory {
 		sb.append("query(MYSQL_PARAM, " + query + ");\n");
   }
 
+  /* (non-Javadoc)
+   * @see de.unika.ipd.grgen.be.C.SQLBackend#firstIdMarker(java.lang.String)
+   */
+  String firstIdMarker(String fmt, String p_fmt) {
+		return nextIdMarker(fmt, p_fmt);
+  }
+
+  /* (non-Javadoc)
+   * @see de.unika.ipd.grgen.be.C.SQLBackend#nextIdMarker(java.lang.String)
+   */
+  String nextIdMarker(String fmt, String p_fmt) {
+		return fmt;
+  }
+
 	/**
  	 * @see de.unika.ipd.grgen.be.BackendCreator#getBackend()
  	 */
