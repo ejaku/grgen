@@ -403,15 +403,9 @@ public class Graph extends IR {
 	 * also contained in g.
 	 */
 	public boolean isSubOf(Graph g) {
-		if(!nodes.keySet().containsAll(g.getNodes()))
-			return false;
-		
-		if(!edges.keySet().containsAll(g.getEdges()))
-			return false;
-
-		return true;
+		return g.getNodes().containsAll(nodes.keySet())
+			&& g.getEdges().containsAll(edges.keySet());
 	}
-
 
 }
 
