@@ -621,8 +621,58 @@ public abstract class CBackend extends Base implements Backend {
 			+ "  const gr_value_kind_t *in_types;\n"
 			+ "  const gr_value_kind_t *out_types;\n"
 			+ "} action_t;\n\n"); 
+			
+		sb.append("/** The type of an enum item declaration. */\n");
+		sb.append("typedef struct {\n"
+			+ "  const char *name;    /**< the name of the enum item */\n"
+			+ "  int value;           /**< the value of the enum item */\n"
+			+ "} enum_item_decl_t;\n\n");
+			
+		sb.append("/** The type of an enum declaration. */\n");
+		sb.append("typedef struct {\n"
+			+ "  const char *name;    /**< the name of the enum type */\n"
+			+ "  int num_items;       /**< the number of items in this enum type */\n"
+			+ "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
+			+ "} enum_type_decl_t;\n\n");
 	}
 
+	/**
+	 * Dump all enum type declarations to a string buffer.
+	 * 
+	 * @param sb      The string buffer.
+	 * @param enumMap A map containing all enum types.
+	 */
+	protected void makeEnumDeclarations(StringBuffer sb, Map enumMap)
+	{
+		// build the description of all enum types
+		for(Iterator it = enumMap.keySet().iterator(); it.hasNext();) {
+			EnumType type = (EnumType) it.next();
+			Ident name = type.getIdent();
+
+			sb.append("/** The items for the " + name + " enum type. */\n");
+			sb.append("static const enum_item_decl_t _" + name + "_items[] = {\n");
+
+			for(Iterator itemIt = type.getItems(); itemIt.hasNext();) {
+				EnumItem ev = (EnumItem) itemIt.next();
+
+				sb.append(" { \"" + ev + "\", " + ev.getValue().getValue() + " },\n");
+			}
+			sb.append("};\n\n");
+			
+			sb.append("/** The declaration of the " + name + " enum type. */\n");
+			sb.append("static const enum_type_decl_t " + name + "_decl {\n"
+				+ "  \"" + name + "\",\n"
+				+ "  (sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0])),\n"
+				+ "  _" + name + "_items,\n"
+				+ "};\n\n");
+		}
+		
+		for(Iterator it = enumMap.keySet().iterator(); it.hasNext();) {
+			EnumType type = (EnumType) it.next();
+			Ident name = type.getIdent();
+		}			
+	}
+	
   /**
    * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
    */
@@ -661,8 +711,11 @@ public abstract class CBackend extends Base implements Backend {
 		makeTypeDefines(sb, edgeTypeMap, "EDGE");
 		makeAttrDefines(sb, nodeAttrMap, "NODE");
 		makeAttrDefines(sb, edgeAttrMap, "EDGE");
-//		makeEnumDefines(sb, enumMap, "ENUM");
 		writeFile("graph" + incExtension, sb);
+
+		sb = new StringBuffer();
+		makeEnumDeclarations(sb, enumMap);
+		writeFile("enums" + incExtension, sb);
 
 		// Make the "is a" matrix.
 		sb = new StringBuffer();		
