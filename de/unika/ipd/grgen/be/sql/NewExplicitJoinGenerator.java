@@ -197,11 +197,16 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		debug.leaving();
 	}
 	
-	private SearchPath[] computeSearchPaths(Graph pattern, boolean graphIsNAC) {
+	private SearchPath[] computeSearchPaths(Graph graph, Graph pattern,
+																					boolean graphIsNAC) {
 		
-		Collection rest = pattern.getNodes(new HashSet());
-		Iterator edgeIterator = pattern.getEdges();
-		Comparator comparator = new NodeComparator(pattern);
+		Collection rest = graph.getNodes(new HashSet());
+		Collection startingPoints = pattern.getNodes(new HashSet());
+
+		startingPoints.retainAll(rest);
+		
+		Iterator edgeIterator = graph.getEdges();
+		Comparator comparator = new NodeComparator(graph);
 		
 		debug.entering();
 		
@@ -210,12 +215,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		if(rest.isEmpty() || !edgeIterator.hasNext())
 			return new SearchPath[0];
 		
-		VisitContext ctx = new VisitContext(pattern, comparator);
+		VisitContext ctx = new VisitContext(graph, comparator);
 		
 		do {
 			debug.report(NOTE, "rest: " + rest);
 			
-			Node cheapest = getCheapest(rest.iterator(), comparator);
+			Collection selectFrom = startingPoints.isEmpty() ? rest : startingPoints;
+			Node cheapest = getCheapest(selectFrom.iterator(), comparator);
 			SearchPath path = new SearchPath(graphIsNAC);
 			ctx.paths.add(path);
 			
@@ -223,9 +229,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			visitNode(ctx, path, cheapest, graphIsNAC);
 			
-			if(path.edges.isEmpty()) ctx.paths.remove(path);
+			if(path.edges.isEmpty())
+				ctx.paths.remove(path);
 			
 			rest.removeAll(ctx.visited);
+			startingPoints.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
 		
 		debug.leaving();
@@ -267,10 +275,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		debug.entering();
 		
 		Map neutralMap = new HashMap();
+		Graph pattern = act.getPattern();
 		
 		// Build a list with all graphs of this matching action
 		LinkedList graphs = new LinkedList();
-		graphs.addFirst(act.getPattern());
+		graphs.addFirst(pattern);
 		for (Iterator iter = act.getNegs(); iter.hasNext(); ) {
 			graphs.addLast(iter.next());
 		}
@@ -286,8 +295,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
 			
-			SearchPath[] paths = computeSearchPaths(graph, graphIsNAC);
-			
+			SearchPath[] paths = computeSearchPaths(graph, pattern, graphIsNAC);
 			
 			for(int i = 0; i < paths.length; i++) {
 				StringBuffer sb = new StringBuffer();
@@ -975,5 +983,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 	}
 }
+
 
 
