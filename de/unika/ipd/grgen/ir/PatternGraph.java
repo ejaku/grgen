@@ -18,10 +18,10 @@ import java.util.List;
  * of possible matchings.
  */
 public class PatternGraph extends Graph {
-	
+
 	/** A list of all condition expressions. */
 	private final List conds = new LinkedList();
-	
+
 	/**
 	 * Add a condition to the graph.
 	 * @param expr The condition's expression.
@@ -29,7 +29,7 @@ public class PatternGraph extends Graph {
 	public void addCondition(Expression expr) {
 		conds.add(expr);
 	}
-	
+
 	/**
 	 * Get all conditions in this graph.
 	 * @return A collection containing all conditions in this graph.
@@ -37,7 +37,6 @@ public class PatternGraph extends Graph {
 	public Collection getConditions() {
 		return ReadOnlyCollection.get(conds);
 	}
-	
-	
+
 }
 

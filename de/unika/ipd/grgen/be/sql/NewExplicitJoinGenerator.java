@@ -143,6 +143,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			return (Graph) graphMap.get(edge);
 		}
 
+		/*
+		 * Get the first element of this path which has not been processed in seq.
+		 * @return The IdTable (node or edge) corresponding to this element.
+		 */
         public IdTable getFirstNonProcessedElement(JoinSequence seq, GraphTableFactory tableFactory) {
             for(Iterator it = edges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
@@ -463,6 +467,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		return result;
 	}
 
+	/**
+	 * 	Adds a condition to cascade the null values to the row which gets counted.
+	 */
 	private void addNotNullCond(IdTable dependsOn, IdTable what, JoinSequence seq, TypeStatementFactory factory) {
 	    Term colId = factory.expression(what.colId());
 	    Term notNull = factory.expression(Opcodes.NOT, factory.expression(Opcodes.ISNULL, colId));
@@ -1181,6 +1188,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 	}
 }
+
 
 
 

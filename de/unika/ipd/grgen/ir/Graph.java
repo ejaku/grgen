@@ -4,8 +4,13 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.*;
 import java.util.*;
+
+import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumpableProxy;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.Walkable;
 
 /**
  * A graph pattern.
