@@ -16,19 +16,17 @@ import de.unika.ipd.grgen.ir.Entity;
  * This node treats expressions like:
  * a.b.c.d
  */
-public class QualIdentNode extends BaseNode implements DeclaredCharacter
-{
+public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	
-	static
-	{
+	static {
 		setName(QualIdentNode.class, "Qual");
 	}
 	
 	/** Index of the owner node. */
-	private static final int OWNER = 0;
+	protected static final int OWNER = 0;
 	
 	/** Index of the member node. */
-	private static final int MEMBER = 1;
+	protected static final int MEMBER = 1;
 	
 	private static final String[] childrenNames = {
 		"owner", "member"
@@ -44,13 +42,12 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	 * Make a new identifier qualify node.
 	 * @param coords The coordinates.
 	 */
-	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member)
-	{
+	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member) {
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(owner);
 		addChild(member);
-		addResolver(OWNER, declResolver);
+		// addResolver(OWNER, declResolver);
 		// addResolver(MEMBER, identExprResolver);
 	}
 	
@@ -75,8 +72,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
 		res = owner.getResolve();
-		
-		if (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode) {
+		if (owner instanceof NodeDeclNode	|| owner instanceof EdgeDeclNode) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
 			
 			if(ownerType instanceof ScopeOwner) {
@@ -89,10 +85,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 				res = false;
 			}
 		} else {
-			reportError("left hand side of . is neither an Edge nor a Node.");
+			reportError("left hand side of . is neither an Edge, Node or Enum Type");
 			res = false;
 		}
-		
 		setResolved(res);
 		return res;
 	}
@@ -100,8 +95,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
-	protected boolean check()
-	{
+	protected boolean check() {
 		return checkChild(OWNER, DeclNode.class)
 			&& checkChild(MEMBER, MemberDeclNode.class);
 	}
@@ -109,8 +103,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	/**
 	 * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
 	 */
-	public DeclNode getDecl()
-	{
+	public DeclNode getDecl() {
 		assertResolved();
 		return (DeclNode) getChild(MEMBER);
 	}
@@ -120,10 +113,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		return (DeclNode) getChild(OWNER);
 	}
 	
-	protected IR constructIR()
-	{
-		Entity owner = (Entity)getChild(OWNER).checkIR(Entity.class);
-		Entity member = (Entity)getChild(MEMBER).checkIR(Entity.class);
+	protected IR constructIR() {
+		Entity owner = (Entity) getChild(OWNER).checkIR(Entity.class);
+		Entity member = (Entity) getChild(MEMBER).checkIR(Entity.class);
 		
 		return new Qualification(owner, member);
 	}

@@ -4,6 +4,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.EnumTypeNode;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.BooleanResultVisitor;
@@ -22,15 +25,18 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** Index of the value child. */
 	private static final int VALUE = LAST + 1;
-
+	
 	/** Position of this item in the enum. */
 	private final int pos;
+	
+	private static final Resolver typeResolver =
+		new DeclTypeResolver(EnumTypeNode.class);
 
   /**
    * Make a new enum item node.
    */
-  public EnumItemNode(IdentNode identifier, BaseNode value, int pos) {
-    super(identifier, BasicTypeNode.enumItemType);
+  public EnumItemNode(IdentNode identifier, BaseNode type, BaseNode value, int pos) {
+    super(identifier, type);
     this.pos = pos;
     addChild(value);
   }
@@ -40,6 +46,7 @@ public class EnumItemNode extends MemberDeclNode {
    */
   protected boolean check() {
  		return checkChild(IDENT, IdentNode.class)
+			&& checkChild(TYPE, EnumTypeNode.class)
       && checkChild(VALUE, ExprNode.class);
   }
   
