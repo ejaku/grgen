@@ -76,7 +76,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Attributes a1 = ((Attributed) o1).getAttributes();
 			Attributes a2 = ((Attributed) o2).getAttributes();
 			
-			if(a1.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
+			if(a1.containsKey(PRIORITY_KEY) && a1.isInteger(PRIORITY_KEY))
 				prio1 = ((Integer) a1.get(PRIORITY_KEY)).intValue();
 			
 			if(a2.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
