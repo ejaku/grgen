@@ -419,9 +419,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			for(Iterator it = attrs.iterator(); it.hasNext();) {
 				Entity e = (Entity) it.next();
 				int index = ((Integer) attrIndices.get(e)).intValue();
-				
-				System.out.println("" + e + " -> " + index);
-				
+
 				cols[index + 1] = 
 					new SimpleColumn(mangleEntity(e), getDataType(e.getType()), this, true); 
 			}
@@ -435,7 +433,6 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			assert obj != null : "" + ent + " " + ent.getId() + " not in table " + getAliasName();
 			if(obj != null && obj instanceof Integer) {
 				int index = ((Integer) obj).intValue() + 1;
-				System.out.println("lookup " + ent + " -> " + index);
 				assert index >= 0 && index < cols.length : "Index is wrong";
 				return cols[index];
 			}
