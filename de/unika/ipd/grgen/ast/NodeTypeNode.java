@@ -20,20 +20,27 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 	
 	private static final int EXTENDS = 0;
-	private static final int BODY = 1;
+	private static final int CAS = 1;
+	private static final int BODY = 2;
 	
 	private static final String[] childrenNames = {
-		"extends", "body"
+		"extends", "cas", "body"
 	};
 	
 	private static final Checker extendsChecker =
 		new CollectChecker(new SimpleChecker(NodeTypeNode.class));
+	
+	private static final Checker casChecker = // TODO use this
+		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
 	
 	private static final Checker bodyChecker =
 		new CollectChecker(new SimpleChecker(MemberDeclNode.class));
 	
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
+	
+	private static final Resolver casResolver =
+		new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
 	
 	private static final Resolver bodyResolver =
 		new CollectResolver(new DeclResolver(MemberDeclNode.class));
@@ -44,14 +51,16 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * by this type
 	 * @param body the collect node with body declarations
 	 */
-	public NodeTypeNode(BaseNode ext, BaseNode body) {
+	public NodeTypeNode(BaseNode ext, BaseNode cas, BaseNode body) {
 		super(BODY, bodyChecker, bodyResolver,
 			  EXTENDS, extendsChecker, extendsResolver);
 		
 		addChild(ext);
+		addChild(cas);
 		addChild(body);
 		setChildrenNames(childrenNames);
 		addResolver(EXTENDS, extendsResolver);
+		addResolver(CAS, casResolver);
 		addResolver(BODY, bodyResolver);
 	}
 	

@@ -18,7 +18,7 @@ import java.util.Set;
 public class ConnAssertNode extends BaseNode {
 	
 	static {
-		setName(ConnAssertNode.class, "conn_assert");
+		setName(ConnAssertNode.class, "conn assert");
 	}
 	
 	/** edge names for the children. */
@@ -37,13 +37,16 @@ public class ConnAssertNode extends BaseNode {
 	
 	/** Resolver for the nodes. */
 	
-	private static final Resolver nodeResolver =
-		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
+//	private static final Checker nodeChecker =
+//		new MultChecker(new Class[] {
+//				NodeDeclNode.class, NodeTypeChangeNode.class
+//			});
 	
-	private static final Checker nodeChecker =
-		new MultChecker(new Class[] {
-				NodeDeclNode.class, NodeTypeChangeNode.class
-			});
+	private static final Resolver edgeResolver =
+		new DeclTypeResolver(EdgeTypeNode.class);
+	
+	private static final Resolver nodeResolver =
+		new DeclTypeResolver(NodeTypeNode.class);
 	
 	private boolean outgoing;
 	
@@ -63,8 +66,7 @@ public class ConnAssertNode extends BaseNode {
 		addChild(node);
 		this.outgoing = outgoing;
 		setChildrenNames(childrenNames);
-		addResolver(EDGE, new EdgeResolver(getScope(), edge.getCoords(), false));
-		addResolver(RANGE, null); // TODO range resolver
+		addResolver(EDGE, edgeResolver);
 		addResolver(NODE, nodeResolver);
 	}
 	
@@ -73,9 +75,9 @@ public class ConnAssertNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(EDGE, EdgeCharacter.class)
+		return checkChild(EDGE, EdgeTypeNode.class)
 			&& checkChild(RANGE, RangeSpecNode.class)
-			&& checkChild(NODE, NodeCharacter.class);
+			&& checkChild(NODE, NodeTypeNode.class);
 	}
 	
 	public boolean isOutgoing() {
