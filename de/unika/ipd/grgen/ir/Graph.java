@@ -19,16 +19,16 @@ import de.unika.ipd.grgen.util.MultiIterator;
 import de.unika.ipd.grgen.util.Walkable;
 
 /**
- * A graph pattern. 
+ * A graph pattern.
  * This is used for tests and the left and right sides and the NAC part of a rule.
  * These graphs have own classes for the nodes and edges as proxy objects
  * to the actual Node and Edge objects. The reason for this is:
- * The nodes and edges in a rule   that are common to the left and the right 
- * side exist only once as a object (that's due to the fact, that these 
+ * The nodes and edges in a rule   that are common to the left and the right
+ * side exist only once as a object (that's due to the fact, that these
  * objects are created from the AST declaration, which exist only once per
  * defined object). But we want to dicriminate between the nodes on the
  * left and right hand side od a rule, even, if they represent the same
- * declared nodes. 
+ * declared nodes.
  */
 public class Graph extends IR {
 
@@ -132,7 +132,7 @@ public class Graph extends IR {
 	 * Allows another class to append a suffix to the graph's name.
 	 * This is useful for rules, that can add "left" or "right" to the
 	 * graph's name.
-	 * @param s A suffix for the graph's name. 
+	 * @param s A suffix for the graph's name.
 	 */
 	public void setNameSuffix(String s) {
 		setName("graph " + s);
@@ -167,7 +167,7 @@ public class Graph extends IR {
 	}
 	
 	/**
-	 * Get an iterator iterating over all nodes. 
+	 * Get an iterator iterating over all nodes.
 	 * @return An iterator iterating over all nodes.
 	 */
 	public Iterator getNodes() {
@@ -185,7 +185,7 @@ public class Graph extends IR {
 	}
 	
 	/**
-	 * Get an iterator iterating over all nodes. 
+	 * Get an iterator iterating over all nodes.
 	 * @return An iterator iterating over all nodes.
 	 */
 	public Iterator getEdges() {
@@ -193,8 +193,8 @@ public class Graph extends IR {
 	}
 		
 	private Set getEdgeSet(Iterator it) {
-		Set res = new HashSet(); 
-		while(it.hasNext()) 
+		Set res = new HashSet();
+		while(it.hasNext())
 			res.add(((GraphEdge) it.next()).edge);
 
 		return res;
@@ -287,10 +287,22 @@ public class Graph extends IR {
 	}
 	
 	/**
+	 * Get an "end" of an edge.
+	 * @param e The edge.
+	 * @param source The end.
+	 * @return If <code>source</code> was true, this method returns the
+	 * source node of the edge, if <code>source</code> was false, it
+	 * returns the target node.
+	 */
+	public Node getEnd(Edge e, boolean source) {
+		return source ? getSource(e) : getTarget(e);
+	}
+	
+	/**
 	 * Replace an edge in this graph by a similar one.
 	 * Replace an edge, that has the same type, target and source node like
 	 * <code>edge</code> by <code>edge</code>.
-	 * This is called by the coalesce phase in rules. 
+	 * This is called by the coalesce phase in rules.
 	 * @see Rule#coalesceAnonymousEdges()
 	 * @param gr The graph <code>edge</code>
 	 * @param e The edge which shall replace a similar one.
@@ -305,10 +317,10 @@ public class Graph extends IR {
 		for(Iterator it = getEdges(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
-			if(src == getSource(e) && tgt == getTarget(e) 
+			if(src == getSource(e) && tgt == getTarget(e)
 				&& edgeType.isEqual(e.getEdgeType())) {
 
-				debug.report(NOTE, "Exchanging " + e.getIdent() 
+				debug.report(NOTE, "Exchanging " + e.getIdent()
 					+ " with " + edge.getIdent());
 					
 				// Modify the graph edge to refer to the coalesced edge.
@@ -331,7 +343,7 @@ public class Graph extends IR {
 	 * @param right The right node.
 	 */
 	public void addConnection(Node left, Edge edge, Node right) {
-		// Get the nodes and edges from the map.	
+		// Get the nodes and edges from the map.
 		GraphNode l = getOrSetNode(left);
 		GraphNode r = getOrSetNode(right);
 		GraphEdge e = getOrSetEdge(edge);
