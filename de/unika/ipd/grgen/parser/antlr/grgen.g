@@ -604,31 +604,37 @@ patternEdge returns [ BaseNode res = null ]
 		res = new AnonymousEdgeDeclNode(id, type, negated);
   }
   ;
-  
+
+/**
+ * In a pattern, a node decl is like multiNodeDecl (see below) or
+ * a multi node with tildes instead of commas, like
+ * 
+ * (a ~ b ~ c ~ d):X
+ *
+ * This allows b, c, d to be the same node.
+ */
 patternNodeDecl returns [ BaseNode res = initNode() ]
   { 
     IdentNode id;
   	BaseNode type; 
   	List ids;
   }
-  : id=identDecl COLON! type=identUse {
-  	res = new NodeDeclNode(id, type);
-  }            
+  : res=multiNodeDecl
   | LPAREN { ids = new LinkedList(); } id=identDecl { ids.add(id); }
-    (COMMA id=identDecl { ids.add(id); })* RPAREN 
-
-  | LPAREN { ids = new LinkedList(); } id=identDecl { ids.add(id); }
-    (TILDE id=identDecl {	ids.add(id); })* RPAREN COLON type=identUse {
+    (TILDE id=identDecl {	ids.add(id); })+ RPAREN COLON type=identUse {
     	
-    	int i = 0;
-    	CollectNode coll = new CollectNode();
-    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
-    		IdentNode ident = (IdentNode) it.next();
-    		if(i == 0)
-    			res = new NodeDeclNode(ident, type, coll);
-    		else 
-					coll.addChild(new NodeDeclNode(ident, type));
-    	}
+    	IdentNode[] idents = (IdentNode[]) ids.toArray(new IdentNode[0]);
+    	BaseNode[] colls = new BaseNode[idents.length];
+    	NodeDeclNode[] decls = new NodeDeclNode[idents.length];
+
+			for(int i = 0; i < idents.length; i++) {
+				colls[i] = new CollectNode();
+				decls[i] = new NodeDeclNode(idents[i], type, colls[i]);
+			}
+
+			for(int i = 0; i < idents.length; i++) 
+				for(int j = i + 1; j < idents.length; j++) 
+					colls[i].addChild(idents[j]);
     }
   ;
 
@@ -736,11 +742,44 @@ replaceNodeDecl returns [ BaseNode res = initNode() ]
     IdentNode id;
   	BaseNode type; 
   }
-  : id=identDecl COLON! type=identUse {
-  	res = new NodeDeclNode(id, type);
-  }            
+  : res=multiNodeDecl
   ;
 
+/**
+ * The declaration of node(s)
+ * It can look like 
+ *
+ * 1) a:X  
+ * 2) (a, b, c, d, e):X
+ *
+ * In the second case, always the first node is returned.
+ */
+multiNodeDecl returns [ BaseNode res = initNode() ]
+	{
+		List ids = new LinkedList();
+		IdentNode id;
+		BaseNode type;
+	}
+	: id=identDecl COLON type=identUse {
+		res = new NodeDeclNode(id, type);
+	}
+  | LPAREN { ids = new LinkedList(); } id=identDecl { ids.add(id); }
+    (COMMA id=identDecl { ids.add(id); })* RPAREN COLON type=identUse {
+
+    	int i = 0;
+    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
+    		IdentNode ident = (IdentNode) it.next();
+    		if(i == 0)
+    			res = new NodeDeclNode(ident, type);
+    		else
+    			// This is ok, the object does not vanish, since it is
+    			// held by its identifier which is held by the symbol's
+    			// occurrence whcih is held by the scope.
+					new NodeDeclNode(ident, type);
+    	}
+    	
+    }
+	;
 	
 edgeDecl returns [ EdgeDeclNode res = null ]
 	{
