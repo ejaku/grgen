@@ -44,7 +44,7 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
-		Collection w, nodesToInsert;
+		Collection w = new HashSet();
 		
 		assert getClass().isAssignableFrom(handler.getRequiredRewriteGenerator());
 		
@@ -55,19 +55,29 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// This makes the redirections possible. They can only be applied,
 		// if all nodes (the ones to be deleted, and the ones to be inserted)
 		// are present.
-		nodesToInsert = right.getNodes(new HashSet());
+		Collection nodesToInsert = new HashSet(right.getNodes());
 		nodesToInsert.removeAll(commonNodes);
 		
 		// Only consider redirections and node insertions, if we truly have
 		// to insert some nodes, i.e. The nodesToInsert set has elements
 		handler.insertNodes(nodesToInsert);
 		
+		w.clear();
+		right.putEdges(w);
+		w.removeAll(commonEdges);
+		handler.insertEdges(w);
+
+		// Finally the evaluations.
+		handler.generateEvals(r.getEvals());
+		
 		// All edges, that occur only on the left side have to be removed.
-		w = left.getEdges(new HashSet());
+		w.clear();
+		left.putEdges(w);
 		w.removeAll(commonEdges);
 		handler.deleteEdges(w);
 		
-		w = left.getNodes(new HashSet());
+		w.clear();
+		left.putNodes(w);
 		Map nodeTypeChangeMap = new HashMap();
 		
 		// Change types of nodes.
@@ -82,13 +92,6 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		w.removeAll(commonNodes);
 		handler.deleteEdgesOfNodes(w);
 		handler.deleteNodes(w);
-		
-		w = right.getEdges(new HashSet());
-		w.removeAll(commonEdges);
-		handler.insertEdges(w);
-		
-		// Finally the evaluations.
-		handler.generateEvals(r.getEvals());
 		
 		// ... and the finish function.
 		handler.finish();
