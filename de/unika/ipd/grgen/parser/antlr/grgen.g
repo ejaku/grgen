@@ -387,8 +387,9 @@ enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res
 			res.addChild(defInit);
 			res.addChild(one);
 		}
-		id.setDecl(new EnumItemNode(id, res, pos));
-		coll.addChild(id);
+		MemberDeclNode memberDecl = new EnumItemNode(id, res, pos);
+		id.setDecl(memberDecl);
+		coll.addChild(memberDecl);
 	}
 	;
 
