@@ -1384,7 +1384,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		//gen defines: the number of node- and edge-types
 		sb.append(
 			"/* the name of the GrGen unit this file is created from */\n" +
-			"#define fb_UNIT_NAME \"" + unit.getName() + "\"\n\n" +
+			"#define fb_UNIT_NAME \"" + formatId(unit.getIdent().toString()) + "\"\n\n" +
 			"/* the overall number of the edge-, node-, enum-types and of the\n" +
 			" * declared node- and edge attributes */\n" +
 			"#define fb_n_node_types " + n_node_types + "\n" +
@@ -1393,8 +1393,27 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			"#define fb_n_node_attr_decls " + n_node_attrs + "\n" +
 			"#define fb_n_edge_attr_decls " + n_edge_attrs + "\n\n");
 		
+		//gen defines: a string indicating the reqired backend together with
+		// a hash value computed from the used graph model
+		sb.append(
+			"/* the reqired backend together with a tag indicating the impl\n" +
+			" * variant used (i.e. flat, hash or flash) */\n" +
+			"#ifdef __FB_HASH\n" +
+			"  #define fb_REQUIRED_BE \"FrameBased__HASH\"\n" +
+			"#elif defined (__FB_FLAT)\n" +
+			"  #define fb_REQUIRED_BE \"FrameBased__FLAT\"\n" +
+			"#elif defined (__FB_FLASH)\n" +
+			"  #define fb_REQUIRED_BE \"FrameBased__FLASH\"\n" +
+			"#endif\n\n");
+
+		sb.append(
+			"/* an MD5 hash value characterising the underlying graph type model */\n" +
+			"#define fb_GR_MODEL \"" +
+				  "GM_is_" + unit.getTypeDigest() + "\"\n\n");
 		
 		sb.append("#endif /* __GRAPH_TYPE_INFO_INC__ */\n\n");
+
+		
 		
 	}
 	
