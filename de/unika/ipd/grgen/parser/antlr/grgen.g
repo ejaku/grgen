@@ -273,7 +273,7 @@ edgeClassDecl returns [ BaseNode res = initNode() ]
           boolean constEdge = false;
     }
   
-	: ("const" { constEdge = true; })? "edge" "class"! 
+	:  "edge" "class"! ("const" { constEdge = true; })? 
 	id=identDecl ext=edgeExtends
         pushScope[id] LBRACE! body=edgeClassBody {
 
@@ -291,7 +291,7 @@ nodeClassDecl! returns [ BaseNode res = initNode() ]
   	}
 
 	: "node" "class"! ("const" { constNode = true; })?
-	id=identDecl ext=nodeExtends ca=connectAssertion
+	id=identDecl ext=nodeExtends ca=connectAssertions
 	pushScope[id] LBRACE! body=nodeClassBody {
 
 		// TODO XXX use constNode in TypeDeclNode
@@ -301,10 +301,22 @@ nodeClassDecl! returns [ BaseNode res = initNode() ]
 	} RBRACE! popScope!
 	;
 
-connectAssertion returns [ BaseNode res = initNode() ]
-	{ BaseNode src, tgt, srcRange, tgtRange; }
-	: src=identUse srcRange=rangeSpec RARROW tgt=identUse tgtRange=rangeSpec
+connectAssertions returns [ CollectNode c = new CollectNode() ]
+	: "connect" (outAssert[c] | inAssert[c]) 
+	( COMMA (outAssert[c] | inAssert[c]) )* 
 	|
+	;
+
+outAssert [ CollectNode c ]
+	{ BaseNode edge, srcRange, tgt; }
+	: RARROW edge=identUse srcRange=rangeSpec RARROW tgt=identUse
+	// TODO { c.addChild(new ConnectionNode() }
+	;
+
+inAssert [ CollectNode c ]
+	{ BaseNode edge, tgtRange, src; }
+	: LARROW edge=identUse tgtRange=rangeSpec LARROW src=identUse
+	// TODO add code for storing ca
 	;
 
 edgeExtends returns [ CollectNode c = new CollectNode() ]
