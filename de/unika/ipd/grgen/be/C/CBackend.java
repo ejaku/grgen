@@ -488,16 +488,25 @@ public abstract class CBackend extends Base implements Backend {
 		sb.append("</" + ent.getName().replace(' ', '_') + ">\n");
 	}
 
-	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Ident id) {
+	/**
+	 * Adds a XML enumvalue tag to the string buffer.
+	 * 
+	 * @param depth  indentation depth
+	 * @param sb     the string buffer
+	 * @param ending the end of the XML tag, either ">" or "/>"
+	 * @param ev     the enum value
+	 */
+	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, EnumValue ev) {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
-		sb.append("<" + id.getName().replace(' ', '_')  
-		  + " name=\"" + id + "\"" + ending); 
+		sb.append("<" + ev.getName().replace(' ', '_')  
+		  + " name=\"" + ev + "\" value=\"" + ev.getEnumValue() + "\"" + ending); 
 	}
 
 	/**
-	 * Dump an overview of all declared types and attributes to
+	 * Dump an overview of all declared types, attributes and enums to
 	 * an XML file.
+	 * 
 	 * @param sb The string buffer to put the XML stuff to.
 	 */
 	protected void writeOverview(StringBuffer sb) {
@@ -509,6 +518,7 @@ public abstract class CBackend extends Base implements Backend {
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		
 		sb.append("<unit>\n");
+		
 		for(int i = 0; i < maps.length; i++) {
 			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
 				InheritanceType type = (InheritanceType) it.next();
@@ -547,10 +557,10 @@ public abstract class CBackend extends Base implements Backend {
 			Iterator itemIt = type.getItems();
 			if (itemIt.hasNext()) {
 				sb.append("    <items>\n");
-				for(int i = 0; itemIt.hasNext(); i++) {
-					Ident id = (Ident) itemIt.next();
+				for(; itemIt.hasNext();) {
+					EnumValue ev = (EnumValue) itemIt.next();
 
-					dumpXMLTag(3, sb, " value=\"" + i + "\"/>\n", id);
+					dumpXMLTag(3, sb, "/>\n", ev);
 				}
 				sb.append("    </items>\n");
 			}
