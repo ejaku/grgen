@@ -469,7 +469,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#edgeTable(de.unika.ipd.grgen.ir.Edge)
 	 */
 	public EdgeTable edgeTable(Edge edge) {
-		EdgeTable res;
+		EdgeTable res = null;
 		
 		if(entTables.containsKey(edge))
 			res = (EdgeTable) entTables.get(edge);
@@ -485,7 +485,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#nodeTable(de.unika.ipd.grgen.ir.Node)
 	 */
 	public NodeTable nodeTable(Node node) {
-		NodeTable res;
+		NodeTable res = null;
 		
 		if(entTables.containsKey(node))
 			res = (NodeTable) entTables.get(node);
@@ -583,7 +583,16 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalEdgeTable()
 	 */
 	public EdgeTable edgeTable(String alias) {
-		return new DefaultEdgeTable(alias);
+		EdgeTable res;
+		
+		if(entTables.containsKey(alias))
+			res = (EdgeTable) entTables.get(alias);
+		else {
+			res = new DefaultEdgeTable(alias);
+			entTables.put(alias, res);
+		}
+		
+		return res;
 	}
 	
 	/**
@@ -599,7 +608,15 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalNodeTable()
 	 */
 	public NodeTable nodeTable(String alias) {
-		return new DefaultNodeTable(alias);
+		NodeTable res;
+		
+		if(entTables.containsKey(alias))
+			res = (NodeTable) entTables.get(alias);
+		else {
+			res = new DefaultNodeTable(alias);
+			entTables.put(alias, res);
+		}
+		return res;
 	}
 }
 
