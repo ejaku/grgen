@@ -171,7 +171,7 @@ public abstract class SQLBackend extends CBackend {
 	 */
 	protected abstract void genQuery(StringBuffer sb, String query);
 	
-	
+	//TODO kill the stuff below here!!?
 	/*
 	private void makeJoin(StringBuffer sb, Graph gr, Edge e1, Edge e2) {
 		Node[] nodes =

@@ -75,7 +75,7 @@ public abstract class MatchingAction extends Action {
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
 	public Iterator getWalkableChildren() {
-		//TODO dg ???
+		//TODO dg negs is not (yet) walkable. Its a collection.
 		return new ArrayIterator(new Object[] { pattern, condition/*, negs*/ });
 	}
 }
