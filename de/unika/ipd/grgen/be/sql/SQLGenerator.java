@@ -386,173 +386,173 @@ public class SQLGenerator extends Base {
 		return res;
 	}
 	
-	/**
-	 * Method genValidateStatements produces all validate statements for all
-	 * connection assertion of a spec.
-	 *
-	 * for source:
-	 * 1	SELECT src.node_id, count(src.node_id)
-	 * 2	FROM nodes AS src, nodes AS tgt, edges
-	 * 3	WHERE edges.src_id = src.node_id AND
-	 * 4		edges.tgt_id = tgt.node_id AND
-	 * 5		edges.type_id = $E_TYPE_ID$
-	 * 5b		src.type_id = $SRC_TYPE_ID$
-	 * 6	GROUP BY src.node_id
-	 * 7	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
-	 * 8		count(src.node_id) > $SRC_RANGE_UPPER$;
-	 *
-	 * for target:
-	 * 1	SELECT tgt.node_id, count(tgt.node_id)
-	 * 2	FROM nodes AS src, nodes AS tgt, edges
-	 * 3	WHERE edges.src_id = src.node_id AND
-	 * 4		edges.tgt_id = tgt.node_id AND
-	 * 5		edges.type_id = $E_TYPE_ID$
-	 * 5b		tgt.type_id = $TGT_TYPE_ID$
-	 * 6	GROUP BY tgt.node_id
-	 * 7	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
-	 * 8		count(tgt.node_id) > $TGT_RANGE_UPPER$;
-	 *
-	 * @return  a List containing the src and tgt sql conn assert statements
-	 * 			in an alternating order.
-	 */
-	public List genValidateStatements(
-		List srcTypes, List srcRange,  List tgtTypes, List tgtRange, List edgeTypes,
-		TypeStatementFactory stmtFactory, GraphTableFactory tableFactory) {
-		
-		List res = new ArrayList();
-		List srcColumns = new LinkedList();
-		List tgtColumns = new LinkedList();
-		List relations = new LinkedList();
-		List srcGroupBy = new LinkedList();
-		List tgtGroupBy = new LinkedList();
-		Term condStub;
-		
-		NodeTable srcTable  = tableFactory.nodeTable("src");
-		NodeTable tgtTable  = tableFactory.nodeTable("tgt");
-		EdgeTable edgeTable = tableFactory.originalEdgeTable();
-		
-		// 1	SELECT src.node_id, count(src.node_id)
-		initValidStmtSrc(srcColumns, stmtFactory, srcTable);
-		
-		// 1	SELECT tgt.node_id, count(tgt.node_id)
-		initValidStmtTgt(tgtColumns, stmtFactory, tgtTable);
-		
-		// 2: FROM nodes AS src, nodes AS tgt, edges
-		relations.add(srcTable);
-		relations.add(tgtTable);
-		relations.add(edgeTable);
-		
-		condStub = initValidStmtCondStub(stmtFactory,
-																		 srcTable, tgtTable, edgeTable);
-		
-		// 6	GROUP BY src.node_id
-		srcGroupBy.add(srcTable.colId());
-		
-		// 6	GROUP BY tgt.node_id
-		tgtGroupBy.add(tgtTable.colId());
-		
-		for(int i  = 0; i < srcTypes.size(); i++) {
-			Term tmp1, srcCond, tgtCond, srcHaving, tgtHaving;
-			NodeType srcType = (NodeType)srcTypes.get(i);
-			NodeType tgtType = (NodeType)tgtTypes.get(i);
-			int srcRangeLower = ((int[])srcRange.get(i))[0];
-			int srcRangeUpper = ((int[])srcRange.get(i))[1];
-			int tgtRangeLower = ((int[])tgtRange.get(i))[0];
-			int tgtRangeUpper = ((int[])tgtRange.get(i))[1];
-			EdgeType edgeType = (EdgeType)edgeTypes.get(i);
-			
-			// 5: edges.type_id = $E_TYPE_ID$
-			tmp1 = stmtFactory.isA(edgeTable, edgeType, typeID);
-			srcCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
-			tgtCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
-			
-			// 5b:		src.type_id = $SRC_TYPE_ID$;
-			srcCond = buildValidStmtTID(stmtFactory, srcTable, srcType, srcCond);
-			
-			// 5b:		tgt.type_id = $TGT_TYPE_ID$
-			tgtCond = buildValidStmtTID(stmtFactory, tgtTable, tgtType, tgtCond);
-			
-			// 7:	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
-			// 8:		count(src.node_id) > $SRC_RANGE_UPPER$;
-			srcHaving = buildValidStmtHaving(stmtFactory, srcTable,
-																			 srcRangeLower, srcRangeUpper);
-			
-			// 7:	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
-			// 8:		count(tgt.node_id) > $TGT_RANGE_UPPER$;
-			tgtHaving = buildValidStmtHaving(stmtFactory, tgtTable,
-																			 tgtRangeLower, tgtRangeUpper);
-			
-			Query src = stmtFactory.simpleQuery(srcColumns, relations, srcCond,
-																					srcGroupBy, srcHaving);
-			Query tgt = stmtFactory.simpleQuery(tgtColumns, relations, tgtCond,
-																					tgtGroupBy, tgtHaving);
-			
-			res.add(src.dump(new StringBuffer()));
-			res.add(tgt.dump(new StringBuffer()));
-		}
-		return res;
-	}
-	
-	private Term buildValidStmtTID(TypeStatementFactory stmtFactory,
-																 NodeTable table, NodeType type, Term cond) {
-		Term tmp = stmtFactory.isA(table, type, typeID);
-		cond = stmtFactory.addExpression(Opcodes.AND, cond, tmp);
-		
-		return cond;
-	}
-	
-	private Term buildValidStmtHaving(TypeStatementFactory stmtFactory,
-																		NodeTable table, int lower, int upper) {
-		Term tmp1, tmp2, tmp3;
-		
-		// 7:	HAVING count(src.node_id) < $LOWER$ OR
-		Column c =  stmtFactory.aggregate(Aggregate.COUNT, table.colId());
-		tmp3 = stmtFactory.expression(c);
-		tmp2 = stmtFactory.constant(lower);
-		tmp1 = stmtFactory.expression(Opcodes.LT, tmp3, tmp2);
-		
-		// 8:		count(src.node_id) > $UPPER$;
-		tmp2 = stmtFactory.constant(upper);
-		tmp2 = stmtFactory.expression(Opcodes.GT, tmp3, tmp2);
-		
-		// OR
-		tmp1 = stmtFactory.expression(Opcodes.OR, tmp1, tmp2);
-		
-		return tmp1;
-	}
-	
-	private Term initValidStmtCondStub(
-		TypeStatementFactory stmtFactory,
-		NodeTable srcTable, NodeTable tgtTable, EdgeTable edgeTable) {
-		
-		Term condStub, tmp;
-		// 3: edges.src_id = src.node_id AND
-		condStub = stmtFactory.expression(Opcodes.EQ,
-																			stmtFactory.expression(srcTable.colId()),
-																			stmtFactory.expression(edgeTable.colSrcId()));
-		// 4: edges.tgt_id = tgt.node_id AND
-		tmp = stmtFactory.expression(Opcodes.EQ,
-																 stmtFactory.expression(tgtTable.colId()),
-																 stmtFactory.expression(edgeTable.colTgtId()));
-		condStub = stmtFactory.expression(Opcodes.AND, condStub, tmp);
-		return condStub;
-	}
-	
-	private void  initValidStmtSrc(
-		List columns, TypeStatementFactory stmtFactory,	NodeTable srcTable) {
-		
-		// 1: SELECT src.node_id, count(src.node_id)
-		columns.add(srcTable.colId());
-		columns.add(stmtFactory.aggregate(Aggregate.COUNT, srcTable.colId()));
-	}
-	
-	private void initValidStmtTgt(
-		List columns, TypeStatementFactory stmtFactory, NodeTable tgtTable) {
-		
-		// 1: SELECT tgt.node_id, count(tgt.node_id)
-		columns.add(tgtTable.colId());
-		columns.add(stmtFactory.aggregate(Aggregate.COUNT, tgtTable.colId()));
-	}
+//	/**
+//	 * Method genValidateStatements produces all validate statements for all
+//	 * connection assertion of a spec.
+//	 *
+//	 * for source:
+//	 * 1	SELECT src.node_id, count(src.node_id)
+//	 * 2	FROM nodes AS src, nodes AS tgt, edges
+//	 * 3	WHERE edges.src_id = src.node_id AND
+//	 * 4		edges.tgt_id = tgt.node_id AND
+//	 * 5		edges.type_id = $E_TYPE_ID$
+//	 * 5b		src.type_id = $SRC_TYPE_ID$
+//	 * 6	GROUP BY src.node_id
+//	 * 7	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
+//	 * 8		count(src.node_id) > $SRC_RANGE_UPPER$;
+//	 *
+//	 * for target:
+//	 * 1	SELECT tgt.node_id, count(tgt.node_id)
+//	 * 2	FROM nodes AS src, nodes AS tgt, edges
+//	 * 3	WHERE edges.src_id = src.node_id AND
+//	 * 4		edges.tgt_id = tgt.node_id AND
+//	 * 5		edges.type_id = $E_TYPE_ID$
+//	 * 5b		tgt.type_id = $TGT_TYPE_ID$
+//	 * 6	GROUP BY tgt.node_id
+//	 * 7	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
+//	 * 8		count(tgt.node_id) > $TGT_RANGE_UPPER$;
+//	 *
+//	 * @return  a List containing the src and tgt sql conn assert statements
+//	 * 			in an alternating order.
+//	 */
+//	public List genValidateStatements(
+//		List srcTypes, List srcRange,  List tgtTypes, List tgtRange, List edgeTypes,
+//		TypeStatementFactory stmtFactory, GraphTableFactory tableFactory) {
+//
+//		List res = new ArrayList();
+//		List srcColumns = new LinkedList();
+//		List tgtColumns = new LinkedList();
+//		List relations = new LinkedList();
+//		List srcGroupBy = new LinkedList();
+//		List tgtGroupBy = new LinkedList();
+//		Term condStub;
+//
+//		NodeTable srcTable  = tableFactory.nodeTable("src");
+//		NodeTable tgtTable  = tableFactory.nodeTable("tgt");
+//		EdgeTable edgeTable = tableFactory.originalEdgeTable();
+//
+//		// 1	SELECT src.node_id, count(src.node_id)
+//		initValidStmtSrc(srcColumns, stmtFactory, srcTable);
+//
+//		// 1	SELECT tgt.node_id, count(tgt.node_id)
+//		initValidStmtTgt(tgtColumns, stmtFactory, tgtTable);
+//
+//		// 2: FROM nodes AS src, nodes AS tgt, edges
+//		relations.add(srcTable);
+//		relations.add(tgtTable);
+//		relations.add(edgeTable);
+//
+//		condStub = initValidStmtCondStub(stmtFactory,
+//																		 srcTable, tgtTable, edgeTable);
+//
+//		// 6	GROUP BY src.node_id
+//		srcGroupBy.add(srcTable.colId());
+//
+//		// 6	GROUP BY tgt.node_id
+//		tgtGroupBy.add(tgtTable.colId());
+//
+//		for(int i  = 0; i < srcTypes.size(); i++) {
+//			Term tmp1, srcCond, tgtCond, srcHaving, tgtHaving;
+//			NodeType srcType = (NodeType)srcTypes.get(i);
+//			NodeType tgtType = (NodeType)tgtTypes.get(i);
+//			int srcRangeLower = ((int[])srcRange.get(i))[0];
+//			int srcRangeUpper = ((int[])srcRange.get(i))[1];
+//			int tgtRangeLower = ((int[])tgtRange.get(i))[0];
+//			int tgtRangeUpper = ((int[])tgtRange.get(i))[1];
+//			EdgeType edgeType = (EdgeType)edgeTypes.get(i);
+//
+//			// 5: edges.type_id = $E_TYPE_ID$
+//			tmp1 = stmtFactory.isA(edgeTable, edgeType, typeID);
+//			srcCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
+//			tgtCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
+//
+//			// 5b:		src.type_id = $SRC_TYPE_ID$;
+//			srcCond = buildValidStmtTID(stmtFactory, srcTable, srcType, srcCond);
+//
+//			// 5b:		tgt.type_id = $TGT_TYPE_ID$
+//			tgtCond = buildValidStmtTID(stmtFactory, tgtTable, tgtType, tgtCond);
+//
+//			// 7:	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
+//			// 8:		count(src.node_id) > $SRC_RANGE_UPPER$;
+//			srcHaving = buildValidStmtHaving(stmtFactory, srcTable,
+//																			 srcRangeLower, srcRangeUpper);
+//
+//			// 7:	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
+//			// 8:		count(tgt.node_id) > $TGT_RANGE_UPPER$;
+//			tgtHaving = buildValidStmtHaving(stmtFactory, tgtTable,
+//																			 tgtRangeLower, tgtRangeUpper);
+//
+//			Query src = stmtFactory.simpleQuery(srcColumns, relations, srcCond,
+//																					srcGroupBy, srcHaving);
+//			Query tgt = stmtFactory.simpleQuery(tgtColumns, relations, tgtCond,
+//																					tgtGroupBy, tgtHaving);
+//
+//			res.add(src.dump(new StringBuffer()));
+//			res.add(tgt.dump(new StringBuffer()));
+//		}
+//		return res;
+//	}
+//
+//	private Term buildValidStmtTID(TypeStatementFactory stmtFactory,
+//																 NodeTable table, NodeType type, Term cond) {
+//		Term tmp = stmtFactory.isA(table, type, typeID);
+//		cond = stmtFactory.addExpression(Opcodes.AND, cond, tmp);
+//
+//		return cond;
+//	}
+//
+//	private Term buildValidStmtHaving(TypeStatementFactory stmtFactory,
+//																		NodeTable table, int lower, int upper) {
+//		Term tmp1, tmp2, tmp3;
+//
+//		// 7:	HAVING count(src.node_id) < $LOWER$ OR
+//		Column c =  stmtFactory.aggregate(Aggregate.COUNT, table.colId());
+//		tmp3 = stmtFactory.expression(c);
+//		tmp2 = stmtFactory.constant(lower);
+//		tmp1 = stmtFactory.expression(Opcodes.LT, tmp3, tmp2);
+//
+//		// 8:		count(src.node_id) > $UPPER$;
+//		tmp2 = stmtFactory.constant(upper);
+//		tmp2 = stmtFactory.expression(Opcodes.GT, tmp3, tmp2);
+//
+//		// OR
+//		tmp1 = stmtFactory.expression(Opcodes.OR, tmp1, tmp2);
+//
+//		return tmp1;
+//	}
+//
+//	private Term initValidStmtCondStub(
+//		TypeStatementFactory stmtFactory,
+//		NodeTable srcTable, NodeTable tgtTable, EdgeTable edgeTable) {
+//
+//		Term condStub, tmp;
+//		// 3: edges.src_id = src.node_id AND
+//		condStub = stmtFactory.expression(Opcodes.EQ,
+//																			stmtFactory.expression(srcTable.colId()),
+//																			stmtFactory.expression(edgeTable.colSrcId()));
+//		// 4: edges.tgt_id = tgt.node_id AND
+//		tmp = stmtFactory.expression(Opcodes.EQ,
+//																 stmtFactory.expression(tgtTable.colId()),
+//																 stmtFactory.expression(edgeTable.colTgtId()));
+//		condStub = stmtFactory.expression(Opcodes.AND, condStub, tmp);
+//		return condStub;
+//	}
+//
+//	private void  initValidStmtSrc(
+//		List columns, TypeStatementFactory stmtFactory,	NodeTable srcTable) {
+//
+//		// 1: SELECT src.node_id, count(src.node_id)
+//		columns.add(srcTable.colId());
+//		columns.add(stmtFactory.aggregate(Aggregate.COUNT, srcTable.colId()));
+//	}
+//
+//	private void initValidStmtTgt(
+//		List columns, TypeStatementFactory stmtFactory, NodeTable tgtTable) {
+//
+//		// 1: SELECT tgt.node_id, count(tgt.node_id)
+//		columns.add(tgtTable.colId());
+//		columns.add(stmtFactory.aggregate(Aggregate.COUNT, tgtTable.colId()));
+//	}
 }
 
 
