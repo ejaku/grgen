@@ -1,5 +1,5 @@
-actions incrementer; // using Firm;
-
+actions bugtest;// using Firm;
+/*
 rule ReUsedEdges {
 	pattern {
 		node (x,y,z): Node;
@@ -8,14 +8,36 @@ rule ReUsedEdges {
 		c: Node;
 		x -e:Edge-> y; //ok
 //		x -e-> y;      //duplicate error
-		x -e-> y;      //error
+//		x -e-> y;      //error
 	}
 	negative {
-		a -e-> y;      //ok
+		x -e-> y;      //ok
 //		x -e-> z;      //error
 	}
 	replace{
-		x -e:Node-> y;      //ok
+		x -e-> y;      //ok
 //		x -e-> z;      //error
 	}
 }
+*/
+
+
+//All edges get coalesced. 
+//The pattern-anon with neg-anon is ok. 
+//e with f is wrong.
+//pattern-anon with e/f should be wrong; or not?
+//Fixed
+rule bug12 {
+  pattern {
+    node (a, b):Node;
+    a --> b;
+  }
+  negative {
+	a --> b;
+	a -e:Edge-> b;
+	a -f:Edge-> b;
+  }
+  replace {
+  }
+}
+
