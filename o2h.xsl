@@ -12,14 +12,14 @@ typedef struct {
 		<xsl:for-each select="node_type">
 			<xsl:text>	gr_id_t N_</xsl:text>
 			<xsl:value-of select="@name"/>
-<xsl:text>
+<xsl:text>;
 </xsl:text>
 			<xsl:for-each select="attributes/entity">
 				<xsl:text>	gr_id_t NA_</xsl:text>
 				<xsl:value-of select="../../@name"/>
 				<xsl:text>__</xsl:text>
 				<xsl:value-of select="@name"/>
-<xsl:text>
+<xsl:text>;
 </xsl:text>
 			</xsl:for-each>
 		</xsl:for-each>
@@ -31,14 +31,14 @@ typedef struct {
 		<xsl:for-each select="edge_type">
 			<xsl:text>	gr_id_t E_</xsl:text>
 			<xsl:value-of select="@name"/>
-<xsl:text>
+<xsl:text>;
 </xsl:text>
 			<xsl:for-each select="attributes/entity">
 				<xsl:text>	gr_id_t EA_</xsl:text>
 				<xsl:value-of select="../../@name"/>
 				<xsl:text>__</xsl:text>
 				<xsl:value-of select="@name"/>
-<xsl:text>
+<xsl:text>;
 </xsl:text>
 			</xsl:for-each>
 		</xsl:for-each>
