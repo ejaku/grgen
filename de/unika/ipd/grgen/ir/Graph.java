@@ -321,7 +321,8 @@ public class Graph extends IR {
 			Edge e = (Edge) it.next();
 			
 			if(src == getSource(e) && tgt == getTarget(e)
-				 && edgeType.isEqual(e.getEdgeType())) {
+				 && edgeType.isEqual(e.getEdgeType())
+				 && e.isAnonymous()) {
 				
 				debug.report(NOTE, "Exchanging " + e.getIdent()
 											 + " with " + edge.getIdent());
