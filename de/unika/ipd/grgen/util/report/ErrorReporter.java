@@ -107,16 +107,16 @@ public class ErrorReporter extends Reporter {
    * Returns the number of occured errors.
    * @return
    */
-  public int getErrorCount() {
-	return errCount;
+  public static int getErrorCount() {
+		return errCount;
   }
 
   /**
    * Returns the number of occured warnings.
    * @return
    */
-  public int getWarnCount() {
-	return warnCount;
+  public static int getWarnCount() {
+		return warnCount;
   }
   
 }
