@@ -6,7 +6,12 @@
 
 package de.unika.ipd.grgen.util;
 
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 public class Util {
 	
@@ -35,5 +40,27 @@ public class Util {
 		return sb.toString();
 	}
 	
+	/**
+	 * Write a string buffer to a file.
+	 * @param file The file.
+	 * @param The character sequence to print (can be a
+	 * {@link String} or {@link StringBuffer}
+	 */
+  public static void writeFile(File file, CharSequence cs, ErrorReporter reporter) {
+		
+		try {
+			FileOutputStream fos =
+				new FileOutputStream(file);
+			PrintStream ps = new PrintStream(fos);
+			
+			ps.print(cs);
+			fos.close();
+			
+		} catch(FileNotFoundException e) {
+			reporter.error(e.toString());
+		} catch(IOException e) {
+			reporter.error(e.toString());
+		}
+  }
 }
 

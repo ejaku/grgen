@@ -49,9 +49,9 @@ public class Test extends Base implements Sys {
 	boolean parseInput(String inputFile) {
 		boolean res = false;
 		
-		debug.entering();
-		
 		GRParserEnvironment env = new GRParserEnvironment(this);
+		root = env.parse(new File(inputFile));
+		res = root != null;
 
 		if(res)
 			res = BaseNode.manifestAST(root);
@@ -60,7 +60,6 @@ public class Test extends Base implements Sys {
 			unit = (Unit) root.checkIR(Unit.class);
 		
 		debug.report(NOTE, "result: " + res);
-		debug.leaving();
 		
 		return res;
 	}
@@ -84,9 +83,8 @@ public class Test extends Base implements Sys {
 		
 		SQLParameters params = new PreferencesSQLParameters();
 		SQLBackend backend = new SQLBackend(params, connFactory);
-		
-		if(parseInput(filename)) {
 
+		if(parseInput(filename)) {
 			
 			backend.init(unit, this, new File(""));
 			backend.generate();
@@ -102,7 +100,7 @@ public class Test extends Base implements Sys {
 		modelPath = new File(filename).getAbsoluteFile().getParentFile();
 		JoinedFactory factory = load(filename);
 	
-		Graph g = factory.getGraph("Test");
+		Graph g = factory.getGraph("Test", false);
 	}
 	
 	Test() {
@@ -111,10 +109,10 @@ public class Test extends Base implements Sys {
 		reporter = new ErrorReporter();
 		reporter.addHandler(handler);
 		
-		Base.setReporters(new DebugReporter(10), reporter);
+		DebugReporter deb = new DebugReporter(10);
 		
-		Base.debug.addHandler(handler);
-
+		Base.setReporters(deb, reporter);
+		// Base.debug.addHandler(handler);
 		loadJDBCDrivers();
 	}
 	

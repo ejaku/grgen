@@ -12,6 +12,6 @@ package de.unika.ipd.libgr.graph;
  */
 public interface GraphFactory {
 
-	Graph getGraph(String name);
+	Graph getGraph(String name, boolean create);
 	
 }

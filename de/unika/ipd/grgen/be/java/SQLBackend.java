@@ -7,6 +7,7 @@
 package de.unika.ipd.grgen.be.java;
 
 import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
@@ -33,7 +34,7 @@ import java.util.Map;
 /**
  * A Java/SQL backend.
  */
-public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory {
+public class SQLBackend extends IDBase implements Actions, JoinedFactory {
 	
 	/** Map action names to SQLActions. */
 	private Map actions = new HashMap();
@@ -66,6 +67,7 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	
 	
 	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
+		
 		this.params = params;
 		this.sqlGen = new SQLGenerator(params, this);
 		this.connectionFactory = connectionFactory;
@@ -73,6 +75,8 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 		this.factory = new DefaultStatementFactory(typeFactory);
 		this.tableFactory = new DefaultGraphTableFactory(params, typeFactory,
 																										 nodeAttrMap, edgeAttrMap);
+		
+		
 	}
 	
 	private final void assertInitialized() {
@@ -91,8 +95,6 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	public void generate() {
 		assertInitialized();
 		
-		debug.entering();
-		
 		for(Iterator it = actionMap.keySet().iterator(); it.hasNext();) {
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
@@ -103,14 +105,12 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 			
 			debug.report(NOTE, "action: " + a.getIdent());
 		}
-		
-		debug.leaving();
 	}
 	
 	/**
 	 * @see de.unika.ipd.libgr.actions.Actions#getAction(java.lang.String)
 	 */
-	public Action get(String name) {
+	public Action getAction(String name) {
 		assertInitialized();
 		return (Action) actions.get(name);
 	}
@@ -118,7 +118,7 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/**
 	 * @see de.unika.ipd.libgr.actions.Actions#getActions()
 	 */
-	public Iterator get() {
+	public Iterator actions() {
 		assertInitialized();
 		return actions.values().iterator();
 	}
@@ -126,21 +126,9 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/**
 	 * @see de.unika.ipd.libgr.graph.GraphFactory#getGraph(java.lang.String)
 	 */
-	public Graph getGraph(String name) {
+	public Graph getGraph(String name, boolean create) {
 		assertInitialized();
-		
-		Graph res = null;
-		
-		try {
-			Connection conn = connectionFactory.connect();
-			Queries queries = new DatabaseContext(name, params, conn, reporter);
-
-			res = new SQLGraph(name, this, queries, reporter);
-		} catch(SQLException e) {
-			reporter.error("could not make database connection: " + e.toString());
-		}
-		
-		return res;
+		return new SQLGraph(name, this, queries, reporter, create);
 	}
 	
 	/**
@@ -155,8 +143,17 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
 	 */
 	public void init(Unit unit, Sys system, File outputPath) {
-		super.init(unit, system, outputPath);
+		makeTypes(unit);
+		this.system = system;
 		this.reporter = system.getErrorReporter();
+
+		try {
+			Connection conn = connectionFactory.connect();
+			queries = new DatabaseContext("Test", params, conn, reporter);
+		} catch(SQLException e) {
+			reporter.error(e.toString());
+			e.printStackTrace(System.err);
+		}
 	}
 }
 

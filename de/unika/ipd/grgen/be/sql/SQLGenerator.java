@@ -165,7 +165,6 @@ public class SQLGenerator extends Base {
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
 		
-		debug.entering();
 		Collection nodes = graph.getNodes(new HashSet());
 		Collection edges = new HashSet();
 		
@@ -300,8 +299,6 @@ public class SQLGenerator extends Base {
 		 );
 		 }
 		 */
-		
-		debug.leaving();
 		
 		nodeTables.addAll(edgeTables);
 		nodeCols.addAll(edgeCols);

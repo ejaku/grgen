@@ -206,7 +206,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
 	protected void doGetCompatibleToTypes(Collection coll) {
-		debug.entering();
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 		
 		Object obj = compatibleMap.get(this);
@@ -217,8 +216,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			}
 			coll.addAll((Collection) obj);
 		}
-		
-		debug.leaving();
 	}
 	
 	

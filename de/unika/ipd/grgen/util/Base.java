@@ -26,7 +26,7 @@ public class Base implements Id {
 	private String id;
 
 	/** constants for debug reporting */
-	public static final int NOTE = 0;
+	public static final int NOTE = 1;
 
 	/** The debug reporter for debugging */
 	public static Reporter debug;
@@ -58,25 +58,4 @@ public class Base implements Id {
 		return id;
 	}
 	
-  /**
-   * Write a string buffer to a file.
-   * @param file The file.
-   * @param The character sequence to print (can be a
-   * {@link String} or {@link StringBuffer}
-   */
-  protected void writeFile(File file, CharSequence cs) {
-    try {
-      FileOutputStream fos =
-      	new FileOutputStream(file);
-      PrintStream ps = new PrintStream(fos);
-      
-      ps.print(cs);
-      fos.close();
-    } catch (FileNotFoundException e) {
-      error.error(e.getMessage());
-    } catch (IOException e) {
-      error.error(e.getMessage());
-    }
-  }
-
 }

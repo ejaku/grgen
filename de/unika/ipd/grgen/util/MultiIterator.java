@@ -20,7 +20,7 @@ public class MultiIterator extends Base implements Iterator {
 	int curr;
 
   /**
-   * Make a new Multi iterator. 
+   * Make a new Multi iterator.
    * Each element of <code>iterators</code> must be an instance
    * of {@link Iterator}.
    * @param iterators Iterators to iterate over.
@@ -58,10 +58,9 @@ public class MultiIterator extends Base implements Iterator {
 		Object res = null;
 		Iterator i = iterators[curr];
 
-		debug.entering();
 		debug.report(NOTE, "curr: " + curr + ", iterators: " + iterators.length);
 
-		if(i.hasNext())	
+		if(i.hasNext())
 			res = i.next();
 		else {
 			curr++;
@@ -79,8 +78,6 @@ public class MultiIterator extends Base implements Iterator {
 		if(res == null)
   		throw new NoSuchElementException();
   		
-  	debug.leaving();
-  	
   	return res;
   }
 

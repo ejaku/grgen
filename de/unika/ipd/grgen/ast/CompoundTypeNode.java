@@ -12,20 +12,20 @@ import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * The base class for a compound type.
- * @note The scope stored in the node 
- * (accessible via {@link BaseNode#getScope()}) is the scope, 
+ * @note The scope stored in the node
+ * (accessible via {@link BaseNode#getScope()}) is the scope,
  * this compound type owns, not the scope it is declared in.
  */
 public abstract class CompoundTypeNode extends DeclaredTypeNode
 	implements ScopeOwner {
 	
-	/** Checker for the body of the compound type. */		
+	/** Checker for the body of the compound type. */
 	private final Checker bodyChecker;
 		
 	/** Index of the body collect node. */
 	private int bodyIndex;
 		
-	protected CompoundTypeNode(int bodyIndex, 
+	protected CompoundTypeNode(int bodyIndex,
 														 Checker bodyChecker,
 														 Resolver bodyResolver) {
 		this.bodyIndex = bodyIndex;
@@ -42,7 +42,6 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 	protected boolean fixupDefinition(IdentNode id, boolean reportErr) {
 		Scope scope = getScope();
 		
-		debug.entering();
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 		
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -53,7 +52,7 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		boolean res = def.isValid();
 
 		/*
-		 * If this definition is valid, i.e. it exists, the definition 		
+		 * If this definition is valid, i.e. it exists, the definition
 		 * of the ident is rewritten to this definition, else, an error
 		 * is emitted, since this ident was supposed to be defined in this
 		 * scope.
@@ -65,7 +64,6 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 				reportError("Identifier " + id + " not declared in this scope: "
 					+ scope);
 				
-		debug.leaving();
 		return res;
 	}
 

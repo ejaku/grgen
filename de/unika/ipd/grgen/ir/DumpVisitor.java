@@ -50,7 +50,6 @@ public class DumpVisitor extends GraphDumpVisitor
 		
 		gr.getNodes(nodes);
 		
-		debug.entering();
 		dumper.beginSubgraph(gr);
 		
 		for(Iterator it = nodes.iterator(); it.hasNext();)
@@ -110,7 +109,6 @@ public class DumpVisitor extends GraphDumpVisitor
 		}
 		
 		dumper.endSubgraph();
-		debug.leaving();
 	}
 	
 	/**

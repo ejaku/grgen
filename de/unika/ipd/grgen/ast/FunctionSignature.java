@@ -7,7 +7,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.util.Base;
 
 /**
- * Function abstraction. 
+ * Function abstraction.
  */
 public class FunctionSignature extends Base {
 
@@ -17,7 +17,7 @@ public class FunctionSignature extends Base {
 	/** Argument types. */
 	private TypeNode[] opTypes;
 
-	/** 
+	/**
 	 * Make a new function signature.
 	 * @param resType The result type.
 	 * @param opTypes The operand types.
@@ -72,28 +72,24 @@ public class FunctionSignature extends Base {
 	public int getDistance(TypeNode[] ops) {
 		int res = Integer.MAX_VALUE;
 		
-		debug.entering();
-		
 		if(ops.length == opTypes.length) {
 			res = 0;
 			for(int i = 0; i < opTypes.length; i++) {
-				debug.report(NOTE, "" + i + ": arg type: " + ops[i]  
+				debug.report(NOTE, "" + i + ": arg type: " + ops[i]
 					+ ", op type: " + opTypes[i]);
 				
 				boolean equal = ops[i].isEqual(opTypes[i]);
-				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);  
+				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);
 				
 				debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
 				
 				if(!compatible) {
 					res = Integer.MAX_VALUE;
 					break;
-				} else if(!equal && compatible)	
+				} else if(!equal && compatible)
 					res++;
 			}
-		} 
-		
-		debug.leaving();
+		}
 		
 		return res;
 	}

@@ -29,6 +29,9 @@ rule AddOneCarryToOne {
     z -> right;
     a -> i;
   }
+  cond {
+    ->c == 5
+  }
 }
 
 rule AddOneCarryToOne {

@@ -127,7 +127,7 @@ public class Dumper {
 		curr.finish();
 	}
 	
-	public final void dump(Unit unit, String prefix) {
+	public final void dump(Unit unit) {
 		
 		for(Iterator it = unit.getActions(); it.hasNext();) {
 			Object obj = it.next();
@@ -136,7 +136,7 @@ public class Dumper {
 				MatchingAction act = (MatchingAction) obj;
 				String main = act.toString().replace(' ', '_');
 				
-				GraphDumper curr = dumperFactory.get(prefix + main);
+				GraphDumper curr = dumperFactory.get(main);
 		
 				curr.begin();
 				dump(act, curr);

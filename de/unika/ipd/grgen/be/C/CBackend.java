@@ -9,6 +9,7 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
 import java.util.Iterator;
@@ -60,7 +61,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param cs A character sequence.
 	 */
 	protected void writeFile(String filename, CharSequence cs) {
-		writeFile(new File(path, filename), cs);
+		Util.writeFile(new File(path, filename), cs, error);
 	}
 	
 	/**
@@ -749,6 +750,7 @@ public abstract class CBackend extends IDBase implements Backend {
   }
 	
 }
+
 
 
 

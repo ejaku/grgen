@@ -317,8 +317,6 @@ public class Graph extends IR {
 		Node tgt = gr.getTarget(edge);
 		EdgeType edgeType = edge.getEdgeType();
 		
-		debug.entering();
-		
 		for(Iterator it = getEdges(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
@@ -337,8 +335,6 @@ public class Graph extends IR {
 				edges.put(edge, ge);
 			}
 		}
-		
-		debug.leaving();
 	}
 	
 	/**

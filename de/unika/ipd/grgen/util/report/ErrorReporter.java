@@ -9,12 +9,12 @@ package de.unika.ipd.grgen.util.report;
  */
 public class ErrorReporter extends Reporter {
 
-	public final static int ERROR = 0;
-	public final static int WARNING = 1;
-	public final static int NOTE = 2;
+	public final static int ERROR = 1;
+	public final static int WARNING = 2;
+	public final static int NOTE = 4;
 	
-	protected static int errCount = 0; 
-	protected static int warnCount = 0; 
+	protected static int errCount = 0;
+	protected static int warnCount = 0;
 
 	private final static String[] levelNames = {
 		"error", "warning", "note"
@@ -26,16 +26,16 @@ public class ErrorReporter extends Reporter {
 	}
 
   /**
-   * Create a new error reporter. 
+   * Create a new error reporter.
    */
   public ErrorReporter() {
-    super(3);
+		setMask(ERROR | WARNING | NOTE);
   }
   
   
   /**
    * Report an error at a given location.
-   * 
+   *
    * @param loc The location.
    * @param msg The error message.
    */
@@ -55,7 +55,7 @@ public class ErrorReporter extends Reporter {
   
   /**
    * Report a warning at a given location.
-   * 
+   *
    * @param loc The location.
    * @param msg The warning message.
    */
@@ -67,7 +67,7 @@ public class ErrorReporter extends Reporter {
 	/**
 	 * report a warning.
    * @param msg The warning message.
-	 */  
+	 */
   public void warning(String msg) {
   	report(WARNING, getMsg(WARNING, msg));
   	++warnCount;
@@ -75,10 +75,10 @@ public class ErrorReporter extends Reporter {
 
 	/**
 	 * Report a note at a given location.
-	 * 
+	 *
    * @param loc The location.
    * @param msg The note message.
-	 */  
+	 */
   public void note(Location loc, String msg) {
   	report(NOTE, loc, getMsg(NOTE, msg));
   }
@@ -92,7 +92,7 @@ public class ErrorReporter extends Reporter {
   }
   
   /**
-   * Enter is disabled in this reporter. Error reporting is plain 
+   * Enter is disabled in this reporter. Error reporting is plain
    * not nested.
    */
   public void entering(String s) {

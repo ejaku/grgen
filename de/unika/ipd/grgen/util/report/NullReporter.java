@@ -5,15 +5,9 @@
 package de.unika.ipd.grgen.util.report;
 
 /**
- * A reporter that eats every thing up 
+ * A reporter that eats every thing up
  */
 public class NullReporter extends Reporter {
-
-  public NullReporter() {
-    super(0);
-  }
-
-	
 
   /**
    * Do nothing here
@@ -23,7 +17,7 @@ public class NullReporter extends Reporter {
   }
 
   /**
-   * Do nothing here 
+   * Do nothing here
    * @see de.unika.ipd.grgen.util.report.Reporter#leaving()
    */
   public void leaving() {

@@ -13,8 +13,8 @@ rule SubType {
 */
 
 
-//!!!! Im Moment wird nur überprüft, ob eine (named) Edge mehr als einmal in einem Graphen benutzt wird.
-//!!!! TODO: Bei Wiederbenutzung müssen gleiche Nodes dranhängen.
+//!!!! Im Moment wird nur "uberpr"uft, ob eine (named) Edge mehr als einmal in einem Graphen benutzt wird.
+//!!!! TODO: Bei Wiederbenutzung m"ussen gleiche Nodes dranh"angen.
 rule ReUsedEdges {
 	pattern {
 		node (x,y,z): Node;

@@ -5,39 +5,16 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import de.unika.ipd.grgen.be.*;
+import de.unika.ipd.grgen.be.sql.meta.*;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.be.sql.meta.Column;
-import de.unika.ipd.grgen.be.sql.meta.Join;
-import de.unika.ipd.grgen.be.sql.meta.Opcodes;
-import de.unika.ipd.grgen.be.sql.meta.Query;
-import de.unika.ipd.grgen.be.sql.meta.Relation;
-import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
-import de.unika.ipd.grgen.be.sql.meta.Term;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
 import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.NodeTable;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
 
 
 /**
@@ -93,7 +70,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				//				debug.entering();
 				//				debug.report(NOTE, "" + n1.getIdent() + " cmp " + n2.getIdent());
 				int res = compareTypes(n1.getNodeType(), n2.getNodeType());
-				//				debug.leaving();
+				//
 				
 				return res;
 			} else
@@ -174,8 +151,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private void visitNode(VisitContext ctx, SearchPath path, Node start) {
 		
-		debug.entering();
-		
 		if(ctx.visited.contains(start))
 			return;
 		
@@ -233,8 +208,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				visitNode(ctx, sp, n);
 			}
 		}
-		
-		debug.leaving();
 	}
 	
 	private SearchPath[] computeSearchPaths(Graph pattern) {
@@ -243,8 +216,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		Iterator edgeIterator = pattern.getEdges();
 		Comparator comparator = new NodeComparator(pattern);
 		
-		debug.entering();
-
 		debug.report(NOTE, "all nodes" + rest);
 		
 		if(rest.isEmpty() || !edgeIterator.hasNext())
@@ -267,9 +238,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			rest.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
-		
-		debug.leaving();
-		
+
 		return (SearchPath[]) ctx.paths.toArray(new SearchPath[ctx.paths.size()]);
 	}
 	
@@ -282,7 +251,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	private Node getCheapest(Iterator nodes, Comparator comp) {
 		Node cheapest = null;
 		
-		debug.entering();
+		
 		
 		while(nodes.hasNext()) {
 			Node curr = (Node) nodes.next();
@@ -297,7 +266,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					+ ", type: " + nt.getIdent());
 		}
 		
-		debug.leaving();
+		
 		
 		return cheapest;
 	}
@@ -333,12 +302,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		 * the expression are in the processed set.
 		 */
 		Term getCond(Entity ent, Collection processed) {
-			debug.entering();
+			
 			
 			boolean res = canDeliver(ent, processed);
 			debug.report(NOTE, "proc: " + processed + ", used: " + usedEntities
 										 + ", can deliver: " + res);
-			debug.leaving();
+			
 			
 			return res ? cond : null;
 		}
@@ -489,7 +458,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			Term cond = null;
 			
-			debug.entering();
+			
 			
 			Node[] nodes = new Node[] {
 					(Node) ctx.graph.getSource(edge),
@@ -580,12 +549,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			}
 
 
-			debug.leaving();
+			
 		}
 	}
 	
 	protected Query makeMatchStatement(MatchCtx ctx) {
-		debug.entering();
+		
 		MatchingAction act = ctx.action;
 		TypeStatementFactory factory = ctx.stmtFactory;
 		GraphTableFactory tableFactory = ctx.tableFactory;
@@ -758,7 +727,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			result = factory.simpleQuery(columns, relations, pendingConds);
 		}
 
-		debug.leaving();
+		
 		
 		return result;
 	}

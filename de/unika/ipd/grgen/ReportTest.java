@@ -57,16 +57,11 @@ public class ReportTest extends JPanel {
 	
 	public void reportSomething() {
 		reporter.report(0, "Hallo");
-		reporter.entering("Test1");
 		reporter.report(1, "Hallo1");
 		reporter.report(2, "Hallo2");
 		reporter.report(128, "Never Seen");
-		reporter.entering("Test2");
 		reporter.report(0, "Hallo4");
-		reporter.leaving();
 		reporter.report(1, "Hallo5");
-		reporter.leaving();
 		reporter.report(2, "Hallo6");
-		reporter.leaving();
 	}
 }

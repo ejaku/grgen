@@ -32,7 +32,7 @@ import de.unika.ipd.libgr.graph.TypeModel;
  * A sql graph.
  */
 class SQLGraph implements Graph, TypeModel {
-
+	
 	private final String name;
 	
 	private IDTypeModel typeModel;
@@ -75,10 +75,10 @@ class SQLGraph implements Graph, TypeModel {
 		
 		try {
 			Collection ids = new LinkedList();
-
+			
 			while(res.next())
 				ids.add(new Integer(res.getInt(0)));
-				
+			
 			return ids.iterator();
 			
 		} catch(SQLException e) {
@@ -86,7 +86,7 @@ class SQLGraph implements Graph, TypeModel {
 			return null;
 		}
 	}
-
+	
 	
 	class SQLNode extends DefaultIntegerId implements Node {
 		int[] id = new int[1];
@@ -110,7 +110,7 @@ class SQLGraph implements Graph, TypeModel {
 			
 			return nodes.iterator();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.Node#getOutgoing()
 		 */
@@ -149,14 +149,14 @@ class SQLGraph implements Graph, TypeModel {
 		public Node getSource() {
 			return getNode(getResultId(queries.exec(Queries.EDGE_SOURCE, id)));
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.Edge#getTarget()
 		 */
 		public Node getTarget() {
 			return getNode(getResultId(queries.exec(Queries.EDGE_TARGET, id)));
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.Edge#getType()
 		 */
@@ -166,7 +166,7 @@ class SQLGraph implements Graph, TypeModel {
 	}
 	
 	class SQLNodeType extends DefaultIntegerId implements NodeType {
-
+		
 		SQLNodeType(int id) {
 			super(id);
 		}
@@ -188,10 +188,10 @@ class SQLGraph implements Graph, TypeModel {
 			
 			for(int i = 0; i < superTypes.length; i++)
 				result.add(getNodeType(superTypes[i]));
-				
+			
 			return result.iterator();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
@@ -201,10 +201,10 @@ class SQLGraph implements Graph, TypeModel {
 			
 			for(int i = 0; i < subTypes.length; i++)
 				result.add(getNodeType(subTypes[i]));
-				
+			
 			return result.iterator();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#isA(de.unika.ipd.libgr.graph.InheritanceType)
 		 */
@@ -232,7 +232,7 @@ class SQLGraph implements Graph, TypeModel {
 	}
 	
 	class SQLEdgeType extends DefaultIntegerId implements EdgeType {
-
+		
 		SQLEdgeType(int id) {
 			super(id);
 		}
@@ -254,10 +254,10 @@ class SQLGraph implements Graph, TypeModel {
 			
 			for(int i = 0; i < superTypes.length; i++)
 				result.add(getEdgeType(superTypes[i]));
-				
+			
 			return result.iterator();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
@@ -267,10 +267,10 @@ class SQLGraph implements Graph, TypeModel {
 			
 			for(int i = 0; i < subTypes.length; i++)
 				result.add(getEdgeType(subTypes[i]));
-				
+			
 			return result.iterator();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#isA(de.unika.ipd.libgr.graph.InheritanceType)
 		 */
@@ -312,7 +312,7 @@ class SQLGraph implements Graph, TypeModel {
 	EdgeType getEdgeType(int id) {
 		return new SQLEdgeType(id);
 	}
-
+	
 	private int getId(Object obj) {
 		int id = IntegerId.INVALID;
 		
@@ -328,18 +328,24 @@ class SQLGraph implements Graph, TypeModel {
 	 * @param typeModel The type model.
 	 * @param queries The query object that can make queries to the database.
 	 * @param reporter An error reporting facility.
+	 * @param create If true, the graph database is newly created.
 	 */
-	SQLGraph(String name, IDTypeModel typeModel, Queries queries, ErrorReporter reporter) {
+	SQLGraph(String name, IDTypeModel typeModel,
+					 Queries queries, ErrorReporter reporter,
+					 boolean create) {
+		
 		this.name = name;
 		this.typeModel = typeModel;
 		this.queries = queries;
 		this.reporter = reporter;
 		
-		// Create the tables needed for this graph.
-		queries.execUpdate(Queries.DELETE_NODES_TABLE, new int[] { });
-		queries.execUpdate(Queries.DELETE_EDGES_TABLE, new int[] { });
-		queries.execUpdate(Queries.CREATE_NODES_TABLE, new int[] { });
-		queries.execUpdate(Queries.CREATE_EDGES_TABLE, new int[] { });
+		if(create) {
+			// Create the tables needed for this graph.
+			queries.execUpdate(Queries.DELETE_NODES_TABLE, new int[] { });
+			queries.execUpdate(Queries.DELETE_EDGES_TABLE, new int[] { });
+			queries.execUpdate(Queries.CREATE_NODES_TABLE, new int[] { });
+			queries.execUpdate(Queries.CREATE_EDGES_TABLE, new int[] { });
+		}
 	}
 	
 	/**
@@ -367,7 +373,7 @@ class SQLGraph implements Graph, TypeModel {
 	 */
 	public void dump(GraphDumper dumper) {
 		// TODO Auto-generated method stub
-
+		
 	}
 	
 	/**
@@ -392,7 +398,7 @@ class SQLGraph implements Graph, TypeModel {
 		int n = getId(node);
 		return queries.execUpdate(Queries.REMOVE_NODE, new int[] { n }) != 0;
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.libgr.Named#getName()
 	 */
@@ -406,7 +412,7 @@ class SQLGraph implements Graph, TypeModel {
 	public EdgeType getEdgeRootType() {
 		return getEdgeType(typeModel.getRootType(false));
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.libgr.graph.TypeModel#getEdgeTypes()
 	 */

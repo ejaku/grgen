@@ -52,10 +52,10 @@ class DatabaseContext extends Base implements Queries {
 		
 		res[GET_ALL_NODES] = "SELECT " + p.getColNodesId() + " FROM " + nodesTableName;
 		
-		res[REMOVE_EDGE] = "DELETE FROM " + edgesTableName + " WHERE " 
+		res[REMOVE_EDGE] = "DELETE FROM " + edgesTableName + " WHERE "
 			+ p.getColEdgesId() + " = ?";
 		
-		res[REMOVE_NODE] = "DELETE FROM " + nodesTableName + " WHERE " 
+		res[REMOVE_NODE] = "DELETE FROM " + nodesTableName + " WHERE "
 			+ p.getColNodesId() + " = ?";
 
 		res[EDGE_SOURCE] = "SELECT " + p.getColEdgesSrcId() + " FROM " + edgesTableName
@@ -74,10 +74,10 @@ class DatabaseContext extends Base implements Queries {
 	  	+ " SET " + p.getColNodesTypeId() + " = ?"
 	    + " WHERE " + p.getColNodesId() + " = ?";
 		
-		res[NODE_GET_TYPE] = "SELECT " + p.getColNodesTypeId() + " FROM " 
+		res[NODE_GET_TYPE] = "SELECT " + p.getColNodesTypeId() + " FROM "
 			+ nodesTableName + " WHERE " + p.getColNodesId() + " = ?";
  
-		res[EDGE_GET_TYPE] = "SELECT " + p.getColEdgesTypeId() + " FROM " 
+		res[EDGE_GET_TYPE] = "SELECT " + p.getColEdgesTypeId() + " FROM "
 			+ edgesTableName + " WHERE " + p.getColEdgesId() + " = ?";
 
 		res[CREATE_NODES_TABLE] = "CREATE TABLE " + nodesTableName + " ("
@@ -102,8 +102,8 @@ class DatabaseContext extends Base implements Queries {
 		return stmts[id];
 	}
 
-	DatabaseContext(String prefix, SQLParameters parameters, 
-			Connection connection, ErrorReporter reporter) {
+	DatabaseContext(String prefix, SQLParameters parameters,
+									Connection connection, ErrorReporter reporter) {
 		this.conn = connection;
 		this.parameters = parameters;
 		this.reporter = reporter;
@@ -111,7 +111,6 @@ class DatabaseContext extends Base implements Queries {
 		this.edgesTableName = prefix + "_" + parameters.getTableEdges();
 		this.nodesTableName = prefix + "_" + parameters.getTableNodes();
 		
-		debug.entering();
 		stmtStrings = initStatements();
 		
 		for(int i = 0; i < COUNT; i++) {
@@ -122,7 +121,6 @@ class DatabaseContext extends Base implements Queries {
 				reporter.error("could not prepare statement: " + stmtStrings[i]);
 			}
 		}
-		debug.leaving();
 	}
 	
 	public final Connection getConnection() {
@@ -132,7 +130,6 @@ class DatabaseContext extends Base implements Queries {
 	private PreparedStatement prepareStatementForCall(int id, int[] params) {
 		PreparedStatement stmt = getStmt(id);
 		
-		debug.entering();
 		debug.report(NOTE, "calling statement(" + id + "): " + stmtStrings[id]);
 		
 		try {
@@ -149,7 +146,6 @@ class DatabaseContext extends Base implements Queries {
 			}
 		}
 		
-		debug.leaving();
 		return stmt;
 	}
 	
@@ -163,7 +159,7 @@ class DatabaseContext extends Base implements Queries {
 		try {
 			set = stmt.executeQuery();
 		} catch(SQLException e) {
-			reporter.error(e.toString());			
+			reporter.error(e.toString());
 		}
 		
 		return set;

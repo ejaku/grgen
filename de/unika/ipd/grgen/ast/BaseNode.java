@@ -642,10 +642,7 @@ public abstract class BaseNode extends Base
 		String msg = "checking ir object in \"" + getName()
 			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
 		
-		debug.entering();
 		debug.report(NOTE, msg);
-		debug.leaving();
-		
 		assert cls.isInstance(ir) : msg;
 		
 		return ir;
@@ -680,7 +677,6 @@ public abstract class BaseNode extends Base
 	 */
 	protected boolean resolve() {
 		boolean local = true;
-		debug.entering();
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		
 		for(Iterator i = resolvers.keySet().iterator(); i.hasNext();) {
@@ -693,7 +689,6 @@ public abstract class BaseNode extends Base
 				resolver.printErrors();
 			}
 		}
-		debug.leaving();
 		setResolved(local);
 		return local;
 	}

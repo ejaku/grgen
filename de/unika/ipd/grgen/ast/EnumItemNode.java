@@ -24,7 +24,7 @@ public class EnumItemNode extends MemberDeclNode {
 	private static final int VALUE = LAST + 1;
 
 	/** Position of this item in the enum. */
-	private final int pos; 
+	private final int pos;
 
   /**
    * Make a new enum item node.
@@ -75,28 +75,26 @@ public class EnumItemNode extends MemberDeclNode {
   	ExprNode value = (ExprNode) getChild(VALUE);
   	if(!value.isConstant()) {
   		reportError("Initialization of enum item is not constant");
-  		return false; 
+  		return false;
   	}
   	
-  	// Adjust the values type to int, else emit an error. 
+  	// Adjust the values type to int, else emit an error.
   	if(value.getType().isCompatibleTo(BasicTypeNode.intType)) {
 			replaceChild(VALUE, value.adjustType(BasicTypeNode.intType));
   	} else {
   		reportError("The type of the initializator must be integer");
   		return false;
-  	} 
+  	}
   	
   	return true;
   }
   
   protected ConstNode getValue() {
-  	debug.entering();
   	ExprNode expr = (ExprNode) getChild(VALUE);
   	ConstNode res = expr.evaluate().castTo(BasicTypeNode.intType);
   	debug.report(NOTE, "type: " + res.getType());
   	int v = ((Integer) res.getValue()).intValue();
   	debug.report(NOTE, "result: " + res);
-  	debug.leaving();
   	
   	res = new EnumConstNode(getCoords(), getIdentNode(), v);
   	return res;

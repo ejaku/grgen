@@ -226,8 +226,8 @@ class SQLAction implements Action, RewriteHandler {
 		this.action = action;
 		this.queries = queries;
 		this.typeId = typeId;
-		this.reporter = system.getErrorReporter();
 		this.system = system;
+		this.reporter = system.getErrorReporter();
 
 		// Generate the SQL match statement.
 		List nodes = new LinkedList();

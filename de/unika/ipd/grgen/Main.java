@@ -134,6 +134,7 @@ public class Main extends Base implements Sys {
 	private JPanel getTreePanel(TreeHandler treeHandler) {
 		debugTree = new JTree(treeHandler);
 		debugTree.setEditable(false);
+		
 		JPanel panel = new JPanel();
 		
 		JScrollPane scrollPane = new JScrollPane(debugTree);
@@ -143,6 +144,19 @@ public class Main extends Base implements Sys {
 		
 		return panel;
 	}
+	
+	private JPanel getTablePanel(TableHandler tableHandler) {
+		JComponent table = new JTable(tableHandler);
+		JPanel panel = new JPanel();
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		panel.setLayout(new BorderLayout());
+		panel.setPreferredSize(new Dimension(800, 600));
+		panel.add(scrollPane, BorderLayout.CENTER);
+		
+		return panel;
+	}
+	
 	
 	private void editPreferences() {
 		
@@ -208,13 +222,13 @@ public class Main extends Base implements Sys {
 		// Debugging has an empty reporter if the flag is not set
 		if(enableDebug) {
 			if(graphic) {
-				debugHandler = new TreeHandler();
-				debugPanel = getTreePanel((TreeHandler) debugHandler);
+				debugHandler = new TableHandler();
+				debugPanel = getTablePanel((TableHandler) debugHandler);
 			} else {
 				debugHandler = new StreamHandler(System.out);
 			}
 			
-			DebugReporter dr = new DebugReporter(10);
+			DebugReporter dr = new DebugReporter(15);
 			dr.addHandler(debugHandler);
 			if(debugFilter != null)
 				dr.setFilter(debugFilter);
@@ -322,22 +336,16 @@ public class Main extends Base implements Sys {
 	private boolean parseInput(File inputFile) {
 		boolean res = false;
 		
-		debug.entering();
 		GRParserEnvironment env = new GRParserEnvironment(this);
 		root = env.parse(inputFile);
 		res = root != null;
 		
 		debug.report(NOTE, "result: " + res);
-		debug.leaving();
-		
 		return res;
 	}
 	
 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
 											 String suffix) {
-		
-		debug.entering();
-		
 		
 		File file = new File(suffix + ".vcg");
 		OutputStream os = createDebugFile(file);
@@ -349,9 +357,8 @@ public class Main extends Base implements Sys {
 		walker.reset();
 		walker.walk(node);
 		vcg.finish();
-		
-		debug.leaving();
 	}
+
 	
 	private void buildIR() {
 		irUnit = ((UnitNode) root).getUnit();
@@ -400,8 +407,6 @@ public class Main extends Base implements Sys {
 		
 		parseOptions();
 		init();
-		
-		debug.entering();
 		
 		importPrefs();
 		
@@ -468,7 +473,7 @@ public class Main extends Base implements Sys {
 			dumper.dumpComplete(irUnit, "ir2");
 		
 		if(dumpRules)
-			dumper.dump(irUnit, "rule_");
+			dumper.dump(irUnit);
 		
 		
 		debug.report(NOTE, "finished");
@@ -493,9 +498,6 @@ public class Main extends Base implements Sys {
 		}
 		
 		exportPrefs();
-		
-		debug.leaving();
-		
 	}
 	
 	/**
@@ -546,4 +548,5 @@ public class Main extends Base implements Sys {
 	}
 	
 }
+
 

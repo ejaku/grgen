@@ -4,7 +4,6 @@
  */
 package de.unika.ipd.grgen.util.report;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,30 +11,25 @@ import java.util.regex.Pattern;
  * A debug message reporter.
  */
 public class DebugReporter extends Reporter {
-
-	private Pattern pattern;
-	private Matcher matcher;
-	private boolean inclusive = true;
-	private Stack enableStack = new Stack();
 	
-  /**
-   * Make a new debug reporter.
-   * @param maxChannel All channel including this are enabled.
-   */
-  public DebugReporter(int maxChannel) {
-    super(maxChannel);
-    pattern = Pattern.compile(".*");
-    matcher = pattern.matcher("");
-    inclusive = true;
-    enableStack = new Stack();
-  }
-
+	private Pattern pattern = Pattern.compile(".*");
+	private Matcher matcher = pattern.matcher("");
+	private boolean inclusive = true;
+	private boolean includeClassName = false;
+	
+	private String prefix = "";
+	private boolean enableStackTrace = true;
+	
+	public DebugReporter(int mask) {
+		setMask(mask);
+	}
+	
 	/**
 	 * Set the class filter.
 	 * The class filter is a regular expression. Each class calling
 	 * this debug reporter is matched against this regex. Only if the
 	 * regex matches, the message is reported.
-	 * @param regex A regular expression. 
+	 * @param regex A regular expression.
 	 */
 	public void setFilter(String regex) {
 		pattern = Pattern.compile(regex);
@@ -46,59 +40,66 @@ public class DebugReporter extends Reporter {
 	 * Determines the meaning of the filter.
 	 * If <code>value</code> is true, than all debug zones matching
 	 * the filter are reported, all other are ignored. If set to false,
-	 * All debug zones not matching the filter are entered, the others 
+	 * All debug zones not matching the filter are entered, the others
 	 * are ignored.
 	 * @param value Inclusive or exclusive filtering.
 	 */
 	public void setFilterInclusive(boolean value) {
 		inclusive = value;
 	}
-
-	/**
-	 * Enter the debug zone.
-	 * If this zone is not filtered with the specified filter (see 
-	 * {@link #setFilter(String)}, true is pushed on the enabled stack,
-	 * otherwise false. 
-	 * @see de.unika.ipd.grgen.util.report.Reporter#entering(java.lang.String)
-	 */
-	public void entering(String s) {
-		matcher.reset(s);
-		boolean matched = matcher.matches();
-		boolean enabled = inclusive ? matched : !matched;
-		enableStack.push(new Boolean(enabled));
-		
-		if(enabled)
-			super.entering(s); 
+	
+	public void setStackTrace(boolean enabled) {
+		enableStackTrace = enabled;
+	}
+	
+	protected void makePrefix() {
+		if(enableStackTrace) {
+			StackTraceElement[] st = (new Exception()).getStackTrace();
+			StackTraceElement ste = st[2];
+			StringBuffer sb = new StringBuffer();
+			for(int i = 0; i < st.length; i++)
+				sb.append(' ');
+			String className = ste.getClassName();
+			
+			int lastDot = className.lastIndexOf('.');
+			if(lastDot != -1)
+				className = className.substring(lastDot + 1);
+			
+			if(includeClassName) {
+				sb.append(className);
+				sb.append('.');
+			}
+			sb.append(ste.getMethodName());
+			prefix = sb.toString();
+		} else
+			prefix = "";
 	}
 	
 	/**
-	 * Leave the debug zone.
-	 * Pop the enabled flag from the enabled stack.
-	 * @see de.unika.ipd.grgen.util.report.Reporter#leaving()
+	 * Checks, whether a message supplied with this level will be reported
+	 * @param channel The channel to check
+	 * @return true, if the message would be reported, false if not.
 	 */
-	public void leaving() {
-		boolean enabled = true;
+	public boolean willReport(int channel) {
+		int res = inclusive ? 1 : 0;
 		
-		if(enableStack.size() > 0) {
-			enabled = ((Boolean) enableStack.peek()).booleanValue();
-			enableStack.pop();
+		if(prefix.length() != 0) {
+			boolean matches = matcher.reset(prefix).matches();
+			res += matches ? 1 : 0;
 		}
 		
-		if(enabled)
-			super.leaving();
+		return (res == 0 || res == 2) && super.willReport(channel);
 	}
-  
-  /**
-   * This debug reporter will only report, if the zone was entered 
-   * with a string, that matched the filter. This is indicated using  
-   * the enable stack.
-   * @see de.unika.ipd.grgen.util.report.Reporter#willReport(int)
-   */
-  public boolean willReport(int level) {
-  	boolean valid = true;
-  	if(enableStack.size() > 0)
-  		valid = ((Boolean) enableStack.peek()).booleanValue();
-		return valid && super.willReport(level);
-  }
-
+	
+	public void report(int level, Location loc, String msg) {
+		makePrefix();
+		super.report(level, loc, prefix + ": " + msg);
+	}
+	
+	public void report(int channel, String msg) {
+		makePrefix();
+		super.report(channel, EmptyLocation.getEmptyLocation(),
+								 prefix + ": " + msg);
+		
+	}
 }

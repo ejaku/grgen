@@ -30,19 +30,14 @@ public class PrePostWalker extends Base implements Walker {
   }
 
 	public void reset() {
-		visited.clear(); 
+		visited.clear();
 	}
 	
 	public void walk(Walkable node) {
 		int i = 0;
 
-		debug.entering();
-
 		if(!visited.contains(node)) {
 			visited.add(node);
-
-			debug.report(8, "walking " + node);
-			
 			pre.visit(node);
 
       for(Iterator it = node.getWalkableChildren(); it.hasNext();) {
@@ -51,7 +46,5 @@ public class PrePostWalker extends Base implements Walker {
       }
       post.visit(node);
 		}
-		
-		debug.leaving();
 	}
 }

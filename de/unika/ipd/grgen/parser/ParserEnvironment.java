@@ -85,8 +85,6 @@ public abstract class ParserEnvironment extends Base {
 	}
 	
 	public File findModel(String modelName) {
-		debug.entering();
-
 		File res = null;
 		File[] modelPaths = system.getModelPaths();
 		String modelFile = modelName + MODEL_SUFFIX;
@@ -100,8 +98,6 @@ public abstract class ParserEnvironment extends Base {
 				break;
 			}
 		}
-		
-		debug.leaving();
 		return res;
 	}
 

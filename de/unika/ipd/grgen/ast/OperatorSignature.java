@@ -14,8 +14,7 @@ import java.util.HashSet;
 /**
  * Operator Description class.
  */
-public class OperatorSignature extends FunctionSignature
-{
+public class OperatorSignature extends FunctionSignature {
 	
 	public static final int ERROR = 0;
 	public static final int LOG_OR = 1;
@@ -52,8 +51,7 @@ public class OperatorSignature extends FunctionSignature
 	/** Name map of the operators. */
 	private static final Map names = new HashMap();
 	
-	static
-	{
+	static {
 		Integer two = new Integer(2);
 		Integer one = new Integer(1);
 		Integer zero = new Integer(0);
@@ -69,8 +67,7 @@ public class OperatorSignature extends FunctionSignature
 		arities.put(new Integer(ERROR), zero);
 	}
 	
-	static
-	{
+	static {
 		names.put(new Integer(COND), "Cond");
 		names.put(new Integer(LOG_OR), "LogOr");
 		names.put(new Integer(LOG_AND), "LogAnd");
@@ -121,8 +118,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param opTypes The operand types of the operator.
 	 */
 	final static private void makeOp(int id, TypeNode resType,
-									 TypeNode[] opTypes, Evaluator eval)
-	{
+																	 TypeNode[] opTypes, Evaluator eval) {
 		
 		Integer oid = new Integer(id);
 		
@@ -139,8 +135,7 @@ public class OperatorSignature extends FunctionSignature
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
 	final static private void makeBinOp(int id, TypeNode res,
-										TypeNode op0, TypeNode op1, Evaluator eval)
-	{
+																			TypeNode op0, TypeNode op1, Evaluator eval) {
 		
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
@@ -151,69 +146,54 @@ public class OperatorSignature extends FunctionSignature
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
 	final static private void makeUnOp(int id, TypeNode res, TypeNode op0,
-									   Evaluator eval)
-	{
+																		 Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0 }, eval);
 	}
 	
 	/**
 	 * A class that represents an evaluator for constant expressions.
 	 */
-	private static class Evaluator
-	{
+	private static class Evaluator {
 		
 		public ConstNode evaluate(Coords coords, OperatorSignature op,
-								  ConstNode[] args)
-		{
-			
-			debug.entering();
+															ConstNode[] args) {
 			debug.report(NOTE, "id: " + op.id + ", name: " + names.get(new Integer(op.id)));
 			
 			ConstNode res = ConstNode.getInvalid();
 			TypeNode[] paramTypes = op.getOperandTypes();
 			
 			// Check, if the arity matches.
-			if(args.length == paramTypes.length)
-			{
+			if(args.length == paramTypes.length) {
 				
 				// Check the types of the arguments.
-				for(int i = 0; i < args.length; i++)
-				{
+				for(int i = 0; i < args.length; i++) {
 					debug.report(NOTE, "parameter type: " + paramTypes[i]
-									 + " argument type: " + args[i].getType());
+												 + " argument type: " + args[i].getType());
 					if(!paramTypes[i].isEqual(args[i].getType()))
-					{
-						debug.leaving();
 						return res;
-					}
 				}
 				
 				Object values[] = new Object[paramTypes.length];
-				for(int i = 0; i < paramTypes.length; i++)
-				{
+				for(int i = 0; i < paramTypes.length; i++) {
 					values[i] = args[i].getValue();
 					
 					// Check, if the param type is basic (it must be!)
-					if(paramTypes[i].isBasic())
-					{
+					if(paramTypes[i].isBasic()) {
 						BasicTypeNode paramType = (BasicTypeNode) paramTypes[i];
 						
 						// Check, if the type of the value of the constant has the
 						// required type.
-						if(!paramType.getValueType().isInstance(values[i]))
-						{
+						if(!paramType.getValueType().isInstance(values[i])) {
 							debug.report(NOTE, "parameter " + i + " is type "
-											 + values[i].getClass() + " but " + paramType.getValueType()
-											 + " is expected");
-							debug.leaving();
+														 + values[i].getClass() + " but " + paramType.getValueType()
+														 + " is expected");
 							return res;
 						}
 					}
 				}
 				
 				// If we're here, all checks succeeded.
-				switch(args.length)
-				{
+				switch(args.length) {
 					case 1:
 						res = eval(coords, op, values[0], values[0], values[0]);
 						break;
@@ -229,40 +209,33 @@ public class OperatorSignature extends FunctionSignature
 			}
 			
 			debug.report(NOTE, "result: " + res.getClass() + ", value: "
-							 + res.getValue());
+										 + res.getValue());
 			
-			debug.leaving();
 			return res;
 		}
 		
 		protected ConstNode eval(Coords coords, OperatorSignature op,
-								 Object v0, Object v1, Object v2)
-		{
+														 Object v0, Object v1, Object v2) {
 			return ConstNode.getInvalid();
 		}
 	}
 	
-	private static final Evaluator stringEvaluator = new Evaluator()
-	{
+	private static final Evaluator stringEvaluator = new Evaluator() {
 		
 		protected ConstNode eval(Coords coords, OperatorSignature op,
-								 Object v0, Object v1, Object v2)
-		{
+														 Object v0, Object v1, Object v2) {
 			
-			if(op.id == ADD)
-			{
+			if(op.id == ADD) {
 				String a0 = (String) v0;
 				return new StringConstNode(coords, a0 + v1);
 			}
-			else
-			{
+			else {
 				
 				String a0 = (String) v0;
 				String a1 = (String) v1;
 				boolean boolRes = false;
 				
-				switch(op.id)
-				{
+				switch(op.id) {
 					case EQ:
 						return new BoolConstNode(coords, a0.equals(a1));
 					case NE:
@@ -282,17 +255,14 @@ public class OperatorSignature extends FunctionSignature
 		}
 	};
 	
-	private static final Evaluator intEvaluator = new Evaluator()
-	{
+	private static final Evaluator intEvaluator = new Evaluator() {
 		protected ConstNode eval(Coords coords, OperatorSignature op,
-								 Object v0, Object v1, Object v2)
-		{
+														 Object v0, Object v1, Object v2) {
 			
 			int a0 = ((Integer) v0).intValue();
 			int a1 = ((Integer) v1).intValue();
 			
-			switch(op.id)
-			{
+			switch(op.id) {
 				case EQ:
 					return new BoolConstNode(coords, a0 == a1);
 				case NE:
@@ -336,17 +306,14 @@ public class OperatorSignature extends FunctionSignature
 		}
 	};
 	
-	private static final Evaluator booleanEvaluator = new Evaluator()
-	{
+	private static final Evaluator booleanEvaluator = new Evaluator() {
 		protected ConstNode eval(Coords coords, OperatorSignature op,
-								 Object v0, Object v1, Object v2)
-		{
+														 Object v0, Object v1, Object v2) {
 			
 			boolean a0 = ((Boolean) v0).booleanValue();
 			boolean a1 = ((Boolean) v1).booleanValue();
 			
-			switch(op.id)
-			{
+			switch(op.id) {
 				case EQ:
 					return new BoolConstNode(coords, a0 == a1);
 				case NE:
@@ -362,16 +329,12 @@ public class OperatorSignature extends FunctionSignature
 		}
 	};
 	
-	private static final Evaluator condEvaluator = new Evaluator()
-	{
+	private static final Evaluator condEvaluator = new Evaluator() {
 		public ConstNode evaluate(Coords coords, OperatorSignature op,
-								  ConstNode[] args)
-		{
-			if(op.id == COND && args.length == op.getArity())
-			{
+															ConstNode[] args) {
+			if(op.id == COND && args.length == op.getArity()) {
 				Object c = args[0].getValue();
-				if(c instanceof Boolean)
-				{
+				if(c instanceof Boolean) {
 					boolean v = ((Boolean) c).booleanValue();
 					return v ? args[1] : args[2];
 				}
@@ -383,8 +346,7 @@ public class OperatorSignature extends FunctionSignature
 	private static final Evaluator emptyEvaluator = new Evaluator();
 	
 	// Initialize the operators map.
-	static
-	{
+	static {
 		
 		// String operators
 		makeBinOp(EQ, BOOLEAN, STRING, STRING, stringEvaluator);
@@ -441,8 +403,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param id The ID of the operator.
 	 * @return The arity of the operator.
 	 */
-	protected static int getArity(int id)
-	{
+	protected static int getArity(int id) {
 		return ((Integer) arities.get(new Integer(id))).intValue();
 	}
 	
@@ -451,8 +412,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param id ID of the operator.
 	 * @return The name of the operator.
 	 */
-	protected static String getName(int id)
-	{
+	protected static String getName(int id) {
 		return ((String) names.get(new Integer(id)));
 	}
 	
@@ -461,8 +421,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param id An operator ID.
 	 * @return true, if the ID is a valid operator ID, false if not.
 	 */
-	private static boolean isValidId(int id)
-	{
+	private static boolean isValidId(int id) {
 		return id >= 0 && id < OPERATORS;
 	}
 	
@@ -483,34 +442,28 @@ public class OperatorSignature extends FunctionSignature
 	 * @return   an OperatorSignature
 	 *
 	 */
-	protected static OperatorSignature getNearest(int id, TypeNode[] opTypes)
-	{
+	protected static OperatorSignature getNearest(int id, TypeNode[] opTypes) {
 		Integer oid = new Integer(id);
 		OperatorSignature res = INVALID;
 		int nearest = Integer.MAX_VALUE;
-		
-		debug.entering();
 		
 		assert operators.get(oid) != null : "Operator \"" + getName(id)
 			+ "\" must be registered";
 		HashSet opSet = (HashSet) operators.get(oid);
 		
-		for(Iterator it = opSet.iterator(); it.hasNext();)
-		{
+		for(Iterator it = opSet.iterator(); it.hasNext();) {
 			OperatorSignature op = (OperatorSignature) it.next();
 			int dist = op.getDistance(opTypes);
 			
 			debug.report(NOTE, "dist: " + dist + "\n signature: " + op);
 			
-			if(dist < nearest)
-			{
+			if(dist < nearest) {
 				nearest = dist;
 				res = op;
 			}
 		}
 		
-		debug.report(NOTE, "SELECTED: " + res);
-		debug.leaving();
+		debug.report(NOTE, "selected: " + res);
 		
 		return res;
 	}
@@ -520,10 +473,8 @@ public class OperatorSignature extends FunctionSignature
 	 */
 	private static final OperatorSignature INVALID =
 		new OperatorSignature(ERROR, BasicTypeNode.errorType,
-							  new TypeNode[] { }, emptyEvaluator)
-	{
-		protected boolean isValid()
-		{
+													new TypeNode[] { }, emptyEvaluator) {
+		protected boolean isValid() {
 			return false;
 		}
 	};
@@ -543,8 +494,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param evaluator The evaluator for this operator signature.
 	 */
 	private OperatorSignature(int id, TypeNode resType,
-							  TypeNode[] opTypes, Evaluator evaluator)
-	{
+														TypeNode[] opTypes, Evaluator evaluator) {
 		
 		super(resType, opTypes);
 		this.id = id;
@@ -560,8 +510,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @return The computed value of the constant expression or a constant
 	 * with {@link ConstNode.getInvalid()} that returns true.
 	 */
-	protected ConstNode evaluate(Coords coords, ConstNode[] args)
-	{
+	protected ConstNode evaluate(Coords coords, ConstNode[] args) {
 		return evaluator.evaluate(coords, this, args);
 	}
 	
@@ -569,8 +518,7 @@ public class OperatorSignature extends FunctionSignature
 	 * Check, if this signature is ok, not bad.
 	 * @return true, if the signature is ok, false, if not.
 	 */
-	protected boolean isValid()
-	{
+	protected boolean isValid() {
 		return true;
 	}
 	
@@ -578,13 +526,11 @@ public class OperatorSignature extends FunctionSignature
 	/**
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		String res = getResultType().toString() + " ";
 		res += names.get(new Integer(id)) + "(";
 		TypeNode[] opTypes = getOperandTypes();
-		for(int i = 0; i < opTypes.length; i++)
-		{
+		for(int i = 0; i < opTypes.length; i++) {
 			res += (i == 0 ? "" : ",") + opTypes[i];
 		}
 		res += ")";

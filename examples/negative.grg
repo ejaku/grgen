@@ -1,72 +1,31 @@
-unit Test_All_Negative_Stuff;
 
-node class Bla extends Node {}
+actions Negative using Firm;
 
-rule Negative {
-	pattern {
-		node (i,o,p) : Node;
-		i --> o;
-	}
-	negative{
-		i --> p;
-	}
-	replace{
-	}
+rule Test1 {
+
+  pattern {
+    node (a,b,c,d):Node;
+    
+    a (--> b, --> c, --> d);
+  }
+  negative {
+    node e:Node;
+    a (--> d, --> e);
+  }
+  replace {
+  }
+
 }
 
-
-rule MultipleNs {
-	pattern {
-		node (a,b,c,d,e,f) : Node;
-		a --> b;
-	}
-	negative{
-		a --> c;
-		a --> d;
-	}
-	negative{
-		a --> e;
-		a --> f;
-	}
-	replace{
-	}
+rule MultigraphEdgeTest {
+  
+  pattern {
+    node (a,b):Node;
+    a --> b;
+    a --> b;
+  }
+  replace {
+  }
+  
 }
 
-rule EdgeOnlyInN {
-	pattern {
-		a: Node;
-		b: Node;
-	}
-	negative {
-		a --> b;
-	}
-	replace {
-		c: Node;
-	}
-}
-
-rule BigOne {
-	pattern {
-		node (a,b,c,d,e,f,g,h,i,j) :Node;
-		a <-- b --> c --> d;
-		a    -->    c;
-		a       <--       d;
-	}
-	negative {
-		a --> b;
-		            c <-- d;
-	}
-	negative {
-		      b <-- c;
-	}
-	negative {
-		d --> e --> f;
-	}
-	replace {i --> j;}
-}
-
-rule AddSth {
-	pattern {}
-	negative {a:Bla;}
-	replace {a;}
-}
