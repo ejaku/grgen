@@ -601,8 +601,8 @@ public abstract class CBackend extends Base implements Backend {
 		sb.append("/** The attribute type classification. */\n");
 		sb.append("typedef enum _attribute_type {\n");
 		sb.append("  AT_TYPE_INTEGER = " + Type.IS_INTEGER + ", /**< an integer or enum */\n");
-		sb.append("  AT_TYPE_BOOLEAN = " + Type.IS_INTEGER + ", /**< a boolean */\n");
-		sb.append("  AT_TYPE_STRING  = " + Type.IS_INTEGER + ", /**< a string */\n");
+		sb.append("  AT_TYPE_BOOLEAN = " + Type.IS_BOOLEAN + ", /**< a boolean */\n");
+		sb.append("  AT_TYPE_STRING  = " + Type.IS_STRING + ", /**< a string */\n");
 		sb.append("} attribute_type;\n\n");
 		
 		sb.append("/** The attribute type. */\n");
