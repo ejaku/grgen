@@ -361,7 +361,7 @@ rangeSpec returns [ BaseNode res = initNode() ]
 	}
 	: (	l:LBRACK { coords = getCoords(l); }
 			( 	(STAR | PLUS { lower=1; }) |
-				lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
+				lower=integerConst { upper=lower; } ( COLON ( STAR | upper=integerConst ) )?
 		) RBRACK
 	  )?
 	{
