@@ -134,7 +134,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			if(reverse)
 				reverseEdges.add(edge);
 		}
-		
+
 		public boolean isReverse(Edge edge) {
 			return reverseEdges.contains(edge);
 		}
@@ -155,11 +155,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				    second = temp;
 				}
 
-				if (!seq.hasBeenProcessed(first)) 
+				if (!seq.hasBeenProcessed(first))
 				    return tableFactory.nodeTable(first);
-				if (!seq.hasBeenProcessed(edge)) 
+				if (!seq.hasBeenProcessed(edge))
 				    return tableFactory.edgeTable(edge);
-				if (!seq.hasBeenProcessed(second)) 
+				if (!seq.hasBeenProcessed(second))
 				    return tableFactory.nodeTable(second);
 			}
 
@@ -340,9 +340,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
 			IdTable endOfLast = null;
-			
+
 			SearchPath[] paths = computeSearchPaths(graph, pattern, graphIsNAC);
-			
+
 			for(int i = 0; i < paths.length; i++) {
 				StringBuffer sb = new StringBuffer();
 				paths[i].dump(sb);
@@ -361,20 +361,21 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			while(selectedPath >= 0 && paths.length > 0) {
 				SearchPath currPath = paths[selectedPath];
 				assert !currPath.edges.isEmpty() : "path must contain an element";
-			
+
 			    // Last processed element of last path must not be null
 
 				if (graphIsNAC && endOfLast != null) {
 				    // Get first non-processed element of current path
 				    IdTable begOfThis = currPath.getFirstNonProcessedElement(seq, tableFactory);
-				    addNotNullCond(begOfThis, endOfLast, seq, factory);
+				    if (begOfThis != null) //path has been completely processed.
+						addNotNullCond(begOfThis, endOfLast, seq, factory);
 			    }
-				
+
 				seq.addPath(pattern, currPath, joinType);
-				
+
 				if (graphIsNAC)
 				    endOfLast = seq.getLastTableJoined();
-				
+
 				// Mark the currently processed path as processed.
 				done[selectedPath] = true;
 
@@ -435,7 +436,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				    endOfLast = seq.getLastTableJoined();
 			}
 
-			// Add last Col to the having condition 
+			// Add last Col to the having condition
 			if (graphIsNAC && !graph.isSubOf(act.getPattern())) {
 				Term count = factory.expression(factory.aggregate(Aggregate.COUNT, seq.getLastTableJoined().colId()));
 			    having = factory.addExpression(Opcodes.AND, having,
@@ -465,7 +466,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	private void addNotNullCond(IdTable dependsOn, IdTable what, JoinSequence seq, TypeStatementFactory factory) {
 	    Term colId = factory.expression(what.colId());
 	    Term notNull = factory.expression(Opcodes.NOT, factory.expression(Opcodes.ISNULL, colId));
-	    
+
 	    seq.scheduleCond(notNull, dependsOn);
 	}
 
@@ -1180,5 +1181,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 	}
 }
+
 
 
