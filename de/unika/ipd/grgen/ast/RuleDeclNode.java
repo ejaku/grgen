@@ -68,6 +68,74 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 
+	private boolean __recursive_find_decl(BaseNode x, DeclNode decl) {
+		for(Iterator i = x.getChildren(); i.hasNext();) {
+			BaseNode b = (BaseNode) i.next();
+		
+			if(b instanceof EdgeDeclNode) {
+				
+				EdgeDeclNode decl2 = (EdgeDeclNode)b;
+				
+				if(decl2 == decl)
+					return true;
+			} else
+				
+			if(b instanceof NodeDeclNode) {
+				NodeDeclNode decl2 = (NodeDeclNode)b;
+				
+				if(decl2 == decl)
+					return true;
+				
+			} else
+				
+			if(__recursive_find_decl(b, decl))
+				return true;
+		}
+
+		return false;
+	}
+	
+	private NodeTypeNode __recursive_find_new_type(BaseNode x, NodeDeclNode node) {
+		for(Iterator i = x.getChildren(); i.hasNext();) {
+			BaseNode b = (BaseNode) i.next();
+			NodeTypeNode new_type;
+		
+			if(b instanceof NodeTypeChangeNode) {
+				NodeTypeChangeNode ncn = (NodeTypeChangeNode)b;
+				
+				if(node == ncn.getChild(0))
+					return (NodeTypeNode)ncn.getChild(1);
+					
+				
+			} else
+				
+			if((new_type = __recursive_find_new_type(b, node)) != null)
+				return new_type;
+		}
+
+		return null;
+	}
+	
+	private boolean __recursive_find_member_in_type(NodeTypeNode type, MemberDeclNode member) {
+		/* iterate over members */
+		for(Iterator i = type.getChild(1).getChildren(); i.hasNext();) {
+			MemberDeclNode member2 = (MemberDeclNode) i.next();
+				
+			if(member == member2)
+				return true;
+		}
+		
+		/* iterate over base types */
+		for(Iterator i = type.getChild(0).getChildren(); i.hasNext();) {
+			NodeTypeNode next_type = (NodeTypeNode) i.next();
+				
+			if(__recursive_find_member_in_type(next_type, member))
+				return true;
+		}
+
+		return false;
+	}
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -78,6 +146,48 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean check() {
 		boolean childTypes = super.check()
 			&& checkChild(RIGHT, GraphNode.class);
+		
+		CollectNode evals = (CollectNode)getChild(EVAL);
+		GraphNode right = (GraphNode) getChild(RIGHT);
+
+		for(Iterator i = evals.getChildren(); i.hasNext();) {
+			AssignNode eval = (AssignNode) i.next();
+			
+			QualIdentNode lhs = (QualIdentNode)eval.getChild(0);
+			ExprNode rhs = (ExprNode)eval.getChild(1);
+			
+			/* check if qual on left hand side has an occurence in the replace graph */
+			
+			BaseNode node_or_edge = (BaseNode)lhs.getChild(0);
+			
+			if( node_or_edge instanceof EdgeDeclNode ) {
+				EdgeDeclNode decl = (EdgeDeclNode)node_or_edge;
+
+				if(!__recursive_find_decl(right, decl)) {
+					error.error(getCoords(), "assignment to attribute of deleted edge");
+					return false;
+				}
+
+			} else
+			if( node_or_edge instanceof NodeDeclNode ) {
+				NodeDeclNode decl = (NodeDeclNode)node_or_edge;
+
+				if(!__recursive_find_decl(right, decl)) {
+					error.error(getCoords(), "assignment to attribute of deleted edge");
+					return false;
+				}
+				
+				NodeTypeNode new_type = __recursive_find_new_type(right, decl);
+				MemberDeclNode member = (MemberDeclNode)lhs.getChild(1);
+				if(new_type != null) {
+					if(!__recursive_find_member_in_type(new_type, member)) {
+						error.error(getCoords(), "assignment to attribute removed by type change");
+						return false;
+					}
+				}
+			} else
+				assert false;
+		 }
 
 		return childTypes;
 	}
