@@ -24,9 +24,9 @@ import de.unika.ipd.grgen.ir.Type;
 
 
 /**
- * A factory that produces node/edge and node/edge attribute tables. 
+ * A factory that produces node/edge and node/edge attribute tables.
  */
-public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory {
+public class DefaultGraphTableFactory implements GraphTableFactory {
 
 	/** Cache all tables here. */
 	protected final Map entTables = new HashMap();
@@ -49,20 +49,11 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	/** Names of the edge table columns. */
 	protected final String[] edgeTableColumns;
 	
-	/** The int type. */
-	private final DataType intType = new DefaultDataType("int");
-	
-	/** The string type. */
-	private final DataType stringType = new DefaultDataType("text");
-	
-	/** The boolean type. */
-	private final DataType booleanType = new DefaultDataType("int");
-	
 	/** The node table types. */
-	protected final DataType[] nodeTableTypes;  
+	protected final DataType[] nodeTableTypes;
 
 	/** The edge table types. */
-	protected final DataType[] edgeTableTypes;  
+	protected final DataType[] edgeTableTypes;
 
 	protected final NodeTable originalNodeTable;
 	
@@ -71,13 +62,17 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	protected final AttributeTable originalNodeAttrTable;
 
 	protected final AttributeTable originalEdgeAttrTable;
+	
+	protected final TypeFactory typeFactory;
 
-	public DefaultGraphTableFactory(SQLParameters parameters, 
-			Map nodeAttrs, Map edgeAttrs) {
+	public DefaultGraphTableFactory(SQLParameters parameters,
+																	TypeFactory typeFactory,
+																	Map nodeAttrs, Map edgeAttrs) {
 		
 		this.parameters = parameters;
 		this.nodeAttrs = nodeAttrs;
 		this.edgeAttrs = edgeAttrs;
+		this.typeFactory = typeFactory;
 		
 		nodeTableColumns = new String[] {
 				parameters.getColNodesId(),
@@ -92,28 +87,28 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		};
 
 		nodeTableTypes = new DataType[] {
-				getIntType(),
-				getIntType()
+				typeFactory.getIntType(),
+				typeFactory.getIntType()
 		};
 		
 		edgeTableTypes = new DataType[] {
-				getIntType(),
-				getIntType(),
-				getIntType(),
-				getIntType()
+				typeFactory.getIntType(),
+				typeFactory.getIntType(),
+				typeFactory.getIntType(),
+				typeFactory.getIntType()
 		};
 		
 		originalNodeTable = new DefaultNodeTable();
-		originalEdgeTable = new DefaultEdgeTable();		
-		originalNodeAttrTable = new DefaultAttributeTable(parameters.getTableNodeAttrs(), 
+		originalEdgeTable = new DefaultEdgeTable();
+		originalNodeAttrTable = new DefaultAttributeTable(parameters.getTableNodeAttrs(),
 			parameters.getColNodeAttrNodeId(), nodeAttrs);
-		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(), 
+		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(),
 			parameters.getColEdgeAttrEdgeId(), edgeAttrs);
 
 	}
 
 	/**
-	 * This mangles an entity to a string. 
+	 * This mangles an entity to a string.
 	 * If you want to change the mangling behaviour, just inherit and override
 	 * this method.
 	 * @param ent The entity.
@@ -130,7 +125,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	}
 	
 	protected StringBuffer mangleString(CharSequence unmangled) {
-		final char esc = 'Z'; 
+		final char esc = 'Z';
 		StringBuffer sb = new StringBuffer();
 		for(int i = 0; i < unmangled.length(); i++) {
 			final char ch = unmangled.charAt(i);
@@ -150,9 +145,9 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 				sb.append(esc);
 				break;
 			default:
-				if(Character.isUpperCase(ch)) 
+				if(Character.isUpperCase(ch))
 					sb.append("_");
-				sb.append(ch);	
+				sb.append(ch);
 			}
 		}
 		
@@ -179,7 +174,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		}
 		
 		SimpleColumn(String name, DataType type, Table table, boolean canBeNull) {
-			this(name, type, table, canBeNull, "column " + table.getAliasName() + "." + name); 
+			this(name, type, table, canBeNull, "column " + table.getAliasName() + "." + name);
 		}
 		
 		public DataType getType() {
@@ -205,7 +200,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		public StringBuffer dumpDecl(StringBuffer sb) {
 			sb.append(getDeclName()).append(" ");
 			getType().dump(sb);
-			if(!canBeNull) 
+			if(!canBeNull)
 				sb.append(" NOT NULL");
 			
 			return sb;
@@ -213,7 +208,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	}
 	
 	protected class AliasTable extends DefaultDebug implements IdTable {
-		protected final String declaration; 
+		protected final String declaration;
 		protected final String alias;
 		protected final String name;
 		Column[] cols;
@@ -239,11 +234,11 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		}
 
 		protected final void setColumns(String[] colNames, DataType[] colTypes) {
-			assert colNames.length == colTypes.length 
+			assert colNames.length == colTypes.length
 				: "must have the same amount of colums and types";
 		
 			cols = new Column[colNames.length];
-			for(int i = 0; i < cols.length; i++) 
+			for(int i = 0; i < cols.length; i++)
 				cols[i] = new SimpleColumn(colNames[i], colTypes[i], this, false);
 		}
 		
@@ -352,7 +347,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		}
 		
 		DefaultNodeTable() {
-			super(parameters.getTableNodes(), parameters.getTableNodes(), 
+			super(parameters.getTableNodes(), parameters.getTableNodes(),
 				nodeTableColumns, nodeTableTypes);
 		}
 		
@@ -372,7 +367,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		}
 		
 		DefaultEdgeTable() {
-			super(parameters.getTableEdges(), parameters.getTableEdges(), 
+			super(parameters.getTableEdges(), parameters.getTableEdges(),
 				edgeTableColumns, edgeTableTypes);
 		}
 
@@ -414,14 +409,14 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			this.attrIndices = attrIndices;
 			Set attrs = attrIndices.keySet();
 			cols = new Column[attrs.size() + 1];
-			cols[0] = new SimpleColumn(idCol, getIntType(), this, false); 
+			cols[0] = new SimpleColumn(idCol, typeFactory.getIntType(), this, false);
 			
 			for(Iterator it = attrs.iterator(); it.hasNext();) {
 				Entity e = (Entity) it.next();
 				int index = ((Integer) attrIndices.get(e)).intValue();
 
-				cols[index + 1] = 
-					new SimpleColumn(mangleEntity(e), getDataType(e.getType()), this, true); 
+				cols[index + 1] =
+					new SimpleColumn(mangleEntity(e), getDataType(e.getType()), this, true);
 			}
 		}
 		
@@ -454,7 +449,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	public EdgeTable edgeTable(Edge edge) {
 		EdgeTable res;
 		
-		if(entTables.containsKey(edge)) 
+		if(entTables.containsKey(edge))
 			res = (EdgeTable) entTables.get(edge);
 		else {
 			res = new DefaultEdgeTable(edge);
@@ -470,7 +465,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	public NodeTable nodeTable(Node node) {
 		NodeTable res;
 		
-		if(entTables.containsKey(node)) 
+		if(entTables.containsKey(node))
 			res = (NodeTable) entTables.get(node);
 		else {
 			res = new DefaultNodeTable(node);
@@ -510,63 +505,15 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	}
 	
 	
-	protected static class DefaultDataType implements DataType {
-		private String text;
-		
-		DefaultDataType(String text) {
-			this.text = text;
-		}
-		
-		/**
-		 * @see de.unika.ipd.grgen.be.sql.meta.DataType#getText()
-		 */
-		public String getText() {
-			return text;
-		}
-		
-		/**
-		 * @see de.unika.ipd.grgen.be.sql.meta.MetaBase#debugInfo()
-		 */
-		public String debugInfo() {
-			return "type " + text;
-		}
-		
-		/**
-		 * @see de.unika.ipd.grgen.be.sql.meta.MetaBase#dump(java.lang.StringBuffer)
-		 */
-		public StringBuffer dump(StringBuffer sb) {
-			return sb.append(getText());
-		}
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.meta.TypeFactory#getBooleanType()
-	 */
-	public DataType getBooleanType() {
-		return booleanType;
-	}
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.meta.TypeFactory#getIntType()
-	 */
-	public DataType getIntType() {
-		return intType;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.meta.TypeFactory#getStringType()
-	 */
-	public DataType getStringType() {
-		return stringType;
-	}
 	
 	private DataType getDataType(Type type) {
 		switch(type.classify()) {
 		case Type.IS_STRING:
-			return getStringType();
+			return typeFactory.getStringType();
 		case Type.IS_BOOLEAN:
-			return getBooleanType();
+			return typeFactory.getBooleanType();
 		case Type.IS_INTEGER:
-			return getIntType();
+			return typeFactory.getIntType();
 		default:
 			assert false : "No SQL data type found for: " + type;
 		}

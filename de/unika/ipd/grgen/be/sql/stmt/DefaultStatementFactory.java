@@ -6,31 +6,19 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import de.unika.ipd.grgen.be.sql.meta.*;
+import de.unika.ipd.grgen.util.*;
 
 import de.unika.ipd.grgen.be.sql.TypeID;
-import de.unika.ipd.grgen.be.sql.meta.Column;
-import de.unika.ipd.grgen.be.sql.meta.Join;
-import de.unika.ipd.grgen.be.sql.meta.Op;
-import de.unika.ipd.grgen.be.sql.meta.OpFactory;
-import de.unika.ipd.grgen.be.sql.meta.Opcodes;
-import de.unika.ipd.grgen.be.sql.meta.Query;
-import de.unika.ipd.grgen.be.sql.meta.Relation;
-import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumpVisitor;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.PostWalker;
-import de.unika.ipd.grgen.util.Visitor;
-import de.unika.ipd.grgen.util.Walker;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -39,14 +27,19 @@ import de.unika.ipd.grgen.util.Walker;
 public class DefaultStatementFactory extends Base implements TypeStatementFactory, OpFactory, Opcodes {
 
 	/** Operator map. */
-	private Map opMap = new HashMap();
+	private final Map opMap = new HashMap();
+	
+	/** A factory to make types. */
+	private final TypeFactory typeFactory;
 	
 	/** Put an operator to the operator map. */
 	private void put(int opcode, Op op) {
 		opMap.put(new Integer(opcode), op);
 	}
-	
-	public DefaultStatementFactory() {
+
+	public DefaultStatementFactory(TypeFactory typeFactory) {
+		this.typeFactory = typeFactory;
+		
 		put(MUL, new DefaultOp(2, 1, "*"));
 		put(DIV, new DefaultOp(2, 1, "/"));
 		
@@ -68,6 +61,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		put(OR, new DefaultOp(2, 6, "OR"));
 		put(EXISTS, new DefaultOp(1, 3, "EXISTS"));
 	}
+	
 	
 	private static class DefaultOp implements Op {
 		
@@ -479,7 +473,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		return new ConstantTerm(bool);
 	}
 
-	protected static class DefaultQuery extends DefaultDebug implements Query {
+	private static class DefaultQuery extends DefaultDebug implements Query {
 		List columns;
 		List relations;
 		Term cond;
@@ -492,8 +486,8 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			this.cond = cond;
 		}
 		
-		DefaultQuery(List columns, List relations) {
-			this(columns, relations, null);
+		DefaultQuery(List columns, Relation relation) {
+			this(columns, Arrays.asList(new Relation[] { relation }), null);
 		}
 		
 		public int columnCount() {
@@ -568,14 +562,9 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	public Query simpleQuery(List columns, List relations, Term cond) {
 		return new DefaultQuery(columns, relations, cond);
 	}
-
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#explicitQuery(java.util.List, de.unika.ipd.grgen.be.sql.meta.Relation)
-	 */
+	
 	public Query explicitQuery(List columns, Relation relation) {
-		List l = new LinkedList();
-		l.add(relation);
-		return new DefaultQuery(columns, l);
+		return new DefaultQuery(columns, relation);
 	}
 	
 	protected static class DefaultJoin extends DefaultDebug implements Join {
@@ -657,6 +646,61 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	 */
 	public Term expression(Query query) {
 		return new ConstantTerm(query);
+	}
+	
+	private class AggregateColumn implements Aggregate {
+		private final int aggregate;
+		private final Column col;
+		private final DataType type;
+		
+		AggregateColumn(int aggregate, Column col) {
+			this.col = col;
+			this.aggregate = aggregate;
+			
+			switch(aggregate) {
+				case COUNT:
+					type = typeFactory.getIntType();
+					break;
+				default:
+					type = col.getType();
+			}
+		}
+		
+		public StringBuffer dump(StringBuffer sb) {
+			sb.append(aggregate);
+			sb.append("(");
+			col.dump(sb);
+			sb.append(")");
+			return sb;
+		}
+		
+		public String debugInfo() {
+			return aggregate + "(" + col.debugInfo() + ")";
+		}
+		
+		public String getAliasName() {
+			return aggregate + "(" + col.getAliasName() + ")";
+		}
+		
+		public String getDeclName() {
+			return col.getDeclName();
+		}
+		
+		public StringBuffer dumpDecl(StringBuffer sb) {
+			return col.dumpDecl(sb);
+		}
+		
+		public Relation getRelation() {
+			return col.getRelation();
+		}
+		
+		public DataType getType() {
+			return type;
+		}
+	}
+	
+	public Aggregate aggregate(int which, Column col) {
+		return new AggregateColumn(which, col);
 	}
 	
 }
