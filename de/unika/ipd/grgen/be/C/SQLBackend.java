@@ -51,6 +51,10 @@ public abstract class SQLBackend extends CBackend {
 	
 	protected String stmtPrefix = "stmt_";
 	
+	protected String nodeTypeIsAFunc = "node_type_is_a";
+	
+	protected String edgeTypeIsAFunc = "edge_type_is_a";
+	
 	private RewriteGenerator rewriteGenerator = new SPORewriteGenerator();
 		
 	protected SQLParameters parameters = new PreferencesSQLParameters();
@@ -99,8 +103,8 @@ public abstract class SQLBackend extends CBackend {
 		addStringDefine(sb, "DBNAME", dbName);
 		addStringDefine(sb, "DBNAME_PREFIX", dbNamePrefix);
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
-		//addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", sqlFormatter.nodeTypeIsAFunc);
-		//addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", sqlFormatter.edgeTypeIsAFunc);
+		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", nodeTypeIsAFunc);
+		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", edgeTypeIsAFunc);
 		addStringDefine(sb, "TABLE_NODES", parameters.getTableNodes());
 		addStringDefine(sb, "TABLE_EDGES", parameters.getTableEdges());
 		addStringDefine(sb, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());

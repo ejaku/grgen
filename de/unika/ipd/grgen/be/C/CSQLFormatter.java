@@ -6,8 +6,6 @@
  */
 package de.unika.ipd.grgen.be.C;
 
-import java.util.prefs.Preferences;
-
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLMangler;
@@ -26,12 +24,10 @@ public class CSQLFormatter implements SQLFormatter {
 	
 	final String edgeTypeIsAFunc;
 	
-	CSQLFormatter(SQLParameters parameters, IDBase id) {
-		Preferences prefs = Preferences.userNodeForPackage(getClass());
-		
-		nodeTypeIsAFunc = prefs.get("nodeTypeIsAFunc", "node_type_is_a");
-		edgeTypeIsAFunc = prefs.get("edgeTypeIsAFunc", "edge_type_is_a");
-		
+	CSQLFormatter(SQLParameters parameters, IDBase id, String nodeTypeIsAFunc,
+			String edgeTypeIsAFunc) {
+		this.nodeTypeIsAFunc = nodeTypeIsAFunc;
+		this.edgeTypeIsAFunc = edgeTypeIsAFunc;
 		
 		this.parameters = parameters;
 		this.id = id;
