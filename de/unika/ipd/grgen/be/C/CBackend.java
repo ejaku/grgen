@@ -741,8 +741,6 @@ public abstract class CBackend extends IDBase implements Backend {
 					break;
 				case '\n':
 					sb.append("\\n");
-					break;
-				case '\f':
 					// Ignore the BREAK_LINE, if it is the last character
 				  if(i != s.length() - 1)
 						sb.append("\" \\\n\"");

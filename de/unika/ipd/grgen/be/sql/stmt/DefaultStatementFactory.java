@@ -611,6 +611,7 @@ public class DefaultStatementFactory extends Base
 			sb.append("");
 			left.dump(sb);
 			
+			sb.append("\n");
 			switch(kind) {
 				case LEFT_OUTER:
 					sb.append(" LEFT");

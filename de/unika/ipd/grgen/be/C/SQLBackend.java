@@ -10,7 +10,7 @@ import java.util.*;
 import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
-import de.unika.ipd.grgen.be.sql.ExplicitJoinGenerator;
+import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
@@ -50,7 +50,7 @@ public abstract class SQLBackend extends CBackend {
 	protected TypeStatementFactory stmtFactory = new DefaultStatementFactory(typeFactory);
 	
 	protected final SQLGenerator sqlGen = enableNT
-		? new ExplicitJoinGenerator(parameters, this)
+		? new NewExplicitJoinGenerator(parameters, this)
 		: new SQLGenerator(parameters, this);
 	
 	protected Map matchMap = new HashMap();
@@ -248,7 +248,11 @@ public abstract class SQLBackend extends CBackend {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
 				int tid = getId(n.getReplaceType());
-				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");\n");
+				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");");
+				sb.append("\t/* change type of ").append(n).append(" to ");
+				sb.append(n.getReplaceType().toString()).append(" (").append(tid);
+				sb.append(") */\n");
+
 			}
 		}
 		
@@ -258,7 +262,8 @@ public abstract class SQLBackend extends CBackend {
 		public void deleteEdges(Collection edges) {
 			for (Iterator it = edges.iterator(); it.hasNext();) {
 				Edge e = (Edge) it.next();
-				sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));\n");
+				sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));");
+				sb.append("\t/* delete ").append(e.toString()).append(" */\n");
 			}
 		}
 		
@@ -269,7 +274,8 @@ public abstract class SQLBackend extends CBackend {
 			for (Iterator it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
-				sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));\n");
+				sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));");
+				sb.append("\t/* delete edges of ").append(n.toString()).append(" */\n");
 			}
 		}
 		
@@ -280,7 +286,8 @@ public abstract class SQLBackend extends CBackend {
 			for (Iterator it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
-				sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));\n");
+				sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));");
+				sb.append("\t/* delete ").append(n).append(" */\n");
 			}
 		}
 		

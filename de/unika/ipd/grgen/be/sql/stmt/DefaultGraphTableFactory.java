@@ -208,6 +208,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 			
 			return sb;
 		}
+		
+		public String toString() {
+			return alias;
+		}
 	}
 	
 	protected class AliasTable extends DefaultDebug implements IdTable {
@@ -341,6 +345,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 			sb.append(colId().getType().getText());
 			sb.append("]");
 			return sb;
+		}
+
+		public String toString() {
+			return alias;
 		}
 	}
 	
@@ -634,4 +642,5 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		return neutralTable;
 	}
 }
+
 
