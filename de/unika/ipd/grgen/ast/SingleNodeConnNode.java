@@ -5,6 +5,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Graph;
 
@@ -22,8 +23,8 @@ public class SingleNodeConnNode extends BaseNode {
 		"node"
 	};
 	
-	private static final Resolver nodeResolver 
-		= new DeclResolver(NodeDeclNode.class); 
+	private static final Resolver nodeResolver = 
+		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
 
 	static {
 		setName(SingleNodeConnNode.class, "single node");
@@ -51,7 +52,7 @@ public class SingleNodeConnNode extends BaseNode {
    * @see de.unika.ipd.grgen.ast.GraphObjectNode#addToGraph(de.unika.ipd.grgen.ir.Graph)
    */
   protected void addToGraph(Graph gr) {
-  	NodeDeclNode n = (NodeDeclNode) getChild(NODE);
+  	NodeProducer n = (NodeProducer) getChild(NODE);
   	gr.addSingleNode(n.getNode());
   }
 

@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
  */
 public class OneOfResolver extends Resolver {
 
-	private Resolver[] resolvers;
+  private Resolver[] resolvers;
 	
 	private Collection errorMsgs = new LinkedList();
 
