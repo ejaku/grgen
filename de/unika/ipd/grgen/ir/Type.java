@@ -13,6 +13,11 @@ package de.unika.ipd.grgen.ir;
  */
 public abstract class Type extends Identifiable {
 
+	public static final int IS_UNKNOWN = 0;
+	public static final int IS_INTEGER = 1;
+	public static final int IS_BOOLEAN = 2;
+	public static final int IS_STRING  = 3;
+
 	static final private Type global = 
 		new Type("global type", Ident.get("global type")) {
 	};
@@ -72,5 +77,13 @@ public abstract class Type extends Identifiable {
    */
   public boolean isVoid() {
   	return false;
+  }
+  
+  /**
+   * Return a classification of a type for the IR.
+   * @return either IS_UNKNOWN, IS_INTEGER, IS_BOOLEAN or IS_STRING
+   */
+  public int classify() {
+  	return IS_UNKNOWN;
   }
 }

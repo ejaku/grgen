@@ -16,4 +16,11 @@ public class BooleanType extends PrimitiveType {
     super("boolean type", ident);
   }
 
+	/**
+	 * @see de.unika.ipd.grgen.ir.Type#classify()
+	 */
+	public int classify() {
+		return IS_BOOLEAN;
+	}
+
 }

@@ -46,4 +46,11 @@ public class EnumType extends PrimitiveType {
   	return items.iterator();
   }
 
+	/**
+	 * @see de.unika.ipd.grgen.ir.Type#classify()
+	 */
+	public int classify() {
+		return IS_INTEGER;
+	}
+
 }

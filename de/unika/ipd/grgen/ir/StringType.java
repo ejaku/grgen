@@ -16,4 +16,11 @@ public class StringType extends PrimitiveType {
     super("string type", ident);
   }
 
+	/**
+	 * @see de.unika.ipd.grgen.ir.Type#classify()
+	 */
+	public int classify() {
+		return IS_STRING;
+	}
+
 }

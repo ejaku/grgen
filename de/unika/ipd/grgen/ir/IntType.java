@@ -13,4 +13,11 @@ public class IntType extends PrimitiveType {
     super("integer type", ident);
   }
 
+	/**
+	 * @see de.unika.ipd.grgen.ir.Type#classify()
+	 */
+	public int classify() {
+		return IS_INTEGER;
+	}
+
 }
