@@ -223,9 +223,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		
 		AliasTable(String name, String alias) {
 			super("table " + name + (alias.length() != 0 ? " AS " + alias : ""));
+			boolean hasAlias = alias.length() != 0;
 			this.name = name;
-			this.alias = alias;
-			this.declaration = alias.length() == 0 ? name : name + " AS " + alias;
+			this.alias = hasAlias ? alias : name;
+			this.declaration = hasAlias ? name + " AS " + alias : name;
 		}
 		
 		AliasTable(String name, String alias, String[] colNames, DataType[] colTypes) {
