@@ -1,0 +1,159 @@
+/**
+ * IdentNode.java
+ *
+ *
+ * Created: Wed Jul  2 15:29:14 2003
+ *
+ * @author Sebastian Hack
+ * @version 1.0
+ */
+
+package de.unika.ipd.grgen.ast;
+
+import java.awt.Color;
+
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.parser.Symbol;
+
+public class IdentNode extends BaseNode {
+	
+	static {
+		setName(IdentNode.class, "identifier");
+	}
+	
+  private Symbol.Occurrence occ;
+  private DeclNode decl = DeclNode.getInvalid();
+  
+  private static final IdentNode INVALID = 
+  	new IdentNode(Symbol.Definition.getInvalid());
+
+	/** 
+	 * Get an invalid ident node. 
+	 * @return An invalid ident node.
+	 */
+  public static IdentNode getInvalid() {
+  	return INVALID;
+  }
+
+	/**
+	 * Make a new ident node at a symbols's definition.
+	 * @param def The definition of the symbol.
+	 */
+	public IdentNode(Symbol.Definition def) {
+		this((Symbol.Occurrence) def);
+		def.setNode(this);
+	}
+
+	/**
+	 * Make a new identifier node an a symbol's occurrence.
+	 * @param occ The occurrence of the symbol.
+	 */
+  public IdentNode(Symbol.Occurrence occ) {
+    super(occ.getCoords());
+    this.occ = occ;
+  }
+
+	/**
+	 * Get the symbol definition of this identifier
+	 * @see Symbol#Definition
+	 * @return The symbol definition.
+	 */
+  public Symbol.Definition getSymDef() {
+    return occ.getDefinition();
+  }
+
+	/**
+	 * Set the definition of the symbol of this identifier.
+	 * @param def The definition.
+	 */
+	public void setSymDef(Symbol.Definition def) {
+		occ.setDefinition(def);
+	}
+  
+	/**
+	 * set the declaration node for this ident node. Each ident node
+	 * declares an entity. To resolve this declared entity from the name,
+	 * an ident node (which gets the name from the symbol defined
+	 * by the symbol definition) has a declaration as its only child.
+	 *  
+	 * @param n The declaration this ident represents.
+	 */
+  public void setDecl(DeclNode n) {
+    decl = n;
+  }
+
+  /**
+   * Get the declaration corresponding to this node.
+   * @see #setDecl() for a detailed description.
+   * @return The declaration this node represents
+   */
+  public DeclNode getDecl() {
+  	Symbol.Definition def = getSymDef();
+		DeclNode res = DeclNode.getInvalid();
+  	
+  	if(def.isValid()) 
+  		res = def.getNode() == this ? decl : def.getNode().getDecl();
+  	
+  	return res;
+  }
+
+	/**
+	 * Get the symbol of the identifier.
+	 * @return The symbol.
+	 */
+	public Symbol getSymbol() {
+		return occ.getSymbol();  
+	}
+  
+  /**
+   * The string representation for this node. for an identidfier, this
+   * is the string of the symbol, the identifier represents.
+   */
+  public String toString() {
+  	return occ.getSymbol().toString();
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
+   */
+  public Color getNodeColor() {
+    return Color.ORANGE;
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
+   */
+  protected String extraNodeInfo() {
+  	return "occurrence: " + occ + "\ndefinition: " + getSymDef();
+  }
+
+  /**
+   * Get the current occurrence of this identifier.
+   * Each time this ident node is reused in the parser (rule identUse)
+   * the current occurrence changes.
+   * @return The current occurrence.
+   */
+  public Symbol.Occurrence getCurrOcc() {
+    return occ;
+  }
+
+  /**
+   * Get the IR object. 
+   * This is an ident here.
+   * @return The IR object.
+   */
+  public Ident getIdent() {
+  	return (Ident) checkIR(Ident.class);
+  }
+
+	/** 
+	 * Construct the ir object. 
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR() {
+		return Ident.get(toString(), getSymDef().getCoords());
+	}
+	
+	
+} 
