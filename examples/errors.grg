@@ -1,4 +1,4 @@
-unit errors;
+actions errors;
 
 test injectiv_between_L_and_N {
 	pattern {
@@ -40,7 +40,7 @@ test neg_is_sub_of_pat {
 	}
 }
 
-rulw wrong_reuse_of_named_edges {
+rule wrong_reuse_of_named_edges {
 	pattern {
 		node (a, b): Node;
 		a -e:Edge-> b;
