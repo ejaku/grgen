@@ -4,7 +4,6 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Collection;
 
@@ -60,7 +59,7 @@ public abstract class Resolver extends Base {
 	 * @param msg The error message to be printed.
 	 */
 	protected void reportError(BaseNode node, String msg) {
-		errorMessages.add(new ErrorMessage(this, node, msg));
+		node.reportError(msg);
 	}
 	
 	/**
@@ -78,10 +77,6 @@ public abstract class Resolver extends Base {
 	 * Print all error messages concerning this resolver.
 	 */
 	public void printErrors() {
-		for(Iterator it = errorMessages.iterator(); it.hasNext();) {
-			ErrorMessage msg = (ErrorMessage) it.next();
-			msg.print();
-		}
 	}
 
 }

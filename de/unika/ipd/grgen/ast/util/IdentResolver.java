@@ -89,8 +89,10 @@ public abstract class IdentResolver extends Resolver {
 			reportError(n, "Identifier \"" + c + "\" is a \"" + get 
 				+ "\" but " + expectList + " " + verb + " expected");
 			
-		} else
-		  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
+		} 
+		
+		// else
+		//  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
 		
 		debug.leaving();
 		return res;

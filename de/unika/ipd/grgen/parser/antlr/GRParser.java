@@ -296,14 +296,14 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			BaseNode d;
 			{
-			_loop240:
+			_loop1420:
 			do {
 				if ((_tokenSet_2.member(LA(1)))) {
 					d=decl();
 					n.addChild(d);
 				}
 				else {
-					break _loop240;
+					break _loop1420;
 				}
 				
 			} while (true);
@@ -547,7 +547,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			BaseNode d;
 			{
-			_loop258:
+			_loop1438:
 			do {
 				if ((LA(1)==IDENT)) {
 					d=basicDecl();
@@ -555,7 +555,7 @@ public GRParser(ParserSharedInputState state) {
 					match(SEMI);
 				}
 				else {
-					break _loop258;
+					break _loop1438;
 				}
 				
 			} while (true);
@@ -743,7 +743,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			BaseNode d;
 			{
-			_loop255:
+			_loop1435:
 			do {
 				if ((LA(1)==IDENT)) {
 					d=basicDecl();
@@ -751,7 +751,7 @@ public GRParser(ParserSharedInputState state) {
 					match(SEMI);
 				}
 				else {
-					break _loop255;
+					break _loop1435;
 				}
 				
 			} while (true);
@@ -775,7 +775,7 @@ public GRParser(ParserSharedInputState state) {
 			e=identUse();
 			c.addChild(e);
 			{
-			_loop248:
+			_loop1428:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -783,7 +783,7 @@ public GRParser(ParserSharedInputState state) {
 					c.addChild(e);
 				}
 				else {
-					break _loop248;
+					break _loop1428;
 				}
 				
 			} while (true);
@@ -806,7 +806,7 @@ public GRParser(ParserSharedInputState state) {
 			n=identUse();
 			c.addChild(n);
 			{
-			_loop252:
+			_loop1432:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -814,7 +814,7 @@ public GRParser(ParserSharedInputState state) {
 					c.addChild(n);
 				}
 				else {
-					break _loop252;
+					break _loop1432;
 				}
 				
 			} while (true);
@@ -828,21 +828,23 @@ public GRParser(ParserSharedInputState state) {
 	}
 	
 	public final BaseNode  basicDecl() throws RecognitionException, TokenStreamException {
-		 BaseNode n = initNode() ;
+		 BaseNode res = initNode() ;
 		
 		
 		try {      // for error handling
 			
 				  IdentNode id;
 				  BaseNode type;
+				  DeclNode decl;
 			
 			id=identDecl();
 			match(COLON);
 			type=identUse();
 			
 				
-				id.setDecl(new MemberDeclNode(id, type));
-				n = id;
+				decl = new MemberDeclNode(id, type);
+				id.setDecl(decl);
+				res = decl;
 			
 		}
 		catch (RecognitionException ex) {
@@ -850,7 +852,7 @@ public GRParser(ParserSharedInputState state) {
 			consume();
 			consumeUntil(_tokenSet_9);
 		}
-		return n;
+		return res;
 	}
 	
 	public final int  integerConst() throws RecognitionException, TokenStreamException {
@@ -885,14 +887,14 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			init=enumItemDecl(res, zero, pos++);
 			{
-			_loop267:
+			_loop1447:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
 					init=enumItemDecl(res, init, pos++);
 				}
 				else {
-					break _loop267;
+					break _loop1447;
 				}
 				
 			} while (true);
@@ -946,7 +948,8 @@ public GRParser(ParserSharedInputState state) {
 						res.addChild(defInit);
 						res.addChild(one);
 					}
-					coll.addChild(new EnumItemNode(id, res, pos));
+					id.setDecl(new EnumItemNode(id, res, pos));
+					coll.addChild(id);
 				
 		}
 		catch (RecognitionException ex) {
@@ -1009,18 +1012,18 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			BaseNode d;
 			{
-			int _cnt274=0;
-			_loop274:
+			int _cnt1454=0;
+			_loop1454:
 			do {
 				if ((LA(1)==LITERAL_test||LA(1)==LITERAL_rule)) {
 					d=actionDecl();
 					c.addChild(d);
 				}
 				else {
-					if ( _cnt274>=1 ) { break _loop274; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1454>=1 ) { break _loop1454; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt274++;
+				_cnt1454++;
 			} while (true);
 			}
 		}
@@ -1259,14 +1262,14 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			param();
 			{
-			_loop284:
+			_loop1464:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
 					param();
 				}
 				else {
-					break _loop284;
+					break _loop1464;
 				}
 				
 			} while (true);
@@ -1356,14 +1359,14 @@ public GRParser(ParserSharedInputState state) {
 				  res = new PatternNode(coords, connections);
 			
 			{
-			_loop306:
+			_loop1486:
 			do {
 				if ((LA(1)==LITERAL_node||LA(1)==LPAREN||LA(1)==IDENT)) {
 					patternStmt(connections);
 					match(SEMI);
 				}
 				else {
-					break _loop306;
+					break _loop1486;
 				}
 				
 			} while (true);
@@ -1395,14 +1398,14 @@ public GRParser(ParserSharedInputState state) {
 				  res = new PatternNode(coords, connections);
 			
 			{
-			_loop329:
+			_loop1509:
 			do {
 				if ((LA(1)==LITERAL_node||LA(1)==LPAREN||LA(1)==IDENT)) {
 					replaceStmt(connections);
 					match(SEMI);
 				}
 				else {
-					break _loop329;
+					break _loop1509;
 				}
 				
 			} while (true);
@@ -1423,14 +1426,14 @@ public GRParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			{
-			_loop301:
+			_loop1481:
 			do {
 				if ((LA(1)==IDENT)) {
 					redirectStmt(c);
 					match(SEMI);
 				}
 				else {
-					break _loop301;
+					break _loop1481;
 				}
 				
 			} while (true);
@@ -1471,7 +1474,7 @@ public GRParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			{
-			_loop298:
+			_loop1478:
 			do {
 				if ((LA(1)==IDENT)) {
 					a=assignment();
@@ -1479,7 +1482,7 @@ public GRParser(ParserSharedInputState state) {
 					match(SEMI);
 				}
 				else {
-					break _loop298;
+					break _loop1478;
 				}
 				
 			} while (true);
@@ -1500,7 +1503,7 @@ public GRParser(ParserSharedInputState state) {
 		
 		try {      // for error handling
 			{
-			_loop295:
+			_loop1475:
 			do {
 				if ((_tokenSet_19.member(LA(1)))) {
 					e=expr();
@@ -1508,7 +1511,7 @@ public GRParser(ParserSharedInputState state) {
 					match(SEMI);
 				}
 				else {
-					break _loop295;
+					break _loop1475;
 				}
 				
 			} while (true);
@@ -1646,14 +1649,14 @@ public GRParser(ParserSharedInputState state) {
 				match(LITERAL_node);
 				patternNodeDecl();
 				{
-				_loop309:
+				_loop1489:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
 						patternNodeDecl();
 					}
 					else {
-						break _loop309;
+						break _loop1489;
 					}
 					
 				} while (true);
@@ -1740,8 +1743,8 @@ public GRParser(ParserSharedInputState state) {
 				id=identDecl();
 				ids.add(id);
 				{
-				int _cnt326=0;
-				_loop326:
+				int _cnt1506=0;
+				_loop1506:
 				do {
 					if ((LA(1)==TILDE)) {
 						match(TILDE);
@@ -1749,10 +1752,10 @@ public GRParser(ParserSharedInputState state) {
 							ids.add(id);
 					}
 					else {
-						if ( _cnt326>=1 ) { break _loop326; } else {throw new NoViableAltException(LT(1), getFilename());}
+						if ( _cnt1506>=1 ) { break _loop1506; } else {throw new NoViableAltException(LT(1), getFilename());}
 					}
 					
-					_cnt326++;
+					_cnt1506++;
 				} while (true);
 				}
 				match(RPAREN);
@@ -1864,14 +1867,14 @@ public GRParser(ParserSharedInputState state) {
 				match(LPAREN);
 				patternContinuation(left, collect);
 				{
-				_loop315:
+				_loop1495:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
 						patternContinuation(left, collect);
 					}
 					else {
-						break _loop315;
+						break _loop1495;
 					}
 					
 				} while (true);
@@ -2151,7 +2154,7 @@ public GRParser(ParserSharedInputState state) {
 				id=identDecl();
 				ids.add(id);
 				{
-				_loop349:
+				_loop1529:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
@@ -2159,7 +2162,7 @@ public GRParser(ParserSharedInputState state) {
 						ids.add(id);
 					}
 					else {
-						break _loop349;
+						break _loop1529;
 					}
 					
 				} while (true);
@@ -2217,14 +2220,14 @@ public GRParser(ParserSharedInputState state) {
 				match(LITERAL_node);
 				replaceNodeDecl();
 				{
-				_loop332:
+				_loop1512:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
 						replaceNodeDecl();
 					}
 					else {
-						break _loop332;
+						break _loop1512;
 					}
 					
 				} while (true);
@@ -2389,14 +2392,14 @@ public GRParser(ParserSharedInputState state) {
 				match(LPAREN);
 				replaceContinuation(left, collect);
 				{
-				_loop338:
+				_loop1518:
 				do {
 					if ((LA(1)==COMMA)) {
 						match(COMMA);
 						replaceContinuation(left, collect);
 					}
 					else {
-						break _loop338;
+						break _loop1518;
 					}
 					
 				} while (true);
@@ -2612,7 +2615,7 @@ public GRParser(ParserSharedInputState state) {
 			id=identUse();
 			c.addChild(id);
 			{
-			_loop353:
+			_loop1533:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -2620,7 +2623,7 @@ public GRParser(ParserSharedInputState state) {
 					c.addChild(id);
 				}
 				else {
-					break _loop353;
+					break _loop1533;
 				}
 				
 			} while (true);
@@ -2642,8 +2645,8 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=identUse();
 			{
-			int _cnt403=0;
-			_loop403:
+			int _cnt1583=0;
+			_loop1583:
 			do {
 				if ((LA(1)==DOT)) {
 					d = LT(1);
@@ -2654,10 +2657,10 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					if ( _cnt403>=1 ) { break _loop403; } else {throw new NoViableAltException(LT(1), getFilename());}
+					if ( _cnt1583>=1 ) { break _loop1583; } else {throw new NoViableAltException(LT(1), getFilename());}
 				}
 				
-				_cnt403++;
+				_cnt1583++;
 			} while (true);
 			}
 			
@@ -2730,7 +2733,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=logAndExpr();
 			{
-			_loop364:
+			_loop1544:
 			do {
 				if ((LA(1)==LOR)) {
 					t = LT(1);
@@ -2741,7 +2744,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop364;
+					break _loop1544;
 				}
 				
 			} while (true);
@@ -2764,7 +2767,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=bitOrExpr();
 			{
-			_loop367:
+			_loop1547:
 			do {
 				if ((LA(1)==LAND)) {
 					t = LT(1);
@@ -2775,7 +2778,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop367;
+					break _loop1547;
 				}
 				
 			} while (true);
@@ -2798,7 +2801,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=bitXOrExpr();
 			{
-			_loop370:
+			_loop1550:
 			do {
 				if ((LA(1)==BOR)) {
 					t = LT(1);
@@ -2809,7 +2812,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop370;
+					break _loop1550;
 				}
 				
 			} while (true);
@@ -2832,7 +2835,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=bitAndExpr();
 			{
-			_loop373:
+			_loop1553:
 			do {
 				if ((LA(1)==BXOR)) {
 					t = LT(1);
@@ -2843,7 +2846,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop373;
+					break _loop1553;
 				}
 				
 			} while (true);
@@ -2866,7 +2869,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=eqExpr();
 			{
-			_loop376:
+			_loop1556:
 			do {
 				if ((LA(1)==BAND)) {
 					t = LT(1);
@@ -2877,7 +2880,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop376;
+					break _loop1556;
 				}
 				
 			} while (true);
@@ -2902,7 +2905,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=relExpr();
 			{
-			_loop380:
+			_loop1560:
 			do {
 				if ((LA(1)==EQUAL||LA(1)==NOT_EQUAL)) {
 					t=eqOp();
@@ -2912,7 +2915,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop380;
+					break _loop1560;
 				}
 				
 			} while (true);
@@ -2973,7 +2976,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=shiftExpr();
 			{
-			_loop384:
+			_loop1564:
 			do {
 				if (((LA(1) >= LT && LA(1) <= GE))) {
 					t=relOp();
@@ -2983,7 +2986,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop384;
+					break _loop1564;
 				}
 				
 			} while (true);
@@ -3060,7 +3063,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=addExpr();
 			{
-			_loop388:
+			_loop1568:
 			do {
 				if (((LA(1) >= SL && LA(1) <= BSR))) {
 					t=shiftOp();
@@ -3070,7 +3073,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop388;
+					break _loop1568;
 				}
 				
 			} while (true);
@@ -3139,7 +3142,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=mulExpr();
 			{
-			_loop392:
+			_loop1572:
 			do {
 				if ((LA(1)==MINUS||LA(1)==PLUS)) {
 					t=addOp();
@@ -3149,7 +3152,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop392;
+					break _loop1572;
 				}
 				
 			} while (true);
@@ -3210,7 +3213,7 @@ public GRParser(ParserSharedInputState state) {
 		try {      // for error handling
 			res=unaryExpr();
 			{
-			_loop396:
+			_loop1576:
 			do {
 				if (((LA(1) >= STAR && LA(1) <= DIV))) {
 					t=mulOp();
@@ -3220,7 +3223,7 @@ public GRParser(ParserSharedInputState state) {
 						
 				}
 				else {
-					break _loop396;
+					break _loop1576;
 				}
 				
 			} while (true);

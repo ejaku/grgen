@@ -387,20 +387,23 @@ enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res
 			res.addChild(defInit);
 			res.addChild(one);
 		}
-		coll.addChild(new EnumItemNode(id, res, pos));
+		id.setDecl(new EnumItemNode(id, res, pos));
+		coll.addChild(id);
 	}
 	;
 
-basicDecl returns [ BaseNode n = initNode() ] 
+basicDecl returns [ BaseNode res = initNode() ] 
   : { 
   	  IdentNode id;
   	  BaseNode type;
+  	  DeclNode decl;
     }
   
   id=identDecl COLON! type=identUse {
 	
-	id.setDecl(new MemberDeclNode(id, type));
-	n = id;
+	decl = new MemberDeclNode(id, type);
+	id.setDecl(decl);
+	res = decl;
 };
 
 /// groups have names and contain graph declarations
