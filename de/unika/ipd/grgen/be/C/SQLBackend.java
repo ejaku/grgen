@@ -325,6 +325,25 @@ public abstract class SQLBackend extends CBackend {
 								  + getNodeCol(other, colNodesId) + BREAK_LINE);
 			}
 			
+			// TODO check for conditions of nodes.
+			if (act instanceof Rule) {
+				Rule r = (Rule)act;
+				Condition condition = r.getCondition();
+				for(Iterator conds = condition.getWalkableChildren(); conds.hasNext(); ) {
+					IR cond = (IR)conds.next();
+					if(cond instanceof Operator) {
+						Operator operator = (Operator)cond;
+						System.out.print(operator + " opcode = "  + operator.getOpCode());
+						String sqlOp = getOpSQL(operator.getOpCode());
+						System.out.println(" sqlOp = " + sqlOp);
+						for(Iterator ops = operator.getWalkableChildren(); ops.hasNext(); ) {
+							IR operand = (IR)ops.next();
+							System.out.println(" operand = " + operand);
+						}
+					}
+				}
+			}
+			
 			incidentSets[0].clear();
 			incidentSets[1].clear();
 			gr.getOutgoing(n, incidentSets[0]);
@@ -367,6 +386,8 @@ public abstract class SQLBackend extends CBackend {
 						
 						continue;
 					}
+					
+					// TODO check for conditions of edges.
 					
 					
 					// Just add the edge to the columns and tables,
@@ -415,6 +436,37 @@ public abstract class SQLBackend extends CBackend {
 			+ " WHERE "
 			+ join(nodeWhere, edgeWhere, " AND ")
 			+ (limitQueryResults != 0 ? " LIMIT " + limitQueryResults : "");
+	}
+	
+	private String getOpSQL(int opCode) {
+		switch (opCode) {
+			case Operator.COND:      assert false : "NYI"; break;
+			case Operator.LOG_OR:    return "OR";
+			case Operator.LOG_AND:   return "AND";
+			case Operator.BIT_OR:    assert false : "NYI"; break;
+			case Operator.BIT_XOR:   assert false : "NYI"; break;
+			case Operator.BIT_AND:   assert false : "NYI"; break;
+			case Operator.EQ:        return "=";
+			case Operator.NE:        return "<>";
+			case Operator.LT:        return "<";
+			case Operator.LE:        return "<=";
+			case Operator.GT:        return ">";
+			case Operator.GE:        return ">=";
+			case Operator.SHL:       assert false : "NYI"; break;
+			case Operator.SHR:       assert false : "NYI"; break;
+			case Operator.BIT_SHR:   assert false : "NYI"; break;
+			case Operator.ADD:       return "+";
+			case Operator.SUB:       return "-";
+			case Operator.MUL:       return "*";
+			case Operator.DIV:       return "/";
+			case Operator.MOD:       return "%";
+			case Operator.LOG_NOT:   return "NOT";
+			case Operator.BIT_NOT:   assert false : "NYI"; break;
+			case Operator.NEG:       return "-";
+			case Operator.CAST:      assert false : "NYI"; break;
+		}
+		// TODO
+		return null;
 	}
 	
 	/**

@@ -22,8 +22,9 @@ public class Assignment extends IR {
 	/** The rhs of the assignment. */
 	private IR rhs;
 	
-	public Assignment(IR lhs, IR rhs) {
+	public Assignment(Qualification lhs, IR rhs) {
 		super("assign");
+		setChildrenNames(childrenNames);
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}

@@ -15,7 +15,7 @@ public abstract class MatchingAction extends Action {
 
 	/** Children names of this node. */
 	private static final String[] childrenNames = {
-	  "pattern" 
+	  "pattern"
 	};
 
 	/** The graph pattern to match against. */
@@ -37,7 +37,7 @@ public abstract class MatchingAction extends Action {
    * @return The graph pattern.
    */
   public Graph getPattern() {
-  	return pattern; 
+  	return pattern;
   }
 
   /**

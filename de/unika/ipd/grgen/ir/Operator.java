@@ -59,7 +59,11 @@ public class Operator extends Expression
   public Operator(PrimitiveType type, int opCode) {
     super("operator", type);
     this.opCode = opCode;
-  }
+	}
+	
+	public int getOpCode() {
+		return opCode;
+	}
 
 	/**
 	 * Add an operand to the expression.

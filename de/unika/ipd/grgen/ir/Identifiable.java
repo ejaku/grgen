@@ -6,7 +6,7 @@ package de.unika.ipd.grgen.ir;
 
 /**
  * Identifier with an identifier.
- * This is a super clas for all classes which are associated with 
+ * This is a super clas for all classes which are associated with
  * an identifier.
  */
 public class Identifiable extends IR {
@@ -16,7 +16,7 @@ public class Identifiable extends IR {
 	
   /**
    * @param name The name of the IR class
-   * @param ident The identifier associated with this IR object. 
+   * @param ident The identifier associated with this IR object.
    */
   public Identifiable(String name, Ident ident) {
     super(name);
