@@ -10,9 +10,7 @@ import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.util.*;
 
 import de.unika.ipd.grgen.be.sql.TypeID;
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -279,11 +277,11 @@ public class DefaultStatementFactory extends Base
 		protected static final Term NULL = new ConstantTerm("NULL");
 		
 		ConstantTerm(String str) {
-			super(new ConstantOpcode(str), EMPTY);
+			super(new ConstantOpcode("\'" + str + "\'"), EMPTY);
 		}
 		
 		ConstantTerm(int integer) {
-			super(new ConstantOpcode("" + integer), EMPTY);
+			super(new ConstantOpcode(Integer.toString(integer)), EMPTY);
 		}
 		
 		ConstantTerm(boolean bool) {
@@ -569,9 +567,9 @@ public class DefaultStatementFactory extends Base
 	protected static class DefaultJoin extends DefaultDebug implements Join {
 		
 		private final Relation left, right;
-		private final Term cond;
 		private final int kind;
-		
+		private Term cond;
+
 		public DefaultJoin(int kind, Relation left, Relation right, Term cond) {
 			super("join");
 			setChildren(new Object[] { left, right, cond });
@@ -591,6 +589,10 @@ public class DefaultStatementFactory extends Base
 		
 		public Term getCondition() {
 			return cond;
+		}
+		
+		public void setCondition(Term cond) {
+			this.cond = cond;
 		}
 		
 		public int columnCount() {
@@ -703,3 +705,4 @@ public class DefaultStatementFactory extends Base
 	}
 	
 }
+
