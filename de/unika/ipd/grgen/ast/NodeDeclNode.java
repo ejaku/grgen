@@ -1,5 +1,5 @@
 /**
- * @author Sebastian Hack, Daniel Grund
+ * @author Sebastian Hack
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;

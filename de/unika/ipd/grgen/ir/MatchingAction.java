@@ -56,7 +56,7 @@ public abstract class MatchingAction extends Action {
 	 */
  	public Graph getNeg() {
 		return neg;  	
-  	}
+  }
 
 	public boolean hasNeg() {
 		return neg.getNodes().hasNext();

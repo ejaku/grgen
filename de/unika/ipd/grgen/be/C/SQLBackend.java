@@ -64,8 +64,8 @@ public abstract class SQLBackend extends CBackend {
 	protected TypeStatementFactory factory = new DefaultStatementFactory(); 
 	
 	protected final SQLGenerator sqlGen = enableNT  
-			? new ExplicitJoinGenerator(parameters, this)
-			: new SQLGenerator(parameters, this); 
+		? new ExplicitJoinGenerator(parameters, this)
+		: new SQLGenerator(parameters, this); 
 	
 	protected Map matchMap = new HashMap();
 
