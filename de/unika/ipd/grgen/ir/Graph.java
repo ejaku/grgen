@@ -50,14 +50,14 @@ public class Graph extends IR {
 			this.node = n;
 		}
 
-		/**
-		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-		 */
-		public Iterator getWalkableChildren() {
-	    	return new MultiIterator(new Collection[] {
-	    		outgoing, incoming
-	    	});
-	    }
+    /**
+     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+     */
+    public Iterator getWalkableChildren() {
+    	return new MultiIterator(new Collection[] {
+    		outgoing, incoming
+    	});
+    }
 	}
 	
 	protected class GraphEdge extends Edge {
@@ -317,7 +317,7 @@ public class Graph extends IR {
 		
 		debug.entering();
 		
-		for(Iterator it = getEdges(new HashSet()).iterator(); it.hasNext();) {
+		for(Iterator it = getEdges(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if(src == getSource(e) && tgt == getTarget(e) 
