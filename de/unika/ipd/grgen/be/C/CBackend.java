@@ -411,13 +411,68 @@ public abstract class CBackend extends Base implements Backend {
 		}
 	}
 
+	protected void dumpXMLTag(StringBuffer sb, String ending, Type inh) {
+	  	
+	  sb.append("<" + inh.getName().replace(' ', '_') 
+	    + " name=\"" + inh.getIdent() + "\"" + ending);
+	}
+
+	protected void dumpXMLEndTag(StringBuffer sb, 
+	  Type inh) {
+	
+		sb.append("</" + inh.getName().replace(' ', '_') + ">\n");
+	}
+	
+	protected void dumpXMLTag(StringBuffer sb, String ending, Entity ent) {
+		sb.append("<" + ent.getName().replace(' ', '_')  
+		  + " name=\"" + ent.getIdent() + "\"" 
+		  + " type=\"" + ent.getType().getIdent() + "\"" + ending);
+	}
+	
+	protected void dumpXMLEndTag(StringBuffer sb, Entity ent) {
+		sb.append("</" + ent.getName().replace(' ', '_') + ">\n");
+	}
+
 	/**
 	 * Dump an overview of all declared types and attributes to
 	 * an XML file.
 	 * @param sb The string buffer to put the XML stuff to.
 	 */
 	protected void writeOverview(StringBuffer sb) {
-		for(Iterator it = nodeTypeMap.keySet.
+		Map[] maps = new Map[] {
+			nodeTypeMap,
+			edgeTypeMap
+		};
+
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+		
+		sb.append("<unit>\n");
+		for(int i = 0; i < maps.length; i++) {
+			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
+				InheritanceType type = (InheritanceType) it.next();
+				dumpXMLTag(sb, ">\n", type);
+				sb.append("  <inherits>\n");
+				for(Iterator inhIt = type.getInherits(); inhIt.hasNext();) {
+					InheritanceType inh = (InheritanceType) inhIt.next();
+					sb.append("    ");
+					dumpXMLTag(sb, "/>\n", inh);
+				}
+				sb.append("  </inherits>\n");
+				
+				sb.append("  <attributes>\n");
+				for(Iterator attrIt = type.getMembers(); attrIt.hasNext();) {
+					Entity ent = (Entity) it.next();
+					
+					sb.append("    ");
+					dumpXMLTag(sb, "/>\n", ent);
+				}
+				
+				sb.append("  </attributes>\n");
+				dumpXMLEndTag(sb, type);
+			}
+		}
+
+		sb.append("</unit>\n");
 	}
 
 	/**
