@@ -485,7 +485,6 @@ public abstract class SQLBackend extends CBackend {
 		 * Only consider redirections and node insertions, if we truly have
 		 * to insert some nodes, i.e. The nodesToInsert set has elements
 		 */
-				
 		if(nodesToInsert.size() > 0) {
 			/*
 		   * We need an array to save the IDs of the inserted nodes, since
@@ -507,7 +506,7 @@ public abstract class SQLBackend extends CBackend {
 			}
 		
 			/*
-			 * Now e can launch the redirections.
+			 * Now we can launch the redirections.
 			 */
 			for(Iterator it = r.getRedirections().iterator(); it.hasNext();) {
 				Rule.Redirection redir = (Rule.Redirection) it.next();
@@ -546,6 +545,16 @@ public abstract class SQLBackend extends CBackend {
 		}
 		
 		w = left.getNodes();
+		for(Iterator it = w.iterator(); it.hasNext();) {
+			Node n = (Node) it.next();
+			Integer nid = (Integer) m.nodeIndexMap.get(n);
+			if(n.typeChanges()) {
+				int tid = getTypeId(nodeTypeMap, n.getReplaceType());
+				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " 
+					+ tid + ");\n");
+			}
+		}
+
 		w.removeAll(commonNodes);
 		for(Iterator it = w.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
@@ -554,7 +563,10 @@ public abstract class SQLBackend extends CBackend {
 			sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));\n");
 		}
 		
+
 		
+		// Right side edges cannot be negated. That is checked by 
+		// the semantic analysis
 		w = right.getEdges();
 		w.removeAll(commonEdges);
 		
