@@ -23,51 +23,46 @@ public class ConnAssertNode extends BaseNode {
 	
 	/** edge names for the children. */
 	private static final String[] childrenNames = {
-		"edge", "range", "node",
+		"src", "src range", "tgt", "tgt range"
 	};
 	
 	/** Index of the source node. */
-	private static final int EDGE = 0;
+	private static final int SRC = 0;
 	
-	/** Index of the edge node. */
-	private static final int RANGE = 1;
+	/** Index of the source node range. */
+	private static final int SRCRANGE = 1;
 	
 	/** Index of the target node. */
-	private static final int NODE= 2;
+	private static final int TGT = 2;
+	
+	/** Index of the target node range. */
+	private static final int TGTRANGE = 3;
+	
 	
 	/** Resolver for the nodes. */
-	
-//	private static final Checker nodeChecker =
-//		new MultChecker(new Class[] {
-//				NodeDeclNode.class, NodeTypeChangeNode.class
-//			});
-	
-	private static final Resolver edgeResolver =
-		new DeclTypeResolver(EdgeTypeNode.class);
-	
 	private static final Resolver nodeResolver =
 		new DeclTypeResolver(NodeTypeNode.class);
-	
-	private boolean outgoing;
 	
 	/**
 	 * Construct a new connection assertion node.
 	 * Graphically: hostnode -> edge [range] -> node
-	 * @param edge The edge type connected to the host node.
-	 * @param range The allowed number of edges of one type connected to the host node.
-	 * @param node The node the host node is connected to, via the edge.
-	 * @param outgoing true, if the edge is a out going one.
+	 * @param src The node the host node is connected to, via the edge.
+	 * @param srcRange ?
+	 * @param tgt
+	 * @param tgtRange The allowed number of edges of one type connected to the host node.
 	 */
-	public ConnAssertNode(BaseNode edge, BaseNode range,
-						  BaseNode node, boolean outgoing) {
-		super(edge.getCoords());
-		addChild(edge);
-		addChild(range);
-		addChild(node);
-		this.outgoing = outgoing;
+	public ConnAssertNode(BaseNode src, BaseNode srcRange,
+						  BaseNode tgt, BaseNode tgtRange) {
+		super(src.getCoords());
+		addChild(src);
+		addChild(srcRange);
+		addChild(tgt);
+		addChild(tgtRange);
 		setChildrenNames(childrenNames);
-		addResolver(EDGE, edgeResolver);
-		addResolver(NODE, nodeResolver);
+		addResolver(SRC, 		nodeResolver);
+		//addResolver(SRCRANGE, 	null);
+		addResolver(TGT, 		nodeResolver);
+		//addResolver(TGTRANGE, 	null);
 	}
 	
 	/**
@@ -75,12 +70,9 @@ public class ConnAssertNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(EDGE, EdgeTypeNode.class)
-			&& checkChild(RANGE, RangeSpecNode.class)
-			&& checkChild(NODE, NodeTypeNode.class);
-	}
-	
-	public boolean isOutgoing() {
-		return outgoing;
+		return checkChild(SRC, 		NodeTypeNode.class)
+			&& checkChild(SRCRANGE,	RangeSpecNode.class)
+			&& checkChild(TGT,		NodeTypeNode.class)
+			&& checkChild(TGTRANGE,	RangeSpecNode.class);
 	}
 }
