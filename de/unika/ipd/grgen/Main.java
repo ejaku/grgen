@@ -6,6 +6,7 @@ package de.unika.ipd.grgen;
 
 import de.unika.ipd.grgen.util.*;
 import de.unika.ipd.grgen.util.report.*;
+import java.io.*;
 import javax.swing.*;
 
 import antlr.ANTLRException;
@@ -26,11 +27,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.prefs.Preferences;
 
 /**
@@ -91,7 +87,7 @@ public class Main extends Base {
 	private void printUsage() {
 		System.out.println("usage: grgen [options] filename");
 		System.out.println("Options are:");
-		System.out.println("  -n, --new-technology              enable unmature features");
+		System.out.println("  -n, --new-technology              enable immature features");
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
@@ -171,6 +167,7 @@ public class Main extends Base {
 	}
 	
 	private void init() {
+		
 		prefs = Preferences.userNodeForPackage(getClass());
 		
 		// Debugging has an empty reporter if the flag is not set
@@ -369,6 +366,9 @@ public class Main extends Base {
 		// Open graphic debug window if desired.
 		if(graphic)
 			makeMainFrame();
+		
+		debug.report(NOTE, "working directory: " + System.getProperty("user.dir"));
+
 		
 		// parse the input file and exit, if there were errors
 		if(!parseInput(inputFile))
