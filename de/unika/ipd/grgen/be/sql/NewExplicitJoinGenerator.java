@@ -40,13 +40,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			int dist2 = inh2.getMaxDist();
 			
 			int result = (dist1 > dist2 ? -1 : 0) + (dist1 < dist2 ? 1 : 0);
-			
 			//			debug.report(NOTE, inh1.getIdent() + "(" + dist1 + ") cmp "
 			//					+ inh2.getIdent() + "(" + dist2 + "): " + result);
-			
 			return result;
 		}
-		
 	}
 	
 	private static class NodeComparator extends GraphItemComparator {
@@ -657,7 +654,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Term term = (Term) it.next();
 				BitSet dep = (BitSet) joinCondDeps.get(term);
 				
-				debug.report(NOTE, "  dep: " + dep);
 				
 				// look if all processed relations are in the dependency set
 				// of this condition.
@@ -666,7 +662,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				work.and(processed);
 				work.xor(dep);
 				
-				debug.report(NOTE, "    -> " + work);
+				debug.report(NOTE, "  dep: " + dep + " -> " + work);
 				
 				// If yes, add this condition to the returned ones and
 				// remove it from the join condition dependency set.
@@ -676,7 +672,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				}
 			}
 			
-			debug.report(NOTE, " res: " + res);
+			debug.report(NOTE, "  res: " + res);
 			debug.leaving();
 
 			return res;
@@ -916,29 +912,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				if(conds != null)
 					join.setCondition(conds);
 			}
-
-			
 			
 			// Build the column list
-			Collection proc = processedTables.keySet();
 			List columns = new LinkedList();
 			
-			// One for the nodes.
-			for(Iterator it = proc.iterator(); it.hasNext();) {
-				Object obj = it.next();
-				if(obj instanceof NodeTable) {
-					NodeTable table = (NodeTable) obj;
-					columns.add(table.colId());
-				}
+			for(Iterator it = matchedNodes.iterator(); it.hasNext();) {
+				Node node = (Node) it.next();
+				NodeTable nodeTable = tableFactory.nodeTable(node);
+				columns.add(nodeTable.colId());
 			}
 			
-			// One for the edges.
-			for(Iterator it = proc.iterator(); it.hasNext();) {
-				Object obj = it.next();
-				if(obj instanceof EdgeTable) {
-					EdgeTable table = (EdgeTable) obj;
-					columns.add(table.colId());
-				}
+			for(Iterator it = matchedEdges.iterator(); it.hasNext();) {
+				Edge edge = (Edge) it.next();
+				EdgeTable edgeTable = tableFactory.edgeTable(edge);
+				columns.add(edgeTable.colId());
 			}
 			
 			assert processedTables.size() > 1 : "Small queries not yet supported";
