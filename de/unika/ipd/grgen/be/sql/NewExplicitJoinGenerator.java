@@ -370,7 +370,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				    addNotNullCond(begOfThis, endOfLast, seq, factory);
 			    }
 				
-				seq.addPath(currPath, joinType);
+				seq.addPath(pattern, currPath, joinType);
 				
 				if (graphIsNAC)
 				    endOfLast = seq.getLastTableJoined();
@@ -429,7 +429,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					addNotNullCond(begOfThis, endOfLast, seq, factory);
 			    }
 
-				seq.addNodeJoin(graph, node, joinType, graphIsNAC);
+				seq.addNodeJoin(pattern, graph, node, joinType, graphIsNAC);
 
 				if (graphIsNAC)
 				    endOfLast = seq.getLastTableJoined();
@@ -1012,12 +1012,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param joinMethod The kind of join (inner, outer, etc.)
 		 * @param nac If true, the graph is considered a negative one.
 		 */
-		private void addNodeJoin(Graph g, Node node, int joinMethod, boolean nac) {
+		private void addNodeJoin(Graph pattern, Graph g, Node node, int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(node)) {
 				if(!nac)
 					matchedNodes.add(node);
 				NodeTable nodeTable = factory.nodeTable(node);
 				addJoin(nodeTable, joinMethod);
+				addNodeJoinCond(pattern, node);
 				addNodeJoinCond(g, node);
 
 				if(occurInCond.contains(node)) {
@@ -1064,7 +1065,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param sp The search path,
 		 * @param joinMethod The join method.
 		 */
-		void addPath(SearchPath sp, int joinMethod) {
+		void addPath(Graph pattern, SearchPath sp, int joinMethod) {
 			for(Iterator it = sp.edges.iterator(); it.hasNext(); ) {
 				Edge edge = (Edge) it.next();
 				Graph g = sp.getGraph(edge);
@@ -1076,9 +1077,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node secondNode = g.getEnd(edge, reverse);
 				boolean nac = sp.isNAC();
 
-				addNodeJoin(g, firstNode, joinMethod, nac);
+				addNodeJoin(pattern, g, firstNode, joinMethod, nac);
 				addEdgeJoin(g, edge, reverse, joinMethod, nac);
-				addNodeJoin(g, secondNode, joinMethod, nac);
+				addNodeJoin(pattern, g, secondNode, joinMethod, nac);
 			}
 		}
 
