@@ -603,6 +603,18 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		public StringBuffer dump(StringBuffer sb) {
 			sb.append("");
 			left.dump(sb);
+
+			switch(kind) {
+			case LEFT_OUTER:
+				sb.append(" LEFT");
+				break;
+			case RIGHT_OUTER:
+				sb.append(" RIGHT");
+				break;
+			default:
+				sb.append(" INNER");
+			}
+			
 			sb.append(" JOIN ");
 			right.dump(sb);
 			sb.append(" ON ");

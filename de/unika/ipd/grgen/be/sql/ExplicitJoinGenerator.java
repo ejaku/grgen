@@ -646,9 +646,39 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 		
 		// TODO Now we have to process the negated edges.
-//		for(Iterator it = negatedEdges.iterator(); it.hasNext();) {
-//			
-//		}
+		for(Iterator it = graph.getNegatedEdges().iterator(); it.hasNext();) {
+			Edge edge = (Edge) it.next();
+			EdgeTable edgeTable = tableFactory.edgeTable(edge);
+			assert stmtCtx.currJoin != null : "There can be no edge without a node";
+			
+			Node src = graph.getSource(edge);
+			Node tgt = graph.getTarget(edge);
+			
+			// Add condition about the connectivity of the edge to the first node.
+			Term cond = factory.expression(Opcodes.EQ, 
+				factory.expression(tableFactory.nodeTable(src).colId()),
+				factory.expression(edgeTable.colSrcId()));
+			
+			// Also add conditions restricting the edge type here.
+			cond = factory.addExpression(Opcodes.AND, cond,
+				factory.isA(edge, tableFactory, typeID));
+
+			// Put the incidence conditions into secondNodeCond
+			cond = factory.addExpression(Opcodes.AND, cond,
+				factory.expression(Opcodes.EQ,	
+					factory.expression(tableFactory.nodeTable(tgt).colId()),
+					factory.expression(tableFactory.edgeTable(edge).colTgtId())));
+
+			// Add the condition, that the edge id must be NULL (we use an outer join)
+			// in order to represent the negated edge.
+			cond = factory.addExpression(Opcodes.AND, cond,
+				factory.expression(Opcodes.EQ,
+					factory.expression(edgeTable.colId()),
+					factory.constantNull()));
+			
+			// Add the join
+			stmtCtx.currJoin = factory.join(Join.RIGHT_OUTER, stmtCtx.currJoin, edgeTable, cond);
+		}
 		
 		// At last add the columns to the query statement.
 		List columns = new LinkedList();
