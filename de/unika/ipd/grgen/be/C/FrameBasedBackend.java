@@ -42,7 +42,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private final int OUT = 0;
 	private final int IN = 1;
 
-	protected final boolean emit_subgraph_info = false;
+	protected final boolean emit_subgraph_info = true;
 		
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
@@ -235,7 +235,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Iterator pattern_node_it =
 				action.getPattern().getNodes().iterator();
 			sb.append(
-				"const char *pattern_node_names_of_act_" + act_id + "[" + n_pat_nodes + "] = {\n  ");
+				"static const char *pattern_node_names_of_act_" + act_id + "[" + n_pat_nodes + "] = {\n  ");
 			for ( ; pattern_node_it.hasNext(); ) {
 				Node node = (Node) pattern_node_it.next();
 				sb.append("\"" + node.getIdent().toString() + "\"");
@@ -250,7 +250,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				Iterator pattern_edge_it =
 					action.getPattern().getEdges().iterator();
 				sb.append(
-					"const char *pattern_edge_names_of_act_" + act_id + "[" + n_pat_edges + "] = {\n  ");
+					"static const char *pattern_edge_names_of_act_" + act_id + "[" + n_pat_edges + "] = {\n  ");
 				for ( ; pattern_edge_it.hasNext(); ) {
 					Edge edge = (Edge) pattern_edge_it.next();
 					sb.append("\"" + edge.getIdent().toString() + "\"");
@@ -278,7 +278,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for(int pattern_num = 0; pattern_num < n_negative_patterns[act_id.intValue()] + 1; pattern_num++) {
 				if (n_matcher_ops[pattern_num] > 0) {
 					sb.append(
-						"fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id +
+						"static fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id +
 							"[" + n_matcher_ops[pattern_num] + "] = {\n");
 					for (int i = 0; i < n_matcher_ops[pattern_num]; i++) {
 						sb.append("  &mop_" + i + "_of_pattern_" + pattern_num + "_of_action_" + act_id);
@@ -287,12 +287,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					}
 					sb.append("};\n");
 				} else {
-					sb.append("fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id + "[0] = {};\n");
+					sb.append("static fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id + "[0] = {};\n");
 				}
 			}
 
 			//gen the list of matcher progs
-			sb.append("fb_matcher_op_t **matcher_programs_of_action_" + act_id + "[" + (n_negative_patterns[act_id.intValue()] + 1) + "] = {\n");
+			sb.append("static fb_matcher_op_t **matcher_programs_of_action_" + act_id + "[" + (n_negative_patterns[act_id.intValue()] + 1) + "] = {\n");
 			for(int i = 0; i < n_negative_patterns[act_id.intValue()] + 1; i++) {
 				sb.append("  matcher_program_" + i +"_of_action_" + act_id);
 				if (i < (n_negative_patterns[act_id.intValue()])) sb.append(",");
@@ -315,7 +315,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				if (n_remove_nodes > 0) {
 					int node_counter = 0;
 					sb.append(
-						"int remove_nodes_of_action_" + act_id +
+						"static int remove_nodes_of_action_" + act_id +
 							"[" + n_remove_nodes + "] = {\n  ");
 					for (Iterator it = remove_nodes.iterator(); it.hasNext(); ) {
 						Node node = (Node) it.next();
@@ -345,7 +345,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				if (n_remove_edges > 0) {
 					int edge_counter = 0;
 					sb.append(
-						"int remove_edges_of_action_" + act_id +
+						"static int remove_edges_of_action_" + act_id +
 							"[" + n_remove_edges + "] = {\n  ");
 					for (Iterator it = remove_edges.iterator(); it.hasNext(); ) {
 						Edge edge = (Edge) it.next();
@@ -366,7 +366,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				n_new_edges = newEdgesOfAction[act_id.intValue()].size();
 				if (n_new_edges > 0) {
 					sb.append(
-						"fb_acts_edge_t *new_edges_of_action_" + act_id + "[" + n_new_edges + "] = { \n");
+						"static fb_acts_edge_t *new_edges_of_action_" + act_id + "[" + n_new_edges + "] = { \n");
 					Iterator new_edge_it =
 						newEdgesOfAction[act_id.intValue()].iterator();
 					for ( ; new_edge_it.hasNext() ; ) {
@@ -384,7 +384,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			//gen C-struct of the current action
 			sb.append(
-				"fb_action_t action_" + act_id + " = {\n" +
+				"static fb_action_t action_" + act_id + " = {\n" +
 				"  \"" + action.getIdent().toString() + "\", " +
 					"(gr_id_t) " + act_id + ", " + act_kind + ",\n" +
 				"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n  " +
@@ -523,7 +523,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		//gen the array of ptrs to all action structs
 		sb.append(
 			"/* the array of all action structs */\n" +
-			"fb_action_t *fb_action[fb_N_ACTIONS] = {\n");
+			"static fb_action_t *fb_action[fb_N_ACTIONS] = {\n");
 		for (int i = 0; i < n_graph_actions; i++) {
 			sb.append("  &action_" + i);
 			if (i < n_graph_actions - 1) sb.append(",");
@@ -2390,7 +2390,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				Node node = (Node) node_it.next();
 				int node_num = ((Integer)node_numbers.get(node)).intValue();
 				sb.append(
-					"fb_acts_node_t " + prefix + "node_" + node_num +
+					"static fb_acts_node_t " + prefix + "node_" + node_num +
 					postfix + ";\n");
 			}
 			sb.append("\n");
@@ -2420,7 +2420,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				//gen a struct which describes an fb_acts_edge_t
 				sb.append(
-					"fb_acts_edge_t " + prefix + "edge_" + edge_num + postfix +
+					"static fb_acts_edge_t " + prefix + "edge_" + edge_num + postfix +
 						" = {\n" +
 						"  " + edge_num + ", \"" + edge.getIdent() + "\"" +
 						", (gr_id_t)" + edge_type +
@@ -2428,7 +2428,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						", &" + prefix + "node_" + tgt_node_num + postfix + ",\n" );
 				
 				if(emit_subgraph_info)
-					sb.append( "  { NULL, NULL }, " + subgraph + ", " + index );
+					sb.append( "  " + subgraph + ", " + index );
 				
 				sb.append( " };\n" );
 			}
@@ -2454,7 +2454,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				String out_edges_array = "NULL";
 				if ( n_out_edges > 0 ) {
 					sb.append(
-						"fb_acts_edge_t *out_edges_of_node_"  + node_num + "_of_" +
+						"static fb_acts_edge_t *out_edges_of_node_"  + node_num + "_of_" +
 							 graphName + "[" + graph.getOutDegree(node) + "] = {\n  ");
 					//iterate over all outgoing edges of the current node...
 					Iterator edge_it = graph.getOutgoing(node);
@@ -2473,7 +2473,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				String in_edges_array = "NULL";
 				if ( n_in_edges > 0 ) {
 					sb.append(
-						"fb_acts_edge_t *in_edges_of_node_" + node_num + "_of_" +
+						"static fb_acts_edge_t *in_edges_of_node_" + node_num + "_of_" +
 							 graphName + "[" + graph.getInDegree(node) + "] = {\n  ");
 					//iterate over all incomming edges of the current node...
 					Iterator edge_it = graph.getIncoming(node);
@@ -2499,14 +2499,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				//gen node struct
 				sb.append(
-					"fb_acts_node_t " + prefix + "node_" + node_num + postfix + " = {\n" +
+					"static fb_acts_node_t " + prefix + "node_" + node_num + postfix + " = {\n" +
 					"  " + node_num + ", \"" + node.getIdent() + "\", " +
 						"(gr_id_t)" + node_type + ",\n" +
 					"  /* outgoing edges */\n" +
 					"  " + n_out_edges + ", " + out_edges_array + ",\n" +
 					"  /* incomming edges */\n" +
-					"  " + n_in_edges + ", " + in_edges_array + ",\n" +
-					"  { NULL, NULL },\n" );
+					"  " + n_in_edges + ", " + in_edges_array + ",\n" );
 				
 				if(emit_subgraph_info)
 					sb.append( "  " + subgraph + ", " + index );
@@ -2520,7 +2519,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		String graph_nodes_array = "NULL";
 		if (graph.getNodes().size() > 0) {
 			sb.append(
-				"fb_acts_node_t *all_nodes_of_" + graphName + "[" +
+				"static fb_acts_node_t *all_nodes_of_" + graphName + "[" +
 					graph.getNodes().size() + "] = {\n");
 			//gen the node ptr array
 			Iterator node_it = graph.getNodes().iterator();
@@ -2541,7 +2540,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		String graph_edges_array = "NULL";
 		if (graph.getEdges().size() > 0) {
 			sb.append(
-				"fb_acts_edge_t *all_edges_of_" + graphName + "[" +
+				"static fb_acts_edge_t *all_edges_of_" + graphName + "[" +
 					graph.getEdges().size() + "] = {\n");
 			//gen the edge ptr array
 			Iterator edge_it = graph.getEdges().iterator();
@@ -2561,7 +2560,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		/* gen the struct representing the hole pattern graph */
 		sb.append(
 			"/* the struct representing the hole graph */\n"  +
-			"fb_acts_graph_t " + graphName + " = {\n" +
+			"static fb_acts_graph_t " + graphName + " = {\n" +
 			"  " + graph.getNodes().size() + ", " + graph.getEdges().size() +
 				", " + graph_nodes_array + ", " + graph_edges_array + "\n");
 		sb.append("};\n\n"); // end of graph struct
