@@ -4,11 +4,11 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import de.unika.ipd.grgen.util.ArrayIterator;
 
@@ -111,7 +111,7 @@ public class Rule extends MatchingAction {
 	 * sides of the rule are known and set up.
 	 */
 	private void coalesceAnonymousEdges() {
-		for(Iterator it = pattern.getEdges().iterator(); it.hasNext();) {
+		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if(e.isAnonymous()) 
@@ -124,19 +124,22 @@ public class Rule extends MatchingAction {
 	 * @return A set with nodes, that occur on the left and on the right side
 	 * of the rule.
 	 */
-	public Set getCommonNodes() {
-		Set common = new HashSet(pattern.getNodes());
-		common.retainAll(right.getNodes());
+	public Collection getCommonNodes() {
+		Collection common = pattern.getNodes(new HashSet());
+		Collection rightNodes = right.getNodes(new HashSet()); 
+		common.retainAll(rightNodes);
 		return common;
 	}
 	
 	/** 
 	 * Get the set of edges that are common to both sides of the rule.
-	 * @return A set containing all edges, that occur in both sides of the rule.
+	 * @return The set containing all common edges.
 	 */
-	public Set getCommonEdges() {
-		Set common = new HashSet(pattern.getEdges());
-		common.retainAll(right.getEdges());
+	public Collection getCommonEdges() {
+		Collection common = pattern.getEdges(new HashSet());
+		Collection rightEdges = right.getEdges(new HashSet());
+		right.getEdges(rightEdges);
+		common.retainAll(rightEdges);
 		return common;
 	}
 	

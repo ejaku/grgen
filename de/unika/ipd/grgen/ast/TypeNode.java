@@ -60,4 +60,12 @@ public abstract class TypeNode extends BaseNode {
 	public final boolean isEqual(TypeNode t) {
 		return getClass().isInstance(t);
 	}
+	
+	/** 
+	 * Check, if the type is a basic type (integer, boolean, string, void).
+	 * @return true, if the type is a basic type.
+	 */
+	public boolean isBasic() {
+		return false;
+	}
 }

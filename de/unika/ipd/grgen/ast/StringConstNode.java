@@ -16,7 +16,7 @@ public class StringConstNode extends ConstNode {
    * @param value The string
    */
   public StringConstNode(Coords coords, String value) {
-    super(coords, value);
+    super(coords, "string", value);
   }
 
 	public TypeNode getType() {

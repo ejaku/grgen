@@ -16,7 +16,7 @@ public class IntConstNode extends ConstNode {
    * @param value The integer value
    */
   public IntConstNode(Coords coords, int v) {
-    super(coords, new Integer(v));
+    super(coords, "integer", new Integer(v));
   }
   
   public TypeNode getType() {

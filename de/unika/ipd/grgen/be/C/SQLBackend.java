@@ -301,6 +301,8 @@ public abstract class SQLBackend extends CBackend {
     List matchedNodes,
     List matchedEdges) {
 
+		debug.entering();
+
     Graph gr = act.getPattern();
     StringBuffer nodeCols = new StringBuffer();
     StringBuffer edgeCols = new StringBuffer();
@@ -308,8 +310,8 @@ public abstract class SQLBackend extends CBackend {
     StringBuffer edgeTables = new StringBuffer();
     StringBuffer nodeWhere = new StringBuffer();
     StringBuffer edgeWhere = new StringBuffer();
-    Set nodes = gr.getNodes();
-    Set edges = new HashSet();
+    Collection nodes = gr.getNodes(new HashSet());
+    Collection edges = new HashSet();
     Set negatedEdges = gr.getNegatedEdges();
     
     // Two sets for incoming/outgoing edges.
@@ -334,6 +336,8 @@ public abstract class SQLBackend extends CBackend {
       int typeId = getTypeId(nodeTypeMap, n.getType());
 
       workset.remove(n);
+      
+      debug.report(NOTE, "node: " + n);
       
       // Add this node to the table and column list			
       addToList(nodeTables, tableNodes + " AS " + mangledNode);
@@ -374,6 +378,8 @@ public abstract class SQLBackend extends CBackend {
           String edgeCol = getEdgeCol(e, incidentCols[i]);
           int edgeTypeId = getTypeId(edgeTypeMap, e.getType());
 
+					debug.report(NOTE, "incident edge: " + e);
+			
           // Ignore negated edges for now.
           // TODO Implement negated edges.
           if (e.isNegated())
@@ -402,6 +408,8 @@ public abstract class SQLBackend extends CBackend {
       }
     }
 
+		debug.leaving();
+
     return "SELECT "
       + join(nodeCols, edgeCols, ", ")
       + BREAK_LINE
@@ -411,186 +419,6 @@ public abstract class SQLBackend extends CBackend {
       + " WHERE "
       + join(nodeWhere, edgeWhere, " AND ")
       + (limitQueryResults != 0 ? " LIMIT " + limitQueryResults : "");
-  }
-
-  /**
-   * Generate an SQL SELECT statement for a matching rule. 
-   * @param act The action to generate for.
-   * @param matchedNodes An empty list, where all the matched nodes are put in,
-   * in the order they appear in the SQL statement.
-   * @param matchedEdges Dito for edges. 
-   * @return A C identifier, that is pointer to the SQL statement string.
-   */
-  protected String genMatchStatementOld(
-    MatchingAction act,
-    List matchedNodes,
-    List matchedEdges) {
-
-    Graph gr = act.getPattern();
-    StringBuffer nodeCols = new StringBuffer();
-    StringBuffer edgeCols = new StringBuffer();
-    StringBuffer nodeTables = new StringBuffer();
-    StringBuffer edgeTables = new StringBuffer();
-    StringBuffer nodeWhere = new StringBuffer();
-    StringBuffer edgeWhere = new StringBuffer();
-    Set nodes = gr.getNodes();
-    Set edges = gr.getEdges();
-    Set negatedEdges = gr.getNegatedEdges();
-    Set processedNodes = new HashSet();
-    int i = 0;
-
-    edges.removeAll(negatedEdges);
-
-    // Just an auxillary set.
-    Set graphEdges = gr.getEdges();
-    graphEdges.removeAll(gr.getNegatedEdges());
-
-    for (Iterator it = graphEdges.iterator(); it.hasNext(); i++) {
-      Edge edge = (Edge) it.next();
-      Node src = gr.getSource(edge);
-      Node tgt = gr.getTarget(edge);
-      String eid = edge.getId();
-      edges.remove(edge);
-
-      /*
-       * Just include the source node in the SQL statement, if it never 
-       * occured before. This ensures, that it only occurrs once in the 
-       * retrieved nodes.			
-       */
-      if (!processedNodes.contains(src)) {
-        addTo(nodeTables, "", ", ", tableNodes + " AS " + mangleNode(src));
-        addTo(nodeCols, "", ", ", getNodeCol(src, colNodesId));
-        addTo(
-          nodeWhere,
-          "",
-          " AND ",
-          getNodeCol(src, colNodesId)
-            + " = "
-            + getEdgeCol(edge, colEdgesSrcId)
-            + BREAK_LINE);
-        matchedNodes.add(src);
-        processedNodes.add(src);
-      }
-
-      // See comment above (same for target nodes here).
-      if (!processedNodes.contains(tgt)) {
-        addTo(nodeTables, "", ", ", tableNodes + " AS " + mangleNode(tgt));
-        addTo(nodeCols, "", ", ", getNodeCol(tgt, colNodesId));
-        addTo(
-          nodeWhere,
-          "",
-          " AND ",
-          getNodeCol(tgt, colNodesId)
-            + " = "
-            + getEdgeCol(edge, colEdgesTgtId)
-            + BREAK_LINE);
-        matchedNodes.add(tgt);
-        processedNodes.add(tgt);
-      }
-
-      // Add this edge to the matched edges string buffer.			
-      addTo(edgeCols, "", ", ", getEdgeCol(edge, colEdgeAttrEdgeId));
-
-      // Add the edge also to the FROM clause
-      addTo(edgeTables, "", ", ", tableEdges + " AS " + mangleEdge(edge));
-
-      // Finally put it to the matched edges list.
-      matchedEdges.add(edge);
-
-      for (Iterator j = edges.iterator(); j.hasNext();) {
-        Edge e = (Edge) j.next();
-        makeJoin(edgeWhere, gr, edge, e);
-      }
-    }
-
-    /* 
-     * Now, look at all nodes, that have not been processed.
-     * These are nodes, that are not connected by regular edges (either
-     * they are not connected with the rest of the graph, or connected
-     * by nedgated edges).
-     */
-    for (Iterator it = nodes.iterator(); it.hasNext();) {
-      Node n = (Node) it.next();
-      if (!processedNodes.contains(n)) {
-        addTo(nodeTables, "", ", ", tableNodes + " AS " + mangleNode(n));
-        addTo(nodeCols, "", ", ", getNodeCol(n, colNodesId));
-        matchedNodes.add(n);
-      }
-    }
-
-    for (Iterator it = negatedEdges.iterator(); it.hasNext();) {
-      Edge e = (Edge) it.next();
-      Node src = gr.getSource(e);
-      Node tgt = gr.getTarget(e);
-
-      addTo(
-        nodeWhere,
-        "",
-        " AND ",
-        "NOT EXISTS (SELECT * FROM "
-          + tableEdges
-          + " WHERE "
-          + tableEdges
-          + "."
-          + colEdgesSrcId
-          + "="
-          + mangleNode(src)
-          + "."
-          + colNodesId
-          + " AND "
-          + tableEdges
-          + "."
-          + colEdgesTgtId
-          + "="
-          + mangleNode(tgt)
-          + "."
-          + colNodesId
-          + ")"
-          + BREAK_LINE);
-    }
-
-    // Add edge type constraints
-    for (Iterator it = graphEdges.iterator(); it.hasNext();) {
-      Edge e = (Edge) it.next();
-      int typeId = getTypeId(edgeTypeMap, e.getEdgeType());
-      addTo(
-        edgeWhere,
-        "",
-        " AND ",
-        edgeTypeIsAFunc
-          + "("
-          + getEdgeCol(e, colEdgesTypeId)
-          + ", "
-          + typeId
-          + ")"
-          + BREAK_LINE);
-    }
-
-    // Add node type constraints
-    for (Iterator it = nodes.iterator(); it.hasNext();) {
-      Node n = (Node) it.next();
-      int typeId = getTypeId(nodeTypeMap, n.getNodeType());
-      addTo(
-        nodeWhere,
-        "",
-        " AND ",
-        nodeTypeIsAFunc
-          + "("
-          + getNodeCol(n, colNodesTypeId)
-          + ", "
-          + typeId
-          + ")"
-          + BREAK_LINE);
-    }
-
-    return "SELECT "
-      + join(nodeCols, edgeCols, ", ")
-      + BREAK_LINE
-      + " FROM "
-      + join(nodeTables, edgeTables, ", ")
-      + BREAK_LINE
-      + " WHERE "
-      + join(nodeWhere, edgeWhere, " AND ");
   }
 
   /**
@@ -662,13 +490,13 @@ public abstract class SQLBackend extends CBackend {
    * {@link #genMatch(StringBuffer, MatchingAction, int)}.
    */
   protected void genRuleFinish(StringBuffer sb, Rule r, int id, Match m) {
-    Set commonNodes = r.getCommonNodes();
-    Set commonEdges = r.getCommonEdges();
+    Collection commonNodes = r.getCommonNodes();
+    Collection commonEdges = r.getCommonEdges();
     Graph right = r.getRight();
     Graph left = r.getLeft();
     Set negatedEdges = left.getNegatedEdges();
     Map insertedNodesIndexMap = new HashMap();
-    Set w, nodesToInsert;
+    Collection w, nodesToInsert;
     int i;
 
     /*
@@ -677,7 +505,7 @@ public abstract class SQLBackend extends CBackend {
      * if all nodes (the ones to be deleted, and the ones to be inserted)
      * are present.
      */
-    nodesToInsert = right.getNodes();
+		nodesToInsert = right.getNodes(new HashSet());
     nodesToInsert.removeAll(commonNodes);
 
     /*
@@ -699,12 +527,8 @@ public abstract class SQLBackend extends CBackend {
       i = 0;
       for (Iterator it = nodesToInsert.iterator(); it.hasNext(); i++) {
         Node n = (Node) it.next();
-        sb.append(
-          "  inserted_nodes["
-            + i
-            + "] = INSERT_NODE("
-            + getTypeId(nodeTypeMap, n.getNodeType())
-            + ");\n");
+        sb.append("  inserted_nodes[" + i + "] = INSERT_NODE("
+            + getTypeId(nodeTypeMap, n.getNodeType()) + ");\n");
         insertedNodesIndexMap.put(n, new Integer(i));
       }
 
@@ -725,19 +549,10 @@ public abstract class SQLBackend extends CBackend {
         Integer toId = (Integer) insertedNodesIndexMap.get(redir.to);
         assert toId != null : "\"To\" node must be available";
 
-        sb.append(
-          "  REDIR_"
-            + dir
-            + "(GET_MATCH_NODE("
-            + fromId
-            + ")"
-            + ", inserted_nodes["
-            + toId
-            + "], "
-            + getTypeId(edgeTypeMap, redir.edgeType)
-            + ", "
-            + getTypeId(nodeTypeMap, redir.nodeType)
-            + ");\n");
+        sb.append("  REDIR_" + dir + "(GET_MATCH_NODE("
+            + fromId + ")" + ", inserted_nodes[" + toId + "], " 
+            + getTypeId(edgeTypeMap, redir.edgeType) + ", "
+            + getTypeId(nodeTypeMap, redir.nodeType) + ");\n");
       }
     }
 
@@ -745,7 +560,7 @@ public abstract class SQLBackend extends CBackend {
      * All edges, that occur only on the left side or are negated
      * edges have to be removed.
      */
-    w = left.getEdges();
+    w = left.getEdges(new HashSet());
     w.removeAll(commonEdges);
     w.removeAll(left.getNegatedEdges());
 
@@ -756,7 +571,7 @@ public abstract class SQLBackend extends CBackend {
           "  DELETE_EDGE(GET_MATCH_EDGE(" + m.edgeIndexMap.get(e) + "));\n");
     }
 
-    w = left.getNodes();
+    w = left.getNodes(new HashSet());
     for (Iterator it = w.iterator(); it.hasNext();) {
       Node n = (Node) it.next();
       Integer nid = (Integer) m.nodeIndexMap.get(n);
@@ -777,7 +592,7 @@ public abstract class SQLBackend extends CBackend {
 
     // Right side edges cannot be negated. That is checked by 
     // the semantic analysis
-    w = right.getEdges();
+    w = right.getEdges(new HashSet());
     w.removeAll(commonEdges);
 
     for (Iterator it = w.iterator(); it.hasNext();) {

@@ -16,7 +16,7 @@ public class BoolConstNode extends ConstNode {
    * @param value The value.
    */
   public BoolConstNode(Coords coords, boolean value) {
-    super(coords, new Boolean(value));
+    super(coords, "boolean", new Boolean(value));
   }
   
   public TypeNode getType() {

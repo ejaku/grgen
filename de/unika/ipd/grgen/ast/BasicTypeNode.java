@@ -10,9 +10,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.PrimitiveType;
+import de.unika.ipd.grgen.ir.StringType;
+import de.unika.ipd.grgen.ir.VoidType;
 
 /**
  * A basic type AST node such as string or int 
@@ -24,7 +27,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 */
 	public static final BasicTypeNode stringType = new BasicTypeNode() { 
 		protected IR constructIR() {
-			return new PrimitiveType("string type", getIdentNode().getIdent());
+			return new StringType(getIdentNode().getIdent());
 		}
 	};
 
@@ -43,7 +46,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode booleanType = 
 		new BasicTypeNode() {
 			protected IR constructIR() {
-				return new PrimitiveType("boolean type", getIdentNode().getIdent());
+				return new BooleanType(getIdentNode().getIdent());
 			}
 		};
 		
@@ -53,7 +56,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode voidType = 
 		new BasicTypeNode() {
 			protected IR constructIR() {
-				return new PrimitiveType("void type", getIdentNode().getIdent());	
+				return new VoidType("void");
 			}
 		};
 		
@@ -62,7 +65,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 */
 	public static final BasicTypeNode errorType = new BasicTypeNode() {
 		protected IR constructIR() {
-			return new PrimitiveType("error type", getIdentNode().getIdent());
+			return new VoidType("error");
 		}
 	};
 
@@ -128,5 +131,18 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	protected boolean coercible(TypeNode type) {
 		return isCompatible(this, type);
 	}
+	
+	protected PrimitiveType getPrimitiveType() {
+		return (PrimitiveType) checkIR(PrimitiveType.class);
+	}
+	
+	
   
+  /**
+   * @see de.unika.ipd.grgen.ast.TypeNode#isBasic()
+   */
+  public boolean isBasic() {
+  	return true;
+  }
+
 }

@@ -133,8 +133,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
    * @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated()
    */
   public boolean isNegated() {
-  	// TODO Right behaviour here please.
-    return false;
+  	return ((EdgeCharacter) getChild(EDGE)).isNegated();
   }
 
 }

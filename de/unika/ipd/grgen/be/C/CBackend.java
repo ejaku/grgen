@@ -17,6 +17,7 @@ import java.util.Set;
 
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.be.Backend;
+import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.PostWalker;
 import de.unika.ipd.grgen.util.Visitor;
 import de.unika.ipd.grgen.util.Walkable;
@@ -25,7 +26,7 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 /**
  * A backend for the C interface to grgen. 
  */
-public abstract class CBackend implements Backend {
+public abstract class CBackend extends Base implements Backend {
 
   /** The output path as handed over by the frontend. */
 	private File path;

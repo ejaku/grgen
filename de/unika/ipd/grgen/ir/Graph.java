@@ -159,20 +159,22 @@ public class Graph extends IR {
 
 	/**
 	 * Get a set containing all nodes in this graph.
-	 * @return A set containing all nodes in this graph.
+	 * @param A collection to put all the nodes in.
+	 * @return The given collection.
 	 */
-	public Set getNodes() {
-		Set res = new HashSet();
-		res.addAll(nodes.keySet());
-		return res;
+	public Collection getNodes(Collection col) {
+		col.addAll(nodes.keySet());
+		return col;
 	}
 	
 	/**
 	 * Get a set containing all edges in this graph.
-	 * @return A set containing all edges in this graph.
+	 * @param col A collection to put all the edges in.
+	 * @return The given collection.
 	 */
-	public Set getEdges() {
-		return new HashSet(edges.keySet());
+	public Collection getEdges(Collection col) {
+		col.addAll(edges.keySet());
+		return col;
 	}
 	
 	/**
@@ -205,7 +207,10 @@ public class Graph extends IR {
 	 */
 	public void getIncoming(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
-		c.addAll(gn.incoming);
+		for(Iterator it = gn.incoming.iterator(); it.hasNext();) {
+			GraphEdge e = (GraphEdge) it.next();
+			c.add(e.edge);
+		}
 	}
 	
 	/**
@@ -215,7 +220,10 @@ public class Graph extends IR {
 	 */
 	public void getOutgoing(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
-		c.addAll(gn.outgoing);
+		for(Iterator it = gn.outgoing.iterator(); it.hasNext();) {
+			GraphEdge e = (GraphEdge) it.next();
+			c.add(e.edge);
+		}
 	}
 	
 	/**
@@ -254,7 +262,7 @@ public class Graph extends IR {
 		
 		debug.entering();
 		
-		for(Iterator it = getEdges().iterator(); it.hasNext();) {
+		for(Iterator it = getEdges(new HashSet()).iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if(src == getSource(e) && tgt == getTarget(e) 

@@ -34,7 +34,7 @@ public class CastNode extends OpNode {
    * @param coords The source code coordiantes.
    */
   public CastNode(Coords coords) {
-    super(coords, Operator.CAST);
+    super(coords, OperatorSignature.CAST);
     addResolver(TYPE, typeResolver);
   }
   

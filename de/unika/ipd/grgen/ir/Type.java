@@ -63,4 +63,14 @@ public abstract class Type extends Identifiable {
   public final boolean isCastableTo(Type t) {
   	return isEqual(t) || castableTo(t);
   }
+  
+  /**
+   * Check, if this type is a void type.
+   * In fact, there can be more void types, so use this method to check
+   * for a void type. 
+   * @return true, if the type is void.
+   */
+  public boolean isVoid() {
+  	return false;
+  }
 }

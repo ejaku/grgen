@@ -16,5 +16,11 @@ public interface EdgeCharacter {
 	 * @return The IR edge.
 	 */
 	Edge getEdge();
+	
+	/**
+	 * Is the edge negated.
+	 * @return true, if the edge is negated.
+	 */
+	boolean isNegated();
 
 }

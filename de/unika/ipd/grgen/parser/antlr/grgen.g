@@ -463,7 +463,7 @@ redirectPart [ CollectNode collect ]
 	;
 
 evalPart [ BaseNode n ]
-	: e:"eval" LBRACE RBRACE
+	: e:"eval" LBRACE evalBody[n] RBRACE
 	;
 	
 condPart [ BaseNode n ]
@@ -474,6 +474,11 @@ condBody [ BaseNode n ]
 	{ BaseNode e; }
 	: (e=expr { n.addChild(e); } SEMI)*
 	;
+	
+evalBody [ BaseNode n  ]
+  { BaseNode a; }
+  : (a=assignment { n.addChild(a); } SEMI)*
+  ;
 	
 redirectBody [ CollectNode c, Coords coords ] 
 	:	( redirectStmt[c] SEMI )*
@@ -839,7 +844,11 @@ popScope! options { defaultErrorHandler = false; }  {
 // Expressions
 
 
-assignment : qualIdent ASSIGN expr
+assignment returns [ BaseNode res = initNode() ]
+  { BaseNode q, e; }
+  : q=qualIdent a:ASSIGN e=expr {
+  	return new AssignNode(getCoords(a), q, e);
+  }
 ;
 
 expr returns [ BaseNode res = initNode() ]

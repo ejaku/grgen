@@ -4,6 +4,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -13,13 +18,44 @@ public class OpNode extends ExprNode {
 
 	static {
 		setName(OpNode.class, "operator");
+
+		assocOpCode(OperatorSignature.COND, Operator.COND);
+		assocOpCode(OperatorSignature.LOG_OR, Operator.LOG_OR);
+		assocOpCode(OperatorSignature.LOG_AND, Operator.LOG_AND);
+		assocOpCode(OperatorSignature.BIT_OR, Operator.BIT_OR);
+		assocOpCode(OperatorSignature.BIT_XOR, Operator.BIT_XOR);
+		assocOpCode(OperatorSignature.BIT_AND, Operator.BIT_AND);
+		assocOpCode(OperatorSignature.EQ, Operator.EQ);
+		assocOpCode(OperatorSignature.NE, Operator.NE);
+		assocOpCode(OperatorSignature.LT, Operator.LT);
+		assocOpCode(OperatorSignature.LE, Operator.LE);
+		assocOpCode(OperatorSignature.GT, Operator.GT);
+		assocOpCode(OperatorSignature.GE, Operator.GE);
+		assocOpCode(OperatorSignature.SHL, Operator.SHL);
+		assocOpCode(OperatorSignature.SHR, Operator.SHR);
+		assocOpCode(OperatorSignature.BIT_SHR, Operator.BIT_SHR);
+		assocOpCode(OperatorSignature.ADD, Operator.ADD);
+		assocOpCode(OperatorSignature.SUB, Operator.SUB);
+		assocOpCode(OperatorSignature.MUL, Operator.MUL);
+		assocOpCode(OperatorSignature.DIV, Operator.DIV);
+		assocOpCode(OperatorSignature.MOD, Operator.MOD);
+		assocOpCode(OperatorSignature.LOG_NOT, Operator.LOG_NOT);
+		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
+		assocOpCode(OperatorSignature.NEG, Operator.NEG);
+		assocOpCode(OperatorSignature.CAST, Operator.CAST);
 	}
+
+	private static final void assocOpCode(int id, int opcode) {
+		irOpCodeMap.put(new Integer(id), new Integer(opcode));
+	}
+	
+	private static final Map irOpCodeMap = new HashMap();
 
 	/** The ID of the operator. */
 	private int opId;
 
 	/** The corresponding operator. */
-	private Operator operator;
+	private OperatorSignature operator;
 
   /**
    * Make a new operator node.
@@ -30,12 +66,12 @@ public class OpNode extends ExprNode {
     super(coords);
     this.opId = opId;
     
-    for(int i = 0; i < Operator.getArity(opId); i++)
+    for(int i = 0; i < OperatorSignature.getArity(opId); i++)
     	addResolver(i, identExprResolver);
   }
   
   public String toString() {
-  	return Operator.getName(opId);
+  	return OperatorSignature.getName(opId);
   }
 
   /**
@@ -43,14 +79,15 @@ public class OpNode extends ExprNode {
    */
   protected boolean check() {
   	boolean res = true;
-  	if(children() != Operator.getArity(opId)) {
+  	if(children() != OperatorSignature.getArity(opId)) {
   		reportError("Wrong operator arity: " + children());
   		res = false;
   	}
   	
-  	if(!checkAllChildren(ExprNode.class))
+  	if(!getType().isBasic()) {
   		res = false;
-  	
+  		reportError("Result must be a basic type not: " + getType());
+  	}
   	
   	return res;
   }
@@ -64,8 +101,8 @@ public class OpNode extends ExprNode {
    * found, an error message is reported.
    * @return The proper operator for this node, <code>null</code> otherwise.
    */
-  private Operator getOperator() {
-  	Operator operator = null;
+  private OperatorSignature getOperator() {
+  	OperatorSignature operator = null;
   	int n = children();
   	TypeNode[] opTypes = new TypeNode[n];
   	
@@ -74,7 +111,7 @@ public class OpNode extends ExprNode {
   		opTypes[i] = op.getType();
   	}
   	
-		operator = Operator.getNearest(opId, opTypes);
+		operator = OperatorSignature.getNearest(opId, opTypes);
 		if(operator == null) {
 			StringBuffer params = new StringBuffer();
 			
@@ -83,7 +120,7 @@ public class OpNode extends ExprNode {
 				params.append((i > 0 ? ", " : "") + opTypes[i].getName()); 			
 			params.append(')');
 			
-			reportError("No such operator " + Operator.getName(opId) + " " + params);
+			reportError("No such operator " + OperatorSignature.getName(opId) + " " + params);
 		}
 		
 		return operator;
@@ -108,5 +145,25 @@ public class OpNode extends ExprNode {
   	return res;
   }
 
+	/** 
+	 * Get an IR opcode for the ID of an operator.
+	 * @param opId The ID of an operator.
+	 * @return THe IT opcode for the operator ID.
+	 */
+	private static int getIROpCode(int opId) {
+		return ((Integer) irOpCodeMap.get(new Integer(opId))).intValue();
+	}
 	
+  /**
+   * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+   */
+  protected IR constructIR() {
+  	BasicTypeNode type = (BasicTypeNode) getType();
+    Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
+    
+		
+		    
+    return op;
+  }
+
 }
