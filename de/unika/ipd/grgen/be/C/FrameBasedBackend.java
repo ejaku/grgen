@@ -196,7 +196,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			sb.append(
 				"\n\n\n\n" +
-				"/* ---------------------- a matcher program and all the rest " +
+				"/* ---------------------- matcher programs and all the rest " +
 					"for action " + actionMap.get(action) +
 					" ---------------------- */\n\n\n");
 			
@@ -205,7 +205,19 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Node startNode = start_node[act_id.intValue()];
 			//perform a deep first search on the pattern
 			//graph while emiting matcher operations
-			int n_matcher_ops = genOpSequence(startNode, action, sb);
+			Collection alreadyCheckedConditions = new HashSet();
+			Collection alreadyCheckedTypeConditions = new HashSet();
+			int[] n_matcher_ops = new int[max_n_negative_patterns+1];
+
+			n_matcher_ops[0] = genOpSequence(startNode, action, alreadyCheckedConditions, alreadyCheckedTypeConditions, sb);
+			
+			for(Iterator neg_it = negMap[act_id.intValue()].keySet().iterator(); neg_it.hasNext(); ) {
+				PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+				
+				int neg_num = ((Integer)negMap[act_id.intValue()].get(neg_pattern)).intValue();
+
+				n_matcher_ops[neg_num+1] = genNegOpSequence(action, neg_pattern, alreadyCheckedConditions, alreadyCheckedTypeConditions, sb);
+			}
 			
 			//get the actions kind
 			String act_kind = action instanceof Rule ?
@@ -245,7 +257,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				pat_edge_name_array = "pattern_edge_names_of_act_" + act_id;
 			}
 			
-			//create a C-array of ptrs to matcher ops representing the hole matcher program
+/*			//create a C-array of ptrs to matcher ops representing the whole matcher program
 			if (n_matcher_ops > 0) {
 				sb.append(
 					"fb_matcher_op_t *matcher_program_of_action_" + act_id +
@@ -257,11 +269,33 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 				sb.append("};\n");
 			}
-			
-			//get the pattern node number of this actions start node
-			Integer start_node_num = (Integer)
-				pattern_node_num[act_id.intValue()].get(start_node[act_id.intValue()]);
-			
+*/
+			//create a C-array of ptrs to matcher ops representing the matcher programs
+			for(int pattern_num = 0; pattern_num < n_negative_patterns[act_id.intValue()] + 1; pattern_num++) {
+				if (n_matcher_ops[pattern_num] > 0) {
+					sb.append(
+						"fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id +
+							"[" + n_matcher_ops[pattern_num] + "] = {\n");
+					for (int i = 0; i < n_matcher_ops[pattern_num]; i++) {
+						sb.append("  &mop_" + i + "_of_pattern_" + pattern_num + "_of_action_" + act_id);
+						if (i < (n_matcher_ops[pattern_num] - 1)) sb.append(",");
+						sb.append("\n");
+					}
+					sb.append("};\n");
+				} else {
+					sb.append("fb_matcher_op_t *matcher_program_" + pattern_num + "_of_action_" + act_id + "[0] = {};\n");
+				}
+			}
+
+			//gen the list of matcher progs
+			sb.append("fb_matcher_op_t **matcher_programs_of_action_" + act_id + "[" + (n_negative_patterns[act_id.intValue()] + 1) + "] = {\n");
+			for(int i = 0; i < n_negative_patterns[act_id.intValue()] + 1; i++) {
+				sb.append("  matcher_program_" + i +"_of_action_" + act_id);
+				if (i < (n_negative_patterns[act_id.intValue()])) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("};\n\n");
+		
 			//get the number of pattern nodes to be removed by the replacement step
 			int n_remove_nodes = 0;
 			String remove_nodes_array = "NULL";
@@ -344,22 +378,27 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			
-			String matcher_prog = "NULL";
-			if (n_matcher_ops > 0)
-				matcher_prog = "matcher_program_of_action_" + act_id;
-				
-			
 			//gen C-struct of the current action
 			sb.append(
 				"fb_action_t action_" + act_id + " = {\n" +
 				"  \"" + action.getIdent().toString() + "\", " +
 					"(gr_id_t) " + act_id + ", " + act_kind + ",\n" +
-				"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n" +
+				"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n  " +
+				n_negative_patterns[act_id.intValue()] + ",\n" +
 				"  pattern_node_names_of_act_" + act_id + ",\n" +
-				"  " + pat_edge_name_array + ",\n" +
-				"  " + n_matcher_ops + ", " + matcher_prog + ",\n" +
-				"  {\n");
+				"  " + pat_edge_name_array + ",\n");
+
+			sb.append("  { ");
+			//gen a 1-dim array, containing the length of each matcher prog
+			for (int i = 0; i< max_n_negative_patterns + 1; i++) {
+				sb.append( n_matcher_ops[i] );
+				if (i < max_n_negative_patterns) sb.append(", ");
+			}
+			sb.append(" },\n  ");
 			
+			sb.append("matcher_programs_of_action_" + act_id + ",\n");
+			
+			sb.append("  {\n");
 			//create a 2-dim array embeded in the struct, which keept the information
 			//whether the matcher is allowed to identify two given pattern nodes of
 			//the curren action
@@ -426,11 +465,41 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 			sb.append(" },\n");
 			
+			sb.append("  {\n");
+			//gen 2-dim array for mapping pattern node numbers to the corresponding negative
+			//pattern node numbers in a negative pattern
+			for (int i = 0; i < max_n_negative_patterns; i++) {
+				sb.append("    { ");
+				for (int j = 0; j < max_n_pattern_nodes; j++) {
+					sb.append( patternNodeIsNegativeNode[act_id.intValue()][i][j] );
+					if (j < (max_n_pattern_nodes - 1)) sb.append(", ");
+				}
+				sb.append(" }");
+				if (i < max_n_negative_patterns - 1) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("  },\n");
 
+			sb.append("  {\n");
+			//gen 2-dim array for mapping pattern edge numbers to the corresponding negative
+			//pattern edge numbers in a negative pattern
+			for (int i = 0; i < max_n_negative_patterns; i++) {
+				sb.append("    { ");
+				for (int j = 0; j < max_n_pattern_edges; j++) {
+					sb.append( patternEdgeIsNegativeEdge[act_id.intValue()][i][j] );
+					if (j < (max_n_pattern_edges - 1)) sb.append(", ");
+				}
+				sb.append(" }");
+				if (i < max_n_negative_patterns - 1) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("  },\n");
+
+			
 			//gen ptr to the array of newly insert edges
 			sb.append(
-				"  " + n_new_edges + ", " + new_edges_array + "\n" +
-				"};\n\n");
+				/*"  " + n_new_edges + ", " + new_edges_array + "\n" +*/
+			 "};\n\n");
 			//end of action struct!!!
 
 		}
@@ -459,15 +528,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @returns  the number of matcher ops genreated for the given action
 	 */
 	private int op_counter;
-	private int genOpSequence(Node startNode, MatchingAction action, StringBuffer sb)
+	private int genOpSequence(Node startNode, MatchingAction action,
+	    Collection alreadyCheckedConditions, Collection alreadyCheckedTypeConditions, StringBuffer sb)
 	{
 		Collection nodeVisited = new HashSet();
 		Collection nodeNotVisited = new HashSet();
 		Collection edgeVisited = new HashSet();
-		Collection alreadyCheckedConditions = new HashSet();
-		Collection alreadyCheckedTypeConditions = new HashSet();
 		nodeNotVisited.addAll(action.getPattern().getNodes());
 		
+		int act_id = ((Integer)actionMap.get(action)).intValue();
 		op_counter = 0;
 
 		while( !nodeNotVisited.isEmpty() ) {
@@ -497,19 +566,162 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			nodeNotVisited.remove(max_prio_node);
 			
 			//gen op for the start node
-			genOp(max_prio_node, null, action,
-				  nodeVisited, edgeVisited, alreadyCheckedConditions,
+			genOp(max_prio_node, null, action, 0,
+				  action.getPattern(), nodeVisited, edgeVisited, alreadyCheckedConditions,
 				  alreadyCheckedTypeConditions, op_counter, sb);
 			
 			++op_counter;
 			__deep_first_matcher_op_gen(
 				nodeVisited, edgeVisited, alreadyCheckedConditions,
-				alreadyCheckedTypeConditions, max_prio_node, action, sb);
+				alreadyCheckedTypeConditions, max_prio_node, action, 0, action.getPattern(), sb);
+			
+			nodeNotVisited.removeAll(nodeVisited);
+		}
+
+		for(Iterator neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
+			PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+
+			int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+
+			genCheckNegativeOp( action, neg_num, op_counter++, neg_pattern, sb );
+		}
+		return op_counter;
+	}
+	
+	/**
+	 * performs a deep first traversal of a negative pattern graph of the given
+	 * action while emiting matcher ops for the graph matching VM implemented
+	 * by the matcher generated by this frame based GrGen backend. The
+	 * matcher ops are represented by C structs of type fb_matcher_op_t
+	 *
+	 * @param    startNode         the start node
+	 * @param    action            the action
+	 * @param    sb                the String Buffer the matcher ops are
+	 *                             written to
+	 * @returns  the number of matcher ops genreated for the given action
+	 */
+	private int genNegOpSequence(MatchingAction action, PatternGraph neg_pattern,
+	    Collection alreadyCheckedConditions, Collection alreadyCheckedTypeConditions, StringBuffer sb)
+	{
+		Collection nodeVisited = new HashSet();
+		Collection nodeNotVisited = new HashSet();
+		Collection edgeVisited = new HashSet();
+		Collection startNodes = new HashSet();
+		
+		int act_id = ((Integer)actionMap.get(action)).intValue();
+		int neg_pattern_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+		
+		/* find out which nodes/edges have been already matched by analyzing the already checked conditions */
+		Collection nodesFromConditions = new HashSet();
+		Collection edgesFromConditions = new HashSet();
+
+		/*		for ( Iterator cond_it = conditions.iterator(); cond_it.hasNext(); ) {
+			 Expression cond = (Expression) cond_it.next();
+		
+			nodesFromConditions.addAll((Collection) conditionsInvolvedNodes.get(cond));
+			edgesFromConditions.addAll((Collection) conditionsInvolvedEdges.get(cond));
+		}
+			 
+		for ( Iterator type_cond_it = typeConditions.iterator(); type_cond_it.hasNext(); ) {
+			Collection type_cond = (Collection) type_cond_it.next();
+		
+			nodesFromConditions.addAll((Collection) typeConditionsInvolvedNodes.get(type_cond));
+			edgesFromConditions.addAll((Collection) typeConditionsInvolvedEdges.get(type_cond));
+		 }*/
+
+		/* contains intersect( N, L) and L */
+		nodeVisited.addAll( neg_pattern.getNodes() );
+		nodeVisited.retainAll( action.getPattern().getNodes() );
+		nodeVisited.addAll( action.getPattern().getNodes() );
+
+		//nodeVisited.addAll( nodesFromConditions );
+		
+		/* contains N \ L */
+		nodeNotVisited.addAll( neg_pattern.getNodes() );
+		nodeNotVisited.removeAll( nodeVisited );
+		
+		/* contains intersect( L, N ) */
+		startNodes.addAll( action.getPattern().getNodes() );
+		//startNodes.removeAll( neg_pattern.getNodes() );
+		startNodes.retainAll( neg_pattern.getNodes() );
+		
+		/* contains intersect( e(N), e(L)) and e(L) */
+		edgeVisited.addAll( neg_pattern.getEdges() );
+		edgeVisited.retainAll( action.getPattern().getEdges() );
+		edgeVisited.addAll( action.getPattern().getEdges() );
+		
+		//edgeVisited.addAll( edgesFromConditions );
+		
+		/* the conditions checked in the (positive) pattern should not checked again,
+		 * for the pattern nodes/edges are already marked as visited
+		 * so nothing to do here to prevent checking them twice */
+		
+		// TODO identify same nodes in pattern/negative ?
+		
+		op_counter = 0;
+
+		/* first take all nodes, that are already matches as pattern nodes as
+		 * start nodes and try to find adjacent negative-pattern-only nodes
+		 * for the matcher prog */
+		for( Iterator start_it = startNodes.iterator(); start_it.hasNext(); ) {
+			
+			Node start_node = (Node)start_it.next();
+	
+			//but do not gen op for the start node (it is already matched as pattern node)
+			/*genOp(max_prio_node, null, action,
+				  nodeVisited, edgeVisited, alreadyCheckedConditions,
+				  alreadyCheckedTypeConditions, op_counter, sb);
+			
+			 ++op_counter;*/
+			__deep_first_matcher_op_gen(
+				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				alreadyCheckedTypeConditions, start_node, action, neg_pattern_num+1, neg_pattern, sb);
+			
+			nodeNotVisited.removeAll(nodeVisited);
+		}
+		
+		/* for all nodes that are not reachable from a (positive) pattern node in the negative pattern */
+		while( !nodeNotVisited.isEmpty() ) {
+			//pick out the node with the highest priority as start node
+			int max_prio = 0;
+			//get any node as initial node
+			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
+			for (Iterator node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+				Node node = (Node) node_it.next();
+				
+				//get the nodes priority
+				int prio = 0;
+				Attributes a = node.getAttributes();
+				if (a != null)
+					if (a.containsKey("prio") && a.isInteger("prio"))
+						prio = ((Integer) a.get("prio")).intValue();
+				
+				//if the current priority is greater, update the maximum priority node
+				if (prio > max_prio)
+				{
+					max_prio = prio;
+					max_prio_node = node;
+				}
+			}
+	
+			nodeVisited.add(max_prio_node);
+			nodeNotVisited.remove(max_prio_node);
+			
+			//gen op for the start node
+			genOp(max_prio_node, null, action, neg_pattern_num+1,
+				  neg_pattern, nodeVisited, edgeVisited, alreadyCheckedConditions,
+				  alreadyCheckedTypeConditions, op_counter, sb);
+			
+			++op_counter;
+			__deep_first_matcher_op_gen(
+				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				alreadyCheckedTypeConditions, max_prio_node, action, neg_pattern_num+1, neg_pattern, sb);
 			
 			nodeNotVisited.removeAll(nodeVisited);
 		}
 		return op_counter;
 	}
+	
 	
 	/**
 	 * performs the actual deep first traversal and matcher op generation
@@ -520,6 +732,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 *                               whether an edge has already been visited
 	 * @param    node                the current Node
 	 * @param    action              the action
+	 * @param    pattern_num	 pattern 0 is the main pattern, the other ones are negative patterns
+	 * @param    pattern             the pattern graph
 	 * @param    sb                  the StringBuffer the generated
 	 */
 	private void __deep_first_matcher_op_gen(
@@ -527,9 +741,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection alreadyCheckedConds,
 		Collection alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
+		int pattern_num,				/* pattern 0 is the main pattern, the other ones are negative patterns */
+		final PatternGraph pattern,
 		StringBuffer sb)
 	{
-		final PatternGraph pattern = action.getPattern();
+		//final PatternGraph pattern = action.getPattern();
 		
 		//a collection of all edges incident to the current node. The collection
 		//is ordered by the priority of the nodes at the far end of each edge.
@@ -570,8 +786,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//...and check whether the current edge has already been visited
 			if ( ! edgeVisited.contains(edge) ) {
 				//if the edge has not been visited yet mark it as visited
-				genOp(getFarEndNode(edge, node, pattern), edge, action,
-					  nodeVisited, edgeVisited, alreadyCheckedConds,
+				genOp(getFarEndNode(edge, node, pattern), edge, action, pattern_num,
+					  pattern, nodeVisited, edgeVisited, alreadyCheckedConds,
 					  alreadyCheckedTypeConds, op_counter, sb);
 				op_counter++;
 
@@ -588,7 +804,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						nodeVisited, edgeVisited, alreadyCheckedConds,
 						alreadyCheckedTypeConds,
 						getFarEndNode(edge, node, pattern),
-						action, sb);
+						action, pattern_num, pattern, sb);
 				}
 			}
 		}
@@ -602,6 +818,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @param    edge                the current edge, if null a start
 	 * 								 node op will be emited
 	 * @param    action              the action to gen the matcher program for
+	 * @param    pattern_num         the number of the pattern for this matcher prog (0 ist main pattern the other ones are negative patterns)
 	 * @param    nodeVisited         all nodes already visited
 	 * @param    edgeVisited         all edges already visited
 	 * @param    op_counter          number of the current op as a member of an
@@ -610,13 +827,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 *                               stored in
 	 */
 	private void genOp(Node node, Edge edge, MatchingAction action,
+					   int pattern_num,
+					   final PatternGraph pattern,
 					   Collection nodeVisited, Collection edgeVisited,
 					   Collection alreadyCheckedConds,
 					   Collection alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb)
 	{
 		Integer act_id = (Integer) actionMap.get(action);
-		PatternGraph pattern = action.getPattern();
 
 		//get the potentialy homomorphic nodes of the far end node
 		Collection homomorphicNodes = new HashSet();
@@ -642,7 +860,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				kind = "fb_matcher_op_check_or_extend";
 		}
 		
-		//compute the set of conditions nevaluatable in the current op
+		//compute the set of conditions evaluatable in the current op
 		Collection evaluatableConditions = new TreeSet(conditionsComparator);
 		Collection evaluatableTypeConditions = new TreeSet(typeConditionsComparator);
 		Iterator cond_it = conditions.iterator();
@@ -660,8 +878,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
-			if (nodeVisited.containsAll(involvedNodes)
-					&& edgeVisited.containsAll(involvedEdges))
+			if (nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges))
 				evaluatableConditions.add(cond);
 		}
 		Iterator type_cond_it = typeConditions.iterator();
@@ -690,8 +907,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 		//get the current edges pattern edge number
 		Integer edge_num = new Integer(-1);
-		if (edge != null)
-			edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
+		if (edge != null) {
+			if(pattern_num == 0) { /* are we in the main pattern or is this a negative one */
+				edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
+			} else {
+				edge_num = (Integer) negative_edge_num[act_id.intValue()][pattern_num-1].get(edge);
+			}
+		}
+		
 		//check whether there are conditions computable in this op or not
 		String isConditional =
 			(evaluatableConditions.isEmpty() &&
@@ -708,23 +931,24 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//the concrete graph, which is only known at run-time, so any direction
 			//is chosen
 			op_direction = "fb_dir_out";
-		else if (! kind.equals("fb_matcher_op_start_node"))
+		else if (! kind.equals("fb_matcher_op_start_node")) {
 			//case 'extend' od 'check_or_extend'
 			if (pattern.getTarget(edge) == node)
 				op_direction = "fb_dir_out";
 			else
 				op_direction = "fb_dir_in";
+		}
 		
 		//some comment
-		sb.append("/* matcher op " + op_counter + " of action " + act_id + " */\n");
+		sb.append("/* matcher op " + op_counter + " of pattern " + pattern_num + " of action " + act_id + " */\n");
 
 		//if there are conditions evaluiatable in the current op...
 		String cond_ptr = "";
 		if (evaluatableConditions.size() + evaluatableTypeConditions.size() > 0) {
-			cond_ptr = "conds_of_mop_" + op_counter + "_of_action_" + act_id;
+			cond_ptr = "conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id;
 			//...gen a C-Array of the conditions evaluated by the current op
 			sb.append(
-				"int conds_of_mop_" + op_counter + "_of_action_" + act_id + "[" +
+				"int conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + "[" +
 					(evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					"] = { ");
 			Iterator eval_cond_it = evaluatableConditions.iterator();
@@ -751,24 +975,40 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			cond_ptr = "NULL";
 		
 		//gen the C-struct representing the current matcher op
-		if (edge != null)
+		if (edge != null) {
+			String edge_ptr;
+			if(pattern_num == 0) {
+				edge_ptr = "&pattern_edge_" + edge_num + "_of_action_" + act_id;
+			} else {
+				edge_ptr = "&negative_pattern_" + (pattern_num-1) + "_edge_" + edge_num + "_of_action_" + act_id;
+			 }
+
 			sb.append(
-				"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
-				"  " + kind + ", &pattern_edge_" + edge_num + "_of_action_" + act_id + ", " +
+				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
+				"  " + kind + ", " + edge_ptr + ", " +
 					"NULL /* no start node ptr */,\n" +
 				"  " + isConditional + ", \"" + edgeName + "\", " +
 					"NULL /* no start node name  */, " + op_direction + ",\n" +
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					", " + cond_ptr + "\n" +
 				"};\n\n");
-		else {
+		} else {
 			//egge == null indicates, that a start no op has to be emitted
 			String node_name = node.getIdent().toString();
-			Integer node_num = (Integer) pattern_node_num[act_id.intValue()].get(node);
-			String node_ptr = "&pattern_node_" + node_num + "_of_action_" + act_id;
-			
+			Integer node_num;
+			String node_ptr;
+
+			if(pattern_num == 0) {
+				node_num = (Integer) pattern_node_num[act_id.intValue()].get(node);
+				node_ptr = "&pattern_node_" + node_num + "_of_action_" + act_id;
+			} else {
+				node_num = (Integer) negative_node_num[act_id.intValue()][pattern_num-1].get(node);
+				node_ptr = "&negative_pattern_" + (pattern_num-1) + "_node_" + node_num + "_of_action_" + act_id;
+			 }
+
+
 			sb.append(
-				"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
+				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
 				"  " + kind + ", NULL /* no edge needed */,\n" +
 				"  " + node_ptr + " /* start node */,\n" +
 				"  " + isConditional + ", NULL, \"" + node_name + "\", " +
@@ -782,6 +1022,21 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		alreadyCheckedConds.addAll(evaluatableConditions);
 		alreadyCheckedTypeConds.addAll(evaluatableTypeConditions);
 	}
+
+	private void genCheckNegativeOp( MatchingAction action, int neg_num, int op_counter, PatternGraph negative_pattern, StringBuffer sb )
+	{
+	  
+	  int act_id = ((Integer)actionMap.get(action)).intValue();
+	  //int neg_pattern_num = ((Integer)negMap[act_id].get(negative_pattern)).intValue();
+		
+	  sb.append(
+	      "fb_matcher_op_t mop_" + op_counter++ + "_of_pattern_0_of_action_" + act_id + " = {\n" +
+	      "  fb_matcher_op_check_negative, NULL, NULL,\n" +
+	      "  0, NULL, NULL, " + neg_num + ",\n" +
+	      "  0, NULL\n" +
+	      "};\n\n");
+	}
+	
 	private int getNodePriority(Node node) {
 		int ret = 0;
 		Attributes a = ((Attributed) node).getAttributes();
@@ -855,12 +1110,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
 
 					sb.append(
-						"  fb_node_t *pattern_node" + node_num + " = get_host_node(" + node_num + ");\n" +
-						"  int type_pattern_node" + node_num + " = (int) pattern_node" + node_num + "->type;\n");
+						"  fb_node_t *pattern_node_" + node_num + " = get_host_node(" + node_num + ");\n" +
+						"  int type_pattern_node_" + node_num + " = (int) pattern_node_" + node_num + "->type;\n");
 				} else {
 					sb.append(
-						"  fb_node_t *replacement_node" + node_num + " = get_replacement_host_node(" + node_num + ");\n" +
-						"  int type_replacement_node" + node_num + " = (int) replacement_node" + node_num + "->type;\n");
+						"  fb_node_t *replacement_node_" + node_num + " = get_replacement_host_node(" + node_num + ");\n" +
+						"  int type_replacement_node_" + node_num + " = (int) replacement_node_" + node_num + "->type;\n");
 				}
 			}
 			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
@@ -875,12 +1130,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					edge_num = (Integer)pattern_edge_num[ act_id.intValue() ].get(current_edge);
 
 					sb.append(
-						"  fb_edge_t *pattern_edge" + edge_num + " = get_pattern_host_edge(" + edge_num + ");\n" +
-						"  int type_pattern_edge" + edge_num + " = (int) pattern_edge" + edge_num + "->type;\n");
+						"  fb_edge_t *pattern_edge_" + edge_num + " = get_pattern_host_edge(" + edge_num + ");\n" +
+						"  int type_pattern_edge_" + edge_num + " = (int) pattern_edge_" + edge_num + "->type;\n");
 				} else {
 					sb.append(
-						"  fb_edge_t *replacement_edge" + edge_num + " = get_replacement_host_edge(" + edge_num + ");\n" +
-						"  int type_replacement_edge" + edge_num + " = (int) replacement_edge" + edge_num + "->type;\n");
+						"  fb_edge_t *replacement_edge_" + edge_num + " = get_replacement_host_edge(" + edge_num + ");\n" +
+						"  int type_replacement_edge_" + edge_num + " = (int) replacement_edge_" + edge_num + "->type;\n");
 				}
 			}
 			//for attrs of the involved pattern nodes and edges gen a C variable
@@ -912,8 +1167,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
-						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_node" + node_num + " = " +
-							"fb_node_attr_index[type_" + pattern_or_repl + "_node"  + node_num + "][" + attr_id + "];\n" );
+						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_node_" + node_num + " = " +
+							"fb_node_attr_index[type_" + pattern_or_repl + "_node_"  + node_num + "][" + attr_id + "];\n" );
 				}
 			}
 			//for all involved pattern edges
@@ -937,22 +1192,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
-						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_edge" + edge_num + " = " +
-							"fb_edge_attr_index[type_" + pattern_or_repl + "_edge"  + edge_num + "][" + attr_id + "];\n" );
-
-							/* "  assert ( " + pattern_or_repl + "_edge" + edge_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
-							".kind == " + kindStr + " &&\n" +
-							"    \"an attr kind tag found in a host graph edge does not conform\" &&\n" +
-							 "    \"with the kind computed by the generator\");\n"); */
-					/* old code					sb.append(
-						"  int index_a" + attr_id + "_e" + edge_num + " = " +
-							"fb_edge_attr_index[type_e" + edge_num + "][" + attr_id + "];\n" +
-							"  assert (edge_" + edge_num +"->" +
-							"attr_values[index_a" + attr_id + "_e" + edge_num + "]" +
-							".kind == " + kindStr + " &&\n" +
-							"   \"an attr kind tag found in a host graph edge does not conform\" &&" +
-					 "   \"with the kind computed by the generator\");\n");*/
+						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_edge_" + edge_num + " = " +
+							"fb_edge_attr_index[type_" + pattern_or_repl + "_edge_"  + edge_num + "][" + attr_id + "];\n");
 				}
 			}
 			//gen the code for actual evalutions in the eval_list
@@ -1006,8 +1247,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
-							"  /*assert ( " + pattern_or_repl + "_node" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+							"  /*assert ( " + pattern_or_repl + "_node_" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"    \"an attr kind tag found in a host graph node does not conform\" &&\n" +
 							 "    \"with the kind computed by the generator\");*/\n");
@@ -1033,11 +1274,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
-							"  /*assert ( " + pattern_or_repl + "_edge" + edge_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+							"  assert ( " + pattern_or_repl + "_edge_" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge_" + edge_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"    \"an attr kind tag found in a host graph edge does not conform\" &&\n" +
-							 "    \"with the kind computed by the generator\");*/\n");
+							 "    \"with the kind computed by the generator\");\n");
 				}
 			}
 			 
@@ -1079,6 +1320,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			int cond_num = ((Integer) conditionNumbers.get(current_cond)).intValue();
 			int act_id = ((Integer) conditionsActionId.get(current_cond)).intValue();
+			int pattern_num = conditionsPatternNum.get(current_cond) == null ? 0 : ((Integer) conditionsPatternNum.get(current_cond)).intValue();
 			
 			Collection involved_nodes =
 				(Collection) conditionsInvolvedNodes.get(current_cond);
@@ -1104,22 +1346,40 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
 				Node current_pattern_node = (Node) node_it.next();
-				int node_num =
-					((Integer) pattern_node_num[act_id].get(current_pattern_node)).intValue();
+				Integer node_num = (Integer) pattern_node_num[act_id].get(current_pattern_node);
 				
-				sb.append(
-					"  fb_node_t *node_" + node_num + " = get_host_node(" + node_num + ");\n" +
-					"  int type_n" + node_num + " = (int) node_" + node_num + "->type;\n");
+				
+				if( node_num == null ) {
+					node_num = (Integer)negative_node_num[ act_id ][ pattern_num-1 ].get(current_pattern_node);
+
+					sb.append(
+							"  fb_node_t *negative_pattern_node_" + node_num + " = get_negative_host_node(" + node_num + ");\n" +
+							"  int type_negative_pattern_node_" + node_num + " = (int) negative_pattern_node_" + node_num + "->type;\n");
+				} else {
+					sb.append(
+							"  fb_node_t *pattern_node_" + node_num + " = get_host_node(" + node_num + ");\n" +
+							"  int type_pattern_node_" + node_num + " = (int) pattern_node_" + node_num + "->type;\n");
+				}
+
 			}
 			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
 				Edge current_pattern_edge = (Edge) edge_it.next();
-				int edge_num =
-					((Integer) pattern_edge_num[act_id].get(current_pattern_edge)).intValue();
+				Integer edge_num =
+					(Integer) pattern_edge_num[act_id].get(current_pattern_edge);
 				
-				sb.append(
-					"  fb_edge_t *edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n" +
-					"  int type_e" + edge_num + " = (int) edge_" + edge_num + "->type;\n");
+				if( edge_num == null ) {
+					edge_num = (Integer)negative_edge_num[ act_id ][ pattern_num-1 ].get(current_pattern_edge);
+
+					sb.append(
+							"  fb_edge_t *negative_pattern_edge_" + edge_num + " = get_negative_host_edge(" + edge_num + ");\n" +
+							"  int type_negative_pattern_edge_" + edge_num + " = (int) negative_pattern_edge_" + edge_num + "->type;\n");
+				} else {
+					sb.append(
+							"  fb_edge_t *pattern_edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n" +
+							"  int type_pattern_edge_" + edge_num + " = (int) pattern_edge_" + edge_num + "->type;\n");
+				}
+
 			}
 			//for attrs of the involved pattern nodes and edges gen a C variable
 			//representing the host node/edge attr index of that attr
@@ -1132,7 +1392,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
 				Node current_pattern_node = (Node) node_it.next();
-				Integer node_num = (Integer) pattern_node_num[act_id].get(current_pattern_node);
+				String pattern_or_neg = "pattern";
+				
+				Integer node_num = (Integer)pattern_node_num[ act_id ].get(current_pattern_node);
+				if( node_num == null ) {
+					node_num = (Integer)negative_node_num[ act_id ][ pattern_num-1 ].get(current_pattern_node);
+					pattern_or_neg = "negative_pattern";
+				}
 				
 				Iterator attr_id_it =
 					((Collection) involvedPatternNodeAttrIds[cond_num].get( current_pattern_node )).iterator();
@@ -1144,10 +1410,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
-						"  int index_a" + attr_id + "_n" + node_num + " = " +
-							"fb_node_attr_index[type_n" + node_num + "][" + attr_id + "];\n" +
-							"  /*assert (node_" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_n" + node_num + "]" +
+						"  int index_a" + attr_id + "_" + pattern_or_neg +  "_node_" + node_num + " = " +
+							"fb_node_attr_index[type_" + pattern_or_neg + "_node_"  + node_num + "][" + attr_id + "];\n" +
+							"  /*assert (" + pattern_or_neg + "_node_" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_neg +  "_node_" + node_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"    \"an attr kind tag found in a host graph node does not conform\" &&\n" +
 							"    \"with the kind computed by the generator\");*/\n");
@@ -1157,7 +1423,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
 				Edge current_pattern_edge = (Edge) edge_it.next();
-				Integer edge_num =(Integer) pattern_edge_num[act_id].get(current_pattern_edge);
+				String pattern_or_neg = "pattern";
+				
+				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(current_pattern_edge);
+				if( edge_num == null ) {
+					edge_num = (Integer)negative_edge_num[ act_id ][ pattern_num-1 ].get(current_pattern_edge);
+					pattern_or_neg = "negative_pattern";
+				}
 				
 				Iterator attr_id_it =
 					((Collection) involvedPatternEdgeAttrIds[cond_num].get(current_pattern_edge)).iterator();
@@ -1167,10 +1439,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
-						"  int index_a" + attr_id + "_e" + edge_num + " = " +
-							"fb_edge_attr_index[type_e" + edge_num + "][" + attr_id + "];\n" +
-							"  /*assert (edge_" + edge_num +"->" +
-							"attr_values[index_a" + attr_id + "_e" + edge_num + "]" +
+						"  int index_a" + attr_id + "_" + pattern_or_neg +  "_edge_" + edge_num + " = " +
+							"fb_edge_attr_index[type_" + pattern_or_neg + "_edge_" + edge_num + "][" + attr_id + "];\n" +
+							"  /*assert (" + pattern_or_neg + "_edge_" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_neg +  "_edge_" + edge_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"   \"an attr kind tag found in a host graph edge does not conform\" &&" +
 							"   \"with the kind computed by the generator\");*/\n");
@@ -1182,7 +1454,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"  /* check the condition */\n" +
 					"  condition_holds = (\n" +
 					"    ");
-			__recursive_expr_code_gen(sb, current_action, current_cond);
+			__recursive_expr_code_gen(sb, current_action, pattern_num, current_cond);
 			sb.append(
 				"\n  );\n\n" +
 					"  /* ALL conditions of an action have to be true! So return '0' even\n" +
@@ -1204,7 +1476,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			int cond_num = ((Integer) typeConditionNumbers.get(current_type_cond)).intValue();
 			int act_id = ((Integer) typeConditionsActionId.get(current_type_cond)).intValue();
-			
+			int pattern_num = typeConditionsPatternNum.get(current_type_cond) == null ? 0 : ((Integer) typeConditionsPatternNum.get(current_type_cond)).intValue();
+
 			Collection involved_nodes =
 				(Collection) typeConditionsInvolvedNodes.get(current_type_cond);
 			Collection involved_edges =
@@ -1229,13 +1502,19 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//that means that the graph component the current type
 				//condition relates to is a node
 				Node current_pattern_node = (Node) involved_nodes.iterator().next();
-				int node_num =
-					((Integer) pattern_node_num[act_id].get(current_pattern_node)).intValue();
+				String pattern_or_neg = "pattern";
 
-				
-				sb.append(
-					"  fb_node_t *node_" + node_num + " = get_host_node(" + node_num + ");\n" +
-					"  int type_n" + node_num + " = (int) node_" + node_num + "->type;\n" +
+				Integer node_num = (Integer)pattern_node_num[ act_id ].get(current_pattern_node);
+				if( node_num == null ) {
+					node_num = (Integer)negative_node_num[ act_id ][ pattern_num+1 ].get(current_pattern_node);
+					pattern_or_neg = "negative_pattern";
+
+					sb.append("  fb_node_t *negative_pattern_node_" + node_num + " = get_negative_node(" + node_num + ");\n");
+				} else {
+					sb.append("  fb_node_t *pattern_node_" + node_num + " = get_host_node(" + node_num + ");\n");
+				}
+	
+				sb.append ("  int type_" + pattern_or_neg + "_node_" + node_num + " = (int) " + pattern_or_neg + "_node_" + node_num + "->type;\n" +
 					"\n" +
 					"  /* check the type condition */\n" +
 					"  condition_holds = (\n" +
@@ -1248,20 +1527,27 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					if (counter++ > 0)
 						sb.append(" && ");
 				
-					sb.append("(type_n" + node_num + " != " + type_id + ")");
+					sb.append("(type_" + pattern_or_neg + "_node_" + node_num + " != " + type_id + ")");
 				}
 			}
 			else if (!involved_edges.isEmpty()) {
 				//that means that the graph component the current type
 				//condition relates to is an edge
 				Edge current_pattern_edge = (Edge) involved_edges.iterator().next();
-				int edge_num =
-					((Integer) pattern_edge_num[act_id].get(current_pattern_edge)).intValue();
+				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(current_pattern_edge);
+				String pattern_or_neg = "pattern";
+
+				if( edge_num == null ) {
+					edge_num = (Integer)negative_edge_num[ act_id ][ pattern_num+1 ].get(current_pattern_edge);
+					pattern_or_neg = "negative_pattern";
+
+					sb.append("  fb_edge_t *negative_pattern_edge_" + edge_num + " = get_negative_edge(" + edge_num + ");\n");
+				} else {
+					sb.append("  fb_edge_t *pattern_edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n");
+				}
 				
-				sb.append(
-					"  fb_edge_t *edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n" +
-					"  int type_e" + edge_num + " = (int) edge_" + edge_num + "->type;\n" +
-					"\n" +
+				sb.append( "  int type_" + pattern_or_neg + "_edge_" + edge_num + " = (int) " + pattern_or_neg + "_edge_" + edge_num + "->type;\n" +
+				    "\n" +
 					"  /* check the type condition */\n" +
 					"  condition_holds = (\n" +
 					"    ");
@@ -1272,7 +1558,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					if (counter++ > 0)
 						sb.append(" && ");
 				
-					sb.append("(type_e" + edge_num + " != " + type_id + ")");
+					sb.append("(type_" + pattern_or_neg + "_edge_" + edge_num + " != " + type_id + ")");
 				}
 			}
 			
@@ -1290,7 +1576,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 	}
 	
-	private void __recursive_expr_code_gen(StringBuffer sb, MatchingAction act, Expression cond)
+	private void __recursive_expr_code_gen(StringBuffer sb, MatchingAction act, int pattern_num, Expression cond)
 	{
 		
 		if (sb == null || cond == null)	return;
@@ -1316,17 +1602,17 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					if ( opCode == Operator.EQ )
 					{
 						sb.append("( !strcmp(");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(", ");
-						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
 						sb.append(") )");
 					}
 					if ( opCode == Operator.NE )
 					{
 						sb.append("strcmp(");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(", ");
-						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
 						sb.append(")");
 					}
 				}
@@ -1335,9 +1621,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				{
 					String opSymbol = opSymbols[opCode];
 					sb.append("(");
-					__recursive_expr_code_gen(sb, act, op.getOperand(0));
+					__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 					sb.append(" " + opSymbol + " ");
-					__recursive_expr_code_gen(sb, act, op.getOperand(1));
+					__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
 					sb.append(")");
 				}
 			}
@@ -1348,28 +1634,28 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				{
 					case Operator.COND:
 						sb.append("(");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(" ? ");
-						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
 						sb.append(" : ");
 						sb.append(")");
 						break;
 						
 					case Operator.LOG_NOT:
 						sb.append("(!");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(")");
 						break;
 						
 					case Operator.BIT_NOT:
 						sb.append("(~");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(")");
 						break;
 						
 					case Operator.NEG:
 						sb.append("(-");
-						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
 						sb.append(")");
 						break;
 						
@@ -1424,13 +1710,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			{
 				int act_id = ((Integer) actionMap.get(act)).intValue();
 
-				Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
+				String pattern_or_neg = "pattern";
+				Integer node_num = (Integer)pattern_node_num[ act_id ].get(owner);
+				if( node_num == null ) {
+					node_num = (Integer)negative_node_num[ act_id ][ pattern_num-1 ].get(owner);
+					pattern_or_neg = "negative_pattern";
+				}
 				
 				Integer attr_id = (Integer) nodeAttrMap.get(attr);
 				
 				sb.append(
-					"node_" + node_num + "->attr_values[index_a" + attr_id +
-						"_n" + node_num + "].value.");
+					pattern_or_neg + "_node_" + node_num + "->attr_values[index_a" + attr_id +
+						"_" + pattern_or_neg + "_node_" + node_num + "].value.");
 				
 				int attr_kind = node_attr_info[attr_id.intValue()].kind;
 				switch (attr_kind)
@@ -1455,13 +1746,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if (owner instanceof Edge)
 			{
 				int act_id = ((Integer) actionMap.get(act)).intValue();
-				Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+				String pattern_or_neg = "pattern";
+				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(owner);
+				if( edge_num == null ) {
+					edge_num = (Integer)negative_edge_num[ act_id ][ pattern_num-1 ].get(owner);
+					pattern_or_neg = "negative_pattern";
+				}
 				
 				Integer attr_id = (Integer) edgeAttrMap.get(attr);
 				
 				sb.append(
-					"edge_" + edge_num + "->attr_values[index_a" + attr_id +
-						"_e" + edge_num + "].value.");
+					pattern_or_neg + "_edge_" + edge_num + "->attr_values[index_a" + attr_id +
+						"_" + pattern_or_neg + "_edge_" + edge_num + "].value.");
 				
 				int attr_kind = edge_attr_info[attr_id.intValue()].kind;
 				switch (attr_kind)
@@ -1634,8 +1930,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				Integer attr_id = (Integer) nodeAttrMap.get(attr);
 				
 				sb.append(
-					pattern_or_repl + "_node" + node_num +
-						"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + " ].value.");
+					pattern_or_repl + "_node_" + node_num +
+						"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + " ].value.");
 				
 				int attr_kind = node_attr_info[attr_id.intValue()].kind;
 				switch (attr_kind)
@@ -1673,8 +1969,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				Integer attr_id = (Integer) edgeAttrMap.get(attr);
 				
 			sb.append(
-				pattern_or_repl + "_edge" + edge_num +
-					"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + " ].value.");
+				pattern_or_repl + "_edge_" + edge_num +
+					"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_edge_" + edge_num + " ].value.");
 			
 				int attr_kind = edge_attr_info[attr_id.intValue()].kind;
 				switch (attr_kind)
@@ -1724,11 +2020,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Integer attr_id = (Integer) nodeAttrMap.get(attr);
 			
 				sb.append(
-					"  if (" + pattern_or_repl + "_node" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+					"  if (" + pattern_or_repl + "_node_" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
 							".kind >= FB_ATTR_KIND_DIST )\n    " +
-							pattern_or_repl + "_node" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+							pattern_or_repl + "_node_" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
 							".kind -= FB_ATTR_KIND_DIST;\n" );
 
 		}
@@ -1748,11 +2044,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Integer attr_id = (Integer) edgeAttrMap.get(attr);
 			
 			sb.append(
-				"  if (" + pattern_or_repl + "_edge" + edge_num +"->" +
-						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+				"  if (" + pattern_or_repl + "_edge_" + edge_num +"->" +
+						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge_" + edge_num + "]" +
 						".kind >= FB_ATTR_KIND_DIST )\n    " +
-						pattern_or_repl + "_edge" + edge_num +"->" +
-						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+						pattern_or_repl + "_edge_" + edge_num +"->" +
+						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge_" + edge_num + "]" +
 						".kind -= FB_ATTR_KIND_DIST;\n" );
 		}
 	}
@@ -1795,6 +2091,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Object condition = cond_it.next();
 			Collection involved_nodes;
 			Collection involved_edges;
+			int pattern_num;
 			
 			if (condition instanceof Expression) {
 				cond_num = ((Integer) conditionNumbers.get(condition)).intValue();
@@ -1803,6 +2100,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					(Collection) conditionsInvolvedNodes.get(condition);
 				involved_edges =
 					(Collection) conditionsInvolvedEdges.get(condition);
+				pattern_num = conditionsPatternNum.get(condition) == null ? 0 : ((Integer) conditionsPatternNum.get(condition)).intValue();
 			}
 			else {
 				cond_num = ((Integer) typeConditionNumbers.get(condition)).intValue();
@@ -1811,6 +2109,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					(Collection) typeConditionsInvolvedNodes.get(condition);
 				involved_edges =
 					(Collection) typeConditionsInvolvedEdges.get(condition);
+				pattern_num = typeConditionsPatternNum.get(condition) == null ? 0 : ((Integer) typeConditionsPatternNum.get(condition)).intValue();
 			}
 			
 			
@@ -1829,10 +2128,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 				Iterator node_it = involved_nodes.iterator();
 				for ( ; node_it.hasNext() ; ) {
-						Node node = (Node) node_it.next();
-						Integer node_num = (Integer) pattern_node_num[act_id].get(node);
-						sb.append(node_num);
-						if (node_it.hasNext()) sb.append(", ");
+					Node node = (Node) node_it.next();
+					
+					Integer node_num = (Integer) pattern_node_num[act_id].get(node);
+					if( node_num == null ) {
+						node_num = (Integer)negative_node_num[ act_id ][ pattern_num-1 ].get(node);
+					}
+						
+					sb.append(node_num);
+					if (node_it.hasNext()) sb.append(", ");
 				}
 				sb.append(" };\n");
 				involved_nodes_array = "involved_nodes_of_cond_" + cond_num;
@@ -1843,10 +2147,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"[" + involved_edges.size() + "] = { ");
 				Iterator edge_it = involved_edges.iterator();
 				for ( ; edge_it.hasNext() ; ) {
-						Edge edge = (Edge) edge_it.next();
-						Integer edge_num = (Integer) pattern_edge_num[act_id].get(edge);
-						sb.append(edge_num);
-						if (edge_it.hasNext()) sb.append(", ");
+					Edge edge = (Edge) edge_it.next();
+					
+					Integer edge_num = (Integer) pattern_edge_num[act_id].get(edge);
+					if( edge_num == null ) {
+						edge_num = (Integer)negative_edge_num[ act_id ][ pattern_num-1 ].get(edge);
+					}
+
+					sb.append(edge_num);
+					if (edge_it.hasNext()) sb.append(", ");
 				}
 				sb.append(" };\n");
 				involved_edges_array = "involved_edges_of_cond_" + cond_num;
@@ -1889,6 +2198,24 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				genGraph(
 					sb, pattern, graphName, "pattern_", "_of_action_" + act_id,
 					node_numbers, edge_numbers);
+				
+				for(Iterator neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
+					
+					//get the current negative pattern graph
+					PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
+					
+					//create a C-identifier for the currents action pattern graph
+					String neg_graphName = "negative_pattern_graph_" + neg_num + "_of_action_" + act_id;
+					
+					//setup the maps with the precomputes node and edge numbers
+					Map neg_node_numbers = negative_node_num[act_id][neg_num];
+					Map neg_edge_numbers = negative_edge_num[act_id][neg_num];
+					
+					genGraph(
+						sb, neg_pattern, neg_graphName, "negative_pattern_" + neg_num + "_", "_of_action_" + act_id,
+						neg_node_numbers, neg_edge_numbers);
+				}
 			}
 			
 			//gen replacemant graph of the current action if there exists one
@@ -1935,7 +2262,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"#define fb_MAX_N_PATTERN_NODES " + max_n_pattern_nodes + "\n" +
 				"#define fb_MAX_N_PATTERN_EDGES " + max_n_pattern_edges + "\n" +
 				"#define fb_MAX_N_REPLACEMENT_NODES " + max_n_replacement_nodes + "\n" +
-				"#define fb_MAX_N_REPLACEMENT_EDGES " + max_n_replacement_edges +
+				"#define fb_MAX_N_REPLACEMENT_EDGES " + max_n_replacement_edges + "\n" +
+				"#define fb_MAX_N_NEGATIVE_PATTERNS " + max_n_negative_patterns + "\n" +
+				"#define fb_MAX_N_NEGATIVE_NODES " + max_n_negative_nodes + "\n" +
+				"#define fb_MAX_N_NEGATIVE_EDGES " + max_n_negative_edges + "\n" +
 				"\n\n");
 	}
 	

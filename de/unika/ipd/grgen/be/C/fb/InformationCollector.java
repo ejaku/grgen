@@ -746,7 +746,7 @@ public class InformationCollector extends CBackend
 	 * @return   the <tt>Collection</tt> of all subexpressions
 	 * 				not being an AND-Operator
 	 */
-	private Collection decomposeAndParts(Expression expr)
+	protected Collection decomposeAndParts(Expression expr)
 	{
 		Collection ret = new HashSet();
 		//step recursive into the expression tree
