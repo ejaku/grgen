@@ -1,5 +1,5 @@
 actions FirmAct using Daniel, Firm;
-
+/*
 //=====================================================
 //
 //   Example to get the max degree of a graph
@@ -192,13 +192,17 @@ test bug {
 		(a, b): Node;
 	}
 }
+*/
 
 test hardcore {
 	pattern {
-		a: Node;
+		node(a, b, c, d) :Node;
+		a --> b --> c <-- d --> a;
 		negative {
-			a --> b: Node;
-			c: Node;
+			node(e, f, g, h) :Node;
+			b --> e --> f <-- h <-- g --> e;
+			c --> g;
 		}
+//		node(b, c, d, e, f, g, h) :Node;
 	}
 }
