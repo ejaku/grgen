@@ -645,7 +645,7 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public StringBuffer dump(StringBuffer sb) {
-			sb.append("");
+			sb.append("(");
 			left.dump(sb);
 			
 			sb.append("\n");
@@ -663,7 +663,10 @@ public class DefaultStatementFactory extends Base
 			sb.append(" JOIN ");
 			right.dump(sb);
 			sb.append(" ON ");
-			return cond.dump(sb);
+			cond.dump(sb);
+			sb.append(")");
+			
+			return sb;
 		}
 	}
 	
