@@ -107,7 +107,7 @@ public class MyPreferences extends AbstractPreferences {
    */
   public String get(String key, String value) {
     if(!prefs.containsKey(key))
-    	put(key, value);
+    	prefs.put(key, value);
     	
     return super.get(key, value);
   }
