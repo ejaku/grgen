@@ -133,7 +133,7 @@ public class Dumper {
 			Object obj = it.next();
 			
 			if(obj instanceof MatchingAction) {
-				MatchingAction act = (MatchingAction) it.next();
+				MatchingAction act = (MatchingAction) obj;
 				String main = act.toString().replace(' ', '_');
 				
 				File f = new File(prefix + main + extension);
