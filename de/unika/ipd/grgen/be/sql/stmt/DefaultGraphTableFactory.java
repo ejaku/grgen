@@ -124,7 +124,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		
 		sb.append('l').append(c.getLine()).append('c').append(c.getColumn()).append('_');
 		if(ent.getOwner()==null)
-			sb.append("_toplevel_)");
+			sb.append("_toplevel_");
 		else
 			sb.append(ent.getOwner().getIdent().toString().toLowerCase());
 		sb.append('_').append(id);
