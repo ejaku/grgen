@@ -412,6 +412,15 @@ public abstract class CBackend extends Base implements Backend {
 	}
 
 	/**
+	 * Dump an overview of all declared types and attributes to
+	 * an XML file.
+	 * @param sb The string buffer to put the XML stuff to.
+	 */
+	protected void writeOverview(StringBuffer sb) {
+		for(Iterator it = nodeTypeMap.keySet.
+	}
+
+	/**
 	 * Make some additional C type declarations that must probably be used
 	 * in the generated code. 
 	 * @param sb The string buffer to the stuff to.
@@ -496,6 +505,10 @@ public abstract class CBackend extends Base implements Backend {
 		sb = new StringBuffer();
 		makeActions(sb);
   	writeFile("action_impl.inc", sb);
+
+		sb = new StringBuffer();
+		writeOverview(sb);
+		writeFile("overview.xml", sb);
 
   	genExtra();
   }
