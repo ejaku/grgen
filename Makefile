@@ -1,13 +1,37 @@
+#
+# build the grgen-tool, grrr
+#
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
+ANTLR_JAR  = /usr/public/tools/grs_tools/antlr.jar
+JARGS_JAR  = /usr/public/tools/grs_tools/jargs.jar
 
-all:
+ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
+
+all:	grgen
+
+grgen: .grammar
+	@if [ ! -e .generator_build ]; then \
+	  $(MAKE) .generator_build; \
+	else \
+	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \
+	    $(MAKE) .generator_build; \
+	  fi; \
+	fi
+
+.generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
+	find . -type f -name "*.java" | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.4
+	@touch .generator_build
+
+.PHONY: dir
+dir:
 	test -d build || mkdir build
-	cd $(PARSER_DIR) && java -cp /usr/public/tools/grs_tools/antlr.jar antlr.Tool lexer.g
-	cd $(PARSER_DIR) && java -cp /usr/public/tools/grs_tools/antlr.jar antlr.Tool base.g
-	cd $(PARSER_DIR) && java -cp /usr/public/tools/grs_tools/antlr.jar antlr.Tool -glib base.g types.g
-	cd $(PARSER_DIR) && java -cp /usr/public/tools/grs_tools/antlr.jar antlr.Tool -glib base.g actions.g
-	find . -type f -name "*.java" | xargs javac -d build -classpath /usr/public/tools/grs_tools/antlr.jar:/usr/public/tools/grs_tools/jargs.jar -source 1.4
-	touch .generator_build
+
+.grammar: $(PARSER_DIR)/lexer.g $(PARSER_DIR)/base.g $(PARSER_DIR)/types.g $(PARSER_DIR)/actions.g $(ANTLR_JAR)
+	cd $(PARSER_DIR) && $(ANTLR) lexer.g
+	cd $(PARSER_DIR) && $(ANTLR) base.g
+	cd $(PARSER_DIR) && $(ANTLR) -glib base.g types.g
+	cd $(PARSER_DIR) && $(ANTLR) -glib base.g actions.g
+	@touch .grammar
 
 clean:
-	rm -rf build/*
+	rm -rf build/* .generator_build .grammar
