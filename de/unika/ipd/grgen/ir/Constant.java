@@ -13,8 +13,8 @@ import de.unika.ipd.grgen.util.SingleIterator;
  */
 public class Constant extends Expression {
 
-	/** The value of the constant. */ 
-	protected Object value; 
+	/** The value of the constant. */
+	protected Object value;
 
   /**
    * @param type The type of the constant.

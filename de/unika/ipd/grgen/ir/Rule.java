@@ -11,23 +11,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.unika.ipd.grgen.util.ArrayIterator;
+import de.unika.ipd.grgen.ast.OpNode;
 
 /**
  * A replacement rule.
  */
-public class Rule extends MatchingAction {
-
+public class Rule extends MatchingAction
+{
+	
 	/** A class representing redirections in rules. */
-	public static class Redirection {
+	public static class Redirection
+	{
 		public final Node from;
 		public final Node to;
 		public final EdgeType edgeType;
 		public final NodeType nodeType;
 		public final boolean incoming;
 		
-		public Redirection(Node from, Node to, EdgeType edgeType, 
-			NodeType nodeType, boolean incoming) {
-				
+		public Redirection(Node from, Node to, EdgeType edgeType,
+						   NodeType nodeType, boolean incoming)
+		{
+			
 			this.from = from;
 			this.to = to;
 			this.edgeType = edgeType;
@@ -35,29 +39,41 @@ public class Rule extends MatchingAction {
 			this.incoming = incoming;
 		}
 	}
-
+	
 	/** Names of the children of this node. */
-	private static final String[] childrenNames = {
+	private static final String[] childrenNames =
+	{
 		"left", "right"
 	};
-
+	
 	/** The right hand side of the rule. */
 	private Graph right;
 	
-	/** 
-	 * The redirections of the rule. 
-	 * They are orgnized in a list, since their order is vital. 
+	/**
+	 * The redirections of the rule.
+	 * They are orgnized in a list, since their order is vital.
 	 * Applying them in a random order will lead to different results.
 	 */
 	private List redirections = new LinkedList();
 	
-		/**
+	/**
+	 * The condition of this rule.
+	 */
+	private Condition condition = new Condition();
+		
+	/**
+	 * The evaluation of this rule.
+	 */
+	private Evaluation evaluation = new Evaluation();
+	
+	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, Graph left, Graph right) {
+	public Rule(Ident ident, Graph left, Graph right)
+	{
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
@@ -65,7 +81,7 @@ public class Rule extends MatchingAction {
 		right.setNameSuffix("right");
 		coalesceAnonymousEdges();
 	}
-
+	
 	/**
 	 * Add a new redirection to the rule.
 	 * @param from The node, which's edges should be redirected.
@@ -75,7 +91,7 @@ public class Rule extends MatchingAction {
 	 * be redirected.
 	 * @param nt The node type of which the the other end nodes of the edges
 	 * must be that the redirection takes place.
-	 * @param incoming Specifies if the edges are leaving or hitting 
+	 * @param incoming Specifies if the edges are leaving or hitting
 	 * <code>from</code>.
 	 * An exmple:
 	 * <code>from</code>: a <br>
@@ -83,13 +99,13 @@ public class Rule extends MatchingAction {
 	 * <code>et</code>: E1 <br>
 	 * <code>nt</code>: N1 <br>
 	 * <code>incoming</code>: <code>false</code><br>
-	 * This selects all edges which leave the node a, are of 
-	 * type E1 and hit nodes of type N1. The source of these edges is 
-	 * rewritten to be b after the redirection. 
+	 * This selects all edges which leave the node a, are of
+	 * type E1 and hit nodes of type N1. The source of these edges is
+	 * rewritten to be b after the redirection.
 	 */
 	public void addRedirection(Node from, Node to, EdgeType et, NodeType nt,
-		boolean incoming) {
-		
+							   boolean incoming)
+	{
 		redirections.add(new Redirection(from, to, et, nt, incoming));
 	}
 	
@@ -97,8 +113,27 @@ public class Rule extends MatchingAction {
 	 * Return a list of redirections.
 	 * @return The redirections.
 	 */
-	public List getRedirections() {
-		return new LinkedList(redirections);
+	public List getRedirections()
+	{
+		return redirections;
+	}
+	
+	/**
+	 * Return a list of conditions.
+	 * @return The conditions.
+	 */
+	public Condition getCondition()
+	{
+		return condition;
+	}
+	
+	/**
+	 * Return a list of evaluations.
+	 * @return The evaluations.
+	 */
+	public Evaluation getEvaluation()
+	{
+		return evaluation;
 	}
 	
 	
@@ -107,14 +142,16 @@ public class Rule extends MatchingAction {
 	 * shall also become the same Edge node. This not the case when
 	 * the Rule is constructed, since the equality of edges is established
 	 * by the coincidence of their identifiers. Anonymous edges have no
-	 * identifiers, so they have to be coalesced right now, when both 
+	 * identifiers, so they have to be coalesced right now, when both
 	 * sides of the rule are known and set up.
 	 */
-	private void coalesceAnonymousEdges() {
-		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();) {
+	private void coalesceAnonymousEdges()
+	{
+		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();)
+		{
 			Edge e = (Edge) it.next();
 			
-			if(e.isAnonymous()) 
+			if(e.isAnonymous())
 				right.replaceSimilarEdges(pattern, e);
 		}
 	}
@@ -124,18 +161,20 @@ public class Rule extends MatchingAction {
 	 * @return A set with nodes, that occur on the left and on the right side
 	 * of the rule.
 	 */
-	public Collection getCommonNodes() {
+	public Collection getCommonNodes()
+	{
 		Collection common = pattern.getNodes(new HashSet());
-		Collection rightNodes = right.getNodes(new HashSet()); 
+		Collection rightNodes = right.getNodes(new HashSet());
 		common.retainAll(rightNodes);
 		return common;
 	}
 	
-	/** 
+	/**
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
 	 */
-	public Collection getCommonEdges() {
+	public Collection getCommonEdges()
+	{
 		Collection common = pattern.getEdges(new HashSet());
 		Collection rightEdges = right.getEdges(new HashSet());
 		right.getEdges(rightEdges);
@@ -147,7 +186,8 @@ public class Rule extends MatchingAction {
 	 * Get the left hand side.
 	 * @return The left hand side graph.
 	 */
-	public Graph getLeft() {
+	public Graph getLeft()
+	{
 		return pattern;
 	}
 	
@@ -155,14 +195,17 @@ public class Rule extends MatchingAction {
 	 * Get the right hand side.
 	 * @return The right hand side graph.
 	 */
-	public Graph getRight() {
+	public Graph getRight()
+	{
 		return right;
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-	public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object[] { pattern, right });
+	public Iterator getWalkableChildren()
+	{
+		return new ArrayIterator(new Object[] { pattern, right,
+				condition, evaluation});
 	}
 }

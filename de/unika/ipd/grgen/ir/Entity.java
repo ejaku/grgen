@@ -13,6 +13,8 @@ import de.unika.ipd.grgen.util.SingleIterator;
  */
 public class Entity extends Identifiable {
 	
+	private static final String[] childrenNames = { "type" };
+	
 	/** Type of the entity. */
 	private Type type;
 
@@ -28,6 +30,7 @@ public class Entity extends Identifiable {
    */
   protected Entity(String name, Ident ident, Type type) {
   	super(name, ident);
+		setChildrenNames(childrenNames);
   	this.type = type;
   }
   

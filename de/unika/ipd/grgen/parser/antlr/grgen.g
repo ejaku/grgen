@@ -27,7 +27,7 @@ options {
   k=3;
 	//codeGenMakeSwitchThreshold = 2;
 	//codeGenBitsetTestThreshold = 3;
-	defaultErrorHandler = true;   
+	defaultErrorHandler = true;
 	buildAST = false;
 }
 
@@ -68,7 +68,7 @@ tokens {
     /// The symbol table
     private SymbolTable symbolTable;
 
-		/// the error reporter 
+		/// the error reporter
     private ErrorReporter reporter;
    
     /// unique ids for anonymous identifiers
@@ -132,7 +132,7 @@ tokens {
     	OpNode res = makeOp(t);
     	res.addChild(op);
     	return res;
-    }    	
+    }
     
     private int makeId() {
     	return uniqueId++;
@@ -220,14 +220,14 @@ tokens {
 
 
 /**
- * Build a main node. 
+ * Build a main node.
  * It has a collect node with the decls as child
  */
 text returns [ BaseNode main = initNode() ]
-    { 
+    {
   		CollectNode n;
   		IdentNode id;
-  	} 
+  	}
   	: "unit" id=identDecl SEMI n=decls EOF { mainChilds.addChildren(n); } {
   		main = new UnitNode(id, getFilename());
   		main.addChild(mainChilds);
@@ -235,44 +235,44 @@ text returns [ BaseNode main = initNode() ]
   		// leave the root scope and finish all occurrences
   		currScope.leaveScope();
   	}
-  	;       
+  	;
 
 /**
  * Decls make a collect node with all the decls as children
  */
 decls returns [ CollectNode n = new CollectNode() ]
   { BaseNode d; }
-  : (d=decl { n.addChild(d); } )* ;        
+  : (d=decl { n.addChild(d); } )* ;
 
 /**
- * A decl is a 
+ * A decl is a
  * - group
  * - edge type
  * - node type
- */ 
+ */
 decl returns [ BaseNode res = initNode() ]
   : res=actionDecl
-  | res=edgeClassDecl 
-  | res=nodeClassDecl 
+  | res=edgeClassDecl
+  | res=nodeClassDecl
   | res=enumDecl
   ;
 
 /**
- * An edge class decl makes a new type decl node with the declaring id and 
+ * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
-edgeClassDecl returns [ BaseNode res = initNode() ] 
-  { 
+edgeClassDecl returns [ BaseNode res = initNode() ]
+  {
   	  BaseNode body, ext;
   	  IdentNode id;
-    } 
+    }
   
 	: "edge" "class"! id=identDecl ext=edgeExtends // COLON r:connectAssertion
-        pushScope[id] LBRACE! body=edgeClassBody { 
+        pushScope[id] LBRACE! body=edgeClassBody {
 
 		id.setDecl(new TypeDeclNode(id, new EdgeTypeNode(ext, body)));
 		res = id;
-  } RBRACE! popScope! 
+  } RBRACE! popScope!
   ;
 
 connectAssertion returns [ BaseNode res = initNode() ]
@@ -280,28 +280,28 @@ connectAssertion returns [ BaseNode res = initNode() ]
 	: src=identUse srcRange=rangeSpec RARROW tgt=identUse tgtRange=rangeSpec
 	;
 
-nodeClassDecl! returns [ BaseNode res = initNode() ] 
+nodeClassDecl! returns [ BaseNode res = initNode() ]
     {
   		BaseNode body, ext;
   		IdentNode id;
-  	} 
+  	}
   	
   	: "node" "class"! id=identDecl ext=nodeExtends
         pushScope[id] LBRACE! body=nodeClassBody {
 
       id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, body)));
 		  res = id;
-    } RBRACE! popScope! 
+    } RBRACE! popScope!
   ;
 
-edgeExtends returns [ CollectNode c = new CollectNode() ] 
-  : "extends" edgeExtendsCont[c]   	
+edgeExtends returns [ CollectNode c = new CollectNode() ]
+  : "extends" edgeExtendsCont[c]
   | { c.addChild(edgeRoot); }
   ;
 
-edgeExtendsCont[ CollectNode c ] 
-    { BaseNode e; } 
-    : e=identUse { c.addChild(e); } 
+edgeExtendsCont[ CollectNode c ]
+    { BaseNode e; }
+    : e=identUse { c.addChild(e); }
       (COMMA! e=identUse { c.addChild(e); } )*
 	;
 
@@ -310,8 +310,8 @@ nodeExtends returns [ CollectNode c = new CollectNode() ]
   | { c.addChild(nodeRoot); }
   ;
 
-nodeExtendsCont[ CollectNode c ] 
-  { BaseNode n; } 
+nodeExtendsCont[ CollectNode c ]
+  { BaseNode n; }
   : n=identUse { c.addChild(n); }
     (COMMA! n=identUse { c.addChild(n); } )* ;
 
@@ -320,27 +320,27 @@ nodeClassBody returns [ CollectNode c = new CollectNode() ]
   : (d=basicDecl { c.addChild(d); } SEMI!)*
   ;
 
-edgeClassBody returns [ CollectNode c = new CollectNode() ] 
-	{ BaseNode d; } 
+edgeClassBody returns [ CollectNode c = new CollectNode() ]
+	{ BaseNode d; }
     : (d=basicDecl { c.addChild(d); } SEMI!)*
-	; 
+	;
 	
 rangeSpec returns [ BaseNode res = initNode() ]
 	{
 		int lower = 1, upper = 1;
 	}
-	: (l:LBRACK lower=integerConst ( COLON { upper = RangeSpecNode.UNBOUND; } 
-			( upper=integerConst )? )? RBRACK )? 
+	: (l:LBRACK lower=integerConst ( COLON { upper = RangeSpecNode.UNBOUND; }
+			( upper=integerConst )? )? RBRACK )?
 	{
 			res = new RangeSpecNode(getCoords(l), lower, upper);
 	}
 	;
 	
-integerConst returns [ int value = 0 ] 
+integerConst returns [ int value = 0 ]
 	: i:INTEGER {
 		value = Integer.parseInt(i.getText());
 	}
-	; 
+	;
 	
 /* constDecl returns [ BaseNode res = initNode() ]
 	{
@@ -349,7 +349,7 @@ integerConst returns [ int value = 0 ]
 	}
 	: "const" type=identUse id=identDecl ASSIGN init=expr {
 		res = new ConstDeclNode(id, type, init);
-	}; 
+	};
 */
 
 
@@ -369,7 +369,7 @@ enumDecl returns [ BaseNode res = initNode() ]
 enumList returns [ BaseNode res = initNode() ]
 	{
 		int pos = 0;
-		res = new CollectNode(); 
+		res = new CollectNode();
 		BaseNode init;
 	}
 	:	init=enumItemDecl[res, zero, pos++] (COMMA init=enumItemDecl[res, init, pos++])*
@@ -398,8 +398,8 @@ enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res
 	}
 	;
 
-basicDecl returns [ BaseNode res = initNode() ] 
-    { 
+basicDecl returns [ BaseNode res = initNode() ]
+    {
   	  IdentNode id;
   	  BaseNode type;
   	  DeclNode decl;
@@ -417,15 +417,15 @@ groupDecl returns [ BaseNode res = initNode() ]
 	{
 		IdentNode id;
   		CollectNode decls;
-  	} 
+  	}
   	: "group" id=identDecl pushScope[id] LBRACE! decls=actionDecls {
 	  	id.setDecl(new GroupDeclNode(id, decls));
 	  	
 	  	res = id;
-  } RBRACE! popScope!;           
+  } RBRACE! popScope!;
 
-actionDecls returns [ CollectNode c = new CollectNode() ] 
-  { BaseNode d; } 
+actionDecls returns [ CollectNode c = new CollectNode() ]
+  { BaseNode d; }
   : ( d=actionDecl { c.addChild(d); } )+;
 
 /**
@@ -444,12 +444,12 @@ testDecl returns [ BaseNode res = initNode() ]
   		BaseNode tb, pattern;
   		CollectNode cond = new CollectNode();
   	}
-  	: "test" id=identDecl pushScope[id] LBRACE! 
-  	  pattern=patternPart 
+  	: "test" id=identDecl pushScope[id] LBRACE!
+  	  pattern=patternPart
   	  ( condPart[cond] )? {
       id.setDecl(new TestDeclNode(id, pattern, cond));
       res = id;
-  	} RBRACE! popScope!;           
+  	} RBRACE! popScope!;
 
 ruleDecl returns [ BaseNode res = initNode() ]
   {
@@ -459,26 +459,29 @@ ruleDecl returns [ BaseNode res = initNode() ]
   		CollectNode eval = new CollectNode();
   		CollectNode cond = new CollectNode();
   }
-  : "rule" id=identDecl pushScope[id] LBRACE! 
-  	left=patternPart 
+  : "rule" id=identDecl pushScope[id] LBRACE!
+  	left=patternPart
 		( condPart[cond] )?
-  	right=replacePart 
-  	( redirectPart[redir] )? {
-  	id.setDecl(new RuleDeclNode(id, left, right, redir, cond, eval));
-  	res = id;
-  } RBRACE! popScope!;
+  	right=replacePart
+  	( redirectPart[redir] )?
+  	( evalPart[eval] )?
+  	{
+  	   id.setDecl(new RuleDeclNode(id, left, right, redir, cond, eval));
+  	   res = id;
+    }
+    RBRACE! popScope!;
 
-parameters 
+parameters
 	: LPAREN paramList RPAREN
 	| LPAREN RPAREN
-	| 
+	|
 	;
 
 paramList
 	: param (COMMA param)*
 	;
 	
-param 
+param
 	{
 		IdentNode id;
 	}
@@ -495,7 +498,7 @@ paramType
 	;
 
 patternPart returns [ BaseNode res = initNode() ]
-  : p:"pattern" LBRACE! res=patternBody[getCoords(p)] RBRACE! 
+  : p:"pattern" LBRACE! res=patternBody[getCoords(p)] RBRACE!
   ;
 
 replacePart returns [ BaseNode res = initNode() ]
@@ -511,7 +514,7 @@ evalPart [ BaseNode n ]
 	;
 	
 condPart [ BaseNode n ]
-	: c:"cond" LBRACE condBody[n] RBRACE 
+	: c:"cond" LBRACE condBody[n] RBRACE
 	;
 	
 condBody [ BaseNode n ]
@@ -524,7 +527,7 @@ evalBody [ BaseNode n  ]
   : (a=assignment { n.addChild(a); } SEMI)*
   ;
 	
-redirectBody [ CollectNode c, Coords coords ] 
+redirectBody [ CollectNode c, Coords coords ]
 	:	( redirectStmt[c] SEMI )*
 	;
 	
@@ -537,17 +540,17 @@ redirEdgeOcc returns [ Object[] res ]
 	
   : MINUS id=identUse RARROW { res[0] = id; }
 	| RARROW { res[0] = edgeRoot; 	}
-	| LARROW id=identUse MINUS { 
+	| LARROW id=identUse MINUS {
 		res[0] = id;
 		res[1] = new Boolean(true);
 	}
-	| LARROW { 
+	| LARROW {
 		res[0] = edgeRoot;
-		res[1] = new Boolean(true); 
+		res[1] = new Boolean(true);
 	}
 	;
 	
-redirectStmt [ BaseNode c ] 
+redirectStmt [ BaseNode c ]
 	{
 		BaseNode src, tgt, to;
 		Object[] redirEdge;
@@ -566,7 +569,7 @@ redirectStmt [ BaseNode c ]
  * In the collect node of the pattern node.
  */
 patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
-    { 
+    {
   		BaseNode s;
   		CollectNode connections = new CollectNode();
   	  res = new PatternNode(coords, connections);
@@ -577,12 +580,12 @@ patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
 patternStmt [ BaseNode connCollect ]
 	{ BaseNode n, o; }
 	: patternConnections[connCollect]
-  | "node" patternNodeDecl ( COMMA patternNodeDecl )* 
+  | "node" patternNodeDecl ( COMMA patternNodeDecl )*
 	;
 
 patternConnections [ BaseNode connColl ]
   { BaseNode n; }
-  : n=patternNodeOcc (patternContinuation[n,connColl] | { 
+  : n=patternNodeOcc (patternContinuation[n,connColl] | {
   	connColl.addChild(new SingleNodeConnNode(n));
   })
   ;
@@ -595,13 +598,13 @@ patternConnections [ BaseNode connColl ]
 patternContinuation [ BaseNode left, BaseNode collect ]
   { BaseNode n; }
   : n=patternPair[left, collect] (patternContinuation[n, collect])?
-  | LPAREN patternContinuation[left, collect] 
+  | LPAREN patternContinuation[left, collect]
     ( COMMA patternContinuation[left, collect] )* RPAREN
   ;
 
 /**
  * An edge node pair.
- * This rule builds a connection node with the parameter left, 
+ * This rule builds a connection node with the parameter left,
  * the edge and the patternNodeOcc
  * and appends this connection node to the children of coll.
  * The rule returns the right node (the one from the nodeOcc rule)
@@ -622,14 +625,14 @@ patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = initNode()
  * identifier (must be a declared node) or a pattern node declaration
  */
 patternNodeOcc returns [ BaseNode res = initNode() ]
-  : res=identUse 
+  : res=identUse
   | res=patternNodeDecl
   ;
   
 
 patternReversedEdge returns [ BaseNode res = null ]
-  { 
-  	boolean negated = false; 
+  {
+  	boolean negated = false;
   	BaseNode type = edgeRoot;
   }
   : LARROW res=edgeDecl MINUS
@@ -654,15 +657,15 @@ patternEdge returns [ BaseNode res = null ]
 /**
  * In a pattern, a node decl is like multiNodeDecl (see below) or
  * a multi node with tildes instead of commas, like
- * 
+ *
  * (a ~ b ~ c ~ d):X
  *
  * This allows b, c, d to be the same node.
  */
 patternNodeDecl returns [ BaseNode res = initNode() ]
-  { 
+  {
     IdentNode id;
-  	BaseNode type; 
+  	BaseNode type;
   	List ids = null;
   }
   : res=multiNodeDecl
@@ -678,8 +681,8 @@ patternNodeDecl returns [ BaseNode res = initNode() ]
 				decls[i] = new NodeDeclNode(idents[i], type, colls[i]);
 			}
 
-			for(int i = 0; i < idents.length; i++) 
-				for(int j = i + 1; j < idents.length; j++) 
+			for(int i = 0; i < idents.length; i++)
+				for(int j = i + 1; j < idents.length; j++)
 					colls[i].addChild(idents[j]);
     }
   ;
@@ -690,7 +693,7 @@ patternNodeDecl returns [ BaseNode res = initNode() ]
  * In the collect node of the pattern node.
  */
 replaceBody [ Coords coords ] returns [ BaseNode res = initNode() ]
-    { 
+    {
   	  	BaseNode s;
   		CollectNode connections = new CollectNode();
   	  	res = new PatternNode(coords, connections);
@@ -701,12 +704,12 @@ replaceBody [ Coords coords ] returns [ BaseNode res = initNode() ]
 replaceStmt [ BaseNode connCollect ]
 	{ BaseNode n; }
 	: replaceConnections[connCollect]
-	| "node" replaceNodeDecl ( COMMA replaceNodeDecl )* 
+	| "node" replaceNodeDecl ( COMMA replaceNodeDecl )*
 	;
 
 replaceConnections [ BaseNode connColl ]
 	{ BaseNode n; }
-	: n=replaceNodeOcc (replaceContinuation[n, connColl] | { 
+	: n=replaceNodeOcc (replaceContinuation[n, connColl] | {
 		connColl.addChild(new SingleNodeConnNode(n));
   	})
   ;
@@ -719,7 +722,7 @@ replaceConnections [ BaseNode connColl ]
 replaceContinuation [ BaseNode left, BaseNode collect ]
   { BaseNode n; }
   : n=replacePair[left, collect] (replaceContinuation[n, collect])?
-  | LPAREN replaceContinuation[left, collect] 
+  | LPAREN replaceContinuation[left, collect]
     ( COMMA replaceContinuation[left, collect] )* RPAREN
   ;
 
@@ -738,7 +741,7 @@ replacePair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = initNode()
   		coll.addChild(new ConnectionNode(res, e, left));
     };
 
-replaceEdge returns [ BaseNode res = null ] 
+replaceEdge returns [ BaseNode res = null ]
 	{ BaseNode type = edgeRoot; }
 	: MINUS res=edgeDecl RARROW
 	| MINUS res=identUse RARROW
@@ -748,7 +751,7 @@ replaceEdge returns [ BaseNode res = null ]
 	}
 	;
 
-replaceReversedEdge returns [ BaseNode res = null ] 
+replaceReversedEdge returns [ BaseNode res = null ]
 	{ BaseNode type = edgeRoot; }
 	: LARROW res=edgeDecl MINUS
 	| LARROW res=identUse MINUS
@@ -764,14 +767,14 @@ replaceReversedEdge returns [ BaseNode res = null ]
  * a already declared node or a usage combined with a type change.
  */
 replaceNodeOcc returns [ BaseNode res = initNode() ]
-	{ 
-		CollectNode coll = new CollectNode(); 
+	{
+		CollectNode coll = new CollectNode();
 		IdentNode id;
 	}
-  : res=identUse 
+  : res=identUse
   | res=replaceNodeDecl
   | res=identUse c:DOUBLECOLON id=identUse {
-  	res = new NodeTypeChangeNode(getCoords(c), res, id);	
+  	res = new NodeTypeChangeNode(getCoords(c), res, id);
   }
   ;
 
@@ -780,21 +783,21 @@ anonymousEdge [ boolean negated ] returns [ BaseNode res = null ]
 		IdentNode id = defineAnonymous("edge", getCoords(m));
 		res = new AnonymousEdgeDeclNode(id, edgeRoot, negated);
 	}
-	;		
+	;
 
 replaceNodeDecl returns [ BaseNode res = initNode() ]
-  { 
+  {
     IdentNode id;
-  	BaseNode type; 
+  	BaseNode type;
   }
   : res=multiNodeDecl
   ;
 
 /**
  * The declaration of node(s)
- * It can look like 
+ * It can look like
  *
- * 1) a:X  
+ * 1) a:X
  * 2) (a, b, c, d, e):X
  *
  * In the second case, always the first node is returned.
@@ -839,7 +842,7 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 identList [ BaseNode c ]
 	{ BaseNode id; }
 	: id=identUse { c.addChild(id); } (COMMA id=identUse { c.addChild(id); })*
-	; 
+	;
 
 /**
  * declaration of an identifier
@@ -851,10 +854,10 @@ identDecl returns [ IdentNode res = getDummyIdent() ]
   		Symbol.Definition def = currScope.define(sym, getCoords(i));
       res = new IdentNode(def);
     }
-  ;        
+  ;
 
 /**
- * Represents the usage of an identifier. 
+ * Represents the usage of an identifier.
  * It is checked, whether the identifier is declared. The IdentNode
  * created by the definition is returned.
  */
@@ -865,17 +868,17 @@ identUse returns [ IdentNode res = getDummyIdent() ]
 
 	  res = new IdentNode(occ);
   }
-  ;        
+  ;
 
 pushScope! [IdentNode name] options { defaultErrorHandler = false; } {
   currScope = currScope.newScope(name.toString());
-  BaseNode.setCurrScope(currScope);    
+  BaseNode.setCurrScope(currScope);
 } : ;
 
 popScope! options { defaultErrorHandler = false; }  {
   if(currScope != rootScope)
       currScope = currScope.leaveScope();
-  BaseNode.setCurrScope(currScope);    
+  BaseNode.setCurrScope(currScope);
     
 } : ;
 
@@ -894,9 +897,9 @@ assignment returns [ BaseNode res = initNode() ]
 expr returns [ BaseNode res = initNode() ]
 	: res=condExpr ;
 
-condExpr returns [ BaseNode res = initNode() ] 
+condExpr returns [ BaseNode res = initNode() ]
 	{ BaseNode op0, op1, op2; }
-	: op0=logOrExpr { res=op0; } (t:QUESTION op1=expr COLON op2=condExpr { 
+	: op0=logOrExpr { res=op0; } (t:QUESTION op1=expr COLON op2=condExpr {
 		res=makeOp(t);
 		res.addChild(op0);
 		res.addChild(op1);
@@ -945,7 +948,7 @@ eqOp returns [ Token t = null ]
 	;
 
 eqExpr returns [ BaseNode res = initNode() ]
-	{ 
+	{
 		BaseNode op;
 		Token t;
 	}
@@ -957,13 +960,13 @@ eqExpr returns [ BaseNode res = initNode() ]
 relOp returns [ Token t = null ]
 	: lt:LT { t=lt; }
 	| le:LE { t=le; }
-	| gt:GT { t=gt; }		
+	| gt:GT { t=gt; }
 	| ge:GE { t=ge; }
 	;
 	
 relExpr returns [ BaseNode res  = initNode() ]
-	{ 
-		BaseNode op; 
+	{
+		BaseNode op;
 		Token t;
 	}
 	: res=shiftExpr (t=relOp op=shiftExpr {
@@ -978,7 +981,7 @@ shiftOp returns [ Token res = null ]
 	;
 
 shiftExpr returns [ BaseNode res = initNode() ]
-	{ 
+	{
 		BaseNode op;
 		Token t;
 	}
@@ -987,13 +990,13 @@ shiftExpr returns [ BaseNode res = initNode() ]
 	})*
 	;
 	
-addOp returns [ Token t = null ]	
+addOp returns [ Token t = null ]
 	: p:PLUS { t=p; }
 	| m:MINUS { t=m; }
 	;
 	
 addExpr returns [ BaseNode res = initNode() ]
-	{ 
+	{
 		BaseNode op;
 		Token t;
 	}
@@ -1010,7 +1013,7 @@ mulOp returns [ Token t = null ]
 
 	
 mulExpr returns [ BaseNode res = initNode() ]
-	{ 
+	{
 		BaseNode op;
 		Token t;
 	}
@@ -1032,7 +1035,7 @@ unaryExpr returns [ BaseNode res = initNode() ]
 		res.addChild(op);
 	}
 	| PLUS res=unaryExpr
-	| ( options { generateAmbigWarnings = false; } : 
+	| ( options { generateAmbigWarnings = false; } :
 			(LPAREN identUse RPAREN unaryExpr) => p:LPAREN id=identUse RPAREN op=unaryExpr {
 				res = new CastNode(getCoords(p));
 				res.addChild(id);
@@ -1065,7 +1068,7 @@ constant returns [ BaseNode res = initNode() ]
 	| f:"false" {
 		res = new BoolConstNode(getCoords(f), false);
 	}
-	;	
+	;
 
 identExpr returns [ BaseNode res = initNode() ]
 	{ IdentNode id; }
@@ -1191,7 +1194,7 @@ NUM_HEX
 	: '0' 'x' ('0'..'9' | 'a' .. 'f' | 'A' .. 'F')+
 	;
 	
-protected	
+protected
 ESC
 	:	'\\'
 		(	'n'

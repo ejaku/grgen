@@ -7,6 +7,9 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Entity;
 
 /**
  * A operator node for the identifier qualification.
@@ -121,4 +124,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		return (DeclNode) getChild(MEMBER);
 	}
 	
+	protected IR constructIR()
+	{
+		Entity owner = (Entity)getChild(OWNER).checkIR(Entity.class);
+		Entity member = (Entity)getChild(MEMBER).checkIR(Entity.class);
+		
+		return new Qualification(owner, member);
+	}
 }

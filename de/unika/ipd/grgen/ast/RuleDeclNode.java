@@ -149,12 +149,25 @@ public class RuleDeclNode extends ActionDeclNode {
 		
 		Rule rule = new Rule(getIdentNode().getIdent(),left, right);
 		
+		// add Redirect statments to the IR
 		for(Iterator it = getChild(REDIR).getChildren(); it.hasNext();) {
 			RedirectionNode redir = (RedirectionNode) it.next();
 			redir.addToRule(rule);
 		}
 		
+		// add Cond statments to the IR
+		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
+			OpNode op = (OpNode) it.next();
+			rule.getCondition().add(op.getIR());
+		}
 		
+		// add Eval statments to the IR
+		/*
+		for(Iterator it = getChild(EVAL).getChildren(); it.hasNext();) {
+			RedirectionNode redir = (EvationNode) it.next();
+			rule.getCondition().add(op.getIR());
+		}
+		 */
 		return rule;
   }
 

@@ -10,17 +10,22 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.ir.Rule;
+import java.util.Iterator;
+import de.unika.ipd.grgen.ir.Expression;
 
 /**
  * Expression operators.
  */
-public abstract class OpNode extends ExprNode {
-
+public abstract class OpNode extends ExprNode
+{
+	
 	private static final Map irOpCodeMap = new HashMap();
-
-	static {
+	
+	static
+	{
 		setName(OpNode.class, "operator");
-
+		
 		assocOpCode(OperatorSignature.COND, Operator.COND);
 		assocOpCode(OperatorSignature.LOG_OR, Operator.LOG_OR);
 		assocOpCode(OperatorSignature.LOG_AND, Operator.LOG_AND);
@@ -45,131 +50,155 @@ public abstract class OpNode extends ExprNode {
 		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
 		assocOpCode(OperatorSignature.NEG, Operator.NEG);
 	}
-
-	private static final void assocOpCode(int id, int opcode) {
+	
+	private static final void assocOpCode(int id, int opcode)
+	{
 		irOpCodeMap.put(new Integer(id), new Integer(opcode));
 	}
 	
 	/** The ID of the operator. */
 	private int opId;
-
+	
 	/** The corresponding operator. */
 	private OperatorSignature operator;
-
-  /**
-   * Make a new operator node.
-   * @param coords The source coordinates of that node.
-   * @param opId The operator ID.
-   */
-  public OpNode(Coords coords, int opId) {
-    super(coords);
-    this.opId = opId;
-    
-//    for(int i = 0; i < OperatorSignature.getArity(opId); i++)
-//    	addResolver(i, identExprResolver);
-  }
-  
-  public String toString() {
-  	return OperatorSignature.getName(opId);
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#check()
-   */
-  protected boolean check() {
-  	boolean res = true;
-  	if(children() != OperatorSignature.getArity(opId)) {
-  		reportError("Wrong operator arity: " + children());
-  		res = false;
-  	}
-  	
-  	if(!getType().isBasic()) {
-  		res = false;
-  		reportError("Result must be a basic type not: " + getType());
-  	}
-  	
-  	return res;
-  }
-  
-  /**
-   * Determine the operator that will be used with this operator node.
-   * The method gets the operand types of this node and determines the 
-   * operator, that will need the least implicit type casts using the
-   * operands' types (this is done via 
-   * {@link Operator#getNearest(int, TypeNode[])}). If no such operator is
-   * found, an error message is reported.
-   * @return The proper operator for this node, <code>null</code> otherwise.
-   */
-  private OperatorSignature computeOperator() {
-  	OperatorSignature operator = null;
-  	int n = children();
-  	TypeNode[] argTypes = new TypeNode[n];
-  	
-  	for(int i = 0; i < n; i++) {
-  		ExprNode op = (ExprNode) getChild(i);
-  		argTypes[i] = op.getType();
-  	}
-  	
+	
+	/**
+	 * Make a new operator node.
+	 * @param coords The source coordinates of that node.
+	 * @param opId The operator ID.
+	 */
+	public OpNode(Coords coords, int opId)
+	{
+		super(coords);
+		this.opId = opId;
+		
+		//    for(int i = 0; i < OperatorSignature.getArity(opId); i++)
+		//    	addResolver(i, identExprResolver);
+	}
+	
+	public String toString()
+	{
+		return OperatorSignature.getName(opId);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check()
+	{
+		boolean res = true;
+		if(children() != OperatorSignature.getArity(opId))
+		{
+			reportError("Wrong operator arity: " + children());
+			res = false;
+		}
+		
+		if(!getType().isBasic())
+		{
+			res = false;
+			reportError("Result must be a basic type not: " + getType());
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Determine the operator that will be used with this operator node.
+	 * The method gets the operand types of this node and determines the
+	 * operator, that will need the least implicit type casts using the
+	 * operands' types (this is done via
+	 * {@link Operator#getNearest(int, TypeNode[])}). If no such operator is
+	 * found, an error message is reported.
+	 * @return The proper operator for this node, <code>null</code> otherwise.
+	 */
+	private OperatorSignature computeOperator()
+	{
+		OperatorSignature operator = null;
+		int n = children();
+		TypeNode[] argTypes = new TypeNode[n];
+		
+		for(int i = 0; i < n; i++)
+		{
+			ExprNode op = (ExprNode) getChild(i);
+			argTypes[i] = op.getType();
+		}
+		
 		operator = OperatorSignature.getNearest(opId, argTypes);
-		if(!operator.isValid()) {
+		if(!operator.isValid())
+		{
 			StringBuffer params = new StringBuffer();
 			
 			params.append('(');
-			for(int i = 0; i < n; i++) 
-				params.append((i > 0 ? ", " : "") + argTypes[i].getName()); 			
+			for(int i = 0; i < n; i++)
+				params.append((i > 0 ? ", " : "") + argTypes[i].getName());
 			params.append(')');
 			
 			reportError("No such operator " + OperatorSignature.getName(opId) + " " + params);
-		} else {
+		}
+		else
+		{
 			
 			// Insert implicit type casts for the arguments that need them.
 			TypeNode[] opTypes = operator.getOperandTypes();
-			for(int i = 0; i < argTypes.length; i++) {
-				if(!argTypes[i].isEqual(opTypes[i])) {
+			for(int i = 0; i < argTypes.length; i++)
+			{
+				if(!argTypes[i].isEqual(opTypes[i]))
+				{
 					ExprNode child = (ExprNode) getChild(i);
-					replaceChild(i, child.adjustType(argTypes[i]));  
+					replaceChild(i, child.adjustType(argTypes[i]));
 				}
 			}
 		}
 		
 		return operator;
-  }
-  
-  protected final OperatorSignature getOperator() {
-  	if(operator == null)
-  		operator = computeOperator();
-  	
-  	return operator;
-  }
-  
-  /**
-   * Get the type of this expression.
-   * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-   * If a proper operator for this node can be found, the type of this 
-   * node is the result type of the operator, else it's the error type 
-   * {@link BasicTypeNode#errorType}. 
-   */
-  public TypeNode getType() {
-  	return getOperator().getResultType();
-  }
-
-	/** 
+	}
+	
+	protected final OperatorSignature getOperator()
+	{
+		if(operator == null)
+			operator = computeOperator();
+		
+		return operator;
+	}
+	
+	/**
+	 * Get the type of this expression.
+	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
+	 * If a proper operator for this node can be found, the type of this
+	 * node is the result type of the operator, else it's the error type
+	 * {@link BasicTypeNode#errorType}.
+	 */
+	public TypeNode getType()
+	{
+		return getOperator().getResultType();
+	}
+	
+	/**
 	 * Get an IR opcode for the ID of an operator.
 	 * @param opId The ID of an operator.
 	 * @return THe IT opcode for the operator ID.
 	 */
-	private static int getIROpCode(int opId) {
+	private static int getIROpCode(int opId)
+	{
 		return ((Integer) irOpCodeMap.get(new Integer(opId))).intValue();
 	}
 	
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-   */
-  protected IR constructIR() {
-  	BasicTypeNode type = (BasicTypeNode) getType();
-    Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
-		    
-    return op;
-  }
-
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR()
+	{
+		BasicTypeNode type = (BasicTypeNode) getType();
+		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
+		
+		for(Iterator it = getChildren(); it.hasNext();)
+		{
+			BaseNode n = (BaseNode)it.next();
+			Expression ir = (Expression)n.getIR();
+			op.addOperand(ir);
+		}
+		
+		return op;
+	}
+	
 }
