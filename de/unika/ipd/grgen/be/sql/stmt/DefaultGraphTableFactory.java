@@ -222,10 +222,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		}
 		
 		AliasTable(String name, String alias) {
-			super("table " + name + " AS " + alias);
+			super("table " + name + (alias.length() != 0 ? " AS " + alias : ""));
 			this.name = name;
 			this.alias = alias;
-			this.declaration = name.equals(alias) ? name : name + " AS " + alias;
+			this.declaration = alias.length() == 0 ? name : name + " AS " + alias;
 		}
 		
 		AliasTable(String name, String alias, String[] colNames, DataType[] colTypes) {
@@ -342,13 +342,20 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	
 	protected class DefaultNodeTable extends AliasTable implements NodeTable {
 		
+		private final Node node;
+		
 		DefaultNodeTable(Node node) {
 			super(parameters.getTableNodes(), mangleEntity(node), nodeTableColumns, nodeTableTypes);
+			this.node = node;
+		}
+		
+		DefaultNodeTable(String alias) {
+			super(parameters.getTableNodes(), alias, nodeTableColumns, nodeTableTypes);
+			this.node = null;
 		}
 		
 		DefaultNodeTable() {
-			super(parameters.getTableNodes(), parameters.getTableNodes(),
-				nodeTableColumns, nodeTableTypes);
+			this("");
 		}
 		
 		public Column colId() {
@@ -358,17 +365,28 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		public Column colTypeId() {
 			return cols[1];
 		}
+		
+		public Node getNode() {
+			return node;
+		}
 	}
 	
 	private class DefaultEdgeTable extends AliasTable implements EdgeTable {
 		
+		private final Edge edge;
+		
 		DefaultEdgeTable(Edge edge) {
 			super(parameters.getTableEdges(), mangleEntity(edge), edgeTableColumns, edgeTableTypes);
+			this.edge = edge;
 		}
 		
+		DefaultEdgeTable(String alias) {
+			super(parameters.getTableEdges(), alias, edgeTableColumns, edgeTableTypes);
+			this.edge = null;
+		}
+
 		DefaultEdgeTable() {
-			super(parameters.getTableEdges(), parameters.getTableEdges(),
-				edgeTableColumns, edgeTableTypes);
+			this("");
 		}
 
 		public Column colId() {
@@ -390,6 +408,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		public Column colEndId(boolean src) {
 			return src ? colSrcId() : colTgtId();
 		}
+		
+		public Edge getEdge() {
+			return edge;
+		}
 	}
 	
 	private class DefaultAttributeTable extends AliasTable implements AttributeTable {
@@ -401,7 +423,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		}
 		
 		DefaultAttributeTable(String name, String idCol, Map attrIndices) {
-			this(name, idCol, name, attrIndices);
+			this(name, idCol, "", attrIndices);
 		}
 		
 		DefaultAttributeTable(String name, String idCol, String alias, Map attrIndices) {
@@ -545,7 +567,39 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalNodeTable()
 	 */
 	public NodeTable originalNodeTable() {
-		return originalNodeTable();
+		return originalNodeTable;
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalEdgeAttrTable()
+	 */
+	public AttributeTable edgeAttrTable(String alias) {
+		return new DefaultAttributeTable(parameters.getTableEdgeAttrs(),
+																		 parameters.getColEdgeAttrEdgeId(),
+																		 alias, edgeAttrs);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalEdgeTable()
+	 */
+	public EdgeTable edgeTable(String alias) {
+		return new DefaultEdgeTable(alias);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalNodeAttrTable()
+	 */
+	public AttributeTable nodeAttrTable(String alias) {
+		return new DefaultAttributeTable(parameters.getTableNodeAttrs(),
+																		 parameters.getColNodeAttrNodeId(),
+																		 alias, nodeAttrs);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#originalNodeTable()
+	 */
+	public NodeTable nodeTable(String alias) {
+		return new DefaultNodeTable(alias);
 	}
 }
 
