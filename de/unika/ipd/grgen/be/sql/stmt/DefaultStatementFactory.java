@@ -168,7 +168,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		public StringBuffer dump(StringBuffer sb, Term[] operands) {
 			operands[0].dump(sb);
 			sb.append(" IN (");
-			for(int i = 1; i < operands.length; i++) { 
+			for(int i = 1; i < operands.length; i++) {
 				sb.append(i != 1 ? "," : "");
 				operands[i].dump(sb);
 			}
@@ -177,7 +177,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	}
 	
 	public Op getOp(int opcode) {
-		Integer key = new Integer(opcode); 
+		Integer key = new Integer(opcode);
 		assert opMap.containsKey(key) : "Illegal opcode";
 		return (Op) opMap.get(key);
 	}
@@ -281,7 +281,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		
 		protected static final Term[] EMPTY = new Term[0];
 		 
-		protected static final Term NULL = new ConstantTerm("NULL"); 
+		protected static final Term NULL = new ConstantTerm("NULL");
 		
 		ConstantTerm(String str) {
 			super(new ConstantOpcode(str), EMPTY);
@@ -318,7 +318,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		
 	}
 	
-	private Term makeCond(TypeIdTable table, int tid, boolean isRoot, boolean[][] matrix) { 
+	private Term makeCond(TypeIdTable table, int tid, boolean isRoot, boolean[][] matrix) {
 		
 		boolean useBetween = true;
 		int compatTypesCount = 1;
@@ -327,7 +327,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		if(isRoot)
 			return constant(true);
 		
-		for(int i = 0; i < matrix.length; i++) 
+		for(int i = 0; i < matrix.length; i++)
 			compatTypesCount += matrix[i][tid] ? 1 : 0;
 
 		Term colExpr = expression(col);
@@ -339,9 +339,9 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			break;
 		default:
 			int[] compat = new int[compatTypesCount];
-			compat[0] = tid; 
+			compat[0] = tid;
 			for(int i = 0, index = 1; i < matrix.length; i++) {
-				if(matrix[i][tid]) 
+				if(matrix[i][tid])
 					compat[index++] = i;
 			}
 
@@ -356,14 +356,14 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			
 			for(int i = 0; i < compat.length;) {
 				
-				// Search as long as the numbers a incrementing by one. 
+				// Search as long as the numbers a incrementing by one.
 				int j;
 
 				for(j = i + 1; j < compat.length && compat[j - 1] + 1 == compat[j] && useBetween; j++);
 
-				// If there has been found a list use BETWEEN ... AND ... 
-				if(i != j - 1) { 
-					Term between = expression(BETWEEN_AND, colExpr, 
+				// If there has been found a list use BETWEEN ... AND ...
+				if(i != j - 1) {
+					Term between = expression(BETWEEN_AND, colExpr,
 							constant(compat[i]), constant(compat[j - 1]));
 					
 					res = addExpression(OR, res, between);
@@ -380,11 +380,12 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 				res = addExpression(OR, res, addExpression(EQ, colExpr, constant(setMembers[0])));
 				break;
 			default:
-				Term consts[] = new Term[setMembersCount];
+				Term consts[] = new Term[setMembersCount + 1];
+				consts[0] = colExpr;
 				for(int i = 0; i < setMembersCount; i++)
-					consts[i] = constant(setMembers[i]);
+					consts[i + 1] = constant(setMembers[i]);
 
-				res = addExpression(OR, res, expression(SET_IN, consts)); 
+				res = addExpression(OR, res, expression(SET_IN, consts));
 			}
 			
 		}
@@ -398,7 +399,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	 */
 	public Term isA(Node node, GraphTableFactory factory, TypeID typeID) {
 		NodeType nt = node.getNodeType();
-		return makeCond(factory.nodeTable(node), typeID.getId(nt), nt.isRoot(), 
+		return makeCond(factory.nodeTable(node), typeID.getId(nt), nt.isRoot(),
 				typeID.getNodeTypeIsAMatrix());
 	}
 
@@ -407,7 +408,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	 */
 	public Term isA(Edge edge, GraphTableFactory factory, TypeID typeID) {
 		EdgeType et = edge.getEdgeType();
-		return makeCond(factory.edgeTable(edge), typeID.getId(et), et.isRoot(), 
+		return makeCond(factory.edgeTable(edge), typeID.getId(et), et.isRoot(),
 				typeID.getEdgeTypeIsAMatrix());
 	}
 
@@ -432,7 +433,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			return exp1;
 		else if(exp1 == null)
 			return exp0;
-		else 
+		else
 			return expression(op, exp0, exp1);
 	}
 	
@@ -584,7 +585,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		}
 		
 		public Relation getLeft() {
-			return left; 
+			return left;
 		}
 		
 		public Relation getRight() {
