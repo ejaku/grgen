@@ -540,14 +540,13 @@ public class InformationCollector extends CBackend
 			MatchingAction action = (MatchingAction) act_it.next();
 			Graph pattern = action.getPattern();
 			
-			//ensure that the pattern graph contains at least one node
-			assert ( ! pattern.getNodes().isEmpty() ):
-				"This Backend does not support Rules with an empty pattern graph";
-			
 			//pick out the node with the highest priority as start node
 			int max_prio = 0;
 			//get any node as initial node
-			Node max_prio_node = (Node) pattern.getNodes().iterator().next();
+			Node max_prio_node = null;
+			if(pattern.getNodes().iterator().hasNext()) {
+				max_prio_node = (Node) pattern.getNodes().iterator().next();
+			}
 			for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); ) {
 				Node node = (Node) node_it.next();
 				

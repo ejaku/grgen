@@ -34,13 +34,16 @@ import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class FrameBasedBackend extends MoreInformationCollector implements Backend, BackendFactory
 {
 	
 	private final int OUT = 0;
 	private final int IN = 1;
-	
+
+	protected final boolean emit_subgraph_info = false;
+		
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
@@ -160,7 +163,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		genEvalsCode(sb);
 		writeFile("evals_code.inc", sb);
 		
-		
+		System.out.println("  generating C code for Firm type bindings...");
+
 		System.out.println("  generating XML overview...");
 		
 		// write an overview of all generated Ids
@@ -493,13 +497,26 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				if (i < max_n_negative_patterns - 1) sb.append(",");
 				sb.append("\n");
 			}
-			sb.append("  },\n");
-
+			sb.append("  }");
 			
-			//gen ptr to the array of newly insert edges
-			sb.append(
-				/*"  " + n_new_edges + ", " + new_edges_array + "\n" +*/
-			 "};\n\n");
+			if(emit_subgraph_info) {
+				/* emit subgraph info (#subgraphs, #nodes/edges of subgraph) */
+				sb.append(",\n  " + n_subgraphs[act_id.intValue()] + ",\n  { " );
+
+				for ( int i = 0; i < n_subgraphs[act_id.intValue()]; i++) {
+					sb.append( ((HashSet)nodesOfSubgraph[act_id.intValue()].get(i)).size() );
+					if (i < n_subgraphs[act_id.intValue()]- 1) sb.append(", ");
+				}
+				sb.append(" },\n  { ");
+
+				for ( int i = 0; i < n_subgraphs[act_id.intValue()]; i++) {
+					sb.append( ((HashSet)edgesOfSubgraph[act_id.intValue()].get(i)).size() );
+					if (i < n_subgraphs[act_id.intValue()]- 1) sb.append(", ");
+				}
+				sb.append(" }");
+
+			}
+			sb.append("\n};\n\n");
 			//end of action struct!!!
 
 		}
@@ -528,17 +545,20 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @returns  the number of matcher ops genreated for the given action
 	 */
 	private int op_counter;
+
 	private int genOpSequence(Node startNode, MatchingAction action,
 	    Collection alreadyCheckedConditions, Collection alreadyCheckedTypeConditions, StringBuffer sb)
 	{
 		Collection nodeVisited = new HashSet();
 		Collection nodeNotVisited = new HashSet();
 		Collection edgeVisited = new HashSet();
+		Collection currentSubgraphNodes;
+		Collection currentSubgraph;
 		nodeNotVisited.addAll(action.getPattern().getNodes());
 		
 		int act_id = ((Integer)actionMap.get(action)).intValue();
 		op_counter = 0;
-
+		
 		while( !nodeNotVisited.isEmpty() ) {
 			//pick out the node with the highest priority as start node
 			int max_prio = 0;
@@ -561,18 +581,22 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					max_prio_node = node;
 				}
 			}
-	
+			
+			currentSubgraph = new HashSet();
+			currentSubgraph.add(max_prio_node);
+			
 			nodeVisited.add(max_prio_node);
 			nodeNotVisited.remove(max_prio_node);
 			
+			
 			//gen op for the start node
 			genOp(max_prio_node, null, action, 0,
-				  action.getPattern(), nodeVisited, edgeVisited, alreadyCheckedConditions,
-				  alreadyCheckedTypeConditions, op_counter, sb);
+				  action.getPattern(), nodeVisited, edgeVisited, currentSubgraph,
+				  alreadyCheckedConditions,alreadyCheckedTypeConditions, op_counter, sb);
 			
 			++op_counter;
 			__deep_first_matcher_op_gen(
-				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				nodeVisited, edgeVisited, currentSubgraph, alreadyCheckedConditions,
 				alreadyCheckedTypeConditions, max_prio_node, action, 0, action.getPattern(), sb);
 			
 			nodeNotVisited.removeAll(nodeVisited);
@@ -674,7 +698,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			 ++op_counter;*/
 			__deep_first_matcher_op_gen(
-				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				nodeVisited, edgeVisited, null, alreadyCheckedConditions,
 				alreadyCheckedTypeConditions, start_node, action, neg_pattern_num+1, neg_pattern, sb);
 			
 			nodeNotVisited.removeAll(nodeVisited);
@@ -709,12 +733,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			//gen op for the start node
 			genOp(max_prio_node, null, action, neg_pattern_num+1,
-				  neg_pattern, nodeVisited, edgeVisited, alreadyCheckedConditions,
+				  neg_pattern, nodeVisited, edgeVisited, null, alreadyCheckedConditions,
 				  alreadyCheckedTypeConditions, op_counter, sb);
 			
 			++op_counter;
 			__deep_first_matcher_op_gen(
-				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				nodeVisited, edgeVisited, null, alreadyCheckedConditions,
 				alreadyCheckedTypeConditions, max_prio_node, action, neg_pattern_num+1, neg_pattern, sb);
 			
 			nodeNotVisited.removeAll(nodeVisited);
@@ -738,6 +762,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 */
 	private void __deep_first_matcher_op_gen(
 		Collection nodeVisited, Collection edgeVisited,
+		Collection currentSubgraph,
 		Collection alreadyCheckedConds,
 		Collection alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
@@ -785,10 +810,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 			//...and check whether the current edge has already been visited
 			if ( ! edgeVisited.contains(edge) ) {
+				
 				//if the edge has not been visited yet mark it as visited
+				if(currentSubgraph != null) currentSubgraph.add(edge);
+				
 				genOp(getFarEndNode(edge, node, pattern), edge, action, pattern_num,
-					  pattern, nodeVisited, edgeVisited, alreadyCheckedConds,
-					  alreadyCheckedTypeConds, op_counter, sb);
+					  pattern, nodeVisited, edgeVisited, currentSubgraph,
+					  alreadyCheckedConds, alreadyCheckedTypeConds, op_counter, sb);
 				op_counter++;
 
 				//mark the current edge as visited
@@ -797,12 +825,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//if the far node is not yet visited follow the current edge to
 				//continue the deep first traversal
 				if ( ! nodeVisited.contains(getFarEndNode(edge, node, pattern)) ) {
+					
 					//mark the edge and the far end node as visited
+    				if(currentSubgraph != null) currentSubgraph.add(getFarEndNode(edge, node, pattern));
+					
 					nodeVisited.add(getFarEndNode(edge, node, pattern));
 					//continue recursicly the deep fisrt traversal of the pattern graph
 					__deep_first_matcher_op_gen(
-						nodeVisited, edgeVisited, alreadyCheckedConds,
-						alreadyCheckedTypeConds,
+						nodeVisited, edgeVisited, currentSubgraph,
+						alreadyCheckedConds, alreadyCheckedTypeConds,
 						getFarEndNode(edge, node, pattern),
 						action, pattern_num, pattern, sb);
 				}
@@ -830,6 +861,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					   int pattern_num,
 					   final PatternGraph pattern,
 					   Collection nodeVisited, Collection edgeVisited,
+					   Collection currentSubgraph,
 					   Collection alreadyCheckedConds,
 					   Collection alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb)
@@ -862,6 +894,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		
 		//compute the set of conditions evaluatable in the current op
 		Collection evaluatableConditions = new TreeSet(conditionsComparator);
+		Collection evaluatableGlobalConditions = new TreeSet(conditionsComparator);
 		Collection evaluatableTypeConditions = new TreeSet(typeConditionsComparator);
 		Iterator cond_it = conditions.iterator();
 		for ( ; cond_it.hasNext(); ) {
@@ -878,8 +911,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
-			if (nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges))
-				evaluatableConditions.add(cond);
+			if (nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges)) {
+				if( currentSubgraph == null || ( currentSubgraph.containsAll(involvedNodes) && currentSubgraph.containsAll(involvedEdges) ) ) {
+					/* then this is a "local" condition (only applies to current subgraph) */
+					evaluatableConditions.add(cond);
+				} else {
+					/* if external (not belonging to current op) nodes/edges are involved in this condition */
+					evaluatableGlobalConditions.add(cond);
+				}
+			}
 		}
 		Iterator type_cond_it = typeConditions.iterator();
 		for ( ; type_cond_it.hasNext(); ) {
@@ -903,6 +943,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		//from that evaluatable conditions remove all conditions already cheked
 		//(because it is not necessary to check any condition twice)
 		evaluatableConditions.removeAll(alreadyCheckedConds);
+		evaluatableGlobalConditions.removeAll(alreadyCheckedConds);
 		evaluatableTypeConditions.removeAll(alreadyCheckedTypeConds);
 
 		//get the current edges pattern edge number
@@ -916,9 +957,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 		
 		//check whether there are conditions computable in this op or not
-		String isConditional =
-			(evaluatableConditions.isEmpty() &&
-				evaluatableTypeConditions.isEmpty()) ? "0" : "1";
+		String isConditional;
+		
+		if (evaluatableConditions.isEmpty() &&	evaluatableGlobalConditions.isEmpty() && evaluatableTypeConditions.isEmpty()) {
+			isConditional = "0";
+		} else if (evaluatableGlobalConditions.isEmpty()) {
+			isConditional = "1";
+		} else {
+			isConditional = "2";
+		}
 		
 		//get name indentifier used in the grg-file for the current edge
 		String edgeName = "NULL";
@@ -974,6 +1021,28 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//...otherwise no such array is needed
 			cond_ptr = "NULL";
 		
+		//if there are external conditions evaluatable in the current op...
+		String glob_cond_ptr = "";
+		if (evaluatableGlobalConditions.size() > 0) {
+			cond_ptr = "global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id;
+			//...gen a C-Array of the conditions evaluated by the current op
+			sb.append(
+				"int global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + "[" +
+					(evaluatableGlobalConditions.size()) +
+					"] = { ");
+			Iterator eval_cond_it = evaluatableGlobalConditions.iterator();
+			for ( ; eval_cond_it.hasNext(); ) {
+				Expression cond = (Expression) eval_cond_it.next();
+				sb.append(conditionNumbers.get(cond));
+				if (eval_cond_it.hasNext())
+					sb.append(", ");
+			}
+			sb.append(" };\n");
+		}
+		else
+			//...otherwise no such array is needed
+			glob_cond_ptr = "NULL";
+
 		//gen the C-struct representing the current matcher op
 		if (edge != null) {
 			String edge_ptr;
@@ -990,7 +1059,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"  " + isConditional + ", \"" + edgeName + "\", " +
 					"NULL /* no start node name  */, " + op_direction + ",\n" +
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
-					", " + cond_ptr + "\n" +
+					", " + cond_ptr + ",\n" +
+				"  " + (evaluatableGlobalConditions.size()) +
+					", " + glob_cond_ptr + "\n" +
 				"};\n\n");
 		} else {
 			//egge == null indicates, that a start no op has to be emitted
@@ -1014,12 +1085,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"  " + isConditional + ", NULL, \"" + node_name + "\", " +
 					"fb_dir_out /* no edge, direction does not matter */,\n" +
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
-					", " + cond_ptr + "\n" +
+					", " + cond_ptr + ",\n" +
+				"  " + (evaluatableGlobalConditions.size()) +
+					", " + glob_cond_ptr + "\n" +
 				"};\n\n");
 		}
 		
 		//update the conditions already cheked
 		alreadyCheckedConds.addAll(evaluatableConditions);
+		alreadyCheckedConds.addAll(evaluatableGlobalConditions);
 		alreadyCheckedTypeConds.addAll(evaluatableTypeConditions);
 	}
 
@@ -2197,7 +2271,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						act_id + " ------------------*/\n\n\n");
 				genGraph(
 					sb, pattern, graphName, "pattern_", "_of_action_" + act_id,
-					node_numbers, edge_numbers);
+					node_numbers, edge_numbers, n_subgraphs[act_id], subgraphOfNode, subgraphOfEdge);
 				
 				for(Iterator neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
 					
@@ -2214,7 +2288,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					
 					genGraph(
 						sb, neg_pattern, neg_graphName, "negative_pattern_" + neg_num + "_", "_of_action_" + act_id,
-						neg_node_numbers, neg_edge_numbers);
+						neg_node_numbers, neg_edge_numbers, 0, null, null);
 				}
 			}
 			
@@ -2231,7 +2305,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//gen C-data-structures describing its pattern and replacemant graph
 				genGraph(
 					sb, replacement, graphName, "replacement_",
-					"_of_action_" + act_id, node_numbers, edge_numbers);
+					"_of_action_" + act_id, node_numbers, edge_numbers, 0, null, null);
 			}
 			
 		}
@@ -2266,10 +2340,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"#define fb_MAX_N_NEGATIVE_PATTERNS " + max_n_negative_patterns + "\n" +
 				"#define fb_MAX_N_NEGATIVE_NODES " + max_n_negative_nodes + "\n" +
 				"#define fb_MAX_N_NEGATIVE_EDGES " + max_n_negative_edges + "\n" +
+				"#define fb_MAX_N_SUBGRAPHS " + max_n_subgraphs + "\n" +
 				"\n\n");
 	}
-	
-	
 	
 	
 	/**
@@ -2290,8 +2363,19 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private void genGraph(
 		StringBuffer sb, Graph graph, String graphName,
 		String prefix, String postfix,
-		Map node_numbers, Map edge_numbers)
+		Map node_numbers, Map edge_numbers,
+		int n_subgraphs,
+		Map subgraphOfNode, Map subgraphOfEdge )
 	{
+		if(n_subgraphs <= 0) n_subgraphs = 1;
+		
+		int[] node_index_in_subgraph = new int[n_subgraphs];
+		int[] edge_index_in_subgraph = new int[n_subgraphs];
+		
+		for(int i=0; i<n_subgraphs; i++) {
+			node_index_in_subgraph[i] = 0;
+			edge_index_in_subgraph[i] = 0;
+		}
 		
 		/* gen C-prototypes for all pattern graph nodes */
 		if (graph.getNodes().size() > 0) {
@@ -2326,6 +2410,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					( (Integer)node_numbers.get(graph.getSource(edge)) ).intValue();
 				int tgt_node_num =
 					( (Integer)node_numbers.get(graph.getTarget(edge)) ).intValue();
+				
+				int subgraph = 0;
+				if(subgraphOfEdge != null) {
+					subgraph = ((Integer)subgraphOfEdge.get(edge)).intValue();
+				}
+				
+				int index = edge_index_in_subgraph[subgraph]++;
+				
 				//gen a struct which describes an fb_acts_edge_t
 				sb.append(
 					"fb_acts_edge_t " + prefix + "edge_" + edge_num + postfix +
@@ -2333,8 +2425,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"  " + edge_num + ", \"" + edge.getIdent() + "\"" +
 						", (gr_id_t)" + edge_type +
 						", &" + prefix + "node_" + src_node_num + postfix +
-						", &" + prefix + "node_" + tgt_node_num + postfix +
-						"\n};\n");
+						", &" + prefix + "node_" + tgt_node_num + postfix + ",\n" );
+				
+				if(emit_subgraph_info)
+					sb.append( "  { NULL, NULL }, " + subgraph + ", " + index );
+				
+				sb.append( " };\n" );
 			}
 		sb.append("\n");
 		}
@@ -2348,11 +2444,6 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//for all nodes...
 			for ( ; node_it.hasNext(); )
 			{
-				
-				
-				
-				
-				
 				Node node = (Node) node_it.next();
 				int node_num = ((Integer)node_numbers.get(node)).intValue();
 				int n_out_edges = graph.getOutDegree(node);
@@ -2397,6 +2488,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					sb.append("\n};\n");
 					in_edges_array = "in_edges_of_node_" + node_num + "_of_" + graphName;
 				}
+
+				int subgraph = 0;
+				if(subgraphOfNode != null) {
+					subgraph = ((Integer)subgraphOfNode.get(node)).intValue();
+				}
+				
+				int index = node_index_in_subgraph[subgraph]++;
+				
 				
 				//gen node struct
 				sb.append(
@@ -2407,12 +2506,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"  " + n_out_edges + ", " + out_edges_array + ",\n" +
 					"  /* incomming edges */\n" +
 					"  " + n_in_edges + ", " + in_edges_array + ",\n" +
-					"  { NULL, NULL }\n" +
-					"};\n"); //end of node struct
+					"  { NULL, NULL },\n" );
+				
+				if(emit_subgraph_info)
+					sb.append( "  " + subgraph + ", " + index );
+				
+				sb.append( " };\n" );
 			}
 			sb.append("\n");
 		}
-
 		
 		//gen the array of nodes of the current graph
 		String graph_nodes_array = "NULL";
@@ -2900,6 +3002,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"/* An array mapping enum type ids to enum type descriptors */\n" +
 					"const fb_enum_descr_t fb_enum_type_info[0] = {};\n\n\n");
 	}
+	
 	/*
 	 *  gives a kind tag for a fb backend attr descriptor
 	 */

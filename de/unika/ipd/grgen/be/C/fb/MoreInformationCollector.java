@@ -23,6 +23,7 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ast.AssignNode;
 import de.unika.ipd.grgen.ir.Operator;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class MoreInformationCollector extends InformationCollector
 {
@@ -586,7 +587,133 @@ public class MoreInformationCollector extends InformationCollector
 
 	}
 
-    
+	protected int[] n_subgraphs;
+	protected int max_n_subgraphs;
+	//protected Map[] subGraphMap;
+	protected LinkedList[] nodesOfSubgraph;
+	protected LinkedList[] edgesOfSubgraph;
+	protected Map subgraphOfNode;
+	protected Map subgraphOfEdge;
+	
+	private void collectSubGraphInfo()
+	{
+		n_subgraphs = new int[actionMap.size()];
+		//subGraphMap = new HashMap[actionMap.size()];
+		nodesOfSubgraph = new LinkedList[actionMap.size()];
+		edgesOfSubgraph = new LinkedList[actionMap.size()];
+		subgraphOfNode = new HashMap();
+		subgraphOfEdge = new HashMap();
+		
+		max_n_subgraphs = 0;
+		
+		
+		for ( Iterator act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
+		{
+			MatchingAction action = (MatchingAction) act_it.next();
+			PatternGraph pattern = action.getPattern();
+			int act_id = ((Integer)actionMap.get(action)).intValue();
+			
+			int subgraph = 0;
+			
+			Collection remainingNodes = new HashSet();
+			Collection remainingEdges = new HashSet();
+			
+			remainingNodes.addAll( pattern.getNodes() );
+			remainingEdges.addAll( pattern.getEdges() );
+			
+			nodesOfSubgraph[act_id] = new LinkedList();
+			edgesOfSubgraph[act_id] = new LinkedList();
+			
+			n_subgraphs[act_id] = 0;
+			//subGraphMap[act_id] = new HashMap();
+			
+			
+			while( !remainingNodes.isEmpty() ) {
+				Node node;
+				Collection currentSubgraphNodes = new HashSet();
+				Collection currentSubgraphEdges = new HashSet();
+
+				nodesOfSubgraph[act_id].addLast( currentSubgraphNodes );
+				edgesOfSubgraph[act_id].addLast( currentSubgraphEdges );
+				
+				node = (Node)remainingNodes.iterator().next();
+				remainingNodes.remove(node);
+				
+				subgraphOfNode.put( node, new Integer(subgraph) );
+				currentSubgraphNodes.add(node);
+				
+				__deep_first_collect_subgraph_info(remainingNodes, remainingEdges, currentSubgraphNodes, currentSubgraphEdges, subgraph, node, action, pattern);
+				
+				subgraph++;
+			}
+			n_subgraphs[act_id] = subgraph;
+			
+			if(max_n_subgraphs < subgraph)
+				max_n_subgraphs = subgraph;
+		}
+	}
+	
+	private void __deep_first_collect_subgraph_info(
+		Collection remainingNodes, Collection remainingEdges,
+		Collection currentSubgraphNodes, Collection currentSubgraphEdges,
+		int subgraph,
+		final Node node, MatchingAction action,
+		final PatternGraph pattern)
+	{
+		//final PatternGraph pattern = action.getPattern();
+		
+		//a collection of all edges incident to the current node. The collection
+		//is ordered by the priority of the nodes at the far end of each edge.
+		//nodes without priority get the priority 0.
+		Collection incidentEdges = new HashSet();
+
+		//put all edges incident to the current node in that collection
+		pattern.getOutgoing(node, incidentEdges);
+		pattern.getIncoming(node, incidentEdges);
+		
+		//iterate over all those incident edges...
+		Iterator incident_edge_it = incidentEdges.iterator();
+		for ( ; incident_edge_it.hasNext(); ) {
+			Edge edge = (Edge) incident_edge_it.next();
+
+			//...and check whether the current edge has already been visited
+			if ( remainingEdges.contains(edge) ) {
+				
+				//if the edge has not been visited yet mark it as visited
+				currentSubgraphEdges.add(edge);
+				subgraphOfEdge.put( edge, new Integer(subgraph) );
+				
+
+				//mark the current edge as visited
+				remainingEdges.remove(edge);
+				
+				//if the far node is not yet visited follow the current edge to
+				//continue the deep first traversal
+				if ( remainingNodes.contains(getFarEndNode(edge, node, pattern)) ) {
+					
+					//mark the edge and the far end node as visited
+    				currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
+					subgraphOfNode.put( getFarEndNode(edge, node, pattern), new Integer(subgraph) );
+					
+					remainingNodes.remove(getFarEndNode(edge, node, pattern));
+					//continue recursicly the deep fisrt traversal of the pattern graph
+					__deep_first_collect_subgraph_info(remainingNodes, remainingEdges, currentSubgraphNodes, currentSubgraphEdges, subgraph, getFarEndNode(edge, node, pattern), action, pattern);
+				}
+			}
+		}
+	}
+	
+	private Node getFarEndNode(Edge e, Node fromNode, Graph graph)
+	{
+		Node farEndNode = null;
+		if (graph.getTarget(e) == fromNode)
+			farEndNode = graph.getSource(e);
+		if (graph.getSource(e) == fromNode)
+			farEndNode = graph.getTarget(e);
+		
+		return farEndNode;
+	}
+
 	protected void collectActionInfo()
     {
 		super.collectActionInfo();
@@ -597,6 +724,7 @@ public class MoreInformationCollector extends InformationCollector
 		collectPatternEdgeIsNegativeEdgeInfo();
 		collectNegativePatternConditionsInfo();
 		collectNegativePatternTypeConditionsInfo();
+		collectSubGraphInfo();
     }
 }
 
