@@ -880,8 +880,8 @@ public abstract class SQLBackend extends CBackend {
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
 		makeTypes();
 		
-		tableFactory = new DefaultGraphTableFactory(parameters, nodeAttrMap.keySet(),
-				edgeAttrMap.keySet());
+		tableFactory = new DefaultGraphTableFactory(parameters, nodeAttrMap,
+				edgeAttrMap);
 	}
 	
 	/**
@@ -904,7 +904,8 @@ public abstract class SQLBackend extends CBackend {
 		}
 	}
 	
-	protected void genAttrTableGetAndSet(StringBuffer sb, String name, AttributeTable table) {
+	protected void genAttrTableGetAndSet(StringBuffer sb, String name, 
+			AttributeTable table, Map attrMap) {
 		
 		sb.append("#define GR_HAVE_").append(name.toUpperCase()).append("_ATTR 1\n\n");
 
@@ -913,18 +914,21 @@ public abstract class SQLBackend extends CBackend {
 		sb.append("\";\n\n");
 
 		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
-		for(int i = 0; i < table.columnCount(); i++) {
+		
+		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
+			Entity ent = (Entity) it.next();
 			sb.append("  { \"");
-			table.genGetStmt(sb, table.getColumn(i));
+			table.genGetStmt(sb, table.colEntity(ent));
 			sb.append("\", -1 },\n");
 		}
 		sb.append("  { NULL, -1 }\n");
 		sb.append("};\n\n");
 		
 		sb.append("static prepared_query_t cmd_set_").append(name).append("_attr[] = {\n");
-		for(int i = 0; i < table.columnCount(); i++) {
+		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
+			Entity ent = (Entity) it.next();
 			sb.append("  { \"");
-			table.genUpdateStmt(sb, table.getColumn(i));
+			table.genUpdateStmt(sb, table.colEntity(ent));
 			sb.append("\", -1 },\n");
 		}
 		sb.append("  { NULL, -1 }\n");
@@ -942,8 +946,8 @@ public abstract class SQLBackend extends CBackend {
 		
 		sb.append("\n");
 		
-		genAttrTableGetAndSet(sb, "node", tableFactory.originalNodeAttrTable());
-		genAttrTableGetAndSet(sb, "edge", tableFactory.originalEdgeAttrTable());		
+		genAttrTableGetAndSet(sb, "node", tableFactory.originalNodeAttrTable(), nodeAttrMap);
+		genAttrTableGetAndSet(sb, "edge", tableFactory.originalEdgeAttrTable(), edgeAttrMap);		
 		
 		writeFile("attr_tbl_cmd" + incExtension, sb);
 	}

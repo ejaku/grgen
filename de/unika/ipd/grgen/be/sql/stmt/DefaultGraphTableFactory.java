@@ -6,7 +6,6 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -39,22 +38,16 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	protected final SQLParameters parameters;
 	
 	/** List of node attributes (entities). */
-	protected final Collection nodeAttrs;
+	protected final Map nodeAttrs;
 	
 	/** List of edge attributes (entities). */
-	protected final Collection edgeAttrs;
+	protected final Map edgeAttrs;
 	
 	/** Names of the node table columns. */
 	protected final String[] nodeTableColumns;
 	
 	/** Names of the edge table columns. */
 	protected final String[] edgeTableColumns;
-	
-	/** Map a node attribute to an index. */ 
-	protected final Map nodeAttrIndices = new HashMap();
-	
-	/** Map an edge attribute to an index. */ 
-	protected final Map edgeAttrIndices = new HashMap();
 	
 	/** The int type. */
 	private final DataType intType = new DefaultDataType("int");
@@ -80,7 +73,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	protected final AttributeTable originalEdgeAttrTable;
 
 	public DefaultGraphTableFactory(SQLParameters parameters, 
-			Collection nodeAttrs, Collection edgeAttrs) {
+			Map nodeAttrs, Map edgeAttrs) {
 		
 		this.parameters = parameters;
 		this.nodeAttrs = nodeAttrs;
@@ -110,24 +103,12 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 				getIntType()
 		};
 		
-		int i = 0;
-		for(Iterator it = nodeAttrs.iterator(); it.hasNext(); i++) {
-			nodeAttrIndices.put(it.next(), new Integer(i));
-		}
-
-		i = 0;
-		for(Iterator it = edgeAttrs.iterator(); it.hasNext(); i++) {
-			edgeAttrIndices.put(it.next(), new Integer(i));
-		}
-		
-		
-		
 		originalNodeTable = new DefaultNodeTable();
 		originalEdgeTable = new DefaultEdgeTable();		
 		originalNodeAttrTable = new DefaultAttributeTable(parameters.getTableNodeAttrs(), 
-			parameters.getColNodeAttrNodeId(), nodeAttrIndices);
+			parameters.getColNodeAttrNodeId(), nodeAttrs);
 		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(), 
-			parameters.getColEdgeAttrEdgeId(), nodeAttrIndices);
+			parameters.getColEdgeAttrEdgeId(), edgeAttrs);
 
 	}
 
@@ -142,7 +123,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		final StringBuffer sb = new StringBuffer();
 
 		sb.append(ent.getName()).append("_");
-		sb.append(ent.getOwner().getIdent().toString()).append("_");
+		if(!ent.getOwner().isGlobal())
+			sb.append(ent.getOwner().getIdent().toString()).append("_");
 		sb.append(ent.getIdent().toString());
 		return mangleString(sb.toString()).toString();
 	}
@@ -160,6 +142,9 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			case '$':
 				sb.append(esc);
 				break;
+			case ' ':
+				sb.append(esc);
+				sb.append('_');
 			case esc:
 				sb.append(esc);
 				sb.append(esc);
@@ -428,7 +413,6 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			super(name, alias);
 			this.attrIndices = attrIndices;
 			Set attrs = attrIndices.keySet();
-			
 			cols = new Column[attrs.size() + 1];
 			cols[0] = new SimpleColumn(idCol, getIntType(), this, false); 
 			
@@ -445,6 +429,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		 */
 		public Column colEntity(Entity ent) {
 			Object obj = attrIndices.get(ent);
+			assert obj != null : "" + ent + " " + ent.getId() + " not in table " + getAliasName();
 			if(obj != null && obj instanceof Integer) {
 				int index = ((Integer) obj).intValue() + 1;
 				assert index >= 0 && index < cols.length : "Index is wrong";
@@ -512,7 +497,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	 */
 	public AttributeTable nodeAttrTable(Node node) {
 		return checkAttrTable(parameters.getTableNodeAttrs(), parameters.getColNodeAttrNodeId(),
-			node, nodeAttrIndices);
+			node, nodeAttrs);
 	}
 
 	/**
@@ -520,7 +505,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	 */
 	public AttributeTable edgeAttrTable(Edge edge) {
 		return checkAttrTable(parameters.getTableEdgeAttrs(), parameters.getColEdgeAttrEdgeId(),
-			edge, edgeAttrIndices);
+			edge, edgeAttrs);
 	}
 	
 	
