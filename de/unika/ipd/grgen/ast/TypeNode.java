@@ -13,7 +13,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.ir.Type;
 
 /**
- * An AST node representing a type 
+ * An AST node representing a type
  */
 public abstract class TypeNode extends BaseNode {
 
@@ -22,7 +22,7 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	/**
-	 * Check, if this type is compatible (implicitly castable) or equal 
+	 * Check, if this type is compatible (implicitly castable) or equal
 	 * to <code>t</code>.
 	 * @param t A type.
 	 * @return true, if this type is compatible or equal to <code>t</code>
@@ -34,7 +34,7 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	/**
-	 * Check, if this type is only castable (explicitly castable) 
+	 * Check, if this type is only castable (explicitly castable)
 	 * to <code>t</code>
 	 * @param t A type.
 	 * @return true, if this type is just castable to <code>t</code>.
@@ -67,7 +67,7 @@ public abstract class TypeNode extends BaseNode {
 		return getClass().equals(t.getClass());
 	}
 	
-	/** 
+	/**
 	 * Check, if the type is a basic type (integer, boolean, string, void).
 	 * @return true, if the type is a basic type.
 	 */
@@ -78,7 +78,7 @@ public abstract class TypeNode extends BaseNode {
 	/**
 	 * Put all compatible types which are compatible to this one in a collection
 	 * @param coll The collection to put the compatible types to.
-	 */	
+	 */
 	public final void getCompatibleToTypes(Collection coll) {
 		coll.add(this);
 		doGetCompatibleToTypes(coll);
@@ -90,7 +90,7 @@ public abstract class TypeNode extends BaseNode {
 	
 	/**
 	 * Pit all types this one is castable (implicitly and explicitly) to
-	 * into a collection. 
+	 * into a collection.
 	 * @param coll A collection they are put into.
 	 */
 	public final void getCastableToTypes(Collection coll) {
@@ -100,11 +100,11 @@ public abstract class TypeNode extends BaseNode {
 
 	/**
 	 * This method must be implemented by subclasses.
-	 * You need only put types into the collection, that are subject to 
-	 * explicit casts. The implicit ones are done by 
+	 * You need only put types into the collection, that are subject to
+	 * explicit casts. The implicit ones are done by
 	 * {@link #getCastableTypes(Collection)}.
 	 * @param coll The collection to put them to.
-	 */	
+	 */
 	protected void doGetCastableToTypes(Collection coll) {
 	}
 	
@@ -118,7 +118,7 @@ public abstract class TypeNode extends BaseNode {
 		TypeNode constType = constant.getType();
 		ConstNode res = ConstNode.getInvalid();
 
-		if(isEqual(constType)) {		
+		if(isEqual(constType)) {
 			if(newType.isEqual(constType))
 				res = constant;
 			else if(isCastableTo(newType))
@@ -131,11 +131,11 @@ public abstract class TypeNode extends BaseNode {
 	}
 
 	/**
-	 * Implement this method for your types to implement casts 
+	 * Implement this method for your types to implement casts
 	 * of constants.
 	 * @param constant A constant.
 	 * @return The type casted constant.
-	 */	
+	 */
 	protected ConstNode doCast(TypeNode newType, ConstNode constant) {
 		return ConstNode.getInvalid();
 	}

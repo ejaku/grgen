@@ -15,7 +15,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
 
 /**
- * AST node for a replacement rule. 
+ * AST node for a replacement rule.
  */
 public class RuleDeclNode extends ActionDeclNode {
 
@@ -28,7 +28,7 @@ public class RuleDeclNode extends ActionDeclNode {
 	
 	
 	private static final String[] childrenNames = {
-		declChildrenNames[0], declChildrenNames[1], 
+		declChildrenNames[0], declChildrenNames[1],
 		"left", "right", "redir", "cond", "eval"
 	};
 	
@@ -36,10 +36,10 @@ public class RuleDeclNode extends ActionDeclNode {
 	private static final TypeNode ruleType = new TypeNode() { };
 
 	/** CollectNode checker for the redirections. */
-	private static final Checker redirChecker = 
+	private static final Checker redirChecker =
 		new CollectChecker(new SimpleChecker(RedirectionNode.class));
 		
-	private static final Checker evalChecker = 
+	private static final Checker evalChecker =
 		new CollectChecker(new SimpleChecker(ExprNode.class));
 
 	static {
@@ -56,7 +56,7 @@ public class RuleDeclNode extends ActionDeclNode {
 	 * @param cond The conditions.
 	 * @param eval The evaluations.
 	 */
-  public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, 
+  public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
     BaseNode redir, BaseNode cond, BaseNode eval) {
     
     super(id, ruleType);
@@ -92,7 +92,7 @@ public class RuleDeclNode extends ActionDeclNode {
 			Set leftNodes = left.getNodes();
 			Set rightNodes = right.getNodes();
 			
-			/* 
+			/*
 			 * Check, if the redirections are right.
 			 * This means, that redirection from nodes may only be from
 			 * the left hand side of a rule. The to nodes may only occur
@@ -112,14 +112,14 @@ public class RuleDeclNode extends ActionDeclNode {
 				}
 			}
 			
-			// The right hand side may not contain negated edges.			
+			// The right hand side may not contain negated edges.
 			for(Iterator it = right.getConnections(); it.hasNext();) {
 				BaseNode conn = (BaseNode) it.next();
 				ConnectionCharacter cc = (ConnectionCharacter) conn;
 				if(cc.isNegated()) {
 					conn.reportError("Edge may not be negated on the right hand side");
 					redirs = false;
-				} 
+				}
 			}
 		}
 		
@@ -130,7 +130,7 @@ public class RuleDeclNode extends ActionDeclNode {
 			for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 				ExprNode e = (ExprNode) it.next();
 				
-				if(e.getType().isCompatibleTo(BasicTypeNode.booleanType)) {
+				if(! e.getType().isCompatibleTo(BasicTypeNode.booleanType)) {
 					e.reportError("expression must be of type boolean");
 					cond = false;
 				}
@@ -155,7 +155,7 @@ public class RuleDeclNode extends ActionDeclNode {
 		}
 		
 		
-		return rule;	
+		return rule;
   }
 
 }
