@@ -359,10 +359,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		/** The current join. */
 		Relation currJoin = null;
 
-		StmtContext(Graph graph, TypeStatementFactory factory, GraphTableFactory tableFactory) {
+		StmtContext(Graph graph, TypeStatementFactory factory, GraphTableFactory tableFactory, List excludeNodes) {
 			this.graph = graph;
 			this.factory = factory;
 			this.tableFactory = tableFactory;
+			this.processedNodes.addAll(excludeNodes);
+			this.processedAll.addAll(excludeNodes);
 		}
 		
 		boolean hasAttribute(Entity ent) {
@@ -563,8 +565,37 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 
+	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+		Graph gr  = act.getPattern();
+		Graph neg = act.getNeg(); 
+
+		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
+
+		if (act.hasNeg()) {
+			List excludeNodes = new LinkedList();
+			gr.getNodes(excludeNodes);
+			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, excludeNodes);
+			// simplify select part of inner query, because existence of tuples is sufficient 
+			// in an 'exists' condition
+			inner.clearColumns();
+			
+			// add the inner query to the where part of the outer.
+			Term notEx = factory.expression(Opcodes.NOT, factory.expression(Opcodes.EXISTS, factory.expression(inner)));
+						
+			Term cond = q.getCondition();
+			if (cond==null) {
+				cond = notEx;
+			} else {
+				cond = factory.expression(Opcodes.AND, cond, notEx);
+			}
+			q.setCondition(cond);
+		}
+		return q;
+	}
+
+	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
-			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeTables) {
+			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeNodes) {
 		debug.entering();
 		
 		SearchPath[] paths = computeSearchPaths(graph);
@@ -576,7 +607,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			debug.report(NOTE, sb.toString());
 		}
 
-		StmtContext stmtCtx = new StmtContext(graph, factory, tableFactory);
+		StmtContext stmtCtx = new StmtContext(graph, factory, tableFactory, excludeNodes);
 		
 		// Generate all conditions.
 		for(Iterator it = act.getCondition().get(); it.hasNext();) {

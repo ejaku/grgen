@@ -141,6 +141,7 @@ public class SQLGenerator extends Base {
 		return q;
 	}
 	
+	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
 			GraphTableFactory tableFactory,	TypeStatementFactory factory, List excludeTables) {
 		debug.entering();

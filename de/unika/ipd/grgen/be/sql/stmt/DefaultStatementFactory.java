@@ -503,6 +503,10 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		public Column getColumn(int i) {
 			return (Column) columns.get(i);
 		}
+		
+		public void clearColumns() {
+			columns.clear();
+		}
 
 		public List getRelations() {
 			return relations;
@@ -521,10 +525,15 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			int i = 0;
 			
 			sb.append("SELECT ");
-			for(Iterator it = columns.iterator(); it.hasNext(); i++) {
-				Column c = (Column) it.next();
-				sb.append(i > 0 ? ", " : "");
-				c.dump(sb);
+			
+			if (!columns.iterator().hasNext()) {
+				sb.append("1");
+			} else {
+				for (Iterator it = columns.iterator(); it.hasNext(); i++) {
+					Column c = (Column) it.next();
+					sb.append(i > 0 ? ", " : "");
+					c.dump(sb);
+				}
 			}
 			
 			i = 0;
@@ -608,9 +617,9 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		}
 		
 		public StringBuffer dump(StringBuffer sb) {
+			sb.append("");
 			left.dump(sb);
 
-			sb.append("\n\t");
 			switch(kind) {
 			case LEFT_OUTER:
 				sb.append(" LEFT");
@@ -624,10 +633,8 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			
 			sb.append(" JOIN ");
 			right.dump(sb);
-			sb.append("\n\t\tON ");
-			cond.dump(sb);
-			sb.append("\n");
-			return sb;
+			sb.append(" ON ");
+			return cond.dump(sb);
 		}
 	}
 	

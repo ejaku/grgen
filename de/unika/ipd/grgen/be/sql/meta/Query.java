@@ -19,6 +19,7 @@ public interface Query extends Relation {
 	List getRelations();
 	Term getCondition();
 	void setCondition(Term cond);
+	void clearColumns();
 	
 	void graphDump(GraphDumper dumper);
 
