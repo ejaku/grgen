@@ -181,18 +181,18 @@ public abstract class CBackend extends Base implements Backend {
 	protected void makeTypeDefines(StringBuffer sb, Map typeMap, 
 		String labelAdd) {
 	
-		sb.append("/* Use this macro to check, if an id is a valid type */\n");
+		sb.append("/** Use this macro to check, if an id is a valid type */\n");
 		sb.append("#define GR_" + labelAdd + "_TYPE_VALID(t) "
 			+ "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
 
-		sb.append("/* The number of types defined */\n");
+		sb.append("/** The number of types defined */\n");
 		sb.append("#define GR_" + labelAdd + "_TYPES " + typeMap.size() 
 			+ "\n\n");
 		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
 			Ident id = ty.getIdent();
 			
-			sb.append("/* type " + id + " defined at line " 
+			sb.append("/** type " + id + " defined at line " 
 				+ id.getCoords().getLine() + " */\n"); 
 				
 			sb.append("#define GR_DEF_" + labelAdd + "_TYPE_"  
@@ -209,10 +209,10 @@ public abstract class CBackend extends Base implements Backend {
 	protected void makeAttrDefines(StringBuffer sb, Map attrMap,
 		String labelAdd) {
 
-		sb.append("/* Number of attributes macro for " + labelAdd + " */\n");
+		sb.append("/** Number of attributes macro for " + labelAdd + " */\n");
 		sb.append("#define GR_" + labelAdd + "_ATTRS " + attrMap.size() + "\n\n");
 
-		sb.append("/* Attribute valid macro for " + labelAdd + " */\n");
+		sb.append("/** Attribute valid macro for " + labelAdd + " */\n");
 		sb.append("#define GR_" + labelAdd + "_ATTR_VALID(a) " 
 			+ "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
 
@@ -220,13 +220,27 @@ public abstract class CBackend extends Base implements Backend {
 			Entity ent = (Entity) it.next();
 			Ident id = ent.getIdent();
 				
-			sb.append("/* Attribute " + id + " of "
+			sb.append("/** Attribute " + id + " of "
 				+ ent.getOwner().getIdent() + " in line " 
 				+ id.getCoords().getLine() + " */\n");
 			sb.append("#define GR_DEF_" + labelAdd + "_ATTR_"
 				+ mangle(ent.getOwner()) + "_" 
 				+ mangle(ent) + " " + attrMap.get(ent) + "\n\n"); 
 		}
+	}
+	
+	/**
+	 * Make defines for enum types.
+	 * @param sb The string buffer to add the code to.
+	 * @param map The enum type map.
+	 */
+	protected void makeEnumDefines(StringBuffer sb, Map map)
+	{
+		sb.append("/** Number of enum types. */\n");
+		sb.append("#define GR_DEF_ENUMS " + map.size() + "\n\n");
+		
+		sb.append("/** Use this macro to check, if an id is a valid enum type */\n");
+		sb.append("#define GR_ENUM_TYPE_VALID(t) ((t) >= 0 && (t) < " + map.size() +")\n\n");
 	}
 	
 	/**
@@ -260,10 +274,11 @@ public abstract class CBackend extends Base implements Backend {
 	 * @param sb The string buffer to add the code to.
 	 * @param attrMap The attribute map.
 	 * @param typeMap The type map for these attributes.
+	 * @param enumMap The enum type map.
 	 * @param add A string to add to the identifier of the map.
 	 */
 	protected void makeAttrMap(StringBuffer sb, Map attrMap, 
-		Map typeMap, String add) {
+		Map typeMap, Map enumMap, String add) {
 		
 		String[] name = new String[attrMap.size()];
 		Type[] types = new Type[attrMap.size()];
@@ -280,7 +295,14 @@ public abstract class CBackend extends Base implements Backend {
 		sb.append("/** The attribute map for " + add + " attributes. */\n");
 		sb.append("static const attr_t " + add + "_attr_map[] = {\n");
 		for(int i = 0; i < name.length; i++) {
-			sb.append("  { " + owner[i] + ", " + formatString(name[i]) + ", " + types[i].classify() + " },\n");
+			sb.append("  { " + owner[i] + ", " + formatString(name[i]) + ", " + types[i].classify() + ", ");
+			
+			if (types[i] instanceof EnumType) {
+				int id = getTypeId(enumMap, types[i]);
+				sb.append(id + " },\n");
+			}
+			else
+				sb.append("-1 },\n");
 		}
 		sb.append("  { 0, NULL, 0 }\n};\n\n");
 		
@@ -600,7 +622,7 @@ public abstract class CBackend extends Base implements Backend {
 	protected void makeCTypes(StringBuffer sb) {
 		sb.append("/** The attribute type classification. */\n");
 		sb.append("typedef enum _attribute_type {\n");
-		sb.append("  AT_TYPE_INTEGER = " + Type.IS_INTEGER + ", /**< an integer or enum */\n");
+		sb.append("  AT_TYPE_INTEGER = " + Type.IS_INTEGER + ", /**< an integer */\n");
 		sb.append("  AT_TYPE_BOOLEAN = " + Type.IS_BOOLEAN + ", /**< a boolean */\n");
 		sb.append("  AT_TYPE_STRING  = " + Type.IS_STRING + ", /**< a string */\n");
 		sb.append("} attribute_type;\n\n");
@@ -610,6 +632,7 @@ public abstract class CBackend extends Base implements Backend {
 			+ "  int type_id;       /**< the ID of attributes type */\n"
 			+ "  const char *name;  /**< the name of the attribute */\n"
 			+ "  attribute_type at; /**< the attribute type kind */\n"
+			+ "  int enum_id;       /**< the Id of the enum type or -1 */\n"
 			+ "} attr_t;\n\n");
 			
 		sb.append("/** The type of an action. */\n");
@@ -634,18 +657,24 @@ public abstract class CBackend extends Base implements Backend {
 			+ "  int num_items;       /**< the number of items in this enum type */\n"
 			+ "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
 			+ "} enum_type_decl_t;\n\n");
+			
+		sb.append("/** The type of the enum table. */\n");
+		sb.append("typedef struct {\n"
+			+ "  const enum_type_decl_t *type; /**< declaration of the type */\n"
+			+ "  int type_id;                  /**< the Id of this enum type */\n"
+			+ "} enum_types_t;\n\n");
 	}
 
 	/**
 	 * Dump all enum type declarations to a string buffer.
 	 * 
-	 * @param sb      The string buffer.
-	 * @param enumMap A map containing all enum types.
+	 * @param sb   The string buffer.
+	 * @param map  A map containing all enum types.
 	 */
-	protected void makeEnumDeclarations(StringBuffer sb, Map enumMap)
+	protected void makeEnumDeclarations(StringBuffer sb, Map map)
 	{
 		// build the description of all enum types
-		for(Iterator it = enumMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator it = map.keySet().iterator(); it.hasNext();) {
 			EnumType type = (EnumType) it.next();
 			Ident name = type.getIdent();
 
@@ -660,17 +689,29 @@ public abstract class CBackend extends Base implements Backend {
 			sb.append("};\n\n");
 			
 			sb.append("/** The declaration of the " + name + " enum type. */\n");
-			sb.append("static const enum_type_decl_t " + name + "_decl {\n"
+			sb.append("static const enum_type_decl_t " + name + "_decl = {\n"
 				+ "  \"" + name + "\",\n"
-				+ "  (sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0])),\n"
+				+ "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
 				+ "  _" + name + "_items,\n"
 				+ "};\n\n");
 		}
+	
+		// dump all enums to a table
+		sb.append("/** All enum types. */\n");
+		sb.append("static const enum_types_t enum_types[] = {\n");
 		
-		for(Iterator it = enumMap.keySet().iterator(); it.hasNext();) {
+		String[] names = new String[map.size()];
+		for(Iterator it = map.keySet().iterator(); it.hasNext();) {
 			EnumType type = (EnumType) it.next();
-			Ident name = type.getIdent();
-		}			
+			int index = getTypeId(map, type);
+
+			names[index] = type.getIdent().toString();
+		}
+
+		for(int i = 0; i < map.size(); ++i) {			
+			sb.append("  { &" + names[i] + "_decl, " + i + " },\n");
+		}
+		sb.append("};\n\n");
 	}
 	
   /**
@@ -705,12 +746,13 @@ public abstract class CBackend extends Base implements Backend {
   	
   	// Emit the type defines.
   	sb = new StringBuffer();
-  	sb.append("/* name of the unit */\n");
+  	sb.append("/** name of the unit */\n");
   	sb.append("#define UNIT_NAME " + unitName + "\n\n");
 		makeTypeDefines(sb, nodeTypeMap, "NODE");
 		makeTypeDefines(sb, edgeTypeMap, "EDGE");
 		makeAttrDefines(sb, nodeAttrMap, "NODE");
 		makeAttrDefines(sb, edgeAttrMap, "EDGE");
+		makeEnumDefines(sb, enumMap);
 		writeFile("graph" + incExtension, sb);
 
 		sb = new StringBuffer();
@@ -732,8 +774,8 @@ public abstract class CBackend extends Base implements Backend {
 		sb = new StringBuffer();				
 		makeTypeMap(sb, nodeTypeMap, "node");
 		makeTypeMap(sb, edgeTypeMap, "edge");
-		makeAttrMap(sb, nodeAttrMap, nodeTypeMap, "node");
-		makeAttrMap(sb, edgeAttrMap, edgeTypeMap, "edge");
+		makeAttrMap(sb, nodeAttrMap, nodeTypeMap, enumMap, "node");
+		makeAttrMap(sb, edgeAttrMap, edgeTypeMap, enumMap, "edge");
   	writeFile("names" + incExtension, sb);
   	
   	sb = new StringBuffer();
