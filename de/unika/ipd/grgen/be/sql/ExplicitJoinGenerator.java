@@ -211,8 +211,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private SearchPath[] computeSearchPaths(Graph pattern) {
 		
-		Collection rest = pattern.getNodes(new HashSet());
-		Iterator edgeIterator = pattern.getEdges();
+		Collection rest = new HashSet(pattern.getNodes());
+		Iterator edgeIterator = pattern.getEdges().iterator();
 		Comparator comparator = new NodeComparator(pattern);
 		
 		debug.report(NOTE, "all nodes" + rest);
@@ -591,7 +591,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			stmtCtx.allCondEntities.addAll(usedColumns);
 		}
 		debug.report(NOTE, "entities with attribs: " + stmtCtx.allCondEntities);
-		
+
+		Collection restEdges = new HashSet();
+		Collection singleNodes = new HashSet();
 		
 		//Iterate over all these graphs and generate the statement
 		for (Iterator iter = graphs.iterator(); iter.hasNext();) {
@@ -650,7 +652,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			// These edges do not occurr in the DFS tree spanned by visitNode()
 			// but their existence, incidence situation and type must be checked.
 			// So process them here.
-			Collection restEdges = graph.getEdges(new HashSet());
+			restEdges.clear();
+			restEdges.addAll(graph.getEdges());
 			restEdges.removeAll(stmtCtx.processedEdges);
 			
 			for(Iterator it = restEdges.iterator(); it.hasNext();) {
@@ -661,7 +664,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			// Now, put all single nodes to the query.
 			// The single nodes must be the nodes which have not yet been processed.
-			Collection singleNodes = graph.getNodes(new HashSet());
+			singleNodes.clear();
+			singleNodes.addAll(graph.getNodes());
 			singleNodes.removeAll(stmtCtx.processedNodes);
 			
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
@@ -696,8 +700,11 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					columns.add(tableFactory.nodeTable(node).colId());
 				}
 				
+				matchedEdges.clear();
+				matchedEdges.addAll(graph.getEdges());
+				
 				// One for the edges.
-				for(Iterator it = graph.getEdges(matchedEdges).iterator(); it.hasNext();) {
+				for(Iterator it = matchedEdges.iterator(); it.hasNext();) {
 					Edge edge = (Edge) it.next();
 					columns.add(tableFactory.edgeTable(edge).colId());
 				}
@@ -734,10 +741,10 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private Term getNacConds(MatchingAction act, TypeStatementFactory factory, GraphTableFactory tableFactory) {
 		//The nodes and edges of the pattern part
-		Collection patNodes = new HashSet();
-		Collection patEdges = new HashSet();
-		act.getPattern().getNodes(patNodes);
-		act.getPattern().getEdges(patEdges);
+		Collection patNodes = act.getPattern().getNodes();
+		Collection patEdges = act.getPattern().getEdges();
+		Collection negNodes = new HashSet();
+		Collection negEdges = new HashSet();
 		
 		//For all negative parts
 		Term nacCond = null;
@@ -745,12 +752,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Graph neg = (Graph) it.next();
 			
 			//Get the elements to generate for
-			Collection negNodes = new HashSet();
-			neg.getNodes(negNodes);
+			negNodes.clear();
+			negNodes.addAll(neg.getNodes());
 			negNodes.removeAll(patNodes);
-			
-			Collection negEdges = new HashSet();
-			neg.getEdges(negEdges);
+
+			negEdges.clear();
+			negEdges.addAll(neg.getEdges());
 			negEdges.removeAll(patEdges);
 			
 			//Now generate the subterm for one negative part

@@ -70,32 +70,24 @@ public class SQLGenerator extends Base {
 		return new MatchCtx(system, action, factory);
 	}
 	
-	public final String genMatchStatement(MatchCtx matchCtx) {
+	public final Query genMatchStatement(MatchCtx matchCtx) {
 		
 		Sys system = matchCtx.system;
 		Query q = makeMatchStatement(matchCtx);
 		
-		MultiplexOutputStream mos = new MultiplexOutputStream();
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		
-		mos.addStream(bos);
-		
 		if(matchCtx.system.backendEmitDebugFiles()) {
+			PrintStream ps;
 			
 			String debFilePart = "stmt_" + matchCtx.action.getIdent();
-			mos.addStream(system.createDebugFile(new File(debFilePart + ".txt")));
+			ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".txt")));
+			q.dump(ps);
 			
-			PrintStream ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".vcg")));
+			ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".vcg")));
 			GraphDumper dumper = new VCGDumper(ps);
 			q.graphDump(dumper);
 		}
 		
-		PrintStream ps = new PrintStream(mos);
-		q.dump(ps);
-		ps.flush();
-		ps.close();
-		
-		return bos.toString();
+		return q;
 	}
 	
 	protected Query makeMatchStatement(MatchCtx ctx) {
@@ -136,7 +128,7 @@ public class SQLGenerator extends Base {
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
 		
-		Collection nodes = graph.getNodes(new HashSet());
+		Collection nodes = graph.getNodes();
 		Collection edges = new HashSet();
 		
 		List nodeTables = new LinkedList();
@@ -306,19 +298,21 @@ public class SQLGenerator extends Base {
 	 * @param a The assignment.
 	 * @param factory A factory.
 	 * @param ms A marker source.
+	 * @param usedEntities A collection where all the used entities are put into.
 	 * @return An update statement for the assignment.
 	 */
 	public ManipulationStatement genEvalUpdateStmt(Assignment a,
 																								 MetaFactory factory,
-																								 MarkerSource ms) {
+																								 MarkerSource ms,
+																								 Collection usedEntities) {
 		
 		Qualification tgt = a.getTarget();
 		Expression expr = a.getExpression();
 		Column col = getQualCol(tgt, factory, true);
 		IdTable table = (IdTable) col.getRelation();
-
+		
 		Term term = genExprSQL(expr, ms, factory,
-													 ReadOnlyCollection.EMPTY,
+													 usedEntities,
 													 new UpdateQualGen(tgt.getOwner()));
 		
 		List cols = Collections.singletonList(col);
@@ -518,6 +512,7 @@ public class SQLGenerator extends Base {
 	}
 	
 }
+
 
 
 
