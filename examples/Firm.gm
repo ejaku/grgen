@@ -1,12 +1,11 @@
 /*
  * Project:     GRS
- * File name:   firm.grg
- * Purpose:     A specification of firm,
- *		as well as some optimizing graph replacements.
+ * File name:   Firm.gm
+ * Purpose:     A specification of Firm for use with GrGen
  * Author:      Rubino Geiss
  * Mowified by:
  * Created:     10.9.2003
- * Copyright:   (c) 2003 Universitaet Karlsruhe
+ * Copyright:   (c) 2004 Universitaet Karlsruhe
  * Licence:     GPL
  */
 
@@ -89,7 +88,8 @@ node class Primitive extends Type;
 edge class is_subtype_of extends FIRM_edge
 	connect Class [*] -> Class [*]; 	// Subclass -> Superclass
 edge class member extends FIRM_edge
-	connect	Compound [*] -> Entity [1];
+                // Entities may or may not be an Compound member: [0:1]
+	connect	Compound [*] -> Entity [0:1];
 edge class parameter extends FIRM_edge 
 	connect	Method [*] -> Type [*] {
 	position : int;
@@ -102,10 +102,22 @@ edge class element_type extends FIRM_edge
 	connect	Array [1] -> Type [*];
 edge class element_ent extends FIRM_edge
 	connect	Array [1] -> Entity [*];
+
+
+/* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   TODO XXX const_code_irg is not walked by wif.do_block 
+   TODO: Implement upper / lower in firm2grs.c
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
 edge class lower extends FIRM_edge 		// TODO: multidim arrays???
-	connect	Array [1] -> IR_node [*];
+	connect	Array [*] -> IR_node [*] {
+	position : int;
+}
 edge class upper extends FIRM_edge
-	connect	Array [1] -> IR_node [*];
+	connect	Array [*] -> IR_node [*] {
+	position : int;
+}
+
 edge class named_value extends FIRM_edge 	// Enum -> Tarval
 	connect Enum [*] -> Tarval [*] {	// TODO: empty Enums [+]???
 	name : string;
@@ -128,7 +140,9 @@ node class Tarval extends FIRM_node {
 edge class has_mode extends FIRM_edge
 	connect	Tarval    [1] -> Mode [*],
 		Pointer   [1] -> Mode [*],
-		Primitive [1] -> Mode [*];
+		Primitive [1] -> Mode [*],
+		Method    [1] -> Mode [*],
+                IR_node   [1] -> Mode [*];
 edge class has_entity extends FIRM_edge
 	connect	Tarval [1] -> Entity [*];
 
@@ -167,7 +181,7 @@ edge class init_entity extends FIRM_edge;
 //	connect Entity -> Entity (of Init);	// TODO arity ???
 
 edge class graph extends FIRM_edge
-	connect Entity [1] -> Method_IRG [*];
+	connect Entity [0:1] -> Method_IRG [*];
 
 edge class type extends FIRM_edge
 	connect Entity [1] -> Type [*];
@@ -197,9 +211,7 @@ edge class frame_type extends FIRM_edge
 edge class belong_to extends FIRM_edge
 	connect Block -> Method_IRG;
 
-node class IR_node extends FIRM_node {
-	arity : int;
-}
+node class IR_node extends FIRM_node;
 
 node class Ordinary;
 node class Special;
@@ -227,6 +239,9 @@ node class Raise extends IR_node, Controlflow;
 
 node class Const extends IR_node, Ordinary {
 	value : string;			// tarval coded as string
+}
+node class IntConst extends Const {
+	intval : int;			// tarval coded as string
 }
 
 node class SymConst extends IR_node, Ordinary {
@@ -312,8 +327,12 @@ edge class flow extends FIRM_edge
 
 edge class df extends flow;		// IR_node -> IR_node, data flow
 edge class mem extends df;		// IR_node -> IR_node, memory
+edge class tuple extends df;		// Edges of Mode Tuple
 edge class cf extends flow		// control flow 
-	connect Block -> IR_node;
+	connect IR_node [1] -> Block [*],
+                // We cannot distinguish ProjI etc from ProjXi: therefor 0
+                // ProjX form Start has 2 successors
+	        Block   [*] -> Proj  [0:2];
 	
 /**********************************************
  * Extensions                                 *
