@@ -382,10 +382,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 
 			if (graphIsNAC && !graph.isSubOf(act.getPattern())) {
-				having = factory.addExpression(Opcodes.AND, having,
-											   factory.expression(Opcodes.ISNULL,
-																  factory.expression(
-																	  factory.aggregate(Aggregate.SUM, seq.getLastTableJoined().colId()))));
+				Term count = factory.expression(factory.aggregate(Aggregate.COUNT, seq.getLastTableJoined().colId()));
+			    having = factory.addExpression(Opcodes.AND, having,
+											   factory.expression(Opcodes.EQ, count, factory.constant(0)));
 			}
 
 			if(!seq.haveJoins()) {
