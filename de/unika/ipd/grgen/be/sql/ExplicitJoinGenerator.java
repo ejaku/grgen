@@ -430,7 +430,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		NodeTable nodeTable = tableFactory.nodeTable(node);
 
 		// Make type constraints
-		Term res = factory.isA(node, tableFactory, typeID);
+		Term res = factory.isA(nodeTable, node.getNodeType(), typeID);
 		
 		// Make the clauses guaranteeing injectiveness
 		for(Iterator it = ctx.processedNodes.iterator(); it.hasNext();) {
@@ -523,7 +523,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			// Also add conditions restricting the edge type here.
 			cond = factory.addExpression(Opcodes.AND, cond,
-				factory.isA(edge, tableFactory, typeID));
+				factory.isA(edgeTable, edge.getEdgeType(), typeID));
 
 			// Mark the edge as processed.
 			ctx.markProcessed(edge);
