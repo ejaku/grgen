@@ -68,8 +68,6 @@ public abstract class SQLBackend extends CBackend {
 
   protected String nodeTypeIsAFunc;
 
-  protected String inc_extension;
-
   protected Map matchMap = new HashMap();
 
 
@@ -97,7 +95,6 @@ public abstract class SQLBackend extends CBackend {
     colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
     
     limitQueryResults = prefs.getInt("limitQueryResults", 0);
-    inc_extension = prefs.get("limitQueryResults", "inc");
   }
 
   /**
@@ -658,7 +655,7 @@ public abstract class SQLBackend extends CBackend {
     // Make some additional types needed for the action implementation.
     sb = new StringBuffer();
     makeActionTypes(sb);
-    writeFile("action_types" + inc_extension, sb);
+    writeFile("action_types" + incExtension, sb);
 
     // Make action information
     sb = new StringBuffer();
@@ -680,13 +677,13 @@ public abstract class SQLBackend extends CBackend {
           + " },\n");
     }
     sb.append("};\n");
-    writeFile("action_impl_map" + inc_extension, sb);
+    writeFile("action_impl_map" + incExtension, sb);
 
     // Emit the settings specified in the grgen config file.
     // these contain table and column names, etc.
     sb = new StringBuffer();
     addSettings(sb);
-    writeFile("settings." + inc_extension, sb);
+    writeFile("settings" + incExtension, sb);
   }
 
   /**
