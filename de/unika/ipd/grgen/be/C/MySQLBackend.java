@@ -6,81 +6,57 @@ package de.unika.ipd.grgen.be.C;
 
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultMarkerSource;
+import de.unika.ipd.grgen.util.ReadOnlyCollection;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Properties;
 
 /**
- * SQL Generator routines special to MySQL. 
+ * SQL Generator routines special to MySQL.
  */
 public class MySQLBackend extends SQLBackend implements BackendFactory {
-
-  /**
-   * @see de.unika.ipd.grgen.be.C.SQLGenerator#getIdType()
-   */
-  protected String getIdType() {
-    return "INT";
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.be.C.SQLBackend#getBooleanType()
-   */
-  protected String getBooleanType() {
-	  return "TINYINT";
-  }
-
-  /**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getFalseValue()
-	 */
-  protected String getFalseValue() {
-	  return "0";
-  }
-
-  /**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getTrueValue()
-	 */
-	protected String getTrueValue() {
-		return "1";
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.be.C.SQLBackend#getIntType()
-   */
-  protected String getIntType() {
-	  return "INT";
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.be.C.SQLBackend#getStringType()
-   */
-  protected String getStringType() {
-		//	might use VARCHAR(n) here ?
-	  return "TEXT";
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.be.C.SQLGenerator#genQuery(java.lang.StringBuffer, java.lang.String)
-   */
-  protected void genQuery(StringBuffer sb, String query) {
-		sb.append("query(MYSQL_PARAM, " + query + ");\n");
-  }
-
-  /* (non-Javadoc)
-   * @see de.unika.ipd.grgen.be.C.SQLBackend#firstIdMarker(java.lang.String)
-   */
-  String firstIdMarker(String fmt, String p_fmt) {
-		return nextIdMarker(fmt, p_fmt);
-  }
-
-  /* (non-Javadoc)
-   * @see de.unika.ipd.grgen.be.C.SQLBackend#nextIdMarker(java.lang.String)
-   */
-  String nextIdMarker(String fmt, String p_fmt) {
-		return fmt;
-  }
-
+	
+	private static class MyMarkerSource extends DefaultMarkerSource {
+		public String nextMarkerString(DataType type) {
+			return "?";
+		}
+	};
+	
+	private final Properties props = new Properties();
+	
+	public MySQLBackend() {
+		props.put(TYPE_ID, "int");
+		props.put(TYPE_INT, "int");
+		props.put(TYPE_STRING, "text");
+		props.put(TYPE_BOOLEAN, "tinyint");
+		props.put(VALUE_TRUE, "true");
+		props.put(VALUE_FALSE, "false");
+		props.put(VALUE_NULL, "NULL");
+	}
+	
 	/**
- 	 * @see de.unika.ipd.grgen.be.BackendCreator#getBackend()
- 	 */
+	 * Get SQL properties.
+	 * This method must return a properties object which
+	 * contains values for the TYPE_* and VALUE_* keys
+	 * in this class.
+	 * @return A properties object.
+	 */
+	protected Properties getSQLProperties() {
+		return props;
+	}
+	
+	public MarkerSource getMarkerSource() {
+		return new MyMarkerSource();
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.BackendCreator#getBackend()
+	 */
 	public Backend getBackend() {
 		return this;
 	}
-
+	
 }

@@ -4,12 +4,12 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.util.ArrayIterator;
+import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import de.unika.ipd.grgen.util.ArrayIterator;
 
 /**
  * A replacement rule.
@@ -21,12 +21,10 @@ public class Rule extends MatchingAction {
 	};
 	
 	/** The right hand side of the rule. */
-	private Graph right;
+	private final Graph right;
 	
-	/**
-	 * The evaluation of this rule.
-	 */
-	private Evaluation evaluation = new Evaluation();
+	/** The evaluation assignments of this rule. */
+	private final Collection evals = new LinkedList();
 	
 	/**
 	 * Make a new rule.
@@ -41,13 +39,21 @@ public class Rule extends MatchingAction {
 		right.setNameSuffix("replace");
 		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
+
+	/**
+	 * Get the eval assignments of this rule.
+	 * @return A collection containing all eval assignments.
+	 */
+	public Collection getEvals() {
+		return ReadOnlyCollection.getSingle(evals);
+	}
 	
 	/**
-	 * Return a list of evaluations.
-	 * @return The evaluations.
+	 * Add an assignment to the list of evaluations.
+	 * @param a The assignment.
 	 */
-	public Evaluation getEvaluation() {
-		return evaluation;
+	public void addEval(Assignment a) {
+		evals.add(a);
 	}
 	
 	/**
@@ -102,12 +108,5 @@ public class Rule extends MatchingAction {
 	 */
 	public Graph getRight() {
 		return right;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object[] { pattern, right, evaluation });
 	}
 }

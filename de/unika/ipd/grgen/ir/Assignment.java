@@ -14,41 +14,28 @@ import de.unika.ipd.grgen.util.ArrayIterator;
  */
 public class Assignment extends IR {
 	
-	private static final String[] childrenNames = { "lhs", "rhs" };
-	
 	/** The lhs of the assignment. */
-	private IR lhs;
+	private Qualification target;
 	
 	/** The rhs of the assignment. */
-	private IR rhs;
+	private Expression expr;
 	
-	public Assignment(Qualification lhs, IR rhs) {
-		super("assign");
-		setChildrenNames(childrenNames);
-		this.lhs = lhs;
-		this.rhs = rhs;
+	public Assignment(Qualification target, Expression expr) {
+		super("assignment");
+		this.target = target;
+		this.expr = expr;
 	}
 	
-	public Object getLhs() {
-		return lhs;
+	public Qualification getTarget() {
+		return target;
 	}
 	
-	public Object getRhs() {
-		return rhs;
+	public Expression getExpression() {
+		return expr;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-	public String getNodeLabel() {
-		return getName() + " " + lhs + " := " + rhs;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object[] {lhs, rhs });
+	public String toString() {
+		return getTarget() + " = " + getExpression();
 	}
 	
 }

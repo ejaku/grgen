@@ -23,6 +23,7 @@ public interface GraphDumper {
 	void finish();
 	
 	void beginSubgraph(GraphDumpable d);
+	void beginSubgraph(String name);
 	void endSubgraph();
 	
 	void node(GraphDumpable d);

@@ -83,10 +83,12 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		handler.deleteEdgesOfNodes(w);
 		handler.deleteNodes(w);
 		
-		
 		w = right.getEdges(new HashSet());
 		w.removeAll(commonEdges);
 		handler.insertEdges(w);
+		
+		// Finally the evaluations.
+		handler.generateEvals(r.getEvals());
 		
 		// ... and the finish function.
 		handler.finish();

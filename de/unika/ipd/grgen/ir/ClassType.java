@@ -12,7 +12,7 @@ import de.unika.ipd.grgen.util.MultiIterator;
 
 /**
  * A class that represents a class.
- * That is a compound with inheritance. 
+ * That is a compound with inheritance.
  */
 public class ClassType extends CompoundType {
 
@@ -26,15 +26,5 @@ public class ClassType extends CompoundType {
   public ClassType(String name, Ident ident) {
     super(name, ident);
     extendsTypes = new LinkedList();
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-  	return new MultiIterator(new Iterator[] {
-	  	super.getWalkableChildren(),
-	  	extendsTypes.iterator()
-  	});
   }
 }

@@ -92,6 +92,15 @@ public interface StatementFactory {
 	Term expression(Query query);
 
 	/**
+	 * Make an expression of a marker.
+	 * This can be used to generate prepared statement with placeholders.
+	 * @param markerSource The marker source.
+	 * @param type The data type the marker shall represent.
+	 * @return The corresponding term.
+	 */
+	Term markerExpression(MarkerSource markerSource, DataType type);
+	
+	/**
 	 * Make a constant from an integer.
 	 * @param integer The integer.
 	 * @return An expression.
@@ -152,8 +161,9 @@ public interface StatementFactory {
 	 * @param having The having condition.
 	 * @return The query.
 	 */
-	Query simpleQuery(List columns, List relations, Term cond, List groupBy, Term having);
-
+	Query simpleQuery(List columns, List relations, Term cond,
+										List groupBy, Term having);
+	
 	/**
 	 * Make a query with explicitly given joins.
 	 * @param distinct if true, the query will be distinct, i.e.
@@ -178,5 +188,15 @@ public interface StatementFactory {
 	 * @return The relation expressing the join.
 	 */
 	Join join(int kind, Relation left, Relation right, Term cond);
-
+	
+	/**
+	 * Make an update statement.
+	 * @param rel The relation to update.
+	 * @param columns A list of columns that shall be updated.
+	 * @param exprs A list of terms that express the new value
+	 * for each column. There must be exactly as many terms as
+	 * there are columns.
+	 * @param cond The condition for the update.
+	 */
+	ManipulationStatement makeUpdate(Table table, List columns, List exprs, Term cond);
 }

@@ -85,9 +85,8 @@ public class Node extends ConstraintEntity {
 	 */
 	public void addHomomorphic(Node n) {
 		homomorphicNodes.add(n);
-		/* removed because symmetry is added in grgen.g in rule patternNodeDecl
-		 n.homomorphicNodes.add(this);
-		*/
+		n.homomorphicNodes.add(this);
+		/* removed because symmetry is added in grgen.g in rule patternNodeDecl */
 	}
 	
 	/**

@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.util.XMLDumpable;
 /**
  * Base class for all IR classes.
  */
-public abstract class IR extends Base implements Walkable, GraphDumpable, XMLDumpable {
+public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 
 	protected static final Iterator emptyIterator =
 	  new ArrayIterator(new Object[] { });

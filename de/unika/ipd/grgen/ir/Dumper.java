@@ -6,19 +6,23 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.GraphDumperFactory;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.GraphDumperFactory;
 
+/**
+ * A custim dumper for the IR.
+ */
 public class Dumper {
 	
-	
+	/** Draw edges between graphs. */
 	private final boolean interGraphEdges;
 	
+	/** The factory to get a dumper from. */
 	private final GraphDumperFactory dumperFactory;
 	
 	public Dumper(GraphDumperFactory dumperFactory,
@@ -65,9 +69,10 @@ public class Dumper {
 		Graph pattern = act.getPattern();
 		Collection graphs = new LinkedList();
 		
-		
-		if(act instanceof Rule)
-			graphs.add(((Rule) act).getRight());
+		if(act instanceof Rule) {
+			Rule r = (Rule) act;
+			graphs.add(r.getRight());
+		}
 		
 		for(Iterator it = act.getNegs(); it.hasNext();)
 			graphs.add(it.next());
@@ -95,7 +100,31 @@ public class Dumper {
 				}
 			}
 		}
-		
+
+		if(act instanceof Rule) {
+			Rule r = (Rule) act;
+			graphs.add(r.getRight());
+			Collection evals = r.getEvals();
+			
+			if(!evals.isEmpty())
+				gd.beginSubgraph("evals");
+			
+			for(Iterator it = evals.iterator(); it.hasNext();) {
+				Assignment a = (Assignment) it.next();
+				Qualification target = a.getTarget();
+				Expression expr = a.getExpression();
+				
+				gd.node(a);
+				gd.node(target);
+				gd.edge(a, target);
+				dump(expr, gd);
+				gd.edge(a, expr);
+			}
+			
+			if(!evals.isEmpty())
+				gd.endSubgraph();
+		}
+	
 		gd.endSubgraph();
 	}
 	

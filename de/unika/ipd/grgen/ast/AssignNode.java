@@ -5,6 +5,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
@@ -35,8 +36,10 @@ public class AssignNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		if(checkChild(LHS, DeclExprNode.class)) {
-			DeclExprNode de = (DeclExprNode) getChild(LHS);
+		boolean lhsOk = checkChild(LHS, QualIdentNode.class);
+		boolean rhsOk = checkChild(RHS, ExprNode.class);
+		
+		if(lhsOk) {
 			QualIdentNode qual = (QualIdentNode) getChild(LHS);
 			DeclNode owner = qual.getOwner();
 			BaseNode ty = owner.getDeclType();
@@ -49,11 +52,9 @@ public class AssignNode extends BaseNode {
 					return false;
 				}
 			}
-			
-			return true;
 		}
 		
-		return false;
+		return lhsOk && rhsOk;
 	}
 	
 	/**
@@ -62,7 +63,7 @@ public class AssignNode extends BaseNode {
 	 */
 	protected IR constructIR() {
 		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
-		return new Assignment(qual, getChild(RHS).getIR());
+		return new Assignment(qual, (Expression) getChild(RHS).checkIR(Expression.class));
 	}
 	
 }

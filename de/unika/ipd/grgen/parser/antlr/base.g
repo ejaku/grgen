@@ -200,7 +200,7 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 assignment returns [ BaseNode res = env.initNode() ]
   { BaseNode q, e; }
   : q=qualIdent a:ASSIGN e=expr {
-  	return new AssignNode(getCoords(a), q, e);
+  	res = new AssignNode(getCoords(a), q, e);
   }
 ;
 
@@ -356,7 +356,7 @@ unaryExpr returns [ BaseNode res = env.initNode() ]
 	;
 	
 primaryExpr returns [ BaseNode res = env.initNode() ]
-	: res=qualIdent
+	: res=qualIdentExpr
 	| res=identExpr
 	| res=constant
 	| LPAREN res=expr RPAREN
@@ -394,10 +394,12 @@ qualIdent returns [ BaseNode res = env.initNode() ]
 	{ BaseNode id; }
 	: res=entIdentUse (d:DOT id=entIdentUse {
 		  res = new QualIdentNode(getCoords(d), res, id);
-  	})+ {
-		res = new DeclExprNode(res);
-	}
+  	})+
 	;
+	
+qualIdentExpr returns [ BaseNode res = env.initNode() ]
+  : res=qualIdent { res = new DeclExprNode(res); }
+  ;
 
 
 

@@ -327,10 +327,10 @@ public class Main extends Base implements Sys {
 		debugPath.mkdirs();
 		File debFile = new File(debugPath, file.getName());
 		try {
-			return new FileOutputStream(debFile);
+			return new BufferedOutputStream(new FileOutputStream(debFile));
 		} catch (FileNotFoundException e) {
 			errorReporter.error("cannot open debug file " + debFile.getPath());
-			return new NullOutputStream();
+			return NullOutputStream.STREAM;
 		}
 	}
 	
@@ -359,7 +359,7 @@ public class Main extends Base implements Sys {
 		walker.walk(node);
 		vcg.finish();
 	}
-
+	
 	
 	private void buildIR() {
 		irUnit = ((UnitNode) root).getUnit();
@@ -458,24 +458,24 @@ public class Main extends Base implements Sys {
 		buildIR();
 		buildIR += System.currentTimeMillis();
 		
-		// Dump the IR.
-		if(dumpIR) {
-			dumpVCG(irUnit, new GraphDumpVisitor(), "ir");
-			
-			OutputStream os = createDebugFile(new File("ir.xml"));
-			XMLDumper dumper = new XMLDumper(new PrintStream(os));
-			dumper.dump(irUnit);
-		}
-		
 		GraphDumperFactory factory = new VCGDumperFactory(this);
 		Dumper dumper = new Dumper(factory, false);
 		
-		if(dumpIR)
-			dumper.dumpComplete(irUnit, "ir2");
-		
-		if(dumpRules)
-			dumper.dump(irUnit);
-		
+		// Dump the IR.
+		if(dumpIR) {
+			dumper.dumpComplete(irUnit, "ir");
+	
+			if(dumpRules)
+				dumper.dump(irUnit);
+			
+			
+			OutputStream os = createDebugFile(new File("ir.xml"));
+			PrintStream ps = new PrintStream(os);
+			XMLDumper xmlDumper = new XMLDumper(ps);
+			xmlDumper.dump(irUnit);
+			ps.flush();
+			ps.close();
+		}
 		
 		debug.report(NOTE, "finished");
 		

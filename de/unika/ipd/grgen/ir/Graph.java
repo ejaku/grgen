@@ -42,15 +42,6 @@ public class Graph extends IR {
 		}
 		
 		/**
-		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-		 */
-		public Iterator getWalkableChildren() {
-			return new MultiIterator(new Collection[] {
-						outgoing, incoming
-					});
-		}
-		
-		/**
 		 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
 		 */
 		public String getNodeId() {
@@ -75,18 +66,12 @@ public class Graph extends IR {
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
 		
-		/**
-		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-		 */
-		public Iterator getWalkableChildren() {
-			assert source != null && target != null : "edge must be initalized";
-			return new ArrayIterator(new Object[] {
-						source, target
-					});
-		}
-		
 		public String getNodeId() {
 			return nodeId;
+		}
+		
+		public int getNodeShape() {
+			return GraphDumper.RHOMB;
 		}
 
 		public String getNodeInfo() {
@@ -374,13 +359,6 @@ public class Graph extends IR {
 	public void addSingleNode(Node node) {
 		getOrSetNode(node);
 	}
-	
-  /**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-  public Iterator getWalkableChildren() {
-		return nodes.values().iterator();
-  }
   
   /**
 	 * Check, if a node is a single node.

@@ -3,82 +3,48 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.C;
-
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultMarkerSource;
+import de.unika.ipd.grgen.util.ReadOnlyCollection;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Properties;
 
 /**
  * PostgreSQL Backend implementation.
  */
 public class PGSQLBackend extends SQLBackend implements BackendFactory {
 	
-	protected int nextId;
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getIdType()
-	 */
-	protected String getIdType() {
-		return "int";
+	private static class PGMarkerSource extends DefaultMarkerSource {
+		private int currId = 1;
+		
+		public String nextMarkerString(DataType type) {
+			return "$" + (currId++) + '[' + type.getText() + ']';
+		}
+	}
+
+	public MarkerSource getMarkerSource() {
+		return new PGMarkerSource();
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getBooleanType()
-	 */
-	protected String getBooleanType() {
-		return "int"; // query can only handle "int" yet // "boolean";
+	private final Properties props = new Properties();
+	
+	protected Properties getSQLProperties() {
+		return props;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getFalseValue()
-	 */
-	protected String getFalseValue() {
-		return "FALSE";
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getTrueValue()
-	 */
-	protected String getTrueValue() {
-		return "TRUE";
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getIntType()
-	 */
-	protected String getIntType() {
-		return "int";
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#getStringType()
-	 */
-	protected String getStringType() {
-		// might use varchar(n) here ?
-		return "text";
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#genQuery(java.lang.StringBuffer, java.lang.String)
-	 */
-	protected void genQuery(StringBuffer sb, String query) {
-		sb.append("query(PGSQL_PARAM, " + query + ");\n");
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#firstIdMarker(java.lang.String)
-	 */
-	String firstIdMarker(String fmt, String p_fmt) {
-		nextId = 0;
-		return nextIdMarker(fmt, p_fmt);
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.unika.ipd.grgen.be.C.SQLBackend#nextIdMarker(java.lang.String)
-	 */
-	String nextIdMarker(String fmt, String p_fmt) {
-		++nextId;
-		return "$" + nextId + "[" + p_fmt + "]";
+	public PGSQLBackend() {
+		props.put(TYPE_ID, "int");
+		props.put(TYPE_INT, "int");
+		props.put(TYPE_STRING, "text");
+		props.put(TYPE_BOOLEAN, "int");
+		props.put(VALUE_TRUE, "true");
+		props.put(VALUE_FALSE, "false");
+		props.put(VALUE_NULL, "NULL");
 	}
 	
 	/**

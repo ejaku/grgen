@@ -81,7 +81,7 @@ public class Operator extends Expression
 	 * @return The operand, if <code>index</code> was valid, <code>null</code> if not.
 	 */
 	public Expression getOperand(int index) {
-		return index >= 0 || index < operands.size() ? (Expression) operands.get(index) : null; 
+		return index >= 0 || index < operands.size() ? (Expression) operands.get(index) : null;
 	}
 
 	/**
@@ -90,13 +90,6 @@ public class Operator extends Expression
 	 */
 	public void addOperand(Expression e) {
 		operands.add(e);
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	public Iterator getWalkableChildren() {
-		return operands.iterator();
 	}
 
 	
@@ -107,7 +100,8 @@ public class Operator extends Expression
 	
 	public String getNodeLabel()
 	{
-		return getType().getIdent() + " " + opNames[opCode] + "(" + opCode + ")";
+		return getType().getIdent() + " " + opNames[opCode].toLowerCase()
+			+ "(" + opCode + ")";
 	}
 
 }

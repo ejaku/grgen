@@ -8,16 +8,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * AST node for a replacement rule.
@@ -102,7 +102,7 @@ public class RuleDeclNode extends TestDeclNode {
 		// add Eval statments to the IR
 		for(Iterator it = getChild(EVAL).getChildren(); it.hasNext();) {
 			AssignNode eval = (AssignNode) it.next();
-			rule.getEvaluation().add(eval.getIR());
+			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 		
 		return rule;

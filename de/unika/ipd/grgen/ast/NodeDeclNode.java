@@ -48,7 +48,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 */
 	public NodeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
 		this(id, type, constr, new CollectNode());
-	}
+	 }
 	
 	/**
 	 * Make a new node declaration with other homomorphic nodes.

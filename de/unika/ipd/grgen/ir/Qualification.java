@@ -8,22 +8,17 @@ import de.unika.ipd.grgen.util.ArrayIterator;
 import java.util.Iterator;
 
 public class Qualification extends Expression {
-	private static final String[] childrenNames = {
-		"owner", "member"
-	};
 	
-	private Entity owner;
-	private Entity member;
+	/** The owner of the expression. */
+	private final Entity owner;
+
+	/** The member of the qualification. */
+	private final Entity member;
 	
 	public Qualification(Entity owner, Entity member) {
 		super("qual", member.getType());
-		setChildrenNames(childrenNames);
 		this.owner = owner;
 		this.member = member;
-	}
-	
-	public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object [] { owner, member });
 	}
 	
 	public Entity getOwner() {
@@ -35,7 +30,7 @@ public class Qualification extends Expression {
 	}
 	
 	public String getNodeLabel() {
-		return owner + "." + member;
+		return "<" + owner + ">.<" + member + ">";
 	}
 	
 }

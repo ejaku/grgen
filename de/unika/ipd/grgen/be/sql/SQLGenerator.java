@@ -5,47 +5,22 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import de.unika.ipd.grgen.be.sql.meta.*;
+import de.unika.ipd.grgen.be.sql.stmt.*;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
 import de.unika.ipd.grgen.be.TypeID;
-import de.unika.ipd.grgen.be.sql.meta.Aggregate;
-import de.unika.ipd.grgen.be.sql.meta.Column;
-import de.unika.ipd.grgen.be.sql.meta.Opcodes;
-import de.unika.ipd.grgen.be.sql.meta.Query;
-import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
-import de.unika.ipd.grgen.be.sql.meta.Term;
-import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
-import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
-import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.NodeTable;
-import de.unika.ipd.grgen.be.sql.stmt.TypeIdTable;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.MultiplexOutputStream;
+import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import de.unika.ipd.grgen.util.VCGDumper;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
 
 
 /**
@@ -59,12 +34,18 @@ public class SQLGenerator extends Base {
 	/** SQL parameters. */
 	protected final SQLParameters parameters;
 	
+	/** The marker source factory. */
+	protected final MarkerSourceFactory markerSourceFactory;
+	
 	/** And a type ID source. */
 	protected final TypeID typeID;
 	
-	public SQLGenerator(SQLParameters parameters, TypeID typeID) {
+	public SQLGenerator(SQLParameters parameters,
+											MarkerSourceFactory msf,
+											TypeID typeID) {
 		
 		this.parameters = parameters;
+		this.markerSourceFactory = msf;
 		this.typeID = typeID;
 	}
 	
@@ -74,51 +55,52 @@ public class SQLGenerator extends Base {
 		public final List matchedEdges = new LinkedList();
 		
 		final MatchingAction action;
-		final GraphTableFactory tableFactory;
-		final TypeStatementFactory stmtFactory;
+		final MetaFactory factory;
 		final Sys system;
 		
-		private MatchCtx(Sys system, MatchingAction action,
-										 GraphTableFactory tableFactory,
-										 TypeStatementFactory stmtFactory) {
+		private MatchCtx(Sys system, MatchingAction action, MetaFactory factory) {
 			this.system = system;
 			this.action = action;
-			this.tableFactory = tableFactory;
-			this.stmtFactory = stmtFactory;
+			this.factory = factory;
 		}
 	}
 	
 	public final MatchCtx makeMatchContext(Sys system, MatchingAction action,
-																				 GraphTableFactory tableFactory,
-																				 TypeStatementFactory stmtFactory) {
-		return new MatchCtx(system, action, tableFactory, stmtFactory);
+																				 MetaFactory factory) {
+		return new MatchCtx(system, action, factory);
 	}
 	
 	public final String genMatchStatement(MatchCtx matchCtx) {
 		
-		StringBuffer sb = new StringBuffer();
+		Sys system = matchCtx.system;
 		Query q = makeMatchStatement(matchCtx);
-		q.dump(sb);
-		String res = sb.toString();
+		
+		MultiplexOutputStream mos = new MultiplexOutputStream();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		
+		mos.addStream(bos);
 		
 		if(matchCtx.system.backendEmitDebugFiles()) {
 			
-			OutputStream os = matchCtx.system.createDebugFile(new File("stmt_" + matchCtx.action.getIdent() + ".txt"));
-			PrintStream ps = new PrintStream(os);
-			ps.println(res);
+			String debFilePart = "stmt_" + matchCtx.action.getIdent();
+			mos.addStream(system.createDebugFile(new File(debFilePart + ".txt")));
 			
-			os = matchCtx.system.createDebugFile(new File("stmt_" + matchCtx.action.getIdent() + ".vcg"));
-			ps = new PrintStream(os);
+			PrintStream ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".vcg")));
 			GraphDumper dumper = new VCGDumper(ps);
 			q.graphDump(dumper);
 		}
-		return res;
+		
+		PrintStream ps = new PrintStream(mos);
+		q.dump(ps);
+		ps.flush();
+		ps.close();
+		
+		return bos.toString();
 	}
 	
 	protected Query makeMatchStatement(MatchCtx ctx) {
 		MatchingAction act = ctx.action;
-		TypeStatementFactory factory = ctx.stmtFactory;
-		GraphTableFactory tableFactory = ctx.tableFactory;
+		MetaFactory factory = ctx.factory;
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
 		
@@ -140,12 +122,8 @@ public class SQLGenerator extends Base {
 																												 factory.expression(inner)));
 			
 			Term cond = q.getCondition();
-			if (cond==null) {
-				cond = notEx;
-			} else {
-				cond = factory.expression(Opcodes.AND, cond, notEx);
-			}
-			q.setCondition(cond);
+			q.setCondition(cond == null ? notEx :
+											 factory.expression(Opcodes.AND, cond, notEx));
 		}
 		return q;
 	}
@@ -154,8 +132,7 @@ public class SQLGenerator extends Base {
 														List excludeTables, boolean isNeg) {
 		
 		MatchingAction act = ctx.action;
-		TypeStatementFactory factory = ctx.stmtFactory;
-		GraphTableFactory tableFactory = ctx.tableFactory;
+		MetaFactory factory = ctx.factory;
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
 		
@@ -190,7 +167,7 @@ public class SQLGenerator extends Base {
 		for(Iterator it = nodes.iterator(); it.hasNext();) {
 			
 			Node n = (Node) it.next();
-			NodeTable table = tableFactory.nodeTable(n);
+			NodeTable table = factory.nodeTable(n);
 			Column col = table.colId();
 			Term nodeColExpr = factory.expression(col);
 			
@@ -220,7 +197,7 @@ public class SQLGenerator extends Base {
 			// Make this node unequal to all other nodes.
 			for (Iterator iter = workset.iterator(); iter.hasNext();) {
 				Node other = (Node) iter.next();
-				NodeTable otherNodeTable = tableFactory.nodeTable(other);
+				NodeTable otherNodeTable = factory.nodeTable(other);
 				
 				// Just add an <>, if the other node is not homomorphic to n
 				// If it was, we cannot node, if it is equal or not equal to n
@@ -244,7 +221,7 @@ public class SQLGenerator extends Base {
 				
 				for (Iterator iter = incidentSets[i].iterator(); iter.hasNext();) {
 					Edge e = (Edge) iter.next();
-					EdgeTable edgeTable = tableFactory.edgeTable(e);
+					EdgeTable edgeTable = factory.edgeTable(e);
 					Column edgeCol = edgeTable.colId();
 					int edgeTypeId = typeID.getId((EdgeType) e.getType());
 					
@@ -324,13 +301,156 @@ public class SQLGenerator extends Base {
 		return -1;
 	}
 	
-	protected Term genExprSQL(Expression expr, StatementFactory factory,
-														GraphTableFactory tableFactory) {
-		return genExprSQL(expr, factory, tableFactory, null);
+	/**
+	 * Make an update statement for an assignemt,
+	 * @param a The assignment.
+	 * @param factory A factory.
+	 * @param ms A marker source.
+	 * @return An update statement for the assignment.
+	 */
+	public ManipulationStatement genEvalUpdateStmt(Assignment a,
+																								 MetaFactory factory,
+																								 MarkerSource ms) {
+		
+		Qualification tgt = a.getTarget();
+		Expression expr = a.getExpression();
+		Column col = getQualCol(tgt, factory, true);
+		IdTable table = (IdTable) col.getRelation();
+
+		Term term = genExprSQL(expr, ms, factory,
+													 ReadOnlyCollection.EMPTY,
+													 new UpdateQualGen(tgt.getOwner()));
+		
+		List cols = Collections.singletonList(col);
+		List exprs = Collections.singletonList(term);
+		
+		Term condition = factory.expression(Opcodes.EQ,
+																				factory.expression(table.colId()),
+																				factory.markerExpression(ms, factory.getIdType()));
+		
+		return factory.makeUpdate(table, cols, exprs, condition);
 	}
 	
-	protected Term genExprSQL(Expression expr, StatementFactory factory,
-														GraphTableFactory tableFactory, Collection usedEntities) {
+	/**
+	 * A scheme to make an SQL expression out of a qualification.
+	 */
+	protected static interface QualGenerator {
+		
+		/**
+		 * Make a term from a qualification.
+		 * @param qual The qualifiaction.
+		 * @param ms A marker source that is probably needed.
+		 * @param fact A statement factory.
+		 * @param tableFact A table factory.
+		 * @return A corresponding term.
+		 */
+		Term genQual(Qualification qual,
+								 MarkerSource ms,
+								 MetaFactory fact);
+		
+	}
+	
+	protected static class UpdateQualGen implements QualGenerator {
+		
+		private final Entity ent;
+		
+		public UpdateQualGen(Entity ent) {
+			this.ent = ent;
+		}
+		
+		public Term genQual(Qualification qual,
+												MarkerSource ms,
+												MetaFactory factory) {
+			
+			Entity owner = qual.getOwner();
+			if(owner.equals(ent))
+				return qualOriginalColExpr.genQual(qual, ms, factory);
+			else
+				return qualSubqueryExpr.genQual(qual, ms, factory);
+		}
+	}
+	
+	protected static AttributeTable getQualAttrTable(Qualification qual,
+																									 GraphTableFactory factory,
+																									 boolean useOriginalTables) {
+		Entity owner = qual.getOwner();
+		Entity member = qual.getMember();
+		boolean isNode = owner instanceof Node;
+		AttributeTable attrTable;
+		
+		assert owner instanceof Node || owner instanceof Edge
+			: "Owner must be a node or an edge";
+		
+		if(useOriginalTables) {
+			attrTable = isNode
+				? factory.originalNodeAttrTable()
+				: factory.originalEdgeAttrTable();
+		} else {
+			attrTable = isNode
+				? factory.nodeAttrTable((Node) owner)
+				: factory.edgeAttrTable((Edge) owner);
+		}
+		
+		return attrTable;
+	}
+	
+	protected static QualGenerator qualColExpr = new QualGenerator() {
+		public Term genQual(Qualification qual,
+												MarkerSource ms,
+												MetaFactory factory) {
+			
+			AttributeTable attrTable = getQualAttrTable(qual, factory, false);
+			return factory.expression(attrTable.colEntity(qual.getMember()));
+		}
+	};
+	
+	protected static QualGenerator qualOriginalColExpr = new QualGenerator() {
+		public Term genQual(Qualification qual,
+												MarkerSource ms,
+												MetaFactory factory) {
+			AttributeTable attrTable = getQualAttrTable(qual, factory, true);
+			return factory.expression(attrTable.colEntity(qual.getMember()));
+		}
+	};
+	
+	protected static QualGenerator qualSubqueryExpr = new QualGenerator() {
+		public Term genQual(Qualification qual,
+												MarkerSource ms,
+												MetaFactory factory) {
+			AttributeTable attrTable = getQualAttrTable(qual, factory, true);
+			Column col = attrTable.colEntity(qual.getMember());
+			Term cond = factory.expression(Opcodes.EQ,
+																		 factory.expression(attrTable.colId()),
+																		 factory.markerExpression(ms, factory.getIdType()));
+			
+			Query q = factory.simpleQuery(Collections.singletonList(col),
+																		Collections.singletonList(attrTable),
+																		cond,
+																		TypeStatementFactory.NO_LIMIT);
+			
+			return factory.expression(q);
+		}
+	};
+	
+	protected Term genExprSQL(Expression expr, MetaFactory factory, Collection used) {
+		return genExprSQL(expr, markerSourceFactory.getMarkerSource(),
+											factory, used, qualColExpr);
+	}
+	
+	/**
+	 * Generate a SQL term for an expression.
+	 * @param expr The IR expression.
+	 * @param factory The statement factory.
+	 * @param tableFactory The table factory.
+	 * @param usedEntities A collection where all entities occuring in
+	 * the statement are recorded.
+	 * @return The SQL term representing the expression.
+	 */
+	protected Term genExprSQL(Expression expr,
+														MarkerSource ms,
+														MetaFactory factory,
+														Collection usedEntities,
+														QualGenerator qualGen) {
 		
 		Term res = null;
 		
@@ -339,7 +459,8 @@ public class SQLGenerator extends Base {
 			Term[] operands = new Term[op.operandCount()];
 			
 			for(int i = 0; i < op.operandCount(); i++)
-				operands[i] = genExprSQL(op.getOperand(i), factory, tableFactory, usedEntities);
+				operands[i] = genExprSQL(op.getOperand(i), ms, factory,
+																 usedEntities, qualGen);
 			
 			res = factory.expression(getOpSQL(op), operands);
 		} else if(expr instanceof Constant) {
@@ -356,204 +477,48 @@ public class SQLGenerator extends Base {
 		} else if(expr instanceof Qualification) {
 			
 			Qualification qual = (Qualification) expr;
-			Entity owner = qual.getOwner();
-			Entity member = qual.getMember();
+			res = qualGen.genQual(qual, ms, factory);
 			
-			assert owner instanceof Node || owner instanceof Edge
-				: "Owner must be a node or an edge";
-			
-			boolean isNode = owner instanceof Node;
-			TypeIdTable table;
-			AttributeTable attrTable;
-			
-			if(owner instanceof Node) {
-				table = tableFactory.nodeTable((Node) owner);
-				attrTable = tableFactory.nodeAttrTable((Node) owner);
-			} else {
-				table = tableFactory.edgeTable((Edge) owner);
-				attrTable = tableFactory.edgeAttrTable((Edge) owner);
-			}
-			
-			Column memberCol = attrTable.colEntity(member);
-			assert memberCol != null : "Member column must exist";
-			
-			res = factory.expression(memberCol);
-			
-			if(usedEntities != null)
-				usedEntities.add(owner);
+			usedEntities.add(qual.getOwner());
 		}
 		
 		return res;
 	}
 	
-//	/**
-//	 * Method genValidateStatements produces all validate statements for all
-//	 * connection assertion of a spec.
-//	 *
-//	 * for source:
-//	 * 1	SELECT src.node_id, count(src.node_id)
-//	 * 2	FROM nodes AS src, nodes AS tgt, edges
-//	 * 3	WHERE edges.src_id = src.node_id AND
-//	 * 4		edges.tgt_id = tgt.node_id AND
-//	 * 5		edges.type_id = $E_TYPE_ID$
-//	 * 5b		src.type_id = $SRC_TYPE_ID$
-//	 * 6	GROUP BY src.node_id
-//	 * 7	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
-//	 * 8		count(src.node_id) > $SRC_RANGE_UPPER$;
-//	 *
-//	 * for target:
-//	 * 1	SELECT tgt.node_id, count(tgt.node_id)
-//	 * 2	FROM nodes AS src, nodes AS tgt, edges
-//	 * 3	WHERE edges.src_id = src.node_id AND
-//	 * 4		edges.tgt_id = tgt.node_id AND
-//	 * 5		edges.type_id = $E_TYPE_ID$
-//	 * 5b		tgt.type_id = $TGT_TYPE_ID$
-//	 * 6	GROUP BY tgt.node_id
-//	 * 7	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
-//	 * 8		count(tgt.node_id) > $TGT_RANGE_UPPER$;
-//	 *
-//	 * @return  a List containing the src and tgt sql conn assert statements
-//	 * 			in an alternating order.
-//	 */
-//	public List genValidateStatements(
-//		List srcTypes, List srcRange,  List tgtTypes, List tgtRange, List edgeTypes,
-//		TypeStatementFactory stmtFactory, GraphTableFactory tableFactory) {
-//
-//		List res = new ArrayList();
-//		List srcColumns = new LinkedList();
-//		List tgtColumns = new LinkedList();
-//		List relations = new LinkedList();
-//		List srcGroupBy = new LinkedList();
-//		List tgtGroupBy = new LinkedList();
-//		Term condStub;
-//
-//		NodeTable srcTable  = tableFactory.nodeTable("src");
-//		NodeTable tgtTable  = tableFactory.nodeTable("tgt");
-//		EdgeTable edgeTable = tableFactory.originalEdgeTable();
-//
-//		// 1	SELECT src.node_id, count(src.node_id)
-//		initValidStmtSrc(srcColumns, stmtFactory, srcTable);
-//
-//		// 1	SELECT tgt.node_id, count(tgt.node_id)
-//		initValidStmtTgt(tgtColumns, stmtFactory, tgtTable);
-//
-//		// 2: FROM nodes AS src, nodes AS tgt, edges
-//		relations.add(srcTable);
-//		relations.add(tgtTable);
-//		relations.add(edgeTable);
-//
-//		condStub = initValidStmtCondStub(stmtFactory,
-//																		 srcTable, tgtTable, edgeTable);
-//
-//		// 6	GROUP BY src.node_id
-//		srcGroupBy.add(srcTable.colId());
-//
-//		// 6	GROUP BY tgt.node_id
-//		tgtGroupBy.add(tgtTable.colId());
-//
-//		for(int i  = 0; i < srcTypes.size(); i++) {
-//			Term tmp1, srcCond, tgtCond, srcHaving, tgtHaving;
-//			NodeType srcType = (NodeType)srcTypes.get(i);
-//			NodeType tgtType = (NodeType)tgtTypes.get(i);
-//			int srcRangeLower = ((int[])srcRange.get(i))[0];
-//			int srcRangeUpper = ((int[])srcRange.get(i))[1];
-//			int tgtRangeLower = ((int[])tgtRange.get(i))[0];
-//			int tgtRangeUpper = ((int[])tgtRange.get(i))[1];
-//			EdgeType edgeType = (EdgeType)edgeTypes.get(i);
-//
-//			// 5: edges.type_id = $E_TYPE_ID$
-//			tmp1 = stmtFactory.isA(edgeTable, edgeType, typeID);
-//			srcCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
-//			tgtCond = stmtFactory.addExpression(Opcodes.AND, condStub, tmp1);
-//
-//			// 5b:		src.type_id = $SRC_TYPE_ID$;
-//			srcCond = buildValidStmtTID(stmtFactory, srcTable, srcType, srcCond);
-//
-//			// 5b:		tgt.type_id = $TGT_TYPE_ID$
-//			tgtCond = buildValidStmtTID(stmtFactory, tgtTable, tgtType, tgtCond);
-//
-//			// 7:	HAVING count(src.node_id) < $SRC_RANGE_LOWER$ OR
-//			// 8:		count(src.node_id) > $SRC_RANGE_UPPER$;
-//			srcHaving = buildValidStmtHaving(stmtFactory, srcTable,
-//																			 srcRangeLower, srcRangeUpper);
-//
-//			// 7:	HAVING count(tgt.node_id) < $TGT_RANGE_LOWER$ OR
-//			// 8:		count(tgt.node_id) > $TGT_RANGE_UPPER$;
-//			tgtHaving = buildValidStmtHaving(stmtFactory, tgtTable,
-//																			 tgtRangeLower, tgtRangeUpper);
-//
-//			Query src = stmtFactory.simpleQuery(srcColumns, relations, srcCond,
-//																					srcGroupBy, srcHaving);
-//			Query tgt = stmtFactory.simpleQuery(tgtColumns, relations, tgtCond,
-//																					tgtGroupBy, tgtHaving);
-//
-//			res.add(src.dump(new StringBuffer()));
-//			res.add(tgt.dump(new StringBuffer()));
-//		}
-//		return res;
-//	}
-//
-//	private Term buildValidStmtTID(TypeStatementFactory stmtFactory,
-//																 NodeTable table, NodeType type, Term cond) {
-//		Term tmp = stmtFactory.isA(table, type, typeID);
-//		cond = stmtFactory.addExpression(Opcodes.AND, cond, tmp);
-//
-//		return cond;
-//	}
-//
-//	private Term buildValidStmtHaving(TypeStatementFactory stmtFactory,
-//																		NodeTable table, int lower, int upper) {
-//		Term tmp1, tmp2, tmp3;
-//
-//		// 7:	HAVING count(src.node_id) < $LOWER$ OR
-//		Column c =  stmtFactory.aggregate(Aggregate.COUNT, table.colId());
-//		tmp3 = stmtFactory.expression(c);
-//		tmp2 = stmtFactory.constant(lower);
-//		tmp1 = stmtFactory.expression(Opcodes.LT, tmp3, tmp2);
-//
-//		// 8:		count(src.node_id) > $UPPER$;
-//		tmp2 = stmtFactory.constant(upper);
-//		tmp2 = stmtFactory.expression(Opcodes.GT, tmp3, tmp2);
-//
-//		// OR
-//		tmp1 = stmtFactory.expression(Opcodes.OR, tmp1, tmp2);
-//
-//		return tmp1;
-//	}
-//
-//	private Term initValidStmtCondStub(
-//		TypeStatementFactory stmtFactory,
-//		NodeTable srcTable, NodeTable tgtTable, EdgeTable edgeTable) {
-//
-//		Term condStub, tmp;
-//		// 3: edges.src_id = src.node_id AND
-//		condStub = stmtFactory.expression(Opcodes.EQ,
-//																			stmtFactory.expression(srcTable.colId()),
-//																			stmtFactory.expression(edgeTable.colSrcId()));
-//		// 4: edges.tgt_id = tgt.node_id AND
-//		tmp = stmtFactory.expression(Opcodes.EQ,
-//																 stmtFactory.expression(tgtTable.colId()),
-//																 stmtFactory.expression(edgeTable.colTgtId()));
-//		condStub = stmtFactory.expression(Opcodes.AND, condStub, tmp);
-//		return condStub;
-//	}
-//
-//	private void  initValidStmtSrc(
-//		List columns, TypeStatementFactory stmtFactory,	NodeTable srcTable) {
-//
-//		// 1: SELECT src.node_id, count(src.node_id)
-//		columns.add(srcTable.colId());
-//		columns.add(stmtFactory.aggregate(Aggregate.COUNT, srcTable.colId()));
-//	}
-//
-//	private void initValidStmtTgt(
-//		List columns, TypeStatementFactory stmtFactory, NodeTable tgtTable) {
-//
-//		// 1: SELECT tgt.node_id, count(tgt.node_id)
-//		columns.add(tgtTable.colId());
-//		columns.add(stmtFactory.aggregate(Aggregate.COUNT, tgtTable.colId()));
-//	}
+	/**
+	 * Get the column for a qualification node.
+	 * The qualification node must select an attribute from a
+	 * node or an edge.
+	 * @param qual The qualification.
+	 * @param tableFactory The graph table factory.
+	 * @return The column.
+	 */
+	protected final Column getQualCol(Qualification qual,
+																		GraphTableFactory tableFactory,
+																		boolean dontUseAliasTable) {
+		Entity owner = qual.getOwner();
+		Entity member = qual.getMember();
+		
+		assert owner instanceof Node || owner instanceof Edge
+			: "Owner must be a node or an edge";
+		
+		AttributeTable attrTable;
+		
+		if(owner instanceof Node) {
+			attrTable = dontUseAliasTable ?
+				tableFactory.originalNodeAttrTable()
+				: tableFactory.nodeAttrTable((Node) owner);
+		} else {
+			attrTable = dontUseAliasTable ?
+				tableFactory.originalEdgeAttrTable()
+				: tableFactory.edgeAttrTable((Edge) owner);
+		}
+		
+		return attrTable.colEntity(member);
+	}
+	
 }
+
 
 
 

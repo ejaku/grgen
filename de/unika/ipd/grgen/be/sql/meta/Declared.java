@@ -9,8 +9,10 @@ package de.unika.ipd.grgen.be.sql.meta;
 
 /**
  * Something that is declared.
- * 
+ *
  */
+import java.io.PrintStream;
+
 public interface Declared {
 
 	/**
@@ -20,11 +22,11 @@ public interface Declared {
 	String getDeclName();
 	
 	/**
-	 * Dump the declaration. 
-	 * @param sb The string buffer to dump to.
-	 * @return The string buffer.
+	 * Dump the declaration.
+	 * @param ps The print stream.
+	 * @return The print stream.
 	 */
-	StringBuffer dumpDecl(StringBuffer sb);
+	PrintStream dumpDecl(PrintStream ps);
 	
 	
 }

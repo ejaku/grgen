@@ -3,7 +3,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.C;
-
+import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
@@ -15,18 +15,59 @@ import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
-import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultOp;
+import de.unika.ipd.grgen.util.Util;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 
 /**
  * A generator to generate SQL statements for a grgen specification.
  */
-public abstract class SQLBackend extends CBackend {
+public abstract class SQLBackend extends CBackend	implements Dialect {
+	
+	private static final class MyDataType implements DataType {
+		private final String text;
+		
+		MyDataType(String text) {
+			this.text = text;
+		}
+		
+		/**
+		 * Get the SQL representation of the datatype.
+		 * @return The SQL representation of the datatype.
+		 */
+		public String getText() {
+			return text;
+		}
+		
+		/**
+		 * Print the meta construct.
+		 * @param ps The print stream.
+		 */
+		public void dump(PrintStream ps) {
+			ps.print(getText());
+		}
+		
+		/**
+		 * Get some special debug info for this object.
+		 * This is mostly verbose stuff for dumping.
+		 * @return Debug info.
+		 */
+		public String debugInfo() {
+			return getText();
+		}
+	}
+	
+	protected static final String TYPE_ID = "id_type";
+	protected static final String TYPE_INT = "int_type";
+	protected static final String TYPE_BOOLEAN = "boolean_type";
+	protected static final String TYPE_STRING = "string_type";
+	protected static final String VALUE_TRUE = "true_value";
+	protected static final String VALUE_FALSE = "false_value";
+	protected static final String VALUE_NULL = "null_value";
 	
 	/** if 0, the query should not be limited. */
 	protected int limitQueryResults;
@@ -46,26 +87,92 @@ public abstract class SQLBackend extends CBackend {
 	
 	protected final SQLParameters parameters = new PreferencesSQLParameters();
 	
-	protected final TypeFactory typeFactory = new DefaultTypeFactory();
-	
-	protected TypeStatementFactory stmtFactory = new DefaultStatementFactory(typeFactory);
-	
 	protected Sys system;
 	
 	protected final SQLGenerator sqlGen =
-		new NewExplicitJoinGenerator(parameters, this);
+		new NewExplicitJoinGenerator(parameters, this, this);
 	
 	protected Map matchMap = new HashMap();
 	
-	protected DefaultGraphTableFactory tableFactory;
+	protected MetaFactory factory;
+	
+	private DataType intType;
+	
+	private DataType stringType;
+	
+	private DataType booleanType;
+	
+	private DataType idType;
+	
+	private Op trueOp;
+	
+	private Op falseOp;
+	
+	protected abstract Properties getSQLProperties();
 	
 	/**
-	 * Make a new SQL Generator.
+	 * Get the id datatype.
+	 * @return The id datatype.
 	 */
-	public SQLBackend() {
+	public DataType getIdType() {
+		if(idType == null)
+			idType = new MyDataType((String) getSQLProperties().get(TYPE_ID));
+		
+		return idType;
 	}
 	
-/**
+	/**
+	 * Get the integer datatype.
+	 * @return The integer datatype.
+	 */
+	public DataType getIntType() {
+		if(intType == null)
+			intType = new MyDataType((String) getSQLProperties().get(TYPE_ID));
+		
+		return intType;
+	}
+	
+	/**
+	 * Get the string datatype.
+	 * @return The string datatype.
+	 */
+	public DataType getStringType() {
+		if(stringType == null)
+			stringType = new MyDataType((String) getSQLProperties().get(TYPE_STRING));
+		
+		return stringType;
+	}
+	
+	/**
+	 * Get the boolean datatype.
+	 * @return The boolean datatype.
+	 */
+	public DataType getBooleanType() {
+		if(booleanType == null)
+			booleanType = new MyDataType((String) getSQLProperties().get(TYPE_BOOLEAN));
+		
+		return booleanType;
+	}
+	
+	public Op constantOpcode(boolean value) {
+		Op res;
+		
+		if(value == true) {
+			if(trueOp == null)
+				trueOp = DefaultOp.constant(Boolean.toString(value));
+			
+			res = trueOp;
+		} else {
+			if(falseOp == null)
+				falseOp = DefaultOp.constant(Boolean.toString(value));
+			
+			res = falseOp;
+		}
+		
+		return res;
+	}
+	
+	/**
 	 * Add a string define to a string buffer.
 	 * The define must define a string, since the value parameter is
 	 * formatted like a string.
@@ -73,8 +180,8 @@ public abstract class SQLBackend extends CBackend {
 	 * @param name The name of the define.
 	 * @param value The define's value (must be a string constant).
 	 */
-	protected void addStringDefine(StringBuffer sb, String name, String value) {
-		addDefine(sb, name, formatString(value));
+	protected void addStringDefine(PrintStream ps, String name, String value) {
+		addDefine(ps, name, formatString(value));
 	}
 	
 	/**
@@ -83,97 +190,53 @@ public abstract class SQLBackend extends CBackend {
 	 * @param name The name of the define.
 	 * @param value The define's value.
 	 */
-	protected void addDefine(StringBuffer sb, String name, String value) {
-		sb.append("#define " + formatId(name) + " " + value + "\n");
+	protected void addDefine(PrintStream ps, String name, String value) {
+		ps.print("#define ");
+		ps.print(formatId(name));
+		ps.print(" ");
+		ps.println(value);
 	}
 	
 	/**
 	 * Add C defines with all settings to a string buffer.
 	 * @param sb The string buffer to add to.
 	 */
-	protected void addSettings(StringBuffer sb) {
-		addStringDefine(sb, "DBNAME", dbName);
-		addStringDefine(sb, "DBNAME_PREFIX", dbNamePrefix);
-		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
-		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", nodeTypeIsAFunc);
-		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", edgeTypeIsAFunc);
-		addStringDefine(sb, "TABLE_NEUTRAL", parameters.getTableNeutral());
-		addStringDefine(sb, "TABLE_NODES", parameters.getTableNodes());
-		addStringDefine(sb, "TABLE_EDGES", parameters.getTableEdges());
-		addStringDefine(sb, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());
-		addStringDefine(sb, "TABLE_EDGE_ATTRS", parameters.getTableEdgeAttrs());
-		addStringDefine(sb, "COL_NODES_ID", parameters.getColNodesId());
-		addStringDefine(sb, "COL_NODES_TYPE_ID", parameters.getColNodesTypeId());
-		addStringDefine(sb, "COL_EDGES_ID", parameters.getColEdgesId());
-		addStringDefine(sb, "COL_EDGES_TYPE_ID", parameters.getColEdgesTypeId());
-		addStringDefine(sb, "COL_EDGES_SRC_ID", parameters.getColEdgesSrcId());
-		addStringDefine(sb, "COL_EDGES_TGT_ID", parameters.getColEdgesTgtId());
-		addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", parameters.getColNodeAttrNodeId());
-		addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", parameters.getColEdgeAttrEdgeId());
+	protected void addSettings(PrintStream ps) {
+		addStringDefine(ps, "DBNAME", dbName);
+		addStringDefine(ps, "DBNAME_PREFIX", dbNamePrefix);
+		addStringDefine(ps, "STMT_PREFIX", stmtPrefix);
+		addStringDefine(ps, "NODE_TYPE_IS_A_FUNC", nodeTypeIsAFunc);
+		addStringDefine(ps, "EDGE_TYPE_IS_A_FUNC", edgeTypeIsAFunc);
+		addStringDefine(ps, "TABLE_NEUTRAL", parameters.getTableNeutral());
+		addStringDefine(ps, "TABLE_NODES", parameters.getTableNodes());
+		addStringDefine(ps, "TABLE_EDGES", parameters.getTableEdges());
+		addStringDefine(ps, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());
+		addStringDefine(ps, "TABLE_EDGE_ATTRS", parameters.getTableEdgeAttrs());
+		addStringDefine(ps, "COL_NODES_ID", parameters.getColNodesId());
+		addStringDefine(ps, "COL_NODES_TYPE_ID", parameters.getColNodesTypeId());
+		addStringDefine(ps, "COL_EDGES_ID", parameters.getColEdgesId());
+		addStringDefine(ps, "COL_EDGES_TYPE_ID", parameters.getColEdgesTypeId());
+		addStringDefine(ps, "COL_EDGES_SRC_ID", parameters.getColEdgesSrcId());
+		addStringDefine(ps, "COL_EDGES_TGT_ID", parameters.getColEdgesTgtId());
+		addStringDefine(ps, "COL_NODE_ATTR_NODE_ID", parameters.getColNodeAttrNodeId());
+		addStringDefine(ps, "COL_EDGE_ATTR_EDGE_ID", parameters.getColEdgeAttrEdgeId());
 		
 		// Dump the databases type corresponding to the ID type.
-		addStringDefine(sb, "DB_ID_TYPE", getIdType());
+		addStringDefine(ps, "DB_ID_TYPE", getIdType().getText());
 	}
-	
-	/**
-	 * Get the SQL type to use for ids.
-	 * @return The SQL type for ids.
-	 */
-	protected abstract String getIdType();
-	
-	/**
-	 * Get the SQL type to use for the GRGEN type "int".
-	 * @return The SQL type for int.
-	 */
-	protected abstract String getIntType();
-	
-	/**
-	 * Get the SQL type to use for the GRGEN type "boolean".
-	 * @return The SQL type for boolean.
-	 */
-	protected abstract String getBooleanType();
-	
-	/**
-	 * Get the SQL "true" value for use with the SQL boolean
-	 * type.
-	 * @return The SQL true value for boolean.
-	 */
-	protected abstract String getTrueValue();
-	
-	/**
-	 * Get the SQL "false" value for use with the SQL boolean
-	 * type.
-	 * @return The SQL false value for boolean.
-	 */
-	protected abstract String getFalseValue();
-	
-	/**
-	 * Get the SQL type to use for the GRGEN type "string".
-	 * @return The SQL type for string.
-	 */
-	protected abstract String getStringType();
-
-	
-	/**
-	 * Generate code, that sends a query to the SQL server.
-	 * @param sb The string buffer to put the code to.
-	 * @param query The query.
-	 */
-	protected abstract void genQuery(StringBuffer sb, String query);
-	
 	
 	/**
 	 * Output some data structures needed especially by the SQL backend.
 	 * @param sb The string buffer to put it to.
 	 */
-	protected void makeActionTypes(StringBuffer sb) {
-		sb.append(
+	protected void makeActionTypes(PrintStream ps) {
+		ps.println(
 			"typedef struct {\n"
-				+ "  MATCH_PROTOTYPE((*matcher));\n"
+			  + "  MATCH_PROTOTYPE((*matcher));\n"
 				+ "  FINISH_PROTOTYPE((*finisher));\n"
 				+ "  const char **stmt;\n"
 				+ "  const char *name;\n"
-				+ "} action_impl_t;\n");
+				+ "} action_impl_t;");
 	}
 	
 	/**
@@ -226,14 +289,14 @@ public abstract class SQLBackend extends CBackend {
 	private class SQLRewriteHandler implements RewriteHandler {
 		
 		private Match match;
-		private StringBuffer sb;
+		private PrintStream ps;
 		private Rule rule;
 		private Map insertedNodesIndexMap = new HashMap();
 		private Collection nodesToInsert = null;
 		
-		SQLRewriteHandler(Match match, StringBuffer sb) {
+		SQLRewriteHandler(Match match, PrintStream ps) {
 			this.match = match;
-			this.sb = sb;
+			this.ps = ps;
 		}
 		
 		public void start(Rule rule) {
@@ -252,10 +315,14 @@ public abstract class SQLBackend extends CBackend {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
 				int tid = getId(n.getReplaceType());
-				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");");
-				sb.append("\t/* change type of ").append(n).append(" to ");
-				sb.append(n.getReplaceType().toString()).append(" (").append(tid);
-				sb.append(") */\n");
+				ps.print("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");");
+				ps.print("\t/* change type of ");
+				ps.print(n);
+				ps.print(" to ");
+				ps.print(n.getReplaceType().toString());
+				ps.print(" (");
+				ps.print(tid);
+				ps.print(") */\n");
 				
 			}
 		}
@@ -266,8 +333,10 @@ public abstract class SQLBackend extends CBackend {
 		public void deleteEdges(Collection edges) {
 			for (Iterator it = edges.iterator(); it.hasNext();) {
 				Edge e = (Edge) it.next();
-				sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));");
-				sb.append("\t/* delete ").append(e.toString()).append(" */\n");
+				ps.print("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));");
+				ps.print("\t/* delete ");
+				ps.print(e.toString());
+				ps.print(" */\n");
 			}
 		}
 		
@@ -278,8 +347,10 @@ public abstract class SQLBackend extends CBackend {
 			for (Iterator it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
-				sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));");
-				sb.append("\t/* delete edges of ").append(n.toString()).append(" */\n");
+				ps.print("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));");
+				ps.print("\t/* delete edges of ");
+				ps.print(n.toString());
+				ps.print(" */\n");
 			}
 		}
 		
@@ -290,8 +361,10 @@ public abstract class SQLBackend extends CBackend {
 			for (Iterator it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
 				Integer nid = (Integer) match.nodeIndexMap.get(n);
-				sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));");
-				sb.append("\t/* delete ").append(n).append(" */\n");
+				ps.print("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));");
+				ps.print("\t/* delete ");
+				ps.print(n);
+				ps.print(" */\n");
 			}
 		}
 		
@@ -319,7 +392,7 @@ public abstract class SQLBackend extends CBackend {
 				else
 					rightNode = "GET_MATCH_NODE(" + match.nodeIndexMap.get(tgt) + ")";
 				
-				sb.append(
+				ps.print(
 					"  INSERT_EDGE(" + etid + ", " + leftNode + ", " + rightNode + ");\n");
 			}
 			
@@ -336,7 +409,7 @@ public abstract class SQLBackend extends CBackend {
 			 * they might be needed when inserting the new edges further down
 			 * this routine.
 			 */
-			sb.append("  gr_id_t inserted_nodes[" + nodes.size() + "];\n");
+			ps.print("  gr_id_t inserted_nodes[" + nodes.size() + "];\n");
 			
 			/*
 			 * Generate node creation statements and save the newly created
@@ -345,12 +418,27 @@ public abstract class SQLBackend extends CBackend {
 			int i = 0;
 			for (Iterator it = nodes.iterator(); it.hasNext(); i++) {
 				Node n = (Node) it.next();
-				sb.append("  inserted_nodes[" + i + "] = INSERT_NODE("
-							  + getId(n.getNodeType()) + ");\n");
+				ps.print("  inserted_nodes[" + i + "] = INSERT_NODE("
+									 + getId(n.getNodeType()) + ");\n");
 				insertedNodesIndexMap.put(n, new Integer(i));
 			}
 			
 		}
+		
+		/**
+		 * Generate an eval statement for some assignments.
+		 * @param assigns A collection of assignments.
+		 */
+		public void generateEvals(Collection assigns) {
+			
+			for(Iterator it = assigns.iterator(); it.hasNext();) {
+				Assignment a = (Assignment) it.next();
+				
+			}
+			
+			
+		}
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#getRequiredRewriteGenerator()
 		 */
@@ -362,7 +450,7 @@ public abstract class SQLBackend extends CBackend {
 	/**
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genFinish(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
-	protected void genFinish(StringBuffer sb, MatchingAction a, int id) {
+	protected void genFinish(PrintStream ps, MatchingAction a, int id) {
 		String actionIdent = formatId(a.getIdent().toString());
 		String finishIdent = "finish_" + actionIdent;
 		
@@ -371,22 +459,97 @@ public abstract class SQLBackend extends CBackend {
 		
 		assert m != null : "A match must have been produced for " + a;
 		
-		sb.append("static FINISH_PROTOTYPE(" + finishIdent + ")\n{\n");
+		ps.print("static FINISH_PROTOTYPE(" + finishIdent + ")\n{\n");
 		
 		if(a instanceof Rule) {
 			Rule r = (Rule) a;
-			rewriteGenerator.rewrite(r, new SQLRewriteHandler(m, sb));
+			rewriteGenerator.rewrite(r, new SQLRewriteHandler(m, ps));
 		}
 		
 		// genRuleFinish(sb, (Rule) a, id, m);
 		
-		sb.append("  return 1;\n}\n\n");
+		ps.print("  return 1;\n}\n\n");
+	}
+	
+	protected static final class PreparedQueryData {
+		final String name;
+		final Statement stmt;
+		final Collection types;
+		final String comment;
+		
+		PreparedQueryData(String name, Statement stmt,
+											Collection types, String comment) {
+			this.name = name;
+			this.stmt = stmt;
+			this.types = types;
+			this.comment = comment;
+		}
+		
+		PreparedQueryData(String name, Statement stmt, Collection types) {
+			this(name, stmt, types, null);
+		}
+		
+		void printCall(PrintStream ps, String[] args) {
+		}
+		
+		void printTypeArray(PrintStream ps) {
+		}
+		
+		void printTableEntry(PrintStream ps) {
+			ps.print("  { ");
+			formatString(ps, Util.toString(stmt));
+			ps.print(", ");
+			ps.print(types.size());
+			ps.println(" },");
+		}
+	}
+		
+	
+	protected void makeEvals(PrintStream ps) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(8192);
+
+		for(Iterator jt = unit.getActions(); jt.hasNext();) {
+			Object obj = jt.next();
+			
+			if(obj instanceof Rule) {
+				Rule r = (Rule) obj;
+				int num = 0;
+				
+				PrintStream tps = new PrintStream(bos);
+				
+				for(Iterator i = r.getEvals().iterator(); i.hasNext(); num++) {
+					Assignment assign = (Assignment) i.next();
+					MarkerSource ms = getMarkerSource();
+					Statement s = sqlGen.genEvalUpdateStmt(assign, factory, ms);
+					String name = mangle(r) + '_' + num;
+					
+					bos.reset();
+					s.dump(tps);
+					tps.flush();
+					
+					ps.println("/* Argument type vector for eval statement " + num
+										 + " in rule " + r.getIdent() + " */");
+					
+					ps.print("/* Eval statement " + num + " in rule ");
+					ps.print(r.getIdent());
+					ps.println(" */");
+					ps.print("static const char *eval_stmt_");
+					ps.print(mangle(r));
+					ps.print('_');
+					ps.print(num);
+					ps.print(" = ");
+					formatString(ps, bos.toString());
+					ps.println(';');
+					ps.println();
+				}
+			}
+		}
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genMatch(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
-	protected void genMatch(StringBuffer sb, MatchingAction a, int id) {
+	protected void genMatch(PrintStream ps, MatchingAction a, int id) {
 		// System.out.println(a.getIdent().toString());
 		
 		String actionIdent = mangle(a);
@@ -397,45 +560,52 @@ public abstract class SQLBackend extends CBackend {
 		Iterator it;
 		
 		SQLGenerator.MatchCtx matchCtx =
-			sqlGen.makeMatchContext(system, a, tableFactory, stmtFactory);
-
+			sqlGen.makeMatchContext(system, a, factory);
+		
 		List nodes = matchCtx.matchedNodes;
 		List edges = matchCtx.matchedEdges;
 		
 		// Dump the SQL statement
-		sb.append("static const char *stmt_" + actionIdent + " = \n");
-		sb.append(formatString(sqlGen.genMatchStatement(matchCtx)) + ";\n\n");
+		ps.print("static const char *stmt_");
+		ps.print(actionIdent);
+		ps.println(" = ");
+		ps.print(formatString(sqlGen.genMatchStatement(matchCtx)));
+		ps.println(";\n");
 		
 		// Make an array of strings that contains the node names.
-		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
+		ps.println("static const char *" + nodeNamesIdent + "[] = {");
 		for (it = nodes.iterator(); it.hasNext();) {
 			Identifiable node = (Identifiable) it.next();
-			sb.append("  " + formatString(node.getIdent().toString()) + ", \n");
+			ps.print("  ");
+			ps.print(formatString(node.getIdent().toString()));
+			ps.println(",");
 		}
-		sb.append("};\n\n");
+		ps.println("};\n");
 		
 		// Make an array of strings that contains the edge names.
-		sb.append("static const char *" + edgeNamesIdent + "[] = {\n");
+		ps.println("static const char *" + edgeNamesIdent + "[] = {");
 		for (it = edges.iterator(); it.hasNext();) {
 			Identifiable edge = (Identifiable) it.next();
-			sb.append("  " + formatString(edge.getIdent().toString()) + ", \n");
+			ps.print("  ");
+			ps.print(formatString(edge.getIdent().toString()));
+			ps.println(",");
 		}
-		sb.append("};\n\n");
+		ps.println("};\n\n");
 		
 		// Make the function that invokes the SQL statement.
-		sb.append("static MATCH_PROTOTYPE(" + matchIdent + ")\n{\n");
-		sb.append("  QUERY(" + id + ", " + stmtIdent + ");\n");
-		sb.append(
-			"  MATCH_GET_RES("
-				+ nodes.size()
-				+ ", "
-				+ edges.size()
-				+ ", "
-				+ nodeNamesIdent
-				+ ", "
-				+ edgeNamesIdent
-				+ ");\n");
-		sb.append("}\n\n");
+		ps.println("static MATCH_PROTOTYPE(" + matchIdent + ")\n{");
+		ps.println("  QUERY(" + id + ", " + stmtIdent + ");");
+		
+		ps.print("  MATCH_GET_RES(");
+		ps.print(nodes.size());
+		ps.print(", ");
+		ps.print(edges.size());
+		ps.print(", ");
+		ps.print(nodeNamesIdent);
+		ps.print(", ");
+		ps.print(edgeNamesIdent);
+	  ps.println(");");
+		ps.println("}\n");
 		
 		Match m = new Match(id, nodes, edges);
 		m.matchIdent = matchIdent;
@@ -448,53 +618,48 @@ public abstract class SQLBackend extends CBackend {
 	 * are emitted in an extra file.
 	 */
 	protected void genExtra() {
-		StringBuffer sb = new StringBuffer();
 		
 		// Emit an include file for Makefiles
-		sb = new StringBuffer();
-		sb.append("#\n# generated by grgen, don't edit\n#\n");
-		sb.append("UNIT_NAME = " + formatId(unit.getIdent().toString()) + "\n");
-		sb.append("DB_NAME = " + dbName + "\n");
-		writeFile("unit.mak", sb);
+		PrintStream ps = openFile("unit.mak");
+		ps.println("#\n# generated by grgen, don't edit\n#");
+		ps.println("UNIT_NAME = " + formatId(unit.getIdent().toString()));
+		ps.println("DB_NAME = " + dbName);
+		closeFile(ps);
 		
 		// Make some additional types needed for the action implementation.
-		sb = new StringBuffer();
-		makeActionTypes(sb);
-		writeFile("action_types" + incExtension, sb);
+		ps = openFile("action_types" + incExtension);
+		makeActionTypes(ps);
+		closeFile(ps);
 		
 		// Make action information
-		sb = new StringBuffer();
-		sb.append("static const action_impl_t action_impl_map[] = {\n");
+		ps = openFile("action_impl_map" + incExtension);
+		ps.println("static const action_impl_t action_impl_map[] = {");
 		
 		Object[] matches = matchMap.values().toArray();
 		Arrays.sort(matches, Match.comparator);
 		for (int i = 0; i < matches.length; i++) {
 			Match m = (Match) matches[i];
-			sb.append(
-				"  { "
-					+ m.matchIdent
-					+ ", "
-					+ m.finishIdent
-					+ ", &"
-					+ m.stmtIdent
-					+ ", "
-					+ formatString(m.stmtIdent)
-					+ " },\n");
+			ps.print("  { ");
+			ps.print(m.matchIdent);
+			ps.print(", ");
+			ps.print(m.finishIdent);
+			ps.print(", &");
+			ps.print(m.stmtIdent);
+			ps.print(", ");
+			ps.print(formatString(m.stmtIdent));
+			ps.println("},");
 		}
-		sb.append("};\n");
-		writeFile("action_impl_map" + incExtension, sb);
+		ps.println("};");
+		closeFile(ps);
 		
 		// Emit the settings specified in the grgen config file.
 		// these contain table and column names, etc.
-		sb = new StringBuffer();
-		addSettings(sb);
-		writeFile("settings" + incExtension, sb);
+		ps = openFile("settings" + incExtension);
+		addSettings(ps);
+		closeFile(ps);
 		
 		// creation of ATTR tables
 		genAttrTableCmd();
-		
-		// create conn assert statements
-		genValidateStatements();
 	}
 	
 	/**
@@ -504,76 +669,63 @@ public abstract class SQLBackend extends CBackend {
 		super.init(unit, system, outputPath);
 		this.system = system;
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
-		tableFactory = new DefaultGraphTableFactory(parameters, typeFactory,
-																								nodeAttrMap, edgeAttrMap);
+		this.factory = new DefaultMetaFactory(this, parameters, nodeAttrMap, edgeAttrMap);
 	}
 	
-	/**
-	 * returns the SQL type to a given IR type
-	 * @param ty The IR type
-	 * @return The SQL type
-	 */
-	private String getSQLType(Type ty) {
-		switch (ty.classify()) {
-			case Type.IS_INTEGER:
-				return getIntType();
-			case Type.IS_STRING:
-				return getStringType();
-			case Type.IS_BOOLEAN:
-				return getBooleanType();
-			default:
-				// bad, unknown type
-				error.error(ty.getIdent().getCoords(), "Type " + ty + " cannot be represented in SQL.");
-				return "???";
-		}
-	}
-	
-	protected void genAttrTableGetAndSet(StringBuffer sb, String name,
-										 AttributeTable table) {
+	protected void genAttrTableGetAndSet(PrintStream ps, String name,
+																			 AttributeTable table) {
 		
-		sb.append("#define GR_HAVE_").append(name.toUpperCase()).append("_ATTR 1\n\n");
+		ps.print("#define GR_HAVE_");
+		ps.print(name.toUpperCase());
+		ps.print("_ATTR 1\n\n");
 		
-		sb.append("static const char *cmd_create_" + name + "_attr = \n\"");
-		table.dumpDecl(sb);
-		sb.append("\";\n\n");
+		ps.print("static const char *cmd_create_" + name + "_attr = \n\"");
+		table.dumpDecl(ps);
+		ps.print("\";\n\n");
 		
-		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
+		ps.print("static prepared_query_t cmd_get_");
+		ps.print(name);
+		ps.print("_attr[] = {\n");
 		
 		for(int i = 1; i < table.columnCount(); i++) {
-			sb.append("  { \"");
-			table.genGetStmt(sb, table.getColumn(i));
-			sb.append("\", -1 },\n");
+			ps.print("  { \"");
+			table.genGetStmt(ps, table.getColumn(i));
+			ps.print("\", -1 },\n");
 		}
-		sb.append("  { NULL, -1 }\n");
-		sb.append("};\n\n");
+		ps.print("  { NULL, -1 }\n");
+		ps.print("};\n\n");
 		
-		sb.append("static prepared_query_t cmd_set_").append(name).append("_attr[] = {\n");
+		ps.print("static prepared_query_t cmd_set_");
+		ps.print(name);
+		ps.print("_attr[] = {\n");
+		
 		for(int i = 1; i < table.columnCount(); i++) {
-			sb.append("  { \"");
-			table.genUpdateStmt(sb, table.getColumn(i));
-			sb.append("\", -1 },\n");
+			ps.print("  { \"");
+			table.genUpdateStmt(ps, table.getColumn(i));
+			ps.print("\", -1 },\n");
 		}
-		sb.append("  { NULL, -1 }\n");
-		sb.append("};\n\n");
+		ps.print("  { NULL, -1 }\n");
+		ps.print("};\n\n");
 	}
 	
 	protected void genAttrTableCmd() {
-		StringBuffer sb = new StringBuffer();
+		PrintStream ps = 	openFile("attr_tbl_cmd" + incExtension);
 		
-		sb.append("\n/** The boolean True Value */\n");
-		addStringDefine(sb, "GR_BOOLEAN_TRUE", getTrueValue());
+		ps.print("\n/** The boolean True Value */\n");
+		addStringDefine(ps, "GR_BOOLEAN_TRUE", constantOpcode(true).text());
 		
-		sb.append("\n/** The boolean False Value */\n");
-		addStringDefine(sb, "GR_BOOLEAN_FALSE", getFalseValue());
+		ps.print("\n/** The boolean False Value */\n");
+		addStringDefine(ps, "GR_BOOLEAN_FALSE", constantOpcode(false).text());
 		
-		sb.append("\n");
+		ps.print("\n");
 		
-		genAttrTableGetAndSet(sb, "node", tableFactory.originalNodeAttrTable());
-		genAttrTableGetAndSet(sb, "edge", tableFactory.originalEdgeAttrTable());
+		genAttrTableGetAndSet(ps, "node", factory.originalNodeAttrTable());
+		genAttrTableGetAndSet(ps, "edge", factory.originalEdgeAttrTable());
+		closeFile(ps);
 		
-		writeFile("attr_tbl_cmd" + incExtension, sb);
 	}
 }
+
 
 
 

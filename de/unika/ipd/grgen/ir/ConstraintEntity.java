@@ -9,6 +9,7 @@ package de.unika.ipd.grgen.ir;
 import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class ConstraintEntity extends Entity {
 
-	private Collection constraints = ReadOnlyCollection.getEmpty();
+	private Collection constraints = Collections.EMPTY_SET;
 	
 	private final InheritanceType type;
 	

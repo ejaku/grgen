@@ -6,18 +6,21 @@
  */
 package de.unika.ipd.grgen.be.sql.meta;
 
+import de.unika.ipd.grgen.util.StreamDumpable;
+import java.io.PrintStream;
+
 
 
 /**
  * Base for each SQL meta construct.
  */
-public interface MetaBase { 
+public interface MetaBase extends StreamDumpable {
 
 	/**
-	 * Append it to a string buffer.
-	 * @param sb The string buffer.
+	 * Print the meta construct.
+	 * @param ps The print stream.
 	 */
-	StringBuffer dump(StringBuffer sb);
+	void dump(PrintStream ps);
 	
 	/**
 	 * Get some special debug info for this object.

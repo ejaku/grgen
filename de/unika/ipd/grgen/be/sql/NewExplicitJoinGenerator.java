@@ -19,46 +19,48 @@ import de.unika.ipd.grgen.util.Attributes;
  * A match statement generator using explicit joins.
  */
 public class NewExplicitJoinGenerator extends SQLGenerator {
-
+	
 	private final String[] edgeCols;
-
+	
 	/**
 	 * @param parameters
 	 * @param constraint
 	 */
-	public NewExplicitJoinGenerator(SQLParameters parameters, TypeID typeID) {
-
-		super(parameters, typeID);
-
+	public NewExplicitJoinGenerator(SQLParameters parameters,
+																	MarkerSourceFactory msf,
+																	TypeID typeID) {
+		
+		super(parameters, msf, typeID);
+		
 		edgeCols = new String[] {
 			parameters.getColEdgesSrcId(),
 				parameters.getColEdgesTgtId()
 		};
 	}
-
+	
 	private static abstract class GraphItemComparator implements Comparator {
-
+		
 		protected int compareTypes(InheritanceType inh1, InheritanceType inh2) {
 			int dist1 = inh1.getMaxDist();
 			int dist2 = inh2.getMaxDist();
-
+			
 			int result = (dist1 > dist2 ? -1 : 0) + (dist1 < dist2 ? 1 : 0);
 			//			debug.report(NOTE, inh1.getIdent() + "(" + dist1 + ") cmp "
 			//					+ inh2.getIdent() + "(" + dist2 + "): " + result);
 			return result;
 		}
 	}
-
+	
 	/**
 	 * Compare two nodes.
 	 * A node is "cheaper" than another if it is of a more concrete type
 	 * or has a higher value in the "prio" attribute.
 	 */
 	private static class NodeComparator extends GraphItemComparator {
-
+		
 		/** The name of the key of the attribute. */
 		private static final String PRIORITY_KEY = "prio";
-
+		
 		/**
 		 * The compare function.
 		 * First, the attributes are evaluated. If one node has the prio
@@ -72,46 +74,46 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			int prio2 = 0;
 			Attributes a1 = ((Attributed) o1).getAttributes();
 			Attributes a2 = ((Attributed) o2).getAttributes();
-
+			
 			if(a1.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
 				prio1 = ((Integer) a1.get(PRIORITY_KEY)).intValue();
-
+			
 			if(a2.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
 				prio2 = ((Integer) a2.get(PRIORITY_KEY)).intValue();
-
+			
 			// System.out.println("" + prio1 + ", " + prio2);
-
+			
 			if(prio1 != 0 || prio2 != 0)
 				return prio1 > prio2 ? -1 : 1;
-
+			
 			Node n1 = (Node) o1;
 			Node n2 = (Node) o2;
-
+			
 			int res = n2.getNodeType().compareTo(n1.getNodeType());
-
+			
 			return res;
 		}
-
+		
 		public boolean equals(Object o1) {
 			return false;
 		}
 	};
-
+	
 	private static class SearchPath {
-
+		
 		private final List edges = new LinkedList();
 		private final Set reverseEdges = new HashSet();
 		private final Map graphMap = new HashMap();
 		private final boolean isNAC;
-
+		
 		public SearchPath(boolean isNAC) {
 			this.isNAC = isNAC;
 		}
-
+		
 		public boolean isNAC() {
 			return isNAC;
 		}
-
+		
 		public void dump(StringBuffer sb) {
 			for(Iterator it = edges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
@@ -119,74 +121,74 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node src = g.getSource(edge);
 				Node tgt = g.getTarget(edge);
 				boolean reverse = isReverse(edge);
-
+				
 				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent()
-						  + " reverse: " + reverse + "\n");
-
+										+ " reverse: " + reverse + "\n");
+				
 			}
 		}
-
+		
 		public void add(Edge edge, boolean reverse, Graph graph) {
 			graphMap.put(edge, graph);
 			edges.add(edge);
 			if(reverse)
 				reverseEdges.add(edge);
 		}
-
+		
 		public boolean isReverse(Edge edge) {
 			return reverseEdges.contains(edge);
 		}
-
+		
 		public Graph getGraph(Edge edge) {
 			return (Graph) graphMap.get(edge);
 		}
 	}
-
+	
 	private static class VisitContext {
 		final Set visited = new HashSet();
 		final List paths = new LinkedList();
-
+		
 		Graph graph;
 		Comparator comparator;
-
+		
 		VisitContext(Graph graph, Comparator comparator) {
 			this.graph = graph;
 			this.comparator = comparator;
 		}
 	}
-
+	
 	private void visitNode(VisitContext ctx, SearchPath path,
-						   Node start, boolean isNAC) {
-
+												 Node start, boolean isNAC) {
+		
 		if(ctx.visited.contains(start))
 			return;
-
+		
 		ctx.visited.add(start);
-
+		
 		debug.report(NOTE, "start: " + start);
-
+		
 		int index = 0;
 		Collection visited = ctx.visited;
 		Graph g = ctx.graph;
 		Map edges = new HashMap();
 		List nodes = new LinkedList();
 		Set reverse = new HashSet();
-
+		
 		for(Iterator it = g.getOutgoing(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node tgt = g.getTarget(edge);
-
+			
 			if(!visited.contains(tgt)) {
 				nodes.add(tgt);
 				edges.put(tgt, edge);
 				index++;
 			}
 		}
-
+		
 		for(Iterator it = g.getIncoming(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node src = g.getSource(edge);
-
+			
 			if(!visited.contains(src)) {
 				reverse.add(edge);
 				nodes.add(src);
@@ -194,71 +196,71 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				index++;
 			}
 		}
-
+		
 		Node[] nodeArr = (Node[]) nodes.toArray(new Node[nodes.size()]);
 		Arrays.sort(nodeArr, ctx.comparator);
-
+		
 		for(int i = 0; i < nodeArr.length; i++) {
 			Node n = nodeArr[i];
 			debug.report(NOTE, "index " + i + ": " + n);
-
+			
 			if(!ctx.visited.contains(n)) {
 				SearchPath sp = path;
-
+				
 				if(i > 0) {
 					sp = new SearchPath(isNAC);
 					ctx.paths.add(sp);
 				}
-
+				
 				Edge edge = (Edge) edges.get(n);
 				sp.add(edge, reverse.contains(edge), g);
 				visitNode(ctx, sp, n, isNAC);
 			}
 		}
-
-
+		
+		
 	}
-
+	
 	private SearchPath[] computeSearchPaths(Graph graph, Graph pattern,
-											boolean graphIsNAC) {
-
+																					boolean graphIsNAC) {
+		
 		Collection rest = graph.getNodes(new HashSet());
 		Collection startingPoints = pattern.getNodes(new HashSet());
-
+		
 		startingPoints.retainAll(rest);
-
+		
 		Iterator edgeIterator = graph.getEdges();
 		Comparator comparator = new NodeComparator();
-
+		
 		debug.report(NOTE, "all nodes" + rest);
-
+		
 		if(rest.isEmpty() || !edgeIterator.hasNext())
 			return new SearchPath[0];
-
+		
 		VisitContext ctx = new VisitContext(graph, comparator);
-
+		
 		do {
 			debug.report(NOTE, "rest: " + rest);
-
+			
 			Collection selectFrom = startingPoints.isEmpty() ? rest : startingPoints;
 			Node cheapest = getCheapest(selectFrom.iterator(), comparator);
 			SearchPath path = new SearchPath(graphIsNAC);
 			ctx.paths.add(path);
-
+			
 			debug.report(NOTE, "cheapest: " + cheapest);
-
+			
 			visitNode(ctx, path, cheapest, graphIsNAC);
-
+			
 			if(path.edges.isEmpty())
 				ctx.paths.remove(path);
-
+			
 			rest.removeAll(ctx.visited);
 			startingPoints.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
-
+		
 		return (SearchPath[]) ctx.paths.toArray(new SearchPath[ctx.paths.size()]);
 	}
-
+	
 	/**
 	 * Get the node with the most specific type.
 	 * @param nodes The node collection to get the most specific from.
@@ -267,67 +269,66 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	 */
 	private Node getCheapest(Iterator nodes, Comparator comp) {
 		Node cheapest = null;
-
+		
 		while(nodes.hasNext()) {
 			Node curr = (Node) nodes.next();
-
+			
 			boolean setNewCheapest = cheapest == null || comp.compare(curr, cheapest) <= 0;
 			cheapest = setNewCheapest ? curr : cheapest;
 		}
-
+		
 		if(cheapest != null) {
 			NodeType nt = cheapest.getNodeType();
 			debug.report(NOTE, "cheapest node: " + cheapest.getIdent()
-						 + ", type: " + nt.getIdent());
+										 + ", type: " + nt.getIdent());
 		}
-
+		
 		return cheapest;
 	}
-
+	
 	protected Query makeMatchStatement(MatchCtx ctx) {
-
+		
 		MatchingAction act = ctx.action;
-		TypeStatementFactory factory = ctx.stmtFactory;
-		GraphTableFactory tableFactory = ctx.tableFactory;
+		TypeStatementFactory factory = ctx.factory;
+		GraphTableFactory tableFactory = ctx.factory;
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
-
+		
 		Map neutralMap = new HashMap();
 		Graph pattern = act.getPattern();
-
+		
 		// Build a list with all graphs of this matching action
 		LinkedList graphs = new LinkedList();
 		graphs.addFirst(pattern);
 		for (Iterator iter = act.getNegs(); iter.hasNext(); ) {
 			graphs.addLast(iter.next());
 		}
-
-		JoinSequence seq = new JoinSequence(act, factory, tableFactory,
-											matchedNodes, matchedEdges);
-
+		JoinSequence seq = new JoinSequence(act, ctx.factory,
+																				matchedNodes, matchedEdges);
+		
 		Term having = null;
-
+		
 		int graphNumber = 0;
-
+		
 		// Iterate over all these graphs and generate the statement
 		for (Iterator iter = graphs.iterator(); iter.hasNext(); graphNumber++) {
 			Graph graph = (Graph) iter.next();
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
-
+			
 			SearchPath[] paths = computeSearchPaths(graph, pattern, graphIsNAC);
-
+			
 			for(int i = 0; i < paths.length; i++) {
 				StringBuffer sb = new StringBuffer();
 				paths[i].dump(sb);
 				debug.report(NOTE, "path " + i);
 				debug.report(NOTE, sb.toString());
 			}
-
+			
 			//int pathsProcessed = 0;
 			int selectedPath = 0;
 			boolean[] done = new boolean[paths.length];
-
+			
 			// Build joins until all paths are covered
 			// This is not streight forward since all paths after the first (which is
 			// given) are selected dependent on what has been joined already. In other
@@ -335,98 +336,99 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			while(selectedPath >= 0 && paths.length > 0) {
 				SearchPath path = paths[selectedPath];
 				assert !path.edges.isEmpty() : "path must contain an element";
-
+				
 				seq.addPath(path, joinType);
-
+				
 				// Mark the currently processed path as processed.
 				done[selectedPath] = true;
-
+				
 				// Unselect the current path to select a new one.
 				selectedPath = -1;
-
+				
 				for(int i = 0; i < paths.length; i++) {
 					if(!done[i] ) {
 						assert !paths[i].edges.isEmpty() : "path must contain an element";
 						selectedPath = i;
 						Edge firstEdge = (Edge) paths[i].edges.get(0);
 						Node start = graph.getSource(firstEdge);
-
+						
 						if(seq.hasBeenProcessed(start))
 							break;
 					}
 				}
 			}
-
+			
 			// Also add the edges that have not beed considered yet.
 			// These edges do not occurr in the DFS tree spanned by visitNode()
 			// but their existence, incidence situation and type must be checked.
 			// So process them here.
 			Collection restEdges = graph.getEdges(new HashSet());
 			restEdges.removeAll(seq.getProcessedEntities());
-
+			
 			for(Iterator it = restEdges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
 				seq.addEdgeJoin(graph, edge, false, joinType, graphIsNAC);
 			}
-
-
+			
+			
 			// Now, put all single nodes to the query.
 			// The single nodes must be the nodes which have not yet been processed.
 			Collection singleNodes = graph.getNodes(new HashSet());
 			singleNodes.removeAll(seq.getProcessedEntities());
-
+			
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
 				seq.addNodeJoin(graph, n, joinType, graphIsNAC);
 			}
-
+			
 			if (graphIsNAC) {
 				having = factory.addExpression(Opcodes.AND, having,
-											   factory.expression(Opcodes.ISNULL,
-																  factory.expression(
-																	  factory.aggregate(Aggregate.SUM, seq.getLastTableJoined().colId()))));
+																			 factory.expression(Opcodes.ISNULL,
+																													factory.expression(
+																														factory.aggregate(Aggregate.SUM, seq.getLastTableJoined().colId()))));
 			}
-
+			
 			Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
 			neutralMap.put(graph, neutral);
 			seq.addJoin(neutral, Join.INNER);
 		}
-
+		
 		// Generate conditions related to NAC graphs
 		addNacConds(ctx, neutralMap, seq);
-
+		
 		addMultigraphEdgeConds(ctx, seq);
-
+		
 		// If there were pending conditions make a simple query using these conditions.
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result = seq.produceQuery(having);
-
+		
 		return result;
 	}
-
+	
 	private void addNacConds(MatchCtx matchCtx, Map neutralMap, JoinSequence seq) {
-
+		
 		MatchingAction act = matchCtx.action;
-		TypeStatementFactory factory = matchCtx.stmtFactory;
-		GraphTableFactory tableFactory = matchCtx.tableFactory;
-
+		TypeStatementFactory factory = matchCtx.factory;
+		GraphTableFactory tableFactory = matchCtx.factory;
+		
+		boolean negIsSubPattern = false;
+		
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
 		Collection patEdges = act.getPattern().getEdges(new HashSet());
-
+		
 		// For all negative parts
 		for (Iterator it = act.getNegs(); it.hasNext(); ) {
 			Graph neg = (Graph) it.next();
-
+			
 			// Get the elements to generate for
 			Collection negNodes = neg.getNodes(new HashSet());
 			Collection negAllNode = neg.getNodes(new HashSet());
 			negNodes.removeAll(patNodes);
-
+			
 			Collection negEdges = neg.getEdges(new HashSet());
 			Collection negAllEdges = neg.getEdges(new HashSet());
 			negEdges.removeAll(patEdges);
-
 			// This checks the neggraph beeing a sub to pattern
 			if (negNodes.isEmpty() && negEdges.isEmpty() && !(negAllNode.isEmpty() && negAllEdges.isEmpty()))  {
 				// TODO Tell the user which rule and which neg-graph
@@ -434,13 +436,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				//add a "AND FALSE" to the next join
 				seq.scheduleCond(factory.constant(false), new HashSet());
 			}
-
+			
 			// Construct conditions for <> of edges
 			for (Iterator iter = negEdges.iterator(); iter.hasNext(); )	{
 				Edge e = (Edge) iter.next();
 				EdgeTable edgeTable = tableFactory.edgeTable(e);
 				Term edgeIdCol = factory.expression(edgeTable.colId());
-
+				
 				Term edgeUneq = null;
 				Collection depsUneq = new HashSet();
 				for(Iterator jt = patEdges.iterator(); jt.hasNext();) {
@@ -458,48 +460,48 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 		}
 	}
-
+	
 	private void addMultigraphEdgeConds(MatchCtx ctx, JoinSequence seq) {
-
+		
 		Graph pattern = ctx.action.getPattern();
 		Collection tmp = pattern.getEdges(new LinkedList());
 		Edge[] edges = (Edge[]) tmp.toArray(new Edge[tmp.size()]);
-		GraphTableFactory tableFactory = ctx.tableFactory;
-		TypeStatementFactory stmtFactory = ctx.stmtFactory;
-
+		GraphTableFactory tableFactory = ctx.factory;
+		TypeStatementFactory stmtFactory = ctx.factory;
+		
 		Collection deps = new HashSet();
 		Term cond = null;
-
+		
 		for(int i = 0; i < edges.length; i++) {
 			Edge e = edges[i];
 			Node esrc = pattern.getSource(e);
 			Node etgt = pattern.getTarget(e);
-
+			
 			for(int j = i + 1; j < edges.length; j++) {
 				Edge f = edges[j];
 				Node fsrc = pattern.getSource(f);
 				Node ftgt = pattern.getTarget(f);
-
+				
 				if(esrc.equals(fsrc) && etgt.equals(ftgt)) {
 					EdgeTable t1 = tableFactory.edgeTable(e);
 					EdgeTable t2 = tableFactory.edgeTable(f);
-
+					
 					deps.add(t1);
 					deps.add(t2);
-
+					
 					Term uneq = stmtFactory.expression(Opcodes.NE,
-													   stmtFactory.expression(t1.colId()),
-													   stmtFactory.expression(t2.colId()));
-
+																						 stmtFactory.expression(t1.colId()),
+																						 stmtFactory.expression(t2.colId()));
+					
 					cond = stmtFactory.addExpression(Opcodes.AND, cond, uneq);
 				}
 			}
 		}
-
+		
 		if(cond != null)
 			seq.scheduleCond(cond, deps);
 	}
-
+	
 	/**
 	 * Handles a sequence if join.
 	 *
@@ -517,32 +519,32 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	 * this method successively with the same condition.
 	 */
 	private class JoinSequence {
-
+		
 		private final Map conditions = new HashMap();
-
+		
 		/**
 		 * Record all processed tables and map them
 		 * to ascending integers.
 		 */
 		private final Map processedTables = new HashMap();
-
+		
 		/**
 		 * Also record all processed nodes and edges.
 		 */
 		private final Set processedEntities = new HashSet();
-
+		
 		/**
 		 * Keep track of all joins added. This is a list,
 		 * since order is important.
 		 */
 		private final List joins = new LinkedList();
-
+		
 		/**
 		 * Record all nodes and edges that appear in rule
 		 * conditions.
 		 */
 		private final Set occurInCond = new HashSet();
-
+		
 		/**
 		 * Record join condition dependecies.
 		 * Firstly, terms are mapped to sets of relations here.
@@ -550,51 +552,46 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * bit sets consisting of the IDs of the relations.
 		 */
 		private final Map joinCondDeps = new HashMap();
-
+		
 		/** The statement factory. */
-		private final TypeStatementFactory factory;
-
-		/** The table factory. */
-		private final GraphTableFactory tableFactory;
-
+		private final MetaFactory factory;
+		
 		/** The default condition of a join. */
 		private final Term defCond;
-
+		
 		/** The action the join sequence is produced for. */
 		private final MatchingAction act;
-
+		
 		/** The current join. */
 		private Relation currJoin = null;
-
+		
 		/** The current relation number. */
 		private int currId = 0;
-
+		
 		private List matchedNodes;
-
+		
 		private List matchedEdges;
-
-		JoinSequence(MatchingAction act, TypeStatementFactory factory,
-					 GraphTableFactory tableFactory,
-					 List matchedNodes, List matchedEdges) {
-
+		
+		JoinSequence(MatchingAction act, MetaFactory factory,
+								 List matchedNodes, List matchedEdges) {
+			
 			this.act = act;
 			this.factory = factory;
-			this.tableFactory = tableFactory;
 			this.defCond = factory.constant(true);
 			this.matchedNodes = matchedNodes;
 			this.matchedEdges = matchedEdges;
-
+			
 			buildConds();
 		}
-
+		
 		IdTable getLastTableJoined() {
 			assert joins.size() != 0;
-
+			
 			Join j = ((Join) joins.get(joins.size()-1));
 			IdTable res = (IdTable) j.getRight();
 			return res;
 		}
-
+		
 		/**
 		 * Build the SQL terms for the condition section of the action.
 		 * This method fills the <code>conditions</code> map, mapping
@@ -605,27 +602,25 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @note Just for class internal use.
 		 */
 		private void buildConds() {
-
+			
 			for(Iterator it = act.getPattern().getConditions().iterator(); it.hasNext();) {
 				List usedEntities = new LinkedList();
-
+				
 				Expression expr = (Expression) it.next();
-				Term term = genExprSQL(expr, factory, tableFactory, usedEntities);
-
+				Term term = genExprSQL(expr, factory, usedEntities);
 				for(Iterator et = usedEntities.iterator(); et.hasNext();) {
 					Object obj = et.next();
-
+					
 					if(obj instanceof Node)
-						scheduleCond(term, tableFactory.nodeAttrTable((Node) obj));
+						scheduleCond(term, factory.nodeAttrTable((Node) obj));
 					else if(obj instanceof Edge)
-						scheduleCond(term, tableFactory.edgeAttrTable((Edge) obj));
-
+						scheduleCond(term, factory.edgeAttrTable((Edge) obj));
 				}
-
+				
 				occurInCond.addAll(usedEntities);
 			}
 		}
-
+		
 		/**
 		 * Check if an entity has been added to the join sequence.
 		 * @param ent The entity to check for.
@@ -635,7 +630,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private boolean hasBeenProcessed(Entity ent) {
 			return processedEntities.contains(ent);
 		}
-
+		
 		/**
 		 * Mark an entity as processed.
 		 * @param ent The entity.
@@ -643,7 +638,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private void markProcessed(Entity ent) {
 			processedEntities.add(ent);
 		}
-
+		
 		/**
 		 * Get all processed entities.
 		 * @return A collection containing all processed entities.
@@ -651,7 +646,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private Collection getProcessedEntities() {
 			return processedEntities;
 		}
-
+		
 		/**
 		 * Get the id of an entity.
 		 * Being marked processed, an entity gets an id. These
@@ -662,7 +657,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			assert processedTables.containsKey(table) : "table must have been processed yet";
 			return ((Integer) processedTables.get(table)).intValue();
 		}
-
+		
 		/**
 		 * Add a condition term to the join condition dependency map.
 		 *
@@ -680,15 +675,15 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		private void addCondDep(Term cond, Collection tables) {
 			BitSet deps = new BitSet();
-
+			
 			for(Iterator it = tables.iterator(); it.hasNext();) {
 				Table table = (Table) it.next();
 				deps.set(getId(table));
 			}
-
+			
 			joinCondDeps.put(cond, deps);
 		}
-
+		
 		/**
 		 * Add a condition tree to the list of scheduled conditions.
 		 *
@@ -710,7 +705,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			} else
 				conditions.put(cond, tables);
 		}
-
+		
 		/**
 		 * Mark a condition dependent of a table.
 		 *
@@ -729,7 +724,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				conditions.put(cond, deps);
 			}
 		}
-
+		
 		/**
 		 * Deliver a condition tree.
 		 *
@@ -747,31 +742,31 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		private Term deliverConditions(BitSet processed) {
 			Term res = factory.constant(true);
-
+			
 			// make an auxillary working set.
 			BitSet work = new BitSet(currId);
-
+			
 			Collection toDelete = new LinkedList();
-
+			
 			debug.report(NOTE, "processed: " + processed);
-
+			
 			// Look at all conditions that are in the join dependency set.
 			for(Iterator it = joinCondDeps.keySet().iterator(); it.hasNext();) {
 				Term term = (Term) it.next();
 				BitSet dep = (BitSet) joinCondDeps.get(term);
-
-
+				
+				
 				// look if all processed relations are in the dependency set
 				// of this condition.
 				work.clear();
 				work.or(dep);
 				work.and(processed);
 				work.xor(dep);
-
+				
 				debug.report(NOTE, "  dep: " + dep + " -> " + work);
-
+				
 				assert term != null : "Term must not be null";
-
+				
 				// If yes, add this condition to the returned ones and
 				// remove it from the join condition dependency set.
 				if(work.nextSetBit(0) == -1) {
@@ -779,16 +774,16 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					toDelete.add(term);
 				}
 			}
-
+			
 			for(Iterator i = toDelete.iterator(); i.hasNext();)
 				joinCondDeps.remove(i.next());
-
+			
 			debug.report(NOTE, "  res: " + res);
-
-
+			
+			
 			return res;
 		}
-
+		
 		/**
 		 * Make the condition term that is to be added to a node join.
 		 * @param g The graph the node is in.
@@ -796,33 +791,31 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		private void addNodeJoinCond(Graph g, Node node) {
 			Collection dep = new LinkedList();
-			NodeTable nodeTable = tableFactory.nodeTable(node);
-
+			NodeTable nodeTable = factory.nodeTable(node);
 			dep.add(nodeTable);
 			// Make type constraints
 			Term res = factory.isA(nodeTable, node, true, typeID);
-
+			
 			// Make the clauses guaranteeing injectiveness
 			// This must be done on the graph level; walking on processedEntities
 			// is not sufficient!
 			for(Iterator it = g.getNodes(); it.hasNext();) {
 				Node curr = (Node) it.next();
 				if(processedEntities.contains(curr)) {
-					NodeTable currTable = tableFactory.nodeTable(curr);
-
+					NodeTable currTable = factory.nodeTable(curr);
 					if(!node.isHomomorphic(curr)) {
 						res = factory.addExpression(Opcodes.AND, res,
-													factory.expression(Opcodes.NE,
-																	   factory.expression(nodeTable.colId()),
-																	   factory.expression(currTable.colId())));
+																				factory.expression(Opcodes.NE,
+																													 factory.expression(nodeTable.colId()),
+																													 factory.expression(currTable.colId())));
 						dep.add(currTable);
 					}
 				}
 			}
-
+			
 			scheduleCond(res, dep);
 		}
-
+		
 		/**
 		 * Add the condition for an edge join.
 		 * This method schedules all neccessary conditions for a join
@@ -835,32 +828,31 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private void addEdgeJoinCond(Graph g, Edge edge, boolean swapped) {
 			Node firstNode = g.getEnd(edge, !swapped);
 			Node secondNode = g.getEnd(edge, swapped);
-
-			EdgeTable table = tableFactory.edgeTable(edge);
-			NodeTable firstTable = tableFactory.nodeTable(firstNode);
-			NodeTable secondTable = tableFactory.nodeTable(secondNode);
-
+			EdgeTable table = factory.edgeTable(edge);
+			NodeTable firstTable = factory.nodeTable(firstNode);
+			NodeTable secondTable = factory.nodeTable(secondNode);
+			
 			// Add condition about the connectivity of the edge to the first node.
 			Term srcCond =
 				factory.expression(Opcodes.EQ,
-								   factory.expression(firstTable.colId()),
-								   factory.expression(table.colEndId(!swapped)));
-
+													 factory.expression(firstTable.colId()),
+													 factory.expression(table.colEndId(!swapped)));
+			
 			// Also add conditions restricting the edge type here.
 			Term typeCond = factory.isA(table, edge, false, typeID);
-
+			
 			// Put the incidence conditions into secondNodeCond
 			Term tgtCond = factory.expression(Opcodes.EQ,
-											  factory.expression(secondTable.colId()),
-											  factory.expression(table.colEndId(swapped)));
-
+																				factory.expression(secondTable.colId()),
+																				factory.expression(table.colEndId(swapped)));
+			
 			scheduleCond(typeCond, table);
 			scheduleCond(srcCond, firstTable);
 			scheduleCond(srcCond, table);
 			scheduleCond(tgtCond, secondTable);
 			scheduleCond(tgtCond, table);
 		}
-
+		
 		/**
 		 * Add the condition that links the node or edge table to the
 		 * corresponding attribute table.
@@ -870,14 +862,14 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		private void addAttrJoinCond(IdTable idTable, AttributeTable attrTable) {
 			Column col = attrTable.colId();
-
+			
 			Term cond = factory.expression(Opcodes.EQ,
-										   factory.expression(idTable.colId()),
-										   factory.expression(col));
+																		 factory.expression(idTable.colId()),
+																		 factory.expression(col));
 			scheduleCond(cond, idTable);
 			scheduleCond(cond, attrTable);
 		}
-
+		
 		/**
 		 * Add a join to the join list.
 		 * @param rel The relation that is joined.
@@ -886,17 +878,17 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private void addJoin(Relation rel, int kind) {
 			assert !(currJoin == null) || (rel instanceof Table)
 				: "if this is the first join, the relation must be a table";
-
+			
 			boolean firstJoin = currJoin == null;
 			// DONT change associativity of joins. See getLastJoinedTable!!
 			currJoin = firstJoin ? rel : factory.join(kind, currJoin, rel, defCond);
-
+			
 			if(!firstJoin)
 				joins.add(currJoin);
-
+			
 			processedTables.put(rel, new Integer(currId++));
 		}
-
+		
 		/**
 		 * Add a join over a node to the join list.
 		 * This method automatically detects, if the join over this node
@@ -912,21 +904,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			if(!hasBeenProcessed(node)) {
 				if(!nac)
 					matchedNodes.add(node);
-
-				NodeTable nodeTable = tableFactory.nodeTable(node);
+				NodeTable nodeTable = factory.nodeTable(node);
 				addJoin(nodeTable, joinMethod);
 				addNodeJoinCond(g, node);
-
+				
 				if(occurInCond.contains(node)) {
-					AttributeTable attrTable = tableFactory.nodeAttrTable(node);
+					AttributeTable attrTable = factory.nodeAttrTable(node);
 					addJoin(attrTable, joinMethod);
 					addAttrJoinCond(nodeTable, attrTable);
 				}
-
+				
 				markProcessed(node);
 			}
 		}
-
+		
 		/**
 		 * Add a join over an edge to the join list.
 		 * This method does basically the same as
@@ -938,25 +929,24 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param joinMethod The metjod of join.
 		 */
 		private void addEdgeJoin(Graph g, Edge edge, boolean swapped,
-								 int joinMethod, boolean nac) {
+														 int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(edge)) {
 				if(!nac)
 					matchedEdges.add(edge);
-
-				EdgeTable edgeTable = tableFactory.edgeTable(edge);
+				EdgeTable edgeTable = factory.edgeTable(edge);
 				addJoin(edgeTable, joinMethod);
 				addEdgeJoinCond(g, edge, swapped);
-
+				
 				if(occurInCond.contains(edge)) {
-					AttributeTable attrTable = tableFactory.edgeAttrTable(edge);
+					AttributeTable attrTable = factory.edgeAttrTable(edge);
 					addJoin(attrTable, joinMethod);
 					addAttrJoinCond(edgeTable, attrTable);
 				}
-
+				
 				markProcessed(edge);
 			}
 		}
-
+		
 		/**
 		 * Add a search path to the join sequence.
 		 * @param sp The search path,
@@ -966,20 +956,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(Iterator it = sp.edges.iterator(); it.hasNext(); ) {
 				Edge edge = (Edge) it.next();
 				Graph g = sp.getGraph(edge);
-
+				
 				// If the edge is reverse the selector selects the nodes
 				// backwards.
 				boolean reverse = sp.isReverse(edge);
 				Node firstNode = g.getEnd(edge, !reverse);
 				Node secondNode = g.getEnd(edge, reverse);
 				boolean nac = sp.isNAC();
-
+				
 				addNodeJoin(g, firstNode, joinMethod, nac);
 				addEdgeJoin(g, edge, reverse, joinMethod, nac);
 				addNodeJoin(g, secondNode, joinMethod, nac);
 			}
 		}
-
+		
 		/**
 		 * Finish the build phase and produce a query.
 		 * This method is to be called after all desired paths
@@ -987,19 +977,19 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @return The query representing the added paths.
 		 */
 		Query produceQuery(Term having) {
-
-
-
-
+			
+			
+			
+			
 			// If there's just one processed table (the singleton node)
 			// Add a join to the neutral table to create a join
 			if(processedTables.size() == 1) {
-				Table neutral = tableFactory.neutralTable();
+				Table neutral = factory.neutralTable();
 				addJoin(neutral, Join.INNER);
 			}
-
+			
 			// From here: |processedTable| >= 2
-
+			
 			// First, add all terms from the cond part of the rule to
 			// the join cond dependency map.
 			for(Iterator it = conditions.keySet().iterator(); it.hasNext();) {
@@ -1007,19 +997,19 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Collection tables = (Collection) conditions.get(term);
 				addCondDep(term, tables);
 			}
-
+			
 			debug.report(NOTE, "processed: " + processedTables);
 			debug.report(NOTE, "deps: " + joinCondDeps);
-
+			
 			// Add all scheduled conditions to their
 			// respective joins.
 			BitSet procTables = new BitSet(currId);
-
+			
 			int i = 0;
 			for(Iterator jt = joins.iterator(); jt.hasNext(); i++) {
-
+				
 				Join join = (Join) jt.next();
-
+				
 				// For the first join, we also mark the left hand side
 				// relation processed.
 				if(i == 0) {
@@ -1027,51 +1017,51 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 						: "lhs of first join must be a table";
 					procTables.set(getId(join.getLeft()));
 				}
-
+				
 				// Mark the rhs of the join as processed.
 				// The rhs is always a table (see the addJoin method for
 				// how joins are made).
 				procTables.set(getId(join.getRight()));
-
+				
 				Term conds = deliverConditions(procTables);
 				debug.report(NOTE, "current: " + procTables);
 				debug.report(NOTE, "conds: " + (conds != null ? true : false));
-
+				
 				// If this join has conditions, set them
 				// else leave the condition to TRUE
 				if(conds != null)
 					join.setCondition(conds);
 			}
-
+			
 			// Build the column list
 			List columns = new LinkedList();
-
+			
 			for(Iterator it = matchedNodes.iterator(); it.hasNext();) {
 				Node node = (Node) it.next();
-				NodeTable nodeTable = tableFactory.nodeTable(node);
+				NodeTable nodeTable = factory.nodeTable(node);
 				columns.add(nodeTable.colId());
 			}
-
+			
 			for(Iterator it = matchedEdges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
-				EdgeTable edgeTable = tableFactory.edgeTable(edge);
+				EdgeTable edgeTable = factory.edgeTable(edge);
 				columns.add(edgeTable.colId());
 			}
-
+			
 			// assert processedTables.size() > 1 : "Small queries not yet supported";
 			Attributes attrs = act.getAttributes();
 			int limit = StatementFactory.NO_LIMIT;
-
+			
 			if(attrs.containsKey(KEY_LIMIT))
 				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
-
+			
 			List groupBy = columns; //same as selected entities
-
+			
 			Query result = factory.explicitQuery(true, columns, currJoin, groupBy, having, limit);
-
+			
 			return result;
 		}
-
+		
 	}
 }
 

@@ -87,6 +87,8 @@ public class VCGDumper implements GraphDumper {
 	 */
 	public void finish() {
 		ps.println("}");
+		ps.flush();
+		ps.close();
 	}
 	
 	/**
@@ -191,6 +193,13 @@ public class VCGDumper implements GraphDumper {
 	public void beginSubgraph(GraphDumpable d) {
 		ps.println("graph:{" + getNodeAttributes(d)
 								 + " status:clustered");
+	}
+	
+	public void beginSubgraph(String name) {
+		ps.print("graph:{title:\"");
+		ps.print(name);
+		ps.println('\"');
+		ps.println("  status:clustered");
 	}
 	
 	/**

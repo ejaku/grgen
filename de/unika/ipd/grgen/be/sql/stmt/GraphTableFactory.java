@@ -8,6 +8,7 @@ package de.unika.ipd.grgen.be.sql.stmt;
 
 import de.unika.ipd.grgen.be.sql.meta.Table;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
 
 
@@ -18,6 +19,7 @@ public interface GraphTableFactory {
 
 	NodeTable nodeTable(Node node);
 	EdgeTable edgeTable(Edge edge);
+	
   AttributeTable nodeAttrTable(Node node);
   AttributeTable edgeAttrTable(Edge edge);
 	

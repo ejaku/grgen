@@ -51,16 +51,6 @@ public abstract class CompoundType extends Type {
 	protected void canonicalizeLocal() {
 		Collections.sort(members, Identifiable.COMPARATOR);
 	}
-  
-  /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-  	return new MultiIterator(new Iterator[] {
-  		super.getWalkableChildren(),
-  		members.iterator()
-  	});
-  }
 	
 	public void addFields(Map fields) {
 		super.addFields(fields);

@@ -124,7 +124,7 @@ public class Test extends Base implements Sys {
 	}
 	
 	public OutputStream createDebugFile(File file) {
-		return new NullOutputStream();
+		return NullOutputStream.STREAM;
 	}
 	
 	

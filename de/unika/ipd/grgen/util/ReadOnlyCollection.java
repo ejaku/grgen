@@ -19,9 +19,9 @@ public class ReadOnlyCollection implements Collection {
 
 	private final Collection coll;
 	
-	private static final Collection EMPTY = new ReadOnlyCollection(new LinkedList());
-	
 	private static final Map cache = new CacheMap(127);
+	
+	public static final Collection EMPTY = new ReadOnlyCollection(new LinkedList());
 	
 	public static Collection get(Collection coll) {
 		if(cache.containsKey(coll))
@@ -35,10 +35,6 @@ public class ReadOnlyCollection implements Collection {
 	
 	public static Collection getSingle(Collection coll) {
 		return new ReadOnlyCollection(coll);
-	}
-	
-	public static Collection getEmpty() {
-		return EMPTY;
 	}
 	
 	private ReadOnlyCollection(Collection coll) {

@@ -6,10 +6,10 @@
  */
 package de.unika.ipd.grgen.be.rewrite;
 
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Rule;
 import java.util.Collection;
 import java.util.Map;
-
-import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
@@ -58,10 +58,25 @@ public interface RewriteHandler {
 	 * @param The set containing nodes.
 	 */
 	void deleteEdgesOfNodes(Collection nodes);
-	
+
+	/**
+	 * Generate code to delete all edges in the set.
+	 * @param edges A collection of edges.
+	 */
 	void deleteEdges(Collection edges);
+	
+	/**
+	 * Generate code to insert all edges in the collection.
+	 * @param edges A collection of edges.
+	 */
 	void insertEdges(Collection edges);
 
+	/**
+	 * Generate an eval statement for some assignments.
+	 * @param assigns A collection of assignments.
+	 */
+	void generateEvals(Collection assigns);
+	
 	/**
 	 * Get the class of the required rewrite generator.
 	 * It may also be a superclass of it.

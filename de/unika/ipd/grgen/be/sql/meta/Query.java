@@ -14,7 +14,7 @@ import de.unika.ipd.grgen.util.GraphDumper;
 /**
  * A query.
  */
-public interface Query extends Relation {
+public interface Query extends Relation, Statement {
 	
 	List getRelations();
 	Term getCondition();

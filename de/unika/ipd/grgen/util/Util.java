@@ -6,12 +6,11 @@
 
 package de.unika.ipd.grgen.util;
 
+import java.io.*;
+
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Util {
 	
@@ -62,5 +61,34 @@ public class Util {
 			reporter.error(e.toString());
 		}
   }
+	
+	public static PrintStream openFile(File file, ErrorReporter reporter) {
+		OutputStream os = NullOutputStream.STREAM;
+		
+		try {
+			os = new BufferedOutputStream(new FileOutputStream(file));
+
+		} catch(FileNotFoundException e) {
+			reporter.error(e.toString());
+		} catch(IOException e) {
+			reporter.error(e.toString());
+		}
+
+		return new PrintStream(os);
+	}
+	
+	public static void closeFile(PrintStream ps) {
+		ps.flush();
+		ps.close();
+	}
+	
+	public static String toString(StreamDumpable dumpable) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(bos);
+		dumpable.dump(ps);
+		ps.flush();
+		ps.close();
+		return bos.toString();
+	}
 }
 

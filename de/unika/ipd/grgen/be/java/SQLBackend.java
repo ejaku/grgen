@@ -10,12 +10,12 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
-import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
-import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
+import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultMarkerSource;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
@@ -34,7 +34,8 @@ import java.util.Map;
 /**
  * A Java/SQL backend.
  */
-public class SQLBackend extends IDBase implements Actions, JoinedFactory {
+public class SQLBackend extends IDBase
+	implements Actions, JoinedFactory, MarkerSourceFactory {
 	
 	/** Map action names to SQLActions. */
 	private Map actions = new HashMap();
@@ -59,24 +60,26 @@ public class SQLBackend extends IDBase implements Actions, JoinedFactory {
 	/** Has the {@link #init(Unit, ErrorReporter, String)} method already been called. */
 	private boolean initialized = false;
 	
-	private final TypeStatementFactory factory;
-	
-	private final GraphTableFactory tableFactory;
-
-	private final TypeFactory typeFactory;
-	
+	private final MetaFactory factory;
 	
 	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
 		
 		this.params = params;
-		this.sqlGen = new SQLGenerator(params, this);
+		this.sqlGen = new SQLGenerator(params, this, this);
 		this.connectionFactory = connectionFactory;
-		this.typeFactory = new DefaultTypeFactory();
-		this.factory = new DefaultStatementFactory(typeFactory);
-		this.tableFactory = new DefaultGraphTableFactory(params, typeFactory,
-																										 nodeAttrMap, edgeAttrMap);
 		
-		
+		// TODO Do this right!!
+		this.factory = new DefaultMetaFactory(null, params, nodeAttrMap, edgeAttrMap);
+	}
+	
+	private static final class JavaMarkerSource extends DefaultMarkerSource {
+		public String nextMarkerString(DataType type) {
+			return "?";
+		}
+	};
+	
+	public MarkerSource getMarkerSource() {
+		return new JavaMarkerSource();
 	}
 	
 	private final void assertInitialized() {
@@ -99,8 +102,7 @@ public class SQLBackend extends IDBase implements Actions, JoinedFactory {
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
 
-			SQLAction act = new SQLAction(system, a, this, queries, sqlGen,
-																		tableFactory, factory);
+			SQLAction act = new SQLAction(system, a, this, queries, sqlGen, factory);
 			actions.put(a.getIdent().toString(), act);
 			
 			debug.report(NOTE, "action: " + a.getIdent());

@@ -112,16 +112,6 @@ public abstract class InheritanceType extends CompoundType {
 		
 		return res;
 	}
-
-  /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-		return new MultiIterator(new Iterator[] {
-			super.getWalkableChildren(),
-			superTypes.iterator()
-		});
-  }
   
   /**
    * Get the maximum distance to the root inheritance type.

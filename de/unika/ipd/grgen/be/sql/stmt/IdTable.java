@@ -8,6 +8,7 @@ package de.unika.ipd.grgen.be.sql.stmt;
 
 import de.unika.ipd.grgen.be.sql.meta.Column;
 import de.unika.ipd.grgen.be.sql.meta.Table;
+import java.io.PrintStream;
 
 
 /**
@@ -17,8 +18,8 @@ public interface IdTable extends Table {
 
 	Column colId();
 	
-	StringBuffer genUpdateStmt(StringBuffer sb, Column col);
-	StringBuffer genGetStmt(StringBuffer sb, Column col); 
+	PrintStream genUpdateStmt(PrintStream sb, Column col);
+	PrintStream genGetStmt(PrintStream sb, Column col);
 	
 	
 }

@@ -13,8 +13,7 @@ import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
-import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.util.Base;
@@ -221,8 +220,7 @@ class SQLAction implements Action, RewriteHandler {
 	List rewriteSteps = new LinkedList();
 	
 	SQLAction(Sys system, MatchingAction action, TypeID typeId, Queries queries,
-						SQLGenerator generator, GraphTableFactory tableFactory,
-						TypeStatementFactory factory) {
+						SQLGenerator generator, MetaFactory factory) {
 		this.action = action;
 		this.queries = queries;
 		this.typeId = typeId;
@@ -235,7 +233,7 @@ class SQLAction implements Action, RewriteHandler {
 		
 		// TODO Add table factory.
 		SQLGenerator.MatchCtx ctx =
-			generator.makeMatchContext(system, action, tableFactory, factory);
+			generator.makeMatchContext(system, action, factory);
 		String stmtString = generator.genMatchStatement(ctx);
 		
 		// Put the matched nodes and edges in map with their index in the match.
@@ -348,6 +346,13 @@ class SQLAction implements Action, RewriteHandler {
 			Edge e = (Edge) it.next();
 			rewriteSteps.add(new IndexStep(Queries.REMOVE_NODE, getIndex(e)));
 		}
+	}
+	
+	/**
+	 * Generate an eval statement for some assignments.
+	 * @param assigns A collection of assignments.
+	 */
+	public void generateEvals(Collection assigns) {
 	}
 
 	/**

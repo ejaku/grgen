@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -123,8 +124,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		Ident id = ent.getIdent();
 		Coords c = id.getCoords();
 		
-		sb.append(ent.getName().charAt(0));
 		sb.append('l').append(c.getLine()).append('c').append(c.getColumn()).append('_');
+		sb.append(ent.getName().toLowerCase()).append('_');
 		sb.append(id);
 		
 		/*
@@ -206,17 +207,19 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 			return relation;
 		}
 		
-		public StringBuffer dump(StringBuffer sb) {
-			return sb.append(getAliasName());
+		public void dump(PrintStream ps) {
+			ps.print(getAliasName());
 		}
 		
-		public StringBuffer dumpDecl(StringBuffer sb) {
-			sb.append(getDeclName()).append(" ");
-			getType().dump(sb);
+		public PrintStream dumpDecl(PrintStream ps) {
+			ps.print(getDeclName());
+			ps.print(" ");
+			getType().dump(ps);
+
 			if(!canBeNull)
-				sb.append(" NOT NULL");
+				ps.print(" NOT NULL");
 			
-			return sb;
+			return ps;
 		}
 		
 		public String toString() {
@@ -284,8 +287,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		/**
 		 * @see de.unika.ipd.grgen.be.sql.meta.MetaBase#dump(java.lang.StringBuffer)
 		 */
-		public StringBuffer dump(StringBuffer sb) {
-			return sb.append(declaration);
+		public void dump(PrintStream ps) {
+			ps.print(declaration);
 		}
 		
 		/**
@@ -307,54 +310,54 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		}
 		
 		
-		public StringBuffer dumpDecl(StringBuffer sb) {
-			sb.append("CREATE TABLE ");
-			sb.append(getDeclName());
-			sb.append(" (");
+		public PrintStream dumpDecl(PrintStream ps) {
+			ps.print("CREATE TABLE ");
+			ps.print(getDeclName());
+			ps.print(" (");
 			
 			for(int i = 0; i < columnCount(); i++) {
 				Column col = getColumn(i);
-				sb.append(i > 0 ? ", " : "");
-				col.dumpDecl(sb);
+				ps.print(i > 0 ? ", " : "");
+				col.dumpDecl(ps);
 			}
 			
-			sb.append(")");
-			return sb;
+			ps.print(")");
+			return ps;
 		}
 		
 		/**
 		 * @see de.unika.ipd.grgen.be.sql.stmt.AttributeTable#genGetStmt(java.lang.StringBuffer, de.unika.ipd.grgen.ir.Entity)
 		 */
-		public StringBuffer genGetStmt(StringBuffer sb, Column col) {
-			sb.append("SELECT ");
-			sb.append(col.getDeclName());
-			sb.append(" FROM ");
-			sb.append(getDeclName());
-			sb.append(" WHERE ");
-			sb.append(colId().getDeclName());
-			sb.append(" = $1[");
-			sb.append(colId().getType().getText());
-			sb.append("]");
+		public PrintStream genGetStmt(PrintStream ps, Column col) {
+			ps.print("SELECT ");
+			ps.print(col.getDeclName());
+			ps.print(" FROM ");
+			ps.print(getDeclName());
+			ps.print(" WHERE ");
+			ps.print(colId().getDeclName());
+			ps.print(" = $1[");
+			ps.print(colId().getType().getText());
+			ps.print("]");
 			
-			return sb;
+			return ps;
 		}
 		
 		/**
 		 * @see de.unika.ipd.grgen.be.sql.stmt.AttributeTable#genUpdateStmt(java.lang.StringBuffer, de.unika.ipd.grgen.ir.Entity)
 		 */
-		public StringBuffer genUpdateStmt(StringBuffer sb, Column col) {
-			sb.append("UPDATE ");
-			sb.append(getDeclName());
-			sb.append(" SET ");
-			sb.append(col.getDeclName());
-			sb.append(" = $1[");
-			sb.append(col.getType().getText());
-			sb.append("] WHERE ");
-			sb.append(colId().getDeclName());
-			sb.append(" = $2[");
-			sb.append(colId().getType().getText());
-			sb.append("]");
-			return sb;
+		public PrintStream genUpdateStmt(PrintStream ps, Column col) {
+			ps.print("UPDATE ");
+			ps.print(getDeclName());
+			ps.print(" SET ");
+			ps.print(col.getDeclName());
+			ps.print(" = $1[");
+			ps.print(col.getType().getText());
+			ps.print("] WHERE ");
+			ps.print(colId().getDeclName());
+			ps.print(" = $2[");
+			ps.print(colId().getType().getText());
+			ps.print("]");
+			return ps;
 		}
 
 		public String toString() {

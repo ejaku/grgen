@@ -10,6 +10,8 @@ package de.unika.ipd.grgen.be.sql.meta;
 /**
  * An opcode.
  */
+import java.io.PrintStream;
+
 public interface Op {
 
 	int INFINITE_ARITY = -1;
@@ -38,6 +40,6 @@ public interface Op {
 	 * @param operands Its operands.
 	 * @return The string buffer.
 	 */
-	StringBuffer dump(StringBuffer sb, Term[] operands);
+	PrintStream dump(PrintStream ps, Term[] operands);
 	
 }

@@ -40,13 +40,4 @@ public class Constant extends Expression {
 		return getName() + " " + value;
   }
 
-
-
-  /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-		return new SingleIterator(type);
-  }
-
 }
