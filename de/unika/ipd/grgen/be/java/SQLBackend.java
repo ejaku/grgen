@@ -39,6 +39,10 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** The error reporter. */
 	private ErrorReporter reporter;
 	
+	private Connection conn;
+	
+	private SQLParameters params;
+	
 	/**
 	 * Make a new Java/SQL backend.
 	 * @param connection The database connection
@@ -46,7 +50,10 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	 * @param reporter An error reporter.
 	 */
 	public SQLBackend(Connection connection, SQLParameters params) {
-		this.queries = new DatabaseContext(params, connection);
+		this.params = params;
+		this.conn = connection;
+		
+
 		this.sqlGen = new JavaSQLGenerator(params, this);
 	}
 
@@ -103,5 +110,6 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.reporter = reporter;
+		this.queries = new DatabaseContext(params, conn, reporter);
 	}
 }

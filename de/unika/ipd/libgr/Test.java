@@ -21,7 +21,10 @@ import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.parser.antlr.GRLexer;
 import de.unika.ipd.grgen.parser.antlr.GRParser;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.report.DebugReporter;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.grgen.util.report.StreamHandler;
+import de.unika.ipd.libgr.graph.Graph;
 
 
 /**
@@ -38,16 +41,16 @@ public class Test extends Base {
 			
 			Class postgresDriver = Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
-			System.out.println("could not load postgres driver");
+			reporter.error("could not load postgres driver: " + e);
 			System.exit(1);
 		}
 
 		Connection conn = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql:database", user, passwd);
-		} catch (SQLException e1) {
-			System.out.println("could not get a connection");
+			conn = DriverManager.getConnection("jdbc:postgresql:test", user, passwd);
+		} catch (SQLException e) {
+			reporter.error("could not get a connection: " + e);
 			System.exit(1);
 		}
 
@@ -109,14 +112,24 @@ public class Test extends Base {
 
 	public void run(String filename) {
 		JoinedFactory factory = load(filename);
+	
+		Graph g = factory.getGraph("Test");
 		
 	}
 	
 	Test() {
+		StreamHandler handler = new StreamHandler(System.out);
 		reporter = new ErrorReporter();
+		reporter.addHandler(handler);
+		
+		Base.setReporters(new DebugReporter(10), reporter);
+		
+		Base.debug.addHandler(handler);
 	}
 	
 	public static void main(String[] args) { 
+		
+		
 		
 		Test prg = new Test();
 		

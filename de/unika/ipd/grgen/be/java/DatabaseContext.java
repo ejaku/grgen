@@ -12,12 +12,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
 /**
  * A database context.
  */
-class DatabaseContext implements Queries {
+class DatabaseContext extends Base implements Queries {
 
 	/** Database parameters. */
 	private SQLParameters parameters;
@@ -26,7 +28,10 @@ class DatabaseContext implements Queries {
 	private Connection conn;
 
 	/** The statement strings. */
-	private final String[] stmtStrings = initStatements();
+	private final String[] stmtStrings;
+	
+	/** The error reporter. */
+	private final ErrorReporter reporter;
 	
 	private PreparedStatement[] stmts = new PreparedStatement[COUNT];
 
@@ -52,7 +57,7 @@ class DatabaseContext implements Queries {
 		res[EDGE_SOURCE] = "SELECT " + p.getColEdgesSrcId() + " FROM " + p.getTableEdges()
 			+ " WHERE " + p.getColEdgesId() + " = ?";
 		
-		res[EDGE_SOURCE] = "SELECT " + p.getColEdgesTgtId() + " FROM " + p.getTableEdges()
+		res[EDGE_TARGET] = "SELECT " + p.getColEdgesTgtId() + " FROM " + p.getTableEdges()
 			+ " WHERE " + p.getColEdgesId() + " = ?";
 
 		res[NODE_INCOMING] = "SELECT " + p.getColEdgesId() + " FROM " + p.getTableEdges()
@@ -79,17 +84,23 @@ class DatabaseContext implements Queries {
 		return stmts[id];
 	}
 
-	DatabaseContext(SQLParameters parameters, Connection connection) {
+	DatabaseContext(SQLParameters parameters, Connection connection, ErrorReporter reporter) {
 		this.conn = connection;
 		this.parameters = parameters;
+		this.reporter = reporter;
+		
+		debug.entering();
+		stmtStrings = initStatements();
 		
 		for(int i = 0; i < COUNT; i++) {
 			try {
+				debug.report(NOTE, "preparing statement: " + stmtStrings[i]);
 				stmts[i] = conn.prepareStatement(stmtStrings[i]);
 			} catch(SQLException e) {
-				// TODO error handling.
+				reporter.error("could not prepare statement: " + stmtStrings[i]);
 			}
 		}
+		debug.leaving();
 	}
 	
 	public final Connection getConnection() {
