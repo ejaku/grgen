@@ -24,7 +24,8 @@ import java.util.Map;
 /**
  * A default implementation for the statement factory.
  */
-public class DefaultStatementFactory extends Base implements TypeStatementFactory, OpFactory, Opcodes {
+public class DefaultStatementFactory extends Base
+	implements TypeStatementFactory, OpFactory, Opcodes {
 
 	/** Operator map. */
 	private final Map opMap = new HashMap();
@@ -391,19 +392,17 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#isA(de.unika.ipd.grgen.ir.Node, de.unika.ipd.grgen.be.sql.meta.Column, de.unika.ipd.grgen.be.sql.TypeID)
 	 */
-	public Term isA(Node node, GraphTableFactory factory, TypeID typeID) {
-		NodeType nt = node.getNodeType();
-		return makeCond(factory.nodeTable(node), typeID.getId(nt), nt.isRoot(),
-				typeID.getNodeTypeIsAMatrix());
+	public Term isA(TypeIdTable table, NodeType nt, TypeID typeID) {
+		return makeCond(table, typeID.getId(nt), nt.isRoot(),
+										typeID.getNodeTypeIsAMatrix());
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#isA(de.unika.ipd.grgen.ir.Edge, de.unika.ipd.grgen.be.sql.meta.Column, de.unika.ipd.grgen.be.sql.TypeID)
 	 */
-	public Term isA(Edge edge, GraphTableFactory factory, TypeID typeID) {
-		EdgeType et = edge.getEdgeType();
-		return makeCond(factory.edgeTable(edge), typeID.getId(et), et.isRoot(),
-				typeID.getEdgeTypeIsAMatrix());
+	public Term isA(TypeIdTable table, EdgeType et, TypeID typeID) {
+		return makeCond(table, typeID.getId(et), et.isRoot(),
+										typeID.getEdgeTypeIsAMatrix());
 	}
 
 	/**

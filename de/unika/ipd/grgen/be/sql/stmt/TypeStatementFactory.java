@@ -9,18 +9,29 @@ package de.unika.ipd.grgen.be.sql.stmt;
 import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
 import de.unika.ipd.grgen.be.sql.meta.Term;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.NodeType;
 
 
 /**
- * A SQL statement factory extended by the ability of generating 
+ * A SQL statement factory extended by the ability of generating
  * type constraint expressions.
  */
 public interface TypeStatementFactory extends StatementFactory {
 
-	Term isA(Node node, GraphTableFactory factory, TypeID typeID);
-	Term isA(Edge edge, GraphTableFactory factory, TypeID typeID);
+	/**
+	 * Make an SQL term that expresses that a node is of a certain type.
+	 * @param table The table which represents the node.
+	 * @param nt The node type.
+	 * @param typeID The one who given integer IDs for types.
+	 */
+	Term isA(TypeIdTable table, NodeType nt, TypeID typeID);
+	
+	/**
+	 * @see #isA(TypeIdTable, NodeType, GraphTableFactory, TypeID)
+	 * The same for edges here.
+	 */
+	Term isA(TypeIdTable table, EdgeType et, TypeID typeID);
 
 }
 	
