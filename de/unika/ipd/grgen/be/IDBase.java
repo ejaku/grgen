@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -153,6 +154,24 @@ public abstract class IDBase extends Base implements TypeID {
 			res = (Set) isaMap.get(ty);
 			
 		return res;
+	}
+	
+	/**
+	 * Get all node types a given one is compatible with.
+	 * @param nt The node type.
+	 * @return A set containing all node types <code>nt</code> is compatible with.
+	 */
+	public final Set getIsA(NodeType nt) {
+		return getIsA(nt, nodeTypeMap);
+	}
+	
+	/**
+	 * Get all edge types a given one is compatible with.
+	 * @param nt The edge type.
+	 * @return A set containing all edge types <code>et</code> is compatible with.
+	 */
+	public final Collection getIsA(EdgeType et) {
+		return getIsA(et, edgeTypeMap);
 	}
 	
 	protected final boolean[][] computeIsA(Map typeMap) {

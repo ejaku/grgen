@@ -5,14 +5,13 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.Rule;
-import java.util.Iterator;
-import de.unika.ipd.grgen.ir.Expression;
 
 /**
  * Expression operators.

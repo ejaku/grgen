@@ -8,10 +8,10 @@ package de.unika.ipd.grgen.be.C;
 
 import java.util.prefs.Preferences;
 
+import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLMangler;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
-import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Node;
 
@@ -20,13 +20,13 @@ public class CSQLFormatter implements SQLFormatter {
 
 	private SQLParameters parameters;
 	
-	private TypeID typeID;
+	private IDBase id;
 
 	final String nodeTypeIsAFunc;
 	
 	final String edgeTypeIsAFunc;
 	
-	CSQLFormatter(SQLParameters parameters, TypeID typeID) {
+	CSQLFormatter(SQLParameters parameters, IDBase id) {
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
 		
 		nodeTypeIsAFunc = prefs.get("nodeTypeIsAFunc", "node_type_is_a");
@@ -34,17 +34,17 @@ public class CSQLFormatter implements SQLFormatter {
 		
 		
 		this.parameters = parameters;
-		this.typeID = typeID;
+		this.id = id;
 	}
 	
 	public String makeNodeTypeIsA(Node n, SQLMangler mangler) {
 		return nodeTypeIsAFunc + "(" + mangler.getNodeCol(n, parameters.getColNodesId()) 
-		+ "," + typeID.getId(n.getNodeType()) + ")";
+			+ "," + id.getId(n.getNodeType()) + ")";
 	}
 	
 	public String makeEdgeTypeIsA(Edge e, SQLMangler mangler) {
 		return edgeTypeIsAFunc + "(" + mangler.getEdgeCol(e, parameters.getColEdgesId())
-		+ "," + typeID.getId(e.getEdgeType()) + ")";
+			+ "," + id.getId(e.getEdgeType()) + ")";
 	}
 	
 }

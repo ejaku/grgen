@@ -131,7 +131,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				boolean reverse = isReverse(edge);
 				
 				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent() 
-						+ " " + reverse + "\n");
+						+ " reverse: " + reverse + "\n");
 			}
 		}
 		
@@ -343,9 +343,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					(Node) ctx.graph.getTarget(edge)					
 			};
 			
-
 			// If the edge is reverse the selector selects the nodes 
-			// backwards.
+			// backwards. 
 			int first = reverse ? 1 : 0;
 			int second = 1 - first;
 			
@@ -378,9 +377,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				makeNodeJoinCond(secondNode, ctx, sb);
 				ctx.processedNodes.add(secondNode);
 			} else
-				sb.append(" ON ");
+				sb.append(" AND ");
 
-			sb.append(getNodeCol(firstNode, parameters.getColNodesId())
+			sb.append(getNodeCol(secondNode, parameters.getColNodesId())
 					+ " = " + getEdgeCol(edge, edgeCols[second]));
 			sb.append(getBreakLine());
 			
@@ -441,7 +440,15 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 						break;
 				}
 			}
-			
+		}
+		
+		// Also add the edges that have not beed considered yet.
+		Collection restEdges = graph.getEdges(new HashSet());
+		restEdges.removeAll(stmtCtx.processedEdges);
+		
+		for(Iterator it = restEdges.iterator(); it.hasNext();) {
+			Edge edge = (Edge) it.next();
+			makeEdgeJoin(edge, false, stmtCtx, stmt);
 		}
 
 		StringBuffer front = new StringBuffer();
@@ -451,9 +458,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			addToList(front, getNodeCol(node, parameters.getColNodesId()));
 		}
 
-		for(Iterator it = stmtCtx.processedEdges.iterator(); it.hasNext();) {
+		for(Iterator it = graph.getEdges(matchedEdges).iterator(); it.hasNext();) {
 			Edge edge = (Edge) it.next();
-			matchedEdges.add(edge);
 			addToList(front, getEdgeCol(edge, parameters.getColEdgesId()));
 		}
 		
@@ -467,7 +473,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			f.createNewFile();
 			FileOutputStream fos = new FileOutputStream(f);
 			PrintStream ps = new PrintStream(fos);
-			ps.println("PREPARE " + act.getIdent() + " AS " + res);
+			ps.println("EXPLAIN " + res);
 			fos.close();
 		} catch(IOException e) {
 		}
