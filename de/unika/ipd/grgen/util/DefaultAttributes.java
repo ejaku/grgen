@@ -7,25 +7,28 @@
 package de.unika.ipd.grgen.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 
 /**
  * Default attribute implementation.
  */
-public class DefaultAttributes extends HashMap implements Attributes {
+public class DefaultAttributes implements Attributes {
 
+	private final Map attrs = new HashMap();
+	
 	/**
 	 * @see de.unika.ipd.grgen.util.Attributes#containsKey(java.lang.String)
 	 */
 	public boolean containsKey(String key) {
-		return containsKey(key);
+		return attrs.containsKey(key);
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.util.Attributes#get(java.lang.String)
 	 */
 	public Object get(String key) {
-		return super.get(key);
+		return attrs.get(key);
 	}
 	
 	/**
@@ -53,6 +56,6 @@ public class DefaultAttributes extends HashMap implements Attributes {
 	 * @see de.unika.ipd.grgen.util.Attributes#put(java.lang.String, java.lang.Object)
 	 */
 	public void put(String key, Object value) {
-		super.put(key, value);
+		attrs.put(key, value);
 	}
 }

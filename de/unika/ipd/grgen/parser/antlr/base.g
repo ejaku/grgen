@@ -152,13 +152,31 @@ entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
   : res=identUse[ParserEnvironment.ACTIONS];
 
+attributes returns [ DefaultAttributes attrs = new DefaultAttributes() ]
+  : LBRACK keyValuePairs[attrs] RBRACK
+  ;
+  
+keyValuePairs [ DefaultAttributes attrs ]
+  : keyValuePair[attrs] (COMMA keyValuePair[attrs])*
+  ;
+  
+keyValuePair [ DefaultAttributes attrs ]
+  { BaseNode c; }
+  : id:IDENT ASSIGN c=constant {
+    attrs.put(id.getText(), ((ConstNode) c).getValue());
+  }
+  ;
+
 /**
  * declaration of an identifier
  */
 identDecl [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
+  { Attributes attrs; }
   : i:IDENT {
       res = new IdentNode(env.define(symTab, i.getText(), getCoords(i)));
-    }
+    } ((attributes) => attrs=attributes {
+      res.setAttributes(attrs);
+    })?
   ;
 	
 /**

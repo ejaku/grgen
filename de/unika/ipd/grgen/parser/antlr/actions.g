@@ -32,6 +32,7 @@ header {
  * @author Sebastian Hack
  */
 class GRActionsParser extends GRBaseParser;
+
 options {
   k=3;
 	codeGenMakeSwitchThreshold = 2;

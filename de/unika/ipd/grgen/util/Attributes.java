@@ -17,13 +17,10 @@ public interface Attributes {
 	
 	Object get(String key);
 	
-	void put(String key, Object value);
-	
 	public boolean isInteger(String key);
 
 	public boolean isBoolean(String key);
 
 	public boolean isString(String key);
-	
 	
 }
