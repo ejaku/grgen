@@ -755,8 +755,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("\n/** The Validate Info */\n\n");
-		sb.append("static validate_info_t valid_info["+
-					  (edgeTypeMap.keySet().size()+1)+"] = {\n");
+		sb.append("static gr_validate_info_t valid_info["+
+					  (edgeTypeMap.keySet().size()+2)+"] = {\n");
 		
 		for(Iterator i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
 			EdgeType edgeType = (EdgeType)i.next();
