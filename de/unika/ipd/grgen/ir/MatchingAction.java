@@ -4,7 +4,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.SingleIterator;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;

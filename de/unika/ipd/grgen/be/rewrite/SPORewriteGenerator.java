@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
-import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Rule;

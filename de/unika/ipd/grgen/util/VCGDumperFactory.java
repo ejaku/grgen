@@ -5,11 +5,11 @@
  */
 
 package de.unika.ipd.grgen.util;
-import de.unika.ipd.grgen.Sys;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import de.unika.ipd.grgen.Sys;
 
 
 

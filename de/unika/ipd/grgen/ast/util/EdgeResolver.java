@@ -10,9 +10,7 @@ import de.unika.ipd.grgen.ast.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
-
 import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.Scope;
 
 /**

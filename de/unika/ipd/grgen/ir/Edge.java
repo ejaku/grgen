@@ -8,7 +8,6 @@ package de.unika.ipd.grgen.ir;
  * An edge in a graph.
  */
 import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
 
 public class Edge extends Entity {
 

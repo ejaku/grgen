@@ -4,20 +4,18 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.PatternGraphNode;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Test;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
 
 /**
  * A type that represents tests

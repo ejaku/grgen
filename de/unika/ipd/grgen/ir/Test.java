@@ -4,8 +4,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * A Subgraph Test.

@@ -4,13 +4,16 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.*;
-
-import de.unika.ipd.grgen.ir.Identifiable;
 import java.awt.Color;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
+
+import de.unika.ipd.grgen.util.ArrayIterator;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.XMLDumpable;
 
 /**
  * Base class for all IR classes.

@@ -5,7 +5,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
 
 /**
  * Declaration of a type.

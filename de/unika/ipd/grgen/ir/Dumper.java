@@ -6,14 +6,13 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.GraphDumperFactory;
-import java.awt.Color;
-import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.GraphDumperFactory;
 
 public class Dumper {
 	

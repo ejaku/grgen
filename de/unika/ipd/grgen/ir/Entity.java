@@ -4,12 +4,12 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
-import de.unika.ipd.grgen.util.SingleIterator;
 import java.util.Iterator;
 import java.util.Map;
+
+import de.unika.ipd.grgen.util.Attributed;
+import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.SingleIterator;
 
 /**
  * An instantiation of a type.

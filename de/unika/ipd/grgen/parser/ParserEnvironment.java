@@ -6,16 +6,25 @@
 
 package de.unika.ipd.grgen.parser;
 
-import de.unika.ipd.grgen.ast.*;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.util.Base;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.BasicTypeNode;
+import de.unika.ipd.grgen.ast.CollectNode;
+import de.unika.ipd.grgen.ast.ConstNode;
+import de.unika.ipd.grgen.ast.EdgeTypeNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.IntConstNode;
+import de.unika.ipd.grgen.ast.ModelNode;
+import de.unika.ipd.grgen.ast.NodeTypeNode;
+import de.unika.ipd.grgen.ast.TypeDeclNode;
+import de.unika.ipd.grgen.ast.TypeNode;
+import de.unika.ipd.grgen.util.Base;
 
 public abstract class ParserEnvironment extends Base {
 

@@ -4,12 +4,6 @@
  */
 package de.unika.ipd.grgen.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.util.report.Reporter;
 

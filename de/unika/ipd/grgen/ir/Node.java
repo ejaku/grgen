@@ -4,11 +4,11 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import de.unika.ipd.grgen.util.Attributes;
 
 /**
  * A node in a graph.
