@@ -4,6 +4,7 @@
  */
 package de.unika.ipd.grgen.be.C;
 
+import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
@@ -15,11 +16,6 @@ import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
-import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
@@ -569,12 +565,35 @@ public abstract class SQLBackend extends CBackend {
 	
 	protected void genValidateStatements() {
 		StringBuffer sb = new StringBuffer();
+		List srcTypes = new ArrayList();
+		List srcRange = new ArrayList();
+		List tgtTypes = new ArrayList();
+		List tgtRange = new ArrayList();
+		List edgeTypes = new ArrayList();
+		
 		sb.append("\n/** The Validate Statements */\n");
+
 		for(Iterator i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
 			EdgeType et = (EdgeType)i.next();
-			sqlGen.genValidateStatement(sb, et, stmtFactory, tableFactory);
+			for(Iterator j = et.getConnAsserts(); j.hasNext();) {
+				ConnAssert ca = (ConnAssert)j .next();
+		
+				System.out.println("src = " + ca.getSrcType());
+				System.out.println("tgt = " + ca.getTgtType());
+				
+				srcTypes.add(ca.getSrcType());
+				srcRange.add(new int[] {ca.getSrcLower(), ca.getSrcUpper()});
+				tgtTypes.add(ca.getTgtType());
+				tgtRange.add(new int[] {ca.getTgtLower(), ca.getTgtUpper()});
+				edgeTypes.add(et);
+			}
 		}
+		
+		sqlGen.genValidateStatements(sb, srcTypes, srcRange,  tgtTypes, tgtRange,
+									 edgeTypes, stmtFactory, tableFactory);
+		
 		writeFile("valid_stmt" + incExtension, sb);
 	}
 }
+
 
