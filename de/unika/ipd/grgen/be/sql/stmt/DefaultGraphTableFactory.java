@@ -56,7 +56,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	private final DataType stringType = new DefaultDataType("text");
 	
 	/** The boolean type. */
-	private final DataType booleanType = new DefaultDataType("boolean");
+	private final DataType booleanType = new DefaultDataType("int");
 	
 	/** The node table types. */
 	protected final DataType[] nodeTableTypes;  
