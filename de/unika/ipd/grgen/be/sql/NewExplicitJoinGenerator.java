@@ -369,8 +369,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 			    // Last processed element of last path must not be null
 
-				if (graphIsNAC && endOfLast != null) {
-				//TODO: && endOfLast is in currGraph.   != null is not correct in all cases.
+				if (graphIsNAC && endOfLast != null && seq.getGraphOfLastJoin() == graph) {
 				    // Get first non-processed element of current path
 				    IdTable begOfThis = currPath.getFirstNonProcessedElement(seq, tableFactory);
 				    if (begOfThis != null) //path has been completely processed.
@@ -411,7 +410,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(Iterator it = restEdges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
 
-				if (graphIsNAC && endOfLast != null) {
+				if (graphIsNAC && endOfLast != null && seq.getGraphOfLastJoin() == graph) {
 				    IdTable begOfThis = tableFactory.edgeTable(edge);
 					addNotNullCond(begOfThis, endOfLast, seq, factory);
 			    }
@@ -431,7 +430,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
 				Node node = (Node) it.next();
 
-				if (graphIsNAC && endOfLast != null) {
+				if (graphIsNAC && endOfLast != null && seq.getGraphOfLastJoin() == graph) {
 				    IdTable begOfThis = tableFactory.nodeTable(node);
 					addNotNullCond(begOfThis, endOfLast, seq, factory);
 			    }
@@ -653,6 +652,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private List matchedNodes;
 
 		private List matchedEdges;
+
+		/** The graph of the last graphelement joined. */
+        private Graph graphOfLastJoin;
 
 		JoinSequence(MatchingAction act, MetaFactory factory,
 					 List matchedNodes, List matchedEdges) {
@@ -1055,6 +1057,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				}
 
 				markProcessed(node);
+				graphOfLastJoin = g;
 			}
 		}
 
@@ -1084,6 +1087,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				}
 
 				markProcessed(edge);
+				graphOfLastJoin = g;
 			}
 		}
 
@@ -1205,6 +1209,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			return result;
 		}
 
+        public Graph getGraphOfLastJoin() {
+            return graphOfLastJoin;
+        }
 	}
 }
 
