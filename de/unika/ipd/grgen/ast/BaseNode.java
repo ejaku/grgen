@@ -372,7 +372,8 @@ public abstract class BaseNode extends Base
 		
 		while(it.hasNext()) {
 			BaseNode n = (BaseNode) it.next();
-			res = res && c.check(n, error);
+			boolean checkRes = c.check(n, error);
+			res = res && checkRes;
 		}
 		
 		return res;

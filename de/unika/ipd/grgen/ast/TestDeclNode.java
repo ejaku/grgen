@@ -23,9 +23,8 @@ public class TestDeclNode extends ActionDeclNode {
 	
 	private static final int COND = LAST + 2;
 
-	private static final String[] childrenNames = {
-		declChildrenNames[0], declChildrenNames[1], "test", "cond"
-	};
+	private static final String[] childrenNames = 
+		addChildrenNames(new String[] { "test", "cond" });
 
 	private static final TypeNode testType = new TypeNode() { };
 	
@@ -37,9 +36,10 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(testType.getClass(), "test type");
 	}
 
-	public TestDeclNode(IdentNode id, BaseNode pattern) {
+	public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode cond) {
 		super(id, testType);
 		addChild(pattern);
+		addChild(cond);
 		setChildrenNames(childrenNames);
 	}
 	
@@ -51,7 +51,7 @@ public class TestDeclNode extends ActionDeclNode {
 	 */
 	protected boolean check() {
 		boolean childs = checkChild(PATTERN, PatternNode.class)
-			&& checkChild(COND, ExprNode.class);
+			&& checkChild(COND, condChecker);
 			
 		boolean expr = true;
 		if(childs) {

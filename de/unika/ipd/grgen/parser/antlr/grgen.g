@@ -401,9 +401,12 @@ testDecl returns [ BaseNode res = initNode() ]
   : {
   		IdentNode id;
   		BaseNode tb, pattern;
+  		CollectNode cond = new CollectNode();
   	}
-  	"test" id=identDecl pushScope[id] LBRACE! pattern=patternPart {
-      id.setDecl(new TestDeclNode(id, pattern));
+  	"test" id=identDecl pushScope[id] LBRACE! 
+  	  pattern=patternPart 
+  	  ( condPart[cond] )? {
+      id.setDecl(new TestDeclNode(id, pattern, cond));
       res = id;
   	} RBRACE! popScope!;           
 
