@@ -1,5 +1,5 @@
 /**
- * @author shack
+ * @author Sebastian Hack, Daniel Grund
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -22,15 +22,15 @@ public class RuleDeclNode extends ActionDeclNode {
 
 	private static final int LEFT = LAST + 1;
 	private static final int RIGHT = LAST + 2;
-	private static final int REDIR = LAST + 3;
-	private static final int COND = LAST + 4;
-	private static final int EVAL = LAST + 5;
-	
-	
+	private static final int NEG = LAST + 3;
+	private static final int REDIR = LAST + 4;
+	private static final int COND = LAST + 5;
+	private static final int EVAL = LAST + 6;
+
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-		"left", "right", "redir", "cond", "eval"
+		"left", "right", "neg", "redir", "cond", "eval"
 	};
 	
 	/** Type for this declaration. */
@@ -53,24 +53,26 @@ public class RuleDeclNode extends ActionDeclNode {
 	 * @param id The identifier of this rule.
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
+	 * @param neg The context preventing the rule to match.
 	 * @param redir The redirections.
 	 * @param cond The conditions.
 	 * @param eval The evaluations.
 	 */
-  public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
+  public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
     BaseNode redir, BaseNode cond, BaseNode eval) {
     
     super(id, ruleType);
     setChildrenNames(childrenNames);
     addChild(left);
     addChild(right);
+    addChild(neg);
     addChild(redir);
     addChild(cond);
     addChild(eval);
   }
   
 	/**
-	 * Check, if the  rule type node is right.
+	 * Check, if the rule type node is right.
 	 * The children of a rule type are
 	 * 1) a pattern for the left side.
 	 * 2) a pattern for the right side.
@@ -78,11 +80,12 @@ public class RuleDeclNode extends ActionDeclNode {
 	 */
 	protected boolean check() {
 		boolean childTypes = checkChild(LEFT, PatternNode.class)
+			&& checkChild(NEG, PatternNode.class)
 			&& checkChild(RIGHT, PatternNode.class)
 			&& checkChild(REDIR, redirChecker)
 			&& checkChild(COND, evalChecker);
 			
-		boolean cond = false, redirs = false;
+		boolean cond = false, redirs = false, nac = false, homomorphic = false;
 			
 		if(childTypes) {
 			redirs = true;
@@ -125,7 +128,6 @@ public class RuleDeclNode extends ActionDeclNode {
 		}
 		
 		if(childTypes) {
-			
 			// All conditions must be of type boolean.
 			cond = true;
 			for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
@@ -137,8 +139,40 @@ public class RuleDeclNode extends ActionDeclNode {
 				}
 			}
 		}
+
+		if(childTypes) {
+			// The NAC part must not contain negated edges.
+			PatternNode neg = (PatternNode) getChild(NEG);
+			nac = true;
+			for(Iterator it = neg.getConnections(); it.hasNext();) {
+				BaseNode conn = (BaseNode) it.next();
+				ConnectionCharacter cc = (ConnectionCharacter) conn;
+				if (cc.isNegated()) {
+					conn.reportError("Edge may not be negated in the NAC part");
+					nac = false;
+				}
+			}
+		}
+
+		if(childTypes) {
+			//Nodes that occur in the NAC part but not in the left side of a rule
+			//may not be mapped non-injectively.
+			homomorphic = true;
+			PatternNode neg  = (PatternNode) getChild(NEG);
+			PatternNode left = (PatternNode) getChild(LEFT);
+			Set s = neg.getNodes();
+			s.removeAll(left.getNodes());
+			for (Iterator it = s.iterator(); it.hasNext();) {
+				NodeDeclNode nd = (NodeDeclNode) it.next();
+				if (nd.hasHomomorphicNodes()) {
+					nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
+					homomorphic = false;
+				}
 			
-		return childTypes && redirs && cond;
+			}
+		}
+		
+		return childTypes && redirs && cond && nac && homomorphic;
 	}
 
   /**
@@ -146,9 +180,10 @@ public class RuleDeclNode extends ActionDeclNode {
    */
   protected IR constructIR() {
 		Graph left = ((PatternNode) getChild(LEFT)).getGraph();
+		Graph neg = ((PatternNode) getChild(NEG)).getGraph();
 		Graph right = ((PatternNode) getChild(RIGHT)).getGraph();
 		
-		Rule rule = new Rule(getIdentNode().getIdent(),left, right);
+		Rule rule = new Rule(getIdentNode().getIdent(), left, neg, right);
 		
 		// add Redirect statments to the IR
 		for(Iterator it = getChild(REDIR).getChildren(); it.hasNext();) {

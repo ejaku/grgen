@@ -55,7 +55,7 @@ public abstract class BaseNode extends Base
 	/** Default array with the children names of the node */
 	private static final String[] noChildrenNames = { };
 	
-	/** The current scope, with hich the scopes of the new BaseNodes are inited. */
+	/** The current scope, with hich the scopes of the new BaseNodes are initialized. */
 	private static Scope currScope = Scope.getInvalid();
 	
 	/** Print verbose error messages. */

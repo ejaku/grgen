@@ -1,5 +1,5 @@
 /**
- * @author Sebastian Hack
+ * @author Sebastian Hack, Daniel Grund
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -72,6 +72,11 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 		return super.check()
 			&& checkChild(TYPE, NodeTypeNode.class)
 			&& checkChild(HOMOMORPHIC, homChecker);
+	}
+
+	public boolean hasHomomorphicNodes() {
+		CollectNode cn = (CollectNode) getChild(HOMOMORPHIC);
+		return cn.getChildren().hasNext();
 	}
 	
 	/**
