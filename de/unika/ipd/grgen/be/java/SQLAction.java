@@ -18,7 +18,7 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
-import de.unika.ipd.grgen.be.sql.SQLGenerator;
+import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.libgr.actions.Action;
@@ -79,29 +79,67 @@ public class SQLAction implements Action, RewriteHandler {
 			return null;
 		}
 	}
-	
+
+	/** Map each node in the match to its column number in the match table. */
 	private Map nodeIndexMap = new HashMap();
 	
+	/** Map each edge in the match to its column number in the match table. */
 	private Map edgeIndexMap = new HashMap();
 	
-	/** List of nodes in the match (ordered). */
-	private List nodes = new LinkedList();
-
-	/** List of edges in the match (ordered). */
-	private List edges = new LinkedList();
-	
+	/** The IR matching action this action implements. */
 	private MatchingAction action;
-	private String stmtString;
-	private PreparedStatement stmt; 
+	
+	/** The matching statement. */
+	private PreparedStatement stmt;
+	
+	/** Database context. */
 	private Queries queries;
 	
-	SQLAction(MatchingAction action, SQLGenerator gen, Queries queries) {
-		this.action = action;
+	/** Someone who gives IDs for types. */
+	private TypeID typeID;
+	
+	/**
+	 * Data needed for a rewrite step.
+	 */
+	private final class RewriteStep {
 
+		private PreparedStatement stmt;
+		private int[] idPositions;
+		
+		RewriteStep(int stmtId, int[] idPositions) {
+			stmt = queries.getStatement(stmtId);
+			this.idPositions = idPositions;
+			
+			assert idPositions.length == queries.getParameters(stmtId)
+				: "number over given parameters must match the parameter number in query";
+		}
+		
+		RewriteStep(int stmtID, int idPos) {
+			this(stmtID, new int[] { idPos });
+		}
+		
+		void apply() {
+			
+		}
+	}
+
+	/** 
+	 * The rewrite steps to take.
+	 */
+	List rewriteSteps = new LinkedList();
+	
+	
+	SQLAction(MatchingAction action, SQLBackend backend) {
+		this.action = action;
+		this.queries = backend.queries;
+		this.typeID = backend;
+
+		// Generate the SQL match statement.
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
-		stmtString = gen.genMatchStatement(action, nodes, edges);
+		String stmtString = backend.sqlGen.genMatchStatement(action, nodes, edges);
 		
+		// Put the matched nodes and edges in map with their index in the match.
 		int i = 0;
 		for(Iterator it = nodes.iterator(); it.hasNext(); i++)
 			nodeIndexMap.put(it.next(), new Integer(i));
@@ -117,6 +155,14 @@ public class SQLAction implements Action, RewriteHandler {
 		}
 	}
 	
+	private int getIndex(Node n) {
+		return ((Integer) nodeIndexMap.get(n)).intValue();
+	}
+	
+	private int getIndex(Edge n) {
+		return ((Integer) edgeIndexMap.get(n)).intValue();
+	}
+
 	/**
 	 * @see de.unika.ipd.libgr.actions.Action#apply(de.unika.ipd.libgr.graph.Graph)
 	 */
@@ -144,6 +190,16 @@ public class SQLAction implements Action, RewriteHandler {
 	 */
 	public String getName() {
 		return action.getIdent().toString();
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
+	 */
+	public void insertNodes(Collection nodes) {
+		for(Iterator it = nodes.iterator(); it.hasNext();) {
+			Node n = (Node) it.next();
+			rewriteSteps.add(new RewriteStep(Queries.ADD_NODE, getIndex(n)));
+		}
 	}
 
 	/**
@@ -180,12 +236,6 @@ public class SQLAction implements Action, RewriteHandler {
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
 	 */
 	public void insertEdges(Collection edges) {
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
-	 */
-	public void insertNodes(Collection nodes) {
 	}
 
 	/**

@@ -638,8 +638,7 @@ public abstract class CBackend extends IDBase implements Backend {
     this.error = reporter;
     this.path = new File(outputPath);
     path.mkdirs();
-    
-  }
+   }
 
   /**
    * @see de.unika.ipd.grgen.be.Backend#generate()
@@ -760,13 +759,11 @@ public abstract class CBackend extends IDBase implements Backend {
 				case '\n':
 					sb.append("\\n");
 					break;
-/*					
 				case '\f':
 					// Ignore the BREAK_LINE, if it is the last character
 				  if(i != s.length() - 1)
 						sb.append("\" \\\n\"");
 					break;
-					*/
 				default:
 					sb.append(ch);
 			}

@@ -29,14 +29,14 @@ public class SQLBackend extends JavaIdBackend implements Actions {
 	SQLGenerator sqlGen;
 	
 	/** The database context. */
-	DatabaseContext db;
+	Queries queries;
 	
 	public void makeActions() {
 		for(Iterator it = actionMap.keySet().iterator(); it.hasNext();) {
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
 
-			SQLAction act = new SQLAction(a, sqlGen, db);
+			SQLAction act = new SQLAction(a, this);
 			actions.put(a.getIdent().toString(), act);
 		}
 	}

@@ -51,6 +51,11 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		Collection w, nodesToInsert;
 		int i;
 		
+		assert getClass().isAssignableFrom(handler.getRequiredRewriteGenerator());
+		
+		// Call the start function.
+		handler.start(r);
+		
 		// First of all, add the nodes that have to be inserted.
 		// This makes the redirections possible. They can only be applied,
 		// if all nodes (the ones to be deleted, and the ones to be inserted)
@@ -99,6 +104,9 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		w = right.getEdges(new HashSet());
 		w.removeAll(commonEdges);
 		handler.insertEdges(w);
+		
+		// ... and the finish function.
+		handler.finish();
 	}
 
 }

@@ -38,6 +38,13 @@ public interface Queries {
 	PreparedStatement getStatement(int query);
 	
 	/**
+	 * Get the number of parameters a query takes.
+	 * @param query The query ID.
+	 * @return The number of parameters the query takes.
+	 */
+	int getParameters(int query);
+	
+	/**
 	 * Get the connection to the database.
 	 * @return The database connection.
 	 */

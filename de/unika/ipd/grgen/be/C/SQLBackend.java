@@ -76,7 +76,7 @@ public abstract class SQLBackend extends CBackend {
 	protected String nodeTypeIsAFunc;
 	*/
 	
-	protected CSQLGenerator sqlGen;
+	protected CSQLGenerator sqlGen = new CSQLGenerator(this);
 	
 	protected Map matchMap = new HashMap();
 	
@@ -907,6 +907,7 @@ public abstract class SQLBackend extends CBackend {
 	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
+		makeTypes();
 	}
 	
 	/**
