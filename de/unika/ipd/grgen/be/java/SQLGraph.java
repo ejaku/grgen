@@ -5,6 +5,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.java;
+import de.unika.ipd.grgen.be.*;
 
 
 import java.sql.ResultSet;
@@ -182,7 +183,7 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSuperTypes()
 		 */
 		public Iterator getSuperTypes() {
-			int[] superTypes = typeModel.getNodeTypeSuperTypes(id);
+			int[] superTypes = typeModel.getSuperTypes(true, id);
 			Collection result = new LinkedList();
 			
 			for(int i = 0; i < superTypes.length; i++)
@@ -195,7 +196,7 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
 		public Iterator getSubTypes() {
-			int[] subTypes = typeModel.getNodeTypeSubTypes(id);
+			int[] subTypes = typeModel.getSubTypes(true, id);
 			Collection result = new LinkedList();
 			
 			for(int i = 0; i < subTypes.length; i++)
@@ -210,8 +211,10 @@ class SQLGraph implements Graph, TypeModel {
 		public boolean isA(InheritanceType t) {
 			boolean res = false;
 			
-			if(t instanceof SQLNodeType)
-				res = typeModel.nodeTypeIsA(id, ((SQLNodeType) t).id);
+			if(t instanceof SQLNodeType) {
+				short[][] matrix = typeModel.getIsAMatrix(true);
+				res = matrix[id][((SQLNodeType) t).id] > 0;
+			}
 			
 			return res;
 		}
@@ -220,11 +223,11 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#isRoot()
 		 */
 		public boolean isRoot() {
-			return id == typeModel.getNodeRootType();
+			return id == typeModel.getRootType(true);
 		}
 		
 		public String getName() {
-			return typeModel.getNodeTypeName(id);
+			return typeModel.getTypeName(true, id);
 		}
 	}
 	
@@ -246,7 +249,7 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSuperTypes()
 		 */
 		public Iterator getSuperTypes() {
-			int[] superTypes = typeModel.getEdgeTypeSuperTypes(id);
+			int[] superTypes = typeModel.getSuperTypes(false, id);
 			Collection result = new LinkedList();
 			
 			for(int i = 0; i < superTypes.length; i++)
@@ -259,7 +262,7 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
 		public Iterator getSubTypes() {
-			int[] subTypes = typeModel.getEdgeTypeSuperTypes(id);
+			int[] subTypes = typeModel.getSuperTypes(false, id);
 			Collection result = new LinkedList();
 			
 			for(int i = 0; i < subTypes.length; i++)
@@ -274,8 +277,10 @@ class SQLGraph implements Graph, TypeModel {
 		public boolean isA(InheritanceType t) {
 			boolean res = false;
 			
-			if(t instanceof SQLEdgeType)
-				res = typeModel.edgeTypeIsA(id, ((SQLEdgeType) t).id);
+			if(t instanceof SQLEdgeType) {
+				short[][] matrix = typeModel.getIsAMatrix(false);
+				res = matrix[id][((SQLEdgeType) t).id] > 0;
+			}
 			
 			return res;
 		}
@@ -284,11 +289,11 @@ class SQLGraph implements Graph, TypeModel {
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#isRoot()
 		 */
 		public boolean isRoot() {
-			return id == typeModel.getEdgeRootType();
+			return id == typeModel.getRootType(false);
 		}
 		
 		public String getName() {
-			return typeModel.getEdgeTypeName(id);
+			return typeModel.getTypeName(false, id);
 		}
 	}
 	
@@ -399,7 +404,7 @@ class SQLGraph implements Graph, TypeModel {
 	 * @see de.unika.ipd.libgr.graph.TypeModel#getEdgeRootType()
 	 */
 	public EdgeType getEdgeRootType() {
-		return getEdgeType(typeModel.getEdgeRootType());
+		return getEdgeType(typeModel.getRootType(false));
 	}
 
 	/**
@@ -407,7 +412,7 @@ class SQLGraph implements Graph, TypeModel {
 	 */
 	public Iterator getEdgeTypes() {
 		Collection result = new LinkedList();
-		int[] types = typeModel.getEdgeTypes();
+		int[] types = typeModel.getIDs(false);
 		
 		for(int i = 0; i < types.length; i++)
 			result.add(getEdgeType(types[i]));
@@ -419,7 +424,7 @@ class SQLGraph implements Graph, TypeModel {
 	 * @see de.unika.ipd.libgr.graph.TypeModel#getNodeRootType()
 	 */
 	public NodeType getNodeRootType() {
-		return getNodeType(typeModel.getNodeRootType());
+		return getNodeType(typeModel.getRootType(true));
 	}
 	
 	/**
@@ -427,7 +432,7 @@ class SQLGraph implements Graph, TypeModel {
 	 */
 	public Iterator getNodeTypes() {
 		Collection result = new LinkedList();
-		int[] types = typeModel.getNodeTypes();
+		int[] types = typeModel.getIDs(true);
 		
 		for(int i = 0; i < types.length; i++)
 			result.add(getNodeType(types[i]));

@@ -28,12 +28,12 @@ public class Graph extends IR {
 	}
 	
 	protected class GraphNode extends Node {
-		final Set outgoing;
-		final Set incoming;
-		final Node node;
-		final String nodeId;
+		private final Set outgoing;
+		private final Set incoming;
+		private final Node node;
+		private final String nodeId;
 		
-		public GraphNode(Node n) {
+		private GraphNode(Node n) {
 			super(n.getIdent(), n.getNodeType(), EmptyAttributes.get());
 			this.incoming = new HashSet();
 			this.outgoing = new HashSet();
@@ -60,12 +60,12 @@ public class Graph extends IR {
 	}
 	
 	protected class GraphEdge extends Edge {
-		GraphNode source;
-		GraphNode target;
-		Edge edge;
-		final String nodeId;
+		private GraphNode source;
+		private GraphNode target;
+		private Edge edge;
+		private final String nodeId;
 		
-		public GraphEdge(Edge e) {
+		private GraphEdge(Edge e) {
 			super(e.getIdent(), e.getEdgeType(), EmptyAttributes.get());
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
@@ -395,5 +395,6 @@ public class Graph extends IR {
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
 	}
-
+	
 }
+

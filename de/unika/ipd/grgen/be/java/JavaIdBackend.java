@@ -5,19 +5,18 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.java;
-
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.be.IDTypeModel;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -96,13 +95,13 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
 	 */
-	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
+	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
 		this.unit = unit;
 		
 		makeTypes(unit);
 		
-		nodeTypeIsA = computeIsA(nodeTypeMap);
-		edgeTypeIsA = computeIsA(edgeTypeMap);
+		// nodeTypeIsA = computeIsA(nodeTypeMap);
+		// edgeTypeIsA = computeIsA(edgeTypeMap);
 		
 		nodeTypeCount = nodeTypeIsA.length;
 		edgeTypeCount = edgeTypeIsA.length;

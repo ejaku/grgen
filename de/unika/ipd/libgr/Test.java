@@ -82,7 +82,7 @@ public class Test extends Base implements Sys {
 		if(parseInput(filename)) {
 
 			
-			backend.init(unit, reporter, "");
+			backend.init(unit, reporter, new File(""));
 			backend.generate();
 			backend.done();
 			

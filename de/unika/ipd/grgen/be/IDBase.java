@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.be;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
-import de.unika.ipd.grgen.be.sql.TypeID;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.Visitor;
@@ -20,7 +20,7 @@ import java.security.MessageDigest;
 /**
  * Basic equipment for backends that treat node and edge types as IDs.
  */
-public abstract class IDBase extends Base implements TypeID {
+public abstract class IDBase extends Base implements IDTypeModel {
 	
   /** node type to type id map. (Type -> Integer) */
 	protected final Map nodeTypeMap = new HashMap();
@@ -40,9 +40,25 @@ public abstract class IDBase extends Base implements TypeID {
 	/** action map. (Action -> Integer) */
 	protected final Map actionMap = new HashMap();
 	
-	private boolean[][] nodeTypeIsAMatrix;
+	private short[][] nodeTypeIsAMatrix;
 	
-	private boolean[][] edgeTypeIsAMatrix;
+	private short[][] edgeTypeIsAMatrix;
+	
+	private int[][] nodeTypeSuperTypes;
+	
+	private int[][] edgeTypeSuperTypes;
+	
+	private int[][] nodeTypeSubTypes;
+	
+	private int[][] edgeTypeSubTypes;
+	
+	private String[] nodeTypeNames;
+	
+	private String[] edgeTypeNames;
+	
+	private int edgeRoot;
+	
+	private int nodeRoot;
 	
 	private void addMembers(CompoundType ct) {
 		for(Iterator it = ct.getMembers(); it.hasNext();) {
@@ -82,15 +98,7 @@ public abstract class IDBase extends Base implements TypeID {
 		}
 	}
 	
-	public final boolean[][] getNodeTypeIsAMatrix() {
-		return nodeTypeIsAMatrix;
-	}
-	
-	public final boolean[][] getEdgeTypeIsAMatrix() {
-		return edgeTypeIsAMatrix;
-	}
-	
-	public static final boolean[][] computeIsA(Map typeMap) {
+	public static final short[][] computeIsA(Map typeMap) {
 		int maxId = 0;
 		
 		for(Iterator it = typeMap.values().iterator(); it.hasNext();) {
@@ -99,37 +107,107 @@ public abstract class IDBase extends Base implements TypeID {
 		}
 		
 		boolean[] helper = new boolean[maxId + 1];
-		boolean[][] res = new boolean[maxId + 1][maxId + 1];
+		short[][] res = new short[maxId + 1][maxId + 1];
 		
 		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
-			computeIsAHelper(ty, typeMap, res, helper);
+			int typeId = ((Integer) typeMap.get(ty)).intValue();
+			res[typeId][typeId] = 1;
+			
+			for(Iterator tt = ty.getSuperTypes(); tt.hasNext();) {
+				InheritanceType st = (InheritanceType) tt.next();
+				int inhId = ((Integer) typeMap.get(st)).intValue();
+				res[typeId][inhId] = 1;
+			}
+		}
+		
+		res = floydWarshall(res);
+		for(int i = 0; i < res.length; i++)
+			res[i][i] = 0;
+		
+		return res;
+	}
+	
+	private static final short[][] floydWarshall(short[][] matrix) {
+		int n = matrix.length;
+		short[][] curr = matrix;
+		short[][] next = new short[n][n];
+		
+		for(int k = 0; k < n; k++) {
+			short[][] tmp;
+			
+			for(int i = 0; i < n; i++)
+				for(int j = 0; j < n; j++) {
+					int v1 = curr[i][k];
+					int v2 = curr[k][j];
+					int res = v1 == 0 || v2 == 0 ? Short.MAX_VALUE : v1 + v2;
+					int v = curr[i][j];
+					
+					v = v == 0 ? Short.MAX_VALUE : v;
+					v = v < res ? v : res;
+					
+					next[i][j] = (short) (v == Short.MAX_VALUE ? 0 : v);
+				}
+			
+			tmp = curr;
+			curr = next;
+			next = tmp;
+		}
+		
+		return next;
+	}
+	
+	private static final int[][] computeSuperTypes(Map typeMap) {
+		int[][] res = new int[typeMap.size()][];
+		List aux = new LinkedList();
+		
+		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+			aux.clear();
+			InheritanceType ty = (InheritanceType) it.next();
+			int id = ((Integer) typeMap.get(ty)).intValue();
+			
+			for(Iterator jt = ty.getSuperTypes(); jt.hasNext();)
+				aux.add(typeMap.get(jt.next()));
+			
+			res[id] = new int[aux.size()];
+			int i = 0;
+			for(Iterator jt = aux.iterator(); jt.hasNext(); i++)
+				res[id][i] = ((Integer) jt.next()).intValue();
 		}
 		
 		return res;
 	}
 	
-	private static final void computeIsAHelper(InheritanceType ty, Map typeMap,
-																						 boolean[][] res,	boolean[] alreadyDone) {
+	private static final int[][] computeSubTypes(Map typeMap) {
+		int[][] res = new int[typeMap.size()][];
+		List aux = new LinkedList();
 		
-		int id = ((Integer) typeMap.get(ty)).intValue();
-		
-		if(!alreadyDone[id]) {
+		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+			aux.clear();
+			InheritanceType ty = (InheritanceType) it.next();
+			int id = ((Integer) typeMap.get(ty)).intValue();
 			
-			for(Iterator it = ty.getSuperTypes(); it.hasNext();) {
-				InheritanceType inh = (InheritanceType) it.next();
-				int inhId = ((Integer) typeMap.get(inh)).intValue();
-				computeIsAHelper(inh, typeMap, res, alreadyDone);
-				res[id][inhId] = true;
-				
-				for(int i = 0; i < res.length; i++) {
-					if(res[inhId][i])
-						res[id][i] = true;
-				}
-			}
+			for(Iterator jt = ty.getSubTypes(); jt.hasNext();)
+				aux.add(typeMap.get(jt.next()));
 			
-			alreadyDone[id] = true;
+			res[id] = new int[aux.size()];
+			int i = 0;
+			for(Iterator jt = aux.iterator(); jt.hasNext(); i++)
+				res[id][i] = ((Integer) jt.next()).intValue();
 		}
+		
+		return res;
+	}
+	
+	private static final String[] makeNames(Map typeMap) {
+		String[] res = new String[typeMap.size()];
+		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+			InheritanceType ty = (InheritanceType) it.next();
+			int id = ((Integer) typeMap.get(ty)).intValue();
+			res[id] = ty.getIdent().toString();
+		}
+		
+		return res;
 	}
 	
   /**
@@ -168,6 +246,38 @@ public abstract class IDBase extends Base implements TypeID {
 		return getTypeId(nodeTypeMap, nt);
 	}
 	
+	public final short[][] getIsAMatrix(boolean forNode) {
+		return forNode ? nodeTypeIsAMatrix : edgeTypeIsAMatrix;
+	}
+	
+	public final String getTypeName(boolean forNode, int obj) {
+		return forNode ? nodeTypeNames[obj] : edgeTypeNames[obj];
+	}
+	
+	public final int[] getSuperTypes(boolean forNode, int obj) {
+		return forNode ? nodeTypeSuperTypes[obj] : edgeTypeSuperTypes[obj];
+	}
+	
+	public final int[] getSubTypes(boolean forNode, int obj) {
+		return forNode ? nodeTypeSubTypes[obj] : edgeTypeSubTypes[obj];
+	}
+	
+	public final int getRootType(boolean forNode) {
+		return forNode ? nodeRoot : edgeRoot;
+	}
+	
+	public final int[] getIDs(boolean forNode) {
+		Map map = forNode ? nodeTypeMap : edgeTypeMap;
+		int[] res = new int[map.size()];
+		
+		int i = 0;
+		for(Iterator it = map.values().iterator(); it.hasNext();)
+			res[i++] = ((Integer) it.next()).intValue();
+		
+		return res;
+	}
+	
+	
 	/**
 	 * Compute all IDs.
 	 * @param unit The IR unit for ID computation.
@@ -179,6 +289,12 @@ public abstract class IDBase extends Base implements TypeID {
 		
 		nodeTypeIsAMatrix = computeIsA(nodeTypeMap);
 		edgeTypeIsAMatrix = computeIsA(edgeTypeMap);
+		nodeTypeSuperTypes = computeSuperTypes(nodeTypeMap);
+		edgeTypeSuperTypes = computeSuperTypes(edgeTypeMap);
+		nodeTypeSubTypes = computeSubTypes(nodeTypeMap);
+		edgeTypeSubTypes = computeSubTypes(edgeTypeMap);
+		nodeTypeNames = makeNames(nodeTypeMap);
+		edgeTypeNames = makeNames(edgeTypeMap);
 	}
 	
 }

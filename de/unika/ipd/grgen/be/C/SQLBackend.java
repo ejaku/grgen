@@ -4,7 +4,6 @@
  */
 package de.unika.ipd.grgen.be.C;
 
-import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
@@ -16,7 +15,13 @@ import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
+import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
+import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.io.File;
 
 /**
  * A generator to generate SQL statements for a grgen specification.
@@ -490,7 +495,7 @@ public abstract class SQLBackend extends CBackend {
 	/**
 	 * Do some additional stuff on initialization.
 	 */
-	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
+	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
 		tableFactory = new DefaultGraphTableFactory(parameters, typeFactory,

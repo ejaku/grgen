@@ -218,9 +218,10 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param typeMap The type map to use.
 	 * @param add A string to add to the identifier.
 	 */
-	protected void makeIsAMatrix(StringBuffer buf, boolean[][] matrix, String add) {
+	protected void makeIsAMatrix(StringBuffer buf, boolean forNode, String add) {
 		// since all type id's are given from zero on, the maximum type id
 		// (not used) is the number of entries in the type map.
+		short[][] matrix = getIsAMatrix(forNode);
 		int maxTypeId = matrix.length;
 		
 		buf.append("/** The matrix showing valid type attributes for " + add + " */\n");
@@ -230,11 +231,65 @@ public abstract class CBackend extends IDBase implements Backend {
 			buf.append("  { ");
 			for(int j = 0; j < maxTypeId; j++) {
 				buf.append(j != 0 ? ", " : "");
-				buf.append(matrix[i][j] ? '1' : '0');
+				//buf.append(matrix[i][j] ? '1' : '0');
+				buf.append(matrix[i][j]);
 			}
-			buf.append(" },\n");
+			buf.append(" }, /* ");
+			buf.append(getTypeName(forNode, i));
+			buf.append(" */\n");
 		}
 		buf.append("};\n\n");
+	}
+	
+	protected void makeSuperSubTypes(StringBuffer sb, boolean forNode, String add) {
+		int[] types = getIDs(forNode);
+		int maxTypeId = types.length;
+		
+		sb.append("static const char " + add + "_super_types[" + (maxTypeId + 1) + "]["
+								+ maxTypeId + "] = {\n");
+		
+		for(int i = 0; i < maxTypeId; i++) {
+			int[] superTypes = getSuperTypes(forNode, i);
+			sb.append("  /* super types of ");
+			sb.append(getTypeName(forNode, i));
+			sb.append(": ");
+			for(int j = 0; j < superTypes.length; j++) {
+				sb.append(getTypeName(forNode, superTypes[j]));
+				sb.append(" ");
+			}
+			sb.append(" */\n");
+			
+			sb.append("  { ");
+			for(int j = 0; j < superTypes.length; j++) {
+				sb.append(superTypes[j]);
+				sb.append(", ");
+			}
+			sb.append("-1 },\n\n");
+		}
+		sb.append("};\n\n");
+		
+		sb.append("static const char " + add + "_sub_types[" + (maxTypeId + 1) + "]["
+								+ maxTypeId + "] = {\n");
+		for(int i = 0; i < maxTypeId; i++) {
+			int[] subTypes = getSubTypes(forNode, i);
+			sb.append("  /* sub types of ");
+			sb.append(getTypeName(forNode, i));
+			sb.append(": ");
+			for(int j = 0; j < subTypes.length; j++) {
+				sb.append(getTypeName(forNode, subTypes[j]));
+				sb.append(" ");
+			}
+			sb.append(" */\n");
+
+			sb.append("  { ");
+			for(int j = 0; j < subTypes.length; j++) {
+				sb.append(subTypes[j]);
+				sb.append(", ");
+			}
+			sb.append("-1 },\n\n");
+		}
+		sb.append("};\n\n");
+		
 	}
 	
 	/**
@@ -555,10 +610,10 @@ public abstract class CBackend extends IDBase implements Backend {
   /**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
-  public void init(Unit unit, ErrorReporter reporter, String outputPath) {
+  public void init(Unit unit, ErrorReporter reporter, File outputPath) {
 		this.unit = unit;
 		this.error = reporter;
-		this.path = new File(outputPath);
+		this.path = outputPath;
 		path.mkdirs();
 		
 		makeTypes(unit);
@@ -583,7 +638,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		sb.append("#define UNIT_NAME " + unitName + "\n\n");
 		
 		sb.append("/** type model digest */\n");
-		sb.append("#define TYPE_MODEL_DIGEST " + unit.getTypeDigest() + "\n\n");
+		sb.append("#define TYPE_MODEL_DIGEST \"" + unit.getTypeDigest() + "\"\n\n");
 		
 		makeTypeDefines(sb, nodeTypeMap, "NODE");
 		makeTypeDefines(sb, edgeTypeMap, "EDGE");
@@ -598,9 +653,14 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 	  // Make the "is a" matrices.
 	  sb = new StringBuffer();
-	  makeIsAMatrix(sb, getNodeTypeIsAMatrix(), "node");
-	  makeIsAMatrix(sb, getEdgeTypeIsAMatrix(), "edge");
+	  makeIsAMatrix(sb, true, "node");
+	  makeIsAMatrix(sb, false, "edge");
 	  writeFile("is_a" + incExtension, sb);
+		
+		sb = new StringBuffer();
+		makeSuperSubTypes(sb, true, "node");
+		makeSuperSubTypes(sb, false, "edge");
+		writeFile("super_sub_types" + incExtension, sb);
 		
 		// Make the attribute matrices
 		sb = new StringBuffer();

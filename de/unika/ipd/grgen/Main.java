@@ -59,6 +59,9 @@ public class Main extends Base implements Sys {
 	/** enable ir dumping */
 	private boolean dumpIR;
 	
+	/** enable seperate rule dumping. */
+	private boolean dumpRules;
+	
 	/** Print timing information. */
 	private boolean printTiming;
 	
@@ -73,7 +76,7 @@ public class Main extends Base implements Sys {
 	
 	/** support graphic output (meaning a 2d UI) */
 	private boolean graphic;
-	
+
 	/** Debug tree view for graphic output */
 	private JPanel debugPanel;
 	
@@ -90,7 +93,10 @@ public class Main extends Base implements Sys {
 	private String prefsImport;
 	
 	/** Output path. */
-	private String outputPath = ".";
+	private File outputPath = new File(".");
+	
+	/** The path to the source files. */
+	private File sourcePath;
 
 	/** A list of files containing paths where the graph model can be searched. */
 	private Collection modelPaths = new LinkedList();
@@ -111,6 +117,7 @@ public class Main extends Base implements Sys {
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
+		System.out.println("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
 		System.out.println("  -g, --graphic                     opens a graphical debug window");
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
@@ -231,6 +238,7 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option debugOpt = parser.addBooleanOption('d', "debug");
 			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
+			CmdLineParser.Option ruleDumpOpt = parser.addBooleanOption('j', "dump-ir-rules");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
@@ -252,6 +260,7 @@ public class Main extends Base implements Sys {
 			
 			dumpAST = parser.getOptionValue(astDumpOpt) != null;
 			dumpIR = parser.getOptionValue(irDumpOpt) != null;
+			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
 			enableNT = parser.getOptionValue(ntOpt) != null;
@@ -265,7 +274,7 @@ public class Main extends Base implements Sys {
 			invDebugFilter = (String) parser.getOptionValue(invDebugFilterOpt);
 			backend = (String) parser.getOptionValue(beOpt);
 			String s = (String) parser.getOptionValue(optOutputPath);
-			outputPath = s != null ? s : System.getProperty("user.dir");
+			outputPath = new File(s != null ? s: System.getProperty("user.dir"));
 			
 			prefsImport = (String) parser.getOptionValue(prefsImportOpt);
 			prefsExport = (String) parser.getOptionValue(prefsExportOpt);
@@ -277,7 +286,8 @@ public class Main extends Base implements Sys {
 			}
 			else {
 				inputFile = new File(rem[0]);
-				modelPaths.add(inputFile.getAbsoluteFile().getParentFile());
+				sourcePath = inputFile.getAbsoluteFile().getParentFile();
+				modelPaths.add(sourcePath);
 			}
 		}
 		catch(CmdLineParser.OptionException e) {
@@ -440,11 +450,15 @@ public class Main extends Base implements Sys {
 			}
 		}
 		
-		if(dumpIR) {
-			GraphDumperFactory factory = new VCGDumperFactory();
-			Dumper dumper = new Dumper(factory);
+		GraphDumperFactory factory = new VCGDumperFactory();
+		Dumper dumper = new Dumper(factory, false);
+	
+		if(dumpIR)
 			dumper.dump(irUnit, new File(inputFile + ".ir2.vcg"));
-		}
+
+		if(dumpRules)
+			dumper.dump(irUnit, inputFile.getPath() + "." , ".ir.vcg");
+
 		
 		debug.report(NOTE, "finished");
 		

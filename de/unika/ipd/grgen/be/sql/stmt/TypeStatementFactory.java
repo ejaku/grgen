@@ -6,7 +6,7 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import de.unika.ipd.grgen.be.sql.TypeID;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
 import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.ir.EdgeType;

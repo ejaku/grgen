@@ -18,12 +18,15 @@ import java.util.LinkedList;
 public class Dumper {
 	
 	
-	private boolean interGraphEdges = false;
+	private final boolean interGraphEdges;
 	
 	private final GraphDumperFactory dumperFactory;
 	
-	public Dumper(GraphDumperFactory dumperFactory) {
+	public Dumper(GraphDumperFactory dumperFactory,
+								boolean interGraphEdges) {
+		
 		this.dumperFactory = dumperFactory;
+		this.interGraphEdges = interGraphEdges;
 	}
 	
 	private final void dump(Graph g, GraphDumper gd) {
@@ -123,5 +126,26 @@ public class Dumper {
 		
 		curr.finish();
 	}
+	
+	public final void dump(Unit unit, String prefix, String extension) {
+		
+		for(Iterator it = unit.getActions(); it.hasNext();) {
+			Object obj = it.next();
+			
+			if(obj instanceof MatchingAction) {
+				MatchingAction act = (MatchingAction) it.next();
+				String main = act.toString().replace(' ', '_');
+				
+				File f = new File(prefix + main + extension);
+				
+				GraphDumper curr = dumperFactory.get(f);
+		
+				curr.begin();
+				dump(act, curr);
+				curr.finish();
+			}
+		}
+	}
+	
 }
 

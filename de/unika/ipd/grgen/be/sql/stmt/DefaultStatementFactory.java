@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.be.sql.stmt;
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.util.*;
 
-import de.unika.ipd.grgen.be.sql.TypeID;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.util.Arrays;
@@ -59,7 +59,7 @@ public class DefaultStatementFactory extends Base
 		put(NOT, new DefaultOp(1, 5, "NOT"));
 		put(AND, new DefaultOp(2, 6, "AND"));
 		put(OR, new DefaultOp(2, 7, "OR"));
-
+		
 		put(EXISTS, new DefaultOp(1, 3, "EXISTS"));
 	}
 	
@@ -331,7 +331,7 @@ public class DefaultStatementFactory extends Base
 		
 	}
 	
-	private Term makeCond(TypeIdTable table, int tid, boolean isRoot, boolean[][] matrix) {
+	private Term makeCond(TypeIdTable table, int tid, boolean isRoot, short[][] matrix) {
 		
 		boolean useBetween = true;
 		int compatTypesCount = 1;
@@ -341,7 +341,7 @@ public class DefaultStatementFactory extends Base
 			return constant(true);
 		
 		for(int i = 0; i < matrix.length; i++)
-			compatTypesCount += matrix[i][tid] ? 1 : 0;
+			compatTypesCount += matrix[i][tid] > 0 ? 1 : 0;
 		
 		Term colExpr = expression(col);
 		Term res = null;
@@ -354,7 +354,7 @@ public class DefaultStatementFactory extends Base
 				int[] compat = new int[compatTypesCount];
 				compat[0] = tid;
 				for(int i = 0, index = 1; i < matrix.length; i++) {
-					if(matrix[i][tid])
+					if(matrix[i][tid] > 0)
 						compat[index++] = i;
 				}
 				
@@ -377,7 +377,7 @@ public class DefaultStatementFactory extends Base
 					// If there has been found a list use BETWEEN ... AND ...
 					if(i != j - 1) {
 						Term between = expression(BETWEEN_AND, colExpr,
-												  constant(compat[i]), constant(compat[j - 1]));
+																			constant(compat[i]), constant(compat[j - 1]));
 						
 						res = addExpression(OR, res, between);
 					} else
@@ -412,7 +412,7 @@ public class DefaultStatementFactory extends Base
 	 */
 	public Term isA(TypeIdTable table, NodeType nt, TypeID typeID) {
 		return makeCond(table, typeID.getId(nt), nt.isRoot(),
-						typeID.getNodeTypeIsAMatrix());
+										typeID.getIsAMatrix(true));
 	}
 	
 	/**
@@ -420,7 +420,7 @@ public class DefaultStatementFactory extends Base
 	 */
 	public Term isA(TypeIdTable table, EdgeType et, TypeID typeID) {
 		return makeCond(table, typeID.getId(et), et.isRoot(),
-						typeID.getEdgeTypeIsAMatrix());
+										typeID.getIsAMatrix(false));
 	}
 	
 	/**
@@ -497,7 +497,7 @@ public class DefaultStatementFactory extends Base
 		private final List groupBy;
 		private final Term having;
 		private boolean distinct;
-
+		
 		DefaultQuery(boolean distinct, List columns, List relations, Term cond,
 								 List groupBy, Term having) {
 			super("query");
@@ -513,7 +513,7 @@ public class DefaultStatementFactory extends Base
 		DefaultQuery(boolean distinct, List columns, List relations, Term cond) {
 			this(distinct, columns, relations, cond, null, null);
 		}
-			
+		
 		DefaultQuery(boolean distinct, List columns, Relation relation) {
 			this(distinct, columns, Arrays.asList(new Relation[] { relation }), null);
 		}

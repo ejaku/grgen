@@ -5,6 +5,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
+import de.unika.ipd.grgen.be.*;
 
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.be.sql.stmt.*;
@@ -981,6 +982,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 	}
 }
+
 
 
 

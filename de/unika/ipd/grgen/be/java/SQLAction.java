@@ -19,7 +19,7 @@ import java.util.Map;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
-import de.unika.ipd.grgen.be.sql.TypeID;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;

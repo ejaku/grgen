@@ -6,12 +6,6 @@
  */
 package de.unika.ipd.grgen.be.java;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.Unit;
@@ -24,6 +18,12 @@ import de.unika.ipd.libgr.graph.EdgeType;
 import de.unika.ipd.libgr.graph.InheritanceType;
 import de.unika.ipd.libgr.graph.NodeType;
 import de.unika.ipd.libgr.graph.TypeModel;
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
 
 /**
@@ -258,7 +258,7 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 	 * @param reporter An error reporter.
 	 * @param outputPath An output path (ignored here).
 	 */
-	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
+	public void init(Unit unit, ErrorReporter reporter, File utputPath) {
 		this.unit = unit;
 		this.reporter = reporter;
 		

@@ -19,6 +19,7 @@ import de.unika.ipd.libgr.JoinedFactory;
 import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Actions;
 import de.unika.ipd.libgr.graph.Graph;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -143,7 +144,7 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
 	 */
-	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
+	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.reporter = reporter;
 	}

@@ -5,6 +5,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
+import de.unika.ipd.grgen.be.*;
 
 import java.util.Arrays;
 import java.util.Collection;
