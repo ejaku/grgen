@@ -270,34 +270,42 @@ edgeClassDecl returns [ BaseNode res = initNode() ]
   {
   	  BaseNode body, ext;
   	  IdentNode id;
+          boolean constEdge = false;
     }
   
-	: "edge" "class"! id=identDecl ext=edgeExtends // COLON r:connectAssertion
+	: ("const" { constEdge = true; })? "edge" "class"! 
+	id=identDecl ext=edgeExtends
         pushScope[id] LBRACE! body=edgeClassBody {
 
+		// TODO XXX use constEdge in TypeDeclNode
 		id.setDecl(new TypeDeclNode(id, new EdgeTypeNode(ext, body)));
 		res = id;
   } RBRACE! popScope!
   ;
 
+nodeClassDecl! returns [ BaseNode res = initNode() ]
+	{
+  		BaseNode body, ext, ca;
+  		IdentNode id;
+		boolean constNode = false;
+  	}
+
+	: "node" "class"! ("const" { constNode = true; })?
+	id=identDecl ext=nodeExtends ca=connectAssertion
+	pushScope[id] LBRACE! body=nodeClassBody {
+
+		// TODO XXX use constNode in TypeDeclNode
+		// TODO XXX use ca in TypeDeclNode
+		id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, body)));
+		res = id;
+	} RBRACE! popScope!
+	;
+
 connectAssertion returns [ BaseNode res = initNode() ]
 	{ BaseNode src, tgt, srcRange, tgtRange; }
 	: src=identUse srcRange=rangeSpec RARROW tgt=identUse tgtRange=rangeSpec
+	|
 	;
-
-nodeClassDecl! returns [ BaseNode res = initNode() ]
-    {
-  		BaseNode body, ext;
-  		IdentNode id;
-  	}
-  	
-  	: "node" "class"! id=identDecl ext=nodeExtends
-        pushScope[id] LBRACE! body=nodeClassBody {
-
-      id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, body)));
-		  res = id;
-    } RBRACE! popScope!
-  ;
 
 edgeExtends returns [ CollectNode c = new CollectNode() ]
   : "extends" edgeExtendsCont[c]
@@ -332,17 +340,17 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	
 rangeSpec returns [ BaseNode res = initNode() ]
 	{
-		int lower = 1, upper = 1;
+		int lower = RangeSpecNode.UNBOUND, upper = RangeSpecNode.UNBOUND;
 	}
-	: (l:LBRACK lower=integerConst ( COLON { upper = RangeSpecNode.UNBOUND; }
-			( upper=integerConst )? )? RBRACK )?
+	: l:LBRACK ( STAR | lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
+                   ) RBRACK 
 	{
 			res = new RangeSpecNode(getCoords(l), lower, upper);
 	}
 	;
 	
 integerConst returns [ int value = 0 ]
-	: i:INTEGER {
+	: i:NUM_DEC {
 		value = Integer.parseInt(i.getText());
 	}
 	;
@@ -1136,7 +1144,10 @@ constant returns [ BaseNode res = initNode() ]
 		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText(), 16));
 	}
 	| s:STRING_LITERAL {
-		res = new StringConstNode(getCoords(s), s.getText());
+		String buff = s.getText();
+		// Strip the " from the string
+		buff = buff.substring(1, buff.length() - 1);
+		res = new StringConstNode(getCoords(s), buff);
 	}
 	| t:"true" {
 		res = new BoolConstNode(getCoords(t), true);
