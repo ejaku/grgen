@@ -32,6 +32,7 @@ import java.util.Comparator;
 import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.util.Attributed;
+import java.util.Collections;
 
 public class FrameBasedBackend extends InformationCollector implements Backend, BackendFactory
 {
@@ -161,18 +162,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		System.out.println("  done!");
 	}
 	
-	/**
-	 * Method genNaiveMatcherPrograms
-	 *
-	 * @param    sb                  a  StringBuffer
-	 *
-	 */
-	/**
-	 * Method genNaiveMatcherPrograms
-	 *
-	 * @param    sb                  a  StringBuffer
-	 *
-	 */
+
 	private void genActualActions(StringBuffer sb)
 	{
 		sb.append(
@@ -189,7 +179,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			" * the graph existing at runtime */\n\n\n\n\n");
 		
 		// for all actions gen matcher programs
-		for (Iterator act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
+		for ( Iterator act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
 		{
 			
 			MatchingAction action = (MatchingAction) act_it.next();
@@ -358,8 +348,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n" +
 				"  pattern_node_names_of_act_" + act_id + ",\n" +
 				"  " + pat_edge_name_array + ",\n" +
-				"  " + n_matcher_ops + ", " + matcher_prog +
-					", &pattern_node_" + start_node_num + "_of_action_" + act_id + ",\n" +
+				"  " + n_matcher_ops + ", " + matcher_prog + ",\n" +
 				"  {\n");
 			
 			//create a 2-dim array embeded in the struct, which keept the information
@@ -447,10 +436,19 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		Collection nodeVisited = new HashSet();
 		Collection edgeVisited = new HashSet();
 		Collection alreadyCheckedConditions = new HashSet();
+		Collection alreadyCheckedTypeConditions = new HashSet();
 		nodeVisited.add(startNode);
 		op_counter = 0;
+		
+		//gen op for the start node
+		genOp(startNode, null, action,
+			  nodeVisited, edgeVisited, alreadyCheckedConditions,
+			  alreadyCheckedTypeConditions, op_counter, sb);
+		
+		op_counter = 1;
 	    __deep_first_matcher_op_gen(
-			nodeVisited, edgeVisited, alreadyCheckedConditions, startNode, action, sb);
+			nodeVisited, edgeVisited, alreadyCheckedConditions,
+			alreadyCheckedTypeConditions, startNode, action, sb);
 		return op_counter;
 	}
 	
@@ -468,6 +466,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 	private void __deep_first_matcher_op_gen(
 		Collection nodeVisited, Collection edgeVisited,
 		Collection alreadyCheckedConds,
+		Collection alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
 		StringBuffer sb)
 	{
@@ -514,7 +513,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				//if the edge has not been visited yet mark it as visited
 				genOp(getFarEndNode(edge, node, pattern), edge, action,
 					  nodeVisited, edgeVisited, alreadyCheckedConds,
-					  op_counter, sb);
+					  alreadyCheckedTypeConds, op_counter, sb);
 				op_counter++;
 
 				//mark the current edge as visited
@@ -528,6 +527,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 					//continue recursicly the deep fisrt traversal of the pattern graph
 					__deep_first_matcher_op_gen(
 						nodeVisited, edgeVisited, alreadyCheckedConds,
+						alreadyCheckedTypeConds,
 						getFarEndNode(edge, node, pattern),
 						action, sb);
 				}
@@ -535,11 +535,13 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		}
 	}
 	
+	
 	/**
 	 * generates the Cstruct for a single matcher op
 	 *
 	 * @param    node                the node the dfs comes from
-	 * @param    edge                the current edge
+	 * @param    edge                the current edge, if null a start
+	 * 								 node op will be emited
 	 * @param    action              the action to gen the matcher program for
 	 * @param    nodeVisited         all nodes already visited
 	 * @param    edgeVisited         all edges already visited
@@ -551,20 +553,21 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 	private void genOp(Node node, Edge edge, MatchingAction action,
 					   Collection nodeVisited, Collection edgeVisited,
 					   Collection alreadyCheckedConds,
+					   Collection alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb)
 	{
 		Integer act_id = (Integer) actionMap.get(action);
 		PatternGraph pattern = action.getPattern();
-//		Node farNode = getFarEndNode(edge, node, pattern);
 
 		//get the potentialy homomorphic nodes of the far end node
 		Collection homomorphicNodes = new HashSet();
-//		farNode.getHomomorphic(homomorphicFarNodes);
 		node.getHomomorphic(homomorphicNodes);
 
 		//compute this ops kind
 		String kind = "";
-		if (nodeVisited.contains(node))
+		if (edge == null)
+			kind = "fb_matcher_op_start_node";
+		else if (nodeVisited.contains(node))
 			kind = "fb_matcher_op_check";
 		else {
 			/* op is an 'extend' or an 'check_or_extend'. That depends on wether
@@ -582,6 +585,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		
 		//compute the set of conditions nevaluatable in the current op
 		Collection evaluatableConditions = new TreeSet(conditionsComparator);
+		Collection evaluatableTypeConditions = new TreeSet(typeConditionsComparator);
 		Iterator cond_it = conditions.iterator();
 		for ( ; cond_it.hasNext(); ) {
 			 Expression cond = (Expression) cond_it.next();
@@ -595,22 +599,49 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			//check wether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
 			involvedNodes.remove(node);
-			involvedEdges.remove(edge);
+			if  (edge != null)
+				involvedEdges.remove(edge);
 			if (nodeVisited.containsAll(involvedNodes)
 					&& edgeVisited.containsAll(involvedEdges))
 				evaluatableConditions.add(cond);
 		}
+		Iterator type_cond_it = typeConditions.iterator();
+		for ( ; type_cond_it.hasNext(); ) {
+			Collection type_cond = (Collection) type_cond_it.next();
+
+			//the nodes/edges involved in the current condtion
+			Collection involvedNodes =
+				new HashSet((Collection) typeConditionsInvolvedNodes.get(type_cond));
+ 			Collection involvedEdges =
+				new HashSet((Collection) typeConditionsInvolvedEdges.get(type_cond));
+
+			//check wether these nodes/edges have been visited already,
+			//but the current node/edge is not yet added to the "visited"-Sets
+			involvedNodes.remove(node);
+			if (edge != null)
+				involvedEdges.remove(edge);
+			if (nodeVisited.containsAll(involvedNodes)
+					&& edgeVisited.containsAll(involvedEdges))
+				evaluatableTypeConditions.add(type_cond);
+		}
 		//from that evaluatable conditions remove all conditions already cheked
 		//(because it is not necessary to check any condition twice)
 		evaluatableConditions.removeAll(alreadyCheckedConds);
+		evaluatableTypeConditions.removeAll(alreadyCheckedTypeConds);
 
 		//get the current edges pattern edge number
-		Integer edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
+		Integer edge_num = new Integer(-1);
+		if (edge != null)
+			edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
 		//check wether there are conditions computable in this op or not
-		String isConditional = evaluatableConditions.isEmpty() ? "0" : "1";
+		String isConditional =
+			(evaluatableConditions.isEmpty() &&
+				evaluatableTypeConditions.isEmpty()) ? "0" : "1";
 		
 		//get name indentifier used in the grg-file for the current edge
-		String edgeName = edge.getIdent().toString();
+		String edgeName = "NULL";
+		if (edge != null)
+			edgeName = edge.getIdent().toString();
 		//get the direction of the op
 		String op_direction = null;
 		if (kind.equals("fb_matcher_op_check"))
@@ -618,7 +649,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			//the concrete graph, which is only known at run-time, so any direction
 			//is chosen
 			op_direction = "fb_dir_out";
-		else
+		else if (! kind.equals("fb_matcher_op_start_node"))
 			//case 'extend' od 'check_or_extend'
 			if (pattern.getTarget(edge) == node)
 				op_direction = "fb_dir_out";
@@ -630,17 +661,28 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 
 		//if there are conditions evaluiatable in the current op...
 		String cond_ptr = "";
-		if (evaluatableConditions.size() > 0) {
+		if (evaluatableConditions.size() + evaluatableTypeConditions.size() > 0) {
 			cond_ptr = "conds_of_mop_" + op_counter + "_of_action_" + act_id;
 			//...gen a C-Array of the conditions evaluated by the current op
 			sb.append(
 				"int conds_of_mop_" + op_counter + "_of_action_" + act_id + "[" +
-					evaluatableConditions.size() + "] = { ");
+					(evaluatableConditions.size() + evaluatableTypeConditions.size()) +
+					"] = { ");
 			Iterator eval_cond_it = evaluatableConditions.iterator();
 			for ( ; eval_cond_it.hasNext(); ) {
 				Expression cond = (Expression) eval_cond_it.next();
 				sb.append(conditionNumbers.get(cond));
 				if (eval_cond_it.hasNext())
+					sb.append(", ");
+			}
+			if (evaluatableConditions.size() > 0 &&
+				evaluatableTypeConditions.size() > 0)
+					sb.append(", ");
+			Iterator eval_type_cond_it = evaluatableTypeConditions.iterator();
+			for ( ; eval_type_cond_it.hasNext(); ) {
+				Collection type_cond = (Collection) eval_type_cond_it.next();
+				sb.append(typeConditionNumbers.get(type_cond));
+				if (eval_type_cond_it.hasNext())
 					sb.append(", ");
 			}
 			sb.append(" };\n");
@@ -650,15 +692,36 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			cond_ptr = "NULL";
 		
 		//gen the C-struct representing the current matcher op
-		sb.append(
-			"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
-			"  " + kind + ", &pattern_edge_" + edge_num + "_of_action_" + act_id + ",\n" +
-			"  " + isConditional + ", \"" + edgeName + "\", " + op_direction + ",\n" +
-			"  " + evaluatableConditions.size() + ", " + cond_ptr + "\n" +
-			"};\n\n");
+		if (edge != null)
+			sb.append(
+				"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
+				"  " + kind + ", &pattern_edge_" + edge_num + "_of_action_" + act_id + ", " +
+					"NULL /* no start node ptr */,\n" +
+				"  " + isConditional + ", \"" + edgeName + "\", " +
+					"NULL /* no start node name  */, " + op_direction + ",\n" +
+				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
+					", " + cond_ptr + "\n" +
+				"};\n\n");
+		else {
+			//egge == null indicates, that a start no op has to be emitted
+			String node_name = node.getIdent().toString();
+			Integer node_num = (Integer) pattern_node_num[act_id.intValue()].get(node);
+			String node_ptr = "&pattern_node_" + node_num + "_of_action_" + act_id;
+			
+			sb.append(
+				"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
+				"  " + kind + ", NULL /* no edge needed */,\n" +
+				"  " + node_ptr + " /* start node */,\n" +
+				"  " + isConditional + ", NULL, \"" + node_name + "\", " +
+					"fb_dir_out /* no edge, direction does not matter */,\n" +
+				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
+					", " + cond_ptr + "\n" +
+				"};\n\n");
+		}
 		
 		//update the conditions already cheked
 		alreadyCheckedConds.addAll(evaluatableConditions);
+		alreadyCheckedTypeConds.addAll(evaluatableTypeConditions);
 	}
 	private int getNodePriority(Node node) {
 		int ret = 0;
@@ -816,6 +879,103 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 					"}\n" +
 					"break; /* end of processing condition " + cond_num + " */\n\n\n");
 		}
+
+	
+	
+	
+	
+		//for all type conditions gen C-code
+		for (Iterator it = typeConditions.iterator(); it.hasNext(); )
+		{
+			//get the current type condition
+			Collection current_type_cond = (Collection) it.next();
+			
+			int cond_num = ((Integer) typeConditionNumbers.get(current_type_cond)).intValue();
+			int act_id = ((Integer) typeConditionsActionId.get(current_type_cond)).intValue();
+			
+			Collection involved_nodes =
+				(Collection) typeConditionsInvolvedNodes.get(current_type_cond);
+			Collection involved_edges =
+				(Collection) typeConditionsInvolvedEdges.get(current_type_cond);
+			
+			/*gen the code for the current cond */
+			if (!involved_nodes.isEmpty() || !involved_edges.isEmpty())
+				sb.append(
+					"/* condition " + cond_num + " (is a type condition, " +
+					"belongs to action " + act_id + ") */\n" +
+					"case " + cond_num + ":\n"+
+					"{\n" +
+					"  /* local variables representing the 'ptr to' and the 'actual type of' the\n" +
+					"   * host graph image of the pattern node/edge with the respective number */\n");
+			
+			//for the involved pattern node/edge gen two local variables, one representing
+			//the ptr to the host graph image of the node/edge and the other representing
+			//that host graph nodes actual type (note that this type may be a SUB-type
+			//of the pattern nodes type
+
+			if (!involved_nodes.isEmpty()) {
+				//that means that the graph component the current type
+				//condition relates to is a node
+				Node current_pattern_node = (Node) involved_nodes.iterator().next();
+				int node_num =
+					((Integer) pattern_node_num[act_id].get(current_pattern_node)).intValue();
+
+				
+				sb.append(
+					"  fb_node_t *node_" + node_num + " = get_host_node(" + node_num + ");\n" +
+					"  int type_n" + node_num + " = (int) node_" + node_num + "->type;\n" +
+					"\n" +
+					"  /* check the type condition */\n" +
+					"  condition_holds = (\n" +
+					"    ");
+				
+
+				Iterator type_it = current_type_cond.iterator();
+				for (int counter = 0; type_it.hasNext(); ) {
+					int type_id = ((Integer) nodeTypeMap.get(type_it.next())).intValue();
+					if (counter++ > 0)
+						sb.append(" && ");
+				
+					sb.append("(type_n" + node_num + " != " + type_id + ")");
+				}
+			}
+			else if (!involved_edges.isEmpty()) {
+				//that means that the graph component the current type
+				//condition relates to is an edge
+				Edge current_pattern_edge = (Edge) involved_edges.iterator().next();
+				int edge_num =
+					((Integer) pattern_edge_num[act_id].get(current_pattern_edge)).intValue();
+				
+				sb.append(
+					"  fb_edge_t *edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n" +
+					"  int type_e" + edge_num + " = (int) edge_" + edge_num + "->type;\n" +
+					"\n" +
+					"  /* check the type condition */\n" +
+					"  condition_holds = (\n" +
+					"    ");
+
+				Iterator type_it = current_type_cond.iterator();
+				for (int counter = 0; type_it.hasNext(); ) {
+					int type_id = ((Integer) edgeTypeMap.get(type_it.next())).intValue();
+					if (counter++ > 0)
+						sb.append(" && ");
+				
+					sb.append("(type_e" + edge_num + " != " + type_id + ")");
+				}
+			}
+			
+				
+
+			if (!involved_nodes.isEmpty() || !involved_edges.isEmpty())
+				sb.append(
+					"\n  );\n\n" +
+					"  /* ALL conditions of an action have to be true! So return '0' even\n" +
+					"   * when only ONE condition fails and '1' IFF all conditions hold */\n" +
+					"  if ( ! condition_holds ) return 0; /* condition failed */\n" +
+					"}\n" +
+					"break; /* end of processing condition " + cond_num + " */\n\n\n");
+		}
+
 	}
 	
 	private void __recursive_expr_code_gen(StringBuffer sb, MatchingAction act, Expression cond)
@@ -1037,20 +1197,37 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		 actions, ... */
 		
 		//for all conditions gen the C-structs describing the conditions
-		for (Iterator cond_it = conditions.iterator(); cond_it.hasNext(); )
+		Collection allConditions = new HashSet();
+		allConditions.addAll(conditions);
+		allConditions.addAll(typeConditions);
+		
+		for (Iterator cond_it = allConditions.iterator(); cond_it.hasNext(); )
 		{
-			Expression condition = (Expression) cond_it.next();
-			int cond_num = ((Integer) conditionNumbers.get(condition)).intValue();
-			int act_id = ((Integer) conditionsActionId.get(condition)).intValue();
+			int cond_num;
+			int act_id;
+			Object condition = cond_it.next();
+			Collection involved_nodes;
+			Collection involved_edges;
 			
-			Collection involved_nodes =
-				(Collection) conditionsInvolvedNodes.get(condition);
-			Collection involved_edges =
-				(Collection) conditionsInvolvedEdges.get(condition);
+			if (condition instanceof Expression) {
+				cond_num = ((Integer) conditionNumbers.get(condition)).intValue();
+				act_id = ((Integer) conditionsActionId.get(condition)).intValue();
+				involved_nodes =
+					(Collection) conditionsInvolvedNodes.get(condition);
+				involved_edges =
+					(Collection) conditionsInvolvedEdges.get(condition);
+			}
+			else {
+				cond_num = ((Integer) typeConditionNumbers.get(condition)).intValue();
+				act_id = ((Integer) typeConditionsActionId.get(condition)).intValue();
+				involved_nodes =
+					(Collection) typeConditionsInvolvedNodes.get(condition);
+				involved_edges =
+					(Collection) typeConditionsInvolvedEdges.get(condition);
+			}
 			
-			//the action the current condition nbelogs to
-			MatchingAction current_action = (MatchingAction) conditionsAction.get(condition);
 			
+	
 			//gen two arrays containing the pattern node/edge numbers involved
 			//in the current condition (in ascending order)
 			sb.append(
