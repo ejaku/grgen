@@ -6,44 +6,18 @@
  */
 package de.unika.ipd.grgen.be.sql;
 
+import de.unika.ipd.grgen.be.sql.meta.*;
+import de.unika.ipd.grgen.be.sql.stmt.*;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
+
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.VCGDumper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.be.sql.meta.Column;
-import de.unika.ipd.grgen.be.sql.meta.Opcodes;
-import de.unika.ipd.grgen.be.sql.meta.Query;
-import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
-import de.unika.ipd.grgen.be.sql.meta.Term;
-import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
-import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
-import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
-import de.unika.ipd.grgen.be.sql.stmt.NodeTable;
-import de.unika.ipd.grgen.be.sql.stmt.TypeIdTable;
-import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.VCGDumper;
 
 
 /**
@@ -73,7 +47,7 @@ public class SQLGenerator extends Base {
 	 * @param add The actual string to add.
 	 */
 	protected void addTo(StringBuffer sb, CharSequence start, CharSequence sep,
-											 CharSequence add) {
+						 CharSequence add) {
 		
 		sb.append(sb.length() == 0 ? start : sep);
 		sb.append(add);
@@ -102,7 +76,7 @@ public class SQLGenerator extends Base {
 	
 	
 	public final String genMatchStatement(MatchingAction act, List matchedNodes,
-																				List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+										  List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		StringBuffer sb = new StringBuffer();
 		Query q = makeMatchStatement(act, matchedNodes, matchedEdges, tableFactory, factory);
 		q.dump(sb);
@@ -123,11 +97,11 @@ public class SQLGenerator extends Base {
 	}
 	
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes,
-																		 List matchedEdges, GraphTableFactory tableFactory,
-																		 TypeStatementFactory factory) {
+									   List matchedEdges, GraphTableFactory tableFactory,
+									   TypeStatementFactory factory) {
 		Graph gr  = act.getPattern();
 		Query q = makeQuery(act, gr, matchedNodes, matchedEdges,
-												tableFactory, factory, new LinkedList());
+							tableFactory, factory, new LinkedList());
 		
 		// create subQueries for negative parts
 		for(Iterator it = act.getNegs(); it.hasNext();) {
@@ -140,8 +114,8 @@ public class SQLGenerator extends Base {
 			
 			// add the inner query to the where part of the outer.
 			Term notEx = factory.expression(Opcodes.NOT,
-																			factory.expression(Opcodes.EXISTS,
-																												 factory.expression(inner)));
+											factory.expression(Opcodes.EXISTS,
+															   factory.expression(inner)));
 			
 			Term cond = q.getCondition();
 			if (cond==null) {
@@ -155,7 +129,7 @@ public class SQLGenerator extends Base {
 	}
 	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges,
-														GraphTableFactory tableFactory,	TypeStatementFactory factory, List excludeTables) {
+							  GraphTableFactory tableFactory,	TypeStatementFactory factory, List excludeTables) {
 		debug.entering();
 		Collection nodes = graph.getNodes(new HashSet());
 		Collection edges = new HashSet();
@@ -211,8 +185,8 @@ public class SQLGenerator extends Base {
 			
 			// Add node type constraint
 			nodeCond = factory.expression(Opcodes.AND, nodeCond,
-																		factory.isA(table, n.getNodeType(),
-																								typeID));
+										  factory.isA(table, n.getNodeType(),
+													  typeID));
 			
 			
 			// Make this node unequal to all other nodes.
@@ -224,7 +198,7 @@ public class SQLGenerator extends Base {
 				// If it was, we cannot node, if it is equal or not equal to n
 				if(!n.isHomomorphic(other)) {
 					nodeCond = factory.expression(Opcodes.NE, nodeColExpr,
-																				factory.expression(otherNodeTable.colId()));
+												  factory.expression(otherNodeTable.colId()));
 				}
 			}
 			
@@ -261,8 +235,8 @@ public class SQLGenerator extends Base {
 						
 						// Add edge type constraint
 						edgeCond = factory.expression(Opcodes.AND, edgeCond,
-																					factory.isA(edgeTable, e.getEdgeType(),
-																											typeID));
+													  factory.isA(edgeTable, e.getEdgeType(),
+																  typeID));
 						
 						// Add it also to the edge result list.
 						matchedEdges.add(e);
@@ -272,7 +246,7 @@ public class SQLGenerator extends Base {
 					
 					// Add = for all edges, that are incident to the current node.
 					nodeCond = factory.expression(Opcodes.AND, nodeCond,
-																				factory.expression(Opcodes.EQ, lastColExpr, edgeColExpr));
+												  factory.expression(Opcodes.EQ, lastColExpr, edgeColExpr));
 					
 					lastColExpr = edgeColExpr;
 				}
@@ -296,7 +270,7 @@ public class SQLGenerator extends Base {
 		nodeCols.addAll(edgeCols);
 		nodeTables.removeAll(excludeTables);
 		return factory.simpleQuery(nodeCols, nodeTables,
-															 factory.expression(Opcodes.AND, nodeCond, edgeCond));
+								   factory.expression(Opcodes.AND, nodeCond, edgeCond));
 	}
 	
 	/*
@@ -509,12 +483,12 @@ public class SQLGenerator extends Base {
 	}
 	
 	protected Term genExprSQL(Expression expr, StatementFactory factory,
-														GraphTableFactory tableFactory) {
+							  GraphTableFactory tableFactory) {
 		return genExprSQL(expr, factory, tableFactory, null);
 	}
 	
 	protected Term genExprSQL(Expression expr, StatementFactory factory,
-														GraphTableFactory tableFactory, Collection usedEntities) {
+							  GraphTableFactory tableFactory, Collection usedEntities) {
 		
 		Term res = null;
 		
@@ -570,4 +544,69 @@ public class SQLGenerator extends Base {
 		return res;
 	}
 	
+	/**
+	 * Method genValidateStatements produces all validate statements for all
+	 * connection assertion of a spec.
+	 *
+	 * @return   a String containing the statements.
+	 */
+	public void genValidateStatement(StringBuffer sb, EdgeType et,
+									 TypeStatementFactory stmtFactory,
+									 GraphTableFactory tableFactory) {
+		List columns = new LinkedList();
+		List relations = new LinkedList();
+		Term tmp, cond;
+		
+		// 1	SELECT src.node_id, count(src.node_id)
+		// 2	FROM nodes AS src, nodes AS tgt, edges
+		// 3	WHERE edges.src_id = src.node_id AND
+		// 4		edges.tgt_id = tgt.node_id AND
+		// 5		edges.type_id = $TYPEID$
+		// 6	GROUP BY src.node_id
+		// 7	HAVING NOT (count(src.node_id) >= $SRCRANGELOWER$ AND
+		// 8		count(src.node_id) <= $SRCRANGEUPPER$);
+		
+		NodeTable srcTable  = tableFactory.nodeTable("src");
+		NodeTable tgtTable  = tableFactory.nodeTable("tgt");
+		EdgeTable edgeTable = tableFactory.originalEdgeTable();
+		
+		// 1: aliased as src
+		columns.add(srcTable.colId());
+		columns.add(stmtFactory.aggregate(Aggregate.COUNT, srcTable.colId()));
+		
+		// 2: FROM nodes AS src, nodes AS tgt, edges
+		relations.add(srcTable);
+		relations.add(tgtTable);
+		relations.add(edgeTable);
+		
+		// 3: edges.src_id = src.node_id AND
+		cond = stmtFactory.expression(Opcodes.EQ,
+									  stmtFactory.expression(srcTable.colId()),
+									  stmtFactory.expression(edgeTable.colSrcId()));
+		// 4: edges.tgt_id = tgt.node_id AND
+		tmp = stmtFactory.expression(Opcodes.EQ,
+									 stmtFactory.expression(tgtTable.colId()),
+									 stmtFactory.expression(edgeTable.colTgtId()));
+		cond = stmtFactory.expression(Opcodes.AND, cond, tmp);
+		
+		// 5: edges.type_id = $TYPEID$
+		tmp = stmtFactory.isA(edgeTable, et, typeID);
+		cond = stmtFactory.addExpression(Opcodes.AND, cond, tmp);
+		
+		// 6: GROUP BY src.node_id TODO
+		// 7: HAVING NOT (count(src.node_id) >= $SRCRANGELOWER$ AND TODO
+		// 8: count(src.node_id) <= $SRCRANGEUPPER$); TODO
+		
+		//System.out.println("called genValidateStatement(): "+ et);
+		for(Iterator i = et.getConnAsserts(); i.hasNext();) {
+			ConnAssert ca = (ConnAssert)i.next();
+			//System.out.println("src = " + ca.getSrcType());
+			//System.out.println("tgt = " + ca.getTgtType());
+			
+			Query q = stmtFactory.simpleQuery(columns, relations, cond);
+			q.dump(sb);
+		}
+	}
 }
+
+
