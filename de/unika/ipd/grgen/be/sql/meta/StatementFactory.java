@@ -152,11 +152,13 @@ public interface StatementFactory {
 	
 	/**
 	 * Make a query with explicitly given joins.
+	 * @param distinct if true, the query will be distinct, i.e.
+	 * duplicate tuples are deleted.
 	 * @param columns The columns to project from.
 	 * @param relation The relation.
 	 * @return The query.
 	 */
-	Query explicitQuery(List columns, Relation relation);
+	Query explicitQuery(boolean distinct, List columns, Relation relation);
 	
 	/**
 	 * Join over two relations.

@@ -583,7 +583,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges,
+																		 GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		debug.entering();
 
 		//Build a list with all graphs of this matching action
@@ -745,7 +746,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result;
 		if(pendingConds == null)
-			result = factory.explicitQuery(columns, stmtCtx.currJoin);
+			result = factory.explicitQuery(true, columns, stmtCtx.currJoin);
 		else {
 			List relations = new LinkedList();
 			relations.add(stmtCtx.currJoin);
@@ -810,180 +811,4 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		return nacCond;
 	}
 
-	/*
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
-		Graph gr  = act.getPattern();
-		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
-
-		// create subQueries for negative parts
-		for(Iterator it = act.getNegs(); it.hasNext();) {
-			Graph neg = (Graph) it.next();
-
-			List excludeNodes = new LinkedList();
-			gr.getNodes(excludeNodes);
-			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, excludeNodes);
-			// simplify select part of inner query, because existence of tuples is sufficient
-			// in an 'exists' condition
-			inner.clearColumns();
-			
-			// add the inner query to the where part of the outer.
-			Term notEx = factory.expression(Opcodes.NOT, factory.expression(Opcodes.EXISTS, factory.expression(inner)));
-						
-			Term cond = q.getCondition();
-			if (cond==null) {
-				cond = notEx;
-			} else {
-				cond = factory.expression(Opcodes.AND, cond, notEx);
-			}
-			q.setCondition(cond);
-		}
-		return q;
-	}
-
-	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges,
-			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeNodes) {
-		debug.entering();
-		
-		SearchPath[] paths = computeSearchPaths(graph);
-		debug.report(NOTE, "number of paths: " + paths.length);
-		
-		for(int i = 0; i < paths.length; i++) {
-			StringBuffer sb = new StringBuffer();
-			paths[i].dump(sb, graph);
-			debug.report(NOTE, "path " + i);
-			debug.report(NOTE, sb.toString());
-		}
-
-		StmtContext stmtCtx = new StmtContext(graph, factory, tableFactory, excludeNodes);
-		
-		// Generate all conditions.
-		for(Iterator it = act.getCondition().get(); it.hasNext();) {
-			Set usedColumns = new HashSet();
-			Expression cond = (Expression) it.next();
-			
-			// Note that the genExprSQL method records all entities appearing as owners
-			// in qualification (see ir.Qualification) expressions in the usedColumns set.
-			Term term = genExprSQL(cond, factory, tableFactory, usedColumns);
-			
-			// Add the cond states and the entities which have attributes
-			// to the statement context struct.
-			stmtCtx.conds.add(new CondState(term, usedColumns));
-
-			debug.report(NOTE, "cond state with: " + usedColumns);
-			
-			// The allCondEntities set is used for checking if an entity occurrs in a
-			// condition term
-			stmtCtx.allCondEntities.addAll(usedColumns);
-		}
-		
-		debug.report(NOTE, "entities with attribs: " + stmtCtx.allCondEntities);
-	
-		int pathsProcessed = 0;
-		int selectedPath = 0;
-		boolean[] done = new boolean[paths.length];
-		
-		// Build joins until all paths are covered
-		// This is not streight forward since all paths after the first (which is
-		// given) are selected dependent on what has been joined already. In other
-		// words: Avoid joining two non-connected paths.
-		while(selectedPath >= 0 && paths.length > 0) {
-			SearchPath path = paths[selectedPath];
-			assert !path.edges.isEmpty() : "path must contain an element";
-			
-			for(Iterator it = path.edges.iterator(); it.hasNext();) {
-				Edge edge = (Edge) it.next();
-				makeEdgeJoin(edge, path.isReverse(edge), stmtCtx);
-			}
-
-			// Mark the currently processed path as processed.
-			done[selectedPath] = true;
-			
-			// Unselect the current path to select a new one.
-			selectedPath = -1;
-			
-			for(int i = 0; i < paths.length; i++) {
-				if(!done[i] ) {
-					assert !paths[i].edges.isEmpty() : "path must contain an element";
-					selectedPath = i;
-					Edge firstEdge = (Edge) paths[i].edges.get(0);
-					Node start = (Node) graph.getSource(firstEdge);
-					
-					if(stmtCtx.hasBeenProcessed(start))
-						break;
-				}
-			}
-		}
-		
-		// Also add the edges that have not beed considered yet.
-		// These edges do not occurr in the DFS tree spanned by visitNode()
-		// but their existence, incidence situation and type must be checked.
-		// So process them here.
-		Collection restEdges = graph.getEdges(new HashSet());
-		restEdges.removeAll(stmtCtx.processedEdges);
-		
-		for(Iterator it = restEdges.iterator(); it.hasNext();) {
-			Edge edge = (Edge) it.next();
-			makeEdgeJoin(edge, false, stmtCtx);
-		}
-
-		Term pendingConds = null;
-
-		// Now, put all single nodes to the query.
-		// The single nodes must be the nodes which have not yet been processed.
-		Collection singleNodes = graph.getNodes(new HashSet());
-		singleNodes.removeAll(stmtCtx.processedNodes);
-		for(Iterator it = singleNodes.iterator(); it.hasNext();) {
-			Node n = (Node) it.next();
-			assert graph.isSingle(n) : "node must be single here!";
-			
-			// If this the first node at all (no node and no edges have been processed at all)
-			// The join degenerates to a table. The conditions are sored in pendingConds and
-			// are added to the conditions of next join encountered or to the conditions
-			// of the query, if no other follows.
-			if(stmtCtx.currJoin == null) {
-				stmtCtx.currJoin = tableFactory.nodeTable(n);
-				pendingConds = makeNodeJoinCond(n, stmtCtx);
-			} else {
-				stmtCtx.currJoin = factory.join(Join.INNER, stmtCtx.currJoin,
-					tableFactory.nodeTable(n), factory.addExpression(Opcodes.AND, pendingConds,
-						makeNodeJoinCond(n, stmtCtx)));
-				
-				pendingConds = null;
-			}
-			
-			stmtCtx.markProcessed(n);
-		}
-		
-		// At last add the columns to the query statement.
-		List columns = new LinkedList();
-
-		// One for the nodes.
-		for(Iterator it = stmtCtx.processedNodes.iterator(); it.hasNext();) {
-			Node node = (Node) it.next();
-			matchedNodes.add(node);
-			columns.add(tableFactory.nodeTable(node).colId());
-		}
-
-		// One for the edges.
-		for(Iterator it = graph.getEdges(matchedEdges).iterator(); it.hasNext();) {
-			Edge edge = (Edge) it.next();
-			columns.add(tableFactory.edgeTable(edge).colId());
-		}
-
-		// If there were pending conditions make a simple query using these conditions.
-		// Else build an explicit query, since all conditions are put in the joins.
-		Query result;
-		if(pendingConds == null)
-			result = factory.explicitQuery(columns, stmtCtx.currJoin);
-		else {
-			List relations = new LinkedList();
-			relations.add(stmtCtx.currJoin);
-			result = factory.simpleQuery(columns, relations, pendingConds);
-		}
-
-		debug.leaving();
-		return result;
-	}
-	*/
-	
 }

@@ -943,7 +943,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 			
 			assert processedTables.size() > 1 : "Small queries not yet supported";
-			Query result = factory.explicitQuery(columns, currJoin);
+			Query result = factory.explicitQuery(true, columns, currJoin);
 			
 			debug.leaving();
 			
@@ -952,4 +952,5 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 	}
 }
+
 

@@ -481,8 +481,9 @@ public class DefaultStatementFactory extends Base
 		private Term cond;
 		private final List groupBy;
 		private final Term having;
+		private boolean distinct;
 
-		DefaultQuery(List columns, List relations, Term cond,
+		DefaultQuery(boolean distinct, List columns, List relations, Term cond,
 								 List groupBy, Term having) {
 			super("query");
 			setChildren(relations);
@@ -491,14 +492,15 @@ public class DefaultStatementFactory extends Base
 			this.cond = cond;
 			this.groupBy = groupBy;
 			this.having = having;
+			this.distinct = distinct;
 		}
 		
-		DefaultQuery(List columns, List relations, Term cond) {
-			this(columns, relations, cond, null, null);
+		DefaultQuery(boolean distinct, List columns, List relations, Term cond) {
+			this(distinct, columns, relations, cond, null, null);
 		}
 			
-		DefaultQuery(List columns, Relation relation) {
-			this(columns, Arrays.asList(new Relation[] { relation }), null);
+		DefaultQuery(boolean distinct, List columns, Relation relation) {
+			this(distinct, columns, Arrays.asList(new Relation[] { relation }), null);
 		}
 		
 		public int columnCount() {
@@ -530,6 +532,8 @@ public class DefaultStatementFactory extends Base
 			int i = 0;
 			
 			sb.append("SELECT ");
+			if(distinct)
+				sb.append("DISTINCT ");
 			
 			if (!columns.iterator().hasNext()) {
 				sb.append("1");
@@ -586,16 +590,16 @@ public class DefaultStatementFactory extends Base
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#simpleQuery(java.util.List, java.util.List, de.unika.ipd.grgen.be.sql.meta.Term)
 	 */
 	public Query simpleQuery(List columns, List relations, Term cond) {
-		return new DefaultQuery(columns, relations, cond);
+		return new DefaultQuery(false, columns, relations, cond);
 	}
 	
 	public Query simpleQuery(List columns, List relations, Term cond,
 													 List groupBy, Term having) {
-		return new DefaultQuery(columns, relations, cond, groupBy, having);
+		return new DefaultQuery(false, columns, relations, cond, groupBy, having);
 	}
 	
-	public Query explicitQuery(List columns, Relation relation) {
-		return new DefaultQuery(columns, relation);
+	public Query explicitQuery(boolean distinct, List columns, Relation relation) {
+		return new DefaultQuery(distinct, columns, relation);
 	}
 	
 	protected static class DefaultJoin extends DefaultDebug implements Join {
