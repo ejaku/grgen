@@ -5,12 +5,12 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import de.unika.ipd.grgen.be.*;
-
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
+
+import de.unika.ipd.grgen.be.TypeID;
 
 
 /**
@@ -135,8 +135,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	private void visitNode(VisitContext ctx, SearchPath path,
 												 Node start, boolean isNAC) {
 		
-		debug.entering();
-		
 		if(ctx.visited.contains(start))
 			return;
 		
@@ -195,7 +193,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 		}
 		
-		debug.leaving();
+		
 	}
 	
 	private SearchPath[] computeSearchPaths(Graph graph, Graph pattern,
@@ -209,7 +207,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		Iterator edgeIterator = graph.getEdges();
 		Comparator comparator = new NodeComparator(graph);
 		
-		debug.entering();
+		
 		
 		debug.report(NOTE, "all nodes" + rest);
 		
@@ -237,7 +235,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			startingPoints.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
 		
-		debug.leaving();
+		
 		
 		return (SearchPath[]) ctx.paths.toArray(new SearchPath[ctx.paths.size()]);
 	}
@@ -251,7 +249,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	private Node getCheapest(Iterator nodes, Comparator comp) {
 		Node cheapest = null;
 		
-		debug.entering();
+		
 		
 		while(nodes.hasNext()) {
 			Node curr = (Node) nodes.next();
@@ -266,13 +264,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 										 + ", type: " + nt.getIdent());
 		}
 		
-		debug.leaving();
+		
 		
 		return cheapest;
 	}
 	
 	protected Query makeMatchStatement(MatchCtx ctx) {
-		debug.entering();
+		
 		MatchingAction act = ctx.action;
 		TypeStatementFactory factory = ctx.stmtFactory;
 		GraphTableFactory tableFactory = ctx.tableFactory;
@@ -380,7 +378,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result = seq.produceQuery();
 		
-		debug.leaving();
+		
 		
 		return result;
 	}
@@ -455,7 +453,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			Table neutral = (Table) neutralMap.get(neg);
 			deps.add(neutral);
-			seq.scheduleCond(sub, deps);
+			
+			
+			if(sub != null)
+				seq.scheduleCond(sub, deps);
 		}
 	}
 	
@@ -695,6 +696,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * condition depends on.
 		 */
 		public void scheduleCond(Term cond, Collection tables) {
+			assert cond != null : "Cannot schedule a null term";
 			if(conditions.containsKey(cond)) {
 				Collection deps = (Collection) conditions.get(cond);
 				deps.addAll(tables);
@@ -710,6 +712,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param table A table on which <code>cond</code> depends.
 		 */
 		public void scheduleCond(Term cond, Relation table) {
+			assert cond != null : "Cannot schedule a null term";
 			if(conditions.containsKey(cond)) {
 				Collection deps = (Collection) conditions.get(cond);
 				deps.add(table);
@@ -736,12 +739,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @return The condition term to be deployed.
 		 */
 		private Term deliverConditions(BitSet processed) {
-			Term res = null;
+			Term res = factory.constant(true);
 			
 			// make an auxillary working set.
 			BitSet work = new BitSet(currId);
 			
-			debug.entering();
+			Collection toDelete = new LinkedList();
+			
 			debug.report(NOTE, "processed: " + processed);
 			
 			// Look at all conditions that are in the join dependency set.
@@ -759,16 +763,21 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				
 				debug.report(NOTE, "  dep: " + dep + " -> " + work);
 				
+				assert term != null : "Term must not be null";
+				
 				// If yes, add this condition to the returned ones and
 				// remove it from the join condition dependency set.
 				if(work.nextSetBit(0) == -1) {
 					res = factory.addExpression(Opcodes.AND, res, term);
-					it.remove();
+					toDelete.add(term);
 				}
 			}
 			
+			for(Iterator i = toDelete.iterator(); i.hasNext();)
+				joinCondDeps.remove(i.next());
+			
 			debug.report(NOTE, "  res: " + res);
-			debug.leaving();
+			
 			
 			return res;
 		}
@@ -971,7 +980,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		Query produceQuery() {
 			
-			debug.entering();
+			
 			
 			
 			// If there's just one processed table (the singleton node)
@@ -1044,7 +1053,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			// assert processedTables.size() > 1 : "Small queries not yet supported";
 			Query result = factory.explicitQuery(true, columns, currJoin);
 			
-			debug.leaving();
+			
 			
 			return result;
 		}
