@@ -362,7 +362,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
-				seq.addNodeJoin(n, joinType, graphIsNAC);
+				seq.addNodeJoin(graph, n, joinType, graphIsNAC);
 			}
 			
 			Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
