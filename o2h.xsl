@@ -2,7 +2,7 @@
 	<xsl:output method="text"/>
 	<xsl:template match="/unit">
 <xsl:text>
-#include <gr/gr.h>
+#include &lt;gr/gr.h&gt;
 
 typedef struct {
 
