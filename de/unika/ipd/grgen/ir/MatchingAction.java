@@ -12,19 +12,19 @@ import java.util.LinkedList;
  * An action that represents something that does graph matching.
  */
 public abstract class MatchingAction extends Action {
-	
+
 	/** Children names of this node. */
 	private static final String[] childrenNames = {
 	  "pattern", "negative"
 	};
-	
+
 	/** The graph pattern to match against. */
 	protected final PatternGraph pattern;
-	
+
 	/** The NAC part of the rule. */
 	protected final Collection negs =
 		new LinkedList(); // holds Objects of type PatternGraph
-	
+
 	/**
 	 * @param name The name of this action.
 	 * @param ident The identifier that identifies this object.
@@ -36,7 +36,7 @@ public abstract class MatchingAction extends Action {
 		pattern.setNameSuffix("pattern");
 		setChildrenNames(childrenNames);
 	}
-  
+
 	/**
 	 * Get the graph pattern.
 	 * @return The graph pattern.
@@ -44,14 +44,14 @@ public abstract class MatchingAction extends Action {
 	public PatternGraph getPattern() {
 		return pattern;
 	}
-  
+
 	public void addNegGraph(PatternGraph neg) {
 		if(neg.getNodes().hasNext()) {
 			neg.setNameSuffix("negative");
 			negs.add(neg);
 		}
 	}
-	
+
 	/**
 	 * Get the NAC part.
 	 * @return The NAC graph of the rule.
@@ -59,7 +59,7 @@ public abstract class MatchingAction extends Action {
 	public Iterator getNegs() {
 		return negs.iterator();
 	}
-	
+
 	/**
 	 * Anonymous edges that connect the same nodes on both sides of rule
 	 * shall also become the same Edge node. This not the case when
@@ -71,7 +71,7 @@ public abstract class MatchingAction extends Action {
 	public void coalesceAnonymousEdges() {
 		for(Iterator it = pattern.getEdges(); it.hasNext();) {
 			Edge e = (Edge) it.next();
-			
+
 			if (e.isAnonymous()) {
 				for(Iterator jt = getAdditionalGraphs().iterator(); jt.hasNext();) {
 					Graph g = (Graph) jt.next();
@@ -80,7 +80,7 @@ public abstract class MatchingAction extends Action {
 			}
 		}
 	}
-	
+
 	/**
 	 * Get all graphs that are involved in this rule besides
 	 * the pattern part.
@@ -88,8 +88,8 @@ public abstract class MatchingAction extends Action {
 	 * @return A collection holding all additional graphs in this
 	 * matching action.
 	 */
-	protected Collection getAdditionalGraphs() {
+	public Collection getAdditionalGraphs() {
 		return negs;
 	}
-	
+
 }

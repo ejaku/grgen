@@ -1,4 +1,4 @@
-actions daniel using Daniel, Firm;
+actions FirmAct using Daniel, Firm;
 
 //=====================================================
 //
@@ -21,16 +21,16 @@ rule add_initial_counter {
 rule add_counter {
     pattern {
         a: Ex_Node;
-        
+
         negative { a --> c: Counter; }
     }
     replace { a --> c: Counter; }
 //    eval { c.count = 0; }
 }
 
-// Remove an edge between two Ex_Nodes and increment their 
-// counters. Reflexiv edges are covered by (x~y), allowing 
-// non injective matches. This rule is only applicable if 
+// Remove an edge between two Ex_Nodes and increment their
+// counters. Reflexiv edges are covered by (x~y), allowing
+// non injective matches. This rule is only applicable if
 // the two Ex_Nodes have attached counters already.
 rule count_an_edge {
     pattern {
@@ -47,8 +47,8 @@ rule count_an_edge {
     }
 }
 
-// If an Ex_Node has no more edges to remove then remove 
-// this Ex_Node. This rule is only applicable if all edges 
+// If an Ex_Node has no more edges to remove then remove
+// this Ex_Node. This rule is only applicable if all edges
 // of this node have been counted.
 rule remove_finished_nodes {
     pattern {
@@ -68,8 +68,8 @@ rule remove_finished_nodes {
     }
 }
 
-// If a counter isn't attached to an Ex_Node its value may be 
-// compared to other counters. Remove the counter having the 
+// If a counter isn't attached to an Ex_Node its value may be
+// compared to other counters. Remove the counter having the
 // smaller value.
 rule kill_lesser_counters {
     pattern {
@@ -121,7 +121,7 @@ test no_correlation {
 test multiple_negs {
 	pattern {
 		a: Node --> b: Node;
-		
+
 		negative {
 			a --> c: Node;
 		}
@@ -134,14 +134,14 @@ test multiple_negs {
 	}
 }
 
-// This selects all nodes which do not have a counter attatched 
+// This selects all nodes which do not have a counter attatched
 // with a count of zero. It can match nodes which have a counter
 // with count 23 for example.
 test cond_in_neg {
 	pattern {
-		a: Node;
+		c: Counter;
 		negative {
-			a --> c: Counter;
+			c;
 			if c.count == 0;
 		}
 	}
@@ -160,6 +160,17 @@ test subgraph_as_neg {
 //   Misc stuff
 //
 //=====================================================
+
+// Add counters to all IR_nodes
+rule add_ir_counter {
+    pattern {
+        a: IR_node;
+
+        negative { a --> c: Counter; }
+    }
+    replace { a --> c: Counter; }
+//    eval { c.count = 0; }
+}
 
 rule DCE {
   pattern {

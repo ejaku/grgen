@@ -19,13 +19,13 @@ public class Rule extends MatchingAction {
 	private static final String[] childrenNames = {
 		"left", "right", "eval"
 	};
-	
+
 	/** The right hand side of the rule. */
 	private final Graph right;
-	
+
 	/** The evaluation assignments of this rule. */
 	private final Collection evals = new LinkedList();
-	
+
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
@@ -47,7 +47,7 @@ public class Rule extends MatchingAction {
 	public Collection getEvals() {
 		return ReadOnlyCollection.getSingle(evals);
 	}
-	
+
 	/**
 	 * Add an assignment to the list of evaluations.
 	 * @param a The assignment.
@@ -55,7 +55,7 @@ public class Rule extends MatchingAction {
 	public void addEval(Assignment a) {
 		evals.add(a);
 	}
-	
+
 	/**
 	 * Get the set of nodes the left and right side have in common.
 	 * @return A set with nodes, that occur on the left and on the right side
@@ -67,7 +67,7 @@ public class Rule extends MatchingAction {
 		common.retainAll(rightNodes);
 		return common;
 	}
-	
+
 	/**
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
@@ -79,7 +79,7 @@ public class Rule extends MatchingAction {
 		common.retainAll(rightEdges);
 		return common;
 	}
-	
+
 	/**
 	 * Get all graphs that are involved in this rule besides
 	 * the pattern part.
@@ -87,13 +87,13 @@ public class Rule extends MatchingAction {
 	 * @return A collection holding all additional graphs in this
 	 * matching action.
 	 */
-	protected Collection getAdditionalGraphs() {
+	public Collection getAdditionalGraphs() {
 		Collection res = new LinkedList(super.getAdditionalGraphs());
 		res.add(right);
 		return res;
 	}
-	
-	
+
+
 	/**
 	 * Get the left hand side.
 	 * @return The left hand side graph.
@@ -101,7 +101,7 @@ public class Rule extends MatchingAction {
 	public Graph getLeft() {
 		return pattern;
 	}
-	
+
 	/**
 	 * Get the right hand side.
 	 * @return The right hand side graph.
