@@ -381,7 +381,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				seq.addNodeJoin(graph, n, joinType, graphIsNAC);
 			}
 
-			if (graphIsNAC) {
+			if (graphIsNAC && !graph.isSubOf(act.getPattern())) {
 				having = factory.addExpression(Opcodes.AND, having,
 											   factory.expression(Opcodes.ISNULL,
 																  factory.expression(
@@ -407,6 +407,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		return result;
 	}
 
+
 	private void addNacConds(MatchCtx matchCtx, Map neutralMap, JoinSequence seq) {
 
 		MatchingAction act = matchCtx.action;
@@ -430,18 +431,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Collection negAllEdges = neg.getEdges(new HashSet());
 			negEdges.removeAll(patEdges);
 
-
 			// This checks the neggraph beeing a sub to pattern
 			if (negNodes.isEmpty() && negEdges.isEmpty()
-				&& !(negAllNode.isEmpty() && negAllEdges.isEmpty())
-			    && neg.getConditions().isEmpty() )  {
+				&& !(negAllNode.isEmpty() && negAllEdges.isEmpty()))  {
 
-				// TODO Tell the user which rule and which neg-graph
-				error.warning("This negative graph is a subgraph of the pattern graph. This action is never applicable.");
-
-				//TODO There _is_ a better way to solve this
-				//add a "AND FALSE" to the next join
-				seq.scheduleCond(factory.constant(false), new HashSet());
+				// This neg-graph is a subgraph of the pattern, but conditions
+				// in the negative-part may result in a applicable matching action.
+				if (neg.getConditions().size() == 0) {
+					// TODO Tell the user which rule and which neg-graph
+					// TODO There _is_ a better way to solve this. For now add a "AND FALSE" to the next join
+					seq.scheduleCond(factory.constant(false), new HashSet());
+					error.warning("Negative part is a subgraph of pattern part and has no conditions. This action is never applicable.");
+				} else {
+					error.warning("Negative part is a subgraph of pattern part");
+				}
 			}
 
 			// Construct conditions for <> of edges
@@ -641,6 +644,19 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 					Expression expr = (Expression) it.next();
 					Term term = genExprSQL(expr, factory, usedEntities);
+
+					// Check if this condition only depends on entities declared in the pattern-part
+					if (!graph.equals(act.getPattern())) {
+						Collection ent = new HashSet(usedEntities);
+						ent.removeAll(act.getPattern().getNodes(new HashSet()));
+						ent.removeAll(act.getPattern().getEdges(new HashSet()));
+						if (ent.size() == 0) {
+							error.warning("Condition in negative part only depends on pattern-part-entities.");
+							// Negate the term (because it will be moved to a INNER JOIN)
+							term = factory.expression(Opcodes.NOT, term);
+						}
+					}
+
 					for(Iterator et = usedEntities.iterator(); et.hasNext();) {
 						Object obj = et.next();
 
@@ -1101,4 +1117,5 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 	}
 }
+
 
