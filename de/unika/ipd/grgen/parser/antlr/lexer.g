@@ -108,6 +108,7 @@ LOR				:	"||"	;
 BAND			:	'&'		;
 LAND			:	"&&"	;
 SEMI			:	';'		;
+BACKSLASH : '\\'  ;
 
 // Whitespace -- ignored
 WS	:	(	' '
