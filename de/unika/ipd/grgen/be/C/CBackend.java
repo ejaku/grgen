@@ -10,31 +10,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.PostWalker;
-import de.unika.ipd.grgen.util.Visitor;
-import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * A backend for the C interface to grgen. 
  */
-public abstract class CBackend extends Base implements Backend {
+public abstract class CBackend extends IDBase implements Backend {
 
-  /** The output path as handed over by the frontend. */
-	private File path;
-
-  /** The unit to generate code for. */
-	protected Unit unit;
-	
-	/** node type to type id map. (Type -> Integer) */
+  /** node type to type id map. (Type -> Integer) */
 	protected Map nodeTypeMap = new HashMap();
 	
 	/** node type to type id map. (Type -> Integer) */
@@ -52,12 +54,26 @@ public abstract class CBackend extends Base implements Backend {
 	/** action map. (Action -> Integer) */
 	protected Map actionMap = new HashMap();
 
-	/** The error reporter. */
-	protected ErrorReporter error;
+	/** The unit to generate code for. */
+	protected Unit unit;
+
+  /** The output path as handed over by the frontend. */
+	private File path;
 
 	/** the extension of the generated include files */
 	public final String incExtension = ".inc";
   
+	/** The error reporter. */
+	protected ErrorReporter error;
+	
+	/**
+	 * Get the IR root node.
+	 * @return The Unit node of the IR.
+	 */
+	protected Unit getUnit() {
+		return unit;
+	}
+	
   /**
    * Write a string buffer to a file.
    * @param fname The name of the file.
@@ -93,82 +109,6 @@ public abstract class CBackend extends Base implements Backend {
 		return s;
   }
 
-	/**
-	 * Assign an id to each type in the IR graph.
-	 * This method puts all IR object in the IR graph that are instance of
-	 * <code>cl</code> into the map <code>typeMap</code> and associates
-	 * it with an id that is unique within the map. The id starts with 0.
-	 * @param typeMap The type map to fill. 
-	 * @param cl The class that an IR object must be instance of, to be put 
-	 * into the type map. 
-	 */
-	protected void makeTypeIds(Map typeMap, Class cl) {
-		final Class typeClass = cl;
-		final Map map = typeMap;
-		 
-		/*
-		 * This visitor enters each type into a hashmap with 
-		 * an id as value, and the type object as key.
-		 */
-		
-		Visitor v = new Visitor() {
-			private int id = 0;
-						  		 
-			public void visit(Walkable w) {
-				if(typeClass.isInstance(w)) 
-					map.put(w, new Integer(id++));
-			}
-		};
-  	
-		(new PostWalker(v)).walk(unit);
-	}
-	
-	/**
-	 * Make the attribute Ids.
-	 * @param attrMap	A map that will be filled with all attributes and there Ids.
-	 * @param cl			The attribute class.
-	 */
-	protected void makeAttrIds(Map attrMap, Class cl) {
-		final Class attrClass = cl;
-		final Map map = attrMap;
-		
-		Visitor v = new Visitor() {
-			private int id = 0;
-			
-			public void visit(Walkable w) {
-				if(attrClass.isInstance(w)) {
-					CompoundType ty = (CompoundType) w;
-					for(Iterator it = ty.getMembers(); it.hasNext();) {
-						Entity ent = (Entity) it.next();
-						assert !map.containsKey(ent) : "entity must not be in map";
-						map.put(ent, new Integer(id++));
-					}
-				}
-			}
-		};
-		
-		(new PostWalker(v)).walk(unit);
-	}
-	
-	/**
-	 * Make all enum type Ids.
-	 * @param enumMap A map that will be filled with all Enum types and there Ids.
-	 */
-	protected void makeEnumIds(Map enumMap) {
-		final Map map = enumMap;
-		
-		Visitor v = new Visitor() {
-			private int id = 0;
-			
-			public void visit(Walkable w) {
-				if(w instanceof EnumType) {
-					map.put(w, new Integer(id++));
-				}
-			}
-		};
-		
-		(new PostWalker(v)).walk(unit);
-	}
 	
 	/**
 	 * Make C defines for each type in a type map.
@@ -308,29 +248,6 @@ public abstract class CBackend extends Base implements Backend {
 		
 	}
 	
-	/**
-	 * Gets a set with all types the given type is compatible with.
-	 * (It builds the transitive closure over the subtype relation.)
-	 * @param ty The type to determine all compatible types for.
-	 * @param isaMap A temporary map, where this method can record data.
-	 * @return A set containing all compatible types to <code>ty</code>.
-	 */
-	protected Set getIsA(InheritanceType ty, Map isaMap) {
-		Set res; 
-		
-		if(!isaMap.containsKey(ty)) {
-			res = new HashSet();
-			isaMap.put(ty, res);
-			for(Iterator it = ty.getInherits(); it.hasNext();) {
-				InheritanceType t = (InheritanceType) it.next();
-				res.add(t);
-				res.addAll(getIsA(t, isaMap));				
-			}
-		} else
-			res = (Set) isaMap.get(ty);
-			
-		return res;
-	}
 	
 	/**
 	 * Make a matrix that represents the type relation.
@@ -450,30 +367,7 @@ public abstract class CBackend extends Base implements Backend {
 		sb.append("};\n");
 	}
 	
-  /**
-   * @param map The map to look into.
-   * @param ty The inheritance type to get the id for.
-   * @return The type id for this type.
-   */
-  protected int getTypeId(Map map, IR obj) {
-		Integer res = (Integer) map.get(obj);
-    return res.intValue();
-  }
 
-	protected void makeActionIds(Map actionMap) {
-		final Map map = actionMap;
-		
-		Visitor v = new Visitor() {
-			private int id = 0;
-			
-			public void visit(Walkable w) {
-				if(w instanceof Action) 
-					map.put(w, new Integer(id++));					
-			}
-		};
-		
-		(new PostWalker(v)).walk(unit);
-	}
 
 	protected void makeActionMap(StringBuffer sb, Map map) {
 		Action[] actions = new Action[map.size()];
