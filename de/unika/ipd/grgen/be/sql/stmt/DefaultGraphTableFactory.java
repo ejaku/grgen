@@ -68,8 +68,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	protected final TypeFactory typeFactory;
 	
 	public DefaultGraphTableFactory(SQLParameters parameters,
-																	TypeFactory typeFactory,
-																	Map nodeAttrs, Map edgeAttrs) {
+									TypeFactory typeFactory,
+									Map nodeAttrs, Map edgeAttrs) {
 		
 		this.parameters = parameters;
 		this.nodeAttrs = nodeAttrs;
@@ -103,9 +103,9 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		originalNodeTable = new DefaultNodeTable();
 		originalEdgeTable = new DefaultEdgeTable();
 		originalNodeAttrTable = new DefaultAttributeTable(parameters.getTableNodeAttrs(),
-																											parameters.getColNodeAttrNodeId(), nodeAttrs);
+														  parameters.getColNodeAttrNodeId(), nodeAttrs);
 		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(),
-																											parameters.getColEdgeAttrEdgeId(), edgeAttrs);
+														  parameters.getColEdgeAttrEdgeId(), edgeAttrs);
 		
 		neutralTable = new NeutralTable("");
 	}
@@ -123,8 +123,11 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		Coords c = id.getCoords();
 		
 		sb.append('l').append(c.getLine()).append('c').append(c.getColumn()).append('_');
-		sb.append(ent.getName().toLowerCase()).append('_');
-		sb.append(id);
+		if(ent.getOwner()==null)
+			sb.append("_toplevel_)");
+		else
+			sb.append(ent.getOwner().getIdent().toString().toLowerCase());
+		sb.append('_').append(id);
 		
 		/*
 		 sb.append(ent.getName()).append("_");
@@ -342,12 +345,12 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		
 		public Query genGetStmt(StatementFactory factory, MarkerSource ms, Column col) {
 			Term cond = factory.expression(Opcodes.EQ,
-																		 factory.expression(colId()),
-																		 factory.markerExpression(ms, colId().getType()));
+										   factory.expression(colId()),
+										   factory.markerExpression(ms, colId().getType()));
 			
 			return factory.simpleQuery(Collections.singletonList(col),
-																 Collections.singletonList(this),
-																 cond, StatementFactory.NO_LIMIT);
+									   Collections.singletonList(this),
+									   cond, StatementFactory.NO_LIMIT);
 		}
 		
 		/**
@@ -372,14 +375,14 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		}
 		
 		public ManipulationStatement genUpdateStmt(StatementFactory factory,
-																							 MarkerSource ms, Column col) {
+												   MarkerSource ms, Column col) {
 			Term expr = factory.markerExpression(ms, col.getType());
 			Term cond = factory.expression(Opcodes.EQ,
-																		 factory.expression(colId()),
-																		 factory.markerExpression(ms, colId().getType()));
+										   factory.expression(colId()),
+										   factory.markerExpression(ms, colId().getType()));
 			
 			return factory.makeUpdate(this, Collections.singletonList(col),
-																Collections.singletonList(expr), cond);
+									  Collections.singletonList(expr), cond);
 		}
 		
 		public String toString() {
@@ -562,7 +565,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 */
 	public AttributeTable nodeAttrTable(Node node) {
 		return checkAttrTable(parameters.getTableNodeAttrs(), parameters.getColNodeAttrNodeId(),
-													node, nodeAttrs);
+							  node, nodeAttrs);
 	}
 	
 	/**
@@ -570,7 +573,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 */
 	public AttributeTable edgeAttrTable(Edge edge) {
 		return checkAttrTable(parameters.getTableEdgeAttrs(), parameters.getColEdgeAttrEdgeId(),
-													edge, edgeAttrs);
+							  edge, edgeAttrs);
 	}
 	
 	
@@ -622,8 +625,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 */
 	public AttributeTable edgeAttrTable(String alias) {
 		return new DefaultAttributeTable(parameters.getTableEdgeAttrs(),
-																		 parameters.getColEdgeAttrEdgeId(),
-																		 alias, edgeAttrs);
+										 parameters.getColEdgeAttrEdgeId(),
+										 alias, edgeAttrs);
 	}
 	
 	/**
@@ -647,8 +650,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 */
 	public AttributeTable nodeAttrTable(String alias) {
 		return new DefaultAttributeTable(parameters.getTableNodeAttrs(),
-																		 parameters.getColNodeAttrNodeId(),
-																		 alias, nodeAttrs);
+										 parameters.getColNodeAttrNodeId(),
+										 alias, nodeAttrs);
 	}
 	
 	/**
@@ -669,7 +672,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	protected class NeutralTable extends AliasTable {
 		NeutralTable(String alias) {
 			super("neutral", alias, new String[] { "id" },
-						new DataType[] { typeFactory.getIntType() });
+				  new DataType[] { typeFactory.getIntType() });
 		}
 	}
 	
