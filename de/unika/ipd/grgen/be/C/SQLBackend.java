@@ -18,6 +18,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
+import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.Identifiable;
@@ -76,7 +77,9 @@ public abstract class SQLBackend extends CBackend {
 	protected String nodeTypeIsAFunc;
 	*/
 	
-	protected CSQLGenerator sqlGen = new CSQLGenerator(this);
+	protected SQLParameters parameters;
+	
+	protected CSQLGenerator sqlGen = new CSQLGenerator(parameters, this);
 	
 	protected Map matchMap = new HashMap();
 	
@@ -140,18 +143,18 @@ public abstract class SQLBackend extends CBackend {
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
 		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", sqlGen.nodeTypeIsAFunc);
 		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", sqlGen.edgeTypeIsAFunc);
-		addStringDefine(sb, "TABLE_NODES", sqlGen.tableNodes);
-		addStringDefine(sb, "TABLE_EDGES", sqlGen.tableEdges);
-		addStringDefine(sb, "TABLE_NODE_ATTRS", sqlGen.tableNodeAttrs);
-		addStringDefine(sb, "TABLE_EDGE_ATTRS", sqlGen.tableEdgeAttrs);
-		addStringDefine(sb, "COL_NODES_ID", sqlGen.colNodesId);
-		addStringDefine(sb, "COL_NODES_TYPE_ID", sqlGen.colNodesTypeId);
-		addStringDefine(sb, "COL_EDGES_ID", sqlGen.colEdgesId);
-		addStringDefine(sb, "COL_EDGES_TYPE_ID", sqlGen.colEdgesTypeId);
-		addStringDefine(sb, "COL_EDGES_SRC_ID", sqlGen.colEdgesSrcId);
-		addStringDefine(sb, "COL_EDGES_TGT_ID", sqlGen.colEdgesTgtId);
-		addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", sqlGen.colNodeAttrNodeId);
-		addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", sqlGen.colEdgeAttrEdgeId);
+		addStringDefine(sb, "TABLE_NODES", parameters.getTableNodes());
+		addStringDefine(sb, "TABLE_EDGES", parameters.getTableEdges());
+		addStringDefine(sb, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());
+		addStringDefine(sb, "TABLE_EDGE_ATTRS", parameters.getTableEdgeAttrs());
+		addStringDefine(sb, "COL_NODES_ID", parameters.getColNodesId());
+		addStringDefine(sb, "COL_NODES_TYPE_ID", parameters.getColNodesTypeId());
+		addStringDefine(sb, "COL_EDGES_ID", parameters.getColEdgesId());
+		addStringDefine(sb, "COL_EDGES_TYPE_ID", parameters.getColEdgesTypeId());
+		addStringDefine(sb, "COL_EDGES_SRC_ID", parameters.getColEdgesSrcId());
+		addStringDefine(sb, "COL_EDGES_TGT_ID", parameters.getColEdgesTgtId());
+		addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", parameters.getColNodeAttrNodeId());
+		addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", parameters.getColEdgeAttrEdgeId());
 		
 		// Dump the databases type corresponding to the ID type.
 		addStringDefine(sb, "DB_ID_TYPE", getIdType());

@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.prefs.Preferences;
 
 import de.unika.ipd.grgen.ir.Condition;
 import de.unika.ipd.grgen.ir.Edge;
@@ -32,62 +31,10 @@ import de.unika.ipd.grgen.util.Base;
  */
 public abstract class SQLGenerator extends Base implements TypeID {
 	
-	/** if 0, the query should not be limited. */
-	public final int limitQueryResults;
+	protected SQLParameters parameters;
 	
-	/** The name of the nodes table. */
-	public final String tableNodes;
-	
-	/** The name of the edge table. */
-	public final String tableEdges;
-	
-	/** The name of the node attributes table. */
-	public final String tableNodeAttrs;
-	
-	/** The name of the edge attributes table. */
-	public final String tableEdgeAttrs;
-	
-	/** The name of the node ID column. */
-	public final String colNodesId;
-	
-	/** The name of the node type ID column. */	
-	public final String colNodesTypeId;
-	
-	/** The name of the edge ID column. */
-	public final String colEdgesId;
-	
-	/** The name of the edge type ID column. */
-	public final String colEdgesTypeId;
-	
-	/** The name of the source node column. */
-	public final String colEdgesSrcId;
-	
-	/** The name of the target node column. */	
-	public final String colEdgesTgtId;
-	
-	public final String colNodeAttrNodeId;
-	
-	public final String colEdgeAttrEdgeId;
-	
-	protected SQLGenerator() {
-		Preferences prefs = Preferences.userNodeForPackage(getClass());
-		
-//		nodeTypeIsAFunc = prefs.get("nodeTypeIsAFunc", "node_type_is_a");
-//		edgeTypeIsAFunc = prefs.get("edgeTypeIsAFunc", "edge_type_is_a");
-		tableNodes = prefs.get("tableNodes", "nodes");
-		tableEdges = prefs.get("tableEdges", "edges");
-		tableNodeAttrs = prefs.get("tableNodeAttrs", "node_attrs");
-		tableEdgeAttrs = prefs.get("tableEdgeAttrs", "edge_attrs");
-		colNodesId = prefs.get("colNodesId", "node_id");
-		colNodesTypeId = prefs.get("colNodesTypeId", "type_id");
-		colEdgesId = prefs.get("colEdgesId", "edge_id");
-		colEdgesTypeId = prefs.get("colEdgesTypeId", "type_id");
-		colEdgesSrcId = prefs.get("colEdgesSrcId", "src_id");
-		colEdgesTgtId = prefs.get("colEdgesTgtId", "tgt_id");
-		colNodeAttrNodeId = prefs.get("colNodeAttrNodeId", "node_id");
-		colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
-		
-		limitQueryResults = prefs.getInt("limitQueryResults", 0);
+	public SQLGenerator(SQLParameters parameters) {
+		this.parameters = parameters;
 	}
 	
 	/**
@@ -191,7 +138,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 		
 		// Edge table column for incoming/outgoing edges.
 		final String[] incidentCols = new String[] {
-				colEdgesSrcId, colEdgesTgtId
+				parameters.getColEdgesSrcId(), parameters.getColEdgesTgtId()
 		};
 		
 		Set workset = new HashSet();
@@ -202,7 +149,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 			
 			Node n = (Node) it.next();
 			String mangledNode = mangleNode(n);
-			String nodeCol = getNodeCol(n, colNodesId);
+			String nodeCol = getNodeCol(n, parameters.getColNodesId());
 			
 			int typeId = getId((NodeType) n.getType());
 			
@@ -211,7 +158,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 			debug.report(NOTE, "node: " + n);
 			
 			// Add this node to the table and column list
-			addToList(nodeTables, tableNodes + " AS " + mangledNode);
+			addToList(nodeTables, parameters.getTableNodes() + " AS " + mangledNode);
 			addToList(nodeCols, nodeCol);
 			
 			// Add it also to the result list.
@@ -231,7 +178,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 				// If it was, we cannot node, if it is equal or not equal to n
 				if(!n.isHomomorphic(other))
 					addToCond(nodeWhere, nodeCol + " <> "
-							+ getNodeCol(other, colNodesId) + bl);
+							+ getNodeCol(other, parameters.getColNodesId()) + bl);
 			}
 			
 			// TODO check for conditions of nodes.
@@ -278,9 +225,10 @@ public abstract class SQLGenerator extends Base implements TypeID {
 					if (e.isNegated()) {
 						String condition =
 							mangledEdge +
-							(i==0 ? "." + colEdgesSrcId + " = " : "." + colEdgesTgtId + " = ") 
+							(i==0 ? "." + parameters.getColEdgesSrcId() + " = " 
+									: "." + parameters.getColEdgesTgtId() + " = ") 
 							// mangledNode == src | tgt
-							+ mangledNode + "." + colNodesId + bl + " AND "
+							+ mangledNode + "." + parameters.getColNodesId() + bl + " AND "
 							+ makeEdgeTypeIsA(e) + bl;
 						
 						if(edgeNotEx.containsKey(mangledEdge))
@@ -298,8 +246,8 @@ public abstract class SQLGenerator extends Base implements TypeID {
 					// Just add the edge to the columns and tables,
 					// if it didn't occur before.
 					if (!edges.contains(e)) {
-						addToList(edgeTables, tableEdges + " AS " + mangledEdge);
-						addToList(edgeCols, getEdgeCol(e, colEdgesId));
+						addToList(edgeTables, parameters.getTableEdges() + " AS " + mangledEdge);
+						addToList(edgeCols, getEdgeCol(e, parameters.getColEdgesId()));
 						edges.add(e);
 						
 						// Add edge type constraint
@@ -319,7 +267,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 		for (Iterator iter = edgeNotEx.keySet().iterator();iter.hasNext();) {
 			String mangledEdge=(String)iter.next();
 			addToCond(edgeWhere, "NOT EXISTS (" + bl +
-					"  SELECT " + mangledEdge + "." + colEdgesId + bl
+					"  SELECT " + mangledEdge + "." + parameters.getColEdgesId() + bl
 					+ " FROM edges AS " + mangledEdge + bl
 					+ " WHERE "+ edgeNotEx.get(mangledEdge)+ ")"
 			);
@@ -327,11 +275,13 @@ public abstract class SQLGenerator extends Base implements TypeID {
 		
 		debug.leaving();
 		
+		int limitResults = parameters.getLimitQueryResults();
+		
 		return "SELECT "
 		+ join(nodeCols, edgeCols, ", ") + bl + " FROM "
 		+ join(nodeTables, edgeTables, ", ") + bl + " WHERE "
 		+ join(nodeWhere, edgeWhere, " AND ")
-		+ (limitQueryResults != 0 ? " LIMIT " + limitQueryResults : "");
+		+ (limitResults != 0 ? " LIMIT " + limitResults : "");
 	}
 	
 	/**

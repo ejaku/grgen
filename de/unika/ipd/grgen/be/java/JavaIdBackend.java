@@ -14,10 +14,11 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.sql.IDBase;
+import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.libgr.graph.id.IDTypeModel;
 
 
 /**
@@ -58,15 +59,19 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/** Edge supertypes for each edge type id. */
 	protected int[][] edgeSuperTypes;
 	
+	protected NodeType[] nodeTypes;
+	
+	protected EdgeType[] edgeTypes;
+	
 	/** Node root type id. */
 	int nodeRootType;
 	
 	/** Edge root type id. */
 	int edgeRootType;
 	
-	public IDTypeModel getTypeModel() {
-		return this;
-	}
+	int nodeTypeCount;
+	
+	int edgeTypeCount;
 	
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
@@ -78,6 +83,9 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		
 		nodeTypeIsA = computeIsA(nodeTypeMap);
 		edgeTypeIsA = computeIsA(edgeTypeMap);
+		
+		nodeTypeCount = nodeTypeIsA.length;
+		edgeTypeCount = edgeTypeIsA.length;
 		
 		/*
 		 * At last build the super type arrays for node and edge types. 
@@ -117,6 +125,22 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		
 		nodeRootType = rootTypes[0];
 		edgeRootType = rootTypes[1];
+		
+		nodeTypes = new NodeType[nodeTypeCount];
+		edgeTypes = new EdgeType[edgeTypeCount];
+		
+		for(Iterator it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
+			NodeType nt = (NodeType) it.next();
+			int id = ((Integer) nodeTypeMap.get(nt)).intValue();
+			nodeTypes[id] = nt;
+		}
+		
+		for(Iterator it = edgeTypeMap.keySet().iterator(); it.hasNext();) {
+			EdgeType et = (EdgeType) it.next();
+			int id = ((Integer) edgeTypeMap.get(et)).intValue();
+			edgeTypes[id] = et;
+		}
+		
 	}
 	
 	
@@ -129,42 +153,78 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	}
 	
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#edgeTypeIsA(int, int)
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#edgeTypeIsA(int, int)
 	 */
 	public boolean edgeTypeIsA(int e1, int e2) {
 		return edgeTypeIsA[e1][e2];
 	}
 	
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#getEdgeRootType()
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeRootType()
 	 */
 	public int getEdgeRootType() {
 		return nodeRootType;
 	}
 
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#getEdgeTypeSuperTypes(int)
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypeSuperTypes(int)
 	 */
 	public int[] getEdgeTypeSuperTypes(int edge) {
 		return edgeSuperTypes[edge];
 	}
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#getNodeRootType()
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeRootType()
 	 */
 	public int getNodeRootType() {
 		return edgeRootType;
 	}
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#getNodeTypeSuperTypes(int)
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypeSuperTypes(int)
 	 */
 	public int[] getNodeTypeSuperTypes(int node) {
 		return nodeSuperTypes[node];
 	}
 
 	/**
-	 * @see de.unika.ipd.libgr.graph.id.IDTypeModel#nodeTypeIsA(int, int)
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#nodeTypeIsA(int, int)
 	 */
 	public boolean nodeTypeIsA(int n1, int n2) {
 		return nodeTypeIsA[n1][n2];
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypeName(int)
+	 */
+	public String getEdgeTypeName(int edge) {
+		return edgeTypes[edge].getIdent().toString();
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypeName(int)
+	 */
+	public String getNodeTypeName(int node) {
+		return nodeTypes[node].getIdent().toString();
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypes()
+	 */
+	public int[] getEdgeTypes() {
+		int[] res = new int[edgeTypeCount];
+		for(int i = 0; i < res.length; i++)
+			res[i] = i;
+		
+		return res;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypes()
+	 */
+	public int[] getNodeTypes() {
+		int[] res = new int[nodeTypeCount];
+		for(int i = 0; i < res.length; i++)
+			res[i] = i;
+		
+		return res;
 	}
 }

@@ -9,6 +9,7 @@ package de.unika.ipd.grgen.be.C;
 import java.util.prefs.Preferences;
 
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
+import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -27,7 +28,8 @@ public class CSQLGenerator extends SQLGenerator {
 	
 	private final TypeID typeId;
 	
-	CSQLGenerator(TypeID typeId) {
+	CSQLGenerator(SQLParameters parameters, TypeID typeId) {
+		super(parameters);
 		this.typeId = typeId;
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
 		
@@ -54,16 +56,16 @@ public class CSQLGenerator extends SQLGenerator {
 	 * @see de.unika.ipd.grgen.be.sql.SQLGenerator#makeNodeTypeIsA(de.unika.ipd.grgen.ir.Node)
 	 */
 	protected String makeNodeTypeIsA(Node n) {
-		return nodeTypeIsAFunc + "(" + getNodeCol(n, colNodesId) + "," + getId(n.getNodeType())
-			+ ")";
+		return nodeTypeIsAFunc + "(" + getNodeCol(n, parameters.getColNodesId()) 
+			+ "," + getId(n.getNodeType()) + ")";
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.SQLGenerator#makeEdgeTypeIsA(de.unika.ipd.grgen.ir.Edge)
 	 */
 	protected String makeEdgeTypeIsA(Edge e) {
-		return edgeTypeIsAFunc + "(" + getEdgeCol(e, colEdgesId) + "," + getId(e.getEdgeType())
-		+ ")";
+		return edgeTypeIsAFunc + "(" + getEdgeCol(e, parameters.getColEdgesId())
+			+ "," + getId(e.getEdgeType()) + ")";
 	}
 
 }

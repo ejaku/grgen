@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.libgr.actions.Action;
+import de.unika.ipd.libgr.actions.Match;
 import de.unika.ipd.libgr.actions.Matches;
 import de.unika.ipd.libgr.graph.Edge;
 import de.unika.ipd.libgr.graph.Graph;
@@ -31,13 +32,20 @@ import de.unika.ipd.libgr.graph.Node;
 /**
  * A SQL action.
  */
-public class SQLAction implements Action, RewriteHandler {
+class SQLAction implements Action, RewriteHandler {
+
+	private static final Match INVALID_MATCH = new Match() {
+		public boolean isValid() {
+			return false;
+		}
+	};
 
 	/** 
 	 * Matches found by an SQL action.
 	 */
 	private class SQLMatches implements Matches {
 
+		
 		/** The result set of the query. */
 		private ResultSet result;
 		
@@ -55,7 +63,23 @@ public class SQLAction implements Action, RewriteHandler {
 			} catch(SQLException e) {
 				// TODO error handling.
 			}
+		}
+		
+		public Match get(int whichOne) {
+			try {
+				int cols = result.getMetaData().getColumnCount();
+				int[] res = new int[cols];
+				
+				result.absolute(whichOne);
+				
+				for(int i = 0; i < cols; i++) 
+					res[i] = result.getInt(i);
 			
+				return new SQLMatch(res);
+			} catch(SQLException e) {
+				// TODO error handling.
+				return INVALID_MATCH;
+			}
 		}
 		
 		/**
@@ -64,19 +88,61 @@ public class SQLAction implements Action, RewriteHandler {
 		public int count() {
 			return numberOfMatches;
 		}
+	}
 
-		/**
-		 * @see de.unika.ipd.libgr.actions.Matches#getEdges(int)
-		 */
-		public Edge[] getEdges(int whichOne) {
-			return null;
+	/**
+	 * Data needed for a rewrite step.
+	 */
+	private abstract class RewriteStep {
+
+		private int stmtId;
+		
+		protected RewriteStep(int stmtId) {
+			this.stmtId = stmtId;
 		}
 
+		abstract int[] prepare(SQLMatch match);
+		
+		final void apply(SQLMatch m) {
+			int[] prepared = prepare(m);
+			queries.execUpdate(stmtId, prepared);
+		}
+	}
+	
+	private class IndexStep extends RewriteStep {
+		
+		private int index;
+		
+		IndexStep(int stmt, int index) {
+			super(stmt);
+			this.index = index;
+		}
+		
 		/**
-		 * @see de.unika.ipd.libgr.actions.Matches#getNodes(int)
+		 * @see de.unika.ipd.grgen.be.java.SQLAction.RewriteStep#prepare(de.unika.ipd.grgen.be.java.SQLMatch)
 		 */
-		public Node[] getNodes(int whichOne) {
-			return null;
+		int[] prepare(SQLMatch match) {
+			return new int[] { match.ids[index] };
+		}
+	}
+
+	private class ChangeNodeTypeStep extends RewriteStep {
+		
+		private final int nodeIndex;
+		private final int typeId;
+		
+		ChangeNodeTypeStep(int nodeIndex, int typeId) {
+			super(Queries.CHANGE_NODE_TYPE);
+			this.nodeIndex = nodeIndex;
+			this.typeId = typeId;
+		}
+		
+		/**
+		 * @see de.unika.ipd.grgen.be.java.SQLAction.RewriteStep#prepare(de.unika.ipd.grgen.be.java.SQLMatch, int[])
+		 */
+		int[] prepare(SQLMatch match) {
+			int[] res = new int[] { match.ids[nodeIndex], typeId };
+			return res;
 		}
 	}
 
@@ -98,34 +164,7 @@ public class SQLAction implements Action, RewriteHandler {
 	/** Someone who gives IDs for types. */
 	private TypeID typeID;
 	
-	/**
-	 * Data needed for a rewrite step.
-	 */
-	private final class RewriteStep {
-
-		private PreparedStatement stmt;
-		private int[] idPositions;
-		
-		RewriteStep(int stmtId, int[] idPositions) {
-			stmt = queries.getStatement(stmtId);
-			this.idPositions = idPositions;
-			
-			assert idPositions.length == queries.getParameters(stmtId)
-				: "number over given parameters must match the parameter number in query";
-		}
-		
-		RewriteStep(int stmtID, int idPos) {
-			this(stmtID, new int[] { idPos });
-		}
-		
-		void apply() {
-			
-		}
-	}
-
-	/** 
-	 * The rewrite steps to take.
-	 */
+	/** The rewrite steps to take. */
 	List rewriteSteps = new LinkedList();
 	
 	
@@ -144,7 +183,6 @@ public class SQLAction implements Action, RewriteHandler {
 		for(Iterator it = nodes.iterator(); it.hasNext(); i++)
 			nodeIndexMap.put(it.next(), new Integer(i));
 		
-		i = 0;
 		for(Iterator it = edges.iterator(); it.hasNext(); i++)
 			edgeIndexMap.put(it.next(), new Integer(i));
 		
@@ -181,7 +219,14 @@ public class SQLAction implements Action, RewriteHandler {
 	/**
 	 * @see de.unika.ipd.libgr.actions.Action#finish(de.unika.ipd.libgr.actions.Match)
 	 */
-	public void finish(Matches m, int which) {
+	public void finish(Match match) {
+		assert match instanceof SQLMatch : "need to have an SQL match";
+
+		SQLMatch m = (SQLMatch) match;
+		for(Iterator it = rewriteSteps.iterator(); it.hasNext();) {
+			RewriteStep step = (RewriteStep) it.next();
+			step.apply(m);
+		}
 
 	}
 	
@@ -198,7 +243,7 @@ public class SQLAction implements Action, RewriteHandler {
 	public void insertNodes(Collection nodes) {
 		for(Iterator it = nodes.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
-			rewriteSteps.add(new RewriteStep(Queries.ADD_NODE, getIndex(n)));
+			rewriteSteps.add(new IndexStep(Queries.ADD_NODE, getIndex(n)));
 		}
 	}
 
@@ -206,24 +251,41 @@ public class SQLAction implements Action, RewriteHandler {
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#changeNodeTypes(java.util.Map)
 	 */
 	public void changeNodeTypes(Map nodeTypeMap) {
+		for(Iterator it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
+			Node n = (Node) it.next();
+			int typeId = ((Integer) nodeTypeMap.get(n)).intValue();
+			rewriteSteps.add(new ChangeNodeTypeStep(getIndex(n), typeId));
+		}
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdges(java.util.Collection)
 	 */
 	public void deleteEdges(Collection edges) {
+		for(Iterator it = edges.iterator(); it.hasNext();) {
+			Edge e = (Edge) it.next();
+			rewriteSteps.add(new IndexStep(Queries.REMOVE_EDGE, getIndex(e)));
+		}
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdgesOfNodes(java.util.Collection)
 	 */
 	public void deleteEdgesOfNodes(Collection nodes) {
+		for(Iterator it = nodes.iterator(); it.hasNext();) {
+			Edge e = (Edge) it.next();
+			rewriteSteps.add(new IndexStep(Queries.ADD_EDGE, getIndex(e)));
+		}
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteNodes(java.util.Collection)
 	 */
 	public void deleteNodes(Collection nodes) {
+		for(Iterator it = nodes.iterator(); it.hasNext();) {
+			Edge e = (Edge) it.next();
+			rewriteSteps.add(new IndexStep(Queries.REMOVE_NODE, getIndex(e)));
+		}
 	}
 
 	/**

@@ -6,8 +6,6 @@
  */
 package de.unika.ipd.libgr.actions;
 
-import de.unika.ipd.libgr.graph.Edge;
-import de.unika.ipd.libgr.graph.Node;
 
 
 
@@ -22,7 +20,6 @@ public interface Matches {
 	 */
 	int count();
 	
-	Node[] getNodes(int whichOne);
-	Edge[] getEdges(int whichOne);
+	Match get(int whichOne);
 	
 }

@@ -4,13 +4,16 @@
  * @author Sebastian Hack
  * @version $Id$
  */
-package de.unika.ipd.libgr.graph.id;
+package de.unika.ipd.grgen.be.java;
 
 
 /**
  * A type model that uses IDs. 
  */
 public interface IDTypeModel {
+
+	String getNodeTypeName(int node);
+	String getEdgeTypeName(int edge);
 
 	int[] getNodeTypeSuperTypes(int node);
 	int[] getEdgeTypeSuperTypes(int edge);
@@ -21,4 +24,7 @@ public interface IDTypeModel {
 	boolean nodeTypeIsA(int n1, int n2);
 	boolean edgeTypeIsA(int e1, int e2);	
 
+	int[] getNodeTypes();
+	int[] getEdgeTypes();
+	
 }

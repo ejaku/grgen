@@ -27,6 +27,6 @@ public interface Action extends Named {
 	 * This method needs to be called to free all resources associated with it.
 	 * @param match A match contained in the matches obtained by {@link #apply(Graph)}.
 	 */
-	void finish(Matches m, int which);
+	void finish(Match m);
 
 }

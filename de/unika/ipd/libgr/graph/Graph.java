@@ -8,12 +8,13 @@ package de.unika.ipd.libgr.graph;
 
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.libgr.Named;
+import de.unika.ipd.libgr.actions.Match;
 
 
 /**
  * A graph.
  */
-public interface Graph extends Named, TypeModel {
+public interface Graph extends Named {
 	
 	/**
 	 * Add a node to the graph.
@@ -52,5 +53,10 @@ public interface Graph extends Named, TypeModel {
 	 */
 	void dump(GraphDumper dumper);
 	
+	/**
+	 * Get the type model of the graph.
+	 * @return The type model.
+	 */
+	TypeModel getTypeModel();
 	
 }
