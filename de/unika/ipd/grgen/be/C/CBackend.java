@@ -233,7 +233,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		buf.append("static inline int ");
 		buf.append(add);
 		buf.append("_type_is_a(int t1, int t2) {\n");
-		buf.append("  return t1 == t2 || " + matrixName + "[x][y] != 0;\n}\n\n");
+		buf.append("  return t1 == t2 || " + matrixName + "[t1][t2] != 0;\n}\n\n");
 	}
 	
 	protected void makeSuperSubTypes(StringBuffer sb, boolean forNode, String add) {
@@ -748,4 +748,5 @@ public abstract class CBackend extends IDBase implements Backend {
   }
 	
 }
+
 
