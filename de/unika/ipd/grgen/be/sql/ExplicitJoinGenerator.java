@@ -530,13 +530,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			debug.leaving();
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.SQLGenerator#genMatchStatement(de.unika.ipd.grgen.ir.MatchingAction, java.util.List, java.util.List)
 	 */
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes,
 			List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
-
 		debug.entering();
 		
 		Graph graph = act.getPattern();
@@ -710,4 +709,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		debug.leaving();
 		return result;
 	}
+	
+	
 }

@@ -112,8 +112,6 @@ public class TestDeclNode extends ActionDeclNode {
         Test test = new Test(getIdentNode().getIdent(), gr, neg);
 
         //Add Cond statments to the IR
-        //TODO DG This is the last point i completed Tests with COND-blocks. 
-        //No clue if they are used by the backends... 
 		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 			OpNode op = (OpNode) it.next();
 			test.getCondition().add((Expression) op.checkIR(Expression.class));
