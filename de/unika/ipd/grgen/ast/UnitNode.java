@@ -86,8 +86,8 @@ public class UnitNode extends DeclNode {
    * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
    */
   protected IR constructIR() {
-		// Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
-  	Unit res = new Unit(Ident.get("test"), filename);
+		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
+  	Unit res = new Unit(id, filename);
   	Iterator children = getChild(DECLS).getChildren();
   	while(children.hasNext()) {
   		IR memb = ((BaseNode) children.next()).checkIR(IR.class);
