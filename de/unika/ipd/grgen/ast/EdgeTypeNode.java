@@ -4,16 +4,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Iterator;
+import de.unika.ipd.grgen.ast.util.*;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import java.util.Iterator;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
 	
@@ -86,8 +82,12 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		}
 		Iterator ext = getChild(EXTENDS).getChildren();
 		while(ext.hasNext()) {
-			EdgeTypeNode x = (EdgeTypeNode) ext.next();
-			et.addInherits(x.getEdgeType());
+			EdgeTypeNode etn = (EdgeTypeNode) ext.next();
+			et.addInherits(etn.getEdgeType());
+		}
+		for(Iterator it = getChild(CAS).getChildren(); it.hasNext();) {
+			ConnAssertNode can = (ConnAssertNode)it.next();
+			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
 		}
 		return et;
 	}

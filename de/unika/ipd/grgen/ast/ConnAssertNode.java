@@ -6,10 +6,11 @@ package de.unika.ipd.grgen.ast;
 
 
 
-import de.unika.ipd.grgen.ast.util.*;
-
-import de.unika.ipd.grgen.ir.Graph;
-import java.util.Set;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ir.ConnAssert;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.NodeType;
 
 /**
  * Node that represents a Connection
@@ -74,5 +75,21 @@ public class ConnAssertNode extends BaseNode {
 			&& checkChild(SRCRANGE,	RangeSpecNode.class)
 			&& checkChild(TGT,		NodeTypeNode.class)
 			&& checkChild(TGTRANGE,	RangeSpecNode.class);
+	}
+	
+	protected IR constructIR() {
+		// TODO
+		RangeSpecNode srcRange = (RangeSpecNode)getChild(SRCRANGE);
+		int srcLower = srcRange.getLower();
+		int srcUpper = srcRange.getUpper();
+		NodeType srcType = (NodeType)getChild(SRC).getIR();
+		
+		RangeSpecNode tgtRange = (RangeSpecNode)getChild(TGTRANGE);
+		int tgtLower = tgtRange.getLower();
+		int tgtUpper = tgtRange.getUpper();
+		NodeType tgtType = (NodeType)getChild(TGT).getIR();
+		
+		return new ConnAssert(srcType, srcLower, srcUpper,
+							  tgtType, tgtLower, tgtUpper);
 	}
 }
