@@ -567,11 +567,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		Graph gr  = act.getPattern();
-		Graph neg = act.getNeg(); 
-
 		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
 
-		if (act.hasNeg()) {
+		// create subQueries for negative parts
+		for(Iterator it = act.getNegs(); it.hasNext();) {
+			Graph neg = (Graph) it.next();
+
 			List excludeNodes = new LinkedList();
 			gr.getNodes(excludeNodes);
 			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, excludeNodes);
@@ -592,7 +593,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 		return q;
 	}
-
 	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
 			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeNodes) {

@@ -475,13 +475,13 @@ testDecl returns [ BaseNode res = initNode() ]
     {
   		IdentNode id;
   		BaseNode tb, pattern;
-  		BaseNode neg = new PatternNode(Coords.getInvalid(), new CollectNode());
+  		CollectNode neg = new CollectNode();
   		CollectNode cond = new CollectNode();
   	}
   	: "test" id=identDecl pushScope[id] LBRACE!
   	  pattern=patternPart
       ( condPart[cond] )? 
-      ( neg=negativePart )? {
+      ( negativePart[neg] )* {
       id.setDecl(new TestDeclNode(id, pattern, neg, cond));
       res = id;
   	} RBRACE! popScope!;
@@ -490,8 +490,8 @@ ruleDecl returns [ BaseNode res = initNode() ]
   {
   		IdentNode id;
   		BaseNode rb, left, right;
-  		BaseNode neg = new PatternNode(Coords.getInvalid(), new CollectNode());
 
+  		CollectNode neg = new CollectNode();
   		CollectNode redir = new CollectNode();
   		CollectNode eval = new CollectNode();
   		CollectNode cond = new CollectNode();
@@ -499,7 +499,7 @@ ruleDecl returns [ BaseNode res = initNode() ]
   : "rule" id=identDecl pushScope[id] LBRACE!
   	left=patternPart
 	( condPart[cond] )?
-	( neg=negativePart )?
+	( negativePart[neg] )*
   	right=replacePart
   	( redirectPart[redir] )?
   	( evalPart[eval] )?
@@ -539,8 +539,9 @@ patternPart returns [ BaseNode res = initNode() ]
   : p:"pattern" LBRACE! res=patternBody[getCoords(p)] RBRACE!
   ;
   
-negativePart returns [ BaseNode res = initNode() ]
-  : p:"negative" LBRACE! res=patternBody[getCoords(p)] RBRACE!
+negativePart [ CollectNode negs ]
+	{ BaseNode neg;	}
+  : p:"negative" LBRACE! neg=patternBody[getCoords(p)] { negs.addChild(neg); } RBRACE!
   ;
 
 replacePart returns [ BaseNode res = initNode() ]

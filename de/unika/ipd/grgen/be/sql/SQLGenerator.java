@@ -124,10 +124,11 @@ public class SQLGenerator extends Base {
 	
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		Graph gr  = act.getPattern();
-		Graph neg = act.getNeg(); 
 		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
 
-		if (act.hasNeg()) {
+		// create subQueries for negative parts
+		for(Iterator it = act.getNegs(); it.hasNext();) {
+			Graph neg = (Graph) it.next();
 			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, q.getRelations());
 
 			// simplify select part of inner query, because existence of tuples is sufficient 
@@ -147,7 +148,6 @@ public class SQLGenerator extends Base {
 		}
 		return q;
 	}
-	
 	
 	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
 			GraphTableFactory tableFactory,	TypeStatementFactory factory, List excludeTables) {

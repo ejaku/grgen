@@ -80,7 +80,7 @@ public class RuleDeclNode extends ActionDeclNode {
 	 */
 	protected boolean check() {
 		boolean childTypes = checkChild(LEFT, PatternNode.class)
-			&& checkChild(NEG, PatternNode.class)
+			&& checkChild(NEG, negChecker)
 			&& checkChild(RIGHT, PatternNode.class)
 			&& checkChild(REDIR, redirChecker)
 			&& checkChild(COND, evalChecker);
@@ -131,24 +131,26 @@ public class RuleDeclNode extends ActionDeclNode {
 			}
 		}
 
+		homomorphic = true;
 		if(childTypes) {
 			//Nodes that occur in the NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
-			homomorphic = true;
-			PatternNode neg  = (PatternNode) getChild(NEG);
+			CollectNode negs  = (CollectNode) getChild(NEG);
 			PatternNode left = (PatternNode) getChild(LEFT);
-			Set s = neg.getNodes();
-			s.removeAll(left.getNodes());
-			for (Iterator it = s.iterator(); it.hasNext();) {
-				NodeDeclNode nd = (NodeDeclNode) it.next();
-				if (nd.hasHomomorphicNodes()) {
-					nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
-					homomorphic = false;
+			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
+				PatternNode neg = (PatternNode) negsIt.next();
+				Set s = neg.getNodes();
+				s.removeAll(left.getNodes());
+				for (Iterator it = s.iterator(); it.hasNext();) {
+					NodeDeclNode nd = (NodeDeclNode) it.next();
+					if (nd.hasHomomorphicNodes()) {
+						nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
+						homomorphic = false;
+					}
 				}
-			
 			}
 		}
-		
+ 		
 		return childTypes && redirs && cond && homomorphic;
 	}
 
@@ -157,10 +159,15 @@ public class RuleDeclNode extends ActionDeclNode {
    */
   protected IR constructIR() {
 		Graph left = ((PatternNode) getChild(LEFT)).getGraph();
-		Graph neg = ((PatternNode) getChild(NEG)).getGraph();
 		Graph right = ((PatternNode) getChild(RIGHT)).getGraph();
 		
-		Rule rule = new Rule(getIdentNode().getIdent(), left, neg, right);
+		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
+
+		// add negative parts to the IR
+		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
+	        Graph neg = ((PatternNode) negsIt.next()).getGraph();
+			rule.addNegGraph(neg);
+		}
 		
 		// add Redirect statments to the IR
 		for(Iterator it = getChild(REDIR).getChildren(); it.hasNext();) {

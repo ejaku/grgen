@@ -44,9 +44,9 @@ public class Rule extends MatchingAction
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, Graph left, Graph neg, Graph right)
+	public Rule(Ident ident, Graph left, Graph right)
 	{
-		super("rule", ident, left, neg);
+		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
 		left.setNameSuffix("left");
@@ -110,13 +110,16 @@ public class Rule extends MatchingAction
 	 */
 	private void coalesceAnonymousEdges()
 	{
-		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();)
-		{
+		for(Iterator it = pattern.getEdges(new HashSet()).iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if (e.isAnonymous()) {
 				right.replaceSimilarEdges(pattern, e);
-				neg.replaceSimilarEdges(pattern, e);
+
+				for(Iterator nIt = getNegs(); nIt.hasNext();) {
+					Graph neg = (Graph) nIt.next();
+					neg.replaceSimilarEdges(pattern, e);
+				}
 			}
 		}
 	}
@@ -170,7 +173,7 @@ public class Rule extends MatchingAction
 	 */
 	public Iterator getWalkableChildren()
 	{
-		return new ArrayIterator(new Object[] { pattern, neg, right,
-				condition, evaluation });
+		//TODO dg ???
+		return new ArrayIterator(new Object[] { pattern/*, negs*/, right, condition, evaluation });
 	}
 }

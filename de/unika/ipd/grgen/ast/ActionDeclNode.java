@@ -4,6 +4,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Action;
 
 /**
@@ -11,7 +14,9 @@ import de.unika.ipd.grgen.ir.Action;
  */
 public abstract class ActionDeclNode extends DeclNode {
     
-    public ActionDeclNode(IdentNode id, TypeNode type) {
+	protected static final Checker negChecker = new CollectChecker(new SimpleChecker(PatternNode.class));
+
+	public ActionDeclNode(IdentNode id, TypeNode type) {
         super(id, type);
     }
     
@@ -24,5 +29,6 @@ public abstract class ActionDeclNode extends DeclNode {
     public Action getAction() {
         return (Action) getIR();
     }
+
     
 }

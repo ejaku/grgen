@@ -32,7 +32,7 @@ public class TestDeclNode extends ActionDeclNode {
     
     private static final Checker condChecker =
         new CollectChecker(new SimpleChecker(ExprNode.class));
-    
+
     static {
         setName(TestDeclNode.class, "test declaration");
         setName(testType.getClass(), "test type");
@@ -55,7 +55,7 @@ public class TestDeclNode extends ActionDeclNode {
      */
     protected boolean check() {
         boolean childs = checkChild(PATTERN, PatternNode.class)
-			&& checkChild(NEG, PatternNode.class)
+			&& checkChild(NEG, negChecker)
             && checkChild(COND, condChecker);
         
         boolean expr = true;
@@ -74,17 +74,19 @@ public class TestDeclNode extends ActionDeclNode {
 		if(childs) {
 			//Nodes that occur in the NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
-			PatternNode neg  = (PatternNode) getChild(NEG);
+			CollectNode negs  = (CollectNode) getChild(NEG);
 			PatternNode left = (PatternNode) getChild(PATTERN);
-			Set s = neg.getNodes();
-			s.removeAll(left.getNodes());
-			for (Iterator it = s.iterator(); it.hasNext();) {
-				NodeDeclNode nd = (NodeDeclNode) it.next();
-				if (nd.hasHomomorphicNodes()) {
-					nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
-					homomorphic = false;
+			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
+				PatternNode neg = (PatternNode) negsIt.next();
+				Set s = neg.getNodes();
+				s.removeAll(left.getNodes());
+				for (Iterator it = s.iterator(); it.hasNext();) {
+					NodeDeclNode nd = (NodeDeclNode) it.next();
+					if (nd.hasHomomorphicNodes()) {
+						nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
+						homomorphic = false;
+					}
 				}
-			
 			}
 		}
         
@@ -94,9 +96,14 @@ public class TestDeclNode extends ActionDeclNode {
     
     protected IR constructIR() {
         Graph gr = ((PatternNode) getChild(PATTERN)).getGraph();
-        Graph neg = ((PatternNode) getChild(NEG)).getGraph();
-        Test test = new Test(getIdentNode().getIdent(), gr, neg);
+        Test test = new Test(getIdentNode().getIdent(), gr);
 
+		// add negative parts to the IR
+		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
+	        Graph neg = ((PatternNode) negsIt.next()).getGraph();
+			test.addNegGraph(neg);
+		}
+        
         //Add Cond statments to the IR
 		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 			OpNode op = (OpNode) it.next();
