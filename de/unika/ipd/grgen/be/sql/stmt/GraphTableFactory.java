@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
+import de.unika.ipd.grgen.be.sql.meta.Table;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Node;
 
@@ -29,4 +30,6 @@ public interface GraphTableFactory {
   EdgeTable edgeTable(String alias);
   AttributeTable nodeAttrTable(String alias);
   AttributeTable edgeAttrTable(String alias);
+	
+	Table neutralTable();
 }

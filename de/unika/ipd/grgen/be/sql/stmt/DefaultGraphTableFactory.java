@@ -63,8 +63,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 
 	protected final AttributeTable originalEdgeAttrTable;
 	
+	protected final NeutralTable neutralTable;
+	
 	protected final TypeFactory typeFactory;
-
+	
 	public DefaultGraphTableFactory(SQLParameters parameters,
 																	TypeFactory typeFactory,
 																	Map nodeAttrs, Map edgeAttrs) {
@@ -104,7 +106,8 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 			parameters.getColNodeAttrNodeId(), nodeAttrs);
 		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(),
 			parameters.getColEdgeAttrEdgeId(), edgeAttrs);
-
+		
+		neutralTable = new NeutralTable("");
 	}
 
 	/**
@@ -618,6 +621,17 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 			entTables.put(alias, res);
 		}
 		return res;
+	}
+	
+	protected class NeutralTable extends AliasTable {
+		NeutralTable(String alias) {
+			super("neutral", alias, new String[] { "id" },
+				new DataType[] { typeFactory.getIntType() });
+		}
+	}
+	
+	public Table neutralTable() {
+		return neutralTable;
 	}
 }
 
