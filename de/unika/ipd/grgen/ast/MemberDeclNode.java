@@ -17,7 +17,7 @@ public class MemberDeclNode extends DeclNode {
 	}
 
 	private static final Resolver typeResolver =
-		new DeclTypeResolver(BasicTypeNode.class); 
+		new DeclTypeResolver(TypeNode.class); 
 
   /**
    * @param n Identifier which declared the member.
