@@ -1,6 +1,6 @@
 header {
 /**
- * @author Sebastian Hack
+ * @author Sebastian Hack, Daniel Grund
  * @version $Id$
  */
 	package de.unika.ipd.grgen.parser.antlr;
@@ -446,12 +446,14 @@ testDecl returns [ BaseNode res = initNode() ]
     {
   		IdentNode id;
   		BaseNode tb, pattern;
+  		BaseNode neg = new PatternNode(Coords.getInvalid(), new CollectNode());
   		CollectNode cond = new CollectNode();
   	}
   	: "test" id=identDecl pushScope[id] LBRACE!
   	  pattern=patternPart
-  	  ( condPart[cond] )? {
-      id.setDecl(new TestDeclNode(id, pattern, cond));
+      ( condPart[cond] )? 
+      ( neg=negativePart )? {
+      id.setDecl(new TestDeclNode(id, pattern, neg, cond));
       res = id;
   	} RBRACE! popScope!;
 
@@ -459,18 +461,21 @@ ruleDecl returns [ BaseNode res = initNode() ]
   {
   		IdentNode id;
   		BaseNode rb, left, right;
+  		BaseNode neg = new PatternNode(Coords.getInvalid(), new CollectNode());
+
   		CollectNode redir = new CollectNode();
   		CollectNode eval = new CollectNode();
   		CollectNode cond = new CollectNode();
   }
   : "rule" id=identDecl pushScope[id] LBRACE!
   	left=patternPart
-		( condPart[cond] )?
+	( condPart[cond] )?
+	( neg=negativePart )?
   	right=replacePart
   	( redirectPart[redir] )?
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, redir, cond, eval));
+  	   id.setDecl(new RuleDeclNode(id, left, right, neg, redir, cond, eval));
   	   res = id;
     }
     RBRACE! popScope!;
@@ -503,6 +508,10 @@ paramType
 
 patternPart returns [ BaseNode res = initNode() ]
   : p:"pattern" LBRACE! res=patternBody[getCoords(p)] RBRACE!
+  ;
+  
+negativePart returns [ BaseNode res = initNode() ]
+  : p:"negative" LBRACE! res=patternBody[getCoords(p)] RBRACE!
   ;
 
 replacePart returns [ BaseNode res = initNode() ]
@@ -576,7 +585,7 @@ patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
     {
   		BaseNode s;
   		CollectNode connections = new CollectNode();
-  	  res = new PatternNode(coords, connections);
+		res = new PatternNode(coords, connections);
     }
     : ( patternStmt[connections] SEMI )*
   ;
@@ -584,7 +593,7 @@ patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
 patternStmt [ BaseNode connCollect ]
 	{ BaseNode n, o; }
 	: patternConnections[connCollect]
-  | "node" patternNodeDecl ( COMMA patternNodeDecl )*
+	| "node" patternNodeDecl ( COMMA patternNodeDecl )*
 	;
 
 patternConnections [ BaseNode connColl ]
@@ -595,7 +604,7 @@ patternConnections [ BaseNode connColl ]
   ;
 
 /**
- * Acontinuation is a list of edge node pairs or a list of these pair lists, comma
+ * A continuation is a list of edge node pairs or a list of these pair lists, comma
  * seperated and delimited by parantheses.
  * all produced connection nodes are appended to the collect node
  */
@@ -664,7 +673,7 @@ patternEdge returns [ BaseNode res = null ]
  *
  * (a ~ b ~ c ~ d):X
  *
- * This allows b, c, d to be the same node.
+ * This allows a, b, c, d to be the same node.
  */
  patternNodeDecl returns [ BaseNode res = initNode() ]
   {
@@ -685,9 +694,10 @@ patternEdge returns [ BaseNode res = null ]
 				decls[i] = new NodeDeclNode(idents[i], type, colls[i]);
 			}
 
+			//Add homomorphic nodes 
 			for(int i = 0; i < idents.length; i++)
-				for(int j = i + 1; j < idents.length; j++)
-					colls[i].addChild(idents[j]);
+				for(int j = 0 /*i + 1*/; j < idents.length; j++)
+					if (i != j) colls[i].addChild(idents[j]);
     }
   ;
 
