@@ -391,9 +391,9 @@ public abstract class SQLBackend extends CBackend
 					{
 						String condition =
 							mangledEdge +
-							(i==0?".src_id = ":".tgt_id = ") +
+							(i==0?"."+colEdgesSrcId+" = ":"."+colEdgesTgtId+" = ") +
 							// mangledNode == src | tgt
-							mangledNode + ".node_id" +
+							mangledNode + "." + colNodesId +
 							
 							BREAK_LINE + "  AND " +
 							edgeTypeIsAFunc + "("
