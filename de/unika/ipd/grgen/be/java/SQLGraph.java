@@ -5,27 +5,21 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.java;
-import de.unika.ipd.grgen.be.*;
+import de.unika.ipd.libgr.graph.*;
 
-
+import de.unika.ipd.grgen.be.IDTypeModel;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.libgr.DefaultIntegerId;
+import de.unika.ipd.libgr.IntegerId;
+import java.io.PrintStream;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.libgr.DefaultIntegerId;
-import de.unika.ipd.libgr.IntegerId;
-import de.unika.ipd.libgr.graph.Edge;
-import de.unika.ipd.libgr.graph.EdgeType;
-import de.unika.ipd.libgr.graph.Graph;
-import de.unika.ipd.libgr.graph.InheritanceType;
-import de.unika.ipd.libgr.graph.Node;
-import de.unika.ipd.libgr.graph.NodeType;
-import de.unika.ipd.libgr.graph.TypeModel;
 
 
 /**
@@ -41,6 +35,17 @@ class SQLGraph implements Graph, TypeModel {
 	
 	private ErrorReporter reporter;
 	
+	private static final void print(PrintStream os, ResultSetMetaData md) {
+		try {
+			for(int i = 1; i <= md.getColumnCount(); i++) {
+				os.println("col " + i + ": " + md.getColumnLabel(i)
+										 + " " + md.getColumnTypeName(i));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Return an ID from a result set.
 	 * This method should be applied for result sets that return one row and one
@@ -54,7 +59,7 @@ class SQLGraph implements Graph, TypeModel {
 		try {
 			for(int i = 0; res.next(); i++) {
 				if(i == 0)
-					id = res.getInt(0);
+					id = res.getInt(1);
 				else
 					reporter.error("Query returned more than one row");
 			}
@@ -72,21 +77,21 @@ class SQLGraph implements Graph, TypeModel {
 	 * the IDs. The set may also be empty.
 	 */
 	private Iterator getResultIds(ResultSet res) {
-		
-		try {
-			Collection ids = new LinkedList();
-			
-			while(res.next())
-				ids.add(new Integer(res.getInt(0)));
-			
-			return ids.iterator();
-			
-		} catch(SQLException e) {
-			reporter.error("Could not retrieve data");
-			return null;
-		}
+		return putResultIds(res, new LinkedList()).iterator();
 	}
 	
+	private Collection putResultIds(ResultSet res, Collection coll) {
+		try {
+			// print(System.out, res.getMetaData());
+			while(res.next())
+				coll.add(new Integer(res.getInt(1)));
+			
+		} catch(SQLException e) {
+			reporter.error("Could not retrieve data: " + e);
+		}
+		
+		return coll;
+	}
 	
 	class SQLNode extends DefaultIntegerId implements Node {
 		int[] id = new int[1];
@@ -341,8 +346,6 @@ class SQLGraph implements Graph, TypeModel {
 		
 		if(create) {
 			// Create the tables needed for this graph.
-			queries.execUpdate(Queries.DELETE_NODES_TABLE, new int[] { });
-			queries.execUpdate(Queries.DELETE_EDGES_TABLE, new int[] { });
 			queries.execUpdate(Queries.CREATE_NODES_TABLE, new int[] { });
 			queries.execUpdate(Queries.CREATE_EDGES_TABLE, new int[] { });
 		}
@@ -366,6 +369,11 @@ class SQLGraph implements Graph, TypeModel {
 		int[] params = new int[] { getId(t) };
 		int n = getResultId(queries.exec(Queries.ADD_NODE, params));
 		return getNode(n);
+	}
+	
+	public Collection putAllNodesInstaceOf(NodeType nt, Collection coll) {
+		ResultSet res = queries.exec(Queries.GET_ALL_NODES, getId(nt));
+		return putResultIds(res, coll);
 	}
 	
 	/**

@@ -53,9 +53,15 @@ public interface Queries {
 	ResultSet exec(int stmt, int[] params);
 	
 	/**
+	 * Execute a query.
+	 * @see #exec(int, int[]);
+	 */
+	ResultSet exec(int stmt, int param);
+	
+	/**
 	 * Execute a query which has no results.
 	 * These are mostly (INSERT, DELETE or UPDATE) queries.
-	 * @param stmt The statement ID. 
+	 * @param stmt The statement ID.
 	 * @param params The parameters.
 	 * @return The amount of manipulated rows.
 	 */

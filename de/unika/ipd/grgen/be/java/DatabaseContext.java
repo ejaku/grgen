@@ -50,7 +50,10 @@ class DatabaseContext extends Base implements Queries {
 		res[ADD_EDGE] = "INSERT INTO " +  edgesTableName + " ("
 			+ p.getColEdgesId() + "," + p.getColEdgesTypeId() + ") VALUES (?,?)";
 		
-		res[GET_ALL_NODES] = "SELECT " + p.getColNodesId() + " FROM " + nodesTableName;
+		res[GET_ALL_NODES] = "SELECT " + p.getColNodesId() + " FROM " + nodesTableName
+			+ ", " + p.getTableTypeRel(true) + " WHERE " + p.getColNodesTypeId()
+			+ " = " + p.getColNodesTypeId() + " AND " + p.getColTypeRelIsAId(true)
+			+ " = ?";
 		
 		res[REMOVE_EDGE] = "DELETE FROM " + edgesTableName + " WHERE "
 			+ p.getColEdgesId() + " = ?";
@@ -102,14 +105,14 @@ class DatabaseContext extends Base implements Queries {
 		return stmts[id];
 	}
 
-	DatabaseContext(String prefix, SQLParameters parameters,
+	DatabaseContext(SQLParameters parameters,
 									Connection connection, ErrorReporter reporter) {
 		this.conn = connection;
 		this.parameters = parameters;
 		this.reporter = reporter;
 		
-		this.edgesTableName = prefix + "_" + parameters.getTableEdges();
-		this.nodesTableName = prefix + "_" + parameters.getTableNodes();
+		this.edgesTableName = parameters.getTableEdges();
+		this.nodesTableName = parameters.getTableNodes();
 		
 		stmtStrings = initStatements();
 		
@@ -163,6 +166,10 @@ class DatabaseContext extends Base implements Queries {
 		}
 		
 		return set;
+	}
+	
+	public ResultSet exec(int stmtId, int param) {
+		return exec(stmtId, new int[] { param });
 	}
 
 	/**

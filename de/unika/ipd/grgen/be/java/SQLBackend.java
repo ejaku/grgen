@@ -6,14 +6,12 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+import de.unika.ipd.grgen.be.sql.meta.*;
+
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
-import de.unika.ipd.grgen.be.sql.meta.DataType;
-import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
-import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
-import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultMarkerSource;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
@@ -24,6 +22,7 @@ import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Actions;
 import de.unika.ipd.libgr.graph.Graph;
 import java.io.File;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -35,10 +34,10 @@ import java.util.Map;
  * A Java/SQL backend.
  */
 public class SQLBackend extends IDBase
-	implements Actions, JoinedFactory, MarkerSourceFactory {
+	implements Actions, JoinedFactory, MarkerSourceFactory, Dialect {
 	
 	/** Map action names to SQLActions. */
-	private Map actions = new HashMap();
+	private final Map actions = new HashMap();
 	
 	/** The SQL code generator. */
 	private final SQLGenerator sqlGen;
@@ -52,24 +51,120 @@ public class SQLBackend extends IDBase
 	private Sys system;
 	
 	/** Database parameters. */
-	private SQLParameters params;
+	private final SQLParameters params;
 	
 	/** The connection factory that generates new connections for a graph. */
-	private ConnectionFactory connectionFactory;
+	private final ConnectionFactory connectionFactory;
 
 	/** Has the {@link #init(Unit, ErrorReporter, String)} method already been called. */
 	private boolean initialized = false;
 	
 	private final MetaFactory factory;
 	
+	private final DataType idType;
+	private final DataType intType;
+	private final DataType stringType;
+	private final DataType booleanType;
+	
+	protected static final class MyDataType implements DataType {
+		private final String text;
+		private final int typeId;
+		private final Term init;
+		
+		MyDataType(String text, int typeId, Term init) {
+			this.text = text;
+			this.typeId = typeId;
+			this.init = init;
+		}
+		
+		/**
+		 * Get the SQL representation of the datatype.
+		 * @return The SQL representation of the datatype.
+		 */
+		public String getText() {
+			return text;
+		}
+		
+		/**
+		 * Print the meta construct.
+		 * @param ps The print stream.
+		 */
+		public void dump(PrintStream ps) {
+			ps.print(getText());
+		}
+		
+		/**
+		 * Get some special debug info for this object.
+		 * This is mostly verbose stuff for dumping.
+		 * @return Debug info.
+		 */
+		public String debugInfo() {
+			return getText();
+		}
+		
+		/**
+		 * Return the type id for this type.
+		 * @return A type id that represents this type.
+		 */
+		public int classify() {
+			return typeId;
+		}
+		
+		/**
+		 * Give an expression that is a default initializer
+		 * for this type.
+		 * @return An expression that represents the default initializer
+		 * for an item of this type.
+		 */
+		public Term initValue() {
+			return init;
+		}
+	}
+	
+	/**
+	 * Get the id datatype.
+	 * @return The id datatype.
+	 */
+	public DataType getIdType() {
+		return idType;
+	}
+	
+	/**
+	 * Get the integer datatype.
+	 * @return The integer datatype.
+	 */
+	public DataType getIntType() {
+		return intType;
+	}
+	
+	/**
+	 * Get the string datatype.
+	 * @return The string datatype.
+	 */
+	public DataType getStringType() {
+		return stringType;
+	}
+	
+	/**
+	 * Get the boolean datatype.
+	 * @return The boolean datatype.
+	 */
+	public DataType getBooleanType() {
+		return booleanType;
+	}
+	
+	
 	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
 		
 		this.params = params;
 		this.sqlGen = new SQLGenerator(params, this, this);
 		this.connectionFactory = connectionFactory;
-		
-		// TODO Do this right!!
-		this.factory = new DefaultMetaFactory(null, params, nodeAttrMap, edgeAttrMap);
+		this.factory = new DefaultMetaFactory(this, params, nodeAttrMap, edgeAttrMap);
+
+		idType = new MyDataType("int", DataType.ID, factory.constant(-1));
+		intType = new MyDataType("int", DataType.INT, factory.constant(0));
+		stringType = new MyDataType("text", DataType.STRING, factory.constant(""));
+		booleanType = new MyDataType("int", DataType.BOOLEAN, factory.constant(0));
 	}
 	
 	private static final class JavaMarkerSource extends DefaultMarkerSource {
@@ -81,6 +176,9 @@ public class SQLBackend extends IDBase
 	public MarkerSource getMarkerSource() {
 		return new JavaMarkerSource();
 	}
+	
+	
+	
 	
 	private final void assertInitialized() {
 		assert initialized : "the init method must be called first";
@@ -151,7 +249,7 @@ public class SQLBackend extends IDBase
 
 		try {
 			Connection conn = connectionFactory.connect();
-			queries = new DatabaseContext("Test", params, conn, reporter);
+			queries = new DatabaseContext(params, conn, reporter);
 		} catch(SQLException e) {
 			reporter.error(e.toString());
 			e.printStackTrace(System.err);
