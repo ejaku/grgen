@@ -42,19 +42,19 @@ public abstract class SQLBackend extends CBackend {
 	protected final String edgeTypeIsAFunc = "edge_type_is_a";
 	
 	private final RewriteGenerator rewriteGenerator = new SPORewriteGenerator();
-		
+	
 	protected final SQLParameters parameters = new PreferencesSQLParameters();
 	
 	protected final TypeFactory typeFactory = new DefaultTypeFactory();
 	
-	protected TypeStatementFactory factory = new DefaultStatementFactory(typeFactory);
+	protected TypeStatementFactory stmtFactory = new DefaultStatementFactory(typeFactory);
 	
 	protected final SQLGenerator sqlGen = enableNT
 		? new ExplicitJoinGenerator(parameters, this)
 		: new SQLGenerator(parameters, this);
 	
 	protected Map matchMap = new HashMap();
-
+	
 	protected DefaultGraphTableFactory tableFactory;
 	
 	/**
@@ -226,7 +226,7 @@ public abstract class SQLBackend extends CBackend {
 		private Rule rule;
 		private Map insertedNodesIndexMap = new HashMap();
 		private Collection nodesToInsert = null;
-				
+		
 		SQLRewriteHandler(Match match, StringBuffer sb) {
 			this.match = match;
 			this.sb = sb;
@@ -251,7 +251,7 @@ public abstract class SQLBackend extends CBackend {
 				sb.append("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");\n");
 			}
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdges(java.util.Collection)
 		 */
@@ -261,7 +261,7 @@ public abstract class SQLBackend extends CBackend {
 				sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));\n");
 			}
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdgesOfNodes(java.util.Collection)
 		 */
@@ -272,7 +272,7 @@ public abstract class SQLBackend extends CBackend {
 				sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));\n");
 			}
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteNodes(java.util.Collection)
 		 */
@@ -283,7 +283,7 @@ public abstract class SQLBackend extends CBackend {
 				sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));\n");
 			}
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
 		 */
@@ -311,9 +311,9 @@ public abstract class SQLBackend extends CBackend {
 				sb.append(
 					"  INSERT_EDGE(" + etid + ", " + leftNode + ", " + rightNode + ");\n");
 			}
-
+			
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
 		 */
@@ -338,7 +338,7 @@ public abstract class SQLBackend extends CBackend {
 							  + getId(n.getNodeType()) + ");\n");
 				insertedNodesIndexMap.put(n, new Integer(i));
 			}
-
+			
 		}
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#getRequiredRewriteGenerator()
@@ -366,7 +366,7 @@ public abstract class SQLBackend extends CBackend {
 			Rule r = (Rule) a;
 			rewriteGenerator.rewrite(r, new SQLRewriteHandler(m, sb));
 		}
-			
+		
 		// genRuleFinish(sb, (Rule) a, id, m);
 		
 		sb.append("  return 1;\n}\n\n");
@@ -389,7 +389,7 @@ public abstract class SQLBackend extends CBackend {
 		
 		// Dump the SQL statement
 		sb.append("static const char *stmt_" + actionIdent + " = \n");
-		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges, tableFactory, factory)) + ";\n\n");
+		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges, tableFactory, stmtFactory)) + ";\n\n");
 		
 		// Make an array of strings that contains the node names.
 		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
@@ -477,6 +477,9 @@ public abstract class SQLBackend extends CBackend {
 		
 		// creation of ATTR tables
 		genAttrTableCmd();
+		
+		// create conn assert statements
+		genValidateStatements();
 	}
 	
 	/**
@@ -488,7 +491,7 @@ public abstract class SQLBackend extends CBackend {
 		makeTypes();
 		
 		tableFactory = new DefaultGraphTableFactory(parameters, typeFactory,
-																								nodeAttrMap, edgeAttrMap);
+													nodeAttrMap, edgeAttrMap);
 	}
 	
 	/**
@@ -512,14 +515,14 @@ public abstract class SQLBackend extends CBackend {
 	}
 	
 	protected void genAttrTableGetAndSet(StringBuffer sb, String name,
-			AttributeTable table) {
+										 AttributeTable table) {
 		
 		sb.append("#define GR_HAVE_").append(name.toUpperCase()).append("_ATTR 1\n\n");
-
+		
 		sb.append("static const char *cmd_create_" + name + "_attr = \n\"");
 		table.dumpDecl(sb);
 		sb.append("\";\n\n");
-
+		
 		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
 		
 		for(int i = 1; i < table.columnCount(); i++) {
@@ -542,7 +545,7 @@ public abstract class SQLBackend extends CBackend {
 	
 	protected void genAttrTableCmd() {
 		StringBuffer sb = new StringBuffer();
-
+		
 		sb.append("\n/** The boolean True Value */\n");
 		addStringDefine(sb, "GR_BOOLEAN_TRUE", getTrueValue());
 		
@@ -557,5 +560,14 @@ public abstract class SQLBackend extends CBackend {
 		writeFile("attr_tbl_cmd" + incExtension, sb);
 	}
 	
+	protected void genValidateStatements() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("\n/** The Validate Statements */\n");
+		for(Iterator i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
+			EdgeType et = (EdgeType)i.next();
+			sqlGen.genValidateStatement(sb, et, stmtFactory, tableFactory);
+		}
+		writeFile("valid_stmt" + incExtension, sb);
+	}
 }
 
