@@ -10,6 +10,7 @@ header {
 	import java.util.LinkedList;
 	import java.util.Map;
 	import java.util.HashMap;
+	import java.util.Collection;
 		
 	import de.unika.ipd.grgen.parser.Symbol;
 	import de.unika.ipd.grgen.parser.SymbolTable;
@@ -575,6 +576,48 @@ redirectStmt [ BaseNode c ]
 		c.addChild(new RedirectionNode(src, edgeTypeId, tgt, to, incoming.booleanValue()));
 	}
 	;
+	
+term [ BaseNode connColl ]
+	{ 
+		IdentNode edgeType;
+		IdentNode attr;
+	}
+	: "term" LPAREN edgeType=identUse COMMA attr=identUse RPAREN 
+			LBRACE termBody[edgeType, connColl] RBRACE 
+	;	
+
+/**
+ * A Term body.
+ * A term body is basically a node declaration with other seperated
+ * node declaration in parentheses. These other decls are connected 
+ * with edges of a certain type to the "root".
+ */
+termBody [ IdentNode edgeType, BaseNode connColl ] returns [ BaseNode res = initNode(); ]
+	{
+		CollectNode childs = new CollectNode();
+		List coords = new LinkedList();
+		BaseNode child;
+	}
+	: res=patternNodeDecl l:LPAREN child=termBody[edgeType, connColl] { 
+			childs.addChild(child); 
+			coords.add(getCoords(l));
+		} 
+		
+		(comma:COMMA child=termBody[edgeType, connColl] { 
+			childs.addChild(child); 
+			coords.add(getCoords(comma));
+		})* RPAREN {
+				
+				int n = childs.children();
+				for(int i = 0; i < n; i++)  {
+					Coords coord = (Coords) coords.get(i);
+					BaseNode c = childs.getChild(i);
+					BaseNode edge = defineAnonymous("edge", coord);
+					ConnectionNode conn = new ConnectionNode(res, edge, c);
+					connColl.addChild(conn);
+				}
+			}
+	;
 
 /**
  * Pattern bodies consist of connection nodes
@@ -585,7 +628,7 @@ patternBody [ Coords coords ] returns [ BaseNode res = initNode() ]
     {
   		BaseNode s;
   		CollectNode connections = new CollectNode();
-		res = new PatternNode(coords, connections);
+			res = new PatternNode(coords, connections);
     }
     : ( patternStmt[connections] SEMI )*
   ;
@@ -594,6 +637,7 @@ patternStmt [ BaseNode connCollect ]
 	{ BaseNode n, o; }
 	: patternConnections[connCollect]
 	| "node" patternNodeDecl ( COMMA patternNodeDecl )*
+	| term[connCollect]
 	;
 
 patternConnections [ BaseNode connColl ]
@@ -874,18 +918,18 @@ identDecl returns [ IdentNode res = getDummyIdent() ]
  * Attributed declaration of an identifier
  */
 attrIdentDecl returns [ IdentNode res = getDummyIdent() ]
-	: res=identDecl (LBRACK keyValuePairs[res.getAttributes()] RBRACK)?
+	: res=identDecl (LBRACK keyValuePairs[res] RBRACK)?
 	;
 	
-keyValuePairs [ Attributes attrs ]
-  : keyValuePair[attrs] (COMMA keyValuePair[attrs])
+keyValuePairs [ Attributed attr ]
+  : keyValuePair[attr] (COMMA keyValuePair[attr])
   ;	  
 
-keyValuePair[ Attributes attrs ]
+keyValuePair[ Attributed attr ]
   { BaseNode c; }
 	: i:IDENT ASSIGN c=constant {
 		if(c instanceof ConstNode) 
-			attrs.put(i.getText(), ((ConstNode) c).getValue());
+			attr.getAttributes().put(i.getText(), ((ConstNode) c).getValue());
 	};
 	
 /**
