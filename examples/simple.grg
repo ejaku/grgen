@@ -1,34 +1,14 @@
-unit ASimpleTest;
 
-enum Test {
-  a, b, c, d
-}
+actions Simple using TestModel;
 
-node class IRNode extends Node {
-  a:int;
-  b:boolean;
-  c:string;
-}
+rule SimpleRule {
 
-node class Add extends IRNode {
-}
-
-
-  rule Simple {
-    pattern {
-      node a:IRNode, b:Node;
-
-      a --> b --> c:Node;
-      a --> c --> d[order=1000]:Node;
-
-    }
-    cond {
-      a.a == 3;
-      a.c == "Hallo";
-    }
-    replace {
-      a;
-    }
+  pattern {
+    n:N3 without(:N2);
   }
-
   
+  replace {
+    n;
+  }
+  
+}
