@@ -6,15 +6,11 @@
  */
 package de.unika.ipd.grgen.be.java;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Unit;
@@ -23,6 +19,11 @@ import de.unika.ipd.libgr.JoinedFactory;
 import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Actions;
 import de.unika.ipd.libgr.graph.Graph;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 /**
@@ -51,14 +52,17 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** Has the {@link #init(Unit, ErrorReporter, String)} method already been called. */
 	private boolean initialized = false;
 	
-	private TypeStatementFactory factory;
+	private final TypeStatementFactory factory;
+	
+	private final TypeFactory typeFactory;
 	
 	
 	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
 		this.params = params;
 		this.sqlGen = new SQLGenerator(params, this);
 		this.connectionFactory = connectionFactory;
-		this.factory = new DefaultStatementFactory(); 
+		this.typeFactory = new DefaultTypeFactory();
+		this.factory = new DefaultStatementFactory(typeFactory);
 	}
 	
 	private final void assertInitialized() {
