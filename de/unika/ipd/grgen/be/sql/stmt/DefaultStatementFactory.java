@@ -215,6 +215,10 @@ public class DefaultStatementFactory extends Base
 			return opcode;
 		}
 		
+		public String toString() {
+			return opcode.dump(new StringBuffer(), operands).toString();
+		}
+		
 	}
 	
 	private static class ConstantOpcode implements Op {
