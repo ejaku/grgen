@@ -18,7 +18,6 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -76,22 +75,13 @@ public class SQLGenerator extends Base implements SQLMangler {
 		return "\f";
 	}
 	
-	private static String mangle(Identifiable id) {
-		String res = id.getIdent().toString();
-		res = res.replaceAll("_", "__");
-		res = res.replace('$', '_');
-		
-		return res;
-	}
-	
 	/**
 	 * Make an SQL table identifier out of a node.
 	 * @param e The node to mangle.
 	 * @return An identifier usable in SQL statements and unique for each node.
 	 */
 	public String mangleNode(Node n) {
-		return "n_" + mangle(n);
-		// return "n" + n.getId();
+		return "n" + n.getId();
 	}
 
 	/**
@@ -100,8 +90,7 @@ public class SQLGenerator extends Base implements SQLMangler {
 	 * @return An identifier usable in SQL statements and unique for each edge.
 	 */
 	public String mangleEdge(Edge e) {
-		return "e_" + mangle(e);
-		// return "e" + e.getId();
+		return "e" + e.getId();
 	}
 
 	/**

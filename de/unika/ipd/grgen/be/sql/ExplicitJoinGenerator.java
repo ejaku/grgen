@@ -465,7 +465,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		debug.leaving();
 		
-		String res = "SELECT " + front.toString() + " FROM " + stmt.toString();
+//		String res = "SELECT " + front.toString() + " FROM " + stmt.toString();
+		String res = "SELECT * FROM " + stmt.toString();
 
 		
 		File f = new File("stmt_" + act.getIdent() + ".txt");

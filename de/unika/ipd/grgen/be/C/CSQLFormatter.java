@@ -38,13 +38,15 @@ public class CSQLFormatter implements SQLFormatter {
 	}
 	
 	public String makeNodeTypeIsA(Node n, SQLMangler mangler) {
-		return nodeTypeIsAFunc + "(" + mangler.getNodeCol(n, parameters.getColNodesId()) 
-			+ "," + id.getId(n.getNodeType()) + ")";
+		//return nodeTypeIsAFunc + "(" + mangler.getNodeCol(n, parameters.getColNodesId()) 
+		// 	+ "," + id.getId(n.getNodeType()) + ")";
+		return "TRUE";
 	}
 	
 	public String makeEdgeTypeIsA(Edge e, SQLMangler mangler) {
-		return edgeTypeIsAFunc + "(" + mangler.getEdgeCol(e, parameters.getColEdgesId())
-			+ "," + id.getId(e.getEdgeType()) + ")";
+		// return edgeTypeIsAFunc + "(" + mangler.getEdgeCol(e, parameters.getColEdgesId())
+		//	+ "," + id.getId(e.getEdgeType()) + ")";
+		return "TRUE";
 	}
 	
 }
