@@ -38,29 +38,38 @@ public class DefaultStatementFactory extends Base
 	public DefaultStatementFactory(Dialect dialect) {
 		this.dialect = dialect;
 		
+		put(NOT, new DefaultOp(1, 5, "NOT"));
+		put(NEG, new DefaultOp(1, 1, "-"));
+		put(BIT_NOT, new DefaultOp(1, 1, "~"));
+		
 		put(MUL, new DefaultOp(2, 1, "*"));
 		put(DIV, new DefaultOp(2, 1, "/"));
 		
 		put(ADD, new DefaultOp(2, 2, "+"));
 		put(SUB, new DefaultOp(2, 2, "-"));
 		
-		put(EQ, new DefaultOp(2, 3, "="));
-		put(NE, new DefaultOp(2, 3, "<>"));
-		put(LT, new DefaultOp(2, 3, "<"));
-		put(LE, new DefaultOp(2, 3, "<="));
-		put(GT, new DefaultOp(2, 3, ">"));
-		put(GE, new DefaultOp(2, 3, ">="));
+		put(SHL, new DefaultOp(2, 3, "<<"));
+		put(SHR, new DefaultOp(2, 3, ">>"));
+
+		put(LT, new DefaultOp(2, 4, "<"));
+		put(LE, new DefaultOp(2, 4, "<="));
+		put(GT, new DefaultOp(2, 4, ">"));
+		put(GE, new DefaultOp(2, 4, ">="));
+
+		put(EQ, new DefaultOp(2, 5, "="));
+		put(NE, new DefaultOp(2, 5, "<>"));
+
+		put(BIT_AND, new DefaultOp(2, 6, "&"));
+		put(BIT_XOR, new DefaultOp(2, 7, "#"));
+		put(BIT_OR, new DefaultOp(2, 8, "|"));
+
+		put(AND, new DefaultOp(2, 9, "AND"));
+		put(OR, new DefaultOp(2, 10, "OR"));
 		
+		put(EXISTS, new DefaultOp(1, 4, "EXISTS"));
 		put(BETWEEN_AND, new BetweenOpcode());
 		put(SET_IN, new InOpcode());
-		
 		put(ISNULL, new IsNullOpcode());
-		put(NOT, new DefaultOp(1, 5, "NOT"));
-		put(NEG, new DefaultOp(1, 1, "-"));
-		put(AND, new DefaultOp(2, 6, "AND"));
-		put(OR, new DefaultOp(2, 7, "OR"));
-		
-		put(EXISTS, new DefaultOp(1, 3, "EXISTS"));
 	}
 	
 	
@@ -156,7 +165,7 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public int priority() {
-			return 10;
+			return 100;
 		}
 	}
 	
