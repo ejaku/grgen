@@ -43,6 +43,7 @@ public interface Opcodes {
 	int NEG = 23;
 	
 	int COND = 24;
+	int EXISTS = 25;
 	
 }
 
