@@ -359,6 +359,7 @@ primaryExpr returns [ BaseNode res = env.initNode() ]
 	: res=qualIdentExpr
 	| res=identExpr
 	| res=constant
+	| res=enumItemExpr
 	| LPAREN res=expr RPAREN
 	;
 	
@@ -382,7 +383,6 @@ constant returns [ BaseNode res = env.initNode() ]
 		res = new BoolConstNode(getCoords(f), false);
 	}
 	;
-	
 
 identExpr returns [ BaseNode res = env.initNode() ]
 	{ IdentNode id; }
@@ -396,6 +396,15 @@ qualIdent returns [ BaseNode res = env.initNode() ]
 		  res = new QualIdentNode(getCoords(d), res, id);
   	})+
 	;
+	
+enumItemAcc returns [ BaseNode res = env.initNode() ]
+  { BaseNode id; }
+  : res = typeIdentUse d:DOUBLECOLON id = entIdentUse {
+    res = new EnumExprNode(getCoords(d), res, id);
+  };
+  
+enumItemExpr returns [ BaseNode res = env.initNode() ]
+  : res = enumItemAcc { res = new DeclExprNode(res); };
 	
 qualIdentExpr returns [ BaseNode res = env.initNode() ]
   : res=qualIdent { res = new DeclExprNode(res); }

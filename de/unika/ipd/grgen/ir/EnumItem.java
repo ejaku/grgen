@@ -10,6 +10,7 @@ import de.unika.ipd.grgen.util.ArrayIterator;
  */
 public class EnumItem extends Identifiable {
 	private final Ident id;
+	
 	private final Constant value;
 	
 	/**

@@ -181,26 +181,26 @@ integerConst returns [ int value = 0 ]
 enumDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id;
-		BaseNode c;
+		BaseNode c = new CollectNode();
 	}
-	: ENUM id=typeIdentDecl pushScope[id] LBRACE c=enumList {
-		BaseNode enumType = new EnumTypeNode(c);
-		enumType.addChild(enumType);
-		id.setDecl(new TypeDeclNode(id, enumType));
-		res = id;
-	} RBRACE popScope;
+	: ENUM id=typeIdentDecl pushScope[id] LBRACE enumList[id, c] {
+  	  BaseNode enumType = new EnumTypeNode(c);
+  		enumType.addChild(enumType);
+  		id.setDecl(new TypeDeclNode(id, enumType));
+  		res = id;
+  	} RBRACE popScope;
 
-enumList returns [ BaseNode res = env.initNode() ]
+enumList[ BaseNode enumType, BaseNode collect ]
 	{
 		int pos = 0;
-		res = new CollectNode();
 		BaseNode init;
 	}
-	:	init=enumItemDecl[res, env.getZero(), pos++]
-	    (COMMA init=enumItemDecl[res, init, pos++])*
+	:	init=enumItemDecl[enumType, collect, env.getZero(), pos++]
+	    (COMMA init=enumItemDecl[enumType, collect, init, pos++])*
 	;
 	
-enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res = env.initNode() ]
+enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
+  returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id;
 		BaseNode init = null;
@@ -213,7 +213,7 @@ enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res
 		else
 			value = defInit;
 			
-		MemberDeclNode memberDecl = new EnumItemNode(id, value, pos);
+		MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
 		id.setDecl(memberDecl);
 		coll.addChild(memberDecl);
 		
