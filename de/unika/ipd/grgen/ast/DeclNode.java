@@ -1,12 +1,9 @@
 
 /**
- * DeclNode.java
- *
- *
  * Created: Sat Jul  5 17:52:43 2003
  *
  * @author Sebastian Hack
- * @version 1.0
+ * @version $Id$
  */
 
 package de.unika.ipd.grgen.ast;
@@ -26,7 +23,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	/** Index of the identifier in the children array */
 	protected static final int IDENT = 0;
 
-	/** Index of the type in the children array */	
+	/** Index of the type in the children array */
 	protected static final int TYPE = 1;
 	
 	protected static final int LAST = TYPE;
@@ -51,7 +48,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	
 	
 	/** An invalid declaration. */
-	private static final DeclNode invalidDecl = 
+	private static final DeclNode invalidDecl =
 		new DeclNode(IdentNode.getInvalid(), BasicTypeNode.errorType) { };
 
 	/** Get an invalid declaration. */
@@ -60,7 +57,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	}
 
   /**
-   * Create a new decl node 
+   * Create a new decl node
    * @param n The identifier that declares
    * @param t The type with which is declared
    */
@@ -101,7 +98,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
    */
   protected boolean check() {
   	return checkChild(IDENT, IdentNode.class)
-  	  && checkChild(TYPE, TypeNode.class);	
+  	  && checkChild(TYPE, TypeNode.class);
   }
   
   /**

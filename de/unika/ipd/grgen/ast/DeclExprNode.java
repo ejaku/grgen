@@ -10,13 +10,11 @@ import de.unika.ipd.grgen.ir.IR;
 /**
  * An expression that results from a declared identifier.
  */
-public class DeclExprNode extends ExprNode
-{
+public class DeclExprNode extends ExprNode {
 	
 	private static final int DECL = 0;
 	
-	static
-	{
+	static {
 		setName(DeclExprNode.class, "decl expression");
 	}
 	
@@ -25,8 +23,7 @@ public class DeclExprNode extends ExprNode
 	 * @param coords The source code coordinates.
 	 * @param declCharacter Some base node, that is a decl character.
 	 */
-	public DeclExprNode(BaseNode declCharacter)
-	{
+	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
 		addChild(declCharacter);
 	}
@@ -34,8 +31,7 @@ public class DeclExprNode extends ExprNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
-	public TypeNode getType()
-	{
+	public TypeNode getType() {
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
 		return (TypeNode) c.getDecl().getDeclType();
 	}
@@ -43,14 +39,12 @@ public class DeclExprNode extends ExprNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#eval()
 	 */
-	protected ConstNode eval()
-	{
+	protected ConstNode eval() {
 		ConstNode res = ConstNode.getInvalid();
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
 		DeclNode decl = c.getDecl();
 		
-		if(decl instanceof EnumItemNode)
-		{
+		if(decl instanceof EnumItemNode) {
 			res = ((EnumItemNode) decl).getValue();
 		}
 		
@@ -60,16 +54,14 @@ public class DeclExprNode extends ExprNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
-	protected boolean check()
-	{
+	protected boolean check() {
 		return checkChild(DECL, DeclaredCharacter.class);
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
 	 */
-	public boolean isConstant()
-	{
+	public boolean isConstant() {
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
 		return c.getDecl() instanceof EnumItemNode;
 	}
@@ -77,8 +69,7 @@ public class DeclExprNode extends ExprNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR()
-	{
+	protected IR constructIR() {
 		return getChild(DECL).getIR();
 	}
 	

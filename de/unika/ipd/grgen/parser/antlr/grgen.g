@@ -1,16 +1,19 @@
-
+/**
+ * @author Sebastian Hack
+ * @version $Id$
+ */
 header {
     package de.unika.ipd.grgen.parser.antlr;
 
-		import java.util.Iterator;
-		import java.util.List;
-		import java.util.LinkedList;
-		import java.util.Map;
-		import java.util.HashMap;
+	import java.util.Iterator;
+	import java.util.List;
+	import java.util.LinkedList;
+	import java.util.Map;
+	import java.util.HashMap;
 		
-		import de.unika.ipd.grgen.parser.Symbol;
-		import de.unika.ipd.grgen.parser.SymbolTable;
-		import de.unika.ipd.grgen.parser.Scope;
+	import de.unika.ipd.grgen.parser.Symbol;
+	import de.unika.ipd.grgen.parser.SymbolTable;
+	import de.unika.ipd.grgen.parser.Scope;
     import de.unika.ipd.grgen.ast.*;
     import de.unika.ipd.grgen.util.report.*;
     import de.unika.ipd.grgen.Main;

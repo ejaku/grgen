@@ -1,4 +1,7 @@
-
+/**
+ * @author Sebastian Hack
+ * @version $Id$
+ */
 package de.unika.ipd.grgen.ast;
 
 import java.util.Iterator;
@@ -17,19 +20,19 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	private static final int BODY = 1;
 
 	private static final String[] childrenNames = {
-		"extends", "body" 
+		"extends", "body"
 	};
 
-	private static final Checker extendsChecker = 
+	private static final Checker extendsChecker =
 	  new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
 	  
-	private static final Checker bodyChecker = 
+	private static final Checker bodyChecker =
 		new CollectChecker(new SimpleChecker(MemberDeclNode.class));
 
-	private static final Resolver extendsResolver = 
+	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
 
-	private static final Resolver bodyResolver = 
+	private static final Resolver bodyResolver =
 		new CollectResolver(new DeclTypeResolver(MemberDeclNode.class));
 
 
@@ -37,7 +40,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * Make a new edge type node
 	 * @param ext The collect node with all edge classes that this one extends
 	 * @param body The body of the type declaration. It consists of basic
-	 * declarations 
+	 * declarations
 	 */
   public EdgeTypeNode(BaseNode ext, BaseNode body) {
     super(BODY, bodyChecker, bodyResolver,
@@ -52,11 +55,11 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * by this type
 	 * The second node is a collect node with basic decls
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
-	 */  
+	 */
 /*  protected boolean check() {
-  	return checkChild(0, extendsChecker) 
+  	return checkChild(0, extendsChecker)
   		&& checkChild(1, bodyChecker)
-  		&& checkChild(1, bodyTypeChecker); 
+  		&& checkChild(1, bodyTypeChecker);
   }
   
   /**

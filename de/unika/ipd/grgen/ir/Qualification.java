@@ -1,10 +1,13 @@
+/**
+ * @author Rubino Geiss
+ * @version $Id$
+ */
 package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.util.ArrayIterator;
 import java.util.Iterator;
 
-public class Qualification extends Expression
-{
+public class Qualification extends Expression {
 	private static final String[] childrenNames = {
 		"owner", "member"
 	};
@@ -12,26 +15,22 @@ public class Qualification extends Expression
 	private Entity owner;
 	private Entity member;
 	
-	public Qualification(Entity owner, Entity member)
-	{
+	public Qualification(Entity owner, Entity member) {
 		super("qual", member.getType());
 		setChildrenNames(childrenNames);
 		this.owner = owner;
 		this.member = member;
 	}
 	
-	public Iterator getWalkableChildren()
-	{
+	public Iterator getWalkableChildren() {
 		return new ArrayIterator(new Object [] { owner, member });
 	}
 	
-	public Entity getOwner()
-	{
+	public Entity getOwner() {
 		return owner;
 	}
 	
-	public Entity getMember()
-	{
+	public Entity getMember() {
 		return member;
 	}
 	

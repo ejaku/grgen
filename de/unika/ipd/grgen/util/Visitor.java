@@ -1,7 +1,7 @@
 /**
- * @file Visitor.java
- * @author shack
  * @date Jul 20, 2003
+ * @author Sebastian Hack
+ * @version $Id$
  */
 package de.unika.ipd.grgen.util;
 

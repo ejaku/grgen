@@ -9,18 +9,18 @@ import java.util.Iterator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An arithmetic operator. 
+ * An arithmetic operator.
  */
 public class ArithmeticOpNode extends OpNode {
-
-  /**
-   * @param coords Source code coordinates.
-   * @param opId ID of the operator.
-   */
-  public ArithmeticOpNode(Coords coords, int opId) {
-    super(coords, opId);
-  }
-  
+	
+	/**
+	 * @param coords Source code coordinates.
+	 * @param opId ID of the operator.
+	 */
+	public ArithmeticOpNode(Coords coords, int opId) {
+		super(coords, opId);
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
 	 * An operator is constant, if all operands are constant.
@@ -37,11 +37,11 @@ public class ArithmeticOpNode extends OpNode {
 		}
 		return res;
 	}
-
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#eval()
-   */
-  protected ConstNode eval() {
+	
+	/**
+	 * @see de.unika.ipd.grgen.ast.ExprNode#eval()
+	 */
+	protected ConstNode eval() {
 		ConstNode res = ConstNode.getInvalid();
 		int n = children();
 		ConstNode[] args = new ConstNode[n];
@@ -52,17 +52,17 @@ public class ArithmeticOpNode extends OpNode {
 		}
 		
 		return getOperator().evaluate(getCoords(), args);
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#check()
-   * All children must be expression nodes, too.
-   */
-  protected boolean check() {
-    return super.check() 
-    	&& checkAllChildren(ExprNode.class);
-  }
- 
- 
-
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * All children must be expression nodes, too.
+	 */
+	protected boolean check() {
+		return super.check()
+			&& checkAllChildren(ExprNode.class);
+	}
+	
+	
+	
 }

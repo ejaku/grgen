@@ -1,17 +1,12 @@
 /**
- * Condition.java
- *
  * @author Rubino Geiss, Michael Beck
+ * @version $Id$
  */
-
 package de.unika.ipd.grgen.ir;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
-
-
-public class Condition extends IR
-{
+public class Condition extends IR {
 	/**
 	 * The conditions constituing a Condition of Rule.
 	 * They are orgnized in a list, since their order may be vital.
@@ -22,8 +17,7 @@ public class Condition extends IR
 	/**
 	 * Constructor
 	 */
-	protected Condition()
-	{
+	protected Condition() {
 		super("cond");
 	}
 	
@@ -32,8 +26,7 @@ public class Condition extends IR
 	 *
 	 * @param    acond               an IR
 	 */
-	public void add(IR acond)
-	{
+	public void add(IR acond) {
 		conditions.add(acond);
 	}
 	
@@ -42,8 +35,7 @@ public class Condition extends IR
 	 *
 	 * @return   an Iterator
 	 */
-	public Iterator getWalkableChildren()
-	{
+	public Iterator getWalkableChildren() {
 		return conditions.iterator();
 	}
 }

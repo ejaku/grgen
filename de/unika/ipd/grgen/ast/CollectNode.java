@@ -2,6 +2,7 @@
  * @file CollectNode.java
  * @author shack
  * @date Jul 21, 2003
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -25,7 +26,7 @@ public class CollectNode extends BaseNode {
 	 * Use #checkAllChildren(Class) to check for the state
 	 * of the children
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkAllChildren(Class)
-	 */  
+	 */
   protected boolean check() {
   	return true;
   }

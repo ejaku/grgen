@@ -162,12 +162,11 @@ public class RuleDeclNode extends ActionDeclNode {
 		}
 		
 		// add Eval statments to the IR
-		/*
 		for(Iterator it = getChild(EVAL).getChildren(); it.hasNext();) {
-			RedirectionNode redir = (EvationNode) it.next();
-			rule.getCondition().add(op.getIR());
+			AssignNode eval = (AssignNode) it.next();
+			rule.getEvaluation().add(eval.getIR());
 		}
-		 */
+		
 		return rule;
   }
 

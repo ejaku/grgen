@@ -1,4 +1,7 @@
-
+/**
+ * @author Sebastian Hack
+ * @version $Id$
+ */
 package de.unika.ipd.grgen.util;
 
 import java.awt.Color;

@@ -4,34 +4,16 @@
  */
 package de.unika.ipd.grgen.be.C;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.prefs.Preferences;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.util.prefs.Preferences;
 
 /**
  * A generator to generate SQL statements for a grgen specification.
  */
-public abstract class SQLBackend extends CBackend
-{
+public abstract class SQLBackend extends CBackend {
 	
 	/** if 0, the query should not be limited. */
 	protected int limitQueryResults;
@@ -77,8 +59,7 @@ public abstract class SQLBackend extends CBackend
 	/**
 	 * Make a new SQL Generator.
 	 */
-	public SQLBackend()
-	{
+	public SQLBackend() {
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
 		
 		dbNamePrefix = prefs.get("dbNamePrefix", "gr_");
@@ -109,8 +90,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param name The name of the define.
 	 * @param value The define's value (must be a string constant).
 	 */
-	protected void addStringDefine(StringBuffer sb, String name, String value)
-	{
+	protected void addStringDefine(StringBuffer sb, String name, String value) {
 		addDefine(sb, name, formatString(value));
 	}
 	
@@ -120,8 +100,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param name The name of the define.
 	 * @param value The define's value.
 	 */
-	protected void addDefine(StringBuffer sb, String name, String value)
-	{
+	protected void addDefine(StringBuffer sb, String name, String value) {
 		sb.append("#define " + formatId(name) + " " + value + "\n");
 	}
 	
@@ -129,8 +108,7 @@ public abstract class SQLBackend extends CBackend
 	 * Add C defines with all settings to a string buffer.
 	 * @param sb The string buffer to add to.
 	 */
-	protected void addSettings(StringBuffer sb)
-	{
+	protected void addSettings(StringBuffer sb) {
 		addStringDefine(sb, "DBNAME", dbName);
 		addStringDefine(sb, "DBNAME_PREFIX", dbNamePrefix);
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
@@ -204,23 +182,19 @@ public abstract class SQLBackend extends CBackend
 	 * @return An identifier usable in SQL statements and unique for
 	 * each edge.
 	 */
-	private String mangleEdge(Edge e)
-	{
+	private String mangleEdge(Edge e) {
 		return "e" + e.getId();
 	}
 	
-	private String mangleNode(Node n)
-	{
+	private String mangleNode(Node n) {
 		return "n" + n.getId();
 	}
 	
-	private String getEdgeCol(Edge e, String col)
-	{
+	private String getEdgeCol(Edge e, String col) {
 		return mangleEdge(e) + "." + col;
 	}
 	
-	private String getNodeCol(Node n, String col)
-	{
+	private String getNodeCol(Node n, String col) {
 		return mangleNode(n) + "." + col;
 	}
 	/**
@@ -233,8 +207,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param sep The seperator string.
 	 * @param add The actual string to add.
 	 */
-	private void addTo(StringBuffer sb, String start, String sep, String add)
-	{
+	private void addTo(StringBuffer sb, String start, String sep, String add) {
 		if (sb.length() == 0)
 			sb.append(start);
 		else
@@ -243,18 +216,15 @@ public abstract class SQLBackend extends CBackend
 		sb.append(add);
 	}
 	
-	private void addToCond(StringBuffer sb, String add)
-	{
+	private void addToCond(StringBuffer sb, String add) {
 		addTo(sb, "", " AND ", add);
 	}
 	
-	private void addToList(StringBuffer sb, String table)
-	{
+	private void addToList(StringBuffer sb, String table) {
 		addTo(sb, "", ", ", table);
 	}
 	
-	private String join(String a, String b, String link)
-	{
+	private String join(String a, String b, String link) {
 		if (a.length() == 0)
 			return b;
 		else if (b.length() == 0)
@@ -263,18 +233,15 @@ public abstract class SQLBackend extends CBackend
 			return a + link + b;
 	}
 	
-	private String join(StringBuffer a, StringBuffer b, String link)
-	{
+	private String join(StringBuffer a, StringBuffer b, String link) {
 		return join(a.toString(), b.toString(), link);
 	}
 	
-	private void makeJoin(StringBuffer sb, Graph gr, Edge e1, Edge e2)
-	{
+	private void makeJoin(StringBuffer sb, Graph gr, Edge e1, Edge e2) {
 		Node[] nodes =
 		{ gr.getSource(e1), gr.getTarget(e1), gr.getSource(e2), gr.getTarget(e2)};
 		
-		String[] names =
-		{
+		String[] names = {
 			getEdgeCol(e1, colEdgesSrcId),
 				getEdgeCol(e1, colEdgesTgtId),
 				getEdgeCol(e2, colEdgesSrcId),
@@ -296,8 +263,7 @@ public abstract class SQLBackend extends CBackend
 	protected String genMatchStatement(
 		MatchingAction act,
 		List matchedNodes,
-		List matchedEdges)
-	{
+		List matchedEdges) {
 		
 		debug.entering();
 		
@@ -312,14 +278,12 @@ public abstract class SQLBackend extends CBackend
 		Collection edges = new HashSet();
 		
 		// Two sets for incoming/outgoing edges.
-		Set[] incidentSets = new Set[]
-		{
+		Set[] incidentSets = new Set[] {
 			new HashSet(), new HashSet()
 		};
 		
 		// Edge table column for incoming/outgoing edges.
-		final String[] incidentCols = new String[]
-		{
+		final String[] incidentCols = new String[] {
 			colEdgesSrcId, colEdgesTgtId
 		};
 		
@@ -327,8 +291,7 @@ public abstract class SQLBackend extends CBackend
 		workset.addAll(nodes);
 		HashMap edgeNotEx = new HashMap();
 		
-		for (Iterator it = nodes.iterator(); it.hasNext();)
-		{
+		for (Iterator it = nodes.iterator(); it.hasNext();) {
 			
 			Node n = (Node) it.next();
 			String mangledNode = mangleNode(n);
@@ -352,8 +315,7 @@ public abstract class SQLBackend extends CBackend
 						  + getNodeCol(n, colNodesTypeId) + ", " + typeId + ")" + BREAK_LINE);
 			
 			// Make this node unequal to all other nodes.
-			for (Iterator iter = workset.iterator(); iter.hasNext();)
-			{
+			for (Iterator iter = workset.iterator(); iter.hasNext();) {
 				Node other = (Node) iter.next();
 				
 				// Just add an <>, if the other node is not homomorphic to n
@@ -373,11 +335,9 @@ public abstract class SQLBackend extends CBackend
 			
 			// Make this node equal to all source and target nodes of the
 			// outgoing and incoming edges.
-			for(int i = 0; i < incidentSets.length; i++)
-			{
+			for(int i = 0; i < incidentSets.length; i++) {
 				
-				for (Iterator iter = incidentSets[i].iterator(); iter.hasNext();)
-				{
+				for (Iterator iter = incidentSets[i].iterator(); iter.hasNext();) {
 					Edge e = (Edge) iter.next();
 					String mangledEdge = mangleEdge(e);
 					String edgeCol = getEdgeCol(e, incidentCols[i]);
@@ -387,8 +347,7 @@ public abstract class SQLBackend extends CBackend
 					
 					// Ignore negated edges for now.
 					// TODO Implement negated edges.
-					if (e.isNegated())
-					{
+					if (e.isNegated()) {
 						String condition =
 							mangledEdge +
 							(i==0?"."+colEdgesSrcId+" = ":"."+colEdgesTgtId+" = ") +
@@ -412,8 +371,7 @@ public abstract class SQLBackend extends CBackend
 					
 					// Just add the edge to the columns and tables,
 					// if it didn't occur before.
-					if (!edges.contains(e))
-					{
+					if (!edges.contains(e)) {
 						addToList(edgeTables, tableEdges + " AS " + mangledEdge);
 						addToList(edgeCols, getEdgeCol(e, colEdgesId));
 						edges.add(e);
@@ -434,8 +392,7 @@ public abstract class SQLBackend extends CBackend
 			}
 		}
 		
-		for (Iterator iter = edgeNotEx.keySet().iterator();iter.hasNext();)
-		{
+		for (Iterator iter = edgeNotEx.keySet().iterator();iter.hasNext();) {
 			String mangledEdge=(String)iter.next();
 			addToCond(edgeWhere, "NOT EXISTS (" + BREAK_LINE +
 						  "  SELECT " + mangledEdge +
@@ -464,8 +421,7 @@ public abstract class SQLBackend extends CBackend
 	 * Output some data structures needed especially by the SQL backend.
 	 * @param sb The string buffer to put it to.
 	 */
-	protected void makeActionTypes(StringBuffer sb)
-	{
+	protected void makeActionTypes(StringBuffer sb) {
 		sb.append(
 			"typedef struct {\n"
 				+ "  MATCH_PROTOTYPE((*matcher));\n"
@@ -482,8 +438,7 @@ public abstract class SQLBackend extends CBackend
 	 * {@link SQLBackend#genMatchStatement(MatchingAction, List, List)}
 	 * routines.
 	 */
-	private static class Match
-	{
+	private static class Match {
 		protected int id;
 		protected Map nodeIndexMap = new HashMap();
 		protected Map edgeIndexMap = new HashMap();
@@ -491,8 +446,7 @@ public abstract class SQLBackend extends CBackend
 		protected String finishIdent;
 		protected String stmtIdent;
 		
-		protected Match(int id, List nodes, List edges)
-		{
+		protected Match(int id, List nodes, List edges) {
 			this.id = id;
 			
 			int i;
@@ -505,10 +459,8 @@ public abstract class SQLBackend extends CBackend
 				edgeIndexMap.put(it.next(), new Integer(i));
 		}
 		
-		protected static final Comparator comparator = new Comparator()
-		{
-			public int compare(Object x, Object y)
-			{
+		protected static final Comparator comparator = new Comparator() {
+			public int compare(Object x, Object y) {
 				Match m = (Match) x;
 				Match n = (Match) y;
 				
@@ -520,8 +472,7 @@ public abstract class SQLBackend extends CBackend
 				return 0;
 			}
 			
-			public boolean equals(Object obj)
-			{
+			public boolean equals(Object obj) {
 				return obj == this;
 			}
 		};
@@ -535,8 +486,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param m The match structure as supplied by
 	 * {@link #genMatch(StringBuffer, MatchingAction, int)}.
 	 */
-	protected void genRuleFinish(StringBuffer sb, Rule r, int id, Match m)
-	{
+	protected void genRuleFinish(StringBuffer sb, Rule r, int id, Match m) {
 		Collection commonNodes = r.getCommonNodes();
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
@@ -559,8 +509,7 @@ public abstract class SQLBackend extends CBackend
 		 * Only consider redirections and node insertions, if we truly have
 		 * to insert some nodes, i.e. The nodesToInsert set has elements
 		 */
-		if (nodesToInsert.size() > 0)
-		{
+		if (nodesToInsert.size() > 0) {
 			/*
 			 * We need an array to save the IDs of the inserted nodes, since
 			 * they might be needed when inserting the new edges further down
@@ -573,8 +522,7 @@ public abstract class SQLBackend extends CBackend
 			 * IDs in the array.
 			 */
 			i = 0;
-			for (Iterator it = nodesToInsert.iterator(); it.hasNext(); i++)
-			{
+			for (Iterator it = nodesToInsert.iterator(); it.hasNext(); i++) {
 				Node n = (Node) it.next();
 				sb.append("  inserted_nodes[" + i + "] = INSERT_NODE("
 							  + getTypeId(nodeTypeMap, n.getNodeType()) + ");\n");
@@ -584,9 +532,8 @@ public abstract class SQLBackend extends CBackend
 			/*
 			 * Now we can launch the redirections.
 			 */
-			for (Iterator it = r.getRedirections().iterator(); it.hasNext();)
-			{
-				Rule.Redirection redir = (Rule.Redirection) it.next();
+			for (Iterator it = r.getRedirections().iterator(); it.hasNext();) {
+				Redirection redir = (Redirection) it.next();
 				String dir = (redir.incoming ? "INCOMING" : "OUTGOING");
 				
 				// The "from" node must me in the matched nodes, since it is a left
@@ -614,8 +561,7 @@ public abstract class SQLBackend extends CBackend
 		w.removeAll(commonEdges);
 		w.removeAll(left.getNegatedEdges());
 		
-		for (Iterator it = w.iterator(); it.hasNext();)
-		{
+		for (Iterator it = w.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			if (!e.isNegated())
 				sb.append(
@@ -623,12 +569,10 @@ public abstract class SQLBackend extends CBackend
 		}
 		
 		w = left.getNodes(new HashSet());
-		for (Iterator it = w.iterator(); it.hasNext();)
-		{
+		for (Iterator it = w.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			Integer nid = (Integer) m.nodeIndexMap.get(n);
-			if (n.typeChanges())
-			{
+			if (n.typeChanges()) {
 				int tid = getTypeId(nodeTypeMap, n.getReplaceType());
 				sb.append(
 					"  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");\n");
@@ -636,8 +580,7 @@ public abstract class SQLBackend extends CBackend
 		}
 		
 		w.removeAll(commonNodes);
-		for (Iterator it = w.iterator(); it.hasNext();)
-		{
+		for (Iterator it = w.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			Integer nid = (Integer) m.nodeIndexMap.get(n);
 			sb.append("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));\n");
@@ -649,8 +592,7 @@ public abstract class SQLBackend extends CBackend
 		w = right.getEdges(new HashSet());
 		w.removeAll(commonEdges);
 		
-		for (Iterator it = w.iterator(); it.hasNext();)
-		{
+		for (Iterator it = w.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			
 			if (e.isNegated())
@@ -681,8 +623,7 @@ public abstract class SQLBackend extends CBackend
 	/**
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genFinish(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
-	protected void genFinish(StringBuffer sb, MatchingAction a, int id)
-	{
+	protected void genFinish(StringBuffer sb, MatchingAction a, int id) {
 		String actionIdent = formatId(a.getIdent().toString());
 		String finishIdent = "finish_" + actionIdent;
 		
@@ -702,8 +643,7 @@ public abstract class SQLBackend extends CBackend
 	/**
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genMatch(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
-	protected void genMatch(StringBuffer sb, MatchingAction a, int id)
-	{
+	protected void genMatch(StringBuffer sb, MatchingAction a, int id) {
 		String actionIdent = mangle(a);
 		String stmtIdent = "stmt_" + actionIdent;
 		String matchIdent = "match_" + actionIdent;
@@ -712,7 +652,6 @@ public abstract class SQLBackend extends CBackend
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
 		Iterator it;
-		int i;
 		
 		// Dump the SQL statement
 		sb.append("static const char *stmt_" + actionIdent + " = \n");
@@ -720,8 +659,7 @@ public abstract class SQLBackend extends CBackend
 		
 		// Make an array of strings that contains the node names.
 		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
-		for (it = nodes.iterator(); it.hasNext();)
-		{
+		for (it = nodes.iterator(); it.hasNext();) {
 			Identifiable node = (Identifiable) it.next();
 			sb.append("  " + formatString(node.getIdent().toString()) + ", \n");
 		}
@@ -729,8 +667,7 @@ public abstract class SQLBackend extends CBackend
 		
 		// Make an array of strings that contains the edge names.
 		sb.append("static const char *" + edgeNamesIdent + "[] = {\n");
-		for (it = edges.iterator(); it.hasNext();)
-		{
+		for (it = edges.iterator(); it.hasNext();) {
 			Identifiable edge = (Identifiable) it.next();
 			sb.append("  " + formatString(edge.getIdent().toString()) + ", \n");
 		}
@@ -761,8 +698,7 @@ public abstract class SQLBackend extends CBackend
 	 * All generated statements in the statement map {@link statements}
 	 * are emitted in an extra file.
 	 */
-	protected void genExtra()
-	{
+	protected void genExtra() {
 		StringBuffer sb = new StringBuffer();
 		
 		// Emit an include file for Makefiles
@@ -783,8 +719,7 @@ public abstract class SQLBackend extends CBackend
 		
 		Object[] matches = matchMap.values().toArray();
 		Arrays.sort(matches, Match.comparator);
-		for (int i = 0; i < matches.length; i++)
-		{
+		for (int i = 0; i < matches.length; i++) {
 			Match m = (Match) matches[i];
 			sb.append(
 				"  { "
@@ -813,8 +748,7 @@ public abstract class SQLBackend extends CBackend
 	/**
 	 * Do some additional stuff on initialization.
 	 */
-	public void init(Unit unit, ErrorReporter reporter, String outputPath)
-	{
+	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
 	}
@@ -824,10 +758,8 @@ public abstract class SQLBackend extends CBackend
 	 * @param ty The IR type
 	 * @return The SQL type
 	 */
-	private String getSQLType(Type ty)
-	{
-		switch (ty.classify())
-		{
+	private String getSQLType(Type ty) {
+		switch (ty.classify()) {
 			case Type.IS_INTEGER:
 				return getIntType();
 			case Type.IS_STRING:
@@ -844,8 +776,7 @@ public abstract class SQLBackend extends CBackend
 	/**
 	 * Creates the commands for creating attribute tables
 	 */
-	protected void genAttrTableCmd()
-	{
+	protected void genAttrTableCmd() {
 		StringBuffer sb;
 		Map maps[]         = new Map[]    { nodeAttrMap,          edgeAttrMap };
 		Map ty_maps[]      = new Map[]    { nodeTypeMap,          edgeTypeMap };
@@ -858,8 +789,7 @@ public abstract class SQLBackend extends CBackend
 		sb.append("/*\n * This file was generated by grgen, don't edit\n */\n\n");
 		
 		// create node & edge attributes create table commands
-		for (int i = 0; i < maps.length; ++i)
-		{
+		for (int i = 0; i < maps.length; ++i) {
 			
 			if (maps[i].size() > 0)
 				sb.append("#define " + defines[i] + " 1\n");
@@ -870,8 +800,7 @@ public abstract class SQLBackend extends CBackend
 			sb.append("static const char *cmd_create_" + names[i] + "_attr = \n");
 			sb.append("\"CREATE TABLE " + tbl_names[i] + " (\" \\\n");
 			sb.append("\"" + col_names[i] + " " + getIdType() + " NOT NULL PRIMARY KEY\" \\\n");
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();)
-			{
+			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
 				Entity ent = (Entity) it.next();
 				Type ty = ent.getType();
 				int id = getTypeId(ty_maps[i], ent.getOwner());
@@ -891,12 +820,10 @@ public abstract class SQLBackend extends CBackend
 		sb.append("\n");
 		
 		// create get table
-		for (int i = 0; i < maps.length; ++i)
-		{
+		for (int i = 0; i < maps.length; ++i) {
 			String[] lines = new String[maps[i].size()];
 			
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();)
-			{
+			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
 				Entity ent = (Entity) it.next();
 				Type ty = ent.getType();
 				int id = getTypeId(ty_maps[i], ent.getOwner());
@@ -910,8 +837,7 @@ public abstract class SQLBackend extends CBackend
 			}
 			sb.append("/** The table of all get commaned for " + names[i] + " attributes. */\n");
 			sb.append("static prepared_query_t cmd_get_" + names[i] + "_attr[] = {\n");
-			for(int j = 0; j < lines.length; ++j)
-			{
+			for(int j = 0; j < lines.length; ++j) {
 				sb.append("  { " + lines[j] + ", -1 },\n");
 			}
 			sb.append("  { NULL, -1 },\n");
@@ -919,12 +845,10 @@ public abstract class SQLBackend extends CBackend
 		}
 		
 		// create set table
-		for (int i = 0; i < maps.length; ++i)
-		{
+		for (int i = 0; i < maps.length; ++i) {
 			String[] lines = new String[maps[i].size()];
 			
-			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();)
-			{
+			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
 				Entity ent = (Entity) it.next();
 				Type ty = ent.getType();
 				int id = getTypeId(ty_maps[i], ent.getOwner());
@@ -937,8 +861,7 @@ public abstract class SQLBackend extends CBackend
 			}
 			sb.append("/** The table of all set commaned for " + names[i] + " attributes. */\n");
 			sb.append("static prepared_query_t cmd_set_" + names[i] + "_attr[] = {\n");
-			for(int j = 0; j < lines.length; ++j)
-			{
+			for(int j = 0; j < lines.length; ++j) {
 				sb.append("  { " + lines[j] + ", -1 },\n");
 			}
 			sb.append("  { NULL, -1 },\n");
@@ -955,8 +878,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param p_fmt  A string containing the type for prepared execution
 	 * @return
 	 */
-	String firstIdMarker(String fmt, String p_fmt)
-	{
+	String firstIdMarker(String fmt, String p_fmt) {
 		return fmt;
 	}
 	
@@ -967,8 +889,7 @@ public abstract class SQLBackend extends CBackend
 	 * @param p_fmt  A string containing the type for prepared execution
 	 * @return
 	 */
-	String nextIdMarker(String fmt, String p_fmt)
-	{
+	String nextIdMarker(String fmt, String p_fmt) {
 		return fmt;
 	}
 	

@@ -1,17 +1,12 @@
 /**
- * Evaluation.java
- *
  * @author Rubino Geiss, Michael Beck
+ * @version $Id$
  */
-
 package de.unika.ipd.grgen.ir;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
-
-
-public class Evaluation extends IR
-{
+public class Evaluation extends IR {
 	/**
 	 * The evaluations constituing a Evaluation of Rule.
 	 * They are orgnized in a list, since their order is vital.
@@ -23,8 +18,7 @@ public class Evaluation extends IR
 	 * Constructor
 	 *
 	 */
-	Evaluation()
-	{
+	Evaluation() {
 		super("eval");
 	}
 	
@@ -33,8 +27,7 @@ public class Evaluation extends IR
 	 *
 	 * @param    aeval               an IR
 	 */
-	public void add(IR aeval)
-	{
+	public void add(IR aeval) {
 		evaluations.add(aeval);
 	}
 	
@@ -43,8 +36,7 @@ public class Evaluation extends IR
 	 *
 	 * @return   an Iterator
 	 */
-	public Iterator iterator()
-	{
+	public Iterator getWalkableChildren() {
 		return evaluations.iterator();
 	}
 }

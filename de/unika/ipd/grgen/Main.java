@@ -1,11 +1,23 @@
-/*
- * Created on Jul 6, 2003
+/**
+ * @author Sebastian Hack
+ * @version $Id$
  */
-
 package de.unika.ipd.grgen;
 
-import jargs.gnu.CmdLineParser;
+import de.unika.ipd.grgen.util.*;
+import de.unika.ipd.grgen.util.report.*;
+import javax.swing.*;
 
+import antlr.ANTLRException;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.UnitNode;
+import de.unika.ipd.grgen.be.Backend;
+import de.unika.ipd.grgen.be.BackendException;
+import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.parser.antlr.GRLexer;
+import de.unika.ipd.grgen.parser.antlr.GRParser;
+import jargs.gnu.CmdLineParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -21,38 +33,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.prefs.Preferences;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-
-import antlr.ANTLRException;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.UnitNode;
-import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.BackendException;
-import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.ir.DumpVisitor;
-import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.parser.antlr.GRLexer;
-import de.unika.ipd.grgen.parser.antlr.GRParser;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumpVisitor;
-import de.unika.ipd.grgen.util.PostWalker;
-import de.unika.ipd.grgen.util.PrePostWalker;
-import de.unika.ipd.grgen.util.VCGDumper;
-import de.unika.ipd.grgen.util.Walkable;
-import de.unika.ipd.grgen.util.report.DebugReporter;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.grgen.util.report.Handler;
-import de.unika.ipd.grgen.util.report.NullReporter;
-import de.unika.ipd.grgen.util.report.Reporter;
-import de.unika.ipd.grgen.util.report.StreamHandler;
-import de.unika.ipd.grgen.util.report.TreeHandler;
-
 /**
  * Main.java
  *
@@ -63,7 +43,7 @@ import de.unika.ipd.grgen.util.report.TreeHandler;
  * @version 1.0
  */
 public class Main extends Base {
-
+	
 	private String[] args;
 	private String inputFile;
 	private BaseNode root;
@@ -130,7 +110,7 @@ public class Main extends Base {
 		debugTree = new JTree(treeHandler);
 		debugTree.setEditable(false);
 		JPanel panel = new JPanel();
-
+		
 		JScrollPane scrollPane = new JScrollPane(debugTree);
 		panel.setLayout(new BorderLayout());
 		panel.setPreferredSize(new Dimension(800, 600));
@@ -149,44 +129,44 @@ public class Main extends Base {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
-
+		
 		JButton expandButton = new JButton("Expand All");
 		expandButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for(int i = 0; i < debugTree.getRowCount(); i++)
-					debugTree.expandRow(i);
-			}
-		});
-
-
+					public void actionPerformed(ActionEvent e) {
+						for(int i = 0; i < debugTree.getRowCount(); i++)
+							debugTree.expandRow(i);
+					}
+				});
+		
+		
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				});
+		
 		buttonPanel.add(expandButton);
 		buttonPanel.add(exitButton);
-
+		
 		panel.add(buttonPanel);
 		
 		JFrame frame = new JFrame("GrGen");
 		frame.setContentPane(panel);
-
+		
 		frame.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
+					public void windowClosing(WindowEvent e) {
 						System.exit(0);
-				}
-		});
-
+					}
+				});
+		
 		frame.pack();
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		Rectangle bounds = frame.getBounds();
 		frame.setLocation((dim.width - bounds.width) / 2,
-			(dim.height - bounds.height) / 2);
-
+							  (dim.height - bounds.height) / 2);
+		
 		frame.setVisible(true);
 		
 		return frame;
@@ -203,7 +183,7 @@ public class Main extends Base {
 			} else {
 				debugHandler = new StreamHandler(System.out);
 			}
-
+			
 			DebugReporter dr = new DebugReporter(10);
 			dr.addHandler(debugHandler);
 			if(debugFilter != null)
@@ -217,8 +197,8 @@ public class Main extends Base {
 		}
 		else
 			debugReporter = new NullReporter();
-			
-			
+		
+		
 		// Main error reporter
 		errorReporter = new ErrorReporter();
 		errorReporter.addHandler(new StreamHandler(System.err));
@@ -226,27 +206,27 @@ public class Main extends Base {
 		Base.setReporters(debugReporter, errorReporter);
 	}
 	
-  private void parseOptions() {
-  	try {
-  		CmdLineParser parser = new CmdLineParser();
-		  CmdLineParser.Option debugOpt = parser.addBooleanOption('d', "debug");
-		  CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
-		  CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
-		  CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
-		  		  
-		  CmdLineParser.Option beOpt =
-		    parser.addStringOption('b', "backend");
+	private void parseOptions() {
+		try {
+			CmdLineParser parser = new CmdLineParser();
+			CmdLineParser.Option debugOpt = parser.addBooleanOption('d', "debug");
+			CmdLineParser.Option astDumpOpt = parser.addBooleanOption('a', "dump-ast");
+			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
+			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
+			
+			CmdLineParser.Option beOpt =
+				parser.addStringOption('b', "backend");
 			CmdLineParser.Option debugFilterOpt =
-			  parser.addStringOption('f', "debug-filter");
+				parser.addStringOption('f', "debug-filter");
 			CmdLineParser.Option invDebugFilterOpt =
 				parser.addStringOption('F', "inverse-debug-filter");
 			CmdLineParser.Option prefsImportOpt =
 				parser.addStringOption('p', "prefs");
 			CmdLineParser.Option prefsExportOpt =
 				parser.addStringOption('x', "prefs-export");
-		  CmdLineParser.Option optOutputPath =
-		  	parser.addStringOption('o', "output");
-		  
+			CmdLineParser.Option optOutputPath =
+				parser.addStringOption('o', "output");
+			
 			parser.parse(args);
 			
 			dumpAST = parser.getOptionValue(astDumpOpt) != null;
@@ -257,7 +237,7 @@ public class Main extends Base {
 			/* deactivate graphic if no debug output */
 			if (!debugEnabled)
 				graphic = false;
-
+			
 			debugFilter = (String) parser.getOptionValue(debugFilterOpt);
 			invDebugFilter = (String) parser.getOptionValue(invDebugFilterOpt);
 			backend = (String) parser.getOptionValue(beOpt);
@@ -273,23 +253,23 @@ public class Main extends Base {
 				System.exit(2);
 			}
 			else
-			  inputFile = rem[0];
-  	}
-  	catch(CmdLineParser.OptionException e) {
-  		System.err.println(e.getMessage());
-  		printUsage();
+				inputFile = rem[0];
+		}
+		catch(CmdLineParser.OptionException e) {
+			System.err.println(e.getMessage());
+			printUsage();
 			System.exit(2);
-  	}
-  }
- 
- 	private boolean parseInput(String inputFile) {
- 		boolean res = false;
- 		
- 		debug.entering();
+		}
+	}
+	
+	private boolean parseInput(String inputFile) {
+		boolean res = false;
+		
+		debug.entering();
 		try {
 			GRLexer lex = new GRLexer(new FileInputStream(inputFile));
 			GRParser parser = new GRParser(lex);
-
+			
 			try {
 				parser.setFilename(inputFile);
 				parser.init(errorReporter);
@@ -301,34 +281,34 @@ public class Main extends Base {
 				System.exit(1);
 			}
 		}
-	  catch(FileNotFoundException e) {
-		  System.err.println("input file not found: " + e.getMessage());
-		  System.exit(1);
-	  }
-	  
-	  debug.report(NOTE, "result: " + res);
-	  debug.leaving();
-	  
-	  return res;
- 	}
- 	
- 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
- 		String suffix) {
-
+		catch(FileNotFoundException e) {
+			System.err.println("input file not found: " + e.getMessage());
+			System.exit(1);
+		}
+		
+		debug.report(NOTE, "result: " + res);
+		debug.leaving();
+		
+		return res;
+	}
+	
+	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
+						 String suffix) {
+		
 		debug.entering();
-
+		
 		try {
 			FileOutputStream fos =
-			  new FileOutputStream(inputFile + "." + suffix + ".vcg");
-		
+				new FileOutputStream(inputFile + "." + suffix + ".vcg");
+			
 			VCGDumper vcg = new VCGDumper(new PrintStream(fos));
 			visitor.setDumper(vcg);
-		  PrePostWalker walker = new PostWalker(visitor);
+			PrePostWalker walker = new PostWalker(visitor);
 			vcg.begin();
 			walker.reset();
 			walker.walk(node);
 			vcg.finish();
-
+			
 			fos.close();
 		}
 		catch(IOException e) {
@@ -345,20 +325,20 @@ public class Main extends Base {
 	private void generateCode() {
 		assert backend != null : "backend must be set to generate code.";
 		
-    try {
-      BackendFactory creator =
-      	(BackendFactory) Class.forName(backend).newInstance();
-      Backend be = creator.getBackend();
-      
-      be.init(irUnit, error, outputPath);
-      be.generate();
-      be.done();
-      
-    } catch(ClassNotFoundException e) {
-      System.err.println("cannot locate backend class: " + backend);
-    } catch(IllegalAccessException e) {
-    	System.err.println("no rights to create backend class: " + backend);
-   	} catch(InstantiationException e) {
+		try {
+			BackendFactory creator =
+				(BackendFactory) Class.forName(backend).newInstance();
+			Backend be = creator.getBackend();
+			
+			be.init(irUnit, error, outputPath);
+			be.generate();
+			be.done();
+			
+		} catch(ClassNotFoundException e) {
+			System.err.println("cannot locate backend class: " + backend);
+		} catch(IllegalAccessException e) {
+			System.err.println("no rights to create backend class: " + backend);
+		} catch(InstantiationException e) {
 			System.err.println("cannot create backend class: " + backend);
 		}	catch(BackendException e) {
 			System.err.println("backend factory error: " + e.getMessage());
@@ -371,53 +351,53 @@ public class Main extends Base {
 		else if (ErrorReporter.getWarnCount() > 0)
 			System.err.println("There were " + ErrorReporter.getWarnCount() + " warning(s)");
 	}
- 
- 	/**
- 	 * This is the main driver routine.
- 	 * It pareses the input file, constructs the AST,
- 	 * checks it, constructs the immediate representation and
- 	 * emits the code.
- 	 */
-  private void run() {
+	
+	/**
+	 * This is the main driver routine.
+	 * It pareses the input file, constructs the AST,
+	 * checks it, constructs the immediate representation and
+	 * emits the code.
+	 */
+	private void run() {
 		parseOptions();
-  	init();
-  	
-  	debug.entering();
-  	
-  	importPrefs();
-  	
-  	// Open graphic debug window if desired.
+		init();
+		
+		debug.entering();
+		
+		importPrefs();
+		
+		// Open graphic debug window if desired.
 		if(graphic)
 			makeMainFrame();
 		
 		// parse the input file and exit, if there were errors
 		if(!parseInput(inputFile))
 			System.exit(1);
-
+		
 		if(!BaseNode.manifestAST(root)) {
 			if(dumpAST)
 				dumpVCG(root, new GraphDumpVisitor(), "error-ast");
 			System.exit(1);
 		}
-
-
-		// Dump the rewritten AST.
-		if(dumpAST)
-			dumpVCG(root, new GraphDumpVisitor(), "ast");
-
-		/*
-		// Do identifier resolution (Rewrites the AST)
-		if(!BaseNode.resolveAST(root))
-			System.exit(2);
+		
 		
 		// Dump the rewritten AST.
 		if(dumpAST)
 			dumpVCG(root, new GraphDumpVisitor(), "ast");
-
-		// Check the AST for consistency.
-		if(!BaseNode.checkAST(root))
-			System.exit(1);
-		*/
+		
+		/*
+		 // Do identifier resolution (Rewrites the AST)
+		 if(!BaseNode.resolveAST(root))
+		 System.exit(2);
+		 
+		 // Dump the rewritten AST.
+		 if(dumpAST)
+		 dumpVCG(root, new GraphDumpVisitor(), "ast");
+		
+		 // Check the AST for consistency.
+		 if(!BaseNode.checkAST(root))
+		 System.exit(1);
+		 */
 		
 		// Construct the Immediate representation.
 		buildIR();
@@ -425,9 +405,9 @@ public class Main extends Base {
 		// Dump the IR.
 		if(dumpIR)
 			dumpVCG(irUnit, new GraphDumpVisitor(), "ir");
-			
+		
 		debug.report(NOTE, "finished");
-			
+		
 		if(graphic && debugTree != null) {
 			debugTree.expandRow(0);
 			debugTree.expandRow(1);
@@ -439,54 +419,54 @@ public class Main extends Base {
 		exportPrefs();
 		
 		debug.leaving();
-			 
-  }
-  
-  /**
-   * Export the preferences.
-   */
-  private void exportPrefs() {
-    if(prefsExport != null) {
-      try {
-        FileOutputStream fos = new FileOutputStream(prefsExport);
-        prefs.exportSubtree(fos);
-      } catch (Exception e) {
-        System.err.println(e.getMessage());
-      }
-    }
-  }
-
-  /**
-   * Import the preferences.
-   */
-  private void importPrefs() {
-  	if(prefsImport != null) {
-  		try {
-	  		FileInputStream fis = new FileInputStream(prefsImport);
-	  		Preferences.importPreferences(fis);
-  		} catch(Exception e) {
-  			System.err.println(e.getMessage());
-  		}
-  	}
-  }
-
-  private Main(String[] args) {
-  	this.args = args;
-  }
-  
-  private static void staticInit() {
-  	String packageName = Main.class.getPackage().getName();
-
+		
+	}
+	
+	/**
+	 * Export the preferences.
+	 */
+	private void exportPrefs() {
+		if(prefsExport != null) {
+			try {
+				FileOutputStream fos = new FileOutputStream(prefsExport);
+				prefs.exportSubtree(fos);
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}
+	}
+	
+	/**
+	 * Import the preferences.
+	 */
+	private void importPrefs() {
+		if(prefsImport != null) {
+			try {
+				FileInputStream fis = new FileInputStream(prefsImport);
+				Preferences.importPreferences(fis);
+			} catch(Exception e) {
+				System.err.println(e.getMessage());
+			}
+		}
+	}
+	
+	private Main(String[] args) {
+		this.args = args;
+	}
+	
+	private static void staticInit() {
+		String packageName = Main.class.getPackage().getName();
+		
 		// Please use my preferences implementation.
 		System.setProperty("java.util.prefs.PreferencesFactory",
-			packageName + ".util.MyPreferencesFactory");
-  		 
-  }
-  
- 	public static void main(String[] args) {
- 		staticInit();
-    Main main = new Main(args);
-    main.run();
- 	}
-   
+						   packageName + ".util.MyPreferencesFactory");
+		
+	}
+	
+	public static void main(String[] args) {
+		staticInit();
+		Main main = new Main(args);
+		main.run();
+	}
+	
 }

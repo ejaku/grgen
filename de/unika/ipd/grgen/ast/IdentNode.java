@@ -1,13 +1,9 @@
 /**
- * IdentNode.java
- *
- *
  * Created: Wed Jul  2 15:29:14 2003
  *
  * @author Sebastian Hack
- * @version 1.0
+ * @version $Id$
  */
-
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
@@ -25,11 +21,11 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
   private Symbol.Occurrence occ;
   private DeclNode decl = DeclNode.getInvalid();
   
-  private static final IdentNode INVALID = 
+  private static final IdentNode INVALID =
   	new IdentNode(Symbol.Definition.getInvalid());
 
-	/** 
-	 * Get an invalid ident node. 
+	/**
+	 * Get an invalid ident node.
 	 * @return An invalid ident node.
 	 */
   public static IdentNode getInvalid() {
@@ -93,7 +89,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
   	Symbol.Definition def = getSymDef();
 		DeclNode res = DeclNode.getInvalid();
   	
-  	if(def.isValid()) 
+  	if(def.isValid())
   		res = def.getNode() == this ? decl : def.getNode().getDecl();
   	
   	return res;
@@ -104,7 +100,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
 	 * @return The symbol.
 	 */
 	public Symbol getSymbol() {
-		return occ.getSymbol();  
+		return occ.getSymbol();
 	}
   
   /**
@@ -140,7 +136,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
   }
 
   /**
-   * Get the IR object. 
+   * Get the IR object.
    * This is an ident here.
    * @return The IR object.
    */
@@ -148,8 +144,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
   	return (Ident) checkIR(Ident.class);
   }
 
-	/** 
-	 * Construct the ir object. 
+	/**
+	 * Construct the ir object.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
@@ -157,4 +153,4 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
 	}
 	
 	
-} 
+}

@@ -18,32 +18,10 @@ import de.unika.ipd.grgen.ast.OpNode;
  */
 public class Rule extends MatchingAction
 {
-	
-	/** A class representing redirections in rules. */
-	public static class Redirection
-	{
-		public final Node from;
-		public final Node to;
-		public final EdgeType edgeType;
-		public final NodeType nodeType;
-		public final boolean incoming;
-		
-		public Redirection(Node from, Node to, EdgeType edgeType,
-						   NodeType nodeType, boolean incoming)
-		{
-			
-			this.from = from;
-			this.to = to;
-			this.edgeType = edgeType;
-			this.nodeType = nodeType;
-			this.incoming = incoming;
-		}
-	}
-	
 	/** Names of the children of this node. */
 	private static final String[] childrenNames =
 	{
-		"left", "right"
+		"left", "right", "cond", "eval"
 	};
 	
 	/** The right hand side of the rule. */
