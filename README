@@ -8,4 +8,5 @@ USE:
 	make
 
 generate convinience headers:
-	xsltproc o2c.xsl <output-dir>/overview.xml
+	xsltproc o2h.xsl <output-dir>/overview.xml > o2c.h
+	xsltproc o2c.xsl <output-dir>/overview.xml > o2c.c
