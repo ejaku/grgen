@@ -106,30 +106,29 @@ testDecl returns [ BaseNode res = env.initNode() ]
     {
   		IdentNode id;
   		BaseNode tb, pattern;
-  		CollectNode neg = new CollectNode();
+  		CollectNode negs = new CollectNode();
   	}
   	: TEST id=actionIdentDecl pushScope[id] LBRACE!
-  	  pattern=patternPart
-      ( negativePart[neg] )* {
-      id.setDecl(new TestDeclNode(id, pattern, neg));
-      res = id;
-  	} RBRACE! popScope!;
+  	  pattern=patternPart[negs]
+  	  {
+      	id.setDecl(new TestDeclNode(id, pattern, negs));
+      	res = id;
+  	  } RBRACE! popScope!;
 
 ruleDecl returns [ BaseNode res = env.initNode() ]
   {
   		IdentNode id;
   		BaseNode rb, left, right;
 
-  		CollectNode neg = new CollectNode();
+  		CollectNode negs = new CollectNode();
   		CollectNode eval = new CollectNode();
   }
   : RULE id=actionIdentDecl pushScope[id] LBRACE!
-  	left=patternPart
-  	( negativePart[neg] )*
+  	left=patternPart[negs]
   	right=replacePart
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, neg, eval));
+  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval));
   	   res = id;
     }
     RBRACE! popScope!;
@@ -160,15 +159,10 @@ paramType
 	: typeIdentUse
 	;
 
-patternPart returns [ BaseNode res = env.initNode() ]
-  : p:PATTERN LBRACE! res=patternBody[getCoords(p)] RBRACE!
+patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
+  : p:PATTERN LBRACE! res=patternBody[getCoords(p), negsCollect] RBRACE!
   ;
   
-negativePart [ CollectNode negs ]
-	{ BaseNode neg;	}
-  : p:NEGATIVE LBRACE! neg=patternBody[getCoords(p)] { negs.addChild(neg); } RBRACE!
-  ;
-
 replacePart returns [ BaseNode res = env.initNode() ]
 	: r:REPLACE LBRACE! res=replaceBody[getCoords(r)] RBRACE!
 	;
@@ -187,20 +181,29 @@ evalBody [ BaseNode n  ]
  * The connection nodes in the collect node from subgraphSpec are integrated
  * In the collect node of the pattern node.
  */
-patternBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+patternBody [ Coords coords, BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
   {
 		BaseNode s;
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
 		res = new PatternGraphNode(coords, connections, conditions);
   }
-  : (patternStmt[connections, conditions])*
+  : (patternStmt[connections, conditions, negsCollect])*
   ;
 
-patternStmt [ BaseNode connCollect, BaseNode condCollect ]
-	{ BaseNode n, o, e; }
+patternStmt [ BaseNode connCollect, BaseNode condCollect, BaseNode negsCollect ]
+	{
+  		IdentNode id = env.getDummyIdent();
+		BaseNode n, o, e, neg;
+		//nesting of negative Parts is not allowed.
+		CollectNode negsInNegs = new CollectNode();
+	}
 	: patternConnections[connCollect] SEMI
 	| NODE patternNodeDecl ( COMMA patternNodeDecl )* SEMI
+	| p:NEGATIVE pushScope[id] LBRACE! neg=patternBody[getCoords(p), negsInNegs] { negsCollect.addChild(neg); } RBRACE! popScope!
+	{
+		assert (negsInNegs.children() == 0) : "Nesting of negative parts is not allowed.";
+	}
 	| COND e=expr { condCollect.addChild(e); } SEMI
 	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
 	;
