@@ -44,6 +44,7 @@ public interface Opcodes {
 	
 	int COND = 24;
 	int EXISTS = 25;
+	int ISNULL = 26;
 	
 }
 

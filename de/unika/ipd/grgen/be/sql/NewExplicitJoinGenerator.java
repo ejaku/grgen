@@ -405,9 +405,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node n = (Node) iter.next();
 				NodeTable nodeTable = tableFactory.nodeTable(n);
 				
-				Term eqNull = factory.expression(Opcodes.EQ,
-																				 factory.expression(nodeTable.colId()),
-																				 factory.constantNull());
+				Term eqNull = factory.expression(Opcodes.ISNULL,
+																				 factory.expression(nodeTable.colId()));
 				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
 				deps.add(nodeTable);
 			}
@@ -417,9 +416,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Edge e = (Edge) iter.next();
 				EdgeTable edgeTable = tableFactory.edgeTable(e);
 				
-				Term eqNull = factory.expression(Opcodes.EQ,
-																				 factory.expression(edgeTable.colId()),
-																				 factory.constantNull());
+				Term eqNull = factory.expression(Opcodes.ISNULL,
+																				 factory.expression(edgeTable.colId()));
 				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
 				deps.add(edgeTable);
 			}

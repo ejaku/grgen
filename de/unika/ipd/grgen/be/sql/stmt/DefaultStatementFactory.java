@@ -55,9 +55,11 @@ public class DefaultStatementFactory extends Base
 		put(BETWEEN_AND, new BetweenOpcode());
 		put(SET_IN, new InOpcode());
 		
-		put(NOT, new DefaultOp(1, 4, "NOT"));
-		put(AND, new DefaultOp(2, 5, "AND"));
-		put(OR, new DefaultOp(2, 6, "OR"));
+		put(ISNULL, new IsNullOpcode());
+		put(NOT, new DefaultOp(1, 5, "NOT"));
+		put(AND, new DefaultOp(2, 6, "AND"));
+		put(OR, new DefaultOp(2, 7, "OR"));
+
 		put(EXISTS, new DefaultOp(1, 3, "EXISTS"));
 	}
 	
@@ -131,6 +133,19 @@ public class DefaultStatementFactory extends Base
 			operands[1].dump(sb);
 			sb.append(" AND ");
 			operands[2].dump(sb);
+			return sb;
+		}
+	}
+	
+	private static class IsNullOpcode extends DefaultOp {
+		IsNullOpcode() {
+			super(1, 3, "ISNULL");
+		}
+		
+		public StringBuffer dump(StringBuffer sb, Term[] operands) {
+			assert operands.length == arity();
+			operands[0].dump(sb);
+			sb.append(" IS NULL");
 			return sb;
 		}
 	}
@@ -645,7 +660,6 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public StringBuffer dump(StringBuffer sb) {
-			sb.append("(");
 			left.dump(sb);
 			
 			sb.append("\n");
@@ -664,7 +678,6 @@ public class DefaultStatementFactory extends Base
 			right.dump(sb);
 			sb.append(" ON ");
 			cond.dump(sb);
-			sb.append(")");
 			
 			return sb;
 		}
