@@ -25,4 +25,8 @@ public interface GraphTableFactory {
   AttributeTable originalNodeAttrTable();
   AttributeTable originalEdgeAttrTable();
   
+  NodeTable nodeTable(String alias);
+  EdgeTable edgeTable(String alias);
+  AttributeTable nodeAttrTable(String alias);
+  AttributeTable edgeAttrTable(String alias);
 }
