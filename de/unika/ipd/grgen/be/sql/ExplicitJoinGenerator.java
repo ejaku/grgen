@@ -43,7 +43,7 @@ import de.unika.ipd.grgen.ir.NodeType;
  * A match statement generator using explicit joins.
  */
 public class ExplicitJoinGenerator extends SQLGenerator {
-
+	
 	private final String[] edgeCols;
 	
 	/**
@@ -55,23 +55,23 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		super(parameters, typeID);
 		
 		edgeCols = new String[] {
-				parameters.getColEdgesSrcId(),
+			parameters.getColEdgesSrcId(),
 				parameters.getColEdgesTgtId()
 		};
 	}
-
+	
 	private static abstract class GraphItemComparator implements Comparator {
 		
 		protected int compareTypes(InheritanceType inh1, InheritanceType inh2) {
 			int dist1 = inh1.getMaxDist();
 			int dist2 = inh2.getMaxDist();
 			
-			int result = (dist1 > dist2 ? -1 : 0) + (dist1 < dist2 ? 1 : 0); 
-
-//			debug.report(NOTE, inh1.getIdent() + "(" + dist1 + ") cmp " 
-//					+ inh2.getIdent() + "(" + dist2 + "): " + result);	
-
-			return result; 
+			int result = (dist1 > dist2 ? -1 : 0) + (dist1 < dist2 ? 1 : 0);
+			
+			//			debug.report(NOTE, inh1.getIdent() + "(" + dist1 + ") cmp "
+			//					+ inh2.getIdent() + "(" + dist2 + "): " + result);
+			
+			return result;
 		}
 		
 	}
@@ -88,11 +88,11 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			if(o1 instanceof Node && o2 instanceof Node) {
 				Node n1 = (Node) o1;
 				Node n2 = (Node) o2;
-
-//				debug.entering();
-//				debug.report(NOTE, "" + n1.getIdent() + " cmp " + n2.getIdent());
-					int res = compareTypes(n1.getNodeType(), n2.getNodeType());
-//				debug.leaving();
+				
+				//				debug.entering();
+				//				debug.report(NOTE, "" + n1.getIdent() + " cmp " + n2.getIdent());
+				int res = compareTypes(n1.getNodeType(), n2.getNodeType());
+				//				debug.leaving();
 				
 				return res;
 			} else
@@ -108,14 +108,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private static class SearchPath {
 		
-		private final List edges = new LinkedList(); 
+		private final List edges = new LinkedList();
 		private final Set reverseEdges = new HashSet();
 		
 		private static final String[] heads = new String[] { " -", " <-" };
 		private static final String[] tails = new String[] { "-> ", "- " };
 		
 		public void dumpOld(StringBuffer sb, Graph g) {
-
+			
 			if(!edges.isEmpty()) {
 				Edge first = (Edge) edges.get(0);
 				Node curr = isReverse(first) ? g.getTarget(first) : g.getSource(first);
@@ -128,8 +128,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					int ind = reverse ? 1 : 0;
 					Node node = reverse ? g.getSource(edge) : g.getTarget(edge);
 					
-					sb.append(heads[ind] + edge.getIdent() 
-							+ tails[ind] + node.getIdent());
+					sb.append(heads[ind] + edge.getIdent()
+											+ tails[ind] + node.getIdent());
 				}
 			}
 		}
@@ -141,8 +141,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				Node tgt = g.getTarget(edge);
 				boolean reverse = isReverse(edge);
 				
-				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent() 
-						+ " reverse: " + reverse + "\n");
+				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent()
+										+ " reverse: " + reverse + "\n");
 			}
 		}
 		
@@ -159,7 +159,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private static class VisitContext {
 		final Set visited = new HashSet();
-		final List paths = new LinkedList(); 
+		final List paths = new LinkedList();
 		
 		Graph graph;
 		Comparator comparator;
@@ -178,7 +178,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			return;
 		
 		ctx.visited.add(start);
-
+		
 		debug.report(NOTE, "start: " + start);
 		
 		int index = 0;
@@ -198,7 +198,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				index++;
 			}
 		}
-
+		
 		for(Iterator it = g.getIncoming(start); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			Node src = g.getSource(edge);
@@ -210,7 +210,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				index++;
 			}
 		}
-
+		
 		Node[] nodeArr = (Node[]) nodes.toArray(new Node[nodes.size()]);
 		Arrays.sort(nodeArr, ctx.comparator);
 		
@@ -229,25 +229,25 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				Edge edge = (Edge) edges.get(n);
 				sp.add(edge, reverse.contains(edge));
 				visitNode(ctx, sp, n);
-			}	
+			}
 		}
 		
 		debug.leaving();
 	}
 	
 	private SearchPath[] computeSearchPaths(Graph pattern) {
-
+		
 		Collection rest = pattern.getNodes(new HashSet());
 		Iterator edgeIterator = pattern.getEdges();
 		Comparator comparator = new NodeComparator(pattern);
-
+		
 		debug.entering();
 		
 		if(rest.isEmpty() || !edgeIterator.hasNext())
-			return new SearchPath[0];			
+			return new SearchPath[0];
 		
 		VisitContext ctx = new VisitContext(pattern, comparator);
-
+		
 		do {
 			debug.report(NOTE, "rest: " + rest);
 			
@@ -260,7 +260,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			visitNode(ctx, path, cheapest);
 			rest.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
-			
+		
 		debug.leaving();
 		
 		return (SearchPath[]) ctx.paths.toArray(new SearchPath[ctx.paths.size()]);
@@ -270,7 +270,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	 * Get the node with the most specific type.
 	 * @param nodes The node collection to get the most specific from.
 	 * @return The node with the most specific node type in <code>nodes</code>.
-	 * If the iterator did not contain any nodes <code>null</code> is returned. 
+	 * If the iterator did not contain any nodes <code>null</code> is returned.
 	 */
 	private Node getCheapest(Iterator nodes, Comparator comp) {
 		Node cheapest = null;
@@ -279,15 +279,15 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		while(nodes.hasNext()) {
 			Node curr = (Node) nodes.next();
-
+			
 			boolean setNewCheapest = cheapest == null || comp.compare(curr, cheapest) <= 0;
 			cheapest = setNewCheapest ? curr : cheapest;
 		}
 		
 		if(cheapest != null) {
 			NodeType nt = cheapest.getNodeType();
-			debug.report(NOTE, "cheapest node: " + cheapest.getIdent() 
-					+ ", type: " + nt.getIdent());
+			debug.report(NOTE, "cheapest node: " + cheapest.getIdent()
+										 + ", type: " + nt.getIdent());
 		}
 		
 		debug.leaving();
@@ -305,15 +305,15 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		/**
 		 * Make a new cond state.
-		 * @param cond The SQL term expressing this conditional expression. 
-		 * @param usedEntities All entities that are referenced in the cond expression. 
+		 * @param cond The SQL term expressing this conditional expression.
+		 * @param usedEntities All entities that are referenced in the cond expression.
 		 */
 		CondState(Term cond, Set usedEntities) {
 			this.cond = cond;
 			this.usedEntities = usedEntities;
 			
 		}
-
+		
 		private boolean canDeliver(Entity ent, Collection processed) {
 			return usedEntities.contains(ent) && processed.containsAll(usedEntities);
 		}
@@ -323,20 +323,20 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		 * are in the processed set.
 		 * @param processed The processed set.
 		 * @return A SQL term expressing the IR expression, if all entities referenced in
-		 * the expression are in the processed set. 
+		 * the expression are in the processed set.
 		 */
 		Term getCond(Entity ent, Collection processed) {
 			debug.entering();
 			
 			boolean res = canDeliver(ent, processed);
 			debug.report(NOTE, "proc: " + processed + ", used: " + usedEntities
-				+ ", can deliver: " + res);
+										 + ", can deliver: " + res);
 			debug.leaving();
 			
 			return res ? cond : null;
 		}
 	}
-
+	
 	/**
 	 * Stuff needed to generate SQL statements in this generator.
 	 */
@@ -358,7 +358,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		/** The current join. */
 		Relation currJoin = null;
-
+		
 		StmtContext(Graph graph, TypeStatementFactory factory, GraphTableFactory tableFactory, List excludeNodes) {
 			this.graph = graph;
 			this.factory = factory;
@@ -394,7 +394,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			processedAll.add(edge);
 			processedEdges.add(edge);
 		}
-
+		
 		boolean hasBeenProcessed(Entity ent) {
 			return processedAll.contains(ent);
 		}
@@ -411,7 +411,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		GraphTableFactory tableFactory = ctx.tableFactory;
 		
 		NodeTable nodeTable = tableFactory.nodeTable(node);
-
+		
 		// Make type constraints
 		Term res = factory.isA(node, tableFactory, typeID);
 		
@@ -421,9 +421,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			NodeTable currTable = tableFactory.nodeTable(curr);
 			
 			if(!node.isHomomorphic(curr))
-				res = factory.addExpression(Opcodes.AND, res, 
-						factory.expression(Opcodes.NE, factory.expression(nodeTable.colId()),
-								factory.expression(currTable.colId())));
+				res = factory.addExpression(Opcodes.AND, res,
+																		factory.expression(Opcodes.NE, factory.expression(nodeTable.colId()),
+																											 factory.expression(currTable.colId())));
 		}
 		
 		return res;
@@ -445,12 +445,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			AttributeTable attrTable = ctx.tableFactory.nodeAttrTable(node);
 			Column col = attrTable.colId();
 			
-			ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, attrTable, 
-				factory.expression(Opcodes.AND, 
-					factory.expression(Opcodes.EQ, 
-						factory.expression(nodeTable.colId()),
-						factory.expression(col)),
-						cond));
+			ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, attrTable,
+																	factory.expression(Opcodes.AND,
+																										 factory.expression(Opcodes.EQ,
+																																				factory.expression(nodeTable.colId()),
+																																				factory.expression(col)),
+																										 cond));
 		}
 	}
 	
@@ -471,13 +471,13 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			debug.entering();
 			
-			Node[] nodes = new Node[] { 
-					(Node) ctx.graph.getSource(edge),
-					(Node) ctx.graph.getTarget(edge)					
+			Node[] nodes = new Node[] {
+				ctx.graph.getSource(edge),
+				ctx.graph.getTarget(edge)
 			};
 			
-			// If the edge is reverse the selector selects the nodes 
-			// backwards. 
+			// If the edge is reverse the selector selects the nodes
+			// backwards.
 			int first = reverse ? 1 : 0;
 			int second = 1 - first;
 			boolean firstNodeIsSource = !reverse;
@@ -488,7 +488,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			debug.report(NOTE, "join: " + firstNode + ", " + edge + ", " + secondNode);
 			
-			boolean genFirst = !ctx.hasBeenProcessed(firstNode); 
+			boolean genFirst = !ctx.hasBeenProcessed(firstNode);
 			
 			if(genFirst) {
 				ctx.currJoin = tableFactory.nodeTable(firstNode);
@@ -498,91 +498,91 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			}
 			
 			// Add condition about the connectivity of the edge to the first node.
-			cond = factory.addExpression(Opcodes.AND, cond, 
-					factory.expression(Opcodes.EQ, 
-							factory.expression(tableFactory.nodeTable(firstNode).colId()),
-							factory.expression(edgeTable.colEndId(firstNodeIsSource))));
+			cond = factory.addExpression(Opcodes.AND, cond,
+																	 factory.expression(Opcodes.EQ,
+																											factory.expression(tableFactory.nodeTable(firstNode).colId()),
+																											factory.expression(edgeTable.colEndId(firstNodeIsSource))));
 			
 			// Also add conditions restricting the edge type here.
 			cond = factory.addExpression(Opcodes.AND, cond,
-				factory.isA(edge, tableFactory, typeID));
-
+																	 factory.isA(edge, tableFactory, typeID));
+			
 			// Mark the edge as processed.
 			ctx.markProcessed(edge);
 			
 			// Put the incidence conditions into secondNodeCond
 			Term secondNodeCond = factory.expression(Opcodes.EQ,
-					factory.expression(tableFactory.nodeTable(secondNode).colId()),
-					factory.expression(tableFactory.edgeTable(edge).colEndId(!firstNodeIsSource)));
-
+																							 factory.expression(tableFactory.nodeTable(secondNode).colId()),
+																							 factory.expression(tableFactory.edgeTable(edge).colEndId(!firstNodeIsSource)));
+			
 			boolean addNodeJoin = false;
-
+			
 			// If this node occurrs for the first time.
 			if(!ctx.hasBeenProcessed(secondNode)) {
 				
 				// Add type conditions to incidence conditions
-				secondNodeCond = factory.expression(Opcodes.AND, secondNodeCond, 
-						makeNodeJoinCond(secondNode, ctx));
-						
+				secondNodeCond = factory.expression(Opcodes.AND, secondNodeCond,
+																						makeNodeJoinCond(secondNode, ctx));
+				
 				ctx.markProcessed(secondNode);
-
-				// Mark, that the join for the second node has to be inserted at last. 
+				
+				// Mark, that the join for the second node has to be inserted at last.
 				addNodeJoin = true;
-			
-			// If the node appeared before.
+				
+				// If the node appeared before.
 			} else {
-			
+				
 				// Put the incidence conditions into the edge join, too.
-				cond = factory.addExpression(Opcodes.AND, cond, secondNodeCond); 
+				cond = factory.addExpression(Opcodes.AND, cond, secondNodeCond);
 			}
 			
 			// Add the edge join.
 			ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, tableFactory.edgeTable(edge), cond);
-
+			
 			// If this edge can take conditions, add them now.
 			// This implies joining over the edge attribute table.
 			Term attrCond = ctx.getCond(edge);
 			if(attrCond != null) {
 				AttributeTable attrTable = tableFactory.edgeAttrTable(edge);
 				attrCond = factory.expression(Opcodes.AND,
-					factory.expression(Opcodes.EQ, 
-						factory.expression(attrTable.colId()), 
-						factory.expression(edgeTable.colId())),
-						attrCond);
-						
+																			factory.expression(Opcodes.EQ,
+																												 factory.expression(attrTable.colId()),
+																												 factory.expression(edgeTable.colId())),
+																			attrCond);
+				
 				ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, attrTable, attrCond);
 			}
 			
 			// At last, add the join over the node table, if determined.
 			if(addNodeJoin) {
-				ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, tableFactory.nodeTable(secondNode), 
-					secondNodeCond);
+				ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, tableFactory.nodeTable(secondNode),
+																		secondNodeCond);
 				addNodeAttrJoin(secondNode, ctx);
 			}
-
-
+			
+			
 			debug.leaving();
 		}
 	}
-
+	
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		Graph gr  = act.getPattern();
 		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
-
+		
 		// create subQueries for negative parts
 		for(Iterator it = act.getNegs(); it.hasNext();) {
 			Graph neg = (Graph) it.next();
-
+			
 			List excludeNodes = new LinkedList();
 			gr.getNodes(excludeNodes);
 			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, excludeNodes);
-			// simplify select part of inner query, because existence of tuples is sufficient 
+			// simplify select part of inner query, because existence of tuples is sufficient
 			// in an 'exists' condition
 			inner.clearColumns();
 			
 			// add the inner query to the where part of the outer.
 			Term notEx = factory.expression(Opcodes.NOT, factory.expression(Opcodes.EXISTS, factory.expression(inner)));
-						
+			
 			Term cond = q.getCondition();
 			if (cond==null) {
 				cond = notEx;
@@ -594,8 +594,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		return q;
 	}
 	
-	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges, 
-			GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeNodes) {
+	protected Query makeQuery(MatchingAction act, Graph graph, List matchedNodes, List matchedEdges,
+														GraphTableFactory tableFactory, TypeStatementFactory factory, List excludeNodes) {
 		debug.entering();
 		
 		SearchPath[] paths = computeSearchPaths(graph);
@@ -606,7 +606,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			debug.report(NOTE, "path " + i);
 			debug.report(NOTE, sb.toString());
 		}
-
+		
 		StmtContext stmtCtx = new StmtContext(graph, factory, tableFactory, excludeNodes);
 		
 		// Generate all conditions.
@@ -614,14 +614,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Set usedColumns = new HashSet();
 			Expression cond = (Expression) it.next();
 			
-			// Note that the genExprSQL method records all entities appearing as owners 
+			// Note that the genExprSQL method records all entities appearing as owners
 			// in qualification (see ir.Qualification) expressions in the usedColumns set.
 			Term term = genExprSQL(cond, factory, tableFactory, usedColumns);
 			
-			// Add the cond states and the entities which have attributes 
+			// Add the cond states and the entities which have attributes
 			// to the statement context struct.
 			stmtCtx.conds.add(new CondState(term, usedColumns));
-
+			
 			debug.report(NOTE, "cond state with: " + usedColumns);
 			
 			// The allCondEntities set is used for checking if an entity occurrs in a
@@ -630,8 +630,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 		
 		debug.report(NOTE, "entities with attribs: " + stmtCtx.allCondEntities);
-	
-		int pathsProcessed = 0;
+		
 		int selectedPath = 0;
 		boolean[] done = new boolean[paths.length];
 		
@@ -644,15 +643,15 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			// If a path has no edges, it resulted form a single node
 			// (see the Graph class for a definition of a single node).
-			// This path is marked ok, since single nodes are processed 
+			// This path is marked ok, since single nodes are processed
 			// later on.
 			if(!path.edges.isEmpty()) {
 				for(Iterator it = path.edges.iterator(); it.hasNext();) {
 					Edge edge = (Edge) it.next();
 					makeEdgeJoin(edge, path.isReverse(edge), stmtCtx);
 				}
-			}			
-
+			}
+			
 			// Mark the currently processed path as processed.
 			done[selectedPath] = true;
 			
@@ -664,7 +663,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 					assert paths[i].edges.size() > 0 : "path must contain an element";
 					selectedPath = i;
 					Edge firstEdge = (Edge) paths[i].edges.get(0);
-					Node start = (Node) graph.getSource(firstEdge);
+					Node start = graph.getSource(firstEdge);
 					
 					if(stmtCtx.hasBeenProcessed(start))
 						break;
@@ -683,9 +682,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Edge edge = (Edge) it.next();
 			makeEdgeJoin(edge, false, stmtCtx);
 		}
-
+		
 		Term pendingConds = null;
-
+		
 		// Now, put all single nodes to the query.
 		// The single nodes must be the nodes which have not yet been processed.
 		Collection singleNodes = graph.getNodes(new HashSet());
@@ -702,9 +701,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 				stmtCtx.currJoin = tableFactory.nodeTable(n);
 				pendingConds = makeNodeJoinCond(n, stmtCtx);
 			} else {
-				stmtCtx.currJoin = factory.join(Join.INNER, stmtCtx.currJoin, 
-					tableFactory.nodeTable(n), factory.addExpression(Opcodes.AND, pendingConds,
-						makeNodeJoinCond(n, stmtCtx)));
+				stmtCtx.currJoin = factory.join(Join.INNER, stmtCtx.currJoin,
+																				tableFactory.nodeTable(n), factory.addExpression(Opcodes.AND, pendingConds,
+																																												 makeNodeJoinCond(n, stmtCtx)));
 				
 				pendingConds = null;
 			}
@@ -714,20 +713,20 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		
 		// At last add the columns to the query statement.
 		List columns = new LinkedList();
-
+		
 		// One for the nodes.
 		for(Iterator it = stmtCtx.processedNodes.iterator(); it.hasNext();) {
 			Node node = (Node) it.next();
 			matchedNodes.add(node);
 			columns.add(tableFactory.nodeTable(node).colId());
 		}
-
+		
 		// One for the edges.
 		for(Iterator it = graph.getEdges(matchedEdges).iterator(); it.hasNext();) {
 			Edge edge = (Edge) it.next();
 			columns.add(tableFactory.edgeTable(edge).colId());
 		}
-
+		
 		// If there were pending conditions make a simple query using these conditions.
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result;
@@ -738,7 +737,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			relations.add(stmtCtx.currJoin);
 			result = factory.simpleQuery(columns, relations, pendingConds);
 		}
-
+		
 		debug.leaving();
 		return result;
 	}
