@@ -1076,7 +1076,7 @@ primaryExpr returns [ BaseNode res = initNode() ]
 	
 constant returns [ BaseNode res = initNode() ]
 	: i:NUM_DEC {
-		res = new IntConstNode(getCoords(i), Integer.parseInt(h.getText(), 10));
+		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10));
 	}
 	| h:NUM_HEX {
 		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText(), 16));
