@@ -123,6 +123,11 @@ public abstract class CBackend extends Base implements Backend {
 		(new PostWalker(v)).walk(unit);
 	}
 	
+	/**
+	 * Make the attribute Ids.
+	 * @param attrMap	A map that will be filled with all attributes and there Ids.
+	 * @param cl			The attribute class.
+	 */
 	protected void makeAttrIds(Map attrMap, Class cl) {
 		final Class attrClass = cl;
 		final Map map = attrMap;
@@ -145,6 +150,10 @@ public abstract class CBackend extends Base implements Backend {
 		(new PostWalker(v)).walk(unit);
 	}
 	
+	/**
+	 * Make all enum type Ids.
+	 * @param enumMap A map that will be filled with all Enum types and there Ids.
+	 */
 	protected void makeEnumIds(Map enumMap) {
 		final Map map = enumMap;
 		
@@ -192,7 +201,7 @@ public abstract class CBackend extends Base implements Backend {
 	}
 	
 	/**
-	 * Make defines for attribute IDs
+	 * Make defines for attribute IDs.
 	 * @param sb The string buffer to add the code to.
 	 * @param attrMap The attribute map to use.
 	 * @param labelAdd The string to add to the define's name.
@@ -664,10 +673,12 @@ public abstract class CBackend extends Base implements Backend {
 		makeActions(sb);
   	writeFile("action_impl" + incExtension, sb);
 
+		// write an overview of all generated Ids 
 		sb = new StringBuffer();
 		writeOverview(sb);
 		writeFile("overview.xml", sb);
 
+		// a hook for special generated things
   	genExtra();
   }
 
