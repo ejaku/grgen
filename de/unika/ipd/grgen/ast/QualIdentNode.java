@@ -103,7 +103,7 @@ public class QualIdentNode extends DeclExprNode {
    * @see de.unika.ipd.grgen.ast.BaseNode#check()
    */
   protected boolean check() {
-  	// TODO: Correct implementation here!
+  	// TODO Correct implementation here!
     return true;
   }
 

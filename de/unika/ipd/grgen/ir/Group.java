@@ -19,7 +19,7 @@ public class Group extends Identifiable {
 	public Group(Ident ident) {
 		super("group", ident);
 		
-		// TODO: Perhaps move set creation to a factory
+		// TODO Perhaps move set creation to a factory
 		members = new HashSet();
 	}
 

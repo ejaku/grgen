@@ -550,7 +550,9 @@ public abstract class CBackend implements Backend {
 					sb.append("\\n");
 					break;
 				case '\f':
-					sb.append("\" \\\n\"");
+					// Ignore the BREAK_LINE, if it is the last character
+				  if(i != s.length() - 1)
+						sb.append("\" \\\n\"");
 					break;
 				default:
 					sb.append(ch);
