@@ -578,9 +578,6 @@ public abstract class SQLBackend extends CBackend {
 			for(Iterator j = et.getConnAsserts(); j.hasNext();) {
 				ConnAssert ca = (ConnAssert)j .next();
 		
-				System.out.println("src = " + ca.getSrcType());
-				System.out.println("tgt = " + ca.getTgtType());
-				
 				srcTypes.add(ca.getSrcType());
 				srcRange.add(new int[] {ca.getSrcLower(), ca.getSrcUpper()});
 				tgtTypes.add(ca.getTgtType());
@@ -595,5 +592,6 @@ public abstract class SQLBackend extends CBackend {
 		writeFile("valid_stmt" + incExtension, sb);
 	}
 }
+
 
 
