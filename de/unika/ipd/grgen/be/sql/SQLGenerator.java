@@ -130,12 +130,20 @@ public class SQLGenerator extends Base {
 
 		if (act.hasNeg()) {
 			Query inner = makeQuery(act, neg, new LinkedList(), new LinkedList(), tableFactory, factory, q.getRelations());
+
+			// simplify select part of inner query, because existence of tuples is sufficient 
+			// in an 'exists' condition
+			inner.clearColumns();
+			
+			// add the inner query to the where part of the outer.
+			Term notEx = factory.expression(Opcodes.NOT, factory.expression(Opcodes.EXISTS, factory.expression(inner)));
+						
 			Term cond = q.getCondition();
 			if (cond==null) {
-				cond = factory.constant(true);
+				cond = notEx;
+			} else {
+				cond = factory.expression(Opcodes.AND, cond, notEx);
 			}
-			cond = factory.expression(Opcodes.AND, cond, factory.expression(Opcodes.NOT, 
-						factory.expression(Opcodes.EXISTS, factory.expression(inner))));
 			q.setCondition(cond);
 		}
 		return q;
