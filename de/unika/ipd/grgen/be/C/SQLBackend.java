@@ -816,7 +816,7 @@ public abstract class SQLBackend extends CBackend {
 				String name = ent.getIdent() + "_" + id;
 				int index = ((Integer) maps[i].get(ent)).intValue();
 								
-				lines[index] = "  \"SELECT " + name + " FROM " + tbl_names[i] + " WHERE " + col_names[i] + " = $1\",\n";
+				lines[index] = "  \"SELECT " + name + " FROM " + tbl_names[i] + " WHERE " + col_names[i] + " = %d\",\n";
 			}
 			sb.append("/** The table of all get commaned for " + names[i] + " attributes. */\n");
 			sb.append("static const char * cmd_get_" + names[i] + "_attr[] = {\n");
@@ -837,7 +837,7 @@ public abstract class SQLBackend extends CBackend {
 				String name = ent.getIdent() + "_" + id;
 				int index = ((Integer) maps[i].get(ent)).intValue();
 
-				lines[index] = "  \"UPDATE " + tbl_names[i] + " SET " + name + " = $1 WHERE " + col_names[i] + " = $2\",\n";
+				lines[index] = "  \"UPDATE " + tbl_names[i] + " SET " + name + " = %s WHERE " + col_names[i] + " = %d\",\n";
 			}
 			sb.append("/** The table of all set commaned for " + names[i] + " attributes. */\n");
 			sb.append("static const char * cmd_set_" + names[i] + "_attr[] = {\n");
