@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.be.sql.meta.Join;
 import de.unika.ipd.grgen.be.sql.meta.Opcodes;
 import de.unika.ipd.grgen.be.sql.meta.Query;
 import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
 import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
@@ -389,6 +390,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
+	/**
+	 * Make the condition term that is to be added to a node join.
+	 * @param node The node.
+	 * @param ctx The statement generation context.
+	 * @return The condition term.
+	 */
 	private Term makeNodeJoinCond(Node node, StmtContext ctx) {
 		TypeStatementFactory factory = ctx.factory;
 		GraphTableFactory tableFactory = ctx.tableFactory;
@@ -409,25 +416,41 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 								factory.expression(currTable.colId())));
 		}
 		
+		return res;
+	}
+	
+	/**
+	 * Add the node attribute table join to the current statement if neccessary.
+	 * @param node The node.
+	 * @param ctx The statement generation context.
+	 */
+	private void addNodeAttrJoin(Node node, StmtContext ctx) {
+		StatementFactory factory = ctx.factory;
+		NodeTable nodeTable = ctx.tableFactory.nodeTable(node);
+		
 		// Make probable attributes
 		Term cond = ctx.getCond(node);
 		
 		if(cond != null) {
-			AttributeTable attrTable = tableFactory.nodeAttrTable(node);
+			AttributeTable attrTable = ctx.tableFactory.nodeAttrTable(node);
 			Column col = attrTable.colId();
 			
 			ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, attrTable, 
-					factory.expression(Opcodes.AND, 
-							factory.expression(Opcodes.EQ, 
-									factory.expression(nodeTable.colId()),
-									factory.expression(col)),
-									cond));
-							
+				factory.expression(Opcodes.AND, 
+					factory.expression(Opcodes.EQ, 
+						factory.expression(nodeTable.colId()),
+						factory.expression(col)),
+						cond));
 		}
-		
-		return res;
 	}
 	
+	/**
+	 * Make the neccessary joins for an edge.
+	 * This method additionally constructs the joins neccessary for nodes.
+	 * @param edge The edge.
+	 * @param reverse true, if the edge's direction is reversed.
+	 * @param ctx The statement generation context.
+	 */
 	private void makeEdgeJoin(Edge edge, boolean reverse, StmtContext ctx) {
 		if(!ctx.hasBeenProcessed(edge) && !edge.isNegated()) {
 			
@@ -460,6 +483,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			if(genFirst) {
 				ctx.currJoin = tableFactory.nodeTable(firstNode);
 				cond = makeNodeJoinCond(firstNode, ctx);
+				addNodeAttrJoin(firstNode, ctx);
 				ctx.markProcessed(firstNode);
 			}
 			
@@ -504,7 +528,6 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 			// Add the edge join.
 			ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, tableFactory.edgeTable(edge), cond);
-					
 
 			// If this edge can take conditions, add them now.
 			// This implies joining over the edge attribute table.
@@ -524,6 +547,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			if(addNodeJoin) {
 				ctx.currJoin = factory.join(Join.INNER, ctx.currJoin, tableFactory.nodeTable(secondNode), 
 					secondNodeCond);
+				addNodeAttrJoin(secondNode, ctx);
 			}
 
 

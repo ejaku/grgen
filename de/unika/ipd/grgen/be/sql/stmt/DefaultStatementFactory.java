@@ -528,7 +528,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			}
 			
 			i = 0;
-			sb.append(" FROM ");
+			sb.append("\nFROM ");
 			for(Iterator it = relations.iterator(); it.hasNext(); i++) {
 				Relation r = (Relation) it.next();
 				sb.append(i > 0 ? ", " : "");
@@ -536,7 +536,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			}
 			
 			if(cond != null) {
-				sb.append(" WHERE ");
+				sb.append("\n\tWHERE ");
 				cond.dump(sb);
 			}
 			
@@ -608,9 +608,9 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		}
 		
 		public StringBuffer dump(StringBuffer sb) {
-			sb.append("");
 			left.dump(sb);
 
+			sb.append("\n\t");
 			switch(kind) {
 			case LEFT_OUTER:
 				sb.append(" LEFT");
@@ -624,8 +624,10 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 			
 			sb.append(" JOIN ");
 			right.dump(sb);
-			sb.append(" ON ");
-			return cond.dump(sb);
+			sb.append("\n\t\tON ");
+			cond.dump(sb);
+			sb.append("\n");
+			return sb;
 		}
 	}
 	
