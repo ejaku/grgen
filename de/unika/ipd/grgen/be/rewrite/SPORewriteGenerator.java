@@ -20,16 +20,16 @@ import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
- * An abstract rewriter. 
+ * An abstract rewriter.
  * This rewriter implements the default SPO behaviour.
- * 
+ *
  * This rewrite generator ensures following calling sequence for the methods
  * of the {@link de.unika.ipd.grgen.be.rewrite.RewriteHandler}:
- * 
+ *
  * <ul>
- * <li>{@link RewriteHandler#start(Rule, Class)}</li>  
- * <li>{@link RewriteHandler#insertNodes(Collection)}</li>  
- * <li>{@link RewriteHandler#deleteEdges(Collection)}</li>  
+ * <li>{@link RewriteHandler#start(Rule, Class)}</li>
+ * <li>{@link RewriteHandler#insertNodes(Collection)}</li>
+ * <li>{@link RewriteHandler#deleteEdges(Collection)}</li>
  * <li>{@link RewriteHandler#changeNodeTypes(Map)}</li>
  * <li>{@link RewriteHandler#deleteEdgesOfNodes(Collection)}</li>
  * <li>{@link RewriteHandler#deleteNodes(Collection)}</li>
@@ -46,9 +46,7 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
-		Map insertedNodesIndexMap = new HashMap();
 		Collection w, nodesToInsert;
-		int i;
 		
 		assert getClass().isAssignableFrom(handler.getRequiredRewriteGenerator());
 		
@@ -77,7 +75,7 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// Change types of nodes.
 		for (Iterator it = w.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
-			if (n.typeChanges()) 
+			if (n.typeChanges())
 				nodeTypeChangeMap.put(n, n.getReplaceType());
 		}
 		handler.changeNodeTypes(nodeTypeChangeMap);
