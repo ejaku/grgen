@@ -1024,7 +1024,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		//if there are external conditions evaluatable in the current op...
 		String glob_cond_ptr = "";
 		if (evaluatableGlobalConditions.size() > 0) {
-			cond_ptr = "global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id;
+			glob_cond_ptr = "global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id;
 			//...gen a C-Array of the conditions evaluated by the current op
 			sb.append(
 				"int global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + "[" +
