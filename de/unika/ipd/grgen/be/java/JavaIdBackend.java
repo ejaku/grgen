@@ -5,6 +5,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.java;
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.be.IDTypeModel;
@@ -12,7 +13,6 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -95,7 +95,7 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
 	 */
-	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
+	public void init(Unit unit, Sys system, File outputPath) {
 		this.unit = unit;
 		
 		makeTypes(unit);
@@ -305,3 +305,4 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		return getIsA(nodeTypeIsA[nt]);
 	}
 }
+

@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.Unit;
@@ -258,9 +259,9 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 	 * @param reporter An error reporter.
 	 * @param outputPath An output path (ignored here).
 	 */
-	public void init(Unit unit, ErrorReporter reporter, File utputPath) {
+	public void init(Unit unit, Sys system, File utputPath) {
 		this.unit = unit;
-		this.reporter = reporter;
+		this.reporter = system.getErrorReporter();
 		
 		buildTypes();
 	}
@@ -297,3 +298,4 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 		return nodeTypes.iterator();
 	}
 }
+

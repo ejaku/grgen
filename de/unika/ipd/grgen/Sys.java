@@ -15,7 +15,7 @@ public interface Sys {
 	
 	ErrorReporter getErrorReporter();
 	
-	
+	boolean backendEmitDebugFiles();
 	
 }
 

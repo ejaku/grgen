@@ -6,20 +6,14 @@
  */
 package de.unika.ipd.grgen.be.java;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
-import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
@@ -31,6 +25,9 @@ import de.unika.ipd.libgr.actions.Matches;
 import de.unika.ipd.libgr.graph.Edge;
 import de.unika.ipd.libgr.graph.Graph;
 import de.unika.ipd.libgr.graph.Node;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**
@@ -52,7 +49,7 @@ class SQLAction implements Action, RewriteHandler {
 		}
 	};
 
-	/** 
+	/**
 	 * Matches found by an SQL action.
 	 */
 	private class SQLMatches implements Matches {
@@ -85,7 +82,7 @@ class SQLAction implements Action, RewriteHandler {
 				
 				result.absolute(whichOne);
 				
-				for(int i = 0; i < cols; i++) 
+				for(int i = 0; i < cols; i++)
 					res[i] = result.getInt(i);
 			
 				return new SQLMatch(res);
@@ -218,22 +215,28 @@ class SQLAction implements Action, RewriteHandler {
 	/** An error reporter. */
 	private ErrorReporter reporter;
 	
+	private Sys system;
+	
 	/** The rewrite steps to take. */
 	List rewriteSteps = new LinkedList();
 	
-	SQLAction(MatchingAction action, TypeID typeId, Queries queries, SQLGenerator generator,
-			TypeStatementFactory factory, ErrorReporter reporter) {
+	SQLAction(Sys system, MatchingAction action, TypeID typeId, Queries queries,
+						SQLGenerator generator, GraphTableFactory tableFactory,
+						TypeStatementFactory factory) {
 		this.action = action;
 		this.queries = queries;
 		this.typeId = typeId;
-		this.reporter = reporter;
+		this.reporter = system.getErrorReporter();
+		this.system = system;
 
 		// Generate the SQL match statement.
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
 		
 		// TODO Add table factory.
-		String stmtString = generator.genMatchStatement(action, nodes, edges, null, factory);
+		SQLGenerator.MatchCtx ctx =
+			generator.makeMatchContext(system, action, tableFactory, factory);
+		String stmtString = generator.genMatchStatement(ctx);
 		
 		// Put the matched nodes and edges in map with their index in the match.
 		int i = 0;

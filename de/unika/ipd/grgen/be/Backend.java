@@ -4,8 +4,8 @@
  */
 package de.unika.ipd.grgen.be;
 
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
 
 /**
@@ -17,12 +17,11 @@ public interface Backend {
 	 * Initialize the backend with the intermediate representation.
 	 * @param unit The intermediate representation unit to
 	 * generate code for.
-	 * @param reporter An error reporter to which the backend send
-	 * messages to.
+	 * @param sys The system.
 	 * @param outputPath The output path, where
 	 * all generated files should go.
 	 */
-	void init(Unit unit, ErrorReporter reporter, File outputPath);
+	void init(Unit unit, Sys system, File outputPath);
 	
 	/**
 	 * Initiates the generation of code.
@@ -37,3 +36,4 @@ public interface Backend {
 	void done();
 
 }
+

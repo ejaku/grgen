@@ -53,6 +53,11 @@ public class Main extends Base implements Sys {
 	private Reporter debugReporter;
 	private Handler debugHandler;
 	
+	/** backend emit debug files. */
+	private boolean backendEmitDebugFiles;
+	
+	private boolean enableDebug;
+	
 	/** enable ast printing */
 	private boolean dumpAST;
 	
@@ -118,6 +123,7 @@ public class Main extends Base implements Sys {
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
 		System.out.println("  -j, --dump-ir-rules               dump each ir rule in a seperate file");
+		System.out.println("  -B, --backend-files               allow the backend to emit some debug files");
 		System.out.println("  -g, --graphic                     opens a graphical debug window");
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
@@ -242,6 +248,7 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
+			CmdLineParser.Option backendDebugOpt = parser.addBooleanOption('B', "backend-files");
 			
 			CmdLineParser.Option beOpt =
 				parser.addStringOption('b', "backend");
@@ -263,8 +270,9 @@ public class Main extends Base implements Sys {
 			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
-			enableNT = parser.getOptionValue(ntOpt) != null;
+			// enableNT = parser.getOptionValue(ntOpt) != null;
 			printTiming = parser.getOptionValue(timeOpt) != null;
+			backendEmitDebugFiles = parser.getOptionValue(backendDebugOpt) != null;
 			
 			/* deactivate graphic if no debug output */
 			if (!enableDebug)
@@ -295,6 +303,10 @@ public class Main extends Base implements Sys {
 			printUsage();
 			System.exit(2);
 		}
+	}
+	
+	public boolean backendEmitDebugFiles() {
+		return backendEmitDebugFiles;
 	}
 	
 	private boolean parseInput(File inputFile) {
@@ -349,7 +361,7 @@ public class Main extends Base implements Sys {
 				(BackendFactory) Class.forName(backend).newInstance();
 			Backend be = creator.getBackend();
 			
-			be.init(irUnit, error, outputPath);
+			be.init(irUnit, this, outputPath);
 			be.generate();
 			be.done();
 			
@@ -535,3 +547,4 @@ public class Main extends Base implements Sys {
 	}
 	
 }
+

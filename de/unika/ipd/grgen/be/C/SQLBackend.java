@@ -7,6 +7,7 @@ package de.unika.ipd.grgen.be.C;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
@@ -20,7 +21,6 @@ import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
 
 /**
@@ -50,9 +50,10 @@ public abstract class SQLBackend extends CBackend {
 	
 	protected TypeStatementFactory stmtFactory = new DefaultStatementFactory(typeFactory);
 	
-	protected final SQLGenerator sqlGen = enableNT
-		? new NewExplicitJoinGenerator(parameters, this)
-		: new SQLGenerator(parameters, this);
+	protected Sys system;
+	
+	protected final SQLGenerator sqlGen =
+		new NewExplicitJoinGenerator(parameters, this);
 	
 	protected Map matchMap = new HashMap();
 	
@@ -393,13 +394,17 @@ public abstract class SQLBackend extends CBackend {
 		String matchIdent = "match_" + actionIdent;
 		String nodeNamesIdent = "node_names_" + actionIdent;
 		String edgeNamesIdent = "edge_names_" + actionIdent;
-		List nodes = new LinkedList();
-		List edges = new LinkedList();
 		Iterator it;
+		
+		SQLGenerator.MatchCtx matchCtx =
+			sqlGen.makeMatchContext(system, a, tableFactory, stmtFactory);
+
+		List nodes = matchCtx.matchedNodes;
+		List edges = matchCtx.matchedEdges;
 		
 		// Dump the SQL statement
 		sb.append("static const char *stmt_" + actionIdent + " = \n");
-		sb.append(formatString(sqlGen.genMatchStatement(a, nodes, edges, tableFactory, stmtFactory)) + ";\n\n");
+		sb.append(formatString(sqlGen.genMatchStatement(matchCtx)) + ";\n\n");
 		
 		// Make an array of strings that contains the node names.
 		sb.append("static const char *" + nodeNamesIdent + "[] = {\n");
@@ -495,8 +500,9 @@ public abstract class SQLBackend extends CBackend {
 	/**
 	 * Do some additional stuff on initialization.
 	 */
-	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
-		super.init(unit, reporter, outputPath);
+	public void init(Unit unit, Sys system, File outputPath) {
+		super.init(unit, system, outputPath);
+		this.system = system;
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
 		tableFactory = new DefaultGraphTableFactory(parameters, typeFactory,
 																								nodeAttrMap, edgeAttrMap);
@@ -640,6 +646,7 @@ public abstract class SQLBackend extends CBackend {
 		writeFile("valid_stmt" + incExtension, sb);
 	}
 }
+
 
 
 

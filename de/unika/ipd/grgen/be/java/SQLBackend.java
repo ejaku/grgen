@@ -6,11 +6,14 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
+import de.unika.ipd.grgen.be.sql.stmt.DefaultGraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultTypeFactory;
+import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Unit;
@@ -44,6 +47,8 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** The error reporter. */
 	private ErrorReporter reporter;
 	
+	private Sys system;
+	
 	/** Database parameters. */
 	private SQLParameters params;
 	
@@ -55,6 +60,8 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	
 	private final TypeStatementFactory factory;
 	
+	private final GraphTableFactory tableFactory;
+
 	private final TypeFactory typeFactory;
 	
 	
@@ -64,6 +71,8 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 		this.connectionFactory = connectionFactory;
 		this.typeFactory = new DefaultTypeFactory();
 		this.factory = new DefaultStatementFactory(typeFactory);
+		this.tableFactory = new DefaultGraphTableFactory(params, typeFactory,
+																										 nodeAttrMap, edgeAttrMap);
 	}
 	
 	private final void assertInitialized() {
@@ -88,7 +97,8 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
 
-			SQLAction act = new SQLAction(a, this, queries, sqlGen, factory, reporter);
+			SQLAction act = new SQLAction(system, a, this, queries, sqlGen,
+																		tableFactory, factory);
 			actions.put(a.getIdent().toString(), act);
 			
 			debug.report(NOTE, "action: " + a.getIdent());
@@ -144,8 +154,9 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter, java.lang.String)
 	 */
-	public void init(Unit unit, ErrorReporter reporter, File outputPath) {
-		super.init(unit, reporter, outputPath);
-		this.reporter = reporter;
+	public void init(Unit unit, Sys system, File outputPath) {
+		super.init(unit, system, outputPath);
+		this.reporter = system.getErrorReporter();
 	}
 }
+
