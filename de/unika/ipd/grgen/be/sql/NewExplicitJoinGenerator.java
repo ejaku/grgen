@@ -11,6 +11,9 @@ import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.util.Attributed;
+import de.unika.ipd.grgen.util.Attributes;
+import sun.security.krb5.internal.ccache.a1;
 
 
 /**
@@ -47,32 +50,53 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
+	/**
+	 * Compare two nodes.
+	 * A node is "cheaper" than another if it is of a more concrete type
+	 * or has a higher value in the "prio" attribute.
+	 */
 	private static class NodeComparator extends GraphItemComparator {
 		
-		private Graph graph;
+		/** The name of the key of the attribute. */
+		private static final String PRIORITY_KEY = "prio";
 		
-		NodeComparator(Graph graph) {
-			this.graph = graph;
-		}
-		
+		/**
+		 * The compare function.
+		 * First, the attributes are evaluated. If one node has the prio
+		 * attribute set, the value of this attribute is compared to the
+		 * value of the other node. If the value is higher, the node is
+		 * "cheaper". Else the comparison method of inheritance types
+		 * is used to order the nodes.
+		 */
 		public int compare(Object o1, Object o2) throws ClassCastException {
-			if(o1 instanceof Node && o2 instanceof Node) {
-				Node n1 = (Node) o1;
-				Node n2 = (Node) o2;
-				
-				int res = compareTypes(n1.getNodeType(), n2.getNodeType());
-				
-				return res;
-			} else
-				throw new ClassCastException();
+			int prio1 = 0;
+			int prio2 = 0;
+			Attributes a1 = ((Attributed) o1).getAttributes();
+			Attributes a2 = ((Attributed) o2).getAttributes();
+			
+			if(a1.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
+				prio1 = ((Integer) a1.get(PRIORITY_KEY)).intValue();
+			
+			if(a2.containsKey(PRIORITY_KEY) && a2.isInteger(PRIORITY_KEY))
+				prio2 = ((Integer) a2.get(PRIORITY_KEY)).intValue();
+			
+			// System.out.println("" + prio1 + ", " + prio2);
+			
+			if(prio1 != 0 || prio2 != 0)
+				return prio1 > prio2 ? -1 : 1;
+			
+			Node n1 = (Node) o1;
+			Node n2 = (Node) o2;
+			
+			int res = n2.getNodeType().compareTo(n1.getNodeType());
+			
+			return res;
 		}
 		
 		public boolean equals(Object o1) {
 			return false;
 		}
 	};
-	
-	
 	
 	private static class SearchPath {
 		
@@ -205,9 +229,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		startingPoints.retainAll(rest);
 		
 		Iterator edgeIterator = graph.getEdges();
-		Comparator comparator = new NodeComparator(graph);
-		
-		
+		Comparator comparator = new NodeComparator();
 		
 		debug.report(NOTE, "all nodes" + rest);
 		
@@ -235,8 +257,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			startingPoints.removeAll(ctx.visited);
 		} while(!rest.isEmpty());
 		
-		
-		
 		return (SearchPath[]) ctx.paths.toArray(new SearchPath[ctx.paths.size()]);
 	}
 	
@@ -248,8 +268,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	 */
 	private Node getCheapest(Iterator nodes, Comparator comp) {
 		Node cheapest = null;
-		
-		
 		
 		while(nodes.hasNext()) {
 			Node curr = (Node) nodes.next();
@@ -263,8 +281,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			debug.report(NOTE, "cheapest node: " + cheapest.getIdent()
 										 + ", type: " + nt.getIdent());
 		}
-		
-		
 		
 		return cheapest;
 	}
@@ -475,12 +491,12 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Edge e = edges[i];
 			Node esrc = pattern.getSource(e);
 			Node etgt = pattern.getTarget(e);
-
+			
 			for(int j = i + 1; j < edges.length; j++) {
 				Edge f = edges[j];
 				Node fsrc = pattern.getSource(f);
 				Node ftgt = pattern.getTarget(f);
-
+				
 				if(esrc.equals(fsrc) && etgt.equals(ftgt)) {
 					EdgeTable t1 = tableFactory.edgeTable(e);
 					EdgeTable t2 = tableFactory.edgeTable(f);
@@ -491,7 +507,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					Term uneq = stmtFactory.expression(Opcodes.NE,
 																						 stmtFactory.expression(t1.colId()),
 																						 stmtFactory.expression(t2.colId()));
-																						 
+					
 					cond = stmtFactory.addExpression(Opcodes.AND, cond, uneq);
 				}
 			}
@@ -1051,7 +1067,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 			
 			// assert processedTables.size() > 1 : "Small queries not yet supported";
-			Query result = factory.explicitQuery(true, columns, currJoin);
+			Attributes attrs = act.getAttributes();
+			int limit = StatementFactory.NO_LIMIT;
+			
+			if(attrs.containsKey(KEY_LIMIT))
+				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
+			
+			Query result = factory.explicitQuery(true, columns, currJoin, limit);
 			
 			
 			

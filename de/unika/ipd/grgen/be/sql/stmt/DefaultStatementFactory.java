@@ -493,13 +493,14 @@ public class DefaultStatementFactory extends Base
 	private static class DefaultQuery extends DefaultDebug implements Query {
 		private final List columns;
 		private final List relations;
-		private Term cond;
 		private final List groupBy;
 		private final Term having;
-		private boolean distinct;
+		private final boolean distinct;
+		private final int limit;
+		private Term cond;
 		
 		DefaultQuery(boolean distinct, List columns, List relations, Term cond,
-								 List groupBy, Term having) {
+								 List groupBy, Term having, int limit) {
 			super("query");
 			setChildren(relations);
 			this.columns = columns;
@@ -508,14 +509,17 @@ public class DefaultStatementFactory extends Base
 			this.groupBy = groupBy;
 			this.having = having;
 			this.distinct = distinct;
+			this.limit = limit;
 		}
 		
-		DefaultQuery(boolean distinct, List columns, List relations, Term cond) {
-			this(distinct, columns, relations, cond, null, null);
+		DefaultQuery(boolean distinct, List columns, List relations,
+								 Term cond, int limit) {
+			this(distinct, columns, relations, cond, null, null, limit);
 		}
 		
-		DefaultQuery(boolean distinct, List columns, Relation relation) {
-			this(distinct, columns, Arrays.asList(new Relation[] { relation }), null);
+		DefaultQuery(boolean distinct, List columns, Relation relation, int limit) {
+			this(distinct, columns, Arrays.asList(new Relation[] { relation }),
+					 null, limit);
 		}
 		
 		public int columnCount() {
@@ -588,6 +592,11 @@ public class DefaultStatementFactory extends Base
 				having.dump(sb);
 			}
 			
+			if(limit != NO_LIMIT) {
+				sb.append(" LIMIT ");
+				sb.append(limit);
+			}
+			
 			return sb;
 		}
 		
@@ -604,17 +613,18 @@ public class DefaultStatementFactory extends Base
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#simpleQuery(java.util.List, java.util.List, de.unika.ipd.grgen.be.sql.meta.Term)
 	 */
-	public Query simpleQuery(List columns, List relations, Term cond) {
-		return new DefaultQuery(false, columns, relations, cond);
+	public Query simpleQuery(List columns, List relations, Term cond, int limit) {
+		return new DefaultQuery(false, columns, relations, cond, NO_LIMIT);
 	}
 	
 	public Query simpleQuery(List columns, List relations, Term cond,
 													 List groupBy, Term having) {
-		return new DefaultQuery(false, columns, relations, cond, groupBy, having);
+		return new DefaultQuery(false, columns, relations, cond, groupBy, having, NO_LIMIT);
 	}
 	
-	public Query explicitQuery(boolean distinct, List columns, Relation relation) {
-		return new DefaultQuery(distinct, columns, relation);
+	public Query explicitQuery(boolean distinct, List columns,
+														 Relation relation, int limit) {
+		return new DefaultQuery(distinct, columns, relation, limit);
 	}
 	
 	protected static class DefaultJoin extends DefaultDebug implements Join {

@@ -17,6 +17,8 @@ public interface StatementFactory {
 	String COUNT = "count";
 	String SUM = "sum";
 	
+	int NO_LIMIT = -1;
+	
 	/**
 	 * Make an expression with a variable amount of operands.
 	 * @param op The opcode.
@@ -133,9 +135,11 @@ public interface StatementFactory {
 	 * @param columns Columns to project from.
 	 * @param relations The relations to join over.
 	 * @param cond The join condition.
+	 * @param limit How many tuples may be returned (set to NO_LIMIT) if the
+	 * limit part shall be omitted.
 	 * @return The query.
 	 */
-	Query simpleQuery(List columns, List relations, Term cond);
+	Query simpleQuery(List columns, List relations, Term cond, int limit);
 
 	/**
 	 * Make a simple query.
@@ -156,9 +160,12 @@ public interface StatementFactory {
 	 * duplicate tuples are deleted.
 	 * @param columns The columns to project from.
 	 * @param relation The relation.
+	 * @param limit How many tuples may be returned (set to NO_LIMIT) if the
+	 * limit part shall be omitted.
 	 * @return The query.
 	 */
-	Query explicitQuery(boolean distinct, List columns, Relation relation);
+	Query explicitQuery(boolean distinct, List columns,
+											Relation relation, int limit);
 	
 	/**
 	 * Join over two relations.

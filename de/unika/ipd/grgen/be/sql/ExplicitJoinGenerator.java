@@ -720,11 +720,13 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result;
 		if(pendingConds == null)
-			result = factory.explicitQuery(true, columns, stmtCtx.currJoin);
+			result = factory.explicitQuery(true, columns, stmtCtx.currJoin,
+																		 StatementFactory.NO_LIMIT);
 		else {
 			List relations = new LinkedList();
 			relations.add(stmtCtx.currJoin);
-			result = factory.simpleQuery(columns, relations, pendingConds);
+			result = factory.simpleQuery(columns, relations, pendingConds,
+																	StatementFactory.NO_LIMIT);
 		}
 
 		
