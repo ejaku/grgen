@@ -11,14 +11,23 @@ import java.awt.Color;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
+import de.unika.ipd.grgen.util.Attributed;
+import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.DefaultAttributes;
 
-public class IdentNode extends BaseNode implements DeclaredCharacter {
+public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
 	
 	static {
 		setName(IdentNode.class, "identifier");
 	}
 	
+	/** The attributes. */
+	private Attributes attributes;
+	
+	/** Occurrence of the identifier. */
   private Symbol.Occurrence occ;
+  
+  /** The declaration associated with this identifier. */
   private DeclNode decl = DeclNode.getInvalid();
   
   private static final IdentNode INVALID =
@@ -152,5 +161,14 @@ public class IdentNode extends BaseNode implements DeclaredCharacter {
 		return Ident.get(toString(), getSymDef().getCoords());
 	}
 	
-	
+	/**
+	 * Get the attributes of this identifier.
+	 * @return The attributes of this identifier.
+	 */
+	public Attributes getAttributes() {
+		if(attributes == null)
+			attributes = new DefaultAttributes();
+		
+		return attributes;
+	}
 }

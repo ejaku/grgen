@@ -191,6 +191,19 @@ class SQLGraph implements Graph, TypeModel {
 		}
 
 		/**
+		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
+		 */
+		public Iterator getSubTypes() {
+			int[] subTypes = typeModel.getNodeTypeSubTypes(id);
+			Collection result = new LinkedList();
+			
+			for(int i = 0; i < subTypes.length; i++)
+				result.add(getNodeType(subTypes[i]));
+				
+			return result.iterator();
+		}
+
+		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#isA(de.unika.ipd.libgr.graph.InheritanceType)
 		 */
 		public boolean isA(InheritanceType t) {
@@ -237,6 +250,19 @@ class SQLGraph implements Graph, TypeModel {
 			
 			for(int i = 0; i < superTypes.length; i++)
 				result.add(getEdgeType(superTypes[i]));
+				
+			return result.iterator();
+		}
+
+		/**
+		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
+		 */
+		public Iterator getSubTypes() {
+			int[] subTypes = typeModel.getEdgeTypeSuperTypes(id);
+			Collection result = new LinkedList();
+			
+			for(int i = 0; i < subTypes.length; i++)
+				result.add(getEdgeType(subTypes[i]));
 				
 			return result.iterator();
 		}
@@ -294,14 +320,20 @@ class SQLGraph implements Graph, TypeModel {
 	 * Make a new SQL graph.
 	 * @param name The name of the graph.
 	 * @param typeModel The type model.
-	 * @param queries 
-	 * @param reporter
+	 * @param queries The query object that can make queries to the database.
+	 * @param reporter An error reporting facility.
 	 */
 	SQLGraph(String name, IDTypeModel typeModel, Queries queries, ErrorReporter reporter) {
 		this.name = name;
 		this.typeModel = typeModel;
 		this.queries = queries;
 		this.reporter = reporter;
+		
+		// Create the tables needed for this graph.
+		queries.execUpdate(Queries.DELETE_NODES_TABLE, new int[] { });
+		queries.execUpdate(Queries.DELETE_EDGES_TABLE, new int[] { });
+		queries.execUpdate(Queries.CREATE_NODES_TABLE, new int[] { });
+		queries.execUpdate(Queries.CREATE_EDGES_TABLE, new int[] { });
 	}
 	
 	/**

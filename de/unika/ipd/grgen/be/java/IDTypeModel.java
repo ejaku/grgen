@@ -20,6 +20,9 @@ public interface IDTypeModel extends TypeID {
 	int[] getNodeTypeSuperTypes(int node);
 	int[] getEdgeTypeSuperTypes(int edge);
 	
+	int[] getNodeTypeSubTypes(int node);
+	int[] getEdgeTypeSubTypes(int edge);
+
 	int getNodeRootType();
 	int getEdgeRootType();
 	

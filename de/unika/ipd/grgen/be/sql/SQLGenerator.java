@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -29,28 +30,26 @@ import de.unika.ipd.grgen.util.Base;
 /**
  * Generate SQL match and replace statements.
  */
-public abstract class SQLGenerator extends Base implements TypeID {
+public class SQLGenerator extends Base implements SQLMangler { 
 	
-	protected SQLParameters parameters;
+	/** SQL parameters. */
+	protected final SQLParameters parameters;
 	
-	public SQLGenerator(SQLParameters parameters) {
+	/** Somebody who produces the type constraints. */
+	protected final SQLFormatter formatter;
+	
+	/** And a type ID source. */
+	protected final TypeID typeID;
+	
+	public SQLGenerator(SQLParameters parameters, 
+			SQLFormatter constraint,
+			TypeID typeID) {
+		
 		this.parameters = parameters;
+		this.formatter = constraint;
+		this.typeID = typeID;
 	}
 	
-	/**
-	 * Generate SQL statement that expresses that a given node is of its type.
-	 * @param n The node.
-	 * @return SQL code.
-	 */
-	protected abstract String makeNodeTypeIsA(Node n);
-	
-	/**
-	 * Generate SQL statement that expresses that a given edge is of its type.
-	 * @param e The edge.
-	 * @return SQL code.
-	 */
-	protected abstract String makeEdgeTypeIsA(Edge e);
-
 	/**
 	 * Add something to a string buffer. If the string buffer is empty, <code>start</code>
 	 * is appended. If it is not empty, <code>sep</code> is appended.
@@ -61,11 +60,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 	 * @param add The actual string to add.
 	 */
 	protected void addTo(StringBuffer sb, String start, String sep, String add) {
-		if (sb.length() == 0)
-			sb.append(start);
-		else
-			sb.append(sep);
-		
+		sb.append(sb.length() == 0 ? start : sep);
 		sb.append(add);
 	}
 	
@@ -77,29 +72,53 @@ public abstract class SQLGenerator extends Base implements TypeID {
 		addTo(sb, "", ", ", table);
 	}
 	
-	protected char getBreakLine() {
-		return '\f';
+	protected String getBreakLine() {
+		return "\f";
 	}
 	
+	private static String mangle(Identifiable id) {
+		String res = id.getIdent().toString();
+		res = res.replaceAll("_", "__");
+		res = res.replace('$', '_');
+		
+		return res;
+	}
+	
+	/**
+	 * Make an SQL table identifier out of a node.
+	 * @param e The node to mangle.
+	 * @return An identifier usable in SQL statements and unique for each node.
+	 */
+	public String mangleNode(Node n) {
+		return "n_" + mangle(n);
+	}
+
 	/**
 	 * Make an SQL table identifier out of an edge.
 	 * @param e The edge to mangle.
 	 * @return An identifier usable in SQL statements and unique for each edge.
 	 */
-	protected String mangleEdge(Edge e) {
-		return "e" + e.getId();
+	public String mangleEdge(Edge e) {
+		return "e_" + mangle(e);
 	}
-	
-	protected String mangleNode(Node n) {
-		return "n" + n.getId();
-	}
-	
-	protected String getEdgeCol(Edge e, String col) {
-		return mangleEdge(e) + "." + col;
-	}
-	
-	protected String getNodeCol(Node n, String col) {
+
+	/**
+	 * Make a SQL column expression for a node and a given column name.
+	 * @param e The node.
+	 * @param col The column.
+	 * @return The column expression.
+	 */
+	public String getNodeCol(Node n, String col) {
 		return mangleNode(n) + "." + col;
+	}
+
+	/**
+	 * Mangle an identifiable object to a valid SQL identifier.
+	 * @param id The identifiable object. 
+	 * @return A valid SQL identifier.
+	 */
+	public String getEdgeCol(Edge e, String col) {
+		return mangleEdge(e) + "." + col;
 	}
 	
 	protected String join(String a, String b, String link) {
@@ -115,12 +134,12 @@ public abstract class SQLGenerator extends Base implements TypeID {
 		return join(a.toString(), b.toString(), link);
 	}
 	
-	public final String genMatchStatement(MatchingAction act, List matchedNodes, 
+	public String genMatchStatement(MatchingAction act, List matchedNodes, 
 			List matchedEdges) {
 		
 		debug.entering();
 		
-		char bl = getBreakLine();
+		String bl = getBreakLine();
 		Graph gr = act.getPattern();
 		StringBuffer nodeCols = new StringBuffer();
 		StringBuffer edgeCols = new StringBuffer();
@@ -151,7 +170,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 			String mangledNode = mangleNode(n);
 			String nodeCol = getNodeCol(n, parameters.getColNodesId());
 			
-			int typeId = getId((NodeType) n.getType());
+			int typeId = typeID.getId((NodeType) n.getType());
 			
 			workset.remove(n);
 			
@@ -165,7 +184,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 			matchedNodes.add(n);
 			
 			// Add node type constraint
-			addToCond(nodeWhere, makeNodeTypeIsA(n));
+			addToCond(nodeWhere, formatter.makeNodeTypeIsA(n, this));
 			
 			// addToCond(nodeWhere, nodeTypeIsAFunc + "("
 			//		+ getNodeCol(n, colNodesTypeId) + ", " + typeId + ")" + bl);
@@ -216,7 +235,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 					Edge e = (Edge) iter.next();
 					String mangledEdge = mangleEdge(e);
 					String edgeCol = getEdgeCol(e, incidentCols[i]);
-					int edgeTypeId = getId((EdgeType) e.getType());
+					int edgeTypeId = typeID.getId((EdgeType) e.getType());
 					
 					debug.report(NOTE, "incident edge: " + e);
 					
@@ -229,7 +248,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 									: "." + parameters.getColEdgesTgtId() + " = ") 
 							// mangledNode == src | tgt
 							+ mangledNode + "." + parameters.getColNodesId() + bl + " AND "
-							+ makeEdgeTypeIsA(e) + bl;
+							+ formatter.makeEdgeTypeIsA(e, this) + bl;
 						
 						if(edgeNotEx.containsKey(mangledEdge))
 							edgeNotEx.put(mangledEdge,
@@ -251,7 +270,7 @@ public abstract class SQLGenerator extends Base implements TypeID {
 						edges.add(e);
 						
 						// Add edge type constraint
-						addToCond(edgeWhere, makeEdgeTypeIsA(e) + bl);
+						addToCond(edgeWhere, formatter.makeEdgeTypeIsA(e, this) + bl);
 						
 						// Add it also to the edge result list.
 						matchedEdges.add(e);

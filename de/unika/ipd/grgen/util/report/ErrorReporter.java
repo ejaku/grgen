@@ -21,7 +21,8 @@ public class ErrorReporter extends Reporter {
 	};
 	
 	private static String getMsg(int level, String msg) {
-		return levelNames[level] + ": " + msg;
+		//return levelNames[level] + ": " + msg;
+		return msg;
 	}
 
   /**

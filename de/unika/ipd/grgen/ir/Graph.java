@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -167,6 +168,14 @@ public class Graph extends IR {
 	}
 	
 	/**
+	 * Get an iterator iterating over all nodes. 
+	 * @return An iterator iterating over all nodes.
+	 */
+	public Iterator getNodes() {
+		return getNodes(new LinkedList()).iterator();
+	}
+
+	/**
 	 * Get a set containing all edges in this graph.
 	 * @param col A collection to put all the edges in.
 	 * @return The given collection.
@@ -176,6 +185,14 @@ public class Graph extends IR {
 		return col;
 	}
 	
+	/**
+	 * Get an iterator iterating over all nodes. 
+	 * @return An iterator iterating over all nodes.
+	 */
+	public Iterator getEdges() {
+		return getEdges(new LinkedList()).iterator();
+	}
+		
 	/**
 	 * Get a set containing all negated edges.
 	 * @return A set with all negated edges.
@@ -200,16 +217,46 @@ public class Graph extends IR {
 	}
 	
 	/**
+	 * Get the number of ingoing edges.
+	 * @param node The node.
+	 * @return The number of ingoing edges;
+	 */
+	public int getInDegree(Node node) {
+		GraphNode gn = checkNode(node);
+		return gn.incoming.size();
+	}
+	
+	/**
+	 * Get the number of outgoing edges.
+	 * @param node The node.
+	 * @return The number of outgoing edges;
+	 */
+	public int getOutDegree(Node node) {
+		GraphNode gn = checkNode(node);
+		return gn.outgoing.size();
+	}
+
+	/**
 	 * Get the set of all incoming edges for a node.
 	 * @param n The node.
 	 * @param c A set where the edges are put to.
 	 */
-	public void getIncoming(Node n, Collection c) {
+	public Collection getIncoming(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
 		for(Iterator it = gn.incoming.iterator(); it.hasNext();) {
 			GraphEdge e = (GraphEdge) it.next();
 			c.add(e.edge);
 		}
+		return c;
+	}
+	
+	/**
+	 * Get an iterator iterating over all incoming edges of a node.
+	 * @param n The node
+	 * @return The iterator.
+	 */
+	public Iterator getIncoming(Node n) {
+		return getIncoming(n, new LinkedList()).iterator();
 	}
 	
 	/**
@@ -217,14 +264,24 @@ public class Graph extends IR {
 	 * @param n The node.
 	 * @param c A set where the edges are put to.
 	 */
-	public void getOutgoing(Node n, Collection c) {
+	public Collection getOutgoing(Node n, Collection c) {
 		GraphNode gn = checkNode(n);
 		for(Iterator it = gn.outgoing.iterator(); it.hasNext();) {
 			GraphEdge e = (GraphEdge) it.next();
 			c.add(e.edge);
 		}
+		return c;
 	}
 	
+	/**
+	 * Get an iterator iterating over all outgoing edges of a node.
+	 * @param n The node
+	 * @return The iterator.
+	 */
+	public Iterator getOutgoing(Node n) {
+		return getOutgoing(n, new LinkedList()).iterator();
+	}
+
 	/**
 	 * Get the source node of an edge.
 	 * @param e The edge.

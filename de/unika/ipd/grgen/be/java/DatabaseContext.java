@@ -33,6 +33,10 @@ class DatabaseContext extends Base implements Queries {
 	/** The error reporter. */
 	private final ErrorReporter reporter;
 	
+	private final String edgesTableName;
+	
+	private final String nodesTableName;
+	
 	private PreparedStatement[] stmts = new PreparedStatement[COUNT];
 
 	/** Initialize the statement strings. */
@@ -40,42 +44,56 @@ class DatabaseContext extends Base implements Queries {
 		SQLParameters p = parameters;
 		String[] res = new String[COUNT];
 		
-		res[ADD_NODE] = "INSERT INTO " +  p.getTableNodes() + " ("
+		res[ADD_NODE] = "INSERT INTO " +  nodesTableName + " ("
 			+ p.getColNodesId() + "," + p.getColNodesTypeId() + ") VALUES (?,?)";
 
-		res[ADD_EDGE] = "INSERT INTO " +  p.getTableEdges() + " ("
+		res[ADD_EDGE] = "INSERT INTO " +  edgesTableName + " ("
 			+ p.getColEdgesId() + "," + p.getColEdgesTypeId() + ") VALUES (?,?)";
 		
-		res[GET_ALL_NODES] = "SELECT " + p.getColNodesId() + " FROM " + p.getTableNodes();
+		res[GET_ALL_NODES] = "SELECT " + p.getColNodesId() + " FROM " + nodesTableName;
 		
-		res[REMOVE_EDGE] = "DELETE FROM " + p.getTableEdges() + " WHERE " 
+		res[REMOVE_EDGE] = "DELETE FROM " + edgesTableName + " WHERE " 
 			+ p.getColEdgesId() + " = ?";
 		
-		res[REMOVE_NODE] = "DELETE FROM " + p.getTableNodes() + " WHERE " 
+		res[REMOVE_NODE] = "DELETE FROM " + nodesTableName + " WHERE " 
 			+ p.getColNodesId() + " = ?";
 
-		res[EDGE_SOURCE] = "SELECT " + p.getColEdgesSrcId() + " FROM " + p.getTableEdges()
+		res[EDGE_SOURCE] = "SELECT " + p.getColEdgesSrcId() + " FROM " + edgesTableName
 			+ " WHERE " + p.getColEdgesId() + " = ?";
 		
-		res[EDGE_TARGET] = "SELECT " + p.getColEdgesTgtId() + " FROM " + p.getTableEdges()
+		res[EDGE_TARGET] = "SELECT " + p.getColEdgesTgtId() + " FROM " + edgesTableName
 			+ " WHERE " + p.getColEdgesId() + " = ?";
 
-		res[NODE_INCOMING] = "SELECT " + p.getColEdgesId() + " FROM " + p.getTableEdges()
+		res[NODE_INCOMING] = "SELECT " + p.getColEdgesId() + " FROM " + edgesTableName
 			+ " WHERE " + p.getColEdgesTgtId() + " = ?";
 		
-		res[NODE_OUTGOING] = "SELECT " + p.getColEdgesId() + " FROM " + p.getTableEdges()
+		res[NODE_OUTGOING] = "SELECT " + p.getColEdgesId() + " FROM " + edgesTableName
 			+ " WHERE " + p.getColEdgesSrcId() + " = ?";
 		
-		res[CHANGE_NODE_TYPE] = "UPDATE " + p.getTableNodes() + " SET "
+		res[CHANGE_NODE_TYPE] = "UPDATE " + nodesTableName + " SET "
 	  	+ " SET " + p.getColNodesTypeId() + " = ?"
 	    + " WHERE " + p.getColNodesId() + " = ?";
 		
 		res[NODE_GET_TYPE] = "SELECT " + p.getColNodesTypeId() + " FROM " 
-			+ p.getTableNodes() + " WHERE " + p.getColNodesId() + " = ?";
+			+ nodesTableName + " WHERE " + p.getColNodesId() + " = ?";
  
 		res[EDGE_GET_TYPE] = "SELECT " + p.getColEdgesTypeId() + " FROM " 
-			+ p.getTableEdges() + " WHERE " + p.getColEdgesId() + " = ?";
+			+ edgesTableName + " WHERE " + p.getColEdgesId() + " = ?";
 
+		res[CREATE_NODES_TABLE] = "CREATE TABLE " + nodesTableName + " ("
+			+ p.getColNodesId() + " " + p.getIdType() + " NOT NULL PRIMARY KEY, "
+			+ p.getColNodesTypeId() + " " + p.getIdType() + " NOT NULL)";
+		
+		res[CREATE_EDGES_TABLE] = "CREATE TABLE " + edgesTableName + " ("
+			+ p.getColEdgesId() + " " + p.getIdType() + " NOT NULL PRIMARY KEY, "
+			+ p.getColEdgesTypeId() + " " + p.getIdType() + " NOT NULL, "
+			+ p.getColEdgesSrcId() + " " + p.getIdType() + " NOT NULL, "
+			+ p.getColEdgesTgtId() + " " + p.getIdType() + " NOT NULL)";
+
+		res[DELETE_NODES_TABLE] = "DROP TABLE " + nodesTableName;
+
+		res[DELETE_EDGES_TABLE] = "DROP TABLE " + edgesTableName;
+		
 		return res;
 	}
 	
@@ -84,10 +102,14 @@ class DatabaseContext extends Base implements Queries {
 		return stmts[id];
 	}
 
-	DatabaseContext(SQLParameters parameters, Connection connection, ErrorReporter reporter) {
+	DatabaseContext(String prefix, SQLParameters parameters, 
+			Connection connection, ErrorReporter reporter) {
 		this.conn = connection;
 		this.parameters = parameters;
 		this.reporter = reporter;
+		
+		this.edgesTableName = prefix + "_" + parameters.getTableEdges();
+		this.nodesTableName = prefix + "_" + parameters.getTableNodes();
 		
 		debug.entering();
 		stmtStrings = initStatements();
@@ -110,19 +132,24 @@ class DatabaseContext extends Base implements Queries {
 	private PreparedStatement prepareStatementForCall(int id, int[] params) {
 		PreparedStatement stmt = getStmt(id);
 		
+		debug.entering();
+		debug.report(NOTE, "calling statement(" + id + "): " + stmtStrings[id]);
+		
 		try {
 			assert params.length == stmt.getParameterMetaData().getParameterCount();
 		} catch(SQLException e) {
-			// TODO Error handling.
+			reporter.error(e.toString());
 		}
 
 		for(int i = 0; i < params.length; i++) {
 			try {
 				stmt.setInt(i, params[i]);
 			} catch(SQLException e) {
-				// TODO Error handling.
+				reporter.error("could not prepare parameter " + i + ": " + e.toString());
 			}
 		}
+		
+		debug.leaving();
 		return stmt;
 	}
 	
@@ -136,7 +163,7 @@ class DatabaseContext extends Base implements Queries {
 		try {
 			set = stmt.executeQuery();
 		} catch(SQLException e) {
-			// TODO error handling.
+			reporter.error(e.toString());			
 		}
 		
 		return set;
@@ -152,7 +179,7 @@ class DatabaseContext extends Base implements Queries {
 		try {
 			res = stmt.executeUpdate();
 		} catch(SQLException e) {
-			// TODO error handling.
+			reporter.error(e.toString());
 		}
 		return res;
 	}

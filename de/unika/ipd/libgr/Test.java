@@ -8,12 +8,11 @@ package de.unika.ipd.libgr;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import antlr.ANTLRException;
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.be.java.ConnectionFactory;
+import de.unika.ipd.grgen.be.java.DefaultConnectionFactory;
 import de.unika.ipd.grgen.be.java.SQLBackend;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
@@ -36,25 +35,15 @@ public class Test extends Base {
 	BaseNode root;
 	ErrorReporter reporter;
 	
-	private Connection makeConnection(String user, String passwd) {
+	private void loadJDBCDrivers() {
+
 		try {
-			
-			Class postgresDriver = Class.forName("org.postgresql.Driver");
+			Class cls = Class.forName("org.postgresql.Driver");
 		} catch (ClassNotFoundException e) {
-			reporter.error("could not load postgres driver: " + e);
+			System.out.println("Cannot load driver.");
 			System.exit(1);
 		}
 
-		Connection conn = null;
-		
-		try {
-			conn = DriverManager.getConnection("jdbc:postgresql:test", user, passwd);
-		} catch (SQLException e) {
-			reporter.error("could not get a connection: " + e);
-			System.exit(1);
-		}
-
-		return conn;
 	}
 
 	
@@ -82,24 +71,30 @@ public class Test extends Base {
 			System.err.println("input file not found: " + e.getMessage());
 			System.exit(1);
 		}
+
+		if(res)
+			res = BaseNode.manifestAST(root);
+
+		if(res) 
+			unit = (Unit) root.checkIR(Unit.class);
 		
 		debug.report(NOTE, "result: " + res);
 		debug.leaving();
-		
-		if(res) 
-			unit = (Unit) root.checkIR(Unit.class);
 		
 		return res;
 	}
 	
 	public JoinedFactory load(String filename) {
 		JoinedFactory res = null;
-		Connection conn = makeConnection("postgres", "");
+		ConnectionFactory connFactory = 
+			new DefaultConnectionFactory("jdbc:postgresql:test", "postgres", "");
 		
 		SQLParameters params = new PreferencesSQLParameters();
-		SQLBackend backend = new SQLBackend(conn, params);
+		SQLBackend backend = new SQLBackend(params, connFactory);
 		
 		if(parseInput(filename)) {
+
+			
 			backend.init(unit, reporter, "");
 			backend.generate();
 			backend.done();
@@ -115,9 +110,11 @@ public class Test extends Base {
 	
 		Graph g = factory.getGraph("Test");
 		
+		
 	}
 	
 	Test() {
+		
 		StreamHandler handler = new StreamHandler(System.out);
 		reporter = new ErrorReporter();
 		reporter.addHandler(handler);
@@ -125,12 +122,11 @@ public class Test extends Base {
 		Base.setReporters(new DebugReporter(10), reporter);
 		
 		Base.debug.addHandler(handler);
+
+		loadJDBCDrivers();
 	}
 	
 	public static void main(String[] args) { 
-		
-		
-		
 		Test prg = new Test();
 		
 		if(args.length > 0)

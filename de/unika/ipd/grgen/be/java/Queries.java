@@ -29,10 +29,14 @@ public interface Queries {
 	
 	int NODE_GET_TYPE = 9;
 	int EDGE_GET_TYPE = 10;
-	
 	int GET_ALL_NODES = 11;
 	
-	int COUNT = GET_ALL_NODES + 1;
+	int CREATE_NODES_TABLE = 12;
+	int CREATE_EDGES_TABLE = 13;
+	int DELETE_NODES_TABLE = 14;
+	int DELETE_EDGES_TABLE = 15;
+	
+	int COUNT = DELETE_EDGES_TABLE + 1;
 	
 	/**
 	 * Get the connection to the database.

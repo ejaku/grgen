@@ -7,10 +7,12 @@
 package de.unika.ipd.grgen.be.java;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.unika.ipd.grgen.be.sql.SQLFormatter;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.MatchingAction;
@@ -31,7 +33,10 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	private Map actions = new HashMap();
 	
 	/** The SQL code generator. */
-	private SQLGenerator sqlGen;
+	private final SQLGenerator sqlGen;
+	
+	/** The SQL code formatter. */
+	private final SQLFormatter sqlFormatter;
 	
 	/** The database context. */
 	private Queries queries;
@@ -39,22 +44,25 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	/** The error reporter. */
 	private ErrorReporter reporter;
 	
-	private Connection conn;
-	
+	/** Database parameters. */
 	private SQLParameters params;
 	
-	/**
-	 * Make a new Java/SQL backend.
-	 * @param connection The database connection
-	 * @param params The SQL parameters.
-	 * @param reporter An error reporter.
-	 */
-	public SQLBackend(Connection connection, SQLParameters params) {
-		this.params = params;
-		this.conn = connection;
-		
+	/** The connection factory that generates new connections for a graph. */
+	private ConnectionFactory connectionFactory;
 
-		this.sqlGen = new JavaSQLGenerator(params, this);
+	/** Has the {@link #init(Unit, ErrorReporter, String)} method already been called. */
+	private boolean initialized = false;
+	
+	
+	public SQLBackend(SQLParameters params, ConnectionFactory connectionFactory) {
+		this.params = params;
+		this.sqlFormatter = new JavaSQLFormatter(params, this);
+		this.sqlGen = new SQLGenerator(params, sqlFormatter, this);
+		this.connectionFactory = connectionFactory;
+	}
+	
+	private final void assertInitialized() {
+		assert initialized : "the init method must be called first";
 	}
 
 	/**
@@ -67,19 +75,28 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 */
 	public void generate() {
+		assertInitialized();
+		
+		debug.entering();
+		
 		for(Iterator it = actionMap.keySet().iterator(); it.hasNext();) {
 			MatchingAction a = (MatchingAction) it.next();
 			int id = ((Integer) actionMap.get(a)).intValue();
 
 			SQLAction act = new SQLAction(a, this, queries, sqlGen, reporter);
 			actions.put(a.getIdent().toString(), act);
+			
+			debug.report(NOTE, "action: " + a.getIdent());
 		}
+		
+		debug.leaving();
 	}
 	
 	/**
 	 * @see de.unika.ipd.libgr.actions.Actions#getAction(java.lang.String)
 	 */
 	public Action get(String name) {
+		assertInitialized();
 		return (Action) actions.get(name);
 	}
 	
@@ -87,6 +104,7 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	 * @see de.unika.ipd.libgr.actions.Actions#getActions()
 	 */
 	public Iterator get() {
+		assertInitialized();
 		return actions.values().iterator();
 	}
 	
@@ -94,13 +112,27 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	 * @see de.unika.ipd.libgr.graph.GraphFactory#getGraph(java.lang.String)
 	 */
 	public Graph getGraph(String name) {
-		return new SQLGraph(name, this, queries, reporter);
+		assertInitialized();
+		
+		Graph res = null;
+		
+		try {
+			Connection conn = connectionFactory.connect();
+			Queries queries = new DatabaseContext(name, params, conn, reporter);
+
+			res = new SQLGraph(name, this, queries, reporter);
+		} catch(SQLException e) {
+			reporter.error("could not make database connection: " + e.toString());
+		}
+		
+		return res;
 	}
 	
 	/**
 	 * @see de.unika.ipd.libgr.actions.ActionsFactory#getActions()
 	 */
 	public Actions getActions() {
+		assertInitialized();
 		return this;
 	}
 	
@@ -110,6 +142,5 @@ public class SQLBackend extends JavaIdBackend implements Actions, JoinedFactory 
 	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.reporter = reporter;
-		this.queries = new DatabaseContext(params, conn, reporter);
 	}
 }

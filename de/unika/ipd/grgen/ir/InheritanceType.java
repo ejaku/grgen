@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.util.MultiIterator;
  */
 public abstract class InheritanceType extends CompoundType {
 
+	private int maxDist = -1;
 	private Set inherits;
 	private List orderedInherits;
 
@@ -109,6 +110,27 @@ public abstract class InheritanceType extends CompoundType {
 			super.getWalkableChildren(),
 			inherits.iterator()
 		});
+  }
+  
+  /**
+   * Get the maximum distance to the root inheritance type. 
+   * This method returns the length of the longest path (considering the inheritance
+   * relation) from this type to the root type.
+   * @return The length of the longest path to the root type.
+   */
+  public final int getMaxDist() {
+
+  	if(maxDist == -1) {
+  		maxDist = 0;
+  		
+  		for(Iterator it = orderedInherits.iterator(); it.hasNext();) {
+  			InheritanceType inh = (InheritanceType) it.next();
+  			int dist = inh.getMaxDist() + 1;
+  			maxDist = dist > maxDist ? dist : maxDist;
+  		}
+  	}
+  	
+  	return maxDist;
   }
 
 }

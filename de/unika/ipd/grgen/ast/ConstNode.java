@@ -48,7 +48,7 @@ public abstract class ConstNode extends OpNode {
    * Get the value of the constant.
    * @return The value.
    */
-  protected final Object getValue() {
+  public final Object getValue() {
   	return value;
   }
   

@@ -68,6 +68,7 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 		
 		de.unika.ipd.grgen.ir.InheritanceType type;
 		Collection inherits = new LinkedList();
+		Collection subTypes = new LinkedList();
 		
 		protected JavaBackendType(int id, de.unika.ipd.grgen.ir.InheritanceType type) {
 			super(id);
@@ -80,6 +81,10 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 
 		public Iterator getSuperTypes() {
 			return inherits.iterator();
+		}
+		
+		public Iterator getSubTypes() {
+			return subTypes.iterator();
 		}
 
 		public boolean isRoot() {

@@ -13,12 +13,10 @@ import java.util.regex.Pattern;
  */
 public class DebugReporter extends Reporter {
 
-	Pattern pattern;
-	Matcher matcher;
-	
-	boolean inclusive;
-	
-	Stack enableStack;
+	private Pattern pattern;
+	private Matcher matcher;
+	private boolean inclusive = true;
+	private Stack enableStack = new Stack();
 	
   /**
    * Make a new debug reporter.
@@ -37,7 +35,7 @@ public class DebugReporter extends Reporter {
 	 * The class filter is a regular expression. Each class calling
 	 * this debug reporter is matched against this regex. Only if the
 	 * regex matches, the message is reported.
-	 * @param it An iterator iterating over string objects. 
+	 * @param regex A regular expression. 
 	 */
 	public void setFilter(String regex) {
 		pattern = Pattern.compile(regex);

@@ -6,10 +6,8 @@
  */
 package de.unika.ipd.grgen.be.java;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map;
 
 import de.unika.ipd.grgen.be.Backend;
@@ -53,14 +51,33 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/** Transitive closure over node type "is a" relation. */
 	protected boolean[][] nodeTypeIsA;
 	
-	/** Node supertypes for each node type id. */
-	protected int[][] nodeSuperTypes;
+	/** Matrix A_ij = true iff i inherits b. */
+	protected boolean[][] nodeInherits;
+
+	/** Matrix A_ij = true iff i inherits b. */
+	protected boolean[][] edgeInherits;
+
+	/** 
+	 * Gives the amount of types a node type inherits. 
+	 * This is only used for optimization purposes. The methods
+	 * {@link #getEdgeTypeSuperTypes(int)} and the like can use this value to save
+	 * a little time.
+	 */
+	protected int[] nodeInheritsCount;
 	
-	/** Edge supertypes for each edge type id. */
-	protected int[][] edgeSuperTypes;
+	/**
+	 * See comment of {@link #nodeInheritsCount}.
+	 */
+	protected int[] edgeInheritsCount;
 	
+	/**
+	 * Map an ID to a node type class.
+	 */
 	protected NodeType[] nodeTypes;
 	
+	/**
+	 * Map an ID to an edge type class.
+	 */
 	protected EdgeType[] edgeTypes;
 	
 	/** Node root type id. */
@@ -69,8 +86,10 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/** Edge root type id. */
 	int edgeRootType;
 	
+	/** Count of node types in the type model. */
 	int nodeTypeCount;
 	
+	/** Count of edge types in the type model. */	
 	int edgeTypeCount;
 	
 	/**
@@ -86,41 +105,38 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		
 		nodeTypeCount = nodeTypeIsA.length;
 		edgeTypeCount = edgeTypeIsA.length;
-		
-		/*
-		 * At last build the super type arrays for node and edge types. 
-		 */
-		nodeSuperTypes = new int[nodeTypeIsA.length][];
-		edgeSuperTypes = new int[edgeTypeIsA.length][];
-		Collection aux = new LinkedList();
 
-		int[][][] superTypes = new int[][][] { nodeSuperTypes, edgeSuperTypes };
+
+		nodeInherits = new boolean[nodeTypeCount][nodeTypeCount];
+		edgeInherits = new boolean[edgeTypeCount][edgeTypeCount];
+		
+		nodeInheritsCount = new int[nodeTypeCount];
+		edgeInheritsCount = new int[edgeTypeCount];
+
 		Map[] typeMaps = new Map[] { nodeTypeMap, edgeTypeMap };
 		int[] rootTypes = new int[2];
+		boolean[][][] inherits = new boolean[][][] { nodeInherits, edgeInherits };
+		int[][] inheritsCount = new int[][] { nodeInheritsCount, edgeInheritsCount };
 		
 		for(int i = 0; i < typeMaps.length; i++) {
-			int[][] superType = superTypes[i];
 			Map typeMap = typeMaps[i];
 			
 			for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 				InheritanceType inh = (InheritanceType) it.next();
 				int id = ((Integer) typeMap.get(inh)).intValue();
-				aux.clear();
-				
-				for(Iterator jt = inh.getInherits(); jt.hasNext();) {
-					Object obj = jt.next();
-					aux.add(typeMap.get(obj));
+				int count = 0;
+
+				for(Iterator jt = inh.getInherits(); jt.hasNext(); count++) {
+					InheritanceType ty = (InheritanceType) jt.next();
+					int tyId = ((Integer) typeMap.get(inh)).intValue();
+					inherits[id][tyId][i] = true;
 				}
-				
-				// Root type found, store it in the root types array.
-				if(aux.size() == 0) 
+
+				if(count == 0) 
 					rootTypes[i] = id;
 				
-				superType[id] = new int[aux.size()];
-				int j = 0;
-				for(Iterator jt = aux.iterator(); jt.hasNext(); j++)
-					nodeSuperTypes[id][j] = ((Integer) jt.next()).intValue();
-			}
+				inheritsCount[id][i] = count;
+			}			
 		}
 		
 		nodeRootType = rootTypes[0];
@@ -166,11 +182,27 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		return nodeRootType;
 	}
 
+	private int[] getFollowTypes(int[] count, boolean[][] matrix, int id, boolean superTypes) {
+		int[] res = new int[count[id]];
+		int j = 0;
+		
+		for(int i = 0; i < matrix.length; i++) {
+			
+			assert j <= res.length;
+			boolean entry = superTypes ? matrix[id][i] : matrix[i][id];
+			
+			if(entry)
+				res[j++] = i;
+		}
+		
+		return res;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypeSuperTypes(int)
 	 */
 	public int[] getEdgeTypeSuperTypes(int edge) {
-		return edgeSuperTypes[edge];
+		return getFollowTypes(edgeInheritsCount, edgeInherits, edge, true);
 	}
 	/**
 	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeRootType()
@@ -182,9 +214,23 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypeSuperTypes(int)
 	 */
 	public int[] getNodeTypeSuperTypes(int node) {
-		return nodeSuperTypes[node];
+		return getFollowTypes(nodeInheritsCount, nodeInherits, node, true);
 	}
 
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypeSubTypes(int)
+	 */
+	public int[] getEdgeTypeSubTypes(int edge) {
+		return getFollowTypes(edgeInheritsCount, edgeInherits, edge, false);
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypeSubTypes(int)
+	 */
+	public int[] getNodeTypeSubTypes(int node) {
+		return getFollowTypes(nodeInheritsCount, nodeInherits, node, false);
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#nodeTypeIsA(int, int)
 	 */

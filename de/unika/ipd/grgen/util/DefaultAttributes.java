@@ -1,0 +1,58 @@
+/**
+ * Created on Apr 5, 2004
+ *
+ * @author Sebastian Hack
+ * @version $Id$
+ */
+package de.unika.ipd.grgen.util;
+
+import java.util.HashMap;
+
+
+/**
+ * Default attribute implementation.
+ */
+public class DefaultAttributes extends HashMap implements Attributes {
+
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#containsKey(java.lang.String)
+	 */
+	public boolean containsKey(String key) {
+		return containsKey(key);
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#get(java.lang.String)
+	 */
+	public Object get(String key) {
+		return get(key);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#isBoolean(java.lang.String)
+	 */
+	public boolean isBoolean(String key) {
+		return containsKey(key) && get(key) instanceof Boolean;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#isInteger(java.lang.String)
+	 */
+	public boolean isInteger(String key) {
+		return containsKey(key) && get(key) instanceof Integer;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#isString(java.lang.String)
+	 */
+	public boolean isString(String key) {
+		return containsKey(key) && get(key) instanceof String;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Attributes#put(java.lang.String, java.lang.Object)
+	 */
+	public void put(String key, Object value) {
+		put(key, value);
+	}
+}

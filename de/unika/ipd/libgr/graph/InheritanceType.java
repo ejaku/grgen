@@ -22,9 +22,15 @@ public interface InheritanceType extends Type {
 	
 	/**
 	 * Get all direct super types of this one.
-	 * @return
+	 * @return An iterator.
 	 */
 	Iterator getSuperTypes();
+	
+	/**
+	 * Get all types that inherit from this one.
+	 * @return An iterator.
+	 */
+	Iterator getSubTypes();
 	
 	/**
 	 * Checks, if this type is also of type <code>t</type>

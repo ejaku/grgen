@@ -8,7 +8,12 @@ package de.unika.ipd.grgen.be.sql;
 
 
 /**
+ * Parameters for the database. 
+ * Some functions return the names of the tables and columns used in the database
+ * to model the graph.
  * 
+ * Other functions return types and other parameters to use while constructing SQL 
+ * queries.
  */
 public interface SQLParameters {
 
@@ -48,5 +53,8 @@ public interface SQLParameters {
 	String getColNodeAttrNodeId();
 	
 	String getColEdgeAttrEdgeId();
+	
+	/** Get the SQL representation of an ID. Likely an INT. */
+	String getIdType();
 
 }

@@ -50,6 +50,8 @@ public class PreferencesSQLParameters implements SQLParameters {
 	protected final String colNodeAttrNodeId;
 	
 	protected final String colEdgeAttrEdgeId;
+	
+	protected final String idType;
 
 	public PreferencesSQLParameters() {
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
@@ -66,6 +68,8 @@ public class PreferencesSQLParameters implements SQLParameters {
 		colEdgesTgtId = prefs.get("colEdgesTgtId", "tgt_id");
 		colNodeAttrNodeId = prefs.get("colNodeAttrNodeId", "node_id");
 		colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
+		
+		idType = prefs.get("idType", "INT");
 		
 		limitQueryResults = prefs.getInt("limitQueryResults", 0);
 	}
@@ -147,5 +151,12 @@ public class PreferencesSQLParameters implements SQLParameters {
 	 */
 	public String getTableNodes() {
 		return tableNodes;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.sql.SQLParameters#getIdType()
+	 */
+	public String getIdType() {
+		return idType;
 	}
 }

@@ -16,6 +16,7 @@ header {
 	import de.unika.ipd.grgen.parser.Scope;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.util.report.*;
+	import de.unika.ipd.grgen.util.*;
 	import de.unika.ipd.grgen.Main;
 }
 
@@ -665,7 +666,7 @@ patternEdge returns [ BaseNode res = null ]
  *
  * This allows b, c, d to be the same node.
  */
-patternNodeDecl returns [ BaseNode res = initNode() ]
+ patternNodeDecl returns [ BaseNode res = initNode() ]
   {
     IdentNode id;
   	BaseNode type;
@@ -858,7 +859,25 @@ identDecl returns [ IdentNode res = getDummyIdent() ]
       res = new IdentNode(def);
     }
   ;
+  
+/**
+ * Attributed declaration of an identifier
+ */
+attrIdentDecl returns [ IdentNode res = getDummyIdent() ]
+	: res=identDecl (LBRACK keyValuePairs[res.getAttributes()] RBRACK)?
+	;
+	
+keyValuePairs [ Attributes attrs ]
+  : keyValuePair[attrs] (COMMA keyValuePair[attrs])
+  ;	  
 
+keyValuePair[ Attributes attrs ]
+  { BaseNode c; }
+	: i:IDENT ASSIGN c=constant {
+		if(c instanceof ConstNode) 
+			attrs.put(i.getText(), ((ConstNode) c).getValue());
+	};
+	
 /**
  * Represents the usage of an identifier.
  * It is checked, whether the identifier is declared. The IdentNode
@@ -1057,7 +1076,7 @@ primaryExpr returns [ BaseNode res = initNode() ]
 	
 constant returns [ BaseNode res = initNode() ]
 	: i:NUM_DEC {
-		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText()));
+		res = new IntConstNode(getCoords(i), Integer.parseInt(h.getText(), 10));
 	}
 	| h:NUM_HEX {
 		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText(), 16));
@@ -1072,6 +1091,7 @@ constant returns [ BaseNode res = initNode() ]
 		res = new BoolConstNode(getCoords(f), false);
 	}
 	;
+	
 
 identExpr returns [ BaseNode res = initNode() ]
 	{ IdentNode id; }
