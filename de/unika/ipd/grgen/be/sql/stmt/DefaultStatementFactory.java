@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class DefaultStatementFactory extends Base
 	implements TypeStatementFactory, OpFactory, Opcodes {
-
+	
 	/** Operator map. */
 	private final Map opMap = new HashMap();
 	
@@ -35,7 +35,7 @@ public class DefaultStatementFactory extends Base
 	private void put(int opcode, Op op) {
 		opMap.put(new Integer(opcode), op);
 	}
-
+	
 	public DefaultStatementFactory(TypeFactory typeFactory) {
 		this.typeFactory = typeFactory;
 		
@@ -51,7 +51,7 @@ public class DefaultStatementFactory extends Base
 		put(LE, new DefaultOp(2, 3, "<="));
 		put(GT, new DefaultOp(2, 3, ">"));
 		put(GE, new DefaultOp(2, 3, ">="));
-
+		
 		put(BETWEEN_AND, new BetweenOpcode());
 		put(SET_IN, new InOpcode());
 		
@@ -94,26 +94,26 @@ public class DefaultStatementFactory extends Base
 		
 		protected void dumpSubTerm(Term term, StringBuffer sb) {
 			boolean braces = term.getOp().priority() > priority();
-
+			
 			sb.append(braces ? "(" : "");
 			term.dump(sb);
 			sb.append(braces ? ")" : "");
 		}
-
+		
 		public StringBuffer dump(StringBuffer sb, Term[] operands) {
 			switch(arity()) {
-			case 1:
-				sb.append(text);
-				sb.append(" ");
-				dumpSubTerm(operands[0], sb);
-				break;
-			case 2:
-				dumpSubTerm(operands[0], sb);
-				sb.append(" ");
-				sb.append(text);
-				sb.append(" ");
-				dumpSubTerm(operands[1], sb);
-				break;
+				case 1:
+					sb.append(text);
+					sb.append(" ");
+					dumpSubTerm(operands[0], sb);
+					break;
+				case 2:
+					dumpSubTerm(operands[0], sb);
+					sb.append(" ");
+					sb.append(text);
+					sb.append(" ");
+					dumpSubTerm(operands[1], sb);
+					break;
 			}
 			return sb;
 		}
@@ -174,7 +174,7 @@ public class DefaultStatementFactory extends Base
 		assert opMap.containsKey(key) : "Illegal opcode";
 		return (Op) opMap.get(key);
 	}
-
+	
 	/**
 	 * Normal terms.
 	 */
@@ -273,7 +273,7 @@ public class DefaultStatementFactory extends Base
 	protected static class ConstantTerm extends DefaultTerm {
 		
 		protected static final Term[] EMPTY = new Term[0];
-		 
+		
 		protected static final Term NULL = new ConstantTerm("NULL");
 		
 		ConstantTerm(String str) {
@@ -295,7 +295,7 @@ public class DefaultStatementFactory extends Base
 	}
 	
 	protected static class ColumnTerm extends ConstantTerm {
-
+		
 		protected Column col;
 		
 		ColumnTerm(Column col) {
@@ -323,65 +323,65 @@ public class DefaultStatementFactory extends Base
 		
 		for(int i = 0; i < matrix.length; i++)
 			compatTypesCount += matrix[i][tid] ? 1 : 0;
-
+		
 		Term colExpr = expression(col);
 		Term res = null;
 		
 		switch(compatTypesCount) {
-		case 1:
-			res = expression(EQ, colExpr, constant(tid));
-			break;
-		default:
-			int[] compat = new int[compatTypesCount];
-			compat[0] = tid;
-			for(int i = 0, index = 1; i < matrix.length; i++) {
-				if(matrix[i][tid])
-					compat[index++] = i;
-			}
-
-			int[] setMembers = new int[compatTypesCount];
-			int setMembersCount = 0;
-			
-			// Debug stuff
-			// StringBuffer deb = new StringBuffer();
-			// for(int i = 0; i < compat.length; i++) {
-			// 	deb.append((i > 0 ? "," : "") + compat[i]);
-			// }
-			
-			for(int i = 0; i < compat.length;) {
-				
-				// Search as long as the numbers a incrementing by one.
-				int j;
-
-				for(j = i + 1; j < compat.length && compat[j - 1] + 1 == compat[j] && useBetween; j++);
-
-				// If there has been found a list use BETWEEN ... AND ...
-				if(i != j - 1) {
-					Term between = expression(BETWEEN_AND, colExpr,
-							constant(compat[i]), constant(compat[j - 1]));
-					
-					res = addExpression(OR, res, between);
-				} else
-					setMembers[setMembersCount++] = compat[i];
-					
-				i = j;
-			}
-
-			switch(setMembersCount) {
-			case 0:
-				break;
 			case 1:
-				res = addExpression(OR, res, addExpression(EQ, colExpr, constant(setMembers[0])));
+				res = expression(EQ, colExpr, constant(tid));
 				break;
 			default:
-				Term consts[] = new Term[setMembersCount + 1];
-				consts[0] = colExpr;
-				for(int i = 0; i < setMembersCount; i++)
-					consts[i + 1] = constant(setMembers[i]);
-
-				res = addExpression(OR, res, expression(SET_IN, consts));
-			}
-			
+				int[] compat = new int[compatTypesCount];
+				compat[0] = tid;
+				for(int i = 0, index = 1; i < matrix.length; i++) {
+					if(matrix[i][tid])
+						compat[index++] = i;
+				}
+				
+				int[] setMembers = new int[compatTypesCount];
+				int setMembersCount = 0;
+				
+				// Debug stuff
+				// StringBuffer deb = new StringBuffer();
+				// for(int i = 0; i < compat.length; i++) {
+				// 	deb.append((i > 0 ? "," : "") + compat[i]);
+				// }
+				
+				for(int i = 0; i < compat.length;) {
+					
+					// Search as long as the numbers a incrementing by one.
+					int j;
+					
+					for(j = i + 1; j < compat.length && compat[j - 1] + 1 == compat[j] && useBetween; j++);
+					
+					// If there has been found a list use BETWEEN ... AND ...
+					if(i != j - 1) {
+						Term between = expression(BETWEEN_AND, colExpr,
+												  constant(compat[i]), constant(compat[j - 1]));
+						
+						res = addExpression(OR, res, between);
+					} else
+						setMembers[setMembersCount++] = compat[i];
+					
+					i = j;
+				}
+				
+				switch(setMembersCount) {
+					case 0:
+						break;
+					case 1:
+						res = addExpression(OR, res, addExpression(EQ, colExpr, constant(setMembers[0])));
+						break;
+					default:
+						Term consts[] = new Term[setMembersCount + 1];
+						consts[0] = colExpr;
+						for(int i = 0; i < setMembersCount; i++)
+							consts[i + 1] = constant(setMembers[i]);
+						
+						res = addExpression(OR, res, expression(SET_IN, consts));
+				}
+				
 		}
 		
 		return res;
@@ -393,31 +393,31 @@ public class DefaultStatementFactory extends Base
 	 */
 	public Term isA(TypeIdTable table, NodeType nt, TypeID typeID) {
 		return makeCond(table, typeID.getId(nt), nt.isRoot(),
-										typeID.getNodeTypeIsAMatrix());
+						typeID.getNodeTypeIsAMatrix());
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#isA(de.unika.ipd.grgen.ir.Edge, de.unika.ipd.grgen.be.sql.meta.Column, de.unika.ipd.grgen.be.sql.TypeID)
 	 */
 	public Term isA(TypeIdTable table, EdgeType et, TypeID typeID) {
 		return makeCond(table, typeID.getId(et), et.isRoot(),
-										typeID.getEdgeTypeIsAMatrix());
+						typeID.getEdgeTypeIsAMatrix());
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#expression(int, de.unika.ipd.grgen.be.sql.meta.Term[])
 	 */
 	public Term expression(int opcode, Term[] operands) {
 		return new DefaultTerm(getOp(opcode), operands);
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#expression(int, de.unika.ipd.grgen.be.sql.meta.Term, de.unika.ipd.grgen.be.sql.meta.Term, de.unika.ipd.grgen.be.sql.meta.Term)
 	 */
 	public Term expression(int op, Term exp0, Term exp1, Term exp2) {
 		return expression(op, new Term[] { exp0, exp1, exp2 });
 	}
-
+	
 	public Term addExpression(int op, Term exp0, Term exp1) {
 		assert exp0 != null || exp1 != null : "Not both operands may be null";
 		
@@ -435,42 +435,42 @@ public class DefaultStatementFactory extends Base
 	public Term expression(int op, Term exp0, Term exp1) {
 		return expression(op, new Term[] { exp0, exp1 });
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#expression(int, de.unika.ipd.grgen.be.sql.meta.Term)
 	 */
 	public Term expression(int op, Term exp0) {
 		return expression(op, new Term[] { exp0 });
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#expression(de.unika.ipd.grgen.be.sql.meta.Column)
 	 */
 	public Term expression(Column col) {
 		return new ColumnTerm(col);
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#constant(int)
 	 */
 	public Term constant(int integer) {
 		return new ConstantTerm(integer);
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#constant(java.lang.String)
 	 */
 	public Term constant(String string) {
 		return new ConstantTerm("\'" + string + "\'");
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#constant(boolean)
 	 */
 	public Term constant(boolean bool) {
 		return new ConstantTerm(bool);
 	}
-
+	
 	private static class DefaultQuery extends DefaultDebug implements Query {
 		List columns;
 		List relations;
@@ -499,7 +499,7 @@ public class DefaultStatementFactory extends Base
 		public void clearColumns() {
 			columns.clear();
 		}
-
+		
 		public List getRelations() {
 			return relations;
 		}
@@ -551,7 +551,7 @@ public class DefaultStatementFactory extends Base
 			walker.walk(this);
 			dumper.finish();
 		}
-
+		
 	}
 	
 	/**
@@ -570,7 +570,7 @@ public class DefaultStatementFactory extends Base
 		private final Relation left, right;
 		private final int kind;
 		private Term cond;
-
+		
 		public DefaultJoin(int kind, Relation left, Relation right, Term cond) {
 			super("join");
 			setChildren(new Object[] { left, right, cond });
@@ -610,16 +610,16 @@ public class DefaultStatementFactory extends Base
 		public StringBuffer dump(StringBuffer sb) {
 			sb.append("");
 			left.dump(sb);
-
+			
 			switch(kind) {
-			case LEFT_OUTER:
-				sb.append(" LEFT");
-				break;
-			case RIGHT_OUTER:
-				sb.append(" RIGHT");
-				break;
-			default:
-				sb.append(" INNER");
+				case LEFT_OUTER:
+					sb.append(" LEFT");
+					break;
+				case RIGHT_OUTER:
+					sb.append(" RIGHT");
+					break;
+				default:
+					sb.append(" INNER");
 			}
 			
 			sb.append(" JOIN ");
@@ -669,11 +669,21 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public StringBuffer dump(StringBuffer sb) {
-			sb.append(aggregate);
+			sb.append(getAggregateName());
 			sb.append("(");
 			col.dump(sb);
 			sb.append(")");
 			return sb;
+		}
+		
+		public String getAggregateName() {
+			switch (aggregate) {
+				case MIN: return "MIN";
+				case MAX: return "MAX";
+				case SUM: return "SUM";
+				case COUNT: return "COUNT";
+				default: throw new IllegalArgumentException();
+			}
 		}
 		
 		public String debugInfo() {
