@@ -4,7 +4,7 @@
  * @author Sebastian Hack
  * @version $Id$
  */
-package de.unika.ipd.grgen.be.sql;
+package de.unika.ipd.grgen.be;
 
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -19,8 +19,5 @@ public interface TypeID {
 	
 	int getId(EdgeType et);
 	
-	boolean[][] getNodeTypeIsAMatrix();
-	
-	boolean[][] getEdgeTypeIsAMatrix();
-	
+	short[][] getIsAMatrix(boolean forNode);
 }
