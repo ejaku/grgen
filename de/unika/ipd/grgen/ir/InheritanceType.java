@@ -4,11 +4,7 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import de.unika.ipd.grgen.util.MultiIterator;
 
@@ -21,8 +17,9 @@ public abstract class InheritanceType extends CompoundType {
 	public static final int CONST = 2;
 	
 	private int maxDist = -1;
-	private Set inherits;
-	private List orderedInherits;
+	private final List orderedSuperTypes = new LinkedList();
+	private final Set superTypes = new HashSet();
+	private final Set subTypes = new HashSet();
 	
 	/** The type modifiers. */
 	private final int modifiers;
@@ -33,8 +30,6 @@ public abstract class InheritanceType extends CompoundType {
    */
   protected InheritanceType(String name, Ident ident, int modifiers) {
     super(name, ident);
-    inherits = new HashSet();
-    orderedInherits = new LinkedList();
     this.modifiers = modifiers;
   }
   
@@ -43,24 +38,33 @@ public abstract class InheritanceType extends CompoundType {
    * @return true, if this type does not inherit from some other type.
    */
   public boolean isRoot() {
-  	return inherits.isEmpty();
+  	return superTypes.isEmpty();
   }
 
 	/**
 	 * Add a type, this type inherits from.
 	 * @param t The supertype.
 	 */
-	public void addInherits(InheritanceType t) {
-		inherits.add(t);
-		orderedInherits.add(t);
+	public void addSuperType(InheritanceType t) {
+		superTypes.add(t);
+		orderedSuperTypes.add(t);
+		t.subTypes.add(this);
 	}
 	
 	/**
 	 * Get an iterator over all types, this type inherits from.
 	 * @return The iterator.
 	 */
-	public Iterator getInherits() {
-		return orderedInherits.iterator();
+	public Iterator getSuperTypes() {
+		return orderedSuperTypes.iterator();
+	}
+	
+	/**
+	 * Get all subtypes of this type.
+	 * @return An iterator iterating over all sub types of this one.
+	 */
+	public Iterator getSubTypes() {
+		return subTypes.iterator();
 	}
 	
 	/**
@@ -70,7 +74,7 @@ public abstract class InheritanceType extends CompoundType {
 	 * @return true, iff this type inherited from <code>t</code>.
 	 */
 	public boolean isDirectSubTypeOf(InheritanceType t) {
-		return inherits.contains(t);
+		return superTypes.contains(t);
 	}
 	
 	/**
@@ -96,7 +100,7 @@ public abstract class InheritanceType extends CompoundType {
 			if(isDirectSubTypeOf(ty))
 				res = true;
 			else {
-				for(Iterator it = getInherits(); it.hasNext();) {
+				for(Iterator it = getSuperTypes(); it.hasNext();) {
 					InheritanceType inh = (InheritanceType) it.next();
 					if(inh.castableTo(ty)) {
 						res = true;
@@ -115,12 +119,12 @@ public abstract class InheritanceType extends CompoundType {
   public Iterator getWalkableChildren() {
 		return new MultiIterator(new Iterator[] {
 			super.getWalkableChildren(),
-			inherits.iterator()
+			superTypes.iterator()
 		});
   }
   
   /**
-   * Get the maximum distance to the root inheritance type. 
+   * Get the maximum distance to the root inheritance type.
    * This method returns the length of the longest path (considering the inheritance
    * relation) from this type to the root type.
    * @return The length of the longest path to the root type.
@@ -130,7 +134,7 @@ public abstract class InheritanceType extends CompoundType {
   	if(maxDist == -1) {
   		maxDist = 0;
   		
-  		for(Iterator it = orderedInherits.iterator(); it.hasNext();) {
+  		for(Iterator it = orderedSuperTypes.iterator(); it.hasNext();) {
   			InheritanceType inh = (InheritanceType) it.next();
   			int dist = inh.getMaxDist() + 1;
   			maxDist = dist > maxDist ? dist : maxDist;
@@ -158,5 +162,14 @@ public abstract class InheritanceType extends CompoundType {
   public final boolean isConst() {
   	return (modifiers & CONST) != 0;
   }
+	
+	public void addFields(Map fields) {
+		super.addFields(fields);
+		fields.put("inherits", superTypes.iterator());
+		fields.put("const", Boolean.valueOf(isConst()));
+		fields.put("abstract ", Boolean.valueOf(isAbstract()));
+	}
+	
+	
 
 }

@@ -50,7 +50,7 @@ public abstract class BaseNode extends Base
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
 	
 	/** A dummy AST node used in case of an error */
-	protected static BaseNode NULL = new NullNode();
+	protected static final BaseNode NULL = new NullNode();
 	
 	/** Default array with the children names of the node */
 	private static final String[] noChildrenNames = { };

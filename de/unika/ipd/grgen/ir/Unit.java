@@ -4,25 +4,26 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collection;
+import de.unika.ipd.grgen.util.Util;
+import java.security.MessageDigest;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
- * A unit with all declared entities 
+ * A unit with all declared entities
  */
 public class Unit extends Identifiable {
 
-	/** All entities in this unit */
-	private Collection members = new LinkedList();
+	private final List actions = new LinkedList();
 	
-	/** The group entities in the unit. */
-	private Collection groups = new LinkedList();
+	private final List models = new LinkedList();
 	
-	/** The declared types in the unit. */
-	private Collection types = new LinkedList();
+	private String digest = "";
 	
-	private Collection actions = new LinkedList(); 
+	private boolean digestValid = false;
 	
 	/** The source filename of this unit. */
 	private String filename;
@@ -33,52 +34,36 @@ public class Unit extends Identifiable {
 	
 	/**
 	 * Add entity to the unit.
-	 * An entity as a declrared object which has a type, 
+	 * An entity as a declrared object which has a type,
 	 * such as a group, a test, etc.
-	 * @param ent The entitiy to add 
+	 * @param ent The entitiy to add
 	 */
-	public void addMember(IR member) {
-		members.add(member);
-		if(member instanceof Action)
-			groups.add(member);
-		if(member instanceof Group)
-			groups.add(member);
-		if(member instanceof Type)
-			types.add(member);
-	}
-	
-	/** 
-	 * Get all entities declared in this unit
-	 * @return An iterator iterating over all entities.
-	 */
-	public Iterator getMembers() {
-		return members.iterator();
-	}
-	
-	/**
-	 * Get all groups in the unit.
-	 * @return An iterator iterating over all groups in the unit.
-	 */
-	public Iterator getGroups() {
-		return groups.iterator();
+	public void addAction(Action action) {
+		actions.add(action);
 	}
 	
 	public Iterator getActions() {
 		return actions.iterator();
 	}
+
+	public void addModel(Model model) {
+		models.add(model);
+		digestValid = false;
+	}
 	
-	/** Get all declared types in the unit.
-	 * @return An iterator iterating over all declared types in the unit.
+	/**
+	 * Get the type model of this unit.
+	 * @return The type model.
 	 */
-	public Iterator getTypes() {
-		return types.iterator();
+	public Iterator getModels() {
+		return models.iterator();
 	}
 	
   /**
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-		return members.iterator();
+		return actions.iterator();
   }
 
   /**
@@ -88,5 +73,58 @@ public class Unit extends Identifiable {
   public String getFilename() {
     return filename;
   }
+	
+	public void addFields(Map fields) {
+		super.addFields(fields);
+		fields.put("models", models.iterator());
+	}
+	
+	protected void canonicalizeLocal() {
+		Collections.sort(models, Identifiable.COMPARATOR);
+		Collections.sort(actions, Identifiable.COMPARATOR);
+		
+		for(Iterator it = models.iterator(); it.hasNext();) {
+			Model model = (Model) it.next();
+			model.canonicalize();
+		}
+	}
+
+	void addToDigest(StringBuffer sb) {
+		for(Iterator it = models.iterator(); it.hasNext();) {
+			Model model = (Model) it.next();
+			model.addToDigest(sb);
+		}
+	}
+	
+	/**
+	 * Build the digest string of this type model.
+	 */
+	private void buildDigest() {
+		StringBuffer sb = new StringBuffer();
+
+		addToDigest(sb);
+		
+		try {
+			byte[] serialData = sb.toString().getBytes("US-ASCII");
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			digest = Util.hexString(md.digest(serialData));
+		} catch (Exception e) {
+			e.printStackTrace(System.err);
+			digest = "<error>";
+		}
+		
+		digestValid = true;
+	}
+	
+	/**
+	 * Get the digest of all type models. model's digest.
+	 * @return The deigest of this model.
+	 */
+	public final String getTypeDigest() {
+		if(!digestValid)
+			buildDigest();
+		
+		return digest;
+	}
 
 }

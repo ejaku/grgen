@@ -6,10 +6,7 @@
  */
 package de.unika.ipd.libgr;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import antlr.ANTLRException;
+import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.be.java.ConnectionFactory;
 import de.unika.ipd.grgen.be.java.DefaultConnectionFactory;
@@ -17,23 +14,24 @@ import de.unika.ipd.grgen.be.java.SQLBackend;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.parser.antlr.GRLexer;
-import de.unika.ipd.grgen.parser.antlr.GRParser;
+import de.unika.ipd.grgen.parser.antlr.GRParserEnvironment;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.report.DebugReporter;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.libgr.graph.Graph;
+import java.io.File;
 
 
 /**
  * A libgr test program.
  */
-public class Test extends Base {
+public class Test extends Base implements Sys {
 
 	Unit unit;
 	BaseNode root;
 	ErrorReporter reporter;
+	File modelPath;
 	
 	private void loadJDBCDrivers() {
 
@@ -46,36 +44,17 @@ public class Test extends Base {
 
 	}
 
-	
-	
 	boolean parseInput(String inputFile) {
 		boolean res = false;
 		
 		debug.entering();
-		try {
-			GRLexer lex = new GRLexer(new FileInputStream(inputFile));
-			GRParser parser = new GRParser(lex);
-			
-			try {
-				parser.setFilename(inputFile);
-				parser.init(reporter);
-				root = parser.text();
-				res = !parser.hadError();
-			}
-			catch(ANTLRException e) {
-				System.err.println(e.getMessage());
-				System.exit(1);
-			}
-		}
-		catch(FileNotFoundException e) {
-			System.err.println("input file not found: " + e.getMessage());
-			System.exit(1);
-		}
+		
+		GRParserEnvironment env = new GRParserEnvironment(this);
 
 		if(res)
 			res = BaseNode.manifestAST(root);
 
-		if(res) 
+		if(res)
 			unit = (Unit) root.checkIR(Unit.class);
 		
 		debug.report(NOTE, "result: " + res);
@@ -83,10 +62,18 @@ public class Test extends Base {
 		
 		return res;
 	}
+
+	public ErrorReporter getErrorReporter() {
+		return reporter;
+	}
+	
+	public File[] getModelPaths() {
+		return new File[] { modelPath };
+	}
 	
 	public JoinedFactory load(String filename) {
 		JoinedFactory res = null;
-		ConnectionFactory connFactory = 
+		ConnectionFactory connFactory =
 			new DefaultConnectionFactory("jdbc:postgresql:test", "postgres", "");
 		
 		SQLParameters params = new PreferencesSQLParameters();
@@ -106,11 +93,10 @@ public class Test extends Base {
 	}
 
 	public void run(String filename) {
+		modelPath = new File(filename).getAbsoluteFile().getParentFile();
 		JoinedFactory factory = load(filename);
 	
 		Graph g = factory.getGraph("Test");
-		
-		
 	}
 	
 	Test() {
@@ -126,11 +112,10 @@ public class Test extends Base {
 		loadJDBCDrivers();
 	}
 	
-	public static void main(String[] args) { 
+	public static void main(String[] args) {
 		Test prg = new Test();
 		
 		if(args.length > 0)
 			prg.run(args[0]);
-		
 	}
 }

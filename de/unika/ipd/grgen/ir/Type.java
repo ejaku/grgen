@@ -3,13 +3,16 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
+import java.util.Map;
+
+
 
 /**
  * A node representing a type.
  * Subclasses will be primitive type (string, int, boolean)
  * group type
  * action type
- * graph type (node and edge) 
+ * graph type (node and edge)
  */
 public abstract class Type extends Identifiable {
 
@@ -18,7 +21,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_BOOLEAN = 2;
 	public static final int IS_STRING  = 3;
 
-	static final private Type global = 
+	static final private Type global =
 		new Type("global type", Ident.get("global type")) {
 		public boolean isGlobal() {
 			return true;
@@ -63,7 +66,7 @@ public abstract class Type extends Identifiable {
   /**
    * Checks, if this type is castable to another type.
    * This method is final, to implement the castability, overwrite
-   * <code>castableTo</code>. It is called by this method. 
+   * <code>castableTo</code>. It is called by this method.
    * @param t The other type.
    * @return true, if this type can be casted to <code>t</code>, false
    * otherwise.
@@ -75,7 +78,7 @@ public abstract class Type extends Identifiable {
   /**
    * Check, if this type is a void type.
    * In fact, there can be more void types, so use this method to check
-   * for a void type. 
+   * for a void type.
    * @return true, if the type is void.
    */
   public boolean isVoid() {
@@ -97,4 +100,5 @@ public abstract class Type extends Identifiable {
   public boolean isGlobal() {
   	return false;
   }
+
 }

@@ -9,6 +9,7 @@ import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.EmptyAttributes;
 import de.unika.ipd.grgen.util.SingleIterator;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * An instantiation of a type.
@@ -83,5 +84,13 @@ public class Entity extends Identifiable implements Attributed {
 	public Attributes getAttributes() {
 		return attributes;
 	}
+	
+	public void addFields(Map fields) {
+		super.addFields(fields);
+		fields.put("type", new SingleIterator(type));
+		fields.put("owner", new SingleIterator(owner));
+	}
+	
+	
 	
 }

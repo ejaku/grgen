@@ -83,7 +83,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		Iterator ext = getChild(EXTENDS).getChildren();
 		while(ext.hasNext()) {
 			EdgeTypeNode etn = (EdgeTypeNode) ext.next();
-			et.addInherits(etn.getEdgeType());
+			et.addSuperType(etn.getEdgeType());
 		}
 		for(Iterator it = getChild(CAS).getChildren(); it.hasNext();) {
 			ConnAssertNode can = (ConnAssertNode)it.next();

@@ -3,6 +3,8 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
+import java.util.Comparator;
+import java.util.Map;
 
 /**
  * Identifier with an identifier.
@@ -11,6 +13,14 @@ package de.unika.ipd.grgen.ir;
  */
 public class Identifiable extends IR {
 
+	static final Comparator COMPARATOR = new Comparator() {
+		public int compare(Object lhs, Object rhs) {
+			Identifiable lt = (Identifiable) lhs;
+			Identifiable rt = (Identifiable) rhs;
+			return lt.getIdent().compareTo(rt.getIdent());
+		}
+	};
+	
 	/** The identifier */
 	private Ident ident;
 	
@@ -48,4 +58,9 @@ public class Identifiable extends IR {
 	public String toString() {
 		return getName() + " " + ident;
 	}
+
+	public void addFields(Map fields) {
+		fields.put("ident", ident.toString());
+	}
+	
 }

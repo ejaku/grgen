@@ -4,19 +4,18 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.awt.Color;
-import java.util.Iterator;
+import de.unika.ipd.grgen.util.*;
 
-import de.unika.ipd.grgen.util.ArrayIterator;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.ir.Identifiable;
+import java.awt.Color;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Base class for all IR classes.
  */
-public abstract class IR extends Base implements Walkable, GraphDumpable {
+public abstract class IR extends Base implements Walkable, GraphDumpable, XMLDumpable {
 
 	protected static final Iterator emptyIterator =
 	  new ArrayIterator(new Object[] { });
@@ -24,6 +23,8 @@ public abstract class IR extends Base implements Walkable, GraphDumpable {
 	private static final IR bad = new Bad();
 
 	private static final String[] noChildrenNames = { };
+	
+	private boolean canonicalValid = false;
 
 	/** Names of the children of this node */
 	private String[] childrenNames;
@@ -59,7 +60,7 @@ public abstract class IR extends Base implements Walkable, GraphDumpable {
 	/**
 	 * Get the name of this IR object.
 	 * That is (group, node, edge, test, ...)
-	 * @return The name of this IR object. 
+	 * @return The name of this IR object.
 	 */
 	public String getName() {
 		return name;
@@ -75,11 +76,11 @@ public abstract class IR extends Base implements Walkable, GraphDumpable {
 	
 	/**
 	 * View an IR object as a string.
-	 * The string of an IR object is its name. 
+	 * The string of an IR object is its name.
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return name; 
+		return name;
 	}
 	
 	/**
@@ -140,5 +141,60 @@ public abstract class IR extends Base implements Walkable, GraphDumpable {
   public Iterator getWalkableChildren() {
   	return emptyIterator;
   }
-
+	
+	/**
+	 * Get the name of the tag.
+	 * @return The tag string.
+	 */
+	public String getTagName() {
+		return getName().replace(' ', '_');
+	}
+	
+	/**
+	 * Name of the tag that expression a reference to
+	 * this object.
+	 * @return The ref tag name.
+	 */
+	public String getRefTagName() {
+		return getName().replace(' ', '_') + "_ref";
+	}
+	
+	/**
+	 * Get a unique ID for this object.
+	 * @return A unique ID.
+	 */
+	public String getXMLId() {
+		return getId();
+	}
+	
+	/**
+	 * Add the XML fields to a map.
+	 * @param fields The map to add the fields to.
+	 */
+	public void addFields(Map fields) {
+	}
+	
+	/**
+	 * Build the canonical form.
+	 * Compound types must sort their members alphabetically.
+	 */
+	protected void canonicalizeLocal() {
+	}
+	
+	public final void canonicalize() {
+		if(!canonicalValid) {
+			canonicalizeLocal();
+			canonicalValid = true;
+		}
+	}
+	
+	protected final void invalidateCanonical() {
+		canonicalValid = false;
+	}
+	
+	/**
+	 * Add this type to the digest.
+	 */
+	void addToDigest(StringBuffer sb) {
+	}
 }

@@ -493,10 +493,8 @@ public abstract class SQLBackend extends CBackend {
 	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		super.init(unit, reporter, outputPath);
 		this.dbName = dbNamePrefix + unit.getIdent().toString();
-		makeTypes();
-		
 		tableFactory = new DefaultGraphTableFactory(parameters, typeFactory,
-													nodeAttrMap, edgeAttrMap);
+																								nodeAttrMap, edgeAttrMap);
 	}
 	
 	/**

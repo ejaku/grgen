@@ -36,10 +36,10 @@ public abstract class MatchingAction extends Action {
 	 * @param pattern The graph pattern to match against.
 	 */
 	public MatchingAction(String name, Ident ident, Graph pattern) {
-		super(name, ident, null);
+		super(name, ident);
 		this.pattern = pattern;
 		pattern.setNameSuffix("pattern");
-        setChildrenNames(childrenNames);
+		setChildrenNames(childrenNames);
 	}
   
 	/**
@@ -52,7 +52,10 @@ public abstract class MatchingAction extends Action {
   
 
 	public void addNegGraph(Graph neg) {
-		if (neg.getNodes().hasNext()) negs.add(neg);
+		if(neg.getNodes().hasNext()) {
+			neg.setNameSuffix("negative");
+			negs.add(neg);
+		}
 	}
 	
 	/**
@@ -60,7 +63,7 @@ public abstract class MatchingAction extends Action {
 	 * @return The NAC graph of the rule.
 	 */
  	public Iterator getNegs() {
-		return negs.iterator();  	
+		return negs.iterator();
  	}
 
 	/**

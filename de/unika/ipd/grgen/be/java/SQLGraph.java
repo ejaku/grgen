@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -99,7 +100,7 @@ class SQLGraph implements Graph, TypeModel {
 		 */
 		public Iterator getIncoming() {
 			List nodes = new LinkedList();
-			Iterator ids = getResultIds(queries.exec(Queries.NODE_INCOMING, id)); 
+			Iterator ids = getResultIds(queries.exec(Queries.NODE_INCOMING, id));
 			
 			while(ids.hasNext()) {
 				int id = ((Integer) ids.next()).intValue();
@@ -114,7 +115,7 @@ class SQLGraph implements Graph, TypeModel {
 		 */
 		public Iterator getOutgoing() {
 			List nodes = new LinkedList();
-			Iterator ids = getResultIds(queries.exec(Queries.NODE_OUTGOING, id)); 
+			Iterator ids = getResultIds(queries.exec(Queries.NODE_OUTGOING, id));
 			
 			while(ids.hasNext()) {
 				int id = ((Integer) ids.next()).intValue();
@@ -209,7 +210,7 @@ class SQLGraph implements Graph, TypeModel {
 		public boolean isA(InheritanceType t) {
 			boolean res = false;
 			
-			if(t instanceof SQLNodeType) 
+			if(t instanceof SQLNodeType)
 				res = typeModel.nodeTypeIsA(id, ((SQLNodeType) t).id);
 			
 			return res;
@@ -273,7 +274,7 @@ class SQLGraph implements Graph, TypeModel {
 		public boolean isA(InheritanceType t) {
 			boolean res = false;
 			
-			if(t instanceof SQLEdgeType) 
+			if(t instanceof SQLEdgeType)
 				res = typeModel.edgeTypeIsA(id, ((SQLEdgeType) t).id);
 			
 			return res;
@@ -310,7 +311,7 @@ class SQLGraph implements Graph, TypeModel {
 	private int getId(Object obj) {
 		int id = IntegerId.INVALID;
 		
-		if(obj instanceof IntegerId) 
+		if(obj instanceof IntegerId)
 			id = ((IntegerId) obj).getId();
 		
 		return id;

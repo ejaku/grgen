@@ -6,6 +6,7 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -57,8 +58,8 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/** Matrix A_ij = true iff i inherits b. */
 	protected boolean[][] edgeInherits;
 
-	/** 
-	 * Gives the amount of types a node type inherits. 
+	/**
+	 * Gives the amount of types a node type inherits.
 	 * This is only used for optimization purposes. The methods
 	 * {@link #getEdgeTypeSuperTypes(int)} and the like can use this value to save
 	 * a little time.
@@ -89,7 +90,7 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	/** Count of node types in the type model. */
 	int nodeTypeCount;
 	
-	/** Count of edge types in the type model. */	
+	/** Count of edge types in the type model. */
 	int edgeTypeCount;
 	
 	/**
@@ -98,7 +99,7 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	public void init(Unit unit, ErrorReporter reporter, String outputPath) {
 		this.unit = unit;
 		
-		makeTypes();
+		makeTypes(unit);
 		
 		nodeTypeIsA = computeIsA(nodeTypeMap);
 		edgeTypeIsA = computeIsA(edgeTypeMap);
@@ -126,17 +127,17 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 				int id = ((Integer) typeMap.get(inh)).intValue();
 				int count = 0;
 
-				for(Iterator jt = inh.getInherits(); jt.hasNext(); count++) {
+				for(Iterator jt = inh.getSuperTypes(); jt.hasNext(); count++) {
 					InheritanceType ty = (InheritanceType) jt.next();
 					int tyId = ((Integer) typeMap.get(inh)).intValue();
 					inherits[id][tyId][i] = true;
 				}
 
-				if(count == 0) 
+				if(count == 0)
 					rootTypes[i] = id;
 				
 				inheritsCount[id][i] = count;
-			}			
+			}
 		}
 		
 		nodeRootType = rootTypes[0];
@@ -279,7 +280,7 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 		int entries = 0;
 		
 		// count the entries first.
-		for(int i = 0; i < matrixRow.length; i++) 
+		for(int i = 0; i < matrixRow.length; i++)
 			entries = matrixRow[i] ? entries + 1 : entries;
 
 		result = new int[entries];

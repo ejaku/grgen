@@ -49,8 +49,7 @@ public class Rule extends MatchingAction
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
-		left.setNameSuffix("left");
-		right.setNameSuffix("right");
+		right.setNameSuffix("replace");
 		coalesceAnonymousEdges();
 	}
 	

@@ -20,56 +20,72 @@ import java.util.*;
  * declared nodes.
  */
 public class Graph extends IR {
-
+	
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
 		public GraphObject(GraphDumpable gd) {
 			super(gd);
 		}
 	}
-
+	
 	protected class GraphNode extends Node {
-		protected Set outgoing;
-		protected Set incoming;
-		protected Node node;
+		final Set outgoing;
+		final Set incoming;
+		final Node node;
+		final String nodeId;
 		
 		public GraphNode(Node n) {
 			super(n.getIdent(), n.getNodeType(), EmptyAttributes.get());
 			this.incoming = new HashSet();
 			this.outgoing = new HashSet();
 			this.node = n;
+			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
-
-    /**
-     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-     */
-    public Iterator getWalkableChildren() {
-    	return new MultiIterator(new Collection[] {
-    		outgoing, incoming
-    	});
-    }
+		
+		/**
+		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+		 */
+		public Iterator getWalkableChildren() {
+			return new MultiIterator(new Collection[] {
+						outgoing, incoming
+					});
+		}
+		
+		/**
+		 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
+		 */
+		public String getNodeId() {
+			return nodeId;
+		}
+		
 	}
 	
 	protected class GraphEdge extends Edge {
-		protected GraphNode source;
-		protected GraphNode target;
-		protected Edge edge;
+		GraphNode source;
+		GraphNode target;
+		Edge edge;
+		final String nodeId;
 		
 		public GraphEdge(Edge e) {
 			super(e.getIdent(), e.getEdgeType(), EmptyAttributes.get());
 			this.edge = e;
+			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
-
-	    /**
-	     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	     */
-	    public Iterator getWalkableChildren() {
-	    	assert source != null && target != null : "edge must be initalized";
-	    	return new ArrayIterator(new Object[] {
-					source, target
-	    	});
-	    }
+		
+		/**
+		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+		 */
+		public Iterator getWalkableChildren() {
+			assert source != null && target != null : "edge must be initalized";
+			return new ArrayIterator(new Object[] {
+						source, target
+					});
+		}
+		
+		public String getNodeId() {
+			return nodeId;
+		}
 	}
-
+	
 	/** Map that maps a node to an internal node. */
 	private Map nodes = new HashMap();
 	
@@ -99,17 +115,17 @@ public class Graph extends IR {
 		
 		return res;
 	}
-
+	
 	private GraphNode checkNode(Node n) {
 		assert nodes.containsKey(n) : "Node must be in graph: " + n;
 		return (GraphNode) nodes.get(n);
 	}
-
+	
 	private GraphEdge checkEdge(Edge e) {
 		assert edges.containsKey(e) : "Edge must be in graph: " + e;
 		return (GraphEdge) edges.get(e);
 	}
-
+	
 	/**
 	 * Make a new graph.
 	 */
@@ -126,7 +142,7 @@ public class Graph extends IR {
 	public void setNameSuffix(String s) {
 		setName("graph " + s);
 	}
-
+	
 	/**
 	 * Check if a node is contained in the graph.
 	 * @param node The node
@@ -144,7 +160,7 @@ public class Graph extends IR {
 	public boolean hasEdge(Edge edge) {
 		return edges.containsKey(edge);
 	}
-
+	
 	/**
 	 * Get a set containing all nodes in this graph.
 	 * @param A collection to put all the nodes in.
@@ -162,7 +178,7 @@ public class Graph extends IR {
 	public Iterator getNodes() {
 		return getNodes(new LinkedList()).iterator();
 	}
-
+	
 	/**
 	 * Get a set containing all edges in this graph.
 	 * @param col A collection to put all the edges in.
@@ -180,12 +196,12 @@ public class Graph extends IR {
 	public Iterator getEdges() {
 		return getEdges(new LinkedList()).iterator();
 	}
-		
+	
 	private Set getEdgeSet(Iterator it) {
 		Set res = new HashSet();
 		while(it.hasNext())
 			res.add(((GraphEdge) it.next()).edge);
-
+		
 		return res;
 	}
 	
@@ -208,7 +224,7 @@ public class Graph extends IR {
 		GraphNode gn = checkNode(node);
 		return gn.outgoing.size();
 	}
-
+	
 	/**
 	 * Get the set of all incoming edges for a node.
 	 * @param n The node.
@@ -254,7 +270,7 @@ public class Graph extends IR {
 	public Iterator getOutgoing(Node n) {
 		return getOutgoing(n, new LinkedList()).iterator();
 	}
-
+	
 	/**
 	 * Get the source node of an edge.
 	 * @param e The edge.
@@ -307,11 +323,11 @@ public class Graph extends IR {
 			Edge e = (Edge) it.next();
 			
 			if(src == getSource(e) && tgt == getTarget(e)
-				&& edgeType.isEqual(e.getEdgeType())) {
-
+				 && edgeType.isEqual(e.getEdgeType())) {
+				
 				debug.report(NOTE, "Exchanging " + e.getIdent()
-					+ " with " + edge.getIdent());
-					
+											 + " with " + edge.getIdent());
+				
 				// Modify the graph edge to refer to the coalesced edge.
 				GraphEdge ge = checkEdge(e);
 				ge.edge = edge;
@@ -353,23 +369,31 @@ public class Graph extends IR {
 	public void addSingleNode(Node node) {
 		getOrSetNode(node);
 	}
-
+	
   /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
+	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	 */
   public Iterator getWalkableChildren() {
-  	return nodes.values().iterator();
+		return nodes.values().iterator();
   }
   
   /**
-   * Check, if a node is a single node.
-   * A node is <i>single</i>, if it has no incident edges.
-   * @param node The node.
-   * @return true, if the node is single, false if not.
-   */
+	 * Check, if a node is a single node.
+	 * A node is <i>single</i>, if it has no incident edges.
+	 * @param node The node.
+	 * @return true, if the node is single, false if not.
+	 */
   public boolean isSingle(Node node) {
-  	GraphNode gn = checkNode(node);
-  	return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
+		GraphNode gn = checkNode(node);
+		return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
   }
+	
+	public GraphDumpable getLocalDumpable(Node node) {
+		return checkNode(node);
+	}
+	
+	public GraphDumpable getLocalDumpable(Edge edge) {
+		return checkEdge(edge);
+	}
 
 }

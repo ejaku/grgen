@@ -21,31 +21,31 @@ public class Scope {
 	 * The id of this scope. It is basically the number of the child of
 	 * the super scope.
 	 */
-	private int id;
+	private final int id;
 	
 	/** This scope's parent scope. */
-	private Scope parent;
+	private final Scope parent;
 	
 	/** The name of this scope. */
-	private String name;
+	private final String name;
 	
 	/** An error reoprter for error reporting. */
-	private ErrorReporter reporter;
+	private final ErrorReporter reporter;
 	
 	/** All definitions of this scope. Map from symbol to Symbol.Definition */
-	private Map defs = new HashMap();
+	private final Map defs = new HashMap();
 	
 	/** A map for numbering of anonymous id's */
-	private Map anonIds = new HashMap();
+	private final Map anonIds = new HashMap();
 	
 	/** The children scopes. */
-	private List childs = new LinkedList();
+	private final List childs = new LinkedList();
 	
 	/**
 	 * A list for all occurrences, without a definition on this scope.
 	 * Will be used to enter the proper definiton in {@link #leaveScope()}
 	 */
-	private List occFixup = new LinkedList();
+	private final List occFixup = new LinkedList();
 	
 	/** An invalid scope. */
 	private static final Scope INVALID = new Scope(null, -1, "<invalid>");
@@ -81,9 +81,7 @@ public class Scope {
 		this.parent = parent;
 		this.id = id;
 		this.name = name;
-		
-		if(parent != null)
-			this.reporter = parent.reporter;
+		this.reporter = parent != null ? parent.reporter : null;
 	}
 	
 	/**
@@ -177,7 +175,7 @@ public class Scope {
 	 * @return The symbol's definition.
 	 */
 	public Symbol.Definition define(Symbol sym, Coords coords) {
-		Symbol.Definition def;
+		Symbol.Definition def = Symbol.Definition.getInvalid();
 		
 		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
 			reporter.error(coords, "Cannot redefine keyword \"" + sym + "\"");
@@ -189,8 +187,12 @@ public class Scope {
 				reporter.error(coords, "Symbol \"" + sym + "\" has already been "
 								   + "defined in this scope (at: " + coords + ")");
 			} else {
-				def = sym.define(this, coords);
-				defs.put(sym, def);
+				try {
+					def = sym.define(this, coords);
+					defs.put(sym, def);
+				} catch(SymbolTableException e) {
+					reporter.error(e.getMessage());
+				}
 			}
 		}
 		
@@ -200,20 +202,22 @@ public class Scope {
 	/**
 	 * Define an unique anonymous symbol in this scope.
 	 * Especially, this can also be done after parsing.
-	 * @param name An addition to the symbol's name (fo reasier readability).
+	 * @param name An addition to the symbol's name (for easier readability).
+	 * @param symTab The symbol table the symbol is defined in.
 	 * @param coords The source code coordinates, that are associated with this
 	 * anonymous symbol.
 	 * @return A symbol, that could not have been defined in the parsed text,
 	 * unique in this scope.
 	 */
-	public Symbol.Definition defineAnonymous(String name, Coords coords) {
+	public Symbol.Definition defineAnonymous(String name, SymbolTable symTab,
+																					 Coords coords) {
 		int currId = 0;
 		if(anonIds.containsKey(name))
 			currId = ((Integer) anonIds.get(name)).intValue();
 		
 		anonIds.put(name, new Integer(currId + 1));
 		
-		return define(Symbol.makeAnonymous(name + currId), coords);
+		return define(Symbol.makeAnonymous(name + currId, symTab), coords);
 	}
 	
 	/**

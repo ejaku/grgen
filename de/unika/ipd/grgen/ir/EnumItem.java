@@ -8,22 +8,22 @@ import de.unika.ipd.grgen.util.ArrayIterator;
 /**
  * An enumeration value
  */
-public class EnumItem extends IR	{
-	private final Ident id;	
+public class EnumItem extends Identifiable {
+	private final Ident id;
 	private final Constant value;
 	
 	/**
 	 * Make a new enumeration value.
-	 * 
+	 *
 	 * @param id The enumeration item identifier.
 	 * @param value The associated value.
 	 */
 	public EnumItem(Ident id, Constant value) {
-		super("enum item");
+		super("enum item", id);
 		this.id = id;
-		this.value = value;		
+		this.value = value;
 	}
-
+	
 	/**
 	 * Returns the enum items identifier.
 	 * @return The identifier of the enum item.
@@ -33,11 +33,11 @@ public class EnumItem extends IR	{
 	}
 	
 	/**
-	  * The string of an enum item is its identifier's text.
-	  * @see java.lang.Object#toString()
-	  */
+	 * The string of an enum item is its identifier's text.
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
-		return id.toString();	
+		return id.toString();
 	}
 	
 	/**
@@ -50,10 +50,10 @@ public class EnumItem extends IR	{
 	
 	
   /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
+	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	 */
   public Iterator getWalkableChildren() {
-  	return new ArrayIterator(new Object[] { id, value });
+		return new ArrayIterator(new Object[] { id, value });
   }
-
+	
 }

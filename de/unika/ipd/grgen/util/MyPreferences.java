@@ -18,13 +18,11 @@ import java.util.prefs.BackingStoreException;
  */
 public class MyPreferences extends AbstractPreferences {
 
-	private Map prefs;
-	private Map children;
+	private Map prefs = new HashMap();
+	private Map children = new HashMap();
 	
   public MyPreferences(MyPreferences parent, String name) {
     super(parent, name);
-		prefs = new HashMap();
-		children = new HashMap();
   }
 
   /**
@@ -74,7 +72,7 @@ public class MyPreferences extends AbstractPreferences {
     String[] res = new String[children.size()];
     int i = 0;
     
-    for(Iterator it = children.keySet().iterator(); it.hasNext(); i++) 
+    for(Iterator it = children.keySet().iterator(); it.hasNext(); i++)
     	res[i] = (String) it.next();
     	
     return res;
@@ -87,7 +85,7 @@ public class MyPreferences extends AbstractPreferences {
     if(!children.containsKey(child))
     	children.put(child, new MyPreferences(this, child));
 
-		return (AbstractPreferences) children.get(child);	
+		return (AbstractPreferences) children.get(child);
   }
 
   /**

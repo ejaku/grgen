@@ -44,8 +44,9 @@ public class EdgeResolver extends IdentResolver {
   	if(d instanceof TypeDeclNode) {
   		TypeNode ty = (TypeNode) ((TypeDeclNode) d).getDeclType();
   		if(ty instanceof EdgeTypeNode) {
-  			Symbol.Definition def = scope.defineAnonymous("edge", coords);
-  			res = new EdgeDeclNode(new IdentNode(def), ty);
+				System.out.println("here!!");
+  			// TODO Symbol.Definition def = scope.defineAnonymous("edge", coords);
+				//res = new EdgeDeclNode(new IdentNode(def), ty);
   		} else
   			reportError(n, "identifier \"" + n + "\" is expected to declare "
   			  + "an edge type not a \"" + ty.getName() + "\"");

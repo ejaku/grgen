@@ -13,16 +13,65 @@ import java.util.HashMap;
  */
 public class SymbolTable {
 	
+	private static final SymbolTable INVALID =
+		new SymbolTable("<invalid>");
+		
 	/** The string - symbol map. */
-	HashMap symbolMap;
+	private final HashMap symbolMap = new HashMap();
+	
+	/** The name of the symbol table. */
+	private final String name;
+	
+	public static final SymbolTable getInvalid() {
+		return INVALID;
+	}
 	
 	/**
 	 * Make a new symbol table.
 	 */
-	public SymbolTable() {
-		symbolMap = new HashMap();
+	public SymbolTable(String name) {
+		this.name = name;
 	}
 	
+	/**
+	 * Check, if two symbol tables are equal.
+	 * Two symbol tables are equal, if they have the same name.
+	 * @param obj Another symbol table.
+	 * @return true, if both symbol tables denote the same namespace,
+	 * false if not.
+	 */
+	public boolean equals(Object obj) {
+		if(obj instanceof SymbolTable)
+			return name.equals(((SymbolTable) obj).name);
+		
+		return false;
+	}
+	
+	/**
+	 * Get the name of the symbol table.
+	 * @return THe symbol table's name.
+	 */
+	public final String getName() {
+		return name;
+	}
+	
+	/**
+	 * We also override the hashing scheme
+	 * according to the equals method.
+	 * @return The hashcode.
+	 */
+	public int hashCode() {
+		return name.hashCode();
+	}
+	
+	/**
+	 * Get the textual representation of a symbol table.
+	 * @return The textual representation.
+	 */
+	public String toString() {
+		return symbolMap.toString();
+	}
+
 	/**
 	 * Enter a keyword into the symbol table.
 	 * @param text
@@ -32,7 +81,7 @@ public class SymbolTable {
 		assert !symbolMap.containsKey(text) : "keywords cannot be put twice "
 			+ "in the symbol table";
 		
-		Symbol sym = new Symbol(text) {
+		Symbol sym = new Symbol(text, this) {
 			public boolean isKeyword() {
 				return true;
 			}
@@ -49,12 +98,9 @@ public class SymbolTable {
 	 */
 	public Symbol get(String text) {
 		if(!symbolMap.containsKey(text))
-			symbolMap.put(text, new Symbol(text));
+			symbolMap.put(text, new Symbol(text, this));
 		
 		return (Symbol) symbolMap.get(text);
 	}
 	
-	public String toString() {
-		return symbolMap.toString();
-	}
 }

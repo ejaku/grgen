@@ -6,6 +6,14 @@
  */
 package de.unika.ipd.libgr.ui;
 
+import javax.swing.*;
+
+import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.grgen.util.report.TableHandler;
+import de.unika.ipd.libgr.graph.Graph;
+import de.unika.ipd.libgr.ui.util.TypeModelInfoPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -14,37 +22,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
-
-import antlr.ANTLRException;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.parser.antlr.GRLexer;
-import de.unika.ipd.grgen.parser.antlr.GRParser;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.grgen.util.report.TableHandler;
-import de.unika.ipd.libgr.graph.Graph;
-import de.unika.ipd.libgr.ui.util.TypeModelInfoPanel;
 
 
 /**
- * 
+ *
  */
 public class UITest extends Base {
 	
@@ -60,7 +44,7 @@ public class UITest extends Base {
 	
 	private final List layouters = new LinkedList();
 	
-	private final ErrorReporter reporter = new ErrorReporter(); 
+	private final ErrorReporter reporter = new ErrorReporter();
 	
 	private final FileFilter grgFileFilter = new ExtensionFileFilter("grg", "GrGen File");
 
@@ -75,40 +59,15 @@ public class UITest extends Base {
     int returnVal = chooser.showOpenDialog(frame);
     if(returnVal == JFileChooser.APPROVE_OPTION) {
     	
-    	String filename = chooser.getSelectedFile().getName(); 
+    	String filename = chooser.getSelectedFile().getName();
     	
       reporter.note("You chose to open this file: " + filename);
       frame.repaint();
        
    		boolean res = false;
-   		
-   		debug.entering();
-   		try {
-   			GRLexer lex = new GRLexer(new FileInputStream(filename));
-   			GRParser parser = new GRParser(lex);
-   			
-   			try {
-   				parser.setFilename(filename);
-   				parser.init(reporter);
-   				BaseNode root = parser.text();
-   				res = !parser.hadError();
-   				
-   				if(res) {
-   					boolean manifest = BaseNode.manifestAST(root);
-   				
-   					if(manifest)
-   						return (Unit) root.checkIR(Unit.class);
-   				}
-   			}
-   			catch(ANTLRException e) {
-   				reporter.error(e.getMessage());
-   			}
-   		}
-   		catch(FileNotFoundException e) {
-   			reporter.error("input file not found: " + e.getMessage());
-   		}
-    }
-	    
+
+			// TODO Parse file here.
+		}
     return null;
 	}
 	
@@ -144,7 +103,7 @@ public class UITest extends Base {
 		
 		// Get the screen size
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension preferredSize = new Dimension(screenSize.width - 100, 
+		Dimension preferredSize = new Dimension(screenSize.width - 100,
 				screenSize.height - 100);
 		
 		
@@ -171,14 +130,14 @@ public class UITest extends Base {
 		});
 		
 		buttonPanel.add(newButton);
-		buttonPanel.add(openButton);		
+		buttonPanel.add(openButton);
 		buttonPanel.add(exitButton);
 		
 		graphPane = new JTabbedPane();
 		drawingArea.add(graphPane);
 		
 		// Init the main panel
-		JPanel panel = new JPanel(); 
+		JPanel panel = new JPanel();
 		panel.setPreferredSize(preferredSize);
 		panel.setLayout(new BorderLayout());
 		panel.add(drawingArea, BorderLayout.CENTER);
@@ -209,7 +168,7 @@ public class UITest extends Base {
 		frame.setLocation((screenSize.width - bounds.width) / 2,
 				(screenSize.height - bounds.height) / 2);
 		
-		frame.setVisible(true);		
+		frame.setVisible(true);
 	}
 	
 	private void loadDrivers() {

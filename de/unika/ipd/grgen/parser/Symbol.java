@@ -11,30 +11,19 @@ import de.unika.ipd.grgen.ast.IdentNode;
  */
 public class Symbol {
 	
-	private int definitions = 0;
-	
-	/** A current id number symbols.*/
-	private static int currId = 0;
-	
-	/** The id for this symbol. */
-	private int id = currId++;
-	
-	/** The string of the symbol. */
-	private String text;
-	
 	/**
 	 * An occurrence of a symbol.
 	 */
 	static public class Occurrence {
 		
 		/** The scope in which the symbol occurred. */
-		protected Scope scope;
+		protected final Scope scope;
 		
 		/** The source file coordinates where the symbol occurred. */
-		protected Coords coords;
+		protected final Coords coords;
 		
 		/** The symbol that occurred. */
-		protected Symbol symbol;
+		protected final Symbol symbol;
 		
 		/**
 		 * The corresponding definition of the symbol.
@@ -157,23 +146,82 @@ public class Symbol {
 	}
 	
 	/** An invalid symbol. */
-	protected static final Symbol INVALID = new Symbol(null);
+	private static final Symbol INVALID = new Symbol("<invalid>",
+																									 SymbolTable.getInvalid());
+
+	/** The number of definitions concerning this symbol. */
+	private int definitions = 0;
+	
+	/** The symbol table the symbol was defined in. */
+	private final SymbolTable symbolTable;
+	
+	/** A current id number symbols.*/
+	private static int currId = 0;
+	
+	/** The id for this symbol. */
+	private final int id = currId++;
+	
+	/** The string of the symbol. */
+	private final String text;
 	
 	/**
 	 * Make a new symbol.
 	 * @param text The text of the symbol.
 	 */
-	public Symbol(String text) {
+	public Symbol(String text, SymbolTable symbolTable) {
 		this.text = text;
+		this.symbolTable = symbolTable;
+	}
+
+	/**
+	 * Compare two symbols.
+	 * Two symbols are equal, if they represent the same string and
+	 * are defined in the same symbol table.
+	 * @param obj Another symbol.
+	 * @return true, if the both symbols represent the same symbol,
+	 * false if not.
+	 */
+	public boolean equals(Object obj) {
+		if(obj instanceof Symbol) {
+			Symbol sym = (Symbol) obj;
+			return text.equals(sym.getText())
+				&& symbolTable.equals(sym.getSymbolTable());
+		}
+		
+		return false;
 	}
 	
+	/**
+	 * Get the symbol table, the symbol was defined in.
+	 * @param The symbol table.
+	 */
+	public SymbolTable getSymbolTable() {
+		return symbolTable;
+	}
+	
+	/**
+	 * Get an occurrence of this symbol.
+	 * @param sc The current scope.
+	 * @param c The coordinates the occurrence happened.
+	 * @return An occurrence of the current symbol.
+	 */
 	public Occurrence occurs(Scope sc, Coords c) {
 		return new Occurrence(sc, c, this);
 	}
 	
-	public Definition define(Scope sc, Coords c) {
-		definitions++;
-		return new Definition(sc, c, this);
+	/**
+	 * Get a definition of the symbol.
+	 * @param sc The scope the definition occurrs in.
+	 * @param c The coordinates of the definition.
+	 * @return The definition.
+	 */
+	public Definition define(Scope sc, Coords c) throws SymbolTableException {
+		if(isKeyword() && definitions > 0)
+			throw new SymbolTableException(c, "keyword cannot be redefined");
+		else {
+			definitions++;
+			return new Definition(sc, c, this);
+		}
 	}
 	
 	public String getText() {
@@ -184,10 +232,19 @@ public class Symbol {
 		return getText();
 	}
 	
+	/**
+	 * Is this symbol a keyword.
+	 * A keyword symbol cannot be defined.
+	 * @return true, if the symbol is a keyword, false if not.
+	 */
 	public boolean isKeyword() {
 		return false;
 	}
 	
+	/**
+	 * Get the number of definitions.
+	 * @return The number of times the symbol has been defined.
+	 */
 	public int getDefinitionCount() {
 		return definitions;
 	}
@@ -198,10 +255,11 @@ public class Symbol {
 	 * So, it must contain a character, that is not allowed in the language's
 	 * identifier rule.
 	 * @param name An addition to the name of the symbol.
+	 * @param symTab The symbol table the symbol occurrs in.
 	 * @return An anonymous symbol.
 	 */
-	public static Symbol makeAnonymous(String name) {
-		return new Symbol("$" + name);
+	public static Symbol makeAnonymous(String name, SymbolTable symTab) {
+		return new Symbol("$" + name, symTab);
 	}
 	
 }

@@ -29,13 +29,13 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * A map, that maps each basic type to a set to all other basic types,
 	 * that are compatible to the type.
 	 */
-	private static Map compatibleMap = new HashMap();
+	private static final Map compatibleMap = new HashMap();
 	
 	/**
 	 * A map, that maps each basic type to a set to all other basic types,
 	 * that are castable to the type.
 	 */
-	private static Map castableMap = new HashMap();
+	private static final Map castableMap = new HashMap();
 	
 	/**
 	 * The string basic type.

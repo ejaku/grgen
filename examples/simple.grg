@@ -2,13 +2,13 @@ unit ASimpleTest;
 
 enum Test {
   a, b, c, d
-}  
+}
 
 node class IRNode extends Node {
   a:int;
   b:boolean;
   c:string;
-} 
+}
 
 node class Add extends IRNode {
 }
@@ -16,12 +16,15 @@ node class Add extends IRNode {
 
   rule Simple {
     pattern {
-      node a:IRNode, b:Node; 
+      node a:IRNode, b:Node;
 
-      a --> b;
+      a --> b --> c:Node;
+      a --> c --> d[order=1000]:Node;
+
     }
     cond {
       a.a == 3;
+      a.c == "Hallo";
     }
     replace {
       a;

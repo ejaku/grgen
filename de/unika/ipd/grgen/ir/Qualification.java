@@ -34,6 +34,9 @@ public class Qualification extends Expression {
 		return member;
 	}
 	
+	public String getNodeLabel() {
+		return owner + "." + member;
+	}
 	
 }
 

@@ -92,7 +92,7 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 		}
 		
 		public String getName() {
-			return type.getIdent().toString(); 
+			return type.getIdent().toString();
 		}
 	}
 	
@@ -130,9 +130,9 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 	
 	protected void buildTypes() {
 		/*
-		 * A visitor that creates libgr node/edge types for all IR node/edge types 
-		 * in the both lists edgeTypes and nodeTypes and maps each IR node/edge type 
-		 * to the corresponding libgr node/edge type.  
+		 * A visitor that creates libgr node/edge types for all IR node/edge types
+		 * in the both lists edgeTypes and nodeTypes and maps each IR node/edge type
+		 * to the corresponding libgr node/edge type.
 		 */
 		Visitor v = new Visitor() {
 			
@@ -143,8 +143,8 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 				
 				if(w instanceof de.unika.ipd.grgen.ir.NodeType) {
 					
-					JavaBackendType ty = new JavaBackendNodeType(nodeTypeId++, 
-							(de.unika.ipd.grgen.ir.NodeType) w); 
+					JavaBackendType ty = new JavaBackendNodeType(nodeTypeId++,
+							(de.unika.ipd.grgen.ir.NodeType) w);
 					
 					nodeTypes.add(ty);
 					
@@ -152,8 +152,8 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 					
 				} else if(w instanceof de.unika.ipd.grgen.ir.EdgeType) {
 					
-					JavaBackendType ty = new JavaBackendEdgeType(edgeTypeId++, 
-							(de.unika.ipd.grgen.ir.EdgeType) w);	 
+					JavaBackendType ty = new JavaBackendEdgeType(edgeTypeId++,
+							(de.unika.ipd.grgen.ir.EdgeType) w);
 					
 					edgeTypes.add(ty);
 					
@@ -169,12 +169,12 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 		 * after that, we establish the supertype sets for all libgr node/edge types.
 		 */
 		for(Iterator it = irMap.keySet().iterator(); it.hasNext();) {
-			de.unika.ipd.grgen.ir.InheritanceType irt = 
+			de.unika.ipd.grgen.ir.InheritanceType irt =
 				(de.unika.ipd.grgen.ir.InheritanceType) it.next();
 			
 			JavaBackendType jbt = (JavaBackendType) irMap.get(irt);
 			
-			for(Iterator types = irt.getInherits(); types.hasNext();) 
+			for(Iterator types = irt.getSuperTypes(); types.hasNext();)
 				jbt.inherits.add(types.next());
 		}
 
@@ -224,14 +224,14 @@ public class JavaBackend2 extends IDBase implements Backend, TypeModel {
 		return res;
 	}
 	
-	private void computeIsAHelper(JavaBackendType ty, boolean[][] res, 
+	private void computeIsAHelper(JavaBackendType ty, boolean[][] res,
 			boolean[] alreadyDone) {
 		
 		int id = ty.getId();
 		
 		if(!alreadyDone[id]) {
 			
-			for(Iterator it = ty.type.getInherits(); it.hasNext(); ) {
+			for(Iterator it = ty.type.getSuperTypes(); it.hasNext(); ) {
 				JavaBackendType inht = (JavaBackendType) irMap.get(it.next());
 				computeIsAHelper(inht, res, alreadyDone);
 				res[id][inht.getId()] = true;

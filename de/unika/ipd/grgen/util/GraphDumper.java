@@ -6,8 +6,7 @@ import java.awt.Color;
 /**
  * A Dumper for Graphs
  */
-public interface GraphDumper
-{
+public interface GraphDumper {
 	
 	int DEFAULT = -1;
 	
@@ -29,7 +28,7 @@ public interface GraphDumper
 	void node(GraphDumpable d);
 	
 	void edge(GraphDumpable from, GraphDumpable to, String label, int style,
-			  Color color);
+						Color color);
 	
 	void edge(GraphDumpable from, GraphDumpable to, String label, int style);
 	void edge(GraphDumpable from, GraphDumpable to, String label);

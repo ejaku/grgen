@@ -157,7 +157,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		return Ident.get(toString(), getSymDef().getCoords());
+		String namespace = getSymbol().getSymbolTable().getName();
+		return Ident.get(toString(), namespace, getSymDef().getCoords());
 	}
 	
 	/**

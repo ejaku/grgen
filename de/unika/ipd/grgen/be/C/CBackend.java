@@ -29,14 +29,14 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  * A backend for the C interface to grgen.
  */
 public abstract class CBackend extends IDBase implements Backend {
-
-
+	
+	
 	/** The unit to generate code for. */
 	protected Unit unit;
-
+	
   /** The output path as handed over by the frontend. */
 	private File path;
-
+	
 	/** the extension of the generated include files */
 	public final String incExtension = ".inc";
   
@@ -57,21 +57,21 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @return A mangled name.
 	 */
 	protected String mangle(Identifiable id) {
-	  	String s = id.getIdent().toString();
-	
+		String s = id.getIdent().toString();
+		
 		s = s.replaceAll("_", "__");
 		s = s.replace('$', '_');
-	  		
+		
 		return s;
 	}
-
+	
 	/**
 	 * Write a character sequence to a file using the path set.
 	 * @param filename The filename.
 	 * @param cs A character sequence.
 	 */
 	protected void writeFile(String filename, CharSequence cs) {
-	  	writeFile(new File(path, filename), cs);
+		writeFile(new File(path, filename), cs);
 	}
 	
 	/**
@@ -83,24 +83,24 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param labelAdd The string that should be added to the define.
 	 */
 	protected void makeTypeDefines(StringBuffer sb, Map typeMap,
-		String labelAdd) {
-	
+																 String labelAdd) {
+		
 		sb.append("/** Use this macro to check, if an id is a valid type */\n");
 		sb.append("#define GR_" + labelAdd + "_TYPE_VALID(t) "
-			+ "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
-
+								+ "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
+		
 		sb.append("/** The number of types defined */\n");
 		sb.append("#define GR_" + labelAdd + "_TYPES " + typeMap.size()
-			+ "\n\n");
+								+ "\n\n");
 		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
 			Ident id = ty.getIdent();
 			
 			sb.append("/** type " + id + " defined at line "
-				+ id.getCoords().getLine() + " */\n");
-				
+									+ id.getCoords().getLine() + " */\n");
+			
 			sb.append("#define GR_DEF_" + labelAdd + "_TYPE_"
-				+ mangle(ty) + " " + typeMap.get(ty) + "\n\n");
+									+ mangle(ty) + " " + typeMap.get(ty) + "\n\n");
 		}
 	}
 	
@@ -111,25 +111,25 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param labelAdd The string to add to the define's name.
 	 */
 	protected void makeAttrDefines(StringBuffer sb, Map attrMap,
-		String labelAdd) {
-
+																 String labelAdd) {
+		
 		sb.append("/** Number of attributes macro for " + labelAdd + " */\n");
 		sb.append("#define GR_" + labelAdd + "_ATTRS " + attrMap.size() + "\n\n");
-
+		
 		sb.append("/** Attribute valid macro for " + labelAdd + " */\n");
 		sb.append("#define GR_" + labelAdd + "_ATTR_VALID(a) "
-			+ "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
-
+								+ "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
+		
 		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
 			Entity ent = (Entity) it.next();
 			Ident id = ent.getIdent();
-				
+			
 			sb.append("/** Attribute " + id + " of "
-				+ ent.getOwner().getIdent() + " in line "
-				+ id.getCoords().getLine() + " */\n");
+									+ ent.getOwner().getIdent() + " in line "
+									+ id.getCoords().getLine() + " */\n");
 			sb.append("#define GR_DEF_" + labelAdd + "_ATTR_"
-				+ mangle(ent.getOwner()) + "_"
-				+ mangle(ent) + " " + attrMap.get(ent) + "\n\n");
+									+ mangle(ent.getOwner()) + "_"
+									+ mangle(ent) + " " + attrMap.get(ent) + "\n\n");
 		}
 	}
 	
@@ -138,8 +138,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to add the code to.
 	 * @param map The enum type map.
 	 */
-	protected void makeEnumDefines(StringBuffer sb, Map map)
-	{
+	protected void makeEnumDefines(StringBuffer sb, Map map) {
 		sb.append("/** Number of enum types. */\n");
 		sb.append("#define GR_DEF_ENUMS " + map.size() + "\n\n");
 		
@@ -182,7 +181,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param add A string to add to the identifier of the map.
 	 */
 	protected void makeAttrMap(StringBuffer sb, Map attrMap,
-		Map typeMap, Map enumMap, String add) {
+														 Map typeMap, Map enumMap, String add) {
 		
 		String[] name = new String[attrMap.size()];
 		Type[] types = new Type[attrMap.size()];
@@ -219,80 +218,21 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param typeMap The type map to use.
 	 * @param add A string to add to the identifier.
 	 */
-	protected void makeIsAMatrix(StringBuffer buf, Map typeMap, String add) {
-		Map isaMap = new HashMap();
-		
+	protected void makeIsAMatrix(StringBuffer buf, boolean[][] matrix, String add) {
 		// since all type id's are given from zero on, the maximum type id
 		// (not used) is the number of entries in the type map.
-		int maxTypeId = typeMap.size();
-		
-		int[][] matrix   = new int[maxTypeId][maxTypeId];
-		
-		// calculate the is_a relation
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
-			InheritanceType ty = (InheritanceType) it.next();
-			int tid = getTypeId(typeMap, ty);
-			Set isa = getIsA(ty, isaMap);
-			
-			for(Iterator i = isa.iterator(); i.hasNext();) {
-				int isaTid = getTypeId(typeMap, (InheritanceType) i.next());
-				assert isaTid < maxTypeId : "wrong type id: " + isaTid;
-				matrix[tid][isaTid] = 1;
-			}
-			
-			matrix[tid][tid] = 1;
-		}
+		int maxTypeId = matrix.length;
 		
 		buf.append("/** The matrix showing valid type attributes for " + add + " */\n");
 		buf.append("static const char " + add + "_is_a_matrix[" + maxTypeId + "]["
-			+ maxTypeId + "] = {\n");
+								 + maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
 			buf.append("  { ");
-			for(int j = 0; j < maxTypeId; j++)
-				buf.append((j != 0 ? ", " : "") + matrix[i][j]);
-			buf.append(" },\n");
-		}
-		buf.append("};\n\n");
-	}
-	
-	/**
-	 * Make an array that represents the super type relation.
-	 * @param buf The string buffer to add the code to.
-	 * @param typeMap The type map to use.
-	 * @param add A string to add to the identifier.
-	 */
-	protected void makeSuperType(StringBuffer buf, Map typeMap, String add) {
-		Map isaMap = new HashMap();
-		
-		// since all type id's are given from zero on, the maximum type id
-		// (not used) is the number of entries in the type map.
-		int maxTypeId = typeMap.size();
-		
-		int [] superType = new int[maxTypeId];
-		
-		// calculate the super type relation
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
-			InheritanceType ty = (InheritanceType) it.next();
-			int tid = getTypeId(typeMap, ty);
-			Set isa = getIsA(ty, isaMap);
-
-			superType[tid] = -1;
-						
-			for (Iterator i = isa.iterator(); i.hasNext();) {
-				InheritanceType inhty = (InheritanceType) i.next();
-				if (inhty.isDirectSuperTypeOf(ty)) {
-					superType[tid] = getTypeId(typeMap, inhty);
-					break;
-				}
+			for(int j = 0; j < maxTypeId; j++) {
+				buf.append(j != 0 ? ", " : "");
+				buf.append(matrix[i][j] ? '1' : '0');
 			}
-		}
-				
-		buf.append("/** The array containing the direct super type relation. */\n");
-		buf.append("static const gr_id_t " + add + "_super_type[" + maxTypeId + "] = {\n  ");
-		for(int i = 0; i < maxTypeId; i++) {
-			buf.append(superType[i] + ", ");
-			if ((i % 8) == 7)
-				buf.append("\n  ");
+			buf.append(" },\n");
 		}
 		buf.append("};\n\n");
 	}
@@ -306,21 +246,21 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param typeMap The type map to use.
 	 */
 	protected void makeAttrMatrix(StringBuffer sb, String add,
-		Map attrMap, Map typeMap) {
-			
+																Map attrMap, Map typeMap) {
+		
 		int maxTypeId = typeMap.size();
 		int maxAttrId = attrMap.size();
 		int matrix[][] = new int[maxTypeId][maxAttrId];
-
+		
 		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
 			Entity ent = (Entity) it.next();
 			int attrId = ((Integer) attrMap.get(ent)).intValue();
 			int typeId = getTypeId(typeMap, ent.getOwner());
 			matrix[typeId][attrId] = 1;
 		}
-	
+		
 		sb.append("static const char " + add + "_attr_matrix[" + maxTypeId + "]["
-			+ maxAttrId + "] = {\n");
+								+ maxAttrId + "] = {\n");
 		
 		for(int i = 0; i < maxTypeId; i++) {
 			sb.append("  { ");
@@ -330,7 +270,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		}
 		sb.append("};\n");
 	}
-
+	
 	protected void makeActionMap(StringBuffer sb, Map map) {
 		Action[] actions = new Action[map.size()];
 		
@@ -341,10 +281,10 @@ public abstract class CBackend extends IDBase implements Backend {
 		}
 		
 		sb.append("#define GR_ACTION_VALID(x) ((x) >= 0 && (x) < "
-			+ actions.length + ")\n\n");
-
+								+ actions.length + ")\n\n");
+		
 		sb.append("#define GR_ACTIONS " + actions.length + "\n\n");
-			
+		
 		sb.append("static const action_t action_map[] = {\n");
 		for(int i = 0; i < actions.length; i++) {
 			Action a = actions[i];
@@ -352,13 +292,13 @@ public abstract class CBackend extends IDBase implements Backend {
 			
 			if(a instanceof Rule)
 				kind = "gr_action_kind_rule";
-
+			
 			sb.append("  { " + formatString(a.getIdent().toString()) + ", "
-				+ kind + ", 0, 0, NULL, NULL },\n");
+									+ kind + ", 0, 0, NULL, NULL },\n");
 		}
 		sb.append("  { NULL, -1, 0, 0, NULL, NULL }\n};\n\n");
 	}
-
+	
 	/**
 	 * Generate code for matching actions.
 	 * @param sb The string buffer to add the code to.
@@ -371,7 +311,7 @@ public abstract class CBackend extends IDBase implements Backend {
 			genFinish(sb, a, id);
 		}
 	}
-
+	
 	/**
 	 * Adds a XML type tag to the string buffer.
 	 *
@@ -381,13 +321,13 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param inh    the type
 	 */
 	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Type inh) {
-	  	
+		
 	  for (int i = 0; i < depth; ++i)
-	  	sb.append("  ");
+			sb.append("  ");
 	  sb.append("<" + inh.getName().replace(' ', '_')
-	    + " name=\"" + inh.getIdent() + "\"" + ending);
+								+ " name=\"" + inh.getIdent() + "\"" + ending);
 	}
-
+	
 	/**
 	 * Adds a XML end type tag to the string buffer.
 	 *
@@ -413,8 +353,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
 		sb.append("<" + ent.getName().replace(' ', '_')
-		  + " name=\"" + ent.getIdent() + "\""
-		  + " type=\"" + ent.getType().getIdent() + "\"" + ending);
+								+ " name=\"" + ent.getIdent() + "\""
+								+ " type=\"" + ent.getType().getIdent() + "\"" + ending);
 	}
 	
 	/**
@@ -429,7 +369,7 @@ public abstract class CBackend extends IDBase implements Backend {
 			sb.append("  ");
 		sb.append("</" + ent.getName().replace(' ', '_') + ">\n");
 	}
-
+	
 	/**
 	 * Adds a XML enum value tag to the string buffer.
 	 *
@@ -442,9 +382,9 @@ public abstract class CBackend extends IDBase implements Backend {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
 		sb.append("<" + ev.getName().replace(' ', '_')
-		  + " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending);
+								+ " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending);
 	}
-
+	
 	/**
 	 * Dump an overview of all declared types, attributes and enums to
 	 * an XML file.
@@ -454,9 +394,9 @@ public abstract class CBackend extends IDBase implements Backend {
 	protected void writeOverview(StringBuffer sb) {
 		Map[] maps = new Map[] {
 			nodeTypeMap,
-			edgeTypeMap
+				edgeTypeMap
 		};
-
+		
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		
 		sb.append("<unit>\n");
@@ -466,7 +406,7 @@ public abstract class CBackend extends IDBase implements Backend {
 				InheritanceType type = (InheritanceType) it.next();
 				dumpXMLTag(1, sb, ">\n", type);
 				
-				Iterator inhIt = type.getInherits();
+				Iterator inhIt = type.getSuperTypes();
 				
 				if (inhIt.hasNext()) {
 					sb.append("    <inherits>\n");
@@ -482,7 +422,7 @@ public abstract class CBackend extends IDBase implements Backend {
 					sb.append("    <attributes>\n");
 					for(; attrIt.hasNext();) {
 						Entity ent = (Entity) attrIt.next();
-					
+						
 						dumpXMLTag(3, sb, "/>\n", ent);
 					}
 					sb.append("    </attributes>\n");
@@ -501,18 +441,18 @@ public abstract class CBackend extends IDBase implements Backend {
 				sb.append("    <items>\n");
 				for(; itemIt.hasNext();) {
 					EnumItem ev = (EnumItem) itemIt.next();
-
+					
 					dumpXMLTag(3, sb, "/>\n", ev);
 				}
 				sb.append("    </items>\n");
 			}
-				
+			
 			dumpXMLEndTag(1, sb, type);
 		}
-
+		
 		sb.append("</unit>\n");
 	}
-
+	
 	/**
 	 * Make some additional C type declarations that must probably be used
 	 * in the generated code.
@@ -528,73 +468,72 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		sb.append("/** The attribute type. */\n");
 		sb.append("typedef struct {\n"
-			+ "  int type_id;       /**< the ID of attributes type */\n"
-			+ "  const char *name;  /**< the name of the attribute */\n"
-			+ "  attribute_type at; /**< the attribute type kind */\n"
-			+ "  int enum_id;       /**< the Id of the enum type or -1 */\n"
-			+ "} attr_t;\n\n");
-			
+								+ "  int type_id;       /**< the ID of attributes type */\n"
+								+ "  const char *name;  /**< the name of the attribute */\n"
+								+ "  attribute_type at; /**< the attribute type kind */\n"
+								+ "  int enum_id;       /**< the Id of the enum type or -1 */\n"
+								+ "} attr_t;\n\n");
+		
 		sb.append("/** The type of an action. */\n");
 		sb.append("typedef struct {\n"
-			+ "  const char *name;\n"
-			+ "  gr_action_kind_t kind;\n"
-			+ "  int ins;\n"
-			+ "  int outs;\n"
-			+ "  const gr_value_kind_t *in_types;\n"
-			+ "  const gr_value_kind_t *out_types;\n"
-			+ "} action_t;\n\n");
-			
+								+ "  const char *name;\n"
+								+ "  gr_action_kind_t kind;\n"
+								+ "  int ins;\n"
+								+ "  int outs;\n"
+								+ "  const gr_value_kind_t *in_types;\n"
+								+ "  const gr_value_kind_t *out_types;\n"
+								+ "} action_t;\n\n");
+		
 		sb.append("/** The type of an enum item declaration. */\n");
 		sb.append("typedef struct {\n"
-			+ "  const char *name;    /**< the name of the enum item */\n"
-			+ "  int value;           /**< the value of the enum item */\n"
-			+ "} enum_item_decl_t;\n\n");
-			
+								+ "  const char *name;    /**< the name of the enum item */\n"
+								+ "  int value;           /**< the value of the enum item */\n"
+								+ "} enum_item_decl_t;\n\n");
+		
 		sb.append("/** The type of an enum declaration. */\n");
 		sb.append("typedef struct {\n"
-			+ "  const char *name;    /**< the name of the enum type */\n"
-			+ "  int num_items;       /**< the number of items in this enum type */\n"
-			+ "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
-			+ "} enum_type_decl_t;\n\n");
-			
+								+ "  const char *name;    /**< the name of the enum type */\n"
+								+ "  int num_items;       /**< the number of items in this enum type */\n"
+								+ "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
+								+ "} enum_type_decl_t;\n\n");
+		
 		sb.append("/** The type of the enum table. */\n");
 		sb.append("typedef struct {\n"
-			+ "  const enum_type_decl_t *type; /**< declaration of the type */\n"
-			+ "  int type_id;                  /**< the Id of this enum type */\n"
-			+ "} enum_types_t;\n\n");
+								+ "  const enum_type_decl_t *type; /**< declaration of the type */\n"
+								+ "  int type_id;                  /**< the Id of this enum type */\n"
+								+ "} enum_types_t;\n\n");
 	}
-
+	
 	/**
 	 * Dump all enum type declarations to a string buffer.
 	 *
 	 * @param sb   The string buffer.
 	 * @param map  A map containing all enum types.
 	 */
-	protected void makeEnumDeclarations(StringBuffer sb, Map map)
-	{
+	protected void makeEnumDeclarations(StringBuffer sb, Map map) {
 		// build the description of all enum types
 		for(Iterator it = map.keySet().iterator(); it.hasNext();) {
 			EnumType type = (EnumType) it.next();
 			Ident name = type.getIdent();
-
+			
 			sb.append("/** The items for the " + name + " enum type. */\n");
 			sb.append("static const enum_item_decl_t _" + name + "_items[] = {\n");
-
+			
 			for(Iterator itemIt = type.getItems(); itemIt.hasNext();) {
 				EnumItem ev = (EnumItem) itemIt.next();
-
+				
 				sb.append(" { \"" + ev + "\", " + ev.getValue().getValue() + " },\n");
 			}
 			sb.append("};\n\n");
 			
 			sb.append("/** The declaration of the " + name + " enum type. */\n");
 			sb.append("static const enum_type_decl_t " + name + "_decl = {\n"
-				+ "  \"" + name + "\",\n"
-				+ "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
-				+ "  _" + name + "_items,\n"
-				+ "};\n\n");
+									+ "  \"" + name + "\",\n"
+									+ "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
+									+ "  _" + name + "_items,\n"
+									+ "};\n\n");
 		}
-	
+		
 		// dump all enums to a table
 		sb.append("/** All enum types. */\n");
 		sb.append("static const enum_types_t enum_types[] = {\n");
@@ -603,10 +542,10 @@ public abstract class CBackend extends IDBase implements Backend {
 		for(Iterator it = map.keySet().iterator(); it.hasNext();) {
 			EnumType type = (EnumType) it.next();
 			int index = getTypeId(map, type);
-
+			
 			names[index] = type.getIdent().toString();
 		}
-
+		
 		for(int i = 0; i < map.size(); ++i) {
 			sb.append("  { &" + names[i] + "_decl, " + i + " },\n");
 		}
@@ -614,55 +553,55 @@ public abstract class CBackend extends IDBase implements Backend {
 	}
 	
   /**
-   * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
-   */
+	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
+	 */
   public void init(Unit unit, ErrorReporter reporter, String outputPath) {
-    this.unit = unit;
-    this.error = reporter;
-    this.path = new File(outputPath);
-    path.mkdirs();
-   }
-
+		this.unit = unit;
+		this.error = reporter;
+		this.path = new File(outputPath);
+		path.mkdirs();
+		
+		makeTypes(unit);
+	}
+	
   /**
-   * @see de.unika.ipd.grgen.be.Backend#generate()
-   */
+	 * @see de.unika.ipd.grgen.be.Backend#generate()
+	 */
   public void generate() {
-  	
-  	StringBuffer sb;
-  	String unitName = formatString(unit.getIdent().toString());
-  	
-  	// Emit the C types file
-  	sb = new StringBuffer();
-  	makeCTypes(sb);
-  	writeFile("types" + incExtension, sb);
-  	
-  	// Emit the type defines.
-  	sb = new StringBuffer();
-  	sb.append("/** name of the unit */\n");
-  	sb.append("#define UNIT_NAME " + unitName + "\n\n");
+		
+		StringBuffer sb;
+		String unitName = formatString(unit.getIdent().toString());
+		
+		// Emit the C types file
+		sb = new StringBuffer();
+		makeCTypes(sb);
+		writeFile("types" + incExtension, sb);
+		
+		// Emit the type defines.
+		sb = new StringBuffer();
+		sb.append("/** name of the unit */\n");
+		sb.append("#define UNIT_NAME " + unitName + "\n\n");
+		
+		sb.append("/** type model digest */\n");
+		sb.append("#define TYPE_MODEL_DIGEST " + unit.getTypeDigest() + "\n\n");
+		
 		makeTypeDefines(sb, nodeTypeMap, "NODE");
 		makeTypeDefines(sb, edgeTypeMap, "EDGE");
 		makeAttrDefines(sb, nodeAttrMap, "NODE");
 		makeAttrDefines(sb, edgeAttrMap, "EDGE");
 		makeEnumDefines(sb, enumMap);
 		writeFile("graph" + incExtension, sb);
-
+		
 		sb = new StringBuffer();
 		makeEnumDeclarations(sb, enumMap);
 		writeFile("enums" + incExtension, sb);
-
+		
 	  // Make the "is a" matrices.
 	  sb = new StringBuffer();
-	  makeIsAMatrix(sb, nodeTypeMap, "node");
-	  makeIsAMatrix(sb, edgeTypeMap, "edge");
+	  makeIsAMatrix(sb, getNodeTypeIsAMatrix(), "node");
+	  makeIsAMatrix(sb, getEdgeTypeIsAMatrix(), "edge");
 	  writeFile("is_a" + incExtension, sb);
-
-	  // Make the "super type" arrays.
-	  sb = new StringBuffer();
-	  makeSuperType(sb, nodeTypeMap, "node");
-	  makeSuperType(sb, edgeTypeMap, "edge");
-  	writeFile("super_type" + incExtension, sb);
-
+		
 		// Make the attribute matrices
 		sb = new StringBuffer();
 		makeAttrMatrix(sb, "node", nodeAttrMap, nodeTypeMap);
@@ -675,61 +614,61 @@ public abstract class CBackend extends IDBase implements Backend {
 		makeTypeMap(sb, edgeTypeMap, "edge");
 		makeAttrMap(sb, nodeAttrMap, nodeTypeMap, enumMap, "node");
 		makeAttrMap(sb, edgeAttrMap, edgeTypeMap, enumMap, "edge");
-  	writeFile("names" + incExtension, sb);
-  	
-  	sb = new StringBuffer();
+		writeFile("names" + incExtension, sb);
+		
+		sb = new StringBuffer();
 		makeActionMap(sb, actionMap);
 		writeFile("actions" + incExtension, sb);
 		
 		sb = new StringBuffer();
 		makeActions(sb);
-  	writeFile("action_impl" + incExtension, sb);
-
+		writeFile("action_impl" + incExtension, sb);
+		
 		// write an overview of all generated Ids
 		sb = new StringBuffer();
 		writeOverview(sb);
 		writeFile("overview.xml", sb);
-
+		
 		// a hook for special generated things
-  	genExtra();
+		genExtra();
   }
-
+	
 	protected abstract void genMatch(StringBuffer sb, MatchingAction a, int id);
 	
 	protected abstract void genFinish(StringBuffer sb, MatchingAction a, int id);
-
+	
 	/**
 	 * Generate some extra stuff.
 	 * This function is called after everything else is generated.
 	 */
 	protected abstract void genExtra();
-
+	
   /**
-   * @see de.unika.ipd.grgen.be.Backend#done()
-   */
+	 * @see de.unika.ipd.grgen.be.Backend#done()
+	 */
   public void done() {
   }
-
+	
   /**
-   * @see de.unika.ipd.grgen.be.C.Formatter#formatId(java.lang.String)
-   */
+	 * @see de.unika.ipd.grgen.be.C.Formatter#formatId(java.lang.String)
+	 */
   public String formatId(String id) {
-    return id;
+		return id;
   }
-
+	
   /**
-   * Format a string into a C string.
-   * This takes a Java string and produces a C string literal of it by escaping
-   * some characters and putting quotes around it.
-   * If a character is equal to the constant <code>BREAK_LINE</code> defined
-   * above, the string literal is ended and continued at the next line.
-   * This gives a better readability, if used properly.
-   * @param s A string.
-   * @return A C string literal.
-   */
+	 * Format a string into a C string.
+	 * This takes a Java string and produces a C string literal of it by escaping
+	 * some characters and putting quotes around it.
+	 * If a character is equal to the constant <code>BREAK_LINE</code> defined
+	 * above, the string literal is ended and continued at the next line.
+	 * This gives a better readability, if used properly.
+	 * @param s A string.
+	 * @return A C string literal.
+	 */
   public String formatString(String s) {
-  	StringBuffer sb = new StringBuffer();
-  	sb.append("\"");
+		StringBuffer sb = new StringBuffer();
+		sb.append("\"");
 		for(int i = 0; i < s.length(); i++) {
 			char ch = s.charAt(i);
 			switch(ch) {
@@ -750,7 +689,7 @@ public abstract class CBackend extends IDBase implements Backend {
 			}
 		}
 		sb.append("\"");
-    return sb.toString();
+		return sb.toString();
   }
-
+	
 }

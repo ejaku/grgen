@@ -6,18 +6,16 @@ package de.unika.ipd.grgen;
 
 import de.unika.ipd.grgen.util.*;
 import de.unika.ipd.grgen.util.report.*;
-import java.io.*;
 import javax.swing.*;
 
-import antlr.ANTLRException;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.ir.Dumper;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.parser.antlr.GRLexer;
-import de.unika.ipd.grgen.parser.antlr.GRParser;
+import de.unika.ipd.grgen.parser.antlr.GRParserEnvironment;
 import jargs.gnu.CmdLineParser;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -27,6 +25,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.prefs.Preferences;
 
 /**
@@ -38,10 +43,10 @@ import java.util.prefs.Preferences;
  * @author Sebastian Hack
  * @version 1.0
  */
-public class Main extends Base {
+public class Main extends Base implements Sys {
 	
 	private String[] args;
-	private String inputFile;
+	private File inputFile;
 	private BaseNode root;
 	private Unit irUnit;
 	private ErrorReporter errorReporter;
@@ -53,6 +58,9 @@ public class Main extends Base {
 	
 	/** enable ir dumping */
 	private boolean dumpIR;
+	
+	/** Print timing information. */
+	private boolean printTiming;
 	
 	/** debug filter regular expression */
 	private String debugFilter;
@@ -83,11 +91,23 @@ public class Main extends Base {
 	
 	/** Output path. */
 	private String outputPath = ".";
+
+	/** A list of files containing paths where the graph model can be searched. */
+	private Collection modelPaths = new LinkedList();
+	
+	public File[] getModelPaths() {
+		return (File[]) modelPaths.toArray(new File[modelPaths.size()]);
+	}
+	
+	public ErrorReporter getErrorReporter() {
+		return errorReporter;
+	}
 	
 	private void printUsage() {
 		System.out.println("usage: grgen [options] filename");
 		System.out.println("Options are:");
 		System.out.println("  -n, --new-technology              enable immature features");
+		System.out.println("  -t, --timing                      print some timing stats");
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
@@ -111,6 +131,10 @@ public class Main extends Base {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		return panel;
+	}
+	
+	private void editPreferences() {
+		
 	}
 	
 	private JFrame makeMainFrame() {
@@ -209,6 +233,7 @@ public class Main extends Base {
 			CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 			CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 			CmdLineParser.Option ntOpt = parser.addBooleanOption('n', "new-technology");
+			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
 			
 			CmdLineParser.Option beOpt =
 				parser.addStringOption('b', "backend");
@@ -230,6 +255,7 @@ public class Main extends Base {
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
 			enableNT = parser.getOptionValue(ntOpt) != null;
+			printTiming = parser.getOptionValue(timeOpt) != null;
 			
 			/* deactivate graphic if no debug output */
 			if (!enableDebug)
@@ -249,8 +275,10 @@ public class Main extends Base {
 				printUsage();
 				System.exit(2);
 			}
-			else
-				inputFile = rem[0];
+			else {
+				inputFile = new File(rem[0]);
+				modelPaths.add(inputFile.getAbsoluteFile().getParentFile());
+			}
 		}
 		catch(CmdLineParser.OptionException e) {
 			System.err.println(e.getMessage());
@@ -259,30 +287,14 @@ public class Main extends Base {
 		}
 	}
 	
-	private boolean parseInput(String inputFile) {
+	private boolean parseInput(File inputFile) {
 		boolean res = false;
 		
 		debug.entering();
-		try {
-			GRLexer lex = new GRLexer(new FileInputStream(inputFile));
-			GRParser parser = new GRParser(lex);
-			
-			try {
-				parser.setFilename(inputFile);
-				parser.init(errorReporter);
-				root = parser.text();
-				res = !parser.hadError();
-			}
-			catch(ANTLRException e) {
-				System.err.println(e.getMessage());
-				System.exit(1);
-			}
-		}
-		catch(FileNotFoundException e) {
-			System.err.println("input file not found: " + e.getMessage());
-			System.exit(1);
-		}
-		
+		GRParserEnvironment env = new GRParserEnvironment(this);
+		root = env.parse(inputFile);
+		res = root != null;
+
 		debug.report(NOTE, "result: " + res);
 		debug.leaving();
 		
@@ -356,6 +368,10 @@ public class Main extends Base {
 	 * emits the code.
 	 */
 	private void run() {
+		long startUp, parse, manifest, buildIR, codeGen;
+
+		startUp = -System.currentTimeMillis();
+		
 		parseOptions();
 		init();
 		
@@ -369,10 +385,15 @@ public class Main extends Base {
 		
 		debug.report(NOTE, "working directory: " + System.getProperty("user.dir"));
 
+		startUp += System.currentTimeMillis();
+		parse = -System.currentTimeMillis();
 		
 		// parse the input file and exit, if there were errors
 		if(!parseInput(inputFile))
 			System.exit(1);
+		
+		parse += System.currentTimeMillis();
+		manifest = -System.currentTimeMillis();
 		
 		if(!BaseNode.manifestAST(root)) {
 			if(dumpAST)
@@ -380,6 +401,7 @@ public class Main extends Base {
 			System.exit(1);
 		}
 		
+		manifest += System.currentTimeMillis();
 		
 		// Dump the rewritten AST.
 		if(dumpAST)
@@ -400,11 +422,29 @@ public class Main extends Base {
 		 */
 		
 		// Construct the Immediate representation.
+		buildIR = -System.currentTimeMillis();
 		buildIR();
+		buildIR += System.currentTimeMillis();
 		
 		// Dump the IR.
-		if(dumpIR)
+		if(dumpIR) {
 			dumpVCG(irUnit, new GraphDumpVisitor(), "ir");
+			
+			try {
+				FileOutputStream fos =
+					new FileOutputStream(inputFile + ".ir.xml");
+				
+				XMLDumper dumper = new XMLDumper(new PrintStream(fos));
+				dumper.dump(irUnit);
+			} catch(IOException e) {
+			}
+		}
+		
+		if(dumpIR) {
+			GraphDumperFactory factory = new VCGDumperFactory();
+			Dumper dumper = new Dumper(factory);
+			dumper.dump(irUnit, new File(inputFile + ".ir2.vcg"));
+		}
 		
 		debug.report(NOTE, "finished");
 		
@@ -413,8 +453,19 @@ public class Main extends Base {
 			debugTree.expandRow(1);
 		}
 		
+		codeGen = -System.currentTimeMillis();
 		if(backend != null)
 			generateCode();
+		codeGen += System.currentTimeMillis();
+		
+		if(printTiming) {
+			System.out.println("timing information (millis):");
+			System.out.println("start up: " + startUp);
+			System.out.println("parse:    " + parse);
+			System.out.println("manifest: " + manifest);
+			System.out.println("build IR: " + buildIR);
+			System.out.println("code gen: " + codeGen);
+		}
 		
 		exportPrefs();
 		
@@ -464,7 +515,7 @@ public class Main extends Base {
 	}
 	
 	public static void main(String[] args) {
-		staticInit();
+		// staticInit();
 		Main main = new Main(args);
 		main.run();
 	}

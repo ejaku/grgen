@@ -77,7 +77,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		Iterator ext = getChild(EXTENDS).getChildren();
 		while(ext.hasNext()) {
 			NodeTypeNode x = (NodeTypeNode) ext.next();
-			nt.addInherits(x.getNodeType());
+			nt.addSuperType(x.getNodeType());
 		}
 		return nt;
 	}

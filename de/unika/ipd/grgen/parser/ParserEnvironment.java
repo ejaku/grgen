@@ -1,0 +1,238 @@
+/**
+ * ParserEnvironment.java
+ *
+ * @author Sebastian Hack
+ */
+
+package de.unika.ipd.grgen.parser;
+
+import de.unika.ipd.grgen.ast.*;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.util.Base;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public abstract class ParserEnvironment extends Base {
+
+	public static final String MODEL_SUFFIX = ".gm";
+	
+	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
+	
+	public static final int TYPES = 0;
+	public static final int ENTITIES = 1;
+	public static final int ACTIONS = 2;
+	
+	private final SymbolTable[] symTabs = new SymbolTable[] {
+		new SymbolTable("types"),
+		new SymbolTable("entities"),
+		new SymbolTable("actions")
+	};
+	
+	private final ConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
+	
+	private final ConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
+
+	private final Scope rootScope;
+	
+	private Scope currScope;
+	
+	private final IdentNode nodeRoot;
+	
+	private final IdentNode edgeRoot;
+	
+	private final Sys system;
+	
+	private final Collection builtins = new LinkedList();
+	
+	/**
+	 * Make a new parser environment.
+	 */
+	public ParserEnvironment(Sys system) {
+		this.system = system;
+		
+		// Make the root scope
+		currScope = rootScope = new Scope(system.getErrorReporter());
+		BaseNode.setCurrScope(currScope);
+
+		// Add keywords to the symbol table
+		for(int i = 0; i < symTabs.length; i++) {
+			symTabs[i].enterKeyword("int");
+			symTabs[i].enterKeyword("string");
+			symTabs[i].enterKeyword("boolean");
+		}
+
+		// The node type root
+		nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(),
+																											new CollectNode(), 0));
+		
+		// The edge type root
+		edgeRoot = predefineType("Edge", new EdgeTypeNode(new CollectNode(),
+																											new CollectNode(),
+																											new CollectNode(), 0));
+		
+		builtins.add(nodeRoot);
+		builtins.add(edgeRoot);
+		
+		builtins.add(predefineType("int", BasicTypeNode.intType));
+		builtins.add(predefineType("string", BasicTypeNode.stringType));
+		builtins.add(predefineType("boolean", BasicTypeNode.booleanType));
+		
+	}
+	
+	public File findModel(String modelName) {
+		debug.entering();
+
+		File res = null;
+		File[] modelPaths = system.getModelPaths();
+		String modelFile = modelName + MODEL_SUFFIX;
+		
+		
+		for(int i = 0; i < modelPaths.length; i++) {
+			File curr = new File(modelPaths[i], modelFile);
+			debug.report(NOTE, "trying: " + curr);
+			if(curr.exists()) {
+				res = curr;
+				break;
+			}
+		}
+		
+		debug.leaving();
+		return res;
+	}
+
+	public FileInputStream openModel(String modelName) {
+		File modelFile = findModel(modelName);
+		FileInputStream res = null;
+		
+		try {
+			res = new FileInputStream(modelFile);
+		} catch(FileNotFoundException e) {
+			system.getErrorReporter().error("Cannot load graph model: " + modelName);
+			System.exit(1);
+		}
+		
+		return res;
+	}
+	
+	/**
+	 * Predefine an identifier.
+	 * @param symTab The symbol table to enter the identifier in.
+	 * @param text The string of the identifier.
+	 * @return An AST identifier node for this identifier.
+	 */
+	private IdentNode predefine(int symTab, String text) {
+		return new IdentNode(define(symTab, text, BaseNode.BUILTIN));
+	}
+
+	/**
+	 * Predefine a type.
+	 * This method creates the type declaration of a given type.
+	 * @param text The name of the type.
+	 * @param type The AST type node.
+	 * @return An AST identifier node for this type.
+	 */
+	private IdentNode predefineType(String text, TypeNode type) {
+		IdentNode id = predefine(TYPES, text);
+		id.setDecl(new TypeDeclNode(id, type));
+		return id;
+	}
+	
+	/**
+	 * Add the builtin types to an AST node.
+	 * @param root The AST node to add the built in types to.
+	 */
+	public void addBuiltinTypes(BaseNode root) {
+		for(Iterator it = builtins.iterator(); it.hasNext();) {
+			BaseNode bn = (BaseNode) it.next();
+			root.addChild(bn);
+		}
+	}
+	
+	public Scope getCurrScope() {
+		return currScope;
+	}
+	
+	public void pushScope(IdentNode ident) {
+		currScope = currScope.newScope(ident.toString());
+		BaseNode.setCurrScope(currScope);
+	}
+	
+	public void popScope() {
+		if(!currScope.isRoot())
+			currScope = currScope.leaveScope();
+		BaseNode.setCurrScope(currScope);
+	}
+	
+	public Symbol.Definition define(int symTab, String text, Coords coords) {
+		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
+		Symbol sym = symTabs[symTab].get(text);
+		return currScope.define(sym, coords);
+	}
+	
+	public IdentNode defineAnonymousEntity(String text, Coords coords) {
+		Symbol.Definition def = currScope.defineAnonymous(text, symTabs[ENTITIES], coords);
+		return new IdentNode(def);
+	}
+	
+	public Symbol.Occurrence occurs(int symTab, String text, Coords coords) {
+		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
+		Symbol sym = symTabs[symTab].get(text);
+		return currScope.occurs(sym, coords);
+	}
+	
+	/**
+	 * Get the node root identifier.
+	 * @return The node root type identifier.
+	 */
+	public IdentNode getNodeRoot() {
+		return nodeRoot;
+	}
+	
+	/**
+	 * Get the edge root identifier.
+	 * @return The edge root type identifier.
+	 */
+	public IdentNode getEdgeRoot() {
+		return edgeRoot;
+	}
+	
+	public BaseNode getOne() {
+		return one;
+	}
+	
+	public BaseNode getZero() {
+		return zero;
+	}
+	
+	public Sys getSystem() {
+		return system;
+	}
+	
+	/**
+	 * Get an initializer for an AST node.
+	 * This defaults to the error node.
+	 * @return An initialization AST node.
+	 */
+	public BaseNode initNode() {
+		return BaseNode.getErrorNode();
+	}
+
+	/**
+	 * Get an initializer for an identifier AST node.
+	 * This defaults to the invalid identifier.
+	 * @return An initialization AST identifier node.
+	 */
+	public IdentNode getDummyIdent() {
+		return IdentNode.getInvalid();
+	}
+	
+	public abstract BaseNode parse(File inputFile);
+	
+	public abstract boolean hadError();
+}
+

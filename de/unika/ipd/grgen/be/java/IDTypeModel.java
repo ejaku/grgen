@@ -10,7 +10,7 @@ import de.unika.ipd.grgen.be.sql.TypeID;
 
 
 /**
- * A type model that uses IDs. 
+ * A type model that uses IDs.
  */
 public interface IDTypeModel extends TypeID {
 
@@ -30,7 +30,7 @@ public interface IDTypeModel extends TypeID {
 	int[] getEdgeTypeIsA(int e);
 	
 	boolean nodeTypeIsA(int n1, int n2);
-	boolean edgeTypeIsA(int e1, int e2);	
+	boolean edgeTypeIsA(int e1, int e2);
 
 	int[] getNodeTypes();
 	int[] getEdgeTypes();
