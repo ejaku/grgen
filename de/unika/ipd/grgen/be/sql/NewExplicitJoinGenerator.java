@@ -13,6 +13,7 @@ import java.util.*;
 import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
+import sun.security.krb5.internal.ccache.a1;
 
 
 /**
@@ -403,6 +404,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		MatchingAction act = matchCtx.action;
 		TypeStatementFactory factory = matchCtx.stmtFactory;
 		GraphTableFactory tableFactory = matchCtx.tableFactory;
+
+		boolean negIsSubPattern = false;
 		
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
@@ -416,6 +419,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			// Get the elements to generate for
 			Collection negNodes = neg.getNodes(new HashSet());
+			Collection negAllNode = neg.getNodes(new HashSet());
 			negNodes.removeAll(patNodes);
 			
 			Collection negEdges = neg.getEdges(new HashSet());
@@ -423,10 +427,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			negEdges.removeAll(patEdges);
 
 			//This checks the neggraph beeing a sub to pattern
-			if (negNodes.isEmpty() && negEdges.isEmpty()) {
+			if (negNodes.isEmpty() && negEdges.isEmpty() && !(negAllNode.isEmpty() && negAllEdges.isEmpty()))  {
 				//TODO Tell the user which rule and which neg-graph
 				error.warning("This negative graph is a subgraph of the pattern graph. This action is never applicable.");
-				//TODO set bit to indicate special handling...
+				//set bit to indicate special handling
+				negIsSubPattern = true;
 			}
 			
 			// Now generate the subterm for one negative part
@@ -438,8 +443,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node n = (Node) iter.next();
 				NodeTable nodeTable = tableFactory.nodeTable(n);
 				
-				Term eqNull = factory.expression(Opcodes.ISNULL,
-																				 factory.expression(nodeTable.colId()));
+				Term eqNull = factory.expression(Opcodes.ISNULL, factory.expression(nodeTable.colId()));
 				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
 				deps.add(nodeTable);
 			}
@@ -462,8 +466,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					if (negAllEdges.contains(patE)) {
 						EdgeTable patEdgeTable = tableFactory.edgeTable(patE);
 						Term patEdgeIdCol = factory.expression(patEdgeTable.colId());
-						edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq,
-																						 factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
+						edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq, factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
 						depsUneq.add(patEdgeTable);
 					}
 				}
@@ -476,6 +479,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Table neutral = (Table) neutralMap.get(neg);
 			deps.add(neutral);
 			
+			if (negIsSubPattern)
+				sub = factory.addExpression(Opcodes.AND, sub, factory.constant(false));
 			
 			if(sub != null)
 				seq.scheduleCond(sub, deps);
@@ -1080,8 +1085,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
 			
 			Query result = factory.explicitQuery(true, columns, currJoin, limit);
-			
-			
 			
 			return result;
 		}
