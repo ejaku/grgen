@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.sql.IDBase;
+import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.PostWalker;
 import de.unika.ipd.grgen.util.Visitor;

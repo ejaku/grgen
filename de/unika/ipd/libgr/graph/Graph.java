@@ -8,8 +8,6 @@ package de.unika.ipd.libgr.graph;
 
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.libgr.Named;
-import de.unika.ipd.libgr.actions.Match;
-
 
 /**
  * A graph.

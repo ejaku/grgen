@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.sql.IDBase;
+import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumItem;

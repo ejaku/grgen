@@ -290,6 +290,13 @@ class SQLGraph implements Graph, TypeModel {
 		return id;
 	}
 	
+	/**
+	 * Make a new SQL graph.
+	 * @param name The name of the graph.
+	 * @param typeModel The type model.
+	 * @param queries 
+	 * @param reporter
+	 */
 	SQLGraph(String name, IDTypeModel typeModel, Queries queries, ErrorReporter reporter) {
 		this.name = name;
 		this.typeModel = typeModel;

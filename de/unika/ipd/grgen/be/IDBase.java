@@ -4,7 +4,7 @@
  * @author Sebastian Hack
  * @version $Id$
  */
-package de.unika.ipd.grgen.be.sql;
+package de.unika.ipd.grgen.be;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.CompoundType;
 import de.unika.ipd.grgen.ir.EdgeType;

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.sql.IDBase;
+import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -146,7 +146,7 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 	
 	
 	/**
-	 * @see de.unika.ipd.grgen.be.sql.IDBase#getUnit()
+	 * @see de.unika.ipd.grgen.be.IDBase#getUnit()
 	 */
 	protected Unit getUnit() {
 		return unit;
@@ -226,5 +226,36 @@ public abstract class JavaIdBackend extends IDBase implements Backend, IDTypeMod
 			res[i] = i;
 		
 		return res;
+	}
+	
+	private static final int[] getIsA(boolean[] matrixRow) {
+		int[] result;
+		int entries = 0;
+		
+		// count the entries first.
+		for(int i = 0; i < matrixRow.length; i++) 
+			entries = matrixRow[i] ? entries + 1 : entries;
+
+		result = new int[entries];
+		for(int i = 0, j = 0; i < matrixRow.length; i++) {
+			if(matrixRow[i])
+				result[j++] = i;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getEdgeTypeIsA(int)
+	 */
+	public int[] getEdgeTypeIsA(int et) {
+		return getIsA(edgeTypeIsA[et]);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.be.java.IDTypeModel#getNodeTypeIsA(int)
+	 */
+	public int[] getNodeTypeIsA(int nt) {
+		return getIsA(nodeTypeIsA[nt]);
 	}
 }

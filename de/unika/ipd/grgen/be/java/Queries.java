@@ -30,7 +30,9 @@ public interface Queries {
 	int NODE_GET_TYPE = 9;
 	int EDGE_GET_TYPE = 10;
 	
-	int COUNT = EDGE_GET_TYPE + 1;
+	int GET_ALL_NODES = 11;
+	
+	int COUNT = GET_ALL_NODES + 1;
 	
 	/**
 	 * Get the connection to the database.

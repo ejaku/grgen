@@ -20,12 +20,12 @@ public interface Actions {
 	 * @return The corresponding Action object or <code>null</code> if 
 	 * nothing is known about an action named <code>name</code>.
 	 */
-	Action getAction(String name);
+	Action get(String name);
 
 	/**
 	 * Get an iterator iterating over all known actions.
 	 * @return The iterator.
 	 */
-	Iterator getActions();
+	Iterator get();
 	
 }

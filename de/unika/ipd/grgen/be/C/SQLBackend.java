@@ -18,6 +18,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
+import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Graph;
@@ -77,7 +78,7 @@ public abstract class SQLBackend extends CBackend {
 	protected String nodeTypeIsAFunc;
 	*/
 	
-	protected SQLParameters parameters;
+	protected SQLParameters parameters = new PreferencesSQLParameters();
 	
 	protected CSQLGenerator sqlGen = new CSQLGenerator(parameters, this);
 	

@@ -19,17 +19,14 @@ public class Base implements Id {
 	/** The id of this object */ 
 	private String id;
 
-	/* constants for debug reporting */
-	protected static final int NOTE = 0;
-	
+	/** constants for debug reporting */
+	public static final int NOTE = 0;
 
 	/** The debug reporter for debugging */
-	protected static Reporter debug;
+	public static Reporter debug;
 	
 	/** The error reporter for error reporting */
 	protected static ErrorReporter error;
-
-
 
 	/**
 	 * Set the reporting facilities of the base class

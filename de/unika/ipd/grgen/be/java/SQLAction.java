@@ -18,9 +18,12 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
+import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.TypeID;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Match;
 import de.unika.ipd.libgr.actions.Matches;
@@ -38,6 +41,14 @@ class SQLAction implements Action, RewriteHandler {
 		public boolean isValid() {
 			return false;
 		}
+		
+		public Map getNodes() {
+			return null;
+		}
+		
+		public Map getEdges() {
+			return null;
+		}
 	};
 
 	/** 
@@ -51,6 +62,7 @@ class SQLAction implements Action, RewriteHandler {
 		
 		/** Number of matches in the result set. */
 		private int numberOfMatches = 0;
+		
 		
 		SQLMatches(ResultSet result) {
 			this.result = result;
@@ -89,6 +101,38 @@ class SQLAction implements Action, RewriteHandler {
 			return numberOfMatches;
 		}
 	}
+	
+	private class SQLMatch implements Match {
+		
+		private int[] ids;
+		
+		SQLMatch(int[] ids) {
+			this.ids = ids;
+		}
+		
+		/**
+		 * @see de.unika.ipd.libgr.actions.Match#getEdges()
+		 */
+		public Map getEdges() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		/**
+		 * @see de.unika.ipd.libgr.actions.Match#getNodes()
+		 */
+		public Map getNodes() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		/**
+		 * @see de.unika.ipd.libgr.actions.Match#isValid()
+		 */
+		public boolean isValid() {
+			return true;
+		}
+	}
 
 	/**
 	 * Data needed for a rewrite step.
@@ -109,6 +153,9 @@ class SQLAction implements Action, RewriteHandler {
 		}
 	}
 	
+	/**
+	 * A rewrite step which is given an index to the match table.
+	 */
 	private class IndexStep extends RewriteStep {
 		
 		private int index;
@@ -126,6 +173,9 @@ class SQLAction implements Action, RewriteHandler {
 		}
 	}
 
+	/**
+	 * A rewrite step which changes the type of a node in the database.
+	 */
 	private class ChangeNodeTypeStep extends RewriteStep {
 		
 		private final int nodeIndex;
@@ -162,21 +212,25 @@ class SQLAction implements Action, RewriteHandler {
 	private Queries queries;
 	
 	/** Someone who gives IDs for types. */
-	private TypeID typeID;
+	private TypeID typeId;
+	
+	/** An error reporter. */
+	private ErrorReporter reporter;
 	
 	/** The rewrite steps to take. */
 	List rewriteSteps = new LinkedList();
 	
-	
-	SQLAction(MatchingAction action, SQLBackend backend) {
+	SQLAction(MatchingAction action, TypeID typeId, Queries queries, SQLGenerator generator,
+			ErrorReporter reporter) {
 		this.action = action;
-		this.queries = backend.queries;
-		this.typeID = backend;
+		this.queries = queries;
+		this.typeId = typeId;
+		this.reporter = reporter;
 
 		// Generate the SQL match statement.
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
-		String stmtString = backend.sqlGen.genMatchStatement(action, nodes, edges);
+		String stmtString = generator.genMatchStatement(action, nodes, edges);
 		
 		// Put the matched nodes and edges in map with their index in the match.
 		int i = 0;
@@ -186,10 +240,12 @@ class SQLAction implements Action, RewriteHandler {
 		for(Iterator it = edges.iterator(); it.hasNext(); i++)
 			edgeIndexMap.put(it.next(), new Integer(i));
 		
+		Base.debug.report(Base.NOTE, "prepareing statement: " + stmtString);
+		
 		try {
 			stmt = queries.getConnection().prepareStatement(stmtString);
 		} catch(SQLException e) {
-			// TODO Error handling
+			reporter.error("could not prepare statement");
 		}
 	}
 	

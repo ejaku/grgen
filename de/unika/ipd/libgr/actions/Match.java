@@ -6,6 +6,8 @@
  */
 package de.unika.ipd.libgr.actions;
 
+import java.util.Map;
+
 
 
 /**
@@ -13,7 +15,14 @@ package de.unika.ipd.libgr.actions;
  */
 public interface Match {
 	
+	Map getNodes();
 	
+	Map getEdges();
+	
+	/**
+	 * Is this match valid?
+	 * @return true, if the match is valid, false if it does not mean a thing.
+	 */
 	boolean isValid();
 
 }

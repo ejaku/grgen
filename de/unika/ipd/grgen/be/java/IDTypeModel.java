@@ -6,11 +6,13 @@
  */
 package de.unika.ipd.grgen.be.java;
 
+import de.unika.ipd.grgen.be.sql.TypeID;
+
 
 /**
  * A type model that uses IDs. 
  */
-public interface IDTypeModel {
+public interface IDTypeModel extends TypeID {
 
 	String getNodeTypeName(int node);
 	String getEdgeTypeName(int edge);
@@ -20,6 +22,9 @@ public interface IDTypeModel {
 	
 	int getNodeRootType();
 	int getEdgeRootType();
+	
+	int[] getNodeTypeIsA(int n);
+	int[] getEdgeTypeIsA(int e);
 	
 	boolean nodeTypeIsA(int n1, int n2);
 	boolean edgeTypeIsA(int e1, int e2);	
