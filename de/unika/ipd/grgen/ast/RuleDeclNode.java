@@ -18,18 +18,14 @@ import java.util.Set;
 /**
  * AST node for a replacement rule.
  */
-public class RuleDeclNode extends ActionDeclNode {
+public class RuleDeclNode extends TestDeclNode {
 	
-	private static final int LEFT = LAST + 1;
-	private static final int RIGHT = LAST + 2;
-	private static final int NEG = LAST + 3;
-	private static final int COND = LAST + 4;
-	private static final int EVAL = LAST + 5;
-	
+	private static final int RIGHT = LAST + 3;
+	private static final int EVAL = LAST + 4;
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-			"left", "right", "neg", "eval"
+			"left", "neg", "right", "eval"
 	};
 	
 	/** Type for this declaration. */
@@ -57,8 +53,8 @@ public class RuleDeclNode extends ActionDeclNode {
 		super(id, ruleType);
 		setChildrenNames(childrenNames);
 		addChild(left);
-		addChild(right);
 		addChild(neg);
+		addChild(right);
 		addChild(eval);
   }
   
@@ -70,51 +66,17 @@ public class RuleDeclNode extends ActionDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean childTypes = checkChild(LEFT, GraphNode.class)
-			&& checkChild(NEG, negChecker)
+		boolean childTypes = super.check()
 			&& checkChild(RIGHT, GraphNode.class);
-		
-		boolean redirs = false, homomorphic = false;
-		
-		if(childTypes) {
-			redirs = true;
-			
-			GraphNode left = (GraphNode) getChild(LEFT);
-			GraphNode right = (GraphNode) getChild(RIGHT);
-			
-			Set leftNodes = left.getNodes();
-			Set rightNodes = right.getNodes();
-			
-		}
-		
-		homomorphic = true;
-		if(childTypes) {
-			//Nodes that occur in the NAC part but not in the left side of a rule
-			//may not be mapped non-injectively.
-			CollectNode negs  = (CollectNode) getChild(NEG);
-			GraphNode left = (GraphNode) getChild(LEFT);
-			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
-				GraphNode neg = (GraphNode) negsIt.next();
-				Set s = neg.getNodes();
-				s.removeAll(left.getNodes());
-				for (Iterator it = s.iterator(); it.hasNext();) {
-					NodeDeclNode nd = (NodeDeclNode) it.next();
-					if (nd.hasHomomorphicNodes()) {
-						nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
-						homomorphic = false;
-					}
-				}
-			}
-		}
-		
-		return childTypes && redirs && homomorphic;
+
+		return childTypes;
 	}
 	
   /**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
   protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) getChild(LEFT)).getPatternGraph();
+		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);

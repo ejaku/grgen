@@ -20,8 +20,8 @@ import java.util.Set;
 public class TestDeclNode extends ActionDeclNode {
 	
 	
-	private static final int PATTERN = LAST + 1;
-	private static final int NEG = LAST + 2;
+	protected static final int PATTERN = LAST + 1;
+	protected static final int NEG = LAST + 2;
 	
 	private static final String[] childrenNames =
 		addChildrenNames(new String[] { "test", "neg" });
@@ -34,6 +34,10 @@ public class TestDeclNode extends ActionDeclNode {
 	static {
 		setName(TestDeclNode.class, "test declaration");
 		setName(testType.getClass(), "test type");
+	}
+	
+	protected TestDeclNode(IdentNode id, TypeNode type) {
+		super(id, testType);
 	}
 	
 	public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode neg) {
