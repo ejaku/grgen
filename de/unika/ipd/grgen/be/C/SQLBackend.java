@@ -596,11 +596,11 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 					ps.println(';');
 				}
 				
-				ps.print("    evals_arr[" + j + "] = ");
-				accessEntity(ps, a.getTarget().getOwner());
-				ps.println(';');
+//				ps.print("    evals_arr[" + j + "] = ");
+//				accessEntity(ps, a.getTarget().getOwner());
+//				ps.println(';');
 				
-				ps.println("    EXECUTE_EVAL(" + q.idName + ", " + (ents + 1) + ", evals_arr);");
+				ps.println("    EXECUTE_EVAL(" + q.idName + ", " + ents + ", evals_arr);");
 				ps.println("\n  }");
 			}
 		}
