@@ -13,7 +13,7 @@
           <map />
           <node name="grgen">
             <map>
-              <entry key="backendFactory" value="de.unika.ipd.grgen.be.C.CBackendFactory" />
+              <entry key="backendFactory" value="de.unika.ipd.grgen.be.C.PGSQLBackend" />
             </map>
             <node name="be">
               <map />
@@ -38,7 +38,7 @@
                   <entry key="generator" value="de.unika.ipd.grgen.be.C.MySQLGenerator" />
                   <entry key="tableEdgeAttrs" value="edge_attrs" />
                   
-                  <entry key="limitQueryResults" value="1" />
+                  <entry key="limitQueryResults" value="0" />
                 </map>
               </node>
             </node>

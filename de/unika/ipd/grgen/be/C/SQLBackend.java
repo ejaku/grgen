@@ -136,6 +136,9 @@ public abstract class SQLBackend extends CBackend {
     addStringDefine(sb, "COL_EDGES_TGT_ID", colEdgesTgtId);
     addStringDefine(sb, "COL_NODE_ATTR_NODE_ID", colNodeAttrNodeId);
     addStringDefine(sb, "COL_EDGE_ATTR_EDGE_ID", colEdgeAttrEdgeId);
+    
+    // Dump the databases type corresponding to the ID type.
+    addStringDefine(sb, "DB_ID_TYPE", getIdType());
   }
 
   /**
@@ -145,71 +148,11 @@ public abstract class SQLBackend extends CBackend {
   protected abstract String getIdType();
 
   /**
-   * Generate a column SQL snippet used in a CREATE TABLE statement.
-   * @param name The name of the column.
-   * @param type The type of the column.
-   * @param notNull true, if col is not null.
-   * @param unique true, if the col is unique.
-   * @param auto_inc true, if the col auto increments its value.
-   * @param primary true, if it is a primary index.
-   * @return A string containing SQL for this column.
-   */
-  protected abstract String genColumn(
-    String name,
-    String type,
-    boolean notNull,
-    boolean unique,
-    boolean auto_inc,
-    boolean primary);
-
-  /**
-   * Generate SQL for table creation. 
-   * @param name The name of the table.
-   * @param cols A collection of strings containing the column definitions
-   * @return A string that contains the SQL table creation statement.
-   */
-  protected abstract String genTable(String name, Collection cols);
-
-  protected abstract void genIndex();
-
-  /**
    * Generate code, that sends a query to the SQL server.
    * @param sb The string buffer to put the code to.
    * @param query The query.
    */
   protected abstract void genQuery(StringBuffer sb, String query);
-
-  /**
-   * Get SQL statements to create the database.
-   * @param db The name of the database.
-   * @return A Collection with SQL statements for database creation.
-   */
-  public abstract Collection genDbCreate(String db);
-
-  /**
-   * Generate the SQL statements to create all tables neccassary for grgen.
-   * @return A Collection of Strings with all the SQL statements that
-   * create the tables neccessary.
-   */
-  public Collection genDbTables() {
-    String idt = getIdType();
-    Collection stmts = new LinkedList();
-    Collection cols = new LinkedList();
-
-    cols.clear();
-    cols.add(genColumn(colNodesId, idt, true, true, false, true));
-    cols.add(genColumn(colNodesTypeId, idt, true, false, false, false));
-    stmts.add(genTable(tableNodes, cols));
-
-    cols.clear();
-    cols.add(genColumn(colEdgesId, idt, true, true, false, true));
-    cols.add(genColumn(colEdgesTypeId, idt, true, false, false, false));
-    cols.add(genColumn(colEdgesSrcId, idt, true, false, false, false));
-    cols.add(genColumn(colEdgesTgtId, idt, true, false, false, false));
-    stmts.add(genTable(tableEdges, cols));
-
-    return stmts;
-  }
 
   /**
    * Make an SQL table identifier out of an edge.
@@ -431,6 +374,7 @@ public abstract class SQLBackend extends CBackend {
         + "  MATCH_PROTOTYPE((*matcher));\n"
         + "  FINISH_PROTOTYPE((*finisher));\n"
         + "  const char **stmt;\n"
+        + "  const char *name;\n"
         + "} action_impl_t;\n");
   }
 
@@ -677,7 +621,7 @@ public abstract class SQLBackend extends CBackend {
 
     // Make the function that invokes the SQL statement.
     sb.append("static MATCH_PROTOTYPE(" + matchIdent + ")\n{\n");
-    sb.append("  QUERY(" + stmtIdent + ");\n");
+    sb.append("  QUERY(" + id + ", " + stmtIdent + ");\n");
     sb.append(
       "  MATCH_GET_RES("
         + nodes.size()
@@ -729,6 +673,8 @@ public abstract class SQLBackend extends CBackend {
           + m.finishIdent
           + ", &"
           + m.stmtIdent
+          + ", "
+          + formatString(m.stmtIdent)
           + " },\n");
     }
     sb.append("};\n");
