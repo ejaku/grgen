@@ -22,10 +22,10 @@ edge class E1 extends Edge {
       2 + 3 + 4 < 2 * 12 && false && a.x;
     }
     replace {
-      a -E1-> b -> c;
+      a::Node -E1-> b -> c;
     }
   }
-
+/*
   rule RuleB {
     pattern {
       a:N1 -E1-> b:N2 -> c:Node;
