@@ -14,19 +14,23 @@ import de.unika.ipd.grgen.ir.Graph;
  */
 public interface ConnectionCharacter {
 
-	/** 
+	/**
 	 * Add all nodes of this connection to a set.
 	 * @param set The set.
 	 */
-	public void addNodes(Set set);	
+	public void addNodes(Set set);
 	
-	/** 
+	/**
 	 * Add all edges of this connection to a set.
 	 * @param set The set.
 	 */
 	public void addEdge(Set set);
 
 	public EdgeCharacter getEdge();
+
+	public NodeDeclNode getSrc();
+	
+	public NodeDeclNode getTgt();
 	
 	/**
 	 * Add this connection character to an IR graph.

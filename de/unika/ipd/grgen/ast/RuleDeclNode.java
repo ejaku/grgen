@@ -14,6 +14,7 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * AST node for a replacement rule.
@@ -58,6 +59,12 @@ public class RuleDeclNode extends TestDeclNode {
 		addChild(eval);
   }
   
+	protected Collection getGraphs() {
+		Collection res = super.getGraphs();
+		res.add((GraphNode) getChild(RIGHT));
+		return res;
+	}
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are

@@ -13,12 +13,16 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Test;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.HashSet;
 
 /**
  * A type that represents tests
  */
 public class TestDeclNode extends ActionDeclNode {
-	
 	
 	protected static final int PATTERN = LAST + 1;
 	protected static final int NEG = LAST + 2;
@@ -47,12 +51,20 @@ public class TestDeclNode extends ActionDeclNode {
 		setChildrenNames(childrenNames);
 	}
 	
+	protected Collection getGraphs() {
+		Collection res = new LinkedList();
+		CollectNode negs  = (CollectNode) getChild(NEG);
+		res.add((GraphNode) getChild(PATTERN));
+		for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();)
+			res.add((GraphNode) negsIt.next());
+		return res;
+	}
+	
 	/**
-	 * The children of a test type are
-	 * 1) a pattern
-	 * 2) a NAC
-	 * 3) and a cond part.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * Method check
+	 *
+	 * @return   a boolean
+	 *
 	 */
 	protected boolean check() {
 		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
@@ -60,7 +72,7 @@ public class TestDeclNode extends ActionDeclNode {
 		
 		boolean homomorphic = true;
 		if(childs) {
-			//Nodes that occur in the NAC part but not in the left side of a rule
+			//Nodes that occur in a NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
 			CollectNode negs  = (CollectNode) getChild(NEG);
 			GraphNode left = (GraphNode) getChild(PATTERN);
@@ -78,8 +90,32 @@ public class TestDeclNode extends ActionDeclNode {
 			}
 		}
 		
+		boolean edgeReUse = false;
+		if (childs) {
+			//Check if reused names of edges connect the same nodes in the same direction for each usage
+			GraphNode[] graphs = (GraphNode[]) getGraphs().toArray(new GraphNode[0]);
+			Collection alreadyReported = new HashSet();
+			
+			for (int i=0; i<graphs.length; i++)
+				for (int o=i+1; o<graphs.length; o++)
+					for (Iterator iIter = graphs[i].getConnections(); iIter.hasNext();) {
+						ConnectionCharacter iConn = (ConnectionCharacter) iIter.next();
+						if (! (iConn instanceof ConnectionNode)) continue;
+
+						for (Iterator oIter = graphs[o].getConnections(); oIter.hasNext();) {
+							ConnectionCharacter oConn = (ConnectionCharacter) oIter.next();
+							if (! (oConn instanceof ConnectionNode)) continue;
+	
+							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge()))
+								if (iConn.getSrc() != oConn.getSrc() || iConn.getTgt() != oConn.getTgt()) {
+									alreadyReported.add(iConn.getEdge());
+									((ConnectionNode) oConn).reportError("Reused edge does not connect the same nodes");
+								}
+						}
+					}
+		}
 		
-		return childs && homomorphic;
+		return childs && homomorphic && edgeReUse;
 	}
 	
 	protected IR constructIR() {
@@ -97,3 +133,4 @@ public class TestDeclNode extends ActionDeclNode {
 		return test;
 	}
 }
+
