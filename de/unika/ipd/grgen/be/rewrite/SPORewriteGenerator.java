@@ -46,7 +46,6 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
-		Set negatedEdges = left.getNegatedEdges();
 		Map insertedNodesIndexMap = new HashMap();
 		Collection w, nodesToInsert;
 		int i;
@@ -67,20 +66,10 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// to insert some nodes, i.e. The nodesToInsert set has elements
 		handler.insertNodes(nodesToInsert);
 		
-		// All edges, that occur only on the left side or are negated
-		// edges have to be removed.
+		// All edges, that occur only on the left side have to be removed.
 		w = left.getEdges(new HashSet());
 		w.removeAll(commonEdges);
-		w.removeAll(left.getNegatedEdges());
-		Collection edgesToDelete = new HashSet();
-		
-		// Only delete non-negated edges.
-		for (Iterator it = w.iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
-			if (!e.isNegated()) 
-				edgesToDelete.add(e);
-		}
-		handler.deleteEdges(edgesToDelete);
+		handler.deleteEdges(w);
 		
 		w = left.getNodes(new HashSet());
 		Map nodeTypeChangeMap = new HashMap();
@@ -99,8 +88,6 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		handler.deleteNodes(w);
 		
 		
-		// Right side edges cannot be negated. That is checked by
-		// the semantic analysis
 		w = right.getEdges(new HashSet());
 		w.removeAll(commonEdges);
 		handler.insertEdges(w);

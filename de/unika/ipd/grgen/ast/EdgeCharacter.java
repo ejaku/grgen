@@ -17,10 +17,4 @@ public interface EdgeCharacter {
 	 */
 	Edge getEdge();
 	
-	/**
-	 * Is the edge negated.
-	 * @return true, if the edge is negated.
-	 */
-	boolean isNegated();
-
 }

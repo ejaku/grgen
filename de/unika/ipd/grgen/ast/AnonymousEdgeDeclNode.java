@@ -20,14 +20,9 @@ public class AnonymousEdgeDeclNode extends EdgeDeclNode {
 	/**
 	 * @param n The identifier of the anonymous edge.
 	 * @param e The type of the edge.
-	 * @param negated Shall the edge be negated.
 	 */
-	public AnonymousEdgeDeclNode(IdentNode id, BaseNode type, boolean negated) {
-		super(id, type, negated);
-	}
-	
 	public AnonymousEdgeDeclNode(IdentNode id, BaseNode type) {
-		this(id, type, false);
+		super(id, type);
 	}
 	
 	/**
@@ -37,7 +32,7 @@ public class AnonymousEdgeDeclNode extends EdgeDeclNode {
 		TypeNode tn = (TypeNode) getDeclType();
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		
-		return new AnonymousEdge(getIdentNode().getIdent(), et, isNegated());
+		return new AnonymousEdge(getIdentNode().getIdent(), et);
 	}
 	
 }

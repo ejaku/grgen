@@ -21,12 +21,9 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 	private static final Resolver typeResolver =
 		new DeclTypeResolver(EdgeTypeNode.class);
 	
-	protected boolean negated;
-	
-	public EdgeDeclNode(IdentNode n, BaseNode e, boolean negated) {
+	public EdgeDeclNode(IdentNode n, BaseNode e) {
 		super(n, e);
 		setName("edge");
-		this.negated = negated;
 		addResolver(TYPE, typeResolver);
 	}
 	
@@ -40,22 +37,14 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeInfo()
 	 */
 	protected String extraNodeInfo() {
-		return "negated: " + negated;
-	}
-	
-	/**
-	 * Check, if the edge is negated.
-	 * @return true, if the edge is negated, false, if not.
-	 */
-	public boolean isNegated() {
-		return negated;
+		return "";
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
 	public Color getNodeColor() {
-		return negated ? Color.CYAN : Color.YELLOW;
+		return Color.YELLOW;
 	}
 	
 	/**
@@ -74,7 +63,7 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 		TypeNode tn = (TypeNode) getDeclType();
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		
-		Edge edge = new Edge(getIdentNode().getIdent(), et, isNegated());
+		Edge edge = new Edge(getIdentNode().getIdent(), et);
 		return edge;
 	}
 	

@@ -612,7 +612,6 @@ public abstract class SQLBackend extends CBackend {
 		Collection commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
-		Set negatedEdges = left.getNegatedEdges();
 		Map insertedNodesIndexMap = new HashMap();
 		Collection w, nodesToInsert;
 		int i;
@@ -675,18 +674,14 @@ public abstract class SQLBackend extends CBackend {
 		}
 		
 		/*
-		 * All edges, that occur only on the left side or are negated
-		 * edges have to be removed.
+		 * All edges, that occur only on the left side have to be removed.
 		 */
 		w = left.getEdges(new HashSet());
 		w.removeAll(commonEdges);
-		w.removeAll(left.getNegatedEdges());
 		
 		for (Iterator it = w.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
-			if (!e.isNegated())
-				sb.append(
-					"  DELETE_EDGE(GET_MATCH_EDGE(" + m.edgeIndexMap.get(e) + "));\n");
+			sb.append("  DELETE_EDGE(GET_MATCH_EDGE(" + m.edgeIndexMap.get(e) + "));\n");
 		}
 		
 		w = left.getNodes(new HashSet());
@@ -708,18 +703,11 @@ public abstract class SQLBackend extends CBackend {
 			sb.append("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));\n");
 		}
 		
-		// Right side edges cannot be negated. That is checked by
-		// the semantic analysis
 		w = right.getEdges(new HashSet());
 		w.removeAll(commonEdges);
 		
 		for (Iterator it = w.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
-			
-			if (e.isNegated())
-				// TODO ### nyi implement negated edges!
-				// What does it mean anyway in a replace statment???
-				continue;
 			
 			int etid = getId(e.getEdgeType());
 			Node src = right.getSource(e);

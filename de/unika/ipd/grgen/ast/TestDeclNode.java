@@ -70,20 +70,6 @@ public class TestDeclNode extends ActionDeclNode {
             }
         }
 
-        boolean nac=true;
-		if(childs) {
-			// The NAC part must not contain negated edges.
-			PatternNode neg = (PatternNode) getChild(NEG);
-			for(Iterator it = neg.getConnections(); it.hasNext();) {
-				BaseNode conn = (BaseNode) it.next();
-				ConnectionCharacter cc = (ConnectionCharacter) conn;
-				if (cc.isNegated()) {
-					conn.reportError("Edge may not be negated in the NAC part");
-					nac = false;
-				}
-			}
-		}
-
 		boolean homomorphic = true;
 		if(childs) {
 			//Nodes that occur in the NAC part but not in the left side of a rule
@@ -103,7 +89,7 @@ public class TestDeclNode extends ActionDeclNode {
 		}
         
         
-        return childs && expr && nac && homomorphic;
+        return childs && expr && homomorphic;
     }
     
     protected IR constructIR() {

@@ -116,7 +116,6 @@ public class Rule extends MatchingAction
 			
 			if (e.isAnonymous()) {
 				right.replaceSimilarEdges(pattern, e);
-				//TODO DG Is this right?
 				neg.replaceSimilarEdges(pattern, e);
 			}
 		}

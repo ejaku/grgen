@@ -125,7 +125,6 @@ public class SQLGenerator extends Base {
 	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		Graph gr  = act.getPattern();
 		Graph neg = act.getNeg(); 
-		//TODO DG first design
 		Query q = makeQuery(act, gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
 
 		if (act.hasNeg()) {
@@ -241,11 +240,6 @@ public class SQLGenerator extends Base {
 					int edgeTypeId = typeID.getId((EdgeType) e.getType());
 					
 					debug.report(NOTE, "incident edge: " + e);
-					
-					// Ignore negated edges for now.
-					if(e.isNegated())
-						continue;
-					
 					
 					// TODO check for conditions of edges.
 					

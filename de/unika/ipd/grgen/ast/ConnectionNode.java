@@ -59,9 +59,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @param n1 First node
 	 * @param edge Edge that connects n1 with n2
 	 * @param n2 Second node.
-	 * @param negated true, if the edge was negated, false if not.
 	 */
-	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2, boolean negated) {
+	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
 		super(edge.getCoords());
 		addChild(n1);
 		addChild(edge);
@@ -69,23 +68,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		setChildrenNames(childrenNames);
 		addResolver(LEFT, nodeResolver);
 		addResolver(RIGHT, nodeResolver);		
-		addResolver(EDGE, new EdgeResolver(getScope(), edge.getCoords(), negated));
+		addResolver(EDGE, new EdgeResolver(getScope(), edge.getCoords()));
 	}
 	
-	/**
-	 * Construct a new connection node.
-	 * Just a convenience constructor for 
-	 * {@link #ConnectionNode(BaseNode, BaseNode, BaseNode, boolean)}
-	 * <code>negated</code> is set to false implicitly.
-	 * @param n1 The source node.
-	 * @param edge The edge.
-	 * @param n2 The target node.
-	 */
-	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
-		this(n1, edge, n2, false);
-	}		
-	
-
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
@@ -127,13 +112,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
   public void addNodes(Set set) {
 		set.add(getChild(LEFT));
 		set.add(getChild(RIGHT));
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated()
-   */
-  public boolean isNegated() {
-  	return ((EdgeCharacter) getChild(EDGE)).isNegated();
   }
 
 }

@@ -32,10 +32,4 @@ public interface ConnectionCharacter {
 	 */
 	public void addToGraph(Graph gr);
 	
-	/**
-	 * Is the edge of the connection negated?
-	 * @return true, if the edge is negated, false otherwise.
-	 */
-	public boolean isNegated();
-
 }

@@ -85,7 +85,7 @@ public class RuleDeclNode extends ActionDeclNode {
 			&& checkChild(REDIR, redirChecker)
 			&& checkChild(COND, evalChecker);
 			
-		boolean cond = false, redirs = false, nac = false, homomorphic = false;
+		boolean cond = false, redirs = false, homomorphic = false;
 			
 		if(childTypes) {
 			redirs = true;
@@ -116,15 +116,6 @@ public class RuleDeclNode extends ActionDeclNode {
 				}
 			}
 			
-			// The right hand side may not contain negated edges.
-			for(Iterator it = right.getConnections(); it.hasNext();) {
-				BaseNode conn = (BaseNode) it.next();
-				ConnectionCharacter cc = (ConnectionCharacter) conn;
-				if(cc.isNegated()) {
-					conn.reportError("Edge may not be negated on the right hand side");
-					redirs = false;
-				}
-			}
 		}
 		
 		if(childTypes) {
@@ -136,20 +127,6 @@ public class RuleDeclNode extends ActionDeclNode {
 				if(! e.getType().isCompatibleTo(BasicTypeNode.booleanType)) {
 					e.reportError("expression must be of type boolean");
 					cond = false;
-				}
-			}
-		}
-
-		if(childTypes) {
-			// The NAC part must not contain negated edges.
-			PatternNode neg = (PatternNode) getChild(NEG);
-			nac = true;
-			for(Iterator it = neg.getConnections(); it.hasNext();) {
-				BaseNode conn = (BaseNode) it.next();
-				ConnectionCharacter cc = (ConnectionCharacter) conn;
-				if (cc.isNegated()) {
-					conn.reportError("Edge may not be negated in the NAC part");
-					nac = false;
 				}
 			}
 		}
@@ -172,7 +149,7 @@ public class RuleDeclNode extends ActionDeclNode {
 			}
 		}
 		
-		return childTypes && redirs && cond && nac && homomorphic;
+		return childTypes && redirs && cond && homomorphic;
 	}
 
   /**

@@ -66,7 +66,7 @@ public class Graph extends IR {
 		protected Edge edge;
 		
 		public GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType(), e.isNegated());
+			super(e.getIdent(), e.getEdgeType());
 			this.edge = e;
 		}
 
@@ -84,7 +84,7 @@ public class Graph extends IR {
 	/** Map that maps a node to an internal node. */
 	private Map nodes = new HashMap();
 	
-	/** Map that maps a non-negated edge to an internal edge. */
+	/** Map that maps an edge to an internal edge. */
 	private Map edges = new HashMap();
 	
 	private GraphNode getOrSetNode(Node n) {
@@ -192,21 +192,6 @@ public class Graph extends IR {
 		return getEdges(new LinkedList()).iterator();
 	}
 		
-	/**
-	 * Get a set containing all negated edges.
-	 * @return A set with all negated edges.
-	 */
-	public Set getNegatedEdges() {
-		Set res = new HashSet();
-		for(Iterator it = edges.keySet().iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
-			if(e.isNegated())
-				res.add(e);
-		}
-		
-		return res;
-	}
-	
 	private Set getEdgeSet(Iterator it) {
 		Set res = new HashSet(); 
 		while(it.hasNext()) 
@@ -377,27 +362,13 @@ public class Graph extends IR {
   
   /**
    * Check, if a node is a single node.
-   * A node is <i>single</i>, if all of its incident or excident edges are negated.
-   * Note that a node with node edges in or outgoing is also single.  
+   * A node is <i>single</i>, if it has no incident edges.
    * @param node The node.
-   * @return true, if the node is single, false if bot.
+   * @return true, if the node is single, false if not.
    */
   public boolean isSingle(Node node) {
   	GraphNode gn = checkNode(node);
-  	
-  	for(Iterator it = gn.incoming.iterator(); it.hasNext();) {
-  		Edge e = (Edge) it.next();
-  		if(!e.isNegated())
-  			return false;
-  	}
-  	
-  	for(Iterator it = gn.outgoing.iterator(); it.hasNext();) {
-  		Edge e = (Edge) it.next();
-  		if(!e.isNegated())
-  			return false;
-  	}
-
-  	return true;
+  	return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
   }
 
 }

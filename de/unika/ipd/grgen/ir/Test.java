@@ -18,7 +18,7 @@ public class Test extends MatchingAction {
     super("test", ident, pattern, neg);
     pattern.setNameSuffix("test");
 
-    //TODO DG coalesceAnonymousEdges() needed?
+    //TODO DG coalesceAnonymousEdges() needed? Yes. Insert below after checkin
     
   }
 }
