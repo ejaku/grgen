@@ -78,6 +78,7 @@ public class SQLGenerator extends Base {
 			String debFilePart = "stmt_" + matchCtx.action.getIdent();
 			ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".txt")));
 			q.dump(ps);
+			ps.close();
 			
 			ps = new PrintStream(system.createDebugFile(new File(debFilePart + ".vcg")));
 			GraphDumper dumper = new VCGDumper(ps);
