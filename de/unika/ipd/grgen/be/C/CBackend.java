@@ -692,6 +692,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		writeOverview(ps);
 		closeFile(ps);
 		
+		genValidateStatements();
+		
 		// a hook for special generated things
 		genExtra();
 	}
