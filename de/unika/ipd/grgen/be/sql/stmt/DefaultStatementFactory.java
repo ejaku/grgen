@@ -66,6 +66,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		put(NOT, new DefaultOp(1, 4, "NOT"));
 		put(AND, new DefaultOp(2, 5, "AND"));
 		put(OR, new DefaultOp(2, 6, "OR"));
+		put(EXISTS, new DefaultOp(1, 3, "EXISTS"));
 	}
 	
 	private static class DefaultOp implements Op {
@@ -477,7 +478,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		return new ConstantTerm(bool);
 	}
 
-	protected class DefaultQuery extends DefaultDebug implements Query {
+	protected static class DefaultQuery extends DefaultDebug implements Query {
 		List columns;
 		List relations;
 		Term cond;
@@ -509,6 +510,11 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		public Term getCondition() {
 			return cond;
 		}
+		
+		public void setCondition(Term cond) {
+			this.cond = cond;
+		}
+		
 		
 		public StringBuffer dump(StringBuffer sb) {
 			int i = 0;
@@ -561,7 +567,7 @@ public class DefaultStatementFactory extends Base implements TypeStatementFactor
 		l.add(relation);
 		return new DefaultQuery(columns, l);
 	}
-
+	
 	protected static class DefaultJoin extends DefaultDebug implements Join {
 		
 		private final Relation left, right;
