@@ -177,9 +177,9 @@ tokens {
     
     private void makeBuiltin() {
     	nodeRoot = predefineType("Node", 
-    	  new NodeTypeNode(new CollectNode(), new CollectNode(), new CollectNode(), 0));
+    	  new NodeTypeNode(new CollectNode(), new CollectNode(), 0));
 			edgeRoot = predefineType("Edge", 
-			  new EdgeTypeNode(new CollectNode(), new CollectNode(), 0));
+			  new EdgeTypeNode(new CollectNode(), new CollectNode(),  new CollectNode(), 0));
 			
 			predefineType("int", BasicTypeNode.intType);
 			predefineType("string", BasicTypeNode.stringType);
@@ -283,15 +283,14 @@ typeModifier returns [ int res = 0; ]
  */
 edgeClassDecl[int modifiers] returns [ BaseNode res = initNode() ]
   {
-		BaseNode body = new CollectNode(), ext;
-  	IdentNode id;
+	BaseNode body = new CollectNode(), ext, cas;
+	IdentNode id;
   }
   
-	: "edge" "class"! id=identDecl ext=edgeExtends pushScope[id] 
+	: "edge" "class"! id=identDecl ext=edgeExtends cas=connectAssertions pushScope[id] 
 		(LBRACE! body=edgeClassBody RBRACE! | SEMI) {
 
-		// TODO XXX use constEdge in TypeDeclNode
-		EdgeTypeNode et = new EdgeTypeNode(ext, body, modifiers);
+		EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
 		id.setDecl(new TypeDeclNode(id, et));
 		res = id;
   } popScope!
@@ -299,37 +298,29 @@ edgeClassDecl[int modifiers] returns [ BaseNode res = initNode() ]
 
 nodeClassDecl![int modifiers] returns [ BaseNode res = initNode() ]
 	{
-  	BaseNode body = new CollectNode(), ext, cas;
+  	BaseNode body = new CollectNode(), ext;
   	IdentNode id;
   }
 
-	: "node" "class"! id=identDecl ext=nodeExtends cas=connectAssertions pushScope[id] 
+	: "node" "class"! id=identDecl ext=nodeExtends pushScope[id] 
 	  (LBRACE! body=nodeClassBody RBRACE! | SEMI) {
 
-		// TODO XXX use constNode in TypeDeclNode
-		// TODO XXX use ca in TypeDeclNode
-		NodeTypeNode nt = new NodeTypeNode(ext, cas, body, modifiers);
+		NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
 		id.setDecl(new TypeDeclNode(id, nt));
 		res = id;
 	} popScope!
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]
-	: "connect" (outAssert[c] | inAssert[c])
-	( COMMA (outAssert[c] | inAssert[c]) )*
+	: "connect" connectAssertion[c] ( COMMA connectAssertion[c] )*
 	|
 	;
 
-outAssert [ CollectNode c ]
-	{ BaseNode edge, srcRange, tgt; }
-	: RARROW edge=identUse srcRange=rangeSpec RARROW tgt=identUse
-	{ c.addChild(new ConnAssertNode(edge, srcRange, tgt, true)); }
-	;
-
-inAssert [ CollectNode c ]
-	{ BaseNode edge, tgtRange, src; }
-	: LARROW edge=identUse tgtRange=rangeSpec LARROW src=identUse
-	{ c.addChild(new ConnAssertNode(edge, tgtRange, src, false)); }
+connectAssertion [ CollectNode c ]
+	{ BaseNode src, srcRange, edge, tgt, tgtRange; }
+	: src=identUse srcRange=rangeSpec RARROW 
+	  tgt=identUse tgtRange=rangeSpec
+	{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
 edgeExtends returns [ CollectNode c = new CollectNode() ]
@@ -366,11 +357,15 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 rangeSpec returns [ BaseNode res = initNode() ]
 	{
 		int lower = 0, upper = RangeSpecNode.UNBOUND;
+		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
 	}
-	: l:LBRACK ( (STAR | PLUS { lower=1; }) | lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
-                   ) RBRACK 
+	: (	l:LBRACK { coords = getCoords(l); }
+			( 	(STAR | PLUS { lower=1; }) | 
+				lower=integerConst ( COLON ( STAR | upper=integerConst ) )? 
+		) RBRACK
+	  )?
 	{
-			res = new RangeSpecNode(getCoords(l), lower, upper);
+			res = new RangeSpecNode(coords, lower, upper);
 	}
 	;
 	
