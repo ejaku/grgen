@@ -298,7 +298,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	/**
 	 * An auxillary class to treat conds.
 	 */
-	static class CondState {
+	class CondState {
 		
 		Term cond;
 		Set usedEntities;
@@ -311,6 +311,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		CondState(Term cond, Set usedEntities) {
 			this.cond = cond;
 			this.usedEntities = usedEntities;
+			
 		}
 
 		private boolean canDeliver(Entity ent, Collection processed) {
@@ -325,7 +326,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		 * the expression are in the processed set. 
 		 */
 		Term getCond(Entity ent, Collection processed) {
-			return canDeliver(ent, usedEntities) ? cond : null;
+			debug.entering();
+			
+			boolean res = canDeliver(ent, processed);
+			debug.report(NOTE, "proc: " + processed + ", used: " + usedEntities
+				+ ", can deliver: " + res);
+			debug.leaving();
+			
+			return res ? cond : null;
 		}
 	}
 
@@ -582,6 +590,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			// Add the cond states and the entities which have attributes 
 			// to the statement context struct.
 			stmtCtx.conds.add(new CondState(term, usedColumns));
+
+			debug.report(NOTE, "cond state with: " + usedColumns);
 			
 			// The allCondEntities set is used for checking if an entity occurrs in a
 			// condition term
