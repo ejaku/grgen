@@ -266,6 +266,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 																		 GraphTableFactory tableFactory, TypeStatementFactory factory) {
 		debug.entering();
 		
+		Map neutralMap = new HashMap();
+		
 		// Build a list with all graphs of this matching action
 		LinkedList graphs = new LinkedList();
 		graphs.addFirst(act.getPattern());
@@ -276,8 +278,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		JoinSequence seq = new JoinSequence(act, factory, tableFactory,
 																				matchedNodes, matchedEdges);
 		
+		int graphNumber = 0;
+		
 		// Iterate over all these graphs and generate the statement
-		for (Iterator iter = graphs.iterator(); iter.hasNext();) {
+		for (Iterator iter = graphs.iterator(); iter.hasNext(); graphNumber++) {
 			Graph graph = (Graph) iter.next();
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
@@ -347,11 +351,17 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Node n = (Node) it.next();
 				seq.addNodeJoin(n, joinType, graphIsNAC);
 			}
+			
+			if(graphIsNAC) {
+				Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
+				neutralMap.put(graph, neutral);
+				seq.addJoin(neutral, Join.INNER);
+			}
 		}
 		
 		// Generate all "x = NULL" conditions of graph elements
 		// used in the sets   N_i - l(L)
-		addNacConds(act, factory, tableFactory, seq);
+		addNacConds(act, neutralMap, factory, tableFactory, seq);
 		
 		// If there were pending conditions make a simple query using these conditions.
 		// Else build an explicit query, since all conditions are put in the joins.
@@ -362,15 +372,18 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		return result;
 	}
 	
-	private void addNacConds(MatchingAction act, TypeStatementFactory factory,
+	private void addNacConds(MatchingAction act, Map neutralMap,
+													 TypeStatementFactory factory,
 													 GraphTableFactory tableFactory, JoinSequence seq) {
 		
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
 		Collection patEdges = act.getPattern().getEdges(new HashSet());
 		
+		int graphNum = 0;
+		
 		// For all negative parts
-		for (Iterator it = act.getNegs(); it.hasNext(); ) {
+		for (Iterator it = act.getNegs(); it.hasNext(); graphNum++) {
 			Graph neg = (Graph) it.next();
 			
 			// Get the elements to generate for
@@ -411,6 +424,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				deps.add(edgeTable);
 			}
 
+			Table neutral = (Table) neutralMap.get(neg);
+			deps.add(neutral);
 			seq.scheduleCond(sub, deps);
 		}
 	}
@@ -884,6 +899,16 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			debug.entering();
 			
+			
+			// If there's just one processed table (the singleton node)
+			// Add a join to the neutral table to create a join
+			if(processedTables.size() == 1) {
+				Table neutral = tableFactory.neutralTable();
+				addJoin(neutral, Join.INNER);
+			}
+			
+			// From here: |processedTable| >= 2
+			
 			// First, add all terms from the cond part of the rule to
 			// the join cond dependency map.
 			for(Iterator it = conditions.keySet().iterator(); it.hasNext();) {
@@ -942,7 +967,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				columns.add(edgeTable.colId());
 			}
 			
-			assert processedTables.size() > 1 : "Small queries not yet supported";
+			// assert processedTables.size() > 1 : "Small queries not yet supported";
 			Query result = factory.explicitQuery(true, columns, currJoin);
 			
 			debug.leaving();
