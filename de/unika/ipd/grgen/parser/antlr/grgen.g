@@ -377,19 +377,22 @@ enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res
 	{
 		IdentNode id;
 		BaseNode init = null;
+		BaseNode value;
 	}
 	: id=identDecl (ASSIGN init=expr)? {
 
-		if(init != null) {
-			res = init;
-		} else {
-			res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
-			res.addChild(defInit);
-			res.addChild(one);
-		}
-		MemberDeclNode memberDecl = new EnumItemNode(id, res, pos);
+		if(init != null)
+			value = init;
+		else
+			value = defInit;
+			
+		MemberDeclNode memberDecl = new EnumItemNode(id, value, pos);
 		id.setDecl(memberDecl);
 		coll.addChild(memberDecl);
+		
+		res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+		res.addChild(value);
+		res.addChild(one);
 	}
 	;
 
