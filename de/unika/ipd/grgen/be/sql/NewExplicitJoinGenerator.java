@@ -422,6 +422,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Collection negEdges = neg.getEdges(new HashSet());
 			Collection negAllEdges = neg.getEdges(new HashSet());
 			negEdges.removeAll(patEdges);
+
+			//This checks the neggraph beeing a sub to pattern
+			if (negNodes.isEmpty() && negEdges.isEmpty()) {
+				//TODO Tell the user which rule and which neg-graph
+				error.warning("This negative graph is a subgraph of the pattern graph. This action is never applicable.");
+				//TODO set bit to indicate special handling...
+			}
 			
 			// Now generate the subterm for one negative part
 			Term sub = null;
