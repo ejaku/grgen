@@ -98,7 +98,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				boolean reverse = isReverse(edge);
 				
 				sb.append(src.getIdent() + " " + edge.getIdent() + " " + tgt.getIdent()
-										+ " reverse: " + reverse + "\n");
+							  + " reverse: " + reverse + "\n");
 				
 			}
 		}
@@ -133,7 +133,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	}
 	
 	private void visitNode(VisitContext ctx, SearchPath path,
-												 Node start, boolean isNAC) {
+						   Node start, boolean isNAC) {
 		
 		debug.entering();
 		
@@ -199,11 +199,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	}
 	
 	private SearchPath[] computeSearchPaths(Graph graph, Graph pattern,
-																					boolean graphIsNAC) {
+											boolean graphIsNAC) {
 		
 		Collection rest = graph.getNodes(new HashSet());
 		Collection startingPoints = pattern.getNodes(new HashSet());
-
+		
 		startingPoints.retainAll(rest);
 		
 		Iterator edgeIterator = graph.getEdges();
@@ -263,7 +263,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		if(cheapest != null) {
 			NodeType nt = cheapest.getNodeType();
 			debug.report(NOTE, "cheapest node: " + cheapest.getIdent()
-										 + ", type: " + nt.getIdent());
+							 + ", type: " + nt.getIdent());
 		}
 		
 		debug.leaving();
@@ -290,7 +290,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		}
 		
 		JoinSequence seq = new JoinSequence(act, factory, tableFactory,
-																				matchedNodes, matchedEdges);
+											matchedNodes, matchedEdges);
 		
 		int graphNumber = 0;
 		
@@ -384,8 +384,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	}
 	
 	private void addNacConds(MatchingAction act, Map neutralMap,
-													 TypeStatementFactory factory,
-													 GraphTableFactory tableFactory, JoinSequence seq) {
+							 TypeStatementFactory factory,
+							 GraphTableFactory tableFactory, JoinSequence seq) {
 		
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
@@ -408,7 +408,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			// Now generate the subterm for one negative part
 			Term sub = null;
-			
 			Collection deps = new HashSet();
 			
 			// For all nodes
@@ -417,7 +416,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				NodeTable nodeTable = tableFactory.nodeTable(n);
 				
 				Term eqNull = factory.expression(Opcodes.ISNULL,
-																				 factory.expression(nodeTable.colId()));
+												 factory.expression(nodeTable.colId()));
 				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
 				deps.add(nodeTable);
 			}
@@ -426,13 +425,32 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for (Iterator iter = negEdges.iterator(); iter.hasNext(); )	{
 				Edge e = (Edge) iter.next();
 				EdgeTable edgeTable = tableFactory.edgeTable(e);
+				Term edgeIdCol = factory.expression(edgeTable.colId());
 				
-				Term eqNull = factory.expression(Opcodes.ISNULL,
-																				 factory.expression(edgeTable.colId()));
+				Term eqNull = factory.expression(Opcodes.ISNULL, edgeIdCol);
 				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
 				deps.add(edgeTable);
+				
+				// construct conditions for <> of edges
+				if (!patEdges.contains(e)) {
+					Term edgeUneq = null;
+					Collection depsUneq = new HashSet();
+					for(Iterator jt = patEdges.iterator(); jt.hasNext();) {
+						Edge patE = (Edge) jt.next();
+						if (negEdges.contains(patE)) {
+							EdgeTable patEdgeTable = tableFactory.edgeTable(patE);
+							Term patEdgeIdCol = factory.expression(patEdgeTable.colId());
+							edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq,
+															 factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
+							depsUneq.add(patEdgeTable);
+						}
+					}
+					depsUneq.add(edgeTable);
+					if (edgeUneq != null)
+						seq.scheduleCond(edgeUneq, depsUneq);
+				}
 			}
-
+			
 			Table neutral = (Table) neutralMap.get(neg);
 			deps.add(neutral);
 			seq.scheduleCond(sub, deps);
@@ -513,8 +531,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private List matchedEdges;
 		
 		JoinSequence(MatchingAction act, TypeStatementFactory factory,
-								 GraphTableFactory tableFactory,
-								 List matchedNodes, List matchedEdges) {
+					 GraphTableFactory tableFactory,
+					 List matchedNodes, List matchedEdges) {
 			
 			this.act = act;
 			this.factory = factory;
@@ -708,7 +726,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			debug.report(NOTE, "  res: " + res);
 			debug.leaving();
-
+			
 			return res;
 		}
 		
@@ -735,9 +753,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					
 					if(!node.isHomomorphic(curr)) {
 						res = factory.addExpression(Opcodes.AND, res,
-																				factory.expression(Opcodes.NE,
-																													 factory.expression(nodeTable.colId()),
-																													 factory.expression(currTable.colId())));
+													factory.expression(Opcodes.NE,
+																	   factory.expression(nodeTable.colId()),
+																	   factory.expression(currTable.colId())));
 						dep.add(currTable);
 					}
 				}
@@ -766,16 +784,16 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			// Add condition about the connectivity of the edge to the first node.
 			Term srcCond =
 				factory.expression(Opcodes.EQ,
-													 factory.expression(firstTable.colId()),
-													 factory.expression(table.colEndId(!swapped)));
+								   factory.expression(firstTable.colId()),
+								   factory.expression(table.colEndId(!swapped)));
 			
 			// Also add conditions restricting the edge type here.
 			Term typeCond = factory.isA(table, edge.getEdgeType(), typeID);
 			
 			// Put the incidence conditions into secondNodeCond
 			Term tgtCond = factory.expression(Opcodes.EQ,
-																				factory.expression(secondTable.colId()),
-																				factory.expression(table.colEndId(swapped)));
+											  factory.expression(secondTable.colId()),
+											  factory.expression(table.colEndId(swapped)));
 			
 			scheduleCond(typeCond, table);
 			scheduleCond(srcCond, firstTable);
@@ -795,8 +813,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Column col = attrTable.colId();
 			
 			Term cond = factory.expression(Opcodes.EQ,
-																		 factory.expression(idTable.colId()),
-																		 factory.expression(col));
+										   factory.expression(idTable.colId()),
+										   factory.expression(col));
 			scheduleCond(cond, idTable);
 			scheduleCond(cond, attrTable);
 		}
@@ -860,7 +878,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param joinMethod The metjod of join.
 		 */
 		private void addEdgeJoin(Graph g, Edge edge, boolean swapped,
-														 int joinMethod, boolean nac) {
+								 int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(edge)) {
 				if(!nac)
 					matchedEdges.add(edge);
@@ -868,7 +886,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				EdgeTable edgeTable = tableFactory.edgeTable(edge);
 				addJoin(edgeTable, joinMethod);
 				addEdgeJoinCond(g, edge, swapped);
-
+				
 				if(occurInCond.contains(edge)) {
 					AttributeTable attrTable = tableFactory.edgeAttrTable(edge);
 					addJoin(attrTable, joinMethod);
