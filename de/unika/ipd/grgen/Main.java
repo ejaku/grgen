@@ -82,7 +82,18 @@ public class Main extends Base {
 	private String outputPath = ".";
 	
 	private void printUsage() {
-		System.out.println("usage: grgen [-d] [-a] filename");
+		System.out.println("usage: grgen [options] filename");
+		System.out.println("Options are:");
+		System.out.println("  -d, --debug                       enable debugging");
+		System.out.println("  -a, --dump-ast                    dump the AST");
+		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
+		System.out.println("  -g, --graphic                     opens a debug window");
+		System.out.println("  -b, --backend=BE                  select backend BE");
+		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
+		System.out.println("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd");
+		System.out.println("  -p, --prefs=FILE                  import preferences from FILE");
+		System.out.println("  -x, --prefs-export=FILE           export preferences to FILE");
+		System.out.println("  -o, --output=DIRECTORY            write generated files to DIRECTORY");
 	}
 	
 	private JPanel getTreePanel(TreeHandler treeHandler) {
