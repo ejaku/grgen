@@ -136,6 +136,19 @@ public interface StatementFactory {
 	 * @return The query.
 	 */
 	Query simpleQuery(List columns, List relations, Term cond);
+
+	/**
+	 * Make a simple query.
+	 * It will follow the
+	 * <pre>SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ...</pre>
+	 * @param columns Columns to project from.
+	 * @param relations The relations to join over.
+	 * @param cond The join condition.
+	 * @param groupBy A list of columns making the group by clause.
+	 * @param having The having condition.
+	 * @return The query.
+	 */
+	Query simpleQuery(List columns, List relations, Term cond, List groupBy, Term having);
 	
 	/**
 	 * Make a query with explicitly given joins.
@@ -144,7 +157,7 @@ public interface StatementFactory {
 	 * @return The query.
 	 */
 	Query explicitQuery(List columns, Relation relation);
-
+	
 	/**
 	 * Join over two relations.
 	 * This makes an <i>join</i>.

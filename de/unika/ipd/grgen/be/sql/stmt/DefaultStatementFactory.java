@@ -476,18 +476,27 @@ public class DefaultStatementFactory extends Base
 	}
 	
 	private static class DefaultQuery extends DefaultDebug implements Query {
-		List columns;
-		List relations;
-		Term cond;
-		
-		DefaultQuery(List columns, List relations, Term cond) {
+		private final List columns;
+		private final List relations;
+		private Term cond;
+		private final List groupBy;
+		private final Term having;
+
+		DefaultQuery(List columns, List relations, Term cond,
+								 List groupBy, Term having) {
 			super("query");
 			setChildren(relations);
 			this.columns = columns;
 			this.relations = relations;
 			this.cond = cond;
+			this.groupBy = groupBy;
+			this.having = having;
 		}
 		
+		DefaultQuery(List columns, List relations, Term cond) {
+			this(columns, relations, cond, null, null);
+		}
+			
 		DefaultQuery(List columns, Relation relation) {
 			this(columns, Arrays.asList(new Relation[] { relation }), null);
 		}
@@ -545,6 +554,21 @@ public class DefaultStatementFactory extends Base
 				cond.dump(sb);
 			}
 			
+			if(groupBy != null) {
+				sb.append(" GROUP BY ");
+				i = 0;
+				for(Iterator it = groupBy.iterator(); it.hasNext(); i++) {
+					Column col = (Column) it.next();
+					sb.append(i > 0 ? ", " : "");
+					col.dump(sb);
+				}
+			}
+			
+			if(having != null) {
+				sb.append(" HAVING ");
+				having.dump(sb);
+			}
+			
 			return sb;
 		}
 		
@@ -563,6 +587,11 @@ public class DefaultStatementFactory extends Base
 	 */
 	public Query simpleQuery(List columns, List relations, Term cond) {
 		return new DefaultQuery(columns, relations, cond);
+	}
+	
+	public Query simpleQuery(List columns, List relations, Term cond,
+													 List groupBy, Term having) {
+		return new DefaultQuery(columns, relations, cond, groupBy, having);
 	}
 	
 	public Query explicitQuery(List columns, Relation relation) {
