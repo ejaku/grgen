@@ -212,9 +212,10 @@ public abstract class CBackend extends IDBase implements Backend {
 		// (not used) is the number of entries in the type map.
 		short[][] matrix = getIsAMatrix(forNode);
 		int maxTypeId = matrix.length;
+		String matrixName = add + "_is_a_matrix";
 		
-		buf.append("/** The matrix showing valid type attributes for " + add + " */\n");
-		buf.append("static const char " + add + "_is_a_matrix[" + maxTypeId + "]["
+		buf.append("/** The matrix showing valid type attributes for " + add + ". */\n");
+		buf.append("static const char " + add + "_type_is_a_matrix[" + maxTypeId + "]["
 								 + maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
 			buf.append("  { ");
@@ -228,6 +229,11 @@ public abstract class CBackend extends IDBase implements Backend {
 			buf.append(" */\n");
 		}
 		buf.append("};\n\n");
+		buf.append("/** Function to test for type compatibility. */\n");
+		buf.append("static inline int ");
+		buf.append(add);
+		buf.append("_type_is_a(int t1, int t2) {\n");
+		buf.append("  return t1 == t2 || " + matrixName + "[x][y] != 0;\n}\n\n");
 	}
 	
 	protected void makeSuperSubTypes(StringBuffer sb, boolean forNode, String add) {
