@@ -1,12 +1,16 @@
 /**
  * A GrGen Backend which generates C code for a frame-based
- * graph model and a frame based graph matcher
+ * graph model impl and a frame based graph matcher
  * @author Veit Batz
- * @version
+ * @version $Id$
  */
 package de.unika.ipd.grgen.be.C;
+import de.unika.ipd.grgen.be.C.fb.*;
+
+
 
 import de.unika.ipd.grgen.ir.*;
+
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
@@ -18,35 +22,36 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 import java.io.PrintStream;
+import java.util.Map;
+import java.util.HashMap;
+import de.unika.ipd.grgen.ast.GraphNode;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.TreeSet;
+import java.util.Comparator;
+import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
+import de.unika.ipd.grgen.util.Attributed;
 
-public class FrameBasedBackend extends CBackend implements Backend, BackendFactory
+public class FrameBasedBackend extends InformationCollector implements Backend, BackendFactory
 {
 	
-	/**
-	 * Method genMatch
-	 *
-	 * @param    sb                  a  PrintStream
-	 * @param    a                   a  MatchingAction
-	 * @param    id                  an int
-	 *
-	 */
-	protected void genMatch(PrintStream sb, MatchingAction a, int id)
-	{
-		// TODO
-	}
+	private final int OUT = 0;
+	private final int IN = 1;
 	
-	/**
-	 * Method genFinish
-	 *
-	 * @param    sb                  a  PrintStream
-	 * @param    a                   a  MatchingAction
-	 * @param    id                  an int
-	 *
-	 */
-	protected void genFinish(PrintStream sb, MatchingAction a, int id)
+	/* binary operator symbols of the C-language */
+	// ATTENTION: the forst two shift operations are signed shifts
+	// 		the second right shift is signed. This Backend simply gens
+	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
+	private String[] opSymbols =
 	{
-		// TODO
-	}
+		null, "||", "&&", "|", "^", "&",
+			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
+			"-", "*", "/", "%", null, null, null, null
+	};
+	
+	//Kann man das entfernen???
+	//ToDo: Pruefe das, ob man diese Methode wegschmeissen kann!!!
 	
 	/**
 	 * Method makeEvals
@@ -55,15 +60,6 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 	 *
 	 */
 	protected void makeEvals(PrintStream ps)
-	{
-		// TODO
-	}
-	
-	/**
-	 * Generate some extra stuff.
-	 * This function is called after everything else is generated.
-	 */
-	protected void genExtra()
 	{
 		// TODO
 	}
@@ -109,19 +105,1250 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		ps.println("UNIT_NAME = " + formatId(unit.getIdent().toString()));
 		closeFile(ps);
 		
+		System.out.println("The frame-based GrGen backend...");
+		System.out.println("  generating information about node and edge types...");
+		
 		// the StringBuffer the generated C code to be stored in
 		StringBuffer sb = new StringBuffer();
-		
-		// first: Generate the graph type information
-//		makeTypes(unit);
+		//collect information needed for the generation of the graph type model
+		collectGraphTypeModelInfo();
+		//gen information about number of types, enums,...
 		genGraphTypeInfo(sb);
 		// write StrinBuffer to file
-		writeFile("generated_graph_type_info.inc", sb);
+		writeFile("graph_type_info.inc", sb);
+		
+		//gen informations desribing the graph type system specified by the
+		//current *.grg-file
+		sb = new StringBuffer();
+		genGraphTypeDescr(sb);
+		// write StrinBuffer to file
+		writeFile("graph_type_descr.inc", sb);
+		
+		System.out.println("  generating graph validation information...");
+		
+		//generate code for graph validation and write it to file "valid_info.inc"
+		genValidateStatements();
+		
+		System.out.println("  generating graph action descriptions...");
+		
+		//collect informations needed for the action code genaration
+		collectActionInfo();
+		//gen some info about numbers of things concerning the actions specified
+		//in the current grg-file.
+		sb = new StringBuffer();
+		genActionsInfo(sb);
+		writeFile("actions_info.inc", sb);
+		//gen description of the actions and conditions specified by the grg file
+		sb = new StringBuffer();
+		genActionsDescr(sb);
+		writeFile("actions_descr.inc", sb);
+
+		System.out.println("  generating C code for the graph matching conditions...");
+
+		//gen the C-code of the conditions
+		sb = new StringBuffer();
+		genConditionsCode(sb);
+		writeFile("conditions_code.inc", sb);
+		
+		
+		System.out.println("  generating XML overview...");
 		
 		// write an overview of all generated Ids
 		ps = openFile("overview.xml");
 		writeOverview(ps);
 		closeFile(ps);
+		
+		System.out.println("  done!");
+	}
+	
+	/**
+	 * Method genNaiveMatcherPrograms
+	 *
+	 * @param    sb                  a  StringBuffer
+	 *
+	 */
+	/**
+	 * Method genNaiveMatcherPrograms
+	 *
+	 * @param    sb                  a  StringBuffer
+	 *
+	 */
+	private void genActualActions(StringBuffer sb)
+	{
+		sb.append(
+			"\n\n\n\n\n\n" +
+			"/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + " +
+				" + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */" +
+			"\n\n\n\n" +
+			"/* Following data represents the graph actions with some\n" +
+			" * first matcher programs (generated in a naive way) for\n" +
+			" * the VM doing the graph matches. These programs will be\n" +
+			" * replaced by more sophisticated ones at the running time of\n" +
+			" * the generated graph replacement system. Those programs can\n" +
+			" * not be computed statically because they require information\n" +
+			" * the graph existing at runtime */\n\n\n\n\n");
+		
+		// for all actions gen matcher programs
+		for (Iterator act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
+		{
+			
+			MatchingAction action = (MatchingAction) act_it.next();
+			Graph pattern = action.getPattern();
+			
+			sb.append(
+				"\n\n\n\n" +
+				"/* ---------------------- a matcher program and all the rest " +
+					"for action " + actionMap.get(action) +
+					" ---------------------- */\n\n\n");
+			
+			//start generating programs beginning with the already computed start node
+			Integer act_id = (Integer) actionMap.get(action);
+			Node startNode = start_node[act_id.intValue()];
+			//perform a deep first search on the pattern
+			//graph while emiting matcher operations
+			int n_matcher_ops = genOpSequence(startNode, action, sb);
+			
+			//get the actions kind
+			String act_kind = action instanceof Rule ?
+				"gr_action_kind_rule" : "gr_action_kind_test";
+			//get the replacement graph
+			String replGraph = action instanceof Rule ?
+				"&replacement_graph_of_action_" + act_id : "NULL";
+			
+			//gen C-arrays of pattern node names
+			int n_pat_nodes = action.getPattern().getNodes().size();
+			Iterator pattern_node_it =
+				action.getPattern().getNodes().iterator();
+			sb.append(
+				"const char *pattern_node_names_of_act_" + act_id + "[" + n_pat_nodes + "] = {\n  ");
+			for ( ; pattern_node_it.hasNext(); ) {
+				Node node = (Node) pattern_node_it.next();
+				sb.append("\"" + node.getIdent().toString() + "\"");
+				if (pattern_node_it.hasNext())
+					sb.append(", ");
+			}
+			sb.append("\n};\n");
+			//gen C-arrays of pattern edge names
+			int n_pat_edges = action.getPattern().getEdges().size();
+			String pat_edge_name_array = "NULL";
+			if (n_pat_edges > 0) {
+				Iterator pattern_edge_it =
+					action.getPattern().getEdges().iterator();
+				sb.append(
+					"const char *pattern_edge_names_of_act_" + act_id + "[" + n_pat_edges + "] = {\n  ");
+				for ( ; pattern_edge_it.hasNext(); ) {
+					Edge edge = (Edge) pattern_edge_it.next();
+					sb.append("\"" + edge.getIdent().toString() + "\"");
+					if (pattern_edge_it.hasNext())
+						sb.append(", ");
+				}
+				sb.append("\n};\n");
+				pat_edge_name_array = "pattern_edge_names_of_act_" + act_id;
+			}
+			
+			//create a C-array of ptrs to matcher ops representing the hole matcher program
+			if (n_matcher_ops > 0) {
+				sb.append(
+					"fb_matcher_op_t *matcher_program_of_action_" + act_id +
+						"[" + n_matcher_ops + "] = {\n");
+				for (int i = 0; i < n_matcher_ops; i++) {
+					sb.append("  &mop_" + i + "_of_action_" + act_id);
+					if (i < (n_matcher_ops - 1)) sb.append(",");
+					sb.append("\n");
+				}
+				sb.append("};\n");
+			}
+			
+			//get the pattern node number of this actions start node
+			Integer start_node_num = (Integer)
+				pattern_node_num[act_id.intValue()].get(start_node[act_id.intValue()]);
+			
+			//get the number of pattern nodes to be removed by the replacement step
+			int n_remove_nodes = 0;
+			String remove_nodes_array = "NULL";
+			Collection remove_nodes = new HashSet();
+			if (action instanceof Rule) {
+				Graph replacement = ((Rule) action).getRight();
+				//compute all pattern nodes to be removed  in the replace step.
+				remove_nodes.addAll(pattern.getNodes());
+				remove_nodes.removeAll(replacement.getNodes());
+				n_remove_nodes = remove_nodes.size();
+				//if the set of nodes to be removed is not empty gen a C-array
+				//of their patter nodes numbers
+				if (n_remove_nodes > 0) {
+					int node_counter = 0;
+					sb.append(
+						"int remove_nodes_of_action_" + act_id +
+							"[" + n_remove_nodes + "] = {\n  ");
+					for (Iterator it = remove_nodes.iterator(); it.hasNext(); ) {
+						Node node = (Node) it.next();
+						Integer node_num =
+							(Integer) pattern_node_num[act_id.intValue()].get(node);
+						sb.append(node_num);
+						if (it.hasNext()) sb.append(", ");
+					}
+					sb.append("\n};\n");
+					remove_nodes_array = "remove_nodes_of_action_" + act_id;
+				}
+			}
+			
+			//get the number of pattern edges explicitly to be
+			//removed by the replacement step
+			int n_remove_edges = 0;
+			String remove_edges_array = "NULL";
+			Collection remove_edges = new HashSet();
+			if (action instanceof Rule) {
+				Graph replacement = ((Rule) action).getRight();
+				//compute all pattern nodes to be removed  in the replace step.
+				remove_edges.addAll(pattern.getEdges());
+				remove_edges.removeAll(replacement.getEdges());
+				n_remove_edges = remove_edges.size();
+				//if the set of edges explicitly to be removed is not
+				//empty gen a C-array of their patter nodes numbers
+				if (n_remove_edges > 0) {
+					int edge_counter = 0;
+					sb.append(
+						"int remove_edges_of_action_" + act_id +
+							"[" + n_remove_edges + "] = {\n  ");
+					for (Iterator it = remove_edges.iterator(); it.hasNext(); ) {
+						Edge edge = (Edge) it.next();
+						Integer edge_num =
+							(Integer) pattern_edge_num[act_id.intValue()].get(edge);
+						sb.append(edge_num);
+						if (it.hasNext()) sb.append(", ");
+					}
+					sb.append("\n};\n");
+					remove_edges_array = "remove_edges_of_action_" + act_id;
+				}
+			}
+			//gen the array of replacement edges newly to be inserted by
+			//the current action
+			int n_new_edges = 0;
+			String new_edges_array = "NULL";
+			if (action instanceof Rule) {
+				n_new_edges = newEdgesOfAction[act_id.intValue()].size();
+				if (n_new_edges > 0) {
+					sb.append(
+						"fb_acts_edge_t *new_edges_of_action_" + act_id + "[" + n_new_edges + "] = { \n");
+					Iterator new_edge_it =
+						newEdgesOfAction[act_id.intValue()].iterator();
+					for ( ; new_edge_it.hasNext() ; ) {
+						Edge edge = (Edge) new_edge_it.next();
+						int edge_num =
+							((Integer) replacement_edge_num[act_id.intValue()].get(edge)).intValue();
+						sb.append("  &replacement_edge_" + edge_num + "_of_action_" + act_id);
+						if (new_edge_it.hasNext()) sb.append(",");
+						sb.append("\n");
+					}
+					sb.append(" };\n");
+					new_edges_array = "new_edges_of_action_" + act_id;
+				}
+			}
+			
+			String matcher_prog = "NULL";
+			if (n_matcher_ops > 0)
+				matcher_prog = "matcher_program_of_action_" + act_id;
+				
+			
+			//gen C-struct of the current action
+			sb.append(
+				"fb_action_t action_" + act_id + " = {\n" +
+				"  \"" + action.getIdent().toString() + "\", " +
+					"(gr_id_t) " + act_id + ", " + act_kind + ",\n" +
+				"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n" +
+				"  pattern_node_names_of_act_" + act_id + ",\n" +
+				"  " + pat_edge_name_array + ",\n" +
+				"  " + n_matcher_ops + ", " + matcher_prog +
+					", &pattern_node_" + start_node_num + "_of_action_" + act_id + ",\n" +
+				"  {\n");
+			
+			//create a 2-dim array embeded in the struct, which keept the information
+			//wether the matcher is allowed to identify two given pattern nodes of
+			//the curren action
+			for (int i = 0; i < max_n_pattern_nodes; i++) {
+				sb.append("    { ");
+				for (int j = 0; j < max_n_pattern_nodes; j++) {
+					sb.append( potHomMatrices[act_id.intValue()][i][j] );
+					if (j < (max_n_pattern_nodes - 1)) sb.append(", ");
+				}
+				sb.append(" }");
+				if (i < max_n_pattern_nodes - 1) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("  },\n");
+			
+			//continue the creation of the actions C-struct
+			sb.append(
+				"  " + n_remove_nodes + ", " + remove_nodes_array + ",\n" +
+				"  " + n_remove_edges + ", " + remove_edges_array + ",\n" +
+				"  { ");
+			
+			//gen a 1-dim array, wich tells wether a matched host graph node
+			//is to be preserved by the replacement or not (corresponding
+			//pattern node number, a negative value otherwise)
+			for (int i = 0; i< max_n_pattern_nodes; i++) {
+				sb.append(patternNodeIsToBeKept[act_id.intValue()][i]);
+				if (i < max_n_pattern_nodes - 1) sb.append(", ");
+			}
+			sb.append(" },\n  { ");
+			//gen a 1-dim array, wich tells wether replacement node is
+			//a preserved pattern node (corresponding
+			//pattern node number, a negative value otherwise)
+			for ( int i = 0; i < max_n_replacement_nodes; i++) {
+				sb.append(replacementNodeIsPreservedNode[act_id.intValue()][i]);
+				if (i < max_n_replacement_nodes - 1) sb.append(", ");
+			}
+			sb.append(" },\n  { ");
+			//gen a 1-dim array which tells wether a preserved replacement node
+			//changes type its type. If so, the value indexed by the repl. node
+			//number is the new type, and -1 (that is gr_id_invalid) otherwise.
+			//If a repl. node isn't a preserved node at all the value is
+			//gr_id_invalid (i.e. -1) all the same
+			for ( int i = 0; i < max_n_replacement_nodes; i++) {
+				sb.append("(gr_id_t)" + replacementNodeChangesTypeTo[act_id.intValue()][i]);
+				if (i < max_n_replacement_nodes - 1) sb.append(", ");
+			}
+			sb.append(" },\n");
+			
+			//gen ptr to the array of newly insert edges
+			sb.append(
+				"  " + n_new_edges + ", " + new_edges_array + "\n" +
+				"};\n\n");
+			//end of action struct!!!
+
+		}
+		//gen the array of ptrs to all action structs
+		sb.append(
+			"/* the array of all action structs */\n" +
+			"fb_action_t *fb_action[fb_N_ACTIONS] = {\n");
+		for (int i = 0; i < n_graph_actions; i++) {
+			sb.append("  &action_" + i);
+			if (i < n_graph_actions - 1) sb.append(",");
+			sb.append("\n");
+		}
+		sb.append("};\n\n");
+	}
+	
+	/**
+	 * performs a deep first traversal of the pattern graph of the given
+	 * action while emiting matcher ops for the graph matching VM implemented
+	 * by the matcher generated by this frame based GrGen backend. The
+	 * matcher ops are represented by C structs of type fb_matcher_op_t
+	 *
+	 * @param    startNode         the start node
+	 * @param    action            the action
+	 * @param    sb                the String Buffer the matcher ops are
+	 *                             written to
+	 * @returns  the number of matcher ops genreated for the given action
+	 */
+	private int op_counter;
+	private int genOpSequence(Node startNode, MatchingAction action, StringBuffer sb)
+	{
+		Collection nodeVisited = new HashSet();
+		Collection edgeVisited = new HashSet();
+		Collection alreadyCheckedConditions = new HashSet();
+		nodeVisited.add(startNode);
+		op_counter = 0;
+	    __deep_first_matcher_op_gen(
+			nodeVisited, edgeVisited, alreadyCheckedConditions, startNode, action, sb);
+		return op_counter;
+	}
+	
+	/**
+	 * performs the actual deep first traversal and matcher op generation
+	 *
+	 * @param    nodeVisited         a Collection of Nodes, membership indicates
+	 *                               wether a node has already been visited
+	 * @param    edgeVisited         a Collection of Edges, membership indicates
+	 *                               wether an edge has already been visited
+	 * @param    node                the current Node
+	 * @param    action              the action
+	 * @param    sb                  the StringBuffer the generated
+	 */
+	private void __deep_first_matcher_op_gen(
+		Collection nodeVisited, Collection edgeVisited,
+		Collection alreadyCheckedConds,
+		final Node node, MatchingAction action,
+		StringBuffer sb)
+	{
+		final PatternGraph pattern = action.getPattern();
+		
+		//a collection of all edges incident to the current node. The collection
+		//is ordered by the priority of the nodes at the far end of each edge.
+		//nodes without priority get the priority 0.
+		Collection incidentEdges = new TreeSet(new Comparator() {
+					public int compare(Object o1, Object o2) {
+						Edge e1 = (Edge) o1;
+						Edge e2 = (Edge) o2;
+
+						//get the far end node of both edges
+						Node farNode1 = getFarEndNode(e1, node, pattern);
+						Node farNode2 = getFarEndNode(e2, node, pattern);
+						//get those nodes prirorities...
+						int prio1 = getNodePriority(farNode1);
+						int prio2 = getNodePriority(farNode2);
+						//...and compare them
+						if (prio1 == prio2)
+							if (o1 == o2) return 0;
+							else return -1;
+						//twisted return values (to force a descending order)
+						if (prio1 > prio2) return -1;
+						if (prio1 < prio2) return 1;
+						
+						//unreachable but java likes it
+						return 0;
+					}
+				});
+
+		//put all edges incident to the current node in that collection
+		pattern.getOutgoing(node, incidentEdges);
+		pattern.getIncoming(node, incidentEdges);
+		
+		//iterate over all those incident edges...
+		Iterator incident_edge_it = incidentEdges.iterator();
+		for ( ; incident_edge_it.hasNext(); ) {
+			Edge edge = (Edge) incident_edge_it.next();
+
+			//...and check wether the current edge has already been visited
+			if ( ! edgeVisited.contains(edge) ) {
+				//if the edge has not been visited yet mark it as visited
+				genOp(getFarEndNode(edge, node, pattern), edge, action,
+					  nodeVisited, edgeVisited, alreadyCheckedConds,
+					  op_counter, sb);
+				op_counter++;
+
+				//mark the current edge as visited
+				edgeVisited.add(edge);
+				
+				//if the far node is not yet visited follow the current edge to
+				//continue the deep first traversal
+				if ( ! nodeVisited.contains(getFarEndNode(edge, node, pattern)) ) {
+					//mark the edge and the far end node as visited
+					nodeVisited.add(getFarEndNode(edge, node, pattern));
+					//continue recursicly the deep fisrt traversal of the pattern graph
+					__deep_first_matcher_op_gen(
+						nodeVisited, edgeVisited, alreadyCheckedConds,
+						getFarEndNode(edge, node, pattern),
+						action, sb);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * generates the Cstruct for a single matcher op
+	 *
+	 * @param    node                the node the dfs comes from
+	 * @param    edge                the current edge
+	 * @param    action              the action to gen the matcher program for
+	 * @param    nodeVisited         all nodes already visited
+	 * @param    edgeVisited         all edges already visited
+	 * @param    op_counter          number of the current op as a member of an
+	 *                               sequence of ops forming a matcher program
+	 * @param    sb                  the StringBuffer the C code is to be
+	 *                               stored in
+	 */
+	private void genOp(Node node, Edge edge, MatchingAction action,
+					   Collection nodeVisited, Collection edgeVisited,
+					   Collection alreadyCheckedConds,
+					   int op_counter, StringBuffer sb)
+	{
+		Integer act_id = (Integer) actionMap.get(action);
+		PatternGraph pattern = action.getPattern();
+//		Node farNode = getFarEndNode(edge, node, pattern);
+
+		//get the potentialy homomorphic nodes of the far end node
+		Collection homomorphicNodes = new HashSet();
+//		farNode.getHomomorphic(homomorphicFarNodes);
+		node.getHomomorphic(homomorphicNodes);
+
+		//compute this ops kind
+		String kind = "";
+		if (nodeVisited.contains(node))
+			kind = "fb_matcher_op_check";
+		else {
+			/* op is an 'extend' or an 'check_or_extend'. That depends on wether
+			   there's a node in the set of nodes already visited which is
+			   potentialy homomorphic to the node at the far end of the current edge */
+			//that for compute following intersection
+			homomorphicNodes.retainAll(nodeVisited);
+			//if that intersection is empty...
+			if (homomorphicNodes.isEmpty())
+				//...there's no such pot hom node, i.e. the op kind is 'extend'
+				kind = "fb_matcher_op_extend";
+			else
+				kind = "fb_matcher_op_check_or_extend";
+		}
+		
+		//compute the set of conditions nevaluatable in the current op
+		Collection evaluatableConditions = new TreeSet(conditionsComparator);
+		Iterator cond_it = conditions.iterator();
+		for ( ; cond_it.hasNext(); ) {
+			 Expression cond = (Expression) cond_it.next();
+
+			//the nodes/edges involved in the current condtion
+			Collection involvedNodes =
+				new HashSet((Collection) conditionsInvolvedNodes.get(cond));
+ 			Collection involvedEdges =
+				new HashSet((Collection) conditionsInvolvedEdges.get(cond));
+
+			//check wether these nodes/edges have been visited already,
+			//but the current node/edge is not yet added to the "visited"-Sets
+			involvedNodes.remove(node);
+			involvedEdges.remove(edge);
+			if (nodeVisited.containsAll(involvedNodes)
+					&& edgeVisited.containsAll(involvedEdges))
+				evaluatableConditions.add(cond);
+		}
+		//from that evaluatable conditions remove all conditions already cheked
+		//(because it is not necessary to check any condition twice)
+		evaluatableConditions.removeAll(alreadyCheckedConds);
+
+		//get the current edges pattern edge number
+		Integer edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
+		//check wether there are conditions computable in this op or not
+		String isConditional = evaluatableConditions.isEmpty() ? "0" : "1";
+		
+		//get name indentifier used in the grg-file for the current edge
+		String edgeName = edge.getIdent().toString();
+		//get the direction of the op
+		String op_direction = null;
+		if (kind.equals("fb_matcher_op_check"))
+			//in this case the direction depends on the V-structure situation of
+			//the concrete graph, which is only known at run-time, so any direction
+			//is chosen
+			op_direction = "fb_dir_out";
+		else
+			//case 'extend' od 'check_or_extend'
+			if (pattern.getTarget(edge) == node)
+				op_direction = "fb_dir_out";
+			else
+				op_direction = "fb_dir_in";
+		
+		//some comment
+		sb.append("/* matcher op " + op_counter + " of action " + act_id + " */\n");
+
+		//if there are conditions evaluiatable in the current op...
+		String cond_ptr = "";
+		if (evaluatableConditions.size() > 0) {
+			cond_ptr = "conds_of_mop_" + op_counter + "_of_action_" + act_id;
+			//...gen a C-Array of the conditions evaluated by the current op
+			sb.append(
+				"int conds_of_mop_" + op_counter + "_of_action_" + act_id + "[" +
+					evaluatableConditions.size() + "] = { ");
+			Iterator eval_cond_it = evaluatableConditions.iterator();
+			for ( ; eval_cond_it.hasNext(); ) {
+				Expression cond = (Expression) eval_cond_it.next();
+				sb.append(conditionNumbers.get(cond));
+				if (eval_cond_it.hasNext())
+					sb.append(", ");
+			}
+			sb.append(" };\n");
+		}
+		else
+			//...otherwise no such array is needed
+			cond_ptr = "NULL";
+		
+		//gen the C-struct representing the current matcher op
+		sb.append(
+			"fb_matcher_op_t mop_" + op_counter + "_of_action_" + act_id + " = {\n" +
+			"  " + kind + ", &pattern_edge_" + edge_num + "_of_action_" + act_id + ",\n" +
+			"  " + isConditional + ", \"" + edgeName + "\", " + op_direction + ",\n" +
+			"  " + evaluatableConditions.size() + ", " + cond_ptr + "\n" +
+			"};\n\n");
+		
+		//update the conditions already cheked
+		alreadyCheckedConds.addAll(evaluatableConditions);
+	}
+	private int getNodePriority(Node node) {
+		int ret = 0;
+		Attributes a = ((Attributed) node).getAttributes();
+		if (a != null)
+			if (a.containsKey("prio") && a.isInteger("prio"))
+				ret = ((Integer) a.get("prio")).intValue();
+		return ret;
+	}
+	private Node getFarEndNode(Edge e, Node fromNode, Graph graph)
+	{
+		Node farEndNode = null;
+		if (graph.getTarget(e) == fromNode)
+			farEndNode = graph.getSource(e);
+		if (graph.getSource(e) == fromNode)
+			farEndNode = graph.getTarget(e);
+		
+		return farEndNode;
+	}
+
+	/**
+	 * Method genConditionsCode
+	 *
+	 * @param    sb                  a  StringBuffer
+	 *
+	 */
+	private void genConditionsCode(StringBuffer sb)
+	{
+		sb.append(
+			"/*\n" +
+				" * File 'conditions_code.inc', created automatically by\n" +
+				" * the FrameBased-Backend of GrGen.\n" +
+				" *\n" +
+				" * The C code in this file represents the conditions specified in the\n" +
+				" * conditions sections of the GrGen input file '" + unit.getFilename() + "'.\n" +
+				" */\n" +
+				"\n\n");
+		
+		for (Iterator it = conditions.iterator(); it.hasNext(); )
+		{
+			//get the current condition
+			Expression current_cond = (Expression) it.next();
+			
+			int cond_num = ((Integer) conditionNumbers.get(current_cond)).intValue();
+			int act_id = ((Integer) conditionsActionId.get(current_cond)).intValue();
+			
+			Collection involved_nodes =
+				(Collection) conditionsInvolvedNodes.get(current_cond);
+			Collection involved_edges =
+				(Collection) conditionsInvolvedEdges.get(current_cond);
+			
+			//the action the current condition nbelogs to
+			MatchingAction current_action = (MatchingAction) conditionsAction.get(current_cond);
+			
+			
+			/*gen the code for the current cond */
+			sb.append(
+				"/* condition " + cond_num + " (belongs to action " + act_id + ") */\n" +
+					"case " + cond_num + ":\n"+
+					"{\n" +
+					"  /* local variables representing the 'ptr to' and the 'actual type of' the\n" +
+					"   * host graph images of pattern nodes/edges with the respective number */\n");
+			
+			//for all involved pattern nodes gen two local variables, one representing
+			//the ptr to the host graph image of the node and the other representing
+			//that host graph nodes actual type (note that this type may be a SUB-type
+			//of the pattern nodes type
+			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			{
+				Node current_pattern_node = (Node) node_it.next();
+				int node_num =
+					((Integer) pattern_node_num[act_id].get(current_pattern_node)).intValue();
+				
+				sb.append(
+					"  fb_node_t *node_" + node_num + " = get_host_node(" + node_num + ");\n" +
+					"  int type_n" + node_num + " = (int) node_" + node_num + "->type;\n");
+			}
+			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			{
+				Edge current_pattern_edge = (Edge) edge_it.next();
+				int edge_num =
+					((Integer) pattern_edge_num[act_id].get(current_pattern_edge)).intValue();
+				
+				sb.append(
+					"  fb_edge_t *edge_" + edge_num + " = get_host_edge(" + edge_num + ");\n" +
+					"  int type_e" + edge_num + " = (int) edge_" + edge_num + "->type;\n");
+			}
+			//for attrs of the involved pattern nodes and edges gen a C variable
+			//representing the host node/edge attr index of that attr
+			sb.append(
+				"\n" +
+				"  /* local variables representing the attr indices of the involved node and edge attrs,\n" +
+				"   * for each pair of pattern-node/edge-num and attr-id occuring as a qualification\n" +
+				"   * expressionin the condition, there's a variable representing that pair. */\n");
+			//for all involved pattern nodes
+			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			{
+				Node current_pattern_node = (Node) node_it.next();
+				Integer node_num = (Integer) pattern_node_num[act_id].get(current_pattern_node);
+				
+				Iterator attr_id_it =
+					((Collection) involvedPatternNodeAttrIds[cond_num].get(node_num)).iterator();
+				
+				for (; attr_id_it.hasNext(); )
+				{
+					
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
+					sb.append(
+						"  int index_a" + attr_id + "_n" + node_num + " = " +
+							"fb_node_attr_index[type_n" + node_num + "][" + attr_id + "];\n" +
+							"  assert (node_" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_n" + node_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"    \"an attr kind tag found in a host graph node does not conform\" &&\n" +
+							"    \"with the kind computed by the generator\");\n");
+				}
+			}
+			//for all involved pattern edges
+			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			{
+				Edge current_pattern_edge = (Edge) edge_it.next();
+				Integer edge_num =(Integer) pattern_edge_num[act_id].get(current_pattern_edge);
+				
+				Iterator attr_id_it =
+					((Collection) involvedPatternEdgeAttrIds[cond_num].get(edge_num)).iterator();
+				for (; attr_id_it.hasNext(); )
+				{
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
+					sb.append(
+						"  int index_a" + attr_id + "_e" + edge_num + " = " +
+							"fb_edge_attr_index[type_e" + edge_num + "][" + attr_id + "];\n" +
+							"  assert (edge_" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_e" + edge_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"   \"an attr kind tag found in a host graph edge does not conform\" &&" +
+							"   \"with the kind computed by the generator\");\n");
+				}
+			}
+			//gen the code for actual evalution of the cond
+			sb.append(
+				"\n" +
+					"  /* check the condition */\n" +
+					"  condition_holds = (\n" +
+					"    ");
+			__recursive_expr_code_gen(sb, current_action, current_cond);
+			sb.append(
+				"\n  );\n\n" +
+					"  /* ALL conditions of an action have to be true! So return '0' even\n" +
+					"   * when only ONE condition fails and '1' IFF all conditions hold */\n" +
+					"  if ( ! condition_holds ) return 0; /* condition failed */\n" +
+					"}\n" +
+					"break; /* end of processing condition " + cond_num + " */\n\n\n");
+		}
+	}
+	
+	private void __recursive_expr_code_gen(StringBuffer sb, MatchingAction act, Expression cond)
+	{
+		
+		if (sb == null || cond == null)	return;
+		
+		/* gen C-code for Operator-expressions */
+		if (cond instanceof Operator)
+		{
+			Operator op = (Operator) cond;
+			int opCode = op.getOpCode();
+			
+			// if the operator is a binary one...
+			if (opCode > 0 && opCode < 20)
+			{
+				
+				//in binary expression both operands got to have the same type
+				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
+					"different operand types found in binary expression";
+				
+				//if both operands are Strings, comparisions have to be performed
+				//via C function strcmp()
+				if ( op.getOperand(0).getType().classify() == Type.IS_STRING )
+				{
+					if ( opCode == Operator.EQ )
+					{
+						sb.append("( !strcmp(");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(", ");
+						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						sb.append(") )");
+					}
+					if ( opCode == Operator.NE )
+					{
+						sb.append("strcmp(");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(", ");
+						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						sb.append(")");
+					}
+				}
+					//otherwise gen a infix expression
+				else
+				{
+					String opSymbol = opSymbols[opCode];
+					sb.append("(");
+					__recursive_expr_code_gen(sb, act, op.getOperand(0));
+					sb.append(" " + opSymbol + " ");
+					__recursive_expr_code_gen(sb, act, op.getOperand(1));
+					sb.append(")");
+				}
+			}
+				//if not...
+			else
+			{
+				switch (opCode)
+				{
+					case Operator.COND:
+						sb.append("(");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(" ? ");
+						__recursive_expr_code_gen(sb, act, op.getOperand(1));
+						sb.append(" : ");
+						sb.append(")");
+						break;
+						
+					case Operator.LOG_NOT:
+						sb.append("(!");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.BIT_NOT:
+						sb.append("(~");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.NEG:
+						sb.append("(-");
+						__recursive_expr_code_gen(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.CAST:
+						//ATTENTION: Type casts are not implemented yet!!!!!
+						sb.append("NULL /* cast op not implemented yet!!! */");
+						break;
+				}
+			}
+		}
+		
+		/* gen C-code for constant expressions */
+		if (cond instanceof Constant)
+		{
+			Constant constant = (Constant) cond;
+			Type type = constant.getType();
+			
+			switch (type.classify())
+			{
+				
+				//emit C-code for string constants
+				case Type.IS_STRING:
+					sb.append("\"" + constant.getValue() + "\"");
+					break;
+					
+					//emit C-code for boolean constans
+				case Type.IS_BOOLEAN:
+					Boolean bool_const = (Boolean) constant.getValue();
+					if ( bool_const.booleanValue() )
+						sb.append("1"); /* true-value */
+					else
+						sb.append("0"); /* false-value */
+					break;
+					
+					//emit C-code for integer constants
+				case Type.IS_INTEGER:
+					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+			}
+		}
+		
+		/* gen C-code for qualification expressions */
+		if (cond instanceof Qualification)
+		{
+			Qualification qual = (Qualification) cond;
+			Entity owner = qual.getOwner();
+			Entity attr = qual.getMember();
+			
+			assert (owner instanceof Node) || (owner instanceof Edge):
+				"an entity which is neither a node nor an edge owns a graph attr";
+			
+			if (owner instanceof Node)
+			{
+				int act_id = ((Integer) actionMap.get(act)).intValue();
+				Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
+				Integer attr_id = (Integer) nodeAttrMap.get(attr);
+				
+				sb.append(
+					"node_" + node_num + "->attr_values[index_a" + attr_id +
+						"_n" + node_num + "].value.");
+				
+				int attr_kind = node_attr_info[attr_id.intValue()].kind;
+				switch (attr_kind)
+				{
+					case AttrTypeDescriptor.INTEGER:
+						sb.append("integer");
+						break;
+						
+					case AttrTypeDescriptor.BOOLEAN:
+						sb.append("boolean");
+						break;
+						
+					case AttrTypeDescriptor.STRING:
+						sb.append("str");
+						break;
+						
+					case AttrTypeDescriptor.ENUM:
+						sb.append("integer");
+						break;
+				}
+			}
+			if (owner instanceof Edge)
+			{
+				int act_id = ((Integer) actionMap.get(act)).intValue();
+				Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+				Integer attr_id = (Integer) edgeAttrMap.get(attr);
+				
+				sb.append(
+					"edge_" + edge_num + "->attr_values[index_a" + attr_id +
+						"_e" + edge_num + "].value.");
+				
+				int attr_kind = edge_attr_info[attr_id.intValue()].kind;
+				switch (attr_kind)
+				{
+					case AttrTypeDescriptor.INTEGER:
+						sb.append("integer");
+						break;
+						
+					case AttrTypeDescriptor.BOOLEAN:
+						sb.append("boolean");
+						break;
+						
+					case AttrTypeDescriptor.STRING:
+						sb.append("str");
+						break;
+						
+					case AttrTypeDescriptor.ENUM:
+						sb.append("integer");
+						break;
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Method genActionsDescr
+	 *
+	 * @param    sb                  a  StringBuffer
+	 *
+	 */
+	private void genActionsDescr(StringBuffer sb)
+	{
+		/* gen the file preamble */
+		sb.append(
+			"/*\n" +
+				" * File 'actions_descr.inc', created automatically by\n" +
+				" * the FrameBased-Backend of GrGen.\n" +
+				" *\n" +
+				" * The data structures initialized in this file represent the type information\n" +
+				" * as specified by the GrGen input file '" + unit.getFilename() + "'.\n" +
+				" */\n\n\n" +
+				"\n\n/*----------------------- Some stuff the conditions of " +
+					"all actions -----------------------*/\n\n\n");
+		
+		
+		/* gen all the C-stuff desribing pattern, replacement, conditions,
+		 actions, ... */
+		
+		//for all conditions gen the C-structs describing the conditions
+		for (Iterator cond_it = conditions.iterator(); cond_it.hasNext(); )
+		{
+			Expression condition = (Expression) cond_it.next();
+			int cond_num = ((Integer) conditionNumbers.get(condition)).intValue();
+			int act_id = ((Integer) conditionsActionId.get(condition)).intValue();
+			
+			Collection involved_nodes =
+				(Collection) conditionsInvolvedNodes.get(condition);
+			Collection involved_edges =
+				(Collection) conditionsInvolvedEdges.get(condition);
+			
+			//the action the current condition nbelogs to
+			MatchingAction current_action = (MatchingAction) conditionsAction.get(condition);
+			
+			//gen two arrays containing the pattern node/edge numbers involved
+			//in the current condition (in ascending order)
+			sb.append(
+				"/* data describing condition " + cond_num +
+					", which belongs to " + "action " + act_id + " */\n");
+			String involved_nodes_array = "NULL";
+			String involved_edges_array = "NULL";
+			if (involved_nodes.size() > 0) {
+				sb.append(
+					"int involved_nodes_of_cond_" + cond_num +
+					"[" + involved_nodes.size() + "] = { ");
+			
+				Iterator node_it = involved_nodes.iterator();
+				for ( ; node_it.hasNext() ; ) {
+						Node node = (Node) node_it.next();
+						Integer node_num = (Integer) pattern_node_num[act_id].get(node);
+						sb.append(node_num);
+						if (node_it.hasNext()) sb.append(", ");
+				}
+				sb.append(" };\n");
+				involved_nodes_array = "involved_nodes_of_cond_" + cond_num;
+			}
+			if (involved_edges.size() > 0) {
+				sb.append(
+					"int involved_edges_of_cond_" + cond_num +
+						"[" + involved_edges.size() + "] = { ");
+				Iterator edge_it = involved_edges.iterator();
+				for ( ; edge_it.hasNext() ; ) {
+						Edge edge = (Edge) edge_it.next();
+						Integer edge_num = (Integer) pattern_edge_num[act_id].get(edge);
+						sb.append(edge_num);
+						if (edge_it.hasNext()) sb.append(", ");
+				}
+				sb.append(" };\n");
+				involved_edges_array = "involved_edges_of_cond_" + cond_num;
+			}
+			//gen the actual condition descriptor
+			sb.append(
+				"fb_condition_descr_t condition_" + cond_num + " = {\n" +
+				"  " + cond_num + ", (gr_id_t)" + act_id + ",\n" +
+				"  " + involved_nodes.size() + ", " + involved_nodes_array + ",\n" +
+				"  " + involved_edges.size() + ", " + involved_edges_array + "\n" +
+				"};\n\n");
+		}
+		
+		//gen pattern, replacement and action-struct for all actions
+		for(Iterator it = actionMap.keySet().iterator(); it.hasNext(); )
+		{
+			
+			//get the current action
+			Action act = (Action) it.next();
+			//get the current actions id
+			int act_id = ((Integer)actionMap.get(act)).intValue();
+			assert act_id < n_graph_actions:
+				"action id found which was greater than the number of graph actions";
+			
+			//gen pattern graph of the current action
+			if (act instanceof MatchingAction)
+			{
+				//get the current actions pattern graph
+				PatternGraph pattern = ((MatchingAction)act).getPattern();
+				//create a C-identifier for the currents action pattern graph
+				String graphName = "pattern_graph_of_action_" + act_id;
+				//setup the maps with the precomputes node and edge numbers
+				Map node_numbers = pattern_node_num[act_id];
+				Map edge_numbers = pattern_edge_num[act_id];
+				//gen C-data-structures describing its pattern and replacemant graph
+				sb.append(
+					"\n\n\n\n\n/*------------------ Some stuff describing the " +
+						" pattern and (if exists) the replacement of action " +
+						act_id + " ------------------*/\n\n\n");
+				genGraph(
+					sb, pattern, graphName, "pattern_", "_of_action_" + act_id,
+					node_numbers, edge_numbers);
+			}
+			
+			//gen replacemant graph of the current action if there exists one
+			if (act instanceof Rule)
+			{
+				//get the current actions pattern graph
+				Graph replacement = ((Rule)act).getRight();
+				//create a C-identifier for the currents action pattern graph
+				String graphName = "replacement_graph_of_action_" + act_id;
+				//setup the maps with the precomputes node and edge numbers
+				Map node_numbers = replacement_node_num[act_id];
+				Map edge_numbers = replacement_edge_num[act_id];
+				//gen C-data-structures describing its pattern and replacemant graph
+				genGraph(
+					sb, replacement, graphName, "replacement_",
+					"_of_action_" + act_id, node_numbers, edge_numbers);
+			}
+			
+		}
+		genActualActions(sb);
+	}
+
+	private void genActionsInfo(StringBuffer sb)
+	{
+		/* gen the file preamble */
+		sb.append(
+			"/*\n" +
+				" * File 'actions_info.inc', created automatically by\n" +
+				" * the FrameBased-Backend of GrGen.\n" +
+				" *\n" +
+				" * The defines in this file replresent some information extracted\n" +
+				" * from the GrGen input file '" + unit.getFilename() + "'.\n" +
+				" */\n\n\n");
+	
+		sb.append(
+			"/* the overall number of graph actions */\n" +
+				"#define fb_N_ACTIONS " + n_graph_actions + "\n\n" +
+				"/* the overall number of pattern graph conditions */\n" +
+				"#define fb_N_CONDITIONS " + n_conditions + "\n\n");
+		
+		sb.append(
+			"/* the overall maximum number of nodes and edges of all\n" +
+				" * pattern and replacement graphs respectively */\n" +
+				"#define fb_MAX_N_PATTERN_NODES " + max_n_pattern_nodes + "\n" +
+				"#define fb_MAX_N_PATTERN_EDGES " + max_n_pattern_edges + "\n" +
+				"#define fb_MAX_N_REPLACEMENT_NODES " + max_n_replacement_nodes + "\n" +
+				"#define fb_MAX_N_REPLACEMENT_EDGES " + max_n_replacement_edges +
+				"\n\n");
+	}
+	
+	
+	
+	
+	/**
+	 * Method genGraph
+	 *
+	 * @param    sb                  where the generated C code is stored in
+	 * @param    graph               the Graph (pattern or replacement)
+	 * 								 to gen C code for
+	 * @param    graphName           The C identifier for the generated C struct
+	 * @param    prefix              a prefix for C identifiers of nodes and edges
+	 * @param    postfix             a postfix for C identifiers of nodes and edges
+	 * @param    node_numbers        a Map relating node objects to
+	 * 								 actions-impl-internal node numbers
+	 * @param    edge_numbers        a Map relating edge objects to
+	 * 								 actions-impl-internal edge numbers
+	 *
+	 */
+	private void genGraph(
+		StringBuffer sb, Graph graph, String graphName,
+		String prefix, String postfix,
+		Map node_numbers, Map edge_numbers)
+	{
+		
+		/* gen C-prototypes for all pattern graph nodes */
+		if (graph.getNodes().size() > 0) {
+			sb. append(
+				"/* node prototypes of graph " + graphName + " */\n");
+			//get an iterator over the graph nodes
+			Iterator node_it = graph.getNodes().iterator();
+			//for nodes...
+			for ( ; node_it.hasNext(); )
+			{
+				//...create a C-prototype of type fb_acts_node_t
+				Node node = (Node) node_it.next();
+				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				sb.append(
+					"fb_acts_node_t " + prefix + "node_" + node_num +
+					postfix + ";\n");
+			}
+			sb.append("\n");
+		}
+		
+		/* gen a sequence of structs representing all the edges of the graph */
+		if (graph.getEdges().size() > 0) {
+			sb.append(
+				"/* all the edges of graph " + graphName + " */\n");
+			Iterator edge_it = graph.getEdges().iterator();
+			for ( ; edge_it.hasNext(); )
+			{
+				Edge edge = (Edge) edge_it.next();
+				int edge_num = ((Integer)edge_numbers.get(edge)).intValue();
+				int edge_type = getId((EdgeType)edge.getType());
+				int src_node_num =
+					( (Integer)node_numbers.get(graph.getSource(edge)) ).intValue();
+				int tgt_node_num =
+					( (Integer)node_numbers.get(graph.getTarget(edge)) ).intValue();
+				//gen a struct which describes an fb_acts_edge_t
+				sb.append(
+					"fb_acts_edge_t " + prefix + "edge_" + edge_num + postfix +
+						" = {\n" +
+						"  " + edge_num + ", \"" + edge.getIdent() + "\"" +
+						", (gr_id_t)" + edge_type +
+						", &" + prefix + "node_" + src_node_num + postfix +
+						", &" + prefix + "node_" + tgt_node_num + postfix +
+						"\n};\n");
+			}
+		sb.append("\n");
+		}
+		
+		/* gen a sequence of structs representing all the nodes graph */
+		if (graph.getNodes().size() > 0) {
+			sb.append(
+				"/* all the nodes of graph " + graphName + " and their arrays\n" +
+				" * of incomming and outgoing edges */\n");
+			Iterator node_it = graph.getNodes().iterator();
+			//for all nodes...
+			for ( ; node_it.hasNext(); )
+			{
+				
+				
+				
+				
+				
+				Node node = (Node) node_it.next();
+				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				int n_out_edges = graph.getOutDegree(node);
+				int n_in_edges = graph.getInDegree(node);
+				int node_type = getId((NodeType)node.getType());
+				
+				//gen this nodes array of outgoing edges
+				String out_edges_array = "NULL";
+				if ( n_out_edges > 0 ) {
+					sb.append(
+						"fb_acts_edge_t *out_edges_of_node_"  + node_num + "_of_" +
+							 graphName + "[" + graph.getOutDegree(node) + "] = {\n  ");
+					//iterate over all outgoing edges of the current node...
+					Iterator edge_it = graph.getOutgoing(node);
+					//...and gen an array of ptrs of type *fb_acts_edge_t
+					for ( ; edge_it.hasNext(); )
+					{
+						Edge out_edge = (Edge) edge_it.next();
+						int edge_num = ((Integer)edge_numbers.get(out_edge)).intValue();
+						sb.append("&" + prefix + "edge_" + edge_num + postfix);
+						if (edge_it.hasNext()) sb.append(", ");
+					}
+					sb.append("\n};\n");
+					out_edges_array = "out_edges_of_node_"  + node_num + "_of_" + graphName;
+				}
+				//gen this nodes array of incomming edges
+				String in_edges_array = "NULL";
+				if ( n_in_edges > 0 ) {
+					sb.append(
+						"fb_acts_edge_t *in_edges_of_node_" + node_num + "_of_" +
+							 graphName + "[" + graph.getInDegree(node) + "] = {\n  ");
+					//iterate over all incomming edges of the current node...
+					Iterator edge_it = graph.getIncoming(node);
+					//...and gen an array of ptrs of type *fb_acts_edge_t
+					for ( ; edge_it.hasNext(); )
+					{
+						Edge in_edge = (Edge) edge_it.next();
+						int edge_num = ((Integer)edge_numbers.get(in_edge)).intValue();
+						sb.append("&" + prefix + "edge_" + edge_num + postfix);
+						if (edge_it.hasNext()) sb.append(", ");
+					}
+					sb.append("\n};\n");
+					in_edges_array = "in_edges_of_node_" + node_num + "_of_" + graphName;
+				}
+				
+				//gen node struct
+				sb.append(
+					"fb_acts_node_t " + prefix + "node_" + node_num + postfix + " = {\n" +
+					"  " + node_num + ", \"" + node.getIdent() + "\", " +
+						"(gr_id_t)" + node_type + ",\n" +
+					"  /* outgoing edges */\n" +
+					"  " + n_out_edges + ", " + out_edges_array + ",\n" +
+					"  /* incomming edges */\n" +
+					"  " + n_in_edges + ", " + in_edges_array + ",\n" +
+					"  { NULL, NULL }\n" +
+					"};\n"); //end of node struct
+			}
+			sb.append("\n");
+		}
+
+		
+		//gen the array of nodes of the current graph
+		String graph_nodes_array = "NULL";
+		if (graph.getNodes().size() > 0) {
+			sb.append(
+				"fb_acts_node_t *all_nodes_of_" + graphName + "[" +
+					graph.getNodes().size() + "] = {\n");
+			//gen the node ptr array
+			Iterator node_it = graph.getNodes().iterator();
+			for ( ; node_it.hasNext(); )
+			{
+				Node node = (Node) node_it.next();
+				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				sb.append(
+					"    &" + prefix + "node_" + node_num + postfix);
+				if (node_it.hasNext()) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("  };\n");
+			graph_nodes_array = "all_nodes_of_" + graphName;
+		}
+		
+		
+		/* gen the struct representing the hole pattern graph */
+		sb.append(
+			"/* the struct representing the hole graph */\n"  +
+			"fb_acts_graph_t " + graphName + " = {\n" +
+			"  " + graph.getNodes().size() + ", " + graph.getEdges().size() +
+				", " + graph_nodes_array + "\n");
+		sb.append("};\n\n"); // end of graph struct
 	}
 	
 	/**
@@ -136,49 +1363,66 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 	
 	
 	
-	/* generates the graph type information specified by the grg-file,
-	 * that is info about edge and node classes and their attributes
-	 * and their inheritance relation
+	/**
+	 * Generates some graph type information specified by the grg-file,
+	 * that is info the number of types, emuns,...
 	 */
 	private void genGraphTypeInfo(StringBuffer sb)
 	{
 		//gen the file preamble
 		sb.append(
 			"/*\n" +
-				" * File 'generated_graph_type_info.inc', created automatically for\n" +
-				" * the FrameBased-Backend by the GrGen class 'FrameBasedBackend'.\n" +
-				" *\n" +
-				" * The data structures initialized in this file represent the type information\n" +
-				" * as specified by the GrGen input file '" + unit.getFilename() + "'.\n" +
-				" */\n\n");
+			" * File 'graph_type_info.inc', created automatically by\n" +
+			" * the FrameBased-Backend of GrGen.\n" +
+			" */\n\n");
+		
+		sb.append(
+			"#ifndef __GRAPH_TYPE_INFO_INC__\n" +
+			"#define __GRAPH_TYPE_INFO_INC__\n\n");
+		
+		
+		//gen defines: the number of node- and edge-types
+		sb.append(
+			"/* the name of the GrGen unit this file is created from */\n" +
+			"#define fb_UNIT_NAME \"" + unit.getName() + "\"\n\n" +
+			"/* the overall number of the edge-, node-, enum-types and of the\n" +
+			" * declared node- and edge attributes */\n" +
+			"#define fb_n_node_types " + n_node_types + "\n" +
+			"#define fb_n_edge_types " + n_edge_types + "\n" +
+			"#define fb_n_enum_types " + n_enum_types + "\n" +
+			"#define fb_n_node_attr_decls " + n_node_attrs + "\n" +
+			"#define fb_n_edge_attr_decls " + n_edge_attrs + "\n\n");
+		
+		
+		sb.append("#endif /* __GRAPH_TYPE_INFO_INC__ */\n\n");
+		
+	}
+	
+	
+	/* generates the graph type information specified by the grg-file,
+	 * that is info about edge and node classes and their attributes
+	 * and their inheritance relation
+	 */
+	private void genGraphTypeDescr(StringBuffer sb)
+	{
+		//gen the file preamble
+		sb.append(
+			"/*\n" +
+			" * File 'graph_type_descr.inc', created automatically by\n" +
+			" * the FrameBased-Backend of GrGen.\n" +
+			" *\n" +
+			" * The data structures initialized in this file represent the type information\n" +
+			" * as specified by the GrGen input file '" + unit.getFilename() + "'.\n" +
+			" */\n\n");
 		
 		
 		//gen a define: the name of the unit
-		sb.append(
-			"/* the name of the GrGen unit this file is created from */\n" +
-				"#define fb_UNIT_NAME \"" + unit.getName() + "\"\n\n");
-		
-		
-		//gen three defines: the number of node- and edge-types
-		int n_node_types = getIDs(true).length;
-		int n_edge_types = getIDs(false).length;
-		int n_enum_types = enumMap.size();
-		int n_node_attrs = nodeAttrMap.size();
-		int n_edge_attrs = edgeAttrMap.size();
-		sb.append(
-			"/* the overall number of the edge-, node-, enum-types and of the\n" +
-				" * declared node- and edge attributes */\n" +
-				"#define fb_n_node_types " + n_node_types + "\n" +
-				"#define fb_n_edge_types " + n_edge_types + "\n" +
-				"#define fb_n_enum_types " + n_enum_types + "\n" +
-				"#define fb_n_node_attr_decls " + n_node_attrs + "\n" +
-				"#define fb_n_edge_attr_decls " + n_edge_attrs + "\n\n");
-		
+//		sb.append(
+//			"/* Information about the number of attributes and the number of\n edge/node/enum-types */\n" +
+//			"#include \"graph_type_info.inc\"\n\n");
+//
 		
 		/* gen the array representing the node-subtype relation... */
-		//get the inheritance information from the GrGen internal IR
-		short[][] node_is_a_matrix = getIsAMatrix(true);
-		short[][] edge_is_a_matrix = getIsAMatrix(false);
 		if (n_node_types > 0)
 		{
 			sb.append(
@@ -197,7 +1441,8 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 				if (row != 0)
 					sb.append(",");
 				sb.append("\n  {");
-				for (int col=0; col < n_node_types; col++) {
+				for (int col=0; col < n_node_types; col++)
+				{
 					if (col != 0) sb.append(", ");
 					sb.append(node_is_a_matrix[row][col]);
 				}
@@ -209,7 +1454,7 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		{
 			sb.append(
 				"/* Two arrays representing the node/edge-subtype relation:\n" +
-					" * Example:  t1 'is_a' t2   IFF   array[t1][t1] == k != 0\n" +
+					" * Example:  t1 'is_a' t2   IFF   array[t1][t2] == k != 0\n" +
 					" * k shows the distance of t1 and t2  in the type hierarchie,\n" +
 					" * i.e. k == 1 means, that t2 is a DIRECT supertype.\n" +
 					" * ATTENTION: k == 0 means, that t1 is NOT a subtype of t2 !!!\n" +
@@ -229,7 +1474,8 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 				if (row != 0)
 					sb.append(",");
 				sb.append("\n  {");
-				for (int col=0; col < n_edge_types; col++) {
+				for (int col=0; col < n_edge_types; col++)
+				{
 					if (col != 0) sb.append(", ");
 					sb.append(edge_is_a_matrix[row][col]);
 				}
@@ -246,14 +1492,21 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		
 		
 		/* gen an array, which maps node-type-ids on node-type names */
+		//while writing the node type name array look for a type named "node"
+		//this type is the root of all node types
+		int root_node_type = 0;
 		if (n_node_types > 0)
 		{
 			sb.append(
 				"/* An array mapping a node type id to the name of that node type */\n" +
 					"const char *fb_name_of_node_type[fb_n_node_types] = {\n" +
 					"  \"" + getTypeName(true, 0) + "\"");
+			if (getTypeName(true, 0).equals("Node")) root_node_type = 0;
 			for (int nt=1; nt < n_node_types; nt++)
+			{
 				sb.append(",\n  \"" + getTypeName(true, nt) + "\"");
+				if (getTypeName(true, nt).equals("Node")) root_node_type = nt;
+			}
 			sb.append("\n};\n\n");
 		}
 		else
@@ -262,15 +1515,26 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 				"/* An array mapping a node type id to the name of that node type */\n" +
 					"const char *fb_name_of_node_type[0] = {};\n\n");
 		}
+		sb.append(
+			"/* The root of the node type hierarchie */\n" +
+				"#define GR_DEF_NODE_TYPE_Node " + root_node_type + "\n\n");
+		
+		/* gen an array, which maps edge-type-ids on edge-type names */
+		//while writing the node type name array look for a type named "node"
+		//this type is the root of all node types
+		int root_edge_type = 0;
 		if (n_edge_types > 0)
 		{
-			/* gen an array, which maps edge-type-ids on edge-type names */
 			sb.append(
 				"/* An array mapping a edge type id to the name of that edge type */\n" +
 					"const char *fb_name_of_edge_type[fb_n_edge_types] = {\n" +
 					"  \"" + getTypeName(false, 0) + "\"");
+			if (getTypeName(false, 0).equals("Edge")) root_edge_type = 0;
 			for (int et=1; et < n_edge_types; et++)
+			{
 				sb.append(",\n  \"" + getTypeName(false, et) + "\"");
+				if (getTypeName(false, et).equals("Edge")) root_edge_type = et;
+			}
 			sb.append("\n};\n\n");
 		}
 		else
@@ -280,32 +1544,19 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 					"const char *fb_name_of_edge_type[0] = {};\n\n");
 			
 		}
+		sb.append(
+			"/* The root of the edge type hierarchie */\n" +
+				"#define GR_DEF_EDGE_TYPE_Edge " + root_edge_type + "\n\n");
+		
+		
+		
 		
 		/* gen an array, which maps a node-type-id to the number of attr the type has */
-		//count the number of attr for each node type and store the result in an array
-		int n_attr_of_node_type[] = new int[n_node_types];
 		if (n_node_types > 0)
 		{
 			sb.append(
 				"/* An array mapping a node type id to the number of attributes that type has */\n" +
 					"const int fb_n_attr_of_node_type[fb_n_node_types] = {\n");
-			//fill that array with 0
-			for (int i=0; i < n_node_types; i++) n_attr_of_node_type[i] = 0;
-			//count number of attributes
-			for (Iterator it =  nodeAttrMap.keySet().iterator(); it.hasNext(); )
-			{
-				Entity attr = (Entity) it.next();
-				assert attr.hasOwner():
-					"Thought, that the Entity represented a node class attr and that\n" +
-					"thus there had to be a type that owned the entity, but there was non.";
-				Type node_type = attr.getOwner();
-				int node_type_id = ((Integer)nodeTypeMap.get(node_type)).intValue();
-				assert node_type_id < n_node_types:
-					"Tried to use a node-type-id as array index, " +
-					"but the id exceeded the number of node types";
-				n_attr_of_node_type[node_type_id]++;
-			}
-			//transfer the counting result from the array to the generated array
 			sb.append("  " + n_attr_of_node_type[0]);
 			for (int nt=1; nt < n_node_types; nt++)
 				sb.append("," + n_attr_of_node_type[nt]);
@@ -319,30 +1570,11 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		}
 		
 		/* gen an array, which maps a edge-type-id to the number of attr the type has */
-		//count the number of attr for each edge type and store the result in an array
-		int n_attr_of_edge_type[] = new int[n_edge_types];
 		if (n_edge_types > 0)
 		{
 			sb.append(
 				"/* An array mapping an edge type id to the number of attributes that type has */\n" +
 					"const int fb_n_attr_of_edge_type[fb_n_edge_types] = {\n");
-			//fill that array with 0
-			for (int i=0; i < n_edge_types; i++) n_attr_of_edge_type[i] = 0;
-			//count number of attributes
-			for (Iterator it =  edgeAttrMap.keySet().iterator(); it.hasNext(); )
-			{
-				Entity attr = (Entity) it.next();
-				assert attr.hasOwner():
-					"Thought, that the Entity represented an edge class attr and that\n" +
-					"thus there had to be a type that owned the entity, but there was non.";
-				Type edge_type = attr.getOwner();
-				int edge_type_id = ((Integer)edgeTypeMap.get(edge_type)).intValue();
-				assert edge_type_id < n_edge_types:
-					"Tried to use an edge-type-id as array index," +
-					"but the id exceeded the number of edge types";
-				n_attr_of_edge_type[edge_type_id]++;
-			}
-			//transfer the counting result from the array to the generated array
 			sb.append("  " + n_attr_of_edge_type[0]);
 			for (int et=1; et < n_edge_types; et++)
 				sb.append("," + n_attr_of_edge_type[et]);
@@ -358,61 +1590,22 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		
 		
 		/* gen an array which maps node attribute ids to attribute descriptors */
-		AttrTypeDescriptor[] node_attr_info = new AttrTypeDescriptor[0];
 		if (n_node_attrs > 0)
 		{
 			sb.append(
 				"/* An array mapping node attribute ids to attribute descriptors */\n" +
 					"const fb_attr_descr_t fb_node_attr_info[fb_n_node_attr_decls] = {\n");
-			/* first: collect all needed information about node attributes */
-			node_attr_info = new AttrTypeDescriptor[n_node_attrs];
 			
-			for (Iterator it = nodeAttrMap.keySet().iterator(); it.hasNext(); )
-			{
-				Entity attr = (Entity) it.next();
-				assert attr.hasOwner():
-					"Thought, that the Entity represented an node attr and that thus\n" +
-					"there had to be a type that owned the entity, but there was non.";
-				NodeType node_type = (NodeType) attr.getOwner();
-				int node_type_id = ((Integer)nodeTypeMap.get(node_type)).intValue();
-				int attr_id = ((Integer)nodeAttrMap.get(attr)).intValue();
-				
-				node_attr_info[attr_id] = new AttrTypeDescriptor();
-				//set the attr id
-				node_attr_info[attr_id].attr_id = attr_id;
-				//get the attributes name
-				node_attr_info[attr_id].name = attr.getIdent().toString();
-				//get the owners type id
-				node_attr_info[attr_id].decl_owner_type_id = node_type_id;
-				//get the attributes kind
-				if (attr.getType() instanceof IntType)
-					node_attr_info[attr_id].kind = AttrTypeDescriptor.INTEGER;
-				else if (attr.getType() instanceof BooleanType)
-					node_attr_info[attr_id].kind= AttrTypeDescriptor.BOOLEAN;
-				else if (attr.getType() instanceof StringType)
-					node_attr_info[attr_id].kind = AttrTypeDescriptor.STRING;
-				else if (attr.getType() instanceof EnumType)
-				{
-					node_attr_info[attr_id].kind = AttrTypeDescriptor.ENUM;
-					node_attr_info[attr_id].enum_id = ((Integer)enumMap.get(attr.getType())).intValue();
-				}
-				else
-				{
-					System.err.println("Key element of AttrNodeMap has a type, which is " +
-										   "neither one of 'int', 'boolean', 'string' nor an enumeration type.");
-					System.exit(0);
-				}
-			}
 			AttrTypeDescriptor at = node_attr_info[0];
 			sb.append(
-				"  { " + genFbKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
+				"  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 					"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 					"(gr_id_t)" + at.enum_id +" }");
 			for (int attr_id=1; attr_id < n_node_attrs; attr_id++)
 			{
 				at = node_attr_info[attr_id];
 				sb.append(
-					",\n  { " + genFbKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
+					",\n  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 						"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 						"(gr_id_t)" + at.enum_id +" }");
 			}
@@ -428,61 +1621,22 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		
 		
 		/* gen an array which maps edge attribute ids to attribute descriptors */
-		AttrTypeDescriptor[] edge_attr_info = new AttrTypeDescriptor[0];
 		if (n_edge_attrs > 0)
 		{
 			sb.append(
 				"/* An array mapping edge attribute ids to attribute descriptors */\n" +
 					"const fb_attr_descr_t fb_edge_attr_info[fb_n_edge_attr_decls] = {\n");
-			/* first: collect all needed information about node attributes */
-			edge_attr_info = new AttrTypeDescriptor[n_edge_attrs];
 			
-			for (Iterator it = edgeAttrMap.keySet().iterator(); it.hasNext(); )
-			{
-				Entity attr = (Entity) it.next();
-				assert attr.hasOwner():
-					"Thought, that the Entity represented an edge attr and that thus\n" +
-					"there had to be a type that owned the entity, but there was non.";
-				EdgeType edge_type = (EdgeType) attr.getOwner();
-				int edge_type_id = ((Integer)edgeTypeMap.get(edge_type)).intValue();
-				int attr_id = ((Integer)edgeAttrMap.get(attr)).intValue();
-				
-				edge_attr_info[attr_id] = new AttrTypeDescriptor();
-				//set the attr id
-				edge_attr_info[attr_id].attr_id = attr_id;
-				//get the attributes name
-				edge_attr_info[attr_id].name = attr.getIdent().toString();
-				//get the owners type id
-				edge_attr_info[attr_id].decl_owner_type_id = edge_type_id;
-				//get the attributes kind
-				if (attr.getType() instanceof IntType)
-					edge_attr_info[attr_id].kind = AttrTypeDescriptor.INTEGER;
-				else if (attr.getType() instanceof BooleanType)
-					edge_attr_info[attr_id].kind= AttrTypeDescriptor.BOOLEAN;
-				else if (attr.getType() instanceof StringType)
-					edge_attr_info[attr_id].kind = AttrTypeDescriptor.STRING;
-				else if (attr.getType() instanceof EnumType)
-				{
-					edge_attr_info[attr_id].kind = AttrTypeDescriptor.ENUM;
-					edge_attr_info[attr_id].enum_id = ((Integer)enumMap.get(attr.getType())).intValue();
-				}
-				else
-				{
-					System.err.println("Key element of AttrEdgeMap has a type, which is " +
-										   "neither one of 'int', 'boolean', 'string' nor an enumeration type.");
-					System.exit(0);
-				}
-			}
 			AttrTypeDescriptor at = edge_attr_info[0];
 			sb.append(
-				"  { " + genFbKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
+				"  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 					"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 					"(gr_id_t)" + at.enum_id +" }");
 			for (int attr_id=1; attr_id < n_edge_attrs; attr_id++)
 			{
 				at =edge_attr_info[attr_id];
 				sb.append(
-					",\n  { " + genFbKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
+					",\n  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 						"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 						"(gr_id_t)" + at.enum_id +" }");
 			}
@@ -500,30 +1654,8 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		/* gen an array which implements the map
 		 * node_type_id  x  attr_id  -->  attr_index
 		 * where attr index is the position the attr has in the attr layout of the node type */
-		//first: compute the attr layout of the node types (then you can gen the array)
-		int node_attr_index[][] = new int[0][0];
 		if (n_node_attrs > 0)
 		{
-			node_attr_index = new int[n_node_types][n_node_attrs];
-			//for all node types...
-			for (int nt = 0; nt < n_node_types; nt++)
-			{
-				//the index the current attr will get in the current node layout, if it's a member
-				int attr_index = 0;
-				//...and all node attribute IDs...
-				for (int attr_id = 0; attr_id < n_node_attrs; attr_id++)
-				{
-					//...check wether the attr is owned by the node type or one of its supertype
-					int owner = node_attr_info[attr_id].decl_owner_type_id;
-					if ( owner == nt || node_is_a_matrix[nt][owner] > 0)
-						//setup the attrs index in the layout of the current node type
-						node_attr_index[nt][attr_id] = attr_index++;
-					else
-						//-1 means that the current attr is not a member of the current node type
-						node_attr_index[nt][attr_id] = -1;
-				}
-			}
-			//now gen the array
 			sb.append(
 				"/* An array mapping pairs (node_type_id, node_attr_id) to the index position\n" +
 					" * the attribute has in the layout of the node type. A negative value indicates\n" +
@@ -554,30 +1686,8 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		/* gen an array which implements the map
 		 * edge_type_id  x  attr_id  -->  attr_index
 		 * where attr index is the position the attr has in the attr layout of the edge type */
-		//first: compute the attr layout of the edge types (then you can gen the array)
-		int edge_attr_index[][] = new int[0][0];
 		if (n_edge_attrs > 0)
 		{
-			edge_attr_index = new int[n_edge_types][n_edge_attrs];
-			//for all edge types...
-			for (int et = 0; et < n_edge_types; et++)
-			{
-				//the index the current attr will get in the current edge layout, if it's a member
-				int attr_index = 0;
-				//...and all edge attribute IDs...
-				for (int attr_id = 0; attr_id < n_edge_attrs; attr_id++)
-				{
-					//...check wether the attr is owned by the edge type or one of its supertype
-					int owner = edge_attr_info[attr_id].decl_owner_type_id;
-					if ( owner == et || edge_is_a_matrix[et][owner] > 0)
-						//setup the attrs index in the layout of the current node type
-						edge_attr_index[et][attr_id] = attr_index++;
-					else
-						//-1 means that the current attr is not a member of the current node type
-						edge_attr_index[et][attr_id] = -1;
-				}
-			}
-			//now gen the array
 			sb.append(
 				"/* An array mapping pairs (edge_type_id, edge_attr_id) to the index position\n" +
 					" * the attribute has in the layout of the edge type. A negative value indicates\n" +
@@ -606,44 +1716,21 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		
 		
 		/* Gen an array which maos enum type ids to enum descriptors.
-		   Note that evert element of the array contains a pointer, each to another
-		   array, so these arrays have to be generated first */
-		EnumDescriptor enum_type_descriptors[] = new EnumDescriptor[0];
+		 Note that evert element of the array contains a pointer, each to another
+		 array, so these arrays have to be generated first */
 		if (n_enum_types > 0)
 		{
-			//collect the information about the enumeration types
-			enum_type_descriptors = new EnumDescriptor[n_enum_types];
-			for (int et = 0; et < n_enum_types; et++)
-				enum_type_descriptors[et] = new EnumDescriptor();
-			
-			for (Iterator it = enumMap.keySet().iterator(); it.hasNext(); )
-			{
-				EnumType enum_type = (EnumType) it.next();
-				//store the info about the current enum type in an array...
-				//...type id
-				int enum_type_id = ((Integer)enumMap.get(enum_type)).intValue();
-				enum_type_descriptors[enum_type_id].type_id = enum_type_id;
-				//...the identifier used in the grg-file to declare thar enum type
-				enum_type_descriptors[enum_type_id].name = enum_type.getIdent().toString();
-				//..the items in this enumeration type
-				for (Iterator item_it = enum_type.getItems(); item_it.hasNext(); )
-				{
-					enum_type_descriptors[enum_type_id].items.add(item_it.next());
-				}
-				//...the number of items
-				enum_type_descriptors[enum_type_id].n_items =
-					enum_type_descriptors[enum_type_id].items.size();
-			}
-			//gen of the arrays of item descriptors
+			//gen of sequence of arrays of item descriptors
 			sb.append(
 				"/* Several arrays (one array for each enum type) listing\n" +
-				"   the items of the associated enum type */\n");
-
-			for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++) {
+					"   the items of the associated enum type */\n");
+			
+			for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++)
+			{
 				EnumDescriptor current_enum = enum_type_descriptors[enum_type_id];
 				sb.append(
 					"const fb_enum_item_descr_t item_descr_array_" + enum_type_id +
-					"[" + current_enum.n_items + "] = {");
+						"[" + current_enum.n_items + "] = {");
 				boolean first = true;
 				for (Iterator item_it = current_enum.items.iterator(); item_it.hasNext(); )
 				{
@@ -652,10 +1739,10 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 					EnumItem enum_item = (EnumItem) item_it.next();
 					sb.append(
 						"\n  { (gr_int_t)" + ((Integer)enum_item.getValue().getValue()).intValue() +
-						", \"" + enum_item.getIdent() + "\" }");
+							", \"" + enum_item.getIdent() + "\" }");
 				}
 				sb.append("\n};\n\n");
-	
+				
 			}
 			//actual gen of the array implementing the map
 			//enum_type_id -->  enum_type_descriptor
@@ -680,23 +1767,10 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 				"/* An array mapping enum type ids to enum type descriptors */\n" +
 					"const fb_enum_descr_t fb_enum_type_info[0] = {};\n\n\n");
 	}
-	
-
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
 	/*
 	 *  gives a kind tag for a fb backend attr descriptor
 	 */
-	protected String genFbKindFromInt(int kind)
+	protected String genAttrKindFromInt(int kind)
 	{
 		switch (kind)
 		{
@@ -712,7 +1786,7 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 		return "ERROR_invalid_kind";
 	}
 	
-	
+}
 //	/*
 //	 *  writes a character sequence to a new file
 //	 */
@@ -720,30 +1794,6 @@ public class FrameBasedBackend extends CBackend implements Backend, BackendFacto
 //	{
 //		Util.writeFile(new File(path, filename), cs, error);
 //	}
-	
-	/*
-	 *  auxilary inner class, wrapping attr type information
-	 */
-	class AttrTypeDescriptor
-	{
-		int kind;								//0: integer, 1: boolean, 2: string, 3: enum
-		int attr_id;						//this attributes id
-		String name;						//the attr identifier used in the '.grg' file
-		int decl_owner_type_id;	//the id of the type owning this attr
-		int enum_id = -1;				//the id of the enum type (if the attr IS of an enum type)
-		
-		static final int INTEGER = 0;
-		static final int BOOLEAN = 1;
-		static final int STRING = 2;
-		static final int ENUM = 3;
-	}
-	
-	class EnumDescriptor
-	{
-		int  type_id;
-		String name;
-		int n_items;
-		Vector items = new Vector();
-	}
-}
+
+
 
