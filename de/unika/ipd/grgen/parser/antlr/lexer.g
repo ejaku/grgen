@@ -28,6 +28,7 @@ header {
 class GRLexer extends Lexer;
 
 options {
+  charVocabulary = '\u0000'..'\u00FF';
 	testLiterals=false;    // don't automatically test for literals
 	k=4;                   // four characters of lookahead
 	codeGenBitsetTestThreshold=20;
