@@ -41,4 +41,12 @@ public class Node extends Entity {
   public void setReplaceType(NodeType nt) {
 		replaceType = nt;  	
   }
+  
+  /**
+   * Check, if the type of this node changes in a rule.
+   * @return true, if the type changes, false, if not.
+   */
+  public boolean typeChanges() {
+  	return !replaceType.isEqual(getNodeType());
+  }
 }
