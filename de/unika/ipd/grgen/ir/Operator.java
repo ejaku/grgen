@@ -39,7 +39,7 @@ public class Operator extends Expression
 
 	private static final String[] opNames = {
 		"COND",	"LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
-		"EQ", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
+		"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
 		"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "CAST",
 	};
 	
