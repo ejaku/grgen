@@ -430,7 +430,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 			Set attrs = attrIndices.keySet();
 			
 			cols = new Column[attrs.size() + 1];
-			cols[0] = new SimpleColumn("id", getIntType(), this, false); 
+			cols[0] = new SimpleColumn(idCol, getIntType(), this, false); 
 			
 			for(Iterator it = attrs.iterator(); it.hasNext();) {
 				Entity e = (Entity) it.next();
