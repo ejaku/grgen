@@ -78,6 +78,15 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		private final List edges = new LinkedList();
 		private final Set reverseEdges = new HashSet();
 		private final Map graphMap = new HashMap();
+		private final boolean isNAC;
+		
+		public SearchPath(boolean isNAC) {
+			this.isNAC = isNAC;
+		}
+		
+		public boolean isNAC() {
+			return isNAC;
+		}
 		
 		public void dump(StringBuffer sb) {
 			for(Iterator it = edges.iterator(); it.hasNext();) {
@@ -122,7 +131,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		}
 	}
 	
-	private void visitNode(VisitContext ctx, SearchPath path, Node start) {
+	private void visitNode(VisitContext ctx, SearchPath path,
+												 Node start, boolean isNAC) {
 		
 		debug.entering();
 		
@@ -174,20 +184,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				SearchPath sp = path;
 				
 				if(i > 0) {
-					sp = new SearchPath();
+					sp = new SearchPath(isNAC);
 					ctx.paths.add(sp);
 				}
 				
 				Edge edge = (Edge) edges.get(n);
 				sp.add(edge, reverse.contains(edge), g);
-				visitNode(ctx, sp, n);
+				visitNode(ctx, sp, n, isNAC);
 			}
 		}
 		
 		debug.leaving();
 	}
 	
-	private SearchPath[] computeSearchPaths(Graph pattern) {
+	private SearchPath[] computeSearchPaths(Graph pattern, boolean graphIsNAC) {
 		
 		Collection rest = pattern.getNodes(new HashSet());
 		Iterator edgeIterator = pattern.getEdges();
@@ -206,12 +216,12 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			debug.report(NOTE, "rest: " + rest);
 			
 			Node cheapest = getCheapest(rest.iterator(), comparator);
-			SearchPath path = new SearchPath();
+			SearchPath path = new SearchPath(graphIsNAC);
 			ctx.paths.add(path);
 			
 			debug.report(NOTE, "cheapest: " + cheapest);
 			
-			visitNode(ctx, path, cheapest);
+			visitNode(ctx, path, cheapest, graphIsNAC);
 			
 			if(path.edges.isEmpty()) ctx.paths.remove(path);
 			
@@ -272,7 +282,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
 			
-			SearchPath[] paths = computeSearchPaths(graph);
+			SearchPath[] paths = computeSearchPaths(graph, graphIsNAC);
 			
 			
 			for(int i = 0; i < paths.length; i++) {
@@ -324,7 +334,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			for(Iterator it = restEdges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
-				seq.addEdgeJoin(graph, edge, false, joinType);
+				seq.addEdgeJoin(graph, edge, false, joinType, graphIsNAC);
 			}
 			
 			
@@ -335,7 +345,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
-				seq.addNodeJoin(n, joinType);
+				seq.addNodeJoin(n, joinType, graphIsNAC);
 			}
 		}
 		
@@ -792,9 +802,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param node The node.
 		 * @param joinMethod The kind of join (inner, outer, etc.)
 		 */
-		private void addNodeJoin(Node node, int joinMethod) {
+		private void addNodeJoin(Node node, int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(node)) {
-				matchedNodes.add(node);
+				if(!nac)
+					matchedNodes.add(node);
 				
 				NodeTable nodeTable = tableFactory.nodeTable(node);
 				addJoin(nodeTable, joinMethod);
@@ -820,9 +831,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * the search path, thus src and tgt node must be exchanged.
 		 * @param joinMethod The metjod of join.
 		 */
-		private void addEdgeJoin(Graph g, Edge edge, boolean swapped, int joinMethod) {
+		private void addEdgeJoin(Graph g, Edge edge, boolean swapped,
+														 int joinMethod, boolean nac) {
 			if(!hasBeenProcessed(edge)) {
-				matchedEdges.add(edge);
+				if(!nac)
+					matchedEdges.add(edge);
 				
 				EdgeTable edgeTable = tableFactory.edgeTable(edge);
 				addJoin(edgeTable, joinMethod);
@@ -853,10 +866,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				boolean reverse = sp.isReverse(edge);
 				Node firstNode = g.getEnd(edge, !reverse);
 				Node secondNode = g.getEnd(edge, reverse);
+				boolean nac = sp.isNAC();
 				
-				addNodeJoin(firstNode, joinMethod);
-				addEdgeJoin(g, edge, reverse, joinMethod);
-				addNodeJoin(secondNode, joinMethod);
+				addNodeJoin(firstNode, joinMethod, nac);
+				addEdgeJoin(g, edge, reverse, joinMethod, nac);
+				addNodeJoin(secondNode, joinMethod, nac);
 			}
 		}
 		
