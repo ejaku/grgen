@@ -518,8 +518,6 @@ public class MoreInformationCollector extends InformationCollector
 							//the corresponding node/edge is not allowed to be of
 							Collection type_condition = node.getConstraints();
 							
-							assert typeConditionNumbers.get(type_condition) == null;
-							
 							//...create condition numbers
 							typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
 							
