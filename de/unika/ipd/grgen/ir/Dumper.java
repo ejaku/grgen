@@ -47,6 +47,18 @@ public class Dumper {
 			gd.edge(edge, tgt);
 		}
 		
+		if(g instanceof PatternGraph) {
+			PatternGraph pg = (PatternGraph) g;
+			Collection conds = pg.getConditions();
+			
+			if(!conds.isEmpty()) {
+				for(Iterator i = conds.iterator(); i.hasNext();) {
+					Expression expr = (Expression) i.next();
+					dump(expr, gd);
+				}
+			}
+		}
+		
 		gd.endSubgraph();
 	}
 	
@@ -83,16 +95,6 @@ public class Dumper {
 										GraphDumper.DOTTED);
 				}
 			}
-		}
-		
-		Iterator conds = act.getCondition().get();
-		if(conds.hasNext()) {
-			gd.beginSubgraph(act.getCondition());
-			while(conds.hasNext()) {
-				Expression expr = (Expression) conds.next();
-				dump(expr, gd);
-			}
-			gd.endSubgraph();
 		}
 		
 		gd.endSubgraph();
@@ -137,7 +139,7 @@ public class Dumper {
 				String main = act.toString().replace(' ', '_');
 				
 				GraphDumper curr = dumperFactory.get(main);
-		
+				
 				curr.begin();
 				dump(act, curr);
 				curr.finish();

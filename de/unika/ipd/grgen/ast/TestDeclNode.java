@@ -4,80 +4,64 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.PatternGraphNode;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Test;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A type that represents tests
  */
 public class TestDeclNode extends ActionDeclNode {
-    
-    
-    private static final int PATTERN = LAST + 1;
-    private static final int NEG = LAST + 2;
-    private static final int COND = LAST + 3;
-    
-    private static final String[] childrenNames =
-        addChildrenNames(new String[] { "test", "neg" , "cond"});
-    
-    private static final TypeNode testType = new TypeNode() { };
-    
-    private static final Checker condChecker =
-        new CollectChecker(new SimpleChecker(ExprNode.class));
-
-    static {
-        setName(TestDeclNode.class, "test declaration");
-        setName(testType.getClass(), "test type");
-    }
-    
-    public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode neg, BaseNode cond) {
-        super(id, testType);
-        addChild(pattern);
-        addChild(neg);
-        addChild(cond);
-        setChildrenNames(childrenNames);
-    }
-    
-    /**
-     * The children of a test type are
-     * 1) a pattern
-     * 2) a NAC
-     * 3) and a cond part.
-     * @see de.unika.ipd.grgen.ast.BaseNode#check()
-     */
-    protected boolean check() {
-        boolean childs = checkChild(PATTERN, PatternNode.class)
-			&& checkChild(NEG, negChecker)
-            && checkChild(COND, condChecker);
-        
-        boolean expr = true;
-        if(childs) {
-            for(Iterator it = getChild(COND).getChildren(); it.hasNext(); ) {
-                // Must go right, since it is checked 5 lines above.
-                ExprNode exp = (ExprNode) it.next();
-                if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
-                    exp.reportError("Expression must be of type boolean");
-                    expr = false;
-                }
-            }
-        }
-
+	
+	
+	private static final int PATTERN = LAST + 1;
+	private static final int NEG = LAST + 2;
+	
+	private static final String[] childrenNames =
+		addChildrenNames(new String[] { "test", "neg" });
+	
+	private static final TypeNode testType = new TypeNode() { };
+	
+	private static final Checker condChecker =
+		new CollectChecker(new SimpleChecker(ExprNode.class));
+	
+	static {
+		setName(TestDeclNode.class, "test declaration");
+		setName(testType.getClass(), "test type");
+	}
+	
+	public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode neg) {
+		super(id, testType);
+		addChild(pattern);
+		addChild(neg);
+		setChildrenNames(childrenNames);
+	}
+	
+	/**
+	 * The children of a test type are
+	 * 1) a pattern
+	 * 2) a NAC
+	 * 3) and a cond part.
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check() {
+		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
+			&& checkChild(NEG, negChecker);
+		
 		boolean homomorphic = true;
 		if(childs) {
 			//Nodes that occur in the NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
 			CollectNode negs  = (CollectNode) getChild(NEG);
-			PatternNode left = (PatternNode) getChild(PATTERN);
+			GraphNode left = (GraphNode) getChild(PATTERN);
 			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
-				PatternNode neg = (PatternNode) negsIt.next();
+				GraphNode neg = (GraphNode) negsIt.next();
 				Set s = neg.getNodes();
 				s.removeAll(left.getNodes());
 				for (Iterator it = s.iterator(); it.hasNext();) {
@@ -89,29 +73,23 @@ public class TestDeclNode extends ActionDeclNode {
 				}
 			}
 		}
-        
-        
-        return childs && expr && homomorphic;
-    }
-    
-    protected IR constructIR() {
-        Graph gr = ((PatternNode) getChild(PATTERN)).getGraph();
-        Test test = new Test(getIdentNode().getIdent(), gr);
-
+		
+		
+		return childs && homomorphic;
+	}
+	
+	protected IR constructIR() {
+		PatternGraph gr = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
+		Test test = new Test(getIdentNode().getIdent(), gr);
+		
 		// add negative parts to the IR
 		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
-	        Graph neg = ((PatternNode) negsIt.next()).getGraph();
+			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
 			test.addNegGraph(neg);
 		}
 		// after all graphs are added, call coalesceAnonymousEdges
 		test.coalesceAnonymousEdges();
-        
-        //Add Cond statments to the IR
-		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
-			OpNode op = (OpNode) it.next();
-			test.getCondition().add((Expression) op.checkIR(Expression.class));
-		}
-        
-        return test;
-    }
+		
+		return test;
+	}
 }

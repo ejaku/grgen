@@ -338,7 +338,7 @@ public class Main extends Base implements Sys {
 		
 		GRParserEnvironment env = new GRParserEnvironment(this);
 		root = env.parse(inputFile);
-		res = root != null;
+		res = !env.hadError();
 		
 		debug.report(NOTE, "result: " + res);
 		return res;

@@ -599,7 +599,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		private void buildConds() {
 			
-			for(Iterator it = act.getCondition().get(); it.hasNext();) {
+			for(Iterator it = act.getPattern().getConditions().iterator(); it.hasNext();) {
 				List usedEntities = new LinkedList();
 				
 				Expression expr = (Expression) it.next();

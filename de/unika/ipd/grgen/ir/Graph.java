@@ -87,10 +87,10 @@ public class Graph extends IR {
 	}
 	
 	/** Map that maps a node to an internal node. */
-	private Map nodes = new HashMap();
+	private final Map nodes = new HashMap();
 	
 	/** Map that maps an edge to an internal edge. */
-	private Map edges = new HashMap();
+	private final Map edges = new HashMap();
 	
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
@@ -384,10 +384,18 @@ public class Graph extends IR {
 		return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
   }
 	
+	/**
+	 * Get a graph dumpable thing for a node that is local in this graph.
+	 * @param node The node.
+	 * @return A graph dumpable thing representing this node local in this graph.
+	 */
 	public GraphDumpable getLocalDumpable(Node node) {
 		return checkNode(node);
 	}
 	
+	/**
+	 * @see #getLocalDumpable(Node)
+	 */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
 	}

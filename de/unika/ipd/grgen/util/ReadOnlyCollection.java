@@ -6,33 +6,31 @@
 
 package de.unika.ipd.grgen.util;
 
+import de.unika.ipd.grgen.util.CacheMap;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
- * A read only mascerade for sets.
+ * A read only mascerade for collections.
  */
 public class ReadOnlyCollection implements Collection {
 
 	private final Collection coll;
 	
-	private final class ReadOnlyIterator implements Iterator {
-
-		private final Iterator it = coll.iterator();
-		
-		public void remove() {
-		}
-		
-		public boolean hasNext() {
-			return it.hasNext();
-		}
-		
-		public Object next() {
-			return it.next();
+	private static final Map cache = new CacheMap(127);
+	
+	public static Collection get(Collection coll) {
+		if(cache.containsKey(coll))
+			return (Collection) cache.get(coll);
+		else {
+			Collection res = new ReadOnlyCollection(coll);
+			cache.put(coll, res);
+			return res;
 		}
 	}
 	
-	public ReadOnlyCollection(Collection coll) {
+	private ReadOnlyCollection(Collection coll) {
 		this.coll = coll;
 	}
 	
@@ -80,7 +78,7 @@ public class ReadOnlyCollection implements Collection {
 	}
 	
 	public Iterator iterator() {
-		return new ReadOnlyIterator();
+		return new ReadOnlyIterator(coll.iterator());
 	}
 	
 	public Object[] toArray(Object[] p1) {

@@ -4,16 +4,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.PatternGraphNode;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * AST node for a replacement rule.
@@ -29,7 +29,7 @@ public class RuleDeclNode extends ActionDeclNode {
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-			"left", "right", "neg", "cond", "eval"
+			"left", "right", "neg", "eval"
 	};
 	
 	/** Type for this declaration. */
@@ -49,18 +49,16 @@ public class RuleDeclNode extends ActionDeclNode {
 	 * @param left The left hand side (The pattern to match).
 	 * @param right The right hand side.
 	 * @param neg The context preventing the rule to match.
-	 * @param cond The conditions.
 	 * @param eval The evaluations.
 	 */
   public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
-											BaseNode cond, BaseNode eval) {
+											BaseNode eval) {
 		
 		super(id, ruleType);
 		setChildrenNames(childrenNames);
 		addChild(left);
 		addChild(right);
 		addChild(neg);
-		addChild(cond);
 		addChild(eval);
   }
   
@@ -72,35 +70,21 @@ public class RuleDeclNode extends ActionDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean childTypes = checkChild(LEFT, PatternNode.class)
+		boolean childTypes = checkChild(LEFT, GraphNode.class)
 			&& checkChild(NEG, negChecker)
-			&& checkChild(RIGHT, PatternNode.class)
-			&& checkChild(COND, evalChecker);
+			&& checkChild(RIGHT, GraphNode.class);
 		
-		boolean cond = false, redirs = false, homomorphic = false;
+		boolean redirs = false, homomorphic = false;
 		
 		if(childTypes) {
 			redirs = true;
 			
-			PatternNode left = (PatternNode) getChild(LEFT);
-			PatternNode right = (PatternNode) getChild(RIGHT);
+			GraphNode left = (GraphNode) getChild(LEFT);
+			GraphNode right = (GraphNode) getChild(RIGHT);
 			
 			Set leftNodes = left.getNodes();
 			Set rightNodes = right.getNodes();
 			
-		}
-		
-		if(childTypes) {
-			// All conditions must be of type boolean.
-			cond = true;
-			for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
-				ExprNode e = (ExprNode) it.next();
-				
-				if(! e.getType().isCompatibleTo(BasicTypeNode.booleanType)) {
-					e.reportError("expression must be of type boolean");
-					cond = false;
-				}
-			}
 		}
 		
 		homomorphic = true;
@@ -108,9 +92,9 @@ public class RuleDeclNode extends ActionDeclNode {
 			//Nodes that occur in the NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
 			CollectNode negs  = (CollectNode) getChild(NEG);
-			PatternNode left = (PatternNode) getChild(LEFT);
+			GraphNode left = (GraphNode) getChild(LEFT);
 			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
-				PatternNode neg = (PatternNode) negsIt.next();
+				GraphNode neg = (GraphNode) negsIt.next();
 				Set s = neg.getNodes();
 				s.removeAll(left.getNodes());
 				for (Iterator it = s.iterator(); it.hasNext();) {
@@ -123,31 +107,25 @@ public class RuleDeclNode extends ActionDeclNode {
 			}
 		}
 		
-		return childTypes && redirs && cond && homomorphic;
+		return childTypes && redirs && homomorphic;
 	}
 	
   /**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
   protected IR constructIR() {
-		Graph left = ((PatternNode) getChild(LEFT)).getGraph();
-		Graph right = ((PatternNode) getChild(RIGHT)).getGraph();
+		PatternGraph left = ((PatternGraphNode) getChild(LEFT)).getPatternGraph();
+		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		// add negative parts to the IR
 		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
-			Graph neg = ((PatternNode) negsIt.next()).getGraph();
+			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
 			rule.addNegGraph(neg);
 		}
 		// NOW! after all graphs are added, call coalesceAnonymousEdges
 		rule.coalesceAnonymousEdges();
-		
-		// add Cond statments to the IR
-		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
-			OpNode op = (OpNode) it.next();
-			rule.getCondition().add((Expression) op.checkIR(Expression.class));
-		}
 		
 		// add Eval statments to the IR
 		for(Iterator it = getChild(EVAL).getChildren(); it.hasNext();) {

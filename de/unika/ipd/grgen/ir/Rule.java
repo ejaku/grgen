@@ -15,12 +15,10 @@ import de.unika.ipd.grgen.util.ArrayIterator;
 /**
  * A replacement rule.
  */
-public class Rule extends MatchingAction
-{
+public class Rule extends MatchingAction {
 	/** Names of the children of this node. */
-	private static final String[] childrenNames =
-	{
-		"left", "neg", "right", "cond", "eval"
+	private static final String[] childrenNames = {
+		"left", "right", "eval"
 	};
 	
 	/** The right hand side of the rule. */
@@ -37,8 +35,7 @@ public class Rule extends MatchingAction
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, Graph left, Graph right)
-	{
+	public Rule(Ident ident, PatternGraph left, Graph right) {
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
@@ -50,8 +47,7 @@ public class Rule extends MatchingAction
 	 * Return a list of evaluations.
 	 * @return The evaluations.
 	 */
-	public Evaluation getEvaluation()
-	{
+	public Evaluation getEvaluation() {
 		return evaluation;
 	}
 	
@@ -60,8 +56,7 @@ public class Rule extends MatchingAction
 	 * @return A set with nodes, that occur on the left and on the right side
 	 * of the rule.
 	 */
-	public Collection getCommonNodes()
-	{
+	public Collection getCommonNodes() {
 		Collection common = pattern.getNodes(new HashSet());
 		Collection rightNodes = right.getNodes(new HashSet());
 		common.retainAll(rightNodes);
@@ -72,8 +67,7 @@ public class Rule extends MatchingAction
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
 	 */
-	public Collection getCommonEdges()
-	{
+	public Collection getCommonEdges() {
 		Collection common = pattern.getEdges(new HashSet());
 		Collection rightEdges = right.getEdges(new HashSet());
 		right.getEdges(rightEdges);
@@ -99,26 +93,22 @@ public class Rule extends MatchingAction
 	 * Get the left hand side.
 	 * @return The left hand side graph.
 	 */
-	public Graph getLeft()
-	{
+	public Graph getLeft() {
 		return pattern;
 	}
-
+	
 	/**
 	 * Get the right hand side.
 	 * @return The right hand side graph.
 	 */
-	public Graph getRight()
-	{
+	public Graph getRight() {
 		return right;
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-	public Iterator getWalkableChildren()
-	{
-		//TODO dg negs is not (yet) walkable. Its a collection.
-		return new ArrayIterator(new Object[] { pattern/*, negs*/, right, condition, evaluation });
+	public Iterator getWalkableChildren() {
+		return new ArrayIterator(new Object[] { pattern, right,  evaluation });
 	}
 }

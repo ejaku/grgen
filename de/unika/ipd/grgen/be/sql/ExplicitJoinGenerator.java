@@ -573,7 +573,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		StmtContext stmtCtx = new StmtContext(act.getPattern(), factory, tableFactory);
 		
 		// Generate all conditions.
-		for(Iterator it = act.getCondition().get(); it.hasNext();) {
+		for(Iterator it = act.getPattern().getConditions().iterator(); it.hasNext();) {
 			Set usedColumns = new HashSet();
 			Expression cond = (Expression) it.next();
 			

@@ -192,8 +192,8 @@ public abstract class OpNode extends ExprNode
 		
 		for(Iterator it = getChildren(); it.hasNext();)
 		{
-			BaseNode n = (BaseNode)it.next();
-			Expression ir = (Expression)n.getIR();
+			BaseNode n = (BaseNode) it.next();
+			Expression ir = (Expression) n.checkIR(Expression.class);
 			op.addOperand(ir);
 		}
 		

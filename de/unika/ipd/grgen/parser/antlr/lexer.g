@@ -55,7 +55,7 @@ tokens {
   FALSE = "false";
   IN = "in";
   OUT = "out";
-  COND = "cond";
+  COND = "if";
   EVAL = "eval";
   TERM = "term";
   CONNECT = "connect";

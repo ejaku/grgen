@@ -104,13 +104,11 @@ testDecl returns [ BaseNode res = env.initNode() ]
   		IdentNode id;
   		BaseNode tb, pattern;
   		CollectNode neg = new CollectNode();
-  		CollectNode cond = new CollectNode();
   	}
   	: TEST id=actionIdentDecl pushScope[id] LBRACE!
   	  pattern=patternPart
-      ( condPart[cond] )?
       ( negativePart[neg] )* {
-      id.setDecl(new TestDeclNode(id, pattern, neg, cond));
+      id.setDecl(new TestDeclNode(id, pattern, neg));
       res = id;
   	} RBRACE! popScope!;
 
@@ -121,16 +119,14 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
 
   		CollectNode neg = new CollectNode();
   		CollectNode eval = new CollectNode();
-  		CollectNode cond = new CollectNode();
   }
   : RULE id=actionIdentDecl pushScope[id] LBRACE!
   	left=patternPart
-	( condPart[cond] )?
-	( negativePart[neg] )*
+  	( negativePart[neg] )*
   	right=replacePart
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, neg, cond, eval));
+  	   id.setDecl(new RuleDeclNode(id, left, right, neg, eval));
   	   res = id;
     }
     RBRACE! popScope!;
@@ -178,81 +174,32 @@ evalPart [ BaseNode n ]
 	: e:EVAL LBRACE evalBody[n] RBRACE
 	;
 	
-condPart [ BaseNode n ]
-	: c:COND LBRACE condBody[n] RBRACE
-	;
-	
-condBody [ BaseNode n ]
-	{ BaseNode e; }
-	: (e=expr { n.addChild(e); } SEMI)*
-	;
-	
 evalBody [ BaseNode n  ]
   { BaseNode a; }
   : (a=assignment { n.addChild(a); } SEMI)*
   ;
 	
-term [ BaseNode connColl ]
-	{
-		IdentNode edgeType;
-		IdentNode attr;
-	}
-	: TERM LPAREN edgeType=typeIdentUse COMMA attr=entIdentUse RPAREN
-			LBRACE termBody[edgeType, connColl] RBRACE
-	;
-
-/**
- * A Term body.
- * A term body is basically a node declaration with other seperated
- * node declaration in parentheses. These other decls are connected
- * with edges of a certain type to the "root".
- */
-termBody [ IdentNode edgeType, BaseNode connColl ] returns [ BaseNode res = env.initNode(); ]
-	{
-		CollectNode childs = new CollectNode();
-		List coords = new LinkedList();
-		BaseNode child;
-	}
-	: res=patternNodeDecl l:LPAREN child=termBody[edgeType, connColl] {
-			childs.addChild(child);
-			coords.add(getCoords(l));
-		}
-		
-		(comma:COMMA child=termBody[edgeType, connColl] {
-			childs.addChild(child);
-			coords.add(getCoords(comma));
-		})* RPAREN {
-				
-				int n = childs.children();
-				for(int i = 0; i < n; i++)  {
-					Coords coord = (Coords) coords.get(i);
-					BaseNode c = childs.getChild(i);
-					BaseNode edge = env.defineAnonymousEntity("edge", coord);
-					ConnectionNode conn = new ConnectionNode(res, edge, c);
-					connColl.addChild(conn);
-				}
-			}
-	;
-
 /**
  * Pattern bodies consist of connection nodes
  * The connection nodes in the collect node from subgraphSpec are integrated
  * In the collect node of the pattern node.
  */
 patternBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
-    {
-  		BaseNode s;
-  		CollectNode connections = new CollectNode();
-			res = new PatternNode(coords, connections);
-    }
-    : ( patternStmt[connections] SEMI )*
+  {
+		BaseNode s;
+ 		CollectNode connections = new CollectNode();
+ 		CollectNode conditions = new CollectNode();
+		res = new PatternGraphNode(coords, connections, conditions);
+  }
+  : (patternStmt[connections, conditions])*
   ;
 
-patternStmt [ BaseNode connCollect ]
-	{ BaseNode n, o; }
-	: patternConnections[connCollect]
-	| NODE patternNodeDecl ( COMMA patternNodeDecl )*
-	| term[connCollect]
+patternStmt [ BaseNode connCollect, BaseNode condCollect ]
+	{ BaseNode n, o, e; }
+	: patternConnections[connCollect] SEMI
+	| NODE patternNodeDecl ( COMMA patternNodeDecl )* SEMI
+	| COND e=expr { condCollect.addChild(e); } SEMI
+	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
 	;
 
 patternConnections [ BaseNode connColl ]
@@ -369,7 +316,7 @@ replaceBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
     {
   	  	BaseNode s;
   		CollectNode connections = new CollectNode();
-  	  	res = new PatternNode(coords, connections);
+  	  	res = new GraphNode(coords, connections);
     }
     : ( replaceStmt[connections] SEMI )*
   ;

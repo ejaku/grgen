@@ -4,11 +4,10 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.util.SingleIterator;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import de.unika.ipd.grgen.util.ArrayIterator;
 
 /**
  * An action that represents something that does graph matching.
@@ -21,21 +20,18 @@ public abstract class MatchingAction extends Action {
 	};
 	
 	/** The graph pattern to match against. */
-	protected Graph pattern;
+	protected final PatternGraph pattern;
 	
 	/** The NAC part of the rule. */
-	protected Collection negs = new LinkedList(); //holds Objects of type Graph
-	
-	/** The condition of this rule. */
-	protected Condition condition = new Condition();
-	
+	protected final Collection negs =
+		new LinkedList(); // holds Objects of type PatternGraph
 	
 	/**
 	 * @param name The name of this action.
 	 * @param ident The identifier that identifies this object.
 	 * @param pattern The graph pattern to match against.
 	 */
-	public MatchingAction(String name, Ident ident, Graph pattern) {
+	public MatchingAction(String name, Ident ident, PatternGraph pattern) {
 		super(name, ident);
 		this.pattern = pattern;
 		pattern.setNameSuffix("pattern");
@@ -46,11 +42,11 @@ public abstract class MatchingAction extends Action {
 	 * Get the graph pattern.
 	 * @return The graph pattern.
 	 */
-	public Graph getPattern() {
+	public PatternGraph getPattern() {
 		return pattern;
 	}
   
-	public void addNegGraph(Graph neg) {
+	public void addNegGraph(PatternGraph neg) {
 		if(neg.getNodes().hasNext()) {
 			neg.setNameSuffix("negative");
 			negs.add(neg);
@@ -63,22 +59,6 @@ public abstract class MatchingAction extends Action {
 	 */
 	public Iterator getNegs() {
 		return negs.iterator();
-	}
-	
-	/**
-	 * Return a list of conditions.
-	 * @return The conditions.
-	 */
-	public Condition getCondition() {
-		return condition;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	public Iterator getWalkableChildren() {
-		//TODO dg negs is not (yet) walkable. Its a collection.
-		return new ArrayIterator(new Object[] { pattern, condition/*, negs*/ });
 	}
 	
 	/**
