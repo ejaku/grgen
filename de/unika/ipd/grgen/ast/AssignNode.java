@@ -31,8 +31,38 @@ public class AssignNode extends BaseNode {
 		addChild(expr);
 	}
 	
-	protected IR constructIR() {
-		return new Assignment((Qualification)getChild(LHS).constructIR(),
-							  getChild(RHS).constructIR());
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check() {
+		if(checkChild(LHS, QualIdentNode.class)) {
+			boolean res = true;
+			QualIdentNode qual = (QualIdentNode) getChild(LHS);
+			DeclNode owner = qual.getOwner();
+			BaseNode ty = owner.getDeclType(); 
+			
+			if(ty instanceof InheritanceTypeNode) {
+				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
+				
+				if(inhTy.isConst()) { 
+					error.error(getCoords(), "assignment to a const type object not allowed");
+					res = false;
+				}
+			}
+			
+			return res;
+		}
+		
+		return false; 
 	}
+	
+	/**
+	 * Construct the immediate representation from an assignment node.
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR() {
+		return new Assignment((Qualification) getChild(LHS).constructIR(),
+			getChild(RHS).constructIR());
+	}
+
 }

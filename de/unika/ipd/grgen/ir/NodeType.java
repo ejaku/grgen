@@ -13,8 +13,8 @@ public class NodeType extends InheritanceType {
    * Make a new node type.
    * @param ident The identifier that declares this type.
    */
-  public NodeType(Ident ident) {
-    super("node type", ident);
+  public NodeType(Ident ident, int modifiers) {
+    super("node type", ident, modifiers);
   }
 
 }

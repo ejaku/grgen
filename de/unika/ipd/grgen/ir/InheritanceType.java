@@ -17,18 +17,25 @@ import de.unika.ipd.grgen.util.MultiIterator;
  */
 public abstract class InheritanceType extends CompoundType {
 
+	public static final int ABSTRACT = 1;
+	public static final int CONST = 2;
+	
 	private int maxDist = -1;
 	private Set inherits;
 	private List orderedInherits;
+	
+	/** The type modifiers. */
+	private final int modifiers;
 
   /**
    * @param name The name of the type.
    * @param ident The identifier, declaring this type;
    */
-  protected InheritanceType(String name, Ident ident) {
+  protected InheritanceType(String name, Ident ident, int modifiers) {
     super(name, ident);
     inherits = new HashSet();
     orderedInherits = new LinkedList();
+    this.modifiers = modifiers;
   }
   
   /**
@@ -131,6 +138,25 @@ public abstract class InheritanceType extends CompoundType {
   	}
   	
   	return maxDist;
+  }
+  
+  /**
+   * Check, if this type is abstract.
+   * If a type is abstract, no entities of this types may be instantiated.
+   * Its body must also be empty.
+   * @return true, if this type is abstract, false if not.
+   */
+  public final boolean isAbstract() {
+  	return (modifiers & ABSTRACT) != 0;
+  }
+  
+  /**
+   * Check, if this type is const.
+   * Members of entities of a const type may not be modified.
+   * @return true, if this type is const, false if not.
+   */
+  public final boolean isConst() {
+  	return (modifiers & CONST) != 0;
   }
 
 }

@@ -176,8 +176,10 @@ tokens {
     }
     
     private void makeBuiltin() {
-    	nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(), new CollectNode(), new CollectNode()));
-			edgeRoot = predefineType("Edge", new EdgeTypeNode(new CollectNode(), new CollectNode()));
+    	nodeRoot = predefineType("Node", 
+    	  new NodeTypeNode(new CollectNode(), new CollectNode(), new CollectNode(), 0));
+			edgeRoot = predefineType("Edge", 
+			  new EdgeTypeNode(new CollectNode(), new CollectNode(), 0));
 			
 			predefineType("int", BasicTypeNode.intType);
 			predefineType("string", BasicTypeNode.stringType);
@@ -219,8 +221,6 @@ tokens {
   	public boolean hadError() {
   		return hadError;
   	}
-
-
 }
 
 
@@ -257,48 +257,61 @@ decls returns [ CollectNode n = new CollectNode() ]
  */
 decl returns [ BaseNode res = initNode() ]
   : res=actionDecl
-  | res=edgeClassDecl
-  | res=nodeClassDecl
+  | res=classDecl
   | res=enumDecl
   ;
+
+classDecl returns [ BaseNode res = initNode() ]
+	{ int mods = 0; }
+	: mods=typeModifiers (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
+	;
+
+typeModifiers returns [ int res = 0; ]
+  { int mod = 0; }
+	: (mod=typeModifier { res |= mod; })*
+	;
+	
+typeModifier returns [ int res = 0; ]
+	: "abstract" { res |= InheritanceTypeNode.MOD_ABSTRACT; }
+	| "const" { res |= InheritanceTypeNode.MOD_CONST; }
+	;
+	
 
 /**
  * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
-edgeClassDecl returns [ BaseNode res = initNode() ]
+edgeClassDecl[int modifiers] returns [ BaseNode res = initNode() ]
   {
-  	  BaseNode body, ext;
-  	  IdentNode id;
-          boolean constEdge = false;
-    }
+		BaseNode body = new CollectNode(), ext;
+  	IdentNode id;
+  }
   
-	:  "edge" "class"! ("const" { constEdge = true; })? 
-	id=identDecl ext=edgeExtends
-        pushScope[id] LBRACE! body=edgeClassBody {
+	: "edge" "class"! id=identDecl ext=edgeExtends pushScope[id] 
+		(LBRACE! body=edgeClassBody RBRACE! | SEMI) {
 
 		// TODO XXX use constEdge in TypeDeclNode
-		id.setDecl(new TypeDeclNode(id, new EdgeTypeNode(ext, body)));
+		EdgeTypeNode et = new EdgeTypeNode(ext, body, modifiers);
+		id.setDecl(new TypeDeclNode(id, et));
 		res = id;
-  } RBRACE! popScope!
+  } popScope!
   ;
 
-nodeClassDecl! returns [ BaseNode res = initNode() ]
+nodeClassDecl![int modifiers] returns [ BaseNode res = initNode() ]
 	{
-  		BaseNode body, ext, cas;
-  		IdentNode id;
-		boolean constNode = false;
-  	}
+  	BaseNode body = new CollectNode(), ext, cas;
+  	IdentNode id;
+  }
 
-	: "node" "class"! ("const" { constNode = true; })?
-	id=identDecl ext=nodeExtends cas=connectAssertions
-	pushScope[id] LBRACE! body=nodeClassBody {
+	: "node" "class"! id=identDecl ext=nodeExtends cas=connectAssertions pushScope[id] 
+	  (LBRACE! body=nodeClassBody RBRACE! | SEMI) {
 
 		// TODO XXX use constNode in TypeDeclNode
 		// TODO XXX use ca in TypeDeclNode
-		id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, cas, body)));
+		NodeTypeNode nt = new NodeTypeNode(ext, cas, body, modifiers);
+		id.setDecl(new TypeDeclNode(id, nt));
 		res = id;
-	} RBRACE! popScope!
+	} popScope!
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]

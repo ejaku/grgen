@@ -13,8 +13,8 @@ public class EdgeType extends InheritanceType {
    * Make a new edge type.
    * @param ident The identifier declaring this type.
    */
-  public EdgeType(Ident ident) {
-    super("edge type", ident);
+  public EdgeType(Ident ident, int modifiers) {
+    super("edge type", ident, modifiers);
   }
   
 }

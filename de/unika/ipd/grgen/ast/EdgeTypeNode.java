@@ -6,7 +6,12 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Iterator;
 
-import de.unika.ipd.grgen.ast.util.*;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -37,31 +42,21 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 
 
 	/**
-	 * Make a new edge type node
-	 * @param ext The collect node with all edge classes that this one extends
+	 * Make a new edge type node.
+	 * @param ext The collect node with all edge classes that this one extends.
 	 * @param body The body of the type declaration. It consists of basic
-	 * declarations
+	 * declarations.
+	 * @param modifiers The modifiers for this type.
 	 */
-  public EdgeTypeNode(BaseNode ext, BaseNode body) {
+  public EdgeTypeNode(BaseNode ext, BaseNode body, int modifiers) {
     super(BODY, bodyChecker, bodyResolver,
       EXTENDS, extendsChecker, extendsResolver);
     addChild(ext);
     addChild(body);
     setChildrenNames(childrenNames);
+    setModifiers(modifiers);
   }
 
-	/**
-	 * The first child is a collect node with edge type nodes that are extended
-	 * by this type
-	 * The second node is a collect node with basic decls
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
-	 */
-/*  protected boolean check() {
-  	return checkChild(0, extendsChecker)
-  		&& checkChild(1, bodyChecker)
-  		&& checkChild(1, bodyTypeChecker);
-  }
-  
   /**
    * Get the edge type ir object.
    * @return The edge type ir object for this ast node.
@@ -74,7 +69,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
    * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
    */
   protected IR constructIR() {
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent());
+		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
 		Iterator ents = getChild(BODY).getChildren();
 		while(ents.hasNext()) {
 			DeclNode decl = (DeclNode) ents.next();

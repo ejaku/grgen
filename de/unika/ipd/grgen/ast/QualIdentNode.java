@@ -69,8 +69,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	 * right declarations and can be resolved either.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#resolve()
 	 */
-	protected boolean resolve()
-	{
+	protected boolean resolve() {
 		boolean res = false;
 		IdentNode member = (IdentNode) getChild(MEMBER);
 		
@@ -78,29 +77,22 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		BaseNode owner = getChild(OWNER);
 		res = owner.getResolve();
 		
-		if (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode)
-		{
+		if (owner instanceof NodeDeclNode || owner instanceof EdgeDeclNode) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
 			
-			if(ownerType instanceof ScopeOwner)
-			{
+			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
 				o.fixupDefinition(member);
 				declResolver.resolve(this, MEMBER);
 				res = getChild(MEMBER).getResolve();
-			}
-			else
-			{
-				reportError("Left hand side of . does not own a scope");
+			} else {
+				reportError("left hand side of . does not own a scope");
 				res = false;
 			}
-		}
-		else
-		{
-			reportError("Left hand side of . is neither an Edge nor a Node.");
+		} else {
+			reportError("left hand side of . is neither an Edge nor a Node.");
 			res = false;
 		}
-		
 		
 		setResolved(res);
 		return res;
@@ -122,6 +114,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	{
 		assertResolved();
 		return (DeclNode) getChild(MEMBER);
+	}
+	
+	protected DeclNode getOwner() {
+		assertResolved();
+		return (DeclNode) getChild(OWNER);
 	}
 	
 	protected IR constructIR()

@@ -48,10 +48,12 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	/**
 	 * Create a new node type
 	 * @param ext The collect node containing the node types which are extended
-	 * by this type
+	 * by this type.
+	 * @param cas The connection assertion node. 
 	 * @param body the collect node with body declarations
+	 * @param modifiers Type modifiers for this type.
 	 */
-	public NodeTypeNode(BaseNode ext, BaseNode cas, BaseNode body) {
+	public NodeTypeNode(BaseNode ext, BaseNode cas, BaseNode body, int modifiers) {
 		super(BODY, bodyChecker, bodyResolver,
 			  EXTENDS, extendsChecker, extendsResolver);
 		
@@ -62,6 +64,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		addResolver(EXTENDS, extendsResolver);
 		addResolver(CAS, casResolver);
 		addResolver(BODY, bodyResolver);
+		setModifiers(modifiers);
 	}
 	
 	/**
@@ -77,7 +80,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent());
+		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
 		Iterator ents = getChild(BODY).getChildren();
 		while(ents.hasNext()) {
 			DeclNode decl = (DeclNode) ents.next();
