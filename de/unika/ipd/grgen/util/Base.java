@@ -22,7 +22,7 @@ public class Base implements Id {
 	/** static id counter */
 	private static long currId = 1;
 
-	/** The id of this object */ 
+	/** The id of this object */
 	private String id;
 
 	/** constants for debug reporting */
@@ -34,15 +34,9 @@ public class Base implements Id {
 	/** The error reporter for error reporting */
 	protected static ErrorReporter error;
 
-	/** Are new technology features enabled? */ 
-	protected static boolean enableNT;
-	
-	/** Is debugging enabled. */
-	protected static boolean enableDebug;
-	
 	/**
 	 * Set the reporting facilities of the base class
-	 * @param debug The debug reporter 
+	 * @param debug The debug reporter
 	 * @param error The error reporter
 	 */
 	public static void setReporters(Reporter debug, ErrorReporter error) {
@@ -51,7 +45,7 @@ public class Base implements Id {
 	}
 
   /**
-   * Get a new ID for this object. 
+   * Get a new ID for this object.
    */
   public Base() {
   	id = "" + currId++;
@@ -67,12 +61,12 @@ public class Base implements Id {
   /**
    * Write a string buffer to a file.
    * @param file The file.
-   * @param The character sequence to print (can be a 
+   * @param The character sequence to print (can be a
    * {@link String} or {@link StringBuffer}
    */
   protected void writeFile(File file, CharSequence cs) {
     try {
-      FileOutputStream fos = 
+      FileOutputStream fos =
       	new FileOutputStream(file);
       PrintStream ps = new PrintStream(fos);
       

@@ -71,6 +71,10 @@ public class Test extends Base implements Sys {
 		return new File[] { modelPath };
 	}
 	
+	public boolean backendEmitDebugFiles() {
+		return false;
+	}
+
 	public JoinedFactory load(String filename) {
 		JoinedFactory res = null;
 		ConnectionFactory connFactory =
@@ -82,7 +86,7 @@ public class Test extends Base implements Sys {
 		if(parseInput(filename)) {
 
 			
-			backend.init(unit, reporter, new File(""));
+			backend.init(unit, this, new File(""));
 			backend.generate();
 			backend.done();
 			
@@ -119,3 +123,4 @@ public class Test extends Base implements Sys {
 			prg.run(args[0]);
 	}
 }
+
