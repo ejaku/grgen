@@ -14,9 +14,11 @@ import de.unika.ipd.grgen.be.rewrite.RewriteHandler;
 import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
+import de.unika.ipd.grgen.be.sql.meta.Query;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Match;
@@ -234,7 +236,9 @@ class SQLAction implements Action, RewriteHandler {
 		// TODO Add table factory.
 		SQLGenerator.MatchCtx ctx =
 			generator.makeMatchContext(system, action, factory);
-		String stmtString = generator.genMatchStatement(ctx);
+		Query query = generator.genMatchStatement(ctx);
+		
+		String stmtString = Util.toString(query);
 		
 		// Put the matched nodes and edges in map with their index in the match.
 		int i = 0;

@@ -34,6 +34,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	
 	/** The error reporter. */
 	protected ErrorReporter error;
+
 	
 	/**
 	 * Get the IR root node.
@@ -682,31 +683,23 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps = openFile("action_impl" + incExtension);
 		makeActions(ps);
 		closeFile(ps);
-		
-//		ps = openFile("eval_impl" + incExtension);
-//		makeEvals(ps);
-//		closeFile(ps);
-		
+
 		// write an overview of all generated Ids
 		ps = openFile("overview.xml");
 		writeOverview(ps);
 		closeFile(ps);
 		
+		// Make validate data structures.
 		genValidateStatements();
-		
+
 		// a hook for special generated things
 		genExtra();
 	}
 	
-	private void writeIdMap(PrintStream ps) {
-		// TODO Fill it in here.
-	}
 	
 	protected abstract void genMatch(PrintStream sb, MatchingAction a, int id);
 	
 	protected abstract void genFinish(PrintStream sb, MatchingAction a, int id);
-	
-	protected abstract void makeEvals(PrintStream ps);
 	
 	/**
 	 * Generate some extra stuff.
@@ -758,10 +751,7 @@ public abstract class CBackend extends IDBase implements Backend {
 					ps.print("\\\'");
 					break;
 				case '\n':
-					ps.print("\\n");
-					// Ignore the BREAK_LINE, if it is the last character
-					if(i != s.length() - 1)
-						ps.print("\" \\\n\"");
+				case '\t':
 					break;
 				default:
 					ps.print(ch);
@@ -780,7 +770,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		for(Iterator i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
 			EdgeType edgeType = (EdgeType)i.next();
 			for(Iterator j = edgeType.getConnAsserts(); j.hasNext();) {
-				ConnAssert ca = (ConnAssert)j .next();
+				ConnAssert ca = (ConnAssert) j.next();
 				sb.append("\n{\n");
 				sb.append("  "+getId(edgeType)+",\n");
 				sb.append("  "+getId(ca.getSrcType())+",\n");
@@ -797,6 +787,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		writeFile("valid_info" + incExtension, sb);
 	}
 }
+
+
 
 
 
