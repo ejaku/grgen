@@ -34,7 +34,7 @@ options {
 }
 
 {
-  private boolean hadError = false;
+  boolean hadError = false;
 
 	private static Map opIds = new HashMap();
 
@@ -99,9 +99,21 @@ options {
   	return new Coords(tok, this);
 	}
 	
+  protected final void reportError(de.unika.ipd.grgen.parser.Coords c, String s) {
+    hadError = true;
+    env.getSystem().getErrorReporter().error(c, s);
+  }
+  
 	public void reportError(String arg0) {
-		hadError = true;
-	  env.getSystem().getErrorReporter().error(arg0);
+	  reportError(Coords.getInvalid(), arg0);
+  }
+  
+  public void reportError(RecognitionException e) {
+    reportError(new Coords(e), e.getErrorMessage());
+  }
+
+  public void reportError(RecognitionException e, String s) {
+    reportError(new Coords(e), s);
   }
   	
   public void reportWarning(String arg0) {
@@ -310,7 +322,7 @@ unaryExpr returns [ BaseNode res = env.initNode() ]
 		res = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
 		res.addChild(op);
 	}
-	| PLUS res=unaryExpr
+  | PLUS res=unaryExpr
 	| ( options { generateAmbigWarnings = false; } :
 			(LPAREN typeIdentUse RPAREN unaryExpr) => p:LPAREN id=typeIdentUse RPAREN op=unaryExpr {
 				res = new CastNode(getCoords(p));

@@ -53,7 +53,7 @@ text returns [ BaseNode main = env.initNode() ]
   		IdentNode id;
   		List modelList = new LinkedList();
   	}
-  	: ACTIONS id=entIdentDecl USING identList[modelList] SEMI {
+  	: ACTIONS id=entIdentDecl (USING identList[modelList])? SEMI {
   	  
   	  for(Iterator it = modelList.iterator(); it.hasNext();) {
   	    String modelFile = (String) it.next();
@@ -65,6 +65,8 @@ text returns [ BaseNode main = env.initNode() ]
 
   	    BaseNode model = parser.text();
   	    modelChilds.addChild(model);
+  	    if(parser.hadError)
+  	      hadError = true;
   	  }
 
   	} actions=actionDecls EOF {
