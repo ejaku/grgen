@@ -411,25 +411,33 @@ public abstract class CBackend extends Base implements Backend {
 		}
 	}
 
-	protected void dumpXMLTag(StringBuffer sb, String ending, Type inh) {
+	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Type inh) {
 	  	
+	  for (int i = 0; i < depth; ++i)
+	  	sb.append("  ");
 	  sb.append("<" + inh.getName().replace(' ', '_') 
 	    + " name=\"" + inh.getIdent() + "\"" + ending);
 	}
 
-	protected void dumpXMLEndTag(StringBuffer sb, 
+	protected void dumpXMLEndTag(int depth, StringBuffer sb, 
 	  Type inh) {
 	
+		for (int i = 0; i < depth; ++i)
+			sb.append("  ");
 		sb.append("</" + inh.getName().replace(' ', '_') + ">\n");
 	}
 	
-	protected void dumpXMLTag(StringBuffer sb, String ending, Entity ent) {
+	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Entity ent) {
+		for (int i = 0; i < depth; ++i)
+			sb.append("  ");
 		sb.append("<" + ent.getName().replace(' ', '_')  
 		  + " name=\"" + ent.getIdent() + "\"" 
 		  + " type=\"" + ent.getType().getIdent() + "\"" + ending);
 	}
 	
-	protected void dumpXMLEndTag(StringBuffer sb, Entity ent) {
+	protected void dumpXMLEndTag(int depth, StringBuffer sb, Entity ent) {
+		for (int i = 0; i < depth; ++i)
+			sb.append("  ");
 		sb.append("</" + ent.getName().replace(' ', '_') + ">\n");
 	}
 
@@ -450,25 +458,31 @@ public abstract class CBackend extends Base implements Backend {
 		for(int i = 0; i < maps.length; i++) {
 			for(Iterator it = maps[i].keySet().iterator(); it.hasNext();) {
 				InheritanceType type = (InheritanceType) it.next();
-				dumpXMLTag(sb, ">\n", type);
-				sb.append("  <inherits>\n");
-				for(Iterator inhIt = type.getInherits(); inhIt.hasNext();) {
-					InheritanceType inh = (InheritanceType) inhIt.next();
-					sb.append("    ");
-					dumpXMLTag(sb, "/>\n", inh);
-				}
-				sb.append("  </inherits>\n");
+				dumpXMLTag(1, sb, ">\n", type);
 				
-				sb.append("  <attributes>\n");
-				for(Iterator attrIt = type.getMembers(); attrIt.hasNext();) {
-					Entity ent = (Entity) it.next();
+				Iterator inhIt = type.getInherits();
+				
+				if (inhIt.hasNext()) {
+					sb.append("    <inherits>\n");
+					for(; inhIt.hasNext();) {
+						InheritanceType inh = (InheritanceType) inhIt.next();
+						dumpXMLTag(3, sb, "/>\n", inh);
+					}
+					sb.append("    </inherits>\n");
+				}
+				
+				Iterator attrIt = type.getMembers();
+				if (attrIt.hasNext()) {
+					sb.append("    <attributes>\n");
+					for(; attrIt.hasNext();) {
+						Entity ent = (Entity) attrIt.next();
 					
-					sb.append("    ");
-					dumpXMLTag(sb, "/>\n", ent);
+						dumpXMLTag(3, sb, "/>\n", ent);
+					}
+					sb.append("    </attributes>\n");
 				}
 				
-				sb.append("  </attributes>\n");
-				dumpXMLEndTag(sb, type);
+				dumpXMLEndTag(1, sb, type);
 			}
 		}
 
