@@ -237,11 +237,12 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	private SearchPath[] computeSearchPaths(Graph pattern) {
 
 		Collection rest = pattern.getNodes(new HashSet());
+		Iterator edgeIterator = pattern.getEdges();
 		Comparator comparator = new NodeComparator(pattern);
 
 		debug.entering();
 		
-		if(rest.isEmpty())
+		if(rest.isEmpty() || !edgeIterator.hasNext())
 			return new SearchPath[0];			
 		
 		VisitContext ctx = new VisitContext(pattern, comparator);
@@ -571,7 +572,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		// This is not streight forward since all paths after the first (which is
 		// given) are selected dependent on what has been joined already. In other
 		// words: Avoid joining two non-connected paths.
-		while(selectedPath >= 0) {
+		while(selectedPath >= 0 && paths.length > 0) {
 			SearchPath path = paths[selectedPath];
 			
 			// If a path has no edges, it resulted form a single node
@@ -616,6 +617,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			makeEdgeJoin(edge, false, stmtCtx);
 		}
 
+		Term pendingConds = null;
+
 		// Now, put all single nodes to the query.
 		// The single nodes must be the nodes which have not yet been processed.
 		Collection singleNodes = graph.getNodes(new HashSet());
@@ -624,10 +627,22 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Node n = (Node) it.next();
 			assert graph.isSingle(n) : "node must be single here!";
 			
-			// TODO Implement correctly.
+			// If this the first node at all (no node and no edges have been processed at all)
+			// The join degenerates to a table. The conditions are sored in pendingConds and
+			// are added to the conditions of next join encountered or to the conditions
+			// of the query, if no other follows.
 			if(stmtCtx.currJoin == null) {
-				stmtCtx.currJoin = null;
+				stmtCtx.currJoin = tableFactory.nodeTable(n);
+				pendingConds = makeNodeJoinCond(n, stmtCtx);
+			} else {
+				stmtCtx.currJoin = factory.join(Join.INNER, stmtCtx.currJoin, 
+					tableFactory.nodeTable(n), factory.addExpression(Opcodes.AND, pendingConds,
+						makeNodeJoinCond(n, stmtCtx)));
+				
+				pendingConds = null;
 			}
+			
+			stmtCtx.markProcessed(n);
 		}
 		
 		// TODO Now we have to process the negated edges.
@@ -650,9 +665,19 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Edge edge = (Edge) it.next();
 			columns.add(tableFactory.edgeTable(edge).colId());
 		}
-		
+
+		// If there were pending conditions make a simple query using these conditions.
+		// Else build an explicit query, since all conditions are put in the joins.
+		Query result;
+		if(pendingConds == null)
+			result = factory.explicitQuery(columns, stmtCtx.currJoin);
+		else {
+			List relations = new LinkedList();
+			relations.add(stmtCtx.currJoin);
+			result = factory.simpleQuery(columns, relations, pendingConds);
+		}
+
 		debug.leaving();
-		
-		return factory.explicitQuery(columns, stmtCtx.currJoin);
+		return result;
 	}
 }
