@@ -84,30 +84,30 @@ tokens {
 		}
 
 		static {
-			putOpId(QUESTION, Operator.COND);
-			putOpId(DOT, Operator.QUAL);
-			putOpId(EQUAL, Operator.EQ);
-			putOpId(NOT_EQUAL, Operator.NE);
-			putOpId(NOT, Operator.LOG_NOT);
-			putOpId(TILDE, Operator.BIT_NOT);
-			putOpId(SL, Operator.SHL);
-			putOpId(SR, Operator.SHR);
-			putOpId(BSR, Operator.BIT_SHR);
-			putOpId(DIV, Operator.DIV);
-			putOpId(STAR, Operator.MUL);
-			putOpId(MOD, Operator.MOD);
-			putOpId(PLUS, Operator.ADD);
-			putOpId(MINUS, Operator.SUB);
-			putOpId(GE, Operator.GE);
-			putOpId(GT, Operator.GT);
-			putOpId(LE, Operator.LE);
-			putOpId(LT, Operator.LT);
-			putOpId(BAND, Operator.BIT_AND);
-			putOpId(BOR, Operator.BIT_OR);
-			putOpId(BXOR, Operator.BIT_XOR);
-			putOpId(BXOR, Operator.BIT_XOR);
-			putOpId(LAND, Operator.LOG_AND);
-			putOpId(LOR, Operator.LOG_OR);
+			putOpId(QUESTION, OperatorSignature.COND);
+			putOpId(DOT, OperatorSignature.QUAL);
+			putOpId(EQUAL, OperatorSignature.EQ);
+			putOpId(NOT_EQUAL, OperatorSignature.NE);
+			putOpId(NOT, OperatorSignature.LOG_NOT);
+			putOpId(TILDE, OperatorSignature.BIT_NOT);
+			putOpId(SL, OperatorSignature.SHL);
+			putOpId(SR, OperatorSignature.SHR);
+			putOpId(BSR, OperatorSignature.BIT_SHR);
+			putOpId(DIV, OperatorSignature.DIV);
+			putOpId(STAR, OperatorSignature.MUL);
+			putOpId(MOD, OperatorSignature.MOD);
+			putOpId(PLUS, OperatorSignature.ADD);
+			putOpId(MINUS, OperatorSignature.SUB);
+			putOpId(GE, OperatorSignature.GE);
+			putOpId(GT, OperatorSignature.GT);
+			putOpId(LE, OperatorSignature.LE);
+			putOpId(LT, OperatorSignature.LT);
+			putOpId(BAND, OperatorSignature.BIT_AND);
+			putOpId(BOR, OperatorSignature.BIT_OR);
+			putOpId(BXOR, OperatorSignature.BIT_XOR);
+			putOpId(BXOR, OperatorSignature.BIT_XOR);
+			putOpId(LAND, OperatorSignature.LOG_AND);
+			putOpId(LOR, OperatorSignature.LOG_OR);
 		};
     
   
@@ -988,7 +988,7 @@ unaryExpr returns [ BaseNode res = initNode() ]
 		res = makeUnOp(n, op);
 	}
 	| m:MINUS op=unaryExpr {
-		res = new OpNode(getCoords(m), Operator.NEG);
+		res = new OpNode(getCoords(m), OperatorSignature.NEG);
 		res.addChild(op);
 	}
 	| PLUS res=unaryExpr
