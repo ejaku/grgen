@@ -134,7 +134,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			if(reverse)
 				reverseEdges.add(edge);
 		}
-
+		
 		public boolean isReverse(Edge edge) {
 			return reverseEdges.contains(edge);
 		}
@@ -142,6 +142,29 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		public Graph getGraph(Edge edge) {
 			return (Graph) graphMap.get(edge);
 		}
+
+        public IdTable getFirstNonProcessedElement(JoinSequence seq, GraphTableFactory tableFactory) {
+            for(Iterator it = edges.iterator(); it.hasNext();) {
+				Edge edge = (Edge) it.next();
+				Graph g = getGraph(edge);
+				Node first = g.getSource(edge);
+				Node second = g.getTarget(edge);
+				if (isReverse(edge)) {
+				    Node temp = first;
+				    first = second;
+				    second = temp;
+				}
+
+				if (!seq.hasBeenProcessed(first)) 
+				    return tableFactory.nodeTable(first);
+				if (!seq.hasBeenProcessed(edge)) 
+				    return tableFactory.edgeTable(edge);
+				if (!seq.hasBeenProcessed(second)) 
+				    return tableFactory.nodeTable(second);
+			}
+
+            return null;
+        }
 	}
 
 	private static class VisitContext {
@@ -294,17 +317,18 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		List matchedNodes = ctx.matchedNodes;
 		List matchedEdges = ctx.matchedEdges;
 
+		JoinSequence seq = new JoinSequence(act, ctx.factory,
+				matchedNodes, matchedEdges);
+
 		Map neutralMap = new HashMap();
-		Graph pattern = act.getPattern();
 
 		// Build a list with all graphs of this matching action
 		LinkedList graphs = new LinkedList();
+		Graph pattern = act.getPattern();
 		graphs.addFirst(pattern);
 		for (Iterator iter = act.getNegs(); iter.hasNext(); ) {
 			graphs.addLast(iter.next());
 		}
-		JoinSequence seq = new JoinSequence(act, ctx.factory,
-											matchedNodes, matchedEdges);
 
 		Term having = null;
 
@@ -315,12 +339,15 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Graph graph = (Graph) iter.next();
 			boolean graphIsNAC = graph != graphs.getFirst();
 			int joinType = graphIsNAC ? Join.LEFT_OUTER : Join.INNER;
-
+			IdTable endOfLast = null;
+			
 			SearchPath[] paths = computeSearchPaths(graph, pattern, graphIsNAC);
-
+			
 			for(int i = 0; i < paths.length; i++) {
 				StringBuffer sb = new StringBuffer();
 				paths[i].dump(sb);
+				System.out.println("path " + i);
+				System.out.println(sb.toString());
 				debug.report(NOTE, "path " + i);
 				debug.report(NOTE, sb.toString());
 			}
@@ -334,11 +361,22 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			// given) are selected dependent on what has been joined already. In other
 			// words: Avoid joining two non-connected paths.
 			while(selectedPath >= 0 && paths.length > 0) {
-				SearchPath path = paths[selectedPath];
-				assert !path.edges.isEmpty() : "path must contain an element";
+				SearchPath currPath = paths[selectedPath];
+				assert !currPath.edges.isEmpty() : "path must contain an element";
+			
+			    // Last processed element of last path must not be null
 
-				seq.addPath(path, joinType);
-
+				if (graphIsNAC && endOfLast != null) {
+				    // Get first non-processed element of current path
+				    IdTable begOfThis = currPath.getFirstNonProcessedElement(seq, tableFactory);
+				    addNotNullCond(begOfThis, endOfLast, seq, factory);
+			    }
+				
+				seq.addPath(currPath, joinType);
+				
+				if (graphIsNAC)
+				    endOfLast = seq.getLastTableJoined();
+				
 				// Mark the currently processed path as processed.
 				done[selectedPath] = true;
 
@@ -367,7 +405,16 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 			for(Iterator it = restEdges.iterator(); it.hasNext();) {
 				Edge edge = (Edge) it.next();
+
+				if (graphIsNAC && endOfLast != null) {
+				    IdTable begOfThis = tableFactory.edgeTable(edge);
+					addNotNullCond(begOfThis, endOfLast, seq, factory);
+			    }
+
 				seq.addEdgeJoin(graph, edge, false, joinType, graphIsNAC);
+
+				if (graphIsNAC)
+				    endOfLast = seq.getLastTableJoined();
 			}
 
 
@@ -377,16 +424,27 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			singleNodes.removeAll(seq.getProcessedEntities());
 
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
-				Node n = (Node) it.next();
-				seq.addNodeJoin(graph, n, joinType, graphIsNAC);
+				Node node = (Node) it.next();
+
+				if (graphIsNAC && endOfLast != null) {
+				    IdTable begOfThis = tableFactory.nodeTable(node);
+					addNotNullCond(begOfThis, endOfLast, seq, factory);
+			    }
+
+				seq.addNodeJoin(graph, node, joinType, graphIsNAC);
+
+				if (graphIsNAC)
+				    endOfLast = seq.getLastTableJoined();
 			}
 
+			// Add last Col to the having condition 
 			if (graphIsNAC && !graph.isSubOf(act.getPattern())) {
 				Term count = factory.expression(factory.aggregate(Aggregate.COUNT, seq.getLastTableJoined().colId()));
 			    having = factory.addExpression(Opcodes.AND, having,
 											   factory.expression(Opcodes.EQ, count, factory.constant(0)));
 			}
 
+			// Add a neutral-join iff pattern has only one node.
 			if(!seq.haveJoins()) {
 				Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
 				neutralMap.put(graph, neutral);
@@ -404,6 +462,14 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		Query result = seq.produceQuery(having);
 
 		return result;
+	}
+
+	private void addNotNullCond(IdTable dependsOn, IdTable what, JoinSequence seq, TypeStatementFactory factory) {
+	    Term colId = factory.expression(what.colId());
+	    Term notNull = factory.expression(Opcodes.NOT, factory.expression(Opcodes.ISNULL, colId));
+	    
+	    seq.scheduleCond(notNull, dependsOn);
+	    System.out.println("End of last: "+ what+ " Begin: "+dependsOn);
 	}
 
 
