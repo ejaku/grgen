@@ -140,12 +140,16 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	 */
 	protected String mangleEntity(Entity ent) {
 		final StringBuffer sb = new StringBuffer();
-		final char esc = 'Z';
-		String unmangled = ent.getIdent().toString();
-		
-		sb.append(ent.getName());
-		sb.append('_');
-		
+
+		sb.append(ent.getName()).append("_");
+		sb.append(ent.getOwner().getIdent().toString()).append("_");
+		sb.append(ent.getIdent().toString());
+		return mangleString(sb.toString()).toString();
+	}
+	
+	protected StringBuffer mangleString(CharSequence unmangled) {
+		final char esc = 'Z'; 
+		StringBuffer sb = new StringBuffer();
 		for(int i = 0; i < unmangled.length(); i++) {
 			final char ch = unmangled.charAt(i);
 			
@@ -161,16 +165,13 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 				sb.append(esc);
 				break;
 			default:
-				if(Character.isUpperCase(ch)) {
+				if(Character.isUpperCase(ch)) 
 					sb.append("_");
-				}
-				
 				sb.append(ch);	
 			}
-			
 		}
 		
-		return sb.toString();
+		return sb;
 	}
 
 	/**

@@ -20,6 +20,9 @@ public abstract class Type extends Identifiable {
 
 	static final private Type global = 
 		new Type("global type", Ident.get("global type")) {
+		public boolean isGlobal() {
+			return true;
+		}
 	};
 	
 	static Type getGlobal() {
@@ -85,5 +88,13 @@ public abstract class Type extends Identifiable {
    */
   public int classify() {
   	return IS_UNKNOWN;
+  }
+  
+  /**
+   * Is this type the global type?
+   * @return true, if this type is the global type, false if not.
+   */
+  public boolean isGlobal() {
+  	return false;
   }
 }
