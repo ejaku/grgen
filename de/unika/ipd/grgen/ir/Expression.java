@@ -17,7 +17,12 @@ public abstract class Expression extends IR {
   	this.type = type;
   }
 
+	/**
+	 * Get the type of the expression.
+	 * @return The type of the expression. 
+	 */
 	public Type getType() {
 		return type;
 	}
+	
 }

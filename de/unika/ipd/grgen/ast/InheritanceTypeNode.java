@@ -4,6 +4,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -71,6 +72,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
   	}
   	
   	return found;
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
+   */
+  protected void doGetCastableToTypes(Collection coll) {
+  	for(Iterator it = getChild(inhIndex).getChildren(); it.hasNext();)
+			coll.add(it.next());
   }
 
 }

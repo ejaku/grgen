@@ -14,12 +14,13 @@ import de.unika.ipd.grgen.util.ArrayIterator;
  */
 public class NullNode extends BaseNode {
 
+	private static final Iterator emptyIterator = 
+		new ArrayIterator(new Object[] { });
+
 	static {
 		setName(NullNode.class, "error node");
 	}
 		
-	private static Iterator dummy = new ArrayIterator(new Object[] { });
-	
 	protected NullNode() {
 		super();
 	}
@@ -60,7 +61,7 @@ public class NullNode extends BaseNode {
   }
 
   public Iterator getWalkableChildren() {
-  	return dummy;
+  	return emptyIterator;
   }
 
   public boolean isError() {

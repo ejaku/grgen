@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.util.MultiIterator;
+
 /**
  * An class representing a node or an edge. 
  */
@@ -50,6 +52,9 @@ public abstract class CompoundType extends Type {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-  	return members.iterator();
+  	return new MultiIterator(new Iterator[] {
+  		super.getWalkableChildren(),
+  		members.iterator()
+  	});
   }
 }

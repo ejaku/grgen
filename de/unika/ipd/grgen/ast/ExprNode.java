@@ -5,12 +5,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-import java.util.Iterator;
 
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.IdentExprResolver;
-import de.unika.ipd.grgen.ast.util.OptionalResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -21,9 +16,6 @@ public abstract class ExprNode extends BaseNode {
 	static {
 		setName(ExprNode.class, "expression");
 	}
-	
-	protected static final Resolver identExprResolver = 
-		new OptionalResolver(new IdentExprResolver(new DeclResolver(DeclNode.class)));
 
   /**
    * Make a new expression
@@ -44,23 +36,52 @@ public abstract class ExprNode extends BaseNode {
    * @return The type of this expression node.
    */
   public abstract TypeNode getType();
-
-	protected void fixupDeclaration(ScopeOwner owner) {
-		int i = 0;
+	
+	/**
+	 * Adjust the type of the expression.
+	 * The type can be adjusted by inserting an implicit cast.
+	 * @param type The type the expression should be adjusted to. It must be
+	 * compatible with the type of the expression.
+ 	 * @return A new expression, that is of a valid type and represents
+ 	 * this expression, if <code>type</code> was compatible with the type of
+ 	 * this expression, an invalid expression otherwise (one of an error type).
+	 */
+	protected ExprNode adjustType(TypeNode type) {
+		ExprNode res = ConstNode.getInvalid();
 		
-		for(Iterator it = getChildren(); it.hasNext(); i++) {
-			Object obj = it.next();
-		
-			if(obj instanceof ExprNode) {
-				ExprNode node = (ExprNode) obj;
-				node.fixupDeclaration(owner);
-			} else
-				reportError("Child is " + i + " is not an expression");
-		}
+		if(getType().isEqual(type))
+			res = this;
+		else if(getType().isCompatibleTo(type)) 
+			res = new CastNode(getCoords(), type, this);
+			
+		return res; 
 	}
 	
-	public DeclNode getDecl() {
-		return DeclNode.getInvalid();
+	/**
+	 * Check, if the expression is constant.
+	 * @return True, if the expression can be evaluated to a constant.
+	 */
+	public boolean isConstant() {
+		return false;
 	}
+	
+	/**
+	 * Evaluate the expression, if it's constant.
+	 * @return Return a valid constant, if the expression is constant, else
+	 * an invalid constant (can be checked with {@link ConstNode#isValid()}.
+	 */
+	public final ConstNode evaluate() {
+		if(isConstant()) 
+			return eval();
+		else
+			return ConstNode.getInvalid();
+	}
+	
+	/**
+	 * This method is only called, if the expression is constant, so you don't
+	 * have to check for it.
+	 * @return The value of the expression.
+	 */
+	protected abstract ConstNode eval();
 
 }

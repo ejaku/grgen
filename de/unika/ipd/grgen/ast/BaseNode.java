@@ -11,19 +11,27 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.*;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.BooleanResultVisitor;
 import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.PostWalker;
+import de.unika.ipd.grgen.util.PrePostWalker;
+import de.unika.ipd.grgen.util.PreWalker;
 import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.Walker;
 
 /**
  * The base class for AST nodes.
@@ -59,8 +67,14 @@ public abstract class BaseNode extends Base
 	/** Has this base node already been checked? */ 
 	private boolean checked = false;
 
+	/** Has this base node already been type checked? */ 
+	private boolean typeChecked = false;
+
 	/** The result of the check, if checked. */
 	private boolean checkResult = false;
+	
+	/** The result of the type checking. */
+	private boolean typeCheckResult = false;
 	
 	/** The list of resolvers. */
 	private Map resolvers = new HashMap();
@@ -75,8 +89,11 @@ public abstract class BaseNode extends Base
   private Coords coords = Coords.getInvalid();
   
   /** Vector of the children of this node */
-	private Vector children = new Vector();
-
+	private final Vector children = new Vector();
+	
+	/** The parent node of this node. */
+	private Set parents = new HashSet();
+	
 	/** The ir object for this node. */
 	private IR irObject = null;
 
@@ -144,7 +161,93 @@ public abstract class BaseNode extends Base
 	public static void setVerbose(boolean verbose) {
 		verboseErrorMsg = verbose;
 	}
+	
+	/**
+	 * Check the whole AST with a given root.
+	 * @param node The root.
+	 * @return true, if every node in the AST is right, false, if not.
+	 */
+	public static final boolean checkAST(BaseNode node) {
 
+		BooleanResultVisitor visitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean res = n.getCheck();
+				if(!res)
+					setResult(false);
+			}
+		};
+		
+		Walker w = new PostWalker(visitor);
+		w.walk(node);
+
+		return visitor.booleanResult();
+	}
+
+	/**
+	 * Resolve the whole AST with a given root.
+	 * @param node The root.
+	 * @return true, if every node in the AST was resolved right, false, if not.
+	 */
+	public static final boolean resolveAST(BaseNode node) {
+
+		BooleanResultVisitor visitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean res = n.getResolve();
+				if(!res)
+					setResult(false);
+			}
+		};
+		
+		Walker w = new PreWalker(visitor);
+		w.walk(node);
+
+		return visitor.booleanResult();
+	}
+	
+	/**
+	 * Finish up the AST. 
+	 * This method runs all resolvers, checks the AST and type checks it.
+	 * It should be called after complete AST construction from 
+	 * the driver.
+	 * @param node The root node of the AST.
+	 * @return true, if everything went right, false, if not.
+	 */
+	public static final boolean manifestAST(BaseNode node) {
+
+		// Resolve visitor
+		final BooleanResultVisitor resolveVisitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean res = n.getResolve();
+				if(!res)
+					setResult(false);
+			}
+		};
+		
+		// check and type check visitor
+		final BooleanResultVisitor checkVisitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean correctlyResolved = n.getResolve();
+				if(correctlyResolved) {
+					boolean childCheck = n.getCheck();
+					boolean typeCheck = false;
+					if(childCheck) 
+						typeCheck = n.getTypeCheck();
+
+					if(!(childCheck && typeCheck))
+						setResult(false);					
+				}
+			}
+		};
+		
+		Walker w = new PrePostWalker(resolveVisitor, checkVisitor);
+		w.walk(node);
+		return resolveVisitor.booleanResult() && checkVisitor.booleanResult();
+	}
+	
 	/**
 	 * Make new base node with coordinates.
 	 * @param coords The coords of this node.
@@ -161,6 +264,22 @@ public abstract class BaseNode extends Base
 	 */
 	protected BaseNode() {
 		this.scope = currScope;
+	}
+	
+	/**
+	 * Get the parent node of this node. 
+	 * @return The parent node of this node. null if this node is the root.
+	 */
+	protected Iterator getParents() {
+		return parents.iterator();
+	}
+	
+	/**
+	 * Check, if this AST node is a root node (i.e. it has no predecessors)
+	 * @return true, if it's a root node, false, if not.
+	 */
+	public boolean isRoot() {
+		return parents.isEmpty();
 	}
 	
 	/**
@@ -234,28 +353,13 @@ public abstract class BaseNode extends Base
 		error.error(getCoords(), "At " + getName() + ": " + msg + ".");
 	}
 
-	/**
-	 * Set or add a child. If the children list is just one smaller than 
-	 * i, then it is added to the children list. If the children list  
-	 * has more members than i, then the i'th child is set.
-	 * @param i The index to set
-	 * @param n The node to insert in the children list at place i
-	 */
-	public final void setOrAddChild(int i, BaseNode n) {
-		assert children.size() >= i;
-		
-		if(children.size() == i) 
-			children.add(n);
-	  else if(children.size() > i)
-	  	children.set(i, n);
-	}
-
   /**
    * Add a child to the children list. 
    * @param n AST node to add to the children list.
    */
 	public final void addChild(BaseNode n) {
 		children.add(n);
+		n.parents.add(this);
 	}
 	
 	/**
@@ -306,9 +410,28 @@ public abstract class BaseNode extends Base
 		if(i < children.size()) {
 			res = (BaseNode) children.get(i);
 			children.set(i, n);
+			n.parents.add(this);
 		}
 		
 		return res;
+	}
+	
+	/**
+	 * Replace this node with another one.
+	 * This AST node becomes replaced by another node in all its parents. 
+	 * @param n The other node.
+	 * @return This node.
+	 */
+	public final BaseNode replaceWith(BaseNode n) {
+		for(Iterator it = parents.iterator(); it.hasNext();) {
+			BaseNode parent = (BaseNode) it.next();
+			int index = parent.children.indexOf(this);
+			assert index >= 0 : "Node must be in the children array of its parent";
+			
+			parent.replaceChild(index, n);
+		}
+		
+		return this;
 	}
 
   /**
@@ -388,6 +511,21 @@ public abstract class BaseNode extends Base
   	return true;
 	}
 	
+	/**
+	 * Check the types of this AST node.
+	 * Subclasses should implement this, if neccessary.
+	 * @return true, if all types are right. False, if not.
+	 */
+	protected boolean typeCheck() {
+		return true;
+	}
+	
+	/**
+	 * Check this AST node.
+	 * If the node has been checked before, the result of the former 
+	 * check ist returned.
+	 * @return true, if the node is ok, false if not.
+	 */
 	public final boolean getCheck() {
 		if(!checked) {
 			checked = true;
@@ -395,6 +533,19 @@ public abstract class BaseNode extends Base
 		}
 		
 		return checkResult;
+	}
+	
+	/**
+	 * Check, if all types on this AST node are right.
+	 * @return true, if all types were right, false, if not.
+	 */
+	public final boolean getTypeCheck() {
+		if(!typeChecked) {
+			typeChecked = true;
+			typeCheckResult = typeCheck();
+		}
+		
+		return typeCheckResult;
 	}
   
   /**
@@ -464,7 +615,7 @@ public abstract class BaseNode extends Base
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return getChildren();
+    return children.iterator();
   }
   
   /**
@@ -500,7 +651,7 @@ public abstract class BaseNode extends Base
   	
   	assert cls.isInstance(ir) : msg;
   	 
-  	 return ir;
+  	return ir;
   }
   
   /**
@@ -531,7 +682,7 @@ public abstract class BaseNode extends Base
 	 * occurred, false, if there was some error.   
 	 */  
   protected boolean resolve() {
-  	boolean local = true, ext = true;
+  	boolean local = true;
 		debug.entering();
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 
@@ -545,20 +696,9 @@ public abstract class BaseNode extends Base
 				resolver.printErrors();
 			}
 		}
-		
+		debug.leaving();
 		setResolved(local);
-		  	
-		ext = true;
-		for(Iterator it = getChildren(); it.hasNext(); ) {
-			BaseNode child = (BaseNode) it.next();
-			if(!child.getResolve())
-				ext = false;
-		}
-
-		debug.report(NOTE, "local: " + local + ", ext: " + ext);
-
-  	debug.leaving();
-  	return ext && local;
+		return local;
   }
   
   /**

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.unika.ipd.grgen.util.*;
+import de.unika.ipd.grgen.util.MultiIterator;
 
 /**
  * A class that represents a class.
@@ -32,7 +32,9 @@ public class ClassType extends CompoundType {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return new MultiIterator(new Iterator[] { super.getWalkableChildren(),
-    	extendsTypes.iterator() });  
+  	return new MultiIterator(new Iterator[] {
+	  	super.getWalkableChildren(),
+	  	extendsTypes.iterator()
+  	});
   }
 }

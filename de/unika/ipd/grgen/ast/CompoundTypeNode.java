@@ -4,7 +4,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.*;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -72,5 +73,4 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
   protected boolean check() {
     return checkChild(bodyIndex, bodyChecker);
   }
-
 }

@@ -44,7 +44,7 @@ public class Group extends Identifiable {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return members.iterator();
+  	return members.iterator();
   }
 
 }

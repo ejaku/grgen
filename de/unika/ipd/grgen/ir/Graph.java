@@ -53,8 +53,8 @@ public class Graph extends IR {
      * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
      */
     public Iterator getWalkableChildren() {
-    	return new MultiIterator(new Iterator[] {
-    		outgoing.iterator(), incoming.iterator(), node.getWalkableChildren()
+    	return new MultiIterator(new Collection[] {
+    		outgoing, incoming
     	});
     }
 	}
@@ -74,10 +74,9 @@ public class Graph extends IR {
      */
     public Iterator getWalkableChildren() {
     	assert source != null && target != null : "edge must be initalized";
-			return new MultiIterator(new Iterator[] {
-				new ArrayIterator(new Object[] { source, target }),
-				edge.getWalkableChildren()
-			});
+    	return new ArrayIterator(new Object[] {
+				source, target
+    	});
     }
 
 	}
@@ -317,7 +316,7 @@ public class Graph extends IR {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return nodes.values().iterator();
+  	return nodes.values().iterator();
   }
 
 }

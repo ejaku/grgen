@@ -130,7 +130,7 @@ public class RuleDeclNode extends ActionDeclNode {
 			for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {
 				ExprNode e = (ExprNode) it.next();
 				
-				if(!BasicTypeNode.booleanType.isCoercible(e.getType())) {
+				if(e.getType().isCompatibleTo(BasicTypeNode.booleanType)) {
 					e.reportError("expression must be of type boolean");
 					cond = false;
 				}

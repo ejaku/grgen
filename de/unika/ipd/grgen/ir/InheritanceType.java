@@ -97,8 +97,10 @@ public abstract class InheritanceType extends CompoundType {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return new MultiIterator(new Iterator[] { 
-    	super.getWalkableChildren(), inherits.iterator() });
+		return new MultiIterator(new Iterator[] {
+			super.getWalkableChildren(),
+			inherits.iterator()
+		});
   }
 
 }

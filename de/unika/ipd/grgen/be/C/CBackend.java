@@ -478,9 +478,9 @@ public abstract class CBackend extends Base implements Backend {
 	/**
 	 * Adds a XML end entity tag to the string buffer.
 	 * 
-	 * @param depth indentation depth
-	 * @param sb    the string buffer
-	 * @param ent   the entity
+	 * @param depth indentation depth.
+	 * @param sb    the string buffer.
+	 * @param ent   the entity.
 	 */
 	protected void dumpXMLEndTag(int depth, StringBuffer sb, Entity ent) {
 		for (int i = 0; i < depth; ++i)
@@ -491,16 +491,16 @@ public abstract class CBackend extends Base implements Backend {
 	/**
 	 * Adds a XML enumvalue tag to the string buffer.
 	 * 
-	 * @param depth  indentation depth
-	 * @param sb     the string buffer
-	 * @param ending the end of the XML tag, either ">" or "/>"
-	 * @param ev     the enum value
+	 * @param depth  indentation depth.
+	 * @param sb     the string buffer.
+	 * @param ending the end of the XML tag, either ">" or "/>".
+	 * @param ev     the enum item.
 	 */
-	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, EnumValue ev) {
+	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, EnumItem ev) {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
 		sb.append("<" + ev.getName().replace(' ', '_')  
-		  + " name=\"" + ev + "\" value=\"" + ev.getEnumValue() + "\"" + ending); 
+		  + " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending); 
 	}
 
 	/**
@@ -558,7 +558,7 @@ public abstract class CBackend extends Base implements Backend {
 			if (itemIt.hasNext()) {
 				sb.append("    <items>\n");
 				for(; itemIt.hasNext();) {
-					EnumValue ev = (EnumValue) itemIt.next();
+					EnumItem ev = (EnumItem) itemIt.next();
 
 					dumpXMLTag(3, sb, "/>\n", ev);
 				}
@@ -666,17 +666,7 @@ public abstract class CBackend extends Base implements Backend {
   	genExtra();
   }
 
-	/**
- * @param sb
- * @param enumMap
- * @param string
- */
-private void makeEnumDefines(StringBuffer sb, Map enumMap, String string) {
-	// TODO Auto-generated method stub
-	
-}
-
-protected abstract void genMatch(StringBuffer sb, MatchingAction a, int id);
+	protected abstract void genMatch(StringBuffer sb, MatchingAction a, int id);
 	
 	protected abstract void genFinish(StringBuffer sb, MatchingAction a, int id);
 

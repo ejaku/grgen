@@ -16,14 +16,13 @@ import javax.swing.tree.TreeNode;
 public class TreeHandler extends DefaultTreeModel implements Handler {
 
 	class EnterNode implements TreeNode {
-		private Vector children;
+		private Vector children = new Vector();
 		private String text;
 		private TreeNode parent;
 	
 		public EnterNode(TreeNode parent, String text) {
 			this.text = text;
 			this.parent = parent;
-			children = new Vector();
 		}
 	
 		public void add(TreeNode n) {
@@ -152,7 +151,6 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
    * @see de.unika.ipd.grgen.util.report.Handler#leaving()
    */
   public void leaving() {
-  	nodeChanged(current);
   	EnterNode p = (EnterNode) current.getParent();
 		if(p != null)
 		  current = p;

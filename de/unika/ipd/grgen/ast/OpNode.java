@@ -14,7 +14,9 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Expression operators.
  */
-public class OpNode extends ExprNode {
+public abstract class OpNode extends ExprNode {
+
+	private static final Map irOpCodeMap = new HashMap();
 
 	static {
 		setName(OpNode.class, "operator");
@@ -42,15 +44,12 @@ public class OpNode extends ExprNode {
 		assocOpCode(OperatorSignature.LOG_NOT, Operator.LOG_NOT);
 		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
 		assocOpCode(OperatorSignature.NEG, Operator.NEG);
-		assocOpCode(OperatorSignature.CAST, Operator.CAST);
 	}
 
 	private static final void assocOpCode(int id, int opcode) {
 		irOpCodeMap.put(new Integer(id), new Integer(opcode));
 	}
 	
-	private static final Map irOpCodeMap = new HashMap();
-
 	/** The ID of the operator. */
 	private int opId;
 
@@ -66,8 +65,8 @@ public class OpNode extends ExprNode {
     super(coords);
     this.opId = opId;
     
-    for(int i = 0; i < OperatorSignature.getArity(opId); i++)
-    	addResolver(i, identExprResolver);
+//    for(int i = 0; i < OperatorSignature.getArity(opId); i++)
+//    	addResolver(i, identExprResolver);
   }
   
   public String toString() {
@@ -101,29 +100,46 @@ public class OpNode extends ExprNode {
    * found, an error message is reported.
    * @return The proper operator for this node, <code>null</code> otherwise.
    */
-  private OperatorSignature getOperator() {
+  private OperatorSignature computeOperator() {
   	OperatorSignature operator = null;
   	int n = children();
-  	TypeNode[] opTypes = new TypeNode[n];
+  	TypeNode[] argTypes = new TypeNode[n];
   	
   	for(int i = 0; i < n; i++) {
   		ExprNode op = (ExprNode) getChild(i);
-  		opTypes[i] = op.getType();
+  		argTypes[i] = op.getType();
   	}
   	
-		operator = OperatorSignature.getNearest(opId, opTypes);
-		if(operator == null) {
+		operator = OperatorSignature.getNearest(opId, argTypes);
+		if(!operator.isValid()) {
 			StringBuffer params = new StringBuffer();
 			
 			params.append('(');
 			for(int i = 0; i < n; i++) 
-				params.append((i > 0 ? ", " : "") + opTypes[i].getName()); 			
+				params.append((i > 0 ? ", " : "") + argTypes[i].getName()); 			
 			params.append(')');
 			
 			reportError("No such operator " + OperatorSignature.getName(opId) + " " + params);
+		} else {
+			
+			// Insert implicit type casts for the arguments that need them.
+			TypeNode[] opTypes = operator.getOperandTypes();
+			for(int i = 0; i < argTypes.length; i++) {
+				if(!argTypes[i].isEqual(opTypes[i])) {
+					ExprNode child = (ExprNode) getChild(i);
+					replaceChild(i, child.adjustType(argTypes[i]));  
+				}
+			}
 		}
 		
 		return operator;
+  }
+  
+  protected final OperatorSignature getOperator() {
+  	if(operator == null)
+  		operator = computeOperator();
+  	
+  	return operator;
   }
   
   /**
@@ -134,15 +150,7 @@ public class OpNode extends ExprNode {
    * {@link BasicTypeNode#errorType}. 
    */
   public TypeNode getType() {
-  	TypeNode res = BasicTypeNode.errorType;
-  	
-  	if(operator == null)
-  		operator = getOperator();
-
-		if(operator != null)
-			res = operator.getResultType();
-
-  	return res;
+  	return getOperator().getResultType();
   }
 
 	/** 
@@ -160,8 +168,6 @@ public class OpNode extends ExprNode {
   protected IR constructIR() {
   	BasicTypeNode type = (BasicTypeNode) getType();
     Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
-    
-		
 		    
     return op;
   }

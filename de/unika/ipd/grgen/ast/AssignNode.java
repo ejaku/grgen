@@ -9,7 +9,7 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * An expression node, denoting an assignment.
  */
-public class AssignNode extends ExprNode {
+public class AssignNode extends BaseNode {
 
   /**
    * @param coords The source code coordinates of = operator.
@@ -21,13 +21,4 @@ public class AssignNode extends ExprNode {
     addChild(qual);
     addChild(expr);
   }
-
-  /**
-   * Assignments have always the void type.  
-   * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-   */
-  public TypeNode getType() {
-  	return BasicTypeNode.voidType;
-  }
-
 }

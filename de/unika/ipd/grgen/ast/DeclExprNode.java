@@ -4,40 +4,63 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.parser.Coords;
-
 /**
- * A base class for all expression nodes, that result in a declaration.
+ * An expression that results from a declared identifier.
  */
-public abstract class DeclExprNode extends ExprNode {
+public class DeclExprNode extends ExprNode {
 
-	private DeclNode decl = null;
+	private static final int DECL = 0;
 
-  protected DeclExprNode(Coords coords) {
-    super(coords);
+	static {
+		setName(DeclExprNode.class, "decl expression");
+	}
+
+  /**
+   * Make a new declaration expression.
+   * @param coords The source code coordinates.
+   * @param declCharacter Some base node, that is a decl character.
+   */
+  public DeclExprNode(BaseNode declCharacter) {
+    super(declCharacter.getCoords());
+    addChild(declCharacter);
   }
 
   /**
    * @see de.unika.ipd.grgen.ast.ExprNode#getType()
    */
   public TypeNode getType() {
-  	BaseNode d = getDecl().getDeclType(); 
-    return d instanceof TypeNode ? (TypeNode) d : BasicTypeNode.errorType;
+  	DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+  	return (TypeNode) c.getDecl().getDeclType();
   }
-  
-  protected abstract DeclNode resolveDecl();
 
-	public DeclNode getDecl() {
-		
-		debug.entering();
-		
-		if(decl == null)
-			decl = resolveDecl();
-		
-		debug.report(NOTE, "decl: " + decl);
-		debug.leaving();
-			
-		return decl;
-	}
+  /**
+   * @see de.unika.ipd.grgen.ast.ExprNode#eval()
+   */
+  protected ConstNode eval() {
+  	ConstNode res = ConstNode.getInvalid();
+		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+  	DeclNode decl = c.getDecl();
+  	
+		if(decl instanceof EnumItemNode) {
+  		res = ((EnumItemNode) decl).getValue();
+  	}
+  	
+  	return res;
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.BaseNode#check()
+   */
+  protected boolean check() {
+    return checkChild(DECL, DeclaredCharacter.class);
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
+   */
+  public boolean isConstant() {
+		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+		return c.getDecl() instanceof EnumItemNode; 	
+  }
 
 }

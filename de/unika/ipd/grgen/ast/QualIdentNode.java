@@ -4,6 +4,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -11,13 +13,11 @@ import de.unika.ipd.grgen.parser.Coords;
  * This node treats expressions like:
  * a.b.c.d 
  */
-public class QualIdentNode extends DeclExprNode {
+public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 	static {
 		setName(QualIdentNode.class, "Qual");
 	}
-
-	private DeclNode decl;
 
   /** Index of the owner node. */
 	private static final int OWNER = 0;
@@ -28,7 +28,13 @@ public class QualIdentNode extends DeclExprNode {
 	private static final String[] childrenNames = {
 		"owner", "member"
 	};
+	
+	private static final Resolver ownerResolver = 
+		new DeclResolver(DeclNode.class);
 		
+	private static final Resolver declResolver = 
+		new DeclResolver(DeclNode.class);
+
   /**
    * Make a new identifier qualify node.
    * @param coords The coordinates.
@@ -38,8 +44,8 @@ public class QualIdentNode extends DeclExprNode {
   	setChildrenNames(childrenNames);
   	addChild(owner);
   	addChild(member);
-		addResolver(OWNER, identExprResolver);
-		addResolver(MEMBER, identExprResolver);		
+		addResolver(OWNER, declResolver);
+		// addResolver(MEMBER, identExprResolver);		
   }
 
 	/**
@@ -58,53 +64,52 @@ public class QualIdentNode extends DeclExprNode {
 	 */
 	protected boolean resolve() {
 		boolean res = false;
-		ExprNode member = (ExprNode) getChild(MEMBER);
+		IdentNode member = (IdentNode) getChild(MEMBER);
 		
-		identExprResolver.resolve(this, OWNER);
+		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
 		
 		res = owner.getResolve();
 		
-		if(owner instanceof DeclNode) {
-			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
+		if(owner instanceof TypeDeclNode) {
+			TypeNode ownerType = (TypeNode) ((TypeDeclNode) owner).getDeclType();
 		
 			if(ownerType instanceof ScopeOwner) {
-				member.fixupDeclaration((ScopeOwner) ownerType);
-				identExprResolver.resolve(this, MEMBER);
+				ScopeOwner o = (ScopeOwner) ownerType;
+				o.fixupDefinition(member);
+				declResolver.resolve(this, MEMBER);
 				res = getChild(MEMBER).getResolve();
+
 			} else { 
 				reportError("Left hand side of . does not own a scope");
 				res = false;
 			}
-		
+
 		} else {
-			reportError("Left hand side of . must be a declaration");
+			reportError("Left hand side of . must be a declaration with " +
+				"a compound type, not a " + owner);
 			res = false;
 		}			
 		
+
 		setResolved(res);
 		return res;
-	}
-	
-	
-	
-	/**
-	 * The declaration 
-	 * @see de.unika.ipd.grgen.ast.DeclExprNode#resolveDecl()
-	 */
-	protected DeclNode resolveDecl() {
-		assertResolved();
-		
-		DeclNode member = (DeclNode) getChild(MEMBER);
-		return member;
 	}
 
   /**
    * @see de.unika.ipd.grgen.ast.BaseNode#check()
    */
   protected boolean check() {
-  	// TODO Correct implementation here!
-    return true;
+		return checkChild(OWNER, DeclNode.class)
+		  && checkChild(MEMBER, MemberDeclNode.class);
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
+   */
+  public DeclNode getDecl() {
+  	assertResolved();
+    return (DeclNode) getChild(MEMBER);
   }
 
 }

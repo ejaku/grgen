@@ -25,6 +25,9 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
 	/** All tree model listeners */
 	private HashSet listeners;
 	
+	/** Auxillary set for children getter. */
+	private HashSet aux; 
+	
 	protected TreeModelWalkable() {
 		listeners = new HashSet();
 		root = null;
@@ -51,7 +54,9 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
   public Object getChild(Object arg0, int arg1) {
   	Object res = null; 
   	Walkable w = (Walkable) arg0;
+  	
   	Iterator it = w.getWalkableChildren();
+  	
   	for(int i = 0; i < arg1; i++) {
   		assert it.hasNext() : "children iterator must have at least " + arg1 
   		  + " childs";
@@ -65,13 +70,10 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
    * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
    */
   public int getChildCount(Object arg0) {
-  	int i;
+  	int i = 0;
   	Walkable w = (Walkable) arg0;
-  	Iterator it = w.getWalkableChildren();
-  	for(i = 0; it.hasNext(); i++)
-  		it.next();
-  		
-  	return i;
+  	for(Iterator it = w.getWalkableChildren(); it.hasNext(); i++);
+		return i;
   }
 
   /**
@@ -92,10 +94,10 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
    * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object, java.lang.Object)
    */
   public int getIndexOfChild(Object arg0, Object arg1) {
-  	int i;
+  	int i = 0;
   	Walkable w = (Walkable) arg0;
-  	Iterator it = w.getWalkableChildren();
-  	for(i = 0; it.hasNext(); i++) {
+
+  	for(Iterator it = w.getWalkableChildren(); it.hasNext(); i++) {
   		if(it.next().equals(arg1))
   			break;
   	}

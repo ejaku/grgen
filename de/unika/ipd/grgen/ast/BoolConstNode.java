@@ -23,4 +23,19 @@ public class BoolConstNode extends ConstNode {
   	return BasicTypeNode.booleanType;
   }
 
+  /**
+   * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
+   */
+  protected ConstNode doCastTo(TypeNode type) {
+  	boolean value = ((Boolean) getValue()).booleanValue();
+  	ConstNode res = ConstNode.getInvalid();
+  	
+  	if(type.isEqual(BasicTypeNode.intType))
+  		res = new IntConstNode(getCoords(), value ? 1 : 0);
+  	else if(type.isEqual(BasicTypeNode.stringType)) 
+  		res = new StringConstNode(getCoords(), "" + value);
+  		
+  	return res;
+  }
+
 }

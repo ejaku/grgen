@@ -16,7 +16,7 @@ import java.util.Iterator;
 public class GraphDumpVisitor extends Base implements Visitor {
 
 	protected GraphDumper dumper;
-
+	
 	public GraphDumpVisitor(GraphDumper dumper) {
 		this.dumper = dumper;
 	}

@@ -94,4 +94,19 @@ public class Ident extends IR {
 		return get(text, Coords.getInvalid());
 	}
 	
+
+  /**
+   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
+   */
+  public String getNodeInfo() {
+    return super.getNodeInfo() + "\nCoords: " + def; 
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
+   */
+  public String getNodeLabel() {
+    return getName() + " " + text;
+  }
+
 }

@@ -4,10 +4,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.util.Base;
+
 /**
  * Function abstraction. 
  */
-public class FunctionSignature {
+public class FunctionSignature extends Base {
 
 	/** Result type of the function. */
 	private TypeNode resType;
@@ -70,18 +72,28 @@ public class FunctionSignature {
 	public int getDistance(TypeNode[] ops) {
 		int res = Integer.MAX_VALUE;
 		
+		debug.entering();
+		
 		if(ops.length == opTypes.length) {
 			res = 0;
 			for(int i = 0; i < opTypes.length; i++) {
-				boolean equal = ops[i].isEqual(opTypes[i]);
-				boolean coercible = ops[i].isCoercible(opTypes[i]);  
+				debug.report(NOTE, "" + i + ": arg type: " + ops[i]  
+					+ ", op type: " + opTypes[i]);
 				
-				if(!coercible) 
-					return Integer.MAX_VALUE;
-				else if(!equal && coercible)	
+				boolean equal = ops[i].isEqual(opTypes[i]);
+				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);  
+				
+				debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
+				
+				if(!compatible) {
+					res = Integer.MAX_VALUE;
+					break;
+				} else if(!equal && compatible)	
 					res++;
 			}
 		} 
+		
+		debug.leaving();
 		
 		return res;
 	}

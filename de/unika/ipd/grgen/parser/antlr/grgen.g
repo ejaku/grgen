@@ -52,6 +52,10 @@ tokens {
 }
 
 {
+		private ConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
+	
+		private ConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
+
 		/// did we encounter errors during parsing
 		private boolean hadError;
 	
@@ -85,7 +89,6 @@ tokens {
 
 		static {
 			putOpId(QUESTION, OperatorSignature.COND);
-			putOpId(DOT, OperatorSignature.QUAL);
 			putOpId(EQUAL, OperatorSignature.EQ);
 			putOpId(NOT_EQUAL, OperatorSignature.NE);
 			putOpId(NOT, OperatorSignature.LOG_NOT);
@@ -115,7 +118,7 @@ tokens {
     	Coords c = new Coords(t, this);
 			Integer opId = (Integer) opIds.get(new Integer(t.getType()));
 			assert opId != null : "Invalid operator ID";
-    	return new OpNode(getCoords(t), opId.intValue());
+    	return new ArithmeticOpNode(getCoords(t), opId.intValue());
     }
     
     private OpNode makeBinOp(antlr.Token t, BaseNode op0, BaseNode op1) {
@@ -339,25 +342,52 @@ integerConst returns [ int value = 0 ]
 	}
 	; 
 	
+/* constDecl returns [ BaseNode res = initNode() ]
+	{
+		IdentNode type, id;
+		BaseNode init;
+	}
+	: "const" type=identUse id=identDecl ASSIGN init=expr {
+		res = new ConstDeclNode(id, type, init);
+	}; 
+*/
+	
 enumDecl returns [ BaseNode res = initNode() ]
 	{
 		IdentNode id;
 		BaseNode c;
 	}
 	: "enum" id=identDecl pushScope[id] LBRACE c=enumList {
-		BaseNode enumType = new EnumTypeNode();
-		enumType.addChild(c);
+		BaseNode enumType = new EnumTypeNode(c);
 		res = new TypeDeclNode(id, enumType);
 		res.addChild(c);
 	} RBRACE popScope;
 
 enumList returns [ BaseNode res = initNode() ]
 	{
-		IdentNode id;
+		int pos = 0;
 		res = new CollectNode(); 
+		BaseNode init;
 	}
-	:	id=identDecl { res.addChild(id); } 
-		(COMMA id=identDecl { res.addChild(id); })*
+	:	init=enumItemDecl[res, zero, pos++] (COMMA init=enumItemDecl[res, init, pos++])*
+	;
+	
+enumItemDecl [ BaseNode coll, BaseNode defInit, int pos ] returns [ BaseNode res = initNode() ]
+	{
+		IdentNode id;
+		BaseNode init = null;
+	}
+	: id=identDecl (ASSIGN init=expr)? {
+
+		if(init != null) {
+			res = init;
+		} else {
+			res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+			res.addChild(defInit);
+			res.addChild(one);
+		}
+		coll.addChild(new EnumItemNode(id, res, pos));
+	}
 	;
 
 basicDecl returns [ BaseNode n = initNode() ] 
@@ -991,11 +1021,11 @@ unaryExpr returns [ BaseNode res = initNode() ]
 		res = makeUnOp(n, op);
 	}
 	| m:MINUS op=unaryExpr {
-		res = new OpNode(getCoords(m), OperatorSignature.NEG);
+		res = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
 		res.addChild(op);
 	}
 	| PLUS res=unaryExpr
-	| p:"cast" LT id=identUse GT LPAREN op=expr RPAREN {
+	| p:LT id=identUse GT LPAREN op=expr RPAREN {
 		res = new CastNode(getCoords(p));
 		res.addChild(id);
 		res.addChild(op);
@@ -1030,16 +1060,17 @@ constant returns [ BaseNode res = initNode() ]
 
 identExpr returns [ BaseNode res = initNode() ]
 	{ IdentNode id; }
-	: id=identUse { 
-		res = new IdentExprNode(id);
-	}
-	;	
+	: id=identUse {
+		res = new DeclExprNode(id);
+	};
 
 qualIdent returns [ BaseNode res = initNode() ]
 	{ BaseNode id; }
-	: res=identExpr (d:DOT id=identExpr {
+	: res=identUse (d:DOT id=identUse{
 		res = new QualIdentNode(getCoords(d), res, id);
-	})+
+	})+ {
+		res = new DeclExprNode(res);
+	}
 	;
 
 

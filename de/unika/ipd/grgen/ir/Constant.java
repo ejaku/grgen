@@ -4,6 +4,10 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Iterator;
+
+import de.unika.ipd.grgen.util.SingleIterator;
+
 /**
  * Abstract base class for all constants.
  */
@@ -13,15 +17,36 @@ public class Constant extends Expression {
 	protected Object value; 
 
   /**
-   * @param name The name of the constant.
    * @param type The type of the constant.
+	 * @param value The value of the constant.
    */
-  public Constant(String name, Type type, Object value) {
-    super(name, type);
+  public Constant(Type type, Object value) {
+    super("constant", type);
   	this.value = value;
   }
   
-  protected Object getValue() {
+  /**
+   * Get the value of the constant.
+   * @return The value.
+   */
+  public Object getValue() {
   	return value;
   }
+  
+  /**
+   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
+   */
+  public String getNodeLabel() {
+		return getName() + " " + value;
+  }
+
+
+
+  /**
+   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+   */
+  public Iterator getWalkableChildren() {
+		return new SingleIterator(type);
+  }
+
 }

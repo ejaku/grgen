@@ -22,5 +22,18 @@ public class IntConstNode extends ConstNode {
   public TypeNode getType() {
   	return BasicTypeNode.intType;
   }
+  
+	protected ConstNode doCastTo(TypeNode type) {
+		int value = ((Integer) getValue()).intValue();
+		ConstNode res = ConstNode.getInvalid();
+  	
+  	if(type.isEqual(BasicTypeNode.booleanType)) 
+  		res = new BoolConstNode(getCoords(), value != 0 ? true : false); 
+		else if(type.isEqual(BasicTypeNode.stringType)) 
+			res = new StringConstNode(getCoords(), "" + value);
+  		
+		return res;
+	}
+
 
 }

@@ -16,7 +16,9 @@ import de.unika.ipd.grgen.ir.IR;
  */
 public class GroupDeclNode extends DeclNode {
 
-	protected static final TypeNode groupType = new TypeNode() { };
+	protected static final TypeNode groupType = new TypeNode() { 
+		
+	};
 
 	static {
 		setName(GroupDeclNode.class, "group declaration");

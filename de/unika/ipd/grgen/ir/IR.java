@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.util.Walkable;
  */
 public abstract class IR extends Base implements Walkable, GraphDumpable {
 
-	private static final Iterator dummyIterator =
+	protected static final Iterator emptyIterator =
 	  new ArrayIterator(new Object[] { });
 	
 	private static final IR bad = new Bad();
@@ -138,7 +138,7 @@ public abstract class IR extends Base implements Walkable, GraphDumpable {
    * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
    */
   public Iterator getWalkableChildren() {
-    return dummyIterator;
+  	return emptyIterator;
   }
 
 }

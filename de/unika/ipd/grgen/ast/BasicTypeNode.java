@@ -5,8 +5,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +24,18 @@ import de.unika.ipd.grgen.ir.VoidType;
  */
 public abstract class BasicTypeNode extends DeclaredTypeNode {
 
+	/**
+	 * A map, that maps each basic type to a set to all other basic types, 
+	 * that are compatible to the type.
+	 */
+	private static Map compatibleMap = new HashMap();
+	
+	/**
+	 * A map, that maps each basic type to a set to all other basic types, 
+	 * that are castable to the type.
+	 */
+	private static Map castableMap = new HashMap();
+	
 	/**
 	 * The string basic type.
 	 */
@@ -49,6 +63,16 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 				return new BooleanType(getIdentNode().getIdent());
 			}
 		};
+	
+	/**
+	 * The enum member type.
+	 */	
+	public static final BasicTypeNode enumItemType = 
+		new BasicTypeNode() {
+			protected IR constructIR() {
+				return new IntType(getIdentNode().getIdent());
+			}
+		};
 		
 	/**
 	 * The void basic type. It is compatible to no other type.
@@ -67,20 +91,41 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new VoidType("error");
 		}
+		
+		
 	};
 
-	/**
-	 * A map, that maps each basic type to a set to all other basic types, 
-	 * that are compatible to the type.
-	 */
-	private static Map compatibleMap = new HashMap();
+	private static Object invalidValueType = new Object() {
+		public String toString() {
+			return "invalid value";
+		}
+	};
 
+	/** 
+	 * This map contains the value types of the basic types.
+	 * (BasicTypeNode -> Class)
+	 */
+	private static Map valueMap = new HashMap();
+	
+	private static void addTypeToMap(Map map, TypeNode index, TypeNode target) {
+		if(!map.containsKey(index)) 
+			map.put(index, new HashSet());
+		
+		Set s = (Set) map.get(index);
+		s.add(target);
+	}
+	
+	private static void addCastability(TypeNode from, TypeNode to) {
+		addTypeToMap(castableMap, from, to);
+	}
+	
+	/**
+	 * Add a compatibility to the compatibility map. 
+	 * @param a The first type.
+	 * @param b The second type.
+	 */
 	private static void addCompatibility(TypeNode a, TypeNode b) {
-		if(!compatibleMap.containsKey(a))
-			compatibleMap.put(a, new HashSet());
-			 
-		Set s = (Set) compatibleMap.get(a);
-		a.addChild(b);
+		addTypeToMap(compatibleMap, a, b);
 	}
 	
 	/**
@@ -105,12 +150,20 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(intType.getClass(), "int type");
 		setName(booleanType.getClass(), "boolean type");
 		setName(stringType.getClass(), "string type");
+		setName(enumItemType.getClass(), "enum item type");
 		setName(voidType.getClass(), "void type");
 		setName(errorType.getClass(), "error type");
-		
-		addCompatibility(intType, booleanType);
+	
+		addCompatibility(enumItemType, intType);
+		addCompatibility(enumItemType, stringType);
 		addCompatibility(booleanType, intType);
+		addCastability(intType, stringType);
+		addCastability(booleanType, stringType);
 		
+		valueMap.put(intType, Integer.class);
+		valueMap.put(booleanType, Boolean.class);
+		valueMap.put(stringType, String.class);
+		valueMap.put(enumItemType, Integer.class);
 		
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
@@ -124,25 +177,64 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
   protected boolean check() {
   	return children() == 0;
   }
-
-	/** 
-	 * @see de.unika.ipd.grgen.ast.TypeNode#coercible(de.unika.ipd.grgen.ast.TypeNode)
-	 */
-	protected boolean coercible(TypeNode type) {
-		return isCompatible(this, type);
-	}
 	
 	protected PrimitiveType getPrimitiveType() {
 		return (PrimitiveType) checkIR(PrimitiveType.class);
 	}
-	
-	
   
   /**
    * @see de.unika.ipd.grgen.ast.TypeNode#isBasic()
    */
   public boolean isBasic() {
   	return true;
+  }
+  
+  /**
+   * Return the Java class, that represents a value of a constant in this 
+   * type.
+   * @return
+   */
+  public Class getValueType() {
+  	if(!valueMap.containsKey(this)) 
+  		return invalidValueType.getClass();
+  	else
+  		return (Class) valueMap.get(this);
+  }
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
+	 */
+	protected void doGetCompatibleToTypes(Collection coll) {
+		debug.entering();
+		debug.report(NOTE, "compatible types to " + getName() + ":");
+		
+		Object obj = compatibleMap.get(this);
+		if(obj != null) {
+			Collection compat = (Collection) obj;
+			for(Iterator it = compat.iterator(); it.hasNext();) {
+				debug.report(NOTE, "" + ((BaseNode) it.next()).getName());
+			}
+			coll.addAll((Collection) obj);
+		}
+		
+		debug.leaving();
+	}
+
+	
+  /**
+   * @see de.unika.ipd.grgen.ast.TypeNode#getCastableTypes(java.util.Collection)
+   */
+  protected void doGetCastableToTypes(Collection coll) {
+  	Object obj = castableMap.get(this);
+  	if(obj != null)
+  		coll.addAll((Collection) obj);
+  }
+
+  /**
+   * @see de.unika.ipd.grgen.ast.TypeNode#isEqual(de.unika.ipd.grgen.ast.TypeNode)
+   */
+  public boolean isEqual(TypeNode t) {
+    return t == this;
   }
 
 }

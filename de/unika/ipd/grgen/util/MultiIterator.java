@@ -4,6 +4,7 @@
  */
 package de.unika.ipd.grgen.util;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -27,6 +28,13 @@ public class MultiIterator extends Base implements Iterator {
   public MultiIterator(Iterator[] iterators) {
   	this.iterators = iterators;
 		curr = 0;
+  }
+  
+  public MultiIterator(Collection[] collections) {
+  	this.iterators = new Iterator[collections.length];
+  	for(int i = 0; i < collections.length; i++)
+  		this.iterators[i] = collections[i].iterator();
+  	curr = 0;
   }
   
   /**

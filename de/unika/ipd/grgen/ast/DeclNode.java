@@ -17,7 +17,7 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
-public abstract class DeclNode extends BaseNode {
+public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 
 	static {
 		setName(DeclNode.class, "declaration");
@@ -87,6 +87,13 @@ public abstract class DeclNode extends BaseNode {
    */
   public BaseNode getDeclType() {
     return getChild(TYPE);
+  }
+  
+  /**
+   * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
+   */
+  public DeclNode getDecl() {
+  	return this;
   }
 
 	/**
