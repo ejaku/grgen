@@ -360,11 +360,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				seq.addNodeJoin(n, joinType, graphIsNAC);
 			}
 			
-			if(graphIsNAC) {
-				Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
-				neutralMap.put(graph, neutral);
-				seq.addJoin(neutral, Join.INNER);
-			}
+			Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
+			neutralMap.put(graph, neutral);
+			seq.addJoin(neutral, Join.INNER);
 		}
 		
 		// Generate all "x = NULL" conditions of graph elements
