@@ -16,9 +16,9 @@ public interface StatementFactory {
 
 	String COUNT = "count";
 	String SUM = "sum";
-	
+
 	int NO_LIMIT = -1;
-	
+
 	/**
 	 * Make an expression with a variable amount of operands.
 	 * @param op The opcode.
@@ -26,7 +26,7 @@ public interface StatementFactory {
 	 * @return The expression.
 	 */
 	Term expression(int opcode, Term[] operands);
-	
+
 	/**
 	 * Make an expression with three arguments.
 	 * This should basically only be a helper function for
@@ -38,7 +38,7 @@ public interface StatementFactory {
 	 * @return The expression.
 	 */
 	Term expression(int opcode, Term exp0, Term exp1, Term exp2);
-	
+
 	/**
 	 * Construct an expression from two others.
 	 * If <code>exp0</code> is <code>null</code> then the result will be
@@ -54,7 +54,7 @@ public interface StatementFactory {
 	 * @return The expression.
 	 */
 	Term addExpression(int opcode, Term exp0, Term exp1);
-	
+
 	/**
 	 * Make an expression with two arguments.
 	 * This should basically only be a helper function for
@@ -65,7 +65,7 @@ public interface StatementFactory {
 	 * @return The expression.
 	 */
 	Term expression(int opcode, Term exp0, Term exp1);
-	
+
 	/**
 	 * Make an expression with one argument.
 	 * This should basically only be a helper function for
@@ -75,14 +75,14 @@ public interface StatementFactory {
 	 * @return The expression.
 	 */
 	Term expression(int opcode, Term exp0);
-	
+
 	/**
 	 * Make an expression out of a column.
 	 * @param col The column of a relation.
 	 * @return The column as expression.
 	 */
 	Term expression(Column col);
-	
+
 	/**
 	 * Make an expression of a query.
 	 * This will basically result in a subquery.
@@ -90,34 +90,34 @@ public interface StatementFactory {
 	 * @return The value of the query.
 	 */
 	Term expression(Query query);
-	
+
 	/**
 	 * Make a constant from an integer.
 	 * @param integer The integer.
 	 * @return An expression.
 	 */
 	Term constant(int integer);
-	
+
 	/**
 	 * Make a constant from a string.
 	 * @param integer The string.
 	 * @return An expression.
 	 */
 	Term constant(String string);
-	
+
 	/**
 	 * Make a constant from a bool.
 	 * @param integer The bool.
 	 * @return An expression.
 	 */
 	Term constant(boolean bool);
-	
+
 	/**
 	 * The constant <tt>NULL</tt>
 	 * @return An expression.
 	 */
 	Term constantNull();
-	
+
 	/**
 	 * Get a coumn that results from the application of an
 	 * aggregate function such as <code>sum</code> or <code>count</code>.
@@ -126,7 +126,7 @@ public interface StatementFactory {
 	 * @return The column defined by the aggregate.
 	 */
 	Aggregate aggregate(int which, Column col);
-	
+
 	/**
 	 * Make a simple query.
 	 * It will follow the
@@ -153,7 +153,7 @@ public interface StatementFactory {
 	 * @return The query.
 	 */
 	Query simpleQuery(List columns, List relations, Term cond, List groupBy, Term having);
-	
+
 	/**
 	 * Make a query with explicitly given joins.
 	 * @param distinct if true, the query will be distinct, i.e.
@@ -165,8 +165,8 @@ public interface StatementFactory {
 	 * @return The query.
 	 */
 	Query explicitQuery(boolean distinct, List columns,
-											Relation relation, int limit);
-	
+											Relation relation, List groupBy, Term having, int limit);
+
 	/**
 	 * Join over two relations.
 	 * This makes an <i>join</i>.
@@ -178,5 +178,5 @@ public interface StatementFactory {
 	 * @return The relation expressing the join.
 	 */
 	Join join(int kind, Relation left, Relation right, Term cond);
-	
+
 }
