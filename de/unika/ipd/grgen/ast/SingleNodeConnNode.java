@@ -4,7 +4,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Graph;
@@ -22,6 +24,11 @@ public class SingleNodeConnNode extends BaseNode {
 	private static final String[] childrenNames = {
 		"node"
 	};
+	
+	private static final Checker nodeChecker = 
+		new MultChecker(new Class[] { 
+			NodeDeclNode.class, NodeTypeChangeNode.class
+		});	
 	
 	private static final Resolver nodeResolver = 
 		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
@@ -60,7 +67,7 @@ public class SingleNodeConnNode extends BaseNode {
    * @see de.unika.ipd.grgen.ast.BaseNode#check()
    */
   protected boolean check() {
-  	return checkChild(NODE, NodeDeclNode.class);
+  	return checkChild(NODE, nodeChecker);
   }
 
 }
