@@ -302,21 +302,21 @@ nodeClassDecl! returns [ BaseNode res = initNode() ]
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]
-	: "connect" (outAssert[c] | inAssert[c]) 
-	( COMMA (outAssert[c] | inAssert[c]) )* 
+	: "connect" (outAssert[c] | inAssert[c])
+	( COMMA (outAssert[c] | inAssert[c]) )*
 	|
 	;
 
 outAssert [ CollectNode c ]
 	{ BaseNode edge, srcRange, tgt; }
 	: RARROW edge=identUse srcRange=rangeSpec RARROW tgt=identUse
-	// TODO { c.addChild(new ConnectionNode() }
+	{ c.addChild(new ConnAssertNode(edge, srcRange, tgt, true)); }
 	;
 
 inAssert [ CollectNode c ]
 	{ BaseNode edge, tgtRange, src; }
 	: LARROW edge=identUse tgtRange=rangeSpec LARROW src=identUse
-	// TODO add code for storing ca
+	{ c.addChild(new ConnAssertNode(edge, tgtRange, src, false)); }
 	;
 
 edgeExtends returns [ CollectNode c = new CollectNode() ]
@@ -352,9 +352,9 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	
 rangeSpec returns [ BaseNode res = initNode() ]
 	{
-		int lower = RangeSpecNode.UNBOUND, upper = RangeSpecNode.UNBOUND;
+		int lower = 0, upper = RangeSpecNode.UNBOUND;
 	}
-	: l:LBRACK ( STAR | lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
+	: l:LBRACK ( (STAR | PLUS { lower=1; }) | lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
                    ) RBRACK 
 	{
 			res = new RangeSpecNode(getCoords(l), lower, upper);
