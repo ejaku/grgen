@@ -1,6 +1,8 @@
 unit Test_All_Negative_Stuff;
 
-rule Test_Negative {
+node class Bla extends Node {}
+
+rule Negative {
 	pattern {
 		node (i,o,p) : Node;
 		i --> o;
@@ -9,12 +11,11 @@ rule Test_Negative {
 		i --> p;
 	}
 	replace{
-		i;
 	}
 }
 
 
-rule Test_Negative_multiple {
+rule MultipleNs {
 	pattern {
 		node (a,b,c,d,e,f) : Node;
 		a --> b;
@@ -28,17 +29,44 @@ rule Test_Negative_multiple {
 		a --> f;
 	}
 	replace{
-		a;
 	}
 }
 
-
-rule Test_Negative_Scopes {
+rule EdgeOnlyInN {
 	pattern {
-		a:Node;
+		a: Node;
+		b: Node;
 	}
-	negative{
+	negative {
+		a --> b;
 	}
-	replace{
+	replace {
+		c: Node;
 	}
+}
+
+rule BigOne {
+	pattern {
+		node (a,b,c,d,e,f,g,h,i,j) :Node;
+		a <-- b --> c --> d;
+		a    -->    c;
+		a       <--       d;
+	}
+	negative {
+		a --> b;
+		            c <-- d;
+	}
+	negative {
+		      b <-- c;
+	}
+	negative {
+		d --> e --> f;
+	}
+	replace {i --> j;}
+}
+
+rule AddSth {
+	pattern {}
+	negative {a:Bla;}
+	replace {a;}
 }
