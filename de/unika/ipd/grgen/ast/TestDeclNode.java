@@ -68,26 +68,6 @@ public class TestDeclNode extends ActionDeclNode {
 		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
 			&& checkChild(NEG, negChecker);
 		
-		boolean homomorphic = true;
-		if(childs) {
-			//Nodes that occur in a NAC part but not in the left side of a rule
-			//may not be mapped non-injectively.
-			CollectNode negs  = (CollectNode) getChild(NEG);
-			GraphNode left = (GraphNode) getChild(PATTERN);
-			for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();) {
-				GraphNode neg = (GraphNode) negsIt.next();
-				Set s = neg.getNodes();
-				s.removeAll(left.getNodes());
-				for (Iterator it = s.iterator(); it.hasNext();) {
-					NodeDeclNode nd = (NodeDeclNode) it.next();
-					if (nd.hasHomomorphicNodes()) {
-						nd.reportError("Node must not have homomorphic nodes (because it is used in a negative section but not in the pattern)");
-						homomorphic = false;
-					}
-				}
-			}
-		}
-		
 		boolean edgeReUse = false;
 		if (childs) {
 			edgeReUse = true;
@@ -114,7 +94,7 @@ public class TestDeclNode extends ActionDeclNode {
 						}
 					}
 		}
-		return childs && homomorphic && edgeReUse;
+		return childs && edgeReUse;
 	}
 	
 	protected IR constructIR() {

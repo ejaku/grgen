@@ -8,6 +8,7 @@ package de.unika.ipd.grgen.be.sql;
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
+
 import java.util.*;
 
 import de.unika.ipd.grgen.be.TypeID;
@@ -929,11 +930,28 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 																	   factory.expression(nodeTable.colId()),
 																	   factory.expression(currTable.colId())));
 						dep.add(currTable);
+					} else {
+						checkHomoCond(node, curr);
 					}
 				}
 			}
 
 			scheduleCond(res, dep);
+		}
+
+		/**
+		 * Checks node1 and node2 allowed to be homomorphic. This check 
+		 * assumes that the nodes are declared homomorphic.
+		 * @param node1
+		 * @param node2
+		 */
+		private void checkHomoCond(Node node1, Node node2) {
+			Collection patternNodes = act.getPattern().getNodes(new HashSet());
+			//Nodes that occur in a NAC part but not in the left side of a rule
+			//may not be mapped non-injectively.
+			if (!patternNodes.contains(node1) || !patternNodes.contains(node2))
+				error.error("Node "+node1.getIdent()+" and node "+node2.getIdent()+" must not be homomorphic." +
+						"(Because one of them is used in a negative section but not in the pattern)");
 		}
 
 		/**
