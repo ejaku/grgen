@@ -721,11 +721,11 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public String debugInfo() {
-			return aggregate + "(" + col.debugInfo() + ")";
+			return getAggregateName() + "(" + col.debugInfo() + ")";
 		}
 		
 		public String getAliasName() {
-			return aggregate + "(" + col.getAliasName() + ")";
+			return getAggregateName() + "(" + col.getAliasName() + ")";
 		}
 		
 		public String getDeclName() {
