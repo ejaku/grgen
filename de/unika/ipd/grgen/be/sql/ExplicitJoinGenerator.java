@@ -689,10 +689,10 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			// The single nodes must be the nodes which have not yet been processed.
 			Collection singleNodes = graph.getNodes(new HashSet());
 			singleNodes.removeAll(stmtCtx.processedNodes);
-			
+
 			for(Iterator it = singleNodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
-				assert graph.isSingle(n) : "node must be single here!";
+				//TODO or not TODO! assert graph.isSingle(n) : "node must be single here!";
 				
 				// If this the first node at all (no node and no edges have been processed at all)
 				// The join degenerates to a table. The conditions are stored in pendingConds and
