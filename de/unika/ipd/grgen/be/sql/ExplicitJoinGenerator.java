@@ -446,10 +446,10 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		Collection restEdges = graph.getEdges(new HashSet());
 		restEdges.removeAll(stmtCtx.processedEdges);
 		
-		for(Iterator it = restEdges.iterator(); it.hasNext();) {
-			Edge edge = (Edge) it.next();
-			makeEdgeJoin(edge, false, stmtCtx, stmt);
-		}
+//		for(Iterator it = restEdges.iterator(); it.hasNext();) {
+//			Edge edge = (Edge) it.next();
+//			makeEdgeJoin(edge, false, stmtCtx, stmt);
+//		}
 
 		StringBuffer front = new StringBuffer();
 		for(Iterator it = stmtCtx.processedNodes.iterator(); it.hasNext();) {
