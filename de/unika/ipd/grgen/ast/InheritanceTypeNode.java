@@ -63,15 +63,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean abstractCheck = true;
-		
-		if(isAbstract() && getChild(bodyIndex).children() > 0) {
-			error.error(getDecl().getCoords(), "abstract type may not have any members");
-			abstractCheck = false;
-		}
-		
 		return super.check()
-			&& abstractCheck
 			&& checkChild(inhIndex, myInhChecker)
 			&& checkChild(inhIndex, inhChecker);
 	}
