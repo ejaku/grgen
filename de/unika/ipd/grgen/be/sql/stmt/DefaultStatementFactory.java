@@ -277,7 +277,7 @@ public class DefaultStatementFactory extends Base
 		protected static final Term NULL = new ConstantTerm("NULL");
 		
 		ConstantTerm(String str) {
-			super(new ConstantOpcode("\'" + str + "\'"), EMPTY);
+			super(new ConstantOpcode(str), EMPTY);
 		}
 		
 		ConstantTerm(int integer) {
@@ -291,6 +291,7 @@ public class DefaultStatementFactory extends Base
 		ConstantTerm(Query query) {
 			super(new SubqueryOpcode(query), EMPTY);
 		}
+		
 	}
 	
 	protected static class ColumnTerm extends ConstantTerm {
@@ -460,7 +461,7 @@ public class DefaultStatementFactory extends Base
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#constant(java.lang.String)
 	 */
 	public Term constant(String string) {
-		return new ConstantTerm("\"" + string + "\"");
+		return new ConstantTerm("\'" + string + "\'");
 	}
 
 	/**
@@ -705,4 +706,5 @@ public class DefaultStatementFactory extends Base
 	}
 	
 }
+
 
