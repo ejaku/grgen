@@ -92,6 +92,7 @@ public class TestDeclNode extends ActionDeclNode {
 		
 		boolean edgeReUse = false;
 		if (childs) {
+			edgeReUse = true;
 			//Check if reused names of edges connect the same nodes in the same direction for each usage
 			GraphNode[] graphs = (GraphNode[]) getGraphs().toArray(new GraphNode[0]);
 			Collection alreadyReported = new HashSet();
@@ -110,11 +111,11 @@ public class TestDeclNode extends ActionDeclNode {
 								if (iConn.getSrc() != oConn.getSrc() || iConn.getTgt() != oConn.getTgt()) {
 									alreadyReported.add(iConn.getEdge());
 									((ConnectionNode) oConn).reportError("Reused edge does not connect the same nodes");
+									edgeReUse = false;
 								}
 						}
 					}
 		}
-		
 		return childs && homomorphic && edgeReUse;
 	}
 	
