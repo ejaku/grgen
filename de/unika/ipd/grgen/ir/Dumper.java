@@ -115,7 +115,7 @@ public class Dumper {
 			Object obj = it.next();
 			
 			if(obj instanceof MatchingAction) {
-				MatchingAction act = (MatchingAction) it.next();
+				MatchingAction act = (MatchingAction) obj;
 				dump(act, curr);
 			}
 			
