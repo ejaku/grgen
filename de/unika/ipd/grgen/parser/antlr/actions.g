@@ -305,6 +305,7 @@ patternReversedEdge returns [ BaseNode res = null ]
   	BaseNode type = env.getEdgeRoot();
   }
   : LARROW res=edgeDecl MINUS
+  | LARROW res=entIdentUse MINUS
   | LARROW (COLON type=typeIdentUse)? m:MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
 		res = new AnonymousEdgeDeclNode(id, type);
@@ -316,6 +317,7 @@ patternEdge returns [ BaseNode res = null ]
 		BaseNode type = env.getEdgeRoot();
 	}
   : MINUS res=edgeDecl RARROW
+  | MINUS res=entIdentUse RARROW
   | MINUS (COLON type=typeIdentUse)? m:RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
 		res = new AnonymousEdgeDeclNode(id, type);
@@ -512,6 +514,5 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 	{ BaseNode id; }
 	: id=identUse { c.addChild(id); } (COMMA id=identUse { c.addChild(id); })*
 	;*/
-
 
 

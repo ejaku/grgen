@@ -46,7 +46,24 @@ public class PatternNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(CONNECTIONS, connectionsChecker);
+		if (! checkChild(CONNECTIONS, connectionsChecker)) return false;
+		
+		//check, that each named edge is only used once in a pattern
+		boolean edgeUsage = true;
+		CollectNode collect = (CollectNode) getChild(CONNECTIONS);
+		HashSet edges = new HashSet(); 
+		for (Iterator i = collect.getChildren(); i.hasNext(); ) {
+			ConnectionCharacter cc = (ConnectionCharacter) i.next();
+
+			EdgeCharacter ec = cc.getEdge();
+			if (ec == null) continue; //filter out SingleNodeConnNodes
+
+			if (! edges.add(ec)) { //add returns false iff edges already contains ec
+				((EdgeDeclNode) ec).reportError("This (named) edge is used more than once in a graph of this action");
+				edgeUsage = false;
+			}
+		}
+		return edgeUsage;
 	}
 	
 	/**

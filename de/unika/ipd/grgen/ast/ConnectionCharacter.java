@@ -26,6 +26,8 @@ public interface ConnectionCharacter {
 	 */
 	public void addEdge(Set set);
 
+	public EdgeCharacter getEdge();
+	
 	/**
 	 * Add this connection character to an IR graph.
 	 * @param gr The IR graph.
