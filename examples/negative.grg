@@ -1,0 +1,44 @@
+unit Test_All_Negative_Stuff;
+
+rule Test_Negative {
+	pattern {
+		node (i,o,p) : Node;
+		i --> o;
+	}
+	negative{
+		i --> p;
+	}
+	replace{
+		i;
+	}
+}
+
+
+rule Test_Negative_multiple {
+	pattern {
+		node (a,b,c,d,e,f) : Node;
+		a --> b;
+	}
+	negative{
+		a --> c;
+		a --> d;
+	}
+	negative{
+		a --> e;
+		a --> f;
+	}
+	replace{
+		a;
+	}
+}
+
+
+rule Test_Negative_Scopes {
+	pattern {
+		a:Node;
+	}
+	negative{
+	}
+	replace{
+	}
+}
