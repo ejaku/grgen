@@ -1,0 +1,52 @@
+/**
+ * TypeConstSubtypeNode.java
+ *
+ * @author Sebastian Hack
+ */
+
+package de.unika.ipd.grgen.ast;
+
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.TypeExprSubtypes;
+import de.unika.ipd.grgen.parser.Coords;
+
+public class TypeExprSubtypeNode extends TypeExprNode {
+	
+	static {
+		setName(TypeExprSubtypeNode.class, "type expr subtype");
+	}
+	
+	private static final int OPERAND = 0;
+	
+	private static final Resolver typeResolver =
+		new DeclTypeResolver(InheritanceTypeNode.class);
+	
+	public TypeExprSubtypeNode(Coords coords, BaseNode type) {
+		super(coords, SUBTYPES);
+		addChild(type);
+		addResolver(OPERAND, typeResolver);
+	}
+	
+	protected boolean check() {
+		int arity = children();
+		boolean arityOk = true;
+
+		if(arity != 1) {
+			reportError("Illegal arity: " + arity + " (1 expected)");
+			arityOk = false;
+		}
+
+		return arityOk && checkChild(OPERAND, InheritanceTypeNode.class);
+	}
+
+	protected IR constructIR() {
+		InheritanceType inh =
+			(InheritanceType) getChild(OPERAND).checkIR(InheritanceType.class);
+		return new TypeExprSubtypes(inh);
+	}
+	
+}
+
