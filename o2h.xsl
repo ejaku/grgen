@@ -11,6 +11,7 @@
 #include &lt;gr/gr.h&gt;
 
 typedef struct {
+	int size;
 
 /* NODES + NODE ATTRIBUTES */
 

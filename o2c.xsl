@@ -15,6 +15,8 @@
  */
 void grs_init_ids(gr_graph_t* graph, grs_ids_t *grs_ids)
 {
+	grs_ids->size = sizeof(*grs_ids);
+
 	/* NODES */
 
 </xsl:text>
