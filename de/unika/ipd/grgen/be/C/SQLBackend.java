@@ -68,6 +68,8 @@ public abstract class SQLBackend extends CBackend {
 
   protected String nodeTypeIsAFunc;
 
+  protected String inc_extension;
+
   protected Map matchMap = new HashMap();
 
 
@@ -95,7 +97,7 @@ public abstract class SQLBackend extends CBackend {
     colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
     
     limitQueryResults = prefs.getInt("limitQueryResults", 0);
-
+    inc_extension = prefs.get("limitQueryResults", "inc");
   }
 
   /**
