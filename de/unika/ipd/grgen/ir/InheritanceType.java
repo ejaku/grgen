@@ -139,6 +139,8 @@ public abstract class InheritanceType extends CompoundType {
   			int dist = inh.getMaxDist() + 1;
   			maxDist = dist > maxDist ? dist : maxDist;
   		}
+			
+			System.out.println("" + this + ": " + maxDist);
   	}
   	
   	return maxDist;
@@ -169,7 +171,6 @@ public abstract class InheritanceType extends CompoundType {
 		fields.put("const", Boolean.valueOf(isConst()));
 		fields.put("abstract ", Boolean.valueOf(isAbstract()));
 	}
-	
 	
 
 }

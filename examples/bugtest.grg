@@ -1,4 +1,4 @@
-actions incrementer using Firm;
+actions incrementer; // using Firm;
 
 rule ReUsedEdges {
 	pattern {
@@ -8,14 +8,14 @@ rule ReUsedEdges {
 		c: Node;
 		x -e:Edge-> y; //ok
 //		x -e-> y;      //duplicate error
-//		x -e-> z;      //error
+		x -e-> y;      //error
 	}
 	negative {
-		x -e-> y;      //ok
+		a -e-> y;      //ok
 //		x -e-> z;      //error
 	}
 	replace{
-		x -e-> y;      //ok
+		x -e:Node-> y;      //ok
 //		x -e-> z;      //error
 	}
 }

@@ -3,8 +3,8 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
-import java.util.Map;
 
+import java.util.Comparator;
 
 
 /**
@@ -14,7 +14,7 @@ import java.util.Map;
  * action type
  * graph type (node and edge)
  */
-public abstract class Type extends Identifiable {
+public abstract class Type extends Identifiable implements Comparable {
 
 	public static final int IS_UNKNOWN = 0;
 	public static final int IS_INTEGER = 1;
@@ -101,4 +101,35 @@ public abstract class Type extends Identifiable {
   	return false;
   }
 
+	private static final Comparator COMPARATOR = new Comparator() {
+
+		public int compare(Object o1, Object o2) {
+			Type t1 = (Type) o1;
+			Type t2 = (Type) o2;
+			
+			if(t1.isEqual(t2))
+				return 0;
+
+			if((t1 instanceof InheritanceType) && (t2 instanceof InheritanceType)) {
+				int distT1 = ((InheritanceType) t1).getMaxDist();
+				int distT2 = ((InheritanceType) t2).getMaxDist();
+
+				if(distT1 < distT2)
+					return -1;
+				else if(distT1 > distT2)
+					return 1;
+			}
+			
+			return t1.getIdent().compareTo(t2.getIdent());
+		}
+	};
+	
+	static final Comparator getComparator() {
+		return COMPARATOR;
+	}
+	
+	public int compareTo(Object obj) {
+		return COMPARATOR.compare(this, obj);
+	}
+	
 }

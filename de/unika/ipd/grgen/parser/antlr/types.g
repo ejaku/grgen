@@ -45,8 +45,6 @@ text returns [ BaseNode model = env.initNode() ]
   {
     CollectNode n = new CollectNode();
     IdentNode id;
-    
-    env.addBuiltinTypes(n);
   }
   : MODEL id=entIdentDecl SEMI typeDecls[n] {
     model = new ModelNode(id);

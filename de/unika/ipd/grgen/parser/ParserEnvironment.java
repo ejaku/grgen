@@ -47,6 +47,8 @@ public abstract class ParserEnvironment extends Base {
 	
 	private final Sys system;
 	
+	private final ModelNode stdModel;
+	
 	private final Collection builtins = new LinkedList();
 	
 	/**
@@ -66,6 +68,10 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("boolean");
 		}
 
+		stdModel = new ModelNode(predefine(ENTITIES, "Std"));
+		CollectNode stdModelChilds = new CollectNode();
+		stdModel.addChild(stdModelChilds);
+		
 		// The node type root
 		nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(),
 																											new CollectNode(), 0));
@@ -75,13 +81,16 @@ public abstract class ParserEnvironment extends Base {
 																											new CollectNode(),
 																											new CollectNode(), 0));
 		
-		builtins.add(nodeRoot);
-		builtins.add(edgeRoot);
+		stdModelChilds.addChild(nodeRoot);
+		stdModelChilds.addChild(edgeRoot);
 		
-		builtins.add(predefineType("int", BasicTypeNode.intType));
-		builtins.add(predefineType("string", BasicTypeNode.stringType));
-		builtins.add(predefineType("boolean", BasicTypeNode.booleanType));
-		
+		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
+		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
+		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
+	}
+	
+	public ModelNode getStdModel() {
+		return stdModel;
 	}
 	
 	public File findModel(String modelName) {
@@ -136,17 +145,6 @@ public abstract class ParserEnvironment extends Base {
 		IdentNode id = predefine(TYPES, text);
 		id.setDecl(new TypeDeclNode(id, type));
 		return id;
-	}
-	
-	/**
-	 * Add the builtin types to an AST node.
-	 * @param root The AST node to add the built in types to.
-	 */
-	public void addBuiltinTypes(BaseNode root) {
-		for(Iterator it = builtins.iterator(); it.hasNext();) {
-			BaseNode bn = (BaseNode) it.next();
-			root.addChild(bn);
-		}
 	}
 	
 	public Scope getCurrScope() {

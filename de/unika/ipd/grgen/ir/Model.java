@@ -48,7 +48,8 @@ public class Model extends Identifiable {
 	 * Canonicalize the type model.
 	 */
 	protected void canonicalizeLocal() {
-		Collections.sort(types, Identifiable.COMPARATOR);
+		// Collections.sort(types, Identifiable.COMPARATOR);
+		Collections.sort(types);
 		
 		for(Iterator it = types.iterator(); it.hasNext();) {
 			Type ty = (Type) it.next();

@@ -55,6 +55,8 @@ text returns [ BaseNode main = env.initNode() ]
   	}
   	: ACTIONS id=entIdentDecl (USING identList[modelList])? SEMI {
   	  
+  	  modelChilds.addChild(env.getStdModel());
+  	  
   	  for(Iterator it = modelList.iterator(); it.hasNext();) {
   	    String modelFile = (String) it.next();
   	  

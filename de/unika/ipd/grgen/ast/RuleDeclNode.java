@@ -1,6 +1,10 @@
 /**
  * @author Sebastian Hack, Daniel Grund
+<<<<<<< RuleDeclNode.java
  * @version $Id$
+=======
+ * @version $Id$
+>>>>>>> 1.16
  */
 package de.unika.ipd.grgen.ast;
 
