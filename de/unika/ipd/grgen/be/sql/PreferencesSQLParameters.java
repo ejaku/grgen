@@ -7,6 +7,7 @@
 package de.unika.ipd.grgen.be.sql;
 
 import java.util.prefs.Preferences;
+import java.util.prefs.BackingStoreException;
 
 
 /**
@@ -14,9 +15,6 @@ import java.util.prefs.Preferences;
  */
 public class PreferencesSQLParameters implements SQLParameters {
 
-	/** if 0, the query should not be limited. */
-	protected final int limitQueryResults;
-	
 	/** The name of the nodes table. */
 	protected final String tableNodes;
 	
@@ -32,7 +30,7 @@ public class PreferencesSQLParameters implements SQLParameters {
 	/** The name of the node ID column. */
 	protected final String colNodesId;
 	
-	/** The name of the node type ID column. */	
+	/** The name of the node type ID column. */
 	protected final String colNodesTypeId;
 	
 	/** The name of the edge ID column. */
@@ -44,7 +42,7 @@ public class PreferencesSQLParameters implements SQLParameters {
 	/** The name of the source node column. */
 	protected final String colEdgesSrcId;
 	
-	/** The name of the target node column. */	
+	/** The name of the target node column. */
 	protected final String colEdgesTgtId;
 	
 	protected final String colNodeAttrNodeId;
@@ -52,28 +50,41 @@ public class PreferencesSQLParameters implements SQLParameters {
 	protected final String colEdgeAttrEdgeId;
 	
 	protected final String idType;
+	
+	protected final String tableNeutral;
 
+	private final static String getOrSet(Preferences prefs, String key,
+																			 String defaultValue) {
+		String res = prefs.get(key, defaultValue);
+		prefs.put(key, res);
+		return res;
+	}
+	
 	public PreferencesSQLParameters() {
 		Preferences prefs = Preferences.userNodeForPackage(getClass());
 		
-		tableNodes = prefs.get("tableNodes", "nodes");
-		tableEdges = prefs.get("tableEdges", "edges");
-		tableNodeAttrs = prefs.get("tableNodeAttrs", "node_attrs");
-		tableEdgeAttrs = prefs.get("tableEdgeAttrs", "edge_attrs");
-		colNodesId = prefs.get("colNodesId", "node_id");
-		colNodesTypeId = prefs.get("colNodesTypeId", "type_id");
-		colEdgesId = prefs.get("colEdgesId", "edge_id");
-		colEdgesTypeId = prefs.get("colEdgesTypeId", "type_id");
-		colEdgesSrcId = prefs.get("colEdgesSrcId", "src_id");
-		colEdgesTgtId = prefs.get("colEdgesTgtId", "tgt_id");
-		colNodeAttrNodeId = prefs.get("colNodeAttrNodeId", "node_id");
-		colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
+		tableNeutral = getOrSet(prefs, "tableNeutral", "neutral");
+		tableNodes = getOrSet(prefs, "tableNodes", "nodes");
+		tableEdges = getOrSet(prefs, "tableEdges", "edges");
+		tableNodeAttrs = getOrSet(prefs, "tableNodeAttrs", "node_attrs");
+		tableEdgeAttrs = getOrSet(prefs, "tableEdgeAttrs", "edge_attrs");
+		colNodesId = getOrSet(prefs, "colNodesId", "node_id");
+		colNodesTypeId = getOrSet(prefs, "colNodesTypeId", "type_id");
+		colEdgesId = getOrSet(prefs, "colEdgesId", "edge_id");
+		colEdgesTypeId = getOrSet(prefs, "colEdgesTypeId", "type_id");
+		colEdgesSrcId = getOrSet(prefs, "colEdgesSrcId", "src_id");
+		colEdgesTgtId = getOrSet(prefs, "colEdgesTgtId", "tgt_id");
+		colNodeAttrNodeId = getOrSet(prefs, "colNodeAttrNodeId", "node_id");
+		colEdgeAttrEdgeId = getOrSet(prefs, "colEdgeAttrEdgeId", "edge_id");
+		idType = getOrSet(prefs, "idType", "INT");
 		
-		idType = prefs.get("idType", "INT");
-		
-		limitQueryResults = prefs.getInt("limitQueryResults", 0);
+		try {
+			prefs.sync();
+		} catch (BackingStoreException e) {
+			e.printStackTrace(System.err);
+		}
 	}
-
+	
 	/**
 	 * @return Returns the colEdgeAttrEdgeId.
 	 */
@@ -123,12 +134,6 @@ public class PreferencesSQLParameters implements SQLParameters {
 		return colNodesTypeId;
 	}
 	/**
-	 * @return Returns the limitQueryResults.
-	 */
-	public int getLimitQueryResults() {
-		return limitQueryResults;
-	}
-	/**
 	 * @return Returns the tableEdgeAttrs.
 	 */
 	public String getTableEdgeAttrs() {
@@ -153,10 +158,17 @@ public class PreferencesSQLParameters implements SQLParameters {
 		return tableNodes;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.SQLParameters#getIdType()
+	/** The name of the table with one column and row. */
+	public String getTableNeutral() {
+		return tableNeutral;
+	}
+	
+		/**
+	 * Get the SQL type to use for ids.
+	 * @return The SQL type for ids.
 	 */
 	public String getIdType() {
 		return idType;
 	}
+
 }

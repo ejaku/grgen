@@ -59,7 +59,7 @@ public abstract class SQLBackend extends CBackend {
 	public SQLBackend() {
 	}
 	
-	/**
+/**
 	 * Add a string define to a string buffer.
 	 * The define must define a string, since the value parameter is
 	 * formatted like a string.
@@ -91,6 +91,7 @@ public abstract class SQLBackend extends CBackend {
 		addStringDefine(sb, "STMT_PREFIX", stmtPrefix);
 		addStringDefine(sb, "NODE_TYPE_IS_A_FUNC", nodeTypeIsAFunc);
 		addStringDefine(sb, "EDGE_TYPE_IS_A_FUNC", edgeTypeIsAFunc);
+		addStringDefine(sb, "TABLE_NEUTRAL", parameters.getTableNeutral());
 		addStringDefine(sb, "TABLE_NODES", parameters.getTableNodes());
 		addStringDefine(sb, "TABLE_EDGES", parameters.getTableEdges());
 		addStringDefine(sb, "TABLE_NODE_ATTRS", parameters.getTableNodeAttrs());
@@ -145,6 +146,7 @@ public abstract class SQLBackend extends CBackend {
 	 * @return The SQL type for string.
 	 */
 	protected abstract String getStringType();
+
 	
 	/**
 	 * Generate code, that sends a query to the SQL server.
@@ -379,7 +381,7 @@ public abstract class SQLBackend extends CBackend {
 	 * @see de.unika.ipd.grgen.be.C.CBackend#genMatch(java.lang.StringBuffer, de.unika.ipd.grgen.ir.MatchingAction, int)
 	 */
 	protected void genMatch(StringBuffer sb, MatchingAction a, int id) {
-		System.out.println(a.getIdent().toString());
+		// System.out.println(a.getIdent().toString());
 		
 		String actionIdent = mangle(a);
 		String stmtIdent = "stmt_" + actionIdent;

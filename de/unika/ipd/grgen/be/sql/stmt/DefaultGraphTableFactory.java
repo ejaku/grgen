@@ -641,6 +641,10 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	public Table neutralTable() {
 		return neutralTable;
 	}
+	
+	public Table neutralTable(String alias) {
+		return new NeutralTable(alias);
+	}
 }
 
 

@@ -32,4 +32,5 @@ public interface GraphTableFactory {
   AttributeTable edgeAttrTable(String alias);
 	
 	Table neutralTable();
+	Table neutralTable(String alias);
 }
