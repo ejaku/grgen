@@ -302,11 +302,13 @@ patternEdge returns [ BaseNode res = null ]
   {
     IdentNode id;
   	BaseNode type;
+  	BaseNode constr = TypeExprNode.getEmpty();
   	List ids = null;
   }
   : (multiNodeDecl) => res=multiNodeDecl
   | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
-    (TILDE id=entIdentDecl {	ids.add(id); })+ RPAREN COLON type=typeIdentUse {
+    (TILDE id=entIdentDecl {	ids.add(id); })+ RPAREN COLON
+    type=typeIdentUse (constr=typeConstraint)? {
     	
     	IdentNode[] idents = (IdentNode[]) ids.toArray(new IdentNode[0]);
     	BaseNode[] colls = new BaseNode[idents.length];
@@ -314,7 +316,7 @@ patternEdge returns [ BaseNode res = null ]
 
 			for(int i = 0; i < idents.length; i++) {
 				colls[i] = new CollectNode();
-				decls[i] = new NodeDeclNode(idents[i], type, colls[i]);
+				decls[i] = new NodeDeclNode(idents[i], type, constr, colls[i]);
 			}
 
 			//Add homomorphic nodes
@@ -479,7 +481,8 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 	;
 
 typeConstraint returns [ BaseNode constr = env.initNode() ]
-  : WITHOUT LPAREN constr=typeExpr RPAREN
+//  : WITHOUT LPAREN constr=typeExpr RPAREN
+  : BACKSLASH LPAREN constr=typeExpr RPAREN
   ;
 
 typeExpr returns [ BaseNode constr = env.initNode() ]
@@ -497,7 +500,7 @@ typeAddExpr returns [ BaseNode res = env.initNode() ]
       case PLUS:
         op = TypeExprNode.UNION;
         break;
-      case MINUS:
+      case BACKSLASH:
         op = TypeExprNode.DIFFERENCE;
         break;
       }
@@ -507,7 +510,7 @@ typeAddExpr returns [ BaseNode res = env.initNode() ]
   
 typeAddOp returns [ Token t = null ]
   : pl:PLUS { t = pl; }
-  | mi:MINUS { t = mi; }
+  | mi:BACKSLASH { t = mi; }
   ;
 
 typeMulExpr returns [ BaseNode res = env.initNode() ]
