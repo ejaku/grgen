@@ -250,7 +250,7 @@ public abstract class SQLBackend extends CBackend {
 				sb.append("\t/* change type of ").append(n).append(" to ");
 				sb.append(n.getReplaceType().toString()).append(" (").append(tid);
 				sb.append(") */\n");
-
+				
 			}
 		}
 		
@@ -574,12 +574,12 @@ public abstract class SQLBackend extends CBackend {
 		List edgeTypes = new ArrayList();
 		
 		sb.append("\n/** The Validate Statements */\n");
-
+		
 		for(Iterator i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
 			EdgeType et = (EdgeType)i.next();
 			for(Iterator j = et.getConnAsserts(); j.hasNext();) {
 				ConnAssert ca = (ConnAssert)j .next();
-		
+				
 				srcTypes.add(ca.getSrcType());
 				srcRange.add(new int[] {ca.getSrcLower(), ca.getSrcUpper()});
 				tgtTypes.add(ca.getTgtType());
@@ -588,12 +588,56 @@ public abstract class SQLBackend extends CBackend {
 			}
 		}
 		
-		sqlGen.genValidateStatements(sb, srcTypes, srcRange,  tgtTypes, tgtRange,
-									 edgeTypes, stmtFactory, tableFactory);
+		List queries =
+			sqlGen.genValidateStatements(srcTypes, srcRange,  tgtTypes, tgtRange,
+										 edgeTypes, stmtFactory, tableFactory);
+		
+		sb.append("\ntypedef struct _valid_stmts {\n"+
+					  "  const char* src_query;\n"+
+					  "  const char* tgt_query;\n"+
+					  "  const char* edge_type_name;\n"+
+					  "  const char* src_type_name;\n"+
+					  "  const char* tgt_type_name;\n"+
+					  "  const int src_lower;\n"+
+					  "  const int src_upper;\n"+
+					  "  const int tgt_lower;\n"+
+					  "  const int tgt_upper;\n"+
+					  "} valid_stmts_t;\n\n"
+				 );
+		sb.append("#define VALID_STMT_DATA_LENGTH "+srcTypes.size()+"\n");
+		sb.append("static valid_stmts_t valid_stmt_data["+srcTypes.size()+"] = {\n");
+		
+		for(int i = 0; i < srcTypes.size(); i++) {
+			NodeType srcType = (NodeType)srcTypes.get(i);
+			NodeType tgtType = (NodeType)tgtTypes.get(i);
+			int srcRangeLower = ((int[])srcRange.get(i))[0];
+			int srcRangeUpper = ((int[])srcRange.get(i))[1];
+			int tgtRangeLower = ((int[])tgtRange.get(i))[0];
+			int tgtRangeUpper = ((int[])tgtRange.get(i))[1];
+			EdgeType edgeType = (EdgeType)edgeTypes.get(i);
+			StringBuffer srcQuery = (StringBuffer)queries.get(2*i);
+			StringBuffer tgtQuery = (StringBuffer)queries.get(2*i+1);
+			
+			sb.append("\n{\n");
+			sb.append("  "+formatString(srcQuery.toString())+",\n");
+			sb.append("  "+formatString(tgtQuery.toString())+",\n");
+			sb.append("  \""+edgeType+"\",\n");
+			sb.append("  \""+srcType+"\",\n");
+			sb.append("  \""+tgtType+"\",\n");
+			sb.append("  "+srcRangeLower+",\n");
+			sb.append("  "+srcRangeUpper+",\n");
+			sb.append("  "+tgtRangeLower+",\n");
+			sb.append("  "+tgtRangeUpper+",\n");
+			
+			sb.append("},\n");
+		}
+		
+		sb.append("\n};\n\n");
 		
 		writeFile("valid_stmt" + incExtension, sb);
 	}
 }
+
 
 
 
