@@ -95,7 +95,7 @@ public class PatternNode extends BaseNode {
 		Graph gr = new Graph();
 		
 		for(Iterator it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
-			ConnectionNode conn = (ConnectionNode) it.next();
+			ConnectionCharacter conn = (ConnectionCharacter) it.next();
 			conn.addToGraph(gr);
 		}
 		
