@@ -372,7 +372,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 		// Generate all "x = NULL" conditions of graph elements
 		// used in the sets   N_i - l(L)
-		addNacConds(act, neutralMap, factory, tableFactory, seq);
+		addNacConds(ctx, neutralMap, seq);
+		
+		addMultigraphEdgeConds(ctx, seq);
 		
 		// If there were pending conditions make a simple query using these conditions.
 		// Else build an explicit query, since all conditions are put in the joins.
@@ -383,9 +385,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		return result;
 	}
 	
-	private void addNacConds(MatchingAction act, Map neutralMap,
-													 TypeStatementFactory factory,
-													 GraphTableFactory tableFactory, JoinSequence seq) {
+	private void addNacConds(MatchCtx matchCtx, Map neutralMap, JoinSequence seq) {
+		
+		MatchingAction act = matchCtx.action;
+		TypeStatementFactory factory = matchCtx.stmtFactory;
+		GraphTableFactory tableFactory = matchCtx.tableFactory;
 		
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
@@ -453,6 +457,47 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			deps.add(neutral);
 			seq.scheduleCond(sub, deps);
 		}
+	}
+	
+	private void addMultigraphEdgeConds(MatchCtx ctx, JoinSequence seq) {
+		
+		Graph pattern = ctx.action.getPattern();
+		Collection tmp = pattern.getEdges(new LinkedList());
+		Edge[] edges = (Edge[]) tmp.toArray(new Edge[tmp.size()]);
+		GraphTableFactory tableFactory = ctx.tableFactory;
+		TypeStatementFactory stmtFactory = ctx.stmtFactory;
+		
+		Collection deps = new HashSet();
+		Term cond = null;
+		
+		for(int i = 0; i < edges.length; i++) {
+			Edge e = edges[i];
+			Node esrc = pattern.getSource(e);
+			Node etgt = pattern.getTarget(e);
+
+			for(int j = i + 1; j < edges.length; j++) {
+				Edge f = edges[j];
+				Node fsrc = pattern.getSource(f);
+				Node ftgt = pattern.getTarget(f);
+
+				if(esrc.equals(fsrc) && etgt.equals(ftgt)) {
+					EdgeTable t1 = tableFactory.edgeTable(e);
+					EdgeTable t2 = tableFactory.edgeTable(f);
+					
+					deps.add(t1);
+					deps.add(t2);
+					
+					Term uneq = stmtFactory.expression(Opcodes.NE,
+																						 stmtFactory.expression(t1.colId()),
+																						 stmtFactory.expression(t2.colId()));
+																						 
+					cond = stmtFactory.addExpression(Opcodes.AND, cond, uneq);
+				}
+			}
+		}
+		
+		if(cond != null)
+			seq.scheduleCond(cond, deps);
 	}
 	
 	/**
@@ -1006,6 +1051,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 	}
 }
+
 
 
 
