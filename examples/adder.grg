@@ -1,0 +1,47 @@
+
+node class Number {
+}
+	
+node class One extends Number {
+}
+
+node class Zero extends Number {
+}
+
+node class Current {
+}
+
+node class Delim {
+}
+
+node class Carry {
+}
+
+rule AddOneCarryToOne {
+  pattern {
+    c:Current -> o:One -> right:Number;
+    left:Number -> o;
+    a:Carry -> i:One;
+  }
+  replace {
+    c -> right;
+    left -> z:Zero;
+    z -> right;
+    a -> i;
+  }
+}
+
+rule AddOneCarryToOne {
+  pattern {
+    c:Current -> o:One -> right:Number;
+    left:Number -> o;
+    a:Carry -> i:One;
+  }
+  replace {
+    c -> right;
+    left -> z:Zero;
+    z -> right;
+    a -> i;
+  }
+}
+

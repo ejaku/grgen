@@ -1,0 +1,46 @@
+
+unit incrementer;
+	
+node class Number {
+}
+	
+node class One extends Number {
+}
+
+node class Zero extends Number {
+}
+
+node class Current {
+}
+
+node class Carry {
+}
+
+rule AddOneCarryToOne {
+  pattern {
+    left:Number -> o:One -> right:Number;
+    c:Current -> o;
+    a:Carry -> i:One;
+  }
+  replace {
+    c -> right;
+    left -> z:Zero;
+    z -> right;
+    a -> i;
+  }
+}
+
+rule AddOneCarryToZero {
+  pattern {
+    left:Number -> z:Zero -> right:Number;
+    c:Current -> z;
+    a:Carry -> i:One;
+  }
+  replace {
+    c -> right;
+    left -> o:One;
+    o -> right;
+    a -> zc:Zero;
+  }
+}
+

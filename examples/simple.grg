@@ -1,0 +1,43 @@
+unit ASimpleTest;
+
+enum Test {
+  a, b, c, d
+}  
+
+node class IRNode extends Node {
+  a:int;
+  b:boolean;
+  c:string;
+} 
+
+
+
+group Hallo {
+  test Simple {
+    pattern {
+      node a:IRNode, b:Node; 
+      edge e:Edge;
+
+     
+
+      a -> b (-e-> c:Node, -> d:Node, -Edge-> x);
+
+      x:Node;
+    }
+  }
+
+  /* Hallo */
+  // Hallo
+  
+  rule ARule {
+    pattern {
+      //declare add:Node;
+
+      add:Node (-> op0:Node -> op2:Node, -> op1:Node);
+      
+    }
+    replace {
+      op0 -> abc:Node ;
+    }
+  }
+}
