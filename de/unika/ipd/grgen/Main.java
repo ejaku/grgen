@@ -87,7 +87,7 @@ public class Main extends Base {
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
 		System.out.println("  -i, --dump-ir                     dump the intermidiate representation");
-		System.out.println("  -g, --graphic                     opens a debug window");
+		System.out.println("  -g, --graphic                     opens a graphical debug window");
 		System.out.println("  -b, --backend=BE                  select backend BE");
 		System.out.println("  -f, --debug-filter=REGEX          only debug messages matching this filter will be displayd");
 		System.out.println("  -F, --inverse-debug-filter=REGEX  only debug messages not matching this filter will be displayd");
@@ -111,7 +111,8 @@ public class Main extends Base {
 	private JFrame makeMainFrame() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(debugPanel);
+		if (debugPanel != null)
+			panel.add(debugPanel);
 		//panel.add(Box.createRigidArea(new Dimension(0, 20)));
 		
 		JPanel buttonPanel = new JPanel();
@@ -210,6 +211,10 @@ public class Main extends Base {
 			dumpIR = parser.getOptionValue(irDumpOpt) != null;
 			debugEnabled = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
+			
+			/* deactivate graphic if no debug output */
+			if (! debugEnabled)
+				graphic = false;
 
 			debugFilter = (String) parser.getOptionValue(debugFilterOpt);
 			invDebugFilter = (String) parser.getOptionValue(invDebugFilterOpt);
@@ -410,7 +415,7 @@ public class Main extends Base {
 			
 		debug.report(NOTE, "finished");
 			
-		if(graphic) {
+		if(graphic && debugTree != null) {
 			debugTree.expandRow(0);
 			debugTree.expandRow(1);
 		}
