@@ -46,6 +46,9 @@ public abstract class CBackend extends Base implements Backend {
 	/** node attribute map. (Entity -> Integer) */
 	protected Map edgeAttrMap = new HashMap();
 
+	/** enum value map. (Enum -> Integer) */
+	protected Map enumMap = new HashMap();
+
 	/** action map. (Action -> Integer) */
 	protected Map actionMap = new HashMap();
 
@@ -133,6 +136,22 @@ public abstract class CBackend extends Base implements Backend {
 						assert !map.containsKey(ent) : "entity must not be in map";
 						map.put(ent, new Integer(id++));
 					}
+				}
+			}
+		};
+		
+		(new PostWalker(v)).walk(unit);
+	}
+	
+	protected void makeEnumIds(Map enumMap) {
+		final Map map = enumMap;
+		
+		Visitor v = new Visitor() {
+			private int id = 0;
+			
+			public void visit(Walkable w) {
+				if(w instanceof EnumType) {
+					map.put(w, new Integer(id++));
 				}
 			}
 		};
@@ -411,6 +430,14 @@ public abstract class CBackend extends Base implements Backend {
 		}
 	}
 
+	/**
+	 * Adds a XML type tag to the string buffer.
+	 *  
+	 * @param depth  indentation depth
+	 * @param sb     the string buffer
+	 * @param ending the end of the XML tag, either ">" or "/>"
+	 * @param inh    the type
+	 */
 	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Type inh) {
 	  	
 	  for (int i = 0; i < depth; ++i)
@@ -419,14 +446,27 @@ public abstract class CBackend extends Base implements Backend {
 	    + " name=\"" + inh.getIdent() + "\"" + ending);
 	}
 
-	protected void dumpXMLEndTag(int depth, StringBuffer sb, 
-	  Type inh) {
-	
+	/**
+	 * Adds a XML end type tag to the string buffer.
+	 * 
+	 * @param depth indentation depth
+	 * @param sb    the string buffer
+	 * @param inh   the type
+	 */
+	protected void dumpXMLEndTag(int depth, StringBuffer sb, Type inh) {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
 		sb.append("</" + inh.getName().replace(' ', '_') + ">\n");
 	}
 	
+	/**
+	 * Adds an XML entity tag to the string buffer.
+	 * 
+	 * @param depth  indentation depth
+	 * @param sb     the string buffer
+	 * @param ending the end of the XML tag, either ">" or "/>"
+	 * @param ent    the entity
+	 */
 	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Entity ent) {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
@@ -435,10 +475,24 @@ public abstract class CBackend extends Base implements Backend {
 		  + " type=\"" + ent.getType().getIdent() + "\"" + ending);
 	}
 	
+	/**
+	 * Adds a XML end entity tag to the string buffer.
+	 * 
+	 * @param depth indentation depth
+	 * @param sb    the string buffer
+	 * @param ent   the entity
+	 */
 	protected void dumpXMLEndTag(int depth, StringBuffer sb, Entity ent) {
 		for (int i = 0; i < depth; ++i)
 			sb.append("  ");
 		sb.append("</" + ent.getName().replace(' ', '_') + ">\n");
+	}
+
+	protected void dumpXMLTag(int depth, StringBuffer sb, String ending, Ident id) {
+		for (int i = 0; i < depth; ++i)
+			sb.append("  ");
+		sb.append("<" + id.getName().replace(' ', '_')  
+		  + " name=\"" + id + "\"" + ending); 
 	}
 
 	/**
@@ -485,6 +539,24 @@ public abstract class CBackend extends Base implements Backend {
 				dumpXMLEndTag(1, sb, type);
 			}
 		}
+		
+		for(Iterator it = enumMap.keySet().iterator(); it.hasNext();) {
+			EnumType type = (EnumType) it.next();
+			
+			dumpXMLTag(1, sb, ">\n", type);
+			Iterator itemIt = type.getItems();
+			if (itemIt.hasNext()) {
+				sb.append("    <items>\n");
+				for(int i = 0; itemIt.hasNext(); i++) {
+					Ident id = (Ident) itemIt.next();
+
+					dumpXMLTag(3, sb, " value=\"" + i + "\"/>\n", id);
+				}
+				sb.append("    </items>\n");
+			}
+				
+			dumpXMLEndTag(1, sb, type);
+		}
 
 		sb.append("</unit>\n");
 	}
@@ -518,10 +590,11 @@ public abstract class CBackend extends Base implements Backend {
     this.path = new File(outputPath);
     path.mkdirs();
     
-		makeTypeIds(nodeTypeMap, NodeType.class);
-		makeTypeIds(edgeTypeMap, EdgeType.class);
-		makeAttrIds(nodeAttrMap, NodeType.class);
-		makeAttrIds(edgeAttrMap, EdgeType.class);
+		makeTypeIds(nodeTypeMap,  NodeType.class);
+		makeTypeIds(edgeTypeMap,  EdgeType.class);
+		makeAttrIds(nodeAttrMap,  NodeType.class);
+		makeAttrIds(edgeAttrMap,  EdgeType.class);
+		makeEnumIds(enumMap);
 		makeActionIds(actionMap);
   }
 
@@ -546,6 +619,7 @@ public abstract class CBackend extends Base implements Backend {
 		makeTypeDefines(sb, edgeTypeMap, "EDGE");
 		makeAttrDefines(sb, nodeAttrMap, "NODE");
 		makeAttrDefines(sb, edgeAttrMap, "EDGE");
+//		makeEnumDefines(sb, enumMap, "ENUM");
 		writeFile("graph.inc", sb);
 
 		// Make the "is a" matrix.
@@ -582,7 +656,17 @@ public abstract class CBackend extends Base implements Backend {
   	genExtra();
   }
 
-	protected abstract void genMatch(StringBuffer sb, MatchingAction a, int id);
+	/**
+ * @param sb
+ * @param enumMap
+ * @param string
+ */
+private void makeEnumDefines(StringBuffer sb, Map enumMap, String string) {
+	// TODO Auto-generated method stub
+	
+}
+
+protected abstract void genMatch(StringBuffer sb, MatchingAction a, int id);
 	
 	protected abstract void genFinish(StringBuffer sb, MatchingAction a, int id);
 
