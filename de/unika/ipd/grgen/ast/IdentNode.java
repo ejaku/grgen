@@ -21,7 +21,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	}
 	
 	/** The attributes. */
-	private Attributes attributes;
+	private Attributes attributes = EmptyAttributes.get();
 	
 	/** Occurrence of the identifier. */
   private Symbol.Occurrence occ;
@@ -158,7 +158,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 */
 	protected IR constructIR() {
 		String namespace = getSymbol().getSymbolTable().getName();
-		return Ident.get(toString(), namespace, getSymDef().getCoords());
+		return Ident.get(toString(), namespace + ":" + getScope(),
+										 getSymDef().getCoords(), getAttributes());
 	}
 	
 	/**
@@ -166,9 +167,6 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 * @return The attributes of this identifier.
 	 */
 	public Attributes getAttributes() {
-		if(attributes == null)
-			attributes = EmptyAttributes.get();
-		
 		return attributes;
 	}
 	
