@@ -1,6 +1,6 @@
 header {
 /**
- * @author Sebastian Hack, Daniel Grund
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss
  * @version $Id$
  */
 	package de.unika.ipd.grgen.parser.antlr;
@@ -176,7 +176,7 @@ tokens {
     }
     
     private void makeBuiltin() {
-    	nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(), new CollectNode()));
+    	nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(), new CollectNode(), new CollectNode()));
 			edgeRoot = predefineType("Edge", new EdgeTypeNode(new CollectNode(), new CollectNode()));
 			
 			predefineType("int", BasicTypeNode.intType);
@@ -285,18 +285,18 @@ edgeClassDecl returns [ BaseNode res = initNode() ]
 
 nodeClassDecl! returns [ BaseNode res = initNode() ]
 	{
-  		BaseNode body, ext, ca;
+  		BaseNode body, ext, cas;
   		IdentNode id;
 		boolean constNode = false;
   	}
 
 	: "node" "class"! ("const" { constNode = true; })?
-	id=identDecl ext=nodeExtends ca=connectAssertions
+	id=identDecl ext=nodeExtends cas=connectAssertions
 	pushScope[id] LBRACE! body=nodeClassBody {
 
 		// TODO XXX use constNode in TypeDeclNode
 		// TODO XXX use ca in TypeDeclNode
-		id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, body)));
+		id.setDecl(new TypeDeclNode(id, new NodeTypeNode(ext, cas, body)));
 		res = id;
 	} RBRACE! popScope!
 	;
