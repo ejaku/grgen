@@ -748,8 +748,9 @@ public class DefaultStatementFactory extends Base
 				Term t = (Term) jt.next();
 				
 				ps.print(c.getDeclName());
-				ps.print(" = ");
+				ps.print(" = (");
 				t.dump(ps);
+				ps.print(")");
 				
 				if(it.hasNext())
 					ps.print(", ");
