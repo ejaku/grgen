@@ -130,6 +130,10 @@ pushScope! [IdentNode name] options { defaultErrorHandler = false; } {
   env.pushScope(name);
 } : ;
 
+pushScopeStr! [String str] options { defaultErrorHandler = false; } {
+  env.pushScope(str);
+} : ;
+
 popScope! options { defaultErrorHandler = false; }  {
   env.popScope();
 } : ;
@@ -388,9 +392,9 @@ identExpr returns [ BaseNode res = env.initNode() ]
 
 qualIdent returns [ BaseNode res = env.initNode() ]
 	{ BaseNode id; }
-	: res=entIdentUse (d:DOT id=entIdentUse{
-		res = new QualIdentNode(getCoords(d), res, id);
-	})+ {
+	: res=entIdentUse (d:DOT id=entIdentUse {
+		  res = new QualIdentNode(getCoords(d), res, id);
+  	})+ {
 		res = new DeclExprNode(res);
 	}
 	;

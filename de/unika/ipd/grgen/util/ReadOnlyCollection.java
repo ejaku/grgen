@@ -9,6 +9,7 @@ package de.unika.ipd.grgen.util;
 import de.unika.ipd.grgen.util.CacheMap;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -17,6 +18,8 @@ import java.util.Map;
 public class ReadOnlyCollection implements Collection {
 
 	private final Collection coll;
+	
+	private static final Collection EMPTY = new ReadOnlyCollection(new LinkedList());
 	
 	private static final Map cache = new CacheMap(127);
 	
@@ -28,6 +31,14 @@ public class ReadOnlyCollection implements Collection {
 			cache.put(coll, res);
 			return res;
 		}
+	}
+	
+	public static Collection getSingle(Collection coll) {
+		return new ReadOnlyCollection(coll);
+	}
+	
+	public static Collection getEmpty() {
+		return EMPTY;
 	}
 	
 	private ReadOnlyCollection(Collection coll) {
@@ -85,6 +96,9 @@ public class ReadOnlyCollection implements Collection {
 		return coll.toArray(p1);
 	}
 	
+	public String toString() {
+		return coll.toString();
+	}
 	
 	
 	

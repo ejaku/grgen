@@ -13,7 +13,7 @@ import de.unika.ipd.grgen.util.Attributes;
 /**
  * A node in a graph.
  */
-public class Node extends Entity {
+public class Node extends ConstraintEntity {
   
   /** The type, the node will have after a rule has been applied. */
   private NodeType replaceType;

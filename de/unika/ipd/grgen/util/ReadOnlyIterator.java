@@ -26,5 +26,9 @@ public final class ReadOnlyIterator implements Iterator {
 	public Object next() {
 		return it.next();
 	}
+	
+	public String toString() {
+		return toString();
+	}
 }
 

@@ -81,7 +81,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode voidType =
 		new BasicTypeNode() {
 		protected IR constructIR() {
-			return new VoidType("void");
+			return new VoidType(getIdentNode().getIdent());
 		}
 	};
 	
@@ -90,7 +90,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 */
 	public static final BasicTypeNode errorType = new BasicTypeNode() {
 		protected IR constructIR() {
-			return new VoidType("error");
+			return new VoidType(getIdentNode().getIdent());
 		}
 		
 		

@@ -21,17 +21,6 @@ public abstract class Type extends Identifiable implements Comparable {
 	public static final int IS_BOOLEAN = 2;
 	public static final int IS_STRING  = 3;
 
-	static final private Type global =
-		new Type("global type", Ident.get("global type")) {
-		public boolean isGlobal() {
-			return true;
-		}
-	};
-	
-	static Type getGlobal() {
-		return global;
-	}
-
 	/** The identifier used to declare this type */
 	private Ident ident;
 
@@ -43,7 +32,7 @@ public abstract class Type extends Identifiable implements Comparable {
   public Type(String name, Ident ident) {
   	super(name, ident);
   }
-  
+ 
   /**
    * Decides, if two types are equal.
    * @param t The other type.
@@ -93,14 +82,6 @@ public abstract class Type extends Identifiable implements Comparable {
   	return IS_UNKNOWN;
   }
   
-  /**
-   * Is this type the global type?
-   * @return true, if this type is the global type, false if not.
-   */
-  public boolean isGlobal() {
-  	return false;
-  }
-
 	private static final Comparator COMPARATOR = new Comparator() {
 
 		public int compare(Object o1, Object o2) {

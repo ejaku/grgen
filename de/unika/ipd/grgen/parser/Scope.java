@@ -262,14 +262,22 @@ public class Scope {
 		return parent;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public String getPath() {
+		String res = "";
+		if(!isRoot())
+			res = res + parent + ".";
+		return res + name;
+	}
+	
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		String res = "";
-		if(!isRoot())
-			res = res + parent + ".";
-		return res + name + "(" + id + ")";
+		return getName();
 	}
     
 }

@@ -8,15 +8,13 @@ package de.unika.ipd.grgen.be.sql.stmt;
 
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.util.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.ir.ConstraintEntity;
 import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -331,17 +329,29 @@ public class DefaultStatementFactory extends Base
 		
 	}
 	
-	private Term makeCond(TypeIdTable table, int tid, boolean isRoot, short[][] matrix) {
+	private Term makeCond(TypeIdTable table, InheritanceType ty, boolean isNode,
+												TypeID typeID, Collection constraints) {
 		
-		boolean useBetween = true;
-		int compatTypesCount = 1;
-		Column col = table.colTypeId();
+		boolean isRoot = ty.isRoot();
 		
 		if(isRoot)
 			return constant(true);
 		
+		boolean useBetween = true;
+		int compatTypesCount = 1;
+		Column col = table.colTypeId();
+		int tid = typeID.getId(ty, isNode);
+		short[][] matrix = typeID.getIsAMatrix(isNode);
+		
+		boolean[] incompat = new boolean[matrix.length];
+		for(Iterator constIt = constraints.iterator(); constIt.hasNext();) {
+			InheritanceType inh = (InheritanceType) constIt.next();
+			int id = typeID.getId(inh, isNode);
+			incompat[id] = true;
+		}
+
 		for(int i = 0; i < matrix.length; i++)
-			compatTypesCount += matrix[i][tid] > 0 ? 1 : 0;
+			compatTypesCount += matrix[i][tid] > 0 && !incompat[i] ? 1 : 0;
 		
 		Term colExpr = expression(col);
 		Term res = null;
@@ -354,7 +364,7 @@ public class DefaultStatementFactory extends Base
 				int[] compat = new int[compatTypesCount];
 				compat[0] = tid;
 				for(int i = 0, index = 1; i < matrix.length; i++) {
-					if(matrix[i][tid] > 0)
+					if(matrix[i][tid] > 0 && !incompat[i])
 						compat[index++] = i;
 				}
 				
@@ -400,7 +410,6 @@ public class DefaultStatementFactory extends Base
 						
 						res = addExpression(OR, res, expression(SET_IN, consts));
 				}
-				
 		}
 		
 		return res;
@@ -410,19 +419,24 @@ public class DefaultStatementFactory extends Base
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#isA(de.unika.ipd.grgen.ir.Node, de.unika.ipd.grgen.be.sql.meta.Column, de.unika.ipd.grgen.be.sql.TypeID)
 	 */
-	public Term isA(TypeIdTable table, NodeType nt, TypeID typeID) {
-		return makeCond(table, typeID.getId(nt), nt.isRoot(),
-										typeID.getIsAMatrix(true));
+	public Term isA(TypeIdTable table, NodeType nodeType, TypeID typeID) {
+		return makeCond(table, nodeType, true, typeID, ReadOnlyCollection.getEmpty());
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory#isA(de.unika.ipd.grgen.ir.Edge, de.unika.ipd.grgen.be.sql.meta.Column, de.unika.ipd.grgen.be.sql.TypeID)
 	 */
-	public Term isA(TypeIdTable table, EdgeType et, TypeID typeID) {
-		return makeCond(table, typeID.getId(et), et.isRoot(),
-										typeID.getIsAMatrix(false));
+	public Term isA(TypeIdTable table, EdgeType edgeType, TypeID typeID) {
+		return makeCond(table, edgeType, false, typeID, ReadOnlyCollection.getEmpty());
 	}
 	
+	public Term isA(TypeIdTable table, ConstraintEntity ent,
+									boolean isNode, TypeID typeID) {
+		
+		return makeCond(table, ent.getInheritanceType(), isNode,
+										typeID, ent.getConstraints());
+	}
+
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#expression(int, de.unika.ipd.grgen.be.sql.meta.Term[])
 	 */

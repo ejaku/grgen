@@ -5,12 +5,12 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * The void type. 
+ * The void type.
  */
 public class VoidType extends PrimitiveType {
 
-  public VoidType(String name) {
-    super("void type", Ident.get(name));
+  public VoidType(Ident ident) {
+    super("void type", ident);
   }
 
 	public boolean isVoid() {

@@ -3,9 +3,8 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
+
 import de.unika.ipd.grgen.ir.IR;
-
-
 
 /**
  * An expression that results from a declared identifier.

@@ -6,11 +6,6 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.meta.Column;
 import de.unika.ipd.grgen.be.sql.meta.DataType;
@@ -19,8 +14,14 @@ import de.unika.ipd.grgen.be.sql.meta.Table;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.Coords;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -119,11 +120,20 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	 */
 	protected String mangleEntity(Entity ent) {
 		final StringBuffer sb = new StringBuffer();
-
+		Ident id = ent.getIdent();
+		Coords c = id.getCoords();
+		
+		sb.append(ent.getName().charAt(0));
+		sb.append('l').append(c.getLine()).append('c').append(c.getColumn()).append('_');
+		sb.append(id);
+		
+		/*
 		sb.append(ent.getName()).append("_");
-		if(!ent.getOwner().isGlobal())
-			sb.append(ent.getOwner().getIdent().toString()).append("_");
+		Ident id = ent.getIdent();
+		sb.append(id.getScope().getName());
 		sb.append(ent.getIdent().toString());
+		 */
+		
 		return mangleString(sb.toString()).toString();
 	}
 	

@@ -237,34 +237,5 @@ basicDecl returns [ BaseNode res = env.initNode() ]
 	res = decl;
 };
 
-/*
-typeSetExpr
-  : typeSetAddExpr
 
-typeSetAddExpr
-  : typeSetMulExpr (typeAddOp typeSetAddExpr)*
-  ;
-  
-typeAddOp
-  : PLUS
-  | MINUS
-  ;
-  
-typeSetMulExpr
-  : typeSetUnaryExpr (typeMulOp typeSetMulExpr)*
-  ;
-  
-typeMulOp
-  : AMPERSAND
-  ;
-  
-typeSetUnaryExpr
-  : COLON typeIdentUse
-  | LBRACE typeIdentList RBRACE
-  | LPAREN typeSetExpr RPAREN
-  ;
 
-typeIdentList
-  : typeIdentUse (COMMA typeIdentUse)*
-  ;
- */

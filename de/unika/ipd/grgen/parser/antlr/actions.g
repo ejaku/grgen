@@ -65,6 +65,7 @@ text returns [ BaseNode main = env.initNode() ]
   	    GRLexer lexer = new GRLexer(modelStream);
   	    GRTypeParser parser = new GRTypeParser(lexer);
   	    parser.setEnv(env);
+  	    parser.setFilename(modelFile);
 
   	    BaseNode model = parser.text();
   	    modelChilds.addChild(model);
@@ -187,23 +188,33 @@ patternBody [ Coords coords, BaseNode negsCollect ] returns [ BaseNode res = env
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
 		res = new PatternGraphNode(coords, connections, conditions);
+		int negCounter = 0;
   }
-  : (patternStmt[connections, conditions, negsCollect])*
+  : (negCounter = patternStmt[connections, conditions, negsCollect, negCounter])*
   ;
 
-patternStmt [ BaseNode connCollect, BaseNode condCollect, BaseNode negsCollect ]
+patternStmt [ BaseNode connCollect, BaseNode condCollect,
+  BaseNode negsCollect, int negCount ] returns [ int newNegCount ]
+  
 	{
-  		IdentNode id = env.getDummyIdent();
+  	IdentNode id = env.getDummyIdent();
 		BaseNode n, o, e, neg;
 		//nesting of negative Parts is not allowed.
 		CollectNode negsInNegs = new CollectNode();
+		
+		newNegCount = negCount;
 	}
 	: patternConnections[connCollect] SEMI
 	| NODE patternNodeDecl ( COMMA patternNodeDecl )* SEMI
-	| p:NEGATIVE pushScope[id] LBRACE! neg=patternBody[getCoords(p), negsInNegs] { negsCollect.addChild(neg); } RBRACE! popScope!
-	{
-		assert (negsInNegs.children() == 0) : "Nesting of negative parts is not allowed.";
-	}
+	
+	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
+	  neg=patternBody[getCoords(p), negsInNegs] {
+	    newNegCount = negCount + 1;
+	    negsCollect.addChild(neg);
+	  } RBRACE! popScope! {
+	    if(negsInNegs.children() != 0)
+	      reportError(getCoords(p), "Nesting of negative parts not allowed");
+	  }
 	| COND e=expr { condCollect.addChild(e); } SEMI
 	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
 	;
@@ -433,23 +444,25 @@ multiNodeDecl returns [ BaseNode res = env.initNode() ]
 		List ids = new LinkedList();
 		IdentNode id;
 		BaseNode type;
+		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	: id=entIdentDecl COLON type=typeIdentUse {
-		res = new NodeDeclNode(id, type);
+	: id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
+		res = new NodeDeclNode(id, type, constr);
 	}
   | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
-    (COMMA id=entIdentDecl { ids.add(id); })* RPAREN COLON type=typeIdentUse {
+    (COMMA id=entIdentDecl { ids.add(id); })* RPAREN
+     COLON type=typeIdentUse (constr=typeConstraint)? {
 
     	int i = 0;
     	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
     		IdentNode ident = (IdentNode) it.next();
     		if(i == 0)
-    			res = new NodeDeclNode(ident, type);
+    			res = new NodeDeclNode(ident, type, constr);
     		else
     			// This is ok, the object does not vanish, since it is
     			// held by its identifier which is held by the symbol's
-    			// occurrence whcih is held by the scope.
-					new NodeDeclNode(ident, type);
+    			// occurrence which is held by the scope.
+					new NodeDeclNode(ident, type, constr);
     	}
     	
     }
@@ -458,16 +471,70 @@ multiNodeDecl returns [ BaseNode res = env.initNode() ]
 edgeDecl returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode id, type;
+		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	: id=entIdentDecl COLON type=typeIdentUse {
-		res = new EdgeDeclNode(id, type);
+	: id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
+		res = new EdgeDeclNode(id, type, constr);
 	}
 	;
 
+typeConstraint returns [ BaseNode constr = env.initNode() ]
+  : WITHOUT LPAREN constr=typeExpr RPAREN
+  ;
 
-/*identList [ BaseNode c ]
-	{ BaseNode id; }
-	: id=identUse { c.addChild(id); } (COMMA id=identUse { c.addChild(id); })*
-	;*/
+typeExpr returns [ BaseNode constr = env.initNode() ]
+  : constr=typeAddExpr
+  ;
+  
+typeAddExpr returns [ BaseNode res = env.initNode() ]
+  {
+    int op = -1;
+    BaseNode op1;
+    Token t = null;
+  }
+  : res=typeMulExpr (t=typeAddOp op1=typeMulExpr {
+      switch(t.getType()) {
+      case PLUS:
+        op = TypeExprNode.UNION;
+        break;
+      case MINUS:
+        op = TypeExprNode.DIFFERENCE;
+        break;
+      }
+      res = new TypeExprNode(getCoords(t), op, res, op1);
+    })*
+  ;
+  
+typeAddOp returns [ Token t = null ]
+  : pl:PLUS { t = pl; }
+  | mi:MINUS { t = mi; }
+  ;
+
+typeMulExpr returns [ BaseNode res = env.initNode() ]
+  { BaseNode op1; }
+  : res=typeUnaryExpr (a:AMPERSAND op1=typeUnaryExpr {
+      res = new TypeExprNode(getCoords(a), TypeExprNode.INTERSECT, res, op1);
+    })*
+  ;
+  
+typeUnaryExpr returns [ BaseNode res = env.initNode() ]
+  { BaseNode n = env.initNode(); }
+  : c:COLON n=typeIdentUse {
+      res = new TypeExprSubtypeNode(getCoords(c), n);
+    }
+  | b:LBRACE { n = new CollectNode(); } typeIdentList[n] RBRACE {
+      res = new TypeConstNode(getCoords(b), n);
+    }
+  | LPAREN res=typeExpr RPAREN
+  | n=typeIdentUse { res = new TypeConstNode(n); }
+  ;
+  
+typeIdentList [ BaseNode addTo ]
+  { BaseNode n; }
+  : n=typeIdentUse { addTo.addChild(n); } (COMMA n=typeIdentUse {
+      addTo.addChild(n);
+    })*
+  |
+  ;
 
 

@@ -15,7 +15,7 @@ import java.util.Iterator;
 /**
  * Declaration of a node.
  */
-public class NodeDeclNode extends DeclNode implements NodeCharacter {
+public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	
 	static {
 		setName(NodeDeclNode.class, "node");
@@ -25,7 +25,7 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 		new DeclTypeResolver(NodeTypeNode.class);
 	
 	/** Index of the collect node containing probable homomorphic nodes. */
-	private static final int HOMOMORPHIC = 2;
+	private static final int HOMOMORPHIC = CONSTRAINTS + 1;
 	
 	/**
 	 * Resolve probable identifiers in the hom collect node to
@@ -46,8 +46,8 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 	 * @param id The identifier of the node.
 	 * @param type The type of the node.
 	 */
-	public NodeDeclNode(IdentNode id, BaseNode type) {
-		this(id, type, new CollectNode());
+	public NodeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
+		this(id, type, constr, new CollectNode());
 	}
 	
 	/**
@@ -56,8 +56,10 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 	 * @param type The type of the node.
 	 * @param homomorphic A collect node with homomorphic nodes.
 	 */
-	public NodeDeclNode(IdentNode id, BaseNode type, BaseNode homomorphic) {
-		super(id, type);
+	public NodeDeclNode(IdentNode id, BaseNode type,
+											BaseNode constraints,
+											BaseNode homomorphic) {
+		super(id, type, constraints);
 		addChild(homomorphic);
 		addResolver(TYPE, typeResolver);
 		addResolver(HOMOMORPHIC, homResolver);
@@ -111,6 +113,8 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 			NodeCharacter nc = (NodeCharacter) it.next();
 			res.addHomomorphic(nc.getNode());
 		}
+
+		res.setConstraints(getConstraints());
 		
 		return res;
 	}

@@ -67,6 +67,14 @@ public class Symbol {
 		}
 		
 		/**
+		 * Get the scope of occurrence.
+		 * @return The scope.
+		 */
+		public Scope getScope() {
+			return scope;
+		}
+		
+		/**
 		 * Get the symbol's definition.
 		 * @return The definition.
 		 */

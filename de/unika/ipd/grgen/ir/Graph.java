@@ -57,6 +57,10 @@ public class Graph extends IR {
 			return nodeId;
 		}
 		
+		public String getNodeInfo() {
+			return node.getNodeInfo();
+		}
+		
 	}
 	
 	protected class GraphEdge extends Edge {
@@ -83,6 +87,10 @@ public class Graph extends IR {
 		
 		public String getNodeId() {
 			return nodeId;
+		}
+
+		public String getNodeInfo() {
+			return edge.getNodeInfo();
 		}
 	}
 	

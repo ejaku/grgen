@@ -92,19 +92,6 @@ public class ErrorReporter extends Reporter {
   }
   
   /**
-   * Enter is disabled in this reporter. Error reporting is plain
-   * not nested.
-   */
-  public void entering(String s) {
-  }
-
-  /**
-   * Leave is also disabled.
-   */
-  public void leaving() {
-  }
-  
-  /**
    * Returns the number of occured errors.
    * @return
    */

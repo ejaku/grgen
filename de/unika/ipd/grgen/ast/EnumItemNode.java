@@ -96,8 +96,7 @@ public class EnumItemNode extends MemberDeclNode {
   	int v = ((Integer) res.getValue()).intValue();
   	debug.report(NOTE, "result: " + res);
   	
-  	res = new EnumConstNode(getCoords(), getIdentNode(), v);
-  	return res;
+  	return new EnumConstNode(getCoords(), getIdentNode(), v);
   }
 
 	protected EnumItem getItem() {

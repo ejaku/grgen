@@ -22,11 +22,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	
 	public static final int MOD_ABSTRACT = 2;
 	
-	/** 
-	 * The modifiers for this type. 
+	/**
+	 * The modifiers for this type.
 	 * An ORed combination of the constants above.
 	 */
-	private int modifiers = 0; 
+	private int modifiers = 0;
 	
 	/** Index of the inheritance types collect node. */
 	private final int inhIndex;
@@ -45,11 +45,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 * @param inhIndex Index of the inheritance types collect node.
 	 */
 	protected InheritanceTypeNode(int bodyIndex,
-								  Checker bodyChecker,
-								  Resolver bodyResolver,
-								  int inhIndex,
-								  Checker inhChecker,
-								  Resolver inhResolver) {
+																Checker bodyChecker,
+																Resolver bodyResolver,
+																int inhIndex,
+																Checker inhChecker,
+																Resolver inhResolver) {
 		
 		super(bodyIndex, bodyChecker, bodyResolver);
 		this.inhIndex = inhIndex;
@@ -90,10 +90,19 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		return found;
 	}
 	
+	protected void doGetCompatibleToTypes(Collection coll) {
+		for(Iterator i = getChild(inhIndex).getChildren(); i.hasNext();) {
+			InheritanceTypeNode inh = (InheritanceTypeNode) i.next();
+			coll.add(inh);
+			inh.getCompatibleToTypes(coll);
+		}
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
 	 */
 	protected void doGetCastableToTypes(Collection coll) {
+		// TODO This is wrong!!!
 		for(Iterator it = getChild(inhIndex).getChildren(); it.hasNext();)
 			coll.add(it.next());
 	}
@@ -111,8 +120,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	}
 	
 	protected final int getIRModifiers() {
-  	return (isAbstract() ? InheritanceType.ABSTRACT : 0)
-	  | (isConst() ? InheritanceType.CONST : 0);
+		return (isAbstract() ? InheritanceType.ABSTRACT : 0)
+			| (isConst() ? InheritanceType.CONST : 0);
 	}
 	
 }

@@ -59,6 +59,7 @@ tokens {
   EVAL = "eval";
   TERM = "term";
   CONNECT = "connect";
+  WITHOUT = "without";
 }
 
 {

@@ -161,7 +161,11 @@ public abstract class ParserEnvironment extends Base {
 	}
 	
 	public void pushScope(IdentNode ident) {
-		currScope = currScope.newScope(ident.toString());
+		pushScope(ident.toString());
+	}
+	
+	public void pushScope(String name) {
+		currScope = currScope.newScope(name);
 		BaseNode.setCurrScope(currScope);
 	}
 	

@@ -22,7 +22,11 @@ public class AnonymousEdgeDeclNode extends EdgeDeclNode {
 	 * @param e The type of the edge.
 	 */
 	public AnonymousEdgeDeclNode(IdentNode id, BaseNode type) {
-		super(id, type);
+		this(id, type, TypeExprNode.getEmpty());
+	}
+	
+	public AnonymousEdgeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
+		super(id, type, constr);
 	}
 	
 	/**

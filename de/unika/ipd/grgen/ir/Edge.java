@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.ir;
  */
 import de.unika.ipd.grgen.util.Attributes;
 
-public class Edge extends Entity {
+public class Edge extends ConstraintEntity {
 
   /**
    * Make a new edge.

@@ -255,6 +255,10 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return getTypeId(nodeTypeMap, nt);
 	}
 	
+	public final int getId(Type t, boolean forNode) {
+		return forNode ? getTypeId(nodeTypeMap, t) : getTypeId(edgeTypeMap, t);
+	}
+	
 	public final short[][] getIsAMatrix(boolean forNode) {
 		return forNode ? nodeTypeIsAMatrix : edgeTypeIsAMatrix;
 	}

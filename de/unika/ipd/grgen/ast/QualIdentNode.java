@@ -30,8 +30,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	/** Index of the member node. */
 	private static final int MEMBER = 1;
 	
-	private static final String[] childrenNames =
-	{
+	private static final String[] childrenNames = {
 		"owner", "member"
 	};
 	

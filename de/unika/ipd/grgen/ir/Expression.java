@@ -14,8 +14,7 @@ public abstract class Expression extends IR
 	/** The type of the expression. */
 	protected Type type;
 	
-	public Expression(String name, Type type)
-	{
+	public Expression(String name, Type type) {
 		super(name);
 		setChildrenNames(childrenNames);
 		this.type = type;
@@ -25,8 +24,7 @@ public abstract class Expression extends IR
 	 * Get the type of the expression.
 	 * @return The type of the expression.
 	 */
-	public Type getType()
-	{
+	public Type getType()	{
 		return type;
 	}
 	

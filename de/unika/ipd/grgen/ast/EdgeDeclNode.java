@@ -4,15 +4,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import java.awt.Color;
 
-public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
+public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	
 	static {
 		setName(EdgeDeclNode.class, "edge declaration");
@@ -21,8 +20,8 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 	private static final Resolver typeResolver =
 		new DeclTypeResolver(EdgeTypeNode.class);
 	
-	public EdgeDeclNode(IdentNode n, BaseNode e) {
-		super(n, e);
+	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
+		super(n, e, constraints);
 		setName("edge");
 		addResolver(TYPE, typeResolver);
 	}
@@ -65,6 +64,8 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 		IdentNode ident = getIdentNode();
 		
 		Edge edge = new Edge(ident.getIdent(), et, ident.getAttributes());
+		edge.setConstraints(getConstraints());
+		
 		return edge;
 	}
 	

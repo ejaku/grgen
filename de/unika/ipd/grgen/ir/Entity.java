@@ -22,7 +22,7 @@ public class Entity extends Identifiable implements Attributed {
 	private final Type type;
 
 	/** The entity's owner. */
-	private Type owner = Type.getGlobal();
+	private Type owner = null;
 	
 	/** The attributes of this entity. */
 	private final Attributes attributes;
@@ -76,6 +76,14 @@ public class Entity extends Identifiable implements Attributed {
   protected void setOwner(Type type) {
     owner = type;
   }
+	
+	/**
+	 * Check if the entity has an owner.
+	 * @return true, if the entity has an owner, else false.
+	 */
+	public boolean hasOwner() {
+		return owner != null;
+	}
 	
 	/**
 	 * Get the attributes.

@@ -214,8 +214,7 @@ public class SQLGenerator extends Base {
 			
 			// Add node type constraint
 			nodeCond = factory.expression(Opcodes.AND, nodeCond,
-																		factory.isA(table, n.getNodeType(),
-																								typeID));
+																		factory.isA(table, n, true, typeID));
 			
 			
 			// Make this node unequal to all other nodes.
@@ -264,8 +263,7 @@ public class SQLGenerator extends Base {
 						
 						// Add edge type constraint
 						edgeCond = factory.expression(Opcodes.AND, edgeCond,
-																					factory.isA(edgeTable, e.getEdgeType(),
-																											typeID));
+																					factory.isA(edgeTable, e, false, typeID));
 						
 						// Add it also to the edge result list.
 						if(!isNeg)

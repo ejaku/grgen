@@ -35,25 +35,25 @@ public class AssignNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		if(checkChild(LHS, QualIdentNode.class)) {
-			boolean res = true;
+		if(checkChild(LHS, DeclExprNode.class)) {
+			DeclExprNode de = (DeclExprNode) getChild(LHS);
 			QualIdentNode qual = (QualIdentNode) getChild(LHS);
 			DeclNode owner = qual.getOwner();
-			BaseNode ty = owner.getDeclType(); 
+			BaseNode ty = owner.getDeclType();
 			
 			if(ty instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
 				
-				if(inhTy.isConst()) { 
+				if(inhTy.isConst()) {
 					error.error(getCoords(), "assignment to a const type object not allowed");
-					res = false;
+					return false;
 				}
 			}
 			
-			return res;
+			return true;
 		}
 		
-		return false; 
+		return false;
 	}
 	
 	/**
@@ -61,8 +61,8 @@ public class AssignNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		return new Assignment((Qualification) getChild(LHS).constructIR(),
-			getChild(RHS).constructIR());
+		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
+		return new Assignment(qual, getChild(RHS).getIR());
 	}
-
+	
 }

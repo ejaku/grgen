@@ -5,6 +5,13 @@ rule SimpleRule {
 
   pattern {
     n:N3 without(:N2);
+    
+    negative {
+      n --> n1:Node;
+    }
+    negative {
+      n --> n2:Node;
+    }
   }
   
   replace {

@@ -57,6 +57,10 @@ public class Identifiable extends IR implements Attributed, Comparable {
 		return toString();
   }
 	
+	public String getNodeInfo() {
+		return ident.getNodeInfo();
+	}
+	
 	public String toString() {
 		return getName() + " " + ident;
 	}

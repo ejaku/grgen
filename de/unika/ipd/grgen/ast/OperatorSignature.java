@@ -42,7 +42,6 @@ public class OperatorSignature extends FunctionSignature {
 	public static final int CONST = 23;
 	public static final int COND = 24;
 	
-	
 	private static final int OPERATORS = COND + 1;
 	
 	/** Arity map of the operators. */
@@ -96,13 +95,13 @@ public class OperatorSignature extends FunctionSignature {
 	}
 	
 	/** Just a short form for the string type. */
-	final static private TypeNode STRING = BasicTypeNode.stringType;
+	static final TypeNode STRING = BasicTypeNode.stringType;
 	
 	/** Just a short form for the boolean type. */
-	final static private TypeNode BOOLEAN = BasicTypeNode.booleanType;
+	static final TypeNode BOOLEAN = BasicTypeNode.booleanType;
 	
 	/** Just a short form for the int type. */
-	final static private TypeNode INT = BasicTypeNode.intType;
+	static final TypeNode INT = BasicTypeNode.intType;
 	
 	/**
 	 * Each operator is mapped by its ID to a Map, which maps
@@ -117,8 +116,8 @@ public class OperatorSignature extends FunctionSignature {
 	 * @param resType The result type of the operator.
 	 * @param opTypes The operand types of the operator.
 	 */
-	final static private void makeOp(int id, TypeNode resType,
-																	 TypeNode[] opTypes, Evaluator eval) {
+	final static void makeOp(int id, TypeNode resType,
+													 TypeNode[] opTypes, Evaluator eval) {
 		
 		Integer oid = new Integer(id);
 		
@@ -134,8 +133,8 @@ public class OperatorSignature extends FunctionSignature {
 	 * This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	final static private void makeBinOp(int id, TypeNode res,
-																			TypeNode op0, TypeNode op1, Evaluator eval) {
+	final static void makeBinOp(int id, TypeNode res,
+															TypeNode op0, TypeNode op1, Evaluator eval) {
 		
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
@@ -145,15 +144,15 @@ public class OperatorSignature extends FunctionSignature {
 	 * This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	final static private void makeUnOp(int id, TypeNode res, TypeNode op0,
-																		 Evaluator eval) {
+	final static void makeUnOp(int id, TypeNode res, TypeNode op0,
+														 Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0 }, eval);
 	}
 	
 	/**
 	 * A class that represents an evaluator for constant expressions.
 	 */
-	private static class Evaluator {
+	static class Evaluator {
 		
 		public ConstNode evaluate(Coords coords, OperatorSignature op,
 															ConstNode[] args) {
@@ -520,6 +519,10 @@ public class OperatorSignature extends FunctionSignature {
 	 */
 	protected boolean isValid() {
 		return true;
+	}
+	
+	int getOpId() {
+		return id;
 	}
 	
 	

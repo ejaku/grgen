@@ -108,6 +108,6 @@ public class Rule extends MatchingAction {
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
 	public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object[] { pattern, right,  evaluation });
+		return new ArrayIterator(new Object[] { pattern, right, evaluation });
 	}
 }

@@ -456,7 +456,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 
 			//This checks the neggraph beeing a sub to pattern
 			if (negNodes.isEmpty() && negEdges.isEmpty() && !(negAllNode.isEmpty() && negAllEdges.isEmpty()))  {
-				//TODO Tell the user which rule and which neg-graph
+				// TODO Tell the user which rule and which neg-graph
 				error.warning("This negative graph is a subgraph of the pattern graph. This action is never applicable.");
 				//set bit to indicate special handling
 				negIsSubPattern = true;
@@ -848,7 +848,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			dep.add(nodeTable);
 			// Make type constraints
-			Term res = factory.isA(nodeTable, node.getNodeType(), typeID);
+			Term res = factory.isA(nodeTable, node, true, typeID);
 			
 			// Make the clauses guaranteeing injectiveness
 			// This must be done on the graph level; walking on processedEntities
@@ -895,7 +895,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 													 factory.expression(table.colEndId(!swapped)));
 			
 			// Also add conditions restricting the edge type here.
-			Term typeCond = factory.isA(table, edge.getEdgeType(), typeID);
+			Term typeCond = factory.isA(table, edge, false, typeID);
 			
 			// Put the incidence conditions into secondNodeCond
 			Term tgtCond = factory.expression(Opcodes.EQ,
