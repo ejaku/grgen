@@ -13,7 +13,6 @@ import java.util.*;
 import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
-import sun.security.krb5.internal.ccache.a1;
 
 
 /**
