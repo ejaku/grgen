@@ -4,9 +4,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * An expression node, denoting an assignment.
@@ -31,7 +32,7 @@ public class AssignNode extends BaseNode {
 	}
 	
 	protected IR constructIR() {
-		return new Assignment(getChild(LHS).constructIR(),
+		return new Assignment((Qualification)getChild(LHS).constructIR(),
 							  getChild(RHS).constructIR());
 	}
 }
