@@ -909,7 +909,7 @@ public abstract class SQLBackend extends CBackend {
 		sb.append("#define GR_HAVE_").append(name.toUpperCase()).append("_ATTR 1\n\n");
 
 		sb.append("static const char *cmd_create_" + name + "_attr = \n\"");
-		tableFactory.originalNodeAttrTable().dumpDecl(sb);
+		table.dumpDecl(sb);
 		sb.append("\";\n\n");
 
 		sb.append("static prepared_query_t cmd_get_").append(name).append("_attr[] = {\n");
