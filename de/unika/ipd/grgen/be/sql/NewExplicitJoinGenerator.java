@@ -388,9 +388,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 																														factory.aggregate(Aggregate.SUM, seq.getLastTableJoined().colId()))));
 			}
 			
-			Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
-			neutralMap.put(graph, neutral);
-			seq.addJoin(neutral, Join.INNER);
+			if(!seq.haveJoins()) {
+				Table neutral = tableFactory.neutralTable("neutral" + graphNumber);
+				neutralMap.put(graph, neutral);
+				seq.addJoin(neutral, Join.INNER);
+			}
 		}
 		
 		// Generate conditions related to NAC graphs
@@ -584,12 +586,33 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			buildConds();
 		}
 		
+		/**
+		 * Get the last table which was added to the sequence.
+		 * This method silently assumes, that the last table was an id table
+		 * so don't invoke this after adding a non-id table.
+		 * @return The last table.
+		 */
 		IdTable getLastTableJoined() {
-			assert joins.size() != 0;
+			IdTable res = null;
 			
-			Join j = ((Join) joins.get(joins.size()-1));
-			IdTable res = (IdTable) j.getRight();
+			if(currJoin instanceof IdTable)
+				res = (IdTable) currJoin;
+			else if(currJoin instanceof Join) {
+				Join j = (Join) currJoin;
+				res = (IdTable) j.getRight();
+			}
+			
 			return res;
+		}
+		
+		/**
+		 * Check, if there have already joins been made.
+		 * @return true, if there are joins in the sequence,
+		 * false, if the sequence is empty or consisting of a single
+		 * table.
+		 */
+		boolean haveJoins() {
+			return !joins.isEmpty();
 		}
 		
 		/**
@@ -1055,7 +1078,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			if(attrs.containsKey(KEY_LIMIT))
 				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
 			
-			List groupBy = columns; //same as selected entities
+			// Just add group by clauses, if we have a having clause.
+			List groupBy = having != null ? columns : null;
 			
 			Query result = factory.explicitQuery(true, columns, currJoin, groupBy, having, limit);
 			
@@ -1064,6 +1088,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 	}
 }
+
 
 
 
