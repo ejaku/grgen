@@ -108,6 +108,13 @@ public class RuleDeclNode extends TestDeclNode {
 					
 				
 			} else
+
+			if(b instanceof NodeDeclNode)
+				return null;
+			else
+			if(b instanceof EdgeDeclNode)
+				return null;
+			else
 				
 			if((new_type = __recursive_find_new_type(b, node)) != null)
 				return new_type;
@@ -164,7 +171,7 @@ public class RuleDeclNode extends TestDeclNode {
 				EdgeDeclNode decl = (EdgeDeclNode)node_or_edge;
 
 				if(!__recursive_find_decl(right, decl)) {
-					error.error(getCoords(), "assignment to attribute of deleted edge");
+					error.error(eval.getCoords(), "assignment to attribute of deleted edge");
 					return false;
 				}
 
@@ -173,7 +180,7 @@ public class RuleDeclNode extends TestDeclNode {
 				NodeDeclNode decl = (NodeDeclNode)node_or_edge;
 
 				if(!__recursive_find_decl(right, decl)) {
-					error.error(getCoords(), "assignment to attribute of deleted edge");
+					error.error(eval.getCoords(), "assignment to attribute of deleted edge");
 					return false;
 				}
 				
@@ -181,7 +188,7 @@ public class RuleDeclNode extends TestDeclNode {
 				MemberDeclNode member = (MemberDeclNode)lhs.getChild(1);
 				if(new_type != null) {
 					if(!__recursive_find_member_in_type(new_type, member)) {
-						error.error(getCoords(), "assignment to attribute removed by type change");
+						error.error(eval.getCoords(), "assignment to attribute removed by type change");
 						return false;
 					}
 				}
