@@ -206,7 +206,7 @@ public class Main extends Base {
 
 			DebugReporter dr = new DebugReporter(10);
 			dr.addHandler(debugHandler);
-			if(debugFilter != null) 
+			if(debugFilter != null)
 				dr.setFilter(debugFilter);
 			
 			if(invDebugFilter != null) {
@@ -234,15 +234,15 @@ public class Main extends Base {
 		  CmdLineParser.Option irDumpOpt = parser.addBooleanOption('i', "dump-ir");
 		  CmdLineParser.Option graphicOpt = parser.addBooleanOption('g', "graphic");
 		  		  
-		  CmdLineParser.Option beOpt = 
+		  CmdLineParser.Option beOpt =
 		    parser.addStringOption('b', "backend");
-			CmdLineParser.Option debugFilterOpt = 
+			CmdLineParser.Option debugFilterOpt =
 			  parser.addStringOption('f', "debug-filter");
-			CmdLineParser.Option invDebugFilterOpt = 
+			CmdLineParser.Option invDebugFilterOpt =
 				parser.addStringOption('F', "inverse-debug-filter");
 			CmdLineParser.Option prefsImportOpt =
 				parser.addStringOption('p', "prefs");
-			CmdLineParser.Option prefsExportOpt = 
+			CmdLineParser.Option prefsExportOpt =
 				parser.addStringOption('x', "prefs-export");
 		  CmdLineParser.Option optOutputPath =
 		  	parser.addStringOption('o', "output");
@@ -261,7 +261,7 @@ public class Main extends Base {
 			debugFilter = (String) parser.getOptionValue(debugFilterOpt);
 			invDebugFilter = (String) parser.getOptionValue(invDebugFilterOpt);
 			backend = (String) parser.getOptionValue(beOpt);
-			String s = (String) parser.getOptionValue(optOutputPath); 
+			String s = (String) parser.getOptionValue(optOutputPath);
 			outputPath = s != null ? s : System.getProperty("user.dir");
 			
 			prefsImport = (String) parser.getOptionValue(prefsImportOpt);
@@ -270,15 +270,15 @@ public class Main extends Base {
 			String[] rem = parser.getRemainingArgs();
 			if(rem.length == 0) {
 				printUsage();
-				System.exit(2); 
+				System.exit(2);
 			}
 			else
 			  inputFile = rem[0];
   	}
   	catch(CmdLineParser.OptionException e) {
-  		System.err.println(e.getMessage()); 
+  		System.err.println(e.getMessage());
   		printUsage();
-			System.exit(2); 		 	
+			System.exit(2);
   	}
   }
  
@@ -309,16 +309,16 @@ public class Main extends Base {
 	  debug.report(NOTE, "result: " + res);
 	  debug.leaving();
 	  
-	  return res; 
+	  return res;
  	}
  	
- 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor, 
+ 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
  		String suffix) {
 
 		debug.entering();
 
 		try {
-			FileOutputStream fos = 
+			FileOutputStream fos =
 			  new FileOutputStream(inputFile + "." + suffix + ".vcg");
 		
 			VCGDumper vcg = new VCGDumper(new PrintStream(fos));
@@ -326,7 +326,7 @@ public class Main extends Base {
 		  PrePostWalker walker = new PostWalker(visitor);
 			vcg.begin();
 			walker.reset();
-			walker.walk(node);								
+			walker.walk(node);
 			vcg.finish();
 
 			fos.close();
@@ -346,7 +346,7 @@ public class Main extends Base {
 		assert backend != null : "backend must be set to generate code.";
 		
     try {
-      BackendFactory creator = 
+      BackendFactory creator =
       	(BackendFactory) Class.forName(backend).newInstance();
       Backend be = creator.getBackend();
       
@@ -373,10 +373,10 @@ public class Main extends Base {
 	}
  
  	/**
- 	 * This is the main driver routine. 
- 	 * It pareses the input file, constructs the AST, 
- 	 * checks it, constructs the immediate representation and 
- 	 * emits the code. 
+ 	 * This is the main driver routine.
+ 	 * It pareses the input file, constructs the AST,
+ 	 * checks it, constructs the immediate representation and
+ 	 * emits the code.
  	 */
   private void run() {
 		parseOptions();
@@ -387,7 +387,7 @@ public class Main extends Base {
   	importPrefs();
   	
   	// Open graphic debug window if desired.
-		if(graphic) 
+		if(graphic)
 			makeMainFrame();
 		
 		// parse the input file and exit, if there were errors
@@ -395,36 +395,36 @@ public class Main extends Base {
 			System.exit(1);
 
 		if(!BaseNode.manifestAST(root)) {
-			if(dumpAST) 
+			if(dumpAST)
 				dumpVCG(root, new GraphDumpVisitor(), "error-ast");
-			System.exit(1);		
+			System.exit(1);
 		}
 
 
 		// Dump the rewritten AST.
-		if(dumpAST) 
+		if(dumpAST)
 			dumpVCG(root, new GraphDumpVisitor(), "ast");
 
 		/*
 		// Do identifier resolution (Rewrites the AST)
-		if(!BaseNode.resolveAST(root)) 
+		if(!BaseNode.resolveAST(root))
 			System.exit(2);
 		
 		// Dump the rewritten AST.
-		if(dumpAST) 
+		if(dumpAST)
 			dumpVCG(root, new GraphDumpVisitor(), "ast");
 
 		// Check the AST for consistency.
 		if(!BaseNode.checkAST(root))
 			System.exit(1);
-		*/	
+		*/
 		
 		// Construct the Immediate representation.
 		buildIR();
 		
 		// Dump the IR.
-		if(dumpIR) 
-			dumpVCG(irUnit, new DumpVisitor(), "ir");
+		if(dumpIR)
+			dumpVCG(irUnit, new GraphDumpVisitor(), "ir");
 			
 		debug.report(NOTE, "finished");
 			
@@ -440,7 +440,7 @@ public class Main extends Base {
 		
 		debug.leaving();
 			 
-  } 
+  }
   
   /**
    * Export the preferences.
@@ -449,7 +449,7 @@ public class Main extends Base {
     if(prefsExport != null) {
       try {
         FileOutputStream fos = new FileOutputStream(prefsExport);
-        prefs.exportSubtree(fos);    	
+        prefs.exportSubtree(fos);
       } catch (Exception e) {
         System.err.println(e.getMessage());
       }
@@ -479,7 +479,7 @@ public class Main extends Base {
 
 		// Please use my preferences implementation.
 		System.setProperty("java.util.prefs.PreferencesFactory",
-			packageName + ".util.MyPreferencesFactory"); 
+			packageName + ".util.MyPreferencesFactory");
   		 
   }
   
@@ -489,4 +489,4 @@ public class Main extends Base {
     main.run();
  	}
    
-} 
+}
