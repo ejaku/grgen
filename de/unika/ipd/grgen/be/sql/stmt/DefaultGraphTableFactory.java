@@ -125,9 +125,9 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		originalNodeTable = new DefaultNodeTable();
 		originalEdgeTable = new DefaultEdgeTable();		
 		originalNodeAttrTable = new DefaultAttributeTable(parameters.getTableNodeAttrs(), 
-			nodeAttrIndices);
+			parameters.getColNodeAttrNodeId(), nodeAttrIndices);
 		originalEdgeAttrTable = new DefaultAttributeTable(parameters.getTableEdgeAttrs(), 
-			nodeAttrIndices);
+			parameters.getColEdgeAttrEdgeId(), nodeAttrIndices);
 
 	}
 
@@ -416,15 +416,15 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	
 		final Map attrIndices;
 		
-		DefaultAttributeTable(String name, Entity ent, Map attrIndices) {
-			this(name, mangleEntity(ent) + "_attr", attrIndices);
+		DefaultAttributeTable(String name, String idCol, Entity ent, Map attrIndices) {
+			this(name, idCol, mangleEntity(ent) + "_attr", attrIndices);
 		}
 		
-		DefaultAttributeTable(String name, Map attrIndices) {
-			this(name, name, attrIndices);
+		DefaultAttributeTable(String name, String idCol, Map attrIndices) {
+			this(name, idCol, name, attrIndices);
 		}
 		
-		DefaultAttributeTable(String name, String alias, Map attrIndices) {
+		DefaultAttributeTable(String name, String idCol, String alias, Map attrIndices) {
 			super(name, alias);
 			this.attrIndices = attrIndices;
 			Set attrs = attrIndices.keySet();
@@ -494,13 +494,13 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 		return res;
 	}
 
-	private AttributeTable checkAttrTable(String name, Entity ent, Map indexMap) {
+	private AttributeTable checkAttrTable(String name, String idCol, Entity ent, Map indexMap) {
 		AttributeTable res;
 		
 		if(attrTables.containsKey(ent))
 			res = (AttributeTable) attrTables.get(ent);
 		else {
-			res = new DefaultAttributeTable(name, ent, indexMap);
+			res = new DefaultAttributeTable(name, idCol, ent, indexMap);
 			attrTables.put(ent, res);
 		}
 		
@@ -511,14 +511,16 @@ public class DefaultGraphTableFactory implements GraphTableFactory, TypeFactory 
 	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#nodeAttrTable(de.unika.ipd.grgen.ir.Node)
 	 */
 	public AttributeTable nodeAttrTable(Node node) {
-		return checkAttrTable(parameters.getTableNodeAttrs(), node, nodeAttrIndices);
+		return checkAttrTable(parameters.getTableNodeAttrs(), parameters.getColNodeAttrNodeId(),
+			node, nodeAttrIndices);
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory#edgeAttrTable(de.unika.ipd.grgen.ir.Edge)
 	 */
 	public AttributeTable edgeAttrTable(Edge edge) {
-		return checkAttrTable(parameters.getTableEdgeAttrs(), edge, edgeAttrIndices);
+		return checkAttrTable(parameters.getTableEdgeAttrs(), parameters.getColEdgeAttrEdgeId(),
+			edge, edgeAttrIndices);
 	}
 	
 	
