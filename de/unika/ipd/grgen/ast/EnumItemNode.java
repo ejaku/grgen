@@ -93,6 +93,7 @@ public class EnumItemNode extends MemberDeclNode {
   	debug.entering();
   	ExprNode expr = (ExprNode) getChild(VALUE);
   	ConstNode res = expr.evaluate().castTo(BasicTypeNode.intType);
+  	debug.report(NOTE, "type: " + res.getType());
   	int v = ((Integer) res.getValue()).intValue();
   	debug.report(NOTE, "result: " + res);
   	debug.leaving();

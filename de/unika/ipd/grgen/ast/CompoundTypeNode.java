@@ -30,7 +30,9 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 														 Resolver bodyResolver) {
 		this.bodyIndex = bodyIndex;
 		this.bodyChecker = bodyChecker;
-		addResolver(bodyIndex, bodyResolver);
+		
+		if(bodyResolver != null)
+			addResolver(bodyIndex, bodyResolver);
 	}
 		
 	public boolean fixupDefinition(IdentNode id) {

@@ -6,7 +6,6 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.DeclTypeChecker;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -33,7 +32,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	  new CollectChecker(new SimpleChecker(NodeTypeNode.class));
 	  
 	private static final Checker bodyChecker =
-	  new CollectChecker(new DeclTypeChecker(BasicTypeNode.class)); 
+	  new CollectChecker(new SimpleChecker(MemberDeclNode.class)); 
 
 	private static final Resolver extendsResolver = 
 		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));

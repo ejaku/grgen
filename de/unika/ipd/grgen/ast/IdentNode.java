@@ -16,7 +16,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 
-public class IdentNode extends BaseNode {
+public class IdentNode extends BaseNode implements DeclaredCharacter {
 	
 	static {
 		setName(IdentNode.class, "identifier");

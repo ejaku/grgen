@@ -24,16 +24,13 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	  new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
 	  
 	private static final Checker bodyChecker = 
-		new ChainChecker(new Checker[] {
-			new CollectChecker(new SimpleChecker(MemberDeclNode.class)),
-			new CollectChecker(new DeclTypeChecker(BasicTypeNode.class))
-		});	
+		new CollectChecker(new SimpleChecker(MemberDeclNode.class));
 
 	private static final Resolver extendsResolver = 
 		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
 
 	private static final Resolver bodyResolver = 
-		new CollectResolver(new DeclResolver(MemberDeclNode.class));
+		new CollectResolver(new DeclTypeResolver(MemberDeclNode.class));
 
 
 	/**

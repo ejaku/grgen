@@ -37,7 +37,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		new CollectResolver(new DeclResolver(EnumItemNode.class));
 
 	public EnumTypeNode(BaseNode body) {
-		super(ELEMENTS, childrenChecker, childrenResolver);
+		super(ELEMENTS, childrenChecker, null);
 		addChild(body);
 	}
 	

@@ -388,8 +388,12 @@ public class Main extends Base {
 		if(!parseInput(inputFile))
 			System.exit(1);
 
-		if(!BaseNode.manifestAST(root))
-			System.exit(1);
+		if(!BaseNode.manifestAST(root)) {
+			if(dumpAST) 
+				dumpVCG(root, new GraphDumpVisitor(), "error-ast");
+			System.exit(1);		
+		}
+
 
 		// Dump the rewritten AST.
 		if(dumpAST) 

@@ -359,8 +359,9 @@ enumDecl returns [ BaseNode res = initNode() ]
 	}
 	: "enum" id=identDecl pushScope[id] LBRACE c=enumList {
 		BaseNode enumType = new EnumTypeNode(c);
-		res = new TypeDeclNode(id, enumType);
-		res.addChild(c);
+		enumType.addChild(enumType);
+		id.setDecl(new TypeDeclNode(id, enumType));
+		res = id;
 	} RBRACE popScope;
 
 enumList returns [ BaseNode res = initNode() ]
