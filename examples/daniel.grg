@@ -154,15 +154,15 @@ test subgraph_as_neg {
 		negative { a; }
 	}
 }
-
+*/
 //=====================================================
 //
-//   Misc stuff
+//   Speed testing stuff
 //
 //=====================================================
 
 // Add counters to all IR_nodes
-rule add_ir_counter {
+rule counter {
     pattern {
         a: IR_node;
 
@@ -172,7 +172,8 @@ rule add_ir_counter {
 //    eval { c.count = 0; }
 }
 
-rule DCE {
+// Dead code elimination
+rule dce {
   pattern {
     a: Ordinary;
     negative {
@@ -187,22 +188,29 @@ rule DCE {
   }
 }
 
-test bug {
+test loop_3 {
 	pattern {
-		(a, b): Node;
+		node (a,b,c): Node;
+		a --> b --> c --> a;
+		negative { a --> b -->a; }
+		negative { a --> c -->a; }
+		negative { b --> c -->b; }
 	}
 }
-*/
 
-test hardcore {
+test fancy {
 	pattern {
-		node(a, b, c, d) :Node;
-		a --> b --> c <-- d --> a;
-		negative {
-			node(e, f, g, h) :Node;
-			b --> e --> f <-- h <-- g --> e;
-			c --> g;
-		}
-//		node(b, c, d, e, f, g, h) :Node;
+		a: Node;
+		node (b,c,d,e): Node;
+		a -:df-> b -:df-> c -:df-> d -:df-> e;
+		a -:df-> c;
+		b -:df-> d;
+		c -:df-> e;
+/*		negative {
+			x: Node;
+			d --> x <-- f;
+		}*/
 	}
 }
+
+
