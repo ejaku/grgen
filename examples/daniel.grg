@@ -139,9 +139,9 @@ test multiple_negs {
 // with count 23 for example.
 test cond_in_neg {
 	pattern {
-		c: Counter;
+		a: Node;
 		negative {
-			c;
+			a --> c: Counter;
 			if c.count == 0;
 		}
 	}
@@ -192,3 +192,4 @@ test bug {
 		(a, b): Node;
 	}
 }
+
