@@ -32,9 +32,10 @@ import java.util.Comparator;
 import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.util.Attributed;
+import de.unika.ipd.grgen.ast.BasicTypeNode;
 import java.util.Collections;
 
-public class FrameBasedBackend extends InformationCollector implements Backend, BackendFactory
+public class FrameBasedBackend extends MoreInformationCollector implements Backend, BackendFactory
 {
 	
 	private final int OUT = 0;
@@ -139,7 +140,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		sb = new StringBuffer();
 		genActionsInfo(sb);
 		writeFile("actions_info.inc", sb);
-		//gen description of the actions and conditions specified by the grg file
+		//gen description of the actions, conditions and evals specified by the grg file
 		sb = new StringBuffer();
 		genActionsDescr(sb);
 		writeFile("actions_descr.inc", sb);
@@ -150,6 +151,14 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		sb = new StringBuffer();
 		genConditionsCode(sb);
 		writeFile("conditions_code.inc", sb);
+		
+		System.out.println("  generating C code for the graph matching evals...");
+
+		//gen the C-code of the evals
+		sb = new StringBuffer();
+		collectEvalInfo();
+		genEvalsCode(sb);
+		writeFile("evals_code.inc", sb);
 		
 		
 		System.out.println("  generating XML overview...");
@@ -352,7 +361,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				"  {\n");
 			
 			//create a 2-dim array embeded in the struct, which keept the information
-			//wether the matcher is allowed to identify two given pattern nodes of
+			//whether the matcher is allowed to identify two given pattern nodes of
 			//the curren action
 			for (int i = 0; i < max_n_pattern_nodes; i++) {
 				sb.append("    { ");
@@ -372,7 +381,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				"  " + n_remove_edges + ", " + remove_edges_array + ",\n" +
 				"  { ");
 			
-			//gen a 1-dim array, wich tells wether a matched host graph node
+			//gen a 1-dim array, wich tells whether a matched host graph node
 			//is to be preserved by the replacement or not (corresponding
 			//pattern node number, a negative value otherwise)
 			for (int i = 0; i< max_n_pattern_nodes; i++) {
@@ -380,7 +389,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				if (i < max_n_pattern_nodes - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
-			//gen a 1-dim array, wich tells wether replacement node is
+			//gen a 1-dim array, wich tells whether replacement node is
 			//a preserved pattern node (corresponding
 			//pattern node number, a negative value otherwise)
 			for ( int i = 0; i < max_n_replacement_nodes; i++) {
@@ -388,7 +397,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				if (i < max_n_replacement_nodes - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
-			//gen a 1-dim array which tells wether a preserved replacement node
+			//gen a 1-dim array which tells whether a preserved replacement node
 			//changes type its type. If so, the value indexed by the repl. node
 			//number is the new type, and -1 (that is gr_id_invalid) otherwise.
 			//If a repl. node isn't a preserved node at all the value is
@@ -397,8 +406,27 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				sb.append("(gr_id_t)" + replacementNodeChangesTypeTo[act_id.intValue()][i]);
 				if (i < max_n_replacement_nodes - 1) sb.append(", ");
 			}
+			sb.append(" },\n  { ");
+			
+
+			//gen a 1-dim array, wich tells whether a matched host graph edge
+			//is to be preserved by the replacement or not (corresponding
+			//pattern edge number, a negative value otherwise)
+			for (int i = 0; i< max_n_pattern_edges; i++) {
+				sb.append(patternEdgeIsToBeKept[act_id.intValue()][i]);
+				if (i < max_n_pattern_edges - 1) sb.append(", ");
+			}
+			sb.append(" },\n  { ");
+			//gen a 1-dim array, wich tells whether replacement edge is
+			//a preserved pattern edge (corresponding
+			//pattern edge number, a negative value otherwise)
+			for ( int i = 0; i < max_n_replacement_edges; i++) {
+				sb.append(replacementEdgeIsPreservedEdge[act_id.intValue()][i]);
+				if (i < max_n_replacement_edges - 1) sb.append(", ");
+			}
 			sb.append(" },\n");
 			
+
 			//gen ptr to the array of newly insert edges
 			sb.append(
 				"  " + n_new_edges + ", " + new_edges_array + "\n" +
@@ -434,21 +462,52 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 	private int genOpSequence(Node startNode, MatchingAction action, StringBuffer sb)
 	{
 		Collection nodeVisited = new HashSet();
+		Collection nodeNotVisited = new HashSet();
 		Collection edgeVisited = new HashSet();
 		Collection alreadyCheckedConditions = new HashSet();
 		Collection alreadyCheckedTypeConditions = new HashSet();
-		nodeVisited.add(startNode);
+		nodeNotVisited.addAll(action.getPattern().getNodes());
+		
 		op_counter = 0;
-		
-		//gen op for the start node
-		genOp(startNode, null, action,
-			  nodeVisited, edgeVisited, alreadyCheckedConditions,
-			  alreadyCheckedTypeConditions, op_counter, sb);
-		
-		op_counter = 1;
-	    __deep_first_matcher_op_gen(
-			nodeVisited, edgeVisited, alreadyCheckedConditions,
-			alreadyCheckedTypeConditions, startNode, action, sb);
+
+		while( !nodeNotVisited.isEmpty() ) {
+			//pick out the node with the highest priority as start node
+			int max_prio = 0;
+			//get any node as initial node
+			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
+			for (Iterator node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+				Node node = (Node) node_it.next();
+				
+				//get the nodes priority
+				int prio = 0;
+				Attributes a = node.getAttributes();
+				if (a != null)
+					if (a.containsKey("prio") && a.isInteger("prio"))
+						prio = ((Integer) a.get("prio")).intValue();
+				
+				//if the current priority is greater, update the maximum priority node
+				if (prio > max_prio)
+				{
+					max_prio = prio;
+					max_prio_node = node;
+				}
+			}
+	
+			nodeVisited.add(max_prio_node);
+			nodeNotVisited.remove(max_prio_node);
+			
+			//gen op for the start node
+			genOp(max_prio_node, null, action,
+				  nodeVisited, edgeVisited, alreadyCheckedConditions,
+				  alreadyCheckedTypeConditions, op_counter, sb);
+			
+			++op_counter;
+			__deep_first_matcher_op_gen(
+				nodeVisited, edgeVisited, alreadyCheckedConditions,
+				alreadyCheckedTypeConditions, max_prio_node, action, sb);
+			
+			nodeNotVisited.removeAll(nodeVisited);
+		}
 		return op_counter;
 	}
 	
@@ -456,9 +515,9 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 	 * performs the actual deep first traversal and matcher op generation
 	 *
 	 * @param    nodeVisited         a Collection of Nodes, membership indicates
-	 *                               wether a node has already been visited
+	 *                               whether a node has already been visited
 	 * @param    edgeVisited         a Collection of Edges, membership indicates
-	 *                               wether an edge has already been visited
+	 *                               whether an edge has already been visited
 	 * @param    node                the current Node
 	 * @param    action              the action
 	 * @param    sb                  the StringBuffer the generated
@@ -508,7 +567,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		for ( ; incident_edge_it.hasNext(); ) {
 			Edge edge = (Edge) incident_edge_it.next();
 
-			//...and check wether the current edge has already been visited
+			//...and check whether the current edge has already been visited
 			if ( ! edgeVisited.contains(edge) ) {
 				//if the edge has not been visited yet mark it as visited
 				genOp(getFarEndNode(edge, node, pattern), edge, action,
@@ -570,7 +629,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		else if (nodeVisited.contains(node))
 			kind = "fb_matcher_op_check";
 		else {
-			/* op is an 'extend' or an 'check_or_extend'. That depends on wether
+			/* op is an 'extend' or an 'check_or_extend'. That depends on whether
 			   there's a node in the set of nodes already visited which is
 			   potentialy homomorphic to the node at the far end of the current edge */
 			//that for compute following intersection
@@ -596,7 +655,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
  			Collection involvedEdges =
 				new HashSet((Collection) conditionsInvolvedEdges.get(cond));
 
-			//check wether these nodes/edges have been visited already,
+			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
 			involvedNodes.remove(node);
 			if  (edge != null)
@@ -615,7 +674,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
  			Collection involvedEdges =
 				new HashSet((Collection) typeConditionsInvolvedEdges.get(type_cond));
 
-			//check wether these nodes/edges have been visited already,
+			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
 			involvedNodes.remove(node);
 			if (edge != null)
@@ -633,7 +692,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		Integer edge_num = new Integer(-1);
 		if (edge != null)
 			edge_num = (Integer) pattern_edge_num[act_id.intValue()].get(edge);
-		//check wether there are conditions computable in this op or not
+		//check whether there are conditions computable in this op or not
 		String isConditional =
 			(evaluatableConditions.isEmpty() &&
 				evaluatableTypeConditions.isEmpty()) ? "0" : "1";
@@ -741,7 +800,260 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		
 		return farEndNode;
 	}
+	
+	/**
+	 * Method genEvalsCode
+	 *
+	 * @param    sb                  a  StringBuffer
+	 *
+	 */
+	private void genEvalsCode(StringBuffer sb)
+	{
+		sb.append(
+			"/*\n" +
+				" * File 'evals_code.inc', created automatically by\n" +
+				" * the FrameBased-Backend of GrGen.\n" +
+				" *\n" +
+				" * The C code in this file represents the evaluations specified in the\n" +
+				" * evals sections of the GrGen input file '" + unit.getFilename() + "'.\n" +
+				" */\n" +
+				"\n\n");
+		
+		for(Iterator it = evalListMap.keySet().iterator(); it.hasNext(); ) {
+			//get the current eval list
+			Collection eval_list = (Collection)it.next();
 
+			Integer act_id = (Integer)evalListMap.get( eval_list );
+			MatchingAction current_action = (MatchingAction)evalActions.get( eval_list );
+				
+			/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */
+			Collection involved_nodes =
+				(Collection) evalInvolvedNodes.get( eval_list );
+			Collection involved_edges =
+				(Collection) evalInvolvedEdges.get( eval_list );
+
+			/*gen the code for the current eval */
+			sb.append(
+				"/* evaluations for action " + act_id + " */\n" +
+					"case " + act_id + ":\n"+
+					"{\n" +
+					"  /* local variables representing the 'ptr to' and the 'actual type of' the\n" +
+					"   * host graph images of pattern nodes/edges with the respective number */\n");
+			
+			//for all involved nodes gen two local variables, one representing
+			//the ptr to the host graph image of the node and the other representing
+			//that host graph nodes actual type (note that this type may be a SUB-type
+			//of the nodes type
+			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			{
+				Node current_node = (Node) node_it.next();
+				Integer node_num;
+				
+				node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
+				
+				if( node_num == null ) {
+					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+
+					sb.append(
+						"  fb_node_t *pattern_node" + node_num + " = get_host_node(" + node_num + ");\n" +
+						"  int type_pattern_node" + node_num + " = (int) pattern_node" + node_num + "->type;\n");
+				} else {
+					sb.append(
+						"  fb_node_t *replacement_node" + node_num + " = get_replacement_host_node(" + node_num + ");\n" +
+						"  int type_replacement_node" + node_num + " = (int) replacement_node" + node_num + "->type;\n");
+				}
+			}
+			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			{
+				Edge current_edge = (Edge) edge_it.next();
+
+				Integer edge_num;
+				
+				edge_num = (Integer)replacement_edge_num[ act_id.intValue() ].get(current_edge);
+				
+				if( edge_num == null ) {
+					edge_num = (Integer)pattern_edge_num[ act_id.intValue() ].get(current_edge);
+
+					sb.append(
+						"  fb_edge_t *pattern_edge" + edge_num + " = get_pattern_host_edge(" + edge_num + ");\n" +
+						"  int type_pattern_edge" + edge_num + " = (int) pattern_edge" + edge_num + "->type;\n");
+				} else {
+					sb.append(
+						"  fb_edge_t *replacement_edge" + edge_num + " = get_replacement_host_edge(" + edge_num + ");\n" +
+						"  int type_replacement_edge" + edge_num + " = (int) replacement_edge" + edge_num + "->type;\n");
+				}
+			}
+			//for attrs of the involved pattern nodes and edges gen a C variable
+			//representing the host node/edge attr index of that attr
+			sb.append(
+				"\n" +
+				"  /* local variables representing the attr indices of the involved node and edge attrs,\n" +
+				"   * for each pair of pattern-node/edge-num and attr-id occuring as a qualification\n" +
+				"   * expression in the evaluation, there's a variable representing that pair. */\n");
+			//for all involved pattern nodes
+			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			{
+				Node current_node = (Node) node_it.next();
+				String pattern_or_repl = "replacement";
+				
+				Integer node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
+				if( node_num == null ) {
+					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+					pattern_or_repl = "pattern";
+				}
+
+				Iterator attr_id_it =
+					((Collection) involvedEvalNodeAttrIds[ act_id.intValue() ].get( current_node )).iterator();
+				
+				for (; attr_id_it.hasNext(); )
+				{
+					
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
+					sb.append(
+						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_node" + node_num + " = " +
+							"fb_node_attr_index[type_" + pattern_or_repl + "_node"  + node_num + "][" + attr_id + "];\n" );
+				}
+			}
+			//for all involved pattern edges
+			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			{
+				Edge current_edge = (Edge) edge_it.next();
+				String pattern_or_repl = "replacement";
+				
+				Integer edge_num = (Integer) replacement_edge_num[ act_id.intValue() ].get(current_edge);
+				if( edge_num == null ) {
+					edge_num = (Integer)pattern_edge_num[ act_id.intValue() ].get(current_edge);
+					pattern_or_repl = "pattern";
+				}
+
+				
+				Iterator attr_id_it =
+					((Collection) involvedEvalEdgeAttrIds[ act_id.intValue() ].get( current_edge )).iterator();
+				for (; attr_id_it.hasNext(); )
+				{
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
+					sb.append(
+						"  int index_a" + attr_id + "_" + pattern_or_repl +  "_edge" + edge_num + " = " +
+							"fb_edge_attr_index[type_" + pattern_or_repl + "_edge"  + edge_num + "][" + attr_id + "];\n" );
+
+							/* "  assert ( " + pattern_or_repl + "_edge" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"    \"an attr kind tag found in a host graph edge does not conform\" &&\n" +
+							 "    \"with the kind computed by the generator\");\n"); */
+					/* old code					sb.append(
+						"  int index_a" + attr_id + "_e" + edge_num + " = " +
+							"fb_edge_attr_index[type_e" + edge_num + "][" + attr_id + "];\n" +
+							"  assert (edge_" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_e" + edge_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"   \"an attr kind tag found in a host graph edge does not conform\" &&" +
+					 "   \"with the kind computed by the generator\");\n");*/
+				}
+			}
+			//gen the code for actual evalutions in the eval_list
+			for ( Iterator evals_it = eval_list.iterator(); evals_it.hasNext(); ) {
+				Assignment eval = (Assignment)evals_it.next();
+
+				Qualification target = eval.getTarget();
+				Expression expr = eval.getExpression();
+				
+				sb.append(
+					"\n" +
+					"  /* set the left side attribute to initialized */\n" );
+				
+				_initialize_qual(sb, current_action, target);
+				
+				sb.append(
+					"\n" +
+					"  /* calculate right side expression and assign to left side */\n" +
+					"  " );
+				__recursive_expr_code_gen2( sb, current_action, target );
+				sb.append(
+					" = \n" +
+					"    ( " );
+				__recursive_expr_code_gen2( sb, current_action, expr );
+				sb.append(
+					" );\n\n" );
+			}
+			
+			sb.append(
+				"\n" +
+				"  /* now check whether the types in the calculations were right */\n" );
+			
+			/* check the types afterwards... should have been done before */
+			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			{
+				Node current_node = (Node) node_it.next();
+				String pattern_or_repl = "replacement";
+				
+				Integer node_num = (Integer) replacement_node_num[ act_id.intValue() ].get(current_node);
+				if( node_num == null ) {
+					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+					pattern_or_repl = "pattern";
+				}
+
+				
+				Iterator attr_id_it =
+					((Collection) involvedEvalNodeAttrIds[ act_id.intValue() ].get( current_node )).iterator();
+				for (; attr_id_it.hasNext(); )
+				{
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
+					sb.append(
+							"  /*assert ( " + pattern_or_repl + "_node" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"    \"an attr kind tag found in a host graph node does not conform\" &&\n" +
+							 "    \"with the kind computed by the generator\");*/\n");
+				}
+			}
+			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			{
+				Edge current_edge = (Edge) edge_it.next();
+				String pattern_or_repl = "replacement";
+				
+				Integer edge_num = (Integer) replacement_edge_num[ act_id.intValue() ].get(current_edge);
+				if( edge_num == null ) {
+					edge_num = (Integer)pattern_edge_num[ act_id.intValue() ].get(current_edge);
+					pattern_or_repl = "pattern";
+				}
+
+				
+				Iterator attr_id_it =
+					((Collection) involvedEvalEdgeAttrIds[ act_id.intValue() ].get( current_edge )).iterator();
+				for (; attr_id_it.hasNext(); )
+				{
+					Integer attr_id = (Integer) attr_id_it.next();
+					String kindStr =
+						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
+					sb.append(
+							"  /*assert ( " + pattern_or_repl + "_edge" + edge_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+							".kind == " + kindStr + " &&\n" +
+							"    \"an attr kind tag found in a host graph edge does not conform\" &&\n" +
+							 "    \"with the kind computed by the generator\");*/\n");
+				}
+			}
+			 
+			
+			sb.append(
+				"}\n" +
+				"break; /* end of processing evaluation for action " + act_id + " */\n\n\n");
+		}
+		sb.append(
+			"/* the default statement should never be reached */\n" +
+				"default:\n"+
+				"  assert( NULL && \"tried to call eval for unknown action_id\" );\n"+
+				"  break;\n"
+				);
+	}
+	
 	/**
 	 * Method genConditionsCode
 	 *
@@ -823,7 +1135,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				Integer node_num = (Integer) pattern_node_num[act_id].get(current_pattern_node);
 				
 				Iterator attr_id_it =
-					((Collection) involvedPatternNodeAttrIds[cond_num].get(node_num)).iterator();
+					((Collection) involvedPatternNodeAttrIds[cond_num].get( current_pattern_node )).iterator();
 				
 				for (; attr_id_it.hasNext(); )
 				{
@@ -834,11 +1146,11 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 					sb.append(
 						"  int index_a" + attr_id + "_n" + node_num + " = " +
 							"fb_node_attr_index[type_n" + node_num + "][" + attr_id + "];\n" +
-							"  assert (node_" + node_num +"->" +
+							"  /*assert (node_" + node_num +"->" +
 							"attr_values[index_a" + attr_id + "_n" + node_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"    \"an attr kind tag found in a host graph node does not conform\" &&\n" +
-							"    \"with the kind computed by the generator\");\n");
+							"    \"with the kind computed by the generator\");*/\n");
 				}
 			}
 			//for all involved pattern edges
@@ -848,7 +1160,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				Integer edge_num =(Integer) pattern_edge_num[act_id].get(current_pattern_edge);
 				
 				Iterator attr_id_it =
-					((Collection) involvedPatternEdgeAttrIds[cond_num].get(edge_num)).iterator();
+					((Collection) involvedPatternEdgeAttrIds[cond_num].get(current_pattern_edge)).iterator();
 				for (; attr_id_it.hasNext(); )
 				{
 					Integer attr_id = (Integer) attr_id_it.next();
@@ -857,11 +1169,11 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 					sb.append(
 						"  int index_a" + attr_id + "_e" + edge_num + " = " +
 							"fb_edge_attr_index[type_e" + edge_num + "][" + attr_id + "];\n" +
-							"  assert (edge_" + edge_num +"->" +
+							"  /*assert (edge_" + edge_num +"->" +
 							"attr_values[index_a" + attr_id + "_e" + edge_num + "]" +
 							".kind == " + kindStr + " &&\n" +
 							"   \"an attr kind tag found in a host graph edge does not conform\" &&" +
-							"   \"with the kind computed by the generator\");\n");
+							"   \"with the kind computed by the generator\");*/\n");
 				}
 			}
 			//gen the code for actual evalution of the cond
@@ -994,8 +1306,8 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			{
 				
 				//in binary expression both operands got to have the same type
-				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
-					"different operand types found in binary expression";
+//				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
+//					"different operand types found in binary expression";
 				
 				//if both operands are Strings, comparisions have to be performed
 				//via C function strcmp()
@@ -1111,7 +1423,9 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			if (owner instanceof Node)
 			{
 				int act_id = ((Integer) actionMap.get(act)).intValue();
+
 				Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
+				
 				Integer attr_id = (Integer) nodeAttrMap.get(attr);
 				
 				sb.append(
@@ -1142,6 +1456,7 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 			{
 				int act_id = ((Integer) actionMap.get(act)).intValue();
 				Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+				
 				Integer attr_id = (Integer) edgeAttrMap.get(attr);
 				
 				sb.append(
@@ -1171,7 +1486,279 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 		}
 		
 	}
+
+	/* just like __recursive_expr_code_gen but prefer replacement nodes/edges */
+	private void __recursive_expr_code_gen2(StringBuffer sb, MatchingAction act, Expression cond)
+	{
+		
+		if (sb == null || cond == null)	return;
+		
+		/* gen C-code for Operator-expressions */
+		if (cond instanceof Operator)
+		{
+			Operator op = (Operator) cond;
+			int opCode = op.getOpCode();
+			
+			// if the operator is a binary one...
+			if (opCode > 0 && opCode < 20)
+			{
+				
+				//in binary expression both operands got to have the same type
+//				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
+//					"different operand types found in binary expression";
+				
+				//if both operands are Strings, comparisions have to be performed
+				//via C function strcmp()
+				if ( op.getOperand(0).getType().classify() == Type.IS_STRING )
+				{
+					if ( opCode == Operator.EQ )
+					{
+						sb.append("( !strcmp(");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(", ");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
+						sb.append(") )");
+					}
+					if ( opCode == Operator.NE )
+					{
+						sb.append("strcmp(");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(", ");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
+						sb.append(")");
+					}
+				}
+					//otherwise gen a infix expression
+				else
+				{
+					String opSymbol = opSymbols[opCode];
+					sb.append("(");
+					__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+					sb.append(" " + opSymbol + " ");
+					__recursive_expr_code_gen2(sb, act, op.getOperand(1));
+					sb.append(")");
+				}
+			}
+				//if not...
+			else
+			{
+				switch (opCode)
+				{
+					case Operator.COND:
+						sb.append("(");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(" ? ");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
+						sb.append(" : ");
+						sb.append(")");
+						break;
+						
+					case Operator.LOG_NOT:
+						sb.append("(!");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.BIT_NOT:
+						sb.append("(~");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.NEG:
+						sb.append("(-");
+						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
+						sb.append(")");
+						break;
+						
+					case Operator.CAST:
+						//ATTENTION: Type casts are not implemented yet!!!!!
+						sb.append("NULL /* cast op not implemented yet!!! */");
+						break;
+				}
+			}
+		}
+		
+		/* gen C-code for constant expressions */
+		if (cond instanceof Constant)
+		{
+			Constant constant = (Constant) cond;
+			Type type = constant.getType();
+			
+			switch (type.classify())
+			{
+				
+				//emit C-code for string constants
+				case Type.IS_STRING:
+					sb.append("\"" + constant.getValue() + "\"");
+					break;
+					
+					//emit C-code for boolean constans
+				case Type.IS_BOOLEAN:
+					Boolean bool_const = (Boolean) constant.getValue();
+					if ( bool_const.booleanValue() )
+						sb.append("1"); /* true-value */
+					else
+						sb.append("0"); /* false-value */
+					break;
+					
+					//emit C-code for integer constants
+				case Type.IS_INTEGER:
+					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+			}
+		}
+		
+		/* gen C-code for qualification expressions */
+		if (cond instanceof Qualification)
+		{
+			Qualification qual = (Qualification) cond;
+			Entity owner = qual.getOwner();
+			Entity attr = qual.getMember();
+			
+			assert (owner instanceof Node) || (owner instanceof Edge):
+				"an entity which is neither a node nor an edge owns a graph attr";
+			
+			if (owner instanceof Node)
+			{
+				int act_id = ((Integer) actionMap.get(act)).intValue();
+				String pattern_or_repl = "replacement";
+				
+				//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
+				
+				Integer node_num = (Integer) replacement_node_num[ act_id ].get( owner );
+				if( node_num == null ) {
+					node_num = (Integer)pattern_node_num[ act_id ].get( owner );
+					pattern_or_repl = "pattern";
+				}
+
+				Integer attr_id = (Integer) nodeAttrMap.get(attr);
+				
+				sb.append(
+					pattern_or_repl + "_node" + node_num +
+						"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + " ].value.");
+				
+				int attr_kind = node_attr_info[attr_id.intValue()].kind;
+				switch (attr_kind)
+				{
+					case AttrTypeDescriptor.INTEGER:
+						sb.append("integer");
+						break;
+						
+					case AttrTypeDescriptor.BOOLEAN:
+						sb.append("boolean");
+						break;
+						
+					case AttrTypeDescriptor.STRING:
+						sb.append("str");
+						break;
+						
+					case AttrTypeDescriptor.ENUM:
+						sb.append("integer");
+						break;
+				}
+			}
+			if (owner instanceof Edge)
+			{
+				int act_id = ((Integer) actionMap.get(act)).intValue();
+				String pattern_or_repl = "replacement";
+				
+				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+				
+				Integer edge_num = (Integer) replacement_edge_num[ act_id ].get( owner );
+				if( edge_num == null ) {
+					edge_num = (Integer)pattern_edge_num[ act_id ].get( owner );
+					pattern_or_repl = "pattern";
+				}
+				
+				Integer attr_id = (Integer) edgeAttrMap.get(attr);
+				
+			sb.append(
+				pattern_or_repl + "_edge" + edge_num +
+					"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + " ].value.");
+			
+				int attr_kind = edge_attr_info[attr_id.intValue()].kind;
+				switch (attr_kind)
+				{
+					case AttrTypeDescriptor.INTEGER:
+						sb.append("integer");
+						break;
+						
+					case AttrTypeDescriptor.BOOLEAN:
+						sb.append("boolean");
+						break;
+						
+					case AttrTypeDescriptor.STRING:
+						sb.append("str");
+						break;
+						
+					case AttrTypeDescriptor.ENUM:
+						sb.append("integer");
+						break;
+				}
+			}
+		}
+		
+	}
+
+	private void _initialize_qual(StringBuffer sb, MatchingAction act, Qualification qual)
+	{
+		Entity owner = qual.getOwner();
+		Entity attr = qual.getMember();
+		
+		assert (owner instanceof Node) || (owner instanceof Edge):
+			"an entity which is neither a node nor an edge owns a graph attr";
+		
+		if (owner instanceof Node)
+		{
+			int act_id = ((Integer) actionMap.get(act)).intValue();
+			String pattern_or_repl = "replacement";
+			
+			//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
+			
+			Integer node_num = (Integer) replacement_node_num[ act_id ].get( owner );
+			if( node_num == null ) {
+				node_num = (Integer)pattern_node_num[ act_id ].get( owner );
+				pattern_or_repl = "pattern";
+			}
+
+			Integer attr_id = (Integer) nodeAttrMap.get(attr);
+			
+				sb.append(
+					"  if (" + pattern_or_repl + "_node" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+							".kind >= FB_ATTR_KIND_DIST )\n    " +
+							pattern_or_repl + "_node" + node_num +"->" +
+							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node" + node_num + "]" +
+							".kind -= FB_ATTR_KIND_DIST;\n" );
+
+		}
+		if (owner instanceof Edge)
+		{
+			int act_id = ((Integer) actionMap.get(act)).intValue();
+			String pattern_or_repl = "replacement";
+			
+			//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+			
+			Integer edge_num = (Integer) replacement_edge_num[ act_id ].get( owner );
+			if( edge_num == null ) {
+				edge_num = (Integer)pattern_edge_num[ act_id ].get( owner );
+				pattern_or_repl = "pattern";
+			}
+			
+			Integer attr_id = (Integer) edgeAttrMap.get(attr);
+			
+			sb.append(
+				"  if (" + pattern_or_repl + "_edge" + edge_num +"->" +
+						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+						".kind >= FB_ATTR_KIND_DIST )\n    " +
+						pattern_or_repl + "_edge" + edge_num +"->" +
+						"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_edge" + edge_num + "]" +
+						".kind -= FB_ATTR_KIND_DIST;\n" );
+		}
+	}
+
 	
+
 	/**
 	 * Method genActionsDescr
 	 *
@@ -1514,17 +2101,37 @@ public class FrameBasedBackend extends InformationCollector implements Backend, 
 				if (node_it.hasNext()) sb.append(",");
 				sb.append("\n");
 			}
-			sb.append("  };\n");
+			sb.append("  };\n\n");
 			graph_nodes_array = "all_nodes_of_" + graphName;
 		}
 		
+		//gen the array of edges of the current graph
+		String graph_edges_array = "NULL";
+		if (graph.getEdges().size() > 0) {
+			sb.append(
+				"fb_acts_edge_t *all_edges_of_" + graphName + "[" +
+					graph.getEdges().size() + "] = {\n");
+			//gen the edge ptr array
+			Iterator edge_it = graph.getEdges().iterator();
+			for ( ; edge_it.hasNext(); )
+			{
+				Edge edge = (Edge) edge_it.next();
+				int edge_num = ((Integer)edge_numbers.get(edge)).intValue();
+				sb.append(
+					"    &" + prefix + "edge_" + edge_num + postfix);
+				if (edge_it.hasNext()) sb.append(",");
+				sb.append("\n");
+			}
+			sb.append("  };\n\n");
+			graph_edges_array = "all_edges_of_" + graphName;
+		}
 		
 		/* gen the struct representing the hole pattern graph */
 		sb.append(
 			"/* the struct representing the hole graph */\n"  +
 			"fb_acts_graph_t " + graphName + " = {\n" +
 			"  " + graph.getNodes().size() + ", " + graph.getEdges().size() +
-				", " + graph_nodes_array + "\n");
+				", " + graph_nodes_array + ", " + graph_edges_array + "\n");
 		sb.append("};\n\n"); // end of graph struct
 	}
 	

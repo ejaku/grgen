@@ -501,7 +501,7 @@ public class InformationCollector extends CBackend
 
 		/* for all conditions (not type conditions!) the pairs
 		   (pattern_node_num, attr_id), which occur
-		   in qualifications at the leafes of the condition, are needed.
+		   in qualifications at the leaves of the condition, are needed.
 		   To obtain that compute a map
 		      condition_num -> pattern_node_num_ -> { attr_ids }
 		   implemented by an Array of Maps; usage is:
@@ -783,7 +783,7 @@ public class InformationCollector extends CBackend
 	 * @param    expr                an Expression
 	 *
 	 */
-	private void __recursive_qual_collect(int act_id, Map node_map, Map edge_map, Expression expr)
+	protected void __recursive_qual_collect(int act_id, Map node_map, Map edge_map, Expression expr)
 	{
 		if (expr == null) return;
 			
@@ -800,31 +800,31 @@ public class InformationCollector extends CBackend
 						
 			//if owner is a node, add to the node_map
 			if (owner instanceof Node) {
-				Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
-				Integer attr_id = (Integer) nodeAttrMap.get(member);
+				//Integer node_num = (Integer) pattern_node_num[ act_id ].get( owner );
+				Integer attr_id = (Integer) nodeAttrMap.get( member );
 	
 				//add the pair (node_num, attr_id to the map)
-				if (node_map.containsKey(node_num))
-					((Collection) node_map.get(node_num)).add(attr_id);
+				if (node_map.containsKey( owner ))
+					((Collection) node_map.get( owner )).add( attr_id );
 				else {
 					Collection newCol = new HashSet();
-					newCol.add(attr_id);
-					node_map.put(node_num, newCol);
+					newCol.add( attr_id );
+					node_map.put( owner, newCol );
 				}
 			}
 
 			//if owner is an edge. add to the edge_map
 			if (owner instanceof Edge) {
-				Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
+				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
 				Integer attr_id = (Integer) edgeAttrMap.get(member);
 	
 				//add the pair (edge_num, attr_id to the map)
-				if (edge_map.containsKey(edge_num))
-					((Collection) edge_map.get(edge_num)).add(attr_id);
+				if (edge_map.containsKey( owner ))
+					((Collection) edge_map.get( owner )).add(attr_id);
 				else {
 					Collection newCol = new TreeSet(integerComparator);
 					newCol.add(attr_id);
-					edge_map.put(edge_num, newCol);
+					edge_map.put(owner, newCol);
 				}
 			}
 		}
