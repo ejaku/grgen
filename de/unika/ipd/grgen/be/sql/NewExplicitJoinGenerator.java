@@ -1121,9 +1121,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 */
 		Query produceQuery(Term having) {
 			
-			
-			
-			
 			// If there's just one processed table (the singleton node)
 			// Add a join to the neutral table to create a join
 			if(processedTables.size() == 1) {
