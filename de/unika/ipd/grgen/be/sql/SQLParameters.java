@@ -31,6 +31,13 @@ public interface SQLParameters {
 	
 	/** The name of the edge attributes table. */
 	String getTableEdgeAttrs();
+
+	/** Get the name of the node type relation. */
+	String getTableTypeRel(boolean forNode);
+	
+	String getColTypeRelId(boolean forNode);
+	
+	String getColTypeRelIsAId(boolean forNode);
 	
 	/** The name of the node ID column. */
 	String getColNodesId();
@@ -55,5 +62,7 @@ public interface SQLParameters {
 	String getColEdgeAttrEdgeId();
 	
 	String getIdType();
+	
+	
 
 }

@@ -23,6 +23,8 @@ import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.libgr.graph.Graph;
 import java.io.File;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.HashSet;
 
 
 /**
@@ -76,10 +78,10 @@ public class Test extends Base implements Sys {
 		return false;
 	}
 
-	public JoinedFactory load(String filename) {
+	public JoinedFactory load(String filename, String db) {
 		JoinedFactory res = null;
 		ConnectionFactory connFactory =
-			new DefaultConnectionFactory("jdbc:postgresql:test", "postgres", "");
+			new DefaultConnectionFactory("jdbc:postgresql:" + db, "postgres", "");
 		
 		SQLParameters params = new PreferencesSQLParameters();
 		SQLBackend backend = new SQLBackend(params, connFactory);
@@ -98,9 +100,13 @@ public class Test extends Base implements Sys {
 
 	public void run(String filename) {
 		modelPath = new File(filename).getAbsoluteFile().getParentFile();
-		JoinedFactory factory = load(filename);
+		JoinedFactory factory = load(filename, "gr_firmact_grs_firm");
 	
-		Graph g = factory.getGraph("Test", false);
+		Graph g = factory.getGraph("test", false);
+		
+		Collection c = g.putAllNodesInstaceOf(g.getTypeModel().getNodeRootType(),
+																					new HashSet());
+		System.out.println(c);
 	}
 	
 	Test() {
@@ -109,8 +115,10 @@ public class Test extends Base implements Sys {
 		reporter = new ErrorReporter();
 		reporter.addHandler(handler);
 		
-		DebugReporter deb = new DebugReporter(10);
+		DebugReporter deb = new DebugReporter(15);
+		deb.addHandler(handler);
 		
+		deb.setFilter("grgen");
 		Base.setReporters(deb, reporter);
 		// Base.debug.addHandler(handler);
 		loadJDBCDrivers();

@@ -52,6 +52,18 @@ public class PreferencesSQLParameters implements SQLParameters {
 	protected final String idType;
 	
 	protected final String tableNeutral;
+	
+	protected final String tableNodeTypeRel;
+	
+	protected final String tableEdgeTypeRel;
+
+	protected final String colNodeTypeRelId;
+	
+	protected final String colNodeTypeRelIsAId;
+
+	protected final String colEdgeTypeRelId;
+
+	protected final String colEdgeTypeRelIsAId;
 
 	private final static String getOrSet(Preferences prefs, String key,
 																			 String defaultValue) {
@@ -77,6 +89,12 @@ public class PreferencesSQLParameters implements SQLParameters {
 		colNodeAttrNodeId = getOrSet(prefs, "colNodeAttrNodeId", "node_id");
 		colEdgeAttrEdgeId = getOrSet(prefs, "colEdgeAttrEdgeId", "edge_id");
 		idType = getOrSet(prefs, "idType", "INT");
+		tableNodeTypeRel = getOrSet(prefs, "tableNodeTypeRel", "node_type_rel");
+		tableEdgeTypeRel = getOrSet(prefs, "tableEdgeTypeRel", "edge_type_rel");
+		colNodeTypeRelId = getOrSet(prefs, "colNodeTypeRelId", "rel_type_id");
+		colNodeTypeRelIsAId = getOrSet(prefs, "colNodeTypeIsAId", "rel_isa_id");
+		colEdgeTypeRelId = getOrSet(prefs, "colEdgeTypeIsAId", "rel_type_id");
+		colEdgeTypeRelIsAId = getOrSet(prefs, "colEdgeTypeIsAId", "rel_isa_id");
 		
 		try {
 			prefs.sync();
@@ -170,5 +188,21 @@ public class PreferencesSQLParameters implements SQLParameters {
 	public String getIdType() {
 		return idType;
 	}
+	
+	public String getColTypeRelId(boolean forNode) {
+		return forNode ? colNodeTypeRelId : colEdgeTypeRelId;
+	}
+	
+	public String getColTypeRelIsAId(boolean forNode) {
+		return forNode ? colNodeTypeRelIsAId : colEdgeTypeRelIsAId;
+	}
+	
+	/** Get the name of the node type relation. */
+	public String getTableTypeRel(boolean forNode) {
+		return forNode ? tableNodeTypeRel : tableEdgeTypeRel;
+	}
+	
+	
+
 
 }

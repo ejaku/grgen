@@ -39,5 +39,13 @@ public class DefaultIntegerId implements IntegerId {
 	public boolean equals(Object obj) {
 		return obj instanceof IntegerId ? ((IntegerId) obj).getId() == id : false;
 	}
+	
+	/**
+	 * Get the string representation of this id.
+	 * @return A string identifying this id.
+	 */
+	public String toString() {
+		return "" + id;
+	}
 
 }

@@ -11,14 +11,11 @@ import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
 import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.DummyCollection;
 import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.MultiplexOutputStream;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import de.unika.ipd.grgen.util.VCGDumper;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
@@ -307,13 +304,15 @@ public class SQLGenerator extends Base {
 																								 Collection usedEntities) {
 		
 		Qualification tgt = a.getTarget();
+		Entity owner = tgt.getOwner();
 		Expression expr = a.getExpression();
 		Column col = getQualCol(tgt, factory, true);
 		IdTable table = (IdTable) col.getRelation();
+		UpdateQualGen qg = new UpdateQualGen(owner);
 		
 		Term term = genExprSQL(expr, ms, factory,
-													 usedEntities,
-													 new UpdateQualGen(tgt.getOwner()));
+													 DummyCollection.EMPTY, qg);
+
 		
 		List cols = Collections.singletonList(col);
 		List exprs = Collections.singletonList(term);
@@ -321,6 +320,9 @@ public class SQLGenerator extends Base {
 		Term condition = factory.expression(Opcodes.EQ,
 																				factory.expression(table.colId()),
 																				factory.markerExpression(ms, factory.getIdType()));
+
+		usedEntities.addAll(qg.getMarkedEntities());
+		usedEntities.add(owner);
 		
 		return factory.makeUpdate(table, cols, exprs, condition);
 	}
@@ -347,6 +349,7 @@ public class SQLGenerator extends Base {
 	protected static class UpdateQualGen implements QualGenerator {
 		
 		private final Entity ent;
+		private final Collection markedEntites = new LinkedList();
 		
 		public UpdateQualGen(Entity ent) {
 			this.ent = ent;
@@ -357,10 +360,20 @@ public class SQLGenerator extends Base {
 												MetaFactory factory) {
 			
 			Entity owner = qual.getOwner();
+			Term res = null;
+			
 			if(owner.equals(ent))
-				return qualOriginalColExpr.genQual(qual, ms, factory);
-			else
-				return qualSubqueryExpr.genQual(qual, ms, factory);
+				res = qualOriginalColExpr.genQual(qual, ms, factory);
+			else {
+				res = qualSubqueryExpr.genQual(qual, ms, factory);
+				markedEntites.add(owner);
+			}
+			
+			return res;
+		}
+		
+		public Collection getMarkedEntities() {
+			return markedEntites;
 		}
 	}
 	

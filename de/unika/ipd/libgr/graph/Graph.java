@@ -8,6 +8,7 @@ package de.unika.ipd.libgr.graph;
 
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.libgr.Named;
+import java.util.Collection;
 
 /**
  * A graph.
@@ -34,16 +35,18 @@ public interface Graph extends Named {
 	 * Remove a node from the graph.
 	 * Note that incident edges to the node are also deleted.
 	 * @param node The node to remove.
-	 * @return true, if the node was in the graph, false if not. 
+	 * @return true, if the node was in the graph, false if not.
 	 */
 	boolean remove(Node node);
 
 	/**
 	 * Remove an edge from the graph.
 	 * @param edge The edge to remove.
-	 * @return true, if the edge was in the graph, false if not. 
+	 * @return true, if the edge was in the graph, false if not.
 	 */
 	boolean remove(Edge edge);
+	
+	Collection putAllNodesInstaceOf(NodeType type, Collection coll);
 	
 	/**
 	 * Dump the graph.
