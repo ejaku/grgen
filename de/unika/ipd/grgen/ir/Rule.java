@@ -1,5 +1,5 @@
 /**
- * @author shack
+ * @author shack, Daniel Grund
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
@@ -20,7 +20,7 @@ public class Rule extends MatchingAction
 	/** Names of the children of this node. */
 	private static final String[] childrenNames =
 	{
-		"left", "right", "cond", "eval"
+		"left", "neg", "right", "cond", "eval"
 	};
 	
 	/** The right hand side of the rule. */
@@ -44,9 +44,9 @@ public class Rule extends MatchingAction
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, Graph left, Graph right)
+	public Rule(Ident ident, Graph left, Graph neg, Graph right)
 	{
-		super("rule", ident, left);
+		super("rule", ident, left, neg);
 		setChildrenNames(childrenNames);
 		this.right = right;
 		left.setNameSuffix("left");
@@ -114,8 +114,11 @@ public class Rule extends MatchingAction
 		{
 			Edge e = (Edge) it.next();
 			
-			if(e.isAnonymous())
+			if (e.isAnonymous()) {
 				right.replaceSimilarEdges(pattern, e);
+				//TOODO Is this right?
+				neg.replaceSimilarEdges(pattern, e);
+			}
 		}
 	}
 	
@@ -133,6 +136,18 @@ public class Rule extends MatchingAction
 	}
 	
 	/**
+	 * Get the set of nodes the graph g1 and g2 have in common.
+	 * @return A set with nodes, that occur in both graphs.
+	 */
+	//TODO DG move this into graph and adapt it
+	public Collection getCommonNodes(Graph g1, Graph g2) {
+		Collection c1 = g1.getNodes(new HashSet());
+		Collection c2 = g2.getNodes(new HashSet());
+		c1.retainAll(c2);
+		return c1;
+	}	
+	
+	/**
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
 	 */
@@ -146,6 +161,17 @@ public class Rule extends MatchingAction
 	}
 	
 	/**
+	 * Get the set of edges the graph g1 and g2 have in common.
+	 * @return A set with edges, that occur in both graphs.
+	 */
+	public Collection getCommonEdges(Graph g1, Graph g2) {
+		Collection c1 = g1.getEdges(new HashSet());
+		Collection c2 = g2.getEdges(new HashSet());
+		c1.retainAll(c2);
+		return c1;
+	}
+
+	/**
 	 * Get the left hand side.
 	 * @return The left hand side graph.
 	 */
@@ -153,7 +179,7 @@ public class Rule extends MatchingAction
 	{
 		return pattern;
 	}
-	
+
 	/**
 	 * Get the right hand side.
 	 * @return The right hand side graph.
@@ -168,7 +194,7 @@ public class Rule extends MatchingAction
 	 */
 	public Iterator getWalkableChildren()
 	{
-		return new ArrayIterator(new Object[] { pattern, right,
+		return new ArrayIterator(new Object[] { pattern, neg, right,
 				condition, evaluation });
 	}
 }

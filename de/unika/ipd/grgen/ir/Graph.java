@@ -20,7 +20,7 @@ import de.unika.ipd.grgen.util.Walkable;
 
 /**
  * A graph pattern. 
- * This is used for tests and the left and right sides of a rule.
+ * This is used for tests and the left and right sides and the NAC part of a rule.
  * These graphs have own classes for the nodes and edges as proxy objects
  * to the actual Node and Edge objects. The reason for this is:
  * The nodes and edges in a rule   that are common to the left and the right 
@@ -50,14 +50,14 @@ public class Graph extends IR {
 			this.node = n;
 		}
 
-    /**
-     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-     */
-    public Iterator getWalkableChildren() {
-    	return new MultiIterator(new Collection[] {
-    		outgoing, incoming
-    	});
-    }
+		/**
+		 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+		 */
+		public Iterator getWalkableChildren() {
+	    	return new MultiIterator(new Collection[] {
+	    		outgoing, incoming
+	    	});
+	    }
 	}
 	
 	protected class GraphEdge extends Edge {
@@ -70,16 +70,15 @@ public class Graph extends IR {
 			this.edge = e;
 		}
 
-    /**
-     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-     */
-    public Iterator getWalkableChildren() {
-    	assert source != null && target != null : "edge must be initalized";
-    	return new ArrayIterator(new Object[] {
-				source, target
-    	});
-    }
-
+	    /**
+	     * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	     */
+	    public Iterator getWalkableChildren() {
+	    	assert source != null && target != null : "edge must be initalized";
+	    	return new ArrayIterator(new Object[] {
+					source, target
+	    	});
+	    }
 	}
 
 	/** Map that maps a node to an internal node. */
