@@ -18,6 +18,7 @@ public interface Query extends Relation {
 	
 	List getRelations();
 	Term getCondition();
+	void setCondition(Term cond);
 	
 	void graphDump(GraphDumper dumper);
 
