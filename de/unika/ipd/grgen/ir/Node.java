@@ -4,6 +4,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,10 +26,21 @@ public class Node extends Entity {
    * @param ident The identifier that declared the node.
    * @param type The node type of the node.
    */
-  public Node(Ident ident, NodeType type) {
-    super("node", ident, type);
+//  public Node(Ident ident, NodeType type) {
+//		this(ident, type, EmptyAttributes.get());
+//  }
+	
+  /**
+   * Make a new node.
+   * @param ident The identifier that declared the node.
+   * @param type The node type of the node.
+	 * @param attr Some attributes.
+   */
+	public Node(Ident ident, NodeType type, Attributes attr) {
+		super("node", ident, type, attr);
     this.replaceType = type;
-  }
+	}
+		
 	  
 	/**
 	 * Get the type of the node.
@@ -39,7 +52,7 @@ public class Node extends Entity {
   }
   
   /**
-   * Get the type of the node after a rule has finished. 
+   * Get the type of the node after a rule has finished.
    * @return The post rule type of the node.
    */
   public NodeType getReplaceType() {
@@ -52,7 +65,7 @@ public class Node extends Entity {
    * @param nt The new type of the node.
    */
   public void setReplaceType(NodeType nt) {
-		replaceType = nt;  	
+		replaceType = nt;
   }
   
   /**
@@ -66,8 +79,8 @@ public class Node extends Entity {
 	/**
 	 * Add a node that is homomorphic to this one.
 	 * It does not care, if you add <code>this</code>. This method adds
-	 * this node to the homomorphic set of <code>n</code>. 
-	 * 
+	 * this node to the homomorphic set of <code>n</code>.
+	 *
 	 * @param n Another node.
 	 */
 	public void addHomomorphic(Node n) {

@@ -6,14 +6,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.DefaultAttributes;
+import de.unika.ipd.grgen.util.EmptyAttributes;
+import java.awt.Color;
 
 public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
 	
@@ -167,8 +166,16 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 */
 	public Attributes getAttributes() {
 		if(attributes == null)
-			attributes = new DefaultAttributes();
+			attributes = EmptyAttributes.get();
 		
 		return attributes;
+	}
+	
+	/**
+	 * Set attributes for this ident node.
+	 * @param attr The attributes.
+	 */
+	public void setAttributes(Attributes attr) {
+		attributes = attr;
 	}
 }

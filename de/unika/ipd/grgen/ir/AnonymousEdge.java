@@ -7,6 +7,8 @@ package de.unika.ipd.grgen.ir;
 /**
  * An anonymous edge.
  */
+import de.unika.ipd.grgen.util.EmptyAttributes;
+
 public class AnonymousEdge extends Edge {
 
   /**
@@ -15,7 +17,7 @@ public class AnonymousEdge extends Edge {
    * @param type The edge type.
    */
   public AnonymousEdge(Ident ident, EdgeType type) {
-    super(ident, type);
+    super(ident, type, EmptyAttributes.get());
   }
 
   /**

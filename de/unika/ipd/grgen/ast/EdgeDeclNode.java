@@ -62,8 +62,9 @@ public class EdgeDeclNode extends DeclNode implements EdgeCharacter {
 		// This must be ok after checking all nodes.
 		TypeNode tn = (TypeNode) getDeclType();
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
+		IdentNode ident = getIdentNode();
 		
-		Edge edge = new Edge(getIdentNode().getIdent(), et);
+		Edge edge = new Edge(ident.getIdent(), et, ident.getAttributes());
 		return edge;
 	}
 	

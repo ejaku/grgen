@@ -4,23 +4,27 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Iterator;
-
+import de.unika.ipd.grgen.util.Attributed;
+import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.EmptyAttributes;
 import de.unika.ipd.grgen.util.SingleIterator;
+import java.util.Iterator;
 
 /**
  * An instantiation of a type.
  */
-public class Entity extends Identifiable {
+public class Entity extends Identifiable implements Attributed {
 	
 	private static final String[] childrenNames = { "type" };
 	
 	/** Type of the entity. */
-	private Type type;
+	private final Type type;
 
 	/** The entity's owner. */
 	private Type owner = Type.getGlobal();
 	
+	/** The attributes of this entity. */
+	private final Attributes attributes;
 
   /**
    * Make a new entity of a given type
@@ -28,14 +32,15 @@ public class Entity extends Identifiable {
    * @param ident The declaring identifier.
    * @param type The type used in the declaration.
    */
-  protected Entity(String name, Ident ident, Type type) {
+  protected Entity(String name, Ident ident, Type type, Attributes attr) {
   	super(name, ident);
 		setChildrenNames(childrenNames);
   	this.type = type;
+		this.attributes = attr;
   }
   
-  public Entity(Ident ident, Type type) {
-  	this("entity", ident, type);
+  public Entity(Ident ident, Type type, Attributes attr) {
+  	this("entity", ident, type, attr);
   }
   
   /**
@@ -71,4 +76,12 @@ public class Entity extends Identifiable {
     owner = type;
   }
 
+	/**
+	 * Get the attributes.
+	 * @return The atttributes.
+	 */
+	public Attributes getAttributes() {
+		return attributes;
+	}
+	
 }

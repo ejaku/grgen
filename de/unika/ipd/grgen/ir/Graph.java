@@ -4,19 +4,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.util.ArrayIterator;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumpableProxy;
-import de.unika.ipd.grgen.util.MultiIterator;
-import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.*;
+import java.util.*;
 
 /**
  * A graph pattern.
@@ -44,7 +33,7 @@ public class Graph extends IR {
 		protected Node node;
 		
 		public GraphNode(Node n) {
-			super(n.getIdent(), n.getNodeType());
+			super(n.getIdent(), n.getNodeType(), EmptyAttributes.get());
 			this.incoming = new HashSet();
 			this.outgoing = new HashSet();
 			this.node = n;
@@ -66,7 +55,7 @@ public class Graph extends IR {
 		protected Edge edge;
 		
 		public GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType());
+			super(e.getIdent(), e.getEdgeType(), EmptyAttributes.get());
 			this.edge = e;
 		}
 

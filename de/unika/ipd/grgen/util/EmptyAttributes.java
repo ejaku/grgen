@@ -12,6 +12,12 @@ package de.unika.ipd.grgen.util;
  */
 public class EmptyAttributes implements Attributes {
 
+	private static final Attributes EMPTY = new EmptyAttributes();
+	
+	public static Attributes get() {
+		return EMPTY;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.util.Attributes#containsKey(java.lang.String)
 	 */

@@ -101,8 +101,9 @@ public class NodeDeclNode extends DeclNode implements NodeCharacter {
 		// This cast must be ok after checking.
 		NodeTypeNode tn = (NodeTypeNode) getDeclType();
 		NodeType nt = tn.getNodeType();
+		IdentNode ident = getIdentNode();
 		
-		Node res = new Node(getIdentNode().getIdent(), nt);
+		Node res = new Node(ident.getIdent(), nt, ident.getAttributes());
 		
 		// Add all homomorphic nodes in the collect node to
 		// the constructed IR node of this node.

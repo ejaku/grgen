@@ -176,9 +176,9 @@ tokens {
     }
     
     private void makeBuiltin() {
-    	nodeRoot = predefineType("Node", 
+    	nodeRoot = predefineType("Node",
     	  new NodeTypeNode(new CollectNode(), new CollectNode(), 0));
-			edgeRoot = predefineType("Edge", 
+			edgeRoot = predefineType("Edge",
 			  new EdgeTypeNode(new CollectNode(), new CollectNode(),  new CollectNode(), 0));
 			
 			predefineType("int", BasicTypeNode.intType);
@@ -287,7 +287,7 @@ edgeClassDecl[int modifiers] returns [ BaseNode res = initNode() ]
 	IdentNode id;
   }
   
-	: "edge" "class"! id=identDecl ext=edgeExtends cas=connectAssertions pushScope[id] 
+	: "edge" "class"! id=identDecl ext=edgeExtends cas=connectAssertions pushScope[id]
 		(LBRACE! body=edgeClassBody RBRACE! | SEMI) {
 
 		EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
@@ -302,7 +302,7 @@ nodeClassDecl![int modifiers] returns [ BaseNode res = initNode() ]
   	IdentNode id;
   }
 
-	: "node" "class"! id=identDecl ext=nodeExtends pushScope[id] 
+	: "node" "class"! id=identDecl ext=nodeExtends pushScope[id]
 	  (LBRACE! body=nodeClassBody RBRACE! | SEMI) {
 
 		NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
@@ -318,7 +318,7 @@ connectAssertions returns [ CollectNode c = new CollectNode() ]
 
 connectAssertion [ CollectNode c ]
 	{ BaseNode src, srcRange, edge, tgt, tgtRange; }
-	: src=identUse srcRange=rangeSpec RARROW 
+	: src=identUse srcRange=rangeSpec RARROW
 	  tgt=identUse tgtRange=rangeSpec
 	{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
@@ -360,8 +360,8 @@ rangeSpec returns [ BaseNode res = initNode() ]
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
 	}
 	: (	l:LBRACK { coords = getCoords(l); }
-			( 	(STAR | PLUS { lower=1; }) | 
-				lower=integerConst ( COLON ( STAR | upper=integerConst ) )? 
+			( 	(STAR | PLUS { lower=1; }) |
+				lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
 		) RBRACK
 	  )?
 	{
@@ -480,7 +480,7 @@ testDecl returns [ BaseNode res = initNode() ]
   	}
   	: "test" id=identDecl pushScope[id] LBRACE!
   	  pattern=patternPart
-      ( condPart[cond] )? 
+      ( condPart[cond] )?
       ( negativePart[neg] )* {
       id.setDecl(new TestDeclNode(id, pattern, neg, cond));
       res = id;
@@ -607,18 +607,18 @@ redirectStmt [ BaseNode c ]
 	;
 	
 term [ BaseNode connColl ]
-	{ 
+	{
 		IdentNode edgeType;
 		IdentNode attr;
 	}
-	: "term" LPAREN edgeType=identUse COMMA attr=identUse RPAREN 
-			LBRACE termBody[edgeType, connColl] RBRACE 
-	;	
+	: "term" LPAREN edgeType=identUse COMMA attr=identUse RPAREN
+			LBRACE termBody[edgeType, connColl] RBRACE
+	;
 
 /**
  * A Term body.
  * A term body is basically a node declaration with other seperated
- * node declaration in parentheses. These other decls are connected 
+ * node declaration in parentheses. These other decls are connected
  * with edges of a certain type to the "root".
  */
 termBody [ IdentNode edgeType, BaseNode connColl ] returns [ BaseNode res = initNode(); ]
@@ -627,13 +627,13 @@ termBody [ IdentNode edgeType, BaseNode connColl ] returns [ BaseNode res = init
 		List coords = new LinkedList();
 		BaseNode child;
 	}
-	: res=patternNodeDecl l:LPAREN child=termBody[edgeType, connColl] { 
-			childs.addChild(child); 
+	: res=patternNodeDecl l:LPAREN child=termBody[edgeType, connColl] {
+			childs.addChild(child);
 			coords.add(getCoords(l));
-		} 
+		}
 		
-		(comma:COMMA child=termBody[edgeType, connColl] { 
-			childs.addChild(child); 
+		(comma:COMMA child=termBody[edgeType, connColl] {
+			childs.addChild(child);
 			coords.add(getCoords(comma));
 		})* RPAREN {
 				
@@ -765,7 +765,7 @@ patternEdge returns [ BaseNode res = null ]
 				decls[i] = new NodeDeclNode(idents[i], type, colls[i]);
 			}
 
-			//Add homomorphic nodes 
+			//Add homomorphic nodes
 			for(int i = 0; i < idents.length; i++)
 				for(int j = 0 /*i + 1*/; j < idents.length; j++)
 					if (i != j) colls[i].addChild(idents[j]);
@@ -945,18 +945,21 @@ identDecl returns [ IdentNode res = getDummyIdent() ]
  * Attributed declaration of an identifier
  */
 attrIdentDecl returns [ IdentNode res = getDummyIdent() ]
-	: res=identDecl (LBRACK keyValuePairs[res] RBRACK)?
+  { Attributes attr = EmptyAttributes.get(); }
+	: res=identDecl (LBRACK attr=keyValuePairs RBRACK)? {
+	  res.setAttributes(attr);
+	}
 	;
 	
-keyValuePairs [ Attributed attr ]
+keyValuePairs returns [ Attributes attr = new DefaultAttributes(); ]
   : keyValuePair[attr] (COMMA keyValuePair[attr])
-  ;	  
+  ;
 
-keyValuePair[ Attributed attr ]
+keyValuePair[ Attributes attr ]
   { BaseNode c; }
 	: i:IDENT ASSIGN c=constant {
-		if(c instanceof ConstNode) 
-			attr.getAttributes().put(i.getText(), ((ConstNode) c).getValue());
+		if(c instanceof ConstNode)
+			attr.put(i.getText(), ((ConstNode) c).getValue());
 	};
 	
 /**
@@ -1191,11 +1194,6 @@ qualIdent returns [ BaseNode res = initNode() ]
 		res = new DeclExprNode(res);
 	}
 	;
-
-
-
-
-
 
 // Lexer stuff
 
