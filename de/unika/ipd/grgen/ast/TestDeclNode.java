@@ -103,6 +103,8 @@ public class TestDeclNode extends ActionDeclNode {
 	        Graph neg = ((PatternNode) negsIt.next()).getGraph();
 			test.addNegGraph(neg);
 		}
+		// after all graphs are added, call coalesceAnonymousEdges
+		test.coalesceAnonymousEdges();
         
         //Add Cond statments to the IR
 		for(Iterator it = getChild(COND).getChildren(); it.hasNext();) {

@@ -168,6 +168,8 @@ public class RuleDeclNode extends ActionDeclNode {
 	        Graph neg = ((PatternNode) negsIt.next()).getGraph();
 			rule.addNegGraph(neg);
 		}
+		// NOW! after all graphs are added, call coalesceAnonymousEdges
+		rule.coalesceAnonymousEdges();
 		
 		// add Redirect statments to the IR
 		for(Iterator it = getChild(REDIR).getChildren(); it.hasNext();) {
