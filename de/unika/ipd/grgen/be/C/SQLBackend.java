@@ -30,6 +30,9 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public abstract class SQLBackend extends CBackend {
 
+	/** if 0, the query should not be limited. */
+  protected int limitQueryResults;
+
   /** Name of the database */
   protected String dbName;
 
@@ -90,6 +93,8 @@ public abstract class SQLBackend extends CBackend {
     colEdgesTgtId = prefs.get("colEdgesTgtId", "tgt_id");
     colNodeAttrNodeId = prefs.get("colNodeAttrNodeId", "node_id");
     colEdgeAttrEdgeId = prefs.get("colEdgeAttrEdgeId", "edge_id");
+    
+    limitQueryResults = prefs.getInt("limitQueryResults", 0);
 
   }
 
@@ -404,7 +409,8 @@ public abstract class SQLBackend extends CBackend {
       + join(nodeTables, edgeTables, ", ")
       + BREAK_LINE
       + " WHERE "
-      + join(nodeWhere, edgeWhere, " AND ");
+      + join(nodeWhere, edgeWhere, " AND ")
+      + (limitQueryResults != 0 ? " LIMIT " + limitQueryResults : "");
   }
 
   /**
