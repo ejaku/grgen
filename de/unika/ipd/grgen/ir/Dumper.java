@@ -110,8 +110,8 @@ public class Dumper {
 		}
 	}
 	
-	public final void dump(Unit unit, File file) {
-		GraphDumper curr = dumperFactory.get(file);
+	public final void dumpComplete(Unit unit, String fileName) {
+		GraphDumper curr = dumperFactory.get(fileName);
 		
 		curr.begin();
 		for(Iterator it = unit.getActions(); it.hasNext();) {
@@ -127,7 +127,7 @@ public class Dumper {
 		curr.finish();
 	}
 	
-	public final void dump(Unit unit, String prefix, String extension) {
+	public final void dump(Unit unit, String prefix) {
 		
 		for(Iterator it = unit.getActions(); it.hasNext();) {
 			Object obj = it.next();
@@ -136,9 +136,7 @@ public class Dumper {
 				MatchingAction act = (MatchingAction) obj;
 				String main = act.toString().replace(' ', '_');
 				
-				File f = new File(prefix + main + extension);
-				
-				GraphDumper curr = dumperFactory.get(f);
+				GraphDumper curr = dumperFactory.get(prefix + main);
 		
 				curr.begin();
 				dump(act, curr);

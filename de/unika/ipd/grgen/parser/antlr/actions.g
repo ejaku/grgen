@@ -118,7 +118,6 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
   		BaseNode rb, left, right;
 
   		CollectNode neg = new CollectNode();
-  		CollectNode redir = new CollectNode();
   		CollectNode eval = new CollectNode();
   		CollectNode cond = new CollectNode();
   }
@@ -129,7 +128,7 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
   	right=replacePart
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, neg, redir, cond, eval));
+  	   id.setDecl(new RuleDeclNode(id, left, right, neg, cond, eval));
   	   res = id;
     }
     RBRACE! popScope!;

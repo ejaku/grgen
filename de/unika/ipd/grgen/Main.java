@@ -6,6 +6,7 @@ package de.unika.ipd.grgen;
 
 import de.unika.ipd.grgen.util.*;
 import de.unika.ipd.grgen.util.report.*;
+import java.io.*;
 import javax.swing.*;
 
 import de.unika.ipd.grgen.ast.BaseNode;
@@ -25,11 +26,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.prefs.Preferences;
@@ -81,7 +77,7 @@ public class Main extends Base implements Sys {
 	
 	/** support graphic output (meaning a 2d UI) */
 	private boolean graphic;
-
+	
 	/** Debug tree view for graphic output */
 	private JPanel debugPanel;
 	
@@ -102,7 +98,9 @@ public class Main extends Base implements Sys {
 	
 	/** The path to the source files. */
 	private File sourcePath;
-
+	
+	private File debugPath;
+	
 	/** A list of files containing paths where the graph model can be searched. */
 	private Collection modelPaths = new LinkedList();
 	
@@ -196,7 +194,7 @@ public class Main extends Base implements Sys {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		Rectangle bounds = frame.getBounds();
 		frame.setLocation((dim.width - bounds.width) / 2,
-							  (dim.height - bounds.height) / 2);
+												(dim.height - bounds.height) / 2);
 		
 		frame.setVisible(true);
 		
@@ -295,6 +293,7 @@ public class Main extends Base implements Sys {
 			else {
 				inputFile = new File(rem[0]);
 				sourcePath = inputFile.getAbsoluteFile().getParentFile();
+				debugPath = new File(sourcePath, inputFile.getName() + "_debug");
 				modelPaths.add(sourcePath);
 			}
 		}
@@ -309,6 +308,17 @@ public class Main extends Base implements Sys {
 		return backendEmitDebugFiles;
 	}
 	
+	public OutputStream createDebugFile(File file) {
+		debugPath.mkdirs();
+		File debFile = new File(debugPath, file.getName());
+		try {
+			return new FileOutputStream(debFile);
+		} catch (FileNotFoundException e) {
+			errorReporter.error("cannot open debug file " + debFile.getPath());
+			return new NullOutputStream();
+		}
+	}
+	
 	private boolean parseInput(File inputFile) {
 		boolean res = false;
 		
@@ -316,7 +326,7 @@ public class Main extends Base implements Sys {
 		GRParserEnvironment env = new GRParserEnvironment(this);
 		root = env.parse(inputFile);
 		res = root != null;
-
+		
 		debug.report(NOTE, "result: " + res);
 		debug.leaving();
 		
@@ -324,27 +334,21 @@ public class Main extends Base implements Sys {
 	}
 	
 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
-						 String suffix) {
+											 String suffix) {
 		
 		debug.entering();
 		
-		try {
-			FileOutputStream fos =
-				new FileOutputStream(inputFile + "." + suffix + ".vcg");
-			
-			VCGDumper vcg = new VCGDumper(new PrintStream(fos));
-			visitor.setDumper(vcg);
-			PrePostWalker walker = new PostWalker(visitor);
-			vcg.begin();
-			walker.reset();
-			walker.walk(node);
-			vcg.finish();
-			
-			fos.close();
-		}
-		catch(IOException e) {
-			System.err.println(e.getMessage());
-		}
+		
+		File file = new File(suffix + ".vcg");
+		OutputStream os = createDebugFile(file);
+		
+		VCGDumper vcg = new VCGDumper(new PrintStream(os));
+		visitor.setDumper(vcg);
+		PrePostWalker walker = new PostWalker(visitor);
+		vcg.begin();
+		walker.reset();
+		walker.walk(node);
+		vcg.finish();
 		
 		debug.leaving();
 	}
@@ -391,7 +395,7 @@ public class Main extends Base implements Sys {
 	 */
 	private void run() {
 		long startUp, parse, manifest, buildIR, codeGen;
-
+		
 		startUp = -System.currentTimeMillis();
 		
 		parseOptions();
@@ -406,7 +410,7 @@ public class Main extends Base implements Sys {
 			makeMainFrame();
 		
 		debug.report(NOTE, "working directory: " + System.getProperty("user.dir"));
-
+		
 		startUp += System.currentTimeMillis();
 		parse = -System.currentTimeMillis();
 		
@@ -437,7 +441,7 @@ public class Main extends Base implements Sys {
 		 // Dump the rewritten AST.
 		 if(dumpAST)
 		 dumpVCG(root, new GraphDumpVisitor(), "ast");
-		
+		 
 		 // Check the AST for consistency.
 		 if(!BaseNode.checkAST(root))
 		 System.exit(1);
@@ -452,25 +456,20 @@ public class Main extends Base implements Sys {
 		if(dumpIR) {
 			dumpVCG(irUnit, new GraphDumpVisitor(), "ir");
 			
-			try {
-				FileOutputStream fos =
-					new FileOutputStream(inputFile + ".ir.xml");
-				
-				XMLDumper dumper = new XMLDumper(new PrintStream(fos));
-				dumper.dump(irUnit);
-			} catch(IOException e) {
-			}
+			OutputStream os = createDebugFile(new File("ir.xml"));
+			XMLDumper dumper = new XMLDumper(new PrintStream(os));
+			dumper.dump(irUnit);
 		}
 		
-		GraphDumperFactory factory = new VCGDumperFactory();
+		GraphDumperFactory factory = new VCGDumperFactory(this);
 		Dumper dumper = new Dumper(factory, false);
-	
+		
 		if(dumpIR)
-			dumper.dump(irUnit, new File(inputFile + ".ir2.vcg"));
-
+			dumper.dumpComplete(irUnit, "ir2");
+		
 		if(dumpRules)
-			dumper.dump(irUnit, inputFile.getPath() + "." , ".ir.vcg");
-
+			dumper.dump(irUnit, "rule_");
+		
 		
 		debug.report(NOTE, "finished");
 		
@@ -536,12 +535,12 @@ public class Main extends Base implements Sys {
 		
 		// Please use my preferences implementation.
 		System.setProperty("java.util.prefs.PreferencesFactory",
-						   packageName + ".util.MyPreferencesFactory");
+											 packageName + ".util.MyPreferencesFactory");
 		
 	}
 	
 	public static void main(String[] args) {
-		// staticInit();
+		staticInit();
 		Main main = new Main(args);
 		main.run();
 	}

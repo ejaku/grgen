@@ -10,7 +10,7 @@ import java.io.File;
 
 public interface GraphDumperFactory {
 	
-	GraphDumper get(File f);
+	GraphDumper get(String fileNamePart);
 	
 }
 

@@ -5,26 +5,28 @@
  */
 
 package de.unika.ipd.grgen.util;
+import de.unika.ipd.grgen.Sys;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 
 
 public class VCGDumperFactory implements GraphDumperFactory {
 	
-	public GraphDumper get(File f) {
+	private Sys system;
+	
+	public VCGDumperFactory(Sys system) {
+		this.system = system;
+	}
+	
+	public GraphDumper get(String fileNamePart) {
 		
-		try {
-			FileOutputStream fos = new FileOutputStream(f);
-			PrintStream ps = new PrintStream(fos);
-			return new VCGDumper(ps);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace(System.err);
-		}
-		
-		return null;
+		String fileName = fileNamePart + ".vcg";
+		OutputStream os = system.createDebugFile(new File(fileName));
+		PrintStream ps = new PrintStream(os);
+		return new VCGDumper(ps);
 	}
 	
 }

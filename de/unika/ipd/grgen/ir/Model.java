@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Model extends Identifiable {
 
@@ -66,6 +67,14 @@ public class Model extends Identifiable {
 
 		sb.append(']');
 	}
+	
+	public void addFields(Map fields) {
+		super.addFields(fields);
+		fields.put("types", types.iterator());
+	}
+	
+	
+	
 	
 }
 

@@ -16,11 +16,13 @@ import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.parser.antlr.GRParserEnvironment;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.NullOutputStream;
 import de.unika.ipd.grgen.util.report.DebugReporter;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.util.report.StreamHandler;
 import de.unika.ipd.libgr.graph.Graph;
 import java.io.File;
+import java.io.OutputStream;
 
 
 /**
@@ -122,5 +124,12 @@ public class Test extends Base implements Sys {
 		if(args.length > 0)
 			prg.run(args[0]);
 	}
+	
+	public OutputStream createDebugFile(File file) {
+		return new NullOutputStream();
+	}
+	
+	
+	
 }
 
