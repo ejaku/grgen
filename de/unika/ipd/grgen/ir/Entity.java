@@ -76,7 +76,7 @@ public class Entity extends Identifiable implements Attributed {
   protected void setOwner(Type type) {
     owner = type;
   }
-
+	
 	/**
 	 * Get the attributes.
 	 * @return The atttributes.
@@ -90,7 +90,5 @@ public class Entity extends Identifiable implements Attributed {
 		fields.put("type", new SingleIterator(type));
 		fields.put("owner", new SingleIterator(owner));
 	}
-	
-	
 	
 }
