@@ -392,8 +392,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			seq.addJoin(neutral, Join.INNER);
 		}
 
-		// Generate all "x = NULL" conditions of graph elements
-		// used in the sets   N_i - l(L)
+		// Generate conditions related to NAC graphs
 		addNacConds(ctx, neutralMap, seq);
 
 		addMultigraphEdgeConds(ctx, seq);
@@ -401,8 +400,6 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		// If there were pending conditions make a simple query using these conditions.
 		// Else build an explicit query, since all conditions are put in the joins.
 		Query result = seq.produceQuery(having);
-
-
 
 		return result;
 	}
@@ -413,16 +410,12 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		TypeStatementFactory factory = matchCtx.stmtFactory;
 		GraphTableFactory tableFactory = matchCtx.tableFactory;
 
-		boolean negIsSubPattern = false;
-
 		// The nodes and edges of the pattern part
 		Collection patNodes = act.getPattern().getNodes(new HashSet());
 		Collection patEdges = act.getPattern().getEdges(new HashSet());
 
-		int graphNum = 0;
-
 		// For all negative parts
-		for (Iterator it = act.getNegs(); it.hasNext(); graphNum++) {
+		for (Iterator it = act.getNegs(); it.hasNext(); ) {
 			Graph neg = (Graph) it.next();
 
 			// Get the elements to generate for
@@ -434,39 +427,20 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			Collection negAllEdges = neg.getEdges(new HashSet());
 			negEdges.removeAll(patEdges);
 
-			//This checks the neggraph beeing a sub to pattern
+			// This checks the neggraph beeing a sub to pattern
 			if (negNodes.isEmpty() && negEdges.isEmpty() && !(negAllNode.isEmpty() && negAllEdges.isEmpty()))  {
 				// TODO Tell the user which rule and which neg-graph
 				error.warning("This negative graph is a subgraph of the pattern graph. This action is never applicable.");
-				//set bit to indicate special handling
-				negIsSubPattern = true;
+				//add a "AND FALSE" to the next join
+				seq.scheduleCond(factory.constant(false), new HashSet());
 			}
 
-			// Now generate the subterm for one negative part
-			Term sub = null;
-			Collection deps = new HashSet();
-
-			// For all nodes
-			for (Iterator iter = negNodes.iterator(); iter.hasNext(); )	{
-				Node n = (Node) iter.next();
-				NodeTable nodeTable = tableFactory.nodeTable(n);
-
-				Term eqNull = factory.expression(Opcodes.ISNULL, factory.expression(nodeTable.colId()));
-				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
-				deps.add(nodeTable);
-			}
-
-			//for all edges
+			// Construct conditions for <> of edges
 			for (Iterator iter = negEdges.iterator(); iter.hasNext(); )	{
 				Edge e = (Edge) iter.next();
 				EdgeTable edgeTable = tableFactory.edgeTable(e);
 				Term edgeIdCol = factory.expression(edgeTable.colId());
 
-				Term eqNull = factory.expression(Opcodes.ISNULL, edgeIdCol);
-				sub = factory.addExpression(Opcodes.OR, sub, eqNull);
-				deps.add(edgeTable);
-
-				// construct conditions for <> of edges
 				Term edgeUneq = null;
 				Collection depsUneq = new HashSet();
 				for(Iterator jt = patEdges.iterator(); jt.hasNext();) {
@@ -479,19 +453,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					}
 				}
 				depsUneq.add(edgeTable);
-//				if (edgeUneq != null)
-//					seq.scheduleCond(edgeUneq, depsUneq);
+				if (edgeUneq != null)
+					seq.scheduleCond(edgeUneq, depsUneq);
 			}
-
-
-			Table neutral = (Table) neutralMap.get(neg);
-			deps.add(neutral);
-
-			if (negIsSubPattern)
-				sub = factory.addExpression(Opcodes.AND, sub, factory.constant(false));
-
-//			if(sub != null)
-//				seq.scheduleCond(sub, deps);
 		}
 	}
 
