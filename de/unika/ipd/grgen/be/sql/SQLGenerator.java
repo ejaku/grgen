@@ -122,13 +122,23 @@ public class SQLGenerator extends Base {
 		return res; 
 	}
 	
-	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, 
-			List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
-		
+	protected Query makeMatchStatement(MatchingAction act, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, TypeStatementFactory factory) {
+		Graph gr  = act.getPattern();
+		Graph neg = act.getNeg(); 
+		//TODO DG first design
+		Query outer = makeQuery(gr, matchedNodes, matchedEdges, tableFactory, factory, new LinkedList());
+		Query inner = makeQuery(neg, new LinkedList(), new LinkedList(), tableFactory, factory, outer.getRelations());
+		Term cond = outer.getCondition();
+		cond = factory.expression(Opcodes.AND, cond, factory.expression(Opcodes.NOT, 
+					factory.expression(Opcodes.EXISTS, factory.expression(inner))));
+		outer.setCondition(cond);
+		return outer;
+	}
+	
+	protected Query makeQuery(Graph graph, List matchedNodes, List matchedEdges, GraphTableFactory tableFactory, 
+			TypeStatementFactory factory, List excludeTables) {
 		debug.entering();
-		
-		Graph gr = act.getPattern();
-		Collection nodes = gr.getNodes(new HashSet());
+		Collection nodes = graph.getNodes(new HashSet());
 		Collection edges = new HashSet();
 		
 		List nodeTables = new LinkedList();
@@ -181,9 +191,7 @@ public class SQLGenerator extends Base {
 			matchedNodes.add(n);
 			
 			// Add node type constraint
-			nodeCond = factory.expression(Opcodes.AND, nodeCond, 
-					factory.isA(n, tableFactory, typeID));
-			// TODO Do the right thing here.
+			nodeCond = factory.expression(Opcodes.AND, nodeCond, factory.isA(n, tableFactory, typeID));
 			
 			
 			// Make this node unequal to all other nodes.
@@ -201,8 +209,8 @@ public class SQLGenerator extends Base {
 			
 			incidentSets[0].clear();
 			incidentSets[1].clear();
-			gr.getOutgoing(n, incidentSets[0]);
-			gr.getIncoming(n, incidentSets[1]);
+			graph.getOutgoing(n, incidentSets[0]);
+			graph.getIncoming(n, incidentSets[1]);
 			
 			Term lastColExpr = nodeColExpr;
 		
@@ -269,7 +277,7 @@ public class SQLGenerator extends Base {
 
 		nodeTables.addAll(edgeTables);
 		nodeCols.addAll(edgeCols);
-		
+		nodeTables.removeAll(excludeTables);
 		return factory.simpleQuery(nodeCols, nodeTables,
 				factory.expression(Opcodes.AND, nodeCond, edgeCond));
 	}
