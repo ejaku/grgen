@@ -15,8 +15,11 @@ import de.unika.ipd.grgen.util.Attributes;
  */
 public class Node extends ConstraintEntity {
   
-  /** The type, the node will have after a rule has been applied. */
-  private NodeType replaceType;
+  /** The retyped node with the type the node will have after a rule has been applied. */
+  private Node retypedNode;
+	
+	/**  The original node if this is a retyped Node */
+	private Node oldNode;
   
   /** A set of nodes, that are homomorphic to this one. */
   private Set homomorphicNodes = new HashSet();
@@ -38,7 +41,8 @@ public class Node extends ConstraintEntity {
    */
 	public Node(Ident ident, NodeType type, Attributes attr) {
 		super("node", ident, type, attr);
-    this.replaceType = type;
+    this.retypedNode = null;
+    this.oldNode = null;
 	}
 		
 	  
@@ -52,20 +56,34 @@ public class Node extends ConstraintEntity {
   }
   
   /**
+   * If the node changes its type then this will
+   * return the virtual retyped node.
+   *
+   * @return The retyped node
+   */
+  public Node getRetypedNode() {
+		return retypedNode;
+  }
+  
+  /**
    * Get the type of the node after a rule has finished.
    * @return The post rule type of the node.
    */
   public NodeType getReplaceType() {
-		return replaceType;
+	  if(typeChanges()) {
+		  return retypedNode.getNodeType();
+	  } else {
+		  return getNodeType();
+	  }
   }
   
   /**
    * Set the type that will become the new type of the node
    * after a rule has been applied.
-   * @param nt The new type of the node.
+   * @param retyped The retyped node with new type of the node.
    */
-  public void setReplaceType(NodeType nt) {
-		replaceType = nt;
+  public void setRetypedNode(Node retyped) {
+		retypedNode = retyped;
   }
   
   /**
@@ -73,7 +91,35 @@ public class Node extends ConstraintEntity {
    * @return true, if the type changes, false, if not.
    */
   public boolean typeChanges() {
-  	return !replaceType.isEqual(getNodeType());
+  	return (retypedNode!=null);
+  }
+
+   /**
+   * If this is a retyped node then this will return
+   * the original node in the graph.
+   *
+   * @return The retyped node
+   */
+  public Node getOldNode() {
+		return oldNode;
+  }
+  
+  /**
+   * Set the original node in the graph if this one
+   * is a retyped one.
+   * @param old The new type of the node.
+   */
+  public void setOldNode(Node old) {
+		oldNode = old;
+  }
+
+  /**
+   * Check, whether this is a retyped ode.
+   * @return true, if this is a retyped node
+   */
+  public boolean isRetypedNode()
+  {
+	  return (oldNode!=null);
   }
 
 	/**

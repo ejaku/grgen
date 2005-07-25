@@ -163,8 +163,6 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		genEvalsCode(sb);
 		writeFile("evals_code.inc", sb);
 		
-		System.out.println("  generating C code for Firm type bindings...");
-
 		System.out.println("  generating XML overview...");
 		
 		// write an overview of all generated Ids
@@ -1181,11 +1179,20 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				
 				if( node_num == null ) {
-					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+				  	if(current_node.isRetypedNode()) {
+						Node old_node = current_node.getOldNode();
+						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 
-					sb.append(
-						"  fb_node_t *pattern_node_" + node_num + " = get_host_node(" + node_num + ");\n" +
-						"  int type_pattern_node_" + node_num + " = (int) pattern_node_" + node_num + "->type;\n");
+						sb.append(
+							"  fb_node_t *old_replacement_node_" + node_num + " = get_replacement_host_node(" + node_num + ");\n" +
+							"  int type_old_replacement_node_" + node_num + " = (int) old_replacement_node_" + node_num + "->type;\n");
+					} else {
+						node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+
+						sb.append(
+							"  fb_node_t *pattern_node_" + node_num + " = get_host_node(" + node_num + ");\n" +
+							"  int type_pattern_node_" + node_num + " = (int) pattern_node_" + node_num + "->type;\n");
+					}
 				} else {
 					sb.append(
 						"  fb_node_t *replacement_node_" + node_num + " = get_replacement_host_node(" + node_num + ");\n" +
@@ -1227,8 +1234,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				Integer node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
-					pattern_or_repl = "pattern";
+					if(current_node.isRetypedNode()) {
+						Node old_node = current_node.getOldNode();
+						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
+						pattern_or_repl = "old_replacement";
+					} else {
+						node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+						pattern_or_repl = "pattern";
+					}
 				}
 
 				Iterator attr_id_it =
@@ -1308,8 +1321,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				Integer node_num = (Integer) replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
-					pattern_or_repl = "pattern";
+					if(current_node.isRetypedNode()) {
+						Node old_node = current_node.getOldNode();
+						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
+						pattern_or_repl = "old_replacement";
+					} else {
+						node_num = (Integer)pattern_node_num[ act_id.intValue() ].get(current_node);
+						pattern_or_repl = "pattern";
+					}
 				}
 
 				
@@ -1991,22 +2010,31 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if (owner instanceof Node)
 			{
 				int act_id = ((Integer) actionMap.get(act)).intValue();
+				Node node = (Node)owner;
 				String pattern_or_repl = "replacement";
 				
 				//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
-				
-				Integer node_num = (Integer) replacement_node_num[ act_id ].get( owner );
-				if( node_num == null ) {
-					node_num = (Integer)pattern_node_num[ act_id ].get( owner );
-					pattern_or_repl = "pattern";
-				}
-
 				Integer attr_id = (Integer) nodeAttrMap.get(attr);
 				
-				sb.append(
-					pattern_or_repl + "_node_" + node_num +
+				Integer node_num;	
+				if(node.isRetypedNode()) {
+					Node old_node = node.getOldNode();
+					node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
+					
+					sb.append(
+						"acts_p->old_attributes[ " + node_num + " ][ index_a" + attr_id + "_old_replacement_node_" +
+						node_num + " ].value.");
+				} else {
+					node_num = (Integer) replacement_node_num[ act_id ].get( owner );
+					if( node_num == null ) {
+						node_num = (Integer)pattern_node_num[ act_id ].get( owner );
+						pattern_or_repl = "pattern";
+					}
+
+					sb.append(
+						pattern_or_repl + "_node_" + node_num +
 						"->attr_values[ index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + " ].value.");
-				
+				}
 				int attr_kind = node_attr_info[attr_id.intValue()].kind;
 				switch (attr_kind)
 				{
@@ -2081,26 +2109,39 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		if (owner instanceof Node)
 		{
 			int act_id = ((Integer) actionMap.get(act)).intValue();
+			Node node = (Node)owner;
 			String pattern_or_repl = "replacement";
 			
 			//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
-			
-			Integer node_num = (Integer) replacement_node_num[ act_id ].get( owner );
-			if( node_num == null ) {
-				node_num = (Integer)pattern_node_num[ act_id ].get( owner );
-				pattern_or_repl = "pattern";
-			}
-
 			Integer attr_id = (Integer) nodeAttrMap.get(attr);
 			
+			Integer node_num;
+			if(node.isRetypedNode()) {
+				Node old_node = node.getOldNode();
+				node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
+				
+				sb.append(
+					"  if ( acts_p->old_attributes[ " + node_num + " ]" +
+					"[index_a" + attr_id + "_old_replacement_node_" + node_num + "]" +
+					".kind >= FB_ATTR_KIND_DIST )\n    " +
+					"acts_p->old_attributes[ " + node_num + " ]" +
+					"[index_a" + attr_id + "_old_replacement_node_" + node_num + "]" +
+					".kind -= FB_ATTR_KIND_DIST;\n" );
+			} else {
+				node_num = (Integer) replacement_node_num[ act_id ].get( owner );
+				if( node_num == null ) {
+					node_num = (Integer)pattern_node_num[ act_id ].get( owner );
+					pattern_or_repl = "pattern";
+				}
+
 				sb.append(
 					"  if (" + pattern_or_repl + "_node_" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
-							".kind >= FB_ATTR_KIND_DIST )\n    " +
-							pattern_or_repl + "_node_" + node_num +"->" +
-							"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
-							".kind -= FB_ATTR_KIND_DIST;\n" );
-
+					"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
+					".kind >= FB_ATTR_KIND_DIST )\n    " +
+					pattern_or_repl + "_node_" + node_num +"->" +
+					"attr_values[index_a" + attr_id + "_" + pattern_or_repl + "_node_" + node_num + "]" +
+					".kind -= FB_ATTR_KIND_DIST;\n" );
+			}
 		}
 		if (owner instanceof Edge)
 		{

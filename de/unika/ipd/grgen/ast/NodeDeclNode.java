@@ -25,7 +25,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		new DeclTypeResolver(NodeTypeNode.class);
 	
 	/** Index of the collect node containing probable homomorphic nodes. */
-	private static final int HOMOMORPHIC = CONSTRAINTS + 1;
+	protected static final int HOMOMORPHIC = CONSTRAINTS + 1;
 	
 	/**
 	 * Resolve probable identifiers in the hom collect node to

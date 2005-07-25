@@ -93,6 +93,10 @@ public class Graph extends IR {
 
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
+		
+		// Do not include the virtual retyped nodes in the graph.
+	  	if(n.isRetypedNode()) n = n.getOldNode();
+		
 		if(!nodes.containsKey(n)) {
 			res = new GraphNode(n);
 			nodes.put(n, res);

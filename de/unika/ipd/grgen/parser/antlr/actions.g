@@ -1,6 +1,6 @@
 header {
 /**
- * @author Sebastian Hack, Daniel Grund, Rubino Geiss
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
  * @version $Id$
  */
 	package de.unika.ipd.grgen.parser.antlr;
@@ -412,9 +412,6 @@ replaceNodeOcc returns [ BaseNode res = env.initNode() ]
 	}
   : res=entIdentUse
   | res=replaceNodeDecl
-  | res=entIdentUse c:DOUBLECOLON id=typeIdentUse {
-  	res = new NodeTypeChangeNode(getCoords(c), res, id);
-  }
   ;
 
 anonymousEdge returns [ BaseNode res = null ]
@@ -423,21 +420,55 @@ anonymousEdge returns [ BaseNode res = null ]
 		res = new AnonymousEdgeDeclNode(id, env.getEdgeRoot());
 	}
 	;
-
+  
+/**
+ * The declaration of replacement node(s)
+ * It can look like
+ *
+ * 1) a:X <old_node>
+  * 2) (a, b, c, d, e):X
+ *
+ * In the second case, always the first node is returned.
+ */
 replaceNodeDecl returns [ BaseNode res = env.initNode() ]
-  {
-    IdentNode id;
-  	BaseNode type;
-  }
-  : res=multiNodeDecl
-  ;
+	{
+		List ids = new LinkedList();
+		IdentNode id,oldid=null;
+		BaseNode type;
+		BaseNode constr = TypeExprNode.getEmpty();
+	}
+  : id=entIdentDecl COLON type=typeIdentUse (LT oldid=entIdentUse GT)? {
+       if(oldid==null) {
+           res = new NodeDeclNode(id, type, constr);
+       } else {
+           res = new NodeTypeChangeNode(id, type, oldid);
+       }
+	}
+  | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
+    (COMMA id=entIdentDecl { ids.add(id); })* RPAREN
+     COLON type=typeIdentUse {
+
+    	int i = 0;
+    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
+    		IdentNode ident = (IdentNode) it.next();
+    		if(i == 0)
+    			res = new NodeDeclNode(ident, type, constr);
+    		else
+    			// This is ok, the object does not vanish, since it is
+    			// held by its identifier which is held by the symbol's
+    			// occurrence which is held by the scope.
+					new NodeDeclNode(ident, type, constr);
+    	}
+    	
+    }
+	;
 
 /**
  * The declaration of node(s)
  * It can look like
  *
- * 1) a:X
- * 2) (a, b, c, d, e):X
+ * 1) a:X \ (Z+Y)
+ * 2) (a, b, c, d, e):X \ (A+B+Z)
  *
  * In the second case, always the first node is returned.
  */
@@ -448,8 +479,8 @@ multiNodeDecl returns [ BaseNode res = env.initNode() ]
 		BaseNode type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	: id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
-		res = new NodeDeclNode(id, type, constr);
+  : id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
+        res = new NodeDeclNode(id, type, constr);
 	}
   | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
     (COMMA id=entIdentDecl { ids.add(id); })* RPAREN
