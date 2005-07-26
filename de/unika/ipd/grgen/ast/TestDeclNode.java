@@ -85,12 +85,23 @@ public class TestDeclNode extends ActionDeclNode {
 							ConnectionCharacter oConn = (ConnectionCharacter) oIter.next();
 							if (! (oConn instanceof ConnectionNode)) continue;
 	
-							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge()))
-								if (iConn.getSrc() != oConn.getSrc() || iConn.getTgt() != oConn.getTgt()) {
+							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
+								NodeDeclNode src, tgt;
+							  src = oConn.getSrc();
+								tgt = oConn.getTgt();
+								if (src instanceof NodeTypeChangeNode) {
+									src = ((NodeTypeChangeNode) src).getOldNode();
+								}
+								if (tgt instanceof NodeTypeChangeNode) {
+									tgt = ((NodeTypeChangeNode) tgt).getOldNode();
+								}
+								
+								if (iConn.getSrc() != src || iConn.getTgt() != tgt) {
 									alreadyReported.add(iConn.getEdge());
 									((ConnectionNode) oConn).reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
 								}
+							}
 						}
 					}
 		}

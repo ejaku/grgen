@@ -38,6 +38,14 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
   }
 
   /**
+   * @return the original node for this retyped node
+   */
+  public NodeDeclNode getOldNode()
+  {
+    return (NodeDeclNode) getChild(OLD);
+  }
+  
+  /**
    * @see de.unika.ipd.grgen.ast.BaseNode#check()
    */
   protected boolean check() {
