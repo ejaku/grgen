@@ -102,7 +102,6 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW    : "->"  ;
 LARROW    : "<-"  ;
-DOUBLECOLON : "::" ;
 BXOR			:	'^'		;
 BOR				:	'|'		;
 LOR				:	"||"	;
