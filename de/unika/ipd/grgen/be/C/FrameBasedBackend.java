@@ -42,7 +42,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private final int OUT = 0;
 	private final int IN = 1;
 
-	protected final boolean emit_subgraph_info = true;
+	protected final boolean emit_subgraph_info = false;
 		
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
