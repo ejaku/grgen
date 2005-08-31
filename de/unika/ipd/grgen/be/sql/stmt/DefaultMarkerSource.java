@@ -11,14 +11,14 @@ import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
 import de.unika.ipd.grgen.be.sql.meta.Op;
 import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultOp;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public abstract class DefaultMarkerSource implements MarkerSource {
 	
-	private final Collection types = new LinkedList();
+	private final Collection<Object> types = new LinkedList<Object>();
 	
 	private static final Op markerOp = new DefaultOp("marker");
 	
@@ -56,7 +56,7 @@ public abstract class DefaultMarkerSource implements MarkerSource {
 	 * @return An array containing all types of gotten markers.
 	 */
 	public Collection getTypes() {
-		return ReadOnlyCollection.get(types);
+		return Collections.unmodifiableCollection(types);
 	}
 	
 	/**

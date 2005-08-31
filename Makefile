@@ -19,7 +19,8 @@ grgen: .grammar
 	fi
 
 .generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
-	find . -type f -name "*.java" | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.4
+	find de -type f -name "*.java" | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.5
+	jar -cf grgen.jar -C build/ .
 	@touch .generator_build
 
 .PHONY: dir

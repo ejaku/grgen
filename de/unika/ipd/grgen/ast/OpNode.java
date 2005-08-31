@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.parser.Coords;
 public abstract class OpNode extends ExprNode
 {
 	
-	private static final Map irOpCodeMap = new HashMap();
+	private static final Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
 	
 	static
 	{
@@ -179,7 +179,7 @@ public abstract class OpNode extends ExprNode
 	 */
 	private static int getIROpCode(int opId)
 	{
-		return ((Integer) irOpCodeMap.get(new Integer(opId))).intValue();
+		return irOpCodeMap.get(new Integer(opId)).intValue();
 	}
 	
 	/**
@@ -190,9 +190,9 @@ public abstract class OpNode extends ExprNode
 		BasicTypeNode type = (BasicTypeNode) getType();
 		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
 		
-		for(Iterator it = getChildren(); it.hasNext();)
+		for(Iterator<BaseNode> it = getChildren(); it.hasNext();)
 		{
-			BaseNode n = (BaseNode) it.next();
+			BaseNode n = it.next();
 			Expression ir = (Expression) n.checkIR(Expression.class);
 			op.addOperand(ir);
 		}

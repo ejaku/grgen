@@ -63,7 +63,7 @@ public class CastNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheck()
 	 */
 	protected boolean typeCheck() {
-		Collection castableToTypes = new HashSet();
+		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
 		ExprNode exp = (ExprNode) getChild(EXPR);
 		BasicTypeNode bt = (BasicTypeNode) getChild(TYPE);
 		exp.getType().getCastableToTypes(castableToTypes);

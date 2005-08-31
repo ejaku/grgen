@@ -18,7 +18,7 @@ import java.util.Comparator;
 public class EdgeType extends InheritanceType {
 	
 	/** The connection assertions. */
-	private final List connectionAsserts = new LinkedList();
+	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
 	
 	/**
 	 * Make a new edge type.
@@ -58,11 +58,11 @@ public class EdgeType extends InheritanceType {
 	 * Get all connection assertions.
 	 * @return An iterator iterating over all connection assertions.
 	 */
-	public Iterator getConnAsserts() {
+	public Iterator<ConnAssert> getConnAsserts() {
 		return connectionAsserts.iterator();
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
@@ -73,8 +73,8 @@ public class EdgeType extends InheritanceType {
 
 		sb.append('[');
 		int i = 0;
-		for(Iterator it = connectionAsserts.iterator(); it.hasNext(); i++) {
-			ConnAssert ca = (ConnAssert) it.next();
+		for(Iterator<ConnAssert> it = connectionAsserts.iterator(); it.hasNext(); i++) {
+			ConnAssert ca = it.next();
 			if(i > 0)
 				sb.append(',');
 			sb.append(ca.toString());

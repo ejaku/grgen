@@ -69,12 +69,12 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 */
 	protected IR constructIR() {
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
-		Iterator ents = getChild(BODY).getChildren();
+		Iterator<BaseNode> ents = getChild(BODY).getChildren();
 		while(ents.hasNext()) {
 			DeclNode decl = (DeclNode) ents.next();
 			nt.addMember(decl.getEntity());
 		}
-		Iterator ext = getChild(EXTENDS).getChildren();
+		Iterator<BaseNode> ext = getChild(EXTENDS).getChildren();
 		while(ext.hasNext()) {
 			NodeTypeNode x = (NodeTypeNode) ext.next();
 			nt.addSuperType(x.getNodeType());

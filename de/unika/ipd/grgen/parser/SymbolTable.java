@@ -17,7 +17,7 @@ public class SymbolTable {
 		new SymbolTable("<invalid>");
 		
 	/** The string - symbol map. */
-	private final HashMap symbolMap = new HashMap();
+	private final HashMap<String, Symbol> symbolMap = new HashMap<String, Symbol>();
 	
 	/** The name of the symbol table. */
 	private final String name;
@@ -100,7 +100,7 @@ public class SymbolTable {
 		if(!symbolMap.containsKey(text))
 			symbolMap.put(text, new Symbol(text, this));
 		
-		return (Symbol) symbolMap.get(text);
+		return symbolMap.get(text);
 	}
 	
 }

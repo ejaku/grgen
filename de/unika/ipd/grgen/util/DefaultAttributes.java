@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class DefaultAttributes implements Attributes {
 
-	private final Map attrs = new HashMap();
+	private final Map<String, Object> attrs = new HashMap<String, Object>();
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.Attributes#containsKey(java.lang.String)

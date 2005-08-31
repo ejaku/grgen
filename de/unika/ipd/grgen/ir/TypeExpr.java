@@ -20,7 +20,7 @@ public abstract class TypeExpr extends IR {
 	 * @return A collection of types that correspond to the
 	 * expression.
 	 */
-	public abstract Collection evaluate();
+	public abstract Collection<InheritanceType> evaluate();
 	
 }
 

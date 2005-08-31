@@ -18,13 +18,13 @@ public interface Node {
 	 * Get the incoming edges.
 	 * @return An iterator iterating over all incoming edges.
 	 */
-	Iterator getIncoming();	
+	Iterator<Node> getIncoming();	
 
 	/**
 	 * Get the outgoing edges.
 	 * @return An iterator iterating over all outgoing edges.
 	 */
-	Iterator getOutgoing();	
+	Iterator<Node> getOutgoing();	
 
 	/**
 	 * Get the node's type

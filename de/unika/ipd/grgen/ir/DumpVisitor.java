@@ -38,7 +38,7 @@ public class DumpVisitor extends GraphDumpVisitor {
 	}
 	
 	private void dumpGraph(Graph gr, String prefix) {
-		Map prefixMap = new HashMap();
+		Map<Node, DumpVisitor.PrefixNode> prefixMap = new HashMap<Node, DumpVisitor.PrefixNode>();
 		Collection nodes = gr.getNodes();
 		
 		dumper.beginSubgraph(gr);
@@ -63,8 +63,8 @@ public class DumpVisitor extends GraphDumpVisitor {
 			debug.report(NOTE, "true edge from: " + gr.getSource(edge)
 										 + " to: " + gr.getTarget(edge));
 			
-			from = (PrefixNode) prefixMap.get(gr.getSource(edge));
-			to = (PrefixNode) prefixMap.get(gr.getTarget(edge));
+			from = prefixMap.get(gr.getSource(edge));
+			to = prefixMap.get(gr.getTarget(edge));
 			
 			debug.report(NOTE, "edge from: " + from + " to: " + to);
 			
@@ -73,8 +73,8 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumper.edge(e, to);
 		}
 		
-		Set homSet = new HashSet();
-		Set processedNodes = new HashSet();
+		Set<Node> homSet = new HashSet<Node>();
+		Set<Node> processedNodes = new HashSet<Node>();
 		
 		for(Iterator it = nodes.iterator(); it.hasNext(); ) {
 			Node n = (Node) it.next();
@@ -82,10 +82,10 @@ public class DumpVisitor extends GraphDumpVisitor {
 			n.getHomomorphic(homSet);
 			
 			if(!homSet.isEmpty() && !processedNodes.contains(n)) {
-				for(Iterator homIt = homSet.iterator(); homIt.hasNext();) {
-					Node hom = (Node) homIt.next();
-					PrefixNode from = (PrefixNode) prefixMap.get(n);
-					PrefixNode to = (PrefixNode) prefixMap.get(hom);
+				for(Iterator<Node> homIt = homSet.iterator(); homIt.hasNext();) {
+					Node hom = homIt.next();
+					PrefixNode from = prefixMap.get(n);
+					PrefixNode to = prefixMap.get(hom);
 					dumper.edge(from, to, "hom", GraphDumper.DASHED);
 				}
 			}
@@ -119,7 +119,7 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumpGraph(r.getRight(), "r");
 			
 			// Draw edges from left nodes that occur also on the right side.
-			Iterator common = r.getCommonNodes().iterator();
+			Iterator<IR> common = r.getCommonNodes().iterator();
 			while(common.hasNext()) {
 				Node node = (Node) common.next();
 				PrefixNode left = new PrefixNode(node, "l");

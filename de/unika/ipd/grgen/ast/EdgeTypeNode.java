@@ -75,17 +75,17 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 */
 	protected IR constructIR() {
 		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
-		Iterator ents = getChild(BODY).getChildren();
+		Iterator<BaseNode> ents = getChild(BODY).getChildren();
 		while(ents.hasNext()) {
 			DeclNode decl = (DeclNode) ents.next();
 			et.addMember(decl.getEntity());
 		}
-		Iterator ext = getChild(EXTENDS).getChildren();
+		Iterator<BaseNode> ext = getChild(EXTENDS).getChildren();
 		while(ext.hasNext()) {
 			EdgeTypeNode etn = (EdgeTypeNode) ext.next();
 			et.addSuperType(etn.getEdgeType());
 		}
-		for(Iterator it = getChild(CAS).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(CAS).getChildren(); it.hasNext();) {
 			ConnAssertNode can = (ConnAssertNode)it.next();
 			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
 		}

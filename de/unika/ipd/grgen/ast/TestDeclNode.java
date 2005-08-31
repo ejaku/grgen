@@ -49,11 +49,11 @@ public class TestDeclNode extends ActionDeclNode {
 		setChildrenNames(childrenNames);
 	}
 	
-	protected Collection getGraphs() {
-		Collection res = new LinkedList();
+	protected Collection<GraphNode> getGraphs() {
+		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		CollectNode negs  = (CollectNode) getChild(NEG);
 		res.add((GraphNode) getChild(PATTERN));
-		for (Iterator negsIt = negs.getChildren(); negsIt.hasNext();)
+		for (Iterator<BaseNode> negsIt = negs.getChildren(); negsIt.hasNext();)
 			res.add((GraphNode) negsIt.next());
 		return res;
 	}
@@ -73,15 +73,15 @@ public class TestDeclNode extends ActionDeclNode {
 			edgeReUse = true;
 			//Check if reused names of edges connect the same nodes in the same direction for each usage
 			GraphNode[] graphs = (GraphNode[]) getGraphs().toArray(new GraphNode[0]);
-			Collection alreadyReported = new HashSet();
+			Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 			
 			for (int i=0; i<graphs.length; i++)
 				for (int o=i+1; o<graphs.length; o++)
-					for (Iterator iIter = graphs[i].getConnections(); iIter.hasNext();) {
+					for (Iterator<BaseNode> iIter = graphs[i].getConnections(); iIter.hasNext();) {
 						ConnectionCharacter iConn = (ConnectionCharacter) iIter.next();
 						if (! (iConn instanceof ConnectionNode)) continue;
 
-						for (Iterator oIter = graphs[o].getConnections(); oIter.hasNext();) {
+						for (Iterator<BaseNode> oIter = graphs[o].getConnections(); oIter.hasNext();) {
 							ConnectionCharacter oConn = (ConnectionCharacter) oIter.next();
 							if (! (oConn instanceof ConnectionNode)) continue;
 	
@@ -113,7 +113,7 @@ public class TestDeclNode extends ActionDeclNode {
 		Test test = new Test(getIdentNode().getIdent(), gr);
 		
 		// add negative parts to the IR
-		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
+		for (Iterator<BaseNode> negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
 			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
 			test.addNegGraph(neg);
 		}

@@ -42,9 +42,9 @@ public class TableHandler implements TableModel, Handler {
 		}
 	}
 	
-	private List listeners = new LinkedList();
+	private List<TableModelListener> listeners = new LinkedList<TableModelListener>();
 	
-	private Vector messages = new Vector();
+	private Vector<TableHandler.Message> messages = new Vector<TableHandler.Message>();
 	
 	/**
 	 * Add a listener.
@@ -65,7 +65,7 @@ public class TableHandler implements TableModel, Handler {
 	/**
 	 *
 	 */
-	public Class getColumnClass(int arg0) {
+	public Class<String> getColumnClass(int arg0) {
 		return String.class;
 	}
 	/**
@@ -94,7 +94,7 @@ public class TableHandler implements TableModel, Handler {
 	 *
 	 */
 	public Object getValueAt(int row, int col) {
-		Message m = (Message) messages.get(row);
+		Message m = messages.get(row);
 		String res = "";
 		
 		switch(col) {

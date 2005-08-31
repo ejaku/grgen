@@ -76,7 +76,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 		
-		for(Iterator it = getChild(ELEMENTS).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(ELEMENTS).getChildren(); it.hasNext();) {
 			EnumItemNode item = (EnumItemNode) it.next();
 			ty.addItem(item.getItem());
 		}
@@ -110,7 +110,7 @@ public class EnumTypeNode extends CompoundTypeNode {
   /**
 	 * @see de.unika.ipd.grgen.ast.BasicTypeNode#getValueType()
 	 */
-  public Class getValueType() {
+  public Class<Integer> getValueType() {
 		return Integer.class;
   }
 	

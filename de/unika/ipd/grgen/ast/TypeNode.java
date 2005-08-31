@@ -27,7 +27,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
 	public boolean isCompatibleTo(TypeNode t) {
-		Set compat = new HashSet();
+		Set<TypeNode> compat = new HashSet<TypeNode>();
 		getCompatibleToTypes(compat);
 		return isEqual(t) || compat.contains(t);
 	}
@@ -39,7 +39,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @return true, if this type is just castable to <code>t</code>.
 	 */
 	public boolean isCastableTo(TypeNode t) {
-		Set castable = new HashSet();
+		Set<TypeNode> castable = new HashSet<TypeNode>();
 		getCastableToTypes(castable);
 		return castable.contains(t);
 	}
@@ -78,13 +78,13 @@ public abstract class TypeNode extends BaseNode {
 	 * Put all compatible types which are compatible to this one in a collection
 	 * @param coll The collection to put the compatible types to.
 	 */
-	public final void getCompatibleToTypes(Collection coll) {
+	public final void getCompatibleToTypes(Collection<TypeNode> coll) {
 		coll.add(this);
 		doGetCompatibleToTypes(coll);
 	}
 	
 	
-	protected void doGetCompatibleToTypes(Collection coll) {
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public abstract class TypeNode extends BaseNode {
 	 * into a collection.
 	 * @param coll A collection they are put into.
 	 */
-	public final void getCastableToTypes(Collection coll) {
+	public final void getCastableToTypes(Collection<TypeNode> coll) {
 		doGetCastableToTypes(coll);
 		getCompatibleToTypes(coll);
 	}
@@ -104,7 +104,7 @@ public abstract class TypeNode extends BaseNode {
 	 * {@link #getCastableTypes(Collection)}.
 	 * @param coll The collection to put them to.
 	 */
-	protected void doGetCastableToTypes(Collection coll) {
+	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 	}
 	
 	/**

@@ -7,7 +7,6 @@
 package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -18,7 +17,7 @@ import java.util.Map;
  */
 public class ConstraintEntity extends Entity {
 
-	private Collection constraints = Collections.EMPTY_SET;
+	private Collection<InheritanceType> constraints = Collections.EMPTY_SET;
 	
 	private final InheritanceType type;
 	
@@ -33,10 +32,10 @@ public class ConstraintEntity extends Entity {
 	}
 	
 	public final Collection getConstraints() {
-		return ReadOnlyCollection.get(constraints);
+		return Collections.unmodifiableCollection(constraints);
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("valid_types", constraints.iterator());
 	}

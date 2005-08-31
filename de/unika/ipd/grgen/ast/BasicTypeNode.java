@@ -29,13 +29,13 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * A map, that maps each basic type to a set to all other basic types,
 	 * that are compatible to the type.
 	 */
-	private static final Map compatibleMap = new HashMap();
+	private static final Map<TypeNode, HashSet> compatibleMap = new HashMap<TypeNode, HashSet>();
 	
 	/**
 	 * A map, that maps each basic type to a set to all other basic types,
 	 * that are castable to the type.
 	 */
-	private static final Map castableMap = new HashMap();
+	private static final Map<TypeNode, HashSet> castableMap = new HashMap<TypeNode, HashSet>();
 	
 	/**
 	 * The string basic type.
@@ -106,13 +106,13 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * This map contains the value types of the basic types.
 	 * (BasicTypeNode -> Class)
 	 */
-	private static Map valueMap = new HashMap();
+	private static Map<BasicTypeNode, Object> valueMap = new HashMap<BasicTypeNode, Object>();
 	
-	private static void addTypeToMap(Map map, TypeNode index, TypeNode target) {
+	private static void addTypeToMap(Map<TypeNode, HashSet> map, TypeNode index, TypeNode target) {
 		if(!map.containsKey(index))
 			map.put(index, new HashSet());
 		
-		Set s = (Set) map.get(index);
+		Set<TypeNode> s = map.get(index);
 		s.add(target);
 	}
 	
@@ -139,7 +139,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		boolean res = false;
 		
 		if(compatibleMap.containsKey(a)) {
-			Set s = (Set) compatibleMap.get(a);
+			Set s = compatibleMap.get(a);
 			res = s.contains(b);
 		}
 		
@@ -205,14 +205,14 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
-	protected void doGetCompatibleToTypes(Collection coll) {
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 		
 		Object obj = compatibleMap.get(this);
 		if(obj != null) {
-			Collection compat = (Collection) obj;
-			for(Iterator it = compat.iterator(); it.hasNext();) {
-				debug.report(NOTE, "" + ((BaseNode) it.next()).getName());
+			Collection<BaseNode> compat = (Collection) obj;
+			for(Iterator<BaseNode> it = compat.iterator(); it.hasNext();) {
+				debug.report(NOTE, "" + it.next().getName());
 			}
 			coll.addAll((Collection) obj);
 		}
@@ -222,7 +222,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCastableTypes(java.util.Collection)
 	 */
-	protected void doGetCastableToTypes(Collection coll) {
+	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 		Object obj = castableMap.get(this);
 		if(obj != null)
 			coll.addAll((Collection) obj);

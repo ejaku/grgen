@@ -58,15 +58,15 @@ public class RuleDeclNode extends TestDeclNode {
 		addChild(eval);
   }
   
-	protected Collection getGraphs() {
-		Collection res = super.getGraphs();
+	protected Collection<GraphNode> getGraphs() {
+		Collection<GraphNode> res = super.getGraphs();
 		res.add((GraphNode) getChild(RIGHT));
 		return res;
 	}
 
 	private boolean __recursive_find_decl(BaseNode x, DeclNode decl) {
-		for(Iterator i = x.getChildren(); i.hasNext();) {
-			BaseNode b = (BaseNode) i.next();
+		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
+			BaseNode b = i.next();
 		
 			if(b instanceof EdgeDeclNode) {
 				
@@ -92,8 +92,8 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 	
 	private NodeTypeNode __recursive_find_new_type(BaseNode x, NodeDeclNode node) {
-		for(Iterator i = x.getChildren(); i.hasNext();) {
-			BaseNode b = (BaseNode) i.next();
+		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
+			BaseNode b = i.next();
 			NodeTypeNode new_type;
 		
 			if(b instanceof NodeTypeChangeNode) {
@@ -121,7 +121,7 @@ public class RuleDeclNode extends TestDeclNode {
 	
 	private boolean __recursive_find_member_in_type(NodeTypeNode type, MemberDeclNode member) {
 		/* iterate over members */
-		for(Iterator i = type.getChild(1).getChildren(); i.hasNext();) {
+		for(Iterator<BaseNode> i = type.getChild(1).getChildren(); i.hasNext();) {
 			MemberDeclNode member2 = (MemberDeclNode) i.next();
 				
 			if(member == member2)
@@ -129,7 +129,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 		
 		/* iterate over base types */
-		for(Iterator i = type.getChild(0).getChildren(); i.hasNext();) {
+		for(Iterator<BaseNode> i = type.getChild(0).getChildren(); i.hasNext();) {
 			NodeTypeNode next_type = (NodeTypeNode) i.next();
 				
 			if(__recursive_find_member_in_type(next_type, member))
@@ -205,7 +205,7 @@ public class RuleDeclNode extends TestDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		// add negative parts to the IR
-		for (Iterator negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
+		for (Iterator<BaseNode> negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
 			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
 			rule.addNegGraph(neg);
 		}
@@ -213,7 +213,7 @@ public class RuleDeclNode extends TestDeclNode {
 		rule.coalesceAnonymousEdges();
 		
 		// add Eval statments to the IR
-		for(Iterator it = getChild(EVAL).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(EVAL).getChildren(); it.hasNext();) {
 			AssignNode eval = (AssignNode) it.next();
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}

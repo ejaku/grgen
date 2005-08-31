@@ -82,7 +82,7 @@ public abstract class Type extends Identifiable implements Comparable {
   	return IS_UNKNOWN;
   }
   
-	private static final Comparator COMPARATOR = new Comparator() {
+	private static final Comparator<Type> COMPARATOR = new Comparator() {
 
 		public int compare(Object o1, Object o2) {
 			Type t1 = (Type) o1;
@@ -105,12 +105,12 @@ public abstract class Type extends Identifiable implements Comparable {
 		}
 	};
 	
-	static final Comparator getComparator() {
+	static final Comparator<Type> getComparator() {
 		return COMPARATOR;
 	}
 	
 	public int compareTo(Object obj) {
-		return COMPARATOR.compare(this, obj);
+		return COMPARATOR.compare(this, (Type) obj);
 	}
 	
 }

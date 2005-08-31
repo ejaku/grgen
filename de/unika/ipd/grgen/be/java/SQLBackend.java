@@ -37,7 +37,7 @@ public class SQLBackend extends IDBase
 	implements Actions, JoinedFactory, MarkerSourceFactory, Dialect {
 	
 	/** Map action names to SQLActions. */
-	private final Map actions = new HashMap();
+	private final Map<String, SQLAction> actions = new HashMap<String, SQLAction>();
 	
 	/** The SQL code generator. */
 	private final SQLGenerator sqlGen;
@@ -196,9 +196,9 @@ public class SQLBackend extends IDBase
 	public void generate() {
 		assertInitialized();
 		
-		for(Iterator it = actionMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<de.unika.ipd.grgen.ir.Action> it = actionMap.keySet().iterator(); it.hasNext();) {
 			MatchingAction a = (MatchingAction) it.next();
-			int id = ((Integer) actionMap.get(a)).intValue();
+			int id = actionMap.get(a).intValue();
 
 			SQLAction act = new SQLAction(system, a, this, queries, sqlGen, factory);
 			actions.put(a.getIdent().toString(), act);
@@ -218,7 +218,7 @@ public class SQLBackend extends IDBase
 	/**
 	 * @see de.unika.ipd.libgr.actions.Actions#getActions()
 	 */
-	public Iterator actions() {
+	public Iterator<SQLAction> actions() {
 		assertInitialized();
 		return actions.values().iterator();
 	}

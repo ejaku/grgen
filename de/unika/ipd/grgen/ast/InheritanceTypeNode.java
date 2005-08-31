@@ -76,7 +76,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		
 		if(!found) {
 			
-			for(Iterator it = getChild(inhIndex).getChildren(); it.hasNext(); ) {
+			for(Iterator<BaseNode> it = getChild(inhIndex).getChildren(); it.hasNext(); ) {
 				InheritanceTypeNode t = (InheritanceTypeNode) it.next();
 				boolean result = t.fixupDefinition(id);
 				
@@ -90,8 +90,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		return found;
 	}
 	
-	protected void doGetCompatibleToTypes(Collection coll) {
-		for(Iterator i = getChild(inhIndex).getChildren(); i.hasNext();) {
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+		for(Iterator<BaseNode> i = getChild(inhIndex).getChildren(); i.hasNext();) {
 			InheritanceTypeNode inh = (InheritanceTypeNode) i.next();
 			coll.add(inh);
 			inh.getCompatibleToTypes(coll);
@@ -101,10 +101,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
 	 */
-	protected void doGetCastableToTypes(Collection coll) {
+	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 		// TODO This is wrong!!!
-		for(Iterator it = getChild(inhIndex).getChildren(); it.hasNext();)
-			coll.add(it.next());
+		for(Iterator<BaseNode> it = getChild(inhIndex).getChildren(); it.hasNext();)
+			coll.add((TypeNode)it.next());
 	}
 	
 	public void setModifiers(int modifiers) {

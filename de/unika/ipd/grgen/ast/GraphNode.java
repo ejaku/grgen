@@ -54,8 +54,8 @@ public class GraphNode extends BaseNode {
 		if(connCheck) {
 			//check, that each named edge is only used once in a pattern
 			CollectNode collect = (CollectNode) getChild(CONNECTIONS);
-			HashSet edges = new HashSet();
-			for (Iterator i = collect.getChildren(); i.hasNext(); ) {
+			HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
+			for (Iterator<BaseNode> i = collect.getChildren(); i.hasNext(); ) {
 				ConnectionCharacter cc = (ConnectionCharacter) i.next();
 				EdgeCharacter ec = cc.getEdge();
 
@@ -76,7 +76,7 @@ public class GraphNode extends BaseNode {
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
-	protected Iterator getConnections() {
+	protected Iterator<BaseNode> getConnections() {
 		return getChild(CONNECTIONS).getChildren();
 	}
 	
@@ -87,10 +87,10 @@ public class GraphNode extends BaseNode {
 	 * @return A set containing the declarations of all nodes occuring
 	 * in this graph pattern.
 	 */
-	protected Set getNodes() {
-		Set res = new HashSet();
+	protected Set<BaseNode> getNodes() {
+		Set<BaseNode> res = new HashSet<BaseNode>();
 		
-		for(Iterator it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
 			ConnectionCharacter conn = (ConnectionCharacter) it.next();
 			conn.addNodes(res);
 		}
@@ -115,7 +115,7 @@ public class GraphNode extends BaseNode {
 	protected IR constructIR() {
 		Graph gr = new PatternGraph();
 		
-		for(Iterator it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
 			ConnectionCharacter conn = (ConnectionCharacter) it.next();
 			conn.addToGraph(gr);
 		}

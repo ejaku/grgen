@@ -4,7 +4,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.MultiIterator;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -20,7 +19,7 @@ public abstract class CompoundType extends Type {
 	 * Collection containing all members.
 	 * The members must be of type Entity.
 	 */
-	private List members = new LinkedList();
+	private List<Entity> members = new LinkedList<Entity>();
 
   /**
    * Make a new compound type.
@@ -35,7 +34,7 @@ public abstract class CompoundType extends Type {
    * Get all members of this compund type.
    * @return An iterator with all members.
    */
-  public Iterator getMembers() {
+  public Iterator<Entity> getMembers() {
   	return members.iterator();
   }
 
@@ -52,7 +51,7 @@ public abstract class CompoundType extends Type {
 		Collections.sort(members, Identifiable.COMPARATOR);
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("members", members.iterator());
 	}
@@ -62,8 +61,8 @@ public abstract class CompoundType extends Type {
 		sb.append('[');
 		
 		int i = 0;
-		for(Iterator it = members.iterator(); it.hasNext(); i++) {
-			Entity ent = (Entity) it.next();
+		for(Iterator<Entity> it = members.iterator(); it.hasNext(); i++) {
+			Entity ent = it.next();
 			if(i > 0)
 				sb.append(',');
 			sb.append(ent);

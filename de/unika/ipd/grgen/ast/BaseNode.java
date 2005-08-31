@@ -7,28 +7,15 @@
 
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import de.unika.ipd.grgen.util.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.BooleanResultVisitor;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.PostWalker;
-import de.unika.ipd.grgen.util.PrePostWalker;
-import de.unika.ipd.grgen.util.PreWalker;
-import de.unika.ipd.grgen.util.Walkable;
-import de.unika.ipd.grgen.util.Walker;
+import java.awt.Color;
 
 /**
  * The base class for AST nodes.
@@ -44,7 +31,7 @@ public abstract class BaseNode extends Base
 	 * The reason for this is, that in some situations, only the Class object
 	 * is available and no instance of the class itself.
 	 */
-	private static final Map names = new HashMap();
+	private static final Map<Class, String> names = new HashMap<Class, String>();
 	
 	/** coordinates for builtin types and declarations */
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
@@ -74,7 +61,7 @@ public abstract class BaseNode extends Base
 	private boolean typeCheckResult = false;
 	
 	/** The list of resolvers. */
-	private Map resolvers = new HashMap();
+	private Map<Integer, Resolver> resolvers = new HashMap<Integer, Resolver>();
 	
 	/** The scope in which this node occurred. */
 	private Scope scope;
@@ -86,10 +73,10 @@ public abstract class BaseNode extends Base
 	private Coords coords = Coords.getInvalid();
 	
 	/** Vector of the children of this node */
-	private final Vector children = new Vector();
+	private final Vector<BaseNode> children = new Vector<BaseNode>();
 	
 	/** The parent node of this node. */
-	private Set parents = new HashSet();
+	private Set<BaseNode> parents = new HashSet<BaseNode>();
 	
 	/** The ir object for this node. */
 	private IR irObject = null;
@@ -127,7 +114,7 @@ public abstract class BaseNode extends Base
 	 * @return The registered name of the class or the class name.
 	 */
 	public static String getName(Class cls) {
-		return names.containsKey(cls) ? (String) names.get(cls)
+		return names.containsKey(cls) ? names.get(cls)
 			: "<" + shortClassName(cls) + ">";
 	}
 	
@@ -267,7 +254,7 @@ public abstract class BaseNode extends Base
 	 * Get the parent node of this node.
 	 * @return The parent node of this node. null if this node is the root.
 	 */
-	protected Iterator getParents() {
+	protected Iterator<BaseNode> getParents() {
 		return parents.iterator();
 	}
 	
@@ -364,9 +351,9 @@ public abstract class BaseNode extends Base
 	 * @param n The other node
 	 */
 	public final void addChildren(BaseNode n) {
-		Iterator it = n.getChildren();
+		Iterator<BaseNode> it = n.getChildren();
 		while(it.hasNext()) {
-			addChild((BaseNode) it.next());
+			addChild(it.next());
 		}
 	}
 	
@@ -374,7 +361,7 @@ public abstract class BaseNode extends Base
 	 * Get the children of this node
 	 * @return An iterator which will iterate over all child nodes of this one.
 	 */
-	public final Iterator getChildren() {
+	public final Iterator<BaseNode> getChildren() {
 		return children.iterator();
 	}
 	
@@ -385,7 +372,7 @@ public abstract class BaseNode extends Base
 	 * less than i nodes.
 	 */
 	public final BaseNode getChild(int i) {
-		return i < children.size() ? (BaseNode) children.get(i) : NULL;
+		return i < children.size() ? children.get(i) : NULL;
 	}
 	
 	/**
@@ -405,7 +392,7 @@ public abstract class BaseNode extends Base
 	public final BaseNode replaceChild(int i, BaseNode n) {
 		BaseNode res = NULL;
 		if(i < children.size()) {
-			res = (BaseNode) children.get(i);
+			res = children.get(i);
 			children.set(i, n);
 			n.parents.add(this);
 		}
@@ -420,8 +407,8 @@ public abstract class BaseNode extends Base
 	 * @return This node.
 	 */
 	public final BaseNode replaceWith(BaseNode n) {
-		for(Iterator it = parents.iterator(); it.hasNext();) {
-			BaseNode parent = (BaseNode) it.next();
+		for(Iterator<BaseNode> it = parents.iterator(); it.hasNext();) {
+			BaseNode parent = it.next();
 			int index = parent.children.indexOf(this);
 			assert index >= 0 : "Node must be in the children array of its parent";
 			
@@ -468,7 +455,7 @@ public abstract class BaseNode extends Base
 	 */
 	public final boolean checkAllChildren(Class cls) {
 		boolean res = true;
-		Iterator it = getChildren();
+		Iterator<BaseNode> it = getChildren();
 		
 		while(it.hasNext()) {
 			Object n = it.next();
@@ -488,10 +475,10 @@ public abstract class BaseNode extends Base
 	 */
 	public final boolean checkAllChildren(Checker c) {
 		boolean res = true;
-		Iterator it = getChildren();
+		Iterator<BaseNode> it = getChildren();
 		
 		while(it.hasNext()) {
-			BaseNode n = (BaseNode) it.next();
+			BaseNode n = it.next();
 			boolean checkRes = c.check(n, error);
 			res = res && checkRes;
 		}
@@ -611,8 +598,8 @@ public abstract class BaseNode extends Base
 	 * The walkable children are the children of this node
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-	public Iterator getWalkableChildren() {
-		return children.iterator();
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/**
@@ -679,9 +666,9 @@ public abstract class BaseNode extends Base
 		boolean local = true;
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		
-		for(Iterator i = resolvers.keySet().iterator(); i.hasNext();) {
-			Integer pos = (Integer) i.next();
-			Resolver resolver = (Resolver) resolvers.get(pos);
+		for(Iterator<Integer> i = resolvers.keySet().iterator(); i.hasNext();) {
+			Integer pos = i.next();
+			Resolver resolver = resolvers.get(pos);
 			
 			if(!resolver.resolve(this, pos.intValue())) {
 				debug.report(NOTE, "resolve error");

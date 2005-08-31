@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.util.List;
 import java.util.Map;
+import de.unika.ipd.grgen.ir.Entity;
 
 
 
@@ -30,8 +31,8 @@ public class DefaultMetaFactory implements MetaFactory {
 	
 	public DefaultMetaFactory(Dialect dialect,
 														SQLParameters params,
-														Map nodeAttrMap,
-														Map edgeAttrMap) {
+														Map<Entity, Integer> nodeAttrMap,
+														Map<Entity, Integer> edgeAttrMap) {
 		
 		this.dialect = dialect;
 		stmt = new DefaultStatementFactory(dialect);
@@ -106,15 +107,15 @@ public class DefaultMetaFactory implements MetaFactory {
 		return stmt.aggregate(which, col);
 	}
 	
-	public Query simpleQuery(List columns, List relations, Term cond, int limit) {
+	public Query simpleQuery(List<Column> columns, List relations, Term cond, int limit) {
 		return stmt.simpleQuery(columns, relations, cond, limit);
 	}
 	
-	public Query simpleQuery(List columns, List relations, Term cond, List groupBy, Term having) {
+	public Query simpleQuery(List<Column> columns, List relations, Term cond, List groupBy, Term having) {
 		return stmt.simpleQuery(columns, relations, cond, groupBy, having);
 	}
 	
-	public Query explicitQuery(boolean distinct, List columns, Relation relation,
+	public Query explicitQuery(boolean distinct, List<Column> columns, Relation relation,
 														 List groupBy, Term having, int limit) {
 		return stmt.explicitQuery(distinct, columns, relation, groupBy, having, limit);
 	}
@@ -123,11 +124,11 @@ public class DefaultMetaFactory implements MetaFactory {
 		return stmt.join(kind, left, right, cond);
 	}
 	
-	public ManipulationStatement makeUpdate(Table table, List columns, List exprs, Term cond) {
+	public ManipulationStatement makeUpdate(Table table, List<Column> columns, List<Term> exprs, Term cond) {
 		return stmt.makeUpdate(table, columns, exprs, cond);
 	}
 	
-	public ManipulationStatement makeInsert(Table table, List columns, List exprs) {
+	public ManipulationStatement makeInsert(Table table, List<Column> columns, List<Term> exprs) {
 		return stmt.makeInsert(table, columns, exprs);
 	}
 

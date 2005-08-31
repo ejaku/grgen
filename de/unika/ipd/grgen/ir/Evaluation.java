@@ -3,7 +3,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class Evaluation extends IR {
@@ -12,7 +12,7 @@ public class Evaluation extends IR {
 	 * They are orgnized in a list, since their order is vital.
 	 * Applying them in a random order will lead to different results.
 	 */
-	private LinkedList evaluations = new LinkedList();
+	private LinkedList<IR> evaluations = new LinkedList<IR>();
 	
 	/**
 	 * Constructor
@@ -36,8 +36,8 @@ public class Evaluation extends IR {
 	 *
 	 * @return   an Iterator
 	 */
-	public Iterator getWalkableChildren() {
-		return evaluations.iterator();
+	public Collection<?extends IR> getWalkableChildren() {
+		return evaluations;
 	}
 }
 

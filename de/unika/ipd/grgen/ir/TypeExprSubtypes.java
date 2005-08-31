@@ -10,42 +10,36 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 public class TypeExprSubtypes extends TypeExpr {
 	
 	private final InheritanceType type;
 	
-	private Collection result = null;
+	private Collection<InheritanceType> result = null;
 	
 	public TypeExprSubtypes(InheritanceType type) {
 		this.type = type;
 	}
 	
-	public Collection evaluate() {
+	public Collection<InheritanceType> evaluate() {
 		if(result == null) {
-			Collection res = new HashSet();
-			List worklist = new LinkedList();
-
+			Collection<InheritanceType> res = new HashSet<InheritanceType>();
+			LinkedList<InheritanceType> worklist = new LinkedList<InheritanceType>();
+			
 			worklist.add(type);
 			
 			while(!worklist.isEmpty()) {
-				InheritanceType t = (InheritanceType) worklist.remove(0);
+				InheritanceType t = worklist.removeFirst();
 				
-				for(Iterator i = t.getSubTypes(); i.hasNext();) {
-					InheritanceType inh = (InheritanceType) i.next();
-					
+				for(InheritanceType inh : t.getSubTypes())
 					if(!res.contains(inh)) {
 						res.add(inh);
 						worklist.add(inh);
 					}
-				}
 			}
-			
 			result = res;
 		}
-		
 		return result;
 	}
-
+	
 }

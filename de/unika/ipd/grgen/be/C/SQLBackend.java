@@ -18,8 +18,6 @@ import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
-import de.unika.ipd.grgen.util.DummyCollection;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import de.unika.ipd.grgen.util.Util;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -61,8 +59,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 				if(!types.isEmpty()) {
 					ps.println("static const gr_value_kind_t type_arr_"
 											 + prefix + "_" + name + "[] = {");
-					for(Iterator it = types.iterator(); it.hasNext();) {
-						DataType type = (DataType) it.next();
+					for(Iterator<DataType> it = types.iterator(); it.hasNext();) {
+						DataType type = it.next();
 						ps.print("  ");
 						ps.print(getTypeMacroName(type));
 						ps.println(", ");
@@ -91,7 +89,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			}
 		}
 		
-		private final Collection stmts = new LinkedList();
+		private final Collection<SQLBackend.PreparedStatements.Stmt> stmts = new LinkedList<SQLBackend.PreparedStatements.Stmt>();
 		private final String prefix;
 		private int counter = 0;
 		
@@ -120,28 +118,28 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		public Stmt add(String name,
 										Statement stmt,
 										Collection types) {
-			return add(name, stmt, types, DummyCollection.EMPTY, "");
+			return add(name, stmt, types, Collections.EMPTY_SET, "");
 		}
 		
 		public final void emit(PrintStream ps) {
 			int i = 0;
 			String upPrefix = prefix.toUpperCase();
 			
-			for(Iterator it = stmts.iterator(); it.hasNext(); i++) {
-				Stmt q = (Stmt) it.next();
+			for(Iterator<SQLBackend.PreparedStatements.Stmt> it = stmts.iterator(); it.hasNext(); i++) {
+				Stmt q = it.next();
 				ps.println("#define " + q.idName + " " + i);
 			}
 			
 			ps.println();
-			for(Iterator it = stmts.iterator(); it.hasNext();) {
-				Stmt q = (Stmt) it.next();
+			for(Iterator<SQLBackend.PreparedStatements.Stmt> it = stmts.iterator(); it.hasNext();) {
+				Stmt q = it.next();
 				q.printTypeArray(ps);
 			}
 			
 			ps.println();
 			ps.println("static prepared_query_t prep_queries_" + prefix + "[] = {");
-			for(Iterator it = stmts.iterator(); it.hasNext();) {
-				Stmt q = (Stmt) it.next();
+			for(Iterator<SQLBackend.PreparedStatements.Stmt> it = stmts.iterator(); it.hasNext();) {
+				Stmt q = it.next();
 				q.printTableEntry(ps);
 			}
 			ps.println("{ 0 }");
@@ -237,9 +235,9 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 	protected final SQLGenerator sqlGen =
 		new NewExplicitJoinGenerator(parameters, this, this);
 	
-	protected final Map matchMap = new HashMap();
+	protected final Map<MatchingAction, SQLBackend.Match> matchMap = new HashMap<MatchingAction, SQLBackend.Match>();
 	
-	protected final Map evalMap = new HashMap();
+	protected final Map<Assignment, SQLBackend.PreparedStatements.Stmt> evalMap = new HashMap<Assignment, SQLBackend.PreparedStatements.Stmt>();
 	
 	protected MetaFactory factory;
 	
@@ -373,19 +371,19 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 	 */
 	private static class Match {
 		protected final int id;
-		protected final Map nodeIndexMap = new HashMap();
-		protected final Map edgeIndexMap = new HashMap();
+		protected final Map<Object, Integer> nodeIndexMap = new HashMap<Object, Integer>();
+		protected final Map<Object, Integer> edgeIndexMap = new HashMap<Object, Integer>();
 		protected final PreparedStatements.Stmt stmt;
 		protected String matchIdent;
 		protected String finishIdent;
 		protected String stmtIdent;
 		
-		protected Match(int id, List nodes, List edges, PreparedStatements.Stmt stmt) {
+		protected Match(int id, List<IR> nodes, List<IR> edges, PreparedStatements.Stmt stmt) {
 			this.id = id;
 			this.stmt = stmt;
 			
 			int i;
-			Iterator it;
+			Iterator<IR> it;
 			
 			for (i = 0, it = nodes.iterator(); it.hasNext(); i++)
 				nodeIndexMap.put(it.next(), new Integer(i));
@@ -418,10 +416,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		private final Match match;
 		private final PrintStream ps;
 		private Rule rule;
-		private final Map insertedNodesIndexMap = new HashMap();
-		private final Map insertedEdgesIndexMap = new HashMap();
-		private Collection nodesToInsert = Collections.EMPTY_SET;
-		private Collection edgesToInsert = Collections.EMPTY_SET;
+		private final Map<Node, Integer> insertedNodesIndexMap = new HashMap<Node, Integer>();
+		private final Map<Edge, Integer> insertedEdgesIndexMap = new HashMap<Edge, Integer>();
+		private Collection<Node> nodesToInsert = Collections.EMPTY_SET;
+		private Collection<Edge> edgesToInsert = Collections.EMPTY_SET;
 		
 		SQLRewriteHandler(Match match, PrintStream ps) {
 			this.match = match;
@@ -439,10 +437,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#changeNodeTypes(java.util.Map)
 		 */
-		public void changeNodeTypes(Map nodeTypeMap) {
-			for(Iterator it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
-				Node n = (Node) it.next();
-				Integer nid = (Integer) match.nodeIndexMap.get(n);
+		public void changeNodeTypes(Map<Node, Object> nodeTypeMap) {
+			for(Iterator<Node> it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
+				Node n = it.next();
+				Integer nid = match.nodeIndexMap.get(n);
 				int tid = getId(n.getReplaceType());
 				ps.print("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");");
 				ps.print("\t/* change type of ");
@@ -459,8 +457,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdges(java.util.Collection)
 		 */
-		public void deleteEdges(Collection edges) {
-			for (Iterator it = edges.iterator(); it.hasNext();) {
+		public void deleteEdges(Collection<Edge> edges) {
+			for (Iterator<Edge> it = edges.iterator(); it.hasNext();) {
 				Edge e = (Edge) it.next();
 				ps.print("  DELETE_EDGE(GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + "));");
 				ps.print("\t/* delete ");
@@ -472,10 +470,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdgesOfNodes(java.util.Collection)
 		 */
-		public void deleteEdgesOfNodes(Collection nodes) {
-			for (Iterator it = nodes.iterator(); it.hasNext();) {
+		public void deleteEdgesOfNodes(Collection<Node> nodes) {
+			for (Iterator<Node> it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
-				Integer nid = (Integer) match.nodeIndexMap.get(n);
+				Integer nid = match.nodeIndexMap.get(n);
 				ps.print("  DELETE_NODE_EDGES(GET_MATCH_NODE(" + nid + "));");
 				ps.print("\t/* delete edges of ");
 				ps.print(n.toString());
@@ -486,10 +484,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteNodes(java.util.Collection)
 		 */
-		public void deleteNodes(Collection nodes) {
-			for (Iterator it = nodes.iterator(); it.hasNext();) {
+		public void deleteNodes(Collection<Node> nodes) {
+			for (Iterator<Node> it = nodes.iterator(); it.hasNext();) {
 				Node n = (Node) it.next();
-				Integer nid = (Integer) match.nodeIndexMap.get(n);
+				Integer nid = match.nodeIndexMap.get(n);
 				ps.print("  DELETE_NODE(GET_MATCH_NODE(" + nid + "));");
 				ps.print("\t/* delete ");
 				ps.print(n);
@@ -500,7 +498,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
 		 */
-		public void insertEdges(Collection edges) {
+		public void insertEdges(Collection<Edge> edges) {
 			edgesToInsert = edges;
 			Graph right = rule.getRight();
 			int i = 0;
@@ -508,7 +506,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			if(!edges.isEmpty())
 				ps.println("  gr_id_t inserted_edges[" + edges.size() + "];");
 			
-			for (Iterator it = edges.iterator(); it.hasNext(); i++) {
+			for (Iterator<Edge> it = edges.iterator(); it.hasNext(); i++) {
 				Edge e = (Edge) it.next();
 				
 				int etid = getId(e.getEdgeType());
@@ -549,7 +547,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
 		 */
-		public void insertNodes(Collection nodes) {
+		public void insertNodes(Collection<Node> nodes) {
 			nodesToInsert = nodes;
 			
 			/*
@@ -565,7 +563,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			 * IDs in the array.
 			 */
 			int i = 0;
-			for (Iterator it = nodes.iterator(); it.hasNext(); i++) {
+			for (Iterator<Node> it = nodes.iterator(); it.hasNext(); i++) {
 				Node n = (Node) it.next();
 				ps.print("  inserted_nodes[" + i + "] = INSERT_NODE("
 									 + getId(n.getNodeType()) + ");\n");
@@ -578,12 +576,12 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		 * Generate an eval statement for some assignments.
 		 * @param assigns A collection of assignments.
 		 */
-		public void generateEvals(Collection assigns) {
+		public void generateEvals(Collection<Object> assigns) {
 			
-			for(Iterator it = assigns.iterator(); it.hasNext();) {
+			for(Iterator<Object> it = assigns.iterator(); it.hasNext();) {
 				Assignment a = (Assignment) it.next();
 				assert evalMap.containsKey(a);
-				PreparedStatements.Stmt q = (PreparedStatements.Stmt) evalMap.get(a);
+				PreparedStatements.Stmt q = evalMap.get(a);
 				int ents = q.usedEntities.size();
 				int arrSize = ents > 1 ? ents : 1;
 				
@@ -608,7 +606,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		/**
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#getRequiredRewriteGenerator()
 		 */
-		public Class getRequiredRewriteGenerator() {
+		public Class<SPORewriteGenerator> getRequiredRewriteGenerator() {
 			return SPORewriteGenerator.class;
 		}
 	}
@@ -620,7 +618,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		String actionIdent = formatId(a.getIdent().toString());
 		String finishIdent = "finish_" + actionIdent;
 		
-		Match m = (Match) matchMap.get(a);
+		Match m = matchMap.get(a);
 		m.finishIdent = finishIdent;
 		
 		assert m != null : "A match must have been produced for " + a;
@@ -650,7 +648,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		PrintStream tps = new PrintStream(bos);
 		
-		for(Iterator i = r.getEvals().iterator(); i.hasNext(); num++) {
+		for(Iterator<Object> i = r.getEvals().iterator(); i.hasNext(); num++) {
 			Assignment assign = (Assignment) i.next();
 			MarkerSource ms = getMarkerSource();
 			Collection usedEntities = new LinkedList();
@@ -682,8 +680,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		SQLGenerator.MatchCtx matchCtx =
 			sqlGen.makeMatchContext(system, a, factory);
 		
-		List nodes = matchCtx.matchedNodes;
-		List edges = matchCtx.matchedEdges;
+		List<IR> nodes = matchCtx.matchedNodes;
+		List<IR> edges = matchCtx.matchedEdges;
 		
 		
 		
@@ -699,11 +697,11 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		Query stmt = sqlGen.genMatchStatement(matchCtx);
 		PreparedStatements.Stmt prepStmt =
 			matchStmts.add("match_" + actionIdent, stmt,
-										 ReadOnlyCollection.EMPTY,	ReadOnlyCollection.EMPTY);
+										 Collections.EMPTY_SET,	Collections.EMPTY_SET);
 		
 		// Make an array of strings that contains the node names.
 		ps.println("static const char *" + nodeNamesIdent + "[] = {");
-		for (Iterator it = nodes.iterator(); it.hasNext();) {
+		for (Iterator<IR> it = nodes.iterator(); it.hasNext();) {
 			Identifiable node = (Identifiable) it.next();
 			ps.print("  ");
 			ps.print(formatString(node.getIdent().toString()));
@@ -713,7 +711,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		// Make an array of strings that contains the edge names.
 		ps.println("static const char *" + edgeNamesIdent + "[] = {");
-		for (Iterator it = edges.iterator(); it.hasNext();) {
+		for (Iterator<IR> it = edges.iterator(); it.hasNext();) {
 			Identifiable edge = (Identifiable) it.next();
 			ps.print("  ");
 			ps.print(formatString(edge.getIdent().toString()));
@@ -853,7 +851,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 	 * @param table The table to generate column access statements for.
 	 */
 	protected void genAttrTableCmds(PrintStream ps, String name,
-																	Map attrMap, AttributeTable table) {
+																	Map<Entity, Integer> attrMap, AttributeTable table) {
 		
 		int n = attrMap.size();
 		int[] getIdMap = new int[n];
@@ -873,16 +871,16 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		ps.println(';');
 		
 	
-		List cols = new LinkedList();
-		List exprs = new LinkedList();
+		List<Column> cols = new LinkedList<Column>();
+		List<Term> exprs = new LinkedList<Term>();
 		MarkerSource ms = getMarkerSource();
 		
 		cols.add(colId);
 		exprs.add(factory.markerExpression(ms, colId.getType()));
 		
-		for(Iterator it = attrMap.keySet().iterator(); it.hasNext();) {
-			Entity ent = (Entity) it.next();
-			int id = ((Integer) attrMap.get(ent)).intValue();
+		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
+			Entity ent = it.next();
+			int id = attrMap.get(ent).intValue();
 			
 			Statement s;
 			Column col = table.colEntity(ent);

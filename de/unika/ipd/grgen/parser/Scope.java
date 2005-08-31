@@ -33,19 +33,19 @@ public class Scope {
 	private final ErrorReporter reporter;
 	
 	/** All definitions of this scope. Map from symbol to Symbol.Definition */
-	private final Map defs = new HashMap();
+	private final Map<Symbol, Symbol.Definition> defs = new HashMap<Symbol, Symbol.Definition>();
 	
 	/** A map for numbering of anonymous id's */
-	private final Map anonIds = new HashMap();
+	private final Map<String, Integer> anonIds = new HashMap<String, Integer>();
 	
 	/** The children scopes. */
-	private final List childs = new LinkedList();
+	private final List<Scope> childs = new LinkedList<Scope>();
 	
 	/**
 	 * A list for all occurrences, without a definition on this scope.
 	 * Will be used to enter the proper definiton in {@link #leaveScope()}
 	 */
-	private final List occFixup = new LinkedList();
+	private final List<Symbol.Occurrence> occFixup = new LinkedList<Symbol.Occurrence>();
 	
 	/** An invalid scope. */
 	private static final Scope INVALID = new Scope(null, -1, "<invalid>");
@@ -117,7 +117,7 @@ public class Scope {
 		Symbol.Definition res = Symbol.Definition.getInvalid();
 		
 		if(defs.containsKey(sym))
-			res = (Symbol.Definition) defs.get(sym);
+			res = defs.get(sym);
 		
 		return res;
 	}
@@ -213,7 +213,7 @@ public class Scope {
 																					 Coords coords) {
 		int currId = 0;
 		if(anonIds.containsKey(name))
-			currId = ((Integer) anonIds.get(name)).intValue();
+			currId = anonIds.get(name).intValue();
 		
 		anonIds.put(name, new Integer(currId + 1));
 		
@@ -238,8 +238,8 @@ public class Scope {
 	public Scope leaveScope() {
 		
 		// fixup all occurrences by entering the correct definition.
-		for(Iterator it = occFixup.iterator(); it.hasNext();) {
-			Symbol.Occurrence occ = (Symbol.Occurrence) it.next();
+		for(Iterator<Symbol.Occurrence> it = occFixup.iterator(); it.hasNext();) {
+			Symbol.Occurrence occ = it.next();
 			occ.def = getCurrDef(occ.symbol);
 		}
 		

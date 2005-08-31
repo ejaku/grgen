@@ -15,7 +15,7 @@ public abstract class Reporter {
 
 	private int mask = 0;
 	
-	final protected Set handlers = new HashSet();
+	final protected Set<Handler> handlers = new HashSet<Handler>();
 
   
   /**
@@ -80,9 +80,9 @@ public abstract class Reporter {
 
 	public void report(int level, Location loc, String msg) {
 		if(willReport(level)) {
-			Iterator it = handlers.iterator();
+			Iterator<Handler> it = handlers.iterator();
 			while(it.hasNext()) {
-				Handler h = (Handler) it.next();
+				Handler h = it.next();
 				h.report(level, loc, msg);
 			}
 		}

@@ -71,7 +71,7 @@ public class ModelNode extends DeclNode {
 	protected IR constructIR() {
 		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
 		Model res = new Model(id);
-		Iterator children = getChild(DECLS).getChildren();
+		Iterator<BaseNode> children = getChild(DECLS).getChildren();
 		while(children.hasNext()) {
 			TypeDeclNode typeDecl = (TypeDeclNode) children.next();
 			res.addType(((TypeNode) typeDecl.getDeclType()).getType());

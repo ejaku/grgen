@@ -148,7 +148,7 @@ public interface StatementFactory {
 	 * limit part shall be omitted.
 	 * @return The query.
 	 */
-	Query simpleQuery(List columns, List relations, Term cond, int limit);
+	Query simpleQuery(List<Column> columns, List relations, Term cond, int limit);
 
 	/**
 	 * Make a simple query.
@@ -161,7 +161,7 @@ public interface StatementFactory {
 	 * @param having The having condition.
 	 * @return The query.
 	 */
-	Query simpleQuery(List columns, List relations, Term cond,
+	Query simpleQuery(List<Column> columns, List relations, Term cond,
 										List groupBy, Term having);
 	
 	/**
@@ -174,7 +174,7 @@ public interface StatementFactory {
 	 * limit part shall be omitted.
 	 * @return The query.
 	 */
-	Query explicitQuery(boolean distinct, List columns,
+	Query explicitQuery(boolean distinct, List<Column> columns,
 											Relation relation, List groupBy, Term having, int limit);
 
 	/**
@@ -200,7 +200,7 @@ public interface StatementFactory {
 	 * @return A manipulation statement.
 	 * @note This method expects <code>columns.size() == exprs.size()</code>.
 	 */
-	ManipulationStatement makeUpdate(Table table, List columns, List exprs, Term cond);
+	ManipulationStatement makeUpdate(Table table, List<Column> columns, List<Term> exprs, Term cond);
 	
-	ManipulationStatement makeInsert(Table table, List columns, List exprs);
+	ManipulationStatement makeInsert(Table table, List<Column> columns, List<Term> exprs);
 }

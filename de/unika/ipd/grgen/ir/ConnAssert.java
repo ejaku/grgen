@@ -7,7 +7,7 @@ package de.unika.ipd.grgen.ir;
 /**
  * Denotes the connections assertions of nodes and edges.
  */
-import de.unika.ipd.grgen.util.SingleIterator;
+import java.util.Collections;
 import java.util.Map;
 
 public class ConnAssert extends IR {
@@ -57,14 +57,14 @@ public class ConnAssert extends IR {
 		return tgtUpper;
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("src_lower", Integer.toString(srcLower));
 		fields.put("src_upper", Integer.toString(srcUpper));
 		fields.put("tgt_lower", Integer.toString(tgtLower));
 		fields.put("tgt_upper", Integer.toString(tgtUpper));
-		fields.put("src_type", new SingleIterator(getSrcType()));
-		fields.put("tgt_type", new SingleIterator(getTgtType()));
+		fields.put("src_type", Collections.singleton(getSrcType()));
+		fields.put("tgt_type", Collections.singleton(getTgtType()));
 	}
 
 	public boolean equals(ConnAssert ca) {

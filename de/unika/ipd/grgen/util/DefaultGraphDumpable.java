@@ -6,15 +6,16 @@
  */
 package de.unika.ipd.grgen.util;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import java.awt.Color;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Collection;
-import java.util.Iterator;
 
 
 
 /**
- * Some base class for a graph dumpable thing. 
+ * Some base class for a graph dumpable thing.
  */
 public abstract class DefaultGraphDumpable extends Base implements GraphDumpable, Walkable {
 
@@ -25,18 +26,6 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	private final String label;
 	private final String info;
 	
-	private static final Iterator EMPTY = new Iterator() {
-		public boolean hasNext() {
-			return false;
-		}
-		
-		public Object next() {
-			return null;
-		}
-		
-		public void remove() {
-		}
-	};
 	
 	protected DefaultGraphDumpable(String label, String info, Color col, int shape) {
 		this.label = label;
@@ -110,7 +99,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-	public Iterator getWalkableChildren() {
-		return children == null ? EMPTY : children.iterator();
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children == null ? Collections.EMPTY_SET : children;
 	}
 }

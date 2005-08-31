@@ -15,7 +15,10 @@ import de.unika.ipd.grgen.be.rewrite.SPORewriteGenerator;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
 import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
@@ -23,9 +26,6 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.libgr.actions.Action;
 import de.unika.ipd.libgr.actions.Match;
 import de.unika.ipd.libgr.actions.Matches;
-import de.unika.ipd.libgr.graph.Edge;
-import de.unika.ipd.libgr.graph.Graph;
-import de.unika.ipd.libgr.graph.Node;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +35,26 @@ import java.sql.SQLException;
  * A SQL action.
  */
 class SQLAction implements Action, RewriteHandler {
-
+	
+	/**
+	 * Generate code to insert all edges in the collection.
+	 * @param edges A collection of edges.
+	 */
+	public void insertEdges(Collection<Edge> edges) {
+		// TODO
+	}
+	
+	/**
+	 * Apply this action to a graph.
+	 * @param graph The graph to apply this action to.
+	 * @return The found matches.
+	 */
+	public Matches apply(de.unika.ipd.libgr.graph.Graph graph) {
+		// TODO
+		return null;
+	}
+	
+	
 	private static final Match INVALID_MATCH = new Match() {
 		public boolean isValid() {
 			return false;
@@ -49,12 +68,12 @@ class SQLAction implements Action, RewriteHandler {
 			return null;
 		}
 	};
-
+	
 	/**
 	 * Matches found by an SQL action.
 	 */
 	private class SQLMatches implements Matches {
-
+		
 		
 		/** The result set of the query. */
 		private ResultSet result;
@@ -85,7 +104,7 @@ class SQLAction implements Action, RewriteHandler {
 				
 				for(int i = 0; i < cols; i++)
 					res[i] = result.getInt(i);
-			
+				
 				return new SQLMatch(res);
 			} catch(SQLException e) {
 				// TODO error handling.
@@ -132,18 +151,18 @@ class SQLAction implements Action, RewriteHandler {
 			return true;
 		}
 	}
-
+	
 	/**
 	 * Data needed for a rewrite step.
 	 */
 	private abstract class RewriteStep {
-
+		
 		private int stmtId;
 		
 		protected RewriteStep(int stmtId) {
 			this.stmtId = stmtId;
 		}
-
+		
 		abstract int[] prepare(SQLMatch match);
 		
 		final void apply(SQLMatch m) {
@@ -171,7 +190,7 @@ class SQLAction implements Action, RewriteHandler {
 			return new int[] { match.ids[index] };
 		}
 	}
-
+	
 	/**
 	 * A rewrite step which changes the type of a node in the database.
 	 */
@@ -194,12 +213,12 @@ class SQLAction implements Action, RewriteHandler {
 			return res;
 		}
 	}
-
+	
 	/** Map each node in the match to its column number in the match table. */
-	private Map nodeIndexMap = new HashMap();
+	private Map<Object, Integer> nodeIndexMap = new HashMap<Object, Integer>();
 	
 	/** Map each edge in the match to its column number in the match table. */
-	private Map edgeIndexMap = new HashMap();
+	private Map<Object, Integer> edgeIndexMap = new HashMap<Object, Integer>();
 	
 	/** The IR matching action this action implements. */
 	private MatchingAction action;
@@ -219,16 +238,16 @@ class SQLAction implements Action, RewriteHandler {
 	private Sys system;
 	
 	/** The rewrite steps to take. */
-	List rewriteSteps = new LinkedList();
+	List<SQLAction.RewriteStep> rewriteSteps = new LinkedList<SQLAction.RewriteStep>();
 	
 	SQLAction(Sys system, MatchingAction action, TypeID typeId, Queries queries,
-						SQLGenerator generator, MetaFactory factory) {
+			  SQLGenerator generator, MetaFactory factory) {
 		this.action = action;
 		this.queries = queries;
 		this.typeId = typeId;
 		this.system = system;
 		this.reporter = system.getErrorReporter();
-
+		
 		// Generate the SQL match statement.
 		List nodes = new LinkedList();
 		List edges = new LinkedList();
@@ -258,13 +277,13 @@ class SQLAction implements Action, RewriteHandler {
 	}
 	
 	private int getIndex(Node n) {
-		return ((Integer) nodeIndexMap.get(n)).intValue();
+		return nodeIndexMap.get(n).intValue();
 	}
 	
 	private int getIndex(Edge n) {
-		return ((Integer) edgeIndexMap.get(n)).intValue();
+		return edgeIndexMap.get(n).intValue();
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.libgr.actions.Action#apply(de.unika.ipd.libgr.graph.Graph)
 	 */
@@ -276,22 +295,22 @@ class SQLAction implements Action, RewriteHandler {
 			return new SQLMatches(set);
 		} catch(SQLException e) {
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.libgr.actions.Action#finish(de.unika.ipd.libgr.actions.Match)
 	 */
 	public void finish(Match match) {
 		assert match instanceof SQLMatch : "need to have an SQL match";
-
+		
 		SQLMatch m = (SQLMatch) match;
-		for(Iterator it = rewriteSteps.iterator(); it.hasNext();) {
-			RewriteStep step = (RewriteStep) it.next();
+		for(Iterator<SQLAction.RewriteStep> it = rewriteSteps.iterator(); it.hasNext();) {
+			RewriteStep step = it.next();
 			step.apply(m);
 		}
-
+		
 	}
 	
 	/**
@@ -300,55 +319,55 @@ class SQLAction implements Action, RewriteHandler {
 	public String getName() {
 		return action.getIdent().toString();
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
 	 */
-	public void insertNodes(Collection nodes) {
-		for(Iterator it = nodes.iterator(); it.hasNext();) {
+	public void insertNodes(Collection<Node> nodes) {
+		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			rewriteSteps.add(new IndexStep(Queries.ADD_NODE, getIndex(n)));
 		}
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#changeNodeTypes(java.util.Map)
 	 */
-	public void changeNodeTypes(Map nodeTypeMap) {
-		for(Iterator it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
+	public void changeNodeTypes(Map<de.unika.ipd.grgen.ir.Node, Object> nodeTypeMap) {
+		for(Iterator<de.unika.ipd.grgen.ir.Node> it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			int typeId = ((Integer) nodeTypeMap.get(n)).intValue();
 			rewriteSteps.add(new ChangeNodeTypeStep(getIndex(n), typeId));
 		}
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdges(java.util.Collection)
 	 */
-	public void deleteEdges(Collection edges) {
-		for(Iterator it = edges.iterator(); it.hasNext();) {
+	public void deleteEdges(Collection<Edge> edges) {
+		for(Iterator<Edge> it = edges.iterator(); it.hasNext();) {
 			Edge e = (Edge) it.next();
 			rewriteSteps.add(new IndexStep(Queries.REMOVE_EDGE, getIndex(e)));
 		}
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteEdgesOfNodes(java.util.Collection)
 	 */
-	public void deleteEdgesOfNodes(Collection nodes) {
-		for(Iterator it = nodes.iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
+	public void deleteEdgesOfNodes(Collection<Node> nodes) {
+		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
+			Node e = (Node) it.next();
 			rewriteSteps.add(new IndexStep(Queries.ADD_EDGE, getIndex(e)));
 		}
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#deleteNodes(java.util.Collection)
 	 */
-	public void deleteNodes(Collection nodes) {
-		for(Iterator it = nodes.iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
-			rewriteSteps.add(new IndexStep(Queries.REMOVE_NODE, getIndex(e)));
+	public void deleteNodes(Collection<Node> nodes) {
+		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
+			Node n = (Node) it.next();
+			rewriteSteps.add(new IndexStep(Queries.REMOVE_NODE, getIndex(n)));
 		}
 	}
 	
@@ -356,21 +375,15 @@ class SQLAction implements Action, RewriteHandler {
 	 * Generate an eval statement for some assignments.
 	 * @param assigns A collection of assignments.
 	 */
-	public void generateEvals(Collection assigns) {
+	public void generateEvals(Collection<Object> assigns) {
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#finish()
 	 */
 	public void finish() {
 	}
-
-	/**
-	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
-	 */
-	public void insertEdges(Collection edges) {
-	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#start(de.unika.ipd.grgen.ir.Rule, java.lang.Class)
 	 */
@@ -380,7 +393,7 @@ class SQLAction implements Action, RewriteHandler {
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#getRequiredRewriteGenerator()
 	 */
-	public Class getRequiredRewriteGenerator() {
+	public Class<SPORewriteGenerator> getRequiredRewriteGenerator() {
 		return SPORewriteGenerator.class;
 	}
 }

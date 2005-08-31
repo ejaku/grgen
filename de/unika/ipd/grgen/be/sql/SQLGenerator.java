@@ -5,6 +5,7 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
+
 import de.unika.ipd.grgen.be.sql.meta.*;
 import de.unika.ipd.grgen.be.sql.stmt.*;
 import de.unika.ipd.grgen.ir.*;
@@ -13,7 +14,6 @@ import java.util.*;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.DummyCollection;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.VCGDumper;
 import java.io.File;
@@ -38,8 +38,8 @@ public class SQLGenerator extends Base {
 	protected final TypeID typeID;
 	
 	public SQLGenerator(SQLParameters parameters,
-											MarkerSourceFactory msf,
-											TypeID typeID) {
+						MarkerSourceFactory msf,
+						TypeID typeID) {
 		
 		this.parameters = parameters;
 		this.markerSourceFactory = msf;
@@ -48,8 +48,8 @@ public class SQLGenerator extends Base {
 	
 	
 	public static final class MatchCtx {
-		public final List matchedNodes = new LinkedList();
-		public final List matchedEdges = new LinkedList();
+		public final List<IR> matchedNodes = new LinkedList<IR>();
+		public final List<IR> matchedEdges = new LinkedList<IR>();
 		
 		final MatchingAction action;
 		final MetaFactory factory;
@@ -63,7 +63,7 @@ public class SQLGenerator extends Base {
 	}
 	
 	public final MatchCtx makeMatchContext(Sys system, MatchingAction action,
-																				 MetaFactory factory) {
+										   MetaFactory factory) {
 		return new MatchCtx(system, action, factory);
 	}
 	
@@ -91,15 +91,14 @@ public class SQLGenerator extends Base {
 	protected Query makeMatchStatement(MatchCtx ctx) {
 		MatchingAction act = ctx.action;
 		MetaFactory factory = ctx.factory;
-		List matchedNodes = ctx.matchedNodes;
-		List matchedEdges = ctx.matchedEdges;
+		List<IR> matchedNodes = ctx.matchedNodes;
+		List<IR> matchedEdges = ctx.matchedEdges;
 		
 		Graph gr  = act.getPattern();
 		Query q = makeQuery(ctx, gr, new LinkedList(), true);
 		
 		// create subQueries for negative parts
-		for(Iterator it = act.getNegs(); it.hasNext();) {
-			Graph neg = (Graph) it.next();
+		for(Graph neg : act.getNegs()) {
 			Query inner = makeQuery(ctx, neg, q.getRelations(), true);
 			
 			// simplify select part of inner query, because existence of tuples is sufficient
@@ -108,33 +107,33 @@ public class SQLGenerator extends Base {
 			
 			// add the inner query to the where part of the outer.
 			Term notEx = factory.expression(Opcodes.NOT,
-																			factory.expression(Opcodes.EXISTS,
-																												 factory.expression(inner)));
+											factory.expression(Opcodes.EXISTS,
+															   factory.expression(inner)));
 			
 			Term cond = q.getCondition();
 			q.setCondition(cond == null ? notEx :
-											 factory.expression(Opcodes.AND, cond, notEx));
+							   factory.expression(Opcodes.AND, cond, notEx));
 		}
 		return q;
 	}
 	
 	protected Query makeQuery(MatchCtx ctx, Graph graph,
-														List excludeTables, boolean isNeg) {
+							  List excludeTables, boolean isNeg) {
 		
 		MatchingAction act = ctx.action;
 		MetaFactory factory = ctx.factory;
-		List matchedNodes = ctx.matchedNodes;
-		List matchedEdges = ctx.matchedEdges;
+		List<IR> matchedNodes = ctx.matchedNodes;
+		List<IR> matchedEdges = ctx.matchedEdges;
 		
 		Collection nodes = graph.getNodes();
-		Collection edges = new HashSet();
+		Collection<Edge> edges = new HashSet<Edge>();
 		
 		List nodeTables = new LinkedList();
-		List edgeTables = new LinkedList();
-		List nodeCols = new LinkedList();
-		List edgeCols = new LinkedList();
+		List<EdgeTable> edgeTables = new LinkedList<EdgeTable>();
+		List<Column> nodeCols = new LinkedList<Column>();
+		List<Column> edgeCols = new LinkedList<Column>();
 		
-		Map nodeTableMap = new HashMap();
+		Map<Node, NodeTable> nodeTableMap = new HashMap<Node, NodeTable>();
 		
 		Term nodeCond = factory.constant(true);
 		Term edgeCond = factory.constant(true);
@@ -150,7 +149,7 @@ public class SQLGenerator extends Base {
 			parameters.getColEdgesSrcId(), parameters.getColEdgesTgtId()
 		};
 		
-		Set workset = new HashSet();
+		Set<IR> workset = new HashSet<IR>();
 		workset.addAll(nodes);
 		HashMap edgeNotEx = new HashMap();
 		
@@ -181,11 +180,11 @@ public class SQLGenerator extends Base {
 			
 			// Add node type constraint
 			nodeCond = factory.expression(Opcodes.AND, nodeCond,
-																		factory.isA(table, n, true, typeID));
+										  factory.isA(table, n, true, typeID));
 			
 			
 			// Make this node unequal to all other nodes.
-			for (Iterator iter = workset.iterator(); iter.hasNext();) {
+			for (Iterator<IR> iter = workset.iterator(); iter.hasNext();) {
 				Node other = (Node) iter.next();
 				NodeTable otherNodeTable = factory.nodeTable(other);
 				
@@ -193,7 +192,7 @@ public class SQLGenerator extends Base {
 				// If it was, we cannot node, if it is equal or not equal to n
 				if(!n.isHomomorphic(other)) {
 					nodeCond = factory.expression(Opcodes.NE, nodeColExpr,
-																				factory.expression(otherNodeTable.colId()));
+												  factory.expression(otherNodeTable.colId()));
 				}
 			}
 			
@@ -209,8 +208,8 @@ public class SQLGenerator extends Base {
 			for(int i = 0; i < incidentSets.length; i++) {
 				boolean src = i == 0;
 				
-				for (Iterator iter = incidentSets[i].iterator(); iter.hasNext();) {
-					Edge e = (Edge) iter.next();
+				for (Iterator<Edge> iter = incidentSets[i].iterator(); iter.hasNext();) {
+					Edge e = iter.next();
 					EdgeTable edgeTable = factory.edgeTable(e);
 					Column edgeCol = edgeTable.colId();
 					int edgeTypeId = typeID.getId((EdgeType) e.getType());
@@ -230,7 +229,7 @@ public class SQLGenerator extends Base {
 						
 						// Add edge type constraint
 						edgeCond = factory.expression(Opcodes.AND, edgeCond,
-																					factory.isA(edgeTable, e, false, typeID));
+													  factory.isA(edgeTable, e, false, typeID));
 						
 						// Add it also to the edge result list.
 						if(!isNeg)
@@ -241,7 +240,7 @@ public class SQLGenerator extends Base {
 					
 					// Add = for all edges, that are incident to the current node.
 					nodeCond = factory.expression(Opcodes.AND, nodeCond,
-																				factory.expression(Opcodes.EQ, lastColExpr, edgeColExpr));
+												  factory.expression(Opcodes.EQ, lastColExpr, edgeColExpr));
 					
 					lastColExpr = edgeColExpr;
 				}
@@ -252,8 +251,8 @@ public class SQLGenerator extends Base {
 		nodeCols.addAll(edgeCols);
 		nodeTables.removeAll(excludeTables);
 		return factory.simpleQuery(nodeCols, nodeTables,
-															 factory.expression(Opcodes.AND, nodeCond, edgeCond),
-															 StatementFactory.NO_LIMIT);
+								   factory.expression(Opcodes.AND, nodeCond, edgeCond),
+								   StatementFactory.NO_LIMIT);
 	}
 	
 	/**
@@ -300,9 +299,9 @@ public class SQLGenerator extends Base {
 	 * @return An update statement for the assignment.
 	 */
 	public ManipulationStatement genEvalUpdateStmt(Assignment a,
-																								 MetaFactory factory,
-																								 MarkerSource ms,
-																								 Collection usedEntities) {
+												   MetaFactory factory,
+												   MarkerSource ms,
+												   Collection usedEntities) {
 		
 		Qualification tgt = a.getTarget();
 		Entity owner = tgt.getOwner();
@@ -312,16 +311,16 @@ public class SQLGenerator extends Base {
 		UpdateQualGen qg = new UpdateQualGen(owner);
 		
 		Term term = genExprSQL(expr, ms, factory,
-													 DummyCollection.EMPTY, qg);
-
+							   new HashSet(), qg);
 		
-		List cols = Collections.singletonList(col);
-		List exprs = Collections.singletonList(term);
+		
+		List<Column> cols = Collections.singletonList(col);
+		List<Term> exprs = Collections.singletonList(term);
 		
 		Term condition = factory.expression(Opcodes.EQ,
-																				factory.expression(table.colId()),
-																				factory.markerExpression(ms, factory.getIdType()));
-
+											factory.expression(table.colId()),
+											factory.markerExpression(ms, factory.getIdType()));
+		
 		usedEntities.addAll(qg.getMarkedEntities());
 		usedEntities.add(owner);
 		
@@ -342,23 +341,23 @@ public class SQLGenerator extends Base {
 		 * @return A corresponding term.
 		 */
 		Term genQual(Qualification qual,
-								 MarkerSource ms,
-								 MetaFactory fact);
+					 MarkerSource ms,
+					 MetaFactory fact);
 		
 	}
 	
 	protected static class UpdateQualGen implements QualGenerator {
 		
 		private final Entity ent;
-		private final Collection markedEntites = new LinkedList();
+		private final Collection<Entity> markedEntites = new LinkedList<Entity>();
 		
 		public UpdateQualGen(Entity ent) {
 			this.ent = ent;
 		}
 		
 		public Term genQual(Qualification qual,
-												MarkerSource ms,
-												MetaFactory factory) {
+							MarkerSource ms,
+							MetaFactory factory) {
 			
 			Entity owner = qual.getOwner();
 			Term res = null;
@@ -373,14 +372,14 @@ public class SQLGenerator extends Base {
 			return res;
 		}
 		
-		public Collection getMarkedEntities() {
+		public Collection<Entity> getMarkedEntities() {
 			return markedEntites;
 		}
 	}
 	
 	protected static AttributeTable getQualAttrTable(Qualification qual,
-																									 GraphTableFactory factory,
-																									 boolean useOriginalTables) {
+													 GraphTableFactory factory,
+													 boolean useOriginalTables) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
 		boolean isNode = owner instanceof Node;
@@ -404,8 +403,8 @@ public class SQLGenerator extends Base {
 	
 	protected static QualGenerator qualColExpr = new QualGenerator() {
 		public Term genQual(Qualification qual,
-												MarkerSource ms,
-												MetaFactory factory) {
+							MarkerSource ms,
+							MetaFactory factory) {
 			
 			AttributeTable attrTable = getQualAttrTable(qual, factory, false);
 			return factory.expression(attrTable.colEntity(qual.getMember()));
@@ -414,8 +413,8 @@ public class SQLGenerator extends Base {
 	
 	protected static QualGenerator qualOriginalColExpr = new QualGenerator() {
 		public Term genQual(Qualification qual,
-												MarkerSource ms,
-												MetaFactory factory) {
+							MarkerSource ms,
+							MetaFactory factory) {
 			AttributeTable attrTable = getQualAttrTable(qual, factory, true);
 			return factory.expression(attrTable.colEntity(qual.getMember()));
 		}
@@ -423,18 +422,18 @@ public class SQLGenerator extends Base {
 	
 	protected static QualGenerator qualSubqueryExpr = new QualGenerator() {
 		public Term genQual(Qualification qual,
-												MarkerSource ms,
-												MetaFactory factory) {
+							MarkerSource ms,
+							MetaFactory factory) {
 			AttributeTable attrTable = getQualAttrTable(qual, factory, true);
 			Column col = attrTable.colEntity(qual.getMember());
 			Term cond = factory.expression(Opcodes.EQ,
-																		 factory.expression(attrTable.colId()),
-																		 factory.markerExpression(ms, factory.getIdType()));
+										   factory.expression(attrTable.colId()),
+										   factory.markerExpression(ms, factory.getIdType()));
 			
 			Query q = factory.simpleQuery(Collections.singletonList(col),
-																		Collections.singletonList(attrTable),
-																		cond,
-																		TypeStatementFactory.NO_LIMIT);
+										  Collections.singletonList(attrTable),
+										  cond,
+										  TypeStatementFactory.NO_LIMIT);
 			
 			return factory.expression(q);
 		}
@@ -442,7 +441,7 @@ public class SQLGenerator extends Base {
 	
 	protected Term genExprSQL(Expression expr, MetaFactory factory, Collection used) {
 		return genExprSQL(expr, markerSourceFactory.getMarkerSource(),
-											factory, used, qualColExpr);
+						  factory, used, qualColExpr);
 	}
 	
 	/**
@@ -455,20 +454,20 @@ public class SQLGenerator extends Base {
 	 * @return The SQL term representing the expression.
 	 */
 	protected Term genExprSQL(Expression expr,
-														MarkerSource ms,
-														MetaFactory factory,
-														Collection usedEntities,
-														QualGenerator qualGen) {
+							  MarkerSource ms,
+							  MetaFactory factory,
+							  Collection usedEntities,
+							  QualGenerator qualGen) {
 		
 		Term res = null;
 		
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
-			Term[] operands = new Term[op.operandCount()];
+			Term[] operands = new Term[op.arity()];
 			
-			for(int i = 0; i < op.operandCount(); i++)
+			for(int i = 0; i < op.arity(); i++)
 				operands[i] = genExprSQL(op.getOperand(i), ms, factory,
-																 usedEntities, qualGen);
+										 usedEntities, qualGen);
 			
 			res = factory.expression(getOpSQL(op), operands);
 		} else if(expr instanceof Constant) {
@@ -502,8 +501,8 @@ public class SQLGenerator extends Base {
 	 * @return The column.
 	 */
 	protected final Column getQualCol(Qualification qual,
-																		GraphTableFactory tableFactory,
-																		boolean dontUseAliasTable) {
+									  GraphTableFactory tableFactory,
+									  boolean dontUseAliasTable) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
 		

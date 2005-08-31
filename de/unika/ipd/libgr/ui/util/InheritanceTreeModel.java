@@ -26,11 +26,11 @@ import de.unika.ipd.libgr.graph.AttributedType;
  */
 public class InheritanceTreeModel implements TreeModel {
 
-	private Collection listeners = new HashSet();
+	private Collection<TreeModelListener> listeners = new HashSet<TreeModelListener>();
 	
 	private AttributedType root;
 	
-	private Map cache = new HashMap();
+	private Map<AttributedType, List> cache = new HashMap<AttributedType, List>();
 	
 	public InheritanceTreeModel(AttributedType root) {
 		this.root = root;
@@ -40,11 +40,11 @@ public class InheritanceTreeModel implements TreeModel {
 		List res;
 		
 		if(cache.containsKey(obj)) {
-			res = (List) cache.get(obj);
+			res = cache.get(obj);
 		} else {
 			res = new LinkedList();
 			AttributedType ty = (AttributedType) obj;
-			for(Iterator it = ty.getSubTypes(); it.hasNext();) 
+			for(Iterator<Object> it = ty.getSubTypes(); it.hasNext();) 
 				res.add(it.next());
 			cache.put(ty, res);
 		}

@@ -6,6 +6,7 @@
 package de.unika.ipd.grgen.util;
 
 import java.util.Iterator;
+import de.unika.ipd.grgen.ast.BaseNode;
 
 /**
  * A visitor that dumps graphs
@@ -35,10 +36,10 @@ public class GraphDumpVisitor extends Base implements Visitor {
   	GraphDumpable gd = (GraphDumpable) n;
 		dumper.node(gd);
 		
-		Iterator it = n.getWalkableChildren();
-		for(int i = 0; it.hasNext(); i++) {
-			GraphDumpable target = (GraphDumpable) it.next();
+		int i = 0;
+		for(GraphDumpable target : n.getWalkableChildren()) {
 			dumper.edge(gd, target, gd.getEdgeLabel(i));
+			i++;
 		}
   }
 

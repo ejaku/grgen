@@ -23,7 +23,7 @@ public class XMLDumper {
 	
 	private boolean printingAttributes = false;
 	
-	private final Collection visited = new HashSet();
+	private final Collection<XMLDumpable> visited = new HashSet<XMLDumpable>();
 	
 	public XMLDumper(PrintStream ps) {
 		this(ps, "  ");
@@ -42,7 +42,7 @@ public class XMLDumper {
 		
 		visited.add(dumpable);
 
-		Map fields = new HashMap();
+		Map<String, Object> fields = new HashMap<String, Object>();
 		dumpable.addFields(fields);
 		String tagName = dumpable.getTagName();
 		
@@ -53,7 +53,7 @@ public class XMLDumper {
 		ps.print(dumpable.getXMLId());
 		ps.print('\"');
 
-		for(Iterator it = fields.keySet().iterator(); it.hasNext();) {
+		for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
 			Object obj = it.next();
 			Object val = fields.get(obj);
 			if(!(val instanceof Iterator)) {
@@ -69,9 +69,9 @@ public class XMLDumper {
 		if(!fields.isEmpty()) {
 			ps.println('>');
 			indent++;
-			for(Iterator it = fields.keySet().iterator(); it.hasNext();) {
+			for(Iterator<String> it = fields.keySet().iterator(); it.hasNext();) {
 				Object obj = it.next();
-				Iterator childs = (Iterator) fields.get(obj);
+				Iterator<XMLDumpable> childs = (Iterator) fields.get(obj);
 				String tag = obj.toString();
 
 				if(childs.hasNext()) {
@@ -82,7 +82,7 @@ public class XMLDumper {
 					indent++;
 					
 					while(childs.hasNext()) {
-						XMLDumpable d = (XMLDumpable) childs.next();
+						XMLDumpable d = childs.next();
 						dump(d);
 					}
 					

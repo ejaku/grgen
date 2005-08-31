@@ -18,7 +18,7 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ExtensionFileFilter extends FileFilter {
 
-	private Collection extensions = new HashSet();
+	private Collection<String> extensions = new HashSet<String>();
 	private String description;
 
 	private static final String getExtension(File f) {

@@ -19,7 +19,7 @@ public class TypeExprSetOperator extends TypeExpr {
 	
 	private final int op;
 	
-	private final List children = new ArrayList();
+	private final List<TypeExpr> children = new ArrayList<TypeExpr>();
 	
 	public TypeExprSetOperator(int op) {
 		this.op = op;
@@ -30,12 +30,12 @@ public class TypeExprSetOperator extends TypeExpr {
 		children.add(operand);
 	}
 	
-	public Collection evaluate() {
-		Collection res = new HashSet();
+	public Collection<InheritanceType> evaluate() {
+		Collection<InheritanceType> res = new HashSet<InheritanceType>();
 		assert children.size() == 2 : "Arity 2 required";
 		
-		Collection lhs = ((TypeExpr) children.get(0)).evaluate();
-		Collection rhs = ((TypeExpr) children.get(1)).evaluate();
+		Collection<InheritanceType> lhs = children.get(0).evaluate();
+		Collection<InheritanceType> rhs = children.get(1).evaluate();
 		
 		res.addAll(lhs);
 

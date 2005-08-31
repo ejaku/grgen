@@ -4,8 +4,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.ArrayIterator;
-import java.util.Iterator;
 
 public class Qualification extends Expression {
 	

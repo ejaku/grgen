@@ -4,11 +4,9 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.ArrayIterator;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -24,7 +22,7 @@ public class Rule extends MatchingAction {
 	private final Graph right;
 
 	/** The evaluation assignments of this rule. */
-	private final Collection evals = new LinkedList();
+	private final Collection<Object> evals = new LinkedList<Object>();
 
 	/**
 	 * Make a new rule.
@@ -44,8 +42,8 @@ public class Rule extends MatchingAction {
 	 * Get the eval assignments of this rule.
 	 * @return A collection containing all eval assignments.
 	 */
-	public Collection getEvals() {
-		return ReadOnlyCollection.getSingle(evals);
+	public Collection<Object> getEvals() {
+		return Collections.unmodifiableCollection(evals);
 	}
 
 	/**
@@ -61,8 +59,8 @@ public class Rule extends MatchingAction {
 	 * @return A set with nodes, that occur on the left and on the right side
 	 * of the rule.
 	 */
-	public Collection getCommonNodes() {
-		Collection common = new HashSet(pattern.getNodes());
+	public Collection<IR> getCommonNodes() {
+		Collection<IR> common = new HashSet<IR>(pattern.getNodes());
 		common.retainAll(right.getNodes());
 		return common;
 	}
@@ -71,8 +69,8 @@ public class Rule extends MatchingAction {
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
 	 */
-	public Collection getCommonEdges() {
-		Collection common = new HashSet(pattern.getEdges());
+	public Collection<IR> getCommonEdges() {
+		Collection<IR> common = new HashSet<IR>(pattern.getEdges());
 		common.retainAll(right.getEdges());
 		return common;
 	}
@@ -84,8 +82,8 @@ public class Rule extends MatchingAction {
 	 * @return A collection holding all additional graphs in this
 	 * matching action.
 	 */
-	public Collection getAdditionalGraphs() {
-		Collection res = new LinkedList(super.getAdditionalGraphs());
+	public Collection<Graph> getAdditionalGraphs() {
+		Collection<Graph> res = new LinkedList<Graph>(super.getAdditionalGraphs());
 		res.add(right);
 		return res;
 	}
@@ -95,7 +93,7 @@ public class Rule extends MatchingAction {
 	 * Get the left hand side.
 	 * @return The left hand side graph.
 	 */
-	public Graph getLeft() {
+	public PatternGraph getLeft() {
 		return pattern;
 	}
 

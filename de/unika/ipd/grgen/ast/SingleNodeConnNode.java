@@ -75,7 +75,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdge(java.util.Set)
 	 */
-	public void addEdge(Set set) {
+	public void addEdge(Set<BaseNode> set) {
 	}
 	
 	public EdgeCharacter getEdge() {
@@ -93,7 +93,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
 	 */
-	public void addNodes(Set set) {
+	public void addNodes(Set<BaseNode> set) {
 		set.add(getChild(NODE));
 	}
 	

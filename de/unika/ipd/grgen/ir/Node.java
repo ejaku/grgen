@@ -22,7 +22,7 @@ public class Node extends ConstraintEntity {
 	private Node oldNode;
   
   /** A set of nodes, that are homomorphic to this one. */
-  private Set homomorphicNodes = new HashSet();
+  private Set<Node> homomorphicNodes = new HashSet<Node>();
   
   /**
    * Make a new node.
@@ -138,7 +138,7 @@ public class Node extends ConstraintEntity {
 	 * Put all nodes, that are homomoprohic to this one in a given set.
 	 * @param addTo The set to put them all into.
 	 */
-	public void getHomomorphic(Collection addTo) {
+	public void getHomomorphic(Collection<Node> addTo) {
 		addTo.addAll(homomorphicNodes);
 	}
 	

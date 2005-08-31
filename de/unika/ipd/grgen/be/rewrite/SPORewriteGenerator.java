@@ -6,15 +6,13 @@
  */
 package de.unika.ipd.grgen.be.rewrite;
 
+import de.unika.ipd.grgen.ir.*;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
@@ -40,11 +38,12 @@ public class SPORewriteGenerator implements RewriteGenerator {
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteGenerator#rewrite(de.unika.ipd.grgen.ir.Rule, de.unika.ipd.grgen.be.spo.RewriteHandler)
 	 */
 	public void rewrite(Rule r, RewriteHandler handler) {
-		Collection commonNodes = r.getCommonNodes();
-		Collection commonEdges = r.getCommonEdges();
+		Collection<IR> commonNodes = r.getCommonNodes();
+		Collection<IR> commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
-		Collection w = new HashSet();
+		Collection<Edge> es = new HashSet<Edge>();
+
 		
 		assert getClass().isAssignableFrom(handler.getRequiredRewriteGenerator());
 		
@@ -55,33 +54,34 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// This makes the redirections possible. They can only be applied,
 		// if all nodes (the ones to be deleted, and the ones to be inserted)
 		// are present.
-		Collection nodesToInsert = new HashSet(right.getNodes());
+		Collection<Node> nodesToInsert = new HashSet<Node>(right.getNodes());
 		nodesToInsert.removeAll(commonNodes);
 		
 		// Only consider redirections and node insertions, if we truly have
 		// to insert some nodes, i.e. The nodesToInsert set has elements
 		handler.insertNodes(nodesToInsert);
 		
-		w.clear();
-		right.putEdges(w);
-		w.removeAll(commonEdges);
-		handler.insertEdges(w);
+		es.clear();
+		right.putEdges(es);
+		es.removeAll(commonEdges);
+		handler.insertEdges(es);
 
 		// Finally the evaluations.
 		handler.generateEvals(r.getEvals());
 		
 		// All edges, that occur only on the left side have to be removed.
-		w.clear();
-		left.putEdges(w);
-		w.removeAll(commonEdges);
-		handler.deleteEdges(w);
+		es.clear();
+		left.putEdges(es);
+		es.removeAll(commonEdges);
+		handler.deleteEdges(es);
 		
-		w.clear();
-		left.putNodes(w);
-		Map nodeTypeChangeMap = new HashMap();
+		Collection<Node> ns = new HashSet<Node>();
+		ns.clear();
+		left.putNodes(ns);
+		Map<Node, Object> nodeTypeChangeMap = new HashMap<Node, Object>();
 		
 		// Change types of nodes.
-		for (Iterator it = w.iterator(); it.hasNext();) {
+		for (Iterator<Node> it = ns.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
 			if (n.typeChanges())
 				nodeTypeChangeMap.put(n, n.getReplaceType());
@@ -89,9 +89,9 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		handler.changeNodeTypes(nodeTypeChangeMap);
 
 		// Delete all nodes to delete and the incident edges.
-		w.removeAll(commonNodes);
-		handler.deleteEdgesOfNodes(w);
-		handler.deleteNodes(w);
+		ns.removeAll(commonNodes);
+		handler.deleteEdgesOfNodes(ns);
+		handler.deleteNodes(ns);
 		
 		// ... and the finish function.
 		handler.finish();

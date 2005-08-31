@@ -5,10 +5,6 @@
 package de.unika.ipd.grgen.ir;
 
 
-import java.util.Iterator;
-
-import de.unika.ipd.grgen.util.ArrayIterator;
-
 /**
  * Abstract base class for all constants.
  */

@@ -45,10 +45,10 @@ public class OperatorSignature extends FunctionSignature {
 	private static final int OPERATORS = COND + 1;
 	
 	/** Arity map of the operators. */
-	private static final Map arities = new HashMap();
+	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
 	
 	/** Name map of the operators. */
-	private static final Map names = new HashMap();
+	private static final Map<Integer, String> names = new HashMap<Integer, String>();
 	
 	static {
 		Integer two = new Integer(2);
@@ -108,7 +108,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * each result type of the specific operator to a its
 	 * signature.
 	 */
-	final static private Map operators = new HashMap();
+	final static private Map<Integer, HashSet> operators = new HashMap<Integer, HashSet>();
 	
 	/**
 	 * Makes an entry in the {@link #operators} map.
@@ -124,7 +124,7 @@ public class OperatorSignature extends FunctionSignature {
 		if(operators.get(oid) == null)
 			operators.put(oid, new HashSet());
 		
-		HashSet typeMap = (HashSet) operators.get(oid);
+		HashSet<OperatorSignature> typeMap = operators.get(oid);
 		typeMap.add(new OperatorSignature(id, resType, opTypes, eval));
 	}
 	
@@ -403,7 +403,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * @return The arity of the operator.
 	 */
 	protected static int getArity(int id) {
-		return ((Integer) arities.get(new Integer(id))).intValue();
+		return arities.get(new Integer(id)).intValue();
 	}
 	
 	/**
@@ -412,7 +412,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * @return The name of the operator.
 	 */
 	protected static String getName(int id) {
-		return ((String) names.get(new Integer(id)));
+		return names.get(new Integer(id));
 	}
 	
 	/**
@@ -448,10 +448,10 @@ public class OperatorSignature extends FunctionSignature {
 		
 		assert operators.get(oid) != null : "Operator \"" + getName(id)
 			+ "\" must be registered";
-		HashSet opSet = (HashSet) operators.get(oid);
+		HashSet<OperatorSignature> opSet = operators.get(oid);
 		
-		for(Iterator it = opSet.iterator(); it.hasNext();) {
-			OperatorSignature op = (OperatorSignature) it.next();
+		for(Iterator<OperatorSignature> it = opSet.iterator(); it.hasNext();) {
+			OperatorSignature op = it.next();
 			int dist = op.getDistance(opTypes);
 			
 			debug.report(NOTE, "dist: " + dist + "\n signature: " + op);

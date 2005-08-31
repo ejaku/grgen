@@ -18,8 +18,8 @@ import java.util.prefs.BackingStoreException;
  */
 public class MyPreferences extends AbstractPreferences {
 
-	private Map prefs = new HashMap();
-	private Map children = new HashMap();
+	private Map<String, String> prefs = new HashMap<String, String>();
+	private Map<String, AbstractPreferences> children = new HashMap<String, AbstractPreferences>();
 	
   public MyPreferences(MyPreferences parent, String name) {
     super(parent, name);
@@ -36,7 +36,7 @@ public class MyPreferences extends AbstractPreferences {
    * @see java.util.prefs.AbstractPreferences#getSpi(java.lang.String)
    */
   protected String getSpi(String key) {
-    return (String) prefs.get(key);
+    return prefs.get(key);
   }
 
   /**
@@ -59,8 +59,8 @@ public class MyPreferences extends AbstractPreferences {
   protected String[] keysSpi() throws BackingStoreException {
   	String[] res = new String[prefs.size()];
   	int i = 0;
-  	for(Iterator it = prefs.keySet().iterator(); it.hasNext(); i++)
-  		res[i] = (String) it.next();
+  	for(Iterator<String> it = prefs.keySet().iterator(); it.hasNext(); i++)
+  		res[i] = it.next();
   		
     return res;
   }
@@ -72,8 +72,8 @@ public class MyPreferences extends AbstractPreferences {
     String[] res = new String[children.size()];
     int i = 0;
     
-    for(Iterator it = children.keySet().iterator(); it.hasNext(); i++)
-    	res[i] = (String) it.next();
+    for(Iterator<String> it = children.keySet().iterator(); it.hasNext(); i++)
+    	res[i] = it.next();
     	
     return res;
   }
@@ -85,7 +85,7 @@ public class MyPreferences extends AbstractPreferences {
     if(!children.containsKey(child))
     	children.put(child, new MyPreferences(this, child));
 
-		return (AbstractPreferences) children.get(child);
+		return children.get(child);
   }
 
   /**

@@ -6,8 +6,8 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class PatternGraph extends Graph {
 
 	/** A list of all condition expressions. */
-	private final List conds = new LinkedList();
+	private final List<Expression> conds = new LinkedList<Expression>();
 
 	/**
 	 * Add a condition to the graph.
@@ -34,8 +34,8 @@ public class PatternGraph extends Graph {
 	 * Get all conditions in this graph.
 	 * @return A collection containing all conditions in this graph.
 	 */
-	public Collection getConditions() {
-		return ReadOnlyCollection.get(conds);
+	public Collection<Expression> getConditions() {
+		return Collections.unmodifiableCollection(conds);
 	}
 
 }

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Identifiable extends IR implements Attributed, Comparable {
 	
-	static final Comparator COMPARATOR = new Comparator() {
+	static final Comparator<Identifiable> COMPARATOR = new Comparator() {
 		public int compare(Object lhs, Object rhs) {
 			Identifiable lt = (Identifiable) lhs;
 			Identifiable rt = (Identifiable) rhs;
@@ -65,7 +65,7 @@ public class Identifiable extends IR implements Attributed, Comparable {
 		return getName() + " " + ident;
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		fields.put("ident", ident.toString());
 	}
 	
@@ -74,7 +74,7 @@ public class Identifiable extends IR implements Attributed, Comparable {
 	}
 	
 	public int compareTo(Object obj) {
-		return COMPARATOR.compare(this, obj);
+		return COMPARATOR.compare(this, (Identifiable) obj);
 	}
 	
 	/**

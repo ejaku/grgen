@@ -8,6 +8,7 @@ package de.unika.ipd.grgen.util;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import de.unika.ipd.grgen.ast.BaseNode;
 
 
 /**
@@ -16,7 +17,7 @@ import java.util.Set;
  */
 public class PrePostWalker extends Base implements Walker {
 
-	private Set visited;
+	private Set<Walkable> visited;
 	private Visitor pre, post;
 
   /**
@@ -26,7 +27,7 @@ public class PrePostWalker extends Base implements Walker {
   public PrePostWalker(Visitor pre, Visitor post) {
   	this.pre = pre;
   	this.post = post;
-  	visited = new HashSet();
+  	visited = new HashSet<Walkable>();
   }
 
 	public void reset() {
@@ -40,8 +41,7 @@ public class PrePostWalker extends Base implements Walker {
 			visited.add(node);
 			pre.visit(node);
 
-      for(Iterator it = node.getWalkableChildren(); it.hasNext();) {
-        Walkable p = (Walkable) it.next();
+      for(Walkable p : node.getWalkableChildren()) {
         walk(p);
       }
       post.visit(node);

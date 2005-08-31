@@ -21,7 +21,7 @@ public class Ident extends IR implements Comparable, Attributed {
 	private static final String defaultScope = "<default>";
 	
 	/** Symbol table recording all identifiers. */
-	private static HashMap identifiers = new HashMap();
+	private static HashMap<String, Ident> identifiers = new HashMap<String, Ident>();
 	
 	/** Text of the identifier */
 	private final String text;
@@ -116,7 +116,7 @@ public class Ident extends IR implements Comparable, Attributed {
 		Ident res;
 		
 		if(identifiers.containsKey(key))
-			res = (Ident) identifiers.get(key);
+			res = identifiers.get(key);
 		else {
 			res = new Ident(text, def.getSymbol().getSymbolTable(),
 											def.getScope(), loc, attrs);

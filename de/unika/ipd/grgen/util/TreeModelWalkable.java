@@ -4,9 +4,9 @@
  */
 package de.unika.ipd.grgen.util;
 
+import de.unika.ipd.grgen.ast.BaseNode;
 import java.util.HashSet;
 import java.util.Iterator;
-
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
@@ -15,7 +15,7 @@ import javax.swing.tree.TreePath;
 /**
  * A walkable class, that is also a tree model.
  * This means, that each class extending this one can be
- * viewed in a swing tree view. 
+ * viewed in a swing tree view.
  */
 public abstract class TreeModelWalkable implements TreeModel, Walkable {
 
@@ -23,13 +23,13 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
 	private Object root;
 	
 	/** All tree model listeners */
-	private HashSet listeners;
+	private HashSet<TreeModelListener> listeners;
 	
 	/** Auxillary set for children getter. */
-	private HashSet aux; 
+	private HashSet aux;
 	
 	protected TreeModelWalkable() {
-		listeners = new HashSet();
+		listeners = new HashSet<TreeModelListener>();
 		root = null;
 	}
 	
@@ -52,15 +52,15 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
    * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
    */
   public Object getChild(Object arg0, int arg1) {
-  	Object res = null; 
+  	Object res = null;
   	Walkable w = (Walkable) arg0;
   	
-  	Iterator it = w.getWalkableChildren();
+  	Iterator<? extends BaseNode> it = w.getWalkableChildren().iterator();
   	
   	for(int i = 0; i < arg1; i++) {
-  		assert it.hasNext() : "children iterator must have at least " + arg1 
+  		assert it.hasNext() : "children iterator must have at least " + arg1
   		  + " childs";
-  		res = it.next();  
+  		res = it.next();
   	}
   	
   	return res;
@@ -72,7 +72,7 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
   public int getChildCount(Object arg0) {
   	int i = 0;
   	Walkable w = (Walkable) arg0;
-  	for(Iterator it = w.getWalkableChildren(); it.hasNext(); i++);
+  	for(Iterator<? extends BaseNode> it = w.getWalkableChildren().iterator(); it.hasNext(); i++);
 		return i;
   }
 
@@ -81,7 +81,7 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
    */
   public boolean isLeaf(Object arg0) {
     Walkable w = (Walkable) arg0;
-    return !w.getWalkableChildren().hasNext();
+    return w.getWalkableChildren().isEmpty();
   }
 
   /**
@@ -97,7 +97,7 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
   	int i = 0;
   	Walkable w = (Walkable) arg0;
 
-  	for(Iterator it = w.getWalkableChildren(); it.hasNext(); i++) {
+  	for(Iterator<? extends BaseNode> it = w.getWalkableChildren().iterator(); it.hasNext(); i++) {
   		if(it.next().equals(arg1))
   			break;
   	}
@@ -125,8 +125,8 @@ public abstract class TreeModelWalkable implements TreeModel, Walkable {
 	public void notifyListeners() {
 		TreeModelEvent event = new TreeModelEvent(this, new Object[] { this });
 		
-		for(Iterator it = listeners.iterator(); it.hasNext(); ) {
-			TreeModelListener listener = (TreeModelListener) it.next();
+		for(Iterator<TreeModelListener> it = listeners.iterator(); it.hasNext(); ) {
+			TreeModelListener listener = it.next();
 			listener.treeStructureChanged(event);
 		}
 				

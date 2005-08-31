@@ -22,14 +22,14 @@ public class VCGDumper implements GraphDumper {
 	/** Prefix for the nodes. */
 	private static String prefix = "n";
 	
-	private static HashMap colorMap;
-	private static HashMap shapeMap;
-	private static HashMap lineStyleMap;
+	private static HashMap<Color, String> colorMap;
+	private static HashMap<Integer, String> shapeMap;
+	private static HashMap<Integer, String> lineStyleMap;
 	
 	static {
-		colorMap = new HashMap();
-		shapeMap = new HashMap();
-		lineStyleMap = new HashMap();
+		colorMap = new HashMap<Color, String>();
+		shapeMap = new HashMap<Integer, String>();
+		lineStyleMap = new HashMap<Integer, String>();
 		
 		colorMap.put(Color.BLACK, "black");
 		colorMap.put(Color.BLUE, "lightblue");
@@ -100,7 +100,7 @@ public class VCGDumper implements GraphDumper {
 		String res;
 		
 		if(colorMap.containsKey(col))
-			res = (String) colorMap.get(col);
+			res = colorMap.get(col);
 		else if(currSetColor < 256) {
 			// Get the current index and increment it
 			int index = currSetColor++;
@@ -168,7 +168,7 @@ public class VCGDumper implements GraphDumper {
 		s += " color:" + col;
 		
 		if(style != DEFAULT)
-			s += " linestyle:" + (String) lineStyleMap.get(new Integer(style));
+			s += " linestyle:" + lineStyleMap.get(new Integer(style));
 		
 		s += "}";
 		

@@ -4,12 +4,11 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.SingleIterator;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * An instantiation of a type.
@@ -20,62 +19,62 @@ public class Entity extends Identifiable implements Attributed {
 	
 	/** Type of the entity. */
 	private final Type type;
-
+	
 	/** The entity's owner. */
 	private Type owner = null;
 	
 	/** The attributes of this entity. */
 	private final Attributes attributes;
-
-  /**
-   * Make a new entity of a given type
-   * @param name The name of the entity.
-   * @param ident The declaring identifier.
-   * @param type The type used in the declaration.
-   */
-  protected Entity(String name, Ident ident, Type type, Attributes attr) {
-  	super(name, ident);
+	
+	/**
+	 * Make a new entity of a given type
+	 * @param name The name of the entity.
+	 * @param ident The declaring identifier.
+	 * @param type The type used in the declaration.
+	 */
+	protected Entity(String name, Ident ident, Type type, Attributes attr) {
+		super(name, ident);
 		setChildrenNames(childrenNames);
-  	this.type = type;
+		this.type = type;
 		this.attributes = attr;
-  }
-  
-  public Entity(Ident ident, Type type, Attributes attr) {
-  	this("entity", ident, type, attr);
-  }
-  
-  /**
-   * Get the type of the entity.
-   * @return The entity's type.
-   */
-  public Type getType() {
-  	return type;
-  }
-  
-  /**
-   * Only walkable child here is the type
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-  	return new SingleIterator(type);
-  }
-  
-  /**
-   * Get the owner of the entity.
-   * @return The entity's owner.
-   */
-  public Type getOwner() {
-    return owner;
-  }
-
-  /**
-   * Set the owner of the entity.
-   * This function is just called from other IR classes.
-   * @param type The owner of the entity.
-   */
-  protected void setOwner(Type type) {
-    owner = type;
-  }
+	}
+	
+	public Entity(Ident ident, Type type, Attributes attr) {
+		this("entity", ident, type, attr);
+	}
+	
+	/**
+	 * Get the type of the entity.
+	 * @return The entity's type.
+	 */
+	public Type getType() {
+		return type;
+	}
+	
+	/**
+	 * Only walkable child here is the type
+	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	 */
+	public Set<? extends IR> getWalkableChildren() {
+		return Collections.singleton(type);
+	}
+	
+	/**
+	 * Get the owner of the entity.
+	 * @return The entity's owner.
+	 */
+	public Type getOwner() {
+		return owner;
+	}
+	
+	/**
+	 * Set the owner of the entity.
+	 * This function is just called from other IR classes.
+	 * @param type The owner of the entity.
+	 */
+	protected void setOwner(Type type) {
+		owner = type;
+	}
 	
 	/**
 	 * Check if the entity has an owner.
@@ -93,10 +92,10 @@ public class Entity extends Identifiable implements Attributed {
 		return attributes;
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
-		fields.put("type", new SingleIterator(type));
-		fields.put("owner", new SingleIterator(owner));
+		fields.put("type", Collections.singleton(type));
+		fields.put("owner", Collections.singleton(owner));
 	}
 	
 }

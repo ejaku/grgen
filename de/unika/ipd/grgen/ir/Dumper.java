@@ -26,7 +26,7 @@ public class Dumper {
 	private final GraphDumperFactory dumperFactory;
 	
 	public Dumper(GraphDumperFactory dumperFactory,
-								boolean interGraphEdges) {
+				  boolean interGraphEdges) {
 		
 		this.dumperFactory = dumperFactory;
 		this.interGraphEdges = interGraphEdges;
@@ -67,21 +67,20 @@ public class Dumper {
 	
 	public final void dump(MatchingAction act, GraphDumper gd) {
 		Graph pattern = act.getPattern();
-		Collection graphs = new LinkedList();
+		Collection<Graph> graphs = new LinkedList<Graph>();
 		
 		if(act instanceof Rule) {
 			Rule r = (Rule) act;
 			graphs.add(r.getRight());
 		}
 		
-		for(Iterator it = act.getNegs(); it.hasNext();)
-			graphs.add(it.next());
+		graphs.addAll(act.getNegs());
 		
 		gd.beginSubgraph(act);
 		dump(pattern, gd);
 		
-		for(Iterator it = graphs.iterator(); it.hasNext();) {
-			Graph g = (Graph) it.next();
+		for(Iterator<Graph> it = graphs.iterator(); it.hasNext();) {
+			Graph g = it.next();
 			dump(g, gd);
 			
 			if(interGraphEdges) {
@@ -89,27 +88,27 @@ public class Dumper {
 					Node n = (Node) nt.next();
 					if(pattern.hasNode(n))
 						gd.edge(pattern.getLocalDumpable(n), g.getLocalDumpable(n), "",
-										GraphDumper.DOTTED);
+								GraphDumper.DOTTED);
 				}
 				
 				for(Iterator nt = g.getEdges().iterator(); nt.hasNext();) {
 					Edge e = (Edge) nt.next();
 					if(pattern.hasEdge(e))
 						gd.edge(pattern.getLocalDumpable(e), g.getLocalDumpable(e), "",
-										GraphDumper.DOTTED);
+								GraphDumper.DOTTED);
 				}
 			}
 		}
-
+		
 		if(act instanceof Rule) {
 			Rule r = (Rule) act;
 			graphs.add(r.getRight());
-			Collection evals = r.getEvals();
+			Collection<Object> evals = r.getEvals();
 			
 			if(!evals.isEmpty())
 				gd.beginSubgraph("evals");
 			
-			for(Iterator it = evals.iterator(); it.hasNext();) {
+			for(Iterator<Object> it = evals.iterator(); it.hasNext();) {
 				Assignment a = (Assignment) it.next();
 				Qualification target = a.getTarget();
 				Expression expr = a.getExpression();
@@ -124,7 +123,7 @@ public class Dumper {
 			if(!evals.isEmpty())
 				gd.endSubgraph();
 		}
-	
+		
 		gd.endSubgraph();
 	}
 	
@@ -132,7 +131,7 @@ public class Dumper {
 		gd.node(expr);
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
-			for(int i = 0; i < op.operandCount(); i++) {
+			for(int i = 0; i < op.arity(); i++) {
 				Expression e = op.getOperand(i);
 				dump(e, gd);
 				gd.edge(expr, e);
@@ -144,7 +143,7 @@ public class Dumper {
 		GraphDumper curr = dumperFactory.get(fileName);
 		
 		curr.begin();
-		for(Iterator it = unit.getActions(); it.hasNext();) {
+		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
 			Object obj = it.next();
 			
 			if(obj instanceof MatchingAction) {
@@ -159,7 +158,7 @@ public class Dumper {
 	
 	public final void dump(Unit unit) {
 		
-		for(Iterator it = unit.getActions(); it.hasNext();) {
+		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
 			Object obj = it.next();
 			
 			if(obj instanceof MatchingAction) {

@@ -109,7 +109,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		
 		// Add all homomorphic nodes in the collect node to
 		// the constructed IR node of this node.
-		for(Iterator it = getChild(HOMOMORPHIC).getChildren(); it.hasNext();) {
+		for(Iterator<BaseNode> it = getChild(HOMOMORPHIC).getChildren(); it.hasNext();) {
 			NodeCharacter nc = (NodeCharacter) it.next();
 			res.addHomomorphic(nc.getNode());
 		}

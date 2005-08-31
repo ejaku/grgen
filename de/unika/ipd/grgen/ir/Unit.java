@@ -4,22 +4,19 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.*;
+
 import de.unika.ipd.grgen.util.Util;
 import java.security.MessageDigest;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A unit with all declared entities
  */
 public class Unit extends Identifiable {
 
-	private final List actions = new LinkedList();
+	private final List<Action> actions = new LinkedList<Action>();
 	
-	private final List models = new LinkedList();
+	private final List<Model> models = new LinkedList<Model>();
 	
 	private String digest = "";
 	
@@ -42,8 +39,8 @@ public class Unit extends Identifiable {
 		actions.add(action);
 	}
 	
-	public Iterator getActions() {
-		return actions.iterator();
+	public Collection<Action> getActions() {
+		return Collections.unmodifiableCollection(actions);
 	}
 
 	public void addModel(Model model) {
@@ -55,16 +52,9 @@ public class Unit extends Identifiable {
 	 * Get the type model of this unit.
 	 * @return The type model.
 	 */
-	public Iterator getModels() {
+	public Iterator<Model> getModels() {
 		return models.iterator();
 	}
-	
-  /**
-   * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-   */
-  public Iterator getWalkableChildren() {
-		return actions.iterator();
-  }
 
   /**
    * Get the source filename corresponding to this unit.
@@ -74,7 +64,7 @@ public class Unit extends Identifiable {
     return filename;
   }
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("models", models.iterator());
 	}
@@ -83,15 +73,15 @@ public class Unit extends Identifiable {
 		Collections.sort(models, Identifiable.COMPARATOR);
 		Collections.sort(actions, Identifiable.COMPARATOR);
 		
-		for(Iterator it = models.iterator(); it.hasNext();) {
-			Model model = (Model) it.next();
+		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
+			Model model = it.next();
 			model.canonicalize();
 		}
 	}
 
 	void addToDigest(StringBuffer sb) {
-		for(Iterator it = models.iterator(); it.hasNext();) {
-			Model model = (Model) it.next();
+		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
+			Model model = it.next();
 			model.addToDigest(sb);
 		}
 	}

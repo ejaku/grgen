@@ -18,7 +18,7 @@ public class Model extends Identifiable {
 	
 	private String digest = "";
 	
-	private List types = new LinkedList();
+	private List<Type> types = new LinkedList<Type>();
 	
 	public Model(Ident ident) {
 		super("model", ident);
@@ -37,7 +37,7 @@ public class Model extends Identifiable {
 	 * Get the types in the type model.
 	 * @return The types in the type model.
 	 */
-	public Iterator getTypes() {
+	public Iterator<Type> getTypes() {
 		return types.iterator();
 	}
 
@@ -48,8 +48,8 @@ public class Model extends Identifiable {
 		// Collections.sort(types, Identifiable.COMPARATOR);
 		Collections.sort(types);
 		
-		for(Iterator it = types.iterator(); it.hasNext();) {
-			Type ty = (Type) it.next();
+		for(Iterator<Type> it = types.iterator(); it.hasNext();) {
+			Type ty = it.next();
 			ty.canonicalize();
 			if (ty instanceof EdgeType)
 				((EdgeType)ty).canonicalizeConnectionAsserts();
@@ -60,15 +60,15 @@ public class Model extends Identifiable {
 		sb.append(this);
 		sb.append('[');
 
-		for(Iterator it = types.iterator(); it.hasNext();) {
-			Type ty = (Type) it.next();
+		for(Iterator<Type> it = types.iterator(); it.hasNext();) {
+			Type ty = it.next();
 			ty.addToDigest(sb);
 		}
 
 		sb.append(']');
 	}
 	
-	public void addFields(Map fields) {
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("types", types.iterator());
 	}

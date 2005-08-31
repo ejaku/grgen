@@ -76,11 +76,11 @@ class SQLGraph implements Graph, TypeModel {
 	 * @return An iterator iterating over {@link Integer} objects containing
 	 * the IDs. The set may also be empty.
 	 */
-	private Iterator getResultIds(ResultSet res) {
-		return putResultIds(res, new LinkedList()).iterator();
+	private Iterator<Integer> getResultIds(ResultSet res) {
+		return putResultIds(res, new LinkedList<Integer>()).iterator();
 	}
 	
-	private Collection putResultIds(ResultSet res, Collection coll) {
+	private Collection<Integer> putResultIds(ResultSet res, Collection<Integer> coll) {
 		try {
 			// print(System.out, res.getMetaData());
 			while(res.next())
@@ -104,12 +104,12 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.Node#getIncoming()
 		 */
-		public Iterator getIncoming() {
-			List nodes = new LinkedList();
-			Iterator ids = getResultIds(queries.exec(Queries.NODE_INCOMING, id));
+		public Iterator<Node> getIncoming() {
+			List<Node> nodes = new LinkedList<Node>();
+			Iterator<Integer> ids = getResultIds(queries.exec(Queries.NODE_INCOMING, id));
 			
 			while(ids.hasNext()) {
-				int id = ((Integer) ids.next()).intValue();
+				int id = ids.next().intValue();
 				nodes.add(getNode(id));
 			}
 			
@@ -119,12 +119,12 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.Node#getOutgoing()
 		 */
-		public Iterator getOutgoing() {
-			List nodes = new LinkedList();
-			Iterator ids = getResultIds(queries.exec(Queries.NODE_OUTGOING, id));
+		public Iterator<Node> getOutgoing() {
+			List<Node> nodes = new LinkedList<Node>();
+			Iterator<Integer> ids = getResultIds(queries.exec(Queries.NODE_OUTGOING, id));
 			
 			while(ids.hasNext()) {
-				int id = ((Integer) ids.next()).intValue();
+				int id = ids.next().intValue();
 				nodes.add(getNode(id));
 			}
 			
@@ -187,9 +187,9 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSuperTypes()
 		 */
-		public Iterator getSuperTypes() {
+		public Iterator<Object> getSuperTypes() {
 			int[] superTypes = typeModel.getSuperTypes(true, id);
-			Collection result = new LinkedList();
+			Collection<Object> result = new LinkedList<Object>();
 			
 			for(int i = 0; i < superTypes.length; i++)
 				result.add(getNodeType(superTypes[i]));
@@ -200,9 +200,9 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
-		public Iterator getSubTypes() {
+		public Iterator<Object> getSubTypes() {
 			int[] subTypes = typeModel.getSubTypes(true, id);
-			Collection result = new LinkedList();
+			Collection<Object> result = new LinkedList<Object>();
 			
 			for(int i = 0; i < subTypes.length; i++)
 				result.add(getNodeType(subTypes[i]));
@@ -253,9 +253,9 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSuperTypes()
 		 */
-		public Iterator getSuperTypes() {
+		public Iterator<Object> getSuperTypes() {
 			int[] superTypes = typeModel.getSuperTypes(false, id);
-			Collection result = new LinkedList();
+			Collection<Object> result = new LinkedList<Object>();
 			
 			for(int i = 0; i < superTypes.length; i++)
 				result.add(getEdgeType(superTypes[i]));
@@ -266,9 +266,9 @@ class SQLGraph implements Graph, TypeModel {
 		/**
 		 * @see de.unika.ipd.libgr.graph.InheritanceType#getSubTypes()
 		 */
-		public Iterator getSubTypes() {
+		public Iterator<Object> getSubTypes() {
 			int[] subTypes = typeModel.getSuperTypes(false, id);
-			Collection result = new LinkedList();
+			Collection<Object> result = new LinkedList<Object>();
 			
 			for(int i = 0; i < subTypes.length; i++)
 				result.add(getEdgeType(subTypes[i]));
@@ -371,7 +371,7 @@ class SQLGraph implements Graph, TypeModel {
 		return getNode(n);
 	}
 	
-	public Collection putAllNodesInstaceOf(NodeType nt, Collection coll) {
+	public Collection<Integer> putAllNodesInstaceOf(NodeType nt, Collection<Integer> coll) {
 		ResultSet res = queries.exec(Queries.GET_ALL_NODES, getId(nt));
 		return putResultIds(res, coll);
 	}
@@ -424,8 +424,8 @@ class SQLGraph implements Graph, TypeModel {
 	/**
 	 * @see de.unika.ipd.libgr.graph.TypeModel#getEdgeTypes()
 	 */
-	public Iterator getEdgeTypes() {
-		Collection result = new LinkedList();
+	public Iterator<EdgeType> getEdgeTypes() {
+		Collection<EdgeType> result = new LinkedList<EdgeType>();
 		int[] types = typeModel.getIDs(false);
 		
 		for(int i = 0; i < types.length; i++)
@@ -444,8 +444,8 @@ class SQLGraph implements Graph, TypeModel {
 	/**
 	 * @see de.unika.ipd.libgr.graph.TypeModel#getNodeTypes()
 	 */
-	public Iterator getNodeTypes() {
-		Collection result = new LinkedList();
+	public Iterator<NodeType> getNodeTypes() {
+		Collection<NodeType> result = new LinkedList<NodeType>();
 		int[] types = typeModel.getIDs(true);
 		
 		for(int i = 0; i < types.length; i++)

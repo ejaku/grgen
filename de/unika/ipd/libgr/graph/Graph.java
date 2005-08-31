@@ -46,7 +46,7 @@ public interface Graph extends Named {
 	 */
 	boolean remove(Edge edge);
 	
-	Collection putAllNodesInstaceOf(NodeType type, Collection coll);
+	Collection<Integer> putAllNodesInstaceOf(NodeType type, Collection<Integer> coll);
 	
 	/**
 	 * Dump the graph.

@@ -14,7 +14,6 @@ import de.unika.ipd.grgen.ast.UnitNode;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.C.PGSQLBackend;
 import de.unika.ipd.grgen.ir.Dumper;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.parser.antlr.GRParserEnvironment;
@@ -103,7 +102,7 @@ public class Main extends Base implements Sys {
 	private File debugPath;
 	
 	/** A list of files containing paths where the graph model can be searched. */
-	private Collection modelPaths = new LinkedList();
+	private Collection<File> modelPaths = new LinkedList<File>();
 	
 	public File[] getModelPaths() {
 		return (File[]) modelPaths.toArray(new File[modelPaths.size()]);
@@ -209,7 +208,7 @@ public class Main extends Base implements Sys {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		Rectangle bounds = frame.getBounds();
 		frame.setLocation((dim.width - bounds.width) / 2,
-												(dim.height - bounds.height) / 2);
+							  (dim.height - bounds.height) / 2);
 		
 		frame.setVisible(true);
 		
@@ -346,7 +345,7 @@ public class Main extends Base implements Sys {
 	}
 	
 	private void dumpVCG(Walkable node, GraphDumpVisitor visitor,
-											 String suffix) {
+						 String suffix) {
 		
 		File file = new File(suffix + ".vcg");
 		OutputStream os = createDebugFile(file);
@@ -464,7 +463,7 @@ public class Main extends Base implements Sys {
 		// Dump the IR.
 		if(dumpIR) {
 			dumper.dumpComplete(irUnit, "ir");
-	
+			
 			if(dumpRules)
 				dumper.dump(irUnit);
 			
@@ -538,7 +537,7 @@ public class Main extends Base implements Sys {
 		
 		// Please use my preferences implementation.
 		System.setProperty("java.util.prefs.PreferencesFactory",
-											 packageName + ".util.MyPreferencesFactory");
+						   packageName + ".util.MyPreferencesFactory");
 		
 	}
 	

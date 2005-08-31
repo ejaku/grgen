@@ -6,7 +6,8 @@
  */
 package de.unika.ipd.grgen.be.rewrite;
 
-import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Rule;
 import java.util.Collection;
 import java.util.Map;
@@ -36,13 +37,13 @@ public interface RewriteHandler {
 	 * Generate code to insert all nodes in the given collection.
 	 * @param nodes A collection of nodes of a rule.
 	 */
-	void insertNodes(Collection nodes);
+	void insertNodes(Collection<Node> nodes);
 	
 	/**
 	 * Generate code to delete all nodes given in the collection.
 	 * @param nodes A collection of nodes of a rule.
 	 */
-	void deleteNodes(Collection nodes);
+	void deleteNodes(Collection<Node> nodes);
 	
 	/**
 	 * Generate code to change the type of several nodes.
@@ -51,38 +52,38 @@ public interface RewriteHandler {
  	 * that the type of the node shall be changed to <code>nt</code>.
 	 * @param nodeTypeMap The node, node type map.
 	 */
-	void changeNodeTypes(Map nodeTypeMap);
+	void changeNodeTypes(Map<Node, Object> nodeTypeMap);
 	
 	/**
 	 * Generate code that deletes incident edges of nodes.
 	 * @param The set containing nodes.
 	 */
-	void deleteEdgesOfNodes(Collection nodes);
+	void deleteEdgesOfNodes(Collection<Node> nodes);
 
 	/**
 	 * Generate code to delete all edges in the set.
 	 * @param edges A collection of edges.
 	 */
-	void deleteEdges(Collection edges);
+	void deleteEdges(Collection<Edge> edges);
 	
 	/**
 	 * Generate code to insert all edges in the collection.
 	 * @param edges A collection of edges.
 	 */
-	void insertEdges(Collection edges);
+	void insertEdges(Collection<Edge> edges);
 
 	/**
 	 * Generate an eval statement for some assignments.
 	 * @param assigns A collection of assignments.
 	 */
-	void generateEvals(Collection assigns);
+	void generateEvals(Collection<Object> assigns);
 	
 	/**
 	 * Get the class of the required rewrite generator.
 	 * It may also be a superclass of it.
 	 * @return The required rewrite generator.
 	 */
-	Class getRequiredRewriteGenerator();
+	Class<SPORewriteGenerator> getRequiredRewriteGenerator();
 	
 	/**
 	 * This method is called after all others.

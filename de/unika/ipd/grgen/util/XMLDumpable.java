@@ -40,7 +40,7 @@ public interface XMLDumpable {
 	 * will be added to the object body.
 	 * @param fields The fields of this object.
 	 */
-	void addFields(Map fields);
+	void addFields(Map<String, Object> fields);
 	
 	/**
 	 * Get a unique ID for this object.

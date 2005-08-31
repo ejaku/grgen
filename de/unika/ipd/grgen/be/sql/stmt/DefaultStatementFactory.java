@@ -25,7 +25,7 @@ public class DefaultStatementFactory extends Base
 	implements TypeStatementFactory, OpFactory, Opcodes {
 	
 	/** Operator map. */
-	private final Map opMap = new HashMap();
+	private final Map<Integer, Op> opMap = new HashMap<Integer, Op>();
 	
 	/** A factory to make types. */
 	private final Dialect dialect;
@@ -140,7 +140,7 @@ public class DefaultStatementFactory extends Base
 	public Op getOp(int opcode) {
 		Integer key = new Integer(opcode);
 		assert opMap.containsKey(key) : "Illegal opcode";
-		return (Op) opMap.get(key);
+		return opMap.get(key);
 	}
 	
 	protected static class SubqueryOpcode implements Op {
@@ -394,7 +394,7 @@ public class DefaultStatementFactory extends Base
 	}
 	
 	private static class DefaultQuery extends DefaultDebug implements Query {
-		private final List columns;
+		private final List<Column> columns;
 		private final List relations;
 		private final List groupBy;
 		private final Term having;
@@ -403,7 +403,7 @@ public class DefaultStatementFactory extends Base
 		private boolean insertLineBreaks = true;
 		private Term cond;
 		
-		DefaultQuery(boolean distinct, List columns, List relations, Term cond,
+		DefaultQuery(boolean distinct, List<Column> columns, List relations, Term cond,
 								 List groupBy, Term having, int limit) {
 			super("query");
 			setChildren(relations);
@@ -416,7 +416,7 @@ public class DefaultStatementFactory extends Base
 			this.limit = limit;
 		}
 		
-		DefaultQuery(boolean distinct, List columns, List relations,
+		DefaultQuery(boolean distinct, List<Column> columns, List relations,
 								 Term cond, int limit) {
 			this(distinct, columns, relations, cond, null, null, limit);
 		}
@@ -426,7 +426,7 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public Column getColumn(int i) {
-			return (Column) columns.get(i);
+			return columns.get(i);
 		}
 		
 		public void clearColumns() {
@@ -458,8 +458,8 @@ public class DefaultStatementFactory extends Base
 			if(columns.isEmpty()) {
 				ps.print("1");
 			} else {
-				for (Iterator it = columns.iterator(); it.hasNext(); i++) {
-					Column c = (Column) it.next();
+				for (Iterator<Column> it = columns.iterator(); it.hasNext(); i++) {
+					Column c = it.next();
 					ps.print(i > 0 ? ", " : "");
 					c.dump(ps);
 				}
@@ -470,8 +470,8 @@ public class DefaultStatementFactory extends Base
 				ps.println();
 			
 			ps.print(" FROM ");
-			for(Iterator it = relations.iterator(); it.hasNext(); i++) {
-				Relation r = (Relation) it.next();
+			for(Iterator<Relation> it = relations.iterator(); it.hasNext(); i++) {
+				Relation r = it.next();
 				ps.print(i > 0 ? ", " : "");
 				r.dump(ps);
 			}
@@ -487,8 +487,8 @@ public class DefaultStatementFactory extends Base
 			if(haveGroupBy) {
 				ps.print(" GROUP BY ");
 				i = 0;
-				for(Iterator it = groupBy.iterator(); it.hasNext(); i++) {
-					Column col = (Column) it.next();
+				for(Iterator<Column> it = groupBy.iterator(); it.hasNext(); i++) {
+					Column col = it.next();
 					ps.print(i > 0 ? ", " : "");
 					col.dump(ps);
 				}
@@ -518,16 +518,16 @@ public class DefaultStatementFactory extends Base
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.meta.StatementFactory#simpleQuery(java.util.List, java.util.List, de.unika.ipd.grgen.be.sql.meta.Term)
 	 */
-	public Query simpleQuery(List columns, List relations, Term cond, int limit) {
+	public Query simpleQuery(List<Column> columns, List relations, Term cond, int limit) {
 		return new DefaultQuery(false, columns, relations, cond, NO_LIMIT);
 	}
 	
-	public Query simpleQuery(List columns, List relations, Term cond,
+	public Query simpleQuery(List<Column> columns, List relations, Term cond,
 													 List groupBy, Term having) {
 		return new DefaultQuery(false, columns, relations, cond, groupBy, having, NO_LIMIT);
 	}
 	
-	public Query explicitQuery(boolean distinct, List columns, Relation relation, List groupBy, Term having, int limit) {
+	public Query explicitQuery(boolean distinct, List<Column> columns, Relation relation, List groupBy, Term having, int limit) {
 		return new DefaultQuery(distinct, columns, Collections.singletonList(relation), null, groupBy, having, limit);
 	}
 	
@@ -687,11 +687,11 @@ public class DefaultStatementFactory extends Base
 		implements ManipulationStatement {
 		
 		protected final Table table;
-		protected final Collection columns;
-		protected final Collection exprs;
+		protected final Collection<Column> columns;
+		protected final Collection<Term> exprs;
 		protected final Term condition;
 		
-		ManipulationStmt(Table table, List columns, List exprs, Term condition) {
+		ManipulationStmt(Table table, List<Column> columns, List<Term> exprs, Term condition) {
 			assert columns.size() == exprs.size();
 			this.table = table;
 			this.columns = columns;
@@ -700,7 +700,7 @@ public class DefaultStatementFactory extends Base
 		}
 		
 		public Collection manipulatedColumns() {
-			return ReadOnlyCollection.get(columns);
+			return Collections.unmodifiableCollection(columns);
 		}
 		
 		public Table manipulatedTable() {
@@ -709,7 +709,7 @@ public class DefaultStatementFactory extends Base
 	}
 
 	private static class InsertStmt extends ManipulationStmt {
-		InsertStmt(Table table, List cols, List exprs) {
+		InsertStmt(Table table, List<Column> cols, List<Term> exprs) {
 			super(table, cols, exprs, null);
 		}
 
@@ -719,7 +719,7 @@ public class DefaultStatementFactory extends Base
 			ps.print(" (");
 			
 			int i = 0;
-			for(Iterator it = columns.iterator(); it.hasNext();) {
+			for(Iterator<Column> it = columns.iterator(); it.hasNext();) {
 				Column c = (Column) it.next();
 				ps.print(c.getDeclName());
 
@@ -728,7 +728,7 @@ public class DefaultStatementFactory extends Base
 			}
 			
 			ps.print(") VALUES (");
-			for(Iterator it = exprs.iterator(); it.hasNext();) {
+			for(Iterator<Term> it = exprs.iterator(); it.hasNext();) {
 				Term t = (Term) it.next();
 				t.dump(ps);
 
@@ -740,7 +740,7 @@ public class DefaultStatementFactory extends Base
 	}
 	
 	private static class UpdateStmt extends ManipulationStmt {
-		UpdateStmt(Table table, List cols, List exprs, Term cond) {
+		UpdateStmt(Table table, List<Column> cols, List<Term> exprs, Term cond) {
 			super(table, cols, exprs, cond);
 		}
 
@@ -750,8 +750,9 @@ public class DefaultStatementFactory extends Base
 			ps.print(" SET ");
 			
 			int i = 0;
-			for(Iterator it = columns.iterator(), jt = exprs.iterator();
-					it.hasNext(); i++) {
+			Iterator<Column> it = columns.iterator();
+			Iterator<Term> jt = exprs.iterator();
+			for(;it.hasNext(); i++) {
 				
 				Column c = (Column) it.next();
 				Term t = (Term) jt.next();
@@ -781,8 +782,8 @@ public class DefaultStatementFactory extends Base
 	 * there are columns.
 	 * @param cond The condition for the update.
 	 */
-	public ManipulationStatement makeUpdate(Table table, List columns,
-																					List exprs, Term cond) {
+	public ManipulationStatement makeUpdate(Table table, List<Column> columns,
+																					List<Term> exprs, Term cond) {
 		
 		assert columns.size() == exprs.size() && columns.size() > 0
 			: "There must be as many terms as columns";
@@ -790,7 +791,7 @@ public class DefaultStatementFactory extends Base
 		return new UpdateStmt(table, columns, exprs, cond);
 	}
 	
-	public ManipulationStatement makeInsert(Table table, List columns, List exprs) {
+	public ManipulationStatement makeInsert(Table table, List<Column> columns, List<Term> exprs) {
 		
 		assert columns.size() == exprs.size() && columns.size() > 0
 			: "There must be as many terms as columns";

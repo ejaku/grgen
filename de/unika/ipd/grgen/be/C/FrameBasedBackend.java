@@ -5,36 +5,20 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.C;
-import de.unika.ipd.grgen.be.C.fb.*;
-
-
-
 import de.unika.ipd.grgen.ir.*;
-
+import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.IDBase;
-import de.unika.ipd.grgen.util.Util;
-import java.io.File;
-import java.util.Iterator;
-import java.util.Vector;
-import java.io.PrintStream;
-import java.util.Map;
-import java.util.HashMap;
-import de.unika.ipd.grgen.ast.GraphNode;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.TreeSet;
-import java.util.Comparator;
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
+import de.unika.ipd.grgen.be.C.fb.AttrTypeDescriptor;
+import de.unika.ipd.grgen.be.C.fb.EnumDescriptor;
+import de.unika.ipd.grgen.be.C.fb.MoreInformationCollector;
 import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.ast.BasicTypeNode;
-import java.util.Collections;
-import java.util.LinkedList;
+import de.unika.ipd.grgen.util.Attributes;
+import java.io.File;
+import java.io.PrintStream;
 
 public class FrameBasedBackend extends MoreInformationCollector implements Backend, BackendFactory
 {
@@ -190,7 +174,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			" * the graph existing at runtime */\n\n\n\n\n");
 		
 		// for all actions gen matcher programs
-		for ( Iterator act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
+		for ( Iterator<Action> act_it = actionMap.keySet().iterator(); act_it.hasNext(); )
 		{
 			
 			MatchingAction action = (MatchingAction) act_it.next();
@@ -203,18 +187,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					" ---------------------- */\n\n\n");
 			
 			//start generating programs beginning with the already computed start node
-			Integer act_id = (Integer) actionMap.get(action);
+			Integer act_id = actionMap.get(action);
 			Node startNode = start_node[act_id.intValue()];
 			//perform a deep first search on the pattern
 			//graph while emiting matcher operations
-			Collection alreadyCheckedConditions = new HashSet();
-			Collection alreadyCheckedTypeConditions = new HashSet();
+			Collection<Expression> alreadyCheckedConditions = new HashSet<Expression>();
+			Collection<Collection> alreadyCheckedTypeConditions = new HashSet<Collection>();
 			int[] n_matcher_ops = new int[max_n_negative_patterns+1];
 
 			n_matcher_ops[0] = genOpSequence(startNode, action, alreadyCheckedConditions, alreadyCheckedTypeConditions, sb);
 			
-			for(Iterator neg_it = negMap[act_id.intValue()].keySet().iterator(); neg_it.hasNext(); ) {
-				PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+			for(Iterator<PatternGraph> neg_it = negMap[act_id.intValue()].keySet().iterator(); neg_it.hasNext(); ) {
+				PatternGraph neg_pattern = neg_it.next();
 				
 				int neg_num = ((Integer)negMap[act_id.intValue()].get(neg_pattern)).intValue();
 
@@ -301,7 +285,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//get the number of pattern nodes to be removed by the replacement step
 			int n_remove_nodes = 0;
 			String remove_nodes_array = "NULL";
-			Collection remove_nodes = new HashSet();
+			Collection<IR> remove_nodes = new HashSet<IR>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -315,7 +299,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					sb.append(
 						"static int remove_nodes_of_action_" + act_id +
 							"[" + n_remove_nodes + "] = {\n  ");
-					for (Iterator it = remove_nodes.iterator(); it.hasNext(); ) {
+					for (Iterator<IR> it = remove_nodes.iterator(); it.hasNext(); ) {
 						Node node = (Node) it.next();
 						Integer node_num =
 							(Integer) pattern_node_num[act_id.intValue()].get(node);
@@ -331,7 +315,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//removed by the replacement step
 			int n_remove_edges = 0;
 			String remove_edges_array = "NULL";
-			Collection remove_edges = new HashSet();
+			Collection<IR> remove_edges = new HashSet<IR>();
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute all pattern nodes to be removed  in the replace step.
@@ -345,7 +329,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					sb.append(
 						"static int remove_edges_of_action_" + act_id +
 							"[" + n_remove_edges + "] = {\n  ");
-					for (Iterator it = remove_edges.iterator(); it.hasNext(); ) {
+					for (Iterator<IR> it = remove_edges.iterator(); it.hasNext(); ) {
 						Edge edge = (Edge) it.next();
 						Integer edge_num =
 							(Integer) pattern_edge_num[act_id.intValue()].get(edge);
@@ -365,10 +349,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				if (n_new_edges > 0) {
 					sb.append(
 						"static fb_acts_edge_t *new_edges_of_action_" + act_id + "[" + n_new_edges + "] = { \n");
-					Iterator new_edge_it =
+					Iterator<Edge> new_edge_it =
 						newEdgesOfAction[act_id.intValue()].iterator();
 					for ( ; new_edge_it.hasNext() ; ) {
-						Edge edge = (Edge) new_edge_it.next();
+						Edge edge = new_edge_it.next();
 						int edge_num =
 							((Integer) replacement_edge_num[act_id.intValue()].get(edge)).intValue();
 						sb.append("  &replacement_edge_" + edge_num + "_of_action_" + act_id);
@@ -545,16 +529,16 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private int op_counter;
 
 	private int genOpSequence(Node startNode, MatchingAction action,
-	    Collection alreadyCheckedConditions, Collection alreadyCheckedTypeConditions, StringBuffer sb)
+	    Collection<Expression> alreadyCheckedConditions, Collection<Collection> alreadyCheckedTypeConditions, StringBuffer sb)
 	{
-		Collection nodeVisited = new HashSet();
-		Collection nodeNotVisited = new HashSet();
-		Collection edgeVisited = new HashSet();
+		Collection<IR> nodeVisited = new HashSet<IR>();
+		Collection<IR> nodeNotVisited = new HashSet<IR>();
+		Collection<IR> edgeVisited = new HashSet<IR>();
 		Collection currentSubgraphNodes;
-		Collection currentSubgraph;
+		Collection<ConstraintEntity> currentSubgraph;
 		nodeNotVisited.addAll(action.getPattern().getNodes());
 		
-		int act_id = ((Integer)actionMap.get(action)).intValue();
+		int act_id = actionMap.get(action).intValue();
 		op_counter = 0;
 		
 		while( !nodeNotVisited.isEmpty() ) {
@@ -562,7 +546,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			int max_prio = 0;
 			//get any node as initial node
 			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-			for (Iterator node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+			for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
 				Node node = (Node) node_it.next();
 				
 				//get the nodes priority
@@ -580,7 +564,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			
-			currentSubgraph = new HashSet();
+			currentSubgraph = new HashSet<ConstraintEntity>();
 			currentSubgraph.add(max_prio_node);
 			
 			nodeVisited.add(max_prio_node);
@@ -600,8 +584,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			nodeNotVisited.removeAll(nodeVisited);
 		}
 
-		for(Iterator neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
-			PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+		for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
+			PatternGraph neg_pattern = neg_it.next();
 
 			int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
 
@@ -623,14 +607,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @returns  the number of matcher ops genreated for the given action
 	 */
 	private int genNegOpSequence(MatchingAction action, PatternGraph neg_pattern,
-	    Collection alreadyCheckedConditions, Collection alreadyCheckedTypeConditions, StringBuffer sb)
+	    Collection<Expression> alreadyCheckedConditions, Collection<Collection> alreadyCheckedTypeConditions, StringBuffer sb)
 	{
-		Collection nodeVisited = new HashSet();
-		Collection nodeNotVisited = new HashSet();
-		Collection edgeVisited = new HashSet();
-		Collection startNodes = new HashSet();
+		Collection<IR> nodeVisited = new HashSet<IR>();
+		Collection<IR> nodeNotVisited = new HashSet<IR>();
+		Collection<IR> edgeVisited = new HashSet<IR>();
+		Collection<IR> startNodes = new HashSet<IR>();
 		
-		int act_id = ((Integer)actionMap.get(action)).intValue();
+		int act_id = actionMap.get(action).intValue();
 		int neg_pattern_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
 		
 		/* find out which nodes/edges have been already matched by analyzing the already checked conditions */
@@ -685,7 +669,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		/* first take all nodes, that are already matches as pattern nodes as
 		 * start nodes and try to find adjacent negative-pattern-only nodes
 		 * for the matcher prog */
-		for( Iterator start_it = startNodes.iterator(); start_it.hasNext(); ) {
+		for( Iterator<IR> start_it = startNodes.iterator(); start_it.hasNext(); ) {
 			
 			Node start_node = (Node)start_it.next();
 	
@@ -708,7 +692,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			int max_prio = 0;
 			//get any node as initial node
 			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-			for (Iterator node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+			for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
 				Node node = (Node) node_it.next();
 				
 				//get the nodes priority
@@ -759,10 +743,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @param    sb                  the StringBuffer the generated
 	 */
 	private void __deep_first_matcher_op_gen(
-		Collection nodeVisited, Collection edgeVisited,
-		Collection currentSubgraph,
-		Collection alreadyCheckedConds,
-		Collection alreadyCheckedTypeConds,
+		Collection<IR> nodeVisited, Collection<IR> edgeVisited,
+		Collection<ConstraintEntity> currentSubgraph,
+		Collection<Expression> alreadyCheckedConds,
+		Collection<Collection> alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
 		int pattern_num,				/* pattern 0 is the main pattern, the other ones are negative patterns */
 		final PatternGraph pattern,
@@ -773,7 +757,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		//a collection of all edges incident to the current node. The collection
 		//is ordered by the priority of the nodes at the far end of each edge.
 		//nodes without priority get the priority 0.
-		Collection incidentEdges = new TreeSet(new Comparator() {
+		Collection<Edge> incidentEdges = new TreeSet<Edge>(new Comparator() {
 					public int compare(Object o1, Object o2) {
 						Edge e1 = (Edge) o1;
 						Edge e2 = (Edge) o2;
@@ -802,9 +786,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		pattern.getIncoming(node, incidentEdges);
 		
 		//iterate over all those incident edges...
-		Iterator incident_edge_it = incidentEdges.iterator();
+		Iterator<Edge> incident_edge_it = incidentEdges.iterator();
 		for ( ; incident_edge_it.hasNext(); ) {
-			Edge edge = (Edge) incident_edge_it.next();
+			Edge edge = incident_edge_it.next();
 
 			//...and check whether the current edge has already been visited
 			if ( ! edgeVisited.contains(edge) ) {
@@ -858,16 +842,16 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private void genOp(Node node, Edge edge, MatchingAction action,
 					   int pattern_num,
 					   final PatternGraph pattern,
-					   Collection nodeVisited, Collection edgeVisited,
-					   Collection currentSubgraph,
-					   Collection alreadyCheckedConds,
-					   Collection alreadyCheckedTypeConds,
+					   Collection<IR> nodeVisited, Collection<IR> edgeVisited,
+					   Collection<ConstraintEntity> currentSubgraph,
+					   Collection<Expression> alreadyCheckedConds,
+					   Collection<Collection> alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb)
 	{
-		Integer act_id = (Integer) actionMap.get(action);
+		Integer act_id = actionMap.get(action);
 
 		//get the potentialy homomorphic nodes of the far end node
-		Collection homomorphicNodes = new HashSet();
+		Collection<Node> homomorphicNodes = new HashSet<Node>();
 		node.getHomomorphic(homomorphicNodes);
 
 		//compute this ops kind
@@ -891,18 +875,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 		
 		//compute the set of conditions evaluatable in the current op
-		Collection evaluatableConditions = new TreeSet(conditionsComparator);
-		Collection evaluatableGlobalConditions = new TreeSet(conditionsComparator);
-		Collection evaluatableTypeConditions = new TreeSet(typeConditionsComparator);
-		Iterator cond_it = conditions.iterator();
+		Collection<Expression> evaluatableConditions = new TreeSet<Expression>(conditionsComparator);
+		Collection<Expression> evaluatableGlobalConditions = new TreeSet<Expression>(conditionsComparator);
+		Collection<Collection> evaluatableTypeConditions = new TreeSet<Collection>(typeConditionsComparator);
+		Iterator<Expression> cond_it = conditions.iterator();
 		for ( ; cond_it.hasNext(); ) {
-			 Expression cond = (Expression) cond_it.next();
+			 Expression cond = cond_it.next();
 
 			//the nodes/edges involved in the current condtion
 			Collection involvedNodes =
-				new HashSet((Collection) conditionsInvolvedNodes.get(cond));
+				new HashSet(conditionsInvolvedNodes.get(cond));
  			Collection involvedEdges =
-				new HashSet((Collection) conditionsInvolvedEdges.get(cond));
+				new HashSet(conditionsInvolvedEdges.get(cond));
 
 			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
@@ -919,15 +903,15 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 		}
-		Iterator type_cond_it = typeConditions.iterator();
+		Iterator<Collection> type_cond_it = typeConditions.iterator();
 		for ( ; type_cond_it.hasNext(); ) {
-			Collection type_cond = (Collection) type_cond_it.next();
+			Collection type_cond = type_cond_it.next();
 
 			//the nodes/edges involved in the current condtion
 			Collection involvedNodes =
-				new HashSet((Collection) typeConditionsInvolvedNodes.get(type_cond));
+				new HashSet(typeConditionsInvolvedNodes.get(type_cond));
  			Collection involvedEdges =
-				new HashSet((Collection) typeConditionsInvolvedEdges.get(type_cond));
+				new HashSet(typeConditionsInvolvedEdges.get(type_cond));
 
 			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
@@ -996,9 +980,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"int conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + "[" +
 					(evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					"] = { ");
-			Iterator eval_cond_it = evaluatableConditions.iterator();
+			Iterator<Expression> eval_cond_it = evaluatableConditions.iterator();
 			for ( ; eval_cond_it.hasNext(); ) {
-				Expression cond = (Expression) eval_cond_it.next();
+				Expression cond = eval_cond_it.next();
 				sb.append(conditionNumbers.get(cond));
 				if (eval_cond_it.hasNext())
 					sb.append(", ");
@@ -1006,9 +990,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if (evaluatableConditions.size() > 0 &&
 				evaluatableTypeConditions.size() > 0)
 					sb.append(", ");
-			Iterator eval_type_cond_it = evaluatableTypeConditions.iterator();
+			Iterator<Collection> eval_type_cond_it = evaluatableTypeConditions.iterator();
 			for ( ; eval_type_cond_it.hasNext(); ) {
-				Collection type_cond = (Collection) eval_type_cond_it.next();
+				Collection type_cond = eval_type_cond_it.next();
 				sb.append(typeConditionNumbers.get(type_cond));
 				if (eval_type_cond_it.hasNext())
 					sb.append(", ");
@@ -1028,9 +1012,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"int global_conds_of_mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + "[" +
 					(evaluatableGlobalConditions.size()) +
 					"] = { ");
-			Iterator eval_cond_it = evaluatableGlobalConditions.iterator();
+			Iterator<Expression> eval_cond_it = evaluatableGlobalConditions.iterator();
 			for ( ; eval_cond_it.hasNext(); ) {
-				Expression cond = (Expression) eval_cond_it.next();
+				Expression cond = eval_cond_it.next();
 				sb.append(conditionNumbers.get(cond));
 				if (eval_cond_it.hasNext())
 					sb.append(", ");
@@ -1098,7 +1082,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private void genCheckNegativeOp( MatchingAction action, int neg_num, int op_counter, PatternGraph negative_pattern, StringBuffer sb )
 	{
 	  
-	  int act_id = ((Integer)actionMap.get(action)).intValue();
+	  int act_id = actionMap.get(action).intValue();
 	  //int neg_pattern_num = ((Integer)negMap[act_id].get(negative_pattern)).intValue();
 		
 	  sb.append(
@@ -1146,18 +1130,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				" */\n" +
 				"\n\n");
 		
-		for(Iterator it = evalListMap.keySet().iterator(); it.hasNext(); ) {
+		for(Iterator<Collection> it = evalListMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current eval list
-			Collection eval_list = (Collection)it.next();
+			Collection<Assignment> eval_list = it.next();
 
-			Integer act_id = (Integer)evalListMap.get( eval_list );
+			Integer act_id = evalListMap.get( eval_list );
 			MatchingAction current_action = (MatchingAction)evalActions.get( eval_list );
 				
 			/* generate an expression that consists of both parts of the Assignment to use the already implemented methods for gathering InvolvedNodes/Edges etc. */
-			Collection involved_nodes =
-				(Collection) evalInvolvedNodes.get( eval_list );
-			Collection involved_edges =
-				(Collection) evalInvolvedEdges.get( eval_list );
+			Collection<Node> involved_nodes =
+				evalInvolvedNodes.get( eval_list );
+			Collection<Edge> involved_edges =
+				evalInvolvedEdges.get( eval_list );
 
 			/*gen the code for the current eval */
 			sb.append(
@@ -1171,9 +1155,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//the ptr to the host graph image of the node and the other representing
 			//that host graph nodes actual type (note that this type may be a SUB-type
 			//of the nodes type
-			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			for (Iterator<Node> node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
-				Node current_node = (Node) node_it.next();
+				Node current_node = node_it.next();
 				Integer node_num;
 				
 				node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
@@ -1199,9 +1183,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"  int type_replacement_node_" + node_num + " = (int) replacement_node_" + node_num + "->type;\n");
 				}
 			}
-			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			for (Iterator<Edge> edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
-				Edge current_edge = (Edge) edge_it.next();
+				Edge current_edge = edge_it.next();
 
 				Integer edge_num;
 				
@@ -1227,9 +1211,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"   * for each pair of pattern-node/edge-num and attr-id occuring as a qualification\n" +
 				"   * expression in the evaluation, there's a variable representing that pair. */\n");
 			//for all involved pattern nodes
-			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			for (Iterator<Node> node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
-				Node current_node = (Node) node_it.next();
+				Node current_node = node_it.next();
 				String pattern_or_repl = "replacement";
 				
 				Integer node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
@@ -1244,13 +1228,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					}
 				}
 
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedEvalNodeAttrIds[ act_id.intValue() ].get( current_node )).iterator();
 				
 				for (; attr_id_it.hasNext(); )
 				{
 					
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1259,9 +1243,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			//for all involved pattern edges
-			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			for (Iterator<Edge> edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
-				Edge current_edge = (Edge) edge_it.next();
+				Edge current_edge = edge_it.next();
 				String pattern_or_repl = "replacement";
 				
 				Integer edge_num = (Integer) replacement_edge_num[ act_id.intValue() ].get(current_edge);
@@ -1271,11 +1255,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 
 				
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedEvalEdgeAttrIds[ act_id.intValue() ].get( current_edge )).iterator();
 				for (; attr_id_it.hasNext(); )
 				{
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1284,8 +1268,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			//gen the code for actual evalutions in the eval_list
-			for ( Iterator evals_it = eval_list.iterator(); evals_it.hasNext(); ) {
-				Assignment eval = (Assignment)evals_it.next();
+			for ( Iterator<Assignment> evals_it = eval_list.iterator(); evals_it.hasNext(); ) {
+				Assignment eval = evals_it.next();
 
 				Qualification target = eval.getTarget();
 				Expression expr = eval.getExpression();
@@ -1314,9 +1298,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"  /* now check whether the types in the calculations were right */\n" );
 			
 			/* check the types afterwards... should have been done before */
-			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			for (Iterator<Node> node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
-				Node current_node = (Node) node_it.next();
+				Node current_node = node_it.next();
 				String pattern_or_repl = "replacement";
 				
 				Integer node_num = (Integer) replacement_node_num[ act_id.intValue() ].get(current_node);
@@ -1332,11 +1316,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 
 				
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedEvalNodeAttrIds[ act_id.intValue() ].get( current_node )).iterator();
 				for (; attr_id_it.hasNext(); )
 				{
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1347,9 +1331,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 							 "    \"with the kind computed by the generator\");*/\n");
 				}
 			}
-			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			for (Iterator<Edge> edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
-				Edge current_edge = (Edge) edge_it.next();
+				Edge current_edge = edge_it.next();
 				String pattern_or_repl = "replacement";
 				
 				Integer edge_num = (Integer) replacement_edge_num[ act_id.intValue() ].get(current_edge);
@@ -1359,11 +1343,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 
 				
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedEvalEdgeAttrIds[ act_id.intValue() ].get( current_edge )).iterator();
 				for (; attr_id_it.hasNext(); )
 				{
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1406,19 +1390,19 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				" */\n" +
 				"\n\n");
 		
-		for (Iterator it = conditions.iterator(); it.hasNext(); )
+		for (Iterator<Expression> it = conditions.iterator(); it.hasNext(); )
 		{
 			//get the current condition
-			Expression current_cond = (Expression) it.next();
+			Expression current_cond = it.next();
 			
-			int cond_num = ((Integer) conditionNumbers.get(current_cond)).intValue();
-			int act_id = ((Integer) conditionsActionId.get(current_cond)).intValue();
-			int pattern_num = conditionsPatternNum.get(current_cond) == null ? 0 : ((Integer) conditionsPatternNum.get(current_cond)).intValue();
+			int cond_num = conditionNumbers.get(current_cond).intValue();
+			int act_id = conditionsActionId.get(current_cond).intValue();
+			int pattern_num = conditionsPatternNum.get(current_cond) == null ? 0 : conditionsPatternNum.get(current_cond).intValue();
 			
-			Collection involved_nodes =
-				(Collection) conditionsInvolvedNodes.get(current_cond);
-			Collection involved_edges =
-				(Collection) conditionsInvolvedEdges.get(current_cond);
+			Collection<Node> involved_nodes =
+				conditionsInvolvedNodes.get(current_cond);
+			Collection<Edge> involved_edges =
+				conditionsInvolvedEdges.get(current_cond);
 			
 			//the action the current condition nbelogs to
 			MatchingAction current_action = (MatchingAction) conditionsAction.get(current_cond);
@@ -1436,9 +1420,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//the ptr to the host graph image of the node and the other representing
 			//that host graph nodes actual type (note that this type may be a SUB-type
 			//of the pattern nodes type
-			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			for (Iterator<Node> node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
-				Node current_pattern_node = (Node) node_it.next();
+				Node current_pattern_node = node_it.next();
 				Integer node_num = (Integer) pattern_node_num[act_id].get(current_pattern_node);
 				
 				
@@ -1455,9 +1439,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 
 			}
-			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			for (Iterator<Edge> edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
-				Edge current_pattern_edge = (Edge) edge_it.next();
+				Edge current_pattern_edge = edge_it.next();
 				Integer edge_num =
 					(Integer) pattern_edge_num[act_id].get(current_pattern_edge);
 				
@@ -1482,9 +1466,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"   * for each pair of pattern-node/edge-num and attr-id occuring as a qualification\n" +
 				"   * expressionin the condition, there's a variable representing that pair. */\n");
 			//for all involved pattern nodes
-			for (Iterator node_it = involved_nodes.iterator(); node_it.hasNext(); )
+			for (Iterator<Node> node_it = involved_nodes.iterator(); node_it.hasNext(); )
 			{
-				Node current_pattern_node = (Node) node_it.next();
+				Node current_pattern_node = node_it.next();
 				String pattern_or_neg = "pattern";
 				
 				Integer node_num = (Integer)pattern_node_num[ act_id ].get(current_pattern_node);
@@ -1493,13 +1477,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					pattern_or_neg = "negative_pattern";
 				}
 				
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedPatternNodeAttrIds[cond_num].get( current_pattern_node )).iterator();
 				
 				for (; attr_id_it.hasNext(); )
 				{
 					
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(node_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1513,9 +1497,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 			//for all involved pattern edges
-			for (Iterator edge_it = involved_edges.iterator(); edge_it.hasNext(); )
+			for (Iterator<Edge> edge_it = involved_edges.iterator(); edge_it.hasNext(); )
 			{
-				Edge current_pattern_edge = (Edge) edge_it.next();
+				Edge current_pattern_edge = edge_it.next();
 				String pattern_or_neg = "pattern";
 				
 				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(current_pattern_edge);
@@ -1524,11 +1508,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					pattern_or_neg = "negative_pattern";
 				}
 				
-				Iterator attr_id_it =
+				Iterator<Integer> attr_id_it =
 					((Collection) involvedPatternEdgeAttrIds[cond_num].get(current_pattern_edge)).iterator();
 				for (; attr_id_it.hasNext(); )
 				{
-					Integer attr_id = (Integer) attr_id_it.next();
+					Integer attr_id = attr_id_it.next();
 					String kindStr =
 						AttrTypeDescriptor.kindToStr(edge_attr_info[attr_id.intValue()]);
 					sb.append(
@@ -1562,19 +1546,19 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	
 	
 		//for all type conditions gen C-code
-		for (Iterator it = typeConditions.iterator(); it.hasNext(); )
+		for (Iterator<Collection> it = typeConditions.iterator(); it.hasNext(); )
 		{
 			//get the current type condition
-			Collection current_type_cond = (Collection) it.next();
+			Collection current_type_cond = it.next();
 			
-			int cond_num = ((Integer) typeConditionNumbers.get(current_type_cond)).intValue();
-			int act_id = ((Integer) typeConditionsActionId.get(current_type_cond)).intValue();
-			int pattern_num = typeConditionsPatternNum.get(current_type_cond) == null ? 0 : ((Integer) typeConditionsPatternNum.get(current_type_cond)).intValue();
+			int cond_num = typeConditionNumbers.get(current_type_cond).intValue();
+			int act_id = typeConditionsActionId.get(current_type_cond).intValue();
+			int pattern_num = typeConditionsPatternNum.get(current_type_cond) == null ? 0 : typeConditionsPatternNum.get(current_type_cond).intValue();
 
-			Collection involved_nodes =
-				(Collection) typeConditionsInvolvedNodes.get(current_type_cond);
-			Collection involved_edges =
-				(Collection) typeConditionsInvolvedEdges.get(current_type_cond);
+			Collection<Node> involved_nodes =
+				typeConditionsInvolvedNodes.get(current_type_cond);
+			Collection<Edge> involved_edges =
+				typeConditionsInvolvedEdges.get(current_type_cond);
 			
 			/*gen the code for the current cond */
 			if (!involved_nodes.isEmpty() || !involved_edges.isEmpty())
@@ -1594,7 +1578,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if (!involved_nodes.isEmpty()) {
 				//that means that the graph component the current type
 				//condition relates to is a node
-				Node current_pattern_node = (Node) involved_nodes.iterator().next();
+				Node current_pattern_node = involved_nodes.iterator().next();
 				String pattern_or_neg = "pattern";
 
 				Integer node_num = (Integer)pattern_node_num[ act_id ].get(current_pattern_node);
@@ -1616,7 +1600,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 				Iterator type_it = current_type_cond.iterator();
 				for (int counter = 0; type_it.hasNext(); ) {
-					int type_id = ((Integer) nodeTypeMap.get(type_it.next())).intValue();
+					int type_id = nodeTypeMap.get(type_it.next()).intValue();
 					if (counter++ > 0)
 						sb.append(" && ");
 				
@@ -1626,7 +1610,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			else if (!involved_edges.isEmpty()) {
 				//that means that the graph component the current type
 				//condition relates to is an edge
-				Edge current_pattern_edge = (Edge) involved_edges.iterator().next();
+				Edge current_pattern_edge = involved_edges.iterator().next();
 				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(current_pattern_edge);
 				String pattern_or_neg = "pattern";
 
@@ -1647,7 +1631,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 				Iterator type_it = current_type_cond.iterator();
 				for (int counter = 0; type_it.hasNext(); ) {
-					int type_id = ((Integer) edgeTypeMap.get(type_it.next())).intValue();
+					int type_id = edgeTypeMap.get(type_it.next()).intValue();
 					if (counter++ > 0)
 						sb.append(" && ");
 				
@@ -1801,7 +1785,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			if (owner instanceof Node)
 			{
-				int act_id = ((Integer) actionMap.get(act)).intValue();
+				int act_id = actionMap.get(act).intValue();
 
 				String pattern_or_neg = "pattern";
 				Integer node_num = (Integer)pattern_node_num[ act_id ].get(owner);
@@ -1810,7 +1794,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					pattern_or_neg = "negative_pattern";
 				}
 				
-				Integer attr_id = (Integer) nodeAttrMap.get(attr);
+				Integer attr_id = nodeAttrMap.get(attr);
 				
 				sb.append(
 					pattern_or_neg + "_node_" + node_num + "->attr_values[index_a" + attr_id +
@@ -1838,7 +1822,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 			if (owner instanceof Edge)
 			{
-				int act_id = ((Integer) actionMap.get(act)).intValue();
+				int act_id = actionMap.get(act).intValue();
 				String pattern_or_neg = "pattern";
 				Integer edge_num = (Integer)pattern_edge_num[ act_id ].get(owner);
 				if( edge_num == null ) {
@@ -1846,7 +1830,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					pattern_or_neg = "negative_pattern";
 				}
 				
-				Integer attr_id = (Integer) edgeAttrMap.get(attr);
+				Integer attr_id = edgeAttrMap.get(attr);
 				
 				sb.append(
 					pattern_or_neg + "_edge_" + edge_num + "->attr_values[index_a" + attr_id +
@@ -2009,14 +1993,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			if (owner instanceof Node)
 			{
-				int act_id = ((Integer) actionMap.get(act)).intValue();
+				int act_id = actionMap.get(act).intValue();
 				Node node = (Node)owner;
 				String pattern_or_repl = "replacement";
 				
 				//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
-				Integer attr_id = (Integer) nodeAttrMap.get(attr);
+				Integer attr_id = nodeAttrMap.get(attr);
 				
-				Integer node_num;	
+				Integer node_num;
 				if(node.isRetypedNode()) {
 					Node old_node = node.getOldNode();
 					node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
@@ -2057,7 +2041,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 			if (owner instanceof Edge)
 			{
-				int act_id = ((Integer) actionMap.get(act)).intValue();
+				int act_id = actionMap.get(act).intValue();
 				String pattern_or_repl = "replacement";
 				
 				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
@@ -2068,7 +2052,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					pattern_or_repl = "pattern";
 				}
 				
-				Integer attr_id = (Integer) edgeAttrMap.get(attr);
+				Integer attr_id = edgeAttrMap.get(attr);
 				
 			sb.append(
 				pattern_or_repl + "_edge_" + edge_num +
@@ -2108,12 +2092,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		
 		if (owner instanceof Node)
 		{
-			int act_id = ((Integer) actionMap.get(act)).intValue();
+			int act_id = actionMap.get(act).intValue();
 			Node node = (Node)owner;
 			String pattern_or_repl = "replacement";
 			
 			//Integer node_num = (Integer) pattern_node_num[act_id].get(owner);
-			Integer attr_id = (Integer) nodeAttrMap.get(attr);
+			Integer attr_id = nodeAttrMap.get(attr);
 			
 			Integer node_num;
 			if(node.isRetypedNode()) {
@@ -2145,7 +2129,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 		if (owner instanceof Edge)
 		{
-			int act_id = ((Integer) actionMap.get(act)).intValue();
+			int act_id = actionMap.get(act).intValue();
 			String pattern_or_repl = "replacement";
 			
 			//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
@@ -2156,7 +2140,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				pattern_or_repl = "pattern";
 			}
 			
-			Integer attr_id = (Integer) edgeAttrMap.get(attr);
+			Integer attr_id = edgeAttrMap.get(attr);
 			
 			sb.append(
 				"  if (" + pattern_or_repl + "_edge_" + edge_num +"->" +
@@ -2195,36 +2179,36 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		 actions, ... */
 		
 		//for all conditions gen the C-structs describing the conditions
-		Collection allConditions = new HashSet();
+		Collection<Object> allConditions = new HashSet<Object>();
 		allConditions.addAll(conditions);
 		allConditions.addAll(typeConditions);
 		
-		for (Iterator cond_it = allConditions.iterator(); cond_it.hasNext(); )
+		for (Iterator<Object> cond_it = allConditions.iterator(); cond_it.hasNext(); )
 		{
 			int cond_num;
 			int act_id;
 			Object condition = cond_it.next();
-			Collection involved_nodes;
-			Collection involved_edges;
+			Collection<Node> involved_nodes;
+			Collection<Edge> involved_edges;
 			int pattern_num;
 			
 			if (condition instanceof Expression) {
-				cond_num = ((Integer) conditionNumbers.get(condition)).intValue();
-				act_id = ((Integer) conditionsActionId.get(condition)).intValue();
+				cond_num = conditionNumbers.get(condition).intValue();
+				act_id = conditionsActionId.get(condition).intValue();
 				involved_nodes =
-					(Collection) conditionsInvolvedNodes.get(condition);
+					conditionsInvolvedNodes.get(condition);
 				involved_edges =
-					(Collection) conditionsInvolvedEdges.get(condition);
-				pattern_num = conditionsPatternNum.get(condition) == null ? 0 : ((Integer) conditionsPatternNum.get(condition)).intValue();
+					conditionsInvolvedEdges.get(condition);
+				pattern_num = conditionsPatternNum.get(condition) == null ? 0 : conditionsPatternNum.get(condition).intValue();
 			}
 			else {
-				cond_num = ((Integer) typeConditionNumbers.get(condition)).intValue();
-				act_id = ((Integer) typeConditionsActionId.get(condition)).intValue();
+				cond_num = typeConditionNumbers.get(condition).intValue();
+				act_id = typeConditionsActionId.get(condition).intValue();
 				involved_nodes =
-					(Collection) typeConditionsInvolvedNodes.get(condition);
+					typeConditionsInvolvedNodes.get(condition);
 				involved_edges =
-					(Collection) typeConditionsInvolvedEdges.get(condition);
-				pattern_num = typeConditionsPatternNum.get(condition) == null ? 0 : ((Integer) typeConditionsPatternNum.get(condition)).intValue();
+					typeConditionsInvolvedEdges.get(condition);
+				pattern_num = typeConditionsPatternNum.get(condition) == null ? 0 : typeConditionsPatternNum.get(condition).intValue();
 			}
 			
 			
@@ -2241,9 +2225,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"int involved_nodes_of_cond_" + cond_num +
 					"[" + involved_nodes.size() + "] = { ");
 			
-				Iterator node_it = involved_nodes.iterator();
+				Iterator<Node> node_it = involved_nodes.iterator();
 				for ( ; node_it.hasNext() ; ) {
-					Node node = (Node) node_it.next();
+					Node node = node_it.next();
 					
 					Integer node_num = (Integer) pattern_node_num[act_id].get(node);
 					if( node_num == null ) {
@@ -2260,9 +2244,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				sb.append(
 					"int involved_edges_of_cond_" + cond_num +
 						"[" + involved_edges.size() + "] = { ");
-				Iterator edge_it = involved_edges.iterator();
+				Iterator<Edge> edge_it = involved_edges.iterator();
 				for ( ; edge_it.hasNext() ; ) {
-					Edge edge = (Edge) edge_it.next();
+					Edge edge = edge_it.next();
 					
 					Integer edge_num = (Integer) pattern_edge_num[act_id].get(edge);
 					if( edge_num == null ) {
@@ -2285,13 +2269,13 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 		
 		//gen pattern, replacement and action-struct for all actions
-		for(Iterator it = actionMap.keySet().iterator(); it.hasNext(); )
+		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); )
 		{
 			
 			//get the current action
-			Action act = (Action) it.next();
+			Action act = it.next();
 			//get the current actions id
-			int act_id = ((Integer)actionMap.get(act)).intValue();
+			int act_id = actionMap.get(act).intValue();
 			assert act_id < n_graph_actions:
 				"action id found which was greater than the number of graph actions";
 			
@@ -2303,8 +2287,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//create a C-identifier for the currents action pattern graph
 				String graphName = "pattern_graph_of_action_" + act_id;
 				//setup the maps with the precomputes node and edge numbers
-				Map node_numbers = pattern_node_num[act_id];
-				Map edge_numbers = pattern_edge_num[act_id];
+				Map<Object, Integer> node_numbers = pattern_node_num[act_id];
+				Map<Object, Integer> edge_numbers = pattern_edge_num[act_id];
 				//gen C-data-structures describing its pattern and replacemant graph
 				sb.append(
 					"\n\n\n\n\n/*------------------ Some stuff describing the " +
@@ -2314,18 +2298,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					sb, pattern, graphName, "pattern_", "_of_action_" + act_id,
 					node_numbers, edge_numbers, n_subgraphs[act_id], subgraphOfNode, subgraphOfEdge);
 				
-				for(Iterator neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
+				for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
 					
 					//get the current negative pattern graph
-					PatternGraph neg_pattern = (PatternGraph)neg_it.next();
+					PatternGraph neg_pattern = neg_it.next();
 					int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
 					
 					//create a C-identifier for the currents action pattern graph
 					String neg_graphName = "negative_pattern_graph_" + neg_num + "_of_action_" + act_id;
 					
 					//setup the maps with the precomputes node and edge numbers
-					Map neg_node_numbers = negative_node_num[act_id][neg_num];
-					Map neg_edge_numbers = negative_edge_num[act_id][neg_num];
+					Map<Object, Integer> neg_node_numbers = negative_node_num[act_id][neg_num];
+					Map<Object, Integer> neg_edge_numbers = negative_edge_num[act_id][neg_num];
 					
 					genGraph(
 						sb, neg_pattern, neg_graphName, "negative_pattern_" + neg_num + "_", "_of_action_" + act_id,
@@ -2341,8 +2325,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				//create a C-identifier for the currents action pattern graph
 				String graphName = "replacement_graph_of_action_" + act_id;
 				//setup the maps with the precomputes node and edge numbers
-				Map node_numbers = replacement_node_num[act_id];
-				Map edge_numbers = replacement_edge_num[act_id];
+				Map<Object, Integer> node_numbers = replacement_node_num[act_id];
+				Map<Object, Integer> edge_numbers = replacement_edge_num[act_id];
 				//gen C-data-structures describing its pattern and replacemant graph
 				genGraph(
 					sb, replacement, graphName, "replacement_",
@@ -2404,9 +2388,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private void genGraph(
 		StringBuffer sb, Graph graph, String graphName,
 		String prefix, String postfix,
-		Map node_numbers, Map edge_numbers,
+		Map<Object, Integer> node_numbers, Map<Object, Integer> edge_numbers,
 		int n_subgraphs,
-		Map subgraphOfNode, Map subgraphOfEdge )
+		Map<Node, Integer> subgraphOfNode, Map<Edge, Integer> subgraphOfEdge )
 	{
 		if(n_subgraphs <= 0) n_subgraphs = 1;
 		
@@ -2429,7 +2413,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			{
 				//...create a C-prototype of type fb_acts_node_t
 				Node node = (Node) node_it.next();
-				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				int node_num = node_numbers.get(node).intValue();
 				sb.append(
 					"static fb_acts_node_t " + prefix + "node_" + node_num +
 					postfix + ";\n");
@@ -2445,16 +2429,16 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for ( ; edge_it.hasNext(); )
 			{
 				Edge edge = (Edge) edge_it.next();
-				int edge_num = ((Integer)edge_numbers.get(edge)).intValue();
+				int edge_num = edge_numbers.get(edge).intValue();
 				int edge_type = getId((EdgeType)edge.getType());
 				int src_node_num =
-					( (Integer)node_numbers.get(graph.getSource(edge)) ).intValue();
+					node_numbers.get(graph.getSource(edge)).intValue();
 				int tgt_node_num =
-					( (Integer)node_numbers.get(graph.getTarget(edge)) ).intValue();
+					node_numbers.get(graph.getTarget(edge)).intValue();
 				
 				int subgraph = 0;
 				if(subgraphOfEdge != null) {
-					subgraph = ((Integer)subgraphOfEdge.get(edge)).intValue();
+					subgraph = subgraphOfEdge.get(edge).intValue();
 				}
 				
 				int index = edge_index_in_subgraph[subgraph]++;
@@ -2486,7 +2470,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for ( ; node_it.hasNext(); )
 			{
 				Node node = (Node) node_it.next();
-				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				int node_num = node_numbers.get(node).intValue();
 				int n_out_edges = graph.getOutDegree(node);
 				int n_in_edges = graph.getInDegree(node);
 				int node_type = getId((NodeType)node.getType());
@@ -2498,12 +2482,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"static fb_acts_edge_t *out_edges_of_node_"  + node_num + "_of_" +
 							 graphName + "[" + graph.getOutDegree(node) + "] = {\n  ");
 					//iterate over all outgoing edges of the current node...
-					Iterator edge_it = graph.getOutgoing(node);
+					Iterator<Edge> edge_it = graph.getOutgoing(node);
 					//...and gen an array of ptrs of type *fb_acts_edge_t
 					for ( ; edge_it.hasNext(); )
 					{
-						Edge out_edge = (Edge) edge_it.next();
-						int edge_num = ((Integer)edge_numbers.get(out_edge)).intValue();
+						Edge out_edge = edge_it.next();
+						int edge_num = edge_numbers.get(out_edge).intValue();
 						sb.append("&" + prefix + "edge_" + edge_num + postfix);
 						if (edge_it.hasNext()) sb.append(", ");
 					}
@@ -2517,12 +2501,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"static fb_acts_edge_t *in_edges_of_node_" + node_num + "_of_" +
 							 graphName + "[" + graph.getInDegree(node) + "] = {\n  ");
 					//iterate over all incomming edges of the current node...
-					Iterator edge_it = graph.getIncoming(node);
+					Iterator<? extends Edge> edge_it = graph.getIncoming(node).iterator();
 					//...and gen an array of ptrs of type *fb_acts_edge_t
 					for ( ; edge_it.hasNext(); )
 					{
-						Edge in_edge = (Edge) edge_it.next();
-						int edge_num = ((Integer)edge_numbers.get(in_edge)).intValue();
+						Edge in_edge = edge_it.next();
+						int edge_num = edge_numbers.get(in_edge).intValue();
 						sb.append("&" + prefix + "edge_" + edge_num + postfix);
 						if (edge_it.hasNext()) sb.append(", ");
 					}
@@ -2532,7 +2516,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 				int subgraph = 0;
 				if(subgraphOfNode != null) {
-					subgraph = ((Integer)subgraphOfNode.get(node)).intValue();
+					subgraph = subgraphOfNode.get(node).intValue();
 				}
 				
 				int index = node_index_in_subgraph[subgraph]++;
@@ -2567,7 +2551,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for ( ; node_it.hasNext(); )
 			{
 				Node node = (Node) node_it.next();
-				int node_num = ((Integer)node_numbers.get(node)).intValue();
+				int node_num = node_numbers.get(node).intValue();
 				sb.append(
 					"    &" + prefix + "node_" + node_num + postfix);
 				if (node_it.hasNext()) sb.append(",");
@@ -2588,7 +2572,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			for ( ; edge_it.hasNext(); )
 			{
 				Edge edge = (Edge) edge_it.next();
-				int edge_num = ((Integer)edge_numbers.get(edge)).intValue();
+				int edge_num = edge_numbers.get(edge).intValue();
 				sb.append(
 					"    &" + prefix + "edge_" + edge_num + postfix);
 				if (edge_it.hasNext()) sb.append(",");
@@ -3007,11 +2991,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"const fb_enum_item_descr_t item_descr_array_" + enum_type_id +
 						"[" + current_enum.n_items + "] = {");
 				boolean first = true;
-				for (Iterator item_it = current_enum.items.iterator(); item_it.hasNext(); )
+				for (Iterator<EnumItem> item_it = current_enum.items.iterator(); item_it.hasNext(); )
 				{
 					if (!first) sb.append(", ");
 					first = false;
-					EnumItem enum_item = (EnumItem) item_it.next();
+					EnumItem enum_item = item_it.next();
 					sb.append(
 						"\n  { (gr_int_t)" + ((Integer)enum_item.getValue().getValue()).intValue() +
 							", \"" + enum_item.getIdent() + "\" }");

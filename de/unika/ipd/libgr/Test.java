@@ -104,8 +104,8 @@ public class Test extends Base implements Sys {
 	
 		Graph g = factory.getGraph("test", false);
 		
-		Collection c = g.putAllNodesInstaceOf(g.getTypeModel().getNodeRootType(),
-																					new HashSet());
+		Collection<Integer> c = g.putAllNodesInstaceOf(g.getTypeModel().getNodeRootType(),
+																					new HashSet<Integer>());
 		System.out.println(c);
 	}
 	

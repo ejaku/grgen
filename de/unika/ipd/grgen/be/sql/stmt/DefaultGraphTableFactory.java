@@ -29,19 +29,19 @@ import java.util.Set;
 public class DefaultGraphTableFactory implements GraphTableFactory {
 	
 	/** Cache all tables here. */
-	protected final Map entTables = new HashMap();
+	protected final Map<Object, Object> entTables = new HashMap<Object, Object>();
 	
 	/** Cache all attribute tables here. */
-	protected final Map attrTables = new HashMap();
+	protected final Map<Entity, AttributeTable> attrTables = new HashMap<Entity, AttributeTable>();
 	
 	/** The SQL parameters. */
 	protected final SQLParameters parameters;
 	
 	/** List of node attributes (entities). */
-	protected final Map nodeAttrs;
+	protected final Map<Entity, Integer> nodeAttrs;
 	
 	/** List of edge attributes (entities). */
-	protected final Map edgeAttrs;
+	protected final Map<Entity, Integer> edgeAttrs;
 	
 	/** Names of the node table columns. */
 	protected final String[] nodeTableColumns;
@@ -69,7 +69,7 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	
 	public DefaultGraphTableFactory(SQLParameters parameters,
 									TypeFactory typeFactory,
-									Map nodeAttrs, Map edgeAttrs) {
+									Map<Entity, Integer> nodeAttrs, Map<Entity, Integer> edgeAttrs) {
 		
 		this.parameters = parameters;
 		this.nodeAttrs = nodeAttrs;
@@ -466,26 +466,26 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 	
 	private class DefaultAttributeTable extends AliasTable implements AttributeTable {
 		
-		final Map attrIndices;
+		final Map<Entity, Integer> attrIndices;
 		
-		DefaultAttributeTable(String name, String idCol, Entity ent, Map attrIndices) {
+		DefaultAttributeTable(String name, String idCol, Entity ent, Map<Entity, Integer> attrIndices) {
 			this(name, idCol, mangleEntity(ent) + "_attr", attrIndices);
 		}
 		
-		DefaultAttributeTable(String name, String idCol, Map attrIndices) {
+		DefaultAttributeTable(String name, String idCol, Map<Entity, Integer> attrIndices) {
 			this(name, idCol, "", attrIndices);
 		}
 		
-		DefaultAttributeTable(String name, String idCol, String alias, Map attrIndices) {
+		DefaultAttributeTable(String name, String idCol, String alias, Map<Entity, Integer> attrIndices) {
 			super(name, alias);
 			this.attrIndices = attrIndices;
-			Set attrs = attrIndices.keySet();
+			Set<Entity> attrs = attrIndices.keySet();
 			cols = new Column[attrs.size() + 1];
 			cols[0] = new SimpleColumn(idCol, typeFactory.getIdType(), this, false);
 			
-			for(Iterator it = attrs.iterator(); it.hasNext();) {
-				Entity e = (Entity) it.next();
-				int index = ((Integer) attrIndices.get(e)).intValue();
+			for(Iterator<Entity> it = attrs.iterator(); it.hasNext();) {
+				Entity e = it.next();
+				int index = attrIndices.get(e).intValue();
 				
 				cols[index + 1] =
 					new SimpleColumn(mangleEntity(e), getDataType(e.getType()), this, true);
@@ -547,11 +547,11 @@ public class DefaultGraphTableFactory implements GraphTableFactory {
 		return res;
 	}
 	
-	private AttributeTable checkAttrTable(String name, String idCol, Entity ent, Map indexMap) {
+	private AttributeTable checkAttrTable(String name, String idCol, Entity ent, Map<Entity, Integer> indexMap) {
 		AttributeTable res;
 		
 		if(attrTables.containsKey(ent))
-			res = (AttributeTable) attrTables.get(ent);
+			res = attrTables.get(ent);
 		else {
 			res = new DefaultAttributeTable(name, idCol, ent, indexMap);
 			attrTables.put(ent, res);

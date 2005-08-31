@@ -6,48 +6,44 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.*;
 
-import de.unika.ipd.grgen.util.MultiIterator;
-
 /**
  * A IR class that represents types that inherit from other types.
  */
 public abstract class InheritanceType extends CompoundType {
-
+	
 	public static final int ABSTRACT = 1;
 	public static final int CONST = 2;
 	
 	private int maxDist = -1;
-	private final List orderedSuperTypes = new LinkedList();
-	private final Set superTypes = new HashSet();
-	private final Set subTypes = new HashSet();
+	private final Set<InheritanceType> superTypes = new LinkedHashSet<InheritanceType>();
+	private final Set<InheritanceType> subTypes = new HashSet<InheritanceType>();
 	
 	/** The type modifiers. */
 	private final int modifiers;
-
-  /**
-   * @param name The name of the type.
-   * @param ident The identifier, declaring this type;
-   */
-  protected InheritanceType(String name, Ident ident, int modifiers) {
-    super(name, ident);
-    this.modifiers = modifiers;
-  }
-  
-  /**
-   * Is this inheritance type the root of a ingeritance hierachy.
-   * @return true, if this type does not inherit from some other type.
-   */
-  public boolean isRoot() {
-  	return superTypes.isEmpty();
-  }
-
+	
+	/**
+	 * @param name The name of the type.
+	 * @param ident The identifier, declaring this type;
+	 */
+	protected InheritanceType(String name, Ident ident, int modifiers) {
+		super(name, ident);
+		this.modifiers = modifiers;
+	}
+	
+	/**
+	 * Is this inheritance type the root of a ingeritance hierachy.
+	 * @return true, if this type does not inherit from some other type.
+	 */
+	public boolean isRoot() {
+		return superTypes.isEmpty();
+	}
+	
 	/**
 	 * Add a type, this type inherits from.
 	 * @param t The supertype.
 	 */
 	public void addSuperType(InheritanceType t) {
 		superTypes.add(t);
-		orderedSuperTypes.add(t);
 		t.subTypes.add(this);
 	}
 	
@@ -55,16 +51,16 @@ public abstract class InheritanceType extends CompoundType {
 	 * Get an iterator over all types, this type inherits from.
 	 * @return The iterator.
 	 */
-	public Iterator getSuperTypes() {
-		return orderedSuperTypes.iterator();
+	public Collection<InheritanceType> getSuperTypes() {
+		return Collections.unmodifiableCollection(superTypes);
 	}
 	
 	/**
 	 * Get all subtypes of this type.
 	 * @return An iterator iterating over all sub types of this one.
 	 */
-	public Iterator getSubTypes() {
-		return subTypes.iterator();
+	public Collection<InheritanceType> getSubTypes() {
+		return Collections.unmodifiableCollection(subTypes);
 	}
 	
 	/**
@@ -100,65 +96,62 @@ public abstract class InheritanceType extends CompoundType {
 			if(isDirectSubTypeOf(ty))
 				res = true;
 			else {
-				for(Iterator it = getSuperTypes(); it.hasNext();) {
-					InheritanceType inh = (InheritanceType) it.next();
+				for(InheritanceType inh : getSuperTypes())
 					if(inh.castableTo(ty)) {
 						res = true;
 						break;
 					}
-				}
 			}
 		}
 		
 		return res;
 	}
-  
-  /**
-   * Get the maximum distance to the root inheritance type.
-   * This method returns the length of the longest path (considering the inheritance
-   * relation) from this type to the root type.
-   * @return The length of the longest path to the root type.
-   */
-  public final int getMaxDist() {
-
-  	if(maxDist == -1) {
-  		maxDist = 0;
-  		
-  		for(Iterator it = orderedSuperTypes.iterator(); it.hasNext();) {
-  			InheritanceType inh = (InheritanceType) it.next();
-  			int dist = inh.getMaxDist() + 1;
-  			maxDist = dist > maxDist ? dist : maxDist;
-  		}
-  	}
-  	
-  	return maxDist;
-  }
-  
-  /**
-   * Check, if this type is abstract.
-   * If a type is abstract, no entities of this types may be instantiated.
-   * Its body must also be empty.
-   * @return true, if this type is abstract, false if not.
-   */
-  public final boolean isAbstract() {
-  	return (modifiers & ABSTRACT) != 0;
-  }
-  
-  /**
-   * Check, if this type is const.
-   * Members of entities of a const type may not be modified.
-   * @return true, if this type is const, false if not.
-   */
-  public final boolean isConst() {
-  	return (modifiers & CONST) != 0;
-  }
 	
-	public void addFields(Map fields) {
+	/**
+	 * Get the maximum distance to the root inheritance type.
+	 * This method returns the length of the longest path (considering the inheritance
+	 * relation) from this type to the root type.
+	 * @return The length of the longest path to the root type.
+	 */
+	public final int getMaxDist() {
+		
+		if(maxDist == -1) {
+			maxDist = 0;
+			
+			for(InheritanceType inh : superTypes) {
+				int dist = inh.getMaxDist() + 1;
+				maxDist = dist > maxDist ? dist : maxDist;
+			}
+		}
+		
+		return maxDist;
+	}
+	
+	/**
+	 * Check, if this type is abstract.
+	 * If a type is abstract, no entities of this types may be instantiated.
+	 * Its body must also be empty.
+	 * @return true, if this type is abstract, false if not.
+	 */
+	public final boolean isAbstract() {
+		return (modifiers & ABSTRACT) != 0;
+	}
+	
+	/**
+	 * Check, if this type is const.
+	 * Members of entities of a const type may not be modified.
+	 * @return true, if this type is const, false if not.
+	 */
+	public final boolean isConst() {
+		return (modifiers & CONST) != 0;
+	}
+	
+	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("inherits", superTypes.iterator());
 		fields.put("const", Boolean.valueOf(isConst()));
 		fields.put("abstract ", Boolean.valueOf(isAbstract()));
 	}
 	
-
+	
 }

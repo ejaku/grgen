@@ -6,20 +6,20 @@
 
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 public class TypeExprConst extends TypeExpr {
 	
-	private final Collection types = new HashSet();
+	private final Collection<InheritanceType> types = new HashSet<InheritanceType>();
 	
 	public void addOperand(InheritanceType t) {
 		types.add(t);
 	}
 	
-	public Collection evaluate() {
-		return ReadOnlyCollection.getSingle(types);
+	public Collection<InheritanceType> evaluate() {
+		return Collections.unmodifiableCollection(types);
 	}
 	
 }

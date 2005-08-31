@@ -50,8 +50,8 @@ public class TypeConstNode extends TypeExprNode {
 	protected IR constructIR() {
 		TypeExprConst cnst = new TypeExprConst();
 		
-		for(Iterator i = getChild(OPERANDS).getChildren(); i.hasNext();) {
-			BaseNode n = (BaseNode) i.next();
+		for(Iterator<BaseNode> i = getChild(OPERANDS).getChildren(); i.hasNext();) {
+			BaseNode n = i.next();
 			InheritanceType inh = (InheritanceType) n.checkIR(InheritanceType.class);
 			cnst.addOperand(inh);
 		}

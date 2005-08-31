@@ -16,7 +16,7 @@ import javax.swing.tree.TreeNode;
 public class TreeHandler extends DefaultTreeModel implements Handler {
 
 	class EnterNode implements TreeNode {
-		private Vector children = new Vector();
+		private Vector<TreeNode> children = new Vector<TreeNode>();
 		private String text;
 		private TreeNode parent;
 	
@@ -30,7 +30,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
 		}
 	
 		public TreeNode getChildAt(int i) {
-			return (TreeNode) children.get(i);
+			return children.get(i);
 		}
 
 		public int getChildCount() {
@@ -53,7 +53,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
 			return children.size() == 0;
 		}
 
-		public Enumeration children() {
+		public Enumeration<TreeNode> children() {
 			return children.elements();
 		}
 

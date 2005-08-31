@@ -11,7 +11,6 @@ import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.Walkable;
-import de.unika.ipd.grgen.util.ReadOnlyCollection;
 
 /**
  * A graph pattern.
@@ -26,116 +25,116 @@ import de.unika.ipd.grgen.util.ReadOnlyCollection;
  * declared nodes.
  */
 public class Graph extends IR {
-
+	
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
 		public GraphObject(GraphDumpable gd) {
 			super(gd);
 		}
 	}
-
+	
 	protected class GraphNode extends Node {
-		private final Set outgoing;
-		private final Set incoming;
+		private final Set<Graph.GraphEdge> outgoing;
+		private final Set<Graph.GraphEdge> incoming;
 		private final Node node;
 		private final String nodeId;
-
+		
 		private GraphNode(Node n) {
 			super(n.getIdent(), n.getNodeType(), EmptyAttributes.get());
-			this.incoming = new HashSet();
-			this.outgoing = new HashSet();
+			this.incoming = new HashSet<Graph.GraphEdge>();
+			this.outgoing = new HashSet<Graph.GraphEdge>();
 			this.node = n;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
-
+		
 		/**
 		 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
 		 */
 		public String getNodeId() {
 			return nodeId;
 		}
-
+		
 		public String getNodeInfo() {
 			return node.getNodeInfo();
 		}
-
+		
 	}
-
+	
 	protected class GraphEdge extends Edge {
 		private GraphNode source;
 		private GraphNode target;
 		private Edge edge;
 		private final String nodeId;
-
+		
 		private GraphEdge(Edge e) {
 			super(e.getIdent(), e.getEdgeType(), EmptyAttributes.get());
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
-
+		
 		public String getNodeId() {
 			return nodeId;
 		}
-
+		
 		public int getNodeShape() {
 			return GraphDumper.RHOMB;
 		}
-
+		
 		public String getNodeInfo() {
 			return edge.getNodeInfo();
 		}
 	}
-
+	
 	/** Map that maps a node to an internal node. */
-	private final Map nodes = new HashMap();
-
+	private final Map<Node, Graph.GraphNode> nodes = new HashMap<Node, Graph.GraphNode>();
+	
 	/** Map that maps an edge to an internal edge. */
-	private final Map edges = new HashMap();
-
+	private final Map<Edge, Graph.GraphEdge> edges = new HashMap<Edge, Graph.GraphEdge>();
+	
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
 		
 		// Do not include the virtual retyped nodes in the graph.
-	  	if(n.isRetypedNode()) n = n.getOldNode();
+		if(n.isRetypedNode()) n = n.getOldNode();
 		
 		if(!nodes.containsKey(n)) {
 			res = new GraphNode(n);
 			nodes.put(n, res);
 		} else
-			res = (GraphNode) nodes.get(n);
-
+			res = nodes.get(n);
+		
 		return res;
 	}
-
+	
 	private GraphEdge getOrSetEdge(Edge e) {
 		GraphEdge res;
-		Map map = edges;
-
+		Map<Edge, Graph.GraphEdge> map = edges;
+		
 		if(!map.containsKey(e)) {
 			res = new GraphEdge(e);
 			map.put(e, res);
 		} else
-			res = (GraphEdge) map.get(e);
-
+			res = map.get(e);
+		
 		return res;
 	}
-
+	
 	private GraphNode checkNode(Node n) {
 		assert nodes.containsKey(n) : "Node must be in graph: " + n;
-		return (GraphNode) nodes.get(n);
+		return nodes.get(n);
 	}
-
+	
 	private GraphEdge checkEdge(Edge e) {
 		assert edges.containsKey(e) : "Edge must be in graph: " + e;
-		return (GraphEdge) edges.get(e);
+		return edges.get(e);
 	}
-
+	
 	/**
 	 * Make a new graph.
 	 */
 	public Graph() {
 		super("graph");
 	}
-
+	
 	/**
 	 * Allows another class to append a suffix to the graph's name.
 	 * This is useful for rules, that can add "left" or "right" to the
@@ -145,7 +144,7 @@ public class Graph extends IR {
 	public void setNameSuffix(String s) {
 		setName("graph " + s);
 	}
-
+	
 	/**
 	 * Check if a node is contained in the graph.
 	 * @param node The node
@@ -154,7 +153,7 @@ public class Graph extends IR {
 	public boolean hasNode(Node node) {
 		return nodes.containsKey(node);
 	}
-
+	
 	/**
 	 * Check if an edge is contained in the graph.
 	 * @param edge The edge
@@ -163,14 +162,14 @@ public class Graph extends IR {
 	public boolean hasEdge(Edge edge) {
 		return edges.containsKey(edge);
 	}
-
+	
 	/**
 	 * Get a read-only collection containing all nodes in this graph.
 	 * @return A collection containing all nodes in this graph.
 	 * @note The collection is read-only and may not be modified.
 	 */
-	public Collection getNodes() {
-		return ReadOnlyCollection.get(nodes.keySet());
+	public Collection<Node> getNodes() {
+		return Collections.unmodifiableCollection(nodes.keySet());
 	}
 	
 	/**
@@ -178,8 +177,8 @@ public class Graph extends IR {
 	 * @return A collection containing all edges in this graph.
 	 * @note The collection is read-only and may not be modified.
 	 */
-	public Collection getEdges() {
-		return ReadOnlyCollection.get(edges.keySet());
+	public Collection<Edge> getEdges() {
+		return Collections.unmodifiableCollection(edges.keySet());
 	}
 	
 	/**
@@ -187,7 +186,7 @@ public class Graph extends IR {
 	 * @param c The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection putNodes(Collection c) {
+	public Collection<Node> putNodes(Collection<Node> c) {
 		c.addAll(nodes.keySet());
 		return c;
 	}
@@ -197,19 +196,19 @@ public class Graph extends IR {
 	 * @param c The collection to put them into.
 	 * @return The given collection.
 	 */
-	public Collection putEdges(Collection c) {
+	public Collection<Edge> putEdges(Collection<Edge> c) {
 		c.addAll(edges.keySet());
 		return c;
 	}
 	
-	private Set getEdgeSet(Iterator it) {
-		Set res = new HashSet();
+	private Set<Edge> getEdgeSet(Iterator<Graph.GraphEdge> it) {
+		Set<Edge> res = new HashSet<Edge>();
 		while(it.hasNext())
-			res.add(((GraphEdge) it.next()).edge);
-
+			res.add(it.next().edge);
+		
 		return res;
 	}
-
+	
 	/**
 	 * Get the number of ingoing edges.
 	 * @param node The node.
@@ -219,7 +218,7 @@ public class Graph extends IR {
 		GraphNode gn = checkNode(node);
 		return gn.incoming.size();
 	}
-
+	
 	/**
 	 * Get the number of outgoing edges.
 	 * @param node The node.
@@ -229,53 +228,52 @@ public class Graph extends IR {
 		GraphNode gn = checkNode(node);
 		return gn.outgoing.size();
 	}
-
+	
 	/**
 	 * Get the set of all incoming edges for a node.
 	 * @param n The node.
 	 * @param c A set where the edges are put to.
 	 */
-	public Collection getIncoming(Node n, Collection c) {
+	public Collection<Edge> getIncoming(Node n, Collection<Edge> c) {
 		GraphNode gn = checkNode(n);
-		for(Iterator it = gn.incoming.iterator(); it.hasNext();) {
-			GraphEdge e = (GraphEdge) it.next();
+		for(Iterator<Graph.GraphEdge> it = gn.incoming.iterator(); it.hasNext();) {
+			GraphEdge e = it.next();
 			c.add(e.edge);
 		}
 		return c;
 	}
-
+	
 	/**
 	 * Get an iterator iterating over all incoming edges of a node.
 	 * @param n The node
 	 * @return The iterator.
 	 */
-	public Iterator getIncoming(Node n) {
-		return getIncoming(n, new LinkedList()).iterator();
+	public Collection<? extends Edge> getIncoming(Node n) {
+		return Collections.unmodifiableCollection(getIncoming(n, new LinkedList<Edge>()));
 	}
-
+	
 	/**
 	 * Get the set of outgoing edges for a node.
 	 * @param n The node.
 	 * @param c A set where the edges are put to.
 	 */
-	public Collection getOutgoing(Node n, Collection c) {
+	public Collection<Edge> getOutgoing(Node n, Collection<Edge> c) {
 		GraphNode gn = checkNode(n);
-		for(Iterator it = gn.outgoing.iterator(); it.hasNext();) {
-			GraphEdge e = (GraphEdge) it.next();
+		for(GraphEdge e : gn.outgoing) {
 			c.add(e.edge);
 		}
 		return c;
 	}
-
+	
 	/**
 	 * Get an iterator iterating over all outgoing edges of a node.
 	 * @param n The node
 	 * @return The iterator.
 	 */
-	public Iterator getOutgoing(Node n) {
-		return getOutgoing(n, new LinkedList()).iterator();
+	public Iterator<Edge> getOutgoing(Node n) {
+		return getOutgoing(n, new LinkedList<Edge>()).iterator();
 	}
-
+	
 	/**
 	 * Get the source node of an edge.
 	 * @param e The edge.
@@ -285,7 +283,7 @@ public class Graph extends IR {
 		GraphEdge ge = checkEdge(e);
 		return ge.source.node;
 	}
-
+	
 	/**
 	 * Get the target node of an edge.
 	 * @param e The edge
@@ -295,7 +293,7 @@ public class Graph extends IR {
 		GraphEdge ge = checkEdge(e);
 		return ge.target.node;
 	}
-
+	
 	/**
 	 * Get an "end" of an edge.
 	 * @param e The edge.
@@ -307,7 +305,7 @@ public class Graph extends IR {
 	public Node getEnd(Edge e, boolean source) {
 		return source ? getSource(e) : getTarget(e);
 	}
-
+	
 	/**
 	 * Replace an edge in this graph by a similar one.
 	 * Replace an edge, that has the same type, target and source node like
@@ -321,29 +319,27 @@ public class Graph extends IR {
 		Node src = gr.getSource(edge);
 		Node tgt = gr.getTarget(edge);
 		EdgeType edgeType = edge.getEdgeType();
-		Collection edgesSet = new LinkedList(edges.keySet());
-
-		for(Iterator it = edgesSet.iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
-
+		Collection<Edge> edgesSet = new LinkedList<Edge>(edges.keySet());
+		
+		for(Edge e : edgesSet) {
 			if(src == getSource(e) && tgt == getTarget(e)
-				 && edgeType.isEqual(e.getEdgeType())
-				 && e.isAnonymous()) {
-
+			   && edgeType.isEqual(e.getEdgeType())
+			   && e.isAnonymous()) {
+				
 				debug.report(NOTE, "Exchanging " + e.getIdent()
-											 + " with " + edge.getIdent());
-
+								 + " with " + edge.getIdent());
+				
 				// Modify the graph edge to refer to the coalesced edge.
 				GraphEdge ge = checkEdge(e);
 				ge.edge = edge;
-
+				
 				// Remove the deleted edge from the edges map and enter the new one.
 				edges.remove(e);
 				edges.put(edge, ge);
 			}
 		}
 	}
-
+	
 	/**
 	 * Add a connection to the graph.
 	 * @param left The left node.
@@ -355,16 +351,16 @@ public class Graph extends IR {
 		GraphNode l = getOrSetNode(left);
 		GraphNode r = getOrSetNode(right);
 		GraphEdge e = getOrSetEdge(edge);
-
+		
 		// Update outgoing and incoming of the nodes.
 		l.outgoing.add(e);
 		r.incoming.add(e);
-
+		
 		// Set the edge source and target
 		e.source = l;
 		e.target = r;
 	}
-
+	
 	/**
 	 * Add a single node (without an edge) to the graph.
 	 * @param node The node.
@@ -372,18 +368,18 @@ public class Graph extends IR {
 	public void addSingleNode(Node node) {
 		getOrSetNode(node);
 	}
-
-  /**
+	
+	/**
 	 * Check, if a node is a single node.
 	 * A node is <i>single</i>, if it has no incident edges.
 	 * @param node The node.
 	 * @return true, if the node is single, false if not.
 	 */
-  public boolean isSingle(Node node) {
+	public boolean isSingle(Node node) {
 		GraphNode gn = checkNode(node);
 		return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
-  }
-
+	}
+	
 	/**
 	 * Get a graph dumpable thing for a node that is local in this graph.
 	 * @param node The node.
@@ -392,14 +388,14 @@ public class Graph extends IR {
 	public GraphDumpable getLocalDumpable(Node node) {
 		return checkNode(node);
 	}
-
+	
 	/**
 	 * @see #getLocalDumpable(Node)
 	 */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
 	}
-
+	
 	/**
 	 * Check, if this graph is a subgraph of another one.
 	 * @param g The other graph.
@@ -410,6 +406,6 @@ public class Graph extends IR {
 		return g.getNodes().containsAll(nodes.keySet())
 			&& g.getEdges().containsAll(edges.keySet());
 	}
-
+	
 }
 

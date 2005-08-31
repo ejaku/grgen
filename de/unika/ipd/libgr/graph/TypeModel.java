@@ -30,12 +30,12 @@ public interface TypeModel {
 	 * Get all node types.
 	 * @return An iterator iterating over all node types.
 	 */
-	Iterator getNodeTypes();
+	Iterator<NodeType> getNodeTypes();
 
 	/**
 	 * Get all edge types.
 	 * @return An iterator iterating over all edge types.
 	 */
-	Iterator getEdgeTypes();
+	Iterator<EdgeType> getEdgeTypes();
 
 }

@@ -24,6 +24,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.ir.Identifiable;
 
 
 /**
@@ -32,22 +33,22 @@ import de.unika.ipd.grgen.util.Base;
 public abstract class IDBase extends Base implements IDTypeModel {
 	
   /** node type to type id map. (Type -> Integer) */
-	protected final Map nodeTypeMap = new HashMap();
+	protected final Map<Identifiable, Integer> nodeTypeMap = new HashMap<Identifiable, Integer>();
 	
 	/** node type to type id map. (Type -> Integer) */
-	protected final Map edgeTypeMap = new HashMap();
+	protected final Map<Identifiable, Integer> edgeTypeMap = new HashMap<Identifiable, Integer>();
 	
 	/** node attribute map. (Entity -> Integer) */
-	protected final Map nodeAttrMap = new HashMap();
+	protected final Map<Entity, Integer> nodeAttrMap = new HashMap<Entity, Integer>();
 	
 	/** node attribute map. (Entity -> Integer) */
-	protected final Map edgeAttrMap = new HashMap();
+	protected final Map<Entity, Integer> edgeAttrMap = new HashMap<Entity, Integer>();
 	
 	/** enum value map. (Enum -> Integer) */
-	protected final Map enumMap = new HashMap();
+	protected final Map<Identifiable, Integer> enumMap = new HashMap<Identifiable, Integer>();
 	
 	/** action map. (Action -> Integer) */
-	protected final Map actionMap = new HashMap();
+	protected final Map<Action, Integer> actionMap = new HashMap<Action, Integer>();
 	
 	private short[][] nodeTypeIsAMatrix;
 	
@@ -70,8 +71,8 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	private int nodeRoot;
 	
 	private void addMembers(CompoundType ct) {
-		for(Iterator it = ct.getMembers(); it.hasNext();) {
-			Entity ent = (Entity) it.next();
+		for(Iterator<Entity> it = ct.getMembers(); it.hasNext();) {
+			Entity ent = it.next();
 			
 			if(ct instanceof NodeType)
 				nodeAttrMap.put(ent, new Integer(nodeAttrMap.size()));
@@ -85,11 +86,11 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	private void makeTypeIds(Unit unit) {
 		unit.canonicalize();
 		
-		for(Iterator mt = unit.getModels(); mt.hasNext();) {
-			Model model = (Model) mt.next();
+		for(Iterator<Model> mt = unit.getModels(); mt.hasNext();) {
+			Model model = mt.next();
 			
-			for(Iterator it = model.getTypes(); it.hasNext();) {
-				Type type = (Type) it.next();
+			for(Iterator<Type> it = model.getTypes(); it.hasNext();) {
+				Type type = it.next();
 				
 				if(type instanceof NodeType) {
 					nodeTypeMap.put(type, new Integer(nodeTypeMap.size()));
@@ -107,25 +108,24 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		}
 	}
 	
-	public static final short[][] computeIsA(Map typeMap) {
+	public static final short[][] computeIsA(Map<Identifiable, Integer> typeMap) {
 		int maxId = 0;
 		
-		for(Iterator it = typeMap.values().iterator(); it.hasNext();) {
-			int id = ((Integer) it.next()).intValue();
+		for(Iterator<Integer> it = typeMap.values().iterator(); it.hasNext();) {
+			int id = it.next().intValue();
 			maxId = id > maxId ? id : maxId;
 		}
 		
 		boolean[] helper = new boolean[maxId + 1];
 		short[][] res = new short[maxId + 1][maxId + 1];
 		
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Identifiable> it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
-			int typeId = ((Integer) typeMap.get(ty)).intValue();
+			int typeId = typeMap.get(ty).intValue();
 			res[typeId][typeId] = 1;
 			
-			for(Iterator tt = ty.getSuperTypes(); tt.hasNext();) {
-				InheritanceType st = (InheritanceType) tt.next();
-				int inhId = ((Integer) typeMap.get(st)).intValue();
+			for(InheritanceType st : ty.getSuperTypes()) {
+				int inhId = typeMap.get(st).intValue();
 				res[typeId][inhId] = 1;
 			}
 		}
@@ -166,53 +166,53 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return next;
 	}
 	
-	private static final int[][] computeSuperTypes(Map typeMap) {
+	private static final int[][] computeSuperTypes(Map<Identifiable, Integer> typeMap) {
 		int[][] res = new int[typeMap.size()][];
-		List aux = new LinkedList();
+		List<Integer> aux = new LinkedList<Integer>();
 		
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Identifiable> it = typeMap.keySet().iterator(); it.hasNext();) {
 			aux.clear();
 			InheritanceType ty = (InheritanceType) it.next();
-			int id = ((Integer) typeMap.get(ty)).intValue();
+			int id = typeMap.get(ty).intValue();
 			
-			for(Iterator jt = ty.getSuperTypes(); jt.hasNext();)
-				aux.add(typeMap.get(jt.next()));
+			for(InheritanceType t: ty.getSuperTypes())
+				aux.add(typeMap.get(t));
 			
 			res[id] = new int[aux.size()];
 			int i = 0;
-			for(Iterator jt = aux.iterator(); jt.hasNext(); i++)
-				res[id][i] = ((Integer) jt.next()).intValue();
+			for(Iterator<Integer> jt = aux.iterator(); jt.hasNext(); i++)
+				res[id][i] = jt.next().intValue();
 		}
 		
 		return res;
 	}
 	
-	private static final int[][] computeSubTypes(Map typeMap) {
+	private static final int[][] computeSubTypes(Map<Identifiable, Integer> typeMap) {
 		int[][] res = new int[typeMap.size()][];
-		List aux = new LinkedList();
+		List<Integer> aux = new LinkedList<Integer>();
 		
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Identifiable> it = typeMap.keySet().iterator(); it.hasNext();) {
 			aux.clear();
 			InheritanceType ty = (InheritanceType) it.next();
-			int id = ((Integer) typeMap.get(ty)).intValue();
+			int id = typeMap.get(ty).intValue();
 			
-			for(Iterator jt = ty.getSubTypes(); jt.hasNext();)
-				aux.add(typeMap.get(jt.next()));
+			for(InheritanceType t : ty.getSubTypes())
+				aux.add(typeMap.get(t));
 			
 			res[id] = new int[aux.size()];
 			int i = 0;
-			for(Iterator jt = aux.iterator(); jt.hasNext(); i++)
-				res[id][i] = ((Integer) jt.next()).intValue();
+			for(Iterator<Integer> jt = aux.iterator(); jt.hasNext(); i++)
+				res[id][i] = jt.next().intValue();
 		}
 		
 		return res;
 	}
 	
-	private static final String[] makeNames(Map typeMap) {
+	private static final String[] makeNames(Map<Identifiable, Integer> typeMap) {
 		String[] res = new String[typeMap.size()];
-		for(Iterator it = typeMap.keySet().iterator(); it.hasNext();) {
+		for(Iterator<Identifiable> it = typeMap.keySet().iterator(); it.hasNext();) {
 			InheritanceType ty = (InheritanceType) it.next();
-			int id = ((Integer) typeMap.get(ty)).intValue();
+			int id = typeMap.get(ty).intValue();
 			res[id] = ty.getIdent().toString();
 		}
 		
@@ -225,7 +225,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	 */
 	private void makeActionIds(Unit unit) {
 		int id = 0;
-		for(Iterator it = unit.getActions(); it.hasNext();) {
+		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
 			Action act = (Action) it.next();
 			actionMap.put(act, new Integer(id++));
 		}
@@ -237,8 +237,8 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	 * @param ty The inheritance type to get the id for.
 	 * @return The type id for this type.
 	 */
-  protected final int getTypeId(Map map, IR obj) {
-		Integer res = (Integer) map.get(obj);
+  protected final int getTypeId(Map<Identifiable, Integer> map, IR obj) {
+		Integer res = map.get(obj);
 		return res.intValue();
   }
 	
@@ -280,12 +280,12 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	}
 	
 	public final int[] getIDs(boolean forNode) {
-		Map map = forNode ? nodeTypeMap : edgeTypeMap;
+		Map<Identifiable, Integer> map = forNode ? (Map<Identifiable, Integer>)nodeTypeMap : (Map<Identifiable, Integer>)edgeTypeMap;
 		int[] res = new int[map.size()];
 		
 		int i = 0;
-		for(Iterator it = map.values().iterator(); it.hasNext();)
-			res[i++] = ((Integer) it.next()).intValue();
+		for(Iterator<Integer> it = map.values().iterator(); it.hasNext();)
+			res[i++] = it.next().intValue();
 		
 		return res;
 	}

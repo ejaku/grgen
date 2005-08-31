@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class EnumType extends PrimitiveType {
 	
-	private final List items = new LinkedList();
+	private final List<EnumItem> items = new LinkedList<EnumItem>();
 	
   /**
 	 * Make a new enum type.
@@ -36,17 +36,10 @@ public class EnumType extends PrimitiveType {
 	 * Return iterator of all identifiers in the enum type.
 	 * @return An iterator with idents.
 	 */
-	public Iterator getItems() {
+	public Iterator<EnumItem> getItems() {
 		return items.iterator();
 	}
-	
-  /**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-  public Iterator getWalkableChildren() {
-		return items.iterator();
-  }
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ir.Type#classify()
 	 */
@@ -63,7 +56,7 @@ public class EnumType extends PrimitiveType {
 		sb.append('[');
 		
 		int i = 0;
-		for(Iterator it = items.iterator(); it.hasNext(); i++) {
+		for(Iterator<EnumItem> it = items.iterator(); it.hasNext(); i++) {
 			EnumItem ent = (EnumItem) it.next();
 			if(i > 0)
 				sb.append(',');

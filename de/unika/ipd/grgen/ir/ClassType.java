@@ -4,11 +4,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import de.unika.ipd.grgen.util.MultiIterator;
 
 /**
  * A class that represents a class.

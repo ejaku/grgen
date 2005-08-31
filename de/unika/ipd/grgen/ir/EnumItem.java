@@ -1,13 +1,13 @@
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.Iterator;
 
-import de.unika.ipd.grgen.util.ArrayIterator;
 
 /**
  * An enumeration value
  */
+import java.util.*;
+
 public class EnumItem extends Identifiable {
 	private final Ident id;
 	
@@ -53,8 +53,11 @@ public class EnumItem extends Identifiable {
   /**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-  public Iterator getWalkableChildren() {
-		return new ArrayIterator(new Object[] { id, value });
+  public Collection<IR> getWalkableChildren() {
+		Set<IR> res = new HashSet<IR>();
+		res.add(id);
+		res.add(value);
+		return res;
   }
 	
 }
