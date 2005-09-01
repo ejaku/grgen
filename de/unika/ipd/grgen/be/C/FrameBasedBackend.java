@@ -26,7 +26,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	private final int OUT = 0;
 	private final int IN = 1;
 
-	protected final boolean emit_subgraph_info = false;
+	protected final boolean emit_subgraph_info = true;
 		
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
@@ -483,8 +483,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			if(emit_subgraph_info) {
 				/* emit subgraph info (#subgraphs, #nodes/edges of subgraph) */
-				sb.append(",\n  " + n_subgraphs[act_id.intValue()] + ",\n  { " );
+				sb.append(",\n  " + n_subgraphs[act_id.intValue()] + ",\n  ");
 
+				sb.append(first_subgraph[act_id.intValue()] + ",\n  { ");
+				
 				for ( int i = 0; i < n_subgraphs[act_id.intValue()]; i++) {
 					sb.append( ((HashSet)nodesOfSubgraph[act_id.intValue()].get(i)).size() );
 					if (i < n_subgraphs[act_id.intValue()]- 1) sb.append(", ");
@@ -534,54 +536,59 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<IR> nodeVisited = new HashSet<IR>();
 		Collection<IR> nodeNotVisited = new HashSet<IR>();
 		Collection<IR> edgeVisited = new HashSet<IR>();
-		Collection currentSubgraphNodes;
 		Collection<ConstraintEntity> currentSubgraph;
-		nodeNotVisited.addAll(action.getPattern().getNodes());
-		
+		Collection currentSubgraphNodes;
+
 		int act_id = actionMap.get(action).intValue();
 		op_counter = 0;
-		
-		while( !nodeNotVisited.isEmpty() ) {
-			//pick out the node with the highest priority as start node
-			int max_prio = 0;
-			//get any node as initial node
-			Node max_prio_node = (Node) nodeNotVisited.iterator().next();
-			for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
-				Node node = (Node) node_it.next();
-				
-				//get the nodes priority
-				int prio = 0;
-				Attributes a = node.getAttributes();
-				if (a != null)
-					if (a.containsKey("prio") && a.isInteger("prio"))
-						prio = ((Integer) a.get("prio")).intValue();
-				
-				//if the current priority is greater, update the maximum priority node
-				if (prio > max_prio)
-				{
-					max_prio = prio;
-					max_prio_node = node;
+
+		for(Iterator subgraph_it = nodesOfSubgraph[act_id].iterator(); subgraph_it.hasNext(); ) {
+			Collection subgraph_nodes = (Collection) subgraph_it.next();
+
+			nodeNotVisited.addAll(subgraph_nodes);
+			
+			while( !nodeNotVisited.isEmpty() ) {
+				//pick out the node with the highest priority as start node
+				int max_prio = 0;
+				//get any node as initial node
+				Node max_prio_node = (Node) nodeNotVisited.iterator().next();
+				for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+					Node node = (Node) node_it.next();
+					
+					//get the nodes priority
+					int prio = 0;
+					Attributes a = node.getAttributes();
+					if (a != null)
+						if (a.containsKey("prio") && a.isInteger("prio"))
+							prio = ((Integer) a.get("prio")).intValue();
+					
+					//if the current priority is greater, update the maximum priority node
+					if (prio > max_prio)
+					{
+						max_prio = prio;
+						max_prio_node = node;
+					}
 				}
+				
+				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph.add(max_prio_node);
+				
+				nodeVisited.add(max_prio_node);
+				nodeNotVisited.remove(max_prio_node);
+				
+				
+				//gen op for the start node
+				genOp(max_prio_node, null, action, 0,
+					  action.getPattern(), nodeVisited, edgeVisited, currentSubgraph,
+					  alreadyCheckedConditions,alreadyCheckedTypeConditions, op_counter, sb);
+				
+				++op_counter;
+				__deep_first_matcher_op_gen(
+					nodeVisited, edgeVisited, currentSubgraph, alreadyCheckedConditions,
+					alreadyCheckedTypeConditions, max_prio_node, action, 0, action.getPattern(), sb);
+				
+				nodeNotVisited.removeAll(nodeVisited);
 			}
-			
-			currentSubgraph = new HashSet<ConstraintEntity>();
-			currentSubgraph.add(max_prio_node);
-			
-			nodeVisited.add(max_prio_node);
-			nodeNotVisited.remove(max_prio_node);
-			
-			
-			//gen op for the start node
-			genOp(max_prio_node, null, action, 0,
-				  action.getPattern(), nodeVisited, edgeVisited, currentSubgraph,
-				  alreadyCheckedConditions,alreadyCheckedTypeConditions, op_counter, sb);
-			
-			++op_counter;
-			__deep_first_matcher_op_gen(
-				nodeVisited, edgeVisited, currentSubgraph, alreadyCheckedConditions,
-				alreadyCheckedTypeConditions, max_prio_node, action, 0, action.getPattern(), sb);
-			
-			nodeNotVisited.removeAll(nodeVisited);
 		}
 
 		for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); ) {
@@ -1043,7 +1050,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					", " + cond_ptr + ",\n" +
 				"  " + (evaluatableGlobalConditions.size()) +
-					", " + glob_cond_ptr + "\n" +
+					", " + glob_cond_ptr + ",\n" +
+				"  NULL, NULL\n" + /* data1 and data2 */
 				"};\n\n");
 		} else {
 			//egge == null indicates, that a start no op has to be emitted
@@ -2638,13 +2646,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		sb.append(
 			"/* the reqired backend together with a tag indicating the impl\n" +
 			" * variant used (i.e. flat, hash or flash) */\n" +
-			"#ifdef __FB_HASH\n" +
-			"  #define fb_REQUIRED_BE \"FrameBased__HASH\"\n" +
-			"#elif defined (__FB_FLAT)\n" +
-			"  #define fb_REQUIRED_BE \"FrameBased__FLAT\"\n" +
-			"#elif defined (__FB_FLASH)\n" +
-			"  #define fb_REQUIRED_BE \"FrameBased__FLASH\"\n" +
-			"#endif\n\n");
+			"#define fb_REQUIRED_BE \"FrameBased__FLAT\"\n" +
+			"\n");
 
 		sb.append(
 			"/* an MD5 hash value characterising the underlying graph type model */\n" +

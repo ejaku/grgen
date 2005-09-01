@@ -9,6 +9,7 @@
 package de.unika.ipd.grgen.be.C.fb;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
+import de.unika.ipd.grgen.util.Attributes;
 
 public class MoreInformationCollector extends InformationCollector {
 	
@@ -35,6 +36,8 @@ public class MoreInformationCollector extends InformationCollector {
 	//else -1 if edge is to be deleted
 	//usage: patternEdgeIsToBeKept[act_id][pattern_edge_num]
 	protected int patternEdgeIsToBeKept[][];
+	
+	private static final int min_subgraph_size = 4;
 	
 	
 	/*
@@ -559,6 +562,7 @@ public class MoreInformationCollector extends InformationCollector {
 	}
 	
 	protected int[] n_subgraphs;
+	protected int[] first_subgraph;
 	protected int max_n_subgraphs;
 	//protected Map[] subGraphMap;
 	protected LinkedList[] nodesOfSubgraph;
@@ -568,6 +572,7 @@ public class MoreInformationCollector extends InformationCollector {
 	
 	private void collectSubGraphInfo() {
 		n_subgraphs = new int[actionMap.size()];
+		first_subgraph = new int[actionMap.size()];
 		//subGraphMap = new HashMap[actionMap.size()];
 		nodesOfSubgraph = new LinkedList[actionMap.size()];
 		edgesOfSubgraph = new LinkedList[actionMap.size()];
@@ -596,7 +601,7 @@ public class MoreInformationCollector extends InformationCollector {
 			n_subgraphs[act_id] = 0;
 			//subGraphMap[act_id] = new HashMap();
 			
-			
+	
 			while( !remainingNodes.isEmpty() ) {
 				Node node;
 				Collection<Node> currentSubgraphNodes = new HashSet<Node>();
@@ -605,6 +610,7 @@ public class MoreInformationCollector extends InformationCollector {
 				nodesOfSubgraph[act_id].addLast( currentSubgraphNodes );
 				edgesOfSubgraph[act_id].addLast( currentSubgraphEdges );
 				
+			
 				node = (Node)remainingNodes.iterator().next();
 				remainingNodes.remove(node);
 				
@@ -615,10 +621,102 @@ public class MoreInformationCollector extends InformationCollector {
 				
 				subgraph++;
 			}
-			n_subgraphs[act_id] = subgraph;
 			
-			if(max_n_subgraphs < subgraph)
-				max_n_subgraphs = subgraph;
+
+			if(nodesOfSubgraph[act_id].size() > 1) {
+				//if a subgraph is smaller than 5 then merge it with the next smallest one
+				Collection smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
+				Collection smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+				do {
+					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
+						if(nodesOfSubgraph[act_id].size() < smallest_subgraph.size()) {
+							smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
+							smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+						}
+					}
+
+					if(smallest_subgraph.size() >= min_subgraph_size)
+						break;
+					
+					nodesOfSubgraph[act_id].remove(smallest_subgraph);
+					edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
+					
+
+	
+					Collection next_smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
+					Collection next_smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
+						if(((Collection)nodesOfSubgraph[act_id].get(i)).size() < next_smallest_subgraph.size()) {
+							next_smallest_subgraph = (Collection)nodesOfSubgraph[act_id].get(i);
+							next_smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].get(i);
+						}
+					}
+					
+					//merge the two subgraphs
+					next_smallest_subgraph.addAll(smallest_subgraph);
+					next_smallest_subgraph_edges.addAll(smallest_subgraph_edges);
+				} while(nodesOfSubgraph[act_id].size() > 1);
+					
+				//move smallest subgraph to the beginning of the list
+				smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
+				smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+				for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
+					if(((Collection)nodesOfSubgraph[act_id].get(i)).size() < smallest_subgraph.size()) {
+						smallest_subgraph = (Collection)nodesOfSubgraph[act_id].get(i);
+						smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].get(i);
+					}
+				}
+				nodesOfSubgraph[act_id].remove(smallest_subgraph);
+				edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
+				nodesOfSubgraph[act_id].addFirst(smallest_subgraph);
+				edgesOfSubgraph[act_id].addFirst(smallest_subgraph_edges);
+			}
+				
+			n_subgraphs[act_id] = nodesOfSubgraph[act_id].size();
+			
+
+			if(max_n_subgraphs < n_subgraphs[act_id])
+				max_n_subgraphs = n_subgraphs[act_id];
+
+			for(subgraph = 0; subgraph < edgesOfSubgraph[act_id].size(); subgraph++) {
+				Collection subgraph_edges = (Collection)edgesOfSubgraph[act_id].get(subgraph);
+				for(Iterator edge_it = subgraph_edges.iterator(); edge_it.hasNext(); ) {
+					Edge edge = (Edge) edge_it.next();
+					subgraphOfEdge.put( edge, new Integer(subgraph) );
+				}
+			}
+			
+			for(subgraph = 0; subgraph < nodesOfSubgraph[act_id].size(); subgraph++) {
+				Collection subgraph_nodes = (Collection)nodesOfSubgraph[act_id].get(subgraph);
+				for(Iterator edge_it = subgraph_nodes.iterator(); edge_it.hasNext(); ) {
+					Node node = (Node) edge_it.next();
+					subgraphOfNode.put( node, new Integer(subgraph) );
+				}
+			}
+
+		
+
+			int max_prio = 0;
+			//get any node as initial node
+			Node max_prio_node = (Node) pattern.getNodes().iterator().next();
+			for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); )	{
+				Node node = (Node) node_it.next();
+				
+				//get the nodes priority
+				int prio = 0;
+				Attributes a = node.getAttributes();
+				if (a != null)
+					if (a.containsKey("prio") && a.isInteger("prio"))
+						prio = ((Integer) a.get("prio")).intValue();
+				
+				//if the current priority is greater, update the maximum priority node
+				if (prio > max_prio)
+				{
+					max_prio = prio;
+					max_prio_node = node;
+				}
+			}
+			first_subgraph[act_id] = ((Integer)subgraphOfNode.get(max_prio_node)).intValue();
 		}
 	}
 	
@@ -649,8 +747,6 @@ public class MoreInformationCollector extends InformationCollector {
 				
 				//if the edge has not been visited yet mark it as visited
 				currentSubgraphEdges.add(edge);
-				subgraphOfEdge.put( edge, new Integer(subgraph) );
-				
 				
 				//mark the current edge as visited
 				remainingEdges.remove(edge);
@@ -660,8 +756,7 @@ public class MoreInformationCollector extends InformationCollector {
 				if ( remainingNodes.contains(getFarEndNode(edge, node, pattern)) ) {
 					
 					//mark the edge and the far end node as visited
-					currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
-					subgraphOfNode.put( getFarEndNode(edge, node, pattern), new Integer(subgraph) );
+				  	currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
 					
 					remainingNodes.remove(getFarEndNode(edge, node, pattern));
 					//continue recursicly the deep fisrt traversal of the pattern graph
@@ -683,8 +778,8 @@ public class MoreInformationCollector extends InformationCollector {
 	
 	protected void collectActionInfo() {
 		super.collectActionInfo();
-	    collectPatternEdgesToBeKeptInfo();
-	    collectReplacementEdgeIsPreservedEdgeInfo();
+		collectPatternEdgesToBeKeptInfo();
+		collectReplacementEdgeIsPreservedEdgeInfo();
 		collectNegativeInfo();
 		collectPatternNodeIsNegativeNodeInfo();
 		collectPatternEdgeIsNegativeEdgeInfo();
