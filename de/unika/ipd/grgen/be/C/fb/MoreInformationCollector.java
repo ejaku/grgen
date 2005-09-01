@@ -697,26 +697,30 @@ public class MoreInformationCollector extends InformationCollector {
 		
 
 			int max_prio = 0;
-			//get any node as initial node
-			Node max_prio_node = (Node) pattern.getNodes().iterator().next();
-			for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); )	{
-				Node node = (Node) node_it.next();
-				
-				//get the nodes priority
-				int prio = 0;
-				Attributes a = node.getAttributes();
-				if (a != null)
-					if (a.containsKey("prio") && a.isInteger("prio"))
-						prio = ((Integer) a.get("prio")).intValue();
-				
-				//if the current priority is greater, update the maximum priority node
-				if (prio > max_prio)
-				{
-					max_prio = prio;
-					max_prio_node = node;
+			if(pattern.getNodes().size() > 0) {
+				//get any node as initial node
+				Node max_prio_node = (Node) pattern.getNodes().iterator().next();
+				for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); )	{
+					Node node = (Node) node_it.next();
+
+					//get the nodes priority
+					int prio = 0;
+					Attributes a = node.getAttributes();
+					if (a != null)
+						if (a.containsKey("prio") && a.isInteger("prio"))
+							prio = ((Integer) a.get("prio")).intValue();
+
+					//if the current priority is greater, update the maximum priority node
+					if (prio > max_prio)
+					{
+						max_prio = prio;
+						max_prio_node = node;
+					}
 				}
+				first_subgraph[act_id] = ((Integer)subgraphOfNode.get(max_prio_node)).intValue();
+			} else {
+				first_subgraph[act_id] = 0;
 			}
-			first_subgraph[act_id] = ((Integer)subgraphOfNode.get(max_prio_node)).intValue();
 		}
 	}
 	
