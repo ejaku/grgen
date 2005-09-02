@@ -90,62 +90,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		closeFile(ps);
 		
 		System.out.println("The frame-based GrGen backend...");
-		System.out.println("  generating information about node and edge types...");
-		
-		// the StringBuffer the generated C code to be stored in
-		StringBuffer sb = new StringBuffer();
-		//collect information needed for the generation of the graph type model
-		collectGraphTypeModelInfo();
-		//gen information about number of types, enums,...
-		genGraphTypeInfo(sb);
-		// write StrinBuffer to file
-		writeFile("graph_type_info.inc", sb);
-		
-		//gen informations desribing the graph type system specified by the
-		//current *.grg-file
-		sb = new StringBuffer();
-		genGraphTypeDescr(sb);
-		// write StrinBuffer to file
-		writeFile("graph_type_descr.inc", sb);
-		
-		System.out.println("  generating graph validation information...");
-		
-		//generate code for graph validation and write it to file "valid_info.inc"
-		genValidateStatements();
-		
-		System.out.println("  generating graph action descriptions...");
-		
-		//collect informations needed for the action code genaration
-		collectActionInfo();
-		//gen some info about numbers of things concerning the actions specified
-		//in the current grg-file.
-		sb = new StringBuffer();
-		genActionsInfo(sb);
-		writeFile("actions_info.inc", sb);
-		//gen description of the actions, conditions and evals specified by the grg file
-		sb = new StringBuffer();
-		genActionsDescr(sb);
-		writeFile("actions_descr.inc", sb);
-		
-		System.out.println("  generating C code for the graph matching conditions...");
-		
-		//gen the C-code of the conditions
-		sb = new StringBuffer();
-		genConditionsCode(sb);
-		writeFile("conditions_code.inc", sb);
-		
-		System.out.println("  generating C code for the graph matching evals...");
-		
-		//gen the C-code of the evals
-		sb = new StringBuffer();
-		collectEvalInfo();
-		genEvalsCode(sb);
-		writeFile("evals_code.inc", sb);
-		
 		System.out.println("  generating the pattern...");
 		
 		//gen the C-code of the evals
-		sb = new StringBuffer();
+		StringBuffer sb = new StringBuffer();
 		genPatterns(sb);
 		writeFile("gen_patterns.c", sb);
 		
@@ -175,6 +123,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				
 				genConditionFunctions(sb, indent, actionName, (Rule)action);
 				
+				sb.append("/* functions for building the pattern of action " + actionName + " */\n");
 				sb.append("static inline ext_grs_action_t *grs_action_" + actionName + "() {\n");
 				sb.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
 							  actionName + "\");\n");
@@ -212,7 +161,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\n");
 	}
 	
-
+	
 	private void genConditionFunction(StringBuffer sb, String indent, PatternGraph graph) {
 		for(Expression cond : graph.getConditions()) {
 			sb.append("static int grs_cond_func_" + cond.getId() + "() {\n");
