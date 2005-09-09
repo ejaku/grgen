@@ -95,7 +95,7 @@ public class SQLGenerator extends Base {
 		List<IR> matchedEdges = ctx.matchedEdges;
 		
 		Graph gr  = act.getPattern();
-		Query q = makeQuery(ctx, gr, new LinkedList(), true);
+		Query q = makeQuery(ctx, gr, new LinkedList(), false);
 		
 		// create subQueries for negative parts
 		for(Graph neg : act.getNegs()) {
@@ -114,6 +114,7 @@ public class SQLGenerator extends Base {
 			q.setCondition(cond == null ? notEx :
 							   factory.expression(Opcodes.AND, cond, notEx));
 		}
+		
 		return q;
 	}
 	

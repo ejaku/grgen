@@ -41,10 +41,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			
 			
 			Stmt(String name,
-					 Statement stmt,
-					 Collection types,
-					 Collection usedEntities,
-					 String comment) {
+				 Statement stmt,
+				 Collection types,
+				 Collection usedEntities,
+				 String comment) {
 				
 				this.id = counter;
 				this.name = name;
@@ -58,7 +58,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			void printTypeArray(PrintStream ps) {
 				if(!types.isEmpty()) {
 					ps.println("static const gr_value_kind_t type_arr_"
-											 + prefix + "_" + name + "[] = {");
+								   + prefix + "_" + name + "[] = {");
 					for(Iterator<DataType> it = types.iterator(); it.hasNext();) {
 						DataType type = it.next();
 						ps.print("  ");
@@ -98,10 +98,10 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		}
 		
 		public Stmt add(String name,
-										Statement stmt,
-										Collection types,
-										Collection usedEntities,
-										String comment) {
+						Statement stmt,
+						Collection types,
+						Collection usedEntities,
+						String comment) {
 			Stmt q = new Stmt(name, stmt, types, usedEntities, comment);
 			counter++;
 			stmts.add(q);
@@ -109,15 +109,15 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		}
 		
 		public Stmt add(String name,
-										Statement stmt,
-										Collection types,
-										Collection usedEntities) {
+						Statement stmt,
+						Collection types,
+						Collection usedEntities) {
 			return add(name, stmt, types, usedEntities, "");
 		}
 		
 		public Stmt add(String name,
-										Statement stmt,
-										Collection types) {
+						Statement stmt,
+						Collection types) {
 			return add(name, stmt, types, Collections.EMPTY_SET, "");
 		}
 		
@@ -354,7 +354,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 	protected void makeActionTypes(PrintStream ps) {
 		ps.println(
 			"typedef struct {\n"
-			  + "  MATCH_PROTOTYPE((*matcher));\n"
+				+ "  MATCH_PROTOTYPE((*matcher));\n"
 				+ "  FINISH_PROTOTYPE((*finisher));\n"
 				+ "  int prep_query_index;\n"
 				//				+ "  const char **stmt;\n"
@@ -418,8 +418,6 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		private Rule rule;
 		private final Map<Node, Integer> insertedNodesIndexMap = new HashMap<Node, Integer>();
 		private final Map<Edge, Integer> insertedEdgesIndexMap = new HashMap<Edge, Integer>();
-		private Collection<Node> nodesToInsert = Collections.EMPTY_SET;
-		private Collection<Edge> edgesToInsert = Collections.EMPTY_SET;
 		
 		SQLRewriteHandler(Match match, PrintStream ps) {
 			this.match = match;
@@ -499,7 +497,6 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertEdges(java.util.Collection)
 		 */
 		public void insertEdges(Collection<Edge> edges) {
-			edgesToInsert = edges;
 			Graph right = rule.getRight();
 			int i = 0;
 			
@@ -517,7 +514,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 				insertedEdgesIndexMap.put(e, new Integer(i));
 				
 				ps.print("  inserted_edges[" + i + "] = INSERT_EDGE("
-									 + etid + ", ");
+							 + etid + ", ");
 				accessEntity(ps, src);
 				ps.print(", ");
 				accessEntity(ps, tgt);
@@ -531,16 +528,28 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			
 			if(ent instanceof Node) {
 				Node n = (Node) ent;
-				if(nodesToInsert.contains(n))
+				
+				if(insertedNodesIndexMap.containsKey(n)) {
 					ps.print("inserted_nodes[" + insertedNodesIndexMap.get(n) + "]");
-				else
+				}
+				else {
+					if(n.isRetypedNode())
+						n = n.getOldNode();
+					
+					assert match.nodeIndexMap.containsKey(n);
+					
 					ps.print("GET_MATCH_NODE(" + match.nodeIndexMap.get(n) + ")");
+				}
 			} else if(ent instanceof Edge) {
 				Edge e = (Edge) ent;
-				if(edgesToInsert.contains(e))
+				if(insertedEdgesIndexMap.containsKey(e)) {
 					ps.print("inserted_edges[" + insertedEdgesIndexMap.get(e) + "]");
-				else
+				}
+				else {
+					assert match.edgeIndexMap.containsKey(e);
+					
 					ps.print("GET_MATCH_EDGE(" + match.edgeIndexMap.get(e) + ")");
+				}
 			}
 		}
 		
@@ -548,14 +557,12 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		 * @see de.unika.ipd.grgen.be.rewrite.RewriteHandler#insertNodes(java.util.Collection)
 		 */
 		public void insertNodes(Collection<Node> nodes) {
-			nodesToInsert = nodes;
-			
 			/*
 			 * We need an array to save the IDs of the inserted nodes, since
 			 * they might be needed when inserting the new edges further down
 			 * this routine.
 			 */
-			if(!nodesToInsert.isEmpty())
+			if(!nodes.isEmpty())
 				ps.print("  gr_id_t inserted_nodes[" + nodes.size() + "];\n");
 			
 			/*
@@ -566,9 +573,15 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			for (Iterator<Node> it = nodes.iterator(); it.hasNext(); i++) {
 				Node n = (Node) it.next();
 				ps.print("  inserted_nodes[" + i + "] = INSERT_NODE("
-									 + getId(n.getNodeType()) + ");\n");
+							 + getId(n.getNodeType()) + ");\n");
 				insertedNodesIndexMap.put(n, new Integer(i));
 			}
+			
+			// add retyped nodes of R
+			for(Node n : rule.getRight().getNodes())
+				if(n.isRetypedNode()) {
+					insertedNodesIndexMap.put(n, new Integer(i++));
+				}
 			
 		}
 		
@@ -697,7 +710,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		Query stmt = sqlGen.genMatchStatement(matchCtx);
 		PreparedStatements.Stmt prepStmt =
 			matchStmts.add("match_" + actionIdent, stmt,
-										 Collections.EMPTY_SET,	Collections.EMPTY_SET);
+						   Collections.EMPTY_SET,	Collections.EMPTY_SET);
 		
 		// Make an array of strings that contains the node names.
 		ps.println("static const char *" + nodeNamesIdent + "[] = {");
@@ -851,7 +864,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 	 * @param table The table to generate column access statements for.
 	 */
 	protected void genAttrTableCmds(PrintStream ps, String name,
-																	Map<Entity, Integer> attrMap, AttributeTable table) {
+									Map<Entity, Integer> attrMap, AttributeTable table) {
 		
 		int n = attrMap.size();
 		int[] getIdMap = new int[n];
@@ -860,7 +873,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		ps.println("/* " + name + " table creation command */");
 		ps.print("static const char *cmd_create_" + name + "_attr =\n  ");
-
+		
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		PrintStream tps = new PrintStream(bos);
 		table.dumpDecl(tps);
@@ -870,7 +883,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		formatString(ps, bos.toString());
 		ps.println(';');
 		
-	
+		
 		List<Column> cols = new LinkedList<Column>();
 		List<Term> exprs = new LinkedList<Term>();
 		MarkerSource ms = getMarkerSource();
@@ -901,14 +914,14 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			cols.add(col);
 			exprs.add(col.getType().initValue());
 		}
-
+		
 		ps.println("\n#define GR_HAVE_" + name.toUpperCase() + "_ATTR 1\n");
-
+		
 		ps.println("static const char *cmd_init_" + name + "_attr = ");
 		Statement initStmt = factory.makeInsert(table, cols, exprs);
 		modelStmts.add("init_attr_" + name,
-									 initStmt, Collections.singletonList(getIdType()));
-									 
+					   initStmt, Collections.singletonList(getIdType()));
+		
 		ps.print("  ");
 		formatString(ps, Util.toString(initStmt));
 		ps.println(";\n");

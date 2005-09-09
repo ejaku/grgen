@@ -508,9 +508,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					// TODO Tell the user which rule and which neg-graph
 					// TODO There _is_ a better way to solve this. For now add a "AND FALSE" to the next join
 					seq.scheduleCond(factory.constant(false), new HashSet<Object>());
-					error.warning("Negative part is a subgraph of pattern part and has no conditions. This action is never applicable.");
+					error.warning("Negative part is a subgraph of pattern part and has no conditions ("+matchCtx.action+"). This action is never applicable.");
 				} else {
-					error.warning("Negative part is a subgraph of pattern part");
+					error.warning("Negative part is a subgraph of pattern part ("+matchCtx.action+")");
 				}
 			}
 			

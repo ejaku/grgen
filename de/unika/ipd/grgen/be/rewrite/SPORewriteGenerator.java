@@ -33,7 +33,7 @@ import java.util.Map;
  * </ul>
  */
 public class SPORewriteGenerator implements RewriteGenerator {
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteGenerator#rewrite(de.unika.ipd.grgen.ir.Rule, de.unika.ipd.grgen.be.spo.RewriteHandler)
 	 */
@@ -43,7 +43,7 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
 		Collection<Edge> es = new HashSet<Edge>();
-
+		
 		
 		assert getClass().isAssignableFrom(handler.getRequiredRewriteGenerator());
 		
@@ -65,9 +65,7 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		right.putEdges(es);
 		es.removeAll(commonEdges);
 		handler.insertEdges(es);
-
-		// Finally the evaluations.
-		handler.generateEvals(r.getEvals());
+		
 		
 		// All edges, that occur only on the left side have to be removed.
 		es.clear();
@@ -83,11 +81,22 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// Change types of nodes.
 		for (Iterator<Node> it = ns.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
-			if (n.typeChanges())
+			if (n.typeChanges()) {
 				nodeTypeChangeMap.put(n, n.getReplaceType());
+			}
 		}
 		handler.changeNodeTypes(nodeTypeChangeMap);
-
+		
+		
+//				// add retyped nodes of R
+//		if(a instanceof Rule)
+//			for(Node n : ((Rule)a).getRight().getNodes())
+//				if(n.isRetypedNode())
+//					nodes.add(n);
+		
+		// Finally the evaluations.
+		handler.generateEvals(r.getEvals());
+		
 		// Delete all nodes to delete and the incident edges.
 		ns.removeAll(commonNodes);
 		handler.deleteEdgesOfNodes(ns);
@@ -96,5 +105,5 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// ... and the finish function.
 		handler.finish();
 	}
-
+	
 }
