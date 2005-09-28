@@ -900,7 +900,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
-			if (nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges)) {
+			/* XXX TODO gammlich */
+			if ( !(involvedNodes.isEmpty() && involvedEdges.isEmpty())  && nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges)) {
 				if( currentSubgraph == null || ( currentSubgraph.containsAll(involvedNodes) && currentSubgraph.containsAll(involvedEdges) ) ) {
 					/* then this is a "local" condition (only applies to current subgraph) */
 					evaluatableConditions.add(cond);
@@ -1043,15 +1044,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 			sb.append(
 				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
-				"  " + kind + ", " + edge_ptr + ", " +
-					"NULL /* no start node ptr */,\n" +
-				"  " + isConditional + ", \"" + edgeName + "\", " +
-					"NULL /* no start node name  */, " + op_direction + ",\n" +
+				"  " + kind + ", " + edge_ptr + ",\n" +
+				"  " + isConditional + ", " + op_direction + ",\n" +
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					", " + cond_ptr + ",\n" +
 				"  " + (evaluatableGlobalConditions.size()) +
-					", " + glob_cond_ptr + ",\n" +
-				"  NULL, NULL\n" + /* data1 and data2 */
+					", " + glob_cond_ptr + "\n" +
 				"};\n\n");
 		} else {
 			//egge == null indicates, that a start no op has to be emitted
@@ -1070,10 +1068,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 			sb.append(
 				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
-				"  " + kind + ", NULL /* no edge needed */,\n" +
-				"  " + node_ptr + " /* start node */,\n" +
-				"  " + isConditional + ", NULL, \"" + node_name + "\", " +
-					"fb_dir_out /* no edge, direction does not matter */,\n" +
+				"  " + kind + ", " + node_ptr + " /* start node */,\n" +
+				"  " + isConditional + ", " + "fb_dir_out /* no edge, direction does not matter */,\n" +
 				"  " + (evaluatableConditions.size() + evaluatableTypeConditions.size()) +
 					", " + cond_ptr + ",\n" +
 				"  " + (evaluatableGlobalConditions.size()) +
@@ -1095,9 +1091,9 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		
 	  sb.append(
 	      "fb_matcher_op_t mop_" + op_counter++ + "_of_pattern_0_of_action_" + act_id + " = {\n" +
-	      "  fb_matcher_op_check_negative, NULL, NULL,\n" +
-	      "  0, NULL, NULL, " + neg_num + ",\n" +
-	      "  0, NULL\n" +
+	      "  fb_matcher_op_check_negative, NULL,\n" +
+	      "  0, " + neg_num + ",\n" +
+	      "  0, NULL, 0, NULL\n" +
 	      "};\n\n");
 	}
 	
