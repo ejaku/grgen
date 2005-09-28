@@ -386,7 +386,7 @@ public class InformationCollector extends CBackend
 					Expression condition = (Expression) condition_it.next();
 					Collection<Expression> subConditions = decomposeAndParts(condition);
 					
-					//for all the subcinditions just computed...
+					//for all the subconditions just computed...
 					for ( Iterator<Expression> sub_cond_it = subConditions.iterator(); sub_cond_it.hasNext(); ) {
 						Expression sub_condition = sub_cond_it.next();
 
