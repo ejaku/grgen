@@ -544,12 +544,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Collection<Object> depsUneq = new HashSet<Object>();
 				for(Iterator jt = patEdges.iterator(); jt.hasNext();) {
 					Edge patE = (Edge) jt.next();
-					if (negAllEdges.contains(patE)) {
-						EdgeTable patEdgeTable = tableFactory.edgeTable(patE);
-						Term patEdgeIdCol = factory.expression(patEdgeTable.colId());
-						edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq, factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
-						depsUneq.add(patEdgeTable);
-					}
+					EdgeTable patEdgeTable = tableFactory.edgeTable(patE);
+					Term patEdgeIdCol = factory.expression(patEdgeTable.colId());
+					edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq, factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
+					depsUneq.add(patEdgeTable);
 				}
 				depsUneq.add(edgeTable);
 				if (edgeUneq != null)
