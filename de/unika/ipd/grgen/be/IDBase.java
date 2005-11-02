@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -52,7 +52,7 @@ import de.unika.ipd.grgen.ir.Identifiable;
  */
 public abstract class IDBase extends Base implements IDTypeModel {
 	
-  /** node type to type id map. (Type -> Integer) */
+	/** node type to type id map. (Type -> Integer) */
 	protected final Map<Identifiable, Integer> nodeTypeMap = new HashMap<Identifiable, Integer>();
 	
 	/** node type to type id map. (Type -> Integer) */
@@ -106,12 +106,8 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	private void makeTypeIds(Unit unit) {
 		unit.canonicalize();
 		
-		for(Iterator<Model> mt = unit.getModels(); mt.hasNext();) {
-			Model model = mt.next();
-			
-			for(Iterator<Type> it = model.getTypes(); it.hasNext();) {
-				Type type = it.next();
-				
+		for(Model model : unit.getModels()) {
+			for(Type type : model.getTypes()) {
 				if(type instanceof NodeType) {
 					nodeTypeMap.put(type, new Integer(nodeTypeMap.size()));
 				} else if(type instanceof EdgeType) {
@@ -239,7 +235,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res;
 	}
 	
-  /**
+	/**
 	 * Make action IDs.
 	 * @param actionMap The map to put the IDs to.
 	 */
@@ -251,16 +247,16 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		}
 	}
 	
-  /**
+	/**
 	 * Get the ID of an IR type.
 	 * @param map The map to look into.
 	 * @param ty The inheritance type to get the id for.
 	 * @return The type id for this type.
 	 */
-  protected final int getTypeId(Map<Identifiable, Integer> map, IR obj) {
+	protected final int getTypeId(Map<Identifiable, Integer> map, IR obj) {
 		Integer res = map.get(obj);
 		return res.intValue();
-  }
+	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.TypeID#getId(de.unika.ipd.grgen.ir.EdgeType)

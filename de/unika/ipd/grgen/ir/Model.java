@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -26,14 +26,10 @@
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Model extends Identifiable {
-
+	
 	private boolean digestValid = false;
 	
 	private String digest = "";
@@ -57,10 +53,10 @@ public class Model extends Identifiable {
 	 * Get the types in the type model.
 	 * @return The types in the type model.
 	 */
-	public Iterator<Type> getTypes() {
-		return types.iterator();
+	public Collection<Type> getTypes() {
+		return Collections.unmodifiableCollection(types);
 	}
-
+	
 	/**
 	 * Canonicalize the type model.
 	 */
@@ -72,19 +68,19 @@ public class Model extends Identifiable {
 			Type ty = it.next();
 			ty.canonicalize();
 			if (ty instanceof EdgeType)
-				((EdgeType)ty).canonicalizeConnectionAsserts();
+					((EdgeType)ty).canonicalizeConnectionAsserts();
 		}
 	}
-
+	
 	void addToDigest(StringBuffer sb) {
 		sb.append(this);
 		sb.append('[');
-
+		
 		for(Iterator<Type> it = types.iterator(); it.hasNext();) {
 			Type ty = it.next();
 			ty.addToDigest(sb);
 		}
-
+		
 		sb.append(']');
 	}
 	

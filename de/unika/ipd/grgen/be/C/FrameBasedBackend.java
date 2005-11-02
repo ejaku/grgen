@@ -917,11 +917,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 
 			//check whether these nodes/edges have been visited already,
 			//but the current node/edge is not yet added to the "visited"-Sets
+			boolean bothempty = involvedNodes.isEmpty() && involvedEdges.isEmpty();
 			involvedNodes.remove(node);
 			if  (edge != null)
 				involvedEdges.remove(edge);
 			/* XXX TODO gammlich */
-			if ( !(involvedNodes.isEmpty() && involvedEdges.isEmpty())  && nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges)) {
+			if ( !bothempty  && nodeVisited.containsAll(involvedNodes) && edgeVisited.containsAll(involvedEdges)) {
 				if( currentSubgraph == null || ( currentSubgraph.containsAll(involvedNodes) && currentSubgraph.containsAll(involvedEdges) ) ) {
 					/* then this is a "local" condition (only applies to current subgraph) */
 					evaluatableConditions.add(cond);

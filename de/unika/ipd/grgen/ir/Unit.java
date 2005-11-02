@@ -72,8 +72,8 @@ public class Unit extends Identifiable {
 	 * Get the type model of this unit.
 	 * @return The type model.
 	 */
-	public Iterator<Model> getModels() {
-		return models.iterator();
+	public Collection<Model> getModels() {
+		return Collections.unmodifiableCollection(models);
 	}
 
   /**
