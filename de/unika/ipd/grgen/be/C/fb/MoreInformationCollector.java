@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -621,7 +621,7 @@ public class MoreInformationCollector extends InformationCollector {
 			n_subgraphs[act_id] = 0;
 			//subGraphMap[act_id] = new HashMap();
 			
-	
+			
 			while( !remainingNodes.isEmpty() ) {
 				Node node;
 				Collection<Node> currentSubgraphNodes = new HashSet<Node>();
@@ -630,7 +630,7 @@ public class MoreInformationCollector extends InformationCollector {
 				nodesOfSubgraph[act_id].addLast( currentSubgraphNodes );
 				edgesOfSubgraph[act_id].addLast( currentSubgraphEdges );
 				
-			
+				
 				node = (Node)remainingNodes.iterator().next();
 				remainingNodes.remove(node);
 				
@@ -642,29 +642,35 @@ public class MoreInformationCollector extends InformationCollector {
 				subgraph++;
 			}
 			
-
+			
 			if(nodesOfSubgraph[act_id].size() > 1) {
 				//if a subgraph is smaller than 5 then merge it with the next smallest one
-				Collection smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
-				Collection smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+				Collection smallest_subgraph;
+				Collection smallest_subgraph_edges;
 				do {
+					smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
+					smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+					assert nodesOfSubgraph[act_id].size() ==  edgesOfSubgraph[act_id].size();
 					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
-						if(nodesOfSubgraph[act_id].size() < smallest_subgraph.size()) {
-							smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
-							smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+						if(((Collection)nodesOfSubgraph[act_id].get(i)).size() < smallest_subgraph.size()) {
+							smallest_subgraph = (Collection)nodesOfSubgraph[act_id].get(i);
+							smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].get(i);
 						}
 					}
-
+					
 					if(smallest_subgraph.size() >= min_subgraph_size)
 						break;
 					
-					nodesOfSubgraph[act_id].remove(smallest_subgraph);
-					edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
+					boolean succ = nodesOfSubgraph[act_id].remove(smallest_subgraph);
+					assert succ;
+					succ = edgesOfSubgraph[act_id].remove(smallest_subgraph_edges);
+					assert succ;
 					
-
-	
+					
+					
 					Collection next_smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
 					Collection next_smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
+					assert nodesOfSubgraph[act_id].size() ==  edgesOfSubgraph[act_id].size();
 					for(int i=0; i<nodesOfSubgraph[act_id].size(); i++) {
 						if(((Collection)nodesOfSubgraph[act_id].get(i)).size() < next_smallest_subgraph.size()) {
 							next_smallest_subgraph = (Collection)nodesOfSubgraph[act_id].get(i);
@@ -676,7 +682,7 @@ public class MoreInformationCollector extends InformationCollector {
 					next_smallest_subgraph.addAll(smallest_subgraph);
 					next_smallest_subgraph_edges.addAll(smallest_subgraph_edges);
 				} while(nodesOfSubgraph[act_id].size() > 1);
-					
+				
 				//move smallest subgraph to the beginning of the list
 				smallest_subgraph = (Collection)nodesOfSubgraph[act_id].getFirst();
 				smallest_subgraph_edges = (Collection)edgesOfSubgraph[act_id].getFirst();
@@ -691,13 +697,13 @@ public class MoreInformationCollector extends InformationCollector {
 				nodesOfSubgraph[act_id].addFirst(smallest_subgraph);
 				edgesOfSubgraph[act_id].addFirst(smallest_subgraph_edges);
 			}
-				
+			
 			n_subgraphs[act_id] = nodesOfSubgraph[act_id].size();
 			
-
+			
 			if(max_n_subgraphs < n_subgraphs[act_id])
 				max_n_subgraphs = n_subgraphs[act_id];
-
+			
 			for(subgraph = 0; subgraph < edgesOfSubgraph[act_id].size(); subgraph++) {
 				Collection subgraph_edges = (Collection)edgesOfSubgraph[act_id].get(subgraph);
 				for(Iterator edge_it = subgraph_edges.iterator(); edge_it.hasNext(); ) {
@@ -713,26 +719,25 @@ public class MoreInformationCollector extends InformationCollector {
 					subgraphOfNode.put( node, new Integer(subgraph) );
 				}
 			}
-
-		
-
+			
+			
+			
 			int max_prio = 0;
 			if(pattern.getNodes().size() > 0) {
 				//get any node as initial node
 				Node max_prio_node = (Node) pattern.getNodes().iterator().next();
 				for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); )	{
 					Node node = (Node) node_it.next();
-
+					
 					//get the nodes priority
 					int prio = 0;
 					Attributes a = node.getAttributes();
 					if (a != null)
 						if (a.containsKey("prio") && a.isInteger("prio"))
 							prio = ((Integer) a.get("prio")).intValue();
-
+					
 					//if the current priority is greater, update the maximum priority node
-					if (prio > max_prio)
-					{
+					if (prio > max_prio) {
 						max_prio = prio;
 						max_prio_node = node;
 					}
@@ -780,7 +785,7 @@ public class MoreInformationCollector extends InformationCollector {
 				if ( remainingNodes.contains(getFarEndNode(edge, node, pattern)) ) {
 					
 					//mark the edge and the far end node as visited
-				  	currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
+					currentSubgraphNodes.add(getFarEndNode(edge, node, pattern));
 					
 					remainingNodes.remove(getFarEndNode(edge, node, pattern));
 					//continue recursicly the deep fisrt traversal of the pattern graph
