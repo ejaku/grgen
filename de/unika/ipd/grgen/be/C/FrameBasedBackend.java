@@ -558,11 +558,65 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<IR> edgeVisited = new HashSet<IR>();
 		Collection<ConstraintEntity> currentSubgraph;
 		Collection currentSubgraphNodes;
+		Collection subgraphs = new LinkedList();
 
 		int act_id = actionMap.get(action).intValue();
 		op_counter = 0;
+		
+		subgraphs.addAll(nodesOfSubgraph[act_id]);
 
-		for(Iterator subgraph_it = nodesOfSubgraph[act_id].iterator(); subgraph_it.hasNext(); ) {
+		if(first_subgraph[act_id] != 0) {
+			Collection subgraph_nodes = (Collection) nodesOfSubgraph[act_id].get(first_subgraph[act_id]);
+			subgraphs.remove(subgraph_nodes);
+
+			nodeNotVisited.addAll(subgraph_nodes);
+			
+			while( !nodeNotVisited.isEmpty() ) {
+				//pick out the node with the highest priority as start node
+				int max_prio = 0;
+				//get any node as initial node
+				Node max_prio_node = (Node) nodeNotVisited.iterator().next();
+				for (Iterator<IR> node_it = nodeNotVisited.iterator(); node_it.hasNext(); )	{
+					Node node = (Node) node_it.next();
+					
+					//get the nodes priority
+					int prio = 0;
+					Attributes a = node.getAttributes();
+					if (a != null)
+						if (a.containsKey("prio") && a.isInteger("prio"))
+							prio = ((Integer) a.get("prio")).intValue();
+					
+					//if the current priority is greater, update the maximum priority node
+					if (prio > max_prio)
+					{
+						max_prio = prio;
+						max_prio_node = node;
+					}
+				}
+				
+				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph.add(max_prio_node);
+				
+				nodeVisited.add(max_prio_node);
+				nodeNotVisited.remove(max_prio_node);
+				
+				
+				//gen op for the start node
+				genOp(max_prio_node, null, action, 0,
+					  action.getPattern(), nodeVisited, edgeVisited, currentSubgraph,
+					  alreadyCheckedConditions,alreadyCheckedTypeConditions, op_counter, sb);
+				
+				++op_counter;
+				__deep_first_matcher_op_gen(
+					nodeVisited, edgeVisited, currentSubgraph, alreadyCheckedConditions,
+					alreadyCheckedTypeConditions, max_prio_node, action, 0, action.getPattern(), sb);
+				
+				nodeNotVisited.removeAll(nodeVisited);
+			}
+		}
+		
+		
+		for(Iterator subgraph_it = subgraphs.iterator(); subgraph_it.hasNext(); ) {
 			Collection subgraph_nodes = (Collection) subgraph_it.next();
 
 			nodeNotVisited.addAll(subgraph_nodes);
