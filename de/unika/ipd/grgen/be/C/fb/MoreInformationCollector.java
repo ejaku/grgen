@@ -430,17 +430,11 @@ public class MoreInformationCollector extends InformationCollector {
 							conditionsInvolvedNodes.put(sub_condition, involvedNodes);
 							conditionsInvolvedEdges.put(sub_condition, involvedEdges);
 							
-							//...store the id of the action that condition belogs to
-							conditionsActionId.put(sub_condition, actionMap.get(act));
-							
-							//...store the action the condition belongs to
-							conditionsAction.put(sub_condition, act);
-							
 							//..store the negative pattern num the conditions belongs to
 							conditionsPatternNum.put(sub_condition, new Integer(neg_num+1));
 							
 							//store the subcondition in an ordered Collection
-							conditions.add(sub_condition);
+							conditions[act_id].add(sub_condition);
 						}
 					}
 				}
@@ -461,27 +455,29 @@ public class MoreInformationCollector extends InformationCollector {
 		 involvedPatternNodeAttrIds[cond_num].get(pattern_node_num)
 		 which yields a Collection of attr-ids.
 		 */
-		involvedPatternNodeAttrIds = new Map[n_conditions];
-		involvedPatternEdgeAttrIds = new Map[n_conditions];
-		//init that Arrays with empty maps
-		for (Iterator<Expression> it = conditions.iterator(); it.hasNext(); ) {
-			Expression cond = it.next();
-			int cond_num = conditionNumbers.get(cond).intValue();
-			involvedPatternNodeAttrIds[cond_num] = new HashMap();
-			involvedPatternEdgeAttrIds[cond_num] = new HashMap();
-		}
-		//collect the attr ids in dependency of condition and the pattern node
-		for (Iterator<Expression> it = conditions.iterator(); it.hasNext(); ) {
-			Expression cond = it.next();
-			int cond_num = conditionNumbers.get(cond).intValue();
-			int act_id = conditionsActionId.get(cond).intValue();
+		
+		involvedPatternNodeAttrIds = new HashMap<Expression, Map>();
+		involvedPatternEdgeAttrIds = new HashMap<Expression, Map>();
+		
+		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); )
+		{
+			//get the current action
+			Action act = it.next();
+			int act_id = actionMap.get(act).intValue();
 			
-			//descent to the conditions leafes and look for qualifications
-			Map<Entity, Collection> node_map = new HashMap<Entity, Collection>();
-			Map<Entity, Collection> edge_map = new HashMap<Entity, Collection>();
-			__recursive_qual_collect(act_id, node_map, edge_map, cond);
-			involvedPatternNodeAttrIds[cond_num] = node_map;
-			involvedPatternEdgeAttrIds[cond_num] = edge_map;
+			//collect the attr ids in dependency of condition and the pattern node
+			for (Iterator<Expression> cond_it = conditions[act_id].iterator(); cond_it.hasNext(); )
+			{
+				Expression cond = cond_it.next();
+				int cond_num = conditionNumbers.get(cond).intValue();
+				
+				//descent to the conditions leaves and look for qualifications
+				Map<Entity, Collection> node_map = new HashMap<Entity, Collection>();
+				Map<Entity, Collection> edge_map = new HashMap<Entity, Collection>();
+				__recursive_qual_collect(act_id, node_map, edge_map, cond);
+				involvedPatternNodeAttrIds.put(cond,node_map);
+				involvedPatternEdgeAttrIds.put(cond,edge_map);
+			}
 		}
 	}
 	
@@ -524,17 +520,11 @@ public class MoreInformationCollector extends InformationCollector {
 							typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
 							typeConditionsInvolvedEdges.put(type_condition, Collections.EMPTY_SET);
 							
-							//...store the id of the action that condition belogs to
-							typeConditionsActionId.put(type_condition, actionMap.get(act));
-							
-							//...store the action the condition belongs to
-							typeConditionsAction.put(type_condition, act);
-							
 							//..store the negative pattern num the conditions belongs to
 							typeConditionsPatternNum.put(type_condition, new Integer(neg_num+1));
 							
 							//store the subcondition in an ordered Collection
-							typeConditions.add(type_condition);
+							typeConditions[act_id].add(type_condition);
 						}
 					}
 					//do the same thing for all edges of the current pattern
@@ -559,17 +549,11 @@ public class MoreInformationCollector extends InformationCollector {
 							typeConditionsInvolvedNodes.put(type_condition, Collections.EMPTY_SET);
 							typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
 							
-							//...store the id of the action that condition belogs to
-							typeConditionsActionId.put(type_condition, actionMap.get(act));
-							
-							//...store the action the condition belongs to
-							typeConditionsAction.put(type_condition, act);
-							
 							//..store the negative pattern num the conditions belongs to
 							typeConditionsPatternNum.put(type_condition, new Integer(neg_num+1));
 							
 							//store the subcondition in an ordered Collection
-							typeConditions.add(type_condition);
+							typeConditions[act_id].add(type_condition);
 						}
 					}
 				}
