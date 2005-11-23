@@ -207,8 +207,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					" ---------------------- */\n\n\n");
 			
 			//start generating programs beginning with the already computed start node
-			Integer act_id = actionMap.get(action);
-			Node startNode = start_node[act_id.intValue()];
+			int act_id = actionMap.get(action).intValue();
+			Node startNode = start_node[act_id];
 			//perform a deep first search on the pattern
 			//graph while emiting matcher operations
 			Collection<Expression> alreadyCheckedConditions = new HashSet<Expression>();
@@ -217,11 +217,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			n_matcher_ops[0] = genOpSequence(startNode, action, alreadyCheckedConditions, alreadyCheckedTypeConditions, sb);
 			
-			for(Iterator<PatternGraph> neg_it = negMap[act_id.intValue()].keySet().iterator(); neg_it.hasNext(); )
+			for(Iterator<PatternGraph> neg_it = negMap[act_id].keySet().iterator(); neg_it.hasNext(); )
 			{
 				PatternGraph neg_pattern = neg_it.next();
 				
-				int neg_num = ((Integer)negMap[act_id.intValue()].get(neg_pattern)).intValue();
+				int neg_num = ((Integer)negMap[act_id].get(neg_pattern)).intValue();
 				
 				n_matcher_ops[neg_num+1] = genNegOpSequence(action, neg_pattern, alreadyCheckedConditions, alreadyCheckedTypeConditions, sb);
 			}
@@ -232,6 +232,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//get the replacement graph
 			String replGraph = action instanceof Rule ?
 				"&replacement_graph_of_action_" + act_id : "NULL";
+			
+			sb.append("static fb_acts_graph_t *negative_pattern_graphs_of_act_" + act_id + "[] = {\n  ");
+			for(int i=0; i<n_negative_patterns[act_id]; i++) {
+				sb.append("&negative_pattern_graph_" + i + "_of_action_" + act_id + ", ");
+			}
+			sb.append("\n};\n\n");
 			
 			//gen C-arrays of pattern node names
 			int n_pat_nodes = action.getPattern().getNodes().size();
@@ -281,7 +287,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			 }
 			 */
 			//create a C-array of ptrs to matcher ops representing the matcher programs
-			for(int pattern_num = 0; pattern_num < n_negative_patterns[act_id.intValue()] + 1; pattern_num++)
+			for(int pattern_num = 0; pattern_num < n_negative_patterns[act_id] + 1; pattern_num++)
 			{
 				if (n_matcher_ops[pattern_num] > 0)
 				{
@@ -303,11 +309,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			}
 			
 			//gen the list of matcher progs
-			sb.append("static fb_matcher_op_t **matcher_programs_of_action_" + act_id + "[" + (n_negative_patterns[act_id.intValue()] + 1) + "] = {\n");
-			for(int i = 0; i < n_negative_patterns[act_id.intValue()] + 1; i++)
+			sb.append("static fb_matcher_op_t **matcher_programs_of_action_" + act_id + "[" + (n_negative_patterns[act_id] + 1) + "] = {\n");
+			for(int i = 0; i < n_negative_patterns[act_id] + 1; i++)
 			{
 				sb.append("  matcher_program_" + i +"_of_action_" + act_id);
-				if (i < (n_negative_patterns[act_id.intValue()])) sb.append(",");
+				if (i < (n_negative_patterns[act_id])) sb.append(",");
 				sb.append("\n");
 			}
 			sb.append("};\n\n");
@@ -335,7 +341,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					{
 						Node node = (Node) it.next();
 						Integer node_num =
-							(Integer) pattern_node_num[act_id.intValue()].get(node);
+							(Integer) pattern_node_num[act_id].get(node);
 						sb.append(node_num);
 						if (it.hasNext()) sb.append(", ");
 					}
@@ -368,7 +374,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					{
 						Edge edge = (Edge) it.next();
 						Integer edge_num =
-							(Integer) pattern_edge_num[act_id.intValue()].get(edge);
+							(Integer) pattern_edge_num[act_id].get(edge);
 						sb.append(edge_num);
 						if (it.hasNext()) sb.append(", ");
 					}
@@ -382,18 +388,18 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			String new_edges_array = "NULL";
 			if (action instanceof Rule)
 			{
-				n_new_edges = newEdgesOfAction[act_id.intValue()].size();
+				n_new_edges = newEdgesOfAction[act_id].size();
 				if (n_new_edges > 0)
 				{
 					sb.append(
 						"static fb_acts_edge_t *new_edges_of_action_" + act_id + "[" + n_new_edges + "] = { \n");
 					Iterator<Edge> new_edge_it =
-						newEdgesOfAction[act_id.intValue()].iterator();
+						newEdgesOfAction[act_id].iterator();
 					for ( ; new_edge_it.hasNext() ; )
 					{
 						Edge edge = new_edge_it.next();
 						int edge_num =
-							((Integer) replacement_edge_num[act_id.intValue()].get(edge)).intValue();
+							((Integer) replacement_edge_num[act_id].get(edge)).intValue();
 						sb.append("  &replacement_edge_" + edge_num + "_of_action_" + act_id);
 						if (new_edge_it.hasNext()) sb.append(",");
 						sb.append("\n");
@@ -409,7 +415,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"  \"" + action.getIdent().toString() + "\", " +
 					"(gr_id_t) " + act_id + ", " + act_kind + ",\n" +
 					"  &pattern_graph_of_action_" + act_id + ", " + replGraph + ",\n  " +
-					n_negative_patterns[act_id.intValue()] + ",\n" +
+					n_negative_patterns[act_id] + ",\n" +
+					"  negative_pattern_graphs_of_act_" + act_id + ",\n" +
 					"  pattern_node_names_of_act_" + act_id + ",\n" +
 					"  " + pat_edge_name_array + ",\n");
 			
@@ -433,7 +440,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				sb.append("    { ");
 				for (int j = 0; j < max_n_pattern_nodes; j++)
 				{
-					sb.append( potHomMatrices[act_id.intValue()][i][j] );
+					sb.append( potHomMatrices[act_id][i][j] );
 					if (j < (max_n_pattern_nodes - 1)) sb.append(", ");
 				}
 				sb.append(" }");
@@ -453,7 +460,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//pattern node number, a negative value otherwise)
 			for (int i = 0; i< max_n_pattern_nodes; i++)
 			{
-				sb.append(patternNodeIsToBeKept[act_id.intValue()][i]);
+				sb.append(patternNodeIsToBeKept[act_id][i]);
 				if (i < max_n_pattern_nodes - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
@@ -462,7 +469,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//pattern node number, a negative value otherwise)
 			for ( int i = 0; i < max_n_replacement_nodes; i++)
 			{
-				sb.append(replacementNodeIsPreservedNode[act_id.intValue()][i]);
+				sb.append(replacementNodeIsPreservedNode[act_id][i]);
 				if (i < max_n_replacement_nodes - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
@@ -473,7 +480,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//gr_id_invalid (i.e. -1) all the same
 			for ( int i = 0; i < max_n_replacement_nodes; i++)
 			{
-				sb.append("(gr_id_t)" + replacementNodeChangesTypeTo[act_id.intValue()][i]);
+				sb.append("(gr_id_t)" + replacementNodeChangesTypeTo[act_id][i]);
 				if (i < max_n_replacement_nodes - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
@@ -484,7 +491,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//pattern edge number, a negative value otherwise)
 			for (int i = 0; i< max_n_pattern_edges; i++)
 			{
-				sb.append(patternEdgeIsToBeKept[act_id.intValue()][i]);
+				sb.append(patternEdgeIsToBeKept[act_id][i]);
 				if (i < max_n_pattern_edges - 1) sb.append(", ");
 			}
 			sb.append(" },\n  { ");
@@ -493,7 +500,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			//pattern edge number, a negative value otherwise)
 			for ( int i = 0; i < max_n_replacement_edges; i++)
 			{
-				sb.append(replacementEdgeIsPreservedEdge[act_id.intValue()][i]);
+				sb.append(replacementEdgeIsPreservedEdge[act_id][i]);
 				if (i < max_n_replacement_edges - 1) sb.append(", ");
 			}
 			sb.append(" },\n");
@@ -506,7 +513,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				sb.append("    { ");
 				for (int j = 0; j < max_n_pattern_nodes; j++)
 				{
-					sb.append( patternNodeIsNegativeNode[act_id.intValue()][i][j] );
+					sb.append( patternNodeIsNegativeNode[act_id][i][j] );
 					if (j < (max_n_pattern_nodes - 1)) sb.append(", ");
 				}
 				sb.append(" }");
@@ -523,7 +530,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				sb.append("    { ");
 				for (int j = 0; j < max_n_pattern_edges; j++)
 				{
-					sb.append( patternEdgeIsNegativeEdge[act_id.intValue()][i][j] );
+					sb.append( patternEdgeIsNegativeEdge[act_id][i][j] );
 					if (j < (max_n_pattern_edges - 1)) sb.append(", ");
 				}
 				sb.append(" }");
@@ -535,21 +542,21 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if(emit_subgraph_info)
 			{
 				/* emit subgraph info (#subgraphs, #nodes/edges of subgraph) */
-				sb.append(",\n  " + n_subgraphs[act_id.intValue()] + ",\n  ");
+				sb.append(",\n  " + n_subgraphs[act_id] + ",\n  ");
 				
-				sb.append(first_subgraph[act_id.intValue()] + ",\n  { ");
+				sb.append(first_subgraph[act_id] + ",\n  { ");
 				
-				for ( int i = 0; i < n_subgraphs[act_id.intValue()]; i++)
+				for ( int i = 0; i < n_subgraphs[act_id]; i++)
 				{
-					sb.append( ((HashSet)nodesOfSubgraph[act_id.intValue()].get(i)).size() );
-					if (i < n_subgraphs[act_id.intValue()]- 1) sb.append(", ");
+					sb.append( ((HashSet)nodesOfSubgraph[act_id].get(i)).size() );
+					if (i < n_subgraphs[act_id]- 1) sb.append(", ");
 				}
 				sb.append(" },\n  { ");
 				
-				for ( int i = 0; i < n_subgraphs[act_id.intValue()]; i++)
+				for ( int i = 0; i < n_subgraphs[act_id]; i++)
 				{
-					sb.append( ((HashSet)edgesOfSubgraph[act_id.intValue()].get(i)).size() );
-					if (i < n_subgraphs[act_id.intValue()]- 1) sb.append(", ");
+					sb.append( ((HashSet)edgesOfSubgraph[act_id].get(i)).size() );
+					if (i < n_subgraphs[act_id]- 1) sb.append(", ");
 				}
 				sb.append(" }");
 				
@@ -1203,14 +1210,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			{
 				Collection type_cond = eval_type_cond_it.next();
 				int cond_num = typeConditionNumbers.get(type_cond);
-
+				
 				sb.append(
-				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
-					"  .kind = fb_matcher_op_check_condition,\n" +
-					"  .operand.cond = " + "type_condition_" + cond_num + "_of_action_" + act_id + ",\n" +
-					"  .attrib.cond = fb_condition_local\n" +
-					"};\n\n");
-
+					"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
+						"  .kind = fb_matcher_op_check_condition,\n" +
+						"  .operand.cond = " + "type_condition_" + cond_num + "_of_action_" + act_id + ",\n" +
+						"  .attrib.cond = fb_condition_local\n" +
+						"};\n\n");
+				
 				++op_counter;
 			}
 			Iterator<Expression> eval_cond_it = evaluatableConditions.iterator();
@@ -1220,11 +1227,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				int cond_num = conditionNumbers.get(cond);
 				
 				sb.append(
-				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
-					"  .kind = fb_matcher_op_check_condition,\n" +
-					"  .operand.cond = " + "condition_" + cond_num + "_of_action_" + act_id + ",\n" +
-					"  .attrib.cond = fb_condition_local\n" +
-					"};\n\n");
+					"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
+						"  .kind = fb_matcher_op_check_condition,\n" +
+						"  .operand.cond = " + "condition_" + cond_num + "_of_action_" + act_id + ",\n" +
+						"  .attrib.cond = fb_condition_local\n" +
+						"};\n\n");
 				
 				++op_counter;
 			}
@@ -1238,11 +1245,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				int cond_num = conditionNumbers.get(cond);
 				
 				sb.append(
-				"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
-					"  .kind = fb_matcher_op_check_condition,\n" +
-					"  .operand.cond = " + "condition_" + cond_num + "_of_action_" + act_id + ",\n" +
-					"  .attrib.cond = fb_condition_global\n" +
-					"};\n\n");
+					"fb_matcher_op_t mop_" + op_counter + "_of_pattern_" + pattern_num + "_of_action_" + act_id + " = {\n" +
+						"  .kind = fb_matcher_op_check_condition,\n" +
+						"  .operand.cond = " + "condition_" + cond_num + "_of_action_" + act_id + ",\n" +
+						"  .attrib.cond = fb_condition_global\n" +
+						"};\n\n");
 				
 				++op_counter;
 			}
