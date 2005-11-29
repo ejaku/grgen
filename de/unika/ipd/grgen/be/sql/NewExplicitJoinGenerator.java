@@ -222,8 +222,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		List<Node> nodes = new LinkedList<Node>();
 		Set<Edge> reverse = new HashSet<Edge>();
 		
-		for(Iterator<Edge> it = g.getOutgoing(start); it.hasNext();) {
-			Edge edge = it.next();
+		for(Edge edge : g.getOutgoing(start)) {
 			Node tgt = g.getTarget(edge);
 			
 			if(!visited.contains(tgt)) {

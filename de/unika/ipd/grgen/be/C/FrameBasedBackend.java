@@ -2742,7 +2742,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"static fb_acts_edge_t *out_edges_of_node_"  + node_num + "_of_" +
 							graphName + "[" + graph.getOutDegree(node) + "] = {\n  ");
 					//iterate over all outgoing edges of the current node...
-					Iterator<Edge> edge_it = graph.getOutgoing(node);
+					Iterator<Edge> edge_it = graph.getOutgoing(node).iterator();
 					//...and gen an array of ptrs of type *fb_acts_edge_t
 					for ( ; edge_it.hasNext(); )
 					{

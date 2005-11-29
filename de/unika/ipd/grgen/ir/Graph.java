@@ -290,8 +290,8 @@ public class Graph extends IR {
 	 * @param n The node
 	 * @return The iterator.
 	 */
-	public Iterator<Edge> getOutgoing(Node n) {
-		return getOutgoing(n, new LinkedList<Edge>()).iterator();
+	public Collection<Edge> getOutgoing(Node n) {
+		return Collections.unmodifiableCollection(getOutgoing(n, new LinkedList<Edge>()));
 	}
 	
 	/**
