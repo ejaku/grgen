@@ -384,7 +384,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			sb.append(";\n\n");
 			
 			sb.append(indent2 + "ext_grs_act_register_condition_func(grs_cond_func_"
-						  + cond.getId() + ", act, " +
+						  + cond.getId() + ", pattern, " +
 						  nodes.size() + ", nodes, " + edges.size() + ", edges);\n");
 			
 			sb.append(indent + "} /* if */\n\n");
@@ -529,4 +529,5 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\n"+initsb);
 	}
 }
+
 
