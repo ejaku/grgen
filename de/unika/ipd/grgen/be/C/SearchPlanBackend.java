@@ -168,6 +168,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			String type = id.getIdent().toString();
 			sb.append("static ir_op* grs_op_" + type + ";\n");
 			initsb.append(indent+"grs_op_" + type + " = ext_grs_lookup_op(\""+ type +"\");\n");
+			initsb.append(indent+"grs_op_" + type + " = grs_op_" + type +
+							  " ? grs_op_" + type + " : new_ir_op(get_next_ir_opcode(), \"" +
+							  type + "\", op_pin_state_pinned,  irop_flag_none, oparity_dynamic,  0, 0, NULL);\n");
 		}
 		sb.append("/* nodeTypeMap END */\n\n");
 		initsb.append("} /* init node ops and modes */\n\n");
@@ -194,12 +197,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				
 				sb2.append("/* functions for building the pattern of action " + actionName + " */\n");
 				sb2.append("static inline ext_grs_action_t *grs_action_" + actionName + "_init() {\n");
-				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
+				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_test, \"" +
 							   actionName + "\");\n");
+				sb2.append(indent + "int check;\n");
 				
 				genPattern(sb2, (Rule)action, nodeIds, edgeIds); // generate the pattern
 				
-				sb2.append(indent + "ext_grs_act_mature(act);\n");
+				sb2.append(indent + "check = ext_grs_act_mature(act);\n");
+				sb2.append(indent + "assert(check);\n");
 				sb2.append(indent + "return act;\n");
 				sb2.append("} /* " + actionName + " */\n\n\n");
 				
@@ -529,5 +534,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\n"+initsb);
 	}
 }
+
 
 
