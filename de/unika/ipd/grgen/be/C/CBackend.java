@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -54,7 +54,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	
 	/** The error reporter. */
 	protected ErrorReporter error;
-
+	
 	
 	/**
 	 * Get the IR root node.
@@ -98,28 +98,27 @@ public abstract class CBackend extends IDBase implements Backend {
 	/**
 	 * Make C defines for each type in a type map.
 	 * This method makes defines like<br>
-	 * #define GR_<code>labelAdd</code>_TYPE_<code>typename</code>
+	 * #define GR_<code>labelAdd</code>_TYPE_<code>typename<InheritanceType/code>
 	 * @param sb The string buffer to add to.
 	 * @param typeMap The type map containing the types to dump.
 	 * @param labelAdd The string that should be added to the define.
 	 */
-	protected void makeTypeDefines(PrintStream ps, Map<Identifiable, Integer> typeMap,
-																 String labelAdd) {
+	protected void makeTypeDefines(PrintStream ps, Map<? extends InheritanceType, Integer> typeMap,
+								   String labelAdd) {
 		ps.print("/** Use this macro to check, if an id is a valid type */\n");
 		ps.print("#define GR_" + labelAdd + "_TYPE_VALID(t) "
-							 + "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
+					 + "((t) >= 0 && (t) < " + typeMap.size() + ")\n\n");
 		
 		ps.print("/** The number of types defined */\n");
 		ps.print("#define GR_" + labelAdd + "_TYPES " + typeMap.size()
-							 + "\n\n");
-		for(Iterator<Identifiable> it = typeMap.keySet().iterator(); it.hasNext();) {
-			InheritanceType ty = (InheritanceType) it.next();
+					 + "\n\n");
+		for(InheritanceType ty : typeMap.keySet()) {
 			Ident id = ty.getIdent();
 			
 			ps.print("/** type " + id + " defined at line "
-								 + id.getCoords().getLine() + " */\n");
+						 + id.getCoords().getLine() + " */\n");
 			ps.print("#define GR_DEF_" + labelAdd + "_TYPE_"
-								 + mangle(ty) + " " + typeMap.get(ty) + "\n\n");
+						 + mangle(ty) + " " + typeMap.get(ty) + "\n\n");
 		}
 	}
 	
@@ -130,24 +129,24 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param labelAdd The string to add to the define's name.
 	 */
 	protected void makeAttrDefines(PrintStream ps, Map<Entity, Integer> attrMap,
-																 String labelAdd) {
+								   String labelAdd) {
 		ps.print("/** Number of attributes macro for " + labelAdd + " */\n");
 		ps.print("#define GR_" + labelAdd + "_ATTRS " + attrMap.size() + "\n\n");
 		
 		ps.print("/** Attribute valid macro for " + labelAdd + " */\n");
 		ps.print("#define GR_" + labelAdd + "_ATTR_VALID(a) "
-							 + "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
+					 + "((a) >= 0 && (a) < " + attrMap.size() + ")\n\n");
 		
 		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
 			Entity ent = it.next();
 			Ident id = ent.getIdent();
 			
 			ps.print("/** Attribute " + id + " of "
-								 + ent.getOwner().getIdent() + " in line "
-								 + id.getCoords().getLine() + " */\n");
+						 + ent.getOwner().getIdent() + " in line "
+						 + id.getCoords().getLine() + " */\n");
 			ps.print("#define GR_DEF_" + labelAdd + "_ATTR_"
-								 + mangle(ent.getOwner()) + "_"
-								 + mangle(ent) + " " + attrMap.get(ent) + "\n\n");
+						 + mangle(ent.getOwner()) + "_"
+						 + mangle(ent) + " " + attrMap.get(ent) + "\n\n");
 		}
 	}
 	
@@ -172,11 +171,10 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param map The type map which contains the types.
 	 * @param add A string which shall prepend the name of the array.
 	 */
-	protected void makeTypeMap(PrintStream ps, Map<Identifiable, Integer> map, String add) {
+	protected void makeTypeMap(PrintStream ps, Map<? extends InheritanceType, Integer> map, String add) {
 		String[] names = new String[map.size()];
 		
-		for(Iterator<Identifiable> it = map.keySet().iterator(); it.hasNext();) {
-			Identifiable ty = it.next();
+		for(Identifiable ty : map.keySet()) {
 			int index = getTypeId(map, ty);
 			names[index] = ty.getIdent().toString();
 		}
@@ -199,7 +197,8 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param add A string to add to the identifier of the map.
 	 */
 	protected void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
-														 Map<Identifiable, Integer> typeMap, Map<Identifiable, Integer> enumMap, String add) {
+							   Map<? extends InheritanceType, Integer> typeMap,
+							   Map<Identifiable, Integer> enumMap, String add) {
 		String[] name = new String[attrMap.size()];
 		Type[] types = new Type[attrMap.size()];
 		Integer[] owner = new Integer[attrMap.size()];
@@ -244,7 +243,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		ps.print("/** The matrix showing valid type attributes for " + add + ". */\n");
 		ps.print("static const char " + matrixName + "[" + maxTypeId + "]["
-							 + maxTypeId + "] = {\n");
+					 + maxTypeId + "] = {\n");
 		
 		for(int i = 0; i < maxTypeId; i++) {
 			ps.print("  { ");
@@ -271,7 +270,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		int maxTypeId = types.length;
 		
 		ps.print("static const char " + add + "_super_types[" + (maxTypeId + 1) + "]["
-							 + maxTypeId + "] = {\n");
+					 + maxTypeId + "] = {\n");
 		
 		for(int i = 0; i < maxTypeId; i++) {
 			int[] superTypes = getSuperTypes(forNode, i);
@@ -294,7 +293,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("};\n\n");
 		
 		ps.print("static const char " + add + "_sub_types[" + (maxTypeId + 1) + "]["
-							 + maxTypeId + "] = {\n");
+					 + maxTypeId + "] = {\n");
 		for(int i = 0; i < maxTypeId; i++) {
 			int[] subTypes = getSubTypes(forNode, i);
 			ps.print("  /* sub types of ");
@@ -323,7 +322,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param typeMap The type map to use.
 	 */
 	protected void makeAttrMatrix(PrintStream ps, String add,
-																Map<Entity, Integer> attrMap, Map<Identifiable, Integer> typeMap) {
+								  Map<Entity, Integer> attrMap, Map<? extends InheritanceType, Integer> typeMap) {
 		
 		int maxTypeId = typeMap.size();
 		int maxAttrId = attrMap.size();
@@ -337,7 +336,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		}
 		
 		ps.print("static const char " + add + "_attr_matrix[" + maxTypeId + "]["
-							 + maxAttrId + "] = {\n");
+					 + maxAttrId + "] = {\n");
 		
 		for(int i = 0; i < maxTypeId; i++) {
 			ps.print("  { ");
@@ -358,7 +357,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		}
 		
 		ps.print("#define GR_ACTION_VALID(x) ((x) >= 0 && (x) < "
-							 + actions.length + ")\n\n");
+					 + actions.length + ")\n\n");
 		ps.print("#define GR_ACTIONS " + actions.length + "\n\n");
 		
 		ps.print("static const action_t action_map[] = {\n");
@@ -370,7 +369,7 @@ public abstract class CBackend extends IDBase implements Backend {
 				kind = "gr_action_kind_rule";
 			
 			ps.print("  { " + formatString(a.getIdent().toString()) + ", "
-								 + kind + ", 0, 0, NULL, NULL },\n");
+						 + kind + ", 0, 0, NULL, NULL },\n");
 		}
 		ps.print("  { NULL, -1, 0, 0, NULL, NULL }\n};\n\n");
 	}
@@ -397,10 +396,10 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param inh    the type
 	 */
 	protected void dumpXMLTag(int depth, PrintStream ps, String ending, Type inh) {
-	  for (int i = 0; i < depth; ++i)
+		for (int i = 0; i < depth; ++i)
 			ps.print("  ");
-	  ps.print("<" + inh.getName().replace(' ', '_')
-							 + " name=\"" + inh.getIdent() + "\"" + ending);
+		ps.print("<" + inh.getName().replace(' ', '_')
+					 + " name=\"" + inh.getIdent() + "\"" + ending);
 	}
 	
 	/**
@@ -428,8 +427,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		for (int i = 0; i < depth; ++i)
 			ps.print("  ");
 		ps.print("<" + ent.getName().replace(' ', '_')
-							 + " name=\"" + ent.getIdent() + "\""
-							 + " type=\"" + ent.getType().getIdent() + "\"" + ending);
+					 + " name=\"" + ent.getIdent() + "\""
+					 + " type=\"" + ent.getType().getIdent() + "\"" + ending);
 	}
 	
 	/**
@@ -457,7 +456,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		for (int i = 0; i < depth; ++i)
 			ps.print("  ");
 		ps.print("<" + ev.getName().replace(' ', '_')
-							 + " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending);
+					 + " name=\"" + ev + "\" value=\"" + ev.getValue().getValue() + "\"" + ending);
 	}
 	
 	/**
@@ -543,40 +542,40 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		ps.print("/** The attribute type. */\n");
 		ps.print("typedef struct {\n"
-							 + "  int type_id;       /**< the ID of attributes type */\n"
-							 + "  const char *name;  /**< the name of the attribute */\n"
-							 + "  attribute_type at; /**< the attribute type kind */\n"
-							 + "  int enum_id;       /**< the Id of the enum type or -1 */\n"
-							 + "} attr_t;\n\n");
+					 + "  int type_id;       /**< the ID of attributes type */\n"
+					 + "  const char *name;  /**< the name of the attribute */\n"
+					 + "  attribute_type at; /**< the attribute type kind */\n"
+					 + "  int enum_id;       /**< the Id of the enum type or -1 */\n"
+					 + "} attr_t;\n\n");
 		
 		ps.print("/** The type of an action. */\n");
 		ps.print("typedef struct {\n"
-							 + "  const char *name;\n"
-							 + "  gr_action_kind_t kind;\n"
-							 + "  int ins;\n"
-							 + "  int outs;\n"
-							 + "  const gr_value_kind_t *in_types;\n"
-							 + "  const gr_value_kind_t *out_types;\n"
-							 + "} action_t;\n\n");
+					 + "  const char *name;\n"
+					 + "  gr_action_kind_t kind;\n"
+					 + "  int ins;\n"
+					 + "  int outs;\n"
+					 + "  const gr_value_kind_t *in_types;\n"
+					 + "  const gr_value_kind_t *out_types;\n"
+					 + "} action_t;\n\n");
 		
 		ps.print("/** The type of an enum item declaration. */\n");
 		ps.print("typedef struct {\n"
-							 + "  const char *name;    /**< the name of the enum item */\n"
-							 + "  int value;           /**< the value of the enum item */\n"
-							 + "} enum_item_decl_t;\n\n");
+					 + "  const char *name;    /**< the name of the enum item */\n"
+					 + "  int value;           /**< the value of the enum item */\n"
+					 + "} enum_item_decl_t;\n\n");
 		
 		ps.print("/** The type of an enum declaration. */\n");
 		ps.print("typedef struct {\n"
-							 + "  const char *name;    /**< the name of the enum type */\n"
-							 + "  int num_items;       /**< the number of items in this enum type */\n"
-							 + "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
-							 + "} enum_type_decl_t;\n\n");
+					 + "  const char *name;    /**< the name of the enum type */\n"
+					 + "  int num_items;       /**< the number of items in this enum type */\n"
+					 + "  const enum_item_decl_t *items;  /**< the items of this enum type */\n"
+					 + "} enum_type_decl_t;\n\n");
 		
 		ps.print("/** The type of the enum table. */\n");
 		ps.print("typedef struct {\n"
-							 + "  const enum_type_decl_t *type; /**< declaration of the type */\n"
-							 + "  int type_id;                  /**< the Id of this enum type */\n"
-							 + "} enum_types_t;\n\n");
+					 + "  const enum_type_decl_t *type; /**< declaration of the type */\n"
+					 + "  int type_id;                  /**< the Id of this enum type */\n"
+					 + "} enum_types_t;\n\n");
 	}
 	
 	/**
@@ -603,10 +602,10 @@ public abstract class CBackend extends IDBase implements Backend {
 			
 			ps.print("/** The declaration of the " + name + " enum type. */\n");
 			ps.print("static const enum_type_decl_t " + name + "_decl = {\n"
-								 + "  \"" + name + "\",\n"
-								 + "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
-								 + "  _" + name + "_items,\n"
-								 + "};\n\n");
+						 + "  \"" + name + "\",\n"
+						 + "  sizeof(_" + name + "_items)/sizeof(_" + name + "_items[0]),\n"
+						 + "  _" + name + "_items,\n"
+						 + "};\n\n");
 		}
 		
 		// dump all enums to a table
@@ -703,7 +702,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps = openFile("action_impl" + incExtension);
 		makeActions(ps);
 		closeFile(ps);
-
+		
 		// write an overview of all generated Ids
 		ps = openFile("overview.xml");
 		writeOverview(ps);
@@ -711,7 +710,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		// Make validate data structures.
 		genValidateStatements();
-
+		
 		// a hook for special generated things
 		genExtra();
 	}
@@ -786,8 +785,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		sb.append("\n/** The Validate Info */\n\n");
 		sb.append("static gr_validate_info_t valid_info[] = {\n");
 		
-		for(Iterator<Identifiable> i = edgeTypeMap.keySet().iterator(); i.hasNext();) {
-			EdgeType edgeType = (EdgeType)i.next();
+		for(InheritanceType et : edgeTypeMap.keySet()) {
+			EdgeType edgeType = (EdgeType)et;
 			for(Iterator<ConnAssert> j = edgeType.getConnAsserts(); j.hasNext();) {
 				ConnAssert ca = j.next();
 				sb.append("\n{\n");

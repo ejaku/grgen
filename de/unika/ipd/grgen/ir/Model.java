@@ -64,8 +64,7 @@ public class Model extends Identifiable {
 		// Collections.sort(types, Identifiable.COMPARATOR);
 		Collections.sort(types);
 		
-		for(Iterator<Type> it = types.iterator(); it.hasNext();) {
-			Type ty = it.next();
+		for(Type ty : types) {
 			ty.canonicalize();
 			if (ty instanceof EdgeType)
 					((EdgeType)ty).canonicalizeConnectionAsserts();
@@ -76,8 +75,7 @@ public class Model extends Identifiable {
 		sb.append(this);
 		sb.append('[');
 		
-		for(Iterator<Type> it = types.iterator(); it.hasNext();) {
-			Type ty = it.next();
+		for(Type ty : types) {
 			ty.addToDigest(sb);
 		}
 		
