@@ -389,7 +389,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			genSet(sb, edges);
 			sb.append(";\n\n");
 			
-			sb.append(indent2 + "ext_grs_act_register_condition_func(grs_cond_func_"
+			sb.append(indent2 + "ext_grs_act_register_condition(grs_cond_func_"
 						  + cond.getId() + ", pattern, " +
 						  nodes.size() + ", nodes, " + edges.size() + ", edges);\n");
 			
@@ -531,13 +531,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append("ext_grs_action_t *" + fqactionName + ";\n");
 			}
 		}
-		initsb.append("\n"+indent+"/* establish inherritance */");
-		initsb.append(indent+"//ext_grs_appoint_heir(grs_op_, grs_op_);"); // TODO
+		initsb.append("\n"+indent+"/* establish inherritance */\n");
+		initsb.append(indent+"//ext_grs_appoint_heir(grs_op_, grs_op_);\n"); // TODO
+		initsb.append(indent+"//ext_grs_appoint_heir(grs_op_, grs_op_);\n"); // TODO
 		initsb.append("\n");
 		initsb.append("}\n\n");
 		sb.append("\n"+initsb);
 	}
 }
-
-
 
