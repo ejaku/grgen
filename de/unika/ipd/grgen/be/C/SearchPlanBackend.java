@@ -535,12 +535,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		for(InheritanceType type : nodeTypeMap.keySet()) {
 			String typeName = type.getIdent().toString();
 			for(InheritanceType superType : type.getSuperTypes())
-				initsb.append(indent+"ext_grs_appoint_heir(grs_op_"+typeName+", grs_op_"+superType.getIdent()+");\n"); // TODO
+				initsb.append(indent+"ext_grs_appoint_heir(grs_op_"+typeName+", grs_op_"+superType.getIdent()+");\n");
 			initsb.append("\n");
 		}
+		initsb.append(indent+"ext_grs_inheritance_mature();\n");
 		initsb.append("}\n\n");
 		sb.append("\n"+initsb);
 	}
 }
+
 
 
