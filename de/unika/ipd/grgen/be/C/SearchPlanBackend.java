@@ -356,8 +356,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			Node tgt = graph.getTarget(edge);
 			sb.append(indent + "ext_grs_edge_t *e_" + name +
 						  " = ext_grs_act_add_edge(pattern, \"" + name +
-						  "\", ext_grs_NO_EDGE_POS, n_" + src.getIdent() + ", n_" +
-						  tgt.getIdent() +", " + edgeId + ");\n");
+						  "\", ext_grs_NO_EDGE_POS, n_" + tgt.getIdent() + ", n_" +
+						  src.getIdent() +", " + edgeId + ");\n");
 		}
 		sb.append("\n");
 	}
