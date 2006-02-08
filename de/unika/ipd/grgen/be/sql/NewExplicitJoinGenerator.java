@@ -936,8 +936,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			// Make the clauses guaranteeing injectiveness
 			// This must be done on the graph level; walking on processedEntities
 			// is not sufficient!
-			for(Iterator it = g.getNodes().iterator(); it.hasNext();) {
-				Node curr = (Node) it.next();
+			for(Node curr : g.getNodes()) {
 				if(processedEntities.contains(curr)) {
 					NodeTable currTable = factory.nodeTable(curr);
 					if(!node.isHomomorphic(curr)) {
@@ -1060,7 +1059,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 					matchedNodes.add(node);
 				NodeTable nodeTable = factory.nodeTable(node);
 				addJoin(nodeTable, joinMethod);
-				addNodeJoinCond(act.getPattern(), node);
+				// This enforces implicitely totalization of l : L -> N
+				//addNodeJoinCond(act.getPattern(), node);
 				addNodeJoinCond(g, node);
 				
 				if(occurInCond.contains(node)) {
