@@ -1378,11 +1378,11 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					"\n" +
 						"  /* calculate right side expression and assign to left side */\n" +
 						"  " );
-				__recursive_expr_code_gen2( sb, current_action, target );
+				genExprTree_recursive( sb, current_action, target, -1, false );
 				sb.append(
 					" = \n" +
 						"    ( " );
-				__recursive_expr_code_gen2( sb, current_action, expr );
+				genExprTree_recursive( sb, current_action, expr, -1, false );
 				sb.append(
 					" );\n\n" );
 			}
@@ -1486,9 +1486,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			MatchingAction act = (MatchingAction)act_it.next();
 			int act_id = actionMap.get(act).intValue();
 			
-			for (Iterator<Expression> it = conditions[act_id].iterator(); it.hasNext(); ) {
-				//get the current condition
-				Expression current_cond = it.next();
+			for (Expression current_cond : (Collection<Expression>)conditions[act_id]) {
 				
 				int cond_num = conditionNumbers.get(current_cond).intValue();
 				int pattern_num = conditionsPatternNum.get(current_cond) == null ? 0 : conditionsPatternNum.get(current_cond).intValue();
@@ -1618,7 +1616,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 						"  /* check the condition */\n" +
 						"  condition_holds = (\n" +
 						"    ");
-				__recursive_expr_code_gen(sb, act, pattern_num, current_cond);
+				genExprTree_recursive(sb, act, current_cond, pattern_num, true);
 				sb.append(
 					"\n  );\n\n" +
 						"  /* ALL conditions of an action have to be true! So return '0' even\n" +
@@ -1743,130 +1741,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		}
 	}
 	
-	private void __recursive_expr_code_gen(StringBuffer sb, MatchingAction act, int pattern_num, Expression cond) {
-		
-		if (sb == null || cond == null)	return;
-		
-		/* gen C-code for Operator-expressions */
-		if (cond instanceof Operator) {
-			Operator op = (Operator) cond;
-			int opCode = op.getOpCode();
-			
-			// if the operator is a binary one...
-			if (opCode > Operator.COND && opCode < Operator.CAST) {
-				
-				//in binary expression both operands got to have the same type
-//				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
-//					"different operand types found in binary expression";
-				
-				//if both operands are Strings, comparisions have to be performed
-				//via C function strcmp()
-				if ( op.getOperand(0).getType().classify() == Type.IS_STRING ) {
-					switch(opCode) {
-						case Operator.EQ :
-							sb.append("( !strcmp(");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-							sb.append(", ");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
-							sb.append(") )");
-							break;
-						case Operator.NE:
-							sb.append("strcmp(");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-							sb.append(", ");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
-							sb.append(")");
-							break;
-						case Operator.ADD:
-							sb.append("XXXX(");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-							sb.append(", ");
-							__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
-							sb.append(")");
-							break;
-						default:
-							assert(false);
-					}
-				}
-					//otherwise gen a infix expression
-				else {
-					String opSymbol = opSymbols[opCode];
-					sb.append("(");
-					__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-					sb.append(" " + opSymbol + " ");
-					__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
-					sb.append(")");
-				}
-			}
-				//if not...
-			else {
-				switch (opCode) {
-					case Operator.COND:
-						sb.append("(");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-						sb.append(" ? ");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(1));
-						sb.append(" : ");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(2));
-						sb.append(")");
-						break;
-						
-					case Operator.LOG_NOT:
-						sb.append("(!");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.BIT_NOT:
-						sb.append("(~");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.NEG:
-						sb.append("(-");
-						__recursive_expr_code_gen(sb, act, pattern_num, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.CAST:
-						//ATTENTION: Type casts are not implemented yet!!!!!
-						sb.append("NULL /* cast op not implemented yet!!! */");
-						break;
-				}
-			}
-		}
-		
-		/* gen C-code for constant expressions */
-		if (cond instanceof Constant) {
-			Constant constant = (Constant) cond;
-			Type type = constant.getType();
-			
-			switch (type.classify()) {
-				
-				//emit C-code for string constants
-				case Type.IS_STRING:
-					sb.append("\"" + constant.getValue() + "\"");
-					break;
-					
-					//emit C-code for boolean constans
-				case Type.IS_BOOLEAN:
-					Boolean bool_const = (Boolean) constant.getValue();
-					if ( bool_const.booleanValue() )
-						sb.append("1"); /* true-value */
-					else
-						sb.append("0"); /* false-value */
-					break;
-					
-					//emit C-code for integer constants
-				case Type.IS_INTEGER:
-					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
-			}
-		}
+	private void genCondCode(StringBuffer sb, MatchingAction act, int pattern_num, Expression if_expr) {
+		if (sb == null || if_expr == null) return;
 		
 		/* gen C-code for qualification expressions */
-		if (cond instanceof Qualification) {
-			Qualification qual = (Qualification) cond;
+		if (if_expr instanceof Qualification) {
+			Qualification qual = (Qualification) if_expr;
 			Entity owner = qual.getOwner();
 			Entity attr = qual.getMember();
 			
@@ -1947,119 +1827,12 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	}
 	
 	/* just like __recursive_expr_code_gen but prefer replacement nodes/edges */
-	private void __recursive_expr_code_gen2(StringBuffer sb, MatchingAction act, Expression cond) {
-		
-		if (sb == null || cond == null)	return;
-		
-		/* gen C-code for Operator-expressions */
-		if (cond instanceof Operator) {
-			Operator op = (Operator) cond;
-			int opCode = op.getOpCode();
-			
-			// if the operator is a binary one...
-			if (opCode > 0 && opCode < 20) {
-				
-				//in binary expression both operands got to have the same type
-//				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()):
-//					"different operand types found in binary expression";
-				
-				//if both operands are Strings, comparisions have to be performed
-				//via C function strcmp()
-				if ( op.getOperand(0).getType().classify() == Type.IS_STRING ) {
-					if ( opCode == Operator.EQ ) {
-						sb.append("( !strcmp(");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(", ");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
-						sb.append(") )");
-					}
-					if ( opCode == Operator.NE ) {
-						sb.append("strcmp(");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(", ");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
-						sb.append(")");
-					}
-				}
-					//otherwise gen a infix expression
-				else {
-					String opSymbol = opSymbols[opCode];
-					sb.append("(");
-					__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-					sb.append(" " + opSymbol + " ");
-					__recursive_expr_code_gen2(sb, act, op.getOperand(1));
-					sb.append(")");
-				}
-			}
-				//if not...
-			else {
-				switch (opCode) {
-					case Operator.COND:
-						sb.append("(");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(" ? ");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(1));
-						sb.append(" : ");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(2));
-						sb.append(")");
-						break;
-						
-					case Operator.LOG_NOT:
-						sb.append("(!");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.BIT_NOT:
-						sb.append("(~");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.NEG:
-						sb.append("(-");
-						__recursive_expr_code_gen2(sb, act, op.getOperand(0));
-						sb.append(")");
-						break;
-						
-					case Operator.CAST:
-						//ATTENTION: Type casts are not implemented yet!!!!!
-						sb.append("NULL /* cast op not implemented yet!!! */");
-						break;
-				}
-			}
-		}
-		
-		/* gen C-code for constant expressions */
-		if (cond instanceof Constant) {
-			Constant constant = (Constant) cond;
-			Type type = constant.getType();
-			
-			switch (type.classify()) {
-				
-				//emit C-code for string constants
-				case Type.IS_STRING:
-					sb.append("\"" + constant.getValue() + "\"");
-					break;
-					
-					//emit C-code for boolean constans
-				case Type.IS_BOOLEAN:
-					Boolean bool_const = (Boolean) constant.getValue();
-					if ( bool_const.booleanValue() )
-						sb.append("1"); /* true-value */
-					else
-						sb.append("0"); /* false-value */
-					break;
-					
-					//emit C-code for integer constants
-				case Type.IS_INTEGER:
-					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
-			}
-		}
+	private void genEvalCode(StringBuffer sb, MatchingAction act, Expression eval_expr) {
+		if (sb == null || eval_expr == null) return;
 		
 		/* gen C-code for qualification expressions */
-		if (cond instanceof Qualification) {
-			Qualification qual = (Qualification) cond;
+		if (eval_expr instanceof Qualification) {
+			Qualification qual = (Qualification) eval_expr;
 			Entity owner = qual.getOwner();
 			Entity attr = qual.getMember();
 			
@@ -2151,6 +1924,140 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				}
 			}
 		}
+		
+	}
+	
+	private void genExprTree_recursive(StringBuffer sb, MatchingAction act, Expression expr, int pattern_num, boolean recursiveCond) {
+		if (sb == null || expr == null) return;
+		
+		/* gen C-code for Operator-expressions */
+		if (expr instanceof Operator) {
+			Operator op = (Operator) expr;
+			int opCode = op.getOpCode();
+			
+			// if the operator is a binary one...
+			if (op.arity() == 2) {
+				
+				//in binary expression both operands got to have the same type
+				assert  op.getOperand(0).getType().equals(op.getOperand(1).getType()) : "different operand types found in binary expression";
+				
+				//if both operands are Strings, comparisions have to be performed
+				//via C function strcmp()
+				if ( op.getOperand(0).getType().classify() == Type.IS_STRING ) {
+					switch (opCode) {
+						case Operator.EQ:
+							sb.append("( !strcmp(");
+							genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+							sb.append(", ");
+							genExprTree_recursive(sb, act, op.getOperand(1), pattern_num, recursiveCond);
+							sb.append(") )");
+							break;
+							
+						case Operator.NE:
+							sb.append("strcmp(");
+							genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+							sb.append(", ");
+							genExprTree_recursive(sb, act, op.getOperand(1), pattern_num, recursiveCond);
+							sb.append(")");
+							break;
+							
+						case Operator.ADD:
+							sb.append("__fb_acts__strconcat(");
+							genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+							sb.append(", ");
+							genExprTree_recursive(sb, act, op.getOperand(1), pattern_num, recursiveCond);
+							sb.append(")");
+							break;
+							
+						default:
+							assert false : "Operation "+op+" not permitted on string Operands";
+							break;
+					}
+				}
+					// we do not have string operands: gen a infix expression
+				else {
+					String opSymbol = opSymbols[opCode];
+					sb.append("(");
+					genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+					sb.append(" " + opSymbol + " ");
+					genExprTree_recursive(sb, act, op.getOperand(1), pattern_num, recursiveCond);
+					sb.append(")");
+				}
+			}
+				//if not...
+			else {
+				switch (opCode) {
+					case Operator.COND:
+						sb.append("(");
+						genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+						sb.append(" ? ");
+						genExprTree_recursive(sb, act, op.getOperand(1), pattern_num, recursiveCond);
+						sb.append(" : ");
+						genExprTree_recursive(sb, act, op.getOperand(2), pattern_num, recursiveCond);
+						sb.append(")");
+						break;
+						
+					case Operator.LOG_NOT:
+						sb.append("(!");
+						genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+						sb.append(")");
+						break;
+						
+					case Operator.BIT_NOT:
+						sb.append("(~");
+						genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+						sb.append(")");
+						break;
+						
+					case Operator.NEG:
+						sb.append("(-");
+						genExprTree_recursive(sb, act, op.getOperand(0), pattern_num, recursiveCond);
+						sb.append(")");
+						break;
+						
+					case Operator.CAST:
+						//TODO: Type casts are not implemented yet!!!!!
+						assert false : "cast op not implemented yet!!!";
+						break;
+					default:
+						assert false : "unsupported op: " + op;
+				}
+			}
+		}
+			/* gen C-code for constant expressions */
+		else if (expr instanceof Constant) {
+			Constant constant = (Constant) expr;
+			Type type = constant.getType();
+			
+			switch (type.classify()) {
+				//emit C-code for string constants
+				case Type.IS_STRING:
+					sb.append("\"" + constant.getValue() + "\"");
+					break;
+					
+					//emit C-code for boolean constans
+				case Type.IS_BOOLEAN:
+					Boolean bool_const = (Boolean) constant.getValue();
+					if ( bool_const.booleanValue() )
+						sb.append("1"); /* true-value */
+					else
+						sb.append("0"); /* false-value */
+					break;
+					
+					//emit C-code for integer constants
+				case Type.IS_INTEGER:
+					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+					break;
+				default:
+					assert false : "unsupported type: " + type;
+			}
+		}
+		
+		/* expr is a qual: call or either condition code generation or eval code generation */
+		if(recursiveCond)
+			genCondCode(sb, act, pattern_num, expr);
+		else
+			genEvalCode(sb, act, expr);
 		
 	}
 	
