@@ -465,7 +465,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 						sb.append(") ? (");
 						genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
 						sb.append(") : (");
-						genConditionEval(sb, op.getOperand(1), nodeIds, edgeIds);
+						genConditionEval(sb, op.getOperand(2), nodeIds, edgeIds);
 						sb.append(")");
 						break;
 					}
