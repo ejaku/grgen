@@ -124,14 +124,14 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		//gen information about number of types, enums,...
 		genGraphTypeInfo(sb);
 		// write StrinBuffer to file
-		writeFile("graph_type_info.inc", sb);
+		writeFile("graph_type_info.h", sb);
 		
-		//gen informations desribing the graph type system specified by the
+		//gen informations describing the graph type system specified by the
 		//current *.grg-file
 		sb = new StringBuffer();
 		genGraphTypeDescr(sb);
 		// write StrinBuffer to file
-		writeFile("graph_type_descr.inc", sb);
+		writeFile("graph_type_descr.c", sb);
 		
 		System.out.println("  generating graph validation information...");
 		
@@ -146,7 +146,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		//in the current grg-file.
 		sb = new StringBuffer();
 		genActionsInfo(sb);
-		writeFile("actions_info.inc", sb);
+		writeFile("actions_info.h", sb);
 		//gen description of the actions, conditions and evals specified by the grg file
 		sb = new StringBuffer();
 		genActionsDescr(sb);
@@ -2616,7 +2616,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		/* gen the file preamble */
 		sb.append(
 			"/*\n" +
-				" * File 'actions_info.inc', created automatically by\n" +
+				" * File 'actions_info.h', created automatically by\n" +
 				" * the FrameBased-Backend of GrGen.\n" +
 				" *\n" +
 				" * The defines in this file replresent some information extracted\n" +
@@ -2896,13 +2896,13 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		//gen the file preamble
 		sb.append(
 			"/*\n" +
-				" * File 'graph_type_info.inc', created automatically by\n" +
+				" * File 'graph_type_info.h', created automatically by\n" +
 				" * the FrameBased-Backend of GrGen.\n" +
 				" */\n\n");
 		
 		sb.append(
-			"#ifndef __GRAPH_TYPE_INFO_INC__\n" +
-				"#define __GRAPH_TYPE_INFO_INC__\n\n");
+			"#ifndef _GRAPH_TYPE_INFO_H\n" +
+				"#define _GRAPH_TYPE_INFO_H\n\n");
 		
 		
 		//gen defines: the number of node- and edge-types
@@ -2911,11 +2911,28 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				"#define sp_UNIT_NAME \"" + formatId(unit.getIdent().toString()) + "\"\n\n" +
 				"/* the overall number of the edge-, node-, enum-types and of the\n" +
 				" * declared node- and edge attributes */\n" +
-				"#define sp_n_node_types " + n_node_types + "\n" +
-				"#define sp_n_edge_types " + n_edge_types + "\n" +
-				"#define sp_n_enum_types " + n_enum_types + "\n" +
-				"#define sp_n_node_attr_decls " + n_node_attrs + "\n" +
-				"#define sp_n_edge_attr_decls " + n_edge_attrs + "\n\n");
+				"#define sp_N_NODE_TYPES " + n_node_types + "\n" +
+				"#define sp_N_EDGE_TYPES " + n_edge_types + "\n" +
+				"#define sp_N_ENUM_TYPES " + n_enum_types + "\n" +
+				"#define sp_N_NODE_ATTR_DECLS " + n_node_attrs + "\n" +
+				"#define sp_N_EDGE_ATTR_DECLS " + n_edge_attrs + "\n\n");
+		
+		int root_node_type = 0;
+		for (int nt=0; nt < n_node_types; nt++)
+		{
+			if (getTypeName(true, nt).equals("Node")) root_node_type = nt;
+		}
+		
+		sb.append(
+			"/* The root of the node type hierarchie */\n" +
+				"#define GR_DEF_NODE_TYPE_Node " + root_node_type + "\n\n");
+		
+		int root_edge_type = 0;
+		if (getTypeName(false, 0).equals("Edge")) root_edge_type = 0;
+		sb.append(
+			"/* The root of the edge type hierarchie */\n" +
+				"#define GR_DEF_EDGE_TYPE_Edge " + root_edge_type + "\n\n");
+		
 		
 		//gen defines: a string indicating the reqired backend together with
 		// a hash value computed from the used graph model
@@ -2930,7 +2947,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				"#define sp_GR_MODEL \"" +
 				"GM_is_" + unit.getTypeDigest() + "\"\n\n");
 		
-		sb.append("#endif /* __GRAPH_TYPE_INFO_INC__ */\n\n");
+		sb.append("#endif /* _GRAPH_TYPE_INFO_H*/\n\n");
 		
 		
 		
@@ -2946,7 +2963,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		//gen the file preamble
 		sb.append(
 			"/*\n" +
-				" * File 'graph_type_descr.inc', created automatically by\n" +
+				" * File 'graph_type_descr.c', created automatically by\n" +
 				" * the FrameBased-Backend of GrGen.\n" +
 				" *\n" +
 				" * The data structures initialized in this file represent the type information\n" +
@@ -2955,355 +2972,237 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		
 		
 		//gen a define: the name of the unit
-//		sb.append(
-//			"/* Information about the number of attributes and the number of\n edge/node/enum-types */\n" +
-//			"#include \"graph_type_info.inc\"\n\n");
-//
+		sb.append(
+			"/* Information about the number of attributes and the number of\n edge/node/enum-types */\n" +
+				"#include \"graph_type_info.h\"\n" +
+				"#include \"graph_type_descr.h\"\n\n");
+		
 		
 		/* gen the array representing the node-subtype relation... */
-		if (n_node_types > 0)
+		sb.append(
+			"/* Two arrays representing the node/edge-subtype relation:\n" +
+				" * Example:  t1 'is_a' t2   IFF   array[t1][t1] == k != 0\n" +
+				" * k shows the distance of t1 and t2  in the type hierarchie,\n" +
+				" * i.e. k == 1 means, that t2 is a DIRECT supertype.\n" +
+				" * ATTENTION: k == 0 means, that t1 is NOT a subtype of t2 !!!\n" +
+				" */\n" +
+				"const int sp_node_sub_type[sp_N_NODE_TYPES][sp_N_NODE_TYPES] = {");
+		//gen the node-sub-type array content: go over the rows
+		for (int row=0; row < n_node_types; row++)
 		{
-			sb.append(
-				"/* Two arrays representing the node/edge-subtype relation:\n" +
-					" * Example:  t1 'is_a' t2   IFF   array[t1][t1] == k != 0\n" +
-					" * k shows the distance of t1 and t2  in the type hierarchie,\n" +
-					" * i.e. k == 1 means, that t2 is a DIRECT supertype.\n" +
-					" * ATTENTION: k == 0 means, that t1 is NOT a subtype of t2 !!!\n" +
-					" */\n" +
-					"static const int sp_node_sub_type[sp_n_node_types][sp_n_node_types] = {");
-			//gen the node-sub-type array content: go over the rows
-			for (int row=0; row < n_node_types; row++)
+			//go over the columns: result col will be e.g. { 0,0,1,0,4,0 }
+			//if there are n entries in a row, then there are only n-1 ',' chars:
+			if (row != 0)
+				sb.append(",");
+			sb.append("\n  {");
+			for (int col=0; col < n_node_types; col++)
 			{
-				//go over the columns: result col will be e.g. { 0,0,1,0,4,0 }
-				//if there are n entries in a row, then there are only n-1 ',' chars:
-				if (row != 0)
-					sb.append(",");
-				sb.append("\n  {");
-				for (int col=0; col < n_node_types; col++)
-				{
-					if (col != 0) sb.append(", ");
-					sb.append(node_is_a_matrix[row][col]);
-				}
-				sb.append(" }");
+				if (col != 0) sb.append(", ");
+				sb.append(node_is_a_matrix[row][col]);
 			}
-			sb.append("\n};\n");
+			sb.append(" }");
 		}
-		else
-		{
-			sb.append(
-				"/* Two arrays representing the node/edge-subtype relation:\n" +
-					" * Example:  t1 'is_a' t2   IFF   array[t1][t2] == k != 0\n" +
-					" * k shows the distance of t1 and t2  in the type hierarchie,\n" +
-					" * i.e. k == 1 means, that t2 is a DIRECT supertype.\n" +
-					" * ATTENTION: k == 0 means, that t1 is NOT a subtype of t2 !!!\n" +
-					" */\n" +
-					"static const int sp_node_sub_type[0][0] = {};\n\n");
-		}
-		if (n_edge_types > 0)
-		{
-			/* ...and gen the array representing the edge-subtype relation */
-			sb.append(
-				"static const int sp_edge_sub_type[sp_n_edge_types][sp_n_edge_types] = {");
-			//gen the edge-sub-type array content: go over the rows
-			for (int row=0; row < n_edge_types; row++)
-			{
-				//go over the columns: result col will be e.g. { 0,0,1,0,4,0 }
-				//if there are n entries in a row, then there are only n-1 ',' chars:
-				if (row != 0)
-					sb.append(",");
-				sb.append("\n  {");
-				for (int col=0; col < n_edge_types; col++)
-				{
-					if (col != 0) sb.append(", ");
-					sb.append(edge_is_a_matrix[row][col]);
-				}
-				sb.append(" }");
-			}
-			sb.append("\n};\n\n");
-		}
-		else
-		{
-			sb.append(
-				"static const int sp_edge_sub_type[0][0] = {};\n\n");
-		}
+		sb.append("\n};\n");
 		
+		/* ...and gen the array representing the edge-subtype relation */
+		sb.append(
+			"const int sp_edge_sub_type[sp_N_EDGE_TYPES][sp_N_EDGE_TYPES] = {");
+		//gen the edge-sub-type array content: go over the rows
+		for (int row=0; row < n_edge_types; row++)
+		{
+			//go over the columns: result col will be e.g. { 0,0,1,0,4,0 }
+			//if there are n entries in a row, then there are only n-1 ',' chars:
+			if (row != 0)
+				sb.append(",");
+			sb.append("\n  {");
+			for (int col=0; col < n_edge_types; col++)
+			{
+				if (col != 0) sb.append(", ");
+				sb.append(edge_is_a_matrix[row][col]);
+			}
+			sb.append(" }");
+		}
+		sb.append("\n};\n\n");
 		
 		
 		/* gen an array, which maps node-type-ids on node-type names */
 		//while writing the node type name array look for a type named "node"
 		//this type is the root of all node types
-		int root_node_type = 0;
-		if (n_node_types > 0)
-		{
-			sb.append(
-				"/* An array mapping a node type id to the name of that node type */\n" +
-					"static const char *sp_name_of_node_type[sp_n_node_types] = {\n" +
-					"  \"" + getTypeName(true, 0) + "\"");
-			if (getTypeName(true, 0).equals("Node")) root_node_type = 0;
-			for (int nt=1; nt < n_node_types; nt++)
-			{
-				sb.append(",\n  \"" + getTypeName(true, nt) + "\"");
-				if (getTypeName(true, nt).equals("Node")) root_node_type = nt;
-			}
-			sb.append("\n};\n\n");
-		}
-		else
-		{
-			sb.append(
-				"/* An array mapping a node type id to the name of that node type */\n" +
-					"const char *sp_name_of_node_type[0] = {};\n\n");
-		}
 		sb.append(
-			"/* The root of the node type hierarchie */\n" +
-				"#define GR_DEF_NODE_TYPE_Node " + root_node_type + "\n\n");
+			"/* An array mapping a node type id to the name of that node type */\n" +
+				"const char *sp_name_of_node_type[sp_N_NODE_TYPES] = {\n");
+		
+		for (int nt=0; nt < n_node_types; nt++)
+		{
+			if(nt!=0) sb.append(",\n");
+			sb.append("  \"" + getTypeName(true, nt) + "\"");
+		}
+		sb.append("\n};\n\n");
 		
 		/* gen an array, which maps edge-type-ids on edge-type names */
 		//while writing the node type name array look for a type named "node"
 		//this type is the root of all node types
-		int root_edge_type = 0;
-		if (n_edge_types > 0)
-		{
-			sb.append(
-				"/* An array mapping a edge type id to the name of that edge type */\n" +
-					"static const char *sp_name_of_edge_type[sp_n_edge_types] = {\n" +
-					"  \"" + getTypeName(false, 0) + "\"");
-			if (getTypeName(false, 0).equals("Edge")) root_edge_type = 0;
-			for (int et=1; et < n_edge_types; et++)
-			{
-				sb.append(",\n  \"" + getTypeName(false, et) + "\"");
-				if (getTypeName(false, et).equals("Edge")) root_edge_type = et;
-			}
-			sb.append("\n};\n\n");
-		}
-		else
-		{
-			sb.append(
-				"/* An array mapping a edge type id to the name of that edge type */\n" +
-					"static const char *sp_name_of_edge_type[0] = {};\n\n");
-			
-		}
 		sb.append(
-			"/* The root of the edge type hierarchie */\n" +
-				"#define GR_DEF_EDGE_TYPE_Edge " + root_edge_type + "\n\n");
+			"/* An array mapping a edge type id to the name of that edge type */\n" +
+				"const char *sp_name_of_edge_type[sp_N_EDGE_TYPES] = {\n");
 		
-		
+		for (int et=0; et < n_edge_types; et++)
+		{
+			if(et!=0) sb.append(",\n");
+			sb.append("  \"" + getTypeName(false, et) + "\"");
+		}
+		sb.append("\n};\n\n");
 		
 		
 		/* gen an array, which maps a node-type-id to the number of attr the type has */
-		if (n_node_types > 0)
+		sb.append(
+			"/* An array mapping a node type id to the number of attributes that type has */\n" +
+				"const int sp_n_attr_of_node_type[sp_N_NODE_TYPES] = {\n");
+		for (int nt=0; nt < n_node_types; nt++)
 		{
-			sb.append(
-				"/* An array mapping a node type id to the number of attributes that type has */\n" +
-					"static const int sp_n_attr_of_node_type[sp_n_node_types] = {\n");
-			sb.append("  " + n_attr_of_node_type[0]);
-			for (int nt=1; nt < n_node_types; nt++)
-				sb.append("," + n_attr_of_node_type[nt]);
-			sb.append("\n};\n\n");
+			if(nt != 0) sb.append(",");
+			sb.append(n_attr_of_node_type[nt]);
 		}
-		else
-		{
-			sb.append(
-				"/* An array mapping a node type id to the number of attributes that type has */\n" +
-					"static const int sp_n_attr_of_node_type[0] = {};\n\n");
-		}
+		sb.append("\n};\n\n");
 		
 		/* gen an array, which maps a edge-type-id to the number of attr the type has */
-		if (n_edge_types > 0)
+		sb.append(
+			"/* An array mapping an edge type id to the number of attributes that type has */\n" +
+				"const int sp_n_attr_of_edge_type[sp_N_EDGE_TYPES] = {\n");
+		for (int et=0; et < n_edge_types; et++)
 		{
-			sb.append(
-				"/* An array mapping an edge type id to the number of attributes that type has */\n" +
-					"static const int sp_n_attr_of_edge_type[sp_n_edge_types] = {\n");
-			sb.append("  " + n_attr_of_edge_type[0]);
-			for (int et=1; et < n_edge_types; et++)
-				sb.append("," + n_attr_of_edge_type[et]);
-			sb.append("\n};\n\n");
+			if(et != 0) sb.append(",");
+			sb.append(n_attr_of_edge_type[et]);
 		}
-		else
-		{
-			sb.append(
-				"/* An array mapping a node type id to the number of attributes that type has */\n" +
-					"static const int sp_n_attr_of_edge_type[0] = {};\n\n");
-		}
+		sb.append("\n};\n\n");
 		
 		
 		
 		/* gen an array which maps node attribute ids to attribute descriptors */
-		if (n_node_attrs > 0)
+		sb.append(
+			"/* An array mapping node attribute ids to attribute descriptors */\n" +
+				"const sp_attr_descr_t sp_node_attr_info[sp_N_NODE_ATTR_DECLS] = {\n");
+		
+		for (int attr_id=0; attr_id < n_node_attrs; attr_id++)
 		{
-			sb.append(
-				"/* An array mapping node attribute ids to attribute descriptors */\n" +
-					"static const sp_attr_descr_t sp_node_attr_info[sp_n_node_attr_decls] = {\n");
-			
-			AttrTypeDescriptor at = node_attr_info[0];
+			AttrTypeDescriptor at = node_attr_info[attr_id];
+			if(attr_id!=0)
+				sb.append(",\n");
 			sb.append(
 				"  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 					"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 					"(gr_id_t)" + at.enum_id +" }");
-			for (int attr_id=1; attr_id < n_node_attrs; attr_id++)
-			{
-				at = node_attr_info[attr_id];
-				sb.append(
-					",\n  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
-						"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
-						"(gr_id_t)" + at.enum_id +" }");
-			}
-			sb.append("\n};\n\n");
 		}
-		else
-		{
-			sb.append(
-				"/* An array mapping node attribute ids to attribute descriptors */\n" +
-					"static const sp_attr_descr_t sp_node_attr_info[0] = {};\n\n");
-		}
+		sb.append("\n};\n\n");
 		
 		
 		
 		/* gen an array which maps edge attribute ids to attribute descriptors */
-		if (n_edge_attrs > 0)
+		sb.append(
+			"/* An array mapping edge attribute ids to attribute descriptors */\n" +
+				"const sp_attr_descr_t sp_edge_attr_info[sp_N_EDGE_ATTR_DECLS] = {\n");
+		
+		for (int attr_id=0; attr_id < n_edge_attrs; attr_id++)
 		{
-			sb.append(
-				"/* An array mapping edge attribute ids to attribute descriptors */\n" +
-					"static const sp_attr_descr_t sp_edge_attr_info[sp_n_edge_attr_decls] = {\n");
-			
-			AttrTypeDescriptor at = edge_attr_info[0];
+			AttrTypeDescriptor at = edge_attr_info[attr_id];
+			if(attr_id!=0)
+				sb.append(",\n");
 			sb.append(
 				"  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
 					"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
 					"(gr_id_t)" + at.enum_id +" }");
-			for (int attr_id=1; attr_id < n_edge_attrs; attr_id++)
-			{
-				at =edge_attr_info[attr_id];
-				sb.append(
-					",\n  { " + genAttrKindFromInt(at.kind) + ",(gr_id_t)" + at.attr_id + "," +
-						"\"" + at.name + "\",(gr_id_t)" + at.decl_owner_type_id + "," +
-						"(gr_id_t)" + at.enum_id +" }");
-			}
-			sb.append("\n};\n\n");
 		}
-		else
-		{
-			sb.append(
-				"/* An array mapping edge attribute ids to attribute descriptors */\n" +
-					"static const sp_attr_descr_t sp_edge_attr_info[0] = {};\n\n");
-		}
-		
+		sb.append("\n};\n\n");
 		
 		
 		/* gen an array which implements the map
 		 * node_type_id  x  attr_id  -->  attr_index
 		 * where attr index is the position the attr has in the attr layout of the node type */
-		if (n_node_attrs > 0)
+		sb.append(
+			"/* An array mapping pairs (node_type_id, node_attr_id) to the index position\n" +
+				" * the attribute has in the layout of the node type. A negative value indicates\n" +
+				" * that the attr is NOT a member of a node type. */\n" +
+				"const int sp_node_attr_index[sp_N_NODE_TYPES][sp_N_NODE_ATTR_DECLS] = {\n");
+		for (int nt=0; nt < n_node_types; nt++)
 		{
-			sb.append(
-				"/* An array mapping pairs (node_type_id, node_attr_id) to the index position\n" +
-					" * the attribute has in the layout of the node type. A negative value indicates\n" +
-					" * that the attr is NOT a member of a node type. */\n" +
-					"static const int sp_node_attr_index[sp_n_node_types][sp_n_node_attr_decls] = {\n");
-			for (int nt=0; nt < n_node_types; nt++)
+			if (nt == 0) sb.append("  { ");
+			else sb.append(",\n  { ");
+			for (int attr = 0; attr < n_node_attrs; attr++)
 			{
-				if (nt == 0) sb.append("  { ");
-				else sb.append(",\n  { ");
-				for (int attr = 0; attr < n_node_attrs; attr++)
-				{
-					if (attr == 0) sb.append(node_attr_index[nt][attr]);
-					else sb.append("," + node_attr_index[nt][attr]);
-				}
-				sb.append(" }");
+				if (attr == 0) sb.append(node_attr_index[nt][attr]);
+				else sb.append("," + node_attr_index[nt][attr]);
 			}
-			sb.append("\n};\n\n");
+			sb.append(" }");
 		}
-		else
-			sb.append(
-				"/* An array mapping pairs (node_type_id, node_attr_id) to the index position\n" +
-					" * the attribute has in the layout of the node type. A negative value indicates\n" +
-					" * that the attr is NOT a member of a node type. */\n" +
-					"static const int sp_node_attr_index[0][0] = {};\n\n");
-		
+		sb.append("\n};\n\n");
 		
 		
 		/* gen an array which implements the map
 		 * edge_type_id  x  attr_id  -->  attr_index
 		 * where attr index is the position the attr has in the attr layout of the edge type */
-		if (n_edge_attrs > 0)
+		sb.append(
+			"/* An array mapping pairs (edge_type_id, edge_attr_id) to the index position\n" +
+				" * the attribute has in the layout of the edge type. A negative value indicates\n" +
+				" * that the attr is NOT a member of an edge type. */\n" +
+				"const int sp_edge_attr_index[sp_N_EDGE_TYPES][sp_N_EDGE_ATTR_DECLS] = {\n");
+		for (int et=0; et < n_edge_types; et++)
 		{
-			sb.append(
-				"/* An array mapping pairs (edge_type_id, edge_attr_id) to the index position\n" +
-					" * the attribute has in the layout of the edge type. A negative value indicates\n" +
-					" * that the attr is NOT a member of an edge type. */\n" +
-					"static const int sp_edge_attr_index[sp_n_edge_types][sp_n_edge_attr_decls] = {\n");
-			for (int et=0; et < n_edge_types; et++)
+			if (et == 0) sb.append("  { ");
+			else sb.append(",\n  { ");
+			for (int attr = 0; attr < n_edge_attrs; attr++)
 			{
-				if (et == 0) sb.append("  { ");
-				else sb.append(",\n  { ");
-				for (int attr = 0; attr < n_edge_attrs; attr++)
-				{
-					if (attr == 0) sb.append(edge_attr_index[et][attr]);
-					else sb.append("," + edge_attr_index[et][attr]);
-				}
-				sb.append(" }");
+				if (attr == 0) sb.append(edge_attr_index[et][attr]);
+				else sb.append("," + edge_attr_index[et][attr]);
 			}
-			sb.append("\n};\n\n");
+			sb.append(" }");
 		}
-		else
-			sb.append(
-				"/* An array mapping pairs (edge_type_id, edge_attr_id) to the index position\n" +
-					" * the attribute has in the layout of the edge type. A negative value indicates\n" +
-					" * that the attr is NOT a member of an edge type. */\n" +
-					"static const int sp_edge_attr_index[0][0] = {};\n\n");
-		
+		sb.append("\n};\n\n");
 		
 		
 		/* Gen an array which maos enum type ids to enum descriptors.
 		 Note that evert element of the array contains a pointer, each to another
 		 array, so these arrays have to be generated first */
-		if (n_enum_types > 0)
+		//gen of sequence of arrays of item descriptors
+		sb.append(
+			"/* Several arrays (one array for each enum type) listing\n" +
+				"   the items of the associated enum type */\n");
+		
+		for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++)
 		{
-			//gen of sequence of arrays of item descriptors
+			EnumDescriptor current_enum = enum_type_descriptors[enum_type_id];
 			sb.append(
-				"/* Several arrays (one array for each enum type) listing\n" +
-					"   the items of the associated enum type */\n");
-			
-			for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++)
+				"const sp_enum_item_descr_t item_descr_array_" + enum_type_id +
+					"[" + current_enum.n_items + "] = {");
+			boolean first = true;
+			for (Iterator<EnumItem> item_it = current_enum.items.iterator(); item_it.hasNext(); )
 			{
-				EnumDescriptor current_enum = enum_type_descriptors[enum_type_id];
+				if (!first) sb.append(", ");
+				first = false;
+				EnumItem enum_item = item_it.next();
 				sb.append(
-					"static const sp_enum_item_descr_t item_descr_array_" + enum_type_id +
-						"[" + current_enum.n_items + "] = {");
-				boolean first = true;
-				for (Iterator<EnumItem> item_it = current_enum.items.iterator(); item_it.hasNext(); )
-				{
-					if (!first) sb.append(", ");
-					first = false;
-					EnumItem enum_item = item_it.next();
-					sb.append(
-						"\n  { (gr_int_t)" + ((Integer)enum_item.getValue().getValue()).intValue() +
-							", \"" + enum_item.getIdent() + "\" }");
-				}
-				sb.append("\n};\n\n");
-				
-			}
-			//actual gen of the array implementing the map
-			//enum_type_id -->  enum_type_descriptor
-			sb.append(
-				"/* An array mapping enum type ids to enum type descriptors */\n" +
-					"static const sp_enum_descr_t sp_enum_type_info[sp_n_enum_types] = {\n");
-			boolean first1 = true;
-			for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++)
-			{
-				if (!first1) sb.append(",\n");
-				first1 = false;
-				EnumDescriptor current_enum =
-					enum_type_descriptors[enum_type_id];
-				sb.append("  { (gr_id_t)" + current_enum.type_id + ", \"" +
-							  current_enum.name + "\", " + current_enum.n_items +
-							  ", item_descr_array_" + enum_type_id + " }");
+					"\n  { (gr_int_t)" + ((Integer)enum_item.getValue().getValue()).intValue() +
+						", \"" + enum_item.getIdent() + "\" }");
 			}
 			sb.append("\n};\n\n");
+			
 		}
-		else
-			sb.append(
-				"/* An array mapping enum type ids to enum type descriptors */\n" +
-					"static const sp_enum_descr_t sp_enum_type_info[0] = {};\n\n\n");
+		//actual gen of the array implementing the map
+		//enum_type_id -->  enum_type_descriptor
+		sb.append(
+			"/* An array mapping enum type ids to enum type descriptors */\n" +
+				"const sp_enum_descr_t sp_enum_type_info[sp_N_ENUM_TYPES] = {\n");
+		boolean first1 = true;
+		for (int enum_type_id = 0; enum_type_id < n_enum_types; enum_type_id++)
+		{
+			if (!first1) sb.append(",\n");
+			first1 = false;
+			EnumDescriptor current_enum =
+				enum_type_descriptors[enum_type_id];
+			sb.append("  { (gr_id_t)" + current_enum.type_id + ", \"" +
+						  current_enum.name + "\", " + current_enum.n_items +
+						  ", item_descr_array_" + enum_type_id + " }");
+		}
+		sb.append("\n};\n\n");
 	}
 	
 	/*
