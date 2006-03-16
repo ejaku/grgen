@@ -2261,6 +2261,10 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			if (act instanceof MatchingAction) {
 				//get the current actions pattern graph
 				PatternGraph pattern = ((MatchingAction)act).getPattern();
+				
+				// TODO Process parameters
+				System.out.println("\n  " + act + " : PARAMS = " + ((MatchingAction)act).getParameters() + "\n\n");
+				
 				//create a C-identifier for the currents action pattern graph
 				String graphName = "pattern_graph_of_action_" + act_id;
 				//setup the maps with the precomputes node and edge numbers

@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -24,10 +24,12 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.Entity;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * An action that represents something that does graph matching.
@@ -43,7 +45,10 @@ public abstract class MatchingAction extends Action {
 	protected final PatternGraph pattern;
 	
 	/** The NAC part of the rule. */
-	protected final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
+	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
+	
+	/** A list of the pattern parameter */
+	private final List<Entity> params = new LinkedList<Entity>();
 	
 	/**
 	 * @param name The name of this action.
@@ -78,6 +83,22 @@ public abstract class MatchingAction extends Action {
 	 */
 	public Collection<PatternGraph> getNegs() {
 		return Collections.unmodifiableCollection(negs);
+	}
+	
+	/**
+	 * Add a parameter to the graph.
+	 * @param expr The parameter.
+	 */
+	public void addParameter(Entity expr) {
+		params.add(expr);
+	}
+	
+	/**
+	 * Get all conditions in this graph.
+	 * @return A collection containing all conditions in this graph.
+	 */
+	public Collection<Entity> getParameters() {
+		return Collections.unmodifiableCollection(params);
 	}
 	
 	/**

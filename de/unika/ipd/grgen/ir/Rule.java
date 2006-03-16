@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -37,13 +37,13 @@ public class Rule extends MatchingAction {
 	private static final String[] childrenNames = {
 		"left", "right", "eval"
 	};
-
+	
 	/** The right hand side of the rule. */
 	private final Graph right;
-
+	
 	/** The evaluation assignments of this rule. */
 	private final Collection<Object> evals = new LinkedList<Object>();
-
+	
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
@@ -57,7 +57,7 @@ public class Rule extends MatchingAction {
 		right.setNameSuffix("replace");
 		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
-
+	
 	/**
 	 * Get the eval assignments of this rule.
 	 * @return A collection containing all eval assignments.
@@ -65,7 +65,7 @@ public class Rule extends MatchingAction {
 	public Collection<Object> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
-
+	
 	/**
 	 * Add an assignment to the list of evaluations.
 	 * @param a The assignment.
@@ -73,7 +73,7 @@ public class Rule extends MatchingAction {
 	public void addEval(Assignment a) {
 		evals.add(a);
 	}
-
+	
 	/**
 	 * Get the set of nodes the left and right side have in common.
 	 * @return A set with nodes, that occur on the left and on the right side
@@ -84,7 +84,7 @@ public class Rule extends MatchingAction {
 		common.retainAll(right.getNodes());
 		return common;
 	}
-
+	
 	/**
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
@@ -94,7 +94,7 @@ public class Rule extends MatchingAction {
 		common.retainAll(right.getEdges());
 		return common;
 	}
-
+	
 	/**
 	 * Get all graphs that are involved in this rule besides
 	 * the pattern part.
@@ -107,8 +107,8 @@ public class Rule extends MatchingAction {
 		res.add(right);
 		return res;
 	}
-
-
+	
+	
 	/**
 	 * Get the left hand side.
 	 * @return The left hand side graph.
@@ -116,7 +116,7 @@ public class Rule extends MatchingAction {
 	public PatternGraph getLeft() {
 		return pattern;
 	}
-
+	
 	/**
 	 * Get the right hand side.
 	 * @return The right hand side graph.

@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -24,14 +24,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.*;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Rule;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -42,10 +39,11 @@ public class RuleDeclNode extends TestDeclNode {
 	
 	private static final int RIGHT = LAST + 3;
 	private static final int EVAL = LAST + 4;
+	private static final int PARAM = LAST + 5;
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-			"left", "neg", "right", "eval"
+			"left", "neg", "right", "eval", "params"
 	};
 	
 	/** Type for this declaration. */
@@ -67,8 +65,8 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-  public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
-											BaseNode eval) {
+	public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
+						BaseNode eval, CollectNode params) {
 		
 		super(id, ruleType);
 		setChildrenNames(childrenNames);
@@ -76,18 +74,19 @@ public class RuleDeclNode extends TestDeclNode {
 		addChild(neg);
 		addChild(right);
 		addChild(eval);
-  }
-  
+		addChild(params);
+	}
+	
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
 		res.add((GraphNode) getChild(RIGHT));
 		return res;
 	}
-
+	
 	private boolean __recursive_find_decl(BaseNode x, DeclNode decl) {
 		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
 			BaseNode b = i.next();
-		
+			
 			if(b instanceof EdgeDeclNode) {
 				
 				EdgeDeclNode decl2 = (EdgeDeclNode)b;
@@ -96,18 +95,18 @@ public class RuleDeclNode extends TestDeclNode {
 					return true;
 			} else
 				
-			if(b instanceof NodeDeclNode) {
-				NodeDeclNode decl2 = (NodeDeclNode)b;
-				
-				if(decl2 == decl)
-					return true;
-				
-			} else
-				
-			if(__recursive_find_decl(b, decl))
-				return true;
+				if(b instanceof NodeDeclNode) {
+					NodeDeclNode decl2 = (NodeDeclNode)b;
+					
+					if(decl2 == decl)
+						return true;
+					
+				} else
+					
+					if(__recursive_find_decl(b, decl))
+						return true;
 		}
-
+		
 		return false;
 	}
 	
@@ -115,27 +114,27 @@ public class RuleDeclNode extends TestDeclNode {
 		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
 			BaseNode b = i.next();
 			NodeTypeNode new_type;
-		
+			
 			if(b instanceof NodeTypeChangeNode) {
 				NodeTypeChangeNode ncn = (NodeTypeChangeNode)b;
 				
 				if(node == ncn.getChild(0))
 					return (NodeTypeNode)ncn.getChild(1);
-					
+				
 				
 			} else
-
-			if(b instanceof NodeDeclNode)
-				return null;
-			else
-			if(b instanceof EdgeDeclNode)
-				return null;
-			else
 				
-			if((new_type = __recursive_find_new_type(b, node)) != null)
-				return new_type;
+				if(b instanceof NodeDeclNode)
+					return null;
+				else
+					if(b instanceof EdgeDeclNode)
+						return null;
+					else
+						
+						if((new_type = __recursive_find_new_type(b, node)) != null)
+							return new_type;
 		}
-
+		
 		return null;
 	}
 	
@@ -143,7 +142,7 @@ public class RuleDeclNode extends TestDeclNode {
 		/* iterate over members */
 		for(Iterator<BaseNode> i = type.getChild(1).getChildren(); i.hasNext();) {
 			MemberDeclNode member2 = (MemberDeclNode) i.next();
-				
+			
 			if(member == member2)
 				return true;
 		}
@@ -151,11 +150,11 @@ public class RuleDeclNode extends TestDeclNode {
 		/* iterate over base types */
 		for(Iterator<BaseNode> i = type.getChild(0).getChildren(); i.hasNext();) {
 			NodeTypeNode next_type = (NodeTypeNode) i.next();
-				
+			
 			if(__recursive_find_member_in_type(next_type, member))
 				return true;
 		}
-
+		
 		return false;
 	}
 	
@@ -215,10 +214,10 @@ public class RuleDeclNode extends TestDeclNode {
 		return childTypes;
 	}
 	
-  /**
+	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-  protected IR constructIR() {
+	protected IR constructIR() {
 		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		
@@ -238,7 +237,13 @@ public class RuleDeclNode extends TestDeclNode {
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 		
+		// add Params to the IR
+		for(Iterator<BaseNode> it = getChild(PARAM).getChildren(); it.hasNext();) {
+			ConstraintDeclNode param = (ConstraintDeclNode) it.next();
+			rule.addParameter((Entity) param.checkIR(Entity.class));
+		}
+		
 		return rule;
-  }
+	}
 	
 }

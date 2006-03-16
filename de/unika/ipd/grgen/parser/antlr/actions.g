@@ -128,7 +128,7 @@ testDecl returns [ BaseNode res = env.initNode() ]
   		BaseNode tb, pattern;
   		CollectNode negs = new CollectNode();
   	}
-  	: TEST id=actionIdentDecl pushScope[id] LBRACE!
+  	: TEST id=actionIdentDecl pushScope[id] parameters LBRACE!
   	  pattern=patternPart[negs]
   	  {
       	id.setDecl(new TestDeclNode(id, pattern, negs));
@@ -139,44 +139,43 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
   {
   		IdentNode id;
   		BaseNode rb, left, right;
+  		CollectNode params;
 
   		CollectNode negs = new CollectNode();
   		CollectNode eval = new CollectNode();
   }
-  : RULE id=actionIdentDecl pushScope[id] LBRACE!
+  : RULE id=actionIdentDecl pushScope[id] params=parameters LBRACE!
   	left=patternPart[negs]
   	right=replacePart
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval));
+  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params));
   	   res = id;
     }
     RBRACE! popScope!;
 
-parameters
-	: LPAREN paramList RPAREN
+parameters returns [ CollectNode res = new CollectNode() ]
+	: LPAREN paramList[res] RPAREN
 	| LPAREN RPAREN
 	|
 	;
 
-paramList
-	: param (COMMA param)*
+paramList [ CollectNode params ]
+  {
+  	BaseNode p;
+  }
+	: p=param { params.addChild(p); } ( COMMA p=param { params.addChild(p); } )*
 	;
 	
-param
+param returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id;
+		BaseNode type;
 	}
-	: inOutSpec paramType id=entIdentDecl
-	;
-	
-inOutSpec
-	: IN
-	| OUT
-	;
-	
-paramType
-	: typeIdentUse
+	: NODE id=entIdentDecl COLON type=typeIdentUse
+	  { res = new NodeDeclNode(id, type, TypeExprNode.getEmpty()); }
+	| EDGE id=entIdentDecl COLON type=typeIdentUse
+	  { res = new EdgeDeclNode(id, type, TypeExprNode.getEmpty()); }
 	;
 
 patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
