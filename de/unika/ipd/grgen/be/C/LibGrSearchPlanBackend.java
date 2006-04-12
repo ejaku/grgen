@@ -2928,7 +2928,10 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				"#define GR_DEF_NODE_TYPE_Node " + root_node_type + "\n\n");
 		
 		int root_edge_type = 0;
-		if (getTypeName(false, 0).equals("Edge")) root_edge_type = 0;
+		for (int et=0; et < n_node_types; et++)
+		{
+			if (getTypeName(false, et).equals("Edge")) root_edge_type = et;
+		}
 		sb.append(
 			"/* The root of the edge type hierarchie */\n" +
 				"#define GR_DEF_EDGE_TYPE_Edge " + root_edge_type + "\n\n");
