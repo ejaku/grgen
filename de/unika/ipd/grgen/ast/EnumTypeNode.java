@@ -96,8 +96,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 		
-		for(Iterator<BaseNode> it = getChild(ELEMENTS).getChildren(); it.hasNext();) {
-			EnumItemNode item = (EnumItemNode) it.next();
+		for(BaseNode n : getChild(ELEMENTS).getChildren()) {
+			EnumItemNode item = (EnumItemNode)n;
 			ty.addItem(item.getItem());
 		}
 		/*

@@ -48,8 +48,8 @@ public class ArithmeticOpNode extends OpNode {
 	public boolean isConstant() {
 		assertResolved();
 		boolean res = true;
-		for(Iterator<BaseNode> it = getChildren(); it.hasNext();) {
-			ExprNode operand = (ExprNode) it.next();
+		for(BaseNode n : getChildren()) {
+			ExprNode operand = (ExprNode)n;
 			if(!operand.isConstant()) {
 				res = false;
 				break;

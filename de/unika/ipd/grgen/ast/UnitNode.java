@@ -113,13 +113,13 @@ public class UnitNode extends DeclNode {
 		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
 		Unit res = new Unit(id, filename);
 		
-		for(Iterator<BaseNode> it = getChild(MODELS).getChildren(); it.hasNext();) {
-			Model model = ((ModelNode) it.next()).getModel();
+		for(BaseNode n : getChild(MODELS).getChildren()) {
+			Model model = ((ModelNode)n).getModel();
 			res.addModel(model);
 		}
 
-		for(Iterator<BaseNode> it = getChild(DECLS).getChildren(); it.hasNext();) {
-			Action act = ((ActionDeclNode) it.next()).getAction();
+		for(BaseNode n : getChild(DECLS).getChildren()) {
+			Action act = ((ActionDeclNode)n).getAction();
 			res.addAction(act);
 		}
 

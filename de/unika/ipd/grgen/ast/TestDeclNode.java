@@ -73,8 +73,8 @@ public class TestDeclNode extends ActionDeclNode {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		CollectNode negs  = (CollectNode) getChild(NEG);
 		res.add((GraphNode) getChild(PATTERN));
-		for (Iterator<BaseNode> negsIt = negs.getChildren(); negsIt.hasNext();)
-			res.add((GraphNode) negsIt.next());
+		for (BaseNode n : negs.getChildren())
+			res.add((GraphNode)n);
 		return res;
 	}
 	
@@ -97,12 +97,12 @@ public class TestDeclNode extends ActionDeclNode {
 			
 			for (int i=0; i<graphs.length; i++)
 				for (int o=i+1; o<graphs.length; o++)
-					for (Iterator<BaseNode> iIter = graphs[i].getConnections(); iIter.hasNext();) {
-						ConnectionCharacter iConn = (ConnectionCharacter) iIter.next();
+					for (BaseNode iBN : graphs[i].getConnections()) {
+						ConnectionCharacter iConn = (ConnectionCharacter)iBN;
 						if (! (iConn instanceof ConnectionNode)) continue;
 
-						for (Iterator<BaseNode> oIter = graphs[o].getConnections(); oIter.hasNext();) {
-							ConnectionCharacter oConn = (ConnectionCharacter) oIter.next();
+						for (BaseNode oBN : graphs[o].getConnections()) {
+							ConnectionCharacter oConn = (ConnectionCharacter)oBN;
 							if (! (oConn instanceof ConnectionNode)) continue;
 	
 							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
@@ -133,8 +133,8 @@ public class TestDeclNode extends ActionDeclNode {
 		Test test = new Test(getIdentNode().getIdent(), gr);
 		
 		// add negative parts to the IR
-		for (Iterator<BaseNode> negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
-			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
+		for (BaseNode n : getChild(NEG).getChildren()) {
+			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
 			test.addNegGraph(neg);
 		}
 		// after all graphs are added, call coalesceAnonymousEdges

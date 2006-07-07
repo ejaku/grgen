@@ -49,6 +49,7 @@ public abstract class MatchingAction extends Action {
 	
 	/** A list of the pattern parameter */
 	private final List<Entity> params = new LinkedList<Entity>();
+
 	
 	/**
 	 * @param name The name of this action.
@@ -93,13 +94,15 @@ public abstract class MatchingAction extends Action {
 		params.add(expr);
 	}
 	
+	
 	/**
-	 * Get all conditions in this graph.
-	 * @return A collection containing all conditions in this graph.
+	 * Get all Parameters of this graph.
 	 */
 	public Collection<Entity> getParameters() {
 		return Collections.unmodifiableCollection(params);
 	}
+	
+
 	
 	/**
 	 * Anonymous edges that connect the same nodes on both sides of rule
@@ -110,9 +113,7 @@ public abstract class MatchingAction extends Action {
 	 * sides of the rule are known and set up.
 	 */
 	public void coalesceAnonymousEdges() {
-		for(Iterator it = pattern.getEdges().iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
-			
+		for(Edge e : pattern.getEdges()) {
 			if (e.isAnonymous())
 				for(Graph g : getAdditionalGraphs())
 					g.replaceSimilarEdges(pattern, e);

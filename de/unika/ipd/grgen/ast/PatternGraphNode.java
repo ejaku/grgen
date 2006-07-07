@@ -66,9 +66,9 @@ public class PatternGraphNode extends GraphNode {
 		
 		boolean expr = true;
 		if(childs) {
-			for(Iterator<BaseNode> it = getChild(CONDITIONS).getChildren(); it.hasNext(); ) {
+			for(BaseNode n : getChild(CONDITIONS).getChildren()) {
 				// Must go right, since it is checked 5 lines above.
-				ExprNode exp = (ExprNode) it.next();
+				ExprNode exp = (ExprNode)n;
 				if(!exp.getType().isEqual(BasicTypeNode.booleanType)) {
 					exp.reportError("Expression must be of type boolean");
 					expr = false;
@@ -91,13 +91,13 @@ public class PatternGraphNode extends GraphNode {
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph();
 		
-		for(Iterator<BaseNode> it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
-			ConnectionCharacter conn = (ConnectionCharacter) it.next();
+		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
 		
-		for(Iterator<BaseNode> it = getChild(CONDITIONS).getChildren(); it.hasNext();) {
-			ExprNode expr = (ExprNode) it.next();
+		for(BaseNode n : getChild(CONDITIONS).getChildren()) {
+			ExprNode expr = (ExprNode)n;
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
 		}
 		

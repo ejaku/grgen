@@ -96,8 +96,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		
 		if(!found) {
 			
-			for(Iterator<BaseNode> it = getChild(inhIndex).getChildren(); it.hasNext(); ) {
-				InheritanceTypeNode t = (InheritanceTypeNode) it.next();
+			for(BaseNode n : getChild(inhIndex).getChildren()) {
+				InheritanceTypeNode t = (InheritanceTypeNode)n;
 				boolean result = t.fixupDefinition(id);
 				
 				if(found && result)
@@ -111,8 +111,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	}
 	
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
-		for(Iterator<BaseNode> i = getChild(inhIndex).getChildren(); i.hasNext();) {
-			InheritanceTypeNode inh = (InheritanceTypeNode) i.next();
+		for(BaseNode n : getChild(inhIndex).getChildren()) {
+			InheritanceTypeNode inh = (InheritanceTypeNode)n;
 			coll.add(inh);
 			inh.getCompatibleToTypes(coll);
 		}
@@ -123,8 +123,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 */
 	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 		// TODO This is wrong!!!
-		for(Iterator<BaseNode> it = getChild(inhIndex).getChildren(); it.hasNext();)
-			coll.add((TypeNode)it.next());
+		for(BaseNode n : getChild(inhIndex).getChildren())
+			coll.add((TypeNode)n);
 	}
 	
 	public void setModifiers(int modifiers) {

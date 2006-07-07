@@ -210,9 +210,8 @@ public abstract class OpNode extends ExprNode
 		BasicTypeNode type = (BasicTypeNode) getType();
 		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(opId));
 		
-		for(Iterator<BaseNode> it = getChildren(); it.hasNext();)
+		for(BaseNode n : getChildren())
 		{
-			BaseNode n = it.next();
 			Expression ir = (Expression) n.checkIR(Expression.class);
 			op.addOperand(ir);
 		}

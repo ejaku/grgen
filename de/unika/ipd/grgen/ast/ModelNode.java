@@ -31,9 +31,7 @@ import de.unika.ipd.grgen.ast.util.*;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.Model;
-import java.util.Iterator;
 
 public class ModelNode extends DeclNode {
 	
@@ -92,9 +90,8 @@ public class ModelNode extends DeclNode {
 	protected IR constructIR() {
 		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
 		Model res = new Model(id);
-		Iterator<BaseNode> children = getChild(DECLS).getChildren();
-		while(children.hasNext()) {
-			TypeDeclNode typeDecl = (TypeDeclNode) children.next();
+		for(BaseNode children : getChild(DECLS).getChildren()) {
+			TypeDeclNode typeDecl = (TypeDeclNode)children;
 			res.addType(((TypeNode) typeDecl.getDeclType()).getType());
 		}
 		return res;

@@ -139,17 +139,17 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
   {
   		IdentNode id;
   		BaseNode rb, left, right;
-  		CollectNode params;
+  		CollectNode params, ret;
 
   		CollectNode negs = new CollectNode();
   		CollectNode eval = new CollectNode();
   }
-  : RULE id=actionIdentDecl pushScope[id] params=parameters LBRACE!
+  : RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
   	left=patternPart[negs]
   	right=replacePart
   	( evalPart[eval] )?
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params));
+  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
   	   res = id;
     }
     RBRACE! popScope!;
@@ -176,6 +176,16 @@ param returns [ BaseNode res = env.initNode() ]
 	  { res = new NodeDeclNode(id, type, TypeExprNode.getEmpty()); }
 	| EDGE id=entIdentDecl COLON type=typeIdentUse
 	  { res = new EdgeDeclNode(id, type, TypeExprNode.getEmpty()); }
+	;
+
+returnTypes returns [ CollectNode res = new CollectNode() ]
+    {
+    	BaseNode type;
+    }
+	: COLON LPAREN type=typeIdentUse { res.addChild(type); }
+      (COMMA type=typeIdentUse { res.addChild(type); })* RPAREN
+	| COLON LPAREN RPAREN
+	|
 	;
 
 patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
@@ -355,13 +365,14 @@ replaceBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
   		CollectNode connections = new CollectNode();
   	  	res = new GraphNode(coords, connections);
     }
-    : ( replaceStmt[connections] SEMI )*
+    : ( replaceStmt[(GraphNode)res, connections] SEMI )*
   ;
 
-replaceStmt [ BaseNode connCollect ]
+replaceStmt [ GraphNode graphNode, CollectNode connections ]
 	{ BaseNode n; }
-	: replaceConnections[connCollect]
+	: replaceConnections[connections]
 	| NODE replaceNodeDecl ( COMMA replaceNodeDecl )*
+	| replaceReturns[graphNode]
 	;
 
 replaceConnections [ BaseNode connColl ]
@@ -418,6 +429,16 @@ replaceReversedEdge returns [ BaseNode res = null ]
 	}
 	;
 
+replaceReturns[GraphNode graphNode]
+    {
+    	BaseNode id;
+    	CollectNode res = new CollectNode();
+    	graphNode.addChild(res);
+    }
+	: RETURN LPAREN id=entIdentUse { res.addChild(id); }
+      (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
+	;
+
 /**
  * The occurrence of a node.
  * A node occurrence is either the declaration of a new node, a usage of
@@ -444,7 +465,7 @@ anonymousEdge returns [ BaseNode res = null ]
  * It can look like
  *
  * 1) a:X <old_node>
-  * 2) (a, b, c, d, e):X
+ * 2) (a, b, c, d, e):X
  *
  * In the second case, always the first node is returned.
  */

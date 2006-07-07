@@ -98,7 +98,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	public boolean hasHomomorphicNodes() {
 		CollectNode cn = (CollectNode) getChild(HOMOMORPHIC);
-		return cn.getChildren().hasNext();
+		return !cn.getChildren().isEmpty();
 	}
 	
 	/**
@@ -129,8 +129,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		
 		// Add all homomorphic nodes in the collect node to
 		// the constructed IR node of this node.
-		for(Iterator<BaseNode> it = getChild(HOMOMORPHIC).getChildren(); it.hasNext();) {
-			NodeCharacter nc = (NodeCharacter) it.next();
+		for(BaseNode n : getChild(HOMOMORPHIC).getChildren()) {
+			NodeCharacter nc = (NodeCharacter)n;
 			res.addHomomorphic(nc.getNode());
 		}
 

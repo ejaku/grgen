@@ -40,6 +40,7 @@ public class RuleDeclNode extends TestDeclNode {
 	private static final int RIGHT = LAST + 3;
 	private static final int EVAL = LAST + 4;
 	private static final int PARAM = LAST + 5;
+	private static final int RET = LAST + 6;
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
@@ -66,7 +67,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
-						BaseNode eval, CollectNode params) {
+						BaseNode eval, CollectNode params, CollectNode ret) {
 		
 		super(id, ruleType);
 		setChildrenNames(childrenNames);
@@ -75,6 +76,7 @@ public class RuleDeclNode extends TestDeclNode {
 		addChild(right);
 		addChild(eval);
 		addChild(params);
+		addChild(ret);
 	}
 	
 	protected Collection<GraphNode> getGraphs() {
@@ -84,9 +86,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 	
 	private boolean __recursive_find_decl(BaseNode x, DeclNode decl) {
-		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
-			BaseNode b = i.next();
-			
+		for(BaseNode b : x.getChildren()) {
 			if(b instanceof EdgeDeclNode) {
 				
 				EdgeDeclNode decl2 = (EdgeDeclNode)b;
@@ -111,8 +111,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 	
 	private NodeTypeNode __recursive_find_new_type(BaseNode x, NodeDeclNode node) {
-		for(Iterator<BaseNode> i = x.getChildren(); i.hasNext();) {
-			BaseNode b = i.next();
+		for(BaseNode b : x.getChildren()) {
 			NodeTypeNode new_type;
 			
 			if(b instanceof NodeTypeChangeNode) {
@@ -140,16 +139,16 @@ public class RuleDeclNode extends TestDeclNode {
 	
 	private boolean __recursive_find_member_in_type(NodeTypeNode type, MemberDeclNode member) {
 		/* iterate over members */
-		for(Iterator<BaseNode> i = type.getChild(1).getChildren(); i.hasNext();) {
-			MemberDeclNode member2 = (MemberDeclNode) i.next();
+		for(BaseNode n : type.getChild(1).getChildren()) {
+			MemberDeclNode member2 = (MemberDeclNode)n;
 			
 			if(member == member2)
 				return true;
 		}
 		
 		/* iterate over base types */
-		for(Iterator<BaseNode> i = type.getChild(0).getChildren(); i.hasNext();) {
-			NodeTypeNode next_type = (NodeTypeNode) i.next();
+		for(BaseNode n : type.getChild(0).getChildren()) {
+			NodeTypeNode next_type = (NodeTypeNode)n;
 			
 			if(__recursive_find_member_in_type(next_type, member))
 				return true;
@@ -168,6 +167,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean check() {
 		boolean childTypes = super.check()
 			&& checkChild(RIGHT, GraphNode.class);
+		boolean returnTypes = true;
 //
 //		CollectNode evals = (CollectNode)getChild(EVAL);
 //		GraphNode right = (GraphNode) getChild(RIGHT);
@@ -211,7 +211,37 @@ public class RuleDeclNode extends TestDeclNode {
 //				assert false;
 //		 }
 //
-		return childTypes;
+		
+		
+		// check if actual return entities are conformant
+		// to the formal return parameters
+		BaseNode actualReturns = ((GraphNode)getChild(RIGHT)).getReturn();
+		BaseNode typeReturns   = getChild(RET);
+		
+		if(actualReturns.children() != typeReturns.children()) {
+			error.error(this.getCoords(), "actual and formal return-parameter count mismatch (" +
+							actualReturns.children() + " vs. " + typeReturns.children() +")");
+			return false;
+		} else {
+			Iterator<BaseNode> itAR = actualReturns.getChildren().iterator();
+			
+			for(BaseNode n : getChild(RET).getChildren()) {
+				IdentNode       tReturnAST  = (IdentNode)n;
+				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
+				
+				IdentNode       aReturnAST  = (IdentNode)itAR.next();
+				Ident           aReturn     = (Ident)aReturnAST.checkIR(Ident.class);
+				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
+				
+				if(!aReturnType.isCastableTo(tReturn)) {
+					error.error(aReturnAST.getCoords(), "actual return-parameter is not conformant to formal parameter (" +
+									aReturnType + " not castable to " + tReturn + ")");
+					returnTypes = false;
+				}
+			}
+		}
+		
+		return childTypes && returnTypes;
 	}
 	
 	/**
@@ -224,23 +254,33 @@ public class RuleDeclNode extends TestDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		// add negative parts to the IR
-		for (Iterator<BaseNode> negsIt = getChild(NEG).getChildren(); negsIt.hasNext();) {
-			PatternGraph neg = ((PatternGraphNode) negsIt.next()).getPatternGraph();
+		for (BaseNode n : getChild(NEG).getChildren()) {
+			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
 			rule.addNegGraph(neg);
 		}
 		// NOW! after all graphs are added, call coalesceAnonymousEdges
 		rule.coalesceAnonymousEdges();
 		
 		// add Eval statments to the IR
-		for(Iterator<BaseNode> it = getChild(EVAL).getChildren(); it.hasNext();) {
-			AssignNode eval = (AssignNode) it.next();
+		for(BaseNode n : getChild(EVAL).getChildren()) {
+			AssignNode eval = (AssignNode)n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 		
 		// add Params to the IR
-		for(Iterator<BaseNode> it = getChild(PARAM).getChildren(); it.hasNext();) {
-			ConstraintDeclNode param = (ConstraintDeclNode) it.next();
+		for(BaseNode n : getChild(PARAM).getChildren()) {
+			ConstraintDeclNode param = (ConstraintDeclNode)n;
 			rule.addParameter((Entity) param.checkIR(Entity.class));
+		}
+		
+		// add Return-Prarams to the IR
+		BaseNode aReturns = ((GraphNode)getChild(RIGHT)).getReturn();
+		for(BaseNode n : aReturns.getChildren()) {
+			IdentNode aReturnAST = (IdentNode)n;
+			Ident     aReturn    = (Ident)aReturnAST.checkIR(Ident.class);
+			
+			// actual return-parameter
+			rule.addReturn(aReturn);
 		}
 		
 		return rule;

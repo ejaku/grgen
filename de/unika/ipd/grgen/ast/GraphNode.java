@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -24,10 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -35,6 +31,10 @@ import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A class which represents a graph pattern
@@ -43,14 +43,19 @@ public class GraphNode extends BaseNode {
 	
 	/** Index of the connections collect node. */
 	protected static final int CONNECTIONS = 0;
+	protected static final int RETURN = CONNECTIONS+1;
 	
 	/** Connections checker. */
 	private static final Checker connectionsChecker =
-	  new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
+		new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
 	
 	static {
 		setName(GraphNode.class, "graph");
 	}
+	
+	private static final String[] childrenNames = {
+		"conn", "return"
+	};
 	
 	/**
 	 * A new pattern node
@@ -58,6 +63,7 @@ public class GraphNode extends BaseNode {
 	 */
 	public GraphNode(Coords coords, BaseNode connections) {
 		super(coords);
+		setChildrenNames(childrenNames);
 		addChild(connections);
 	}
 	
@@ -68,17 +74,17 @@ public class GraphNode extends BaseNode {
 	 */
 	protected boolean check() {
 		boolean connCheck = checkChild(CONNECTIONS, connectionsChecker);
-
+		
 		boolean edgeUsage = true;
 		
 		if(connCheck) {
 			//check, that each named edge is only used once in a pattern
 			CollectNode collect = (CollectNode) getChild(CONNECTIONS);
 			HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-			for (Iterator<BaseNode> i = collect.getChildren(); i.hasNext(); ) {
-				ConnectionCharacter cc = (ConnectionCharacter) i.next();
+			for (BaseNode n : collect.getChildren()) {
+				ConnectionCharacter cc = (ConnectionCharacter)n;
 				EdgeCharacter ec = cc.getEdge();
-
+				
 				// add returns false iff edges already contains ec
 				if (ec != null && !edges.add(ec)) {
 					((EdgeDeclNode) ec).reportError("This (named) edge is used more than once in a graph of this action");
@@ -96,7 +102,7 @@ public class GraphNode extends BaseNode {
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
-	protected Iterator<BaseNode> getConnections() {
+	protected Collection<BaseNode> getConnections() {
 		return getChild(CONNECTIONS).getChildren();
 	}
 	
@@ -110,12 +116,16 @@ public class GraphNode extends BaseNode {
 	protected Set<BaseNode> getNodes() {
 		Set<BaseNode> res = new HashSet<BaseNode>();
 		
-		for(Iterator<BaseNode> it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
-			ConnectionCharacter conn = (ConnectionCharacter) it.next();
+		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addNodes(res);
 		}
 		
 		return res;
+	}
+	
+	protected BaseNode getReturn() {
+		return getChild(RETURN);
 	}
 	
 	/**
@@ -135,8 +145,8 @@ public class GraphNode extends BaseNode {
 	protected IR constructIR() {
 		Graph gr = new PatternGraph();
 		
-		for(Iterator<BaseNode> it = getChild(CONNECTIONS).getChildren(); it.hasNext();) {
-			ConnectionCharacter conn = (ConnectionCharacter) it.next();
+		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
 		

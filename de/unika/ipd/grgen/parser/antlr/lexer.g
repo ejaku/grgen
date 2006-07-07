@@ -80,6 +80,8 @@ tokens {
   TERM = "term";
   CONNECT = "connect";
   WITHOUT = "without";
+  RETURNS = "returns";
+  RETURN = "return";
 }
 
 {

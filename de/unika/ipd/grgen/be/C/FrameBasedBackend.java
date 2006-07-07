@@ -2263,7 +2263,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				PatternGraph pattern = ((MatchingAction)act).getPattern();
 				
 				// TODO Process parameters
-				System.out.println("\n  " + act + " : PARAMS = " + ((MatchingAction)act).getParameters() + "\n\n");
+				System.out.println("\n  " + act + " : PARAMS = " + ((MatchingAction)act).getParameters());
+				System.out.println(  "  " + act + " : RETURN = " + ((Rule)act).getReturns() + "\n");
 				
 				//create a C-identifier for the currents action pattern graph
 				String graphName = "pattern_graph_of_action_" + act_id;

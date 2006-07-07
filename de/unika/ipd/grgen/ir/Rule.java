@@ -24,10 +24,12 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.Ident;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A replacement rule.
@@ -37,6 +39,9 @@ public class Rule extends MatchingAction {
 	private static final String[] childrenNames = {
 		"left", "right", "eval"
 	};
+	
+	/** A list of the replace return-parameters */
+	private final List<Ident> returns = new LinkedList<Ident>();
 	
 	/** The right hand side of the rule. */
 	private final Graph right;
@@ -56,6 +61,21 @@ public class Rule extends MatchingAction {
 		this.right = right;
 		right.setNameSuffix("replace");
 		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
+	}
+	
+	/**
+	 * Add a return-value (named node or edge) to the graph.
+	 * @param expr The parameter.
+	 */
+	public void addReturn(Ident id) {
+		returns.add(id);
+	}
+	
+	/**
+	 * Get all Returns of this graph.
+	 */
+	public Collection<Ident> getReturns() {
+		return Collections.unmodifiableCollection(returns);
 	}
 	
 	/**
