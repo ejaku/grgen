@@ -126,12 +126,12 @@ testDecl returns [ BaseNode res = env.initNode() ]
     {
   		IdentNode id;
   		BaseNode tb, pattern;
-  		CollectNode negs = new CollectNode();
+  		CollectNode params, ret, negs = new CollectNode();
   	}
-  	: TEST id=actionIdentDecl pushScope[id] parameters LBRACE!
+  	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
   	  pattern=patternPart[negs]
   	  {
-      	id.setDecl(new TestDeclNode(id, pattern, negs));
+      	id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
       	res = id;
   	  } RBRACE! popScope!;
 
@@ -215,14 +215,15 @@ patternBody [ Coords coords, BaseNode negsCollect ] returns [ BaseNode res = env
 		BaseNode s;
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions);
+ 		CollectNode returnz = new CollectNode();
+		res = new PatternGraphNode(coords, connections, conditions, returnz);
 		int negCounter = 0;
   }
-  : (negCounter = patternStmt[connections, conditions, negsCollect, negCounter])*
+  : (negCounter = patternStmt[connections, conditions, negsCollect, negCounter, returnz])*
   ;
 
 patternStmt [ BaseNode connCollect, BaseNode condCollect,
-  BaseNode negsCollect, int negCount ] returns [ int newNegCount ]
+  BaseNode negsCollect, int negCount, CollectNode returnz ] returns [ int newNegCount ]
   
 	{
   	IdentNode id = env.getDummyIdent();
@@ -245,6 +246,7 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
 	  }
 	| COND e=expr { condCollect.addChild(e); } SEMI
 	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
+	| replaceReturns[returnz] SEMI
 	;
 
 patternConnections [ BaseNode connColl ]
@@ -363,16 +365,17 @@ replaceBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
     {
   	  	BaseNode s;
   		CollectNode connections = new CollectNode();
-  	  	res = new GraphNode(coords, connections);
+  		CollectNode returnz = new CollectNode();
+  	  	res = new GraphNode(coords, connections, returnz);
     }
-    : ( replaceStmt[(GraphNode)res, connections] SEMI )*
+    : ( replaceStmt[connections, returnz] SEMI )*
   ;
 
-replaceStmt [ GraphNode graphNode, CollectNode connections ]
+replaceStmt [ CollectNode connections, CollectNode returnz ]
 	{ BaseNode n; }
 	: replaceConnections[connections]
 	| NODE replaceNodeDecl ( COMMA replaceNodeDecl )*
-	| replaceReturns[graphNode]
+	| replaceReturns[returnz]
 	;
 
 replaceConnections [ BaseNode connColl ]
@@ -429,11 +432,9 @@ replaceReversedEdge returns [ BaseNode res = null ]
 	}
 	;
 
-replaceReturns[GraphNode graphNode]
+replaceReturns[CollectNode res]
     {
     	BaseNode id;
-    	CollectNode res = new CollectNode();
-    	graphNode.addChild(res);
     }
 	: RETURN LPAREN id=entIdentUse { res.addChild(id); }
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
@@ -609,5 +610,6 @@ typeIdentList [ BaseNode addTo ]
     })*
   |
   ;
+
 
 

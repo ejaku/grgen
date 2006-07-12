@@ -49,7 +49,11 @@ public abstract class MatchingAction extends Action {
 	
 	/** A list of the pattern parameter */
 	private final List<Entity> params = new LinkedList<Entity>();
+		
+	/** A list of the replace return-parameters */
+	private final List<Ident> returns = new LinkedList<Ident>();
 
+	
 	
 	/**
 	 * @param name The name of this action.
@@ -102,7 +106,22 @@ public abstract class MatchingAction extends Action {
 		return Collections.unmodifiableCollection(params);
 	}
 	
-
+	
+	/**
+	 * Add a return-value (named node or edge) to the graph.
+	 * @param expr The parameter.
+	 */
+	public void addReturn(Ident id) {
+		returns.add(id);
+	}
+	
+	/**
+	 * Get all Returns of this graph.
+	 */
+	public Collection<Ident> getReturns() {
+		return Collections.unmodifiableCollection(returns);
+	}
+	
 	
 	/**
 	 * Anonymous edges that connect the same nodes on both sides of rule

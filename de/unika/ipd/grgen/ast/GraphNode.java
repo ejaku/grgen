@@ -33,7 +33,6 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -61,10 +60,11 @@ public class GraphNode extends BaseNode {
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, BaseNode connections) {
+	public GraphNode(Coords coords, BaseNode connections, CollectNode returns) {
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(connections);
+		addChild(returns);
 	}
 	
 	/**

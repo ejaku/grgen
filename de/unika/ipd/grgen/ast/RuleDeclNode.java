@@ -30,21 +30,18 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * AST node for a replacement rule.
  */
 public class RuleDeclNode extends TestDeclNode {
 	
-	private static final int RIGHT = LAST + 3;
-	private static final int EVAL = LAST + 4;
-	private static final int PARAM = LAST + 5;
-	private static final int RET = LAST + 6;
+	private static final int RIGHT = LAST + 5;
+	private static final int EVAL = LAST + 6;
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-			"left", "neg", "right", "eval", "params"
+			"left", "neg", "params", "ret", "right", "eval"
 	};
 	
 	/** Type for this declaration. */
@@ -67,16 +64,12 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
-						BaseNode eval, CollectNode params, CollectNode ret) {
+						BaseNode eval, CollectNode params, CollectNode rets) {
 		
-		super(id, ruleType);
-		setChildrenNames(childrenNames);
-		addChild(left);
-		addChild(neg);
+		super(id, ruleType, left, neg, params, rets);
 		addChild(right);
 		addChild(eval);
-		addChild(params);
-		addChild(ret);
+		setChildrenNames(childrenNames);
 	}
 	
 	protected Collection<GraphNode> getGraphs() {
@@ -165,9 +158,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean childTypes = super.check()
-			&& checkChild(RIGHT, GraphNode.class);
-		boolean returnTypes = true;
+		boolean childTypes = super.check() && checkChild(RIGHT, GraphNode.class);
 //
 //		CollectNode evals = (CollectNode)getChild(EVAL);
 //		GraphNode right = (GraphNode) getChild(RIGHT);
@@ -211,38 +202,15 @@ public class RuleDeclNode extends TestDeclNode {
 //				assert false;
 //		 }
 //
-		
-		
-		// check if actual return entities are conformant
-		// to the formal return parameters
-		BaseNode actualReturns = ((GraphNode)getChild(RIGHT)).getReturn();
-		BaseNode typeReturns   = getChild(RET);
-		
-		if(actualReturns.children() != typeReturns.children()) {
-			error.error(this.getCoords(), "actual and formal return-parameter count mismatch (" +
-							actualReturns.children() + " vs. " + typeReturns.children() +")");
-			return false;
-		} else {
-			Iterator<BaseNode> itAR = actualReturns.getChildren().iterator();
-			
-			for(BaseNode n : getChild(RET).getChildren()) {
-				IdentNode       tReturnAST  = (IdentNode)n;
-				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-				
-				IdentNode       aReturnAST  = (IdentNode)itAR.next();
-				Ident           aReturn     = (Ident)aReturnAST.checkIR(Ident.class);
-				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-				
-				if(!aReturnType.isCastableTo(tReturn)) {
-					error.error(aReturnAST.getCoords(), "actual return-parameter is not conformant to formal parameter (" +
-									aReturnType + " not castable to " + tReturn + ")");
-					returnTypes = false;
-				}
-			}
+		boolean returnParams = true;
+		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
+			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
+			returnParams = false;
 		}
 		
-		return childTypes && returnTypes;
+		return childTypes && returnParams;
 	}
+	
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
@@ -287,3 +255,4 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 	
 }
+
