@@ -2942,7 +2942,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		sb.append(
 			"/* the reqired backend together with a tag indicating the impl\n" +
 				" * variant used (i.e. flat, hash or flash) */\n" +
-				"#define sp_REQUIRED_BE \"FrameBased__FLAT\"\n" +
+				"#define sp_REQUIRED_BE \"SearchPlan__FLAT\"\n" +
 				"\n");
 		
 		sb.append(
