@@ -80,9 +80,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	private int nodeRoot;
 	
 	private void addMembers(CompoundType ct) {
-		for(Iterator<Entity> it = ct.getMembers(); it.hasNext();) {
-			Entity ent = it.next();
-			
+		for(Entity ent : ct.getMembers()) {
 			if(ct instanceof NodeType)
 				nodeAttrMap.put(ent, new Integer(nodeAttrMap.size()));
 			else if(ct instanceof EdgeType)

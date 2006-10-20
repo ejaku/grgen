@@ -491,7 +491,7 @@ public abstract class CBackend extends IDBase implements Backend {
 					ps.print("    </inherits>\n");
 				}
 				
-				Iterator<Entity> attrIt = type.getMembers();
+				Iterator<Entity> attrIt = type.getMembers().iterator();
 				if (attrIt.hasNext()) {
 					ps.print("    <attributes>\n");
 					for(; attrIt.hasNext();) {

@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -25,6 +25,8 @@
 package de.unika.ipd.grgen.ir;
 
 import java.util.*;
+
+import de.unika.ipd.grgen.util.Base;
 
 /**
  * A IR class that represents types that inherit from other types.
@@ -36,7 +38,13 @@ public abstract class InheritanceType extends CompoundType {
 	
 	private int maxDist = -1;
 	private final Set<InheritanceType> superTypes = new LinkedHashSet<InheritanceType>();
-	private final Set<InheritanceType> subTypes = new HashSet<InheritanceType>();
+	private final Set<InheritanceType> subTypes = new LinkedHashSet<InheritanceType>();
+	
+	/**
+	 * Collection containing all members defined in that type and in its supertype.
+	 * This field is used for caching.
+	 */
+	private Map<String, Entity> allMembers = null;
 	
 	/** The type modifiers. */
 	private final int modifiers;
@@ -82,6 +90,34 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<InheritanceType> getSubTypes() {
 		return Collections.unmodifiableCollection(subTypes);
 	}
+	
+	
+	/**
+	 * Method getAllMembers computes the transitive closure of the members (attributes) of a type.
+	 * @return   a Collection containing all members defined in that type and in its supertype.
+	 */
+	public Collection<Entity> getAllMembers() {
+		if( allMembers == null ) {
+			allMembers = new HashMap<String, Entity>();
+			
+			// add members of the current type
+			for(Entity member : getMembers())
+				allMembers.put(member.getIdent().toString(), member);
+			
+			// add the members of the supertype
+			for(InheritanceType superType : getSuperTypes())
+				for(Entity member : superType.getMembers())
+					if(allMembers.containsKey(member.getIdent().toString()))
+						Base.error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
+											 "It is also declared in " + allMembers.get(member.getIdent().toString()).getOwner() + ".");
+					else
+						allMembers.put(member.getIdent().toString(), member);
+		}
+		
+		return allMembers.values();
+	}
+	
+	
 	
 	/**
 	 * Check, if this type is a direct sub type of another type.
@@ -172,6 +208,4 @@ public abstract class InheritanceType extends CompoundType {
 		fields.put("const", Boolean.valueOf(isConst()));
 		fields.put("abstract ", Boolean.valueOf(isAbstract()));
 	}
-	
-	
 }
