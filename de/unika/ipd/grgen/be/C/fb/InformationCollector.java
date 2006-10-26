@@ -28,20 +28,11 @@
 
 package de.unika.ipd.grgen.be.C.fb;
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.be.C.FrameBasedBackend;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.TreeSet;
-import java.util.Collection;
-import de.unika.ipd.grgen.util.Attributes;
+import java.util.*;
+
 import de.unika.ipd.grgen.be.C.CBackend;
+import de.unika.ipd.grgen.util.Attributes;
 import java.io.PrintStream;
-import java.util.Vector;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Collections;
 
 
 
@@ -1156,9 +1147,8 @@ public class InformationCollector extends CBackend
 		for (int et = 0; et < n_enum_types; et++)
 			enum_type_descriptors[et] = new EnumDescriptor();
 		
-		for (Iterator<Identifiable> it = enumMap.keySet().iterator(); it.hasNext(); )
+		for (EnumType enum_type : enumMap.keySet())
 		{
-			EnumType enum_type = (EnumType) it.next();
 			//store the info about the current enum type in an array...
 			//...type id
 			int enum_type_id = enumMap.get(enum_type).intValue();
@@ -1166,7 +1156,7 @@ public class InformationCollector extends CBackend
 			//...the identifier used in the grg-file to declare thar enum type
 			enum_type_descriptors[enum_type_id].name = enum_type.getIdent().toString();
 			//..the items in this enumeration type
-			for (Iterator<EnumItem> item_it = enum_type.getItems(); item_it.hasNext(); )
+			for (Iterator<EnumItem> item_it = enum_type.getItems().iterator(); item_it.hasNext(); )
 			{
 				enum_type_descriptors[enum_type_id].items.add(item_it.next());
 			}

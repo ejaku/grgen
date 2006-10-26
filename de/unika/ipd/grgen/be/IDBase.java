@@ -54,7 +54,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	protected final Map<Entity, Integer> edgeAttrMap = new HashMap<Entity, Integer>();
 	
 	/** enum value map. (Enum -> Integer) */
-	protected final Map<Identifiable, Integer> enumMap = new HashMap<Identifiable, Integer>();
+	protected final Map<EnumType, Integer> enumMap = new HashMap<EnumType, Integer>();
 	
 	/** action map. (Action -> Integer) */
 	protected final Map<Action, Integer> actionMap = new HashMap<Action, Integer>();
@@ -100,7 +100,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 				} else if(type instanceof EdgeType) {
 					edgeTypeMap.put((EdgeType)type, new Integer(edgeTypeMap.size()));
 				} else if(type instanceof EnumType) {
-					enumMap.put(type, new Integer(enumMap.size()));
+					enumMap.put((EnumType)type, new Integer(enumMap.size()));
 				}
 				
 				if(type instanceof CompoundType) {

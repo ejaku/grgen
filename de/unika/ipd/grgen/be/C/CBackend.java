@@ -155,7 +155,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb The string buffer to add the code to.
 	 * @param map The enum type map.
 	 */
-	protected void makeEnumDefines(PrintStream ps, Map<Identifiable, Integer> map) {
+	protected void makeEnumDefines(PrintStream ps, Map<EnumType, Integer> map) {
 		ps.print("/** Number of enum types. */\n");
 		ps.print("#define GR_DEF_ENUMS " + map.size() + "\n\n");
 		
@@ -198,7 +198,7 @@ public abstract class CBackend extends IDBase implements Backend {
 	 */
 	protected void makeAttrMap(PrintStream ps, Map<Entity, Integer> attrMap,
 							   Map<? extends InheritanceType, Integer> typeMap,
-							   Map<Identifiable, Integer> enumMap, String add) {
+							   Map<EnumType, Integer> enumMap, String add) {
 		String[] name = new String[attrMap.size()];
 		Type[] types = new Type[attrMap.size()];
 		Integer[] owner = new Integer[attrMap.size()];
@@ -506,15 +506,15 @@ public abstract class CBackend extends IDBase implements Backend {
 			}
 		}
 		
-		for(Iterator<Identifiable> it = enumMap.keySet().iterator(); it.hasNext();) {
-			EnumType type = (EnumType) it.next();
+		for(Iterator<EnumType> it = enumMap.keySet().iterator(); it.hasNext();) {
+			EnumType type = it.next();
 			
 			dumpXMLTag(1, ps, ">\n", type);
-			Iterator<EnumItem> itemIt = type.getItems();
+			Iterator<EnumItem> itemIt = type.getItems().iterator();
 			if (itemIt.hasNext()) {
 				ps.print("    <items>\n");
 				for(; itemIt.hasNext();) {
-					EnumItem ev = (EnumItem) itemIt.next();
+					EnumItem ev = itemIt.next();
 					
 					dumpXMLTag(3, ps, "/>\n", ev);
 				}
@@ -584,18 +584,16 @@ public abstract class CBackend extends IDBase implements Backend {
 	 * @param sb   The string buffer.
 	 * @param map  A map containing all enum types.
 	 */
-	protected void makeEnumDeclarations(PrintStream ps, Map<Identifiable, Integer> map) {
+	protected void makeEnumDeclarations(PrintStream ps, Map<EnumType, Integer> map) {
 		// build the description of all enum types
-		for(Iterator<Identifiable> it = map.keySet().iterator(); it.hasNext();) {
-			EnumType type = (EnumType) it.next();
+		for(Iterator<EnumType> it = map.keySet().iterator(); it.hasNext();) {
+			EnumType type = it.next();
 			Ident name = type.getIdent();
 			
 			ps.print("/** The items for the " + name + " enum type. */\n");
 			ps.print("static const enum_item_decl_t _" + name + "_items[] = {\n");
 			
-			for(Iterator<EnumItem> itemIt = type.getItems(); itemIt.hasNext();) {
-				EnumItem ev = (EnumItem) itemIt.next();
-				
+			for(EnumItem ev : type.getItems()) {
 				ps.print(" { \"" + ev + "\", " + ev.getValue().getValue() + " },\n");
 			}
 			ps.print("};\n\n");
@@ -613,8 +611,8 @@ public abstract class CBackend extends IDBase implements Backend {
 		ps.print("static const enum_types_t enum_types[] = {\n");
 		
 		String[] names = new String[map.size()];
-		for(Iterator<Identifiable> it = map.keySet().iterator(); it.hasNext();) {
-			EnumType type = (EnumType) it.next();
+		for(Iterator<EnumType> it = map.keySet().iterator(); it.hasNext();) {
+			EnumType type = it.next();
 			int index = getTypeId(map, type);
 			
 			names[index] = type.getIdent().toString();
@@ -787,8 +785,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		for(InheritanceType et : edgeTypeMap.keySet()) {
 			EdgeType edgeType = (EdgeType)et;
-			for(Iterator<ConnAssert> j = edgeType.getConnAsserts(); j.hasNext();) {
-				ConnAssert ca = j.next();
+			for(ConnAssert ca : edgeType.getConnAsserts()) {
 				sb.append("\n{\n");
 				sb.append("  "+getId(edgeType)+",\n");
 				sb.append("  "+getId(ca.getSrcType())+",\n");

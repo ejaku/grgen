@@ -147,11 +147,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("{\n");
 		
 		System.out.println("    generating enums...");
-		sb.append("\t//\n");
-		sb.append("\t// Enums\n");
-		sb.append("\t//\n");
-		sb.append("\n");
-		sb.append("\tpublic enum ENUM_State { ... };\n");
+		genModelEnum(sb);
 		
 		System.out.println("    generating node types...");
 		sb.append("\n");
@@ -169,10 +165,39 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\n");
 		genModelModel(sb, edgeTypeMap.keySet(), false);
 		
+		System.out.println("    generating graph model...");
+		sb.append("\n");
+		genModelGraph(sb, edgeTypeMap.keySet(), false);
 		
 		sb.append("}\n");
 		
 		writeFile(filename, sb);
+	}
+	
+	private void genModelEnum(StringBuffer sb) {
+		sb.append("\t//\n");
+		sb.append("\t// Enums\n");
+		sb.append("\t//\n");
+		sb.append("\n");
+		
+		for(EnumType enumt :enumMap.keySet()) {
+			sb.append("\tpublic enum ENUM_" + enumt.getIdent() + " { ");
+			for(EnumItem enumi : enumt.getItems()) {
+				sb.append(enumi.getIdent().toString() + " = " + enumi.getValue().getValue() + ", ");
+			}
+			sb.append("};\n\n");
+		}
+		
+		sb.append("\tpublic class Enums\n");
+		sb.append("\t{\n");
+		for(EnumType enumt :enumMap.keySet()) {
+			sb.append("\t\tpublic static EnumAttributeType " + enumt.getIdent() +
+						  " = new EnumAttributeType(\"ENUM_" + enumt.getIdent() + "\", new EnumMember[] {\n");
+			for(EnumItem enumi : enumt.getItems()) {
+				sb.append("\t\t\tnew EnumMember(" + enumi.getValue().getValue() + ", \"" + enumi.getIdent().toString() + "\"),\n");
+			}
+		}
+		sb.append("\t}\n");
 	}
 	
 	private void genModelTypes(StringBuffer sb, Set<? extends InheritanceType> types, boolean isNode) {
@@ -237,7 +262,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 	
 	private void genModelModel2(StringBuffer sb, boolean isNode, InheritanceType rootType, Set<? extends InheritanceType> types) {
-		sb.append("\t\tpublic bool isNodeModel { get { return " + (isNode?"true":"false") +"; } }\n");
+		sb.append("\t\tpublic bool IsNodeModel { get { return " + (isNode?"true":"false") +"; } }\n");
 		sb.append("\t\tpublic IType RootType { get { return " + formatType(rootType) + ".typeVar; } }\n");
 		sb.append("\t\tpublic IType GetType(String name)\n");
 		sb.append("\t\t{\n");
@@ -266,9 +291,51 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\t\tprivate AttributeType[] attributeTypes = {\n");
 		for(InheritanceType type : types)
 			for(Entity member : type.getMembers())
-				sb.append("\t\t\t" + formatType(type) + "." + formatAttributeType(member) + ",\n");
+				sb.append("\t\t\t" + formatType(type) + "." + formatAttributeTypeName(member) + ",\n");
 		sb.append("\t\t};\n");
 		sb.append("\t\tpublic IEnumerable<AttributeType> AttributeTypes { get { return attributeTypes; } }\n");
+	}
+	
+	private void genModelGraph(StringBuffer sb, Set<? extends InheritanceType> keySet, boolean p2) {
+		sb.append("\t//\n");
+		sb.append("\t// IGraphModel implementation\n");
+		sb.append("\t//\n");
+		sb.append("\n");
+		
+		sb.append("\tpublic sealed class GraphModel : IGraphModel\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate NodeModel nodeModel = new NodeModel();\n");
+		sb.append("\t\tprivate EdgeModel edgeModel = new EdgeModel();\n");
+		genValidate(sb);
+		sb.append("\n");
+		
+		sb.append("\t\tpublic String Name { get { return \"" + unit.getIdent() + "\"; } }\n");
+		sb.append("\t\tpublic ITypeModel NodeModel { get { return nodeModel; } }\n");
+		sb.append("\t\tpublic ITypeModel EdgeModel { get { return edgeModel; } }\n");
+		sb.append("\t\tpublic IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }\n");
+		sb.append("\t\tpublic String MD5Hash { get { return \"" + unit.getTypeDigest() + "\"; } }\n");
+		
+		sb.append("\t}\n");
+	}
+	
+	private void genValidate(StringBuffer sb) {
+		sb.append("\t\tprivate ValidateInfo[] validateInfos = {\n");
+		
+		for(EdgeType edgeType : edgeTypeMap.keySet()) {
+			for(ConnAssert ca :edgeType.getConnAsserts()) {
+				sb.append("\t\t\tnew ValidateInfo(");
+				sb.append(formatType(edgeType) + ".typeVar, ");
+				sb.append(formatType(ca.getSrcType()) + ".typeVar, ");
+				sb.append(formatType(ca.getTgtType()) + ".typeVar, ");
+				sb.append(formatInt(ca.getSrcLower()) + ", ");
+				sb.append(formatInt(ca.getSrcUpper()) + ", ");
+				sb.append(formatInt(ca.getTgtLower()) + ", ");
+				sb.append(formatInt(ca.getTgtUpper()));
+				sb.append("),\n");
+			}
+		}
+		
+		sb.append("\t\t};\n");
 	}
 	
 	private void genModelType(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
@@ -285,11 +352,14 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		genSuperTypeList(sb, type);
 		sb.append("\n");
 		sb.append("\t{\n");
+		genAttributeAccess(sb, type);
 		sb.append("\t}\n");
 		
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + cname + " : " + iname + "\n");
 		sb.append("\t{\n");
+		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n");
+		genAttributeAccessImpl(sb, type);
 		sb.append("\t}\n");
 		
 		sb.append("\n");
@@ -301,6 +371,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\t\t\ttypeID   = (int) " + formatNodeOrEdge(type) + "Types." + typeName + ";\n");
 		genIsA(sb, types, type);
 		genIsMyType(sb, types, type);
+		genAttributeInit(sb, type);
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
@@ -309,6 +380,59 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("\t}\n");
 	}
 	
+	
+	/**
+	 * Method genAttributeAccess
+	 * @param    sb                  a  StringBuffer
+	 * @param    type                an InheritanceType
+	 */
+	private void genAttributeAccess(StringBuffer sb, InheritanceType type) {
+		for(Entity e : type.getMembers()) {
+			sb.append("\t\t" + formatAttributeType(e) + " " + formatAttributeName(e) + " { get; set; }\n");
+		}
+	}
+	
+	/**
+	 * Method genAttributeAccessImpl
+	 * @param    sb                  a  StringBuffer
+	 * @param    type                an InheritanceType
+	 */
+	private void genAttributeAccessImpl(StringBuffer sb, InheritanceType type) {
+		for(Entity e : type.getAllMembers()) {
+			sb.append("\t\tprivate " + formatAttributeType(e) + " _" + formatAttributeName(e) + ";\n");
+			sb.append("\t\tpublic " + formatAttributeType(e) + " " + formatAttributeName(e) + "\n");
+			sb.append("\t\t{\n");
+			sb.append("\t\t\tget { return _" + formatAttributeName(e) + "; }\n");
+			sb.append("\t\t\tset { _" + formatAttributeName(e) + " = value; }\n");
+			sb.append("\t\t}\n");
+			sb.append("\n");
+		}
+	}
+	
+	/**
+	 * Method genAttributeAccessImpl
+	 * @param    sb                  a  StringBuffer
+	 * @param    type                an InheritanceType
+	 */
+	private void genAttributeInit(StringBuffer sb, InheritanceType type) {
+		for(Entity e : type.getMembers()) {
+			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new AttributeType(");
+			sb.append("\"" + formatAttributeName(e) + "\", this, AttributeKind.");
+			Type t = e.getType();
+			
+			if (t instanceof IntType)
+				sb.append("IntegerAttr, null");
+			else if (t instanceof BooleanType)
+				sb.append("BooleanAttr, null");
+			else if (t instanceof StringType)
+				sb.append("StringAttr, null");
+			else if (t instanceof EnumType)
+				sb.append("EnumAttr, Enums." + t.getIdent());
+			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
+			
+			sb.append(");\n");
+		}
+	}
 	
 	/**
 	 * Generate a list of supertpes of the actual type.
@@ -329,7 +453,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	
 	private void genAttributeAttributes(StringBuffer sb, InheritanceType type) {
 		for(Entity member : type.getMembers()) // only for locally defined members
-			sb.append("\t\tpublic static AttributeType " + formatAttributeType(member) + ";\n");
+			sb.append("\t\tpublic static AttributeType " + formatAttributeTypeName(member) + ";\n");
 	}
 	
 	private void genIsA(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
@@ -368,9 +492,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			for(Entity e : allMembers) {
 				Type ownerType = e.getOwner();
 				if(ownerType == type)
-					sb.append("\t\t\t\tyield return " + formatAttributeType(e) + ";\n");
+					sb.append("\t\t\t\tyield return " + formatAttributeTypeName(e) + ";\n");
 				else
-					sb.append("\t\t\t\tyield return " + formatType(ownerType) + "." + formatAttributeType(e) + ";\n");
+					sb.append("\t\t\t\tyield return " + formatType(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
 			sb.append("\t\t\t}\n");
 			sb.append("\t\t}\n");
@@ -391,10 +515,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				Type ownerType = e.getOwner();
 				if(ownerType == type)
 					sb.append("\t\t\t\tcase \"" + e.getIdent() + "\" : return " +
-								  formatAttributeType(e) + ";\n");
+								  formatAttributeTypeName(e) + ";\n");
 				else
 					sb.append("\t\t\t\tcase \"" + e.getIdent() + "\" : return " +
-								  formatType(ownerType) + "." + formatAttributeType(e) + ";\n");
+								  formatType(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
 			sb.append("\t\t\t}\n");
 			sb.append("\t\t\treturn null;\n");
@@ -452,9 +576,34 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				collectNodesnEdges(nodes, edges, child);
 	}
 	
+	private String formatAttributeName(Entity e) {
+		return formatId(e.getIdent().toString());
+	}
 	
 	private String formatAttributeType(Entity e) {
-		return "AttributeType_" + formatId(e.getIdent().toString());
+		Type t = e.getType();
+		if (t instanceof IntType)
+			return "int";
+		else if (t instanceof BooleanType)
+			return "bool";
+		else if (t instanceof StringType)
+			return "String";
+		else if (t instanceof EnumType)
+			return "ENUM_" + e.getType().getIdent();
+		else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
+	}
+	
+	private String formatEnum(Entity e) {
+		// TODO
+		return "ENUM_" + e.getIdent().toString();
+	}
+	
+	private String formatAttributeTypeName(Entity e) {
+		return "AttributeType_" + formatAttributeName(e);
+	}
+	
+	private String formatInt(int i) {
+		return (i==Integer.MAX_VALUE)?"int.MaxValue":new Integer(i).toString();
 	}
 	
 	private String formatType(Type type) {
@@ -477,6 +626,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
+
 
 
 
