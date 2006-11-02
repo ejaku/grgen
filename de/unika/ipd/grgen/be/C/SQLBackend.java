@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -37,7 +37,6 @@ import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultStatementFactory;
 import de.unika.ipd.grgen.util.Util;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -609,10 +608,9 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		 * Generate an eval statement for some assignments.
 		 * @param assigns A collection of assignments.
 		 */
-		public void generateEvals(Collection<Object> assigns) {
+		public void generateEvals(Collection<Assignment> assigns) {
 			
-			for(Iterator<Object> it = assigns.iterator(); it.hasNext();) {
-				Assignment a = (Assignment) it.next();
+			for(Assignment a : assigns) {
 				assert evalMap.containsKey(a);
 				PreparedStatements.Stmt q = evalMap.get(a);
 				int ents = q.usedEntities.size();
@@ -681,8 +679,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		PrintStream tps = new PrintStream(bos);
 		
-		for(Iterator<Object> i = r.getEvals().iterator(); i.hasNext(); num++) {
-			Assignment assign = (Assignment) i.next();
+		for(Assignment assign : r.getEvals()) {
 			MarkerSource ms = getMarkerSource();
 			Collection usedEntities = new LinkedList();
 			Statement s = sqlGen.genEvalUpdateStmt(assign, factory, ms, usedEntities);
@@ -693,6 +690,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			tps.flush();
 			
 			evalMap.put(assign, evalStmts.add(name, s, ms.getTypes(), usedEntities));
+			num++;
 		}
 	}
 	

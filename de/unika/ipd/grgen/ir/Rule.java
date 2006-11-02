@@ -44,7 +44,7 @@ public class Rule extends MatchingAction {
 	private final Graph right;
 	
 	/** The evaluation assignments of this rule. */
-	private final Collection<Object> evals = new LinkedList<Object>();
+	private final Collection<Assignment> evals = new LinkedList<Assignment>();
 	
 	/**
 	 * Make a new rule.
@@ -65,7 +65,7 @@ public class Rule extends MatchingAction {
 	 * Get the eval assignments of this rule.
 	 * @return A collection containing all eval assignments.
 	 */
-	public Collection<Object> getEvals() {
+	public Collection<Assignment> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
 	

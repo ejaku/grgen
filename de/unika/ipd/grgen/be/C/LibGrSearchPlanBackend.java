@@ -178,7 +178,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	}
 	
 	
-	private void genActualActions(StringBuffer sb)
+	protected void genActualActions(StringBuffer sb)
 	{
 		sb.append(
 			"\n\n\n\n\n\n" +

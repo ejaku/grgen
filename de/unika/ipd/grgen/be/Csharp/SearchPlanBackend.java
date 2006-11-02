@@ -32,17 +32,15 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
-import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.C.fb.MoreInformationCollector;
+import de.unika.ipd.grgen.be.C.LibGrSearchPlanBackend;
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
+public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	
 	private final int OUT = 0;
 	private final int IN = 1;
@@ -61,26 +59,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			"-", "*", "/", "%", null, null, null, null
 	};
 	
-	
-	private class IdGenerator<T> {
-		ArrayList<T> list = new ArrayList<T>();
-		Set<T> set = new HashSet<T>();
-		
-		private int computeId(T elem) {
-			if(!set.contains(elem)) {
-				set.add(elem);
-				list.add(elem);
-			}
-			return list.indexOf(elem);
-		}
-		
-		private boolean isKnown(T elem) {
-			return set.contains(elem);
-		}
-	}
-	
-	//Kann man das entfernen???
-	//ToDo: Pruefe das, ob man diese Methode wegschmeissen kann!!!
 	
 	/**
 	 * Method makeEvals
@@ -128,6 +106,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		
 		System.out.println("The " + this.getClass() + " GrGen backend...");
 		genModel();
+		genRules();
 		
 		System.out.println("done!");
 	}
@@ -137,7 +116,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		String filename = formatId(unit.getIdent().toString()) + "Model.cs";
 		
 		System.out.println("  generating the "+filename+" file...");
-		
 		
 		sb.append("using System;\n");
 		sb.append("using System.Collections.Generic;\n");
@@ -172,6 +150,200 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("}\n");
 		
 		writeFile(filename, sb);
+	}
+	
+	private void genRules() {
+		StringBuffer sb = new StringBuffer();
+		String filename = formatId(unit.getIdent().toString()) + "Actions.cs";
+		
+		System.out.println("  generating the "+filename+" file...");
+		
+		
+		sb.append("#define INITIAL_WARMUP\n");
+		sb.append("using System;\n");
+		sb.append("using System.Collections.Generic;\n");
+		sb.append("using System.Text;\n");
+		sb.append("using de.unika.ipd.grGen.libGr;\n");
+		sb.append("using de.unika.ipd.grGen.lgsp;\n");
+		sb.append("using de.unika.ipd.grGen.models;\n");
+		sb.append("\n");
+		sb.append("#if INITIAL_WARMUP\n");
+		sb.append("using de.unika.ipd.grGen.grGenCookerHelper;\n");
+		sb.append("#endif\n");
+		sb.append("\n");
+		sb.append("namespace de.unika.ipd.grGen.models\n");
+		sb.append("{\n");
+		
+		for(Action action : actionMap.keySet())
+			if(action instanceof MatchingAction)
+				genRule(sb, (MatchingAction)action);
+			else
+				throw new IllegalArgumentException("Unknown Action: " + action);
+		
+		sb.append("}\n");
+		
+		writeFile(filename, sb);
+	}
+	
+	private void genRule(StringBuffer sb, MatchingAction action) {
+		sb.append("\tpublic class Rule_" + action.getIdent() + " : RulePattern\n");
+		sb.append("\t{\n");
+		sb.append("\t\tpublic static Rule_" + action.getIdent() + " Instance = new Rule_" + action.getIdent() + "();\n");
+		sb.append("\n");
+		genRuleInit(sb, action);
+		sb.append("\n");
+		genRuleReplace(sb, (Rule)action);
+		sb.append("\t}\n");
+		sb.append("\n");
+		
+		sb.append("#if INITIAL_WARMUP\n");
+		sb.append("\tpublic class Schedule_" + action.getIdent() + " : Schedule\n");
+		sb.append("\t{\n");
+		sb.append("\t\tpublic Schedule_" + action.getIdent() + "()\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\tActionName = \"" + action.getIdent() + "\";\n");
+		sb.append("\t\t\tRulePattern = Rule_" + action.getIdent() + ".Instance;\n");
+		// TODO
+		sb.append("\t\t}\n");
+		sb.append("\t}\n");
+		sb.append("#endif\n");
+		sb.append("\n");
+	}
+	
+	private void genRuleInit(StringBuffer sb, MatchingAction action) {
+		int i = 0;
+		sb.append("\t\tpublic enum NodeNums { ");
+		for(Node node : action.getPattern().getNodes())
+			sb.append("nid_" + i++ + ", ");
+		sb.append("};\n");
+		sb.append("\t\tpublic enum EdgeNums { ");
+		i = 0;
+		for(Edge edge : action.getPattern().getEdges())
+			sb.append("eid_" + i++ + ", ");
+		sb.append("};\n");
+		sb.append("\n");
+		
+		sb.append("\t\tpublic Rule_" + action.getIdent() + "()\n");
+		sb.append("\t\t{\n");
+		
+		PatternGraph pattern = action.getPattern();
+		genPatternGraph(sb, null, pattern, "");
+		i = 0;
+		for(PatternGraph neg : action.getNegs()) {
+			genPatternGraph(sb, pattern, neg, "negPattern_" + i++);
+		}
+		
+		sb.append("\t\t\tNegativePatternGraphs = new PatternGraph[] {");
+		for(i = 0; i < action.getNegs().size(); i++)
+			sb.append("negPattern_" + i + ", ");
+		sb.append("};\n");
+		sb.append("\t\t\tInputs = new IType[0];\n");
+		sb.append("\t\t\tOutputs = new IType[0];\n");
+		
+		sb.append("\t\t}\n");
+	}
+	
+	private void genRuleReplace(StringBuffer sb, Rule rule) {
+		sb.append("\t\tpublic override void Replace(IGraph graph, Match match, IGraphElement[] parameters, String[] returnVars)\n");
+		sb.append("\t\t{\n");
+		
+		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
+		Collection<Edge> newEdges = new HashSet<Edge>(rule.getRight().getEdges());
+		Collection<Node> delNodes = new HashSet<Node>(rule.getLeft().getNodes());
+		Collection<Edge> delEdges = new HashSet<Edge>(rule.getLeft().getEdges());
+		
+		newNodes.removeAll(rule.getCommonNodes());
+		newEdges.removeAll(rule.getCommonEdges());
+		delNodes.removeAll(rule.getCommonNodes());
+		delEdges.removeAll(rule.getCommonEdges());
+		
+		sb.append("\t\t\t// TODO\n"); // TODO
+		
+		for(Node node : newNodes)
+			sb.append(
+				"\t\t\tINode node_" + node.getIdent() + " = graph.AddNode(" +
+					"NodeType_" + node.getType().getIdent() + ".typeVar);\n"
+			);
+		
+		for(Edge edge : newEdges) {
+			String src, tgt;
+			
+			if(rule.getCommonNodes().contains(rule.getRight().getSource(edge)) )
+				src = "match.Nodes[(int) NodeNums.Num_" + rule.getRight().getSource(edge).getIdent()  + " - 1]";
+			else
+				src = "TODO";
+			
+			if(rule.getCommonNodes().contains(rule.getRight().getTarget(edge)) )
+				tgt = "match.Nodes[(int) NodeNums.Num_" + rule.getRight().getTarget(edge).getIdent() + " - 1]";
+			else
+				tgt = "TODO";
+			
+			sb.append(
+				"\t\t\tIEdge edge_" + edge.getIdent() + " = graph.AddEdge(" +
+					"EdgeType_" + edge.getType().getIdent() + ".typeVar, " +
+					src + ", " + tgt + ");\n"
+			);
+		}
+		
+		for(Assignment ass : rule.getEvals())
+			sb.append("// TODO " + ass); // TODO
+		
+		for(Node node : delNodes)
+			sb.append("\t\t\tgraph.Remove(match.Nodes[(int) NodeNums.Num_" + node.getIdent() + " - ]);\n");
+		
+		for(Edge edge : delEdges)
+			sb.append("\t\t\tgraph.Remove(match.Edges[(int) EdgeNums.Num_" + edge.getIdent() + " - 1]);\n");
+		
+		sb.append("\t\t}\n");
+	}
+	
+	private void genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name) {
+		for(Node node : pattern.getNodes()) {
+			if(outer != null && outer.hasNode(node))
+				continue;
+			sb.append("\t\t\tPatternNode node_"  + node.getIdent() + " = new PatternNode(");
+			sb.append("(int) NodeTypes." + node.getType().getIdent() + ", \"" + node.getIdent() + "\");\n");
+		}
+		for(Edge edge : pattern.getEdges()) {
+			if(outer != null && outer.hasEdge(edge))
+				continue;
+			sb.append("\t\t\tPatternEdge edge_"  + edge.getIdent() + " = new PatternEdge(");
+			sb.append("node_" + pattern.getSource(edge) + ", node_"+ pattern.getTarget(edge));
+			sb.append(", (int) EdgeTypes." + edge.getType().getIdent() + ", \"" + edge.getIdent() + "\"" + ");\n");
+		}
+		
+		sb.append("\t\t\tPatternGraph " + pattern_name + " = new PatternGraph(\n");
+		
+		sb.append("\t\t\t\tnew PatternNode[] { ");
+		for(Node node : pattern.getNodes())
+			sb.append("node_" + node.getIdent() + ", ");
+		sb.append("}, \n");
+		
+		sb.append("\t\t\t\tnew PatternEdge[] { ");
+		for(Edge edge : pattern.getEdges())
+			sb.append("edge_" + edge.getIdent() + ", ");
+		sb.append("}, \n");
+		
+		sb.append("\t\t\t\tnew Condition[] { ");
+		int i = 0;
+		for(Expression expr : pattern.getConditions())
+			sb.append("cond_" + i++ + ", // TODO " + expr); // TODO
+		sb.append("}, \n");
+		
+		sb.append("\t\t\t\tnew bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] {\n");
+		for(Node node1 : pattern.getNodes()) {
+			sb.append("\t\t\t\t\t{ ");
+			for(Node node2 : pattern.getNodes())
+				if(node1.isHomomorphic(node2))
+					sb.append("true, ");
+				else
+					sb.append("false, ");
+			sb.append("},\n");
+		}
+		sb.append("\t\t\t\t},\n");
+		
+		sb.append("\t\t\t);\n");
+		sb.append("\n");
 	}
 	
 	private void genModelEnum(StringBuffer sb) {
@@ -373,6 +545,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		genIsMyType(sb, types, type);
 		genAttributeInit(sb, type);
 		sb.append("\t\t}\n");
+		// TODO compute cost of node by prio
+		
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
@@ -594,7 +768,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 	
 	private String formatEnum(Entity e) {
-		// TODO
 		return "ENUM_" + e.getIdent().toString();
 	}
 	
@@ -626,7 +799,4 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
-
-
-
 

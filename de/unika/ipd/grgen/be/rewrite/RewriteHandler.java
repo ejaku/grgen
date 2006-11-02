@@ -26,6 +26,7 @@
  */
 package de.unika.ipd.grgen.be.rewrite;
 
+import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Rule;
@@ -96,7 +97,7 @@ public interface RewriteHandler {
 	 * Generate an eval statement for some assignments.
 	 * @param assigns A collection of assignments.
 	 */
-	void generateEvals(Collection<Object> assigns);
+	void generateEvals(Collection<Assignment> assigns);
 	
 	/**
 	 * Get the class of the required rewrite generator.

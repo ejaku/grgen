@@ -76,7 +76,7 @@ public class MoreInformationCollector extends InformationCollector {
 				Rule rule = (Rule) act;
 				Integer act_id = actionMap.get(act);
 				
-				Collection<Object> rule_evals = rule.getEvals();
+				Collection<Assignment> rule_evals = rule.getEvals();
 				
 				evalListMap.put( rule_evals, act_id );
 				evalActions.put( rule_evals, act );
@@ -86,7 +86,7 @@ public class MoreInformationCollector extends InformationCollector {
 				involvedEvalNodeAttrIds[ act_id.intValue() ] = new HashMap();
 				involvedEvalEdgeAttrIds[ act_id.intValue() ] = new HashMap();
 				
-				for(  Iterator<Object> it2 = rule_evals.iterator(); it2.hasNext(); ) {
+				for(  Iterator<Assignment> it2 = rule_evals.iterator(); it2.hasNext(); ) {
 					Assignment eval = (Assignment)it2.next();
 					Qualification target = eval.getTarget();
 					Expression expr = eval.getExpression();
