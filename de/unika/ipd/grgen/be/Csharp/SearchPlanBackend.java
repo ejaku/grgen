@@ -159,7 +159,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		System.out.println("  generating the "+filename+" file...");
 		
 		
-		sb.append("#define INITIAL_WARMUP\n");
 		sb.append("using System;\n");
 		sb.append("using System.Collections.Generic;\n");
 		sb.append("using System.Text;\n");
@@ -240,7 +239,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t\t{\n");
 		
 		PatternGraph pattern = action.getPattern();
-		genPatternGraph(sb, null, pattern, "PatternGraph ");
+		genPatternGraph(sb, null, pattern, "PatternGraph", "");
 		sb.append("\n");
 		
 		i = 0;
@@ -248,7 +247,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			String negName = "negPattern_" + i++;
 			sb.append("\t\t\tPatternGraph " + negName + ";\n");
 			sb.append("\t\t\t{\n");
-			genPatternGraph(sb, pattern, neg, negName);
+			genPatternGraph(sb, pattern, neg, negName, ", PatternElementType.NegElement");
 			sb.append("\t\t\t}\n\n");
 		}
 		
@@ -277,8 +276,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		newEdges.removeAll(rule.getCommonEdges());
 		delNodes.removeAll(rule.getCommonNodes());
 		delEdges.removeAll(rule.getCommonEdges());
-		
-		sb.append("\t\t\t// TODO\n"); // TODO
 		
 		for(Node node : newNodes)
 			sb.append(
@@ -322,6 +319,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		double max;
 		max = computePriosMax(action.getPattern().getNodes(), -1);
 		max = computePriosMax(action.getPattern().getEdges(), max);
+		// TODO compute max of NACs
 		
 		sb.append("\t\t\tNodeCost = new float[] { ");
 		genPriosNoE(sb, action.getPattern().getNodes(), max);
@@ -330,8 +328,24 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t\t\tEdgeCost = new float[] { ");
 		genPriosNoE(sb, action.getPattern().getEdges(), max);
 		sb.append(" };\n");
+		
+		sb.append("\t\t\tNegNodeCost = new float[][] { ");
+		for(PatternGraph neg : action.getNegs()){
+			sb.append("new float[] { ");
+			genPriosNoE(sb, neg.getNodes(), max);
+			sb.append("}, ");
+		}
+		sb.append("};\n");
+		
+		sb.append("\t\t\tNegEdgeCost = new float[][] { ");
+		for(PatternGraph neg : action.getNegs()){
+			sb.append("new float[] { ");
+			genPriosNoE(sb, neg.getEdges(), max);
+			sb.append("}, ");
+		}
+		sb.append("};\n");
 	}
-
+	
 	private double computePriosMax(Collection<? extends ConstraintEntity> nodesOrEdges, double max) {
 		for(ConstraintEntity noe : nodesOrEdges) {
 			Object prioO = noe.getAttributes().get("prio");
@@ -359,23 +373,23 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			else
 				prio = 5.5;
 			
-			sb.append(prio + ", ");
+			sb.append(prio + "F, ");
 		}
 	}
 	
-	private void genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name) {
+	private void genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name, String additional_parameters) {
 		for(Node node : pattern.getNodes()) {
 			if(outer != null && outer.hasNode(node))
 				continue;
 			sb.append("\t\t\tPatternNode node_"  + formatIdent(node.getIdent()) + " = new PatternNode(");
-			sb.append("(int) NodeTypes." + formatIdent(node.getType().getIdent()) + ", \"" + formatIdent(node.getIdent()) + "\");\n");
+			sb.append("(int) NodeTypes." + formatIdent(node.getType().getIdent()) + ", \"" + formatIdent(node.getIdent()) + "\"" + additional_parameters + ");\n");
 		}
 		for(Edge edge : pattern.getEdges()) {
 			if(outer != null && outer.hasEdge(edge))
 				continue;
 			sb.append("\t\t\tPatternEdge edge_"  + formatIdent(edge.getIdent()) + " = new PatternEdge(");
 			sb.append("node_" + formatIdent(pattern.getSource(edge).getIdent()) + ", node_"+ formatIdent(pattern.getTarget(edge).getIdent()));
-			sb.append(", (int) EdgeTypes." + formatIdent(edge.getType().getIdent()) + ", \"" + formatIdent(edge.getIdent()) + "\"" + ");\n");
+			sb.append(", (int) EdgeTypes." + formatIdent(edge.getType().getIdent()) + ", \"" + formatIdent(edge.getIdent()) + "\"" + additional_parameters + ");\n");
 		}
 		
 		sb.append("\t\t\t" + pattern_name + " = new PatternGraph(\n");
@@ -479,15 +493,17 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.subOrSameTypes = new ITypeFramework[] {\n");
+			sb.append("\t\t\t\t" + formatType(type) + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
-				if(otherType.isCastableTo(type))
+				if(type != otherType && otherType.isCastableTo(type))
 					sb.append("\t\t\t\t" + formatType(otherType) + ".typeVar,\n");
 			}
 			sb.append("\t\t\t};\n");
 			
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.superOrSameTypes = new ITypeFramework[] {\n");
+			sb.append("\t\t\t\t" + formatType(type) + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
-				if(type.isCastableTo(otherType))
+				if(type != otherType && type.isCastableTo(otherType))
 					sb.append("\t\t\t\t" + formatType(otherType) + ".typeVar,\n");
 			}
 			sb.append("\t\t\t};\n");
@@ -870,5 +886,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
+
 
 
