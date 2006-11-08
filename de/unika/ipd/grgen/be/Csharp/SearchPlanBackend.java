@@ -121,7 +121,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("using System.Collections.Generic;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.models\n");
+		sb.append("namespace de.unika.ipd.grGen.models." + formatIdent(unit.getIdent()) + "\n");
 		sb.append("{\n");
 		
 		System.out.println("    generating enums...");
@@ -164,13 +164,13 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.models;\n");
+		sb.append("using de.unika.ipd.grGen.models." + formatIdent(unit.getIdent()) + ";\n");
 		sb.append("\n");
 		sb.append("#if INITIAL_WARMUP\n");
 		sb.append("using de.unika.ipd.grGen.grGenCookerHelper;\n");
 		sb.append("#endif\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.models\n");
+		sb.append("namespace de.unika.ipd.grGen.actions." + formatIdent(unit.getIdent()) + "\n");
 		sb.append("{\n");
 		
 		for(Action action : actionMap.keySet())
@@ -317,8 +317,14 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	
 	private void genPrios(MatchingAction action, StringBuffer sb) {
 		double max;
+		
 		max = computePriosMax(action.getPattern().getNodes(), -1);
 		max = computePriosMax(action.getPattern().getEdges(), max);
+		for(PatternGraph neg : action.getNegs())
+			max = computePriosMax(neg.getNodes(), max);
+		for(PatternGraph neg : action.getNegs())
+			max = computePriosMax(neg.getEdges(), max);
+		
 		// TODO compute max of NACs
 		
 		sb.append("\t\t\tNodeCost = new float[] { ");
@@ -330,7 +336,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append(" };\n");
 		
 		sb.append("\t\t\tNegNodeCost = new float[][] { ");
-		for(PatternGraph neg : action.getNegs()){
+		for(PatternGraph neg : action.getNegs()) {
 			sb.append("new float[] { ");
 			genPriosNoE(sb, neg.getNodes(), max);
 			sb.append("}, ");
@@ -338,7 +344,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("};\n");
 		
 		sb.append("\t\t\tNegEdgeCost = new float[][] { ");
-		for(PatternGraph neg : action.getNegs()){
+		for(PatternGraph neg : action.getNegs()) {
 			sb.append("new float[] { ");
 			genPriosNoE(sb, neg.getEdges(), max);
 			sb.append("}, ");
@@ -474,7 +480,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " model\n");
 		sb.append("\t//\n");
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + formatNodeOrEdge(isNode) + "Model : ITypeModel\n");
+		sb.append("\tpublic sealed class " + formatIdent(unit.getIdent()) + formatNodeOrEdge(isNode) + "Model : ITypeModel\n");
 		sb.append("\t{\n");
 		
 		InheritanceType rootType = genModelModel1(sb, isNode, types);
@@ -489,7 +495,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	private InheritanceType genModelModel1(StringBuffer sb, boolean isNode, Set<? extends InheritanceType> types) {
 		InheritanceType rootType = null;
 		
-		sb.append("\t\tpublic " + formatNodeOrEdge(isNode) + "Model()\n");
+		sb.append("\t\tpublic " + formatIdent(unit.getIdent()) + formatNodeOrEdge(isNode) + "Model()\n");
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.subOrSameTypes = new ITypeFramework[] {\n");
@@ -556,10 +562,10 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t//\n");
 		sb.append("\n");
 		
-		sb.append("\tpublic sealed class GraphModel : IGraphModel\n");
+		sb.append("\tpublic sealed class " + formatIdent(unit.getIdent()) + "GraphModel : IGraphModel\n");
 		sb.append("\t{\n");
-		sb.append("\t\tprivate NodeModel nodeModel = new NodeModel();\n");
-		sb.append("\t\tprivate EdgeModel edgeModel = new EdgeModel();\n");
+		sb.append("\t\tprivate NodeModel nodeModel = new " + formatIdent(unit.getIdent()) + "NodeModel();\n");
+		sb.append("\t\tprivate EdgeModel edgeModel = new " + formatIdent(unit.getIdent()) + "EdgeModel();\n");
 		genValidate(sb);
 		sb.append("\n");
 		
@@ -886,6 +892,4 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
-
-
 
