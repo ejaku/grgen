@@ -114,9 +114,9 @@ public class InformationCollector extends CBackend
 	/* maps a subcondition to the condition number created for it */
 	protected Map<Expression, Integer> conditionNumbers = new HashMap<Expression, Integer>();
 	/* maps a subcondition to a Collection of nodes involved in */
-	protected Map<Expression, Collection> conditionsInvolvedNodes = new HashMap<Expression, Collection>();
+	protected Map<Expression, Collection<Node>> conditionsInvolvedNodes = new HashMap<Expression, Collection<Node>>();
 	/* maps asubconditoin to a Collection of edges involved in */
-	protected Map<Expression, Collection> conditionsInvolvedEdges = new HashMap<Expression, Collection>();
+	protected Map<Expression, Collection<Edge>> conditionsInvolvedEdges = new HashMap<Expression, Collection<Edge>>();
 	
 	protected Collection[] typeConditions;
 	/* maps a subcondition to the condition number created for it */
@@ -417,8 +417,8 @@ public class InformationCollector extends CBackend
 						conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
 						
 						//...extract the pattern nodes and edges involved in the condition
-						Collection<Entity> involvedNodes = collectInvolvedNodes(sub_condition);
-						Collection<Entity> involvedEdges = collectInvolvedEdges(sub_condition);
+						Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
+						Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
 						//and at these Collections to prepared Maps
 						conditionsInvolvedNodes.put(sub_condition, involvedNodes);
 						conditionsInvolvedEdges.put(sub_condition, involvedEdges);
@@ -874,16 +874,16 @@ public class InformationCollector extends CBackend
 	 * @return   a Collection of all that nodes
 	 *
 	 */
-	protected Collection<Entity> collectInvolvedNodes(Expression expr)
+	protected Collection<Node> collectInvolvedNodes(Expression expr)
 	{
 		
-		Collection<Entity> ret = new HashSet<Entity>(); /* the Collection to be returned */
+		Collection<Node> ret = new HashSet<Node>(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
 		__recursive_node_collect(ret, expr);
 		
 		return ret;
 	}
-	private void __recursive_node_collect(Collection<Entity> col, Expression expr)
+	private void __recursive_node_collect(Collection<Node> col, Expression expr)
 	{
 		if (expr == null) return;
 		
@@ -895,7 +895,7 @@ public class InformationCollector extends CBackend
 		{
 			Entity ent = ((Qualification)expr).getOwner();
 			// if the qualification selects an attr from a node, add that node
-			if (ent instanceof Node) col.add(ent);
+			if (ent instanceof Node) col.add((Node)ent);
 		}
 	}
 	
@@ -907,16 +907,16 @@ public class InformationCollector extends CBackend
 	 * @return   a Collection of all that edges
 	 *
 	 */
-	protected Collection<Entity> collectInvolvedEdges(Expression expr)
+	protected Collection<Edge> collectInvolvedEdges(Expression expr)
 	{
 		
-		Collection<Entity> ret = new HashSet<Entity>(); /* the Collection to be returned */
+		Collection<Edge> ret = new HashSet<Edge>(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
 		__recursive_edge_collect(ret, expr);
 		
 		return ret;
 	}
-	private void __recursive_edge_collect(Collection<Entity> col, Expression expr)
+	private void __recursive_edge_collect(Collection<Edge> col, Expression expr)
 	{
 		
 		if (expr == null) return;
@@ -929,7 +929,7 @@ public class InformationCollector extends CBackend
 		{
 			Entity ent = ((Qualification)expr).getOwner();
 			// if the qualification selects an attr from an edge, add that edge
-			if (ent instanceof Edge) col.add(ent);
+			if (ent instanceof Edge) col.add((Edge)ent);
 		}
 	}
 	

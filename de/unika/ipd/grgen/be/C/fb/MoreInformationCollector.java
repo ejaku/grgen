@@ -424,8 +424,8 @@ public class MoreInformationCollector extends InformationCollector {
 							conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
 							
 							//...extract the pattern nodes and edges involved in the condition
-							Collection<Entity> involvedNodes = collectInvolvedNodes(sub_condition);
-							Collection<Entity> involvedEdges = collectInvolvedEdges(sub_condition);
+							Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
+							Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
 							//and at these Collections to prepared Maps
 							conditionsInvolvedNodes.put(sub_condition, involvedNodes);
 							conditionsInvolvedEdges.put(sub_condition, involvedEdges);
