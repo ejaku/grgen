@@ -91,7 +91,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	 */
 	public void init(Unit unit, Sys system, File outputPath) {
 		super.init(unit, system, outputPath);
-		collectActionInfo();
 //		this.unit = unit;
 //		this.path = outputPath;
 //		this.system = system;
@@ -269,12 +268,15 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	
 	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCntInit) {
 		int i = condCntInit;
-		for(Expression expr : conditions){
+		for(Expression expr : conditions) {
+			Set<Node> nodes = new HashSet<Node>();
+			Set<Edge> edges = new HashSet<Edge>();
+			collectNodesnEdges(nodes, edges, expr);
 			sb.append("\t\tpublic static bool Condition_" + i + "(");
-			genSet(sb, conditionsInvolvedNodes.get(expr), "LGSPNode node_", "", false);
-			if(!conditionsInvolvedEdges.get(expr).isEmpty() && !conditionsInvolvedNodes.get(expr).isEmpty())
+			genSet(sb, nodes, "LGSPNode node_", "", false);
+			if(!nodes.isEmpty() && !edges.isEmpty())
 				sb.append(", ");
-			genSet(sb, conditionsInvolvedEdges.get(expr), "LGSPEdge edge_", "", false);
+			genSet(sb, edges, "LGSPEdge edge_", "", false);
 			sb.append(")\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn ");
@@ -337,7 +339,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		
 		sb.append("\t\t}\n");
 	}
-
+	
 	private void genEvals(StringBuffer sb, Rule rule) {
 		for(Assignment ass : rule.getEvals()) {
 			sb.append("\t\t\t");
@@ -430,10 +432,13 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		}
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()){
+			Set<Node> nodes = new HashSet<Node>();
+			Set<Edge> edges = new HashSet<Edge>();
+			collectNodesnEdges(nodes, edges, expr);
 			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
-			genSet(sb, conditionsInvolvedNodes.get(expr), "\"", "\"", true);
+			genSet(sb, nodes, "\"", "\"", true);
 			sb.append(", new String[] ");
-			genSet(sb, conditionsInvolvedEdges.get(expr), "\"", "\"", true);
+			genSet(sb, edges, "\"", "\"", true);
 			sb.append(");\n");
 			condCnt++;
 		}
@@ -1016,5 +1021,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
+
 
 
