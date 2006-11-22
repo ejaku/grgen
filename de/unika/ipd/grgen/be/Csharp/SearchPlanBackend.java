@@ -56,7 +56,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", null, null, null, null
+			"-", "*", "/", "%", "!", "~", "-", "(cast)"
 	};
 	
 	
@@ -280,7 +280,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			sb.append(")\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\treturn ");
-			genConditionEval(sb, expr);
+			genConditionEval(sb, expr, null, null);
 			sb.append(";\n");
 			sb.append("\t\t}\n");
 			i++;
@@ -288,8 +288,8 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		return i;
 	}
 	
-	
 	private void genRuleReplace(StringBuffer sb, Rule rule) {
+		StringBuffer sb2 = new StringBuffer();
 		sb.append("\t\tpublic override void Replace(IGraph graph, Match match, IGraphElement[] parameters, String[] returnVars)\n");
 		sb.append("\t\t{\n");
 		
@@ -297,6 +297,9 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		Collection<Edge> newEdges = new HashSet<Edge>(rule.getRight().getEdges());
 		Collection<Node> delNodes = new HashSet<Node>(rule.getLeft().getNodes());
 		Collection<Edge> delEdges = new HashSet<Edge>(rule.getLeft().getEdges());
+		Collection<Node> extractNodeFromMatch = new HashSet<Node>();
+		Collection<Edge> extractEdgeFromMatch = new HashSet<Edge>();
+		
 		
 		newNodes.removeAll(rule.getCommonNodes());
 		newEdges.removeAll(rule.getCommonEdges());
@@ -304,49 +307,106 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		delEdges.removeAll(rule.getCommonEdges());
 		
 		for(Node node : newNodes)
-			sb.append(
-				"\t\t\tINode node_" + formatIdentifiable(node) + " = graph.AddNode(" +
+			sb2.append(
+				"\t\t\tLGSPNode node_" + formatIdentifiable(node) + " = (LGSPNode) graph.AddNode(" +
 					"NodeType_" + formatIdentifiable(node.getType()) + ".typeVar);\n"
 			);
 		
 		for(Edge edge : newEdges) {
-			String src, tgt;
+			Node src_node = rule.getRight().getSource(edge);
+			Node tgt_node = rule.getRight().getTarget(edge);
 			
-			if(rule.getCommonNodes().contains(rule.getRight().getSource(edge)) )
-				src = "match.Nodes[(int) NodeNums." + formatIdentifiable(rule.getRight().getSource(edge))  + " - 1]";
-			else
-				src = "node_" + formatIdentifiable(rule.getRight().getSource(edge));
+			if( rule.getCommonNodes().contains(src_node) )
+				extractNodeFromMatch.add(src_node);
 			
-			if(rule.getCommonNodes().contains(rule.getRight().getTarget(edge)) )
-				tgt = "match.Nodes[(int) NodeNums." + formatIdentifiable(rule.getRight().getTarget(edge)) + " - 1]";
-			else
-				tgt = "node_" + formatIdentifiable(rule.getRight().getTarget(edge));
+			if( rule.getCommonNodes().contains(tgt_node) )
+				extractNodeFromMatch.add(tgt_node);
 			
-			sb.append(
-				"\t\t\tIEdge edge_" + formatIdentifiable(edge) + " = graph.AddEdge(" +
+			sb2.append(
+				"\t\t\tLGSPEdge edge_" + formatIdentifiable(edge) + " = (LGSPEdge) graph.AddEdge(" +
 					"EdgeType_" + formatIdentifiable(edge.getType()) + ".typeVar, " +
-					src + ", " + tgt + ");\n"
+					formatNode(src_node) + ", " + formatNode(tgt_node) + ");\n"
 			);
 		}
 		
-		genEvals(sb, rule);
+		genEvals(sb2, rule, extractNodeFromMatch, extractEdgeFromMatch);
 		
-		for(Node node : delNodes)
-			sb.append("\t\t\tgraph.Remove(match.Nodes[(int) NodeNums." + formatIdentifiable(node) + " - 1]);\n");
+		for(Edge edge : delEdges) {
+			extractEdgeFromMatch.add(edge);
+			sb2.append("\t\t\tgraph.Remove(" + formatEdge(edge) + ");\n");
+		}
 		
-		for(Edge edge : delEdges)
-			sb.append("\t\t\tgraph.Remove(match.Edges[(int) EdgeNums." + formatIdentifiable(edge) + " - 1]);\n");
+		for(Node node : delNodes) {
+			extractNodeFromMatch.add(node);
+			sb2.append("\t\t\tgraph.RemoveEdges(" + formatNode(node) + ");\n");
+			sb2.append("\t\t\tgraph.Remove(" + formatNode(node) + ");\n");
+		}
 		
-		sb.append("\t\t}\n");
+		sb2.append("\t\t}\n");
+		
+		extractNodeFromMatch.removeAll(newNodes);
+		extractEdgeFromMatch.removeAll(newEdges);
+		
+		for(Node node : extractNodeFromMatch)
+			sb.append("\t\t\tLGSPNode " + formatNode(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
+		for(Edge edge : extractEdgeFromMatch)
+			sb.append("\t\t\tLGSPEdge " + formatEdge(edge) + " = (LGSPEdge) match.Edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+		
+		sb.append(sb2);
 	}
 	
-	private void genEvals(StringBuffer sb, Rule rule) {
+	private void genEvals(StringBuffer sb, Rule rule, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
+		boolean def_b = false, def_i = false, def_s = false;
 		for(Assignment ass : rule.getEvals()) {
-			sb.append("\t\t\t");
-			genConditionEval(sb, ass.getTarget());
-			sb.append(" = ");
-			genConditionEval(sb, ass.getExpression());
+			String varName, varType;
+			Entity entity = ass.getTarget().getOwner();
+			
+			switch(ass.getTarget().getType().classify()) {
+				case Type.IS_BOOLEAN:
+					varName = "var_b";
+					varType = def_b?"":"bool ";
+					def_b = true;
+					break;
+				case Type.IS_INTEGER:
+					varName = "var_i";
+					varType = def_i?"":"int ";
+					def_i = true;
+					break;
+				case Type.IS_STRING:
+					varName = "var_s";
+					varType = def_s?"":"String ";
+					def_s = true;
+					break;
+				default:
+					throw new IllegalArgumentException();
+			}
+			
+			sb.append("\t\t\t" + varType + " " + varName + " = ");
+			if(ass.getTarget().getType() instanceof EnumType)
+				sb.append("(int) ");
+			genConditionEval(sb, ass.getExpression(), extractNodeFromMatch, extractEdgeFromMatch);
 			sb.append(";\n");
+			
+			if(entity instanceof Node) {
+				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatNode((Node)entity) +
+							  ", NodeType_" + formatIdentifiable(entity.getType()) +
+							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+				sb.append(", " + varName + ");\n");
+			} else if(entity instanceof Edge) {
+				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEdge((Edge)entity) +
+							  ", EdgeType_" + formatIdentifiable(entity.getType()) +
+							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+				sb.append(", " + varName + ");\n");
+			}
+			
+			sb.append("\t\t\t");
+			genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+			sb.append(" = ");
+			if(ass.getTarget().getType() instanceof EnumType)
+				sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
+			sb.append(varName + ";\n");
 		}
 	}
 	
@@ -417,18 +477,20 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	}
 	
 	private int genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name, String additional_parameters, int condCntInit) {
+		boolean isNeg = outer != null;
+		
 		for(Node node : pattern.getNodes()) {
 			if(outer != null && outer.hasNode(node))
 				continue;
-			sb.append("\t\t\tPatternNode node_"  + formatIdentifiable(node) + " = new PatternNode(");
-			sb.append("(int) NodeTypes." + formatIdentifiable(node.getType()) + ", \"" + formatIdentifiable(node) + "\"" + additional_parameters + ");\n");
+			sb.append("\t\t\tPatternNode " + formatNode(node, outer) + " = new PatternNode(");
+			sb.append("(int) NodeTypes." + formatIdentifiable(node.getType()) + ", \"" + (isNeg?"neg_":"") + formatIdentifiable(node) + "\"" + additional_parameters + ");\n");
 		}
 		for(Edge edge : pattern.getEdges()) {
 			if(outer != null && outer.hasEdge(edge))
 				continue;
-			sb.append("\t\t\tPatternEdge edge_"  + formatIdentifiable(edge) + " = new PatternEdge(");
-			sb.append("node_" + formatIdentifiable(pattern.getSource(edge)) + ", node_"+ formatIdentifiable(pattern.getTarget(edge)));
-			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + formatIdentifiable(edge) + "\"" + additional_parameters + ");\n");
+			sb.append("\t\t\tPatternEdge " + formatEdge(edge, outer) + " = new PatternEdge(");
+			sb.append(formatNode(pattern.getSource(edge), outer) + ", " + formatNode(pattern.getTarget(edge), outer));
+			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + (isNeg?"neg_":"") + formatIdentifiable(edge) + "\"" + additional_parameters + ");\n");
 		}
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()){
@@ -447,12 +509,12 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		
 		sb.append("\t\t\t\tnew PatternNode[] { ");
 		for(Node node : pattern.getNodes())
-			sb.append("node_" + formatIdentifiable(node) + ", ");
+			sb.append(formatNode(node, outer) + ", ");
 		sb.append("}, \n");
 		
 		sb.append("\t\t\t\tnew PatternEdge[] { ");
 		for(Edge edge : pattern.getEdges())
-			sb.append("edge_" + formatIdentifiable(edge) + ", ");
+			sb.append(formatEdge(edge, outer) + ", ");
 		sb.append("}, \n");
 		
 		sb.append("\t\t\t\tnew Condition[] { ");
@@ -462,18 +524,22 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		}
 		sb.append("}, \n");
 		
-		sb.append("\t\t\t\tnew bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] {\n");
-		for(Node node1 : pattern.getNodes()) {
-			sb.append("\t\t\t\t\t{ ");
-			for(Node node2 : pattern.getNodes())
-				if(node1.isHomomorphic(node2))
-					sb.append("true, ");
-				else
-					sb.append("false, ");
-			sb.append("},\n");
+		sb.append("\t\t\t\tnew bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] ");
+		if(pattern.getNodes().size() > 0) {
+			sb.append("{\n");
+			for(Node node1 : pattern.getNodes()) {
+				sb.append("\t\t\t\t\t{ ");
+				for(Node node2 : pattern.getNodes())
+					if(node1.isHomomorphic(node2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				sb.append("},\n");
+			}
+			sb.append("\t\t\t\t}");
 		}
-		sb.append("\t\t\t\t}\n");
 		
+		sb.append("\n");
 		sb.append("\t\t\t);\n");
 		
 		return condCnt;
@@ -764,26 +830,28 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			sb.append("\t\tpublic static AttributeType " + formatAttributeTypeName(member) + ";\n");
 	}
 	
-	private void genConditionEval(StringBuffer sb, Expression cond) {
+	private void genConditionEval(StringBuffer sb, Expression cond, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
 		if(cond instanceof Operator) {
 			Operator op = (Operator)cond;
 			switch (op.arity()) {
 				case 1:
-					genConditionEval(sb, op.getOperand(0));
+					sb.append("(" + opSymbols[op.getOpCode()] + " ");
+					genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
+					sb.append(")");
 					break;
 				case 2:
-					genConditionEval(sb, op.getOperand(0));
+					genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
 					sb.append(" " + opSymbols[op.getOpCode()] + " ");
-					genConditionEval(sb, op.getOperand(1));
+					genConditionEval(sb, op.getOperand(1), extractNodeFromMatch, extractEdgeFromMatch);
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
 						sb.append("(");
-						genConditionEval(sb, op.getOperand(0));
+						genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
 						sb.append(") ? (");
-						genConditionEval(sb, op.getOperand(1));
+						genConditionEval(sb, op.getOperand(1), extractNodeFromMatch, extractEdgeFromMatch);
 						sb.append(") : (");
-						genConditionEval(sb, op.getOperand(2));
+						genConditionEval(sb, op.getOperand(2), extractNodeFromMatch, extractEdgeFromMatch);
 						sb.append(")");
 						break;
 					}
@@ -794,11 +862,14 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			Qualification qual = (Qualification)cond;
 			Entity entity = qual.getOwner();
 			
-			// TODO fix attr access
 			if(entity instanceof Node) {
+				if(extractNodeFromMatch != null)
+					extractNodeFromMatch.add((Node)entity);
 				sb.append("((INode_" + formatIdentifiable(entity.getType()) + ")");
 				sb.append("node_" + formatIdentifiable(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
 			} else if (entity instanceof Edge) {
+				if(extractEdgeFromMatch != null)
+					extractEdgeFromMatch.add((Edge)entity);
 				sb.append("((IEdge_" + formatIdentifiable(entity.getType()) + ")");
 				sb.append("edge_" + formatIdentifiable(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
 			} else
@@ -995,6 +1066,22 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	private String formatIdentifiable(Identifiable id) {
 		String res = id.getIdent().toString();
 		return res.replace('$', '_');
+	}
+	
+	private String formatNode(Node n) {
+		return formatNode(n, null);
+	}
+	
+	private String formatNode(Node n, PatternGraph outer) {
+		return ( (outer !=null && !outer.getNodes().contains(n)) ? "neg_" : "") + "node_" + formatIdentifiable(n);
+	}
+	
+	private String formatEdge(Edge e) {
+		return formatEdge(e, null);
+	}
+	
+	private String formatEdge(Edge e, PatternGraph outer) {
+		return ( (outer !=null && !outer.getNodes().contains(e)) ? "neg_" : "") + "edge_" + formatIdentifiable(e);
 	}
 	
 	private String formatInt(int i) {
