@@ -96,7 +96,7 @@ public class Graph extends IR {
 		}
 		
 		public int getNodeShape() {
-			return GraphDumper.RHOMB;
+			return GraphDumper.ELLIPSE;
 		}
 		
 		public String getNodeInfo() {

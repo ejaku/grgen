@@ -26,21 +26,25 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.util.Formatter;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.GraphDumperFactory;
+import java.awt.Color;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 
 /**
- * A custim dumper for the IR.
+ * A custom dumper for the IR.
  */
 public class Dumper {
 	
 	/** Draw edges between graphs. */
 	private final boolean interGraphEdges;
+	/** Draw cond and eval as string not as expression tree */
+	private final boolean compactCondEval = true;
+	
 	
 	/** The factory to get a dumper from. */
 	private final GraphDumperFactory dumperFactory;
@@ -55,13 +59,11 @@ public class Dumper {
 	private final void dump(Graph g, GraphDumper gd) {
 		gd.beginSubgraph(g);
 		
-		for(Iterator it = g.getNodes().iterator(); it.hasNext();) {
-			Node n = (Node) it.next();
+		for(Node n : g.getNodes()) {
 			gd.node(g.getLocalDumpable(n));
 		}
 		
-		for(Iterator it = g.getEdges().iterator(); it.hasNext();) {
-			Edge e = (Edge) it.next();
+		for(Edge e : g.getEdges()) {
 			GraphDumpable edge = g.getLocalDumpable(e);
 			GraphDumpable src = g.getLocalDumpable(g.getSource(e));
 			GraphDumpable tgt = g.getLocalDumpable(g.getTarget(e));
@@ -72,11 +74,10 @@ public class Dumper {
 		
 		if(g instanceof PatternGraph) {
 			PatternGraph pg = (PatternGraph) g;
-			Collection conds = pg.getConditions();
+			Collection<Expression> conds = pg.getConditions();
 			
 			if(!conds.isEmpty()) {
-				for(Iterator i = conds.iterator(); i.hasNext();) {
-					Expression expr = (Expression) i.next();
+				for(Expression expr : conds) {
 					dump(expr, gd);
 				}
 			}
@@ -88,10 +89,11 @@ public class Dumper {
 	public final void dump(MatchingAction act, GraphDumper gd) {
 		Graph pattern = act.getPattern();
 		Collection<Graph> graphs = new LinkedList<Graph>();
+		Graph right = null;
 		
 		if(act instanceof Rule) {
-			Rule r = (Rule) act;
-			graphs.add(r.getRight());
+			right = ((Rule) act).getRight();
+			graphs.add(right);
 		}
 		
 		graphs.addAll(act.getNegs());
@@ -99,20 +101,21 @@ public class Dumper {
 		gd.beginSubgraph(act);
 		dump(pattern, gd);
 		
-		for(Iterator<Graph> it = graphs.iterator(); it.hasNext();) {
-			Graph g = it.next();
+		for(Graph g : graphs) {
 			dump(g, gd);
+			if(g == right)
+				gd.edge(pattern, g, g.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.green);
+			else
+				gd.edge(pattern, g, g.getNodeLabel().toLowerCase(), GraphDumper.DASHED, Color.red);
 			
 			if(interGraphEdges) {
-				for(Iterator nt = g.getNodes().iterator(); nt.hasNext();) {
-					Node n = (Node) nt.next();
+				for(Node n : g.getNodes()) {
 					if(pattern.hasNode(n))
 						gd.edge(pattern.getLocalDumpable(n), g.getLocalDumpable(n), "",
 								GraphDumper.DOTTED);
 				}
 				
-				for(Iterator nt = g.getEdges().iterator(); nt.hasNext();) {
-					Edge e = (Edge) nt.next();
+				for(Edge e : g.getEdges()) {
 					if(pattern.hasEdge(e))
 						gd.edge(pattern.getLocalDumpable(e), g.getLocalDumpable(e), "",
 								GraphDumper.DOTTED);
@@ -125,18 +128,28 @@ public class Dumper {
 			graphs.add(r.getRight());
 			Collection<Assignment> evals = r.getEvals();
 			
-			if(!evals.isEmpty())
+			if(!evals.isEmpty()) {
 				gd.beginSubgraph("evals");
+				gd.edge(r.getRight(), evals.iterator().next(), "eval", GraphDumper.DASHED, Color.GRAY);
+			}
 			
+			Assignment oldAsign = null;
 			for(Assignment a : evals) {
 				Qualification target = a.getTarget();
 				Expression expr = a.getExpression();
 				
-				gd.node(a);
-				gd.node(target);
-				gd.edge(a, target);
-				dump(expr, gd);
-				gd.edge(a, expr);
+				if(compactCondEval) {
+					dump(a.getId(), Formatter.formatConditionEval(target) + " = " + Formatter.formatConditionEval(expr), gd);
+					if(oldAsign != null)
+						gd.edge(oldAsign, a, "next", GraphDumper.DASHED, Color.RED);
+				} else {
+					gd.node(a);
+					gd.node(target);
+					gd.edge(a, target);
+					dump(expr, gd);
+					gd.edge(a, expr);
+				}
+				oldAsign = a;
 			}
 			
 			if(!evals.isEmpty())
@@ -146,14 +159,34 @@ public class Dumper {
 		gd.endSubgraph();
 	}
 	
+	public final void dump(final String id, final String s, GraphDumper gd) {
+		gd.node(new GraphDumpable() {
+					public String getNodeId() {	return id; }
+					
+					public Color getNodeColor() { return Color.ORANGE; }
+					
+					public int getNodeShape() { return GraphDumper.BOX; }
+					
+					public String getNodeLabel() { return s; }
+					
+					public String getNodeInfo() { return null; }
+					
+					public String getEdgeLabel(int edge) { return null; }
+				});
+	}
+	
 	public final void dump(Expression expr, GraphDumper gd) {
-		gd.node(expr);
-		if(expr instanceof Operator) {
-			Operator op = (Operator) expr;
-			for(int i = 0; i < op.arity(); i++) {
-				Expression e = op.getOperand(i);
-				dump(e, gd);
-				gd.edge(expr, e);
+		if(compactCondEval) {
+			dump(expr.getId(), Formatter.formatConditionEval(expr), gd);
+		} else {
+			gd.node(expr);
+			if(expr instanceof Operator) {
+				Operator op = (Operator) expr;
+				for(int i = 0; i < op.arity(); i++) {
+					Expression e = op.getOperand(i);
+					dump(e, gd);
+					gd.edge(expr, e);
+				}
 			}
 		}
 	}
@@ -162,14 +195,11 @@ public class Dumper {
 		GraphDumper curr = dumperFactory.get(fileName);
 		
 		curr.begin();
-		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
-			Object obj = it.next();
-			
-			if(obj instanceof MatchingAction) {
-				MatchingAction act = (MatchingAction) obj;
-				dump(act, curr);
+		for(Action act : unit.getActions()) {
+			if(act instanceof MatchingAction) {
+				MatchingAction mact = (MatchingAction) act;
+				dump(mact, curr);
 			}
-			
 		}
 		
 		curr.finish();
@@ -177,9 +207,7 @@ public class Dumper {
 	
 	public final void dump(Unit unit) {
 		
-		for(Iterator<Action> it = unit.getActions().iterator(); it.hasNext();) {
-			Object obj = it.next();
-			
+		for(Action obj : unit.getActions()) {
 			if(obj instanceof MatchingAction) {
 				MatchingAction act = (MatchingAction) obj;
 				String main = act.toString().replace(' ', '_');

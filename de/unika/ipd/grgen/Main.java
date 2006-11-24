@@ -478,7 +478,7 @@ public class Main extends Base implements Sys {
 		buildIR += System.currentTimeMillis();
 		
 		GraphDumperFactory factory = new VCGDumperFactory(this);
-		Dumper dumper = new Dumper(factory, false);
+		Dumper dumper = new Dumper(factory, true);
 		
 		// Dump the IR.
 		if(dumpIR) {

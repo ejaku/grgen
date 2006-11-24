@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -98,7 +98,7 @@ public class VCGDumper implements GraphDumper {
 	 */
 	public void begin() {
 		ps.println("graph:{\nlate_edge_labels:yes\ndisplay_edge_labels:yes\n"
-								 + "manhattan_edges:yes\nport_sharing:no\n");
+					   + "manhattan_edges:yes\nport_sharing:no\n");
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class VCGDumper implements GraphDumper {
 			
 			// issue a vcg colormap statement
 			ps.println("colorentry " + index + ": " +
-									 col.getRed() + " " + col.getGreen() + " " + col.getBlue());
+						   col.getRed() + " " + col.getGreen() + " " + col.getBlue());
 		}
 		else
 			res = "white";
@@ -175,7 +175,7 @@ public class VCGDumper implements GraphDumper {
 	}
 	
 	public void edge(GraphDumpable from, GraphDumpable to, String label,
-									 int style, Color color) {
+					 int style, Color color) {
 		
 		String col = getColor(color);
 		
@@ -212,12 +212,15 @@ public class VCGDumper implements GraphDumper {
 	 */
 	public void beginSubgraph(GraphDumpable d) {
 		ps.println("graph:{" + getNodeAttributes(d)
-								 + " status:clustered");
+					   + " status:clustered");
 	}
 	
-	public void beginSubgraph(String name) {
+	public void beginSubgraph(String title) {
 		ps.print("graph:{title:\"");
-		ps.print(name);
+		ps.print(title);
+		ps.println('\"');
+		ps.print("  label:\"");
+		ps.print(title);
 		ps.println('\"');
 		ps.println("  status:clustered");
 	}

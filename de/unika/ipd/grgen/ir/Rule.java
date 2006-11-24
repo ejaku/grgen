@@ -56,7 +56,8 @@ public class Rule extends MatchingAction {
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
-		right.setNameSuffix("replace");
+		left.setName("L");
+		right.setName("R");
 		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
 	

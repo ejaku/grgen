@@ -77,7 +77,7 @@ public abstract class MatchingAction extends Action {
 	
 	public void addNegGraph(PatternGraph neg) {
 		if(!neg.getNodes().isEmpty()) {
-			neg.setNameSuffix("negative");
+			neg.setName("N" + negs.size());
 			negs.add(neg);
 		}
 	}
