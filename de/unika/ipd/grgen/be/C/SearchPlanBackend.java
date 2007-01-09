@@ -21,9 +21,10 @@
 /**
  * A GrGen Backend which generates C code for a frame-based
  * graph model impl and a frame based graph matcher
- * @author Veit Batz, Rubino Geiss
+ * @author Veit Batz, Rubino Geiss, Andreas Schoesser
  * @version $Id$
  */
+
 package de.unika.ipd.grgen.be.C;
 
 import de.unika.ipd.grgen.ir.*;
@@ -122,6 +123,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * Starts the C-code Genration of the FrameBasedBackend
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 */
+
+
 	public void generate() {
 		// Emit an include file for Makefiles
 		PrintStream ps = openFile("unit.mak");
@@ -139,6 +142,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("#include <libfirm/firm.h>\n");
 		//sb.append("#include <libfirm/ext/grs/grs.h>\n\n");
 		sb.append("#include <grs/grs.h>\n\n");
+		findModeType();
 		genTypes(sb);
 		genPatterns(sb);
 		genInterface(sb);
@@ -155,6 +159,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	}
 
 	/**
+	 * Method findModeType
+	 *
+	 * Look for the generic 'Mode' node that serves as a supertype for all
+	 * FIRM modes;
+	 */
+
+        NodeType MODE_TYPE;
+	public void findModeType()
+	{
+	 	for(NodeType node : nodeTypeMap.keySet())
+			if(node.getIdent().toString().equals("Mode")) {
+				MODE_TYPE = node;
+				return;
+			}
+		System.out.println("Warning: MODE_TYPE not found!");
+	}
+
+	/**
 	 * Method genTypes
 	 *
 	 * @param    sb                  a  StringBuffer
@@ -166,13 +188,18 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append("/* nodeTypeMap */ \n");
 		initsb.append("/* init node ops and modes */\n");
 		initsb.append("static void init() {\n");
-		for(Identifiable id : nodeTypeMap.keySet()) {
-			String type = id.getIdent().toString();
-			sb.append("static ir_op* grs_op_" + type + ";\n");
-			initsb.append(indent+"grs_op_" + type + " = ext_grs_lookup_op(\""+ type +"\");\n");
-			initsb.append(indent+"grs_op_" + type + " = grs_op_" + type +
-							  " ? grs_op_" + type + " : new_ir_op(get_next_ir_opcode(), \"" +
-							  type + "\", op_pin_state_pinned,  irop_flag_none, oparity_dynamic,  0, 0, NULL);\n");
+		for(NodeType nodeType : nodeTypeMap.keySet()) {
+			if(!nodeType.isCastableTo(MODE_TYPE))
+			{
+				// Only dump nodes that are real FIRM nodes
+				// => Skip the pseudo "Mode"-Nodes
+				String type = nodeType.getIdent().toString();
+				sb.append("static ir_op* grs_op_" + type + ";\n");
+				initsb.append(indent+"grs_op_" + type + " = ext_grs_lookup_op(\""+ type +"\");\n");
+				initsb.append(indent+"grs_op_" + type + " = grs_op_" + type +
+							  	" ? grs_op_" + type + " : new_ir_op(get_next_ir_opcode(), \"" +
+							  	type + "\", op_pin_state_pinned,  irop_flag_none, oparity_dynamic,  0, 0, NULL);\n");
+			}
 		}
 		sb.append("/* nodeTypeMap END */\n\n");
 		initsb.append("} /* init node ops and modes */\n\n");
@@ -326,11 +353,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		for(Node node : graph.getNodes()) {
 
+			// Don't dump mode nodes
+			if(node.getNodeType().isCastableTo(MODE_TYPE))
+				continue;
+
 			String nameSuffix = "";
 			boolean related = false;
 			if(nodeIds.isKnown(node))
 			{
-				nameSuffix = "_" + uin; 	// Node is already known, make sure that names are different
+				nameSuffix = "_" + uin; 	// Node is already known (positive pattern), make sure that names are different
 				uin++;
 				related = true;        		// Flag indicates to emit an relation statement afterwards
 			}
@@ -344,6 +375,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				if(e.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME)) {
 					sb.append("/* mode edge: " + e + "*/\n");
 					Node modeNode = graph.getTarget(e);
+
+					mode = modeNode.getNodeType().getIdent().toString().substring(5);
+					//System.out.println("Mode would be: " + mode);
+
 					//mode = modeNode.getNodeType().getIdent().toString();
 					// TODO this is not sufficient.
 					// TODO We cannot determine die mode code quite so easyly.
@@ -383,11 +418,16 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append(indent + "/* The edges of the pattern */\n");
 		for(Edge edge : graph.getEdges()) {
 
+		       // Don't dump edges to mode nodes
+		       if(edge.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME))
+		       		continue;
+
+
 			String nameSuffix = "";
 			boolean related = false;
 			if(edgeIds.isKnown(edge))
 			{
-				nameSuffix = "_" + uin; 	// Edge is already known, make sure the names are different
+				nameSuffix = "_" + uin; 	// Edge is already known (positive pattern), make sure the names are different
 				uin++;
 				related = true;			// Flag indicates to emit an relation statement afterwards
 			}
