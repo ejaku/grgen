@@ -44,7 +44,7 @@ import java.io.PrintStream;
 
 public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
 
-	private final int OUT = 0;
+	private final int OU2T = 0;
 	private final int IN = 1;
 
 	private final String MODE_EDGE_NAME = "has_mode";
@@ -143,6 +143,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		//sb.append("#include <libfirm/ext/grs/grs.h>\n\n");
 		sb.append("#include <grs/grs.h>\n\n");
 		findModeType();
+		findConstType();
 		genTypes(sb);
 		genPatterns(sb);
 		genInterface(sb);
@@ -165,7 +166,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * FIRM modes;
 	 */
 
-        NodeType MODE_TYPE;
+    NodeType MODE_TYPE;
 	public void findModeType()
 	{
 	 	for(NodeType node : nodeTypeMap.keySet())
@@ -174,6 +175,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				return;
 			}
 		System.out.println("Warning: MODE_TYPE not found!");
+	}
+	
+	NodeType CONST_TYPE = null;
+	NodeType VPROJ_TYPE = null;
+	public void findConstType()
+	{
+	 	for(NodeType node : nodeTypeMap.keySet())
+		{
+			if(node.getIdent().toString().equals("Const"))
+				CONST_TYPE = node;
+			if(node.getIdent().toString().equals("VProj"))
+				VPROJ_TYPE = node;
+		}
+		if(CONST_TYPE == null)
+			System.out.println("Warning: CONST_TYPE not found!");
+		if(VPROJ_TYPE == null)
+			System.out.println("Warning: VPROJ_TYPE not found!");
+		
 	}
 
 	/**
@@ -295,10 +314,8 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		String indent = "  ";
 
 		// code for the pattern graph
-		sb.append(indent + "{ /* L */\n");
-		genPatternGraph(sb, indent+"  ", "ext_grs_act_get_pattern",
-						rule.getLeft(), nodeIds, edgeIds, false);
-
+		sb.append(indent + "{ /* The action */\n");
+		genPatternGraph(sb, indent + "  ", "ext_grs_act_get_pattern", rule.getLeft(), nodeIds, edgeIds, false);
 
 		// code for the negative graphs
 		sb.append(indent + "  /* The negative parts of the pattern */\n");
@@ -311,7 +328,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			sb.append("\n");
 			i++;
 		}
-		sb.append(indent + "} /* L */\n\n");
+		
+		sb.append("\n\n");
+		// code for the replacement
+		sb.append(indent + "  { /* The replacement */\n");
+		genPatternGraph(sb, indent + "     ", "ext_grs_act_get_replacement", (PatternGraph) rule.getRight(), nodeIds, edgeIds, false);
+		sb.append(indent + "  } /* The replacement */\n\n");
+				
+		sb.append(indent + "} /* The Action */\n\n");
+		
 	}
 
 
@@ -335,7 +360,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 		// nodes
 		relatedNodes = new HashMap();
-		genPatternNodes(sb, indent, graph, nodeIds);
+		genPatternNodes(sb, indent, graph, nodeIds, isNegativeGraph);
 		sb.append("\n");
 
 		//edges
@@ -348,7 +373,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 
 	private int uin = 0;
-	private void genPatternNodes(StringBuffer sb, String indent, PatternGraph graph, IdGenerator<Node> nodeIds) {
+	private void genPatternNodes(StringBuffer sb, String indent, PatternGraph graph, IdGenerator<Node> nodeIds, boolean isNegativeGraph) {
 		sb.append(indent + "/* The nodes of the pattern */\n");
 
 		for(Node node : graph.getNodes()) {
@@ -371,22 +396,18 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			String type = node.getNodeType().getIdent().toString();
 			String mode = "ANY";
 
+			// Search for the "Mode"-edge
 			for(Edge e : graph.getOutgoing(node)) { // test iff we got an Mode-node
 				if(e.getEdgeType().getIdent().toString().equals(MODE_EDGE_NAME)) {
-					sb.append("/* mode edge: " + e + "*/\n");
+					// Found the "mode" edge. Save the mode of the current node for dumping
 					Node modeNode = graph.getTarget(e);
-
 					mode = modeNode.getNodeType().getIdent().toString().substring(5);
-					//System.out.println("Mode would be: " + mode);
-
-					//mode = modeNode.getNodeType().getIdent().toString();
-					// TODO this is not sufficient.
-					// TODO We cannot determine die mode code quite so easyly.
 				}
 			}
 
-			sb.append(indent + "/* TODO typeof("+name+") = " + type +
-						  " \\ " + node.getConstraints()  +"*/\n"); // TODO make type constraints
+			// TODO make type constraints:
+			// sb.append(indent + "/* TODO typeof("+name+") = " + type +
+			//			  " \\ " + node.getConstraints()  +"*/\n");
 
 
 			// Check if the node is related to a positiv node
@@ -400,20 +421,24 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			else
 			{
-
+				String addRelatedNodeFunc = (isNegativeGraph) ? "ext_grs_act_add_related_node" : "ext_grs_act_add_node_to_keep";
 				String related_name = node.getIdent().toString(); 			// Yes, the regular node name without suffix
-				sb.append(indent + "ext_grs_node_t *n_" + name +                        // Write statement to file
-					  	" = ext_grs_act_add_related_node(pattern, \"" +
+				sb.append(indent + "ext_grs_node_t *n_" + name +            // Write statement to file
+					  	" = " + addRelatedNodeFunc + "(pattern, \"" +
 					  	name + "\", grs_op_" + type + ", mode_" + mode +
 					  	", " + nodeId + ", n_" + related_name + ");\n");
 				System.out.println(relatedNodes + "; " + node + "; " + name);
-				relatedNodes.put(node, name);						// Name was changed for neg nodes. Remember new
-													// name for the creation of edges.
+				relatedNodes.put(node, name);								// Name was changed for neg nodes. Remember new
+																			// name for the creation of edges.
 			}
 		}
 	}
 
-
+	/***
+	 * Method genPatternEdges
+	 * Dumps the edges of a pattern
+	 *
+	 */
 	private void genPatternEdges(StringBuffer sb, String indent, PatternGraph graph, IdGenerator<Edge> edgeIds, boolean isNegativeGraph) {
 		sb.append(indent + "/* The edges of the pattern */\n");
 		for(Edge edge : graph.getEdges()) {
@@ -429,12 +454,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			{
 				nameSuffix = "_" + uin; 	// Edge is already known (positive pattern), make sure the names are different
 				uin++;
-				related = true;			// Flag indicates to emit an relation statement afterwards
+				related = true;				// Flag indicates to emit an relation statement afterwards
 			}
 			else if(isNegativeGraph)
 			{
 				nameSuffix = "_" + uin; 	// We're in a negative graph: Add suffix to avoid name
-				uin++;				// collision with positive edge names
+				uin++;						// collision with positive edge names
 			}
 
 			int edgeId  = edgeIds.computeId(edge);
@@ -469,9 +494,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			else
 			{
 				// Create a related edge
+				String addRelatedEdgeFunc = (isNegativeGraph) ? "ext_grs_act_add_related_edge" : "ext_grs_act_add_edge_to_keep";
 				String related_name = edge.getIdent().toString().replace('$','_'); 	// The original name without suffux
 				sb.append(indent + "ext_grs_edge_t *e_" + name +                   	// Write statement to file
-						  " = ext_grs_act_add_related_edge(pattern, \"" + name +
+						  " = " + addRelatedEdgeFunc + "(pattern, \"" + name +
 						  "\", ext_grs_NO_EDGE_POS, n_" + targetName + ", n_" +
 						  sourceName + ", " + edgeId + ", e_" + related_name + ");\n");
 			}
@@ -608,19 +634,38 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		else if(cond instanceof Qualification) {
 			Qualification qual = (Qualification)cond;
 			Entity entity = qual.getOwner();
-
-			sb.append(" 0 /* TODO attr access */");
-
-			if(false) {
-				// TODO fix attr access
-				if(entity instanceof Node)
-					sb.append("node_map["+ nodeIds.computeId((Node)entity) +
-								  "/* "+ entity.getIdent() + " */] /*." + qual.getMember().getIdent()+"*/");
-				else if (entity instanceof Edge)
-					sb.append("edge_map["+ edgeIds.computeId((Edge)entity) +
-								  "/* "+ entity.getIdent() + " */] /*." + qual.getMember().getIdent()+"*/");
+		
+			if(entity instanceof Node)
+			{
+				Node n = (Node) entity;
+				
+				// We have to treat special FIRM nodes specially
+				
+				// Query the tarval of const nodes.
+				// Only integer supported so far
+				if(n.getNodeType().isCastableTo(CONST_TYPE))
+				{
+					sb.append("get_tarval_long(get_Const_tarval(node_map["+ nodeIds.computeId((Node)entity) +
+							  "/* "+ entity.getIdent() + " */]))");
+				}
+				// Query the proj_nr of a vproj_node
+				else if(n.getNodeType().isCastableTo(VPROJ_TYPE))
+				{
+					sb.append("get_VProj_proj(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
+				}
 				else
-					throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+				{
+					throw new UnsupportedOperationException("Unsupported Node type in condition for node " + entity.getIdent());
+				}
+			}
+			else if (entity instanceof Edge)
+			{
+				sb.append("edge_map["+ edgeIds.computeId((Edge)entity) +
+						  "/* "+ entity.getIdent() + " */] /*." + qual.getMember().getIdent()+"*/");
+			}
+			else
+			{
+				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 			}
 		}
 		else if (cond instanceof Constant) { // gen C-code for constant expressions
@@ -629,7 +674,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 			switch (type.classify()) {
 				case Type.IS_STRING: //emit C-code for string constants
-					sb.append("\"" + constant.getValue() + "\"");
+					// CAUTION! This was modified for INTEGET CONSTANTS!
+					// TODO: Make it general if you need it!
+					// sb.append("\"" + constant.getValue() + "\"");
+					sb.append(constant.getValue().toString());
+					
 					break;
 				case Type.IS_BOOLEAN: //emit C-code for boolean constans
 					Boolean bool_const = (Boolean) constant.getValue();
@@ -645,7 +694,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 
-
+	/***
+	 * Method genInterface
+	 * Generates the init() funktions and code to create all the ext_grs_op's
+	 * if no corresponding FIRM op exists. Also appoints heiratage between IR_OP Types
+	 *
+	 */
 	private void genInterface(StringBuffer sb) {
 		String indent = "  ";
 		StringBuffer initsb = new StringBuffer();
@@ -664,12 +718,18 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb.append("ext_grs_action_t *" + fqactionName + ";\n");
 			}
 		}
-		initsb.append("\n"+indent+"/* establish inherritance */\n");
+		initsb.append("\n" + indent + "/* establish inherritance */\n");
 		for(InheritanceType type : nodeTypeMap.keySet()) {
-			String typeName = type.getIdent().toString();
-			for(InheritanceType superType : type.getSuperTypes())
-				initsb.append(indent+"ext_grs_appoint_heir(grs_op_"+typeName+", grs_op_"+superType.getIdent()+");\n");
-			initsb.append("\n");
+
+		        if(!type.isCastableTo(MODE_TYPE))
+		        {
+		        	// Don't dump the inheritance of the pseudo "Mode"-Nodes
+
+				String typeName = type.getIdent().toString();
+				for(InheritanceType superType : type.getSuperTypes())
+					initsb.append(indent + "ext_grs_appoint_heir(grs_op_" + typeName + ", grs_op_" + superType.getIdent() + ");\n");
+				initsb.append("\n");
+			}
 		}
 		initsb.append(indent+"ext_grs_inheritance_mature();\n");
 		initsb.append("}\n\n");
