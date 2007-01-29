@@ -65,31 +65,42 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private class IdGenerator<T> {
 		ArrayList<T> list = new ArrayList<T>();
 		Set<T> set = new HashSet<T>();
-
+		int startIndex = 0;
+				
+		public void setStartIndex(int startIndex)
+		{
+			if(list.size() > 0)
+			{
+				System.out.println("startIndex cannot be changed after elements have been added!");
+				return;
+			}
+					
+			this.startIndex = startIndex;
+		}
+		
 		private int computeId(T elem) {
 			if(!set.contains(elem)) {
 				set.add(elem);
 				list.add(elem);
 			}
-			return list.indexOf(elem);
+			return (list.indexOf(elem) + startIndex);
 		}
 
 		private boolean isKnown(T elem) {
 			return set.contains(elem);
 		}
-	}
-
-	//Kann man das entfernen???
-	//ToDo: Pruefe das, ob man diese Methode wegschmeissen kann!!!
-
-	/**
-	 * Method makeEvals
-	 *
-	 * @param    ps                  a  PrintStream
-	 *
-	 */
-	protected void makeEvals(PrintStream ps) {
-		// TODO
+		
+		public int getMaxIndex()
+		{
+			return (list.size() + startIndex - 1);
+		}
+		
+		public boolean contains(T elem)
+		{
+			return(set.contains(elem));
+		}
+		
+		
 	}
 
 //	// The unit to generate code for.
@@ -179,6 +190,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	
 	NodeType CONST_TYPE = null;
 	NodeType VPROJ_TYPE = null;
+	NodeType PROJ_TYPE  = null;
 	public void findConstType()
 	{
 	 	for(NodeType node : nodeTypeMap.keySet())
@@ -187,11 +199,15 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				CONST_TYPE = node;
 			if(node.getIdent().toString().equals("VProj"))
 				VPROJ_TYPE = node;
+			if(node.getIdent().toString().equals("Proj"))
+				PROJ_TYPE = node;
 		}
 		if(CONST_TYPE == null)
 			System.out.println("Warning: CONST_TYPE not found!");
 		if(VPROJ_TYPE == null)
 			System.out.println("Warning: VPROJ_TYPE not found!");
+		if(PROJ_TYPE == null)
+			System.out.println("Warning: PROJ_TYPE not found!");
 		
 	}
 
@@ -237,19 +253,20 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		String indent = "  ";
 		for(Action action : unit.getActions()) {
 			if(action instanceof Rule) {
+				
 				String actionName = action.getIdent().toString();
 
 				StringBuffer sb2 = new StringBuffer(); // append pattern after condition
 				IdGenerator<Node> nodeIds = new IdGenerator<Node>(); // To generate uique numbers per rule
 				IdGenerator<Edge> edgeIds = new IdGenerator<Edge>();
-
+				
 				sb2.append("/* functions for building the pattern of action " + actionName + " */\n");
 				sb2.append("static _inline ext_grs_action_t *grs_action_" + actionName + "_init() {\n");
-				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_test, \"" +
+				sb2.append(indent + "ext_grs_action_t *act = ext_grs_new_action(ext_grs_k_rule, \"" +
 							   actionName + "\");\n");
 				sb2.append(indent + "int check;\n");
 
-				genPattern(sb2, (Rule)action, nodeIds, edgeIds); // generate the pattern
+				genPattern(sb2, (Rule)action, nodeIds, edgeIds);
 
 				sb2.append(indent + "check = ext_grs_act_mature(act);\n");
 				sb2.append(indent + "assert(check);\n");
@@ -257,6 +274,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				sb2.append("} /* " + actionName + " */\n\n\n");
 
 				genConditionFunctions(sb, indent, actionName, (Rule)action, nodeIds, edgeIds);
+				genEvalFunctions(sb, indent, (Rule) action, nodeIds, edgeIds);
 
 				sb.append(sb2);
 			}
@@ -300,7 +318,91 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			sb.append("}\n");
 		}
 	}
-
+	
+	/**
+	 * Method genEvalFunctions
+	 *
+	 * Generates eval functions for each eval list
+	 */
+	
+	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+	{
+		Collection evalList = rule.getEvals();
+		
+		for(Iterator<Object> it = evalList.iterator(); it.hasNext(); )
+		{
+			Assignment eval = (Assignment)it.next();
+			Qualification target = eval.getTarget();
+			Entity targetOwner = target.getOwner();
+			Entity targetMember = target.getMember();
+			Expression expr = eval.getExpression();
+			
+			sb.append("static void *grs_eval_out_func_" + eval.getId() + "(ir_node **rpl_node_map, const ir_edge_t **rpl_edge_map, ir_node **pat_node_map, void *data) {\n");
+			
+			//sb.append("/* ");
+			
+			if(targetOwner instanceof Node)
+			{
+				Node n = (Node) targetOwner;
+				
+				if(n.getNodeType().isCastableTo(VPROJ_TYPE))
+				{
+					if(!nodeIds.contains(n))
+					{
+						System.out.println("=================== VPROJ NOT CONTAINED!\n");
+					}
+					sb.append("set_VProj_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+					genConditionEval(sb, expr, nodeIds, edgeIds);
+					sb.append(");");
+				}
+				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
+				{
+					System.out.println("PROJ EVAL: Target member:" + targetMember.getName());
+					sb.append(indent + "set_Proj_proj(rpl_node_map[" + nodeIds.computeId(n) + "/* " + n.getIdent() + " */], ");
+					genConditionEval(sb, expr, nodeIds, edgeIds);
+					sb.append(");");
+					
+				}
+				else
+				{
+					throw new UnsupportedOperationException("Unsupported Node type in eval for node " + n.getIdent());
+				}
+			}
+			else if (targetOwner instanceof Edge)
+			{
+				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+			}
+			else
+			{
+				throw new UnsupportedOperationException("Unsupported Entity (" + targetOwner + ")");
+			}
+			
+			
+			sb.append("\n");
+			sb.append(indent + "return(NULL);\n");
+			sb.append("}\n");
+			
+		}
+	}
+	
+	/**
+	 * Method registerEvalFunctions
+	 *
+	 * Generates code to register an eval function to the pattern matcher
+	 */
+	
+	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
+	{
+		Collection evalList = rule.getEvals();
+		
+		for(Iterator<Object> it = evalList.iterator(); it.hasNext(); )
+		{
+			Assignment eval = (Assignment)it.next();
+			sb.append(indent + "ext_grs_act_register_eval(act, NULL, grs_eval_out_func_" + eval.getId() + ");\n");
+		}
+		
+	}
+	
 
 	/**
 	 * Method genPattern generates pattern graph for one rule.
@@ -310,7 +412,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 *
 	 */
 	private void genPattern(StringBuffer sb, Rule rule,
-							IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds) {
+							IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
+							//IdGenerator<Node> replaceNodeIds, IdGenerator<Edge> replaceEdgeIds)
+	{
 		String indent = "  ";
 
 		// code for the pattern graph
@@ -330,13 +434,18 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		}
 		
 		sb.append("\n\n");
-		// code for the replacement
+		
+		// Code for the replacement
+		
 		sb.append(indent + "  { /* The replacement */\n");
 		genPatternGraph(sb, indent + "     ", "ext_grs_act_get_replacement", (PatternGraph) rule.getRight(), nodeIds, edgeIds, false);
 		sb.append(indent + "  } /* The replacement */\n\n");
+		
+		// Code for registring eval functions
+		sb.append(indent + "  /* Eval functions */\n");
+		registerEvalFunctions(sb, indent + "  ", rule);
 				
 		sb.append(indent + "} /* The Action */\n\n");
-		
 	}
 
 
@@ -375,8 +484,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	private int uin = 0;
 	private void genPatternNodes(StringBuffer sb, String indent, PatternGraph graph, IdGenerator<Node> nodeIds, boolean isNegativeGraph) {
 		sb.append(indent + "/* The nodes of the pattern */\n");
-
+		
 		for(Node node : graph.getNodes()) {
+			
+			System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% " + node.getIdent() + "\n");
 
 			// Don't dump mode nodes
 			if(node.getNodeType().isCastableTo(MODE_TYPE))
@@ -391,7 +502,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				related = true;        		// Flag indicates to emit an relation statement afterwards
 			}
 
-                        int nodeId  = nodeIds.computeId(node);
+            int nodeId  = nodeIds.computeId(node);
 			String name = node.getIdent().toString() + nameSuffix;
 			String type = node.getNodeType().getIdent().toString();
 			String mode = "ANY";
@@ -554,6 +665,33 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 			sb.append(indent + "} /* if */\n\n");
 		}
+	}
+	
+	/**
+	 * Method genEvals
+	 *
+	 */
+	
+	private void genEvals(StringBuffer sb, String indent, Action action)
+	{
+		if(evalActions.containsKey(action.getId()))
+		{
+			//Evaluation eval = evalActions.get(action.getId());
+		/* TODO:
+			 * Enumarate through all evals of the current action
+	 		 * Find out if eval has to be executed BEFORE or AFTER transformation
+	 		 * Register eval using func_in and func_out parameters
+	 		 * At some other place:
+	 		 * Generate eval function
+	 		 */
+			
+		}
+		else
+		{
+			System.out.println("Action has no evals!");
+		}
+			
+		
 	}
 
 	/**
