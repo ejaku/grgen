@@ -53,5 +53,4 @@ public class Assignment extends IR {
 	public String toString() {
 		return getTarget() + " = " + getExpression();
 	}
-	
 }

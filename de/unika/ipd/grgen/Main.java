@@ -91,6 +91,9 @@ public class Main extends Base implements Sys {
 	/** inverse debug filter regular expression */
 	private String invDebugFilter;
 	
+	/** dump System.err and System.out to a file. */
+	private String dumpOutputToFile;
+	
 	/** Backend to use. */
 	private String backend;
 	
@@ -281,6 +284,8 @@ public class Main extends Base implements Sys {
 			CmdLineParser.Option timeOpt = parser.addBooleanOption('t', "timing");
 			CmdLineParser.Option backendDebugOpt = parser.addBooleanOption('B', "backend-files");
 			
+			CmdLineParser.Option dumpOutputToFileOpt =
+				parser.addStringOption('c', "dump-output-to-file");
 			CmdLineParser.Option beOpt =
 				parser.addStringOption('b', "backend");
 			CmdLineParser.Option debugFilterOpt =
@@ -295,6 +300,18 @@ public class Main extends Base implements Sys {
 				parser.addStringOption('o', "output");
 			
 			parser.parse(args);
+			
+			dumpOutputToFile = (String) parser.getOptionValue(dumpOutputToFileOpt);
+			if(dumpOutputToFile!=null)
+			{
+				try {
+					PrintStream dumpOutputStream = new PrintStream(new File(dumpOutputToFile));
+					System.setErr(dumpOutputStream);
+					System.setOut(dumpOutputStream);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			dumpAST = parser.getOptionValue(astDumpOpt) != null;
 			dumpIR = parser.getOptionValue(irDumpOpt) != null;

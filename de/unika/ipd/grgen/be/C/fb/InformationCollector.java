@@ -109,7 +109,7 @@ public class InformationCollector extends CBackend {
 	 can easily be processed in the order of their condition numbers, this
 	 Collection will be initialized with an TreeSet parametrised with a
 	 Comparator comparing by condition numbers */
-	protected Collection[] conditions;
+	protected ArrayList<Collection<Expression>> conditions;
 	/* maps a subcondition to the condition number created for it */
 	protected Map<Expression, Integer> conditionNumbers = new HashMap<Expression, Integer>();
 	/* maps a subcondition to a Collection of nodes involved in */
@@ -361,7 +361,7 @@ public class InformationCollector extends CBackend {
 		int subConditionCounter = 0;
 		
 		//setup the array for conditions
-		conditions = new Collection[n_graph_actions];
+		conditions = new ArrayList<Collection<Expression>>();
 		
 		//iterate over all actions
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
@@ -369,7 +369,7 @@ public class InformationCollector extends CBackend {
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
 			
-			conditions[act_id] = new TreeSet(conditionsComparator);
+			conditions.set(act_id, new TreeSet<Expression>(conditionsComparator));
 			
 			//iterate over all conditions of the current action
 			if (act instanceof MatchingAction)
@@ -394,7 +394,7 @@ public class InformationCollector extends CBackend {
 						conditionsInvolvedEdges.put(sub_condition, involvedEdges);
 						
 						//store the subcondition in an ordered Collection
-						conditions[act_id].add(sub_condition);
+						conditions.get(act_id).add(sub_condition);
 					}
 				}
 		}
@@ -494,7 +494,7 @@ public class InformationCollector extends CBackend {
 			int act_id = actionMap.get(act).intValue();
 			
 			//collect the attr ids in dependency of condition and the pattern node
-			for (Iterator<Expression> cond_it = conditions[act_id].iterator(); cond_it.hasNext(); ) {
+			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); ) {
 				Expression cond = cond_it.next();
 				int cond_num = conditionNumbers.get(cond).intValue();
 				

@@ -51,7 +51,7 @@ public class ConstraintEntity extends Entity {
 		constraints = expr.evaluate();
 	}
 	
-	public final Collection getConstraints() {
+	public final Collection<InheritanceType> getConstraints() {
 		return Collections.unmodifiableCollection(constraints);
 	}
 	

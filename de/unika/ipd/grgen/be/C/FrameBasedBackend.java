@@ -1068,7 +1068,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<Expression> evaluatableConditions = new TreeSet<Expression>(conditionsComparator);
 		Collection<Expression> evaluatableGlobalConditions = new TreeSet<Expression>(conditionsComparator);
 		Collection<Collection> evaluatableTypeConditions = new TreeSet<Collection>(typeConditionsComparator);
-		Iterator<Expression> cond_it = conditions[act_id].iterator();
+		Iterator<Expression> cond_it = conditions.get(act_id).iterator();
 		for ( ; cond_it.hasNext(); ) {
 			Expression cond = cond_it.next();
 			
@@ -1486,7 +1486,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			MatchingAction act = (MatchingAction)act_it.next();
 			int act_id = actionMap.get(act).intValue();
 			
-			for (Expression current_cond : (Collection<Expression>)conditions[act_id]) {
+			for (Expression current_cond : (Collection<Expression>)conditions.get(act_id)) {
 				
 				int cond_num = conditionNumbers.get(current_cond).intValue();
 				int pattern_num = conditionsPatternNum.get(current_cond) == null ? 0 : conditionsPatternNum.get(current_cond).intValue();
@@ -2162,7 +2162,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			
 			//for all conditions gen the C-structs describing the conditions
 			Collection<Object> allConditions = new HashSet<Object>();
-			allConditions.addAll(conditions[act_id]);
+			allConditions.addAll(conditions.get(act_id));
 			allConditions.addAll(typeConditions[act_id]);
 			
 			for (Iterator<Object> cond_it = allConditions.iterator(); cond_it.hasNext(); ) {

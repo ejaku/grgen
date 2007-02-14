@@ -434,7 +434,7 @@ public class MoreInformationCollector extends InformationCollector {
 							conditionsPatternNum.put(sub_condition, new Integer(neg_num+1));
 							
 							//store the subcondition in an ordered Collection
-							conditions[act_id].add(sub_condition);
+							conditions.get(act_id).add(sub_condition);
 						}
 					}
 				}
@@ -466,7 +466,7 @@ public class MoreInformationCollector extends InformationCollector {
 			int act_id = actionMap.get(act).intValue();
 			
 			//collect the attr ids in dependency of condition and the pattern node
-			for (Iterator<Expression> cond_it = conditions[act_id].iterator(); cond_it.hasNext(); )
+			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); )
 			{
 				Expression cond = cond_it.next();
 				int cond_num = conditionNumbers.get(cond).intValue();
