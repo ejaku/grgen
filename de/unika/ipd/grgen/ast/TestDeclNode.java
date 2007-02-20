@@ -181,33 +181,39 @@ public class TestDeclNode extends ActionDeclNode {
 		return childs && edgeReUse && returnParams;
 	}
 	
-	protected IR constructIR() {
-		PatternGraph gr = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
-		Test test = new Test(getIdentNode().getIdent(), gr);
-		
+	
+	
+	
+	protected void constructIRaux(MatchingAction ma, BaseNode aReturns) {
 		// add negative parts to the IR
 		for (BaseNode n : getChild(NEG).getChildren()) {
 			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
-			test.addNegGraph(neg);
+			ma.addNegGraph(neg);
 		}
-		// after all graphs are added, call coalesceAnonymousEdges
-		test.coalesceAnonymousEdges();
+		// NOW! after all graphs are added, call coalesceAnonymousEdges
+		ma.coalesceAnonymousEdges();
 		
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
 			ConstraintDeclNode param = (ConstraintDeclNode)n;
-			test.addParameter((Entity) param.checkIR(Entity.class));
+			ma.addParameter((Entity) param.checkIR(Entity.class));
 		}
 		
 		// add Return-Prarams to the IR
-		BaseNode aReturns = getChild(RET);
 		for(BaseNode n : aReturns.getChildren()) {
 			IdentNode aReturnAST = (IdentNode)n;
-			Ident     aReturn    = (Ident)aReturnAST.checkIR(Ident.class);
+			ConstraintEntity aReturn = (ConstraintEntity)aReturnAST.getDecl().checkIR(ConstraintEntity.class);
 			
 			// actual return-parameter
-			test.addReturn(aReturn);
+			ma.addReturn(aReturn);
 		}
+	}
+	
+	protected IR constructIR() {
+		PatternGraph gr = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
+		Test test = new Test(getIdentNode().getIdent(), gr);
+		
+		constructIRaux(test, getChild(RET));
 		
 		return test;
 	}

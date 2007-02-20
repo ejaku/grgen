@@ -51,7 +51,7 @@ public abstract class MatchingAction extends Action {
 	private final List<Entity> params = new LinkedList<Entity>();
 		
 	/** A list of the replace return-parameters */
-	private final List<Ident> returns = new LinkedList<Ident>();
+	private final List<Entity> returns = new LinkedList<Entity>();
 
 	
 	
@@ -102,8 +102,8 @@ public abstract class MatchingAction extends Action {
 	/**
 	 * Get all Parameters of this graph.
 	 */
-	public Collection<Entity> getParameters() {
-		return Collections.unmodifiableCollection(params);
+	public List<Entity> getParameters() {
+		return Collections.unmodifiableList(params);
 	}
 	
 	
@@ -111,15 +111,15 @@ public abstract class MatchingAction extends Action {
 	 * Add a return-value (named node or edge) to the graph.
 	 * @param expr The parameter.
 	 */
-	public void addReturn(Ident id) {
+	public void addReturn(ConstraintEntity id) {
 		returns.add(id);
 	}
 	
 	/**
 	 * Get all Returns of this graph.
 	 */
-	public Collection<Ident> getReturns() {
-		return Collections.unmodifiableCollection(returns);
+	public List<Entity> getReturns() {
+		return Collections.unmodifiableList(returns);
 	}
 	
 	

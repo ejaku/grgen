@@ -221,13 +221,7 @@ public class RuleDeclNode extends TestDeclNode {
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
-		// add negative parts to the IR
-		for (BaseNode n : getChild(NEG).getChildren()) {
-			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
-			rule.addNegGraph(neg);
-		}
-		// NOW! after all graphs are added, call coalesceAnonymousEdges
-		rule.coalesceAnonymousEdges();
+		constructIRaux(rule, ((GraphNode)getChild(RIGHT)).getReturn());
 		
 		// add Eval statments to the IR
 		for(BaseNode n : getChild(EVAL).getChildren()) {
@@ -235,24 +229,7 @@ public class RuleDeclNode extends TestDeclNode {
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 		
-		// add Params to the IR
-		for(BaseNode n : getChild(PARAM).getChildren()) {
-			ConstraintDeclNode param = (ConstraintDeclNode)n;
-			rule.addParameter((Entity) param.checkIR(Entity.class));
-		}
-		
-		// add Return-Prarams to the IR
-		BaseNode aReturns = ((GraphNode)getChild(RIGHT)).getReturn();
-		for(BaseNode n : aReturns.getChildren()) {
-			IdentNode aReturnAST = (IdentNode)n;
-			Ident     aReturn    = (Ident)aReturnAST.checkIR(Ident.class);
-			
-			// actual return-parameter
-			rule.addReturn(aReturn);
-		}
-		
 		return rule;
 	}
-	
 }
 

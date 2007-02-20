@@ -397,7 +397,7 @@ public class Graph extends IR {
 	 */
 	public boolean isSingle(Node node) {
 		GraphNode gn = checkNode(node);
-		return ! (gn.incoming.iterator().hasNext() || gn.outgoing.iterator().hasNext());
+		return gn.incoming.isEmpty() && gn.outgoing.isEmpty();
 	}
 	
 	/**
