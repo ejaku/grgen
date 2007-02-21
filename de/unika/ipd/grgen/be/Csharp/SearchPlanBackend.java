@@ -194,7 +194,10 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\n");
 		genActionConditions(sb, action);
 		sb.append("\n");
-		genRuleReplace(sb, (Rule)action);
+		if(action instanceof Rule)
+			genRuleReplace(sb, (Rule)action);
+		else
+			throw new IllegalArgumentException("NYI. We cannot handle this type upto now! " + action);
 		sb.append("\t}\n");
 		sb.append("\n");
 		
@@ -340,7 +343,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			sb2.append(
 				"\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) graph.AddEdge(" +
 					"EdgeType_" + formatIdentifiable(edge.getType()) + ".typeVar, " +
-					formatNode(src_node) + ", " + formatNode(tgt_node) + ");\n"
+					formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 			);
 		}
 		
@@ -351,7 +354,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 				sb2.append("\t\t\tINode_" + formatIdentifiable(node.getType()));
 				sb2.append(" " + formatEntity(node) + "_attributes = ");
 				sb2.append("(INode_" + formatIdentifiable(node.getType()) + ") ");
-				sb2.append("graph.SetNodeType(" + formatNode(node) + ", " + formatType(node.getReplaceType()) + ".typeVar);\n");
+				sb2.append("graph.SetNodeType(" + formatEntity(node) + ", " + formatType(node.getReplaceType()) + ".typeVar);\n");
 				// TODO fix attribute access for all nodes in evals
 			}
 		
@@ -361,14 +364,14 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		// remove edges
 		for(Edge edge : delEdges) {
 			extractEdgeFromMatch.add(edge);
-			sb2.append("\t\t\tgraph.Remove(" + formatEdge(edge) + ");\n");
+			sb2.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
 		}
 		
 		// remove nodes
 		for(Node node : delNodes) {
 			extractNodeFromMatch.add(node);
-			sb2.append("\t\t\tgraph.RemoveEdges(" + formatNode(node) + ");\n");
-			sb2.append("\t\t\tgraph.Remove(" + formatNode(node) + ");\n");
+			sb2.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
+			sb2.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
 		}
 		
 		// return parameter (output)
@@ -386,11 +389,11 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		
 		for(Node node : extractNodeFromMatch)
 			if(node.isRetypedNode())
-				sb.append("\t\t\tLGSPNode " + formatNode(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node.getOldNode()) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node.getOldNode()) + " - 1 ];\n");
 			else
-				sb.append("\t\t\tLGSPNode " + formatNode(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
-			sb.append("\t\t\tLGSPEdge " + formatEdge(edge) + " = (LGSPEdge) match.Edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) match.Edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
 		
 		sb.append(sb2);
 	}
@@ -428,13 +431,13 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			sb.append(";\n");
 			
 			if(entity instanceof Node) {
-				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatNode((Node)entity) +
+				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatEntity((Node)entity) +
 							  ", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
 							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
 				sb.append(", " + varName + ");\n");
 			} else if(entity instanceof Edge) {
-				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEdge((Edge)entity) +
+				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEntity((Edge)entity) +
 							  ", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
 							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
@@ -524,21 +527,21 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		for(Node node : pattern.getNodes()) {
 			if(outer != null && outer.hasNode(node))
 				continue;
-			sb.append("\t\t\tPatternNode " + formatNode(node, outer) + " = new PatternNode(");
-			sb.append("(int) NodeTypes." + formatIdentifiable(node.getType()) + ", \"" + formatNode(node, outer, negCount) + "\"");
-			sb.append(", " + formatNode(node, outer, negCount) + "_AllowedTypes, ");
-			sb.append(formatNode(node, outer, negCount) + "_IsAllowedType, ");
+			sb.append("\t\t\tPatternNode " + formatEntity(node, outer, negCount) + " = new PatternNode(");
+			sb.append("(int) NodeTypes." + formatIdentifiable(node.getType()) + ", \"" + formatEntity(node, outer, negCount) + "\"");
+			sb.append(", " + formatEntity(node, outer, negCount) + "_AllowedTypes, ");
+			sb.append(formatEntity(node, outer, negCount) + "_IsAllowedType, ");
 			sb.append(parameters.contains(node)?"PatternElementType.Preset":additional_parameters);
 			sb.append(", " + parameters.indexOf(node) + ");\n");
 		}
 		for(Edge edge : pattern.getEdges()) {
 			if(outer != null && outer.hasEdge(edge))
 				continue;
-			sb.append("\t\t\tPatternEdge " + formatEdge(edge, outer) + " = new PatternEdge(");
-			sb.append(formatNode(pattern.getSource(edge), outer) + ", " + formatNode(pattern.getTarget(edge), outer));
-			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + formatEdge(edge, outer, negCount) + "\"");
-			sb.append(", " + formatEdge(edge, outer, negCount) + "_AllowedTypes, ");
-			sb.append(formatEdge(edge, outer, negCount) + "_IsAllowedType, ");
+			sb.append("\t\t\tPatternEdge " + formatEntity(edge, outer, negCount) + " = new PatternEdge(");
+			sb.append(formatEntity(pattern.getSource(edge), outer, negCount) + ", " + formatEntity(pattern.getTarget(edge), outer, negCount));
+			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + formatEntity(edge, outer, negCount) + "\"");
+			sb.append(", " + formatEntity(edge, outer, negCount) + "_AllowedTypes, ");
+			sb.append(formatEntity(edge, outer, negCount) + "_IsAllowedType, ");
 			sb.append(parameters.contains(edge)?"PatternElementType.Preset":additional_parameters);
 			sb.append(", " + parameters.indexOf(edge) + ");\n");
 		}
@@ -548,24 +551,22 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			Set<Edge> edges = new HashSet<Edge>();
 			collectNodesnEdges(nodes, edges, expr);
 			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
-			genSet(sb, nodes, "\"", "\"", true);
+			genEntitySet(sb, nodes, "\"", "\"", true, outer, negCount);
 			sb.append(", new String[] ");
-			genSet(sb, edges, "\"", "\"", true);
+			genEntitySet(sb, edges, "\"", "\"", true, outer, negCount);
 			sb.append(");\n");
 			condCnt++;
 		}
 		
 		sb.append("\t\t\t" + pattern_name + " = new PatternGraph(\n");
 		
-		sb.append("\t\t\t\tnew PatternNode[] { ");
-		for(Node node : pattern.getNodes())
-			sb.append(formatNode(node, outer) + ", ");
-		sb.append("}, \n");
+		sb.append("\t\t\t\tnew PatternNode[] ");
+		genEntitySet(sb, pattern.getNodes(), "", "", true, outer, negCount);
+		sb.append(", \n");
 		
-		sb.append("\t\t\t\tnew PatternEdge[] { ");
-		for(Edge edge : pattern.getEdges())
-			sb.append(formatEdge(edge, outer) + ", ");
-		sb.append("}, \n");
+		sb.append("\t\t\t\tnew PatternEdge[] ");
+		genEntitySet(sb, pattern.getEdges(), "", "", true, outer, negCount);
+		sb.append(", \n");
 		
 		sb.append("\t\t\t\tnew Condition[] { ");
 		condCnt = condCntInit;
@@ -619,11 +620,9 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		for(Node node : pattern.getNodes()) {
 			if(outer!=null && outer.getNodes().contains(node))
 				continue;
-			sb.append("\t\tpublic static ITypeFramework[] " + formatNode(node, outer, negCount) + "_AllowedTypes = ");
-			aux.append("\t\tpublic static bool[] " + formatNode(node, outer, negCount) + "_IsAllowedType = ");
+			sb.append("\t\tpublic static ITypeFramework[] " + formatEntity(node, outer, negCount) + "_AllowedTypes = ");
+			aux.append("\t\tpublic static bool[] " + formatEntity(node, outer, negCount) + "_IsAllowedType = ");
 			if( !node.getConstraints().isEmpty() ) {
-				if( node.getConstraints().contains(node.getInheritanceType()) )
-					node.error.error("self NodeType may not be contained in TypeCondition of ("+ node.getInheritanceType() + ")");
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<InheritanceType> allForbiddenTypes = new HashSet<InheritanceType>();
 				for(InheritanceType forbiddenType : node.getConstraints())
@@ -657,11 +656,9 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		for(Edge edge : pattern.getEdges()) {
 			if(outer!=null && outer.getEdges().contains(edge))
 				continue;
-			sb.append("\t\tpublic static ITypeFramework[] " + formatEdge(edge, outer, negCount) + "_AllowedTypes = ");
-			aux.append("\t\tpublic static bool[] " + formatEdge(edge, outer, negCount) + "_IsAllowedType = ");
+			sb.append("\t\tpublic static ITypeFramework[] " + formatEntity(edge, outer, negCount) + "_AllowedTypes = ");
+			aux.append("\t\tpublic static bool[] " + formatEntity(edge, outer, negCount) + "_IsAllowedType = ");
 			if( !edge.getConstraints().isEmpty() ) {
-				if( edge.getConstraints().contains(edge.getInheritanceType()) )
-					edge.error.error("self EdgeType may not be contained in TypeCondition of ("+ edge.getInheritanceType() + ")");
 				// alle verbotenen Typen und deren Untertypen
 				HashSet<InheritanceType> allForbiddenTypes = new HashSet<InheritanceType>();
 				for(InheritanceType forbiddenType : edge.getConstraints())
@@ -722,12 +719,9 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " types\n");
 		sb.append("\t//\n");
 		sb.append("\n");
-		sb.append("\tpublic enum " + formatNodeOrEdge(isNode) + "Types { ");
-		for(Identifiable id : types) {
-			String type = formatIdentifiable(id);
-			sb.append(formatId(type) + ", ");
-		}
-		sb.append("};\n");
+		sb.append("\tpublic enum " + formatNodeOrEdge(isNode) + "Types ");
+		genSet(sb, types, "", "", true);
+		sb.append(";\n");
 		
 		for(InheritanceType type : types) {
 			genModelType(sb, types, type);
@@ -1121,33 +1115,8 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	}
 	
 	
-	
-	
 	/**
 	 * Method genSet dumps C-like Set representaion.
-	 *
-	 * @param    sb                  a  StringBuffer
-	 * @param    set                 a  Set
-	 *
-	 */
-	private void genSet(StringBuffer sb, Set<? extends Entity> set) {
-		sb.append('{');
-		for(Iterator<? extends Entity> i = set.iterator(); i.hasNext(); ) {
-			Entity e = i.next();
-			if(e instanceof Node)
-				sb.append("n_" + formatIdentifiable(e));
-			else if (e instanceof Edge)
-				sb.append("e_" + formatIdentifiable(e));
-			else
-				sb.append(formatIdentifiable(e));
-			if(i.hasNext())
-				sb.append(", ");
-		}
-		sb.append('}');
-	}
-	
-	/**
-	 * Method genIdentSet
 	 *
 	 * @param    sb                  a  StringBuffer
 	 * @param    get                 a  Collection<Node>
@@ -1159,6 +1128,21 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		for(Iterator<? extends Identifiable> iter = set.iterator(); iter.hasNext();) {
 			Identifiable id = iter.next();
 			sb.append(pre + formatIdentifiable(id) + post);
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		if (brackets)
+			sb.append(" }");
+	}
+	
+	
+	private void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
+							  PatternGraph outer, int negCount) {
+		if (brackets)
+			sb.append("{ ");
+		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
+			Entity id = iter.next();
+			sb.append(pre + formatEntity(id, outer, negCount) + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
@@ -1220,28 +1204,17 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		return res.replace('$', '_');
 	}
 	
-	private String formatNode(Node n) {
-		return formatNode(n, null);
+	private String formatEntity(Entity entity, PatternGraph outer, int negCount) {
+		if(entity instanceof Node)
+			return ( (outer !=null && !outer.getNodes().contains(entity)) ? "neg_" + negCount + "_" : "") + "node_" + formatIdentifiable(entity);
+		else if (entity instanceof Edge)
+			return ( (outer !=null && !outer.getEdges().contains(entity)) ? "neg_" + negCount + "_" : "") + "edge_" + formatIdentifiable(entity);
+		else
+			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
 	}
 	
-	private String formatNode(Node n, PatternGraph outer) {
-		return ( (outer !=null && !outer.getNodes().contains(n)) ? "neg_" : "") + formatEntity(n);
-	}
-	
-	private String formatNode(Node n, PatternGraph outer, int negCount) {
-		return ( (outer !=null && !outer.getNodes().contains(n)) ? "neg_" + negCount + "_" : "") + formatEntity(n);
-	}
-	
-	private String formatEdge(Edge e) {
-		return formatEdge(e, null);
-	}
-	
-	private String formatEdge(Edge e, PatternGraph outer) {
-		return ( (outer !=null && !outer.getEdges().contains(e)) ? "neg_" : "") + formatEntity(e);
-	}
-	
-	private String formatEdge(Edge e, PatternGraph outer, int negCount) {
-		return ( (outer !=null && !outer.getEdges().contains(e)) ? "neg_" + negCount + "_" : "") + formatEntity(e);
+	private String formatEntity(Entity entity) {
+		return formatEntity(entity, null, 0);
 	}
 	
 	private String formatInt(int i) {
@@ -1259,15 +1232,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			return "Edge";
 	}
 	
-	private String formatEntity(Entity entity) {
-		if(entity instanceof Node)
-			return "node_" + formatIdentifiable(entity);
-		else if (entity instanceof Edge)
-			return "edge_" + formatIdentifiable(entity);
-		else
-			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
-	}
-	
 	private String formatNodeOrEdge(Type type) {
 		if (type instanceof NodeType)
 			return formatNodeOrEdge(true);
@@ -1277,6 +1241,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
+
 
 
 
