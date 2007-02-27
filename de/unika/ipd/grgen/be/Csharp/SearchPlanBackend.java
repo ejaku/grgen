@@ -951,7 +951,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	 * Generate a list of supertpes of the actual type.
 	 */
 	private void genSuperTypeList(StringBuffer sb, InheritanceType type) {
-		Collection<InheritanceType> superTypes = type.getSuperTypes();
+		Collection<InheritanceType> superTypes = type.getDirectSuperTypes();
 		
 		if(superTypes.isEmpty())
 			sb.append("IAttributes");
@@ -1241,6 +1241,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 }
+
 
 
 

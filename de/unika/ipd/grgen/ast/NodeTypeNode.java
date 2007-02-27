@@ -95,8 +95,12 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		}
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			NodeTypeNode x = (NodeTypeNode)n;
-			nt.addSuperType(x.getNodeType());
+			nt.addDirectSuperType(x.getNodeType());
 		}
+		
+		// to check overwriting of attributes
+		nt.getAllMembers();
+		
 		return nt;
 	}
 }

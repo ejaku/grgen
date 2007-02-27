@@ -51,7 +51,7 @@ public class TypeExprSubtypes extends TypeExpr {
 			while(!worklist.isEmpty()) {
 				InheritanceType t = worklist.removeFirst();
 				
-				for(InheritanceType inh : t.getSubTypes())
+				for(InheritanceType inh : t.getDirectSubTypes())
 					if(!res.contains(inh)) {
 						res.add(inh);
 						worklist.add(inh);

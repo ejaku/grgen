@@ -102,12 +102,16 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		}
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			EdgeTypeNode etn = (EdgeTypeNode)n;
-			et.addSuperType(etn.getEdgeType());
+			et.addDirectSuperType(etn.getEdgeType());
 		}
 		for(BaseNode n : getChild(CAS).getChildren()) {
 			ConnAssertNode can = (ConnAssertNode)n;
 			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
 		}
+		
+		// to check overwriting of attributes
+		et.getAllMembers();
+		
 		return et;
 	}
 }

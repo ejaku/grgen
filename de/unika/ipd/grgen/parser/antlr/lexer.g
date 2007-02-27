@@ -205,5 +205,5 @@ STRING_LITERAL
 
 IDENT
 	options {testLiterals=true;}
-	:	('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+	:	('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 

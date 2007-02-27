@@ -480,7 +480,7 @@ public abstract class CBackend extends IDBase implements Backend {
 				InheritanceType type = it.next();
 				dumpXMLTag(1, ps, ">\n", type);
 				
-				Iterator<InheritanceType> inhIt = type.getSuperTypes().iterator();
+				Iterator<InheritanceType> inhIt = type.getDirectSuperTypes().iterator();
 				
 				if (inhIt.hasNext()) {
 					ps.print("    <inherits>\n");

@@ -37,8 +37,10 @@ public abstract class InheritanceType extends CompoundType {
 	public static final int CONST = 2;
 	
 	private int maxDist = -1;
-	private final Set<InheritanceType> superTypes = new LinkedHashSet<InheritanceType>();
-	private final Set<InheritanceType> subTypes = new LinkedHashSet<InheritanceType>();
+	private final Set<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
+	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
+	
+	private Set<InheritanceType> allSuperTypes = null;
 	
 	/**
 	 * Collection containing all members defined in that type and in its supertype.
@@ -63,32 +65,52 @@ public abstract class InheritanceType extends CompoundType {
 	 * @return true, if this type does not inherit from some other type.
 	 */
 	public boolean isRoot() {
-		return superTypes.isEmpty();
+		return directSuperTypes.isEmpty();
 	}
 	
 	/**
 	 * Add a type, this type inherits from.
 	 * @param t The supertype.
 	 */
-	public void addSuperType(InheritanceType t) {
-		superTypes.add(t);
-		t.subTypes.add(this);
+	public void addDirectSuperType(InheritanceType t) {
+		directSuperTypes.add(t);
+		t.directSubTypes.add(this);
 	}
 	
 	/**
-	 * Get an iterator over all types, this type inherits from.
+	 * Get an iterator over all types, this type directly inherits from.
 	 * @return The iterator.
 	 */
-	public Collection<InheritanceType> getSuperTypes() {
-		return Collections.unmodifiableCollection(superTypes);
+	public Collection<InheritanceType> getDirectSuperTypes() {
+		return Collections.unmodifiableCollection(directSuperTypes);
+	}
+	
+	
+	/**
+	 * Get an iterator over all types, this type inherits from (including indirect supertypes).
+	 * @return The iterator.
+	 */
+	public Collection<InheritanceType> getAllSuperTypes() {
+		if( allSuperTypes == null ) {
+			allSuperTypes = new LinkedHashSet<InheritanceType>();
+			LinkedList<InheritanceType> worklist = new LinkedList<InheritanceType>();
+			
+			worklist.addAll(getDirectSuperTypes());
+			while(!worklist.isEmpty()) {
+				InheritanceType it = worklist.remove();
+				worklist.addAll(it.getDirectSuperTypes());
+				allSuperTypes.add(it);
+			}
+		}
+		return Collections.unmodifiableCollection(allSuperTypes);
 	}
 	
 	/**
 	 * Get all subtypes of this type.
 	 * @return An iterator iterating over all sub types of this one.
 	 */
-	public Collection<InheritanceType> getSubTypes() {
-		return Collections.unmodifiableCollection(subTypes);
+	public Collection<InheritanceType> getDirectSubTypes() {
+		return Collections.unmodifiableCollection(directSubTypes);
 	}
 	
 	
@@ -105,7 +127,7 @@ public abstract class InheritanceType extends CompoundType {
 				allMembers.put(member.getIdent().toString(), member);
 			
 			// add the members of the supertype
-			for(InheritanceType superType : getSuperTypes())
+			for(InheritanceType superType : getAllSuperTypes())
 				for(Entity member : superType.getMembers())
 					if(allMembers.containsKey(member.getIdent().toString()))
 						Base.error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
@@ -126,7 +148,7 @@ public abstract class InheritanceType extends CompoundType {
 	 * @return true, iff this type inherited from <code>t</code>.
 	 */
 	public boolean isDirectSubTypeOf(InheritanceType t) {
-		return superTypes.contains(t);
+		return directSuperTypes.contains(t);
 	}
 	
 	/**
@@ -152,7 +174,7 @@ public abstract class InheritanceType extends CompoundType {
 			if(isDirectSubTypeOf(ty))
 				res = true;
 			else {
-				for(InheritanceType inh : getSuperTypes())
+				for(InheritanceType inh : getDirectSuperTypes())
 					if(inh.castableTo(ty)) {
 						res = true;
 						break;
@@ -174,7 +196,7 @@ public abstract class InheritanceType extends CompoundType {
 		if(maxDist == -1) {
 			maxDist = 0;
 			
-			for(InheritanceType inh : superTypes) {
+			for(InheritanceType inh : directSuperTypes) {
 				int dist = inh.getMaxDist() + 1;
 				maxDist = dist > maxDist ? dist : maxDist;
 			}
@@ -204,7 +226,7 @@ public abstract class InheritanceType extends CompoundType {
 	
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
-		fields.put("inherits", superTypes.iterator());
+		fields.put("inherits", directSuperTypes.iterator());
 		fields.put("const", Boolean.valueOf(isConst()));
 		fields.put("abstract ", Boolean.valueOf(isAbstract()));
 	}

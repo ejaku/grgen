@@ -126,7 +126,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 			int typeId = typeMap.get(ty).intValue();
 			res[typeId][typeId] = 1;
 			
-			for(InheritanceType st : ty.getSuperTypes()) {
+			for(InheritanceType st : ty.getDirectSuperTypes()) {
 				int inhId = typeMap.get(st).intValue();
 				res[typeId][inhId] = 1;
 			}
@@ -176,7 +176,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 			aux.clear();
 			int id = typeMap.get(ty).intValue();
 			
-			for(InheritanceType t: ty.getSuperTypes())
+			for(InheritanceType t: ty.getDirectSuperTypes())
 				aux.add(typeMap.get(t));
 			
 			res[id] = new int[aux.size()];
@@ -196,7 +196,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 			aux.clear();
 			int id = typeMap.get(ty).intValue();
 			
-			for(InheritanceType t : ty.getSubTypes())
+			for(InheritanceType t : ty.getDirectSubTypes())
 				aux.add(typeMap.get(t));
 			
 			res[id] = new int[aux.size()];

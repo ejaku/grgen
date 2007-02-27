@@ -65,7 +65,7 @@ text returns [ BaseNode model = env.initNode() ]
     CollectNode n = new CollectNode();
     IdentNode id;
   }
-  : MODEL id=entIdentDecl SEMI typeDecls[n] {
+  : MODEL id=entIdentDecl SEMI typeDecls[n] EOF {
     model = new ModelNode(id);
     model.addChild(n);
   }
@@ -180,6 +180,7 @@ rangeSpec returns [ BaseNode res = env.initNode() ]
 	{
 		int lower = 0, upper = RangeSpecNode.UNBOUND;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
+		// TODO fix range to allow only [*], [+], [c:*], [c], [c:d]
 	}
 	: (	l:LBRACK { coords = getCoords(l); }
 			( 	(STAR | PLUS { lower=1; }) |
