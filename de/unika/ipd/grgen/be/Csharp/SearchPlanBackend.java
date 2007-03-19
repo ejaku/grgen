@@ -905,6 +905,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		genAttributeInit(sb, type);
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
+		sb.append("\t\tpublic override bool IsNodeType { get { return " + ((type instanceof NodeType) ? "true" : "false") + "; } }\n");
+		sb.append("\t\tpublic override IAttributes CreateAttributes() { return new " + cname + "(); }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
 		genGetAttributeType(sb, type);
