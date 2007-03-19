@@ -465,7 +465,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			for (int i = 0; i < max_n_pattern_nodes; i++) {
 				sb.append("    { ");
 				for (int j = 0; j < max_n_pattern_nodes; j++) {
-					sb.append( potHomMatrices[act_id][i][j] );
+					sb.append( potHomNodeMatrices[act_id][i][j] );
 					if (j < (max_n_pattern_nodes - 1)) sb.append(", ");
 				}
 				sb.append(" }");

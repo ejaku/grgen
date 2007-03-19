@@ -146,8 +146,7 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
   }
   : RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
   	left=patternPart[negs]
-  	right=replacePart
-  	( evalPart[eval] )?
+  	right=replacePart[eval]
   	{
   	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
   	   res = id;
@@ -155,8 +154,7 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
     RBRACE! popScope!;
 
 parameters returns [ CollectNode res = new CollectNode() ]
-	: LPAREN paramList[res] RPAREN
-	| LPAREN RPAREN
+	: LPAREN (paramList[res])? RPAREN
 	|
 	;
 
@@ -172,10 +170,8 @@ param returns [ BaseNode res = env.initNode() ]
 		IdentNode id;
 		BaseNode type;
 	}
-	: NODE id=entIdentDecl COLON type=typeIdentUse
-	  { res = new NodeDeclNode(id, type, TypeExprNode.getEmpty()); }
-	| EDGE id=entIdentDecl COLON type=typeIdentUse
-	  { res = new EdgeDeclNode(id, type, TypeExprNode.getEmpty()); }
+	: id=entIdentDecl COLON type=typeIdentUse
+	  { res = new ParamDeclNode(id, type); }
 	;
 
 returnTypes returns [ CollectNode res = new CollectNode() ]
@@ -192,8 +188,8 @@ patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
   : p:PATTERN LBRACE! res=patternBody[getCoords(p), negsCollect] RBRACE!
   ;
   
-replacePart returns [ BaseNode res = env.initNode() ]
-	: r:REPLACE LBRACE! res=replaceBody[getCoords(r)] RBRACE!
+replacePart [ CollectNode eval ] returns [ BaseNode res = env.initNode() ]
+	: r:REPLACE LBRACE! res=replaceBody[getCoords(r),eval] RBRACE!
 	;
 
 evalPart [ BaseNode n ]
@@ -216,25 +212,26 @@ patternBody [ Coords coords, BaseNode negsCollect ] returns [ BaseNode res = env
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
  		CollectNode returnz = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz);
+ 		CollectNode homs = new CollectNode();
+		res = new PatternGraphNode(coords, connections, conditions, returnz, homs);
 		int negCounter = 0;
   }
-  : (negCounter = patternStmt[connections, conditions, negsCollect, negCounter, returnz])*
+  // TODO: where to get coordinates from for the statement???
+  : (negCounter = patternStmt[coords, connections, conditions, negsCollect, negCounter, returnz, homs])*
   ;
 
-patternStmt [ BaseNode connCollect, BaseNode condCollect,
-  BaseNode negsCollect, int negCount, CollectNode returnz ] returns [ int newNegCount ]
+patternStmt [ Coords coords, BaseNode connCollect, BaseNode condCollect,
+  BaseNode negsCollect, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
   
 	{
   	IdentNode id = env.getDummyIdent();
-		BaseNode n, o, e, neg;
+		BaseNode n, o, e, neg, hom;
 		//nesting of negative Parts is not allowed.
 		CollectNode negsInNegs = new CollectNode();
 		
 		newNegCount = negCount;
 	}
-	: patternConnections[connCollect] SEMI
-	| NODE patternNodeDecl ( COMMA patternNodeDecl )* SEMI
+	: patternConnections[coords,connCollect] SEMI
 	
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
 	  neg=patternBody[getCoords(p), negsInNegs] {
@@ -247,14 +244,27 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
 	| COND e=expr { condCollect.addChild(e); } SEMI
 	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
 	| replaceReturns[returnz] SEMI
+	| hom=homStatement { homs.addChild(hom); } SEMI
 	;
 
-patternConnections [ BaseNode connColl ]
+patternConnections [ Coords coords, BaseNode connColl ]
   { BaseNode n; }
-  : n=patternNodeOcc (patternContinuation[n,connColl] | {
+  : n=patternNodeOcc [ coords ] (patternContinuation[n,connColl] | {
   	connColl.addChild(new SingleNodeConnNode(n));
   })
   ;
+
+/**
+ * A statement defining some nodes/edges to be mactched potentially
+ * homomorphically
+ */
+homStatement returns [ BaseNode res = env.initNode() ]
+    {
+    	BaseNode id;
+    }
+	: h:HOM {res = new HomNode(getCoords(h)); } LPAREN id=entIdentUse { res.addChild(id); }
+      (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
+	;
 
 /**
  * A continuation is a list of edge node pairs or a list of these pair lists, comma
@@ -264,8 +274,6 @@ patternConnections [ BaseNode connColl ]
 patternContinuation [ BaseNode left, BaseNode collect ]
   { BaseNode n; }
   : n=patternPair[left, collect] (patternContinuation[n, collect])?
-  | LPAREN patternContinuation[left, collect]
-    ( COMMA patternContinuation[left, collect] )* RPAREN
   ;
 
 /**
@@ -277,11 +285,13 @@ patternContinuation [ BaseNode left, BaseNode collect ]
  * It also treats reversed edges (a <-- b).
  */
 patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNode() ]
-	{ BaseNode e; }
-	:	e=patternEdge res=patternNodeOcc {
+  {
+  	BaseNode e;
+  }
+	:	e=patternEdgeOcc res=patternNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 			coll.addChild(new ConnectionNode(left, e, res));
 	  }
-	| e=patternReversedEdge res=patternNodeOcc {
+	|	e=patternReversedEdge res=patternNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 		  coll.addChild(new ConnectionNode(res, e, left));
 	  }
  	;
@@ -290,17 +300,21 @@ patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNo
  * The occurrence of a node in a pattern part is the usage of an
  * identifier (must be a declared node) or a pattern node declaration
  */
-patternNodeOcc returns [ BaseNode res = env.initNode() ]
+patternNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+  { BaseNode type = env.getNodeRoot(); }
   : res=entIdentUse
   | res=patternNodeDecl
+  | (COLON type=typeIdentUse)? {
+		IdentNode id = env.defineAnonymousEntity("node", coords);
+		res = new AnonymousNodeDeclNode(id, type);
+	}
   ;
-  
 
 patternReversedEdge returns [ BaseNode res = null ]
   {
   	BaseNode type = env.getEdgeRoot();
   }
-  : LARROW res=edgeDecl MINUS
+  : LARROW res=patternEdgeDecl MINUS
   | LARROW res=entIdentUse MINUS
   | LARROW (COLON type=typeIdentUse)? m:MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
@@ -308,11 +322,11 @@ patternReversedEdge returns [ BaseNode res = null ]
     }
   ;
 
-patternEdge returns [ BaseNode res = null ]
+patternEdgeOcc returns [ BaseNode res = null ]
 	{
 		BaseNode type = env.getEdgeRoot();
 	}
-  : MINUS res=edgeDecl RARROW
+  : MINUS res=patternEdgeDecl RARROW
   | MINUS res=entIdentUse RARROW
   | MINUS (COLON type=typeIdentUse)? m:RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
@@ -321,66 +335,30 @@ patternEdge returns [ BaseNode res = null ]
   ;
 
 /**
- * In a pattern, a node decl is like multiNodeDecl (see below) or
- * a multi node with tildes instead of commas, like
- *
- * (a ~ b ~ c ~ d):X
- *
- * This allows a, b, c, d to be the same node.
- */
- patternNodeDecl returns [ BaseNode res = env.initNode() ]
-  {
-    IdentNode id;
-  	BaseNode type;
-  	BaseNode constr = TypeExprNode.getEmpty();
-  	List ids = null;
-  }
-  : (multiNodeDecl) => res=multiNodeDecl
-  | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
-    (TILDE id=entIdentDecl {	ids.add(id); })+ RPAREN COLON
-    type=typeIdentUse (constr=typeConstraint)? {
-    	
-    	IdentNode[] idents = (IdentNode[]) ids.toArray(new IdentNode[0]);
-    	BaseNode[] colls = new BaseNode[idents.length];
-    	NodeDeclNode[] decls = new NodeDeclNode[idents.length];
-
-			for(int i = 0; i < idents.length; i++) {
-				colls[i] = new CollectNode();
-				decls[i] = new NodeDeclNode(idents[i], type, constr, colls[i]);
-			}
-
-			//Add homomorphic nodes
-			for(int i = 0; i < idents.length; i++)
-				for(int j = i + 1; j < idents.length; j++)
-					colls[i].addChild(idents[j]);
-    }
-  ;
-
-/**
  * Pattern bodies consist of connection nodes
  * The connection nodes in the collect node from subgraphSpec are integrated
  * In the collect node of the pattern node.
  */
-replaceBody [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+replaceBody [ Coords coords, CollectNode eval ] returns [ BaseNode res = env.initNode() ]
     {
-  	  	BaseNode s;
   		CollectNode connections = new CollectNode();
   		CollectNode returnz = new CollectNode();
   	  	res = new GraphNode(coords, connections, returnz);
     }
-    : ( replaceStmt[connections, returnz] SEMI )*
+    // TODO: where to get coordinates from for the statement???
+    : ( replaceStmt[coords, connections, returnz, eval] )*
   ;
 
-replaceStmt [ CollectNode connections, CollectNode returnz ]
+replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval ]
 	{ BaseNode n; }
-	: replaceConnections[connections]
-	| NODE replaceNodeDecl ( COMMA replaceNodeDecl )*
-	| replaceReturns[returnz]
+	: replaceConnections[coords,connections] SEMI
+	| replaceReturns[returnz] SEMI
+    | evalPart[eval]
 	;
 
-replaceConnections [ BaseNode connColl ]
+replaceConnections [ Coords coords, BaseNode connColl ]
 	{ BaseNode n; }
-	: n=replaceNodeOcc (replaceContinuation[n, connColl] | {
+	: n=replaceNodeOcc [coords] (replaceContinuation[n, connColl] | {
 		connColl.addChild(new SingleNodeConnNode(n));
   	})
   ;
@@ -393,8 +371,6 @@ replaceConnections [ BaseNode connColl ]
 replaceContinuation [ BaseNode left, BaseNode collect ]
   { BaseNode n; }
   : n=replacePair[left, collect] (replaceContinuation[n, collect])?
-  | LPAREN replaceContinuation[left, collect]
-    ( COMMA replaceContinuation[left, collect] )* RPAREN
   ;
 
 /**
@@ -405,16 +381,16 @@ replaceContinuation [ BaseNode left, BaseNode collect ]
  */
 replacePair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNode() ]
 	{ BaseNode e; }
-	: e=replaceEdge res=replaceNodeOcc {
+	: e=replaceEdgeOcc res=replaceNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 		coll.addChild(new ConnectionNode(left, e, res));
   	}
-	| e=replaceReversedEdge res=replaceNodeOcc {
+	| e=replaceReversedEdge res=replaceNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
   		coll.addChild(new ConnectionNode(res, e, left));
     };
 
-replaceEdge returns [ BaseNode res = null ]
+replaceEdgeOcc returns [ BaseNode res = null ]
 	{ BaseNode type = env.getEdgeRoot(); }
-	: MINUS res=edgeDecl RARROW
+	: MINUS res=replaceEdgeDecl RARROW
 	| MINUS res=entIdentUse RARROW
 	| m:MINUS (COLON type=typeIdentUse)? RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
@@ -424,7 +400,7 @@ replaceEdge returns [ BaseNode res = null ]
 
 replaceReversedEdge returns [ BaseNode res = null ]
 	{ BaseNode type = env.getEdgeRoot(); }
-	: LARROW res=edgeDecl MINUS
+	: LARROW res=replaceEdgeDecl MINUS
 	| LARROW res=entIdentUse MINUS
 	| m:LARROW(COLON type=typeIdentUse)? MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
@@ -445,28 +421,29 @@ replaceReturns[CollectNode res]
  * A node occurrence is either the declaration of a new node, a usage of
  * a already declared node or a usage combined with a type change.
  */
-replaceNodeOcc returns [ BaseNode res = env.initNode() ]
-	{
-		CollectNode coll = new CollectNode();
-		IdentNode id;
-	}
+replaceNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+  { BaseNode type = env.getNodeRoot(); }
   : res=entIdentUse
   | res=replaceNodeDecl
+  | (COLON type=typeIdentUse)? {
+	IdentNode id = env.defineAnonymousEntity("node", coords);
+	res = new AnonymousNodeDeclNode(id, type);
+  }
   ;
 
-anonymousEdge returns [ BaseNode res = null ]
-	: MINUS m:RARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, env.getEdgeRoot());
-	}
-	;
+//anonymousEdge returns [ BaseNode res = null ]
+//	: MINUS m:RARROW {
+//		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+//		res = new AnonymousEdgeDeclNode(id, env.getEdgeRoot());
+//	}
+//	;
   
 /**
  * The declaration of replacement node(s)
  * It can look like
  *
  * 1) a:X <old_node>
- * 2) (a, b, c, d, e):X
+ * 2) a:X
  *
  * In the second case, always the first node is returned.
  */
@@ -484,64 +461,37 @@ replaceNodeDecl returns [ BaseNode res = env.initNode() ]
            res = new NodeTypeChangeNode(id, type, oldid);
        }
 	}
-  | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
-    (COMMA id=entIdentDecl { ids.add(id); })* RPAREN
-     COLON type=typeIdentUse {
-
-    	int i = 0;
-    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
-    		IdentNode ident = (IdentNode) it.next();
-    		if(i == 0)
-    			res = new NodeDeclNode(ident, type, constr);
-    		else
-    			// This is ok, the object does not vanish, since it is
-    			// held by its identifier which is held by the symbol's
-    			// occurrence which is held by the scope.
-					new NodeDeclNode(ident, type, constr);
-    	}
-    	
-    }
 	;
 
 /**
  * The declaration of node(s)
  * It can look like
  *
- * 1) a:X \ (Z+Y)
- * 2) (a, b, c, d, e):X \ (A+B+Z)
+ * a:X \ (Z+Y)
  *
  * In the second case, always the first node is returned.
  */
-multiNodeDecl returns [ BaseNode res = env.initNode() ]
+patternNodeDecl returns [ BaseNode res = env.initNode() ]
 	{
-		List ids = new LinkedList();
-		IdentNode id;
-		BaseNode type;
+		IdentNode id,type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
   : id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
         res = new NodeDeclNode(id, type, constr);
 	}
-  | LPAREN { ids = new LinkedList(); } id=entIdentDecl { ids.add(id); }
-    (COMMA id=entIdentDecl { ids.add(id); })* RPAREN
-     COLON type=typeIdentUse (constr=typeConstraint)? {
-
-    	int i = 0;
-    	for(Iterator it = ids.iterator(); it.hasNext(); i++) {
-    		IdentNode ident = (IdentNode) it.next();
-    		if(i == 0)
-    			res = new NodeDeclNode(ident, type, constr);
-    		else
-    			// This is ok, the object does not vanish, since it is
-    			// held by its identifier which is held by the symbol's
-    			// occurrence which is held by the scope.
-					new NodeDeclNode(ident, type, constr);
-    	}
-    	
-    }
 	;
 	
-edgeDecl returns [ EdgeDeclNode res = null ]
+replaceEdgeDecl returns [ EdgeDeclNode res = null ]
+	{
+		IdentNode id, type;
+		BaseNode constr = TypeExprNode.getEmpty();
+	}
+	: id=entIdentDecl COLON type=typeIdentUse {
+		res = new EdgeDeclNode(id, type, constr);
+	}
+	;
+
+patternEdgeDecl returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode id, type;
 		BaseNode constr = TypeExprNode.getEmpty();
@@ -552,7 +502,6 @@ edgeDecl returns [ EdgeDeclNode res = null ]
 	;
 
 typeConstraint returns [ BaseNode constr = env.initNode() ]
-//  : WITHOUT LPAREN constr=typeExpr RPAREN
   : BACKSLASH LPAREN constr=typeExpr RPAREN
   ;
 
@@ -597,10 +546,10 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
       res = new TypeExprSubtypeNode(getCoords(c), n);
     }
   | b:LBRACE { n = new CollectNode(); } typeIdentList[n] RBRACE {
-      res = new TypeConstNode(getCoords(b), n);
+      res = new TypeConstraintNode(getCoords(b), n);
     }
   | LPAREN res=typeExpr RPAREN
-  | n=typeIdentUse { res = new TypeConstNode(n); }
+  | n=typeIdentUse { res = new TypeConstraintNode(n); }
   ;
   
 typeIdentList [ BaseNode addTo ]

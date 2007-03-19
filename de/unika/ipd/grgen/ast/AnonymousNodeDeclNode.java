@@ -22,29 +22,41 @@
  * @author Sebastian Hack
  * @version $Id$
  */
-package de.unika.ipd.grgen.ir;
+package de.unika.ipd.grgen.ast;
+
+import de.unika.ipd.grgen.ir.AnonymousNode;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.IR;
 
 /**
- * An anonymous edge.
+ * An anonymous edge decl node.
  */
-import de.unika.ipd.grgen.util.EmptyAttributes;
-
-public class AnonymousEdge extends Edge {
-
-  /**
-   * @param ident The identifier (here will be generated one, since
-   * the edge is anonymous).
-   * @param type The edge type.
-   */
-  public AnonymousEdge(Ident ident, EdgeType type) {
-    super(ident, type, EmptyAttributes.get());
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ir.Entity#isAnonymous()
-   */
-  public boolean isAnonymous() {
-    return true;
-  }
-
+public class AnonymousNodeDeclNode extends NodeDeclNode {
+	
+	static {
+		setName(AnonymousNodeDeclNode.class, "anonymous node");
+	}
+	
+	/**
+	 * @param n The identifier of the anonymous edge.
+	 * @param e The type of the edge.
+	 */
+	public AnonymousNodeDeclNode(IdentNode id, BaseNode type) {
+		this(id, type, TypeExprNode.getEmpty());
+	}
+	
+	public AnonymousNodeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
+		super(id, type, constr);
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR() {
+		TypeNode tn = (TypeNode) getDeclType();
+		NodeType et = (NodeType) tn.checkIR(NodeType.class);
+		
+		return new AnonymousNode(getIdentNode().getIdent(), et);
+	}
+	
 }

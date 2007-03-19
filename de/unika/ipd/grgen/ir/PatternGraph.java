@@ -28,6 +28,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class PatternGraph extends Graph {
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
 	
+	/** A list of all potentially homomorphic sets. */
+	private final List<Collection> homs = new LinkedList<Collection>();
+	
 	/**
 	 * Add a condition to the graph.
 	 * @param expr The condition's expression.
@@ -49,7 +53,15 @@ public class PatternGraph extends Graph {
 	public void addCondition(Expression expr) {
 		conds.add(expr);
 	}
-	
+
+	/**
+	 * Add a potentially homomorphic set to the graph.
+	 * @param expr The condition's expression.
+	 */
+	public void addHomomorphic(Collection<Entity> hom) {
+		homs.add(hom);
+	}
+
 	/**
 	 * Get all conditions in this graph.
 	 * @return A collection containing all conditions in this graph.
@@ -57,5 +69,46 @@ public class PatternGraph extends Graph {
 	public Collection<Expression> getConditions() {
 		return Collections.unmodifiableCollection(conds);
 	}
+
+	/**
+	 * Get all potentially homomorphic sets.
+	 * @return A collection containing all conditions in this graph.
+	 */
+	public Collection<Collection> getHomomorphic() {
+		return Collections.unmodifiableCollection(homs);
+	}
+	
+	public Collection<Node> getHomomorphic(Node n) {
+		for(Collection c : homs) {
+			if (c.contains(n)) {
+				return (Collection<Node>)c;
+			}
+		}
+
+		Collection<Node> c = new LinkedList<Node>();
+		c.add(n);
+		return c;
+	}
+
+	public Collection<Edge> getHomomorphic(Edge e) {
+		for(Collection c : homs) {
+			if (c.contains(e)) {
+				return (Collection<Edge>)c;
+			}
+		}
+		
+		Collection<Edge> c = new LinkedList<Edge>();
+		c.add(e);
+		return c;
+	}
+	
+	public boolean isHomomorphic(Node n1, Node n2) {
+		return getHomomorphic(n1).contains(n2);
+	}
+
+	public boolean isHomomorphic(Edge e1, Edge e2) {
+		return getHomomorphic(e1).contains(e2);
+	}
+
 }
 

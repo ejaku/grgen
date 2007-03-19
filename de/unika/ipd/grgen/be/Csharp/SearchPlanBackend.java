@@ -28,23 +28,25 @@ package de.unika.ipd.grgen.be.Csharp;
 
 
 import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.util.Util;
+
 import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
-import de.unika.ipd.grgen.be.C.LibGrSearchPlanBackend;
+import de.unika.ipd.grgen.be.BackendFactory;
+import de.unika.ipd.grgen.be.IDBase;
 import java.io.File;
 import java.io.PrintStream;
 
-public class SearchPlanBackend extends LibGrSearchPlanBackend {
+public class SearchPlanBackend extends IDBase implements Backend, BackendFactory {
 	
-	private final int OUT = 0;
-	private final int IN = 1;
+	/** The unit to generate code for. */
+	protected Unit unit;
 	
-	private final String MODE_EDGE_NAME = "has_mode";
-	
-	protected final boolean emit_subgraph_info = false;
+	/** The output path as handed over by the frontend. */
+	private File path;
 	
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
@@ -67,13 +69,6 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		// TODO
 	}
 	
-//	// The unit to generate code for.
-//	protected Unit unit;
-//	// keine Ahnung wozu das gut sein soll
-//	protected Sys system;
-//	// The output path as handed over by the frontend.
-//	private File path;
-	
 	/**
 	 * Create a new backend.
 	 * @return A new backend.
@@ -81,17 +76,16 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	public Backend getBackend() throws BackendException {
 		return this;
 	}
-	
+
 	/**
-	 * Initializes the FrameBasedBackend
-	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.Sys, java.io.File)
+	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
 	public void init(Unit unit, Sys system, File outputPath) {
-		super.init(unit, system, outputPath);
-//		this.unit = unit;
-//		this.path = outputPath;
-//		this.system = system;
-//		path.mkdirs();
+		this.unit = unit;
+		this.path = outputPath;
+		path.mkdirs();
+		
+		makeTypes(unit);
 	}
 	
 	/**
@@ -106,6 +100,15 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 		genRules();
 		
 		System.out.println("done!");
+	}
+	
+	/**
+	 * Write a character sequence to a file using the path set.
+	 * @param filename The filename.
+	 * @param cs A character sequence.
+	 */
+	protected final void writeFile(String filename, CharSequence cs) {
+		Util.writeFile(new File(path, filename), cs, error);
 	}
 	
 	private void genModel() {
@@ -581,13 +584,28 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			for(Node node1 : pattern.getNodes()) {
 				sb.append("\t\t\t\t\t{ ");
 				for(Node node2 : pattern.getNodes())
-					if(node1.isHomomorphic(node2))
+					if(pattern.isHomomorphic(node1,node2))
 						sb.append("true, ");
 					else
 						sb.append("false, ");
 				sb.append("},\n");
 			}
-			sb.append("\t\t\t\t}");
+			sb.append("\t\t\t\t},\n");
+		}
+		
+		sb.append("\t\t\t\tnew bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "] ");
+		if(pattern.getEdges().size() > 0) {
+			sb.append("{\n");
+			for(Edge edge1 : pattern.getEdges()) {
+				sb.append("\t\t\t\t\t{ ");
+				for(Edge edge2 : pattern.getEdges())
+					if(pattern.isHomomorphic(edge1,edge2))
+						sb.append("true, ");
+					else
+						sb.append("false, ");
+				sb.append("},\n");
+			}
+			sb.append("\t\t\t\t},");
 		}
 		
 		sb.append("\n");
@@ -853,7 +871,7 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 	
 	private void genModelType(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
 		String typeName = formatIdentifiable(type);
-		String cname = formatNodeOrEdge(type) + "_" + formatId(typeName);
+		String cname = formatNodeOrEdge(type) + "_" + typeName;
 		String tname = formatType(type);
 		String iname = "I" + cname;
 		
@@ -1038,7 +1056,21 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 					break;
 				case Type.IS_INTEGER: //emit C-code for integer constants
 					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+					break;
+				case Type.IS_TYPE: //emit code for type constants
+					InheritanceType it = (InheritanceType)constant.getValue();
+					if(it instanceof NodeType) {
+						sb.append("NodeTypes."+formatIdentifiable(it));
+					} else {
+						sb.append("EdgeTypes."+formatIdentifiable(it));
+					}
+					break;
+				default:
+					throw new UnsupportedOperationException("unsupported type");
 			}
+		} else if(cond instanceof Typeof) {
+			Typeof to = (Typeof)cond;
+			sb.append(formatEntity(to.getEntity())+".type");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
@@ -1169,6 +1201,15 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			else
 				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 		}
+		else if(cond instanceof Typeof) {
+			Entity entity = ((Typeof)cond).getEntity();
+			if(entity instanceof Node)
+				nodes.add((Node)entity);
+			else if(entity instanceof Edge)
+				edges.add((Edge)entity);
+			else
+				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+		}
 		else if(cond instanceof Operator)
 			for(Expression child : ((Operator)cond).getWalkableChildren())
 				collectNodesnEdges(nodes, edges, child);
@@ -1239,6 +1280,11 @@ public class SearchPlanBackend extends LibGrSearchPlanBackend {
 			return formatNodeOrEdge(false);
 		else
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
+	}
+
+	public void done() {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

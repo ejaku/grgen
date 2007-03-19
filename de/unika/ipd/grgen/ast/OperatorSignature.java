@@ -122,6 +122,9 @@ public class OperatorSignature extends FunctionSignature {
 	
 	/** Just a short form for the int type. */
 	static final TypeNode INT = BasicTypeNode.intType;
+
+	/** Just a short form for the type type. */
+	static final TypeNode TYPE = BasicTypeNode.typeType;
 	
 	/**
 	 * Each operator is mapped by its ID to a Map, which maps
@@ -324,7 +327,15 @@ public class OperatorSignature extends FunctionSignature {
 			return ConstNode.getInvalid();
 		}
 	};
-	
+
+	/* TODO eval constant type expressions */
+	private static final Evaluator typeEvaluator = new Evaluator() {
+		protected ConstNode eval(Coords coords, OperatorSignature op,
+														 Object v0, Object v1, Object v2) {
+			return ConstNode.getInvalid();
+		}
+	};
+		
 	private static final Evaluator booleanEvaluator = new Evaluator() {
 		protected ConstNode eval(Coords coords, OperatorSignature op,
 														 Object v0, Object v1, Object v2) {
@@ -410,6 +421,14 @@ public class OperatorSignature extends FunctionSignature {
 		makeBinOp(ADD, STRING, STRING, STRING, stringEvaluator);
 		makeBinOp(ADD, STRING, STRING, INT, stringEvaluator);
 		makeBinOp(ADD, STRING, STRING, BOOLEAN, stringEvaluator);
+		
+		// Type comparison
+		makeBinOp(EQ, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(NE, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(GE, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(GT, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(LE, BOOLEAN, TYPE, TYPE, typeEvaluator);
+		makeBinOp(LT, BOOLEAN, TYPE, TYPE, typeEvaluator);
 		
 		// And of course the ternary COND operator
 		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, condEvaluator);

@@ -40,6 +40,7 @@ public abstract class Type extends Identifiable implements Comparable {
 	public static final int IS_INTEGER = 1;
 	public static final int IS_BOOLEAN = 2;
 	public static final int IS_STRING  = 3;
+	public static final int IS_TYPE  = 4;
 	
 	/** The identifier used to declare this type */
 	private Ident ident;
@@ -96,7 +97,7 @@ public abstract class Type extends Identifiable implements Comparable {
   
   /**
    * Return a classification of a type for the IR.
-   * @return either IS_UNKNOWN, IS_INTEGER, IS_BOOLEAN or IS_STRING
+   * @return either IS_UNKNOWN, IS_INTEGER, IS_BOOLEAN, IS_STRING or IS_TYPE
    */
   public int classify() {
   	return IS_UNKNOWN;

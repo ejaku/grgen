@@ -58,6 +58,7 @@ options {
 tokens {
   TEST = "test";
   RULE = "rule";
+  INCLUDE = "include";
   CLASS = "class";
   ACTIONS = "actions";
   USING = "using";
@@ -73,15 +74,15 @@ tokens {
   EXTENDS = "extends";
   TRUE = "true";
   FALSE = "false";
-  IN = "in";
-  OUT = "out";
   COND = "if";
   EVAL = "eval";
   TERM = "term";
   CONNECT = "connect";
-  WITHOUT = "without";
-  RETURNS = "returns";
   RETURN = "return";
+  TYPEOF = "typeof";
+  MODIFY = "modify";
+  DELETE = "delete";
+  HOM = "hom";
 }
 
 {

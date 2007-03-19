@@ -25,6 +25,8 @@
  */
 
 package de.unika.ipd.grgen.ast;
+import java.util.HashSet;
+
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.ConnectionCharacter;
 import de.unika.ipd.grgen.ast.ExprNode;
@@ -32,6 +34,7 @@ import de.unika.ipd.grgen.ast.GraphNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -42,9 +45,16 @@ public class PatternGraphNode extends GraphNode {
 	/** Index of the conditions collect node. */
 	private static final int CONDITIONS = RETURN + 1;
 	
+	/** Index of the hom statements collect node. */
+	private static final int HOMS = CONDITIONS + 1;
+
 	/** Conditions checker. */
 	private static final Checker conditionsChecker =
 		new CollectChecker(new SimpleChecker(ExprNode.class));
+	
+	/** Homomorphic checker. */
+	private static final Checker homChecker =
+		new CollectChecker(new SimpleChecker(HomNode.class));
 	
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");
@@ -55,16 +65,19 @@ public class PatternGraphNode extends GraphNode {
 	 * @param connections A collection containing connection nodes
 	 * @param conditions A collection of conditions.
 	 */
-	public PatternGraphNode(Coords coords, BaseNode connections, BaseNode conditions, CollectNode returns) {
+	public PatternGraphNode(Coords coords, BaseNode connections, BaseNode conditions, CollectNode returns, CollectNode homs) {
 		super(coords, connections, returns);
 		addChild(conditions);
+		addChild(homs);
 	}
 	
 	protected boolean check() {
 		boolean childs = super.check() &&
-			checkChild(CONDITIONS, conditionsChecker);
+			checkChild(CONDITIONS, conditionsChecker) &&
+			checkChild(HOMS, homChecker);
 		
 		boolean expr = true;
+		boolean homcheck = true;
 		if(childs) {
 			for(BaseNode n : getChild(CONDITIONS).getChildren()) {
 				// Must go right, since it is checked 5 lines above.
@@ -74,9 +87,31 @@ public class PatternGraphNode extends GraphNode {
 					expr = false;
 				}
 			}
+		
+			HashSet<DeclNode> hom_ents = new HashSet<DeclNode>();
+			for(BaseNode n : getChild(HOMS).getChildren()) {
+				HomNode hom = (HomNode)n;
+				
+				for(BaseNode m : n.getChildren()) {
+					IdentNode id = (IdentNode)m;
+					DeclNode decl = (DeclNode)id.getDecl();
+					
+					if(hom_ents.contains(decl)) {
+						hom.reportError(id.toString() + " is contained in multiple hom statements");
+						homcheck = false;
+					}
+				}
+				for(BaseNode m : n.getChildren()) {
+					IdentNode id = (IdentNode)m;
+					DeclNode decl = (DeclNode)id.getDecl();
+					
+					hom_ents.add(decl);
+				}
+			}
+		
 		}
 		
-		return childs && expr;
+		return childs && expr && homcheck;
 	}
 	
 	/**
@@ -99,6 +134,18 @@ public class PatternGraphNode extends GraphNode {
 		for(BaseNode n : getChild(CONDITIONS).getChildren()) {
 			ExprNode expr = (ExprNode)n;
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
+		}
+		
+		for(BaseNode n : getChild(HOMS).getChildren()) {
+			HomNode hom = (HomNode)n;
+			HashSet<Entity> hom_set = new HashSet<Entity>();
+
+			for(BaseNode m : hom.getChildren()) {
+				IdentNode id = (IdentNode)m;
+				hom_set.add((Entity) id.getDecl().checkIR(Entity.class));
+			}
+
+			gr.addHomomorphic(hom_set);
 		}
 		
 		return gr;

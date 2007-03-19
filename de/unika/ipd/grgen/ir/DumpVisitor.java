@@ -58,7 +58,7 @@ public class DumpVisitor extends GraphDumpVisitor {
 	}
 	
 	private void dumpGraph(Graph gr, String prefix) {
-		Map<Node, DumpVisitor.PrefixNode> prefixMap = new HashMap<Node, DumpVisitor.PrefixNode>();
+		Map<Entity, DumpVisitor.PrefixNode> prefixMap = new HashMap<Entity, DumpVisitor.PrefixNode>();
 		Collection nodes = gr.getNodes();
 		
 		dumper.beginSubgraph(gr);
@@ -79,6 +79,7 @@ public class DumpVisitor extends GraphDumpVisitor {
 			PrefixNode from, to, e;
 			
 			e = new PrefixNode(edge, prefix);
+			prefixMap.put(edge, e);
 			
 			debug.report(NOTE, "true edge from: " + gr.getSource(edge)
 										 + " to: " + gr.getTarget(edge));
@@ -93,24 +94,22 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumper.edge(e, to);
 		}
 		
-		Set<Node> homSet = new HashSet<Node>();
-		Set<Node> processedNodes = new HashSet<Node>();
-		
-		for(Iterator it = nodes.iterator(); it.hasNext(); ) {
-			Node n = (Node) it.next();
-			homSet.clear();
-			n.getHomomorphic(homSet);
+		if (gr instanceof PatternGraph) {
+			PatternGraph pg = (PatternGraph) gr;
 			
-			if(!homSet.isEmpty() && !processedNodes.contains(n)) {
-				for(Iterator<Node> homIt = homSet.iterator(); homIt.hasNext();) {
-					Node hom = homIt.next();
-					PrefixNode from = prefixMap.get(n);
-					PrefixNode to = prefixMap.get(hom);
-					dumper.edge(from, to, "hom", GraphDumper.DASHED);
+			for(Collection homSet : pg.getHomomorphic()) {
+				if(!homSet.isEmpty()) {
+					for(Iterator<Entity> homIt1 = homSet.iterator(); homIt1.hasNext();) {
+						Entity hom1 = homIt1.next();
+						for(Iterator<Entity> homIt2 = homSet.iterator(); homIt2.hasNext();) {
+							Entity hom2 = homIt2.next();
+							PrefixNode from = prefixMap.get(hom1);
+							PrefixNode to = prefixMap.get(hom2);
+							dumper.edge(from, to, "hom", GraphDumper.DASHED);
+						}
+					}
 				}
 			}
-			
-			processedNodes.add(n);
 		}
 		
 		dumper.endSubgraph();

@@ -379,9 +379,14 @@ primaryExpr returns [ BaseNode res = env.initNode() ]
 	| res=identExpr
 	| res=constant
 	| res=enumItemExpr
+	| res=typeOf
 	| LPAREN res=expr RPAREN
 	;
-	
+
+typeOf returns [ BaseNode res = env.initNode() ]
+	: t:TYPEOF LPAREN res=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), res); }
+	;
+
 constant returns [ BaseNode res = env.initNode() ]
 	: i:NUM_DEC {
 		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10));
@@ -405,9 +410,17 @@ constant returns [ BaseNode res = env.initNode() ]
 
 identExpr returns [ BaseNode res = env.initNode() ]
 	{ IdentNode id; }
-	: id=entIdentUse {
-		res = new DeclExprNode(id);
-	};
+	  : i:IDENT {
+	  	if(env.test(ParserEnvironment.TYPES, i.getText())) {
+		  	id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
+		  	//res = new TypeConstNode(id);
+		  	res = new TypeConstNode(id);
+	  	} else {
+		  	id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));
+		  	res = new DeclExprNode(id);
+	  	}
+    }
+    ;
 
 qualIdent returns [ BaseNode res = env.initNode() ]
 	{ BaseNode id; }

@@ -55,12 +55,4 @@ public class Edge extends ConstraintEntity {
 		return (EdgeType) getType();
 	}
 	
-	/**
-	 * Check, if the edge is anonymous.
-	 * @return true, if the edge is anonymous, false if not.
-	 */
-	public boolean isAnonymous() {
-		return false;
-	}
-	
 }

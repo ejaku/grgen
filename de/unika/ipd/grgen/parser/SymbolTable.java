@@ -123,4 +123,13 @@ public class SymbolTable {
 		return symbolMap.get(text);
 	}
 	
+	
+	/**
+	 * Test a symbol for a string.
+	 * @param text The string.
+	 * @return The corresponding symbol.
+	 */
+	public boolean test(String text) {
+		return symbolMap.containsKey(text);
+	}
 }

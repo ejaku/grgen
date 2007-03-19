@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.PrimitiveType;
+import de.unika.ipd.grgen.ir.TypeType;
 import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.VoidType;
 
@@ -63,6 +64,15 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode stringType = new BasicTypeNode() {
 		protected IR constructIR() {
 			return new StringType(getIdentNode().getIdent());
+		}
+	};
+	
+	/**
+	 * The type basic type.
+	 */
+	public static final BasicTypeNode typeType = new BasicTypeNode() {
+		protected IR constructIR() {
+			return new TypeType(getIdentNode().getIdent());
 		}
 	};
 	
@@ -94,7 +104,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return new IntType(getIdentNode().getIdent());
 		}
 	};
-	
+
+
 	/**
 	 * The void basic type. It is compatible to no other type.
 	 */
@@ -172,6 +183,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(booleanType.getClass(), "boolean type");
 		setName(stringType.getClass(), "string type");
 		setName(enumItemType.getClass(), "enum item type");
+		setName(typeType.getClass(), "type type");
 		setName(voidType.getClass(), "void type");
 		setName(errorType.getClass(), "error type");
 		

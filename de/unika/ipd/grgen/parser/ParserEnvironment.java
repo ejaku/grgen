@@ -212,6 +212,11 @@ public abstract class ParserEnvironment extends Base {
 		return currScope.occurs(sym, coords);
 	}
 	
+	public boolean test(int symTab, String text) {
+		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
+		return symTabs[symTab].test(text);
+	}
+	
 	/**
 	 * Get the node root identifier.
 	 * @return The node root type identifier.

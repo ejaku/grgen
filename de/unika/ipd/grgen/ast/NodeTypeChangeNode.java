@@ -42,7 +42,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
-	private static final int OLD = HOMOMORPHIC + 1;
+	private static final int OLD = CONSTRAINTS + 1;
 	
 	private static final Resolver nodeResolver =
 		new DeclResolver(NodeDeclNode.class);

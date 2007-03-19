@@ -19,25 +19,26 @@
 
 
 /**
- * @author shack
- * @version $Id$
+ * @author adam
+ * @version $$
  */
 package de.unika.ipd.grgen.ir;
 
-/**
- * A Integer type. 
- */
-public class IntType extends PrimitiveType {
 
-  public IntType(Ident ident) {
-    super("integer type", ident);
+/**
+ * A Type type.
+ */
+public class TypeType extends PrimitiveType {
+
+  public TypeType(Ident ident) {
+    super("type type", ident);
   }
 
 	/**
 	 * @see de.unika.ipd.grgen.ir.Type#classify()
 	 */
 	public int classify() {
-		return IS_INTEGER;
+		return IS_TYPE;
 	}
 
 }

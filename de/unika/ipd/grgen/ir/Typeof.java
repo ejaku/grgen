@@ -19,25 +19,29 @@
 
 
 /**
- * @author shack
+ * @author Rubino Geiss
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
-/**
- * A Integer type. 
- */
-public class IntType extends PrimitiveType {
 
-  public IntType(Ident ident) {
-    super("integer type", ident);
-  }
+public class Typeof extends Expression {
+	
+	/** The entitiy whose type we want to know. */
+	private final Entity entity;
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
-	public int classify() {
-		return IS_INTEGER;
+	public Typeof(Entity entity) {
+		super("typeof", entity.getType());
+		this.entity = entity;
+	}
+	
+	public Entity getEntity() {
+		return entity;
+	}
+	
+	public String getNodeLabel() {
+		return "typeof<" + entity + ">";
 	}
 
 }
+

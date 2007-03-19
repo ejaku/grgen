@@ -118,4 +118,13 @@ public class Entity extends Identifiable implements Attributed {
 		fields.put("owner", Collections.singleton(owner));
 	}
 	
+	
+	/**
+	 * Check, if the entity is anonymous.
+	 * @return true, if the entity is anonymous, false if not.
+	 */
+	public boolean isAnonymous() {
+		return false;
+	}
+	
 }

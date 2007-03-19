@@ -132,7 +132,7 @@ public class InformationCollector extends CBackend {
 	
 	//tells wether two pattern nodes of a given action are pot hom or not
 	//e.g. : potHomMatrices[act_id][node_1][node_2]
-	protected int potHomMatrices[][][];
+	protected int potHomNodeMatrices[][][];
 	
 	//Tells wether a pattern node is to be kept. If so, the value indexed by
 	//the pattern node number is the node number of the corresponding replacement
@@ -1084,13 +1084,13 @@ public class InformationCollector extends CBackend {
 		//tells wether two pattern nodes of a given action are pot hom or not
 		//e.g. : potHomMatrices[act_id][node_1][node_2]
 		//protected int potHomMatrices[][][];
-		potHomMatrices =
+		potHomNodeMatrices =
 			new int[n_graph_actions][max_n_pattern_nodes][max_n_pattern_nodes];
 		
 		for (int i = 0; i < n_graph_actions; i++)
 			for (int j =0; j < max_n_pattern_nodes; j++)
 				for (int k = 0; k < max_n_pattern_nodes; k++)
-					potHomMatrices[i][j][k] = 0;
+					potHomNodeMatrices[i][j][k] = 0;
 		
 		//got through that m,atrices and set cells to '1' if two nodes
 		//are potentialy homomorphic
@@ -1115,7 +1115,7 @@ public class InformationCollector extends CBackend {
 							((Integer) pattern_node_num[act_id].get(node_1)).intValue();
 						int node_2_num =
 							((Integer) pattern_node_num[act_id].get(node_2)).intValue();
-						potHomMatrices[act_id][node_1_num][node_2_num] = 1;
+						potHomNodeMatrices[act_id][node_1_num][node_2_num] = 1;
 					}
 				}
 			}

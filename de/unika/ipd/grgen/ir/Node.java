@@ -41,9 +41,6 @@ public class Node extends ConstraintEntity {
 	/**  The original node if this is a retyped Node */
 	private Node oldNode;
 	
-	/** A set of nodes, that are homomorphic to this one. */
-	private Set<Node> homomorphicNodes = new HashSet<Node>();
-	
 	/**
 	 * Make a new node.
 	 * @param ident The identifier that declared the node.
@@ -139,35 +136,5 @@ public class Node extends ConstraintEntity {
 	 */
 	public boolean isRetypedNode() {
 		return (oldNode!=null);
-	}
-	
-	/**
-	 * Add a node that is homomorphic to this one.
-	 * It does not care, if you add <code>this</code>. This method adds
-	 * this node to the homomorphic set of <code>n</code>.
-	 *
-	 * @param n Another node.
-	 */
-	public void addHomomorphic(Node n) {
-		homomorphicNodes.add(n);
-		n.homomorphicNodes.add(this);
-	}
-	
-	/**
-	 * Put all nodes, that are homomoprohic to this one in a given set.
-	 * @param addTo The set to put them all into.
-	 */
-	public void getHomomorphic(Collection<Node> addTo) {
-		addTo.addAll(homomorphicNodes);
-	}
-	
-	/**
-	 * Check, if a node may be just homomorphic and not isomorphic to this one
-	 * @param n The other node.
-	 * @return true, if <code>n</code> and this node can be identified by
-	 * the matching morphism, false if not.
-	 */
-	public boolean isHomomorphic(Node n) {
-		return homomorphicNodes.contains(n);
 	}
 }

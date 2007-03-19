@@ -666,12 +666,12 @@ public abstract class BaseNode extends Base
 	 * For example, an identifier representing a declared type is replaced by
 	 * the declared type. The behaviour depends on the {@link Resolver}.
 	 *
-	 * This method first call all resolvers registered in this node
+	 * This method first calls all resolvers registered in this node
 	 * and descends to the this node's children by invoking
 	 * {@link #getResolve()} on each child.
 	 *
 	 * A base node subclass can overload this method, to apply another
-	 * policy of resultion.
+	 * policy of resolution.
 	 *
 	 * @return true, if all resolvers finished their job and no error
 	 * occurred, false, if there was some error.

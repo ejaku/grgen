@@ -60,7 +60,7 @@ public class TypeExprNode extends BaseNode {
 	private final int op;
 	
 	private static final TypeExprNode EMPTY =
-		new TypeConstNode(Coords.getInvalid(), new CollectNode());
+		new TypeConstraintNode(Coords.getInvalid(), new CollectNode());
 	
 	public static final TypeExprNode getEmpty() {
 		return EMPTY;

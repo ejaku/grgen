@@ -19,25 +19,32 @@
 
 
 /**
- * @author shack
+ * @author Sebastian Hack
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
 /**
- * A Integer type. 
+ * An anonymous edge.
  */
-public class IntType extends PrimitiveType {
+import de.unika.ipd.grgen.util.EmptyAttributes;
 
-  public IntType(Ident ident) {
-    super("integer type", ident);
+public class AnonymousNode extends Node {
+
+  /**
+   * @param ident The identifier (here will be generated one, since
+   * the node is anonymous).
+   * @param type The node type.
+   */
+  public AnonymousNode(Ident ident, NodeType type) {
+    super(ident, type, EmptyAttributes.get());
   }
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
-	public int classify() {
-		return IS_INTEGER;
-	}
+  /**
+   * @see de.unika.ipd.grgen.ir.Entity#isAnonymous()
+   */
+  public boolean isAnonymous() {
+    return true;
+  }
 
 }
