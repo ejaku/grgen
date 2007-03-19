@@ -189,7 +189,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		sb.append("\tpublic class Rule_" + actionName + " : RulePattern\n");
 		sb.append("\t{\n");
-		sb.append("\t\tpublic static Rule_" + actionName + " Instance = new Rule_" + actionName + "();\n");
+		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) instance = new Rule_" + actionName + "(); return instance; } }\n");
 		sb.append("\n");
 		genTypeCondition(sb, action);
 		sb.append("\n");
@@ -238,7 +239,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("};\n");
 		sb.append("\n");
 		
-		sb.append("\t\tpublic Rule_" + formatIdentifiable(action) + "()\n");
+		sb.append("\t\tprivate Rule_" + formatIdentifiable(action) + "()\n");
 		sb.append("\t\t{\n");
 		
 		PatternGraph pattern = action.getPattern();
