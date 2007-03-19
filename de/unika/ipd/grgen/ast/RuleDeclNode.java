@@ -36,8 +36,8 @@ import java.util.Collection;
  */
 public class RuleDeclNode extends TestDeclNode {
 	
-	private static final int RIGHT = LAST + 5;
-	private static final int EVAL = LAST + 6;
+	protected static final int RIGHT = LAST + 5;
+	protected static final int EVAL = LAST + 6;
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],

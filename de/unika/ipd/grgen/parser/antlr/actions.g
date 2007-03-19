@@ -143,15 +143,21 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
 
   		CollectNode negs = new CollectNode();
   		CollectNode eval = new CollectNode();
+  		CollectNode dels = new CollectNode();
   }
   : RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
   	left=patternPart[negs]
-  	right=replacePart[eval]
+  	(right=replacePart[eval]
   	{
-  	   id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
+		id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
+		res = id;
+    }|right=modifyPart[eval,dels]
+  	{
+  	   id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
   	   res = id;
-    }
-    RBRACE! popScope!;
+    })
+    RBRACE! popScope!
+  ;
 
 parameters returns [ CollectNode res = new CollectNode() ]
 	: LPAREN (paramList[res])? RPAREN
@@ -190,6 +196,10 @@ patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
   
 replacePart [ CollectNode eval ] returns [ BaseNode res = env.initNode() ]
 	: r:REPLACE LBRACE! res=replaceBody[getCoords(r),eval] RBRACE!
+	;
+
+modifyPart [ CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
+	: r:MODIFY LBRACE! res=modifyBody[getCoords(r),eval,dels] RBRACE!
 	;
 
 evalPart [ BaseNode n ]
@@ -361,6 +371,30 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, Colle
     | evalPart[eval]
 	;
 
+/**
+ * Pattern bodies consist of connection nodes
+ * The connection nodes in the collect node from subgraphSpec are integrated
+ * In the collect node of the pattern node.
+ */
+modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
+    {
+  		CollectNode connections = new CollectNode();
+  		CollectNode returnz = new CollectNode();
+  	  	res = new GraphNode(coords, connections, returnz);
+    }
+    // TODO: where to get coordinates from for the statement???
+    : ( modifyStmt[coords, connections, returnz, eval, dels] )*
+  ;
+
+modifyStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval, CollectNode dels ]
+	{ BaseNode n; }
+	: replaceConnections[coords,connections] SEMI
+	| replaceReturns[returnz] SEMI
+    | deleteStmt[dels] SEMI
+    | evalPart[eval]
+	;
+
+
 replaceConnections [ Coords coords, BaseNode connColl ]
 	{ BaseNode n; }
 	: n=replaceNodeOcc [coords] (replaceContinuation[n, connColl] | {
@@ -418,6 +452,14 @@ replaceReturns[CollectNode res]
     	BaseNode id;
     }
 	: RETURN LPAREN id=entIdentUse { res.addChild(id); }
+      (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
+	;
+
+deleteStmt[CollectNode res]
+    {
+    	BaseNode id;
+    }
+	: DELETE LPAREN id=entIdentUse { res.addChild(id); }
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
 	;
 
