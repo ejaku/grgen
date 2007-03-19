@@ -576,7 +576,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		for(Expression expr : pattern.getConditions()){
 			sb.append("cond_" + condCnt++ + ", ");
 		}
-		sb.append("}, \n");
+		sb.append("},\n");
 		
 		sb.append("\t\t\t\tnew bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] ");
 		if(pattern.getNodes().size() > 0) {
@@ -590,8 +590,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 						sb.append("false, ");
 				sb.append("},\n");
 			}
-			sb.append("\t\t\t\t},\n");
+			sb.append("\t\t\t\t}");
 		}
+		sb.append(",\n");
 		
 		sb.append("\t\t\t\tnew bool[" + pattern.getEdges().size() + ", " + pattern.getEdges().size() + "] ");
 		if(pattern.getEdges().size() > 0) {
@@ -605,7 +606,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 						sb.append("false, ");
 				sb.append("},\n");
 			}
-			sb.append("\t\t\t\t},");
+			sb.append("\t\t\t\t}");
 		}
 		
 		sb.append("\n");
