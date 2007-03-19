@@ -653,10 +653,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				sb.append("{ ");
 				aux.append("{ ");
 				for(InheritanceType type : nodeTypeMap.keySet()) {
+					boolean isAllowed = type.isCastableTo(node.getNodeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
-					if( !allForbiddenTypes.contains(type) )
+					if( isAllowed )
 						sb.append(formatType(type) + ".typeVar, ");
-					aux.append(!allForbiddenTypes.contains(type));
+					aux.append(isAllowed);
 					aux.append(", ");
 				}
 				sb.append("}");
@@ -689,10 +690,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				sb.append("{ ");
 				aux.append("{ ");
 				for(InheritanceType type : edgeTypeMap.keySet()) {
+					boolean isAllowed = type.isCastableTo(edge.getEdgeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
-					if( !allForbiddenTypes.contains(type) )
+					if( isAllowed )
 						sb.append(formatType(type) + ".typeVar, ");
-					aux.append(!allForbiddenTypes.contains(type));
+					aux.append(isAllowed);
 					aux.append(", ");
 				}
 				sb.append("}");
