@@ -48,9 +48,9 @@ public interface ConnectionCharacter {
 
 	public EdgeCharacter getEdge();
 
-	public NodeDeclNode getSrc();
+	public NodeCharacter getSrc();
 	
-	public NodeDeclNode getTgt();
+	public NodeCharacter getTgt();
 	
 	/**
 	 * Add this connection character to an IR graph.

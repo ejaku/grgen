@@ -49,11 +49,12 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	
 	private static final Checker nodeChecker =
 		new MultChecker(new Class[] {
-				NodeDeclNode.class, NodeTypeChangeNode.class
+				NodeDeclNode.class, NodeTypeChangeNode.class, ParamDeclNode.class
 			});
 	
 	private static final Resolver nodeResolver =
-		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
+		new OptionalResolver(
+				new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class }));
 	
 	static {
 		setName(SingleNodeConnNode.class, "single node");
@@ -102,11 +103,11 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		return null;
 	}
 	
-	public NodeDeclNode getSrc() {
-		return (NodeDeclNode) getChild(NODE);
+	public NodeCharacter getSrc() {
+		return (NodeCharacter) getChild(NODE);
 	}
 	
-	public NodeDeclNode getTgt() {
+	public NodeCharacter getTgt() {
 		return null;
 	}
 	

@@ -12,7 +12,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.EdgeType;
 
-public class ParamDeclNode extends DeclNode {
+public class ParamDeclNode extends DeclNode implements NodeCharacter, EdgeCharacter {
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
@@ -55,11 +55,21 @@ public class ParamDeclNode extends DeclNode {
 		  	NodeType type = (NodeType) getDeclType().checkIR(NodeType.class);
 		  	return new Node(getIdentNode().getIdent(), type,
 					getIdentNode().getAttributes());
-		} else {
+		} else if(isEdge()) {
 		  	EdgeType type = (EdgeType) getDeclType().checkIR(EdgeType.class);
 		  	return new Edge(getIdentNode().getIdent(), type,
 					getIdentNode().getAttributes());
+		} else {
+			return null;
 		}
+	}
+
+	public Node getNode() {
+		return (Node)checkIR(Node.class);
+	}
+
+	public Edge getEdge() {
+		return (Edge)checkIR(Edge.class);
 	}
 
 }

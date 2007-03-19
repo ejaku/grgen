@@ -60,15 +60,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	private static final int RIGHT= 2;
 	
 	/** Resolver for the nodes. */
-	private static final Resolver oldNodeResolver =
-		new DeclResolver(NodeDeclNode.class);
-
 	private static final Resolver nodeResolver =
-		new OptionalResolver(new DeclResolver(NodeDeclNode.class));
+		new OptionalResolver(
+				new DeclResolver(new Class[] {NodeDeclNode.class, ParamDeclNode.class }));
 
 	private static final Checker nodeChecker =
 		new MultChecker(new Class[] {
-			NodeDeclNode.class, NodeTypeChangeNode.class
+			NodeDeclNode.class, NodeTypeChangeNode.class, ParamDeclNode.class
 		});
 		
 
@@ -130,12 +128,12 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		return (EdgeCharacter) getChild(EDGE);
 	}
 
-	public NodeDeclNode getSrc() {
-		return (NodeDeclNode) getChild(LEFT);
+	public NodeCharacter getSrc() {
+		return (NodeCharacter) getChild(LEFT);
 	}
 	
-	public NodeDeclNode getTgt() {
-		return (NodeDeclNode) getChild(RIGHT);
+	public NodeCharacter getTgt() {
+		return (NodeCharacter) getChild(RIGHT);
 	}
 
   /**

@@ -51,10 +51,10 @@ public class TypeofNode extends ExprNode {
 	};
 	
 	private static final Resolver entityResolver =
-		new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
+		new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class});
 	
 	private static final Checker entityChecker =
-		new MultChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
+		new MultChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class});
 	
 	/**
 	 * Make a new typeof node.

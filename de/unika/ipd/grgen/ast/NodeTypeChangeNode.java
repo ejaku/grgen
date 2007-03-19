@@ -24,8 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
@@ -45,11 +47,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 	private static final int OLD = CONSTRAINTS + 1;
 	
 	private static final Resolver nodeResolver =
-		new DeclResolver(NodeDeclNode.class);
+		new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class });
+	
+	private static final Checker nodeChecker =
+		new MultChecker(new Class[] { NodeDeclNode.class, ParamDeclNode.class} );
 		
-	private static final Resolver typeResolver =
-		new DeclTypeResolver(NodeTypeNode.class);
-
   public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
   		
   	super(id, newType, TypeExprNode.getEmpty() );
@@ -60,9 +62,9 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
   /**
    * @return the original node for this retyped node
    */
-  public NodeDeclNode getOldNode()
+  public NodeCharacter getOldNode()
   {
-    return (NodeDeclNode) getChild(OLD);
+    return (NodeCharacter) getChild(OLD);
   }
   
   /**
@@ -70,7 +72,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
    */
   protected boolean check() {
     return super.check()
-	&&  checkChild(OLD, NodeDeclNode.class);
+	&&  checkChild(OLD, nodeChecker);
   }
   
   public Node getNode() {
@@ -84,7 +86,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
         // This cast must be ok after checking.
   	NodeTypeNode newType = (NodeTypeNode) getChild(TYPE);
   	IdentNode nodeDecl = (IdentNode) getChild(IDENT);
-  	NodeDeclNode oldNodeDecl = (NodeDeclNode) getChild(OLD);
+  	NodeCharacter oldNodeDecl = (NodeCharacter) getChild(OLD);
 
 	// This cast must be ok after checking.
 	NodeTypeNode tn = (NodeTypeNode) getDeclType();

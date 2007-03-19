@@ -301,36 +301,41 @@ patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNo
  * identifier (must be a declared node) or a pattern node declaration
  */
 patternNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
-  { BaseNode type = env.getNodeRoot(); }
+  {
+  	BaseNode type = env.getNodeRoot();
+	BaseNode constr = TypeExprNode.getEmpty();
+  }
   : res=entIdentUse
   | res=patternNodeDecl
-  | (COLON type=typeIdentUse)? {
+  | (COLON type=typeIdentUse (constr=typeConstraint)?)? {
 		IdentNode id = env.defineAnonymousEntity("node", coords);
-		res = new AnonymousNodeDeclNode(id, type);
+		res = new AnonymousNodeDeclNode(id, type, constr);
 	}
   ;
 
-patternReversedEdge returns [ BaseNode res = null ]
+patternReversedEdge returns [ BaseNode res = env.initNode() ]
   {
-  	BaseNode type = env.getEdgeRoot();
+	BaseNode type = env.getEdgeRoot();
+	BaseNode constr = TypeExprNode.getEmpty();
   }
   : LARROW res=patternEdgeDecl MINUS
   | LARROW res=entIdentUse MINUS
-  | LARROW (COLON type=typeIdentUse)? m:MINUS {
+  | LARROW (COLON type=typeIdentUse (constr=typeConstraint)?)? m:MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type);
+		res = new AnonymousEdgeDeclNode(id, type, constr);
     }
   ;
 
-patternEdgeOcc returns [ BaseNode res = null ]
+patternEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		BaseNode type = env.getEdgeRoot();
+		BaseNode constr = TypeExprNode.getEmpty();
 	}
   : MINUS res=patternEdgeDecl RARROW
   | MINUS res=entIdentUse RARROW
-  | MINUS (COLON type=typeIdentUse)? m:RARROW {
+  | MINUS (COLON type=typeIdentUse (constr=typeConstraint)?)? m:RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type);
+		res = new AnonymousEdgeDeclNode(id, type, constr);
   }
   ;
 
@@ -388,7 +393,7 @@ replacePair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNo
   		coll.addChild(new ConnectionNode(res, e, left));
     };
 
-replaceEdgeOcc returns [ BaseNode res = null ]
+replaceEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ BaseNode type = env.getEdgeRoot(); }
 	: MINUS res=replaceEdgeDecl RARROW
 	| MINUS res=entIdentUse RARROW
@@ -398,7 +403,7 @@ replaceEdgeOcc returns [ BaseNode res = null ]
 	}
 	;
 
-replaceReversedEdge returns [ BaseNode res = null ]
+replaceReversedEdge returns [ BaseNode res = env.initNode() ]
 	{ BaseNode type = env.getEdgeRoot(); }
 	: LARROW res=replaceEdgeDecl MINUS
 	| LARROW res=entIdentUse MINUS
@@ -431,13 +436,6 @@ replaceNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
   }
   ;
 
-//anonymousEdge returns [ BaseNode res = null ]
-//	: MINUS m:RARROW {
-//		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-//		res = new AnonymousEdgeDeclNode(id, env.getEdgeRoot());
-//	}
-//	;
-  
 /**
  * The declaration of replacement node(s)
  * It can look like
@@ -481,7 +479,7 @@ patternNodeDecl returns [ BaseNode res = env.initNode() ]
 	}
 	;
 	
-replaceEdgeDecl returns [ EdgeDeclNode res = null ]
+replaceEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
 		BaseNode constr = TypeExprNode.getEmpty();
@@ -491,7 +489,7 @@ replaceEdgeDecl returns [ EdgeDeclNode res = null ]
 	}
 	;
 
-patternEdgeDecl returns [ EdgeDeclNode res = null ]
+patternEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
 		BaseNode constr = TypeExprNode.getEmpty();

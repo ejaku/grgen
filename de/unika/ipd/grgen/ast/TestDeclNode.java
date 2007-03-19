@@ -154,7 +154,7 @@ public class TestDeclNode extends ActionDeclNode {
 							if (! (oConn instanceof ConnectionNode)) continue;
 							
 							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
-								NodeDeclNode src, tgt;
+								NodeCharacter src, tgt;
 								src = oConn.getSrc();
 								tgt = oConn.getTgt();
 								if (src instanceof NodeTypeChangeNode) {
@@ -195,7 +195,7 @@ public class TestDeclNode extends ActionDeclNode {
 		
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
-			ConstraintDeclNode param = (ConstraintDeclNode)n;
+			ParamDeclNode param = (ParamDeclNode)n;
 			ma.addParameter((Entity) param.checkIR(Entity.class));
 		}
 		
