@@ -1062,11 +1062,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					break;
 				case Type.IS_TYPE: //emit code for type constants
 					InheritanceType it = (InheritanceType)constant.getValue();
-					if(it instanceof NodeType) {
-						sb.append("NodeType_"+formatIdentifiable(it)+".typeVar");
-					} else {
-						sb.append("EdgeType_"+formatIdentifiable(it)+".typeVar");
-					}
+					sb.append(formatType(it)+".typeVar");
 					break;
 				default:
 					throw new UnsupportedOperationException("unsupported type");
