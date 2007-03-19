@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.AnonymousNode;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -54,9 +55,12 @@ public class AnonymousNodeDeclNode extends NodeDeclNode {
 	 */
 	protected IR constructIR() {
 		TypeNode tn = (TypeNode) getDeclType();
-		NodeType et = (NodeType) tn.checkIR(NodeType.class);
+		NodeType nt = (NodeType) tn.checkIR(NodeType.class);
 		
-		return new AnonymousNode(getIdentNode().getIdent(), et);
+		Node node = new AnonymousNode(getIdentNode().getIdent(), nt);
+		node.setConstraints(getConstraints());
+		
+		return node;
 	}
 	
 }

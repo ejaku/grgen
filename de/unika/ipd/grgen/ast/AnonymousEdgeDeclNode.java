@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.AnonymousEdge;
+import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -56,7 +57,10 @@ public class AnonymousEdgeDeclNode extends EdgeDeclNode {
 		TypeNode tn = (TypeNode) getDeclType();
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		
-		return new AnonymousEdge(getIdentNode().getIdent(), et);
+		Edge edge = new AnonymousEdge(getIdentNode().getIdent(), et);
+		edge.setConstraints(getConstraints());
+		
+		return edge;
 	}
 	
 }
