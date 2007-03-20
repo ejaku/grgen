@@ -28,6 +28,7 @@
 
 package de.unika.ipd.grgen.be.C.fb;
 import de.unika.ipd.grgen.ir.*;
+
 import java.util.*;
 
 import de.unika.ipd.grgen.be.C.CBackend;
@@ -109,7 +110,7 @@ public class InformationCollector extends CBackend {
 	 can easily be processed in the order of their condition numbers, this
 	 Collection will be initialized with an TreeSet parametrised with a
 	 Comparator comparing by condition numbers */
-	protected ArrayList<Collection<Expression>> conditions;
+	protected HashMap<Integer, Collection<Expression>> conditions;
 	/* maps a subcondition to the condition number created for it */
 	protected Map<Expression, Integer> conditionNumbers = new HashMap<Expression, Integer>();
 	/* maps a subcondition to a Collection of nodes involved in */
@@ -361,7 +362,7 @@ public class InformationCollector extends CBackend {
 		int subConditionCounter = 0;
 		
 		//setup the array for conditions
-		conditions = new ArrayList<Collection<Expression>>();
+		conditions = new HashMap<Integer, Collection<Expression>>();
 		
 		//iterate over all actions
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
@@ -369,7 +370,7 @@ public class InformationCollector extends CBackend {
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
 			
-			conditions.set(act_id, new TreeSet<Expression>(conditionsComparator));
+			conditions.put(act_id, new TreeSet<Expression>(conditionsComparator));
 			
 			//iterate over all conditions of the current action
 			if (act instanceof MatchingAction)
