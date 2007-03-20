@@ -209,11 +209,15 @@ public class SQLGenerator extends Base {
 				Node other = (Node) iter.next();
 				NodeTable otherNodeTable = factory.nodeTable(other);
 				
-				// Just add an <>, if the other node is not homomorphic to n
-				// If it was, we cannot node, if it is equal or not equal to n
-				if(!n.isHomomorphic(other)) {
-					nodeCond = factory.expression(Opcodes.NE, nodeColExpr,
-												  factory.expression(otherNodeTable.colId()));
+				if (graph instanceof PatternGraph) {
+					PatternGraph pattern = (PatternGraph) graph;
+
+					// Just add an <>, if the other node is not homomorphic to n
+					// If it was, we cannot node, if it is equal or not equal to n
+					if(!pattern.isHomomorphic(n, other)) {
+						nodeCond = factory.expression(Opcodes.NE, nodeColExpr,
+													  factory.expression(otherNodeTable.colId()));
+					}
 				}
 			}
 			

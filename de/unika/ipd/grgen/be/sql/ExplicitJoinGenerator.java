@@ -423,10 +423,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			Node curr = it.next();
 			NodeTable currTable = tableFactory.nodeTable(curr);
 			
-			if(!node.isHomomorphic(curr))
-				res = factory.addExpression(Opcodes.AND, res,
-											factory.expression(Opcodes.NE, factory.expression(nodeTable.colId()),
-															   factory.expression(currTable.colId())));
+			if (ctx.graph instanceof PatternGraph) {
+				PatternGraph pattern = (PatternGraph) ctx.graph;
+
+				if(!pattern.isHomomorphic(node, curr))
+					res = factory.addExpression(Opcodes.AND, res,
+												factory.expression(Opcodes.NE, factory.expression(nodeTable.colId()),
+																   factory.expression(currTable.colId())));
+			}
 		}
 		
 		return res;

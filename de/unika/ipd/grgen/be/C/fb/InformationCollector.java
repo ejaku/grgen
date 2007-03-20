@@ -1102,7 +1102,7 @@ public class InformationCollector extends CBackend {
 			for ( ; node_it_1.hasNext(); ) {
 				Node node_1 = (Node) node_it_1.next();
 				Collection<Node> hom_of_node_1 = new HashSet<Node>();
-				node_1.getHomomorphic(hom_of_node_1);
+				hom_of_node_1 = pattern.getHomomorphic(node_1);
 				
 				Iterator node_it_2 = pattern.getNodes().iterator();
 				for ( ; node_it_2.hasNext() ; ) {

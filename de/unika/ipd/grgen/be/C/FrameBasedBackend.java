@@ -947,7 +947,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		
 		//get the potentialy homomorphic nodes of the far end node
 		Collection<Node> homomorphicNodes = new HashSet<Node>();
-		node.getHomomorphic(homomorphicNodes);
+		homomorphicNodes = pattern.getHomomorphic(node);
 		
 		//compute this ops kind
 		String kind = "";

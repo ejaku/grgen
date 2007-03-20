@@ -939,12 +939,19 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(Node curr : g.getNodes()) {
 				if(processedEntities.contains(curr)) {
 					NodeTable currTable = factory.nodeTable(curr);
-					if(!node.isHomomorphic(curr)) {
-						res = factory.addExpression(Opcodes.AND, res,
-													factory.expression(Opcodes.NE,
-																	   factory.expression(nodeTable.colId()),
-																	   factory.expression(currTable.colId())));
-						dep.add(currTable);
+					
+					if (g instanceof PatternGraph) {
+						PatternGraph pattern = (PatternGraph) g;
+
+						if(!pattern.isHomomorphic(node, curr)) {
+							res = factory.addExpression(Opcodes.AND, res,
+														factory.expression(Opcodes.NE,
+																		   factory.expression(nodeTable.colId()),
+																		   factory.expression(currTable.colId())));
+							dep.add(currTable);
+						} else {
+							checkHomoCond(node, curr);
+						}
 					} else {
 						checkHomoCond(node, curr);
 					}
