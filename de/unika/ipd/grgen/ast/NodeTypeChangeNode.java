@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.parser.Coords;
@@ -50,7 +51,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class });
 	
 	private static final Checker nodeChecker =
-		new MultChecker(new Class[] { NodeDeclNode.class, ParamDeclNode.class} );
+		new TypeChecker(NodeTypeNode.class);
 		
   public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
   		

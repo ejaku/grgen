@@ -27,7 +27,9 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -40,25 +42,6 @@ public class HomNode extends BaseNode {
 	static {
 		setName(HomNode.class, "homomorph");
 	}
-	
-	class DeclChecker implements Checker {
-		private Class cls;
-		
-		public DeclChecker(Class cls) {
-			this.cls = cls;
-		}
-		
-		 public boolean check(BaseNode node, ErrorReporter reporter) {
-			 boolean decl = true;
-			 IdentNode id = (IdentNode) node;
-			 BaseNode type = id.getDecl().getDeclType();
-			 if (!cls.isInstance(type)) {
-				 node.reportError("needs to be of class " + shortClassName(cls));
-				 decl = false;
-			 }
-			 return decl;
-		 }
-	};
 	
   public HomNode(Coords coords) {
     super(coords);
@@ -75,17 +58,17 @@ public class HomNode extends BaseNode {
   		return false;
   	}
   	
-  	if(!checkAllChildren(IdentNode.class)) {
+  	if(!checkAllChildren(DeclNode.class)) {
 		return false;
   	}
   	
-  	IdentNode child = (IdentNode)getChild(0);
-  	DeclChecker checker;
+  	DeclNode child = (DeclNode)getChild(0);
+  	TypeChecker checker;
   	
-  	if(child.getDecl().getDeclType() instanceof NodeTypeNode) {
-  		checker = new DeclChecker(NodeTypeNode.class);
+  	if(child.getDeclType() instanceof NodeTypeNode) {
+  		checker = new TypeChecker(NodeTypeNode.class);
   	} else {
-  		checker = new DeclChecker(EdgeTypeNode.class);
+  		checker = new TypeChecker(EdgeTypeNode.class);
   	}
   	
   	return checkAllChildren(checker);
@@ -94,4 +77,18 @@ public class HomNode extends BaseNode {
   public Color getNodeColor() {
   	return Color.PINK;
   }
+
+@Override
+protected boolean resolve() {
+	boolean resolved = true;
+	
+	Resolver resolver = new DeclResolver(new Class[] {NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class });
+	
+	for(int i=0; i<children(); ++i) {
+		boolean res = resolver.resolve(this, i);
+		if(!res) resolved = false;
+	}
+
+	return resolved;
+}
 }

@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
 /**
@@ -48,9 +49,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	};
 	
 	private static final Checker nodeChecker =
-		new MultChecker(new Class[] {
-				NodeDeclNode.class, NodeTypeChangeNode.class, ParamDeclNode.class
-			});
+		new TypeChecker(NodeTypeNode.class);
 	
 	private static final Resolver nodeResolver =
 		new OptionalResolver(

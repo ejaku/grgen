@@ -93,17 +93,15 @@ public class PatternGraphNode extends GraphNode {
 				HomNode hom = (HomNode)n;
 				
 				for(BaseNode m : n.getChildren()) {
-					IdentNode id = (IdentNode)m;
-					DeclNode decl = (DeclNode)id.getDecl();
+					DeclNode decl = (DeclNode)m;
 					
 					if(hom_ents.contains(decl)) {
-						hom.reportError(id.toString() + " is contained in multiple hom statements");
+						hom.reportError(m.toString() + " is contained in multiple hom statements");
 						homcheck = false;
 					}
 				}
 				for(BaseNode m : n.getChildren()) {
-					IdentNode id = (IdentNode)m;
-					DeclNode decl = (DeclNode)id.getDecl();
+					DeclNode decl = (DeclNode)m;
 					
 					hom_ents.add(decl);
 				}
@@ -141,8 +139,8 @@ public class PatternGraphNode extends GraphNode {
 			HashSet<Entity> hom_set = new HashSet<Entity>();
 
 			for(BaseNode m : hom.getChildren()) {
-				IdentNode id = (IdentNode)m;
-				hom_set.add((Entity) id.getDecl().checkIR(Entity.class));
+				DeclNode decl = (DeclNode)m;
+				hom_set.add((Entity) decl.checkIR(Entity.class));
 			}
 
 			gr.addHomomorphic(hom_set);

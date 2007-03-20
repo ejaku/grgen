@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import java.util.Collection;
 
@@ -48,7 +49,7 @@ public class RuleDeclNode extends TestDeclNode {
 	private static final TypeNode ruleType = new TypeNode() { };
 	
 	private static final Checker evalChecker =
-		new CollectChecker(new SimpleChecker(ExprNode.class));
+		new CollectChecker(new SimpleChecker(AssignNode.class));
 	
 	static {
 		setName(RuleDeclNode.class, "rule declaration");

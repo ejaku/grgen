@@ -542,63 +542,21 @@ patternEdgeDecl returns [ BaseNode res = env.initNode() ]
 	;
 
 typeConstraint returns [ BaseNode constr = env.initNode() ]
-  : BACKSLASH LPAREN constr=typeExpr RPAREN
+  : BACKSLASH constr=typeUnaryExpr
   ;
 
-typeExpr returns [ BaseNode constr = env.initNode() ]
-  : constr=typeAddExpr
-  ;
-  
 typeAddExpr returns [ BaseNode res = env.initNode() ]
   {
-    int op = -1;
-    BaseNode op1;
-    Token t = null;
+    BaseNode op;
   }
-  : res=typeMulExpr (t=typeAddOp op1=typeMulExpr {
-      switch(t.getType()) {
-      case PLUS:
-        op = TypeExprNode.UNION;
-        break;
-      case BACKSLASH:
-        op = TypeExprNode.DIFFERENCE;
-        break;
-      }
-      res = new TypeExprNode(getCoords(t), op, res, op1);
+  : res=typeIdentUse { res = new TypeConstraintNode(res); }
+    (t:PLUS op=typeUnaryExpr {
+      res = new TypeExprNode(getCoords(t), TypeExprNode.UNION, res, op);
     })*
-  ;
-  
-typeAddOp returns [ Token t = null ]
-  : pl:PLUS { t = pl; }
-  | mi:BACKSLASH { t = mi; }
   ;
 
-typeMulExpr returns [ BaseNode res = env.initNode() ]
-  { BaseNode op1; }
-  : res=typeUnaryExpr (a:AMPERSAND op1=typeUnaryExpr {
-      res = new TypeExprNode(getCoords(a), TypeExprNode.INTERSECT, res, op1);
-    })*
-  ;
-  
 typeUnaryExpr returns [ BaseNode res = env.initNode() ]
-  { BaseNode n = env.initNode(); }
-  : c:COLON n=typeIdentUse {
-      res = new TypeExprSubtypeNode(getCoords(c), n);
-    }
-  | b:LBRACE { n = new CollectNode(); } typeIdentList[n] RBRACE {
-      res = new TypeConstraintNode(getCoords(b), n);
-    }
-  | LPAREN res=typeExpr RPAREN
-  | n=typeIdentUse { res = new TypeConstraintNode(n); }
+  : res=typeIdentUse { res = new TypeConstraintNode(res); }
+  | LPAREN res=typeAddExpr RPAREN
   ;
   
-typeIdentList [ BaseNode addTo ]
-  { BaseNode n; }
-  : n=typeIdentUse { addTo.addChild(n); } (COMMA n=typeIdentUse {
-      addTo.addChild(n);
-    })*
-  |
-  ;
-
-
-
