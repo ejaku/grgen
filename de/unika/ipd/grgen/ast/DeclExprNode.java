@@ -56,10 +56,10 @@ public class DeclExprNode extends ExprNode {
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#eval()
+	 * @see de.unika.ipd.grgen.ast.ExprNode#evaluate()
 	 */
-	protected ConstNode eval() {
-		ConstNode res = ConstNode.getInvalid();
+	public ExprNode evaluate() {
+		ExprNode res = this;
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
 		DeclNode decl = c.getDecl();
 		
@@ -80,7 +80,7 @@ public class DeclExprNode extends ExprNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
 	 */
-	public boolean isConstant() {
+	public boolean isConst() {
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
 		return c.getDecl() instanceof EnumItemNode;
 	}

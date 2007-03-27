@@ -74,14 +74,14 @@ public class TypeofNode extends ExprNode {
 		return checkChild(ENTITY, entityChecker);
 	}
 	
-	protected ConstNode eval() {
-		return ConstNode.getInvalid();
-	}
-	
 	protected IR constructIR() {
 		Entity entity = (Entity) getChild(ENTITY).checkIR(Entity.class);
 		
 		return new Typeof(entity);
+	}
+	
+	public DeclNode getEntity() {
+		return (DeclNode)getChild(ENTITY);
 	}
 
 	public TypeNode getType() {

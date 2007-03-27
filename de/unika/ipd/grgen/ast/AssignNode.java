@@ -84,9 +84,9 @@ public class AssignNode extends BaseNode {
 	 */
 	protected IR constructIR() {
 		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
-		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).typeChanges())
+		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType())
 			error.error(getCoords(), "assignment to an old node of a type changed node is not allowed");
-		return new Assignment(qual, (Expression) getChild(RHS).checkIR(Expression.class));
+		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
 	}
 	
 }

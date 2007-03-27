@@ -29,7 +29,6 @@ import de.unika.ipd.grgen.ast.util.*;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import java.util.Iterator;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
 	

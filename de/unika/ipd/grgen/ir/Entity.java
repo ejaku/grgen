@@ -24,8 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -33,18 +31,15 @@ import java.util.Set;
 /**
  * An instantiation of a type.
  */
-public class Entity extends Identifiable implements Attributed {
+public class Entity extends Identifiable {
 	
-	private static final String[] childrenNames = { "type" };
+	protected static final String[] childrenNames = { "type" };
 	
 	/** Type of the entity. */
-	private final Type type;
+	protected final Type type;
 	
 	/** The entity's owner. */
-	private Type owner = null;
-	
-	/** The attributes of this entity. */
-	private final Attributes attributes;
+	protected Type owner = null;
 	
 	/**
 	 * Make a new entity of a given type
@@ -52,17 +47,12 @@ public class Entity extends Identifiable implements Attributed {
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
 	 */
-	protected Entity(String name, Ident ident, Type type, Attributes attr) {
+	public Entity(String name, Ident ident, Type type) {
 		super(name, ident);
 		setChildrenNames(childrenNames);
 		this.type = type;
-		this.attributes = attr;
 	}
-	
-	public Entity(Ident ident, Type type, Attributes attr) {
-		this("entity", ident, type, attr);
-	}
-	
+
 	/**
 	 * Get the type of the entity.
 	 * @return The entity's type.
@@ -104,27 +94,19 @@ public class Entity extends Identifiable implements Attributed {
 		return owner != null;
 	}
 	
-	/**
-	 * Get the attributes.
-	 * @return The atttributes.
-	 */
-	public Attributes getAttributes() {
-		return attributes;
-	}
-	
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("type", Collections.singleton(type));
 		fields.put("owner", Collections.singleton(owner));
 	}
 	
-	
 	/**
-	 * Check, if the entity is anonymous.
-	 * @return true, if the entity is anonymous, false if not.
+	 * Check, whether this is a retyped entity.
+	 * @return true, if this is a retyped entity
 	 */
-	public boolean isAnonymous() {
+	public boolean isRetyped() {
 		return false;
 	}
 	
+
 }

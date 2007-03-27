@@ -327,11 +327,20 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		delEdges.removeAll(rule.getCommonEdges());
 		
 		// new nodes
-		for(Node node : newNodes)
+		for(Node node : newNodes) {
+			String type;
+			
+			if(node.inheritsType()) {
+				type = formatEntity(node.getTypeof()) + ".type.typeVar";
+				extractNodeFromMatch.add(node.getTypeof());
+			} else {
+				type = formatType(node.getType()) + ".typeVar";
+			}
 			sb2.append(
 				"\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) graph.AddNode(" +
-					"NodeType_" + formatIdentifiable(node.getType()) + ".typeVar);\n"
+					type + ");\n"
 			);
+		}
 		
 		// new edges
 		for(Edge edge : newEdges) {
@@ -344,24 +353,63 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			if( rule.getCommonNodes().contains(tgt_node) )
 				extractNodeFromMatch.add(tgt_node);
 			
+			String type;
+			
+			if(edge.inheritsType()) {
+				type = formatEntity(edge.getTypeof()) + ".type.typeVar";
+				extractEdgeFromMatch.add(edge.getTypeof());
+			} else {
+				type = formatType(edge.getType()) + ".typeVar";
+			}
+			
 			sb2.append(
 				"\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) graph.AddEdge(" +
-					"EdgeType_" + formatIdentifiable(edge.getType()) + ".typeVar, " +
-					formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
+					type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 			);
 		}
 		
-		// type changes
+		// node type changes
 		for(Node node : rule.getRight().getNodes())
-			if(node.typeChanges()) {
+			if(node.changesType()) {
+				String new_type;
+				RetypedNode rnode = node.getRetypedNode();
+				
+				if(rnode.inheritsType()) {
+					new_type = formatEntity(rnode.getTypeof()) + ".type.typeVar";
+					extractNodeFromMatch.add(rnode.getTypeof());
+				} else {
+					new_type = formatType(rnode.getType()) + ".typeVar";
+				}
+				
 				extractNodeFromMatch.add(node);
 				sb2.append("\t\t\tINode_" + formatIdentifiable(node.getType()));
 				sb2.append(" " + formatEntity(node) + "_attributes = ");
 				sb2.append("(INode_" + formatIdentifiable(node.getType()) + ") ");
-				sb2.append("graph.SetNodeType(" + formatEntity(node) + ", " + formatType(node.getReplaceType()) + ".typeVar);\n");
+				sb2.append("graph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
 				// TODO fix attribute access for all nodes in evals
 			}
 		
+		// edge type changes
+		for(Edge edge : rule.getRight().getEdges())
+			if(edge.changesType()) {
+				String new_type;
+				RetypedEdge redge = edge.getRetypedEdge();
+				
+				if(edge.inheritsType()) {
+					new_type = formatEntity(redge.getTypeof()) + ".type.typeVar";
+					extractEdgeFromMatch.add(redge.getTypeof());
+				} else {
+					new_type = formatType(redge.getType()) + ".typeVar";
+				}
+				
+				extractEdgeFromMatch.add(edge);
+				sb2.append("\t\t\tIEdge_" + formatIdentifiable(edge.getType()));
+				sb2.append(" " + formatEntity(edge) + "_attributes = ");
+				sb2.append("(IEdge_" + formatIdentifiable(edge.getType()) + ") ");
+				sb2.append("graph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
+				// TODO fix attribute access for all edges in evals
+			}
+				
 		// attribute re-calc
 		genEvals(sb2, rule, extractNodeFromMatch, extractEdgeFromMatch);
 		
@@ -392,8 +440,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		extractEdgeFromMatch.removeAll(newEdges);
 		
 		for(Node node : extractNodeFromMatch)
-			if(node.isRetypedNode())
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node.getOldNode()) + " - 1 ];\n");
+			if(node.isRetyped())
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
 			else
 				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
@@ -492,8 +540,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("};\n");
 	}
 	
-	private double computePriosMax(Collection<? extends ConstraintEntity> nodesOrEdges, double max) {
-		for(ConstraintEntity noe : nodesOrEdges) {
+	private double computePriosMax(Collection<? extends Entity> nodesOrEdges, double max) {
+		for(Entity noe : nodesOrEdges) {
 			Object prioO = noe.getAttributes().get("prio");
 			
 			if (prioO != null && prioO instanceof Integer) {
@@ -507,8 +555,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		return max;
 	}
 	
-	private void genPriosNoE(StringBuffer sb, Collection<? extends ConstraintEntity> nodesOrEdges, double max) {
-		for(ConstraintEntity noe : nodesOrEdges) {
+	private void genPriosNoE(StringBuffer sb, Collection<? extends Entity> nodesOrEdges, double max) {
+		for(Entity noe : nodesOrEdges) {
 			Object prioO = noe.getAttributes().get("prio");
 			
 			double prio;
@@ -644,15 +692,15 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			aux.append("\t\tpublic static bool[] " + formatEntity(node, outer, negCount) + "_IsAllowedType = ");
 			if( !node.getConstraints().isEmpty() ) {
 				// alle verbotenen Typen und deren Untertypen
-				HashSet<InheritanceType> allForbiddenTypes = new HashSet<InheritanceType>();
-				for(InheritanceType forbiddenType : node.getConstraints())
-					for(InheritanceType type : nodeTypeMap.keySet()) {
+				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
+				for(Type forbiddenType : node.getConstraints())
+					for(Type type : nodeTypeMap.keySet()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(InheritanceType type : nodeTypeMap.keySet()) {
+				for(Type type : nodeTypeMap.keySet()) {
 					boolean isAllowed = type.isCastableTo(node.getNodeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
 					if( isAllowed )
@@ -681,15 +729,15 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			aux.append("\t\tpublic static bool[] " + formatEntity(edge, outer, negCount) + "_IsAllowedType = ");
 			if( !edge.getConstraints().isEmpty() ) {
 				// alle verbotenen Typen und deren Untertypen
-				HashSet<InheritanceType> allForbiddenTypes = new HashSet<InheritanceType>();
-				for(InheritanceType forbiddenType : edge.getConstraints())
-					for(InheritanceType type : edgeTypeMap.keySet()) {
+				HashSet<Type> allForbiddenTypes = new HashSet<Type>();
+				for(Type forbiddenType : edge.getConstraints())
+					for(Type type : edgeTypeMap.keySet()) {
 						if (type.isCastableTo(forbiddenType))
 							allForbiddenTypes.add(type);
 					}
 				sb.append("{ ");
 				aux.append("{ ");
-				for(InheritanceType type : edgeTypeMap.keySet()) {
+				for(Type type : edgeTypeMap.keySet()) {
 					boolean isAllowed = type.isCastableTo(edge.getEdgeType()) && !allForbiddenTypes.contains(type);
 					// all permitted nodes, aka node that are not forbidden
 					if( isAllowed )
@@ -1027,9 +1075,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			
 			if(entity instanceof Node) {
 				Node node = (Node)entity;
-				if(extractNodeFromMatch != null && !node.typeChanges())
+				if(extractNodeFromMatch != null && !node.changesType())
 					extractNodeFromMatch.add(node);
-				if(node.typeChanges()) {
+				if(node.changesType()) {
 					sb.append(formatEntity(node));
 					sb.append("_attributes." + formatIdentifiable(qual.getMember()));
 				} else {
@@ -1285,8 +1333,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 
 	public void done() {
-		// TODO Auto-generated method stub
-		
+		// TODO
 	}
 }
 

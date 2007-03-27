@@ -28,31 +28,60 @@ package de.unika.ipd.grgen.ir;
  * An edge in a graph.
  */
 import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.EmptyAttributes;
 
-public class Edge extends ConstraintEntity {
+public class Edge extends GraphEntity {
+
+	/** Type of the edge. */
+	protected final EdgeType type;
 	
 	/**
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
 	 * @param type The type of the edge.
-	 * @param Is the edge nedgated.
-	 * @param attr Some attributes.
 	 */
 	public Edge(Ident ident, EdgeType type, Attributes attr) {
 		super("edge", ident, type, attr);
+		this.type = type;
 	}
 	
-	//  public Edge(Ident ident, EdgeType type) {
-//		this(ident, type, EmptyAttributes.get());
-	//  }
+	/**
+	 * Make a new edge.
+	 * @param ident The identifier for the edge.
+	 * @param type The type of the edge.
+	 */
+	public Edge(Ident ident, EdgeType type) {
+		this(ident, type, EmptyAttributes.get());
+	}
 	
 	/**
 	 * Get the edge type.
 	 * @return The type of the edge.
 	 */
 	public EdgeType getEdgeType() {
-		assert getType() instanceof EdgeType : "type of edge must be edge type";
-		return (EdgeType) getType();
+		return type;
+	}
+
+	/**
+	 * Get the edge from which this edge inherits its dynamic type
+	 */
+	public Edge getTypeof() {
+		return (Edge)typeof;
+	}
+
+	/**
+	 * Sets the corresponding retyped version of this edge
+	 * @param retyped The retyped edge
+	 */
+	public void setRetypedEdge(Edge retyped) {
+		this.retyped = retyped;
 	}
 	
+	/**
+	 * Returns the corresponding retyped version of this edge
+	 * @return The retyped version or <code>null</code>
+	 */
+	public RetypedEdge getRetypedEdge() {
+		return (RetypedEdge)this.retyped;
+	}
 }

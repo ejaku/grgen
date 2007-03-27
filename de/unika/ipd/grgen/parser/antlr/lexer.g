@@ -34,7 +34,7 @@ header {
 	import java.io.FileInputStream;
 	import java.io.FileNotFoundException;
 	import java.io.File;
-		
+	
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.util.report.*;
@@ -42,6 +42,7 @@ header {
 	import de.unika.ipd.grgen.Main;
 	
 	import antlr.*;
+	
 }
 
 class GRLexer extends Lexer;
@@ -49,7 +50,7 @@ class GRLexer extends Lexer;
 options {
   charVocabulary = '\u0000'..'\u00FF';
 	testLiterals=false;    // don't automatically test for literals
-	k=4;                   // four characters of lookahead
+	k=8;                   // four characters of lookahead
 	codeGenBitsetTestThreshold=20;
   exportVocab = GRBase;
 
@@ -58,7 +59,6 @@ options {
 tokens {
   TEST = "test";
   RULE = "rule";
-  INCLUDE = "include";
   CLASS = "class";
   ACTIONS = "actions";
   USING = "using";
@@ -91,7 +91,6 @@ tokens {
   void setEnv(GRParserEnvironment env) {
     this.env = env;
   }
-
 }
 
 
@@ -204,7 +203,15 @@ STRING_LITERAL
 	:	'"' (ESC|~('"'|'\\'))* '"'
 	;
 
+INCLUDE
+  : "include" WS s:STRING_LITERAL ';' {
+  	$setType(Token.SKIP);
+	String file = s.getText();
+	file = file.substring(1,file.length()-1);
+	env.pushFile(new File(file));
+  }
+  ;
+
 IDENT
 	options {testLiterals=true;}
 	:	('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
-

@@ -24,11 +24,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+
 import java.awt.Color;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
@@ -38,7 +41,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 	
 	private static final Resolver typeResolver =
-		new DeclTypeResolver(EdgeTypeNode.class);
+		new DeclResolver(new Class[] { EdgeDeclNode.class, TypeDeclNode.class });
+	
+	private static final Checker typeChecker =
+		new TypeChecker(EdgeTypeNode.class);
+	
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
 		super(n, e, constraints);
@@ -46,9 +53,14 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		addResolver(TYPE, typeResolver);
 	}
 	
+	public EdgeDeclNode(IdentNode n, BaseNode e) {
+		this(n, e, TypeExprNode.getEmpty());
+	}
+	
 	protected boolean check() {
-		return super.check()
-			&& checkChild(TYPE, EdgeTypeNode.class);
+		return checkChild(IDENT, IdentNode.class)
+			&& checkChild(CONSTRAINTS, TypeExprNode.class)
+			&& checkChild(TYPE, typeChecker);
 	}
 	
 	/**
@@ -75,6 +87,18 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 	
 	/**
+	 * The TYPE child could be an edge in case the type is
+	 * inherited dynamically via the typeof operator
+	 */
+	public BaseNode getDeclType() {
+		return ((DeclNode)getChild(TYPE)).getDeclType();
+	}
+	
+	protected boolean inheritsType() {
+		return (getChild(TYPE) instanceof EdgeDeclNode);
+	}
+	
+	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
@@ -86,7 +110,10 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		Edge edge = new Edge(ident.getIdent(), et, ident.getAttributes());
 		edge.setConstraints(getConstraints());
 		
+		if(inheritsType()) {
+			edge.setTypeof((Edge)getChild(TYPE).checkIR(Edge.class));
+		}
+		
 		return edge;
 	}
-	
 }

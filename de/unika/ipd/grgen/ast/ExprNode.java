@@ -71,28 +71,28 @@ public abstract class ExprNode extends BaseNode {
 		
 		if(getType().isEqual(type))
 			res = this;
-		else if(getType().isCompatibleTo(type)) 
+		else if(getType().isCompatibleTo(type))
 			res = new CastNode(getCoords(), type, this);
 			
-		return res; 
+		return res;
 	}
 	
 	/**
 	 * Check, if the expression is constant.
 	 * @return True, if the expression can be evaluated to a constant.
 	 */
-	public boolean isConstant() {
+	public boolean isConst() {
 		return false;
 	}
 	
 	/**
-	 * Evaluate the expression, if it's constant.
-	 * @return Return a valid constant, if the expression is constant, else
-	 * an invalid constant (can be checked with {@link ConstNode#isValid()}.
+	 * Try to evaluate and return a constant version
+	 * of this expression
 	 */
-	public final ConstNode evaluate() {
-		if(isConstant()) 
-			return eval();
+	public ConstNode getConst() {
+		ExprNode expr = evaluate();
+		if(expr instanceof ConstNode)
+			return (ConstNode)expr;
 		else
 			return ConstNode.getInvalid();
 	}
@@ -102,6 +102,8 @@ public abstract class ExprNode extends BaseNode {
 	 * have to check for it.
 	 * @return The value of the expression.
 	 */
-	protected abstract ConstNode eval();
+	public ExprNode evaluate() {
+		return this;
+	}
 
 }

@@ -28,7 +28,6 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class PatternGraph extends Graph {
 	 * Add a potentially homomorphic set to the graph.
 	 * @param expr The condition's expression.
 	 */
-	public void addHomomorphic(Collection<Entity> hom) {
+	public void addHomomorphic(Collection<GraphEntity> hom) {
 		homs.add(hom);
 	}
 

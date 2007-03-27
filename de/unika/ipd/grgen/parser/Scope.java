@@ -205,7 +205,7 @@ public class Scope {
 			if(definedHere(sym)) {
 				def = getLocalDef(sym);
 				reporter.error(coords, "Symbol \"" + sym + "\" has already been "
-								   + "defined in this scope (at: " + coords + ")");
+								   + "defined in this scope (at: " + def.coords + ")");
 			} else {
 				try {
 					def = sym.define(this, coords);

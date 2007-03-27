@@ -60,7 +60,7 @@ options {
 	private static final void putOpId(int tokenId, int opId) {
 		opIds.put(new Integer(tokenId), new Integer(opId));
 	}
-
+	
 	static {
 		putOpId(QUESTION, OperatorSignature.COND);
 		putOpId(EQUAL, OperatorSignature.EQ);
@@ -114,9 +114,9 @@ options {
     this.env = env;
   }
   
-	protected Coords getCoords(antlr.Token tok) {
+  protected Coords getCoords(antlr.Token tok) {
   	return new Coords(tok, this);
-	}
+  }
 	
   protected final void reportError(de.unika.ipd.grgen.parser.Coords c, String s) {
     hadError = true;
@@ -141,6 +141,10 @@ options {
   	
   public boolean hadError() {
  	  return hadError;
+  }
+  
+  public String getFilename() {
+  	return env.getFilename();
   }
 
 }
@@ -413,7 +417,6 @@ identExpr returns [ BaseNode res = env.initNode() ]
 	  : i:IDENT {
 	  	if(env.test(ParserEnvironment.TYPES, i.getText())) {
 		  	id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
-		  	//res = new TypeConstNode(id);
 		  	res = new TypeConstNode(id);
 	  	} else {
 		  	id = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i)));

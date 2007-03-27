@@ -37,7 +37,6 @@ public class Test extends MatchingAction {
 	public Test(Ident ident, PatternGraph pattern) {
 		super("test", ident, pattern);
 		pattern.setNameSuffix("test");
-		coalesceAnonymousEdges();
 	}
 
 

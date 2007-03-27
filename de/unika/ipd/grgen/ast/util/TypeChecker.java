@@ -33,11 +33,15 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public class TypeChecker implements Checker {
 
-	/// The class the decl type is to checked for
-	private Class c;
+	/// The classes the decl type is to checked for
+	private Class[] validTypes;
 
+	public TypeChecker(Class[] types) {
+		this.validTypes = types;
+	}
+	
 	public TypeChecker(Class c) {
-		this.c = c;
+		this(new Class[] { c });
 	}
 
   /**
@@ -46,16 +50,23 @@ public class TypeChecker implements Checker {
    * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
    */
   public boolean check(BaseNode node, ErrorReporter reporter) {
-  	boolean res = node instanceof DeclNode;
+  	boolean res = (node instanceof DeclNode);
   	
   	if(!res) {
   		node.reportError("not of type " + DeclNode.class.getName());
   	} else {
   		BaseNode type = ((DeclNode)node).getDeclType();
-  		res = c.isInstance(type);
+ 
+  		res = false;
+  	  	for(Class c : this.validTypes) {
+  	  		if(c.isInstance(type)) {
+  	  			res = true;
+  	  			break;
+  	  		}
+  	  	}
   		
   		if(!res)
-  	  		node.reportError("decl not of type " + c.getName());
+  	  		node.reportError("decl has none of types: " + validTypes);
   	}
   		
   	return res;	

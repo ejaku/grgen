@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.*;
 
-import de.unika.ipd.grgen.util.EmptyAttributes;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumpableProxy;
 import de.unika.ipd.grgen.util.GraphDumper;
@@ -59,7 +58,7 @@ public class Graph extends IR {
 		private final String nodeId;
 		
 		private GraphNode(Node n) {
-			super(n.getIdent(), n.getNodeType(), EmptyAttributes.get());
+			super(n.getIdent(), n.getNodeType());
 			this.incoming = new HashSet<Graph.GraphEdge>();
 			this.outgoing = new HashSet<Graph.GraphEdge>();
 			this.node = n;
@@ -86,7 +85,7 @@ public class Graph extends IR {
 		private final String nodeId;
 		
 		private GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType(), EmptyAttributes.get());
+			super(e.getIdent(), e.getEdgeType());
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
@@ -114,7 +113,9 @@ public class Graph extends IR {
 		GraphNode res;
 		
 		// Do not include the virtual retyped nodes in the graph.
-		if(n.isRetypedNode()) n = n.getOldNode();
+		// TODO why??? we could just check in the generator whether this is a retyped node
+		// this would eliminate this unnecessary <code>changesType()</code> stuff 
+		if(n.isRetyped()) n = ((RetypedNode)n).getOldNode();
 		
 		if(!nodes.containsKey(n)) {
 			res = new GraphNode(n);
@@ -221,14 +222,6 @@ public class Graph extends IR {
 		return c;
 	}
 	
-	private Set<Edge> getEdgeSet(Iterator<Graph.GraphEdge> it) {
-		Set<Edge> res = new HashSet<Edge>();
-		while(it.hasNext())
-			res.add(it.next().edge);
-		
-		return res;
-	}
-	
 	/**
 	 * Get the number of ingoing edges.
 	 * @param node The node.
@@ -324,40 +317,6 @@ public class Graph extends IR {
 	 */
 	public Node getEnd(Edge e, boolean source) {
 		return source ? getSource(e) : getTarget(e);
-	}
-	
-	/**
-	 * Replace an edge in this graph by a similar one.
-	 * Replace an edge, that has the same type, target and source node like
-	 * <code>edge</code> by <code>edge</code>.
-	 * This is called by the coalesce phase in rules.
-	 * @see Rule#coalesceAnonymousEdges()
-	 * @param gr The graph <code>edge</code>
-	 * @param e The edge which shall replace a similar one.
-	 */
-	protected void replaceSimilarEdges(Graph gr, Edge edge) {
-		Node src = gr.getSource(edge);
-		Node tgt = gr.getTarget(edge);
-		EdgeType edgeType = edge.getEdgeType();
-		Collection<Edge> edgesSet = new LinkedList<Edge>(edges.keySet());
-		
-		for(Edge e : edgesSet) {
-			if(src == getSource(e) && tgt == getTarget(e)
-			   && edgeType.isEqual(e.getEdgeType())
-			   && e.isAnonymous()) {
-				
-				debug.report(NOTE, "Exchanging " + e.getIdent()
-								 + " with " + edge.getIdent());
-				
-				// Modify the graph edge to refer to the coalesced edge.
-				GraphEdge ge = checkEdge(e);
-				ge.edge = edge;
-				
-				// Remove the deleted edge from the edges map and enter the new one.
-				edges.remove(e);
-				edges.put(edge, ge);
-			}
-		}
 	}
 	
 	/**

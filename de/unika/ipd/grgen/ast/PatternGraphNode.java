@@ -34,10 +34,12 @@ import de.unika.ipd.grgen.ast.GraphNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class PatternGraphNode extends GraphNode {
@@ -131,16 +133,44 @@ public class PatternGraphNode extends GraphNode {
 		
 		for(BaseNode n : getChild(CONDITIONS).getChildren()) {
 			ExprNode expr = (ExprNode)n;
+			expr = expr.evaluate();
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
+		}
+		
+		/* genarate type conditions from dynamic type checks via typeof */
+		for(GraphEntity n : gr.getNodes()) {
+			if(n.inheritsType()) {
+				Expression e1 = new Typeof(n);
+				Expression e2 = new Typeof(n.getTypeof());
+
+				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.EQ);
+				op.addOperand(e1);
+				op.addOperand(e2);
+				
+				gr.addCondition(op);
+			}
+		}
+		//TODO iterate over both sets in a single 'for' statement
+		for(GraphEntity n : gr.getEdges()) {
+			if(n.inheritsType()) {
+				Expression e1 = new Typeof(n);
+				Expression e2 = new Typeof(n.getTypeof());
+
+				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.EQ);
+				op.addOperand(e1);
+				op.addOperand(e2);
+				
+				gr.addCondition(op);
+			}
 		}
 		
 		for(BaseNode n : getChild(HOMS).getChildren()) {
 			HomNode hom = (HomNode)n;
-			HashSet<Entity> hom_set = new HashSet<Entity>();
+			HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
 
 			for(BaseNode m : hom.getChildren()) {
 				DeclNode decl = (DeclNode)m;
-				hom_set.add((Entity) decl.checkIR(Entity.class));
+				hom_set.add((GraphEntity) decl.checkIR(GraphEntity.class));
 			}
 
 			gr.addHomomorphic(hom_set);

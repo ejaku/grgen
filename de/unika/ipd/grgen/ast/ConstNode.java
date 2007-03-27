@@ -29,8 +29,8 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * Constant expressions. 
- * A constant is 0-ary operator. 
+ * Constant expressions.
+ * A constant is 0-ary operator.
  */
 public abstract class ConstNode extends OpNode {
 
@@ -47,7 +47,7 @@ public abstract class ConstNode extends OpNode {
 			}
 			
 			protected ConstNode doCastTo(TypeNode type) {
-				return this; 
+				return this;
 			}
 		};
 
@@ -68,7 +68,7 @@ public abstract class ConstNode extends OpNode {
    * Get the value of the constant.
    * @return The value.
    */
-  public final Object getValue() {
+  public Object getValue() {
   	return value;
   }
   
@@ -98,17 +98,10 @@ public abstract class ConstNode extends OpNode {
   /**
    * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
    */
-  public boolean isConstant() {
+  public boolean isConst() {
   	return true;
   }
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#eval()
-   */
-  protected ConstNode eval() {
-    return this;
-  }
-  
   /**
    * Check, if the constant is valid.
    * @return true, if the constant is valid.
@@ -134,7 +127,7 @@ public abstract class ConstNode extends OpNode {
   	
   	if(getType().isEqual(type))
   		res = this;
-  	else if(getType().isCastableTo(type)) 
+  	else if(getType().isCastableTo(type))
   		res = doCastTo(type);
   
   	return res;
@@ -143,7 +136,7 @@ public abstract class ConstNode extends OpNode {
   /**
    * Implement this method to implement casting.
    * You don't have to check for types that are not castable to the
-   * type of this constant. 
+   * type of this constant.
    * @param type The new type.
    * @return A constant of the new type.
    */

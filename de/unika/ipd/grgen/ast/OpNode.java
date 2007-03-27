@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Expression;

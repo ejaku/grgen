@@ -29,71 +29,72 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.RetypedNode;
+import de.unika.ipd.grgen.ir.RetypedEdge;
 
 /**
  *
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
+public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 
 	static {
-		setName(NodeTypeChangeNode.class, "node type change decl");
+		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
 
 	private static final int OLD = CONSTRAINTS + 1;
 	
-	private static final Resolver nodeResolver =
-		new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class });
+	private static final Resolver edgeResolver =
+		new DeclResolver(new Class[] { EdgeDeclNode.class, ParamDeclNode.class });
 	
-	private static final Checker nodeChecker =
-		new TypeChecker(NodeTypeNode.class);
+	private static final Checker edgeChecker =
+		new TypeChecker(EdgeTypeNode.class);
 		
-  public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
+  public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
   		
   	super(id, newType, TypeExprNode.getEmpty() );
 	addChild(oldid);
-  	addResolver(OLD, nodeResolver);
+  	addResolver(OLD, edgeResolver);
   }
 
   /**
-   * @return the original node for this retyped node
+   * @return the original edge for this retyped edge
    */
-  public NodeCharacter getOldNode()
+  public EdgeCharacter getOldEdge()
   {
-    return (NodeCharacter) getChild(OLD);
+    return (EdgeCharacter) getChild(OLD);
   }
   
   /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#check()
+   * @see de.unika.ipd.grgen.ast.BaseEdge#check()
    */
   protected boolean check() {
     return super.check()
-	&&  checkChild(OLD, nodeChecker);
+	&&  checkChild(OLD, edgeChecker);
   }
   
-  public Node getNode() {
-  	return (Node) checkIR(Node.class);
+  public Edge getEdge() {
+  	return (Edge) checkIR(Edge.class);
   }
 
   /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+   * @see de.unika.ipd.grgen.ast.BaseEdge#constructIR()
    */
   protected IR constructIR() {
     // This cast must be ok after checking.
-  	NodeCharacter oldNodeDecl = (NodeCharacter) getChild(OLD);
+  	EdgeCharacter oldEdgeDecl = (EdgeCharacter) getChild(OLD);
 
 	// This cast must be ok after checking.
-	NodeTypeNode tn = (NodeTypeNode) getDeclType();
-	NodeType nt = tn.getNodeType();
+	EdgeTypeNode tn = (EdgeTypeNode) getDeclType();
+	EdgeType nt = tn.getEdgeType();
 	IdentNode ident = getIdentNode();
 		
-	RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
+	RetypedEdge res = new RetypedEdge(ident.getIdent(), nt, ident.getAttributes());
 
-  	Node node = oldNodeDecl.getNode();
-  	node.setRetypedNode(res);
-	res.setOldNode(node);
+  	Edge edge = oldEdgeDecl.getEdge();
+  	edge.setRetypedEdge(res);
+	res.setOldEdge(edge);
 	
 	if(inheritsType()) {
 		res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));

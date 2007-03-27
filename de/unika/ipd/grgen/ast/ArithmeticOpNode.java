@@ -24,8 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Iterator;
-
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -42,36 +40,22 @@ public class ArithmeticOpNode extends OpNode {
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
-	 * An operator is constant, if all operands are constant.
-	 */
-	public boolean isConstant() {
-		assertResolved();
-		boolean res = true;
-		for(BaseNode n : getChildren()) {
-			ExprNode operand = (ExprNode)n;
-			if(!operand.isConstant()) {
-				res = false;
-				break;
-			}
-		}
-		return res;
-	}
-	
-	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#eval()
 	 */
-	protected ConstNode eval() {
-		ConstNode res = ConstNode.getInvalid();
+	public ExprNode evaluate() {
 		int n = children();
-		ConstNode[] args = new ConstNode[n];
+		ExprNode[] args = new ExprNode[n];
 		
 		for(int i = 0; i < n; i++) {
 			ExprNode c = (ExprNode) getChild(i);
 			args[i] = c.evaluate();
 		}
 		
-		return getOperator().evaluate(getCoords(), args);
+		return getOperator().evaluate(this, args);
+	}
+	
+	public boolean isConst() {
+		return evaluate() instanceof ConstNode;
 	}
 	
 	/**

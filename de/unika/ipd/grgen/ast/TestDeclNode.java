@@ -112,7 +112,6 @@ public class TestDeclNode extends ActionDeclNode {
 				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 				
 				IdentNode       aReturnAST  = (IdentNode)itAR.next();
-				Ident           aReturn     = (Ident)aReturnAST.checkIR(Ident.class);
 				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 				
 				if(!aReturnType.isCastableTo(tReturn)) {
@@ -190,8 +189,6 @@ public class TestDeclNode extends ActionDeclNode {
 			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
 			ma.addNegGraph(neg);
 		}
-		// NOW! after all graphs are added, call coalesceAnonymousEdges
-		ma.coalesceAnonymousEdges();
 		
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
@@ -202,7 +199,7 @@ public class TestDeclNode extends ActionDeclNode {
 		// add Return-Prarams to the IR
 		for(BaseNode n : aReturns.getChildren()) {
 			IdentNode aReturnAST = (IdentNode)n;
-			ConstraintEntity aReturn = (ConstraintEntity)aReturnAST.getDecl().checkIR(ConstraintEntity.class);
+			Entity aReturn = (Entity)aReturnAST.getDecl().checkIR(Entity.class);
 			
 			// actual return-parameter
 			ma.addReturn(aReturn);

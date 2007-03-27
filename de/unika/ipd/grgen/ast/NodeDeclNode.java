@@ -41,7 +41,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 	
 	private static final Resolver typeResolver =
-		new DeclTypeResolver(NodeTypeNode.class);
+		new DeclResolver(new Class[] { NodeDeclNode.class, TypeDeclNode.class });
+	
+	private static final Checker typeChecker =
+		new TypeChecker(NodeTypeNode.class);
 	
 	/**
 	 * Make a new node declaration.
@@ -52,15 +55,21 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		super(id, type, constr);
 		addResolver(TYPE, typeResolver);
 	}
+
+	public NodeDeclNode(IdentNode id, BaseNode type) {
+		this(id, type, TypeExprNode.getEmpty());
+	}
 	
 	/**
 	 * The node node is ok if the decl check succeeds and
-	 * the second child is a node type node.
+	 * the second child is a node type node or a node declaration
+	 * in case the type is dynamically inherited.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return super.check()
-			&& checkChild(TYPE, NodeTypeNode.class);
+		return checkChild(IDENT, IdentNode.class)
+			&& checkChild(CONSTRAINTS, TypeExprNode.class)
+			&& checkChild(TYPE, typeChecker);
 	}
 	
 	/**
@@ -79,6 +88,18 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 	
 	/**
+	 * The TYPE child could be a node in case the type is
+	 * inherited dynamically via the typeof operator
+	 */
+	public BaseNode getDeclType() {
+		return ((DeclNode)getChild(TYPE)).getDeclType();
+	}
+	
+	protected boolean inheritsType() {
+		return (getChild(TYPE) instanceof NodeDeclNode);
+	}
+	
+	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
@@ -88,11 +109,14 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		IdentNode ident = getIdentNode();
 		
 		Node res = new Node(ident.getIdent(), nt, ident.getAttributes());
-		
 		res.setConstraints(getConstraints());
 		
-		if( res.getConstraints().contains(res.getInheritanceType()) )
-			error.error(getCoords(), "self NodeType may not be contained in TypeCondition of Node ("+ res.getInheritanceType() + ")");
+		if( res.getConstraints().contains(res.getType()) )
+			error.error(getCoords(), "self NodeType may not be contained in TypeCondition of Node ("+ res.getType() + ")");
+		
+		if(inheritsType()) {
+			res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));
+		}
 		
 		return res;
 	}

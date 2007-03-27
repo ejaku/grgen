@@ -75,5 +75,10 @@ public class TypeConstNode extends ConstNode
 	{
 		return BasicTypeNode.typeType;
 	}
+
+	@Override
+	public Object getValue() {
+		return id.getDecl().getDeclType();
+	}
 	
 }

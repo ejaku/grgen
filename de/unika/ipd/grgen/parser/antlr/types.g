@@ -71,7 +71,6 @@ text returns [ BaseNode model = env.initNode() ]
   }
   ;
   	
-  	
 typeDecls [ BaseNode n ]
   { BaseNode d; }
   : (d=typeDecl { n.addChild(d); } )*

@@ -32,6 +32,8 @@ import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import antlr.TokenStreamException;
+
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
@@ -139,20 +141,6 @@ public abstract class ParserEnvironment extends Base {
 		return res;
 	}
 
-	public FileInputStream openModel(String modelName) {
-		File modelFile = findModel(modelName);
-		FileInputStream res = null;
-		
-		try {
-			res = new FileInputStream(modelFile);
-		} catch(FileNotFoundException e) {
-			system.getErrorReporter().error("Cannot load graph model: " + modelName);
-			System.exit(1);
-		}
-		
-		return res;
-	}
-	
 	/**
 	 * Predefine an identifier.
 	 * @param symTab The symbol table to enter the identifier in.
@@ -263,7 +251,11 @@ public abstract class ParserEnvironment extends Base {
 		return IdentNode.getInvalid();
 	}
 	
-	public abstract BaseNode parse(File inputFile);
+	public abstract BaseNode parseActions(File inputFile);
+	public abstract BaseNode parseModel(File inputFile);
+	public abstract void pushFile(File inputFile) throws TokenStreamException;
+	public abstract void popFile() throws TokenStreamException;
+	public abstract String getFilename();
 	
 	public abstract boolean hadError();
 }

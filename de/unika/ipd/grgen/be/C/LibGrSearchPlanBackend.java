@@ -609,7 +609,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 		Collection<IR> nodeVisited = new HashSet<IR>();
 		Collection<IR> nodeNotVisited = new HashSet<IR>();
 		Collection<IR> edgeVisited = new HashSet<IR>();
-		Collection<ConstraintEntity> currentSubgraph;
+		Collection<Entity> currentSubgraph;
 		Collection currentSubgraphNodes;
 		Collection subgraphs = new LinkedList();
 		
@@ -649,7 +649,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 					}
 				}
 				
-				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph = new HashSet<Entity>();
 				currentSubgraph.add(max_prio_node);
 				
 				nodeVisited.add(max_prio_node);
@@ -703,7 +703,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 					}
 				}
 				
-				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph = new HashSet<Entity>();
 				currentSubgraph.add(max_prio_node);
 				
 				nodeVisited.add(max_prio_node);
@@ -892,7 +892,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 */
 	private void __deep_first_matcher_op_gen(
 		Collection<IR> nodeVisited, Collection<IR> edgeVisited,
-		Collection<ConstraintEntity> currentSubgraph,
+		Collection<Entity> currentSubgraph,
 		Collection<Expression> alreadyCheckedConds,
 		Collection<Collection> alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
@@ -993,7 +993,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 					   int pattern_num,
 					   final PatternGraph pattern,
 					   Collection<IR> nodeVisited, Collection<IR> edgeVisited,
-					   Collection<ConstraintEntity> currentSubgraph,
+					   Collection<Entity> currentSubgraph,
 					   Collection<Expression> alreadyCheckedConds,
 					   Collection<Collection> alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb) {
@@ -1115,7 +1115,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * @param    sb                  a  StringBuffer
 	 *
 	 */
-	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<ConstraintEntity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection> alreadyCheckedTypeConds, StringBuffer sb) {
+	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<Entity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection> alreadyCheckedTypeConds, StringBuffer sb) {
 		int act_id = actionMap.get(action).intValue();
 		
 		//compute the set of conditions evaluatable in the current op
@@ -1312,8 +1312,8 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						
 						sb.append(
@@ -1368,8 +1368,8 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				
 				Integer node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						pattern_or_repl = "old_replacement";
 					}
@@ -1456,8 +1456,8 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				
 				Integer node_num = (Integer) replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						pattern_or_repl = "old_replacement";
 					}
@@ -2127,8 +2127,8 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 				Integer attr_id = nodeAttrMap.get(attr);
 				
 				Integer node_num;
-				if(node.isRetypedNode()) {
-					Node old_node = node.getOldNode();
+				if(node.isRetyped()) {
+					Node old_node = ((RetypedNode)node).getOldNode();
 					node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
 					
 					sb.append(
@@ -2222,8 +2222,8 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 			Integer attr_id = nodeAttrMap.get(attr);
 			
 			Integer node_num;
-			if(node.isRetypedNode()) {
-				Node old_node = node.getOldNode();
+			if(node.isRetyped()) {
+				Node old_node = ((RetypedNode)node).getOldNode();
 				node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
 				
 				sb.append(

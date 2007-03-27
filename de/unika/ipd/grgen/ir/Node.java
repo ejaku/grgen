@@ -24,117 +24,64 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.EmptyAttributes;
 
 /**
  * A node in a graph.
  */
-public class Node extends ConstraintEntity {
-	
-	/** The retyped node with the type the node will have after a rule has been applied. */
-	private Node retypedNode;
-	
-	/**  The original node if this is a retyped Node */
-	private Node oldNode;
-	
+public class Node extends GraphEntity {
+
+	/** Type of the node. */
+	protected final NodeType type;
+		
 	/**
 	 * Make a new node.
-	 * @param ident The identifier that declared the node.
-	 * @param type The node type of the node.
-	 */
-	//  public Node(Ident ident, NodeType type) {
-//		this(ident, type, EmptyAttributes.get());
-	//  }
-	
-	/**
-	 * Make a new node.
-	 * @param ident The identifier that declared the node.
-	 * @param type The node type of the node.
-	 * @param attr Some attributes.
+	 * @param ident The identifier for the node.
+	 * @param type The type of the node.
 	 */
 	public Node(Ident ident, NodeType type, Attributes attr) {
 		super("node", ident, type, attr);
-		this.retypedNode = null;
-		this.oldNode = null;
+		this.type = type;
 	}
-	
+
+	/**
+	 * Make a new node.
+	 * @param ident The identifier for the node.
+	 * @param type The type of the node.
+	 */
+	public Node(Ident ident, NodeType type) {
+		this(ident, type, EmptyAttributes.get());
+	}
 	
 	/**
 	 * Get the type of the node.
 	 * @return The type of the node.
 	 */
 	public NodeType getNodeType() {
-		assert getType() instanceof NodeType : "type of node must be NodeType";
-		return (NodeType) getType();
+		return type;
 	}
-	
+
 	/**
-	 * If the node changes its type then this will
-	 * return the virtual retyped node.
-	 *
-	 * @return The retyped node
+	 * Get the node from which this node inherits its dynamic type
 	 */
-	public Node getRetypedNode() {
-		return retypedNode;
+	public Node getTypeof() {
+		return (Node)typeof;
 	}
-	
+
 	/**
-	 * Get the type of the node after a rule has finished.
-	 * @return The post rule type of the node.
-	 */
-	public NodeType getReplaceType() {
-		if(typeChanges()) {
-			return retypedNode.getNodeType();
-		} else {
-			return getNodeType();
-		}
-	}
-	
-	/**
-	 * Set the type that will become the new type of the node
-	 * after a rule has been applied.
-	 * @param retyped The retyped node with new type of the node.
+	 * Sets the corresponding retyped version of this node
+	 * @param retyped The retyped node
 	 */
 	public void setRetypedNode(Node retyped) {
-		retypedNode = retyped;
+		this.retyped = retyped;
 	}
 	
 	/**
-	 * Check, if the type of this node changes in a rule.
-	 * @return true, if the type changes, false, if not.
+	 * Returns the corresponding retyped version of this node
+	 * @return The retyped version or <code>null</code>
 	 */
-	public boolean typeChanges() {
-		return (retypedNode!=null);
-	}
-	
-	/**
-	 * If this is a retyped node then this will return
-	 * the original node in the graph.
-	 *
-	 * @return The retyped node
-	 */
-	public Node getOldNode() {
-		return oldNode;
-	}
-	
-	/**
-	 * Set the original node in the graph if this one
-	 * is a retyped one.
-	 * @param old The new type of the node.
-	 */
-	public void setOldNode(Node old) {
-		oldNode = old;
-	}
-	
-	/**
-	 * Check, whether this is a retyped ode.
-	 * @return true, if this is a retyped node
-	 */
-	public boolean isRetypedNode() {
-		return (oldNode!=null);
+	public RetypedNode getRetypedNode() {
+		return (RetypedNode)this.retyped;
 	}
 }

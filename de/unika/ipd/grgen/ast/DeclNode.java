@@ -118,7 +118,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
    */
   protected boolean check() {
   	return checkChild(IDENT, IdentNode.class)
-  	  && checkChild(TYPE, TypeNode.class);
+  		&& checkChild(TYPE, TypeNode.class);
   }
   
   /**
@@ -134,8 +134,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
   
   protected IR constructIR() {
   	Type type = (Type) getDeclType().checkIR(Type.class);
-  	return new Entity(getIdentNode().getIdent(), type,
-											getIdentNode().getAttributes());
+  	return new Entity("entity", getIdentNode().getIdent(), type);
   }
 
 }

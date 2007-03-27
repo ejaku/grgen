@@ -80,7 +80,7 @@ public class ErrorReporter extends Reporter {
 	 * @param msg The warning message.
 	 */
 	public void warning(Location loc, String msg) {
-		report(WARNING, getMsg(WARNING, msg));
+		report(WARNING, loc, getMsg(WARNING, msg));
 		++warnCount;
 	}
 	

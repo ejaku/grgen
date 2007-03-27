@@ -100,7 +100,8 @@ public class EnumItemNode extends MemberDeclNode {
   		
   	
   	ExprNode value = (ExprNode) getChild(VALUE);
-  	if(!value.isConstant()) {
+	
+  	if(!value.isConst()) {
   		reportError("Initialization of enum item is not constant");
   		return false;
   	}
@@ -118,7 +119,8 @@ public class EnumItemNode extends MemberDeclNode {
   
   protected ConstNode getValue() {
   	ExprNode expr = (ExprNode) getChild(VALUE);
-  	ConstNode res = expr.evaluate().castTo(BasicTypeNode.intType);
+  	// TODO are we allowed to cast to a ConstNode here???
+  	ConstNode res = expr.getConst().castTo(BasicTypeNode.intType);
   	debug.report(NOTE, "type: " + res.getType());
   	int v = ((Integer) res.getValue()).intValue();
   	debug.report(NOTE, "result: " + res);

@@ -28,7 +28,6 @@ import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import java.util.Collection;
 

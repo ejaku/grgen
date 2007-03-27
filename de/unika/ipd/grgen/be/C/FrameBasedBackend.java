@@ -555,7 +555,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 		Collection<IR> nodeVisited = new HashSet<IR>();
 		Collection<IR> nodeNotVisited = new HashSet<IR>();
 		Collection<IR> edgeVisited = new HashSet<IR>();
-		Collection<ConstraintEntity> currentSubgraph;
+		Collection<Entity> currentSubgraph;
 		Collection currentSubgraphNodes;
 		Collection subgraphs = new LinkedList();
 		
@@ -595,7 +595,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					}
 				}
 				
-				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph = new HashSet<Entity>();
 				currentSubgraph.add(max_prio_node);
 				
 				nodeVisited.add(max_prio_node);
@@ -649,7 +649,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					}
 				}
 				
-				currentSubgraph = new HashSet<ConstraintEntity>();
+				currentSubgraph = new HashSet<Entity>();
 				currentSubgraph.add(max_prio_node);
 				
 				nodeVisited.add(max_prio_node);
@@ -838,7 +838,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 */
 	private void __deep_first_matcher_op_gen(
 		Collection<IR> nodeVisited, Collection<IR> edgeVisited,
-		Collection<ConstraintEntity> currentSubgraph,
+		Collection<Entity> currentSubgraph,
 		Collection<Expression> alreadyCheckedConds,
 		Collection<Collection> alreadyCheckedTypeConds,
 		final Node node, MatchingAction action,
@@ -939,7 +939,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					   int pattern_num,
 					   final PatternGraph pattern,
 					   Collection<IR> nodeVisited, Collection<IR> edgeVisited,
-					   Collection<ConstraintEntity> currentSubgraph,
+					   Collection<Entity> currentSubgraph,
 					   Collection<Expression> alreadyCheckedConds,
 					   Collection<Collection> alreadyCheckedTypeConds,
 					   int op_counter, StringBuffer sb) {
@@ -1054,14 +1054,14 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	 * @param    pattern             a  PatternGraph
 	 * @param    nodeVisited         a  Collection<IR>
 	 * @param    edgeVisited         a  Collection<IR>
-	 * @param    currentSubgraph     a  Collection<ConstraintEntity>
+	 * @param    currentSubgraph     a  Collection<Entity>
 	 * @param    alreadyCheckedConds a  Collection<Expression>
 	 * @param    alreadyCheckedTypeCondsa  Collection<Collection>
 	 * @param    op_counter          an int
 	 * @param    sb                  a  StringBuffer
 	 *
 	 */
-	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<ConstraintEntity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection> alreadyCheckedTypeConds, StringBuffer sb) {
+	private int genConditionOps(Node node, Edge edge, MatchingAction action, int pattern_num, PatternGraph pattern, Collection<IR> nodeVisited, Collection<IR> edgeVisited, Collection<Entity> currentSubgraph, Collection<Expression> alreadyCheckedConds, Collection<Collection> alreadyCheckedTypeConds, StringBuffer sb) {
 		int act_id = actionMap.get(action).intValue();
 		
 		//compute the set of conditions evaluatable in the current op
@@ -1258,8 +1258,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						
 						sb.append(
@@ -1314,8 +1314,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				Integer node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						pattern_or_repl = "old_replacement";
 					}
@@ -1398,8 +1398,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				Integer node_num = (Integer) replacement_node_num[ act_id.intValue() ].get(current_node);
 				if( node_num == null ) {
-					if(current_node.isRetypedNode()) {
-						Node old_node = current_node.getOldNode();
+					if(current_node.isRetyped()) {
+						Node old_node = ((RetypedNode)current_node).getOldNode();
 						node_num = (Integer)replacement_node_num[ act_id.intValue() ].get(old_node);
 						pattern_or_repl = "old_replacement";
 					}
@@ -1848,8 +1848,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				Integer attr_id = nodeAttrMap.get(attr);
 				
 				Integer node_num;
-				if(node.isRetypedNode()) {
-					Node old_node = node.getOldNode();
+				if(node.isRetyped()) {
+					Node old_node = ((RetypedNode)node).getOldNode();
 					node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
 					
 					sb.append(
@@ -2077,8 +2077,8 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 			Integer attr_id = nodeAttrMap.get(attr);
 			
 			Integer node_num;
-			if(node.isRetypedNode()) {
-				Node old_node = node.getOldNode();
+			if(node.isRetyped()) {
+				Node old_node = ((RetypedNode)node).getOldNode();
 				node_num = (Integer)replacement_node_num[ act_id ].get( old_node );
 				
 				sb.append(

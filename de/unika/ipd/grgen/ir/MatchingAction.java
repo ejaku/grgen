@@ -111,7 +111,7 @@ public abstract class MatchingAction extends Action {
 	 * Add a return-value (named node or edge) to the graph.
 	 * @param expr The parameter.
 	 */
-	public void addReturn(ConstraintEntity id) {
+	public void addReturn(Entity id) {
 		returns.add(id);
 	}
 	
@@ -120,23 +120,6 @@ public abstract class MatchingAction extends Action {
 	 */
 	public List<Entity> getReturns() {
 		return Collections.unmodifiableList(returns);
-	}
-	
-	
-	/**
-	 * Anonymous edges that connect the same nodes on both sides of rule
-	 * shall also become the same Edge node. This not the case when
-	 * the Rule is constructed, since the equality of edges is established
-	 * by the coincidence of their identifiers. Anonymous edges have no
-	 * identifiers, so they have to be coalesced right now, when both
-	 * sides of the rule are known and set up.
-	 */
-	public void coalesceAnonymousEdges() {
-		for(Edge e : pattern.getEdges()) {
-			if (e.isAnonymous())
-				for(Graph g : getAdditionalGraphs())
-					g.replaceSimilarEdges(pattern, e);
-		}
 	}
 	
 	/**

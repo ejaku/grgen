@@ -39,7 +39,7 @@ public class CastNode extends ExprNode {
 	/** The type child index. */
 	private final static int TYPE = 0;
 
-	/** The expression child index. */	
+	/** The expression child index. */
 	private final static int EXPR = 1;
 
 	/** The resolver for the type */
@@ -69,7 +69,7 @@ public class CastNode extends ExprNode {
   
   /**
    * @see de.unika.ipd.grgen.ast.BaseNode#check()
-   * A cast node is valid, if the second child is an expression node 
+   * A cast node is valid, if the second child is an expression node
    * and the first node is a type node identifier.
    */
   protected boolean check() {
@@ -95,17 +95,19 @@ public class CastNode extends ExprNode {
 		return result;
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#eval()
-   */
-  protected ConstNode eval() {
-  	ExprNode expr = (ExprNode) getChild(EXPR);
-  	TypeNode type = (TypeNode) getChild(TYPE);
-  	TypeNode argType = expr.getType();
-		ConstNode arg = expr.evaluate();
-
-		return arg.castTo(type);		
-  }
+	/**
+	 * This method is only called, if the expression is constant, so you don't
+	 * have to check for it.
+	 * @return The value of the expression.
+	 */
+	public ExprNode evaluate()
+	{
+	  	ExprNode expr = (ExprNode) getChild(EXPR);
+	  	TypeNode type = (TypeNode) getChild(TYPE);
+		
+		if(expr.isConst()) return expr.getConst().castTo(type);
+		else return this;
+	}
 
   /**
    * @see de.unika.ipd.grgen.ast.ExprNode#getType()
@@ -113,14 +115,6 @@ public class CastNode extends ExprNode {
   public TypeNode getType() {
   	TypeNode type = (TypeNode) getChild(TYPE);
   	return type;
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
-   */
-  public boolean isConstant() {
-    ExprNode expr = (ExprNode) getChild(EXPR);
-    return expr.isConstant();
   }
 
 }

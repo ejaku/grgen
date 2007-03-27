@@ -78,23 +78,16 @@ text returns [ BaseNode main = env.initNode() ]
   	  modelChilds.addChild(env.getStdModel());
   	  
   	  for(Iterator it = modelList.iterator(); it.hasNext();) {
-  	    String modelFile = (String) it.next();
+  	    String modelName = (String) it.next();
+  	    File modelFile = env.findModel(modelName);
   	  
-  	    FileInputStream modelStream = env.openModel(modelFile);
-  	    GRLexer lexer = new GRLexer(modelStream);
-  	    GRTypeParser parser = new GRTypeParser(lexer);
-  	    parser.setEnv(env);
-  	    parser.setFilename(modelFile);
-
-  	    BaseNode model = parser.text();
+  	    BaseNode model = env.parseModel(modelFile);
   	    modelChilds.addChild(model);
-  	    if(parser.hadError)
-  	      hadError = true;
   	  }
 
   	} actions=actionDecls EOF {
 
-    	mainChilds.addChildren(actions);
+      mainChilds.addChildren(actions);
   	  main = new UnitNode(id, getFilename());
   	  main.addChild(modelChilds);
   	  main.addChild(mainChilds);
@@ -259,9 +252,10 @@ patternStmt [ Coords coords, BaseNode connCollect, BaseNode condCollect,
 
 patternConnections [ Coords coords, BaseNode connColl ]
   { BaseNode n; }
-  : n=patternNodeOcc [ coords ] (patternContinuation[n,connColl] | {
+  : n=patternNodeOcc (patternContinuation[n,connColl] | {
   	connColl.addChild(new SingleNodeConnNode(n));
   })
+  | n=anonPatternNode[coords] patternContinuation[n,connColl]
   ;
 
 /**
@@ -298,10 +292,10 @@ patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNo
   {
   	BaseNode e;
   }
-	:	e=patternEdgeOcc res=patternNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
+	:	e=patternEdgeOcc res=patternAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 			coll.addChild(new ConnectionNode(left, e, res));
 	  }
-	|	e=patternReversedEdge res=patternNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
+	|	e=patternReversedEdge res=patternAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 		  coll.addChild(new ConnectionNode(res, e, left));
 	  }
  	;
@@ -310,18 +304,33 @@ patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNo
  * The occurrence of a node in a pattern part is the usage of an
  * identifier (must be a declared node) or a pattern node declaration
  */
-patternNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+patternNodeOcc returns [ BaseNode res = env.initNode() ]
+  : res=entIdentUse
+  | res=patternNodeDecl
+  ;
+
+/**
+ * A potentially anonymous node occurence
+ */ 
+patternAnonNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ] 
+  : res=patternNodeOcc
+  | res=anonPatternNode[coords]
+  ;
+  
+/**
+  * An anonymous Node
+  */
+anonPatternNode [ Coords coords ] returns  [ BaseNode res = env.initNode() ] 
   {
   	BaseNode type = env.getNodeRoot();
 	BaseNode constr = TypeExprNode.getEmpty();
   }
-  : res=entIdentUse
-  | res=patternNodeDecl
-  | (COLON type=typeIdentUse (constr=typeConstraint)?)? {
+  : (COLON type=typeIdentUse (constr=typeConstraint)?)? {
 		IdentNode id = env.defineAnonymousEntity("node", coords);
-		res = new AnonymousNodeDeclNode(id, type, constr);
+		res = new NodeDeclNode(id, type, constr);
 	}
-  ;
+  ; 
+  	
 
 patternReversedEdge returns [ BaseNode res = env.initNode() ]
   {
@@ -332,7 +341,7 @@ patternReversedEdge returns [ BaseNode res = env.initNode() ]
   | LARROW res=entIdentUse MINUS
   | LARROW (COLON type=typeIdentUse (constr=typeConstraint)?)? m:MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type, constr);
+		res = new EdgeDeclNode(id, type, constr);
     }
   ;
 
@@ -345,7 +354,7 @@ patternEdgeOcc returns [ BaseNode res = env.initNode() ]
   | MINUS res=entIdentUse RARROW
   | MINUS (COLON type=typeIdentUse (constr=typeConstraint)?)? m:RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type, constr);
+		res = new EdgeDeclNode(id, type, constr);
   }
   ;
 
@@ -394,14 +403,14 @@ modifyStmt [ Coords coords, CollectNode connections, CollectNode returnz, Collec
     | evalPart[eval]
 	;
 
-
 replaceConnections [ Coords coords, BaseNode connColl ]
 	{ BaseNode n; }
-	: n=replaceNodeOcc [coords] (replaceContinuation[n, connColl] | {
+	: n=replaceNodeOcc (replaceContinuation[n, connColl] | {
 		connColl.addChild(new SingleNodeConnNode(n));
   	})
+  	| n=anonReplaceNode[coords] replaceContinuation[n,connColl]
   ;
-
+  
 /**
  * Acontinuation is a list of edge node pairs or a list of these pair lists, comma
  * seperated and delimited by parantheses.
@@ -420,10 +429,10 @@ replaceContinuation [ BaseNode left, BaseNode collect ]
  */
 replacePair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNode() ]
 	{ BaseNode e; }
-	: e=replaceEdgeOcc res=replaceNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
+	: e=replaceEdgeOcc res=replaceAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
 		coll.addChild(new ConnectionNode(left, e, res));
   	}
-	| e=replaceReversedEdge res=replaceNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
+	| e=replaceReversedEdge res=replaceAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
   		coll.addChild(new ConnectionNode(res, e, left));
     };
 
@@ -433,7 +442,7 @@ replaceEdgeOcc returns [ BaseNode res = env.initNode() ]
 	| MINUS res=entIdentUse RARROW
 	| m:MINUS (COLON type=typeIdentUse)? RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type);
+		res = new EdgeDeclNode(id, type);
 	}
 	;
 
@@ -443,7 +452,7 @@ replaceReversedEdge returns [ BaseNode res = env.initNode() ]
 	| LARROW res=entIdentUse MINUS
 	| m:LARROW(COLON type=typeIdentUse)? MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new AnonymousEdgeDeclNode(id, type);
+		res = new EdgeDeclNode(id, type);
 	}
 	;
 
@@ -468,15 +477,25 @@ deleteStmt[CollectNode res]
  * A node occurrence is either the declaration of a new node, a usage of
  * a already declared node or a usage combined with a type change.
  */
-replaceNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
-  { BaseNode type = env.getNodeRoot(); }
+replaceNodeOcc returns [ BaseNode res = env.initNode() ]
   : res=entIdentUse
   | res=replaceNodeDecl
-  | (COLON type=typeIdentUse)? {
+  ;
+
+replaceAnonNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+  { BaseNode type = env.getNodeRoot(); }
+  : res=replaceNodeOcc
+  | res=anonReplaceNode[coords]
+  ;
+
+anonReplaceNode [ Coords coords ] returns [ BaseNode res = env.initNode() ]
+  { BaseNode type = env.getNodeRoot(); }
+  : (COLON type=typeIdentUse)? {
 	IdentNode id = env.defineAnonymousEntity("node", coords);
-	res = new AnonymousNodeDeclNode(id, type);
+	res = new NodeDeclNode(id, type);
   }
   ;
+
 
 /**
  * The declaration of replacement node(s)
@@ -494,7 +513,7 @@ replaceNodeDecl returns [ BaseNode res = env.initNode() ]
 		BaseNode type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-  : id=entIdentDecl COLON type=typeIdentUse (LT oldid=entIdentUse GT)? {
+  : id=entIdentDecl COLON ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN ) (LT oldid=entIdentUse GT)? {
        if(oldid==null) {
            res = new NodeDeclNode(id, type, constr);
        } else {
@@ -507,7 +526,7 @@ replaceNodeDecl returns [ BaseNode res = env.initNode() ]
  * The declaration of node(s)
  * It can look like
  *
- * a:X \ (Z+Y)
+ * a:X \ (Z+Y) [prio=1]
  *
  * In the second case, always the first node is returned.
  */
@@ -516,18 +535,22 @@ patternNodeDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id,type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-  : id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
+    : id=entIdentDecl COLON ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN ) (constr=typeConstraint)? {
         res = new NodeDeclNode(id, type, constr);
 	}
 	;
 	
 replaceEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
-		IdentNode id, type;
+		IdentNode id, type, oldid=null;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	: id=entIdentDecl COLON type=typeIdentUse {
-		res = new EdgeDeclNode(id, type, constr);
+    : id=entIdentDecl COLON ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN ) (LT oldid=entIdentUse GT)? {
+       if(oldid==null) {
+           res = new EdgeDeclNode(id, type, constr);
+       } else {
+           res = new EdgeTypeChangeNode(id, type, oldid);
+       }
 	}
 	;
 
@@ -536,7 +559,7 @@ patternEdgeDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id, type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	: id=entIdentDecl COLON type=typeIdentUse (constr=typeConstraint)? {
+	: id=entIdentDecl COLON ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN ) (constr=typeConstraint)? {
 		res = new EdgeDeclNode(id, type, constr);
 	}
 	;

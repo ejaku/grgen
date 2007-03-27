@@ -602,22 +602,14 @@ public class InformationCollector extends CBackend {
 			int act_id = actionMap.get(action).intValue();
 			
 			if (action instanceof Rule) {
-				//compute the set of replacement nodes preserved by this action
-				Collection<IR> replacement_nodes_preserved = new HashSet<IR>();
-				replacement_nodes_preserved.addAll(
-													  ((Rule) action).getRight().getNodes() );
-				replacement_nodes_preserved.retainAll(action.getPattern().getNodes());
-				//for all those preserved replacement nodes store the
-				//corresponding pattern node
-				Iterator<IR> preserved_node_it =
-					replacement_nodes_preserved.iterator();
-				for ( ; preserved_node_it.hasNext() ; ) {
-					Node node = (Node) preserved_node_it.next();
+				for ( Node node : ((Rule) action).getRight().getNodes() ) {
+					if(!node.changesType()) continue;
+					
 					int node_num =
 						((Integer) replacement_node_num[act_id].get(node)).intValue();
 					
-					Type old_type = node.getNodeType();
-					Type new_type = node.getReplaceType();
+					NodeType old_type = node.getNodeType();
+					NodeType new_type = node.getRetypedNode().getNodeType();
 					
 					if ( ! nodeTypeMap.get(old_type).equals(nodeTypeMap.get(new_type)) )
 						replacementNodeChangesTypeTo[act_id][node_num] =
