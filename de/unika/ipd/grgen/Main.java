@@ -305,7 +305,7 @@ public class Main extends Base implements Sys {
 			if(dumpOutputToFile!=null)
 			{
 				try {
-					PrintStream dumpOutputStream = new PrintStream(new File(dumpOutputToFile));
+					PrintStream dumpOutputStream = new PrintStream(new FileOutputStream(dumpOutputToFile));
 					System.setErr(dumpOutputStream);
 					System.setOut(dumpOutputStream);
 				} catch (FileNotFoundException e) {
@@ -373,7 +373,7 @@ public class Main extends Base implements Sys {
 		boolean res = false;
 		
 		GRParserEnvironment env = new GRParserEnvironment(this);
-		root = env.parse(inputFile);
+		root = env.parseActions(inputFile);
 		res = !env.hadError();
 		
 		debug.report(NOTE, "result: " + res);
