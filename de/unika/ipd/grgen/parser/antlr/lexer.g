@@ -83,6 +83,9 @@ tokens {
   MODIFY = "modify";
   DELETE = "delete";
   HOM = "hom";
+  NUM_INTEGER;
+  NUM_FLOAT;
+  NUM_DOUBLE;
 }
 
 {
@@ -178,9 +181,15 @@ ML_COMMENT
 		{ $setType(Token.SKIP); }
   ;
   
-NUM_DEC
-	: ('0'..'9')+
-	;
+NUMBER
+   : ('0'..'9')+
+   ( '.' ('0'..'9')*
+     (   ('f'|'F')    { $setType(NUM_FLOAT); }
+       | ('d'|'D')?   { $setType(NUM_DOUBLE); }
+     )
+   | { $setType(NUM_INTEGER); }
+   )
+   ;
 	
 NUM_HEX
 	: '0' 'x' ('0'..'9' | 'a' .. 'f' | 'A' .. 'F')+

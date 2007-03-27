@@ -451,7 +451,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private void genEvals(StringBuffer sb, Rule rule, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
-		boolean def_b = false, def_i = false, def_s = false;
+		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false;
 		for(Assignment ass : rule.getEvals()) {
 			String varName, varType;
 			Entity entity = ass.getTarget().getOwner();
@@ -466,6 +466,16 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					varName = "var_i";
 					varType = def_i?"":"int ";
 					def_i = true;
+					break;
+				case Type.IS_FLOAT:
+					varName = "var_f";
+					varType = def_f?"":"float ";
+					def_f = true;
+					break;
+				case Type.IS_DOUBLE:
+					varName = "var_d";
+					varType = def_d?"":"double ";
+					def_d = true;
 					break;
 				case Type.IS_STRING:
 					varName = "var_s";
@@ -1007,6 +1017,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			
 			if (t instanceof IntType)
 				sb.append("IntegerAttr, null");
+			else if (t instanceof FloatType)
+				sb.append("FloatAttr, null");
+			else if (t instanceof DoubleType)
+				sb.append("DoubleAttr, null");
 			else if (t instanceof BooleanType)
 				sb.append("BooleanAttr, null");
 			else if (t instanceof StringType)
@@ -1109,6 +1123,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 						sb.append("0"); /* false-value */
 					break;
 				case Type.IS_INTEGER: //emit C-code for integer constants
+				case Type.IS_FLOAT: //emit C-code for float constants
+				case Type.IS_DOUBLE: //emit C-code for double constants
 					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
 					break;
 				case Type.IS_TYPE: //emit code for type constants

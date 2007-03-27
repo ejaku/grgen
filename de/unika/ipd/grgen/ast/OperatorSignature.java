@@ -126,6 +126,12 @@ public class OperatorSignature extends FunctionSignature
 	/** Just a short form for the int type. */
 	static final TypeNode INT = BasicTypeNode.intType;
 	
+	/** Just a short form for the float type. */
+	static final TypeNode FLOAT = BasicTypeNode.floatType;
+
+	/** Just a short form for the float type. */
+	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
+
 	/** Just a short form for the type type. */
 	static final TypeNode TYPE = BasicTypeNode.typeType;
 	
@@ -406,6 +412,100 @@ public class OperatorSignature extends FunctionSignature
 		}
 	};
 	
+	private static final Evaluator floatEvaluator = new Evaluator()
+	{
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			
+			float a0, a1;
+			
+			try
+			{
+				a0 = (Float)getArgValue(e, op, 0);
+				a1 = (Float)getArgValue(e, op, 1);
+			}
+			catch (ValueException x)
+			{
+				throw new NotEvaluatableException(coords);
+			}
+			
+			switch(op.id)
+			{
+				case EQ:
+					return new BoolConstNode(coords, a0 == a1);
+				case NE:
+					return new BoolConstNode(coords, a0 != a1);
+				case LT:
+					return new BoolConstNode(coords, a0 < a1);
+				case LE:
+					return new BoolConstNode(coords, a0 <= a1);
+				case GT:
+					return new BoolConstNode(coords, a0 > a1);
+				case GE:
+					return new BoolConstNode(coords, a0 >= a1);
+				case ADD:
+					return new FloatConstNode(coords, a0 + a1);
+				case SUB:
+					return new FloatConstNode(coords, a0 - a1);
+				case MUL:
+					return new FloatConstNode(coords, a0 * a1);
+				case DIV:
+					return new FloatConstNode(coords, a0 / a1);
+				case MOD:
+					return new FloatConstNode(coords, a0 % a1);
+				default:
+					throw new NotEvaluatableException(coords);
+			}
+		}
+	};
+	
+	private static final Evaluator doubleEvaluator = new Evaluator()
+	{
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			
+			double a0, a1;
+			
+			try
+			{
+				a0 = (Double)getArgValue(e, op, 0);
+				a1 = (Double)getArgValue(e, op, 1);
+			}
+			catch (ValueException x)
+			{
+				throw new NotEvaluatableException(coords);
+			}
+			
+			switch(op.id)
+			{
+				case EQ:
+					return new BoolConstNode(coords, a0 == a1);
+				case NE:
+					return new BoolConstNode(coords, a0 != a1);
+				case LT:
+					return new BoolConstNode(coords, a0 < a1);
+				case LE:
+					return new BoolConstNode(coords, a0 <= a1);
+				case GT:
+					return new BoolConstNode(coords, a0 > a1);
+				case GE:
+					return new BoolConstNode(coords, a0 >= a1);
+				case ADD:
+					return new DoubleConstNode(coords, a0 + a1);
+				case SUB:
+					return new DoubleConstNode(coords, a0 - a1);
+				case MUL:
+					return new DoubleConstNode(coords, a0 * a1);
+				case DIV:
+					return new DoubleConstNode(coords, a0 / a1);
+				case MOD:
+					return new DoubleConstNode(coords, a0 % a1);
+				default:
+					throw new NotEvaluatableException(coords);
+			}
+		}
+	};
+	
 	private static final Evaluator typeEvaluator = new Evaluator()
 	{
 		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
@@ -544,6 +644,22 @@ public class OperatorSignature extends FunctionSignature
 		makeBinOp(LE, BOOLEAN, INT, INT, intEvaluator);
 		makeBinOp(LT, BOOLEAN, INT, INT, intEvaluator);
 		
+		// Float comparison
+		makeBinOp(EQ, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(NE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(GE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(GT, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(LE, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(LT, BOOLEAN, FLOAT, FLOAT, floatEvaluator);
+		
+		// Double comparison
+		makeBinOp(EQ, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(NE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(GE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(GT, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(LE, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(LT, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
+		
 		// Boolean operators
 		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
@@ -567,6 +683,20 @@ public class OperatorSignature extends FunctionSignature
 		makeUnOp(NEG, INT, INT, intEvaluator);
 		makeUnOp(BIT_NOT, INT, INT, intEvaluator);
 		
+		// Float arithmetic
+		makeBinOp(ADD, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(SUB, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(MUL, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(DIV, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		makeBinOp(MOD, FLOAT, FLOAT, FLOAT, floatEvaluator);
+		
+		// Double arithmetic
+		makeBinOp(ADD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(SUB, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(MUL, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(DIV, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+		makeBinOp(MOD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+
 		// "String arithmetic"
 		makeBinOp(ADD, STRING, STRING, STRING, stringEvaluator);
 		makeBinOp(ADD, STRING, STRING, INT, stringEvaluator);

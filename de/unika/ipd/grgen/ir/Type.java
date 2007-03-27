@@ -38,9 +38,11 @@ public abstract class Type extends Identifiable implements Comparable {
 
 	public static final int IS_UNKNOWN = 0;
 	public static final int IS_INTEGER = 1;
-	public static final int IS_BOOLEAN = 2;
-	public static final int IS_STRING  = 3;
-	public static final int IS_TYPE  = 4;
+	public static final int IS_FLOAT = 2;
+	public static final int IS_DOUBLE = 3;
+	public static final int IS_BOOLEAN = 4;
+	public static final int IS_STRING  = 5;
+	public static final int IS_TYPE  = 6;
 	
 	/** The identifier used to declare this type */
 	private Ident ident;

@@ -392,11 +392,17 @@ typeOf returns [ BaseNode res = env.initNode() ]
 	;
 
 constant returns [ BaseNode res = env.initNode() ]
-	: i:NUM_DEC {
+	: i:NUM_INTEGER {
 		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10));
 	}
 	| h:NUM_HEX {
 		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText(), 16));
+	}
+	| f:NUM_FLOAT {
+		res = new FloatConstNode(getCoords(f), Float.parseFloat(f.getText()));
+	}
+	| d:NUM_DOUBLE {
+		res = new DoubleConstNode(getCoords(d), Double.parseDouble(d.getText()));
 	}
 	| s:STRING_LITERAL {
 		String buff = s.getText();
@@ -407,8 +413,8 @@ constant returns [ BaseNode res = env.initNode() ]
 	| t:TRUE {
 		res = new BoolConstNode(getCoords(t), true);
 	}
-	| f:FALSE {
-		res = new BoolConstNode(getCoords(f), false);
+	| n:FALSE {
+		res = new BoolConstNode(getCoords(n), false);
 	}
 	;
 

@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.DoubleType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.PrimitiveType;
@@ -82,6 +84,23 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode intType = new BasicTypeNode() {
 		protected IR constructIR() {
 			return new IntType(getIdentNode().getIdent());
+		}
+	};
+	
+	/**
+	 * The double precision floating point basic type.
+	 */
+	public static final BasicTypeNode doubleType = new BasicTypeNode() {
+		protected IR constructIR() {
+			return new DoubleType(getIdentNode().getIdent());
+		}
+	};	
+	/**
+	 * The floating point basic type.
+	 */
+	public static final BasicTypeNode floatType = new BasicTypeNode() {
+		protected IR constructIR() {
+			return new FloatType(getIdentNode().getIdent());
 		}
 	};
 	
@@ -183,6 +202,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(booleanType.getClass(), "boolean type");
 		setName(stringType.getClass(), "string type");
 		setName(enumItemType.getClass(), "enum item type");
+		setName(floatType.getClass(), "float type");
+		setName(doubleType.getClass(), "double type");
 		setName(typeType.getClass(), "type type");
 		setName(voidType.getClass(), "void type");
 		setName(errorType.getClass(), "error type");
@@ -190,10 +211,18 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(enumItemType, intType);
 		addCompatibility(enumItemType, stringType);
 		addCompatibility(booleanType, intType);
+		addCompatibility(floatType, doubleType);
+		addCompatibility(intType, floatType);
+		addCompatibility(intType, doubleType);
 		addCastability(intType, stringType);
 		addCastability(booleanType, stringType);
+		addCastability(floatType, intType);
+		addCastability(doubleType, intType);
+		addCastability(doubleType, floatType);
 		
 		valueMap.put(intType, Integer.class);
+		valueMap.put(floatType, Float.class);
+		valueMap.put(doubleType, Double.class);
 		valueMap.put(booleanType, Boolean.class);
 		valueMap.put(stringType, String.class);
 		valueMap.put(enumItemType, Integer.class);
