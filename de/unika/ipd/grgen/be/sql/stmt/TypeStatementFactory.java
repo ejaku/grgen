@@ -29,7 +29,7 @@ package de.unika.ipd.grgen.be.sql.stmt;
 import de.unika.ipd.grgen.be.TypeID;
 import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
 import de.unika.ipd.grgen.be.sql.meta.Term;
-import de.unika.ipd.grgen.ir.ConstraintEntity;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.NodeType;
 
@@ -54,7 +54,7 @@ public interface TypeStatementFactory extends StatementFactory {
 	 */
 	Term isA(TypeIdTable table, EdgeType edge, TypeID typeID);
 
-	Term isA(TypeIdTable table, ConstraintEntity ent, boolean isNode, TypeID typeID);
+	Term isA(TypeIdTable table, GraphEntity ent, boolean isNode, TypeID typeID);
 	
 }
 	

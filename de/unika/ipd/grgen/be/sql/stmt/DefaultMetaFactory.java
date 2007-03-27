@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.be.sql.meta.*;
 
 
 import de.unika.ipd.grgen.be.TypeID;
-import de.unika.ipd.grgen.ir.ConstraintEntity;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Node;
@@ -217,7 +217,7 @@ public class DefaultMetaFactory implements MetaFactory {
 		return stmt.isA(table, edge, typeID);
 	}
 	
-	public Term isA(TypeIdTable table, ConstraintEntity ent, boolean isNode, TypeID typeID) {
+	public Term isA(TypeIdTable table, GraphEntity ent, boolean isNode, TypeID typeID) {
 		return stmt.isA(table, ent, isNode, typeID);
 	}
 	

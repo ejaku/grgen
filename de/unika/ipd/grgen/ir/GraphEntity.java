@@ -63,6 +63,15 @@ public abstract class GraphEntity extends Entity implements Attributed {
 		this.type = type;
 		this.attributes = attr;
 	}
+	
+	/**
+	 * Method getInheritanceType
+	 *
+	 * @return   an InheritanceType
+	 */
+	public InheritanceType getInheritanceType() {
+		return type;
+	}
 
 	/**
 	 * Sets the entity this one inherits its dynamic type from

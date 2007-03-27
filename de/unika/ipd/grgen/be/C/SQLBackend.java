@@ -458,12 +458,12 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			for(Iterator<Node> it = nodeTypeMap.keySet().iterator(); it.hasNext();) {
 				Node n = it.next();
 				Integer nid = match.nodeIndexMap.get(n);
-				int tid = getId(n.getReplaceType());
+				int tid = getId(n.getRetypedNode().getNodeType());
 				ps.print("  CHANGE_NODE_TYPE(GET_MATCH_NODE(" + nid + "), " + tid + ");");
 				ps.print("\t/* change type of ");
 				ps.print(n);
 				ps.print(" to ");
-				ps.print(n.getReplaceType().toString());
+				ps.print(n.getRetypedNode().getType().toString());
 				ps.print(" (");
 				ps.print(tid);
 				ps.print(") */\n");
@@ -552,8 +552,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 					ps.print("inserted_nodes[" + insertedNodesIndexMap.get(n) + "]");
 				}
 				else {
-					if(n.isRetypedNode())
-						n = n.getOldNode();
+					if(n instanceof RetypedNode)
+						n = ((RetypedNode)n).getOldNode();
 					
 					assert match.nodeIndexMap.containsKey(n);
 					
@@ -598,7 +598,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			
 			// add retyped nodes of R
 			for(Node n : rule.getRight().getNodes())
-				if(n.isRetypedNode()) {
+				if(n instanceof RetypedNode) {
 					insertedNodesIndexMap.put(n, new Integer(i++));
 				}
 			

@@ -31,7 +31,7 @@ import de.unika.ipd.grgen.util.*;
 import java.util.*;
 
 import de.unika.ipd.grgen.be.TypeID;
-import de.unika.ipd.grgen.ir.ConstraintEntity;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -335,7 +335,7 @@ public class DefaultStatementFactory extends Base
 		return makeCond(table, edgeType, false, typeID, Collections.EMPTY_SET);
 	}
 	
-	public Term isA(TypeIdTable table, ConstraintEntity ent,
+	public Term isA(TypeIdTable table, GraphEntity ent,
 									boolean isNode, TypeID typeID) {
 		
 		return makeCond(table, ent.getInheritanceType(), isNode,

@@ -101,8 +101,8 @@ public class SPORewriteGenerator implements RewriteGenerator {
 		// Change types of nodes.
 		for (Iterator<Node> it = ns.iterator(); it.hasNext();) {
 			Node n = (Node) it.next();
-			if (n.typeChanges()) {
-				nodeTypeChangeMap.put(n, n.getReplaceType());
+			if (n.changesType()) {
+				nodeTypeChangeMap.put(n, n.getRetypedNode().getType());
 			}
 		}
 		handler.changeNodeTypes(nodeTypeChangeMap);

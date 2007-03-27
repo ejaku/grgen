@@ -306,7 +306,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 			
 		}
 		
-		private boolean canDeliver(Entity ent, Collection<ConstraintEntity> processed) {
+		private boolean canDeliver(Entity ent, Collection<GraphEntity> processed) {
 			return usedEntities.contains(ent) && processed.containsAll(usedEntities);
 		}
 		
@@ -317,7 +317,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		 * @return A SQL term expressing the IR expression, if all entities referenced in
 		 * the expression are in the processed set.
 		 */
-		Term getCond(Entity ent, Collection<ConstraintEntity> processed) {
+		Term getCond(Entity ent, Collection<GraphEntity> processed) {
 			
 			
 			boolean res = canDeliver(ent, processed);
@@ -338,7 +338,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		final GraphTableFactory tableFactory;
 		
 		
-		final Collection<ConstraintEntity> processedAll = new HashSet<ConstraintEntity>();
+		final Collection<GraphEntity> processedAll = new HashSet<GraphEntity>();
 		final Collection<Node> processedNodes = new LinkedList<Node>();
 		final Collection<Edge> processedEdges = new LinkedList<Edge>();
 		
