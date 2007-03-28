@@ -1291,6 +1291,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			return "int";
 		else if (t instanceof BooleanType)
 			return "bool";
+		else if (t instanceof FloatType)
+			return "float";
+		else if (t instanceof DoubleType)
+			return "double";
 		else if (t instanceof StringType)
 			return "String";
 		else if (t instanceof EnumType)
@@ -1352,6 +1356,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 

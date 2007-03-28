@@ -97,6 +97,8 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("int");
 			symTabs[i].enterKeyword("string");
 			symTabs[i].enterKeyword("boolean");
+			symTabs[i].enterKeyword("float");
+			symTabs[i].enterKeyword("double");
 		}
 
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"));
@@ -118,6 +120,8 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
 		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
 		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
+		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
+		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 	}
 	
 	public ModelNode getStdModel() {
