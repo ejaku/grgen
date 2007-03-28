@@ -192,7 +192,7 @@ rangeSpec returns [ BaseNode res = env.initNode() ]
 	;
 	
 integerConst returns [ int value = 0 ]
-	: i:NUM_DEC {
+	: i:NUM_INTEGER {
 		value = Integer.parseInt(i.getText());
 	}
 	;

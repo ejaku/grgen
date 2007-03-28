@@ -252,10 +252,9 @@ patternStmt [ Coords coords, BaseNode connCollect, BaseNode condCollect,
 
 patternConnections [ Coords coords, BaseNode connColl ]
   { BaseNode n; }
-  : n=patternNodeOcc (patternContinuation[n,connColl] | {
+  : n=patternAnonNodeOcc[coords] (patternContinuation[n,connColl] | {
   	connColl.addChild(new SingleNodeConnNode(n));
   })
-  | n=anonPatternNode[coords] patternContinuation[n,connColl]
   ;
 
 /**
