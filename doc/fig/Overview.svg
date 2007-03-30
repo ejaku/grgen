@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg width="286mm" height="121mm" viewBox="0 0 28600 12100">
+ <g style="stroke:rgb(0,0,0);fill:none">
+  <polyline points="2761,8843 0,8843 0,6945 5522,6945 5522,8843 2761,8843" style="fill:none"/>
+ </g>
+ <g style="font-family:cmr10;font-size:564;font-weight:400">
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="1138" y="7784">Graph model
+   </text>
+   <text x="1843" y="8309">(*. gm)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="2766,11431 5,11431 5,9533 5527,9533 5527,11431 2766,11431" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="873" y="10350">Rewriting rules
+   </text>
+   <text x="1830" y="10875">(*. grg)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="9610,10166 6849,10166 6849,8268 12371,8268 12371,10166 9610,10166" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="7514" y="9107">GrGen generator
+   </text>
+   <text x="8196" y="9632">(Java, C#)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="18557,1494 15995,1494 15995,130 21119,130 21119,1494 18557,1494" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="16880" y="958">GrShell (C#)
+   </text>
+  </g>
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <polygon points="22599,0 27723,0 27723,1364 22599,1364 22599,0"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="25161,1364 22599,1364 22599,0 27723,0 27723,1364 25161,1364" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(255,255,255)">
+   <polygon points="22449,150 27573,150 27573,1514 22449,1514 22449,150"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="25011,1514 22449,1514 22449,150 27573,150 27573,1514 25011,1514" style="fill:none"/>
+  </g>
+ </g>
+ <g style="font-family:cmr10;font-size:564;font-weight:400">
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <text x="23469" y="984">Applications
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="21764,4140 19202,4140 19202,2776 24326,2776 24326,4140 21764,4140" style="fill:none"/>
+  </g>
+ </g>
+ <g style="font-family:cmr10;font-size:564;font-weight:400">
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="20267" y="3603">LibGr (C#)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="18737,8711 15935,8711 15935,7347 21540,7347 21540,8711 18737,8711" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="16378" y="8181">Graph model (C#)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="18737,11236 15895,11236 15895,9872 21580,9872 21580,11236 18737,11236" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="16113" y="10694">Rewriting rules (C#)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="25031,11236 22229,11236 22229,9433 27834,9433 27834,11236 25031,11236" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="22595" y="10218">Graph management
+   </text>
+   <text x="24384" y="10743">(C#)
+   </text>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="21770,12037 14944,12037 14944,6425 28596,6425 28596,12037 21770,12037" style="fill:none"/>
+  </g>
+ </g>
+ <g style="font-family:cmsl10;font-size:564;font-weight:400">
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="26220" y="7017">Backend
+   </text>
+  </g>
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <polygon points="6849,9217 6398,9067 6399,9367 6849,9217"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="5522,7894 6030,7894" style="fill:none"/>
+   <polyline points="6186,8246 6186,8754" style="fill:none"/>
+   <polyline points="6231,9217 6489,9217" style="fill:none"/>
+   <polyline points="5527,10482 6035,10482" style="fill:none"/>
+   <polyline points="6188,10127 6188,9619" style="fill:none"/>
+   <polyline points="6294,9217 6802,9217" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <polygon points="15935,8029 15484,7879 15485,8179 15935,8029"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="12371,9217 12419,9217" style="fill:none"/>
+   <polyline points="12419,9217 12419,8757" style="fill:none"/>
+   <polyline points="12419,8249 12419,8029" style="fill:none"/>
+   <polyline points="12419,8029 12707,8029" style="fill:none"/>
+   <polyline points="13215,8029 13723,8029" style="fill:none"/>
+   <polyline points="14231,8029 14739,8029" style="fill:none"/>
+   <polyline points="15247,8029 15575,8029" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <polygon points="15895,10554 15444,10404 15445,10704 15895,10554"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="12371,9217 12419,9217" style="fill:none"/>
+   <polyline points="12419,9217 12419,9677" style="fill:none"/>
+   <polyline points="12419,10185 12419,10554" style="fill:none"/>
+   <polyline points="12419,10554 12558,10554" style="fill:none"/>
+   <polyline points="13066,10554 13574,10554" style="fill:none"/>
+   <polyline points="14082,10554 14590,10554" style="fill:none"/>
+   <polyline points="15098,10554 15535,10554" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <polygon points="21764,2776 21913,2325 21613,2326 21764,2776"/>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="18557,1494 18557,2135 21764,2135 21764,2416" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <polygon points="21764,2776 21913,2325 21613,2326 21764,2776"/>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="25011,1514 25011,2145 21764,2145 21764,2416" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <polygon points="14944,9231 14493,9081 14494,9381 14944,9231"/>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="12371,9217 13658,9217 13658,9231 14584,9231" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <polygon points="21770,6425 21919,5974 21619,5975 21770,6425"/>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="21764,4140 21764,5283 21770,5283 21770,6065" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <polygon points="4762,2256 4311,2106 4312,2406 4762,2256"/>
+  </g>
+  <g style="stroke:rgb(0,0,0);fill:none">
+   <polyline points="2557,2256 4402,2256" style="fill:none"/>
+  </g>
+  <g style="stroke:none;fill:rgb(128,128,128)">
+   <polygon points="4723,3138 4272,2988 4273,3288 4723,3138"/>
+  </g>
+  <g style="stroke:rgb(128,128,128);fill:none">
+   <polyline points="2518,3138 3026,3138" style="fill:none"/>
+   <polyline points="3534,3138 4042,3138" style="fill:none"/>
+  </g>
+ </g>
+ <g style="font-family:cmr10;font-size:564;font-weight:400">
+  <g style="stroke:none;fill:rgb(0,0,0)">
+   <text x="5371" y="2466">Call
+   </text>
+   <text x="5371" y="3312">Generation
+   </text>
+  </g>
+ </g>
+</svg>

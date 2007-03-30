@@ -1,0 +1,19 @@
+#!/bin/bash
+
+rm *.aux *.toc *~ *.backup *.cut *.log *.out *.tpt *.nav *.snm *.rai *.rao 2>/dev/null
+
+for F in $@ ; do
+
+  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+  egrep '^Underfull|^Overfull' "$F".log || true
+  rail -h "$F" > /dev/null
+  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+  thumbpdf "$F".pdf > /dev/null
+  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+  mv "$F".pdf "$F".pdf.unopt
+  pdfopt "$F".pdf.unopt "$F".pdf
+  rm "$F".pdf.unopt
+  
+  acroread "$F".pdf
+
+done

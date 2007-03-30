@@ -1,0 +1,128 @@
+%\usepackage{ucs} veraltet?
+\usepackage[utf8]{inputenc}
+%\PrerenderUnicode{Ä}
+%\PrerenderUnicode{Ö}
+%\PrerenderUnicode{Ü}
+%\PrerenderUnicode{ä}
+%\PrerenderUnicode{ö}
+%\PrerenderUnicode{ü}
+%\PrerenderUnicode{ß}
+
+\usepackage{german}
+\usepackage[english, german]{babel}
+%\usepackage[T1]{fontenc} 
+\usepackage[left]{eurosym}
+\usepackage{tabularx}
+\newcolumntype{v}[1]{%
+  >{\raggedright\hspace{Opt}}p{#1}%
+}  
+
+
+%\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{bbm}
+\usepackage{leftidx}
+\usepackage{nicefrac}
+
+%\usepackage{pslatex}
+%\usepackage{pdftricks}
+%\begin{psinputs}
+%   \usepackage{color}
+%   \definecolor{light}{gray}{0.8}
+%   \usepackage[all, dvips]{xy}
+%\end{psinputs} 
+%\usepackage{setspace}
+%\usepackage{chngpage}
+\usepackage{thumbpdf}
+
+\usepackage[all]{xy}
+\usepackage{xcolor}
+\definecolor{light}{gray}{0.8}
+\definecolor{tuerkis}{cmyk}{0.5,0.15,0,0.3}
+\usepackage{graphicx}
+%\usepackage{pdfpages}
+%\usepackage{overpic}
+%\usepackage[absolute, overlay]{textpos}
+\usepackage{calc}
+
+%\usepackage{listings}
+%\lstset{language=C, numbers=left, numberstyle=\tiny, stepnumber=5}
+
+\providecommand{\O}[1]{\ensuremath{\mathcal{O}\left( #1 \right)}}
+
+\providecommand{\N}{\ensuremath{\mathbb{N}}}
+\providecommand{\Z}{\ensuremath{\mathbb{Z}}}
+\renewcommand{\P}{\ensuremath{\mathbb{P}}}
+\providecommand{\F}{\ensuremath{\mathbb{F}}}
+\providecommand{\Q}{\ensuremath{\mathbb{Q}}}
+\providecommand{\R}{\ensuremath{\mathbb{R}}}
+\providecommand{\C}{\ensuremath{\mathbb{C}}}
+
+\providecommand{\abs}[1]{\left\lvert #1 \right\rvert}
+\providecommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\providecommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\providecommand{\svert}{\; \vert \;}
+
+\DeclareMathOperator{\grad}{grad} % Gradient
+\DeclareMathOperator{\rot}{rot}   % Rotation
+\DeclareMathOperator{\Div}{div}   % Divergenz
+
+\DeclareMathOperator{\rg}{rg}     % Rang
+\DeclareMathOperator{\Grad}{Grad} % Grad (eines Polynoms)
+
+\DeclareMathOperator{\Abb}{Abb}   % Abbildungsmenge
+\DeclareMathOperator{\Sym}{Sym}   % Bijektionenmenge
+\DeclareMathOperator{\Hom}{Hom}   % Homomorphismenmenge
+\DeclareMathOperator{\End}{End}   % Endomorphismenmenge
+\DeclareMathOperator{\Aut}{Aut}   % Automorphismenmenge
+
+\providecommand{\id}{\ensuremath{\textsf{id}}}  % identische Abbildung
+\DeclareMathOperator{\Kern}{Kern}     % Kern
+\DeclareMathOperator{\Bild}{Bild}     % Bild
+
+\DeclareMathOperator{\ggT}{ggT}       % ggT
+\DeclareMathOperator{\kgV}{kgV}       % kgV
+
+\providecommand{\Bin}[2]{\ensuremath{\operatorname{Bin} \left( #1 , #2 \right)}}
+\providecommand{\Hyp}[2]{\ensuremath{\operatorname{Hyp} \left( #1 , #2 \right)}}
+
+\providecommand{\PeroW}[2]{\ensuremath{\text{Per}^{#1}_{#2}\text{(oW)}}}
+\providecommand{\PermW}[2]{\ensuremath{\text{Per}^{#1}_{#2}\text{(mW)}}}
+\providecommand{\KomoW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(oW)}}}
+\providecommand{\KommW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(mW)}}}
+
+%\usepackage[german, algoruled, linesnumbered, titlenumbered, vlined]{algorithm3e}
+%\SetKwInOut{Input}{Eingabe}
+%\SetKwInOut{Output}{Ausgabe}
+\usepackage{rail}
+\railalias{lbrace}{\{}
+\railalias{rbrace}{\}}
+\railalias{underscore}{\_}
+\railalias{dollar}{\$}
+\railalias{percent}{\%}
+\railalias{ampersand}{<>}
+\railalias{backslash}{\char"5C}
+\railalias{tilde}{$\sim$}
+\railalias{ampersand}{\&}
+\railalias{doubleampersand}{\&\&}
+
+\railalias{analyzegraph}{analyze\_graph}
+\railalias{gensearchplan}{gen\_searchplan}
+\railalias{setmaxmatches}{set\_max\_matches}
+
+\railterm{lbrace,rbrace,dollar,percent,ampersand,backslash,underscore,tilde,ampersand,analyzegraph, gensearchplan,setmaxmatches,doubleampersand}
+%\usepackage[noend]{algorithmic}
+%\floatname{algorithm}{Algorithmus}
+%\renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
+%\renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
+
+\usepackage{listings}
+\lstset{numbers=left, numberstyle=\tiny, breaklines=true}
+%\lstset{language=C, numbers=left, numberstyle=\tiny, stepnumber=5}
+
+
+
+%\newtheorem{Satz}{Satz}
