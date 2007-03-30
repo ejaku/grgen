@@ -14,6 +14,6 @@ for F in $@ ; do
   pdfopt "$F".pdf.unopt "$F".pdf
   rm "$F".pdf.unopt
   
-  acroread "$F".pdf
+  acroread "$F".pdf&
 
 done
