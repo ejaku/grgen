@@ -14,6 +14,10 @@ for F in $@ ; do
   pdfopt "$F".pdf.unopt "$F".pdf
   rm "$F".pdf.unopt
   
-  acroread "$F".pdf&
+  if [ $OSTYPE = darwin8.0 ] ; then
+    open "$F".pdf
+  else
+    acroread "$F".pdf&
+  fi
 
 done

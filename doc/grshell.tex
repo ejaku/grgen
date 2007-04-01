@@ -49,6 +49,8 @@ The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires 
 {\label{persistentex} \small \textbf{Example:} We insert a node, anonymously and with a constructor:
 \lstset{language=grshell}
 \begin{lstlisting}
+> select backend lgspBackend.dll
+Backend selected successfully.
 > new graph "../lib/lgsp-TuringModel.dll" G
 New graph "G" of model "Turing" created.
   
@@ -70,7 +72,7 @@ new node "end" of type "State" has been created.
 >
 \end{lstlisting}}
 %\lined
-\emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current GrShell environment. Persistent names will be saved (\texttt{save graph\dots}) and, if you visualize a graph (\texttt{dump graph\dots}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
+\emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current GrShell environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
 
 \begin{rail}
   Variable '=' GraphElement   
@@ -267,6 +269,7 @@ Gets the value of a specific attribute.
 Gets the information, whether the first element is type-compatible to the second element.
 
 \subsection{Graph Output Commands}
+\label{outputcmds}
 
 \begin{rail}
   'save' 'graph' Filename
@@ -315,7 +318,8 @@ Excludes nodes of type \emph{NodeType} (or sub type of \emph{NodeType}) as well 
 Declares \emph{NodeType} (or sub type of \emph{NodeType}) as group node type. All the different typed nodes that points to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
-  \fbox{\includegraphics[width=0.45\linewidth]{fig/group1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2}}
+  \fbox{\includegraphics[width=0.45\linewidth]{fig/group1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2}}\\
+  {\small right side: dumped with \texttt{dump add group node metropolis}}
 \end{center}
 
 \begin{rail}

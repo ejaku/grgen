@@ -1,6 +1,6 @@
 \chapter{Rule Set Language}
 
-\section{Basic Elements}
+\section{Building Blocks}
 TypeName, NodeType, EdgeType, Identifier, RuleSetName
 
 \begin{rail}
@@ -29,10 +29,9 @@ In case of multiple graph models beware of conflicting declarations.
   PatternStatement: PatternConnections ';' |
     'node' (PatternNode+',') ';' |
     'negative' lbrace (()+PatternStatement) rbrace |
-    'if' (BooleanExpr ';' | (lbrace (() | (BooleanExpr ';' +)) rbrace)) |
+    'if' (BooleanExpr ';' | (lbrace (BooleanExpr ';' +) rbrace)) |
     'return' '(' (Identifier+',') ')' ';' ;
 \end{rail} 
-An empty condition is true.
 
 \begin{rail}   
   PatternConnections: (Identifier | PatternNode) (() | PatternContinuation) ;

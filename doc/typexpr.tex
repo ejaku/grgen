@@ -1,0 +1,45 @@
+\chapter{Types and Expressions}
+\label{expressions}
+
+\section{Built-In Types}
+Besides user-defined node types, edge types and enum types, GrGen supports the built-in primitive types in table \ref{builtintypes}:
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{|l|X|}\hline
+	\texttt{boolean} & Covers the values \texttt{true} and \texttt{false}. \\
+	\texttt{int} & A 32-bit signed integer, in two's complement representation. \\
+	\texttt{float}, \texttt{double} & A floating-point number in IEEE 754 format with single precision or double precision respectively. \\
+	\texttt{String} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and may be enclosed by double quotes. If the string contains white spaces, double quotes are mandatory.\\ \hline
+\end{tabularx}
+\caption{\GrG\ built-in types}
+\label{builtintypes}
+\end{table}
+
+\section{Expressions}
+\begin{rail}
+  Expression: BoolExpr | IntExpr | FloatExpr | PrimaryExpr ;  
+  BoolExpr: ((() | '(' 'boolean' ')') (() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr ([1] doubleampersand | [2] '||') BoolExpr) | (Expression CompareOperator Expression);
+\end{rail}
+
+
+\begin{rail}
+  IntExpr: ((() | '(' 'int' ')') (() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinaryOperator IntExpr);
+  FloatExpr: ((() | '(' ('float' | 'double') ')') (() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/') FloatExpr);
+  PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | 'typeof' '(' Ident ')' | Constant;
+  Constant: Number | HexNumber | QuotedText | 'true' | 'false';
+\end{rail}\\
+\emph{CompareOperator} is one of the following operators:
+\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
+\emph{BinaryOperator} is one of the operators in table \ref{tabbinops}:
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
+    \begin{tabular}[c]{l} \texttt{|} \\ \texttt{\^} \\ \texttt{\&} \end{tabular} & \begin{tabular}[c]{l} Binary OR, XOR and binary AND \end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \texttt{\mbox{<}\mbox{<}} \\ \texttt{\mbox{>}\mbox{>}} \\ \texttt{\mbox{>}\mbox{>}\mbox{>}} \end{tabular} & \begin{tabular}[c]{l} Bitwise shift left, bitwise shift right and \\ bitwise shift right with respect to sign \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{+} \\ \texttt{-} \end{tabular} & \begin{tabular}[c]{l} Addition and subtraction \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{*} \\ \texttt{/} \\ \texttt{\%} \end{tabular} & \begin{tabular}[c]{l}Multiplication, integer division \\ and modulo \end{tabular} \\ \hline
+  \end{tabular}
+  \caption{Binary integer operators, in ascending order of precedence}
+  \label{tabbinops}
+\end{table}  
+ 
