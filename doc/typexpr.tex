@@ -19,16 +19,14 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
   Expression: BoolExpr | IntExpr | FloatExpr | PrimaryExpr ;  
   BoolExpr: ((() | '(' 'boolean' ')') (() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr ([1] doubleampersand | [2] '||') BoolExpr) | (Expression CompareOperator Expression);
 \end{rail}
-
+As in C, \texttt{!} negates a boolean, \texttt{\&\&} is a logical AND and \texttt{||} is a logical OR. The order of precedence is \texttt{!}, \texttt{\&\&}, \texttt{||}. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+\emph{CompareOperator} is one of the following operators:
+\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 
 \begin{rail}
   IntExpr: ((() | '(' 'int' ')') (() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinaryOperator IntExpr);
-  FloatExpr: ((() | '(' ('float' | 'double') ')') (() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/') FloatExpr);
-  PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | 'typeof' '(' Ident ')' | Constant;
-  Constant: Number | HexNumber | QuotedText | 'true' | 'false';
-\end{rail}\\
-\emph{CompareOperator} is one of the following operators:
-\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
+\end{rail}
+Boolean and enum types (and technically integer types) can be converted to \texttt{int} by using the \texttt{(int)} construct. The $\sim$ operator is a binary NOT. That means every bit of an integer value will be flipped. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
 \emph{BinaryOperator} is one of the operators in table \ref{tabbinops}:
 \begin{table}[htbp] 
   \centering
@@ -41,5 +39,14 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
   \end{tabular}
   \caption{Binary integer operators, in ascending order of precedence}
   \label{tabbinops}
-\end{table}  
- 
+\end{table}
+
+\begin{rail}  
+  FloatExpr: ((() | '(' ('float' | 'double') ')') (() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/') FloatExpr);
+\end{rail} 
+Type conversion by \texttt{(float)} and \texttt{(double)} is possible between \texttt{float} and \texttt{double} only. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
+
+\begin{rail} 
+  PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | 'typeof' '(' Ident ')' | Constant;
+  Constant: Number | HexNumber | QuotedText | 'true' | 'false';
+\end{rail}
