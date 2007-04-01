@@ -1,0 +1,79 @@
+\chapter{Graph Model Language}
+The key features of \GrG\ graph models from \cite{geiss}:
+
+\begin{description}
+\item[Types.] Nodes and edges can have types (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
+\item[Attributes.] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes itself are typed, too.
+\item[Inheritance.] Types (classes) can be composed by multiple inheritance. \emph{Node} and \emph{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes, because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the type hierarchy graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier.
+\item[Connection Assertions.] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
+\end{description}
+
+\section{Basic Elements}
+
+\emph{Note:} The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide an visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{
+
+Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
+\\
+\emph{Ident}\\
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit.\\
+\\
+\emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\
+These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
+\\
+\emph{Number}\\
+A sequence of digits. The sequence has to form a non-negative integer in decade system and will be internally stored in 32 bit tow's complement representation.
+
+\section{Type Declarations}
+\begin{rail}
+  GraphModel: 'model' Ident ';' (() + TypeDeclaration);
+\end{rail}
+The graph model consists of its name \emph{Ident} and type declarations defining the type of nodes and edges.
+
+\begin{rail}
+  TypeDeclaration: EnumDeclaration | ClassDeclaration
+\end{rail}
+The primitive types \emph{int}, \emph{boolean} and \emph{string} are predefined. Types does not need to be declared before they are used.
+
+\begin{rail}
+  EnumDeclaration: 'enum' EnumType '(' ((Ident (() | '=' IntExpr)) + ',') ')' ';';
+  ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
+  NodeClass: 'node' 'class' NodeType (() | 'extends' (NodeType+',')) \\ 
+    (';' | lbrace FieldDeclarations rbrace);
+  EdgeClass: 'edge' 'class' EdgeType (() | 'extends' (EdgeType+',')) \\
+    (() + ConnectAssertions) (';' | lbrace FieldDeclarations rbrace);
+  FieldDeclarations: (() | IdentDeclaration ':' FieldType ';') + ; 
+  IdentDeclaration: Ident (() | '[' (Ident '=' Constant + ',') ']');
+  FieldType: PrimitiveType | EnumType ; 
+  ConnectAssertions: 'connect' (NodeConstraint '->' NodeConstraint + ',');
+  NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
+  RangeConstraint: Number ':' ('*' | Number) ;
+\end{rail}
+
+\section{Expressions}
+\label{expressions}
+
+\begin{rail}
+  Expression: BooleanExpr | IntegerExpr | PrimaryExpr;
+  BooleanExpr: ((() | '(' 'boolean' ')') (() | '!') PrimaryExpr) | (BooleanExpr '?' BooleanExpr ':' BooleanExpr) | (BooleanExpr ([1] doubleampersand | [2] '||') BooleanExpr) | (Expression CompareOperator Expression);
+  IntegerExpr: ((() | '(' 'int' ')') (() | '+' | '-' | tilde) PrimaryExpr) | (BooleanExpr '?' IntegerExpr ':' IntegerExpr) | (IntegerExpr BinaryOperator IntegerExpr);
+  PrimaryExpr: '(' Expression ')' | Identifier (() | ('.' Identifier +)) | (EnumType '::' Identifier) | Constant;
+  Constant: Number | HexNumber | QuotedText | 'true' | 'false';
+\end{rail}
+
+\emph{CompareOperator} is one of the following operators:
+\[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
+\emph{BinaryOperator} is one of the operators in table \ref{tabbinops}:
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|lp{0.5\linewidth}|} \hline
+    \begin{tabular}[c]{l} \texttt{|} \\ \texttt{\^} \\ \texttt{\&} \end{tabular} & \begin{tabular}[c]{l} Binary OR, XOR and binary AND \end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \texttt{\mbox{<}\mbox{<}} \\ \texttt{\mbox{>}\mbox{>}} \\ \texttt{\mbox{>}\mbox{>}\mbox{>}} \end{tabular} & \begin{tabular}[c]{l} Bitwise shift left, bitwise shift right and \\ bitwise shift right with respect to sign \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{+} \\ \texttt{-} \end{tabular} & \begin{tabular}[c]{l} Addition and subtraction \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{*} \\ \texttt{/} \\ \texttt{\%} \end{tabular} & \begin{tabular}[c]{l}Multiplication, integer division \\ and modulo \end{tabular} \\ \hline
+  \end{tabular}
+  \caption{Binary integer operators, in ascending order of precedence}
+  \label{tabbinops}
+\end{table}  
+MODULO, 32BIT 2erkomplement??
+ 

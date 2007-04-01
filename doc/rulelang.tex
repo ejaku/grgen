@@ -1,0 +1,85 @@
+\chapter{Rule Set Language}
+
+\section{Basic Elements}
+TypeName, NodeType, EdgeType, Identifier, RuleSetName
+
+\begin{rail}
+  'actions' RuleSetName 'using' ((ModelName)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
+\end{rail}
+In case of multiple graph models beware of conflicting declarations.
+
+\begin{rail}
+  ForwardEdge: '-' EdgeRefinement '->' ;
+  ReverseEdge: '<-' EdgeRefinement '-' ;  
+  EdgeRefinement: () | Identifier | ':' EdgeType | Identifier ':' EdgeType (() | TypeConstraint) ;
+\end{rail}
+
+\section{Declarations}
+\begin{rail}
+  TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
+  RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace (() | Evaluation) rbrace ;
+  ActionSignature: ActionName (() | Parameters) (() | ':' ReturnTypes) ;
+  Parameters: '(' (() | (('node' Identifier ':' NodeType | 'edge' Identifier ':' EdgeType) + ',')) ')' ;
+  ReturnTypes: '(' (() | (TypeName + ',') ) ')' ;
+\end{rail}
+
+\section{Pattern Part}
+\begin{rail}
+  Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
+  PatternStatement: PatternConnections ';' |
+    'node' (PatternNode+',') ';' |
+    'negative' lbrace (()+PatternStatement) rbrace |
+    'if' (BooleanExpr ';' | (lbrace (() | (BooleanExpr ';' +)) rbrace)) |
+    'return' '(' (Identifier+',') ')' ';' ;
+\end{rail} 
+An empty condition is true.
+
+\begin{rail}   
+  PatternConnections: (Identifier | PatternNode) (() | PatternContinuation) ;
+  PatternNode: (Identifier ':' NodeType 
+    | '(' (Identifier + ',') ')' ':' NodeType
+    | '(' Identifier (tilde Identifier+) ')' ':' NodeType ) \\
+      (() | TypeConstraint) ; 
+  PatternContinuation: (ForwardEdge | ReverseEdge) (Identifier | PatternNode) (() | PatternContinuation) |
+    '(' (PatternContinuation+',') ')' ; 
+\end{rail}
+
+\section{Replace Part}
+\emph{Note:} Although \GrG\ does -- in general -- graph re\emph{writing} (also called graph transformation) this part has a re\emph{place} semantics.
+\begin{rail}
+  Replace: 'replace' lbrace (()+ReplaceStatement) rbrace ;
+  ReplaceStatement: (ReplaceConnections |
+    'node' (ReplaceNode+';') | 
+    'return' '(' (Identifier+',') ')' ) ';' ;
+  ReplaceConnections: (Identifier | ReplaceNode) (() | ReplaceContinuation) ;
+  ReplaceNode: Identifier ':' NodeType (() | '<' Identifier '>') 
+    | '(' (Identifier+',') ')' ':' NodeType ;
+  ReplaceContinuation:  (ForwardEdge | ReverseEdge) (Identifier | ReplaceNode) (() | ReplaceContinuation) |
+    '(' (ReplaceContinuation+',') ')' ;    
+\end{rail}
+REPLACE??
+
+\section{Evaluation Part}
+\begin{rail}
+  Evaluation: 'eval' lbrace (() + Assignment) rbrace ;
+  Assignment: Identifier ('.' Identifier +) '=' Expression ';'
+\end{rail} 
+
+\section{Type Expressions}
+\begin{rail}
+  TypeConstraint: backslash '(' TypeExpression ')' ;   
+  TypeExpression: PrimaryTypeExpr | TypeExpression ([1] '+' | [2] backslash | [3] ampersand) TypeExpression ;
+  PrimaryTypeExpression: ':' TypeName | lbrace (TypeName+',') rbrace | '(' TypeExpression ')';
+\end{rail}
+Table \ref{tabtypeops} explains the type expression operators in order of precedence, starting with the least precedence.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|ll|} \hline
+    \texttt{+} & bla\\
+    \texttt{\char"5C} & bla\\
+    \texttt{\&} & bla \\ \hline
+  \end{tabular}
+  \caption{Type expression operators}
+  \label{tabtypeops}
+\end{table}  
+ 
