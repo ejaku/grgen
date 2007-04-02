@@ -968,7 +968,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		        	// Don't dump the inheritance of the pseudo "Mode"-Nodes
 
 				String typeName = type.getIdent().toString();
-				for(InheritanceType superType : type.getSuperTypes())
+				for(InheritanceType superType : type.getAllSuperTypes())
 					initsb.append(indent + "ext_grs_appoint_heir(grs_op_" + typeName + ", grs_op_" + superType.getIdent() + ");\n");
 				initsb.append("\n");
 			}
