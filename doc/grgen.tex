@@ -1,34 +1,112 @@
 \documentclass[a4paper,11pt]{report}
 
 \include{packages}
+
 \selectlanguage{english}
-\lstdefinelanguage{grgenmodel}
-  {morekeywords={model, class, edge, node, connect, extends},
-   sensitive=true,
-   morecomment=[l]{\#},
-  }
-\lstdefinelanguage{grgenactions}
-  {morekeywords={actions, using, rule, pattern, replace, negative},
-   sensitive=true,
-   morecomment=[l]{\#},
-  }
-\lstdefinelanguage{grshell}
-  {morekeywords={},
-   sensitive=true,
-   morecomment=[l]{\#},
-  }
-\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, firstnumber=auto, frame=single}
+
+% \lstdefinelanguage{grgenmodel}
+%   {morekeywords={model, class, edge, node, connect, extends},
+%    sensitive=true,
+%    morecomment=[l]{\#},
+%   }
+% \lstdefinelanguage{grgenactions}
+%   {morekeywords={actions, using, rule, pattern, replace, negative},
+%    sensitive=true,
+%    morecomment=[l]{\#},
+%   }
+% \lstdefinelanguage{grshell}
+%   {morekeywords={},
+%    sensitive=true,
+%    morecomment=[l]{\#},
+%   }
+% \lstset{numbers=left, numberstyle=\tiny, stepnumber=1, firstnumber=auto, frame=single}
+
+\lstset{breaklines=true, breakautoindent=true, breakatwhitespace=true}
+
+\lstdefinelanguage{LANGgrgen}
+{morekeywords={actions,using,rule,test,pattern,replace,if,eval,negative,node,edge,path,graph,modify,delete,class,model,connect,extends},
+sensitive=true,
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morestring=[b]",
+}
+\lstnewenvironment{grgen}[1][]
+    {\lstset{language=LANGgrgen, basicstyle=\ttfamily\small, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=left, numberstyle=\tiny, stepnumber=1,
+        numbersep=5pt, tabsize=3, frame=single, #1}}
+    {}
+\lstnewenvironment{grgenlet}[1][]
+    {\lstset{language=LANGgrgen, basicstyle=\ttfamily, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=none, tabsize=3, #1}}
+    {}
+
+\lstdefinelanguage{LANGgrshell}
+{morekeywords={},
+sensitive=true,
+morecomment=[l]{\#},
+morestring=[b]",
+}
+\lstnewenvironment{grshell}[1][]
+    {\lstset{language=LANGgrshell, basicstyle=\ttfamily\small, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=left, numberstyle=\tiny, stepnumber=1,
+        numbersep=5pt, tabsize=3, frame=single, #1}}
+    {}
+\lstnewenvironment{grshelllet}[1][]
+    {\lstset{language=LANGgrshell, basicstyle=\ttfamily, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=none, tabsize=3, #1}}
+    {}
+
+
+
+
 \providecommand{\GrG}{{\scshape GrGen}}
 \newcommand{\lined}{\hfill \hrule\hfill\vspace{1mm} \\}
 
-\title{\GrG\ User Manual \\ Graph Rewrite System}
-\author{Jakob Blomer \\ \\ Institut für Programmstrukturen und Datenorganisation\\
-Fakultät für Informatik\\
-Universität Karlsruhe (TH)}
 
 \begin{document}
 
-\maketitle
+\pagenumbering{roman}
+\begin{titlepage}
+  \newlength{\saveparindent}
+  \setlength{\saveparindent}{\parindent}
+  \setlength{\parindent}{0cm}
+
+  \sf
+  \center
+	\vspace*{2cm}
+	\mbox{
+	  \parbox{4cm}{
+			\begin{tikzpicture}[scale=0.5]
+				\path[fill=black, join=round] (1,1)--(2,2)--(2,5)--(5,5)--(6,6)--(1,6)--(1,1)--(2,0)--(5,0)--(7,2)--(7,5)--(6,6)--(6,1)--cycle;
+				\clip (6,6)--(5,5)--(5,2)--(2,2)--(1,1)--(6,1)--(6,6)--(5,7)--(2,7)--(0,5)--(0,2)--(1,1)--(1,6)--cycle;
+				\shade[inner color=green, outer color=black] (3,4) circle(5.5cm);
+			\end{tikzpicture}
+	  }
+	  \parbox{8cm}{
+	    \Large Universität Karlsruhe (TH)\\[1cm]
+	    \large Fakultät für Informatik\\
+	    \large Institut für Programmstrukturen\\ und Datenorganisation\\
+	    \large Lehrstuhl Prof. Goos
+		}
+	}
+
+  \vspace*{4cm}
+  \Huge The \GrG\ User Manual\\[6ex]
+  \Large Jakob Blomer \qquad Rubino Gei\ss\\[2ex]
+  \Large \today\\
+  
+  \vspace*{5.5cm}
+	\large Technical Report 2007-7\\
+	\large ISSN 1432-7864	
+
+  \setlength{\parindent}{\saveparindent}
+\end{titlepage}
+\clearpage
+
+\chapter*{Abstract}
+This is the abstract. TODO!
+
+\clearpage
 
 \tableofcontents
 

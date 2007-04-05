@@ -1,16 +1,8 @@
-%\usepackage{ucs} veraltet?
 \usepackage[utf8]{inputenc}
-%\PrerenderUnicode{Ä}
-%\PrerenderUnicode{Ö}
-%\PrerenderUnicode{Ü}
-%\PrerenderUnicode{ä}
-%\PrerenderUnicode{ö}
-%\PrerenderUnicode{ü}
-%\PrerenderUnicode{ß}
 
-%\usepackage{german}
+\usepackage[a4paper, asymmetric, right=2.5cm, left=3.0cm, top=2.5cm, bottom=2.0cm]{geometry}
+
 \usepackage[german, english]{babel}
-%\usepackage[T1]{fontenc} 
 \usepackage[left]{eurosym}
 \usepackage{tabularx}
 \newcolumntype{v}[1]{%
@@ -18,34 +10,30 @@
 }  
 
 
-%\usepackage{hyperref}
-
+\usepackage{tikz}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-%\usepackage{bbm}
 \usepackage{leftidx}
 \usepackage{nicefrac}
-
-%\usepackage{pslatex}
-%\usepackage{pdftricks}
-%\begin{psinputs}
-%   \usepackage{color}
-%   \definecolor{light}{gray}{0.8}
-%   \usepackage[all, dvips]{xy}
-%\end{psinputs} 
-%\usepackage{setspace}
-%\usepackage{chngpage}
 \usepackage{thumbpdf}
+
+\usepackage[plainpages=false,
+						colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=red,	
+						bookmarks, bookmarksopen, bookmarksopenlevel=1, bookmarksnumbered=true,
+						pdftitle={The GrGen User Manual},
+						pdfauthor={Jakob Blomer, Rubino Geiss},
+						pdfkeywords={
+						graph, graph transformation, graph rewriting, tool, spo, manual, grgen, graph rewrite generator,
+						University of Karlsruhe, IPD Goos},
+						pdfpagelabels
+						]{hyperref}
 
 \usepackage[all]{xy}
 \usepackage{xcolor}
 \definecolor{light}{gray}{0.8}
 \definecolor{tuerkis}{cmyk}{0.5,0.15,0,0.3}
 \usepackage{graphicx}
-%\usepackage{pdfpages}
-%\usepackage{overpic}
-%\usepackage[absolute, overlay]{textpos}
 \usepackage{calc}
 
 %\usepackage{listings}
@@ -66,13 +54,6 @@
 \providecommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
 \providecommand{\svert}{\; \vert \;}
 
-\DeclareMathOperator{\grad}{grad} % Gradient
-\DeclareMathOperator{\rot}{rot}   % Rotation
-\DeclareMathOperator{\Div}{div}   % Divergenz
-
-\DeclareMathOperator{\rg}{rg}     % Rang
-\DeclareMathOperator{\Grad}{Grad} % Grad (eines Polynoms)
-
 \DeclareMathOperator{\Abb}{Abb}   % Abbildungsmenge
 \DeclareMathOperator{\Sym}{Sym}   % Bijektionenmenge
 \DeclareMathOperator{\Hom}{Hom}   % Homomorphismenmenge
@@ -83,9 +64,6 @@
 \DeclareMathOperator{\Kern}{Kern}     % Kern
 \DeclareMathOperator{\Bild}{Bild}     % Bild
 
-\DeclareMathOperator{\ggT}{ggT}       % ggT
-\DeclareMathOperator{\kgV}{kgV}       % kgV
-
 \providecommand{\Bin}[2]{\ensuremath{\operatorname{Bin} \left( #1 , #2 \right)}}
 \providecommand{\Hyp}[2]{\ensuremath{\operatorname{Hyp} \left( #1 , #2 \right)}}
 
@@ -94,9 +72,6 @@
 \providecommand{\KomoW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(oW)}}}
 \providecommand{\KommW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(mW)}}}
 
-%\usepackage[german, algoruled, linesnumbered, titlenumbered, vlined]{algorithm3e}
-%\SetKwInOut{Input}{Eingabe}
-%\SetKwInOut{Output}{Ausgabe}
 \usepackage{rail}
 \railalias{lbrace}{\{}
 \railalias{rbrace}{\}}
@@ -114,15 +89,88 @@
 \railalias{setmaxmatches}{set\_max\_matches}
 
 \railterm{lbrace,rbrace,dollar,percent,ampersand,backslash,underscore,tilde,ampersand,analyzegraph, gensearchplan,setmaxmatches,doubleampersand}
-%\usepackage[noend]{algorithmic}
-%\floatname{algorithm}{Algorithmus}
-%\renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
-%\renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
 
 \usepackage{listings}
-\lstset{numbers=left, numberstyle=\tiny, breaklines=true}
-%\lstset{language=C, numbers=left, numberstyle=\tiny, stepnumber=5}
+
+\usepackage{soul}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{fancyhdr}
+
+% sectionreformatting
+% tableofcontents level == 3 (subsubsection)
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+% Headings
+\pagestyle{myheadings}
+
+\renewcommand{\chaptermark}[1]{\markboth{\it #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection \it #1}}
+\lhead[\fancyplain{}{\thepage}]%
+      {\fancyplain{}{\rightmark}}
+\rhead[\fancyplain{}{\leftmark}]%
+  {\fancyplain{}{\thepage}}
+\renewcommand{\headrulewidth}{0pt} 
+
+\capsdef{////}{\upshape}{0.125em}{0.4583em}{0.5833em}
+\newcommand{\versal}[1]{\MakeUppercase{\caps{#1}}}
+
+% Other desccription labels, not that ugly bold font
+% And put the description on a line of its own
+\renewcommand\descriptionlabel[1]{%
+  \hspace\labelsep {% local changes only
+    \advance\linewidth\leftmargin
+    \advance\linewidth-\labelsep
+    \makebox[\linewidth][l]{\it #1}}}
+
+% Other TOC headings for chapters \contentslabel{2.3em}}
+%\titlecontents{chapter}[0em]{\sf\vspace*{2ex}}{Kapitel
+%          \thecontentslabel{} --- }
+%          {}{\hfill\contentspage\vspace*{1ex}}
+
+\titlecontents{part}[0em]{\sf\large\vspace*{2ex}}{\contentslabel{2.3em}}
+              {}{\hfill\contentspage\vspace*{1ex}}
+
+\titlecontents{chapter}[0em]{\sf\vspace*{2ex}}{\contentslabel{2.3em}}
+              {}{\hfill\contentspage\vspace*{1ex}}
+
+%\titlecontents{chapter}[1.5em]{\sf}{2.3em}{1pc}{}{}{}
+\dottedcontents{section}[3.8em]{}{2.3em}{1pc}
+
+% Other formatting of chapter and section headings
+\newcommand*\chaptitle[1]{\Large\filleft\versal{#1}}
 
 
+\titleformat{\part}[block]
+    {\LARGE\sf}
+  {\versal{TEIL}\hspace*{2ex}\thepart}
+  {4ex}{\Huge\newline\newline\centering}
+\titleformat{\chapter}[display]
+  {\large\sf}
+  {\filright\versal{\chaptertitlename}\hspace*{2ex}\thechapter}
+  {4ex}{\chaptitle}
+\titleformat{\section}
+  {\large\sf}{\thesection}
+  {1em}{}
+\titleformat{\subsection}
+  {\sf}{\thesubsection}
+  {1em}{}
+\titleformat{\subsubsection}
+  {\sf}{\thesubsubsection}
+  {1em}{}
+\titleformat{\paragraph}
+  {\sf}{\theparagraph}{0em}{}
+\titlespacing*{\paragraph}{0cm}{2.75ex plus 1ex minus .2ex}{.5em}
 
-%\newtheorem{Satz}{Satz}
+\makeatletter
+\renewcommand*{\tableofcontents}{%
+  \begingroup
+    \@restonecolfalse
+    \expandafter\chapter\expandafter*\expandafter{\contentsname}%
+    \@mkboth{\contentsname}{\contentsname}%
+    \@starttoc{toc}%
+  \endgroup
+} \makeatother
+
+

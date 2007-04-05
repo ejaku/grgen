@@ -5,14 +5,13 @@ We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver
 
 \subsection{Graph Model}
 Let's start with
-\lstset{language=grgenmodel}
-\begin{lstlisting}[name=gr]
-model TuringMashine;
-\end{lstlisting}
+\begin{grgen}[firstnumber=1]
+model TuringMashine; 
+
+\end{grgen}
 
 The tape will be a chain of \emph{TapePosition} nodes connected by right edges. A cell value is modeled by a reflexive \emph{value} edge, attached to a \emph{TapePosition} node. The leftmost and the rightmost cell (\emph{TapePosition}) does not have an incoming and outgoing edge respectively. Therefore we have the node constraint $[0:1]$.
-\lstset{language=grgenmodel}
-\begin{lstlisting}[name=gr]
+\begin{grgen}[firstnumber=last]
 node class TapePosition; 
 edge class right
   connect TapePosition[0:1] -> TapePosition[0:1];
@@ -21,10 +20,11 @@ edge class value
   connect TapePosition[1] -> TapePosition[1];  
 edge class zero extends value;
 edge class one extends value;
-edge class empty extends value;  
-\end{lstlisting}
+edge class empty extends value;
+
+\end{grgen}
 Finally we need states and transitions. The current configuration is modeled with a \emph{RWHead} edge pointing to a \emph{TapePosition} node. \emph{State} nodes are connected with \emph{WriteValue} nodes via \emph{value} edges and from a \emph{WriteValue} node a \emph{move\dots} edge leads to the next state.
-\begin{lstlisting}[name=gr]
+\begin{grgen}[firstnumber=last]
 node class RWHead;
 
 node class WriteValue;
@@ -35,14 +35,14 @@ node class WriteEmpty extends WriteValue;
 edge class moveLeft;
 edge class moveRight;
 edge class dontMove;
-\end{lstlisting}
+
+\end{grgen}
 
 \subsection{Rule Set}
 Now the rule set: we start with
-\lstset{language=grgenactions}
-\begin{lstlisting}[name=grg] 
+\begin{grgen}[firstnumber=1] 
 actions Turing using TuringModel;
-\end{lstlisting}
+\end{grgen}
 We need rewrite rules for the following steps of the turing machine:
 \begin{enumerate}
   \item Reading the value of the current tape cell and select a outgoing edge of the current state.
@@ -50,7 +50,7 @@ We need rewrite rules for the following steps of the turing machine:
   \item Move the read-write-head along the tape and propagate a new state as current state. 
 \end{enumerate}
 As you can see a transition of the turing machine is split into two graph rewriting steps: Writing the new value onto the tape and performing the state transition. We need eleven rules, three rules for each step (for ``zero'', ``one'' and ``empty'') and two rules for extending the tape to the left and the the right, respectively.
-\begin{lstlisting}[name=grg] 
+\begin{grgen}[firstnumber=last] 
 rule readZeroRule {
 	pattern {
 		s:State -:RWHead->tp:TapePosition -zv:zero->tp;
@@ -62,9 +62,9 @@ rule readZeroRule {
 		wv -:RWHead->tp;
 	}
 }      
-\end{lstlisting}
+\end{grgen}
 We the state and the current cell (\emph{RWHead} edge) and check, if the cell value is zero. Furthermore we check, if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
-\begin{lstlisting}[name=grg] 
+\begin{grgen}[firstnumber=last] 
 rule readOneRule {
 	pattern {
 		s:State -:RWHead-> tp:TapePosition -ov:one-> tp;
@@ -177,12 +177,13 @@ rule ensureMoveRightValidRule {
 		wv -rw-> tp -:right-> rtp:TapePosition -:empty-> rtp;
 	}
 }
-\end{lstlisting}
+\end{grgen}
 Have a look at the negative condition within the \emph{ensureMove\dots} rules. They ensure, that the current cell is in deed at the end of the tape: an edge to a right / left neighbor cell may not exist.
 
+\subsection{Rule Execution with GrShell}
+
 Finally we construct the busy beaver and let it work with GrShell:
-\lstset{language=grshell}
-\begin{lstlisting}[name=bb] 
+\begin{grshell}[firstnumber=1] 
 select backend "lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
 select actions "../lib/lgsp-TuringActions.dll"
@@ -244,23 +245,25 @@ new sE_0 -:moveLeft->sC
 new sE_1: WriteOne
 new sE -:one-> sE_1
 new sE_1 -:moveLeft-> sC
-}      
-\end{lstlisting}
+}
+
+\end{grshell}
 
 Our busy beaver looks like this:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
 The graph rewriting sequence is quite straight forward and generic to the turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
-\begin{lstlisting}[name=bb]
+\begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
-\end{lstlisting}
+
+\end{grshell}
 We intercept the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
 In order to improve the performance we generate better search plans.
-\begin{lstlisting}[name=bb]
+\begin{grshell}[firstnumber=last]
 custom graph analyze_graph
 custom actions gen_searchplan readOneRule
 custom actions gen_searchplan readEmptyRule
@@ -270,12 +273,14 @@ custom actions gen_searchplan ensureMoveLeftValidRule
 custom actions gen_searchplan ensureMoveRightValidRule
 custom actions gen_searchplan moveLeftRule
 custom actions gen_searchplan moveRightRule
-\end{lstlisting}
+
+\end{grshell}
 
 Let the beaver run:
-\begin{lstlisting}[name=bb]
+\begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule))*
-\end{lstlisting}
+
+\end{grshell}
 
 \section{Fractals}
  

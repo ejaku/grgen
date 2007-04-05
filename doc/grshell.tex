@@ -16,13 +16,13 @@ The GrShell is case sensitive. A comment starts with a \emph{\#} and is terminat
  SpacedParameters: Text + ; 
 \end{rail}
 
-Those items are required for representing text, numbers and parameters within rules. The tokens $<\cdots>$ are defined as follows:\\
+Those items are required for representing text, numbers and parameters within rules. The tokens \verb+<...>+ are defined as follows:\\
 
 \begin{tabularx}{\linewidth}{lX}
-<Word>: & A character sequence consisting of letters, digits and underscores. The first character must not be a digit.\\
-<DoubleQuotedText>: & Arbitrary text enclosed by double quotes (`` '').\\
-<SingleQuotedText>: & Arbitrary text enclosed by single quotes (` ').\\
-<Number>: & A sequence of digits.
+\verb+<$Word$>+:            & A character sequence consisting of letters, digits and underscores. The first character must not be a digit.\\
+\verb+<DoubleQuotedText>+:  & Arbitrary text enclosed by double quotes (`` '').\\
+\verb+<SingleQuotedText>+:  & Arbitrary text enclosed by single quotes (` ').\\
+\verb+<Number>+:            & A sequence of digits.
 \end{tabularx}\\
 
 In order to describe the possible input to some of the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:\\
@@ -47,8 +47,7 @@ The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires 
 
 %\lined 
 {\label{persistentex} \small \textbf{Example:} We insert a node, anonymously and with a constructor:
-\lstset{language=grshell}
-\begin{lstlisting}
+\begin{grshell}
 > select backend lgspBackend.dll
 Backend selected successfully.
 > new graph "../lib/lgsp-TuringModel.dll" G
@@ -70,7 +69,7 @@ new node "end" of type "State" has been created.
 # actually we want v to be "end": 
 >  v = @(end)
 >
-\end{lstlisting}}
+\end{grshell}}
 %\lined
 \emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current GrShell environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
 
@@ -154,8 +153,7 @@ Deletes the graph \emph{Graph} from the backend storage.
 Validates if the current working graph fulfills the edge constraints specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
 
 {\small \textbf{Example:} We define a micro model of street map graphs:
-\lstset{language=grgenmodel}
-\begin{lstlisting} 
+\begin{grgen} 
 model Map;
 
 node class city;
@@ -164,15 +162,14 @@ node class metropolis;
 edge class street;
 edge class highway
       connect metropolis [+] -> metropolis [+];
-\end{lstlisting}
+\end{grgen}
 The node constraint on \emph{highway} requires all the metropolises to be connected by highways. Now have a look at the following graph:
 \begin{center}
   \fbox{\includegraphics[width=8.5cm]{fig/map}}
 \end{center}
 
 This graph is valid, but not strict valid.
-\lstset{language=grshell}
-\begin{lstlisting} 
+\begin{grshell} 
 > validate
 The graph is valid.
 > validate strict
@@ -182,7 +179,7 @@ The graph is NOT valid:
   CAE: metropolis "Karlsruhe" -- street "trail" --> 
             metropolis "Frankfurt" not specified
 >
-\end{lstlisting}}
+\end{grshell}}
 
 \begin{rail}
   'custom' 'graph' ( ( ) | SpacedParameters )
