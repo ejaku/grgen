@@ -1,7 +1,10 @@
 \chapter{Types and Expressions}
-\label{expressions}
+\label{typeexpr}
+
+In the following sections \emph{Ident} refers to a variable identifier of the graph model language (see \ref{modelbb}) or the rule set language (see \ref{rulebb}). By analogy \emph{TypeIdent} is a identifier of a type.
 
 \section{Built-In Types}
+\label{builtin}
 Besides user-defined node types, edge types and enum types, GrGen supports the built-in primitive types in table \ref{builtintypes}:
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
@@ -15,13 +18,27 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
 \end{table}
 
 \section{Expressions}
+\label{expressions}
 \begin{rail}
-  Expression: BoolExpr | IntExpr | FloatExpr | PrimaryExpr ;  
-  BoolExpr: ((() | '(' 'boolean' ')') (() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr ([1] doubleampersand | [2] '||') BoolExpr) | (Expression CompareOperator Expression);
+  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
+  BoolExpr: ((() | '(' 'boolean' ')') (() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr ([1] doubleampersand | [2] '||') BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
 As in C, \texttt{!} negates a boolean, \texttt{\&\&} is a logical AND and \texttt{||} is a logical OR. The order of precedence is \texttt{!}, \texttt{\&\&}, \texttt{||}. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
+Table \ref{compandtypes} describes the semantics of compare operators on type expressions.
+\begin{table}[htbp]
+\label{compandtypes} 
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. Different types in a type hierarchy are \emph{not} identical. \\
+    \texttt{A != B} & True, iff the $A$ and $B$ are not identical. \\
+    \texttt{A < B} & True, iff $A$ is a supertype of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A > B} & True, iff $A$ is a subtype of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a supertype of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a subtype of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+\caption{Compare operators on type expressions}
+\end{table}
 
 \begin{rail}
   IntExpr: ((() | '(' 'int' ')') (() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinaryOperator IntExpr);
@@ -46,7 +63,45 @@ Boolean and enum types (and technically integer types) can be converted to \text
 \end{rail} 
 Type conversion by \texttt{(float)} and \texttt{(double)} is possible between \texttt{float} and \texttt{double} only. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
 
+\begin{rail}
+  StringExpr: PrimaryExpr | StringExpr '+' StringExpr;
+\end{rail}
+The operator \texttt{+} concatenates two strings.
+
 \begin{rail} 
   PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | 'typeof' '(' Ident ')' | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
 \end{rail}
+
+\section{Type Expressions}
+\label{typeexpressions}
+
+\begin{rail}
+  TypeExpr: TypeIdent | 'typeof' '(' Ident ')' ;
+\end{rail}
+A type expression identifies a type (and -- in terms of matching -- also its subtypes). A type expression is either a type identifier itself or the type of a variable.\\
+{\small \textbf{Example:}\\
+The following rule will add a reverse edge to an one-way street.}
+\begin{grgen}
+rule oneway {
+    pattern{
+        a:Node -x:street-> y:Node;
+        negative{
+            y -:typeof(x)-> a;
+        }
+    } 
+    replace{
+      a -x-> y;
+      y -:typeof(x)-> a;
+    }
+}
+\end{grgen}
+
+\begin{rail}
+  TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
+\end{rail}
+A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a unification of types.\\
+{\small \textbf{Example:}}\\
+\begin{tabularx}{\linewidth}{c|X}
+  \begin{tabular}[c]{c}\includegraphics[width=0.35\linewidth]{fig/hierarchy}\end{tabular} & {\small The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}\\
+\end{tabularx}

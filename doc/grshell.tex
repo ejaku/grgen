@@ -85,6 +85,7 @@ This section describes the GrShell commands. Commands are assembled from basic e
 \end{rail}
 
 \subsection{Common Commands}
+\label{commcommands}
 \begin{rail}
   'help'
 \end{rail}
@@ -121,6 +122,7 @@ Enables and disables the debug mode. The debug mode shows the current working gr
 Prints \emph{Text} onto the GrShell command prompt.
 
 \subsection{Graph Commands}
+\label{graphcommands}
 
 \begin{rail}
   'new' 'graph' Filename Text 
@@ -384,7 +386,12 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. [Die subgraphen?]\\
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG\ \texttt{/bin} directory}:
+\begin{enumerate}
+  \item The complete graph that has the matched graph elements marked
+  \item The complete graph with additional information about matching details
+  \item A subgraph containing only the matched graph elements
+\end{enumerate}\\
 \texttt{\emph{Rule}} & Only the first pattern match produced by the action \emph{Rule} will be rewritten.\\
 \texttt{[\emph{Rule}]} & Every pattern match produced by the action \emph{Rule} will be rewritten. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantic is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
 \texttt{v = w}	& The variable \texttt{v} is assigned to \texttt{w}. If \texttt{w} is undefined, \texttt{v} will be undefined, too.\\
@@ -436,4 +443,3 @@ Creates a search plan for the rewriting rule \emph{Action} using a heuristic met
   'custom' 'actions' setmaxmatches Number
 \end{rail}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. For \emph{Number} less or equal to zero, the constraint is reset.
- 

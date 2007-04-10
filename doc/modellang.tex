@@ -9,44 +9,89 @@ The key features of \GrG\ graph models from \cite{geiss}:
 \end{description}
 
 \section{Building Blocks}
+\label{modelbb}
 
 \emph{Note:} The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide an visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{XXX}
 
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
-\emph{Ident}\\
+\emph{Ident}\\ \nopagebreak
 A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit.\\
 \\
-\emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\
+\emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
 \\
-\emph{Number}\\
+\emph{Number}\\ \nopagebreak
 A sequence of digits. The sequence has to form a non-negative integer in decade system and will be internally stored in 32 bit tow's complement representation.
 
 \section{Type Declarations}
 \begin{rail}
   GraphModel: 'model' Ident ';' (() + TypeDeclaration);
 \end{rail}
-The graph model consists of its name \emph{Ident} and type declarations defining the type of nodes and edges.
+The graph model consists of its name \emph{Ident} and type declarations defining specific nodes and edges.
 
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
 \end{rail}
-The primitive types \emph{int}, \emph{boolean} and \emph{string} are predefined. Types does not need to be declared before they are used.
+\emph{ClassDeclaration} defines a node or an edge. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Types does not need to be declared before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' EnumType lbrace ((Ident (() | '=' IntExpr)) + ',') rbrace ;
+\end{rail}
+Defines an enum type.\\
+{\small \textbf{Example:}}
+\begin{grgen}
+enum Color {red, green, blue}
+enum Resident {village = 500, town = 5000, city = 50000}
+\end{grgen}
+
+\begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
+\end{rail}
+Defines a new node type or edge type. The keyword \texttt{abstract} indicates, that you can't create graph elements of this type but rather you have to derive non-abstract types for graph elements. \\
+{\small \textbf{Example:}}
+\begin{grgen}
+abstract node class city {
+	size: int;
+}
+abstract node class abandoned_city extends city;
+node class ghost_town extends abandoned_city;
+\end{grgen}
+{\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}}. 
+
+\begin{rail}  
   NodeClass: 'node' 'class' NodeType (() | 'extends' (NodeType+',')) \\ 
     (';' | lbrace FieldDeclarations rbrace);
+\end{rail}
+Defines a new node type. Node types can inherit from other node types defined within the same file. If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{Node}. Optionally nodes can possess attributes (fields).
+
+\begin{rail}    
   EdgeClass: 'edge' 'class' EdgeType (() | 'extends' (EdgeType+',')) \\
     (() + ConnectAssertions) (';' | lbrace FieldDeclarations rbrace);
-  FieldDeclarations: (() | IdentDeclaration ':' FieldType ';') + ; 
-  IdentDeclaration: Ident (() | '[' (Ident '=' Constant + ',') ']');
-  FieldType: PrimitiveType | EnumType ; 
+\end{rail}
+Defines a new edge type. Edge types can inherit from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{Edge}. Optionally edges can possess attributes (fields). A \emph{connection assertion} specifies that certain edge types should only connect specific nodes and -- moreover -- the number of outgoing and incoming edges can be constrained.
+
+\begin{rail}  
   ConnectAssertions: 'connect' (NodeConstraint '->' NodeConstraint + ',');
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}
+A connection assertion is described as a pair of node types, optionally together with a multiplicity. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (destination). The multiplicity is a constraint on the out-degree and in-degree of the source and destination node type respectively. See \ref{graphcommands}, \texttt{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions:
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{|l|X|}\hline
+	\texttt{[*]} & Number of edges the node is adjacent to is unbounded. The node may not be connected to any edge. This is the \textbf{default}.\\
+	\texttt{[+]} & Number of edges the node is adjacent to is unbounded. At least one edge must be adjacent to the node.\\
+	\texttt{[n:*]} & Number of edges the node is adjacent to is unbounded. At least $n$ edges must be adjacent to the node.\\ 
+	\texttt{[n:m]} & At least $n$ edges must be adjacent to the node, but at most $m$ edges may be adjacent to the node ($m \geq n$ holds).\\
+	\texttt{[n]} & Abbreviation for \texttt{[n:n]}. \\ \hline
+\end{tabularx}
+\caption{\GrG\ Node constraint multiplicities concerning a specific pair of an edge type and a node type.}
+\label{multiplicities}
+\end{table}
 
- 
+\begin{rail}    
+  FieldDeclarations: (() | IdentDeclaration ':' FieldType ';') + ; 
+  IdentDeclaration: Ident (() | '[' (Ident '=' Constant + ',') ']');
+  FieldType: PrimitiveType | EnumType ; 
+\end{rail}
+Defines a node or edge attribute. Attributes can be initialized with a value. See \ref{expressions} for a definition of \emph{Constant}. Possible types are \texttt{enum} and primitive types. See \ref{builtin} for a list of built-in primitive types.

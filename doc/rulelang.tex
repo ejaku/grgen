@@ -1,27 +1,42 @@
 \chapter{Rule Set Language}
 
 \section{Building Blocks}
-TypeName, NodeType, EdgeType, Identifier, RuleSetName
+\label{rulebb}
 
-\begin{rail}
-  'actions' RuleSetName 'using' ((ModelName)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
-\end{rail}
-In case of multiple graph models beware of conflicting declarations.
+The \GrG\ rule set language makes use of a couple of identifier specializations in order to denominate all the \GrG\ entities. The language is case sensitive.\\
+\\
+\emph{Ident}\\ \nopagebreak
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defines in a graph model (see \ref{modelbb}).\\
+\\
+\emph{RuleSetIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
+These are (semantic) specializations of Ident. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
 
 \begin{rail}
   ForwardEdge: '-' EdgeRefinement '->' ;
   ReverseEdge: '<-' EdgeRefinement '-' ;  
-  EdgeRefinement: () | Identifier | ':' EdgeType | Identifier ':' EdgeType (() | TypeConstraint) ;
+  EdgeRefinement: () | Ident | ':' EdgeType | Ident ':' EdgeType (() | TypeConstraint) ;
 \end{rail}
+In general edges are specified by \texttt{-->} or \texttt{<--}. Those edges are called \emph{anonymous}. For a more detailed specification use an edge refinement clause between the arrow dashes. See \ref{typeexpressions} for \emph{TypeConstraint}.
 
 \section{Declarations}
+
+\begin{rail}
+  'actions' RuleSetIdent 'using' ((ModelName)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
+\end{rail}
+A rule set consists of the underlying graph models and several rewriting rules. In case of multiple graph models \GrG\ use the unification of the models. In this case beware of conflicting declarations.
+
 \begin{rail}
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace (() | Evaluation) rbrace ;
-  ActionSignature: ActionName (() | Parameters) (() | ':' ReturnTypes) ;
-  Parameters: '(' (() | (('node' Identifier ':' NodeType | 'edge' Identifier ':' EdgeType) + ',')) ')' ;
+\end{rail}
+
+
+\begin{rail}  
+  ActionSignature: ActionIdent (() | Parameters) (() | ':' ReturnTypes) ;
+  Parameters: '(' (() | (('node' Ident ':' NodeType | 'edge' Ident ':' EdgeType) + ',')) ')' ;
   ReturnTypes: '(' (() | (TypeName + ',') ) ')' ;
 \end{rail}
+
 
 \section{Pattern Part}
 \begin{rail}
@@ -62,22 +77,3 @@ In case of multiple graph models beware of conflicting declarations.
   Evaluation: 'eval' lbrace (() + Assignment) rbrace ;
   Assignment: Identifier ('.' Identifier +) '=' Expression ';'
 \end{rail} 
-
-\section{Type Expressions}
-\begin{rail}
-  TypeConstraint: backslash '(' TypeExpression ')' ;   
-  TypeExpression: PrimaryTypeExpr | TypeExpression ([1] '+' | [2] backslash | [3] ampersand) TypeExpression ;
-  PrimaryTypeExpression: ':' TypeName | lbrace (TypeName+',') rbrace | '(' TypeExpression ')';
-\end{rail}
-Table \ref{tabtypeops} explains the type expression operators in order of precedence, starting with the least precedence.
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}{|ll|} \hline
-    \texttt{+} & bla\\
-    \texttt{\char"5C} & bla\\
-    \texttt{\&} & bla \\ \hline
-  \end{tabular}
-  \caption{Type expression operators}
-  \label{tabtypeops}
-\end{table}  
- 
