@@ -11,6 +11,10 @@
 
 
 \usepackage{tikz}
+\usepackage{pgflibraryarrows}
+\usepackage{pgflibraryshapes}
+\usepackage{pgflibraryplotmarks}
+\usepackage{pgflibrarysnakes}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -106,7 +110,7 @@
 \pagestyle{myheadings}
 
 \renewcommand{\chaptermark}[1]{\markboth{\it #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection \it #1}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection \; \it #1}}
 \lhead[\fancyplain{}{\thepage}]%
       {\fancyplain{}{\rightmark}}
 \rhead[\fancyplain{}{\leftmark}]%

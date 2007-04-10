@@ -23,7 +23,40 @@ If we apply $p''$ to $H''$ this leads to
 Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas table \ref{dirstruc} shows the \GrG\ directory structure.
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{fig/Overview}
+	\scalebox{0.8}{
+  \begin{tikzpicture}
+      \begin{scope}[shape=rectangle,minimum size=0.75cm,text width=3cm,text centered]
+          \tikzstyle{every node}=[draw]
+          \node (spec1)    at (0   ,0)    {Rewrite Rules (*.grg)};
+          \node (spec2)    at (0   ,2)    {Graph Model (*.gm)};
+          \node (grgen)    at (4   ,1)    {\GrG\ Generator (Java, C\#)};
+          \node (rewriter) at (10  ,0)    {Rewrite Rules (C\#)};
+          \node (types)    at (10  ,2)    {Graph Model (C\#)};
+          \node (data)     at (14  ,1)    {Graph Management (C\#)};
+          \node (libgr)    at (12  ,4)    {{\scshape LibGr} (C\#)};
+          \node[fill,color=gray] (app)      at (14.1  ,5.6)  {};
+          \node[fill=white] (app)      at (14  ,5.5)  {Applications};
+          \node (app2)     at (10  ,5.5)  {{\scshape GrShell} (C\#)};
+      \end{scope}
+
+      \node[draw, minimum width=9cm,minimum height=4cm] (engine) at (12,1) {};
+      \node[draw, minimum width=9cm,minimum height=4cm,style=dotted] (ct) at (2,1) {};
+      \node[anchor=north east] (engine_lab) at (engine.north east) {Backend (Run Time)};
+      \node[anchor=north east] (ct_lab) at (ct.north east) {Frontend (Compile Time)};
+
+      \draw[->,dashed,red,>=triangle 45]     (spec1)   -> (grgen);
+      \draw[->,dashed,red,>=triangle 45]     (spec2)   -> (grgen);
+      \draw[->,dashed,red,>=triangle 45]     (grgen)   -> (types);
+      \draw[->,line width=1pt,>=triangle 45] (grgen)   -> (engine);
+      \draw[->,dashed,red,>=triangle 45]     (grgen)   -> (rewriter);
+      \draw[->,line width=1pt,>=triangle 45] (app)     -> (libgr);
+      \draw[->,line width=1pt,>=triangle 45] (app2)    -> (libgr);
+      \draw[->,line width=1pt,>=triangle 45] (libgr)   -> (engine);
+
+      \draw[->,line width=1pt,>=triangle 45] (0,5.125) -- +(2.5,0) node[above, midway] {call};
+      \draw[->,dashed,red,>=triangle 45] (0,4.5)  -- +(2.5,0) node[above, midway] {read / generate};
+  \end{tikzpicture}
+	}
   \caption{\GrG\ system components \cite{kroll}}
   \label{figsys}
 \end{figure}
