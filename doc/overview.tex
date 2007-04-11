@@ -3,6 +3,31 @@
 
 \GrG\ is a generative programming system for graph rewriting. \GrG\ is mainly designed for \emph{typed graphs}.  That means, graphs are not only nodes and edges, but labeled (\emph{attributed typed}) directed multigraphs. The type system is specified as class hierarchy, like a classes in object oriented languages. Type systems for specific sets of graphs can be specified by user supplied graph meta models. Such a graph model describes a set of well-formed graphs, i.e.\ allowed node and edge types, their attributes and specific connection assertions. We'll build a graph model for a turing machine in section \ref{anexample}.
 
+\begin{figure}[htbp]
+	\centering
+  \begin{tikzpicture}
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (L)     at (0   ,2.5) {$L$};
+      \node (R)     at (7   ,2.5) {$R$};
+      \node (mL)    at (0   ,0) {};
+      \node (mR)    at (7   ,0) {};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (H)     at (0   ,0) {$H$};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
+    \end{scope}
+
+    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match}   node[below=0.6cm] {Host Graph};
+    \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
+
+    \pgfsetshortenstart{0.5cm}
+    \pgfsetshortenend{0.5cm}
+    \draw[thick,->]  (L) -> (R)  node[above,midway] {Rule};
+    \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
+  \end{tikzpicture}
+  \caption{Basic Idea of Graph Rewriting}
+  \label{figrule}
+\end{figure}
+
 How does graph rewriting work? \GrG\ implements an SPO-based approach. Given a host graph $H$, each \emph{rewriting rule} $p: L \longrightarrow R$ consists of a pattern $L$ and a transformation specification $R$ in form of a adopted pattern graph. The process of rewriting searches a match $H_L \unlhd H$ (i.e.\ a graph homomorphism from $L$ to a subgraph of $H$) and rewrites $H_L$ to $R$. Nodes or edges added to $R$ (in compare to $L$) will be added $H_L$ and nodes or edges deleted in $R$ will be deleted in $H_L$. The homomorphism may not be unique.
 
 We'll have a look at a small example. First we use a special case to construct our host graph: an empty pattern does always produce exactly one match (independently of the host graph). So starting with an empty host graph $H$ we construct an apple using
