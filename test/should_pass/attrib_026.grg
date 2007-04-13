@@ -1,0 +1,56 @@
+actions attrib_026 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni : NINT;
+		nb : NBOOL;
+		nf : NFLOAT;
+		nd : NDOUBLE;
+		ns : NSTRING;
+		-ei:EINT->;
+		-eb:EBOOL->;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-es:ESTRING->;
+	}
+	modify {
+		eval {
+			ni.a = 1;
+			nb.a = true;
+			nf.a = 1.0;
+			nd.a = 1.0;
+			ns.a = "";
+
+			ei.a = 2;
+			eb.a = false;
+			ef.a = 2.0;
+			ed.a = 2.0;
+			es.a = "Hi!";
+
+			ni.a = ni.a;
+			nf.a = ni.a;
+			nd.a = ni.a;
+
+			nb.a = nb.a;
+
+			ni.a = nf.a;
+			nb.a = nf.a;
+			nf.a = nf.a;
+			nd.a = nf.a;
+			ns.a = nf.a;
+
+			ni.a = nd.a;
+			nb.a = nd.a;
+			nf.a = nd.a;
+			nd.a = nd.a;
+			ns.a = nd.a;
+
+			ni.a = ns.a;
+			nb.a = ns.a;
+			nf.a = ns.a;
+			nd.a = ns.a;
+			ns.a = ns.a;
+		}
+	}
+}
+

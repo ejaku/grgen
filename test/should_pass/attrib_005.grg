@@ -1,0 +1,45 @@
+actions attrib_005 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni : NINT;
+		nb : NBOOL;
+		nf : NFLOAT;
+		nd : NDOUBLE;
+		ns : NSTRING;
+		-ei:EINT->;
+		-eb:EBOOL->;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-es:ESTRING->;
+		if {
+			ni.a == 42;
+			nb.a == true;
+			nf.a == 4.2;
+			nd.a == 4.2;
+			ns.a == "Hello";
+
+			ei.a == 42;
+			eb.a == true;
+			ef.a == 4.2;
+			ed.a == 4.2;
+			es.a == "Hello";
+		}
+	}
+	modify {
+		eval {
+			ni.a = 24;
+			nb.a = false;
+			nf.a = 2.4;
+			nd.a = 2.4;
+			ns.a = "Bye";
+
+			ei.a = 24;
+			eb.a = false;
+			ef.a = 2.4;
+			ed.a = 2.4;
+			es.a = "Bye";
+		}
+	}
+}
+

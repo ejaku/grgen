@@ -1,0 +1,13 @@
+actions to_001 using test_model_002;
+
+rule to_1 {
+	pattern {
+		a : A;
+		b : typeof(a);
+	}
+	replace{
+		a --> b;
+    c : typeof(a);
+    d : typeof(b);
+	}
+}

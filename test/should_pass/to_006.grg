@@ -1,0 +1,11 @@
+actions to_006 using test_model_002;
+
+rule to_6 (p:AB) {
+	pattern {
+		a : A;
+    b : typeof(p);
+	}
+	replace{
+    x:typeof(p)<a> --> b; 
+	}
+}

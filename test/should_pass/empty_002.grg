@@ -1,0 +1,11 @@
+actions empty_002;
+
+rule empty_2 {
+	pattern {
+		;
+	}
+	replace {
+		;
+	}
+}
+

@@ -1,0 +1,18 @@
+model test_model_002;
+
+node class A;
+
+node class B;
+
+node class Ac extends A;
+
+node class Bc extends B;
+
+node class AB extends A, B;
+
+node class AcBc extends Ac, Bc;
+
+node class AcA extends A, Ac;
+
+node class AcAAB extends AcA, AB;
+

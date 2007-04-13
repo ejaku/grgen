@@ -1,0 +1,41 @@
+model test_model_001;
+
+node class NINT {
+	a : int;
+}
+
+node class NBOOL {
+	a : boolean;
+}
+
+node class NFLOAT {
+	a : float;
+}
+
+node class NDOUBLE {
+	a : double;
+}
+
+node class NSTRING {
+	a : string;
+}
+
+edge class EINT {
+	a : int;
+}
+
+edge class EBOOL {
+	a : boolean;
+}
+
+edge class ESTRING {
+	a : string;
+}
+
+edge class EFLOAT {
+	a : float;
+}
+
+edge class EDOUBLE {
+	a : double;
+}
