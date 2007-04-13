@@ -4,9 +4,9 @@
 We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver is a turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{beaver}. So first of all we design a turing machine as graph model. Besides this example shows that \GrG\ is turing complete. 
 
 \subsection{Graph Model}
-Let's start with
+Let's start the model file \emph{TuringModel.gm} with
 \begin{grgen}[firstnumber=1]
-model TuringMashine; 
+model TuringModel; 
 
 \end{grgen}
 
@@ -39,21 +39,22 @@ edge class dontMove;
 \end{grgen}
 
 \subsection{Rule Set}
-Now the rule set: we start with
+Now the rule set: we begin the rule set file \emph{Turing.grg} with
 \begin{grgen}[firstnumber=1] 
 actions Turing using TuringModel;
+
 \end{grgen}
 We need rewrite rules for the following steps of the turing machine:
 \begin{enumerate}
-  \item Reading the value of the current tape cell and select a outgoing edge of the current state.
-  \item Writing a new value in the current cell, according to the sub type of the \emph{WriteValue} node.
+  \item Read the value of the current tape cell and select an outgoing edge of the current state.
+  \item Write a new value into the current cell, according to the sub type of the \emph{WriteValue} node.
   \item Move the read-write-head along the tape and propagate a new state as current state. 
 \end{enumerate}
 As you can see a transition of the turing machine is split into two graph rewriting steps: Writing the new value onto the tape and performing the state transition. We need eleven rules, three rules for each step (for ``zero'', ``one'' and ``empty'') and two rules for extending the tape to the left and the the right, respectively.
 \begin{grgen}[firstnumber=last] 
 rule readZeroRule {
 	pattern {
-		s:State -:RWHead->tp:TapePosition -zv:zero->tp;
+		s:State -:RWHead-> tp:TapePosition -zv:zero-> tp;
 		s -zr:zero-> wv:WriteValue;
 	}
 	replace {
@@ -62,8 +63,9 @@ rule readZeroRule {
 		wv -:RWHead->tp;
 	}
 }      
+
 \end{grgen}
-We the state and the current cell (\emph{RWHead} edge) and check, if the cell value is zero. Furthermore we check, if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
+We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check, if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
 \begin{grgen}[firstnumber=last] 
 rule readOneRule {
 	pattern {
@@ -178,7 +180,7 @@ rule ensureMoveRightValidRule {
 	}
 }
 \end{grgen}
-Have a look at the negative condition within the \emph{ensureMove\dots} rules. They ensure, that the current cell is in deed at the end of the tape: an edge to a right / left neighbor cell may not exist.
+Have a look at the negative conditions within the \emph{ensureMove\dots} rules. They ensure, that the current cell is indeed at the end of the tape: an edge to a right / left neighbor cell must not exist.
 
 \subsection{Rule Execution with GrShell}
 
@@ -262,17 +264,10 @@ We intercept the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
-In order to improve the performance we generate better search plans.
+In order to improve the performance we generate better search plans. (TODO: Importance of timing for searchplan generation)
 \begin{grshell}[firstnumber=last]
 custom graph analyze_graph
-custom actions gen_searchplan readOneRule
-custom actions gen_searchplan readEmptyRule
-custom actions gen_searchplan writeOneRule
-custom actions gen_searchplan writeEmptyRule
-custom actions gen_searchplan ensureMoveLeftValidRule
-custom actions gen_searchplan ensureMoveRightValidRule
-custom actions gen_searchplan moveLeftRule
-custom actions gen_searchplan moveRightRule
+custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
 
 \end{grshell}
 
