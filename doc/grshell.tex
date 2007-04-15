@@ -378,6 +378,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \[ \text{\texttt{;}} \;\;\;\;\;\;\; \text{\texttt{|}} \;\;\;\;\;\;\;  \text{\texttt{\&}}\] 
 \makeatletter
 \begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
 \texttt{s ; t}		& \textbf{Concatenation.} First, \texttt{s} is executed, afterwards \texttt{t} is executed. The sequence \texttt{s ; t} is \emph{successfully} executed iff \texttt{s} or \texttt{t} is successfully executed.\\
@@ -386,7 +387,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG\ \texttt{/bin} directory}:
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory}:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -399,7 +400,8 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{def(\emph{Parameters})} & Gets \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
-\end{tabularx}\\
+\end{tabularx}
+\end{minipage}\\
 \\ \centering
 {\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewriting sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
 \caption{Graph rewriting expressions}

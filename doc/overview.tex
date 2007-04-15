@@ -1,7 +1,7 @@
 \chapter{System Overview}
 \pagenumbering{arabic}
 
-\GrG\ is a generative programming system for graph rewriting. \GrG\ is mainly designed for \emph{typed graphs}.  That means, graphs are not only nodes and edges, but labeled (\emph{attributed typed}) directed multigraphs. The type system is specified as class hierarchy, like a classes in object oriented languages. Type systems for specific sets of graphs can be specified by user supplied graph meta models. Such a graph model describes a set of well-formed graphs, i.e.\ allowed node and edge types, their attributes and specific connection assertions. We'll build a graph model for a turing machine in section \ref{anexample}.
+\GrG\ is a generative programming system for graph rewriting. \GrG\ is mainly designed for \emph{typed graphs}.  That means, graphs are not only nodes and edges, but labeled (\emph{attributed typed}) directed multigraphs. The type system is specified as class hierarchy, like classes in object oriented languages. Type systems for specific sets of graphs can be specified by user supplied graph meta models. Such a graph model describes a set of well-formed graphs, i.e.\ allowed node and edge types, their attributes and specific connection assertions. We'll build a graph model for a turing machine in section \ref{anexample}.
 
 \begin{figure}[htbp]
 	\centering
@@ -28,7 +28,7 @@
   \label{figrule}
 \end{figure}
 
-How does graph rewriting work? \GrG\ implements an SPO-based approach. Given a host graph $H$, each \emph{rewriting rule} $p: L \longrightarrow R$ consists of a pattern $L$ and a transformation specification $R$ in form of a adopted pattern graph. The process of rewriting searches a match $H_L \unlhd H$ (i.e.\ a graph homomorphism from $L$ to a subgraph of $H$) and rewrites $H_L$ to $R$. Nodes or edges added to $R$ (in compare to $L$) will be added $H_L$ and nodes or edges deleted in $R$ will be deleted in $H_L$. The homomorphism may not be unique.
+How does graph rewriting work? \GrG\ implements an SPO-based approach. Given a host graph $H$, each \emph{rewriting rule} $p: L \longrightarrow R$ consists of a pattern $L$ and a transformation specification $R$ in form of an adopted pattern graph. The process of rewriting searches a match $H_L \unlhd H$ (i.e.\ a graph homomorphism from $L$ to a subgraph of $H$) and rewrites $H_L$ to $R$. Nodes or edges added to $R$ (in compare to $L$) will be added $H_L$ and nodes or edges deleted in $R$ will be deleted in $H_L$. The homomorphism may not be unique.
 
 We'll have a look at a small example. First we use a special case to construct our host graph: an empty pattern does always produce exactly one match (independently of the host graph). So starting with an empty host graph $H$ we construct an apple using
 \[ p:  \begin{array}[c]{c} \includegraphics[width=3cm]{fig/empty} \end{array} \begin{array}[c]{c} \longrightarrow \end{array} \begin{array}[c]{c} \includegraphics[width=3cm]{fig/apple} \end{array} \]
