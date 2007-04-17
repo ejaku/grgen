@@ -15,8 +15,8 @@ The key features of \GrG\ graph models from \cite{geiss}:
 
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
-\emph{Ident}\\ \nopagebreak
-A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit.\\
+\emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{IdentDecl} is an identifier that is just beeing defined. See \ref{annotations} for annontations on declarations.\\
 \\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
@@ -26,9 +26,9 @@ A sequence of digits. The sequence has to form a non-negative integer in decade 
 
 \section{Type Declarations}
 \begin{rail}
-  GraphModel: 'model' Ident ';' (() + TypeDeclaration);
+  GraphModel: 'model' IdentDecl ';' (() + TypeDeclaration);
 \end{rail}
-The graph model consists of its name \emph{Ident} and type declarations defining specific nodes and edges.
+The graph model consists of its name \emph{IdentDecl} and type declarations defining specific nodes and edges.
 
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
@@ -36,14 +36,16 @@ The graph model consists of its name \emph{Ident} and type declarations defining
 \emph{ClassDeclaration} defines a node or an edge. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Types does not need to be declared before they are used.
 
 \begin{rail}
-  EnumDeclaration: 'enum' EnumType lbrace ((Ident (() | '=' IntExpr)) + ',') rbrace ;
+  EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}
 Defines an enum type.\\
 {\small \textbf{Example:}}
 \begin{grgen}
 enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
+enum AsInC {a = 2, b, c = 1, d}
 \end{grgen}
+{\small The semantics is as it is in C. So the examples hold $\text{red} = 0$, $a=d=2$, $b=3$ and $c=1$.}
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
@@ -60,13 +62,13 @@ node class ghost_town extends abandoned_city;
 {\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}}. 
 
 \begin{rail}  
-  NodeClass: 'node' 'class' NodeType (() | 'extends' (NodeType+',')) \\ 
+  NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
     (';' | lbrace FieldDeclarations rbrace);
 \end{rail}
 Defines a new node type. Node types can inherit from other node types defined within the same file. If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{Node}. Optionally nodes can possess attributes (fields).
 
 \begin{rail}    
-  EdgeClass: 'edge' 'class' EdgeType (() | 'extends' (EdgeType+',')) \\
+  EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectAssertions) (';' | lbrace FieldDeclarations rbrace);
 \end{rail}
 Defines a new edge type. Edge types can inherit from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{Edge}. Optionally edges can possess attributes (fields). A \emph{connection assertion} specifies that certain edge types should only connect specific nodes and -- moreover -- the number of outgoing and incoming edges can be constrained.
@@ -90,8 +92,7 @@ A connection assertion is described as a pair of node types, optionally together
 \end{table}
 
 \begin{rail}    
-  FieldDeclarations: (() | IdentDeclaration ':' FieldType ';') + ; 
-  IdentDeclaration: Ident (() | '[' (Ident '=' Constant + ',') ']');
+  FieldDeclarations: (() | IdentDecl ':' FieldType ';') + ;
   FieldType: PrimitiveType | EnumType ; 
 \end{rail}
-Defines a node or edge attribute. Attributes can be initialized with a value. See \ref{expressions} for a definition of \emph{Constant}. Possible types are \texttt{enum} and primitive types. See \ref{builtin} for a list of built-in primitive types.
+Defines a node or edge attribute. Possible types are \texttt{enum} and primitive types. See \ref{builtin} for a list of built-in primitive types.

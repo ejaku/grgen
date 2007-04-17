@@ -286,7 +286,7 @@ but not necessarily using the same commands you typed in during construction.
 \end{rail}
 Dumps the current graph as VCG formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use YComp as executable, this may look like
 \begin{center}
-  BILD (Dragon?)
+  \includegraphics[width=0.75\linewidth]{fig/showgraph}
 \end{center}  
 The temporary file will be deleted, when \emph{Filename} is terminated, if GrShell is still running at this time.
 
@@ -359,6 +359,7 @@ Lists all the rules of the loaded rule set, their parameters and their return va
 Executes an action specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see section \ref{custom}).
 
 \subsubsection{Regular Graph Rewrite Sequences (GRS)}
+\label{grsthings}
 Basically a graph rewriting command looks like this:
 \makeatletter
 \begin{rail}
@@ -387,7 +388,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory}:
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -411,7 +412,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 
 Variables can be assigned to graph elements returned by rules using \texttt{(\emph{Para\-meters}) = \emph{Action}}. The desired variable identifiers have to be listed in \emph{Parameters}. Graph elements required by rules must be provided using \texttt{\emph{Action} (\emph{Para\-meters})}, where \emph{Parameters} is a list of variable identifiers. For undefined variables the specific element constraint of \emph{Action} will be ignored (every element matches).\\
 
-Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution YComp will display every single step. The debugger can be controlled by GrShell. The debug commands are shown in table \ref{tabdebug}.
+Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution YComp will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}. The debugger can be controlled by GrShell. The debug commands are shown in table \ref{tabdebug}.
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Executes the next rewriting rule (match and rewrite)\\

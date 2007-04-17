@@ -264,11 +264,7 @@ We intercept the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
-<<<<<<< .mine
-In order to improve the performance we generate better search plans. This is a crucial step for execution time: with the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
-=======
-In order to improve the performance we generate better search plans. (TODO: Importance of timing for searchplan generation)
->>>>>>> .r12697
+In order to improve the performance we generate better search plans. This is a crucial step for execution time: with the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds. (TODO: Importance of timing for searchplan generation)
 \begin{grshell}[firstnumber=last]
 custom graph analyze_graph
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule

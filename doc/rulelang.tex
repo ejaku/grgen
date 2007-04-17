@@ -2,7 +2,7 @@
 
 The rule set language forms the core of \GrG. Rule files refer to one or multiple graph models and specify a set of (usually coherent) rewriting rules. The rule language covers the pattern specification, the replace specification and optionally re-evaluation of graph element's attributes. The following rewriting rule from \cite{geiss} gives a rough picture of the language:
 \begin{grgen}
-rule SomeRule{
+rule SomeRule {
   pattern {
     n1 : NodeTypeA;
     n2 : NodeTypeA;
@@ -34,10 +34,10 @@ In this chapter we use pieces of \texttt{SomeRule} in further descriptions.
 
 The \GrG\ rule set language is case sensitive. The language makes use of a couple of identifier specializations in order to denominate all the \GrG\ entities.\\
 \\
-\emph{Ident}\\ \nopagebreak
-A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defines in a graph model (see \ref{modelbb}).\\
+\emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defined in a graph model (see \ref{modelbb}). \emph{IdentDecl} is an identifier that is just beeing defined. See \ref{annotations} for annontations on declarations.\\
 \\
-\emph{RuleSetIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
+\emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
 These are (semantic) specializations of Ident. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
 
 \begin{rail}
@@ -50,7 +50,7 @@ In general edges are specified by \texttt{-->} or \texttt{<--}. Those edges are 
 \section{Declarations}
 \label{ruledecls}
 \begin{rail}
-  'actions' RuleSetIdent 'using' ((ModelName)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
+  'actions' IdentDecl 'using' ((ModelIdent)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
 \end{rail}
 A rule set consists of the underlying graph models and several rewriting rules. In case of multiple graph models \GrG\ use the unification of the models. In this case beware of conflicting declarations.
 
@@ -58,14 +58,31 @@ A rule set consists of the underlying graph models and several rewriting rules. 
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}
-Declares a single rewriting rule such as \texttt{SomeRule}. It consists of a pattern part (see \ref{patternpart}) together with its rewrite / modify part (see {replacepart}). A test rule has no rewrite specification. It is for debug purposes only (stimmt das?). 
+Declares a single rewriting rule such as \texttt{SomeRule}. It consists of a pattern part (see \ref{patternpart}) together with its rewrite / modify part (see {replacepart}). A test rule has no rewrite specification. It's intended to test wether (and maybe how many times) a pattern occurs.\\
+{\small \textbf{Example:} We define a test rule \texttt{SomeCond}}
+\begin{grgen}
+test SomeCond {
+  pattern {
+    n: SeldomNodeType;
+  }
+}
+\end{grgen}
+{\small and execute in GrShell:}
+\begin{grshell}
+  grs SomeCond & SomeRule
+\end{grshell}
+{\small SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewriting sequences in GrShell see \ref{grsthings}.}
 
 \begin{rail}  
-  ActionSignature: ActionIdent (() | Parameters) (() | ':' ReturnTypes) ;
-  Parameters: '(' (() | (Ident ':' (NodeType | EdgeType) + ',')) ')' ;
-  ReturnTypes: '(' (() | (TypeName + ',') ) ')' ;
+  ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
 \end{rail}
-The signature sets the name of a rewriting rule to \emph{ActionIdent}. Additionally you can provide parameters to the rule an specify return types. Parameters are treated as predefined graph elements for the pattern. The return values are graph elements of the replace / modify part. If no pattern is found or the \texttt{return} operator is omitted, the return values are undefined. See also \ref{replacepart}, \texttt{return}. Undefined parameters are treated as node or edge definition. That means a graph element of the specified type will be searched.\\
+The signature sets the name of a rewriting rule to \emph{IdentDecl}. Additionally you can provide parameters to the rule an specify return types.
+
+\begin{rail}
+  Parameters: '(' (IdentDecl ':' (NodeType | EdgeType) + ',') ')' ;
+  ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
+\end{rail}
+Parameters are treated as predefined graph elements for the pattern. The return values are graph elements of the replace / modify part. If no pattern is found or the \texttt{return} operator is omitted, the return values are undefined. See also \ref{replacepart}, \texttt{return}. Undefined parameters are treated as node or edge definition. That means a graph element of the specified type will be attempted to matched.\\
 {\small \textbf{Example:} we extend \texttt{SomeRule} with a variable node to find, and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.}
 \begin{grgen}
   rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
@@ -111,8 +128,8 @@ The semantics of the various pattern statements:
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See \ref{typeexpressions} for further information.
 
 \begin{rail}   
-  PatternNode: (Ident ':' NodeType 
-    | '(' (Ident + ',') ')' ':' NodeType) 
+  PatternNode: (IdentDecl ':' NodeType 
+    | '(' (IdentDecl + ',') ')' ':' NodeType) 
      (() | TypeConstraint) ; 
 \end{rail}
 Specify one or multiple nodes of type \emph{NodeType} (with respect to \emph{TypeConstraint}) to find. See \ref{typeexpressions} for \emph{TypeConstraint}. The nodes can be accessed by \emph{Ident}.
@@ -129,8 +146,8 @@ In our example the statement \texttt{n1 --> n2} is the node identifier \texttt{n
 \label{replacepart}
 For the task of rewriting \GrG\ provides two different modes: a replace mode and a modify mode.
 \begin{description}
-  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used and create denoted graph elements that are not declared in the pattern part.\\
-  In our example the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
+  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used and create denoted graph elements that are not used in the pattern part.\\
+  In our example \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
   \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator.\\
   How might our example look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} can be omitted. So we have
 \begin{grgen}
@@ -167,12 +184,12 @@ The semantics of the various pattern statements:
   \item[ReplaceConnections.] The same as \emph{PatternConnections}, but with \emph{ReplaceNode} instead of \emph{PatternNode}.
   \item[Deletion.] The \texttt{delete} operator is only supported by the modify mode. It deletes the specified pattern graph elements. Deletion statements are executed at last of all replace statements. Multiple deletion of the same graph element is allowed.
   \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements may be recalculated.
-  \item[Return values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}).
+  \item[Return values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). At most one return statement is allowed. The values have to be in the same order as the corresponding return types in the signature.
 \end{description}    
     
 \begin{rail}    
-    ReplaceNode: Identifier ':' NodeType (() | '<' Identifier '>') 
-    | '(' (Identifier+',') ')' ':' NodeType ;
+    ReplaceNode: IdentDecl ':' NodeType (() | '<' Ident '>') 
+    | '(' (IdentDecl+',') ')' ':' NodeType ;
 \end{rail}
 The replace node specification supports \emph{retyping} of nodes. This enables us to keep all edged and all attributes stemming from common super types of a node while changing its type.\\ 
 In our example node \texttt{n5} is a retyped node stemming from node \texttt{n1}
@@ -185,6 +202,6 @@ In our example node \texttt{n5} is a retyped node stemming from node \texttt{n1}
 See \ref{patternpart}, \emph{PatternConnections} and \emph{PatternContinuations}, for a description of the connections / continuations semantics.
 
 \begin{rail}    
-   Evaluation:  lbrace ((Identifier ('.' Identifier +) '=' Expression ';' )+) rbrace ;
+   Evaluation:  lbrace ((Ident ('.' Ident +) '=' Expression ';' )+) rbrace ;
 \end{rail}
-Several Evaluation parts are allowed within the replace part.
+Several Evaluation parts are allowed within the replace part. Evaluation parts are executed before any graph elements get deleted. You can read (and write, although this doesn't make sense) attributes of deleted graph elements in modify mode or unmapped graph elements in replacement mode respectively.
