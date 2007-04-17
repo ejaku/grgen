@@ -1,0 +1,8 @@
+actions basic_025;
+
+test t {
+	pattern {
+		if { true; }
+	}
+}
+

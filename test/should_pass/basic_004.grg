@@ -1,0 +1,10 @@
+actions basic_004;
+
+rule r {
+	pattern {
+	}
+	modify {
+		eval { }
+	}
+}
+

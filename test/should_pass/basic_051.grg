@@ -1,0 +1,13 @@
+actions basic_051 using basic_model_001;
+
+rule r {
+	pattern {
+		x : A;
+		y : B;
+		z : C;
+	}
+	replace {
+		a : A;
+	}
+}
+

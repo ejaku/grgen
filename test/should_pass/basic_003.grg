@@ -1,0 +1,10 @@
+actions basic_003;
+
+rule r {
+	pattern {
+		if { true; }
+	}
+	replace {
+	}
+}
+

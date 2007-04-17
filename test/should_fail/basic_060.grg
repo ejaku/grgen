@@ -1,0 +1,15 @@
+actions basic_060 using basic_model_002;
+
+rule r {
+	pattern {
+		x : A;
+		y : B;
+		z : C;
+	}
+	replace {
+		eval {
+			x.ia = 42;
+		}
+	}
+}
+

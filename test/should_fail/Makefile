@@ -22,7 +22,8 @@ BE_CSC  =	de.unika.ipd.grgen.be.Csharp.SearchPlanBackend
 
 DIRS_CSI= $(GRGS:.grg=_csi) # The directory for the C# interperting backend
 
-all: $(DIRS_CSC)
+all: clean $(DIRS_CSC)
+	cat success.log
 	
 %_csc : %.grg $(GMS)
 	#create build dir

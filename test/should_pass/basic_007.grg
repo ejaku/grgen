@@ -1,0 +1,10 @@
+actions basic_007;
+
+rule r {
+	pattern {
+		x : Node;
+	}
+	replace {
+	}
+}
+

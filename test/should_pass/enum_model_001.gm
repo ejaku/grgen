@@ -1,0 +1,18 @@
+model enum_model_001;
+
+enum te {
+	a,
+	b,
+	c = 42
+}
+
+node class A {
+	e : te;
+}
+
+edge class B {
+	i : int;
+	e : te;
+}
+
+

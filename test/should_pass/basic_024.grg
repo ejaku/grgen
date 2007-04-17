@@ -1,0 +1,7 @@
+actions basic_024;
+
+test t {
+	pattern {
+	}
+}
+

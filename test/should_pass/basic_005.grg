@@ -1,0 +1,11 @@
+actions basic_005;
+
+rule r {
+	pattern {
+		negative {
+		}
+	}
+	modify {
+	}
+}
+

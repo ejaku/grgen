@@ -1,0 +1,9 @@
+actions basic_002;
+
+rule r {
+	pattern {
+	}
+	modify {
+	}
+}
+

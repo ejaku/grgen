@@ -1,0 +1,13 @@
+actions basic_063 using basic_model_002;
+
+rule r {
+	pattern {
+		x : BB;
+	}
+	replace {
+		eval {
+			x.ib = 42;
+		}
+	}
+}
+

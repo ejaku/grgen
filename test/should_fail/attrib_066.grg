@@ -1,4 +1,4 @@
-actions attrib_026 using attrib_model_001;
+actions attrib_066 using attrib_model_001;
 
 rule r {
 	pattern {
@@ -27,18 +27,7 @@ rule r {
 			ed.a = 2.0;
 			es.a = "Hi!";
 
-			ni.a = ni.a;
-			nf.a = ni.a;
-			nd.a = ni.a;
-
-			nb.a = nb.a;
-
-			nf.a = nf.a;
-			nd.a = nf.a;
-
-			nd.a = nd.a;
-
-			ns.a = ns.a;
+			nf.a = nd.a;
 		}
 	}
 }

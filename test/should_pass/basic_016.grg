@@ -1,0 +1,14 @@
+actions basic_016;
+
+rule r {
+	pattern {
+		x : Node;
+		negative {
+			x --> y : Node;
+		}
+	}
+	replace {
+		x --> y : Node;
+	}
+}
+

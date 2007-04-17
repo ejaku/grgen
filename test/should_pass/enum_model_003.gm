@@ -1,0 +1,31 @@
+model enum_model_003;
+
+enum te {
+	a,
+	b,
+	c = 42,
+	d = c + 1,
+	e = b - a,
+	f = c * d,
+	g = b << 2,
+	h = e==f?11:a+b,
+	x = (a ! b ^ c & d) << 3 + (f >> 1) + (f >>> 1) + (a+b) + (b-a) + (a*b) + (b/a) + (b%a)
+}
+
+enum te2 {
+	a = te::a,
+	b = te::f,
+	c,
+	d
+}
+
+node class A {
+	e : te;
+}
+
+edge class B {
+	i : int;
+	e : te;
+}
+
+

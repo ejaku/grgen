@@ -1,0 +1,46 @@
+model basic_model_001;
+
+const node class A {
+	ia : int;
+}
+
+abstract node class B {
+	ib : int;
+}
+
+abstract const node class C {
+	ic : int;
+}
+
+node class N {
+	in : int;
+}
+
+node class AA extends A;
+
+node class BB extends B;
+
+node class CC extends C;
+
+node class AB extends A, B;
+
+node class AC extends A, C;
+
+node class BC extends B, C;
+
+abstract node class NX extends N;
+
+const node class NZ extends N;
+
+abstract node class AX extends A;
+
+const node class AZ extends A;
+
+abstract node class BX extends B;
+
+const node class BZ extends B;
+
+abstract node class CX extends C;
+
+const node class CZ extends C;
+
