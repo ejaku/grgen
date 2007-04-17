@@ -69,7 +69,7 @@ Type conversion by \texttt{(float)} and \texttt{(double)} is possible between \t
 The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
-  PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | 'typeof' '(' Ident ')' | Constant;
+  PrimaryExpr: '(' Expression ')' | Ident (() | ('.' Ident +)) | (EnumType '::' Ident) | TypeIdent | 'typeof' '(' Ident ')' | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
 \end{rail}
 

@@ -50,7 +50,8 @@ enum AsInC {a = 2, b, c = 1, d}
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
 \end{rail}
-Defines a new node type or edge type. The keyword \texttt{abstract} indicates, that you can't create graph elements of this type but rather you have to derive non-abstract types for graph elements. \\
+Defines a new node type or edge type.\\
+The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. \\
 {\small \textbf{Example:}}
 \begin{grgen}
 abstract node class city {
@@ -59,7 +60,8 @@ abstract node class city {
 abstract node class abandoned_city extends city;
 node class ghost_town extends abandoned_city;
 \end{grgen}
-{\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}}. 
+{\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}}.\\
+The keyword \texttt{const} indicates, that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \emph{libgr} and GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
