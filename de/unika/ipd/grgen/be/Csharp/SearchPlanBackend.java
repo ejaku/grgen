@@ -76,7 +76,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	public Backend getBackend() throws BackendException {
 		return this;
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.be.Backend#init(de.unika.ipd.grgen.ir.Unit, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
@@ -326,6 +326,12 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		delNodes.removeAll(rule.getCommonNodes());
 		delEdges.removeAll(rule.getCommonEdges());
 		
+		// parameters of the rule are not common between the pattern and
+		// replace/modify part, but should not be created
+		newNodes.removeAll(rule.getParameters());
+		newEdges.removeAll(rule.getParameters());
+		
+		
 		// new nodes
 		for(Node node : newNodes) {
 			String type;
@@ -409,7 +415,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				sb2.append("graph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
 				// TODO fix attribute access for all edges in evals
 			}
-				
+		
 		// attribute re-calc
 		genEvals(sb2, rule, extractNodeFromMatch, extractEdgeFromMatch);
 		
@@ -429,8 +435,15 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// return parameter (output)
 		//extractNodeFromMatch.addAll(rule.getReturns());
 		sb2.append("\t\t\treturn new IGraphElement[] { ");
-		for(Entity ent : rule.getReturns())
+		for(Entity ent : rule.getReturns()) {
+			if(ent instanceof Node)
+				extractNodeFromMatch.add((Node)ent);
+			else if(ent instanceof Node)
+				extractEdgeFromMatch.add((Edge)ent);
+			else
+				throw new IllegalArgumentException("unkown Entity: " + ent);
 			sb2.append(formatEntity(ent) + ", ");
+		}
 		sb2.append("};\n");
 		
 		sb2.append("\t\t}\n");
@@ -1351,7 +1364,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
-
+	
 	public void done() {
 		// TODO
 	}

@@ -1,0 +1,10 @@
+actions param_003 using attrib_model_001;
+
+rule r (ni : NINT) : (NINT) {
+	pattern {
+	}
+	replace {
+		return (ni);
+	}
+}
+

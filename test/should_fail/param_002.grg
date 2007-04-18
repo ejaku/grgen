@@ -1,0 +1,13 @@
+actions param_001 using attrib_model_001;
+
+rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT) {
+	pattern {
+		zi : NINT;
+		ni;
+	}
+	replace {
+		xi : NINT;
+		return (ni);
+	}
+}
+
