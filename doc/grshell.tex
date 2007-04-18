@@ -425,6 +425,38 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \caption{GrShell debug commands}
   \label{tabdebug}
 \end{table}
+{\small \textbf{Example:} We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
+\begin{grshell}
+debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
+\end{grshell}
+\emph{yComp} will be opened with an inital graph (resulting from \texttt{grs init}):
+\begin{center}
+  \includegraphics[width=0.3\linewidth]{fig/debug0}
+\end{center}
+We type \texttt{d}(elaied step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.3\linewidth]{fig/debug1}\includegraphics[width=0.3\linewidth]{fig/debug2}\includegraphics[width=0.3\linewidth]{fig/debug3}
+  \caption{Delaied step rule application.}
+  \label{figdebug}
+\end{figure}
+Table \ref{tabdebug} shows the effect of further debug commands.
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{|l|l|} \hline
+    \textbf{Command} & \textbf{Active rule} \\ \hline
+    \texttt{s} & \texttt{makeFlake1} \\
+    \texttt{o} & \texttt{beautify} \\
+    \texttt{s} & \texttt{doNothing} \\
+    \texttt{s} & \texttt{beautify} \\ 
+    \texttt{n} & \texttt{beautify} \\ 
+    \texttt{o} & \texttt{makeFlake2} \\
+    \texttt{r} & --- \\ \hline
+  \end{tabular}
+  \caption{Debug commands on \texttt{grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*)}}
+  \label{tabdebug}
+\end{table}}
+
 
 \section{LGSPBackend Custom Commands}
 \label{custom}
