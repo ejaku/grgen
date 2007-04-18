@@ -26,10 +26,10 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * A operator node for the identifier qualification.
@@ -92,7 +92,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
 		res = owner.getResolve();
-		if (owner instanceof NodeDeclNode	|| owner instanceof EdgeDeclNode) {
+		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
 			
 			if(ownerType instanceof ScopeOwner) {
