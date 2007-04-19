@@ -1,4 +1,5 @@
 \chapter{Graph Model Language}
+\label{chapmodellang}
 The key features of \GrG\ graph models from \cite{geiss}:
 
 \begin{description}
@@ -7,28 +8,56 @@ The key features of \GrG\ graph models from \cite{geiss}:
 \item[Inheritance.] Types (classes) can be composed by multiple inheritance. \emph{Node} and \emph{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes, because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the type hierarchy graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier.
 \item[Connection Assertions.] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
 \end{description}
+The following micro model of street maps gives a rough picture of the language:
+\begin{grgen}
+model Map;
+
+enum resident {village = 500, town = 5000, city = 50000}
+
+node class sight;
+
+node class city {
+	size: resident;
+}
+
+const node class metropolis extends city {
+  river: string;
+}  
+
+abstract node class abandoned_city extends city;
+node class ghost_town extends abandoned_city;
+
+edge class street;
+edge class trail extends street;
+edge class highway extends street
+    connect metropolis [+] -> metropolis [+]
+{
+    jam: boolean;
+}
+\end{grgen}
+In this chapter as well as in the \GrShell\ chapter \ref{chapgrshell} we use pieces of the \texttt{Map} model for further descriptions.
 
 \section{Building Blocks}
 \label{modelbb}
 
-\emph{Note:} The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide an visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{XXX}
+\emph{Note:} The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide an visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{pascal}.
 
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
-A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{IdentDecl} is an identifier that is just beeing defined. See \ref{annotations} for annontations on declarations.\\
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annontations on declarations.\\
 \\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
 \\
 \emph{Number}\\ \nopagebreak
-A sequence of digits. The sequence has to form a non-negative integer in decade system and will be internally stored in 32 bit tow's complement representation.
+A sequence of digits. The sequence has to form a non-negative integer in decade system and will be internally stored in 32 bit two's complement representation.
 
 \section{Type Declarations}
 \begin{rail}
   GraphModel: 'model' IdentDecl ';' (() + TypeDeclaration);
 \end{rail}
-The graph model consists of its name \emph{IdentDecl} and type declarations defining specific nodes and edges.
+The graph model consists of its name \emph{IdentDecl} and type declarations defining specific node and edge types as well as enums.
 
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
@@ -39,20 +68,21 @@ The graph model consists of its name \emph{IdentDecl} and type declarations defi
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}
 Defines an enum type.\\
-{\small \textbf{Example:}}
+\marginpar{\small \mbox{ }\\\textbf{Example}}
 \begin{grgen}
 enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
-enum AsInC {a = 2, b, c = 1, d}
+enum AsInC {a = 2, b, c = 1, d, e = Resident::village + c}
 \end{grgen}
-{\small The semantics is as it is in C. So the examples hold $\text{red} = 0$, $a=d=2$, $b=3$ and $c=1$.}
+{\small The semantics is as it is in C \cite{isoc}. So the examples hold $\text{red} = 0$, $a=d=2$, $b=3$, $c=1$ and $e=501$.}
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
 \end{rail}
 Defines a new node type or edge type.\\
-The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. \\
-{\small \textbf{Example:}}
+The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. The abstract-property will not be inherited by subclasses.\\
+\marginpar{\small \mbox{ }\\\textbf{Example}}
+{\small \\We adjust our map model and make \texttt{city} abstract:}
 \begin{grgen}
 abstract node class city {
 	size: int;
@@ -61,7 +91,8 @@ abstract node class abandoned_city extends city;
 node class ghost_town extends abandoned_city;
 \end{grgen}
 {\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}}.\\
-The keyword \texttt{const} indicates, that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \emph{libgr} and GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
+\\
+The keyword \texttt{const} indicates, that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \LibGr\ and \GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
@@ -80,13 +111,13 @@ Defines a new edge type. Edge types can inherit from other edge types defined wi
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}
-A connection assertion is described as a pair of node types, optionally together with a multiplicity. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (destination). The multiplicity is a constraint on the out-degree and in-degree of the source and destination node type respectively. See \ref{graphcommands}, \texttt{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions:
+A connection assertion is described as a pair of node types, optionally together with a multiplicity. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (destination). The multiplicity is a constraint on the out-degree and in-degree of the source and destination node type respectively. See \ref{graphcommands}, \texttt{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
-	\texttt{[*]} & Number of edges the node is adjacent to is unbounded. The node may not be connected to any edge. This is the \textbf{default}.\\
-	\texttt{[+]} & Number of edges the node is adjacent to is unbounded. At least one edge must be adjacent to the node.\\
-	\texttt{[n:*]} & Number of edges the node is adjacent to is unbounded. At least $n$ edges must be adjacent to the node.\\ 
-	\texttt{[n:m]} & At least $n$ edges must be adjacent to the node, but at most $m$ edges may be adjacent to the node ($m \geq n$ holds).\\
+	\texttt{[*]} & Number of edges the node is adjacent to is unbounded. The node must not be connected to any edge. This is the \textbf{default}.\\
+	\texttt{[+]} & Number of edges the node is adjacent to is unbounded. At least one edge must be adjacent to nodes of that type.\\
+	\texttt{[n:*]} & Number of edges the node is adjacent to is unbounded. At least $n$ edges must be adjacent to nodes of that type.\\ 
+	\texttt{[n:m]} & At least $n$ edges must be adjacent to the nodes of that type, but at most $m$ edges may be adjacent to the nodes of that type ($m \geq n$ holds).\\
 	\texttt{[n]} & Abbreviation for \texttt{[n:n]}. \\ \hline
 \end{tabularx}
 \caption{\GrG\ Node constraint multiplicities concerning a specific pair of an edge type and a node type.}

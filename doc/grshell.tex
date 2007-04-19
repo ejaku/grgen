@@ -1,12 +1,13 @@
 \chapter{GrShell Language}
+\label{chapgrshell}
 
-The GrShell is a shell application of the LibGr. It belongs to \GrG's standard equipment. GrShell is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
+The \GrShell\ is a shell application of the \LibGr. It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
 
-The GrShell language is a line oriented scripting language. It is structured by simple statements separated by line breaks.
+The \GrShell\ language is a line oriented scripting language. It is structured by simple statements separated by line breaks.
 
 \section{Building Blocks}
 
-The GrShell is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Anything left from the \emph{\#} will be treated as a statement.
+The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Anything left from the \emph{\#} will be treated as a statement.
 
 \begin{rail} 
  Text : '<DoubleQuotedText>' | '<SingleQuotedText>' | '<Word>' ;
@@ -71,15 +72,15 @@ new node "end" of type "State" has been created.
 >
 \end{grshell}}
 %\lined
-\emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current GrShell environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
+\emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
 
 \begin{rail}
   Variable '=' GraphElement   
 \end{rail}
 Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} is not defined, it will be defined implicitly.
 
-\section{GrShell Commands}
-This section describes the GrShell commands. Commands are assembled from basic elements. As stated before commands are terminated by a line breaks. Alternatively commands can be terminated by the \texttt{;;} symbol.
+\section{\GrShell\ Commands}
+This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by a line breaks. Alternatively commands can be terminated by the \texttt{;;} symbol.
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}
@@ -94,7 +95,7 @@ Displays an information message describing supported commands.
 \begin{rail}
   'quit' | 'exit'
 \end{rail}
-Quits GrShell. If GrShell is opened in debug mode, currently active graph displayers (such as YComp) will be closed as well.
+Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph displayers (such as \yComp) will be closed as well.
 
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
@@ -109,17 +110,17 @@ List all the parameters supported by the backend \emph{Filename}, that can be pr
 \begin{rail}
   'include' Filename
 \end{rail}
-Executes the GrShell script \emph{Filename}. A GrShell script is just a plain text file containing GrShell commands. They are treated as they would be entered interactively, except for parser errors. If an parser error occurs, execution of the script will cancel immediately.
+Executes the \GrShell\ script \emph{Filename}. A \GrShell\ script is just a plain text file containing \GrShell\ commands. They are treated as they would be entered interactively, except for parser errors. If an parser error occurs, execution of the script will cancel immediately.
 
 \begin{rail}
   'debug' ( 'enable' | 'disable' )
 \end{rail} 
-Enables and disables the debug mode. The debug mode shows the current working graph in a YComp window. All changes to the working graph are tracked by YComp immediately.  
+Enables and disables the debug mode. The debug mode shows the current working graph in a \yComp\ window. All changes to the working graph are tracked by \yComp\ immediately.  
 
 \begin{rail}
   'echo' Text
 \end{rail}
-Prints \emph{Text} onto the GrShell command prompt.
+Prints \emph{Text} onto the \GrShell\ command prompt.
 
 \subsection{Graph Commands}
 \label{graphcommands}
@@ -154,7 +155,7 @@ Deletes the graph \emph{Graph} from the backend storage.
 \end{rail}
 Validates if the current working graph fulfills the edge constraints specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
 
-{\small \textbf{Example:} We define a micro model of street map graphs:
+{\small \textbf{Example:} We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
 \begin{grgen} 
 model Map;
 
@@ -273,7 +274,7 @@ Gets the information, whether the first element is type-compatible to the second
 \begin{rail}
   'save' 'graph' Filename
 \end{rail}
-Dumps the current graph as GrShell script into \emph{Filename}. The created script includes
+Dumps the current graph as \GrShell\ script into \emph{Filename}. The created script includes
 \begin{itemize}
   \item selecting the backend
   \item creating all nodes and edges
@@ -284,11 +285,11 @@ but not necessarily using the same commands you typed in during construction.
 \begin{rail}
   'show' 'graph' Filename (() | Text)
 \end{rail}
-Dumps the current graph as VCG formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use YComp as executable, this may look like
+Dumps the current graph as VCG formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use \yComp\ as executable, this may look like
 \begin{center}
   \includegraphics[width=0.75\linewidth]{fig/showgraph}
 \end{center}  
-The temporary file will be deleted, when \emph{Filename} is terminated, if GrShell is still running at this time.
+The temporary file will be deleted, when \emph{Filename} is terminated, if \GrShell\ is still running at this time.
 
 \begin{rail}
   'dump' 'graph' Filename
@@ -340,7 +341,8 @@ Specifies, whether edge labels will be displayed or not (default to ``on'').
 \end{rail}
 Reset all style options (\texttt{dump set}\dots) to their default values.
 
-\subsection{Action Commands}
+\subsection{Action Commands (GRS)}
+\label{grsthings}
 An \emph{action} denotes a graph rewriting rule.
 
 \begin{rail}
@@ -358,8 +360,7 @@ Lists all the rules of the loaded rule set, their parameters and their return va
 \end{rail}
 Executes an action specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see section \ref{custom}).
 
-\subsubsection{Regular Graph Rewrite Sequences (GRS)}
-\label{grsthings}
+\subsubsection*{Regular Graph Rewrite Sequences}
 Basically a graph rewriting command looks like this:
 \makeatletter
 \begin{rail}
@@ -412,7 +413,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 
 Variables can be assigned to graph elements returned by rules using \texttt{(\emph{Para\-meters}) = \emph{Action}}. The desired variable identifiers have to be listed in \emph{Parameters}. Graph elements required by rules must be provided using \texttt{\emph{Action} (\emph{Para\-meters})}, where \emph{Parameters} is a list of variable identifiers. For undefined variables the specific element constraint of \emph{Action} will be ignored (every element matches).\\
 
-Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution YComp will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}. The debugger can be controlled by GrShell. The debug commands are shown in table \ref{tabdebug}.
+Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution \yComp\ will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Executes the next rewriting rule (match and rewrite)\\
@@ -422,14 +423,14 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \texttt{r}(un) &  Continues execution without further stops\\
   \texttt{a}(bort) & Cancels the execution immediately\\ \hline 
   \end{tabularx}
-  \caption{GrShell debug commands}
+  \caption{\GrShell\ debug commands}
   \label{tabdebug}
 \end{table}
 {\small \textbf{Example:} We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 \end{grshell}
-\emph{yComp} will be opened with an inital graph (resulting from \texttt{grs init}):
+\yComp\ will be opened with an inital graph (resulting from \texttt{grs init}):
 \begin{center}
   \includegraphics[width=0.3\linewidth]{fig/debug0}
 \end{center}
@@ -466,7 +467,7 @@ The LGSPBackend supports the following custom commands:
 \begin{rail}
   'custom' 'graph' analyzegraph
 \end{rail}
-Analyzes the current working graph. The analysis data provides vital information for efficient search plans. Analysis data are available as long as GrShell is running, i.e.\ when the working graph changes the analysis data is still available but maybe obsolete.
+Analyzes the current working graph. The analysis data provides vital information for efficient search plans. Analysis data are available as long as \GrShell\ is running, i.e.\ when the working graph changes the analysis data is still available but maybe obsolete.
 
 \subsection{Action Related Commands}
 \begin{rail}

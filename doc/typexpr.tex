@@ -100,7 +100,7 @@ rule oneway {
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
 \end{rail}
-A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a unification of types.\\
+A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a union of types.\\
 {\small \textbf{Example:}}\\
 \begin{tabularx}{\linewidth}{c|X}
   \begin{tabular}[c]{c}\includegraphics[width=0.35\linewidth]{fig/hierarchy}\end{tabular} & {\small The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}\\

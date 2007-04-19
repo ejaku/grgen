@@ -182,9 +182,9 @@ rule ensureMoveRightValidRule {
 \end{grgen}
 Have a look at the negative conditions within the \emph{ensureMove\dots} rules. They ensure, that the current cell is indeed at the end of the tape: an edge to a right / left neighbor cell must not exist.
 
-\subsection{Rule Execution with GrShell}
+\subsection{Rule Execution with \GrShell}
 
-Finally we construct the busy beaver and let it work with GrShell:
+Finally we construct the busy beaver and let it work with \GrShell:
 \begin{grshell}[firstnumber=1] 
 select backend "lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
@@ -279,7 +279,7 @@ Let the beaver run:
 
 \section{Fractals}
 \label{fractals}
-The \GrG\ package ships with samples for fractal generation. We will construct the Sirpinski triangle and the Koch snowflake. First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
+The \GrG\ package ships with samples for fractal generation. We will construct the Sierpinski triangle and the Koch snowflake. First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
 \begin{verbatim}
 GrGen.exe ..\specs\sierpinski.grg
 GrGen.exe ..\specs\snowflake.grg
@@ -289,7 +289,7 @@ or
 mono GrGen.exe ../specs/sierpinski.grg
 mono GrGen.exe ../specs/snowflake.grg
 \end{verbatim}
-respectively. If you are on a Unix-like system you have to adjust the path separators of the \emph{GrShell} scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \emph{yComp}'s layouter might need some time and attempts to layout it nicely.\\
+respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's layouter might need some time and attempts to layout it nicely.\\
 \\
 We execute the Sierpinski script by
 \begin{verbatim}
