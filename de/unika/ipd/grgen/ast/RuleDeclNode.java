@@ -78,7 +78,7 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 	
-
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -89,7 +89,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean check() {
 		boolean childTypes = super.check() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
-
+		
 		boolean returnParams = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
 			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
@@ -116,7 +116,7 @@ public class RuleDeclNode extends TestDeclNode {
 			AssignNode eval = (AssignNode)n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
-		
+				
 		return rule;
 	}
 }

@@ -19,33 +19,33 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
-
+	
 	private static final int DELETE = LAST + 7;
 	
 	private static final Resolver deleteResolver =
 		new CollectResolver(
-				new DeclResolver(
-						new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
+		new DeclResolver(
+							   new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
 	
 	private static final Checker deleteChecker =
 		new CollectChecker(
-				new MultChecker(
-						new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
+		new MultChecker(
+							  new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
 	
 	public ModifyRuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
-			BaseNode neg, BaseNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
+							  BaseNode neg, BaseNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
 		addResolver(DELETE, deleteResolver);
 	}
-
+	
 	@Override
-	protected boolean check() {
-		return super.check() && checkChild(DELETE, deleteChecker); 
+		protected boolean check() {
+		return super.check() && checkChild(DELETE, deleteChecker);
 	}
-
+	
 	@Override
-	protected IR constructIR() {
+		protected IR constructIR() {
 		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		
@@ -60,14 +60,32 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		}
 		for(Edge e : left.getEdges()) {
 			if(!deleteSet.contains(e) &&
-					!deleteSet.contains(left.getSource(e)) &&
-					!deleteSet.contains(left.getTarget(e)))
+			   !deleteSet.contains(left.getSource(e)) &&
+			   !deleteSet.contains(left.getTarget(e)))
 				right.addConnection(left.getSource(e), e, left.getTarget(e));
 		}
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		constructIRaux(rule, ((GraphNode)getChild(RIGHT)).getReturn());
+		
+		// add Params to the IR
+		for(BaseNode n : getChild(PARAM).getChildren()) {
+			ParamDeclNode param = (ParamDeclNode)n;
+			if(!deleteSet.contains(param.getIR()))
+				if(param instanceof NodeCharacter) {
+					right.addSingleNode(((NodeCharacter)param).getNode());
+				}
+				else if (param instanceof EdgeCharacter) {
+					Edge e = ((EdgeCharacter)param).getEdge();
+					if(!deleteSet.contains(e) &&
+					   !deleteSet.contains(left.getSource(e)) &&
+					   !deleteSet.contains(left.getTarget(e)))
+						right.addConnection(left.getSource(e),e, left.getTarget((e)));
+				}
+				else
+					throw new IllegalArgumentException("unknown Class: " + n);
+		}
 		
 		// add Eval statments to the IR
 		for(BaseNode n : getChild(EVAL).getChildren()) {
@@ -77,5 +95,5 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		
 		return rule;
 	}
-
+	
 }

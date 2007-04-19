@@ -1,4 +1,4 @@
-actions param_002 using attrib_model_001;
+actions param_004 using attrib_model_001;
 
 rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT, NINT, NSTRING) {
 	pattern {
@@ -6,9 +6,8 @@ rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT,
 		zi : NINT;
 		zzi : NINT;
 	}
-	modify {
+	replace {
 		xi : NINT;
-		delete(nf, nd, zzi);
 		return (zi, xi,  ns);
 	}
 }

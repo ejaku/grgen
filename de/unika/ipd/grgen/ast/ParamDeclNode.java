@@ -1,16 +1,12 @@
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
+import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.EdgeType;
+import java.awt.Color;
 
 public class ParamDeclNode extends DeclNode implements NodeCharacter, EdgeCharacter {
 	static {
@@ -38,38 +34,37 @@ public class ParamDeclNode extends DeclNode implements NodeCharacter, EdgeCharac
 	public boolean isNode() {
 		return getChild(TYPE) instanceof NodeTypeNode;
 	}
-
+	
 	public boolean isEdge() {
 		return getChild(TYPE) instanceof EdgeTypeNode;
 	}
-
+	
 	@Override
-	protected boolean check() {
-	  	return checkChild(IDENT, IdentNode.class)
-	  	  && checkChild(TYPE, typeChecker);
+		protected boolean check() {
+		return checkChild(IDENT, IdentNode.class)
+			&& checkChild(TYPE, typeChecker);
 	}
-
+	
 	@Override
-	protected IR constructIR() {
+		protected IR constructIR() {
 		if(isNode()) {
-		  	NodeType type = (NodeType) getDeclType().checkIR(NodeType.class);
-		  	return new Node(getIdentNode().getIdent(), type,
-					getIdentNode().getAttributes());
+			NodeType type = (NodeType) getDeclType().checkIR(NodeType.class);
+			return new Node(getIdentNode().getIdent(), type,
+							getIdentNode().getAttributes());
 		} else if(isEdge()) {
-		  	EdgeType type = (EdgeType) getDeclType().checkIR(EdgeType.class);
-		  	return new Edge(getIdentNode().getIdent(), type,
-					getIdentNode().getAttributes());
+			EdgeType type = (EdgeType) getDeclType().checkIR(EdgeType.class);
+			return new Edge(getIdentNode().getIdent(), type,
+							getIdentNode().getAttributes());
 		} else {
 			return null;
 		}
 	}
-
+	
 	public Node getNode() {
 		return (Node)checkIR(Node.class);
 	}
-
+	
 	public Edge getEdge() {
 		return (Edge)checkIR(Edge.class);
 	}
-
 }

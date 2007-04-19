@@ -311,7 +311,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genRuleReplace(StringBuffer sb, Rule rule) {
 		StringBuffer sb2 = new StringBuffer();
-		sb.append("\t\tpublic override IGraphElement[] Replace(IGraph graph, Match match, IGraphElement[] parameters)\n");
+		sb.append("\t\tpublic override IGraphElement[] Replace(IGraph graph, Match match)\n");
 		sb.append("\t\t{\n");
 		
 		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
@@ -325,12 +325,6 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		newEdges.removeAll(rule.getCommonEdges());
 		delNodes.removeAll(rule.getCommonNodes());
 		delEdges.removeAll(rule.getCommonEdges());
-		
-		// parameters of the rule are not common between the pattern and
-		// replace/modify part, but should not be created
-		newNodes.removeAll(rule.getParameters());
-		newEdges.removeAll(rule.getParameters());
-		
 		
 		// new nodes
 		for(Node node : newNodes) {
@@ -1369,6 +1363,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 

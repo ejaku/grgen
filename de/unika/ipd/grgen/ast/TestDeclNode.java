@@ -181,8 +181,6 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 	
 	
-	
-	
 	protected void constructIRaux(MatchingAction ma, BaseNode aReturns) {
 		// add negative parts to the IR
 		for (BaseNode n : getChild(NEG).getChildren()) {
@@ -194,6 +192,16 @@ public class TestDeclNode extends ActionDeclNode {
 		for(BaseNode n : getChild(PARAM).getChildren()) {
 			ParamDeclNode param = (ParamDeclNode)n;
 			ma.addParameter((Entity) param.checkIR(Entity.class));
+			if(param instanceof NodeCharacter) {
+				ma.getPattern().addSingleNode(((NodeCharacter)param).getNode());
+			}
+			else if (param instanceof EdgeCharacter) {
+				Edge e = ((EdgeCharacter)param).getEdge();
+				ma.getPattern().addConnection(ma.getPattern().getSource(e), e,
+											  ma.getPattern().getTarget((e)));
+			}
+			else
+				throw new IllegalArgumentException("unknown Class: " + n);
 		}
 		
 		// add Return-Prarams to the IR
@@ -207,8 +215,8 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 	
 	protected IR constructIR() {
-		PatternGraph gr = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
-		Test test = new Test(getIdentNode().getIdent(), gr);
+		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
+		Test test = new Test(getIdentNode().getIdent(), left);
 		
 		constructIRaux(test, getChild(RET));
 		
