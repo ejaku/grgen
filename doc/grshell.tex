@@ -7,7 +7,7 @@ The \GrShell\ language is a line oriented scripting language. It is structured b
 
 \section{Building Blocks}
 
-The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Anything left from the \emph{\#} will be treated as a statement.
+The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any thext left of the \emph{\#} will be treated as a statement.
 
 \begin{rail} 
  Text : '<DoubleQuotedText>' | '<SingleQuotedText>' | '<Word>' ;
@@ -35,7 +35,7 @@ NodeType: & Identifier of a node type within the model of the current graph.\\
 AttributeName: & Identifier of an attribute.\\
 Graph: & Identifies a graph by its name. \\
 Action: & Identifies a rule by its name.\\
-Color: & One of the following color identifiers: Black, Blue, Green, Cyan, Red, Purple, Brown, Grey, LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yelloq, White, DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac, Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid.
+Color: & One of the following color identifiers: Black, Blue, Green, Cyan, Red, Purple, Brown, Grey, LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yelloq, White, DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac, Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid. These are the same color identifiers as in VCG/\yComp\ files.
 \end{tabularx}\\
 
 The elements of a graph (nodes and edges) can be accessed both by their variable identifier and by their persistent name specified through a constructor (see \ref{mani}):
@@ -45,9 +45,8 @@ The elements of a graph (nodes and edges) can be accessed both by their variable
 \end{rail}
 \makeatother
 The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires the corresponding graph element to be a node or an edge respectively.\\
-
 %\lined 
-{\label{persistentex} \small \textbf{Example:} We insert a node, anonymously and with a constructor:
+\marginpar{\mbox{ }\\ \small \textbf{Example}} {\label{persistentex} \small \mbox{ }\\ We insert a node, anonymously and with a constructor:
 \begin{grshell}
 > select backend lgspBackend.dll
 Backend selected successfully.
@@ -71,13 +70,12 @@ new node "end" of type "State" has been created.
 >  v = @(end)
 >
 \end{grshell}}
-%\lined
-\emph{Note:} Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph. 
+\marginpar{\small \textbf{Note}} {\small Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph.} 
 
 \begin{rail}
   Variable '=' GraphElement   
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} is not defined, it will be defined implicitly.
+Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have no type nor declarations.
 
 \section{\GrShell\ Commands}
 This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by a line breaks. Alternatively commands can be terminated by the \texttt{;;} symbol.
@@ -154,8 +152,8 @@ Deletes the graph \emph{Graph} from the backend storage.
   'validate' ( ( ) | 'strict' )
 \end{rail}
 Validates if the current working graph fulfills the edge constraints specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
-
-{\small \textbf{Example:} We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
+\marginpar{\mbox{ } \\ \small \textbf{Example}}
+{\small \\ We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
 \begin{grgen} 
 model Map;
 
@@ -177,10 +175,8 @@ This graph is valid, but not strict valid.
 The graph is valid.
 > validate strict
 The graph is NOT valid:
-  CAE: city "Eppstein" -- highway "A3" --> metropolis 
-            "Frankfurt" not specified
-  CAE: metropolis "Karlsruhe" -- street "trail" --> 
-            metropolis "Frankfurt" not specified
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
+  CAE: metropolis "Karlsruhe" -- street "trail" --> metropolis "Frankfurt" not specified
 >
 \end{grshell}}
 
@@ -228,14 +224,10 @@ Deletes the edge \emph{Edge} from the current graph.
 \subsection{Graph Query Commands}
 
 \begin{rail}
-  'show' 'num' ('nodes' (() | NodeType) | 'edges' (() | EdgeType))
+  'show' (() | 'num') ('nodes' (() | NodeType) | 'edges' (() | EdgeType))
 \end{rail}
-Gets the number of nodes/edges of the current graph. If a node type resp. edge type is supplied, only elements compatible to this type are considered.
-
-\begin{rail}
-  'show' ('nodes' (() | NodeType) | 'edges' (() | EdgeType))
-\end{rail}
-Gets the persistent names and the types of all the nodes / edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. Nodes / edges without persistent names are shown with a pseudo-name.
+Gets the persistent names and the types of all the nodes / edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. Nodes / edges without persistent names are shown with a pseudo-name.\\
+If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
 
 \begin{rail}
   'show' ('node' | 'edge') 'types'
@@ -327,7 +319,7 @@ The following example shows \emph{metropolis} ungrouped and grouped:
 \end{rail}
 Declares the attribute \emph{AttributeName} to be an ``info tag''. Info tags are displayed like additional node / edge labels. In the following example \emph{river} and \emph{jam} are info tags:
 \begin{center}
-  \fbox{\includegraphics[width=0.7\linewidth]{fig/infotag}}
+  \fbox{\includegraphics[width=0.5\linewidth]{fig/infotag}}
 \end{center}
 
 
@@ -389,7 +381,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}:
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -413,7 +405,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 
 Variables can be assigned to graph elements returned by rules using \texttt{(\emph{Para\-meters}) = \emph{Action}}. The desired variable identifiers have to be listed in \emph{Parameters}. Graph elements required by rules must be provided using \texttt{\emph{Action} (\emph{Para\-meters})}, where \emph{Parameters} is a list of variable identifiers. For undefined variables the specific element constraint of \emph{Action} will be ignored (every element matches).\\
 
-Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution \yComp\ will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within the \GrG's \texttt{/bin} directory.}. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.
+Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution \yComp\ will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.\\
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Executes the next rewriting rule (match and rewrite)\\
@@ -426,7 +418,8 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
 \end{table}
-{\small \textbf{Example:} We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
+\marginpar{\mbox{ } \\ \small \textbf{Example}}
+{\small \\ We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 \end{grshell}
@@ -437,7 +430,7 @@ debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 We type \texttt{d}(elaied step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.3\linewidth]{fig/debug1}\includegraphics[width=0.3\linewidth]{fig/debug2}\includegraphics[width=0.3\linewidth]{fig/debug3}
+  \includegraphics[width=0.25\linewidth]{fig/debug1}\includegraphics[width=0.4\linewidth]{fig/debug2}\includegraphics[width=0.4\linewidth]{fig/debug3}
   \caption{Delaied step rule application.}
   \label{figdebug}
 \end{figure}
