@@ -75,7 +75,7 @@ test SomeCond {
 \begin{grshell}
   grs SomeCond & SomeRule
 \end{grshell}
-{\small SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewriting sequences in \GrShell\ see \ref{grsthings}.}
+{\small SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewriting sequences in \GrShell\ see \ref{grsthings}.\\}
 
 \begin{rail}  
   ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
@@ -86,12 +86,13 @@ The signature sets the name of a rewriting rule to \emph{IdentDecl}. Additionall
   Parameters: '(' (IdentDecl ':' (NodeType | EdgeType) + ',') ')' ;
   ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
 \end{rail}
-Parameters are treated as predefined graph elements for the pattern. The return values are graph elements of the replace / modify part. If no pattern is found or the \texttt{return} operator is omitted, the return values are undefined. See also \ref{replacepart}, \texttt{return}. Undefined parameters are treated as node or edge definition. That means a graph element of the specified type will be attempted to matched.\\
-{\small \textbf{Example:} we extend \texttt{SomeRule} with a variable node to find, and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.}
+Parameters are treated as predefined graph elements for the pattern. Even if a supplied parameter value is undefined, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be matched. \\
+The return types specify edge and node types of graph elements that are returned by the replace / modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement may occur. If no pattern is found, the return values are undefined. See also \ref{replacepart}, \texttt{return}.\\
+\marginpar{\mbox{ }\\ \small \textbf{Example}}
+{\\ \small We extend \texttt{SomeRule} with a variable node to find, and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.}
 \begin{grgen}
   rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
     pattern{
-      varnode;
       n1: NodeTypeA;
       ...
     }
@@ -102,42 +103,42 @@ Parameters are treated as predefined graph elements for the pattern. The return 
       eval {
         ...
 \end{grgen}
+{\small We don't define \texttt{varnode} within the pattern part, because this is already covered by the parameter specification itself.\\}
 
 \section{Pattern Part}
 \label{patternpart}
 \begin{rail}
   Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
 \end{rail}
-A pattern consists of zero, one or several pattern statements. A match in a host graph must be a subset of graph elements, such that each pattern statement is fulfilled and the subset is of minimum size. Even stronger -- a graph element of the host graph, that is matched by a statement, is ``bound'', i.e. it can not be part of another pattern statement, unless you use the \texttt{hom} operator. An empty pattern always produces exactly one (empty) match.\\
+A pattern consists of zero, one or several pattern statements. All of the pattern statements must be fulfilled by a subgraph of the host graph, in order to form a match. Even stronger -- a graph element of the host graph, that is matched by a statement, is ``bound'', i.e.\ it can not be part of another pattern statement, unless you use the \texttt{hom} operator. An empty pattern always produces exactly one (empty) match.\\
 Pattern statements may define variables for use by other pattern statements or replace statements. Such variables may be used before declaration.\\
-Note that the application of a rule is not deterministic, specifically there may be more than one sub graph that matches the pattern and any of them may be selected.
+\marginpar{\mbox{ }\\ \small \textbf{Note}} {\small \\ The application of a rule is not deterministic, specifically there may be more than one sub graph that matches the pattern and any of them may be selected.\\}
 
 \begin{rail}  
   PatternStatement: 
     PatternGraphlet ';' |
     'hom' '(' (Ident + ',') ')' ';' |
     'negative' lbrace (()+PatternStatement) rbrace |
-    'if' (BooleanExpr ';' | (lbrace (BooleanExpr ';' +) rbrace)) |
+    'if' lbrace (BooleanExpr ';' +) rbrace |
     'return' '(' (Ident+',') ')' ';' ;
 \end{rail}
 The semantics of the various pattern statements:
 \begin{description}
-  \item[PatternNode.] Specify single nodes of a certain type to find.
-  \item[Graphlet.] Graphlets specify a connected subgraph, i.e. certain node types connected by certain edge types.
-  \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specify the nodes or edges, that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be matched to the same graph element in the host graph. Note that the graph elements shall have a common subtype. If the match is not isomorphic, than the elements will be mapped to a common subtype.\\
+  \item[Pattern Graphlet.] Graphlets specify a connected subgraph, i.e.\ certain node types connected by certain edge types.
+  \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specify the nodes or edges, that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be matched to the same graph element in the host graph. Note that the graph elements shall have a common subtype. If the match is not isomorphic, than the elements will be mapped to a graph element of a common subtype.\\
   In our example \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the  same type (\texttt{NodeTypeA}).
-  \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). NACs may not be nested. Variables defined within a NAC are not alive outside the NAC.\\
+  \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). NACs may not be nested. Variables defined within a NAC are not alive outside the NAC. Identifiers from surrounding scopes may be overwritten.\\
   In our example the second negative condition uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. We can safely reuse the variable name \texttt{e1} in the replace part.
   \item[Attribute Conditions.] The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allows for further restriction of the applicability of a rule.
-  \item[Return values.] The return statement is allowed in \textbf{test rules} only. In this case graph elements of the pattern can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The return statement may not occur multiple times. The values have to be in the same order as the corresponding return types in the signature.
+  \item[Return values.] The return statement is only allowed for \texttt{test} rules. Otherwise the \texttt{return} statement belongs to the replace part. See \ref{replacepart}, \emph{Return Values}.
 \end{description}
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See \ref{typeexpressions} for further information.
 
 \begin{rail}   
   PatternGraphlet: PatternNode (() | PatternContinuation) ;
+  PatternContinuation: (ForwardEdge | ReverseEdge) PatternNode (() | PatternContinuation) ;
   PatternNode: Ident | 
     (() | IdentDecl) ':' NodeType (() | TypeConstraint) ; 
-  PatternContinuation: (ForwardEdge | ReverseEdge) PatternNode (() | PatternContinuation) ;
 \end{rail}
 A pattern graphlet is specified piecewise. Start with a \emph{PatternNode} in order to specify a node of type \emph{NodeType} (with respect to \emph{TypeConstraint}) and optionally construct a larger subgraph with several pattern continuations. \\
 In our example the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the pattern continuation \texttt{--> n2}.
@@ -146,12 +147,12 @@ In our example the statement \texttt{n1 --> n2} is the node identifier \texttt{n
 \label{replacepart}
 For the task of rewriting \GrG\ provides two different modes: a replace mode and a modify mode.
 \begin{description}
-  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used and create denoted graph elements that are not used in the pattern part.\\
+  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used and create all the additionally defined graph elements.\\
   In our example \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
-  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator.\\
-  How might our example look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} can be omitted. So we have
+  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator, that deletes every element given as an argument. Deletion takes place at last of all rewrite operations. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).\\
+\marginpar{\mbox{ } \\ \small \textbf{Example}} {\small \\ How might our example look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} can be omitted. So we have}
 \begin{grgen}
-rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
+rule SomeRuleExtMod(varnode: Node): (Node, EdgeTypeB) {
   pattern {
     ...
     n1 -e0:Edge-> n2;
@@ -164,6 +165,7 @@ rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
     eval {
       ...
 \end{grgen}
+\mbox{ }\\
 \end{description}
 
 \begin{rail}
@@ -172,33 +174,35 @@ rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
 Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
 
 \begin{rail}  
-  ReplaceStatement: ((ReplaceNode+';') | 
-    ReplaceGraphlet |
-    'delete' '(' (Ident + ',') ')' |
+  ReplaceStatement: ReplaceGraphlet ';' |
+    'delete' '(' (Ident + ',') ')' ';' |
     'eval' Evaluation |
-    'return' '(' (Ident+',') ')' ) ';' ;
+    'return' '(' (Ident+',') ')' ';' ;
 \end{rail}    
 The semantics of the various pattern statements:
 \begin{description}
-  \item[ReplaceNode.] A single node that is either kept because it's a node of the pattern or added otherwise. \GrG\ supports \emph{retyping} of nodes by the \texttt{<>} operator.
-  \item[ReplaceGraphlet.] The same as \emph{PatternGraphlet}, but with \emph{ReplaceNode} instead of \emph{PatternNode}. The retyping operator for edges \texttt{<>} is allowed.
-  \item[Deletion.] The \texttt{delete} operator is only supported by the modify mode. It deletes the specified pattern graph elements. Deletion statements are executed at last of all replace statements. Multiple deletion of the same graph element is allowed.
-  \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements may be recalculated.
-  \item[Return values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). At most one return statement is allowed. The values have to be in the same order as the corresponding return types in the signature.
-  \item[Retyping.] Retyping enables us to keep all adjacent graph elements and all attributes stemming from common super types of a node while changing its type. During replacement both of the graph elements are alive. Specifically both of them are available for evaluation.
+  \item[Replace Graphlet.] Analogous to a pattern graphlet a specification of a connected subgraph. It's graph elements are either kept because they are elements of the pattern or added otherwise.
+  \item[Deletion.] The \texttt{delete} operator is only supported by the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed at last of all replace statements. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).
+  \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated.
+  \item[Return Values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement may not occur multiple times. The values have to be in the same order as the corresponding return types in the signature.
+  \item[Retyping.] Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. Retyping differs from a type cast: During replacement both of the graph elements are alive. Specifically both of them are available for evaluation. Furthermore the source and destination types must not be on a path in the directed type hierarchy tree, but are arbitrary.\\
+The edge specification as well as \emph{ReplaceNode} supports retyping. In our example node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
 \end{description}    
     
-
-
 \begin{rail}
   ReplaceGraphlet: ReplaceNode (() | ReplaceContinuation) ;
-  ReplaceNode: Ident | 
-    (IdentDecl ':' NodeType (() | '<' Ident '>')) ;
   ReplaceContinuation:  (ForwardEdge | ReverseEdge) ReplaceNode (() | ReplaceContinuation) ;    
 \end{rail}
-See \ref{patternpart}, \emph{PatternGraphlet} and \emph{PatternContinuations}, for a description of the graphlet / continuations semantics. The edge specification as well as \emph{ReplaceNode} supports \emph{retyping}. In our example node \texttt{n5} is a retyped node stemming from node \texttt{n1}
+The same as \emph{PatternGraphlet}, but with \emph{ReplaceNode} instead of \emph{PatternNode}. The retyping operator for edges \texttt{<>} is allowed. See \ref{patternpart}, \emph{PatternGraphlet} and \emph{PatternContinuations}, for a description of the graphlet / continuation semantics.
+
+\begin{rail}
+  ReplaceNode: Ident | 
+    (IdentDecl ':' NodeType (() | '<' Ident '>')) ;
+\end{rail}
+A single node that is either kept because it's a node of the pattern or added otherwise. \GrG\ supports \emph{retyping} of nodes by the \texttt{<>} operator.
+
 
 \begin{rail}    
-   Evaluation: lbrace ((Ident ('.' Ident +) '=' Expression ';' )+) rbrace ;
+   Evaluation: lbrace ((Ident '.' Ident '=' Expression ';' )+) rbrace ;
 \end{rail}
 Several Evaluation parts are allowed within the replace part. Evaluation parts are executed before any graph elements get deleted. You can read (and write, although this doesn't make sense) attributes of deleted graph elements in modify mode or unmapped graph elements in replacement mode respectively.
