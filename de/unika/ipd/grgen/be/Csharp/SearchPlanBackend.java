@@ -311,6 +311,81 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genRuleReplace(StringBuffer sb, Rule rule) {
 		StringBuffer sb2 = new StringBuffer();
+		
+		sb.append("\t\tpublic void RerouteSource(LGSPEdge edge, LGSPNode newSource)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tLGSPEdge outhead;\n");
+		sb.append("\t\t// removeOutgoing\n");
+		sb.append("\t\tif (edge == edge.source.outhead)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tedge.source.outhead = edge.outNext;\n");
+		sb.append("\t\tif (edge.source.outhead == edge)\n");
+		sb.append("\t\tedge.source.outhead = null;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\tedge.outPrev.outNext = edge.outNext;\n");
+		sb.append("\t\tedge.outNext.outPrev = edge.outPrev;\n");
+		sb.append("\t\tedge.source = newSource;\n");
+		sb.append("\t\touthead = newSource.outhead;\n");
+		sb.append("\t\t// addOutgoing\n");
+		sb.append("\t\tif (outhead == null)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tnewSource.outhead = edge;\n");
+		sb.append("\t\tedge.outNext = edge;\n");
+		sb.append("\t\tedge.outPrev = edge;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\telse\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\touthead.outPrev.outNext = edge;\n");
+		sb.append("\t\tedge.outPrev = outhead.outPrev;\n");
+		sb.append("\t\tedge.outNext = outhead;\n");
+		sb.append("\t\touthead.outPrev = edge;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t}\n");
+		
+		sb.append("\t\tpublic void RerouteTarget(LGSPEdge edge, LGSPNode newTarget)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tLGSPEdge inhead;\n");
+		sb.append("\t\t// removeIncoming\n");
+		sb.append("\t\tif (edge == edge.source.inhead)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tedge.source.inhead = edge.inNext;\n");
+		sb.append("\t\tif (edge.source.inhead == edge)\n");
+		sb.append("\t\tedge.source.inhead = null;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\tedge.inPrev.inNext = edge.inNext;\n");
+		sb.append("\t\tedge.inNext.inPrev = edge.inPrev;\n");
+		sb.append("\t\tedge.target = newTarget;\n");
+		sb.append("\t\tinhead = newTarget.inhead;\n");
+		sb.append("\t\t// addIncoming\n");
+		sb.append("\t\tif (inhead == null)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tnewTarget.inhead = edge;\n");
+		sb.append("\t\tedge.inNext = edge;\n");
+		sb.append("\t\tedge.inPrev = edge;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\telse\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\tinhead.inPrev.inNext = edge;\n");
+		sb.append("\t\tedge.inPrev = inhead.inPrev;\n");
+		sb.append("\t\tedge.inNext = inhead;\n");
+		sb.append("\t\tinhead.inPrev = edge;\n");
+		sb.append("\t\t}\n");
+		sb.append("\t\t}\n");
+		
+		
+		sb.append("\t\tpublic void RetypeEdge(LGSPGraph graph, LGSPEdge edge, ITypeFramework newType) {\n");
+		sb.append("\t\tedge.typePrev.typeNext = edge.typeNext;\n");
+		sb.append("\t\tedge.typeNext.typePrev = edge.typePrev;\n");
+		sb.append("\t\tgraph.edgesByTypeCounts[edge.type.typeID]--;\n");
+		sb.append("\t\tedge.type = newType;\n");
+		sb.append("\t\tLGSPEdge head = graph.edgesByTypeHeads[newType.typeID];\n");
+		sb.append("\t\thead.typeNext.typePrev = edge;\n");
+		sb.append("\t\tedge.typeNext = head.typeNext;\n");
+		sb.append("\t\tedge.typePrev = head;\n");
+		sb.append("\t\thead.typeNext = edge;\n");
+		sb.append("\t\tgraph.edgesByTypeCounts[newType.typeID]++;\n");
+		sb.append("\t\t}\n");
+		
 		sb.append("\t\tpublic override IGraphElement[] Replace(IGraph graph, Match match)\n");
 		sb.append("\t\t{\n");
 		
@@ -325,6 +400,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		newEdges.removeAll(rule.getCommonEdges());
 		delNodes.removeAll(rule.getCommonNodes());
 		delEdges.removeAll(rule.getCommonEdges());
+		
+		
 		
 		// new nodes
 		for(Node node : newNodes) {
@@ -343,7 +420,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		}
 		
 		// new edges
-		for(Edge edge : newEdges) {
+		NE:	for(Edge edge : newEdges) {
 			Node src_node = rule.getRight().getSource(edge);
 			Node tgt_node = rule.getRight().getTarget(edge);
 			
@@ -362,6 +439,31 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				type = formatType(edge.getType()) + ".typeVar";
 			}
 			
+			// Can we reuse the edge
+			for(Edge delEdge : new HashSet<Edge>(delEdges))
+				if(edge.getEdgeType().getAllMembers().isEmpty() && delEdge.getEdgeType().getAllMembers().isEmpty()) {
+					// We can reuse the edge instead of deleting it!
+					// This is a veritable performance optimization, as object creation is costly
+					
+					String de = formatEntity(delEdge);
+					String src = formatEntity(src_node);
+					String tgt = formatEntity(tgt_node);
+
+					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
+					
+					if(delEdge.getType() != edge.getType())
+						sb2.append("\t\t\tRetypeEdge((LGSPGraph)graph, " + de + ", " + type + ");\n");
+					if(rule.getLeft().getSource(delEdge)!=src_node)
+						sb2.append("\t\t\tRerouteSource(" + de + ", " + src + ");\n");
+					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+						sb2.append("\t\t\tRerouteTarget(" + de + ", " + tgt + ");\n");
+					
+					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
+					extractEdgeFromMatch.add(delEdge);
+					continue NE;
+				}
+			
+			// Create the edge
 			sb2.append(
 				"\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) graph.AddEdge(" +
 					type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
@@ -428,17 +530,21 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		// return parameter (output)
 		//extractNodeFromMatch.addAll(rule.getReturns());
-		sb2.append("\t\t\treturn new IGraphElement[] { ");
-		for(Entity ent : rule.getReturns()) {
-			if(ent instanceof Node)
-				extractNodeFromMatch.add((Node)ent);
-			else if(ent instanceof Node)
-				extractEdgeFromMatch.add((Edge)ent);
-			else
-				throw new IllegalArgumentException("unkown Entity: " + ent);
-			sb2.append(formatEntity(ent) + ", ");
+		if(rule.getReturns().isEmpty())
+			sb2.append("\t\t\treturn null;\n");
+		else {
+			sb2.append("\t\t\treturn new IGraphElement[] { ");
+			for(Entity ent : rule.getReturns()) {
+				if(ent instanceof Node)
+					extractNodeFromMatch.add((Node)ent);
+				else if(ent instanceof Node)
+					extractEdgeFromMatch.add((Edge)ent);
+				else
+					throw new IllegalArgumentException("unkown Entity: " + ent);
+				sb2.append(formatEntity(ent) + ", ");
+			}
+			sb2.append("};\n");
 		}
-		sb2.append("};\n");
 		
 		sb2.append("\t\t}\n");
 		
@@ -1363,6 +1469,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 
