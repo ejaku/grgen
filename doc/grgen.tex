@@ -79,8 +79,98 @@ morestring=[b]",
 \providecommand{\GrShell}{{\scshape GrShell}}
 \providecommand{\LibGr}{{\scshape LibGr}}
 \providecommand{\yComp}{{\scshape yComp}}
+
+
 \newcommand{\lined}{\hfill \hrule\hfill\vspace{1mm} \\}
 \reversemarginpar
+
+% Pimped example environment
+\newlength\sidebar
+\newlength\envrule
+\newlength\envborder
+\setlength\sidebar{1.5mm}
+\setlength\envrule{0.4pt}
+\setlength\envborder{6mm}
+
+\definecolor{exampleborder}{rgb}{0,0,.7}
+\definecolor{examplebg}{rgb}{.9,.9,1}
+\definecolor{statementborder}{rgb}{.9,0,0}
+\definecolor{statementbg}{rgb}{1,.9,.9}
+\newsavebox\envbox
+\newcounter{example}
+\newenvironment{example}[1][EXAMPLE]{%
+  \par 
+  \refstepcounter{example}%
+  \SpecialEnv{#1}{exampleborder}{examplebg}{}{\theexample}%
+}{%
+  \endSpecialEnv
+}
+\newcounter{note}
+\newenvironment{note}[1][NOTE]{%
+  \par 
+  \refstepcounter{note}%
+  \SpecialEnv{#1}{statementborder}{statementbg}{}{\thenote}%
+}{%
+  \endSpecialEnv
+}
+\newenvironment{statement}[1][]{% Default statement has no title
+  \par
+  \SpecialEnv{#1}{statementborder}{statementbg}{statementborder}{}%
+}{%
+  \endSpecialEnv
+}
+
+\def\Empty{}
+
+% #1 title (if any)
+% #2 sidebar (and title bg) color
+% #3 background color
+% #4 border color (or null for no border)
+% #5 Counter, if any.
+\newenvironment{SpecialEnv}[5]{%
+  \par
+  \def\EnvSideC{#2}% To use later (in end)
+  \def\EnvBackgroundC{#3}%
+  \def\EnvFrameC{#4}%  
+  \flushleft
+  \setlength\leftskip{-\sidebar}%
+  \addtolength\leftskip{-\envborder}%
+  \noindent \nobreak
+  % Check if title is null:
+  \ifx\delimiter#1\delimiter\else
+  % If a title is specified, then typeset it in reverse color
+   \colorbox{\EnvSideC}{%
+     \hspace{-\leftskip}% usually positive
+     \hspace{-\fboxsep}%
+     % insert counter, if any:
+     \footnotesize\sffamily\bfseries\textcolor{white}{#1 \ifx\delimiter#5\delimiter\else(#5)\enspace\fi}%
+     \hspace{\envborder}}%
+   \par\nobreak
+   \setlength\parskip{-0.2pt}% Tiny overlap to counter pixel round-off errors
+   \nointerlineskip 
+  \fi
+  % Make side-bar
+  \textcolor{\EnvSideC}{\vrule width\sidebar}%
+  % collect body in \envbox:
+  \begin{lrbox}\envbox 
+  \begin{minipage}{\hsize}%
+  \ignorespaces
+}{\par
+  \end{minipage}\end{lrbox}%
+  % body is collected. Add background color
+  \setlength\fboxsep\envborder
+  \ifx\EnvFrameC\Empty % no frame
+    \colorbox{\EnvBackgroundC}{\usebox\envbox}%
+  \else % frame
+    \setlength\fboxrule\envrule
+    \addtolength\fboxsep{-\envrule}%
+    \fcolorbox{\EnvFrameC}{\EnvBackgroundC}{\usebox\envbox}%
+  \fi
+  \nobreak \hspace{-2\envborder}\null
+  \endflushleft
+}
+
+
 
 
 \begin{document}

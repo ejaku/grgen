@@ -1,7 +1,7 @@
 \chapter{System Overview}
 \pagenumbering{arabic}
 
-\GrG\ is a generative programming system for graph rewriting. \GrG\ is mainly designed for \emph{typed graphs}.  That means, graphs are not only nodes and edges, but labeled (\emph{attributed typed}) directed multigraphs. The type system is specified as class hierarchy, like classes in object oriented languages. Type systems for specific sets of graphs can be specified by user supplied graph meta models. Such a graph model describes a set of well-formed graphs, i.e.\ allowed node and edge types, their attributes and specific connection assertions. We'll build a graph model for a turing machine in section \ref{anexample}.
+\GrG\ is a generative programming system for graph rewriting. \GrG\ is mainly designed for \emph{typed graphs}.  That means, graphs are not only nodes and edges, but labeled (\emph{attributed typed}) directed multigraphs. The type system is specified as class hierarchy, like classes in object oriented languages. Type systems for specific sets of graphs can be specified by user supplied graph meta models. Such a graph model describes a set of well-formed graphs, i.e.\ allowed node and edge types, their attributes and specific connection assertions. We'll build a graph model for a Turing machine in section \ref{anexample}.
 
 \begin{figure}[htbp]
 	\centering
@@ -36,13 +36,13 @@ applied to $H$. We'll get the apple as new host graph $H'$. Now we want to rewri
 \[ p':  \begin{array}[c]{c} \includegraphics[height=1.25cm]{fig/stiel} \end{array} \begin{array}[c]{c} \longrightarrow \end{array} \begin{array}[c]{c} \includegraphics[height=1.25cm]{fig/blatt} \end{array}, \]
 apply $p'$ to $H'$ and get the new host graph $H''$, something like this:
 \[ \includegraphics[width=3cm]{fig/wrongapple} \]
-What happened? \GrG\ has randomly choosen a match, and $e3$ matches as well as $e1$. A correct solution could make use of edge type information. And this time we'll keep even the stem. So let $H''$ now be
+What happened? \GrG\ has randomly chosen a match, and $e3$ matches as well as $e1$. A correct solution could make use of edge type information. And this time we'll keep even the stem. So let $H''$ now be
 \[ \includegraphics[width=3cm]{fig/typedapple} \]
 and
 \[ p'':  \begin{array}[c]{c} \includegraphics[height=1.25cm]{fig/typedstiel} \end{array} \begin{array}[c]{c} \longrightarrow \end{array} \begin{array}[c]{c} \includegraphics[height=1.25cm]{fig/typedblatt} \end{array}. \]
 If we apply $p''$ to $H''$ this leads to
 \[ \includegraphics[width=3cm]{fig/rewrittenapple} \]
-\emph{Note:} If we had applied $(p')*$ to $H'$ (execute $p'$ consecutively until no match is found) this would not have terminated, because each rewrite had produced one new canditate (one deleted, two added) for matching.    
+\emph{Note:} If we had applied $(p')*$ to $H'$ (execute $p'$ consecutively until no match is found) this would not have terminated, because each rewrite had produced one new candidate (one deleted, two added) for matching.    
 
 \section{Components}
 Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas table \ref{dirstruc} shows the \GrG\ directory structure.
@@ -105,3 +105,4 @@ A graph rewriting system is defined by a rule set description file (*.grg) and o
 \end{figure}
 
 In general you have to distinguish carefully between a graph model (meta level), a host graph, a pattern graph and a rewriting rule. In \GrG\ pattern graphs are implicitly defined by rules, i.e.\ each rule defines its pattern. On the technical side, specification documents for a graph rewriting system can be available as source documents for graph models and rule sets (plain text *.gm and *.grg files) or as their translated .NET modules, either C\# source files or their compiled assemblies (*.dll).
+

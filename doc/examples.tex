@@ -13,7 +13,7 @@ or
 mono GrGen.exe ../specs/sierpinski.grg
 mono GrGen.exe ../specs/snowflake.grg
 \end{verbatim}
-respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's layouter might need some time and attempts to layout it nicely.\\
+respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's layout algorithm might need some time and attempts to layout it nicely.\\
 \\
 We execute the Sierpinski script by
 \begin{verbatim}
@@ -37,7 +37,7 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver is a turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{beaver}. So first of all we design a turing machine as graph model. Besides this example shows that \GrG\ is turing complete. 
+We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{beaver}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is Turing complete. 
 
 \subsection{Graph Model}
 Let's start the model file \emph{TuringModel.gm} with
@@ -80,13 +80,13 @@ Now the rule set: we begin the rule set file \emph{Turing.grg} with
 actions Turing using TuringModel;
 
 \end{grgen}
-We need rewrite rules for the following steps of the turing machine:
+We need rewrite rules for the following steps of the Turing machine:
 \begin{enumerate}
   \item Read the value of the current tape cell and select an outgoing edge of the current state.
   \item Write a new value into the current cell, according to the sub type of the \emph{WriteValue} node.
   \item Move the read-write-head along the tape and propagate a new state as current state. 
 \end{enumerate}
-As you can see a transition of the turing machine is split into two graph rewriting steps: Writing the new value onto the tape and performing the state transition. We need eleven rules, three rules for each step (for ``zero'', ``one'' and ``empty'') and two rules for extending the tape to the left and the the right, respectively.
+As you can see a transition of the Turing machine is split into two graph rewriting steps: Writing the new value onto the tape and performing the state transition. We need eleven rules, three rules for each step (for ``zero'', ``one'' and ``empty'') and two rules for extending the tape to the left and the right, respectively.
 \begin{grgen}[firstnumber=last] 
 rule readZeroRule {
 	pattern {
@@ -101,7 +101,7 @@ rule readZeroRule {
 }      
 
 \end{grgen}
-We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check, if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
+We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
 \begin{grgen}[firstnumber=last] 
 rule readOneRule {
 	pattern {
@@ -291,7 +291,7 @@ Our busy beaver looks like this:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
-The graph rewriting sequence is quite straight forward and generic to the turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
+The graph rewriting sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 
@@ -312,3 +312,4 @@ Let the beaver run:
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule))*
 
 \end{grshell}
+

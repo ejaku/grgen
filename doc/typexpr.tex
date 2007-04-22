@@ -17,9 +17,12 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
 \label{builtintypes}
 \end{table}
 Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
+\begin{example}
+  \texttt{myfloat = myint; mydouble = (float)myint; mystring = (string)mybool} is allowed, \\
+  \texttt{myenum = (myenum)int; myfloat = mydouble; myint = (int)mybool} is forbidden.
+\end{example}
 \begin{table}[htbp]
   \centering
-  \begin{tabular}[c]{l}  
   \begin{tabular}[c]{|c|cccccc|} \hline
     \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string}\\ \hline
     \texttt{enum} & --- & & & & & \\ 
@@ -28,11 +31,6 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
     \texttt{float} & \texttt{(float)} & & implicit & --- & \texttt{(float)} & \\
     \texttt{double} &  \texttt{(double)} & & implicit & implicit & --- & \\
     \texttt{string} &  & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & --- \\ \hline
-  \end{tabular}\\
-  \\
-  \small \textbf{Examples:} \\
-  \small \texttt{myfloat = myint; mydouble = (float)myint; mystring = (string)mybool} is allowed, \\
-  \small \texttt{myenum = (myenum)int; myfloat = mydouble; myint = (int)mybool} is forbidden.
   \end{tabular}
   \caption{\GrG\ type casts.}
   \label{tabcasts}
@@ -44,7 +42,7 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') (() | '(' 'boolean' ')') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{isoc}, \texttt{!} negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+As in C \cite{isoc}, \texttt{!} negates a Boolean. Table \ref{tabboolops} lists the binary operators for Boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 Table \ref{compandtypes} describes the semantics of compare operators on type expressions.\\
@@ -58,9 +56,10 @@ Table \ref{compandtypes} describes the semantics of compare operators on type ex
     \texttt{A > B} & True, iff $A$ is a subtype of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a supertype of $B$ or $A$ and $B$ are identical. \\
     \texttt{A >= B} & True, iff $A$ is a subtype of $B$ or $A$ and $B$ are identical. \\ \hline
-  \end{tabularx}\\
-  \mbox{ }\\
-  {\small \textbf{Note:} \texttt{A < B} corresponds to the direction of the arrow in an UML class diagram.}
+  \end{tabularx}
+  \begin{note}
+  \texttt{A < B} corresponds to the direction of the arrow in an UML class diagram.
+  \end{note}
 \caption{Compare operators on type expressions}
 \end{table}
 The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
@@ -68,11 +67,11 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
-    \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ boolean expression is true. \end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ Boolean expression is true. \end{tabular} \\ \hline
     \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND an OR. Lazy evaluation. \end{tabular}\\ \hline
     \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND an OR. Complete evaluation. \end{tabular}\\ \hline
   \end{tabular}
-  \caption{Binary boolean operators, in ascending order of precedence}
+  \caption{Binary Boolean operators, in ascending order of precedence}
   \label{tabboolops}
 \end{table}
 
@@ -120,9 +119,9 @@ The operator \texttt{+} concatenates two strings.
 \begin{rail}
   TypeExpr: TypeIdent | 'typeof' '(' Ident ')' ;
 \end{rail}
-A type expression identifies a type (and -- in terms of matching -- also its subtypes). A type expression is either a type identifier itself or the type of a graph element. So \emph{Ident} has to be a node or edge identifier.\\
-\marginpar{\mbox{ }\\ \small \textbf{Example}}\\
-{\small The following rule will add a reverse edge to an one-way street.}
+A type expression identifies a type (and -- in terms of matching -- also its subtypes). A type expression is either a type identifier itself or the type of a graph element. So \emph{Ident} has to be a node or edge identifier.
+\begin{example}
+The following rule will add a reverse edge to an one-way street.
 \begin{grgen}
 rule oneway {
     pattern{
@@ -137,16 +136,18 @@ rule oneway {
     }
 }
 \end{grgen}
-{\small Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctely (the same type as the one-way edge). This behaviour is not possible without the \texttt{typeof} operator.\\}
+Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
+\end{example}
 
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
 \end{rail}
-A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a union of types.\\
-\marginpar{\mbox{ }\\ \small \textbf{Example}}\\
+A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a union of types.
+\begin{example}
 \begin{tabularx}{\linewidth}{c|X}
-  \begin{tabular}[c]{c}\includegraphics[width=0.35\linewidth]{fig/hierarchy}\end{tabular} & {\small The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}\\
+  \begin{tabular}[c]{c}\includegraphics[width=0.25\linewidth]{fig/hierarchy}\end{tabular} & {\small The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}\\
 \end{tabularx}
+\end{example}
 
 \section{Annotations}
 \label{annotations}
@@ -159,10 +160,11 @@ Although you can use any key-value pairs between the brackets, only the identifi
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for search plans. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans. {\small \textbf{Example:} We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. Wen can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}}. \\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for search plans. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans. {\small \textbf{Example:} We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}}. \\ \hline
 \end{tabularx}
 \caption{Annotations}
 \label{tabannotations}
 \end{table}
+
 
 

@@ -8,6 +8,9 @@ The key features of \GrG\ graph models from \cite{geiss}:
 \item[Inheritance.] Types (classes) can be composed by multiple inheritance. \emph{Node} and \emph{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes, because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the type hierarchy graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier.
 \item[Connection Assertions.] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
 \end{description}
+
+\begin{figure}[htbf]
+\begin{example}\label{ex:model:map}
 The following micro model of street maps gives a rough picture of the language:
 \begin{grgen}
 model Map;
@@ -35,17 +38,20 @@ edge class highway extends street
     jam: boolean;
 }
 \end{grgen}
-In this chapter as well as in the \GrShell\ chapter \ref{chapgrshell} we use pieces of the \texttt{Map} model for further descriptions.
+\end{example}
+\end{figure}
+In this chapter as well as in the \GrShell\ chapter \ref{chapgrshell} we use pieces of the example~\ref{ex:model:map} (the \texttt{Map} model) for further descriptions.
 
 \section{Building Blocks}
 \label{modelbb}
 
-\emph{Note:} The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide an visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{pascal}.
-
+\begin{note}
+The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide a visualization of EBNF grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{pascal}.
+\end{note}
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
-A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annontations on declarations.\\
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations on declarations.\\
 \\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
@@ -62,27 +68,30 @@ The graph model consists of its name \emph{IdentDecl} and type declarations defi
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
 \end{rail}
-\emph{ClassDeclaration} defines a node or an edge. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Types does not need to be declared before they are used.
+\emph{ClassDeclaration} defines a node or an edge. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Types do not need to be declared before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}
-Defines an enum type.\\
-\marginpar{\small \mbox{ }\\\textbf{Example}}
+Defines an enum type.
+
+\begin{example}
 \begin{grgen}
 enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
 enum AsInC {a = 2, b, c = 1, d, e = Resident::village + c}
 \end{grgen}
-{\small The semantics is as it is in C \cite{isoc}. So the examples hold $\text{red} = 0$, $a=d=2$, $b=3$, $c=1$ and $e=501$.\\}
+The semantics is as it is in C \cite{isoc}. So the examples hold $\text{red} = 0$, $a=d=2$, $b=3$, $c=1$ and $e=501$.
+\end{example}
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
 \end{rail}
 Defines a new node type or edge type.\\
-The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. The abstract-property will not be inherited by subclasses.\\
-\marginpar{\small \mbox{ }\\\textbf{Example}}
-{\small \\We adjust our map model and make \texttt{city} abstract:}
+The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. The abstract-property will not be inherited by subclasses.
+
+\begin{example}
+We adjust our map model and make \texttt{city} abstract:
 \begin{grgen}
 abstract node class city {
 	size: int;
@@ -90,8 +99,9 @@ abstract node class city {
 abstract node class abandoned_city extends city;
 node class ghost_town extends abandoned_city;
 \end{grgen}
-{\small You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}\\}.
-\\
+You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}.
+\end{example}
+
 The keyword \texttt{const} indicates, that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \LibGr\ and \GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
@@ -129,3 +139,4 @@ A connection assertion is described as a pair of node types, optionally together
   FieldType: PrimitiveType | EnumType ; 
 \end{rail}
 Defines a node or edge attribute. Possible types are \texttt{enum} and primitive types. See \ref{builtin} for a list of built-in primitive types.
+

@@ -7,7 +7,7 @@ The \GrShell\ language is a line oriented scripting language. It is structured b
 
 \section{Building Blocks}
 
-The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any thext left of the \emph{\#} will be treated as a statement.
+The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any text left of the \emph{\#} will be treated as a statement.
 
 \begin{rail} 
  Text : '<DoubleQuotedText>' | '<SingleQuotedText>' | '<Word>' ;
@@ -35,7 +35,7 @@ NodeType: & Identifier of a node type within the model of the current graph.\\
 AttributeName: & Identifier of an attribute.\\
 Graph: & Identifies a graph by its name. \\
 Action: & Identifies a rule by its name.\\
-Color: & One of the following color identifiers: Black, Blue, Green, Cyan, Red, Purple, Brown, Grey, LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yelloq, White, DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac, Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid. These are the same color identifiers as in VCG/\yComp\ files.
+Color: & One of the following color identifiers: Black, Blue, Green, Cyan, Red, Purple, Brown, Grey, LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White, DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac, Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid. These are the same color identifiers as in VCG/\yComp\ files.
 \end{tabularx}\\
 
 The elements of a graph (nodes and edges) can be accessed both by their variable identifier and by their persistent name specified through a constructor (see \ref{mani}):
@@ -44,9 +44,10 @@ The elements of a graph (nodes and edges) can be accessed both by their variable
   GraphElement: Text | ('@' '(' Text ')')
 \end{rail}
 \makeatother
-The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires the corresponding graph element to be a node or an edge respectively.\\
-%\lined 
-\marginpar{\mbox{ }\\ \small \textbf{Example}} {\label{persistentex} \small \mbox{ }\\ We insert a node, anonymously and with a constructor:
+The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires the corresponding graph element to be a node or an edge respectively.
+\begin{example}
+\label{persistentex} 
+We insert a node, anonymously and with a constructor:
 \begin{grshell}
 > select backend lgspBackend.dll
 Backend selected successfully.
@@ -69,13 +70,16 @@ new node "end" of type "State" has been created.
 # actually we want v to be "end": 
 >  v = @(end)
 >
-\end{grshell}}
-\marginpar{\small \textbf{Note}} {\small Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph.} 
+\end{grshell}
+\end{example}
+\begin{note}
+Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be labeled with their persistent names. Persistent names have to be unique for a graph.
+\end{note}
 
 \begin{rail}
   Variable '=' GraphElement   
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have no type nor declarations.
+Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither types nor declarations.
 
 \section{\GrShell\ Commands}
 This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by a line breaks. Alternatively commands can be terminated by the \texttt{;;} symbol.
@@ -98,7 +102,7 @@ Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph dis
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
 \end{rail}
-Selects a backend that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ ``lgspBackend.dll'').  Comma-separeted parameters can be supplied optionally. If so, the backend must support these parameters.
+Selects a backend that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ ``lgspBackend.dll'').  Comma-separated parameters can be supplied optionally. If so, the backend must support these parameters.
 
 \begin{rail}
   'show' 'backend' Filename
@@ -152,8 +156,8 @@ Deletes the graph \emph{Graph} from the backend storage.
   'validate' ( ( ) | 'strict' )
 \end{rail}
 Validates if the current working graph fulfills the edge constraints specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
-\marginpar{\mbox{ } \\ \small \textbf{Example}}
-{\small \\ We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
+\begin{example}
+We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
 \begin{grgen} 
 model Map;
 
@@ -178,7 +182,8 @@ The graph is NOT valid:
   CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
   CAE: metropolis "Karlsruhe" -- street "trail" --> metropolis "Frankfurt" not specified
 >
-\end{grshell}}
+\end{grshell}
+\end{example}
 
 \begin{rail}
   'custom' 'graph' ( ( ) | SpacedParameters )
@@ -193,7 +198,7 @@ In order to create graph elements an optional constructor can be used.
   Attributes : SingleAttribute + ',' ;
   SingleAttribute : AttributeName '=' TextOrNumber ; 
 \end{rail}
-A comma separated list of attribute declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with default values, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; String $\leftarrow$ ``'').\\
+A comma separated list of attribute declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with default values, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; float, double 0.0; string $\leftarrow$ ``'').\\
 The \texttt{\$} marks a special attribute: an unique identifier of the new graph element. This identifier also is denoted as \emph{persistent name} (see \ref{persistentex}, \emph{GraphElement}). This name can be specified by a constructor only.
 
 \begin{rail}
@@ -204,7 +209,7 @@ Creates a new node within the current graph. Optionally a variable \emph{Text} i
 \begin{rail}
   'new' Node '-' (()|Text) \\ (() | ':' EdgeType (() | Constructor)) '->' Node
 \end{rail}
-Creates a new edge within the current graph between the specified nodes, directed towards the second \emph{Node}. Optionally  a variable \emph{Text} is assigned to the new edge. If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor. Otherwise the edge will be of the base edge class type \emph{Edge}.
+Creates a new edge within the current graph between the specified nodes, directed towards the second \emph{Node}. Optionally a variable \emph{Text} is assigned to the new edge. If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor. Otherwise the edge will be of the base edge class type \emph{Edge}.
 
 \begin{rail}
   GraphElement '.' AttributeName '=' TextOrNumber
@@ -243,7 +248,9 @@ Gets the inherited / descended types of \emph{NodeType} / \emph{EdgeType}.
   'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
 \end{rail}
 Gets the available node / edge attribute types. If \emph{NodeType} / \emph{EdgeType} is supplied, only attributes defined in \emph{NodeType} / \emph{EdgeType}. The \texttt{only} keyword excludes inherited attributes.\\
-\textbf{Note:} This is in contrast to the \texttt{show num\dots}, \texttt{show nodes\dots} and \texttt{show edges\dots} commands where types and \emph{sub}types are specified.
+\begin{note}
+This is in contrast to the \texttt{show num\dots}, \texttt{show nodes\dots} and \texttt{show edges\dots} commands where types and \emph{sub}types are specified.
+\end{note}
 
 \begin{rail}
  'show' ('node' Node | 'edge' Edge)
@@ -418,20 +425,20 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
 \end{table}
-\marginpar{\mbox{ } \\ \small \textbf{Example}}
-{\small \\ We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
+\begin{example}   
+We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 \end{grshell}
-\yComp\ will be opened with an inital graph (resulting from \texttt{grs init}):
+\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
 \begin{center}
   \includegraphics[width=0.3\linewidth]{fig/debug0}
 \end{center}
-We type \texttt{d}(elaied step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
+We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.25\linewidth]{fig/debug1}\includegraphics[width=0.4\linewidth]{fig/debug2}\includegraphics[width=0.4\linewidth]{fig/debug3}
-  \caption{Delaied step rule application.}
+  \caption{Delayed step rule application.}
   \label{figdebug}
 \end{figure}
 Table \ref{tabdebug} shows the effect of further debug commands.
@@ -449,7 +456,8 @@ Table \ref{tabdebug} shows the effect of further debug commands.
   \end{tabular}
   \caption{Debug commands on \texttt{grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*)}}
   \label{tabdebug}
-\end{table}}
+\end{table}
+\end{example}   
 
 
 \section{LGSPBackend Custom Commands}
@@ -472,3 +480,4 @@ Creates a search plan for the rewriting rule \emph{Action} using a heuristic met
   'custom' 'actions' setmaxmatches Number
 \end{rail}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. For \emph{Number} less or equal to zero, the constraint is reset.
+
