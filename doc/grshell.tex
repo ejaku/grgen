@@ -112,7 +112,7 @@ List all the parameters supported by the backend \emph{Filename}, that can be pr
 \begin{rail}
   'include' Filename
 \end{rail}
-Executes the \GrShell\ script \emph{Filename}. A \GrShell\ script is just a plain text file containing \GrShell\ commands. They are treated as they would be entered interactively, except for parser errors. If an parser error occurs, execution of the script will cancel immediately.
+Executes the \GrShell\ script \emph{Filename}. A \GrShell\ script is just a plain text file containing \GrShell\ commands. They are treated as they would be entered interactively, except for parser errors. If an parser error occurs, execution of the script will stop immediately.
 
 \begin{rail}
   'debug' ( 'enable' | 'disable' )
@@ -219,7 +219,7 @@ Set the attribute \emph{AttributeName} of the graph element \emph{GraphElement} 
 \begin{rail}
   'delete' 'node' Node
 \end{rail}
-Deletes the node \emph{Node} from the current graph. Incident edges will be deletes as well.
+Deletes the node \emph{Node} from the current graph. Incident edges will be deleted as well.
 
 \begin{rail}
   'delete' 'edge' Edge

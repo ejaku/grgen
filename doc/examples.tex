@@ -101,7 +101,7 @@ rule readZeroRule {
 }      
 
 \end{grgen}
-We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. Analogous the remaining rules:
+We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. The remaining rules are analogous:
 \begin{grgen}[firstnumber=last] 
 rule readOneRule {
 	pattern {

@@ -4,7 +4,7 @@ The key features of \GrG\ graph models from \cite{geiss}:
 
 \begin{description}
 \item[Types.] Nodes and edges can have types (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
-\item[Attributes.] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes itself are typed, too.
+\item[Attributes.] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselfs are typed, too.
 \item[Inheritance.] Types (classes) can be composed by multiple inheritance. \emph{Node} and \emph{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes, because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the type hierarchy graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier.
 \item[Connection Assertions.] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
 \end{description}
@@ -57,7 +57,7 @@ A character sequence of arbitrary length consisting of letters, digits or unders
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
 \\
 \emph{Number}\\ \nopagebreak
-A sequence of digits. The sequence has to form a non-negative integer in decade system and will be internally stored in 32 bit two's complement representation.
+A sequence of digits. The sequence has to form a non-negative integer in the decimal system and will be internally stored in 32 bit two's complement representation.
 
 \section{Type Declarations}
 \begin{rail}
@@ -88,7 +88,7 @@ The semantics is as it is in C \cite{isoc}. So the examples hold $\text{red} = 0
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
 \end{rail}
 Defines a new node type or edge type.\\
-The keyword \texttt{abstract} indicates, that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. The abstract-property will not be inherited by subclasses.
+The keyword \texttt{abstract} indicates that you can't instantiate graph elements of this type but rather you have to derive non-abstract types for graph elements. The abstract-property will not be inherited by subclasses.
 
 \begin{example}
 We adjust our map model and make \texttt{city} abstract:
@@ -102,7 +102,7 @@ node class ghost_town extends abandoned_city;
 You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have got the attribute \texttt{size}.
 \end{example}
 
-The keyword \texttt{const} indicates, that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \LibGr\ and \GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
+The keyword \texttt{const} indicates that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \LibGr\ and \GrShell. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
@@ -114,7 +114,7 @@ Defines a new node type. Node types can inherit from other node types defined wi
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectAssertions) (';' | lbrace FieldDeclarations rbrace);
 \end{rail}
-Defines a new edge type. Edge types can inherit from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{Edge}. Optionally edges can possess attributes (fields). A \emph{connection assertion} specifies that certain edge types should only connect specific nodes and -- moreover -- the number of outgoing and incoming edges can be constrained.
+Defines a new edge type. Edge types can inherit from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{Edge}. Optionally edges can possess attributes (fields). A \emph{connection assertion} specifies that certain edge types should only connect specific nodes and, moreover, the number of outgoing and incoming edges can be constrained.
 
 \begin{rail}  
   ConnectAssertions: 'connect' (NodeConstraint '->' NodeConstraint + ',');

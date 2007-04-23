@@ -1,6 +1,6 @@
 \chapter{Rule Set Language}
 
-The rule set language forms the core of \GrG. Rule files refer to one or multiple graph models and specify a set of (usually coherent) rewriting rules. The rule language covers the pattern specification and the replace / modify specification. Graph element's attributes can be re-evaluated during a rule application. The following rewriting rule from \cite{geiss} gives a rough picture of the language:
+The rule set language forms the core of \GrG. Rule files refer to zero\footnote{TODO no unsing means that....} or more graph models and specify a set of (usually coherent) rewriting rules. The rule language covers the pattern specification and the replace / modify specification. Graph element's attributes can be re-evaluated during a rule application. The following rewriting rule from \cite{geiss} gives a rough picture of the language:
 \begin{figure}[htbf]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -157,7 +157,7 @@ For the task of rewriting \GrG\ provides two different modes: a replace mode and
 \begin{description}
   \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used and create every additionally defined graph elements.\\
   In our example \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
-  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator, that deletes every element given as an argument. Deletion takes place at last of all rewrite operations. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).
+  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator, that deletes every element given as an argument. Deletion takes place after all rewrite operations. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).
 \begin{example}
 How might our example look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} should be omitted. So we have
 \begin{grgen}
@@ -190,8 +190,8 @@ Selects whether the replace mode or the modify mode is used. Several replace sta
 \end{rail}    
 The semantics of the various pattern statements:
 \begin{description}
-  \item[Replace Graphlet.] Analogous to a pattern graphlet a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise.
-  \item[Deletion.] The \texttt{delete} operator is only supported by the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed at last of all replace statements. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).
+  \item[Replace Graphlet.] Analogous to a pattern graphlet, a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise.
+  \item[Deletion.] The \texttt{delete} operator is only supported by the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but senseless) as well as deletion of just created elements (senseless, too).
   \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated.
   \item[Return Values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement may not occur multiple times. The values have to be in the same order as the corresponding return types in the signature.
   \item[Retyping.] Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. Retyping differs from a type cast: During replacement both of the graph elements are alive. Specifically both of them are available for evaluation. Furthermore the source and destination types must not be on a path in the directed type hierarchy tree, but are arbitrary.\\
