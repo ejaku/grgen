@@ -425,23 +425,12 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
 \end{table}
-\begin{example}   
-We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
-\begin{grshell}
-debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
-\end{grshell}
-\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
-\begin{center}
-  \includegraphics[width=0.3\linewidth]{fig/debug0}
-\end{center}
-We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.25\linewidth]{fig/debug1}\includegraphics[width=0.4\linewidth]{fig/debug2}\includegraphics[width=0.4\linewidth]{fig/debug3}
   \caption{Delayed step rule application.}
   \label{figdebug}
 \end{figure}
-Table \ref{tabdebug} shows the effect of further debug commands.
 \begin{table}[htbp]
   \centering
   \begin{tabular}{|l|l|} \hline
@@ -457,6 +446,17 @@ Table \ref{tabdebug} shows the effect of further debug commands.
   \caption{Debug commands on \texttt{grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*)}}
   \label{tabdebug}
 \end{table}
+\begin{example}   
+We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
+\begin{grshell}
+debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
+\end{grshell}
+\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
+\begin{center}
+  \includegraphics[width=0.3\linewidth]{fig/debug0}
+\end{center}
+We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
+Table \ref{tabdebug} shows the effect of further debug commands.
 \end{example}   
 
 
