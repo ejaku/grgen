@@ -499,7 +499,13 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	 * @param    isNegativeGraph	 true, if current graph is negative
 	 * ----------------------------------------------------------------------------------- */
 	
+	// The FIRM graph rewriter can't deal with identical node names in pattern/replacement or
+	// pattern/NAC's. So for replacement graph or NAC's we change the node name artificially.
+	// Remember the changed name in here in relatedNodes. The connection between related nodes
+	// is not announced by name like in the GrGen Syntax but by special announce-functions
+	
 	HashMap relatedNodes;
+	
 	private void genPatternGraph(StringBuffer sb, String indent, String funcName,
 								 PatternGraph graph,
 								 IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds,
@@ -633,11 +639,12 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			
 			String nameSuffix = "";
 			boolean related = false;
+			
 			if(edgeIds.isKnown(edge))
 			{
 				nameSuffix = "_" + uin; 	// Edge is already known (positive pattern), make sure the names are different
 				uin++;
-				related = true;				// Flag indicates to emit an relation statement afterwards
+				related = true;				// Flag indicates to emit an relation statement afterwards			
 			}
 			else if(graphType != GraphType.Pattern)
 			{
@@ -649,7 +656,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			String edgePos = "ext_grs_NO_EDGE_POS";
 			String name = edge.getIdent().toString().replace('$','_') + nameSuffix;
 			//System.out.println("'" + edge.getIdent().toString().substring(0, 4) + "'");
-			if(edge.getIdent().toString().substring(0, 4).matches("pos[0123456789]"))
+			if(name.length() > 4 && name.substring(0, 4).matches("pos[0123456789]"))
 			{
 				String edgePosNrStr = edge.getIdent().toString().substring(3, 4);
 				int edgePosNr = Integer.parseInt(edgePosNrStr);
@@ -665,9 +672,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 			// Check if source node is a negative node
 			if(relatedNodes.containsKey(src))
-				sourceName = (String) relatedNodes.get(src);
 				// Yes, get negative node name
-			else
+				sourceName = (String) relatedNodes.get(src);
+			else				
 				sourceName = (String) src.getIdent().toString(); 	// No, get regular node name
 
 			// Check if dest node is a negative node
@@ -697,7 +704,6 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 		}
 		sb.append("\n");
-
 	}
 
 
@@ -893,6 +899,10 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 				{
 					sb.append("get_irn_arity(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
 				}
+				else if(n.getNodeType().isCastableTo(PROJ_TYPE))
+				{
+					sb.append("get_Proj_proj(node_map[" + nodeIds.computeId((Node)entity) + "/* " + entity.getIdent() + " */])");
+				}
 				else
 				{
 					throw new UnsupportedOperationException("Unsupported Node type in condition for node " + entity.getIdent());
@@ -900,8 +910,16 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			else if (entity instanceof Edge)
 			{
-				sb.append("edge_map["+ edgeIds.computeId((Edge)entity) +
-						  "/* "+ entity.getIdent() + " */] /*." + qual.getMember().getIdent()+"*/");
+				// Query the position of a MATCHED egde.
+				if(qual.getMember().getIdent().toString().equals("pos"))
+				{
+					sb.append("get_edge_src_pos(edge_map["+ edgeIds.computeId((Edge)entity) +
+						  "/* "+ entity.getIdent() + " */])");
+				}
+				else
+				{
+					throw new UnsupportedOperationException("Unsupported Edge attribute (" + entity + ")");
+				}
 			}
 			else
 			{
