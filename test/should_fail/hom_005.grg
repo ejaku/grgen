@@ -1,0 +1,12 @@
+actions hom_004 using deep_model_001;
+
+rule r {
+	pattern {
+		x:A -e:Edge-> y:Ac -f:Edge-> z:Bcc <-:Edge- zz:Accc;
+		hom(z, zz);
+	}
+	replace {
+		x <-:Edge- y <-- z;
+	}
+}
+

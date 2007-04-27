@@ -1,0 +1,12 @@
+actions hom_005;
+
+rule r {
+	pattern {
+		x:Node -e:Edge-> y:Node -f:Edge-> z:Node;
+		hom(e);
+	}
+	replace {
+		x <-:Edge- y <-- z;
+	}
+}
+

@@ -1,0 +1,11 @@
+actions basic_100;
+
+rule r {
+	pattern {
+		x:Node -e:Edge-> y:Node --> z:Node;
+	}
+	replace {
+		x <-:Edge- y <-- z;
+	}
+}
+

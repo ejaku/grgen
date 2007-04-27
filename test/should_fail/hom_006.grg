@@ -1,0 +1,18 @@
+actions hom_006 using deep_model_001;
+
+rule r {
+	pattern {
+		x:A -e:Edge-> y:Ac;
+		hom(x, y);
+		negative{
+			x <-- y;
+			x --> z1:AB;
+			y --> z2:AB;
+			hom(x, z2);
+		}
+	}
+	replace {
+		x <-:Edge- y;
+	}
+}
+
