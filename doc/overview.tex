@@ -25,10 +25,10 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item Graph model (Meta-Model) supports:
   \begin{itemize}
     \item Directed graphs
-    \item Typed nodes and edges, with multiple inheritance on types (see ).
-    \item Typed attributes can be assigned to node and edge types (see ).
+    \item Typed nodes and edges, with multiple inheritance on types
+    \item Typed attributes can be assigned to node and edge types
     \item Multigraphs including multiple edges of the same type
-    \item Connection assertions to restrict the "shape" of graphs (see ).
+    \item Connection assertions to restrict the "shape" of graphs
   \end{itemize}
   
   \item Patten language supports:
@@ -44,21 +44,21 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item Rewrites language supports:
   \begin{itemize}
     \item Attribute re-calculation (using arithmetic operations on the attributes)
-    \item Retyping of nodes/edges (some kind of casting)
-    \item Creation of new nodes/edges with dynamically computed types (some kind of generic templates)
-    \item The specification can alternatively express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
+    \item Retyping of nodes/edges (a stronger version of casts of common programming languages)
+    \item Creation of new nodes/edges with static as well as dynamically computed types (some kind of generic templates)
+    \item A rule can alternatively express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
   \end{itemize}
   
   \item Rule applications language (\GrShell) supports:
   \begin{itemize}
     \item Composing several rules together with logical and iterative sequence control (called regular graph rewrite sequences, RGS)
-    \item Various support for graph/node/edge creation/deletion/input/output
+    \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
     \item Regular graph rewrite sequences can optionally contain nested transactions (yet to be implemented)
   \end{itemize}
   
-  \item Alternatively, you can access the matching and rewrite facility through libGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
+  \item Alternatively, you can access the matching and rewrite facility through \LibGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
 \end{itemize}
 
 
@@ -117,7 +117,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
   \label{dirstruc}
 \end{table}
 
-A graph rewriting system\footnote{System, in this context, is not a CHO-like grammar rewriting system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
+A graph rewriting system\footnote{System, in this context, is not a CH0-like grammar rewriting system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
 Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
 Figure \ref{process} shows the generation process.
 
@@ -132,9 +132,9 @@ Figure \ref{process} shows the generation process.
           \node (gm3)      at (0   ,2)    {model3.gm};
           \node (grg)      at (4.5 ,1)    {rules1.grg};
           \node (grgen)    at (9   ,1)    {\GrG.exe};
-          \node (act)      at (13.5,-0.5) {rules1\_action.dll};
-          \node (backend)  at (13.5,1)    {backend.dll};
-          \node (mod)      at (13.5,2.5)  {rules1\_model.dll};
+          \node (act)      at (13.5,1) {rules1\_action.dll};
+          \node (backend)  at (9   ,2)    {backend.dll};
+          \node (mod)      at (13.5,2)  {rules1\_model.dll};
       \end{scope}
          
 			\draw[|-|] (-1,-1.5)   -- (5.5, -1.5)    node[below, midway] {/specs};
@@ -169,7 +169,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to term rewriting. 
 Normally you use one or more \emph{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rules consists of a tuple $L \leftarrow R$, whereas $L$ the left hand side of the rule is called \emph{pattern graph} and $R$ the right hand side of the rule is the \emph{replacement graph}.
+In the simplest case such a graph rewrite rules consists of a tuple $L \rightarrow R$, whereas $L$ the left hand side of the rule is called \emph{pattern graph} and $R$ the right hand side of the rule is the \emph{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -198,7 +198,7 @@ In the simplest case such a graph rewrite rules consists of a tuple $L \leftarro
 
 Moreover we need to identify graph elements (node or edges) of $L$ and $R$ for preserving them during rewrite. 
 This is done by a \emph{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but neither needs to be surjective nor total.
-Together with a rule name $p$ we have $p : L \leftarrow R$.
+Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
 The Transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
 To perform a rule application, we have to find a suitable location in the host graph with respect to the pattern graph.
@@ -215,7 +215,7 @@ The outcome of this steps is the resulting graph $H'$.
 We'll have a look at a small example. 
 First we use a special case to construct our host graph: an empty pattern always produces exactly one match (independently of the host graph). So starting with an empty host graph $H$ we construct an apple using
 \[
-  p:  
+  p_0:  
   \begin{array}[c]{c} 
     \emptyset
   \end{array} 
@@ -223,7 +223,7 @@ First we use a special case to construct our host graph: an empty pattern always
     \longrightarrow 
   \end{array} 
   \begin{array}[c]{c} 
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle]
       \node[draw] (n1) at (2.5,5) {};
       \node[draw] (n2) at (2,4)   {};
@@ -240,13 +240,13 @@ First we use a special case to construct our host graph: an empty pattern always
   \end{array}
 \]
 applied to $H$. 
-We'll get the apple as new host graph $H'$. 
+We'll get the apple as new host graph $H_1$. 
 Now we want to rewrite our apple with stem to an apple with a leaflet. 
 We use
 \[
-  p':
+  p_1:
   \begin{array}[c]{c}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle,minimum size=0.7cm]
       \node[draw] (a) at (2,5.5)  {a};
       \node[draw] (b) at (2,4)    {b};
@@ -258,7 +258,7 @@ We use
     \longrightarrow
   \end{array}
   \begin{array}[c]{c}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle,minimum size=0.7cm]
       \node[draw] (c) at (2,5.5)  {c};
       \node[draw] (b) at (2,4)    {b};
@@ -268,11 +268,10 @@ We use
     \end{tikzpicture}
   \end{array}, 
 \]
-apply $p'$ to $H'$ and get the new host graph $H''$, something like this:
+apply $p_1$ to $H_1$ and get the new host graph $H_2$, something like this:
 \[
-  p:  
   \begin{array}[c]{c} 
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle]
       \node[draw] (n1) at (2.5,5) {};
       \node[draw] (n2) at (2,4)   {};
@@ -288,10 +287,10 @@ apply $p'$ to $H'$ and get the new host graph $H''$, something like this:
     \end{tikzpicture}
   \end{array} 
   \begin{array}[c]{c} 
-    \longrightarrow^p
+    \xrightarrow{\quad p_1 \quad}
   \end{array} 
   \begin{array}[c]{c} 
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle]
       \node[draw] (n1) at (2.5,5) {};
       \node[draw] (n2) at (2,4)   {};
@@ -310,14 +309,15 @@ apply $p'$ to $H'$ and get the new host graph $H''$, something like this:
   \end{array}
 \]
 What happened? 
-\GrG\ has randomly chosen a match, and $e3$ matches as well as $e1$. 
+\GrG\ has arbitrary chosen one match among the set of possible matches, because $x$ matches edge $e3$ as well as $e1$.
 A correct solution could make use of edge type information. 
+We have to change rule $p_0$ to generate the edge $e_1$ with a special type ``stem''.
 And this time we'll even keep the stem. 
 So let now be
 \[
-  p'':
+  p_2:
   \begin{array}[c]{c}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle,minimum size=0.7cm]
       \node[draw] (a) at (2,5.5)  {a};
       \node[draw] (b) at (2,4)    {b};
@@ -329,7 +329,7 @@ So let now be
     \longrightarrow
   \end{array}
   \begin{array}[c]{c}
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle,minimum size=0.7cm]
       \node[draw] (c) at (2,5.5)  {c};
       \node[draw] (b) at (2,4)    {b};
@@ -341,11 +341,10 @@ So let now be
     \end{tikzpicture}
   \end{array}, 
 \]
-If we apply $p''$ to $H''$ this leads to
+If we apply $p_2$ to the modified $H_1$ this leads to
 \[
-  p:  
   \begin{array}[c]{c} 
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle]
       \node[draw] (n1) at (2.5,5) {};
       \node[draw] (n2) at (2,4)   {};
@@ -353,7 +352,7 @@ If we apply $p''$ to $H''$ this leads to
       \node[draw] (n4) at (2,0)   {};
       \node[draw] (n5) at (4,2)   {};
     	
-    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1$};
+    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1:\text{stem}$};
     	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
       \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
     	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
@@ -361,28 +360,32 @@ If we apply $p''$ to $H''$ this leads to
     \end{tikzpicture}
   \end{array} 
   \begin{array}[c]{c} 
-    \longrightarrow^p
+    \xrightarrow{\quad p_2 \quad}
   \end{array} 
   \begin{array}[c]{c} 
-    \begin{tikzpicture}
+    \begin{tikzpicture}[show background rectangle]
       \tikzstyle{every node}=[circle]
-      \node[draw] (n1) at (2.5,5.5) {};
+      \node[draw] (n1) at (3,5) {};
       \node[draw] (n2) at (2,4)   {};
       \node[draw] (n3) at (0,2)   {};
       \node[draw] (n4) at (2,0)   {};
       \node[draw] (n5) at (4,2)   {};
-      \node[draw] (n6) at (1.7,5.0)   {};
+      \node[draw] (n6) at (2,5.0)   {};
     	
-    	\draw[-latex] (n2) --                                  (n1) node[right,midway]  {$e_1$};
+    	\draw[-latex] (n2) --                                  (n1) node[right,midway]  {$e_1:\text{stem}$};
     	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
       \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
     	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
       \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
-    	\draw[-latex] (n2) .. controls +(-0.2,+0.4) and +(-0.1,-0.4) .. (n6) node[left,midway]   {};
-    	\draw[-latex] (n2) .. controls +(+0.1,+0.4) and +(+0.2,-0.4) .. (n6) node[right,midway]  {};
+    	\draw[-latex] (n2) .. controls +(-0.3,+0.3) and +(-0.3,-0.3) .. (n6) node[left,midway]   {};
+    	\draw[-latex] (n2) .. controls +(+0.3,+0.3) and +(+0.3,-0.3) .. (n6) node[right,midway]  {};
     \end{tikzpicture}
   \end{array}
 \]
-\emph{Note:} If we had applied $(p')*$ to $H'$ (execute $p'$ consecutively until no match is found) this would not have terminated, because each rewrite had produced one new candidate (one deleted, two added) for matching.    
+\emph{Note:} If we had applied $p_1$ to $H_1$ and consecutively to its resulting graph, this would not lead to a fix point, because each rewrite produces one new candidate (one deleted, two added) for matching.
+
+\section{The Tools}
+
+TODO Command line parameters, etc. \GrG, \GrShell, \LibGr, Ycomp,...
 
 
