@@ -199,7 +199,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		genActionConditions(sb, action);
 		sb.append("\n");
 		if(action instanceof Rule)
-			genRuleReplace(sb, (Rule)action);
+			genRuleModify(sb, (Rule)action);
 		else
 			throw new IllegalArgumentException("NYI. We cannot handle this type upto now! " + action);
 		sb.append("\t}\n");
@@ -309,84 +309,84 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		return i;
 	}
 	
-	private void genRuleReplace(StringBuffer sb, Rule rule) {
+	private void genRuleModify(StringBuffer sb, Rule rule) {
 		StringBuffer sb2 = new StringBuffer();
 		
-		sb.append("\t\tpublic void RerouteSource(LGSPEdge edge, LGSPNode newSource)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tLGSPEdge outhead;\n");
-		sb.append("\t\t// removeOutgoing\n");
-		sb.append("\t\tif (edge == edge.source.outhead)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tedge.source.outhead = edge.outNext;\n");
-		sb.append("\t\tif (edge.source.outhead == edge)\n");
-		sb.append("\t\tedge.source.outhead = null;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\tedge.outPrev.outNext = edge.outNext;\n");
-		sb.append("\t\tedge.outNext.outPrev = edge.outPrev;\n");
-		sb.append("\t\tedge.source = newSource;\n");
-		sb.append("\t\touthead = newSource.outhead;\n");
-		sb.append("\t\t// addOutgoing\n");
-		sb.append("\t\tif (outhead == null)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tnewSource.outhead = edge;\n");
-		sb.append("\t\tedge.outNext = edge;\n");
-		sb.append("\t\tedge.outPrev = edge;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\telse\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\touthead.outPrev.outNext = edge;\n");
-		sb.append("\t\tedge.outPrev = outhead.outPrev;\n");
-		sb.append("\t\tedge.outNext = outhead;\n");
-		sb.append("\t\touthead.outPrev = edge;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\t}\n");
+//		sb.append("\t\tpublic void RerouteSource(LGSPEdge edge, LGSPNode newSource)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tLGSPEdge outhead;\n");
+//		sb.append("\t\t// removeOutgoing\n");
+//		sb.append("\t\tif (edge == edge.source.outhead)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tedge.source.outhead = edge.outNext;\n");
+//		sb.append("\t\tif (edge.source.outhead == edge)\n");
+//		sb.append("\t\tedge.source.outhead = null;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\tedge.outPrev.outNext = edge.outNext;\n");
+//		sb.append("\t\tedge.outNext.outPrev = edge.outPrev;\n");
+//		sb.append("\t\tedge.source = newSource;\n");
+//		sb.append("\t\touthead = newSource.outhead;\n");
+//		sb.append("\t\t// addOutgoing\n");
+//		sb.append("\t\tif (outhead == null)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tnewSource.outhead = edge;\n");
+//		sb.append("\t\tedge.outNext = edge;\n");
+//		sb.append("\t\tedge.outPrev = edge;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\telse\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\touthead.outPrev.outNext = edge;\n");
+//		sb.append("\t\tedge.outPrev = outhead.outPrev;\n");
+//		sb.append("\t\tedge.outNext = outhead;\n");
+//		sb.append("\t\touthead.outPrev = edge;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\t}\n");
+//
+//		sb.append("\t\tpublic void RerouteTarget(LGSPEdge edge, LGSPNode newTarget)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tLGSPEdge inhead;\n");
+//		sb.append("\t\t// removeIncoming\n");
+//		sb.append("\t\tif (edge == edge.source.inhead)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tedge.source.inhead = edge.inNext;\n");
+//		sb.append("\t\tif (edge.source.inhead == edge)\n");
+//		sb.append("\t\tedge.source.inhead = null;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\tedge.inPrev.inNext = edge.inNext;\n");
+//		sb.append("\t\tedge.inNext.inPrev = edge.inPrev;\n");
+//		sb.append("\t\tedge.target = newTarget;\n");
+//		sb.append("\t\tinhead = newTarget.inhead;\n");
+//		sb.append("\t\t// addIncoming\n");
+//		sb.append("\t\tif (inhead == null)\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tnewTarget.inhead = edge;\n");
+//		sb.append("\t\tedge.inNext = edge;\n");
+//		sb.append("\t\tedge.inPrev = edge;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\telse\n");
+//		sb.append("\t\t{\n");
+//		sb.append("\t\tinhead.inPrev.inNext = edge;\n");
+//		sb.append("\t\tedge.inPrev = inhead.inPrev;\n");
+//		sb.append("\t\tedge.inNext = inhead;\n");
+//		sb.append("\t\tinhead.inPrev = edge;\n");
+//		sb.append("\t\t}\n");
+//		sb.append("\t\t}\n");
+//
+//
+//		sb.append("\t\tpublic void RetypeEdge(LGSPGraph graph, LGSPEdge edge, ITypeFramework newType) {\n");
+//		sb.append("\t\tedge.typePrev.typeNext = edge.typeNext;\n");
+//		sb.append("\t\tedge.typeNext.typePrev = edge.typePrev;\n");
+//		sb.append("\t\tgraph.edgesByTypeCounts[edge.type.typeID]--;\n");
+//		sb.append("\t\tedge.type = newType;\n");
+//		sb.append("\t\tLGSPEdge head = graph.edgesByTypeHeads[newType.typeID];\n");
+//		sb.append("\t\thead.typeNext.typePrev = edge;\n");
+//		sb.append("\t\tedge.typeNext = head.typeNext;\n");
+//		sb.append("\t\tedge.typePrev = head;\n");
+//		sb.append("\t\thead.typeNext = edge;\n");
+//		sb.append("\t\tgraph.edgesByTypeCounts[newType.typeID]++;\n");
+//		sb.append("\t\t}\n");
 		
-		sb.append("\t\tpublic void RerouteTarget(LGSPEdge edge, LGSPNode newTarget)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tLGSPEdge inhead;\n");
-		sb.append("\t\t// removeIncoming\n");
-		sb.append("\t\tif (edge == edge.source.inhead)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tedge.source.inhead = edge.inNext;\n");
-		sb.append("\t\tif (edge.source.inhead == edge)\n");
-		sb.append("\t\tedge.source.inhead = null;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\tedge.inPrev.inNext = edge.inNext;\n");
-		sb.append("\t\tedge.inNext.inPrev = edge.inPrev;\n");
-		sb.append("\t\tedge.target = newTarget;\n");
-		sb.append("\t\tinhead = newTarget.inhead;\n");
-		sb.append("\t\t// addIncoming\n");
-		sb.append("\t\tif (inhead == null)\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tnewTarget.inhead = edge;\n");
-		sb.append("\t\tedge.inNext = edge;\n");
-		sb.append("\t\tedge.inPrev = edge;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\telse\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\tinhead.inPrev.inNext = edge;\n");
-		sb.append("\t\tedge.inPrev = inhead.inPrev;\n");
-		sb.append("\t\tedge.inNext = inhead;\n");
-		sb.append("\t\tinhead.inPrev = edge;\n");
-		sb.append("\t\t}\n");
-		sb.append("\t\t}\n");
-		
-		
-		sb.append("\t\tpublic void RetypeEdge(LGSPGraph graph, LGSPEdge edge, ITypeFramework newType) {\n");
-		sb.append("\t\tedge.typePrev.typeNext = edge.typeNext;\n");
-		sb.append("\t\tedge.typeNext.typePrev = edge.typePrev;\n");
-		sb.append("\t\tgraph.edgesByTypeCounts[edge.type.typeID]--;\n");
-		sb.append("\t\tedge.type = newType;\n");
-		sb.append("\t\tLGSPEdge head = graph.edgesByTypeHeads[newType.typeID];\n");
-		sb.append("\t\thead.typeNext.typePrev = edge;\n");
-		sb.append("\t\tedge.typeNext = head.typeNext;\n");
-		sb.append("\t\tedge.typePrev = head;\n");
-		sb.append("\t\thead.typeNext = edge;\n");
-		sb.append("\t\tgraph.edgesByTypeCounts[newType.typeID]++;\n");
-		sb.append("\t\t}\n");
-		
-		sb.append("\t\tpublic override IGraphElement[] Replace(IGraph graph, Match match)\n");
+		sb.append("\t\tpublic override IGraphElement[] Modify(IGraph graph, Match match)\n");
 		sb.append("\t\t{\n");
 		
 		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
@@ -452,11 +452,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
 					
 					if(delEdge.getType() != edge.getType())
-						sb2.append("\t\t\tRetypeEdge((LGSPGraph)graph, " + de + ", " + type + ");\n");
+						sb2.append("\t\t\t((LGSPGraph)graph).RetypeEdge(" + de + ", " + type + ");\n");
 					if(rule.getLeft().getSource(delEdge)!=src_node)
-						sb2.append("\t\t\tRerouteSource(" + de + ", " + src + ");\n");
+						sb2.append("\t\t\t((LGSPGraph)graph).RerouteSource(" + de + ", " + src + ");\n");
 					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-						sb2.append("\t\t\tRerouteTarget(" + de + ", " + tgt + ");\n");
+						sb2.append("\t\t\t((LGSPGraph)graph).RerouteTarget(" + de + ", " + tgt + ");\n");
 					
 					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
 					extractEdgeFromMatch.add(delEdge);
@@ -531,7 +531,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// return parameter (output)
 		//extractNodeFromMatch.addAll(rule.getReturns());
 		if(rule.getReturns().isEmpty())
-			sb2.append("\t\t\treturn null;\n");
+			sb2.append("\t\t\treturn RulePattern.EmptyReturnElements;\n");
 		else {
 			sb2.append("\t\t\treturn new IGraphElement[] { ");
 			for(Entity ent : rule.getReturns()) {
