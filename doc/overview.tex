@@ -4,61 +4,62 @@
 
 \section{What is \GrG?}
 
-\GrG\ (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}arator) is a generative programming system for graph rewriting, which applies heuristic optimizations to the matching problem.
+\GrG\ (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}arator) is a generative programming system for graph rewriting.
+For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations.
 According to Varr\'o's benchmark it is at least one order of magnitude faster than any other tool known to us.
 
-For the rewriting step, our tool implements the well-founded single-pushout approach (SPO, for explanation see \cite{spo}).
-In order to accelerating the matching step, we define the notion of search plans to represent different matching strategies and equip these search plans with a cost model, taking the present host graph into account.
-The task of selecting a good search plan is then viewed as an optimization problem.
+In order to accelerate the matching step, we define the notion of search plans to represent different matching strategies and equip these search plans with a cost model, taking the present host graph into account.
+The task of selecting a good search plan is then considered as an optimization problem.
+For the rewrite step, our tool implements the well-founded single-pushout approach (SPO, for explanation see \cite{spo}).
 
-For the ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
-In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need be tuned or partly be implemented by hand.
+For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
+In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
 
 
 \section{Features of \GrG}
 
-The process of graph rewriting can be divided into four step:
-Representing a graph according to a model, searching a pattern aka.\ finding a match, performing changes to the found match and, finally, selecting the next rule(s) for application.
+The process of graph rewriting can be divided into four steps:
+Representing a graph according to a model, searching a pattern aka finding a match, performing changes to the found match, and, finally, selecting the next rule(s) for application.
 We have organized the features of \GrG\ according to this breakdown of graph rewriting.
 
 \begin{itemize}
-  \item Graph model (Meta-Model) supports:
+  \item The graph model (meta-model) supports:
   \begin{itemize}
     \item Directed graphs
     \item Typed nodes and edges, with multiple inheritance on types
     \item Typed attributes can be assigned to node and edge types
-    \item Multigraphs including multiple edges of the same type
+    \item Multigraphs (including multiple edges of the same type)
     \item Connection assertions to restrict the "shape" of graphs
   \end{itemize}
   
-  \item Patten language supports:
+  \item The pattern language supports:
   \begin{itemize}
     \item Plain isomorphic subgraph matching (injective mapping)
-    \item Homomorphic matching for a declarable set of nodes/edges, so that the matching is not injective
+    \item Homomorphic matching for a selectable set of nodes/edges, so that the matching is not injective
     \item Attribute conditions (including arithmetic operations on the attributes)
     \item Type conditions (including powerful instanceof-like type expressions)
     \item Parameter passing to rules
     \item Dynamic patterns with iterative or recursive paths and graphs (yet to be implemented)
   \end{itemize}
   
-  \item Rewrites language supports:
+  \item The rewrite language supports:
   \begin{itemize}
     \item Attribute re-calculation (using arithmetic operations on the attributes)
     \item Retyping of nodes/edges (a stronger version of casts of common programming languages)
-    \item Creation of new nodes/edges with static as well as dynamically computed types (some kind of generic templates)
-    \item A rule can alternatively express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
+    \item Creation of new nodes/edges with statically as well as dynamically computed types (some kind of generic templates)
+    \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
   \end{itemize}
   
-  \item Rule applications language (\GrShell) supports:
+  \item The rule application language (\GrShell) supports:
   \begin{itemize}
-    \item Composing several rules together with logical and iterative sequence control (called regular graph rewrite sequences, RGS)
+    \item Composing several rules with logical and iterative sequence control (called regular graph rewrite sequences, RGS)
     \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
-    \item Regular graph rewrite sequences can optionally contain nested transactions (yet to be implemented)
+    \item Regular graph rewrite sequences that can contain optionally nested transactions (yet to be implemented)
   \end{itemize}
   
-  \item Alternatively, you can access the matching and rewrite facility through \LibGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
+  \item Alternatively, you can access the match and rewrite facility through \LibGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
 \end{itemize}
 
 
@@ -109,15 +110,15 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
 \end{figure}
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
-  bin & Contains the .NET assemblies, in particular GrGen.exe (the graph rewriting system generator), LGSPBackend.dll (a \GrG\ backend) and the shell \texttt{GrShell.exe}.  \\ 
+  bin & Contains the .NET assemblies, in particular GrGen.exe (the graph rewrite system generator), LGSPBackend.dll (a \GrG\ backend) and the shell \texttt{GrShell.exe}.  \\ 
   lib & Contains the \GrG\ generated assemblies (*.dll). \\
-  specs & Contains the graph rewriting system source documents (*.gm and *.grg). \\ \hline
+  specs & Contains the graph rewrite system source documents (*.gm and *.grg). \\ \hline
   \end{tabularx}
   \caption{\GrG\ directory structure}
   \label{dirstruc}
 \end{table}
 
-A graph rewriting system\footnote{System, in this context, is not a CH0-like grammar rewriting system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
+A graph rewrite system\footnote{System, in this context, is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
 Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
 Figure \ref{process} shows the generation process.
 
@@ -154,13 +155,13 @@ Figure \ref{process} shows the generation process.
       \draw[->,dashed,red,>=triangle 45]     (3.25,3.0)  -- +(2.5,0) node[above, midway] {read / generate};
   \end{tikzpicture}
 	}
-  \caption{Generating a graph rewriting system}
+  \caption{Generating a graph rewrite system}
   \label{process}
 \end{figure}
 
-In general you have to distinguish carefully between a graph model (meta level), a host graph, a pattern graph and a rewriting rule.
+In general you have to distinguish carefully between a graph model (meta level), a host graph, a pattern graph and a rewrite rule.
 In \GrG\ pattern graphs are implicitly defined by rules, i.e.\ each rule defines its pattern.
-On the technical side, specification documents for a graph rewriting system can be available as source documents for graph models and rule sets (plain text *.gm and *.grg files) or as their translated .NET modules, either C\# source files or their compiled assemblies (*.dll).
+On the technical side, specification documents for a graph rewrite system can be available as source documents for graph models and rule sets (plain text *.gm and *.grg files) or as their translated .NET modules, either C\# source files or their compiled assemblies (*.dll).
 
 
 \section{What is Graph Rewriting?}
@@ -169,7 +170,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to term rewriting. 
 Normally you use one or more \emph{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rules consists of a tuple $L \rightarrow R$, whereas $L$ the left hand side of the rule is called \emph{pattern graph} and $R$ the right hand side of the rule is the \emph{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the left hand side of the rule -- is called \emph{pattern graph} and $R$ -- the right hand side of the rule -- is the \emph{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -184,36 +185,36 @@ In the simplest case such a graph rewrite rules consists of a tuple $L \rightarr
       \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
     \end{scope}
 
-    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match}   node[below=0.6cm] {Host Graph};
+    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match $m$}   node[below=0.6cm] {Host Graph};
     \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
 
     \pgfsetshortenstart{0.5cm}
     \pgfsetshortenend{0.5cm}
-    \draw[thick,->]  (L) -> (R)  node[above,midway] {Rule};
+    \draw[thick,->]  (L) -> (R)  node[above,midway] {Preservation Morphism $r$} node[below,midway] {Rule};
     \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
   \end{tikzpicture}
   \caption{Basic Idea of Graph Rewriting}
   \label{figrule}
 \end{figure}
 
-Moreover we need to identify graph elements (node or edges) of $L$ and $R$ for preserving them during rewrite. 
+Moreover we need to identify graph elements (nodes or edges) of $L$ and $R$ for preserving them during rewrite. 
 This is done by a \emph{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but neither needs to be surjective nor total.
 Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
-The Transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
-To perform a rule application, we have to find a suitable location in the host graph with respect to the pattern graph.
-Mathematically speaking, such a \emph{match} is a isomorphic subgraph of the $L$ in $H$.
-This morphism may not be unique, meaning there may be several matches.
-Afterwards we change the matched spot of the host graph, such that it becomes a isomorphic subgraph of the replacement graph $R$.
+The transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
+To perform this application, we have to find a suitable location in the host graph with respect to the pattern graph.
+Mathematically speaking, such a \emph{match} is an isomorphic subgraph of $L$ in $H$.
+This morphism may not be unique, i.e. there may be several matches.
+Afterwards we change the matched spot of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
-Elements of $R$ not in the image of $r$ are inserted to $H$, all others (elements that are mapped by $r$) are retained.
-The outcome of this steps is the resulting graph $H'$.
+Elements of $R$ not in the image of $r$ are inserted into $H$, all others (elements that are mapped by $r$) are retained.
+The outcome of these steps is the resulting graph $H'$.
 
 
 \section{An Example}
 
 We'll have a look at a small example. 
-First we use a special case to construct our host graph: an empty pattern always produces exactly one match (independently of the host graph). So starting with an empty host graph $H$ we construct an apple using
+First we use a special case to construct our host graph: an empty pattern always produces exactly one match (independent of the host graph). So starting with an empty host graph $H$ we construct an apple using
 \[
   p_0:  
   \begin{array}[c]{c} 
@@ -240,7 +241,7 @@ First we use a special case to construct our host graph: an empty pattern always
   \end{array}
 \]
 applied to $H$. 
-We'll get the apple as new host graph $H_1$. 
+We get the apple as new host graph $H_1$. 
 Now we want to rewrite our apple with stem to an apple with a leaflet. 
 We use
 \[
@@ -309,7 +310,7 @@ apply $p_1$ to $H_1$ and get the new host graph $H_2$, something like this:
   \end{array}
 \]
 What happened? 
-\GrG\ has arbitrary chosen one match among the set of possible matches, because $x$ matches edge $e3$ as well as $e1$.
+\GrG\ has arbitrarily chosen one match among the set of possible matches, because $x$ matches edge $e3$ as well as $e1$.
 A correct solution could make use of edge type information. 
 We have to change rule $p_0$ to generate the edge $e_1$ with a special type ``stem''.
 And this time we'll even keep the stem. 
@@ -339,7 +340,7 @@ So let now be
     	\draw[-latex] (b) .. controls +(-0.7,+0.7) and +(-0.7,-0.7) .. (c) node[left,midway]   {$y$};
     	\draw[-latex] (b) .. controls +(+0.7,+0.7) and +(+0.7,-0.7) .. (c) node[above,midway]  {$z$};
     \end{tikzpicture}
-  \end{array}, 
+  \end{array}.
 \]
 If we apply $p_2$ to the modified $H_1$ this leads to
 \[
@@ -380,12 +381,12 @@ If we apply $p_2$ to the modified $H_1$ this leads to
     	\draw[-latex] (n2) .. controls +(-0.3,+0.3) and +(-0.3,-0.3) .. (n6) node[left,midway]   {};
     	\draw[-latex] (n2) .. controls +(+0.3,+0.3) and +(+0.3,-0.3) .. (n6) node[right,midway]  {};
     \end{tikzpicture}
-  \end{array}
+  \end{array}.
 \]
 \emph{Note:} If we had applied $p_1$ to $H_1$ and consecutively to its resulting graph, this would not lead to a fix point, because each rewrite produces one new candidate (one deleted, two added) for matching.
 
 \section{The Tools}
 
-TODO Command line parameters, etc. \GrG, \GrShell, \LibGr, Ycomp,...
+TODO Command line parameters, etc. \GrG, \GrShell, \LibGr, yComp,...
 
 
