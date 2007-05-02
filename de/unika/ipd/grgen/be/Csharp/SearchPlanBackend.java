@@ -27,6 +27,7 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 
+
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.util.Util;
 
@@ -312,81 +313,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genRuleModify(StringBuffer sb, Rule rule) {
 		StringBuffer sb2 = new StringBuffer();
 		
-//		sb.append("\t\tpublic void RerouteSource(LGSPEdge edge, LGSPNode newSource)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tLGSPEdge outhead;\n");
-//		sb.append("\t\t// removeOutgoing\n");
-//		sb.append("\t\tif (edge == edge.source.outhead)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tedge.source.outhead = edge.outNext;\n");
-//		sb.append("\t\tif (edge.source.outhead == edge)\n");
-//		sb.append("\t\tedge.source.outhead = null;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\tedge.outPrev.outNext = edge.outNext;\n");
-//		sb.append("\t\tedge.outNext.outPrev = edge.outPrev;\n");
-//		sb.append("\t\tedge.source = newSource;\n");
-//		sb.append("\t\touthead = newSource.outhead;\n");
-//		sb.append("\t\t// addOutgoing\n");
-//		sb.append("\t\tif (outhead == null)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tnewSource.outhead = edge;\n");
-//		sb.append("\t\tedge.outNext = edge;\n");
-//		sb.append("\t\tedge.outPrev = edge;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\telse\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\touthead.outPrev.outNext = edge;\n");
-//		sb.append("\t\tedge.outPrev = outhead.outPrev;\n");
-//		sb.append("\t\tedge.outNext = outhead;\n");
-//		sb.append("\t\touthead.outPrev = edge;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\t}\n");
-//
-//		sb.append("\t\tpublic void RerouteTarget(LGSPEdge edge, LGSPNode newTarget)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tLGSPEdge inhead;\n");
-//		sb.append("\t\t// removeIncoming\n");
-//		sb.append("\t\tif (edge == edge.source.inhead)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tedge.source.inhead = edge.inNext;\n");
-//		sb.append("\t\tif (edge.source.inhead == edge)\n");
-//		sb.append("\t\tedge.source.inhead = null;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\tedge.inPrev.inNext = edge.inNext;\n");
-//		sb.append("\t\tedge.inNext.inPrev = edge.inPrev;\n");
-//		sb.append("\t\tedge.target = newTarget;\n");
-//		sb.append("\t\tinhead = newTarget.inhead;\n");
-//		sb.append("\t\t// addIncoming\n");
-//		sb.append("\t\tif (inhead == null)\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tnewTarget.inhead = edge;\n");
-//		sb.append("\t\tedge.inNext = edge;\n");
-//		sb.append("\t\tedge.inPrev = edge;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\telse\n");
-//		sb.append("\t\t{\n");
-//		sb.append("\t\tinhead.inPrev.inNext = edge;\n");
-//		sb.append("\t\tedge.inPrev = inhead.inPrev;\n");
-//		sb.append("\t\tedge.inNext = inhead;\n");
-//		sb.append("\t\tinhead.inPrev = edge;\n");
-//		sb.append("\t\t}\n");
-//		sb.append("\t\t}\n");
-//
-//
-//		sb.append("\t\tpublic void RetypeEdge(LGSPGraph graph, LGSPEdge edge, ITypeFramework newType) {\n");
-//		sb.append("\t\tedge.typePrev.typeNext = edge.typeNext;\n");
-//		sb.append("\t\tedge.typeNext.typePrev = edge.typePrev;\n");
-//		sb.append("\t\tgraph.edgesByTypeCounts[edge.type.typeID]--;\n");
-//		sb.append("\t\tedge.type = newType;\n");
-//		sb.append("\t\tLGSPEdge head = graph.edgesByTypeHeads[newType.typeID];\n");
-//		sb.append("\t\thead.typeNext.typePrev = edge;\n");
-//		sb.append("\t\tedge.typeNext = head.typeNext;\n");
-//		sb.append("\t\tedge.typePrev = head;\n");
-//		sb.append("\t\thead.typeNext = edge;\n");
-//		sb.append("\t\tgraph.edgesByTypeCounts[newType.typeID]++;\n");
-//		sb.append("\t\t}\n");
-		
-		sb.append("\t\tpublic override IGraphElement[] Modify(IGraph graph, Match match)\n");
+		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 		
 		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
@@ -414,7 +341,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				type = formatType(node.getType()) + ".typeVar";
 			}
 			sb2.append(
-				"\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) graph.AddNode(" +
+				"\t\t\tLGSPNode " + formatEntity(node) + " = graph.AddNode(" +
 					type + ");\n"
 			);
 		}
@@ -448,15 +375,19 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					String de = formatEntity(delEdge);
 					String src = formatEntity(src_node);
 					String tgt = formatEntity(tgt_node);
-
+					
 					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
 					
 					if(delEdge.getType() != edge.getType())
-						sb2.append("\t\t\t((LGSPGraph)graph).RetypeEdge(" + de + ", " + type + ");\n");
-					if(rule.getLeft().getSource(delEdge)!=src_node)
-						sb2.append("\t\t\t((LGSPGraph)graph).RerouteSource(" + de + ", " + src + ");\n");
-					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-						sb2.append("\t\t\t((LGSPGraph)graph).RerouteTarget(" + de + ", " + tgt + ");\n");
+						sb2.append("\t\t\tgraph.RetypeEdge(" + de + ", " + type + ");\n");
+					if(rule.getLeft().getSource(delEdge)!=src_node) {
+						if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+							sb2.append("\t\t\tgraph.RerouteEdge(" + de + ", " + src + ", " + tgt + ");\n");
+						else
+							sb2.append("\t\t\tgraph.RerouteSource(" + de + ", " + src + ");\n");
+					}
+					else if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+						sb2.append("\t\t\tgraph.RerouteTarget(" + de + ", " + tgt + ");\n");
 					
 					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
 					extractEdgeFromMatch.add(delEdge);
@@ -465,7 +396,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			
 			// Create the edge
 			sb2.append(
-				"\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) graph.AddEdge(" +
+				"\t\t\tLGSPEdge " + formatEntity(edge) + " = graph.AddEdge(" +
 					type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 			);
 		}
@@ -540,7 +471,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				else if(ent instanceof Node)
 					extractEdgeFromMatch.add((Edge)ent);
 				else
-					throw new IllegalArgumentException("unkown Entity: " + ent);
+					throw new IllegalArgumentException("unknown Entity: " + ent);
 				sb2.append(formatEntity(ent) + ", ");
 			}
 			sb2.append("};\n");
@@ -554,11 +485,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		for(Node node : extractNodeFromMatch)
 			if(node.isRetyped())
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
 			else
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) match.Nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
-			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) match.Edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
 		
 		sb.append(sb2);
 	}
@@ -1081,7 +1012,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override bool IsNodeType { get { return " + ((type instanceof NodeType) ? "true" : "false") + "; } }\n");
-		sb.append("\t\tpublic override IAttributes CreateAttributes() { return new " + cname + "(); }\n");
+		sb.append("\t\tpublic override IAttributes CreateAttributes() { return "
+					  + (type.getAllMembers().size() == 0 ? "null" : "new " + cname + "()") + "; }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
 		genGetAttributeType(sb, type);
@@ -1200,24 +1132,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			Qualification qual = (Qualification)cond;
 			Entity entity = qual.getOwner();
 			
-			if(entity instanceof Node) {
-				Node node = (Node)entity;
-				if(extractNodeFromMatch != null && !node.changesType())
-					extractNodeFromMatch.add(node);
-				if(node.changesType()) {
-					sb.append(formatEntity(node));
-					sb.append("_attributes." + formatIdentifiable(qual.getMember()));
-				} else {
-					sb.append("((INode_" + formatIdentifiable(node.getType()) + ")");
-					sb.append(formatEntity(node));
-					sb.append(".attributes)." + formatIdentifiable(qual.getMember()));
-				}
-			} else if (entity instanceof Edge) {
-				if(extractEdgeFromMatch != null)
-					extractEdgeFromMatch.add((Edge)entity);
-				sb.append("((IEdge_" + formatIdentifiable(entity.getType()) + ")");
-				sb.append(formatEntity(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
-			} else
+			if(entity instanceof Node)
+				genQualAccess((Node)entity, extractNodeFromMatch, sb, qual);
+			else if (entity instanceof Edge)
+				genQualAccess((Edge)entity, extractEdgeFromMatch, sb, qual);
+			else
 				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 		}
 		else if (cond instanceof Constant) { // gen C-code for constant expressions
@@ -1254,6 +1173,24 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 	
+	private void genQualAccess(GraphEntity entity, Collection extractEntityFromMatch, StringBuffer sb, Qualification qual) {
+		if(extractEntityFromMatch != null && !entity.changesType())
+			extractEntityFromMatch.add(entity);
+		if(entity.changesType()) {
+			sb.append(formatEntity(entity));
+			sb.append("_attributes." + formatIdentifiable(qual.getMember()));
+		} else {
+			if(entity instanceof Edge)
+				sb.append("((Edge_");
+			else if(entity instanceof Node)
+				sb.append("((Node_");
+			else
+				throw new IllegalArgumentException("Unknown Entity: " + entity);
+			sb.append(formatIdentifiable(entity.getType()) + ")");
+			sb.append(formatEntity(entity));
+			sb.append(".attributes)." + formatIdentifiable(qual.getMember()));
+		}
+	}
 	
 	private void genIsA(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
 		sb.append("\t\t\tisA      = new bool[] { ");
