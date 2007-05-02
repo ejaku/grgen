@@ -17,26 +17,24 @@ The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is termin
  SpacedParameters: Text + ; 
 \end{rail}
 
-Those items are required for representing text, numbers and parameters within rules. The tokens \verb+<...>+ are defined as follows:\\
+Those items are required for representing text, numbers and parameters within rules. The tokens \verb+<...>+ are defined as follows:
+\begin{description}
+  \item[\texttt{<Word>}] A character sequence consisting of letters, digits and underscores. The first character must not be a digit.
+  \item[\texttt{<DoubleQuotedText>}] Arbitrary text enclosed by double quotes (`` '').
+  \item[\texttt{<SingleQuotedText>}] Arbitrary text enclosed by single quotes (` ').
+  \item[\texttt{<Number>}] A sequence of digits.
+\end{description}
 
-\begin{tabularx}{\linewidth}{lX}
-\verb+<$Word$>+:            & A character sequence consisting of letters, digits and underscores. The first character must not be a digit.\\
-\verb+<DoubleQuotedText>+:  & Arbitrary text enclosed by double quotes (`` '').\\
-\verb+<SingleQuotedText>+:  & Arbitrary text enclosed by single quotes (` ').\\
-\verb+<Number>+:            & A sequence of digits.
-\end{tabularx}\\
-
-In order to describe the possible input to some of the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:\\
-
-\begin{tabularx}{\linewidth}{lX}
-Filename: & A file path without spaces (e.g.\ /Users/Bob/amazing\textunderscore file.txt) or a single quoted or double quoted file path that may contain spaces (``/Users/Bob/amazing\textunderscore file.txt'').\\
-Variable: & Identifier of a variable that contains a graph element.\\
-NodeType: & Identifier of a node type within the model of the current graph.\\
-AttributeName: & Identifier of an attribute.\\
-Graph: & Identifies a graph by its name. \\
-Action: & Identifies a rule by its name.\\
-Color: & One of the following color identifiers: Black, Blue, Green, Cyan, Red, Purple, Brown, Grey, LightGrey, LightBlue, LightGreen, LightCyan, LightRed, LightPurple, Yellow, White, DarkBlue, DarkRed, DarkGreen, DarkYellow, DarkMagenta, DarkCyan, Gold, Lilac, Turquoise, Aquamarine, Khaki, Pink, Orange, Orchid. These are the same color identifiers as in VCG/\yComp\ files.
-\end{tabularx}\\
+In order to describe the possible input to some of the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
+\begin{description}
+  \item[Filename]A file path without spaces (e.g.\ /Users/Bob/amazing\textunderscore file.txt) or a single quoted or double quoted file path that may contain spaces (``/Users/Bob/amazing\textunderscore file.txt'').
+  \item[Variable] Identifier of a variable that contains a graph element. 
+  \item[NodeType] Identifier of a node type defined in the model of the current graph.
+  \item[AttributeName] Identifier of an attribute.
+  \item[Graph] Identifies a graph by its name.
+  \item[Action] Identifies a rule by its name.
+  \item[Color] One of the following color identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yellow}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in VCG/\yComp\ files.
+\end{description}
 
 The elements of a graph (nodes and edges) can be accessed both by their variable identifier and by their persistent name specified through a constructor (see \ref{mani}):
 \makeatletter
@@ -425,14 +423,28 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
 \end{table}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.25\linewidth]{fig/debug1}\includegraphics[width=0.4\linewidth]{fig/debug2}\includegraphics[width=0.4\linewidth]{fig/debug3}
-  \caption{Delayed step rule application.}
-  \label{figdebug}
-\end{figure}
-\begin{table}[htbp]
-  \centering
+%\begin{figure}[htbp]
+%  \centering
+%  \includegraphics[width=0.25\linewidth]{fig/debug1}\includegraphics[width=0.4\linewidth]{fig/debug2}\includegraphics[width=0.4\linewidth]{fig/debug3}
+%  \caption{Delayed step rule application.}
+%  \label{figdebug}
+%\end{figure}
+
+\begin{example}   
+We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
+\begin{grshell}
+debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
+\end{grshell}
+\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
+\begin{center}
+  \includegraphics[width=0.3\linewidth]{fig/debug0tra}
+\end{center}
+We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the following graphs:
+\begin{center}
+  \parbox{0.2\linewidth}{\includegraphics[width=\linewidth]{fig/debug1tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug2tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug3tra}}
+\end{center}
+The following table shows the effect of further debug commands:
+\begin{center}
   \begin{tabular}{|l|l|} \hline
     \textbf{Command} & \textbf{Active rule} \\ \hline
     \texttt{s} & \texttt{makeFlake1} \\
@@ -443,20 +455,7 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
     \texttt{o} & \texttt{makeFlake2} \\
     \texttt{r} & --- \\ \hline
   \end{tabular}
-  \caption{Debug commands on \texttt{grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*)}}
-  \label{tabdebug}
-\end{table}
-\begin{example}   
-We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
-\begin{grshell}
-debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
-\end{grshell}
-\yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
-\begin{center}
-  \includegraphics[width=0.3\linewidth]{fig/debug0}
 \end{center}
-We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the graphs of figure \ref{figdebug}.
-Table \ref{tabdebug} shows the effect of further debug commands.
 \end{example}   
 
 

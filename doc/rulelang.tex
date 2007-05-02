@@ -1,6 +1,6 @@
 \chapter{Rule Set Language}
 
-The rule set language forms the core of \GrG. Rule files refer to zero\footnote{TODO no unsing means that....} or more graph models and specify a set of (usually coherent) rewriting rules. The rule language covers the pattern specification and the replace / modify specification. Graph element's attributes can be re-evaluated during a rule application. The following rewriting rule from \cite{geiss} gives a rough picture of the language:
+The rule set language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more graph models and specify a set of (usually coherent) rewriting rules. The rule language covers the pattern specification and the replace / modify specification. Graph element's attributes can be re-evaluated during a rule application. The following rewriting rule from \cite{geiss} gives a rough picture of the language:
 \begin{figure}[htbf]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -43,7 +43,10 @@ The \GrG\ rule set language is case sensitive. The language makes use of a coupl
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
 A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defined in a graph model (see \ref{modelbb}). \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations on declarations.
-\\
+\begin{note}
+  The \GrG\ rule set language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition.
+\end{note}
+\mbox{ }\\
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
 These are (semantic) specializations of Ident. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
 
@@ -57,7 +60,7 @@ In general edges are specified by \texttt{-->} or \texttt{<--}. Those edges are 
 \section{Declarations}
 \label{ruledecls}
 \begin{rail}
-  'actions' IdentDecl 'using' ((ModelIdent)+',') ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
+  'actions' IdentDecl (() | 'using' ((ModelIdent)+',')) ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
 \end{rail}
 A rule set consists of the underlying graph models and several rewriting rules. In case of multiple graph models \GrG\ use the union of the models. In this case beware of conflicting declarations.
 

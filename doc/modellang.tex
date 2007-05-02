@@ -51,8 +51,11 @@ The following syntax specifications make heavy use of syntax diagrams (also know
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, fields and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
-A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations on declarations.\\
-\\
+A character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: while \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations on declarations.
+\begin{note}
+  The \GrG\ model language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition.
+\end{note}
+\mbox{ }\\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of Ident to restrict an identifier to a specific type.\\
 \\

@@ -68,8 +68,8 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
     \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ Boolean expression is true. \end{tabular} \\ \hline
-    \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND an OR. Lazy evaluation. \end{tabular}\\ \hline
-    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND an OR. Complete evaluation. \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Complete evaluation. \end{tabular}\\ \hline
   \end{tabular}
   \caption{Binary Boolean operators, in ascending order of precedence}
   \label{tabboolops}
@@ -144,9 +144,9 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 \end{rail}
 A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a union of types.
 \begin{example}
-\begin{tabularx}{\linewidth}{c|X}
-  \includegraphics[width=0.25\linewidth]{fig/hierarchy}
-  The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.
+\begin{tabularx}{\linewidth}{cX}
+  \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
+  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}
 \end{tabularx}
 \end{example}
 
