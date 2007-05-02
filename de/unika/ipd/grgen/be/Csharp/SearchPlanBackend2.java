@@ -380,9 +380,13 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					
 					if(delEdge.getType() != edge.getType())
 						sb2.append("\t\t\tgraph.RetypeEdge(" + de + ", " + type + ");\n");
-					if(rule.getLeft().getSource(delEdge)!=src_node)
-						sb2.append("\t\t\tgraph.RerouteSource(" + de + ", " + src + ");\n");
-					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+					if(rule.getLeft().getSource(delEdge)!=src_node) {
+						if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+							sb2.append("\t\t\tgraph.RerouteEdge(" + de + ", " + src + ", " + tgt + ");\n");
+						else
+							sb2.append("\t\t\tgraph.RerouteSource(" + de + ", " + src + ");\n");
+					}
+					else if(rule.getLeft().getTarget(delEdge)!=tgt_node)
 						sb2.append("\t\t\tgraph.RerouteTarget(" + de + ", " + tgt + ");\n");
 					
 					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
@@ -467,7 +471,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				else if(ent instanceof Node)
 					extractEdgeFromMatch.add((Edge)ent);
 				else
-					throw new IllegalArgumentException("unkown Entity: " + ent);
+					throw new IllegalArgumentException("unknown Entity: " + ent);
 				sb2.append(formatEntity(ent) + ", ");
 			}
 			sb2.append("};\n");
@@ -1008,7 +1012,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override bool IsNodeType { get { return " + ((type instanceof NodeType) ? "true" : "false") + "; } }\n");
-		sb.append("\t\tpublic override IAttributes CreateAttributes() { return new " + cname + "(); }\n");
+		sb.append("\t\tpublic override IAttributes CreateAttributes() { return "
+				+ (type.getAllMembers().size() == 0 ? "null" : "new " + cname + "()") + "; }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
 		genGetAttributeType(sb, type);
