@@ -133,7 +133,7 @@ Figure \ref{process} shows the generation process.
           \node (gm3)      at (0   ,2)    {model3.gm};
           \node (grg)      at (4.5 ,1)    {rules1.grg};
           \node (grgen)    at (9   ,1)    {\GrG.exe};
-          \node (act)      at (13.5,1) {rules1\_action.dll};
+          \node (act)      at (13.5,1) {rules1\_actions.dll};
           \node (backend)  at (9   ,2)    {backend.dll};
           \node (mod)      at (13.5,2)  {rules1\_model.dll};
       \end{scope}
@@ -387,6 +387,28 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 
 \section{The Tools}
 
-TODO Command line parameters, etc. \GrG, \GrShell, \LibGr, yComp,...
+\subsection{\texttt{GrGen.exe}}
+The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
+\begin{description}
+  \item[Usage] \texttt{[mono] GrGen.exe [-d] RuleSet}\\
+    \emph{RuleSet} is a file containing a rule set specification according to \ref{chaprulelang}. Usually such a file has got the suffix \texttt{.grg}. The suffix \texttt{.grg} can be omitted.\\
+TODO: The lib-directory.
+  \item[Options] \mbox{} 
+    \begin{tabularx}{\linewidth}{lX}
+      -d & Enables debug output. A subdirectory \texttt{tmpgrgen$n$} within the current directory will be created. This directory contains:
+\begin{itemize}
+  \item \texttt{printOutput.txt}. A snapshot of \texttt{stdout} during program execution.
+  \item \emph{Name}\texttt{Actions.cs}. The C\# source file of the \emph{RuleSet}\texttt{\textunderscore actions.dll} assembly.
+  \item \emph{Name}\texttt{Model.cs}. The C\# source file(s) of the \emph{RuleSet}\texttt{\textunderscore modell.dll} assembly.
+\end{itemize}
+    \end{tabularx}
+  \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above). Java Runtime Environment 1.5 (or above).
+\end{description}
+
+\subsection{\texttt{grShell.exe}}
+
+\subsection{\texttt{LibGr.dll}}
+
+\subsection{\texttt{yComp.jar}}
 
 
