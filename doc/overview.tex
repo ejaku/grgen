@@ -1,4 +1,4 @@
-\chapter{System Overview}
+\chapter{Introduction}
 \pagenumbering{arabic}
 
 
@@ -14,6 +14,7 @@ For the rewrite step, our tool implements the well-founded single-pushout approa
 
 For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
+\GrG.NET is a version of \GrG\ written in C\#.
 
 
 \section{Features of \GrG}
@@ -49,6 +50,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Creation of new nodes/edges with statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
+	  \item Copying (duplicating) of elements form the match -- compareable with sesqui-pushout rewriting~\cite{} (yet to be implemented)
   \end{itemize}
   
   \item The rule application language (\GrShell) supports:
@@ -59,7 +61,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Regular graph rewrite sequences that can contain optionally nested transactions (yet to be implemented)
   \end{itemize}
   
-  \item Alternatively, you can access the match and rewrite facility through \LibGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
+  \item Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr, so you can build your own algorithmic rule applications in a .NET language of your choice. 
 \end{itemize}
 
 
@@ -133,9 +135,9 @@ Figure \ref{process} shows the generation process.
           \node (gm3)      at (0   ,2)    {model3.gm};
           \node (grg)      at (4.5 ,1)    {rules1.grg};
           \node (grgen)    at (9   ,1)    {\GrG.exe};
-          \node (act)      at (13.5,1) {rules1\_actions.dll};
+          \node (act)      at (13.5,1) {rules1Actions.dll};
           \node (backend)  at (9   ,2)    {backend.dll};
-          \node (mod)      at (13.5,2)  {rules1\_model.dll};
+          \node (mod)      at (13.5,2)  {rules1Model.dll};
       \end{scope}
          
 			\draw[|-|] (-1,-1.5)   -- (5.5, -1.5)    node[below, midway] {/specs};
@@ -167,7 +169,7 @@ On the technical side, specification documents for a graph rewrite system can be
 \section{What is Graph Rewriting?}
 
 The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
-This is comparable to term rewriting. 
+This is comparable to the well-known term rewriting. 
 Normally you use one or more \emph{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
 In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the left hand side of the rule -- is called \emph{pattern graph} and $R$ -- the right hand side of the rule -- is the \emph{replacement graph}.
@@ -203,18 +205,18 @@ Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
 The transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
 To perform this application, we have to find a suitable location in the host graph with respect to the pattern graph.
-Mathematically speaking, such a \emph{match} is an isomorphic subgraph of $L$ in $H$.
-This morphism may not be unique, i.e. there may be several matches.
-Afterwards we change the matched spot of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
+Mathematically speaking, such a \emph{match} $m$ is a total and isomorphic morphism from $L$ to an subgraph of $H$.
+This morphism may not be unique, i.e.\ there may be several matches.
+Afterwards we change the matched spot $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
 Elements of $R$ not in the image of $r$ are inserted into $H$, all others (elements that are mapped by $r$) are retained.
-The outcome of these steps is the resulting graph $H'$.
+The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xrightarrow{m,p} H'$.
 
 
 \section{An Example}
 
 We'll have a look at a small example. 
-First we use a special case to construct our host graph: an empty pattern always produces exactly one match (independent of the host graph). So starting with an empty host graph $H$ we construct an apple using
+First we use a special case to construct our host graph: an empty pattern always produces exactly one\footnote{Because of the uniqueness of the total undefined morphism.} match (independent of the host graph). So starting with an empty host graph $H$ we construct an apple using
 \[
   p_0:  
   \begin{array}[c]{c} 
@@ -310,7 +312,7 @@ apply $p_1$ to $H_1$ and get the new host graph $H_2$, something like this:
   \end{array}
 \]
 What happened? 
-\GrG\ has arbitrarily chosen one match among the set of possible matches, because $x$ matches edge $e3$ as well as $e1$.
+\GrG\ has arbitrarily chosen one match among the set of possible matches, because $x$ matches edge $e_3$ as well as $e_1$.
 A correct solution could make use of edge type information. 
 We have to change rule $p_0$ to generate the edge $e_1$ with a special type ``stem''.
 And this time we'll even keep the stem. 
@@ -353,7 +355,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
       \node[draw] (n4) at (2,0)   {};
       \node[draw] (n5) at (4,2)   {};
     	
-    	\draw[-latex] (n2) --                                  (n1) node[left,midway]  {$e_1:\text{stem}$};
+    	\draw[-latex] (n2) --                                  (n1) node[left,pos=0.8]  {$e_1:\text{stem}$};
     	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
       \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
     	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
@@ -373,7 +375,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
       \node[draw] (n5) at (4,2)   {};
       \node[draw] (n6) at (2,5.0)   {};
     	
-    	\draw[-latex] (n2) --                                  (n1) node[right,midway]  {$e_1:\text{stem}$};
+    	\draw[-latex] (n2) --                                  (n1) node[right,pos=0.6] {$e_1:\text{stem}$};
     	\draw[-latex] (n2) .. controls +(-1,1) and +(0,1) ..   (n3) node[left,midway]  {$e_2$};
       \draw[-latex] (n3) .. controls +(0,-1) and +(-1,0) ..  (n4) node[left,midway]  {$e_3$};
     	\draw[-latex] (n4) .. controls +(1,0)  and +(0,-1) ..  (n5) node[right,midway] {$e_4$};
