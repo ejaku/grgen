@@ -392,25 +392,45 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 \subsection{\texttt{GrGen.exe}}
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
-  \item[Usage] \texttt{[mono] GrGen.exe [-d] RuleSet}\\
-    \emph{RuleSet} is a file containing a rule set specification according to \ref{chaprulelang}. Usually such a file has got the suffix \texttt{.grg}. The suffix \texttt{.grg} can be omitted.\\
-TODO: The lib-directory.
+  \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
+    \emph{rule-set} is a file containing a rule set specification according to \ref{chaprulelang}. Usually such a file has got the suffix \texttt{.grg}. The suffix \texttt{.grg} may be omitted.\\
+By default \GrG\ tries to write the compiled assemblies into the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
       -d & Enables debug output. A subdirectory \texttt{tmpgrgen$n$} within the current directory will be created. This directory contains:
 \begin{itemize}
   \item \texttt{printOutput.txt}. A snapshot of \texttt{stdout} during program execution.
-  \item \emph{Name}\texttt{Actions.cs}. The C\# source file of the \emph{RuleSet}\texttt{\textunderscore actions.dll} assembly.
-  \item \emph{Name}\texttt{Model.cs}. The C\# source file(s) of the \emph{RuleSet}\texttt{\textunderscore modell.dll} assembly.
-\end{itemize}
+  \item \emph{Name}\texttt{Actions.cs}. The C\# source file of the \emph{rule-set}\texttt{\textunderscore actions.dll} assembly.
+  \item \emph{Name}\texttt{Model.cs}. The C\# source file(s) of the \emph{rule-set}\texttt{\textunderscore modell.dll} assembly.
+\end{itemize}\\
+      -use & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.	
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above). Java Runtime Environment 1.5 (or above).
 \end{description}
 
 \subsection{\texttt{grShell.exe}}
+The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell language see \ref{chapgrshell}.
+
+\begin{description}
+  \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
+     Opens the interactive shell. 
+  \item[Options] \mbox{} 
+    \begin{tabularx}{\linewidth}{lX}
+      -c & TODO
+    \end{tabularx}
+  \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above).
+\end{description}
 
 \subsection{\texttt{LibGr.dll}}
+The \LibGr\ is a .NET assembly implementing \GrG's API. 
 
 \subsection{\texttt{yComp.jar}}
+\yComp\ is a graph visualization tool based on yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for VCG, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
-
+\begin{description}
+  \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manully by typing\\
+   \texttt{java -jar yComp.jar [<graph-file>]}\\
+  The \emph{graph-file} may be any graph file in an supported format. \yComp\ will open this file on startup.
+  \item[Hints] TODO: Don't use the compiler layouter.
+  \item[Requires] Java Runtime Environment 1.5 (or above).
+\end{description}
