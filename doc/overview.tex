@@ -200,12 +200,12 @@ In the simplest case such a graph rewrite rule consists of a tuple $L \rightarro
 \end{figure}
 
 Moreover we need to identify graph elements (nodes or edges) of $L$ and $R$ for preserving them during rewrite. 
-This is done by a \emph{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but neither needs to be surjective nor total.
+This is done by a \emph{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but needs to be neither surjective nor total.
 Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
 The transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
 To perform this application, we have to find a suitable location in the host graph with respect to the pattern graph.
-Mathematically speaking, such a \emph{match} $m$ is a total and isomorphic morphism from $L$ to an subgraph of $H$.
+Mathematically speaking, such a \emph{match} $m$ is an isomorphism from $L$ to an subgraph of $H$.
 This morphism may not be unique, i.e.\ there may be several matches.
 Afterwards we change the matched spot $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
@@ -214,9 +214,10 @@ The outcome of these steps is the resulting graph $H'$. In symbolic language: $H
 
 
 \section{An Example}
+\label{ov:example}
 
 We'll have a look at a small example. 
-First we use a special case to construct our host graph: an empty pattern always produces exactly one\footnote{Because of the uniqueness of the total undefined morphism.} match (independent of the host graph). So starting with an empty host graph $H$ we construct an apple using
+First we use a special case to construct our host graph: an empty pattern always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So starting with an empty host graph $H$ we construct an apple using
 \[
   p_0:  
   \begin{array}[c]{c} 
@@ -385,7 +386,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
     \end{tikzpicture}
   \end{array}.
 \]
-\emph{Note:} If we had applied $p_1$ to $H_1$ and consecutively to its resulting graph, this would not lead to a fix point, because each rewrite produces one new candidate (one deleted, two added) for matching.
+\emph{Note:} If we had applied $p_1$ to $H_1$ and repetitive to the resulting graphs, this would not have led to a fix point because each rewrite produces one new candidate (one deleted, two added) for matching.
 
 \section{The Tools}
 
@@ -393,15 +394,15 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
   \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
-    \emph{rule-set} is a file containing a rule set specification according to \ref{chaprulelang}. Usually such a file has got the suffix \texttt{.grg}. The suffix \texttt{.grg} may be omitted.\\
+    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{.grg}. The suffix \texttt{.grg} may be omitted.\\
 By default \GrG\ tries to write the compiled assemblies into the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      -d & Enables debug output. A subdirectory \texttt{tmpgrgen$n$} within the current directory will be created. This directory contains:
+      -d & Enables debug output. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
 \begin{itemize}
-  \item \texttt{printOutput.txt}. A snapshot of \texttt{stdout} during program execution.
-  \item \emph{Name}\texttt{Actions.cs}. The C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
-  \item \emph{Name}\texttt{Model.cs}. The C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
+  \item \texttt{printOutput.txt} -- a snapshot of \texttt{stdout} during program execution.
+  \item \emph{Name}\texttt{Actions.cs} -- the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
+  \item \emph{Name}\texttt{Model.cs} -- the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
 \end{itemize}\\
       -use & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.	
     \end{tabularx}
@@ -409,7 +410,7 @@ By default \GrG\ tries to write the compiled assemblies into the directory \text
 \end{description}
 
 \subsection{\texttt{grShell.exe}}
-The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell\ language see \ref{chapgrshell}.
+The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
 
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
@@ -425,6 +426,7 @@ The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of crea
 The \LibGr\ is a .NET assembly implementing \GrG's API. See the extracted HTML documentation for interface descriptions. 
 
 \subsection{\texttt{yComp.jar}}
+\label{tools:ycomp}
 \yComp\ is a graph visualization tool based on yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for VCG, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
 \begin{description}

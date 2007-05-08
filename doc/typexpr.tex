@@ -1,7 +1,7 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
 
-In the following sections \emph{Ident} refers to a identifier of the graph model language (see \ref{modelbb}) or the rule set language (see \ref{rulebb}). By analogy \emph{TypeIdent} is a identifier of a type.
+In the following sections \emph{Ident} refers to an identifier of the graph model language (see \ref{modelbb}) or the rule set language (see \ref{rulebb}). \emph{TypeIdent} is an identifier of a type.
 
 \section{Built-In Types}
 \label{builtin}
@@ -11,12 +11,12 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
 	\texttt{boolean} & Covers the values \texttt{true} and \texttt{false}. \\
 	\texttt{int} & A 32-bit signed integer, in two's complement representation. \\
 	\texttt{float}, \texttt{double} & A floating-point number in IEEE 754 format with single precision or double precision respectively. \\
-	\texttt{string} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and may be enclosed by double quotes. If the string contains white spaces, double quotes are mandatory.\\ \hline
+	\texttt{string} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and enclosed by double quotes.\\ \hline
 \end{tabularx}
 \caption{\GrG\ built-in types}
 \label{builtintypes}
 \end{table}
-Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
+Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Do not express an implicit type cast by an explicit type cast or ``cast'' an enum type to itself.
 \begin{example}
   \texttt{myfloat = myint; mydouble = (float)myint; mystring = (string)mybool} is allowed, \\
   \texttt{myenum = (myenum)int; myfloat = mydouble; myint = (int)mybool} is forbidden.
@@ -25,12 +25,12 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   \centering
   \begin{tabular}[c]{|c|cccccc|} \hline
     \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string}\\ \hline
-    \texttt{enum} & --- & & & & & \\ 
-    \texttt{boolean} & & --- & & & & \\
-    \texttt{int} & \texttt{(int)} & & --- & \texttt{(int)} & \texttt{(int)} & \\
-    \texttt{float} & \texttt{(float)} & & implicit & --- & \texttt{(float)} & \\
-    \texttt{double} &  \texttt{(double)} & & implicit & implicit & --- & \\
-    \texttt{string} &  & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & --- \\ \hline
+    \texttt{enum} & $=$/--- & & & & & \\ 
+    \texttt{boolean} & & $=$/\texttt{boolean} & & & & \\
+    \texttt{int} & \texttt{(int)} & & $=$/\texttt{(int)} & \texttt{(int)} & \texttt{(int)} & \\
+    \texttt{float} & \texttt{(float)} & & implicit & $=$/\texttt{(float)} & \texttt{(float)} & \\
+    \texttt{double} &  \texttt{(double)} & & implicit & implicit & $=$/\texttt{(double)} & \\
+    \texttt{string} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & $=$/\texttt{(string)} \\ \hline
   \end{tabular}
   \caption{\GrG\ type casts.}
   \label{tabcasts}
@@ -42,10 +42,11 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') (() | '(' 'boolean' ')') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{isoc}, \texttt{!} negates a Boolean. Table \ref{tabboolops} lists the binary operators for Boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+As in C \cite{isoc}, \texttt{!} negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 Table \ref{compandtypes} describes the semantics of compare operators on type expressions.\\
+The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{table}[htbp]
 \label{compandtypes} 
   \centering
@@ -57,12 +58,12 @@ Table \ref{compandtypes} describes the semantics of compare operators on type ex
     \texttt{A <= B} & True, iff $A$ is a supertype of $B$ or $A$ and $B$ are identical. \\
     \texttt{A >= B} & True, iff $A$ is a subtype of $B$ or $A$ and $B$ are identical. \\ \hline
   \end{tabularx}
-  \begin{note}
-  \texttt{A < B} corresponds to the direction of the arrow in an UML class diagram.
-  \end{note}
-\caption{Compare operators on type expressions}
+  \caption{Compare operators on type expressions}
 \end{table}
-The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
+\begin{note}
+  \texttt{A < B} corresponds to the direction of the arrow in an UML class diagram.
+\end{note}
+
 \begin{table}[htbp] 
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
@@ -71,14 +72,14 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
     \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
     \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Complete evaluation. \end{tabular}\\ \hline
   \end{tabular}
-  \caption{Binary Boolean operators, in ascending order of precedence}
+  \caption{Binary boolean operators, in ascending order of precedence}
   \label{tabboolops}
 \end{table}
 
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) (() | '(' 'int' ')') PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}
-The $\sim$ operator is a bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
+The $\sim$ operator is the bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
 The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{table}[htbp] 
   \centering
@@ -110,8 +111,8 @@ The operator \texttt{+} concatenates two strings.
 \begin{description}
   \item[Number.] Is an \texttt{int}, \texttt{float} or \texttt{double} constant in decimal notation.
   \item[HexNumber.] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
-  \item[QuotedText.] Is a string constant. A sequence of characters, enclosed by double quotes.
-\end{description} 
+  \item[QuotedText.] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
+\end{description}
 
 \section{Type Related Conditions}
 \label{typeexpressions}
@@ -146,7 +147,7 @@ A type constraint is used to exclude parts of the type hierarchy. The operator \
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
   \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
-  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left site covers $A$ and $B$.}
+  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left side covers $A$ and $B$.}
 \end{tabularx}
 \end{example}
 

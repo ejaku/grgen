@@ -218,7 +218,7 @@ rule ensureMoveRightValidRule {
 	}
 }
 \end{grgen}
-Have a look at the negative conditions within the \emph{ensureMove\dots} rules. They ensure, that the current cell is indeed at the end of the tape: an edge to a right / left neighbor cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see \ref{fractals}).
+Have a look at the negative conditions within the \emph{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see \ref{fractals}).
 
 \subsection{Rule Execution with \GrShell}
 
@@ -285,7 +285,6 @@ new sE_0 -:moveRight-> sC
 new sE_1: WriteOne
 new sE -:one-> sE_1
 new sE_1 -:moveLeft-> sC
-}
 
 \end{grshell}
 
@@ -293,16 +292,16 @@ Our busy beaver looks like this:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
-The graph rewriting sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
+The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 
 \end{grshell}
-We intercept the machine after 32 iterations and look at the result so far:
+We interrupt the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
-In order to improve the performance we generate better search plans. This is a crucial step for execution time: with the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
+In order to improve the performance we generate better search plans. This is a crucial step for execution time: With the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
 \begin{grshell}[firstnumber=last]
 custom graph analyze_graph
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule

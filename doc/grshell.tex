@@ -1,13 +1,13 @@
 \chapter{GrShell Language}
 \label{chapgrshell}
 
-The \GrShell\ is a shell application of the \LibGr. It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
+\GrShell\ is a shell application of \LibGr. It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
 
-The \GrShell\ language is a line oriented scripting language. It is structured by simple statements separated by line breaks.
+The \GrShell\ language is a line oriented scripting language. \GrShell\ scripts are structured by simple statements separated by line breaks.
 
 \section{Building Blocks}
 
-The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any text left of the \emph{\#} will be treated as a statement.
+\GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any text left of the \emph{\#} will be treated as a statement.
 
 \begin{rail} 
  Text : '<DoubleQuotedText>' | '<SingleQuotedText>' | '<Word>' ;
@@ -17,9 +17,9 @@ The \GrShell\ is case sensitive. A comment starts with a \emph{\#} and is termin
  SpacedParameters: Text + ; 
 \end{rail}
 
-Those items are required for representing text, numbers and parameters within rules. The tokens \verb+<...>+ are defined as follows:
+Those items are required for representing text, numbers, and parameters within rules. The tokens \verb+<...>+ are defined as follows:
 \begin{description}
-  \item[\texttt{<Word>}] A character sequence consisting of letters, digits and underscores. The first character must not be a digit.
+  \item[\texttt{<Word>}] A character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
   \item[\texttt{<DoubleQuotedText>}] Arbitrary text enclosed by double quotes (`` '').
   \item[\texttt{<SingleQuotedText>}] Arbitrary text enclosed by single quotes (` ').
   \item[\texttt{<Number>}] A sequence of digits.
@@ -229,23 +229,23 @@ Deletes the edge \emph{Edge} from the current graph.
 \begin{rail}
   'show' (() | 'num') ('nodes' (() | NodeType) | 'edges' (() | EdgeType))
 \end{rail}
-Gets the persistent names and the types of all the nodes / edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. Nodes / edges without persistent names are shown with a pseudo-name.\\
+Gets the persistent names and the types of all the nodes/edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. Nodes/edges without persistent names are shown with a pseudo-name.\\
 If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
 
 \begin{rail}
   'show' ('node' | 'edge') 'types'
 \end{rail}
-Gets the node / edge types of the current graph model.
+Gets the node/edge types of the current graph model.
 
 \begin{rail}
 'show' ('node' ('super' | 'sub') 'types' NodeType | 'edge' ('super' | 'sub') 'types' EdgeType)
 \end{rail}
-Gets the inherited / descended types of \emph{NodeType} / \emph{EdgeType}.
+Gets the inherited/descended types of \emph{NodeType}/\emph{EdgeType}.
 
 \begin{rail}
   'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
 \end{rail}
-Gets the available node / edge attribute types. If \emph{NodeType} / \emph{EdgeType} is supplied, only attributes defined in \emph{NodeType} / \emph{EdgeType}. The \texttt{only} keyword excludes inherited attributes.\\
+Gets the available node/edge attribute types. If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType}. The \texttt{only} keyword excludes inherited attributes.\\
 \begin{note}
 This is in contrast to the \texttt{show num\dots}, \texttt{show nodes\dots} and \texttt{show edges\dots} commands where types and \emph{sub}types are specified.
 \end{note}
@@ -282,7 +282,7 @@ but not necessarily using the same commands you typed in during construction.
 \begin{rail}
   'show' 'graph' Filename (() | Text)
 \end{rail}
-Dumps the current graph as VCG formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use \yComp\ as executable, this may look like
+Dumps the current graph as VCG formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use \yComp\footnote{See section \ref{tools:ycomp}.} as executable, this may look like
 \begin{center}
   \includegraphics[width=0.75\linewidth]{fig/showgraph}
 \end{center}  
@@ -340,17 +340,17 @@ Reset all style options (\texttt{dump set}\dots) to their default values.
 
 \subsection{Action Commands (GRS)}
 \label{grsthings}
-An \emph{action} denotes a graph rewriting rule.
+An \emph{action} denotes a graph rewrite rule.
 
 \begin{rail}
   'select' 'actions' Filename
 \end{rail}
-Selects a rule set. \emph{Filename} can be either a .NET assembly (e.g.\ ``rules.dll'') or a source file (``rules.cs''). Only one rule set can be loaded at once.
+Selects a rule set. \emph{Filename} can either be a .NET assembly (e.g.\ ``rules.dll'') or a source file (``rules.cs''). Only one rule set can be loaded simultaneously.
 
 \begin{rail}
   'show' 'actions'
 \end{rail}
-Lists all the rules of the loaded rule set, their parameters and their return values. Rules can return a set of graph elements.
+Lists all the rules of the loaded rule set, their parameters, and their return values. Rules can return a set of graph elements.
 
 \begin{rail}
   'custom' 'actions' (() | SpacedParameters)
@@ -358,7 +358,7 @@ Lists all the rules of the loaded rule set, their parameters and their return va
 Executes an action specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see section \ref{custom}).
 
 \subsubsection*{Regular Graph Rewrite Sequences}
-Basically a graph rewriting command looks like this:
+Basically a graph rewrite command looks like this:
 \makeatletter
 \begin{rail}
   (() | 'debug') 'grs' SimpleRewriteSequence ;
@@ -373,7 +373,7 @@ Basically a graph rewriting command looks like this:
 \end{rail}
 \makeatother
 \mbox{\quad}\\
-Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators hold the following order of precedence, starting with the lowest precedence: 
+Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following order of precedence, starting with the lowest precedence: 
 \[ \text{\texttt{;}} \;\;\;\;\;\;\; \text{\texttt{|}} \;\;\;\;\;\;\;  \text{\texttt{\&}}\] 
 \makeatletter
 \begin{table}[htbp]
@@ -396,7 +396,7 @@ Table \ref{ruletab} lists graph rewriting expressions at a glance. The operators
 \texttt{[\emph{Rule}]} & Every pattern match produced by the action \emph{Rule} will be rewritten. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantic is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
 \texttt{v = w}	& The variable \texttt{v} is assigned to \texttt{w}. If \texttt{w} is undefined, \texttt{v} will be undefined, too.\\
 \texttt{v = @(x)}	& The variable \texttt{v} is assigned to the graph element identified by \texttt{x}. If \texttt{x} is not defined any more, \texttt{v} will be undefined, too.\\
-\texttt{def(\emph{Parameters})} & Gets \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
+\texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
 \end{tabularx}
@@ -414,7 +414,7 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Executes the next rewriting rule (match and rewrite)\\
-  \texttt{d}(elaied step) & Executes a rewriting rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
+  \texttt{d}(etailed step) & Executes a rewriting rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
   \texttt{n}(ext) & Ascends one level up within the Kantorowitsch tree of the current rewrite sequence\\
   (step) \texttt{o}(ut) & Continues a rewriting sequence until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
   \texttt{r}(un) &  Continues execution without further stops\\
@@ -439,7 +439,7 @@ debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 \begin{center}
   \includegraphics[width=0.3\linewidth]{fig/debug0tra}
 \end{center}
-We type \texttt{d}(elayed step) to apply \texttt{makeFlake1} step by step resulting in the following graphs:
+We type \texttt{d}(etailed step) to apply \texttt{makeFlake1} step by step resulting in the following graphs:
 \begin{center}
   \parbox{0.2\linewidth}{\includegraphics[width=\linewidth]{fig/debug1tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug2tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug3tra}}
 \end{center}
