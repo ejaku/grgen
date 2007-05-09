@@ -1,10 +1,10 @@
-\chapter{Graph Model Language}
+﻿\chapter{Graph Model Language}
 \label{chapmodellang}
 The \GrG\ model language is designed to specify graph meta models. It has the following key features (from \cite{geiss}):
 
 \begin{description}
 \item[Types.] Nodes and edges can have types (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
-\item[Attributes.] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselfs are typed, too.
+\item[Attributes.] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
 \item[Inheritance.] Types (classes) can be composed by multiple inheritance. \emph{Node} and \emph{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes, because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the type hierarchy graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier.
 \item[Connection Assertions.] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
 \end{description}
@@ -51,7 +51,7 @@ The following syntax specifications make heavy use of syntax diagrams (also know
 Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
-A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations of declarations.
+A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations of declarations.
 \begin{note}
   The \GrG\ model language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition.
 \end{note}
@@ -142,4 +142,5 @@ A connection assertion is typed as a pair of node types in conjunction with thei
   AttributeType: PrimitiveType | EnumType ; 
 \end{rail}
 Defines a node or edge attribute. Possible types are \texttt{enum} and primitive types. See \ref{builtin} for a list of built-in primitive types.
+
 

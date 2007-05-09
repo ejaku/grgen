@@ -138,7 +138,7 @@ The semantics of the various pattern statements:
 \begin{description}
   \item[Pattern Graphlet.] Graphlets specifies a connected subgraph, i.e.\ certain node types connected by certain edge types.
   \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements shall have a common supertype. Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.\\
-  In our example \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the  same type (\texttt{NodeTypeA}).
+  In our example \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
   \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). NACs may not be nested. NACs possess an own scope. That means, names defined within a NAC are not alive outside the NAC. Identifiers from surrounding scopes may be overwritten.\\
   In our example the second negative condition uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. We may safely reuse the variable name \texttt{e1} in the replace part.
   \item[Attribute Conditions.] The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
@@ -238,3 +238,4 @@ replace{
 \end{grgen}
 This nonsense example yields to $y.i = 42$, $y.j = 1$.
 \end{example}
+
