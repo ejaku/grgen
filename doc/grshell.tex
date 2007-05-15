@@ -30,8 +30,8 @@ In order to describe the commands more precisely, the following (semantic) speci
 \begin{description}
   \item[Filename]A file path without spaces (e.g.\ /Users/Bob/amazing\textunderscore file.txt) or a single quoted or double quoted file path that may contain spaces (``/Users/Bob/amazing\textunderscore file.txt'').
   \item[Variable] Identifier of a variable that contains a graph element. 
-  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[Node, Edge] Variable identifier or persistent name of a node resp.\ an edge (see also example \ref{persistentex}).
+  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
@@ -96,7 +96,7 @@ Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph dis
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
 \end{rail}
-Selects a backend that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ ``lgspBackend.dll'').  Comma-separated parameters can be supplied optionally. If so, the backend must support these parameters.
+Selects a backend that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ \texttt{lgspBackend.dll}).  Comma-separated parameters can be supplied optionally. If so, the backend must support these parameters.
 
 \begin{rail}
   'show' 'backend' Filename
@@ -114,9 +114,25 @@ Executes the \GrShell\ script \emph{Filename}. A \GrShell\ script is just a plai
 Enables and disables the debug mode. The debug mode shows the current working graph in a \yComp\ window. All changes to the working graph are tracked by \yComp\ immediately.  
 
 \begin{rail}
+  'debug' 'set' 'layout' (() | Text) ;
+\end{rail} 
+Sets the default graph layout algorithm to \emph{Text}. If \emph{Text} is omitted, a list of available layout algorithms is displayed. See section \ref{tools:ycomp} on \yComp\ layouters.
+
+\begin{rail}
   'echo' Text
 \end{rail}
 Prints \emph{Text} onto the \GrShell\ command prompt.
+
+\begin{rail}
+  '!' CommandLine
+\end{rail}
+Passes \emph{CommandLine} to the operating system. \emph{CommandLine} is an arbitrary text the operating system attempts to execute.
+\begin{example}
+On a Linux machine you might execute
+\begin{grshell}
+!sh -C "ls | grep stuff"
+\end{grshell}
+\end{example}
 
 \subsection{Graph Commands}
 \label{graphcommands}
@@ -140,6 +156,11 @@ Displays a list of currently available graphs.
   'select' 'graph' Graph
 \end{rail}
 Selects the current working graph. This graph act as \emph{host graph} for regular graph rewrite sequences (see also sections \ref{ov:whatsallabout} and \ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
+
+\begin{rail}
+  'clear' 'graph' (() | Graph)
+\end{rail}
+Deletes all graph elements of the current working graph resp.\ the graph \emph{Graph}.
 
 \begin{rail}
   'delete' 'graph' Graph
@@ -227,9 +248,9 @@ Deletes the edge \emph{Edge} from the current graph.
 \subsection{Graph Query Commands}
 
 \begin{rail}
-  'show' (() | 'num') ('nodes' (() | NodeType) | 'edges' (() | EdgeType))
+  'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
 \end{rail}
-Gets the persistent names and the types of all the nodes/edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. Nodes/edges without persistent names are shown with a pseudo-name.\\
+Gets the persistent names and the types of all the nodes/edges of the current graph. If a node type or edge type is supplied, only elements compatible to this type are considered. The \texttt{only} keyword excludes subtypes. Nodes/edges without persistent names are shown with a pseudo-name.\\
 If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
 
 \begin{rail}
@@ -295,34 +316,34 @@ Dumps the current graph as VCG formatted file into \emph{Filename}.\\
 \\
 The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph} and \texttt{enable debug}. 
 \begin{rail}
-  'dump' 'set' ('color' | 'textcolor' | 'bordercolor') 'node' NodeType '=' Color
+  'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text) ;
 \end{rail}
-Sets the color / text color / border color of the nodes of type \emph{NodeType}. This doesn't include sub types of \emph{NodeType}.
+Sets the color or text color or border color resp.\ the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (see \cite{}).
 
 \begin{rail}
-  'dump' 'set' ('color' | 'textcolor') 'edge' EdgeType '=' Color
+  'dump' 'set' 'edge' (() | 'only') EdgeType ('color' | 'textcolor') Color ;
 \end{rail}
-Sets the color / text color of the edges of type \emph{EdgeType}. This doesn't include sub types of \emph{NodeType}.
+Sets the color or text color of the edges of type \emph{EdgeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes.
 
 \begin{rail}
-  'dump' 'add' 'exclude' 'node' NodeType
+  'dump' 'add' 'node' (() | 'only') NodeType 'exclude' ;
 \end{rail}
-Excludes nodes of type \emph{NodeType} (or sub type of \emph{NodeType}) as well as their incident edges from output.
+Excludes nodes of type \emph{NodeType} and all of its subtypes as well as their incident edges from output. The keyword \texttt{only} excludes the subtypes.
 
 \begin{rail}
-  'dump' 'add' 'group' 'node' NodeType
+  'dump' 'add' 'node' NodeType 'group' ;
 \end{rail}
-Declares \emph{NodeType} (or sub type of \emph{NodeType}) as group node type. All the different typed nodes that points to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
+Declares \emph{NodeType} and subtypes of \emph{NodeType} as group node type. All the different typed nodes that points to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
   \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-2}}\\
-  {\small right side: dumped with \texttt{dump add group node metropolis}}
+  {\small right side: dumped with \texttt{dump add node metropolis group}}
 \end{center}
 
 \begin{rail}
-  'dump' 'add' 'infotag' ('node' NodeType | 'edge' EdgeType) AttributeName
+  'dump' 'add' (() | 'only') ('node' NodeType | 'edge' EdgeType) \\ 'infotag' AttributeName
 \end{rail}
-Declares the attribute \emph{AttributeName} to be an ``info tag''. Info tags are displayed like additional node / edge labels. In the following example \emph{river} and \emph{jam} are info tags:
+Declares the attribute \emph{AttributeName} to be an ``info tag''. Info tags are displayed like additional node/edge labels. The keyword \texttt{only} excludes the subtypes of \emph{NodeType} resp.\ \emph{EdgeType}. In the following example \emph{river} and \emph{jam} are info tags:
 \begin{center}
   \fbox{\includegraphics[width=0.5\linewidth]{fig/infotag}}
 \end{center}
@@ -473,7 +494,7 @@ Analyzes the current working graph. The analysis data provides vital information
 
 \subsection{Action Related Commands}
 \begin{rail}
-  'custom' 'actions' gensearchplan (Action + ';')
+  'custom' 'actions' gensearchplan (Action+)
 \end{rail}
 Creates a search plan for each rewrite rule \emph{Action} using a heuristic method and the analyze data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}). Otherwise a default search plan is used. For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure. Therefore the host graph should be in a stage ``similar'' to the final result. In deed there might be some trial-and-error steps necessary to get a efficient search plan. A search plan is available as long as the current rule set remains loaded. \\
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
