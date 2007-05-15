@@ -1,7 +1,7 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
 
-In the following sections \emph{Ident} refers to an identifier of the graph model language (see \ref{modelbb}) or the rule set language (see \ref{rulebb}). \emph{TypeIdent} is an identifier of a type.
+In the following sections \emph{Ident} refers to an identifier of the graph model language (see section \ref{modelbb}) or the rule set language (see section \ref{rulebb}). \emph{TypeIdent} is an identifier of a type.
 
 \section{Built-In Types}
 \label{builtin}
@@ -16,7 +16,7 @@ Besides user-defined node types, edge types and enum types, GrGen supports the b
 \caption{\GrG\ built-in types}
 \label{builtintypes}
 \end{table}
-Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Do not express an implicit type cast by an explicit type cast or ``cast'' an enum type to itself.
+Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for enum types. The cast operator does never accept an enum type.
 \begin{example}
   \texttt{myfloat = myint; mydouble = (float)myint; mystring = (string)mybool} is allowed, \\
   \texttt{myenum = (myenum)int; myfloat = mydouble; myint = (int)mybool} is forbidden.
@@ -26,11 +26,11 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   \begin{tabular}[c]{|c|cccccc|} \hline
     \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string}\\ \hline
     \texttt{enum} & $=$/--- & & & & & \\ 
-    \texttt{boolean} & & $=$/\texttt{boolean} & & & & \\
-    \texttt{int} & \texttt{(int)} & & $=$/\texttt{(int)} & \texttt{(int)} & \texttt{(int)} & \\
-    \texttt{float} & \texttt{(float)} & & implicit & $=$/\texttt{(float)} & \texttt{(float)} & \\
-    \texttt{double} &  \texttt{(double)} & & implicit & implicit & $=$/\texttt{(double)} & \\
-    \texttt{string} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & $=$/\texttt{(string)} \\ \hline
+    \texttt{boolean} & & $=$ & & & & \\
+    \texttt{int} & \texttt{(int)} & & $=$ & \texttt{(int)} & \texttt{(int)} & \\
+    \texttt{float} & \texttt{(float)} & & implicit & $=$ & \texttt{(float)} & \\
+    \texttt{double} &  \texttt{(double)} & & implicit & implicit & $=$ & \\
+    \texttt{string} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & $=$ \\ \hline
   \end{tabular}
   \caption{\GrG\ type casts.}
   \label{tabcasts}
@@ -70,7 +70,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
   \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
     \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ Boolean expression is true. \end{tabular} \\ \hline
     \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
-    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Complete evaluation. \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Strict evaluation. \end{tabular}\\ \hline
   \end{tabular}
   \caption{Binary boolean operators, in ascending order of precedence}
   \label{tabboolops}
@@ -95,9 +95,10 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \end{table}
 
 \begin{rail}  
-  FloatExpr: ((() | '+' | '-') (() | '(' ('float' | 'double') ')') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/') FloatExpr);
+  FloatExpr: ((() | '+' | '-') (() | '(' ('float' | 'double') ')') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/' | percent) FloatExpr);
 \end{rail} 
-The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
+The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.\\
+The \texttt{\%} operator works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}. \GrG\ implements the Java semantics. 
 
 \begin{rail}
   StringExpr: PrimaryExpr | StringExpr '+' StringExpr;
@@ -125,13 +126,13 @@ A type expression identifies a type (and -- in terms of matching -- also its sub
 The following rule will add a reverse edge to a one-way street.
 \begin{grgen}
 rule oneway {
-    pattern{
+    pattern {
         a:Node -x:street-> y:Node;
         negative{
             y -:typeof(x)-> a;
         }
     } 
-    replace{
+    replace {
       a -x-> y;
       y -:typeof(x)-> a;
     }
@@ -143,7 +144,7 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
 \end{rail}
-A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to identify a union of types.
+A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to create a union of its operand types.
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
   \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
@@ -162,12 +163,11 @@ Although you can use any key-value pairs between the brackets, only the identifi
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for search plans. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans. {\small \textbf{Example:} We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}}. \\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for search plans. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
 \end{tabularx}
 \caption{Annotations}
 \label{tabannotations}
 \end{table}
-
-
-
-
+\begin{example}
+We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
+\end{example}

@@ -1,6 +1,6 @@
 ﻿\chapter{Graph Model Language}
 \label{chapmodellang}
-The \GrG\ model language is designed to specify graph meta models. It has the following key features (from \cite{geiss}):
+The key features of \GrG\ graph models from \cite{geiss}:
 
 \begin{description}
 \item[Types.] Nodes and edges can have types (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
@@ -48,19 +48,21 @@ In this chapter as well as in the \GrShell\ chapter \ref{chapgrshell} we use exc
 \begin{note}
 The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{pascal}.
 \end{note}
-Basic elements of the \GrG\ graph model language are numbers and identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is case sensitive.\\
+Basic elements of the \GrG\ graph model language are identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
 A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations of declarations.
 \begin{note}
-  The \GrG\ model language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition.
+  The \GrG\ model language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition. For instance, there are no C-like constructs as the following:
+\begin{grgen}
+node class t_node;
+node class t_node {
+}
+\end{grgen}
 \end{note}
 \mbox{ }\\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
-These are (semantic) specializations of Ident to restrict an identifier to be of a specific type.\\
-\\
-\emph{Number}\\ \nopagebreak
-A sequence of digits. The sequence has to form a non-negative integer in the decimal system and will be internally stored in 32 bit two's complement representation.
+These are (semantic) specializations of Ident to restrict an identifier to be of a specific type.
 
 \section{Type Declarations}
 \begin{rail}
@@ -104,7 +106,6 @@ node class ghost_town extends abandoned_city;
 \end{grgen}
 You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also nodes of type \texttt{abandoned\_city} and of type \texttt{city} and they have the attribute \texttt{size}.
 \end{example}
-
 The keyword \texttt{const} indicates that rules may not write to attributes. See also \ref{replacepart}, \texttt{eval}. However, attributes are writable by \LibGr\ and \GrShell\ directly. This property will not be inherited by subclasses. If you want a subclass to have constant attributes, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
@@ -124,7 +125,7 @@ Defines a new edge type. Edge types can inherit from other edge types defined wi
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}
-A connection assertion is typed as a pair of node types in conjunction with their multiplicities. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (destination). The multiplicity is a constraint on the out-degree and in-degree of the source and destination node type respectively. See \ref{graphcommands}, \texttt{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
+A connection assertion is typed as a pair of node types in conjunction with their multiplicities. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (destination). The multiplicity is a constraint on the out-degree and in-degree of the source and destination node type respectively. \emph{Number} is an \texttt{int} constant as defined in section \ref{expressions}. See \ref{graphcommands}, \texttt{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[n:*]} & The number of edges nodes of that type are incident to is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 

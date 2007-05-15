@@ -3,40 +3,42 @@
 
 \GrShell\ is a shell application of \LibGr. It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
 
-The \GrShell\ language is a line oriented scripting language. \GrShell\ scripts are structured by simple statements separated by line breaks.
+The \GrShell\ provides a line oriented scripting language. \GrShell\ scripts are structured by simple statements separated by line breaks.
 
 \section{Building Blocks}
 
-\GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any text left of the \emph{\#} will be treated as a statement.
+\GrShell\ is case sensitive. A comment starts with a \emph{\#} and is terminated by end-of-line or end-of-file. Any text left of the \emph{\#} will be treated as a statement.\\
+The follwing items are required for representing text, numbers, and rule parameters.\\
+\\
+\emph{Text}\\
+May be one of the following:
+\begin{itemize}
+  \item A non-empty character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
+  \item Arbitrary text enclosed by double quotes (`` '').
+  \item Arbitrary text enclosed by single quotes (` ').
+\end{itemize}
+\mbox{ }\\
+\emph{Number}\\
+Is an \texttt{int} or \texttt{float} constant in decimal notation (see also section \ref{builtin}).
 
 \begin{rail} 
- Text : '<DoubleQuotedText>' | '<SingleQuotedText>' | '<Word>' ;
- Number : '<Number>' ;
- TextOrNumber : Text | Number ;
  Parameters : Text + ',' ;
  SpacedParameters: Text + ; 
 \end{rail}
 
-Those items are required for representing text, numbers, and parameters within rules. The tokens \verb+<...>+ are defined as follows:
-\begin{description}
-  \item[\texttt{<Word>}] A character sequence consisting of letters, digits, and underscores. The first character must not be a digit.
-  \item[\texttt{<DoubleQuotedText>}] Arbitrary text enclosed by double quotes (`` '').
-  \item[\texttt{<SingleQuotedText>}] Arbitrary text enclosed by single quotes (` ').
-  \item[\texttt{<Number>}] A sequence of digits.
-\end{description}
-
-In order to describe the possible input to some of the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
+In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
 \begin{description}
   \item[Filename]A file path without spaces (e.g.\ /Users/Bob/amazing\textunderscore file.txt) or a single quoted or double quoted file path that may contain spaces (``/Users/Bob/amazing\textunderscore file.txt'').
   \item[Variable] Identifier of a variable that contains a graph element. 
-  \item[NodeType] Identifier of a node type defined in the model of the current graph.
+  \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
+  \item[Node, Edge] Variable identifier or persistent name of a node resp.\ an edge (see also example \ref{persistentex}).
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
   \item[Color] One of the following color identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yellow}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in VCG/\yComp\ files.
 \end{description}
 
-The elements of a graph (nodes and edges) can be accessed both by their variable identifier and by their persistent name specified through a constructor (see \ref{mani}):
+The elements of a graph (nodes and edges) can be accessed both by their variable identifier and by their persistent name specified through a constructor (see section \ref{mani}):
 \makeatletter
 \begin{rail}
   GraphElement: Text | ('@' '(' Text ')')
@@ -61,13 +63,7 @@ New node "$0" of type "State" has been created.
 # and now with constructor
 > new v:State($=start) 
 new node "start" of type "State" has been created.
-# Variable v is now assigned to start
-> new :State($=end)
-new node "end" of type "State" has been created.
-  
-# actually we want v to be "end": 
->  v = @(end)
->
+# Now we have a node named "start" and a variable v assigned to "start"
 \end{grshell}
 \end{example}
 \begin{note}
@@ -128,12 +124,12 @@ Prints \emph{Text} onto the \GrShell\ command prompt.
 \begin{rail}
   'new' 'graph' Filename Text 
 \end{rail}
-Creates a new graph with the model specified in \emph{Filename}. Its name is set to \emph{Text}. The model file can be either source code (e.g.\ ``turing\textunderscore machine.cs'') or a .NET assembly (e.g.\ ``turing\textunderscore machine.dll'').
+Creates a new graph with the model specified in \emph{Filename}. Its name is set to \emph{Text}. The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
 
 \begin{rail}
   'open' 'graph' Filename Text
 \end{rail}
-Opens the graph \emph{Text} stored in the backend. Its model is specified in \emph{File\-name}. However, the \emph{LGSPBackend} doesn't support persistent graphs. \emph{LGSPBackend} is the only backend so far. Therefore this command is useless at the moment.
+Opens the graph \emph{Text} stored in the backend. However, the \emph{LGSPBackend} doesn't support persistent graphs. \emph{LGSPBackend} is the only backend so far. Therefore this command is currently useless.
 
 \begin{rail}
   'show' 'graphs'
@@ -143,7 +139,7 @@ Displays a list of currently available graphs.
 \begin{rail}
   'select' 'graph' Graph
 \end{rail}
-Selects the current working graph.
+Selects the current working graph. This graph act as \emph{host graph} for regular graph rewrite sequences (see also sections \ref{ov:whatsallabout} and \ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
 
 \begin{rail}
   'delete' 'graph' Graph
@@ -190,19 +186,23 @@ Executes a command specific to the current backend. If \emph{SpacedParameters} i
 
 \subsection{Graph Manipulation Commands}
 \label{mani}
-In order to create graph elements an optional constructor can be used. 
+Graph manipulation commands alter existing graphs including creating and deleting graph elements and setting attributes.
+
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
   Attributes : SingleAttribute + ',' ;
-  SingleAttribute : AttributeName '=' TextOrNumber ; 
+  SingleAttribute : AttributeName '=' (Text | Number) ; 
 \end{rail}
-A comma separated list of attribute declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with default values, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; float, double 0.0; string $\leftarrow$ ``'').\\
-The \texttt{\$} marks a special attribute: an unique identifier of the new graph element. This identifier also is denoted as \emph{persistent name} (see \ref{persistentex}, \emph{GraphElement}). This name can be specified by a constructor only.
+A constructor is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of attribute declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with default values, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; float, double $\leftarrow$ 0.0; string $\leftarrow$ ``'').\\
+The \texttt{\$} marks a special attribute: an unique identifier of the new graph element. This identifier is also called \emph{persistent name} (see example \ref{persistentex}). This name can be specified by a constructor only.
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
 \end{rail}
 Creates a new node within the current graph. Optionally a variable \emph{Text} is assigned to the new node. If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor. Otherwise the node will be of the base node class type \emph{Node}.
+\begin{note}
+The \GrShell\ can reassign variables. This is in contrast to the rule language (chapter \ref{chaprulelang}), where we use \emph{names}. Those names have a static single assignment semantics in terms of compiler construction.
+\end{note}
 
 \begin{rail}
   'new' Node '-' (()|Text) \\ (() | ':' EdgeType (() | Constructor)) '->' Node
@@ -210,9 +210,9 @@ Creates a new node within the current graph. Optionally a variable \emph{Text} i
 Creates a new edge within the current graph between the specified nodes, directed towards the second \emph{Node}. Optionally a variable \emph{Text} is assigned to the new edge. If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor. Otherwise the edge will be of the base edge class type \emph{Edge}.
 
 \begin{rail}
-  GraphElement '.' AttributeName '=' TextOrNumber
+  GraphElement '.' AttributeName '=' (Text | Number) ;
 \end{rail}
-Set the attribute \emph{AttributeName} of the graph element \emph{GraphElement} to the value of \emph{TextOrNumber}.
+Set the attribute \emph{AttributeName} of the graph element \emph{GraphElement} to the value of \emph{Text} or \emph{Number}.
 
 \begin{rail}
   'delete' 'node' Node
@@ -222,7 +222,7 @@ Deletes the node \emph{Node} from the current graph. Incident edges will be dele
 \begin{rail}
   'delete' 'edge' Edge
 \end{rail}
-Deletes the edge \emph{Edge} from the current graph.  
+Deletes the edge \emph{Edge} from the current graph.
   
 \subsection{Graph Query Commands}
 
@@ -315,7 +315,7 @@ Excludes nodes of type \emph{NodeType} (or sub type of \emph{NodeType}) as well 
 Declares \emph{NodeType} (or sub type of \emph{NodeType}) as group node type. All the different typed nodes that points to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
-  \fbox{\includegraphics[width=0.45\linewidth]{fig/group1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2}}\\
+  \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-2}}\\
   {\small right side: dumped with \texttt{dump add group node metropolis}}
 \end{center}
 
@@ -386,7 +386,7 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}:
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -401,14 +401,14 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \texttt{false}	& A constant acting as a failed match.\\ \hline
 \end{tabularx}
 \end{minipage}\\
-\\ \centering
+\\ 
 {\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewriting sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
 \caption{Graph rewriting expressions}
 \label{ruletab}
 \end{table}
 \makeatother
 
-Variables can be assigned to graph elements returned by rules using \texttt{(\emph{Para\-meters}) = \emph{Action}}. The desired variable identifiers have to be listed in \emph{Parameters}. Graph elements required by rules must be provided using \texttt{\emph{Action} (\emph{Para\-meters})}, where \emph{Parameters} is a list of variable identifiers. For undefined variables the specific element constraint of \emph{Action} will be ignored (every element matches).\\
+Variables can be assigned to graph elements returned by rules using \texttt{(Para\-meters) = \emph{Action}}. The desired variable identifiers have to be listed in \emph{Parameters}. Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. For undefined variables the specific element constraint of \emph{Action} will be ignored (every element matches).\\
 
 Use the \texttt{debug} option to trace the rewriting process step-by-step. During execution \yComp\ will display every single step\footnote{Make sure, that the path to your \texttt{yComp.jar} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.\\
 \begin{table}[htbp]
@@ -430,6 +430,7 @@ Use the \texttt{debug} option to trace the rewriting process step-by-step. Durin
 %  \label{figdebug}
 %\end{figure}
 
+\begin{figure}[htbp]
 \begin{example}   
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
@@ -443,7 +444,7 @@ We type \texttt{d}(etailed step) to apply \texttt{makeFlake1} step by step resul
 \begin{center}
   \parbox{0.2\linewidth}{\includegraphics[width=\linewidth]{fig/debug1tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug2tra}}\parbox{0.375\linewidth}{\includegraphics[width=\linewidth]{fig/debug3tra}}
 \end{center}
-The following table shows the effect of further debug commands:
+The following table shows the ``break points'' of further debug commands, entered one after another:
 \begin{center}
   \begin{tabular}{|l|l|} \hline
     \textbf{Command} & \textbf{Active rule} \\ \hline
@@ -457,6 +458,7 @@ The following table shows the effect of further debug commands:
   \end{tabular}
 \end{center}
 \end{example}   
+\end{figure}
 
 
 \section{LGSPBackend Custom Commands}
@@ -471,9 +473,10 @@ Analyzes the current working graph. The analysis data provides vital information
 
 \subsection{Action Related Commands}
 \begin{rail}
-  'custom' 'actions' gensearchplan Action
+  'custom' 'actions' gensearchplan (Action + ';')
 \end{rail}
-Creates a search plan for the rewriting rule \emph{Action} using a heuristic method and the analyze data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}). Otherwise a default search plan is used. For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure. Therefore the host graph should be in a stage similar to the final result. This is kind of a rough specification. In deed there might be some trial-and-error steps necessary to get a efficient search plan. A search plan is available as long as the current rule set remains loaded. 
+Creates a search plan for each rewrite rule \emph{Action} using a heuristic method and the analyze data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}). Otherwise a default search plan is used. For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure. Therefore the host graph should be in a stage ``similar'' to the final result. In deed there might be some trial-and-error steps necessary to get a efficient search plan. A search plan is available as long as the current rule set remains loaded. \\
+Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
 
 \begin{rail}
   'custom' 'actions' setmaxmatches Number

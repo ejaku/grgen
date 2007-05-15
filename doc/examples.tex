@@ -17,11 +17,11 @@ respectively. If you are on a Unix-like system you have to adjust the path separ
 \\
 We execute the Sierpinski script by
 \begin{verbatim}
-grShell.exe ..\test\Sierpinski.grs
+GrShell.exe ..\test\Sierpinski.grs
 \end{verbatim}
 or
 \begin{verbatim}
-mono grShell.exe ../test/Sierpinski.grs
+mono GrShell.exe ../test/Sierpinski.grs
 \end{verbatim}
 respectively. Because both of the scripts are using the debug mode, we complete execution by typing \texttt{r}(un). See \ref{grsthings} for further information. The resulting graphs should look like figures \ref{figsierp} and \ref{figsnowflake}.
 \begin{figure}[htbp]
@@ -36,10 +36,11 @@ respectively. Because both of the scripts are using the debug mode, we complete 
   \caption{Koch snowflake}
   \label{figsnowflake}
 \end{figure}
-
+\vfill\pagebreak
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{beaver}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is Turing complete. 
+We want \GrG\ to work as hard as a busy beaver \cite{kroll, bb}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{beaver}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is Turing complete. \\
+We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
 \subsection{Graph Model}
 Let's start the model file \emph{TuringModel.gm} with
@@ -61,7 +62,7 @@ edge class one extends value;
 edge class empty extends value;
 
 \end{grgen}
-Finally we need states and transitions. The current configuration is modeled with a \emph{RWHead} edge pointing to a \emph{TapePosition} node. \emph{State} nodes are connected with \emph{WriteValue} nodes via \emph{value} edges and from a \emph{WriteValue} node a \emph{move\dots} edge leads to the next state.
+Finally we need states and transitions. The current configuration is modeled with a \emph{RWHead} edge pointing to a \emph{TapePosition} node. \emph{State} nodes are connected with \emph{WriteValue} nodes via \emph{value} edges and from a \emph{WriteValue} node a \emph{moveLeft}/\emph{moveRight} edge leads to the next state.
 \begin{grgen}[firstnumber=last]
 node class RWHead;
 
