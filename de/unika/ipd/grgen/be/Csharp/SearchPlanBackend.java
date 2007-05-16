@@ -29,17 +29,20 @@ package de.unika.ipd.grgen.be.Csharp;
 
 
 import de.unika.ipd.grgen.ir.*;
-import de.unika.ipd.grgen.util.Util;
-
-import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.util.Util;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class SearchPlanBackend extends IDBase implements Backend, BackendFactory {
 	
@@ -1100,7 +1103,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append("\t\tpublic static AttributeType " + formatAttributeTypeName(member) + ";\n");
 	}
 	
-	private void genConditionEval(StringBuffer sb, Expression cond, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
+	private strictfp void genConditionEval(StringBuffer sb, Expression cond, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
 		if(cond instanceof Operator) {
 			Operator op = (Operator)cond;
 			switch (op.arity()) {
@@ -1150,14 +1153,20 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				case Type.IS_BOOLEAN: //emit C-code for boolean constans
 					Boolean bool_const = (Boolean) constant.getValue();
 					if ( bool_const.booleanValue() )
-						sb.append("1"); /* true-value */
+						sb.append("true"); /* true-value */
 					else
-						sb.append("0"); /* false-value */
+						sb.append("false"); /* false-value */
 					break;
 				case Type.IS_INTEGER: //emit C-code for integer constants
+					sb.append(constant.getValue().toString());
+					break;
 				case Type.IS_FLOAT: //emit C-code for float constants
 				case Type.IS_DOUBLE: //emit C-code for double constants
 					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
+					if(constant.getValue() instanceof Double) {
+						if(Math.abs((double)((Double)constant.getValue()).floatValue() - ((Double)constant.getValue()).doubleValue()) < 0.0001)
+							sb.append("f");
+					}
 					break;
 				case Type.IS_TYPE: //emit code for type constants
 					InheritanceType it = (InheritanceType)constant.getValue();
@@ -1181,9 +1190,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append("_attributes." + formatIdentifiable(qual.getMember()));
 		} else {
 			if(entity instanceof Edge)
-				sb.append("((Edge_");
+				sb.append("((IEdge_");
 			else if(entity instanceof Node)
-				sb.append("((Node_");
+				sb.append("((INode_");
 			else
 				throw new IllegalArgumentException("Unknown Entity: " + entity);
 			sb.append(formatIdentifiable(entity.getType()) + ")");
