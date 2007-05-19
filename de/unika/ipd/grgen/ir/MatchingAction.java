@@ -76,10 +76,10 @@ public abstract class MatchingAction extends Action {
 	}
 	
 	public void addNegGraph(PatternGraph neg) {
-		if(!neg.getNodes().isEmpty()) {
+		//if(!neg.getNodes().isEmpty()) { // TODO WHY???
 			neg.setName("N" + negs.size());
 			negs.add(neg);
-		}
+		//}
 	}
 	
 	/**
