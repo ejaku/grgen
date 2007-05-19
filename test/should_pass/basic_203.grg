@@ -1,0 +1,12 @@
+actions basic_203;
+
+rule r {
+	pattern {
+		negative {
+			if{ false; }
+		}
+	}
+	modify {
+	}
+}
+
