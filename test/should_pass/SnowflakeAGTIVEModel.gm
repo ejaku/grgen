@@ -1,0 +1,7 @@
+model SnowflakeModel;
+
+node class OuterNode;
+
+edge class Gen1Edge;
+edge class Gen2Edge;
+edge class SpacerEdge;
