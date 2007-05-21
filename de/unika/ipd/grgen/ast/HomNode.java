@@ -82,7 +82,7 @@ public class HomNode extends BaseNode {
 protected boolean resolve() {
 	boolean resolved = true;
 	
-	Resolver resolver = new DeclResolver(new Class[] {NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class });
+	Resolver resolver = new DeclResolver(new Class[] {NodeDeclNode.class, EdgeDeclNode.class});
 	
 	for(int i=0; i<children(); ++i) {
 		boolean res = resolver.resolve(this, i);

@@ -41,7 +41,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	}
 	
 	private static final Resolver typeResolver =
-		new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class, TypeDeclNode.class });
+		new DeclResolver(new Class[] { NodeDeclNode.class, TypeDeclNode.class });
 	
 	private static final Checker typeChecker =
 		new TypeChecker(NodeTypeNode.class);

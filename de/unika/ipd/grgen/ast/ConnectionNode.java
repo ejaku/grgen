@@ -62,7 +62,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	/** Resolver for the nodes. */
 	private static final Resolver nodeResolver =
 		new OptionalResolver(
-				new DeclResolver(new Class[] {NodeDeclNode.class, ParamDeclNode.class }));
+				new DeclResolver(new Class[] {NodeDeclNode.class}));
 
 	private static final Checker nodeChecker =
 		new TypeChecker(NodeTypeNode.class);

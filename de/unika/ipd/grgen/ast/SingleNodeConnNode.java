@@ -53,7 +53,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	
 	private static final Resolver nodeResolver =
 		new OptionalResolver(
-				new DeclResolver(new Class[] { NodeDeclNode.class, ParamDeclNode.class }));
+				new DeclResolver(new Class[] { NodeDeclNode.class }));
 	
 	static {
 		setName(SingleNodeConnNode.class, "single node");

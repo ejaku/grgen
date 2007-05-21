@@ -363,7 +363,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			String type;
 			
 			if(edge.inheritsType()) {
-				type = formatEntity(edge.getTypeof()) + ".type.typeVar";
+				type = formatEntity(edge.getTypeof()) + ".type";
 				extractEdgeFromMatch.add(edge.getTypeof());
 			} else {
 				type = formatType(edge.getType()) + ".typeVar";
@@ -471,7 +471,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			for(Entity ent : rule.getReturns()) {
 				if(ent instanceof Node)
 					extractNodeFromMatch.add((Node)ent);
-				else if(ent instanceof Node)
+				else if(ent instanceof Edge)
 					extractEdgeFromMatch.add((Edge)ent);
 				else
 					throw new IllegalArgumentException("unknown Entity: " + ent);
@@ -647,7 +647,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			if(outer != null && outer.hasEdge(edge))
 				continue;
 			sb.append("\t\t\tPatternEdge " + formatEntity(edge, outer, negCount) + " = new PatternEdge(");
-			sb.append(formatEntity(pattern.getSource(edge), outer, negCount) + ", " + formatEntity(pattern.getTarget(edge), outer, negCount));
+			sb.append(pattern.getSource(edge)!=null?formatEntity(pattern.getSource(edge), outer, negCount):"null");
+			sb.append(", ");
+			sb.append(pattern.getTarget(edge)!=null?formatEntity(pattern.getTarget(edge), outer, negCount):"null");
 			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + formatEntity(edge, outer, negCount) + "\"");
 			sb.append(", " + formatEntity(edge, outer, negCount) + "_AllowedTypes, ");
 			sb.append(formatEntity(edge, outer, negCount) + "_IsAllowedType, ");

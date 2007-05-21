@@ -46,7 +46,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	private static final int OLD = CONSTRAINTS + 1;
 	
 	private static final Resolver edgeResolver =
-		new DeclResolver(new Class[] { EdgeDeclNode.class, ParamDeclNode.class });
+		new DeclResolver(new Class[] { EdgeDeclNode.class});
 	
 	private static final Checker edgeChecker =
 		new TypeChecker(EdgeTypeNode.class);

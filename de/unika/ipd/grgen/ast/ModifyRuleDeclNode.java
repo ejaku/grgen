@@ -25,12 +25,12 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	private static final Resolver deleteResolver =
 		new CollectResolver(
 		new DeclResolver(
-							   new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
+							   new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
 	
 	private static final Checker deleteChecker =
 		new CollectChecker(
 		new MultChecker(
-							  new Class[] { NodeDeclNode.class, EdgeDeclNode.class, ParamDeclNode.class }));
+							  new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
 	
 	public ModifyRuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
 							  BaseNode neg, BaseNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
@@ -71,7 +71,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
-			ParamDeclNode param = (ParamDeclNode)n;
+			DeclNode param = (DeclNode)n;
 			if(!deleteSet.contains(param.getIR()))
 				if(param instanceof NodeCharacter) {
 					right.addSingleNode(((NodeCharacter)param).getNode());

@@ -41,7 +41,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 	
 	private static final Resolver typeResolver =
-		new DeclResolver(new Class[] { EdgeDeclNode.class, ParamDeclNode.class, TypeDeclNode.class });
+		new DeclResolver(new Class[] { EdgeDeclNode.class, TypeDeclNode.class });
 	
 	private static final Checker typeChecker =
 		new TypeChecker(EdgeTypeNode.class);

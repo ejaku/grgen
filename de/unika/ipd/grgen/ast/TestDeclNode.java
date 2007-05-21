@@ -190,15 +190,16 @@ public class TestDeclNode extends ActionDeclNode {
 		
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
-			ParamDeclNode param = (ParamDeclNode)n;
+			DeclNode param = (DeclNode)n;
 			ma.addParameter((Entity) param.checkIR(Entity.class));
 			if(param instanceof NodeCharacter) {
 				ma.getPattern().addSingleNode(((NodeCharacter)param).getNode());
 			}
 			else if (param instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)param).getEdge();
-				ma.getPattern().addConnection(ma.getPattern().getSource(e), e,
-											  ma.getPattern().getTarget((e)));
+				ma.getPattern().addSingleEdge(e);
+//				ma.getPattern().addConnection(ma.getPattern().getSource(e), e,
+//											  ma.getPattern().getTarget((e)));
 			}
 			else
 				throw new IllegalArgumentException("unknown Class: " + n);

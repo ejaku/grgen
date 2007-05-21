@@ -169,8 +169,10 @@ param returns [ BaseNode res = env.initNode() ]
 		IdentNode id;
 		BaseNode type;
 	}
-	: id=entIdentDecl COLON type=typeIdentUse
-	  { res = new ParamDeclNode(id, type); }
+	: MINUS res=patternEdgeDecl RARROW
+	| res=patternNodeDecl
+//	: id=entIdentDecl COLON type=typeIdentUse
+//	  { res = new ParamDeclNode(id, type); }
 	;
 
 returnTypes returns [ CollectNode res = new CollectNode() ]

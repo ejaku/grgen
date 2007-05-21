@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -114,7 +114,7 @@ public class Graph extends IR {
 		
 		// Do not include the virtual retyped nodes in the graph.
 		// TODO why??? we could just check in the generator whether this is a retyped node
-		// this would eliminate this unnecessary <code>changesType()</code> stuff 
+		// this would eliminate this unnecessary <code>changesType()</code> stuff
 		if(n.isRetyped()) n = ((RetypedNode)n).getOldNode();
 		
 		if(!nodes.containsKey(n)) {
@@ -290,21 +290,21 @@ public class Graph extends IR {
 	/**
 	 * Get the source node of an edge.
 	 * @param e The edge.
-	 * @return The node, the edge leaves.
+	 * @return The node, the edge leaves, or null in case of a single edge.
 	 */
 	public Node getSource(Edge e) {
 		GraphEdge ge = checkEdge(e);
-		return ge.source.node;
+		return ge.source!=null?ge.source.node:null;
 	}
 	
 	/**
 	 * Get the target node of an edge.
 	 * @param e The edge
-	 * @return The node that the edge points to.
+	 * @return The node that the edge points to, or null in case of a single edge.
 	 */
 	public Node getTarget(Edge e) {
 		GraphEdge ge = checkEdge(e);
-		return ge.target.node;
+		return ge.target!=null?ge.target.node:null;
 	}
 	
 	/**
@@ -346,6 +346,17 @@ public class Graph extends IR {
 	 */
 	public void addSingleNode(Node node) {
 		getOrSetNode(node);
+	}
+	
+	
+	/**
+	 * Add a single node (without an edge) to the graph.
+	 * @param node The node.
+	 */
+	public void addSingleEdge(Edge edge) {
+		GraphEdge e = getOrSetEdge(edge);
+		e.source = null;
+		e.target = null;
 	}
 	
 	/**
