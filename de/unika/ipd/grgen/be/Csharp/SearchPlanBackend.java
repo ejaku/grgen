@@ -325,6 +325,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		Collection<Edge> delEdges = new HashSet<Edge>(rule.getLeft().getEdges());
 		Collection<Node> extractNodeFromMatch = new HashSet<Node>();
 		Collection<Edge> extractEdgeFromMatch = new HashSet<Edge>();
+		Collection<Node> extractNodeTypeFromMatch = new HashSet<Node>();
+		Collection<Edge> extractEdgeTypeFromMatch = new HashSet<Edge>();
 		
 		newNodes.removeAll(rule.getCommonNodes());
 		newEdges.removeAll(rule.getCommonEdges());
@@ -338,8 +340,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			String type;
 			
 			if(node.inheritsType()) {
-				type = formatEntity(node.getTypeof()) + ".type.typeVar";
+				type = formatEntity(node.getTypeof()) + "_type";
 				extractNodeFromMatch.add(node.getTypeof());
+				extractNodeTypeFromMatch.add(node.getTypeof());
 			} else {
 				type = formatType(node.getType()) + ".typeVar";
 			}
@@ -363,8 +366,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			String type;
 			
 			if(edge.inheritsType()) {
-				type = formatEntity(edge.getTypeof()) + ".type";
+				type = formatEntity(edge.getTypeof()) + "_type";
 				extractEdgeFromMatch.add(edge.getTypeof());
+				extractEdgeTypeFromMatch.add(edge.getTypeof());
 			} else {
 				type = formatType(edge.getType()) + ".typeVar";
 			}
@@ -381,7 +385,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					
 					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
 					
-					if(delEdge.getType() != edge.getType())
+					if(delEdge.getType() != edge.getType() || edge.inheritsType())
 						sb2.append("\t\t\tgraph.RetypeEdge(" + de + ", " + type + ");\n");
 					if(rule.getLeft().getSource(delEdge)!=src_node) {
 						if(rule.getLeft().getTarget(delEdge)!=tgt_node)
@@ -411,8 +415,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				RetypedNode rnode = node.getRetypedNode();
 				
 				if(rnode.inheritsType()) {
-					new_type = formatEntity(rnode.getTypeof()) + ".type.typeVar";
+					new_type = formatEntity(rnode.getTypeof()) + "_type";
 					extractNodeFromMatch.add(rnode.getTypeof());
+					extractNodeTypeFromMatch.add(node.getTypeof());
 				} else {
 					new_type = formatType(rnode.getType()) + ".typeVar";
 				}
@@ -432,8 +437,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				RetypedEdge redge = edge.getRetypedEdge();
 				
 				if(edge.inheritsType()) {
-					new_type = formatEntity(redge.getTypeof()) + ".type.typeVar";
+					new_type = formatEntity(redge.getTypeof()) + "_type";
 					extractEdgeFromMatch.add(redge.getTypeof());
+					extractEdgeTypeFromMatch.add(edge.getTypeof());
 				} else {
 					new_type = formatType(redge.getType()) + ".typeVar";
 				}
@@ -493,6 +499,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
 			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+		
+		for(Node node : extractNodeTypeFromMatch)
+			sb.append("\t\t\tITypeFramework " + formatEntity(node) + "_type = " + formatEntity(node) + ".type;\n");
+		for(Edge edge : extractEdgeTypeFromMatch)
+			sb.append("\t\t\tITypeFramework " + formatEntity(edge) + "_type = " + formatEntity(edge) + ".type;\n");
 		
 		sb.append(sb2);
 	}
@@ -1417,4 +1428,5 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 

@@ -81,7 +81,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					if(!deleteSet.contains(e) &&
 					   !deleteSet.contains(left.getSource(e)) &&
 					   !deleteSet.contains(left.getTarget(e)))
-						right.addConnection(left.getSource(e),e, left.getTarget((e)));
+						right.addSingleEdge(e); //TODO
+						//right.addConnection(left.getSource(e),e, left.getTarget((e)));
 				}
 				else
 					throw new IllegalArgumentException("unknown Class: " + n);
