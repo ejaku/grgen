@@ -56,15 +56,16 @@ These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches e
   Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
 \end{rail}
 A graphlet specifies a connected subgraph. 
-By graphlets \GrG\ provides a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched spots in a host graph. 
+\GrG\ provides graphlets as a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched spots in a host graph. 
 A graph is specified piecewise by graphlets. 
 In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the continuation graphlet \texttt{--> n2}.
 
-All the graph elements of a graphlet have got a \emph{name}.
+All the graph elements of a graphlet have \emph{name}s.
 The name is either user assigned or an unique internal, non-accessible name.
 In the second case the graph element is called \emph{anonymous}.
 For illustration purposes we use a \texttt{\$<number>} notation to denote anonymous graph elements in this document.
-Names may not be redefined; once defined, a name is \emph{bound} to a graph element. 
+For example the graphlet \texttt{n1 --> n2} contains a anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
+Names must not be redefined; once defined, a name is \emph{bound} to a graph element. 
 We use the term ``binding of names'' because a name not only denote a graph element of a graphlet, but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
 So graph elements of different names are pairwise distinct except for homomorphically matched graph elements (see section \ref{patternpart}).\\
 For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
@@ -87,7 +88,7 @@ The visibility of names is determined by scopes.
 Scopes can be nested. 
 Names of surrounding scopes are visible in inner scopes. 
 Usually a scope is defined by \texttt{\{} and \texttt{\}}.
-In terms of scopes the replace part is a direct inner scope of the pattern part.
+In contrast to pure syntatic scoping, the replace/modify part is a direct inner scope of the pattern part.
 In example \ref{ex:rule:SomeRule} the negative condition from lines \ref{ex:somerule:secondnac:begin} to \ref{ex:somerule:secondnac:end} uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. 
 We may safely reuse the variable name \texttt{e1} in the replace part.
 
@@ -119,22 +120,22 @@ Specifies an edge. Anonymous edges are specified by \texttt{-->} or \texttt{<--}
   \begin{tabular}[c]{ll}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
     \texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes  \\
-    \texttt{ -:EdgeType-> ;} & \texttt{ -\$1:EdgeType-> ;} \\
-    \texttt{ --> ;} & \texttt{ -\$1:Edge-> ;} \\
+    \texttt{ -:EdgeType-> ;} & \texttt{-\$1:EdgeType-> ;} \\
+    \texttt{ --> ;} & \texttt{-\$1:Edge-> ;} \\
     \texttt{ -e-> ;} & The edge \texttt{e} is bound to.
   \end{tabular}
 \end{center} 
-As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally redirecting an edge: 
+As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``redirecting''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the SPO approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge or more indirect by re-typing of nodes.} an edge: 
 The graphlets
 \begin{grgenlet}
 -e:Edge-> .;
 x:Node -e-> y:Node;
 \end{grgenlet}
-are illegal, because they would effect redirecting of edge \texttt{e}. 
+are illegal, because the edge \texttt{e} would have two destinations: an anonymous node and \texttt{y}.
 However, the graphlets
 \begin{grgenlet}
 x:Node -e:Edge-> y:Node;
- -e-> ;
+-e-> ;
 \end{grgenlet}
 are allowed, but the second graphlet \texttt{-e->;} is pointless. In particular this graphlet does not identify or create any ``copies'', neither if the graphlet occurs in the pattern part nor if it occurs in the replace part.
 \begin{example}
@@ -237,59 +238,6 @@ And some illegal graphlets:\\
 \begin{note}
 Although both, the pattern part and the replace/modify part, use graphlets, there are subtle differences between them. It concerns the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the scope of defined graph element names: Names defined within the pattern part are valid in the pattern part as well as in the replace/modify part. Names defined within the replace/modify part are unknown to the pattern part.
 \end{note}
-
-\subsection{Implicit Definition of the Preservation Morphism $r$}
-\label{rule:morphismr}
-Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the host graph. 
-The transformation specification defines the transition from the left hand side (LHS) to the right hand side (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
-In theory this is done by defining the preservation morphism $r$.
-\begin{figure}[htbp]
-	\centering
-  \begin{tikzpicture}
-    \begin{scope}[minimum size=0.5cm]
-      \tikzstyle{every node}=[draw]
-      \node (L)     at (0   ,2.5) {$L$};
-      \node (R)     at (7   ,2.5) {$R$};
-      \node (mL)    at (0   ,0) {};
-      \node (mR)    at (7   ,0) {};
-      \node[text width=2cm,text badly ragged,minimum size=1cm] (H)     at (0   ,0) {$H$};
-      \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
-    \end{scope}
-
-    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match $m$}   node[below=0.6cm] {Host Graph};
-    \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
-
-    \pgfsetshortenstart{0.5cm}
-    \pgfsetshortenend{0.5cm}
-    \draw[thick,->]  (L) -> (R)  node[above,midway] {Preservation Morphism $r$} node[below,midway] {Rule};
-    \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
-  \end{tikzpicture}
-  \caption{Process of Graph Transformation}
-  \label{rule:figrule}
-\end{figure}
-In \GrG\ the preservation morphism $r$ is defined implicity by using of names in pattern graphlets and replace graphlets. (We can a modify part assume to be a special case of a replace part).
-Remember that each of the graph elements of a match have got a name bound to it, either user defined or internal defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
-Otherwise the graph element will be deleted.
-By definition of names in a replace graphlet their graph elements will be newly created.
-So anonymous graph elements in a replace pattern will be created.
-Multiple using of a name has the same effect as a single using occurrence.\\
-In case of a conflict between deletion and preservation, deletion is prioritized. 
-If an incident node of an edge gets deleted, the edge will be deleted as well.
-
-\begin{table}[htbp]
-\centering
-\begin{tabularx}{\linewidth}{lllX}
-  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline 
-  \texttt{x:T;} & \texttt{x;} & $r:x \mapsto x$ & Preservation \\
-  \texttt{x:T;} & \texttt{} & $r:x \mapsto \emptyset$ & Deletion \\
-  \texttt{} & \texttt{x:T;} & $r:\emptyset \mapsto x$ & Creation \\
-  \texttt{x:T;} & \texttt{x:T;} & --- & Illegal, Redefinition of \texttt{x} \\
-  \texttt{-e:T->;} & \texttt{-e-> x:Node;} & --- & Illegal, Redirection of \texttt{e} \\
-  \texttt{x:N -e:E-> y:N;} & \texttt{x -e->;} & $r:\{x,y,e\} \mapsto \{x\}$ & Deletion of \texttt{y}. Hence deletion of \texttt{e}. \\
-\end{tabularx}
-\caption{Definition of the preservation morphism $r$}
-\label{rule:impldefinition}
-\end{table}
 
 \section{Rules and Tests}
 \label{ruledecls}
@@ -461,6 +409,62 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 \section{Replace/Modify Part}
 \label{replacepart}
 For the task of rewriting \GrG\ provides two different modes: A replace mode and a modify mode.
+
+\paragraph{Implicit Definition of the Preservation Morphism $r$}
+\label{rule:morphismr}
+Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the host graph. 
+The transformation specification defines the transition from the left hand side (LHS) to the right hand side (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
+In theory this is done by defining the preservation morphism $r$.
+\begin{figure}[htbp]
+	\centering
+  \begin{tikzpicture}
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (L)     at (0   ,2.5) {$L$};
+      \node (R)     at (7   ,2.5) {$R$};
+      \node (mL)    at (0   ,0) {};
+      \node (mR)    at (7   ,0) {};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (H)     at (0   ,0) {$H$};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
+    \end{scope}
+
+    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match $m$}   node[below=0.6cm] {Host Graph};
+    \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
+
+    \pgfsetshortenstart{0.5cm}
+    \pgfsetshortenend{0.5cm}
+    \draw[thick,->]  (L) -> (R)  node[above,midway] {Preservation Morphism $r$} node[below,midway] {Rule};
+    \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
+  \end{tikzpicture}
+  \caption{Process of Graph Transformation}
+  \label{rule:figrule}
+\end{figure}
+In \GrG\ the preservation morphism $r$ is defined implicity by using of names in pattern graphlets and replace graphlets. (The modify part can be assumed to be a special case of a replace part).
+Remember that each of the graph elements of a match have got a name bound to it, either user defined or internal defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
+Otherwise the graph element will be deleted.
+By definition of names in a replace graphlet their graph elements will be newly created.
+So anonymous graph elements in a replace pattern will be created.
+Multiple using of a name has the same effect as a single using occurrence.\\
+In case of a conflict between deletion and preservation, deletion is prioritized. 
+If an incident node of an edge gets deleted, the edge will be deleted as well.
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\linewidth}{lllX}
+  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline 
+  \texttt{x:T;} & \texttt{x;}                 & $r:\lhs.x \mapsto \rhs.x$ & Preservation \\
+  \texttt{x:T;} & \texttt{}                   & $\lhs.x \notin \deF(r)$    & Deletion \\
+  \texttt{} & \texttt{x:T;}                   & $\rhs.x \notin \ran(r)$    & Creation \\
+  \texttt{x:T;} & \texttt{x:T;}               & --- & Illegal, redefinition of \texttt{x} \\
+  \texttt{-e:T->;} & \texttt{-e-> x:Node;}    & --- & Illegal, redirection of  \texttt{e} \\
+  \texttt{x:N -e:E-> y:N;} & \texttt{x -e->;} & $r:\{\lhs.x\} \mapsto \{\rhs.x\}$ & Deletion of \texttt{y}. Hence del\-etion of \texttt{e}. \\
+\end{tabularx}
+\caption{Definition of the preservation morphism $r$}
+\label{rule:impldefinition}
+\end{table}
+
+
+
 \begin{description}
   \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means using a graph element in a graphlet. Attribute calculations are no using occurrences.\\
   In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
