@@ -42,7 +42,7 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') (() | '(' 'boolean' ')') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{isoc}, \texttt{!} negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+As in C \cite{Sch:1990:ANSIC}, \texttt{!} negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 Table \ref{compandtypes} describes the semantics of compare operators on type expressions.\\

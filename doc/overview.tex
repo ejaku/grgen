@@ -10,7 +10,7 @@ According to Varr\'o's benchmark it is at least one order of magnitude faster th
 
 In order to accelerate the matching step, we internally introduce search plans to represent different matching strategies and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem.
-For the rewrite step, our tool implements the well-founded single-pushout approach (SPO, for explanation see \cite{spo}).
+For the rewrite step, our tool implements the well-founded single-pushout approach (SPO, for explanation see \cite{spoapproach}).
 
 For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
@@ -50,7 +50,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Creation of new nodes/edges of statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
-	  \item Copying (duplicating) of elements form the match -- comparable with sesqui-pushout rewriting~\cite{ICGTXXX} (yet to be implemented)
+	  \item Copying (duplicating) of elements form the match -- comparable with sesqui-pushout rewriting~\cite{CHHK:06} (yet to be implemented)
   \end{itemize}
   
   \item The rule application language (\GrShell) supports:
@@ -107,7 +107,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
       \draw[->,dashed,red,>=triangle 45] (-1.25,4.5)  -- +(2.5,0) node[above, midway] {read / generate};
   \end{tikzpicture}
 	}
-  \caption{\GrG\ system components \cite{kroll}}
+  \caption{\GrG\ system components \cite{Kro:07}}
   \label{figsys}
 \end{figure}
 \begin{table}[htbp]

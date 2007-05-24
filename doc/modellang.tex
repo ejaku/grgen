@@ -1,6 +1,6 @@
 \chapter{Graph Model Language}
 \label{chapmodellang}
-The key features of \GrG\ graph models as described by Geiß et al. \cite{geiss}:
+The key features of \GrG\ graph models as described by Geiß et al. \cite{GBGHS:06}:
 
 \begin{description}
 \item[Types.] Nodes and edges can have types (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
@@ -45,7 +45,7 @@ In this chapter as well as in chapter \ref{chapgrshell} (\GrShell) we use excerp
 \label{modelbb}
 
 \begin{note}
-The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{pascal}.
+The following syntax specifications make heavy use of syntax diagrams (also known as rail diagrams). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows from left to right through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses are terminals whereas rectangles are non-terminals. For further information on syntax diagrams see \cite{MMJW:91}.
 \end{note}
 Basic elements of the \GrG\ graph model language are identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is case sensitive.\\
 \\
@@ -85,7 +85,7 @@ enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
 enum AsInC {a = 2, b, c = 1, d, e = Resident::village + c}
 \end{grgen}
-The semantics is as in C \cite{isoc}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
+The semantics is as in C \cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
 \end{example}
 
 \begin{rail}  
