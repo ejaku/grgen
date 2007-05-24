@@ -406,9 +406,12 @@ For the task of rewriting \GrG\ provides two different modes: A replace mode and
   In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
   \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. In particular even the anonymous graph elements are kept. Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 \begin{example}
-How might example \ref{ex:rule:SomeRule} look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} should be omitted. So we have
+How might example \ref{ex:rule:SomeRule} look in modify mode? 
+We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. 
+The node \texttt{varnode} should be kept and does not need to appear in the modify part. 
+So we have
 \begin{grgen}
-rule SomeRuleModify {
+rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
   pattern {
     ...
     n1 -e0:Edge-> n2;
