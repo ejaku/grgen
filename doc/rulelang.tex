@@ -136,7 +136,7 @@ However, the graphlets
 x:Node -e:Edge-> y:Node;
  -e-> ;
 \end{grgenlet}
-are allowed, but the second graphlet is pointless. In particular the second graphlet does not identify or create any ``copies'', neither occurring in the pattern part nor occurring in the replace part.
+are allowed, but the second graphlet \texttt{-e->;} is pointless. In particular this graphlet does not identify or create any ``copies'', neither if the graphlet occurs in the pattern part nor if it occurs in the replace part.
 \begin{example}
 Some attempts to specify a loop edge:\\
 \mbox{ }\\
@@ -238,6 +238,59 @@ And some illegal graphlets:\\
 Although both, the pattern part and the replace/modify part, use graphlets, there are subtle differences between them. It concerns the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the scope of defined graph element names: Names defined within the pattern part are valid in the pattern part as well as in the replace/modify part. Names defined within the replace/modify part are unknown to the pattern part.
 \end{note}
 
+\subsection{Implicit Definition of the Preservation Morphism $r$}
+\label{rule:morphismr}
+Besides specifying the pattern, the second central task of a rule is to specify a transformation of a matched subgraph within the host graph. 
+The transformation specification defines the transition from the left hand side (LHS) to the right hand side (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
+In theory this is done by defining the preservation morphism $r$.
+\begin{figure}[htbp]
+	\centering
+  \begin{tikzpicture}
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (L)     at (0   ,2.5) {$L$};
+      \node (R)     at (7   ,2.5) {$R$};
+      \node (mL)    at (0   ,0) {};
+      \node (mR)    at (7   ,0) {};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (H)     at (0   ,0) {$H$};
+      \node[text width=2cm,text badly ragged,minimum size=1cm] (Hs)    at (7   ,0) {$H'$};
+    \end{scope}
+
+    \draw[dotted,->] (L) node[above=0.4cm] {Pattern Graph} -> (mL) node[left,midway]  {Match $m$}   node[below=0.6cm] {Host Graph};
+    \draw[dotted,->] (R) node[above=0.4cm] {Rewrite Graph} -> (mR)                              node[below=0.6cm] {Result Graph};
+
+    \pgfsetshortenstart{0.5cm}
+    \pgfsetshortenend{0.5cm}
+    \draw[thick,->]  (L) -> (R)  node[above,midway] {Preservation Morphism $r$} node[below,midway] {Rule};
+    \draw[thick,->]  (H) -> (Hs) node[below,midway] {Rule Application};
+  \end{tikzpicture}
+  \caption{Process of Graph Transformation}
+  \label{rule:figrule}
+\end{figure}
+In \GrG\ the preservation morphism $r$ is defined implicity by using of names in pattern graphlets and replace graphlets. (We can a modify part assume to be a special case of a replace part).
+Remember that each of the graph elements of a match have got a name bound to it, either user defined or internal defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
+Otherwise the graph element will be deleted.
+By definition of names in a replace graphlet their graph elements will be newly created.
+So anonymous graph elements in a replace pattern will be created.
+Multiple using of a name has the same effect as a single using occurrence.\\
+In case of a conflict between deletion and preservation, deletion is prioritized. 
+If an incident node of an edge gets deleted, the edge will be deleted as well.
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\linewidth}{lllX}
+  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline 
+  \texttt{x:T;} & \texttt{x;} & $r:x \mapsto x$ & Preservation \\
+  \texttt{x:T;} & \texttt{} & $r:x \mapsto \emptyset$ & Deletion \\
+  \texttt{} & \texttt{x:T;} & $r:\emptyset \mapsto x$ & Creation \\
+  \texttt{x:T;} & \texttt{x:T;} & --- & Illegal, Redefinition of \texttt{x} \\
+  \texttt{-e:T->;} & \texttt{-e-> x:Node;} & --- & Illegal, Redirection of \texttt{e} \\
+  \texttt{x:N -e:E-> y:N;} & \texttt{x -e->;} & $r:\{x,y,e\} \mapsto \{x\}$ & Deletion of \texttt{y}. Hence deletion of \texttt{e}. \\
+\end{tabularx}
+\caption{Definition of the preservation morphism $r$}
+\label{rule:impldefinition}
+\end{table}
+
 \section{Rules and Tests}
 \label{ruledecls}
 The structure of a rule set file is as follows:
@@ -250,7 +303,7 @@ A rule set consists of the underlying graph models and several rewrite rules. In
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}
-Declares a single rewrite rule such as \texttt{SomeRule}. It consists of a pattern part (see \ref{patternpart}) in conjunction with its rewrite/modify part (see \ref{replacepart}). A \emph{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
+Declares a single rewrite rule such as \texttt{SomeRule}. It consists of a pattern part (see section \ref{patternpart}) in conjunction with its rewrite/modify part (see section \ref{replacepart}). A \emph{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
 \begin{example}
 We define a test \texttt{SomeCond}
 \begin{grgen}
@@ -329,10 +382,16 @@ We don't define \texttt{varnode} within the pattern part because this is already
 \begin{rail}
   Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
 \end{rail}
-A pattern consists of zero or more pattern statements. All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. Even stronger -- a graph element of the host graph, that is matched by a statement, is \emph{bound}, i.e.\ it cannot be part of another pattern statement, unless you use the \texttt{hom} operator. An empty pattern always produces exactly one (empty) match. This is caused by the uniqueness of the totally undefined function.\\
-Pattern statements may define names for graph elements for use by other pattern statements or replace statements. Such names may be used before their declaration. See section \ref{rulebb} for a detailed explanation of names and graphlets.
+A pattern consists of zero or more pattern statements. 
+All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
+An empty pattern always produces exactly one (empty) match. 
+This is caused by the uniqueness of the totally undefined function.\\
+Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements. 
+Such names may be used before their declaration. 
+See section \ref{rulebb} for a detailed explanation of names and graphlets.
+\begin{figure}[htbp]
 \begin{note}
-The application of a rule is not deterministic (remember the introducing example in \ref{ov:example}), in particular there may be more than one subgraph that matches the pattern. 
+The application of a rule is not deterministic (remember the introducing example in \ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\ provides a mechanism to deal with such ambiguities. 
 \LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of this matches. 
 By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
@@ -358,6 +417,7 @@ Also notice that the regular graph rewrite sequences introduces a further varian
 The \texttt{\$<op>} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is indeterministic. 
 See section \ref{grsthings} for further information on regular graph rewrite sequences.
 \end{note}
+\end{figure}
 
 \begin{rail}  
   PatternStatement: 
@@ -403,8 +463,12 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 For the task of rewriting \GrG\ provides two different modes: A replace mode and a modify mode.
 \begin{description}
   \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means using a graph element in a graphlet. Attribute calculations are no using occurrences.\\
-  In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
-  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. In particular even the anonymous graph elements are kept. Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
+  In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
+See section \ref{rule:morphismr} for a detailed explanation of the transformation semantics. 
+  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. 
+In particular all the anonymous graph elements are kept. 
+Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. 
+Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 \begin{example}
 How might example \ref{ex:rule:SomeRule} look in modify mode? 
 We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. 
