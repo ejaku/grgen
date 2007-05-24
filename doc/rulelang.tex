@@ -1,7 +1,7 @@
 \chapter{Rule Set Language}
 \label{chaprulelang}
 
-The rule set language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more graph models and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule from \cite{geiss} gives a rough picture of the language:
+The rule set language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more graph models and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule by Geiß et al. \cite{geiss} gives a rough picture of the language:
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -12,17 +12,17 @@ rule SomeRule {
     n1 : NodeTypeA;
     n2 : NodeTypeA;
     hom(n1, n2);
-    n1 --> n2;
+    n1 --> n2; /*@\label{ex:somerule:graphlet}@*/
     n3: NodeTypeB;
     negative {
       n3 -e1:EdgeTypeA-> n1;
       if {n3.a1 == 42*n2.a1;}
     }
-    negative {
+    negative { /*@\label{ex:somerule:secondnac:begin}@*/
       n4: Node \ (NodeTypeB);
-      n3 -e1:EdgeTypeB->n4;
+      n3 -e1:EdgeTypeB-> n4;
       if {typeof(e1) >= EdgeTypeA;}
-    }
+    } /*@\label{ex:somerule:secondnac:end}@*/
   }
   replace {
     n5: NodeTypeC<n1>;
@@ -35,7 +35,7 @@ rule SomeRule {
 \end{grgen}
 \end{example}
 %\end{figure}
-In this chapter we use excerpts of example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}) in further descriptions.
+In this chapter we use excerpts of example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}) for illustration purposes.
 
 \section{Building Blocks}
 \label{rulebb}
@@ -49,72 +49,111 @@ A non-empty character sequence of arbitrary length consisting of letters, digits
 \end{note}
 \mbox{ }\\
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
-These are (semantic) specializations of Ident. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
+These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
 
 \begin{rail}
-  Graphlet: GraphletNode (() | Continuation) ';' ;
-  Continuation: GraphletEdge GraphletNode (() | Continuation) ;
+  Graphlet: (GraphletNode (() | Continuation) | Continuation) ';' ;
+  Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
 \end{rail}
-A graphlet specifies a connected subgraph. With graphlets \GrG\ provides a descriptive notation to define both, patterns to search for as well as the subgraphs that replace/modify a pattern. A pattern graphlet is specified piecewise. In our example the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the pattern continuation \texttt{--> n2}. In addition to the graphlet specification itself, you can bind names to your defined graph elements. So \GrG\ selects graph elements either
-\begin{itemize}
-  \item by its type:\\
-     for instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}
-   \item[ ] or
-   \item by its name. \\
-     That is  \texttt{v -e-> w} selects the specific graph elements the names \texttt{v}, \texttt{w}, and \texttt{e} are bound to. Of course those names have to be defined. 
-\end{itemize}
-Binding of names is optional. In case of omitting a name the graph element is called \emph{anonymous}. Anonymous graph elements get an internal, non-accessible name. For illustration purposes we use a \texttt{\$<number>} notation to denote anonymous graph elements in this document.\\
-Binding of names also allows for splitting a single graphlet into multiple graphlets.
+A graphlet specifies a connected subgraph. 
+By graphlets \GrG\ provides a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched spots in a host graph. 
+A graph is specified piecewise by graphlets. 
+In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the continuation graphlet \texttt{--> n2}.
+
+All the graph elements of a graphlet have got a \emph{name}.
+The name is either user assigned or an unique internal, non-accessible name.
+In the second case the graph element is called \emph{anonymous}.
+For illustration purposes we use a \texttt{\$<number>} notation to denote anonymous graph elements in this document.
+Names may not be redefined; once defined, a name is \emph{bound} to a graph element. 
+We use the term ``binding of names'' because a name not only denote a graph element of a graphlet, but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
+So graph elements of different names are pairwise distinct except for homomorphically matched graph elements (see section \ref{patternpart}).\\
+For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
+If \texttt{v} and \texttt{w} are not explicitly marked as homomorphic, they are distinct.\\
+Binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
 \begin{example}
-The following graphlet (\texttt{n1}, \texttt{n2}, and \texttt{n3} are defined somewhere)
+The following graphlet (\texttt{n1}, \texttt{n2}, and \texttt{n3} are defined somewhere else)
 \begin{grgen}
 n1 --> n2 --> n3 <-- n1;
 \end{grgen}
 is equivalent to
 \begin{grgen}
-n1 --> n3;
+n2 --> n3;
 n1 --> n2;
 n3 <-- n1;
 \end{grgen}
+and \texttt{n1 --> n3} is equivalent to \texttt{n3 <-- n1}, of course.
 \end{example}
+The visibility of names is determined by scopes. 
+Scopes can be nested. 
+Names of surrounding scopes are visible in inner scopes. 
+Usually a scope is defined by \texttt{\{} and \texttt{\}}.
+In terms of scopes the replace part is a direct inner scope of the pattern part.
+In example \ref{ex:rule:SomeRule} the negative condition from lines \ref{ex:somerule:secondnac:begin} to \ref{ex:somerule:secondnac:end} uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. 
+We may safely reuse the variable name \texttt{e1} in the replace part.
 
 \begin{rail}
-GraphletNode: (() |
-    Ident | 
+GraphletNode: (Ident | 
+    '.' |
     (() | IdentDecl) ':' NodeType (() | TypeConstraint | '<' Ident '>')) ;   
 \end{rail}
-Specifies a node of type \emph{NodeType} with respect to \emph{TypeConstraint} (see section \ref{typeexpressions}, \emph{TypeConstraint}). Type constraints are allowed in the pattern part only. If \emph{NodeType} is omitted, the base type \texttt{Node} is assumed. Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes a node. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).
+Specifies a node of type \emph{NodeType} with respect to \emph{TypeConstraint} (see section \ref{typeexpressions}, \emph{TypeConstraint}). 
+Type constraints are allowed in the pattern part only. 
+The \texttt{.}\ is an anonymous node of the base type \texttt{Node}. 
+Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes a node. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).
 \begin{center}
   \begin{tabular}[c]{ll}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
     \texttt{x:NodeType;} & The name \texttt{x} is bound to a node of type \texttt{NodeType} or one of its subtypes. \\
     \texttt{ :NodeType;} & \texttt{\$1:NodeType} \\
-    \texttt{ ;} & \texttt{\$1:Node} \\
+    \texttt{.;} & \texttt{\$1:Node} \\
     \texttt{x;} & The node \texttt{x} is bound to.
   \end{tabular}
 \end{center} 
 
 \begin{rail}
-  GraphletEdge: '-' EdgeRefinement '->'  | '<-' EdgeRefinement '-' ;
-  EdgeRefinement: () | Ident | (() | IdentDecl) ':' EdgeType (() | TypeConstraint | '<' Ident '>') ;
+  GraphletEdge: '-' (() | EdgeRefinement) '->'  | '<-' (() | EdgeRefinement) '-' ;
+  EdgeRefinement: Ident | (() | IdentDecl) ':' EdgeType (() | TypeConstraint | '<' Ident '>') ;
 \end{rail}
-Specifies an edge. Anonymous edges are specified by \texttt{-->} or \texttt{<--}. For a more detailed specification you can use an edge refinement clause between the arrow dashes. Type constraints are allowed in the pattern part only (see section \ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes an edge. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).\\
-Edges are never specified separately. Instead selecting an edge always means selecting its incident nodes, too.
+Specifies an edge. Anonymous edges are specified by \texttt{-->} or \texttt{<--}. For a more detailed specification you can use an inplace notated edge refinement clause. Type constraints are allowed in the pattern part only (see section \ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes an edge. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).\\
 \begin{center}
   \begin{tabular}[c]{ll}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
-    \texttt{-e:EdgeType-> ;} & \texttt{\$1:Node -e:EdgeType-> \$2:Node;} (Schleifen?)  \\
-    \texttt{ -:EdgeType-> ;} & \texttt{\$1:Node -\$2:EdgeType-> \$3:Node;} \\
-    \texttt{ --> ;} & \texttt{\$1:Node -\$2:Edge-> \$3:Node;} \\
-    \texttt{ -e-> ;} & The edge \texttt{e} is bound to and its incident nodes.
+    \texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes  \\
+    \texttt{ -:EdgeType-> ;} & \texttt{ -\$1:EdgeType-> ;} \\
+    \texttt{ --> ;} & \texttt{ -\$1:Edge-> ;} \\
+    \texttt{ -e-> ;} & The edge \texttt{e} is bound to.
   \end{tabular}
 \end{center} 
+As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally redirecting an edge: 
+The graphlets
+\begin{grgenlet}
+-e:Edge-> .;
+x:Node -e-> y:Node;
+\end{grgenlet}
+are illegal, because they would effect redirecting of edge \texttt{e}. 
+However, the graphlets
+\begin{grgenlet}
+x:Node -e:Edge-> y:Node;
+ -e-> ;
+\end{grgenlet}
+are allowed, but the second graphlet is pointless. In particular the second graphlet does not identify or create any ``copies'', neither occurring in the pattern part nor occurring in the replace part.
+\begin{example}
+Some attempts to specify a loop edge:\\
+\mbox{ }\\
+\begin{tabular}[c]{ll} 
+ \textbf{Graphlet} & \textbf{Meaning} \\ \hline
+ \texttt{x:Node -e:Edge-> x;} & The edge \texttt{e} is a loop.\\ 
+ \texttt{x:Node -e:Edge-> ; -e-> x;} & The edge \texttt{e} is a loop.\\ 
+ \texttt{-e:Edge-> x:Node;} & The edge \texttt{e} may or may not be a loop.\\ 
+ \texttt{.\ -e:Edge-> .;} & The edge \texttt{e} is certainly not a loop.\\ 
+\end{tabular}
+\end{example}
 
 \begin{figure}[htbp]
 \begin{example}
 Some graphlets:
 
-\centering
+\begin{center}
 \begin{tabular}[c]{cl}
   & \\
   \begin{tabular}[c]{c}\begin{tikzpicture}
@@ -128,7 +167,7 @@ Some graphlets:
       \draw[-latex] (n4) .. controls +(0,-1) .. (n1) {};
       \draw[-latex] (n1) .. controls +(1,0) .. (n2) {};
       \draw[-latex] (n2) .. controls +(0,1) .. (n3) {};
-    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{x:Node --> --> --> --> x;} \end{tabular}\\
+    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{x:Node --> .\ --> .\ --> .\ --> x;} \end{tabular}\\
   & \\  
   \begin{tabular}[c]{c}\begin{tikzpicture}
       \tikzstyle{every node}=[circle]
@@ -142,7 +181,7 @@ Some graphlets:
       \draw[-latex] (n1) -- (n3) {};
       \draw[-latex] (n1) -- (n4) {};
       \draw[-latex] (n1) -- (n5) {};
-    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{<-- x:Node -->;} \\ \texttt{<-- x -->;} \end{tabular}\\
+    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{.\ <-- x:Node --> .;} \\ \texttt{.\ <-- x --> .;} \end{tabular}\\
   & \\
   \begin{tabular}[c]{c}\begin{tikzpicture}
       \tikzstyle{every node}=[circle]
@@ -160,7 +199,7 @@ Some graphlets:
       \draw[-latex] (n5) .. controls +(0,1)  and +(1,1) ..   (n2) node[right,midway] {$e_5$};
     	\draw[-latex] (n2) .. controls +(-0.3,+0.3) and +(-0.3,-0.3) .. (n6) node[left,midway]   {};
     	\draw[-latex] (n2) .. controls +(+0.3,+0.3) and +(+0.3,-0.3) .. (n6) node[right,midway]  {};
-    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{<-e1:stem- n1:Node -e2:Edge-> -e3:Edge->} \\ \quad\texttt{-e4:Edge-> -e5:Edge-> n1;}\\ \texttt{n1 --> n2:Node;} \\ \texttt{n1 --> n2;} \end{tabular}\\
+    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{.\ <-e1:stem- n1:Node -e2:Edge-> .\ -e3:Edge-> .} \\ \quad\texttt{-e4:Edge-> .\ -e5:Edge-> n1;}\\ \texttt{n1 --> n2:Node;} \\ \texttt{n1 --> n2;} \end{tabular}\\
    & \\
   \begin{tabular}[c]{c}\begin{tikzpicture}
       \tikzstyle{every node}=[circle]
@@ -174,17 +213,34 @@ Some graphlets:
       \draw[-latex] (n3) -- (n2) {};
       \draw[-latex] (n4) -- (n3) {};
       \draw[-latex] (n4) -- (n5) {};
-    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{--> <-- <-- --> ;} \end{tabular}
-\end{tabular}
+    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{.\ --> .\ <-- .\ <-- .\ --> .;} \end{tabular}
+\end{tabular}\\
+\end{center}
+\mbox{ }\\
+\mbox{ }\\
+\mbox{ }\\
+And some illegal graphlets:\\
+\mbox{}\\
+\mbox{}\\
+\begin{tabularx}{\linewidth}{cX}
+\texttt{-e:Edge-> ; .\ -e-> .;} & Would effect redirecting of edge \texttt{e}. \\
+ & \\
+ \texttt{x -e:T-> y; x -e-> x;} & Would effect redirecting of edge \texttt{e}. \\
+  & \\
+ \texttt{x:Node; negative \{y:Node; hom(x,y)\}} & Here \texttt{x} must not occur in the \texttt{hom} statement. See section \ref{patternpart} for further information. \\
+  & \\
+  \texttt{<-- --> ;} & There must be at least a node between the edges.
+\end{tabularx}
 \end{example}
 \end{figure}
 
 \begin{note}
-Although both, the pattern part and the replace/modify part, use graphlets, there are subtle changes between them. It concerns the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the scope of defined graph element names: Names defined within the pattern part are valid in the pattern part as well as in the replace/modify part. Names defined within the replace/modify part are unknown to the pattern part.
+Although both, the pattern part and the replace/modify part, use graphlets, there are subtle differences between them. It concerns the \emph{TypeConstraint} clause, the retype operator \texttt{<>}, and the scope of defined graph element names: Names defined within the pattern part are valid in the pattern part as well as in the replace/modify part. Names defined within the replace/modify part are unknown to the pattern part.
 \end{note}
 
 \section{Rules and Tests}
 \label{ruledecls}
+The structure of a rule set file is as follows:
 \begin{rail}
   'actions' IdentDecl (() | 'using' ((ModelIdent)+',')) ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
 \end{rail}
@@ -194,9 +250,9 @@ A rule set consists of the underlying graph models and several rewrite rules. In
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}
-Declares a single rewrite rule such as \texttt{SomeRule}. It consists of a pattern part (see \ref{patternpart}) in conjunction with its rewrite/modify part (see \ref{replacepart}). A test rule has no rewrite specification. It's intended to test whether (and maybe how many times) a pattern occurs.
+Declares a single rewrite rule such as \texttt{SomeRule}. It consists of a pattern part (see \ref{patternpart}) in conjunction with its rewrite/modify part (see \ref{replacepart}). A \emph{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
 \begin{example}
-We define a test rule \texttt{SomeCond}
+We define a test \texttt{SomeCond}
 \begin{grgen}
 test SomeCond {
   pattern {
@@ -208,25 +264,28 @@ and execute in \GrShell:
 \begin{grshell}
   grs SomeCond & SomeRule
 \end{grshell}
-SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewriting sequences in \GrShell\ see \ref{grsthings}.
+SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewrite sequences in \GrShell\ see \ref{grsthings}.
 \end{example}
 
 \begin{rail}  
   ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
 \end{rail}
-The signature sets the name of a rewrite rule to \emph{IdentDecl}. Additionally you can provide parameters to the rule and specify return types.
+The signature sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal parameters as well as a list of return types. Parameters provide users with the ability to pass graph elements to and from a rule. This is similar to parameters of procedural languages.
 
 \begin{rail}
-  Parameters: '(' (IdentDecl ':' (NodeType | EdgeType) + ',') ')' ;
+  Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
   ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
 \end{rail}
-Parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be matched.
+Within a rule parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad search plans, because \GrG\ has to actually search for such a graph element.
 \begin{example}
 Assume the following rule:
 \begin{grgen}
-rule r(e: Edge; x: Node) {
+rule r(-e:Edge->; x:Node) {
   pattern {
     x --> ;
+    negative {
+      <-- x -->;
+    }
   }
   modify {}
 }
@@ -237,13 +296,16 @@ rule s {
   pattern {
     x:Node --> ;
     -e:Edge-> ;
+    negative {
+      <-- x -->;
+    }
   }
   modify {}
 }
 \end{grgen}
 In particular \texttt{x} will not be incident to \texttt{e}.
 \end{example}
-The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. If no pattern is found, the return values are undefined. See also section \ref{replacepart}, \texttt{return}.
+The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. See also section \ref{replacepart}, \texttt{return}.
 \begin{example}
 We extend \texttt{SomeRule} with a variable node to find and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
 \begin{grgen}
@@ -267,10 +329,34 @@ We don't define \texttt{varnode} within the pattern part because this is already
 \begin{rail}
   Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
 \end{rail}
-A pattern consists of zero or more pattern statements. All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. Even stronger -- a graph element of the host graph, that is matched by a statement, is ``bound'', i.e.\ it cannot be part of another pattern statement, unless you use the \texttt{hom} operator. An empty pattern always produces exactly one (empty) match.\\
-Pattern statements may define names for graph elements for use by other pattern statements or replace statements. Such names may be used before their declaration.
+A pattern consists of zero or more pattern statements. All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. Even stronger -- a graph element of the host graph, that is matched by a statement, is \emph{bound}, i.e.\ it cannot be part of another pattern statement, unless you use the \texttt{hom} operator. An empty pattern always produces exactly one (empty) match. This is caused by the uniqueness of the totally undefined function.\\
+Pattern statements may define names for graph elements for use by other pattern statements or replace statements. Such names may be used before their declaration. See section \ref{rulebb} for a detailed explanation of names and graphlets.
 \begin{note}
-The application of a rule is not deterministic (remember the example in \ref{ov:example}), specifically there may be more than one subgraph that matches the pattern and any of them may be selected. The \LibGr\ provides several mechanisms in order to deal with such ambiguities (and so does the \GrShell). See section \ref{grsthings} for further information.
+The application of a rule is not deterministic (remember the introducing example in \ref{ov:example}), in particular there may be more than one subgraph that matches the pattern. 
+Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\ provides a mechanism to deal with such ambiguities. 
+\LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of this matches. 
+By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
+As a \LibGr\ user use the following methods of the \texttt{IAction} interface:
+\begin{csharplet}
+IMatches Match(IGraph graph, int maxMatches, IGraphElement[] parameters);
+IGraphElement[] Modify(IGraph graph, IMatch match);
+\end{csharplet}
+This might look like this in C\#:
+\begin{csharplet}
+IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
+for (int i = 0;  i < myMatches.NumMatches; i++)
+{
+	if (inspectCarefully(myMatches.GetMatch(i))
+	{
+		myAction.Modify(myGraph, myMatches.GetMatch(i));
+		break;
+  	}
+}
+\end{csharplet}
+
+Also notice that the regular graph rewrite sequences introduces a further variant of indeterminism on rule application level: 
+The \texttt{\$<op>} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is indeterministic. 
+See section \ref{grsthings} for further information on regular graph rewrite sequences.
 \end{note}
 
 \begin{rail}  
@@ -284,12 +370,31 @@ The application of a rule is not deterministic (remember the example in \ref{ov:
 The semantics of the various pattern statements:
 \begin{description}
   \item[Graphlet.] Graphlets specify connected subgraphs. See section \ref{rulebb} for a detailed explanation of graphlets. 
-  \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements shall have a common supertype. Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.\\
-  In our example \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
-  \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). NACs may not be nested. NACs possess an own scope. That means, names defined within a NAC are not alive outside the NAC. Identifiers from surrounding scopes may be overwritten.\\
-  In our example the second negative condition uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. We may safely reuse the variable name \texttt{e1} in the replace part.
+  \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements shall have a common supertype. Several homomorphically matched graph elements will be mapped to a graph element of a common supertype.\\
+  In example \ref{ex:rule:SomeRule} node \texttt{n1} and node \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).\\
+  The \texttt{hom} operator is transitive, i.e.\ \texttt{hom(a, b); hom(b, c);} implies \texttt{hom(a, c);}. 
+  Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
+  \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). 
+  NACs must not be nested.
+  NACs possess an own scope. 
+  Names defined within a NAC are not alive outside the NAC. 
+  Identifiers from surrounding scopes may be overwritten.
+  In general NACs does not care about bindings within the outer scope. 
+  Nevertheless, if you use an identifier that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
+  \begin{example}
+    We specify a node \texttt{x} with out-degree 2:
+    \begin{grgen}
+pattern {
+  <-- x:Node -->;
+  negative {
+    <-- x -->;
+    x -->;
+  }
+}
+    \end{grgen}
+  \end{example}
   \item[Attribute Conditions.] The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
-  \item[Return values.] The return statement is only allowed for \texttt{test} rules. Otherwise the \texttt{return} statement belongs to the replace part. See \ref{replacepart}, \emph{Return Values}.
+  \item[Return values.] The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See \ref{replacepart}, \emph{Return Values}.
 \end{description}
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See section \ref{typeexpressions} for further information.
 
@@ -297,13 +402,13 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 \label{replacepart}
 For the task of rewriting \GrG\ provides two different modes: A replace mode and a modify mode.
 \begin{description}
-  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements.\\
-  In our example \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
-  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
+  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means using a graph element in a graphlet. Attribute calculations are no using occurrences.\\
+  In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.
+  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. In particular even the anonymous graph elements are kept. Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 \begin{example}
-How might our example look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} should be omitted. So we have
+How might example \ref{ex:rule:SomeRule} look in modify mode? We have to denominate the anonymous edge between \texttt{n1} and \texttt{n2} in order to delete it. The node \texttt{varnode} should be omitted. So we have
 \begin{grgen}
-rule SomeRuleExtMod(varnode: Node): (Node, EdgeTypeB) {
+rule SomeRuleModify {
   pattern {
     ...
     n1 -e0:Edge-> n2;
@@ -335,19 +440,19 @@ The semantics of the various pattern statements:
   \item[Graphlet.] Analogous to a pattern graphlet, a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See section \ref{rulebb} for a detailed explanation of graphlets. 
   \item[Deletion.] The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
   \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated.
-  \item[Return Values.] Graph elements of the replace part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
+  \item[Return Values.] Graph elements of the replace/modify part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
   \item[Retyping.] Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. Retyping differs from a type cast: During replacement both of the graph elements are alive. Specifically both of them are available for evaluation. Furthermore the source and destination types need not to be on a path in the directed type hierarchy tree, rather their relation can be arbitrary.\\
-The edge specification as well as \emph{ReplaceNode} supports retyping. In our example node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
+The edge specification as well as \emph{ReplaceNode} supports retyping. In example \ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
 \end{description} 
 
 \begin{rail}    
    Assignment: Ident '.' Ident '=' Expression ;
 \end{rail}
-Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have imperative semantics. Especially \GrG\ does not care about data dependencies. Evaluation takes place before any graph elements get deleted and after every new element has been created. You may read (and write, although this doesn't make sense) attributes of graph elements to be deleted.
+Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have imperative semantics. In particular, \GrG\ does not care about data dependencies. Evaluation takes place before any graph element gets deleted and after all the new elements have been created. You may read (and write, although this doesn't make sense) attributes of graph elements to be deleted.
 \begin{example}
 \begin{grgen}
 ...
-replace{
+modify {
   ...
   eval {y.i = 40;}
   eval {y.j = 0;}
@@ -361,6 +466,6 @@ replace{
     y.i = y.i + x.i;
   }
 \end{grgen}
-This nonsense example yields to $y.i = 42$, $y.j = 1$.
+This nonsense example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
 

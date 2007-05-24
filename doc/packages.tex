@@ -77,6 +77,14 @@
 \providecommand{\KomoW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(oW)}}}
 \providecommand{\KommW}[2]{\ensuremath{\text{Kom}^{#1}_{#2}\text{(mW)}}}
 
+\makeatletter
+\def\Relbar{\mathrel{\smash=}}
+\def\Leftarrowfill@{\arrowfill@\Leftarrow\Relbar\Relbar}
+\def\Rightarrowfill@{\arrowfill@\Relbar\Relbar\Rightarrow}
+\newcommand{\xRightarrow}[2][]{\ext@arrow 0359\Rightarrowfill@{#1}{#2}}
+\newcommand{\xLeftarrow}[2][]{\ext@arrow 3095\Leftarrowfill@{#1}{#2}}
+\makeatother 
+
 \usepackage{rail}
 \railalias{lbrace}{\{}
 \railalias{rbrace}{\}}

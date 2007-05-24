@@ -45,6 +45,7 @@ sensitive=true,
 morecomment=[l]{//},
 morecomment=[s]{/*}{*/},
 morestring=[b]",
+escapeinside={/*@}{@*/},
 }
 \lstnewenvironment{grgen}[1][]
     {\lstset{language=LANGgrgen, basicstyle=\ttfamily\small, keywordstyle=\itshape,
@@ -55,6 +56,17 @@ morestring=[b]",
     {\lstset{language=LANGgrgen, basicstyle=\ttfamily, keywordstyle=\itshape,
         basewidth=1.1ex, numbers=none, tabsize=3, #1}}
     {}
+
+\lstnewenvironment{csharp}[1][]
+    {\lstset{language=[Sharp]C, basicstyle=\ttfamily\small, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=left, numberstyle=\tiny, stepnumber=1,
+        numbersep=5pt, tabsize=3, frame=single, #1}}
+    {}
+\lstnewenvironment{csharplet}[1][]
+    {\lstset{language=[Sharp]C, basicstyle=\ttfamily, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=none, tabsize=3, #1}}
+    {}
+
 
 \lstdefinelanguage{LANGgrshell}
 {morekeywords={},
@@ -79,6 +91,7 @@ morestring=[b]",
 \providecommand{\GrShell}{{\scshape GrShell}}
 \providecommand{\LibGr}{{\scshape libGr}}
 \providecommand{\yComp}{{\scshape yComp}}
+\providecommand{\yFiles}{{\scshape yFiles}}
 
 
 \newcommand{\lined}{\hfill \hrule\hfill\vspace{1mm} \\}
@@ -238,18 +251,17 @@ This is the abstract. TODO!
 \include{examples}
 
 \thebibliography{99}
-\bibitem{geiss} R. Geiß et al.: \emph{\GrG: A Fast SPO-Based Graph Rewriting Tool} in Graph Transformations, number 4178 in LNCS, pages 383-397, Springer, 2006
-\bibitem{kroll} M. Kroll: \emph{Portierung des C-Anteils des Graphersetzungssystems \GrG\ nach C\# mit Erweiterungen}, Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2007
-\bibitem{hack} S. Hack: \emph{Graphersetzung für Optimierung in der Codeerzeugung} Diplomarbeit, Fakultät für Informatik, Universität Karlsruhe, 2003
-\bibitem{grund} D. Grund: \emph{Negative Anwendungsbedingungen für den Graphersetzer \GrG} Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2004 
-\bibitem{adam} A. Szalkowski: \emph{Negative Anwendungsbedingungen für das suchprogrammbasierte Backend von GrGen} Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2005
 \bibitem{batz} G. Batz: \emph{Graphersetzung für eine Zwischendarstellung im Übersetzerbau} Diplomarbeit, Fakultät für Informatik, Universität Karlsruhe, 2005
 \bibitem{batztech} G. Batz: \emph{An Optimization Technique for Subgraph Matching Strategies} Technischer Bericht, IPD Goos, Nr. 2006-7, Fakultät für Informatik, Universität Karlsruhe, 2006
-\bibitem{pascal} K. Jensen, N. Wirth: \emph{Pascal User Manual and Report} Springer, $^41991$
-\bibitem{isoc} \emph{Programming languages -- C}, ISO/IEC 9899:1999, 2005
 \bibitem{bb} A. Dewdney: \emph{A computer trap for the Busy Beaver, the hardest-working machine} Scientific American, 251
 (2), pages 10-12, 16, 17, August 1984
+\bibitem{geiss} R. Geiß et al.: \emph{\GrG: A Fast SPO-Based Graph Rewriting Tool} in Graph Transformations, number 4178 in LNCS, pages 383-397, Springer, 2006
+\bibitem{grund} D. Grund: \emph{Negative Anwendungsbedingungen für den Graphersetzer \GrG} Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2004 
+\bibitem{isoc} \emph{Programming languages -- C}, ISO/IEC 9899:1999, 2005
+\bibitem{hack} S. Hack: \emph{Graphersetzung für Optimierung in der Codeerzeugung} Diplomarbeit, Fakultät für Informatik, Universität Karlsruhe, 2003
+\bibitem{kroll} M. Kroll: \emph{Portierung des C-Anteils des Graphersetzungssystems \GrG\ nach C\# mit Erweiterungen}, Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2007
 \bibitem{beaver} H. Marxen, J. Buntrock: \emph{Old list of record TMs.}\\ http://www.drb.insel.de/\textasciitilde heiner/BB/index.html. Version: August 2000
-
+\bibitem{adam} A. Szalkowski: \emph{Negative Anwendungsbedingungen für das suchprogrammbasierte Backend von GrGen} Studienarbeit, Fakultät für Informatik, Universität Karlsruhe, 2005
+\bibitem{pascal} N. Wirth, K. Jensen: \emph{Pascal User Manual and Report} Springer, $^41991$
 \end{document}
  

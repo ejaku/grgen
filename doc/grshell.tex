@@ -99,9 +99,9 @@ Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph dis
 Selects a backend that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ \texttt{lgspBackend.dll}).  Comma-separated parameters can be supplied optionally. If so, the backend must support these parameters.
 
 \begin{rail}
-  'show' 'backend' Filename
+  'show' 'backend'
 \end{rail}
-List all the parameters supported by the backend \emph{Filename}, that can be provided to the \texttt{select backend} command.
+List all the parameters supported by the currently selected. The parameters can be provided to the \texttt{select backend} command.
 
 \begin{rail}
   'include' Filename
@@ -222,7 +222,8 @@ The \texttt{\$} marks a special attribute: an unique identifier of the new graph
 \end{rail}
 Creates a new node within the current graph. Optionally a variable \emph{Text} is assigned to the new node. If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor. Otherwise the node will be of the base node class type \emph{Node}.
 \begin{note}
-The \GrShell\ can reassign variables. This is in contrast to the rule language (chapter \ref{chaprulelang}), where we use \emph{names}. Those names have a static single assignment semantics in terms of compiler construction.
+The \GrShell\ can reassign variables. 
+This is in contrast to the rule language (chapter \ref{chaprulelang}), where we use \emph{names}.
 \end{note}
 
 \begin{rail}
