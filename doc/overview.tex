@@ -5,7 +5,7 @@
 \section{What is \GrG?}
 
 \GrG\ (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}arator) is a generative programming system for graph rewriting.
-For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations.
+For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
 According to Varr\'o's benchmark it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce search plans to represent different matching strategies and equip these search plans with a cost model, taking the present host graph into account.
