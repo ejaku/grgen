@@ -8,9 +8,9 @@
 For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
 According to Varr\'o's benchmark it is at least one order of magnitude faster than any other tool known to us.
 
-In order to accelerate the matching step, we internally introduce search plans to represent different matching strategies and equip these search plans with a cost model, taking the present host graph into account.
-The task of selecting a good search plan is then considered as an optimization problem.
-For the rewrite step, our tool implements the well-founded single-pushout approach (SPO, for explanation see \cite{spoapproach}).
+In order to accelerate the matching step, we internally introduce search plans to represent different \newterm{matching strategies} and equip these \newterm{search plans} with a cost model, taking the present host graph into account.
+The task of selecting a good search plan is then considered as an optimization problem~\cite{BGK:07,Bat:06}.
+For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see \cite{spoapproach}).
 
 For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
@@ -171,9 +171,9 @@ On the technical side, specification documents for a graph rewrite system can be
 
 The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
 This is comparable to the well-known term rewriting. 
-Normally you use one or more \emph{graph rewrite rules} to accomplish a certain task.
+Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the left hand side of the rule -- is called \emph{pattern graph} and $R$ -- the right hand side of the rule -- is the \emph{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the left hand side of the rule -- is called \newterm{pattern graph} and $R$ -- the right hand side of the rule -- is the \newterm{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -201,12 +201,12 @@ In the simplest case such a graph rewrite rule consists of a tuple $L \rightarro
 \end{figure}
 
 Moreover we need to identify graph elements (nodes or edges) of $L$ and $R$ for preserving them during rewrite. 
-This is done by a \emph{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but needs to be neither surjective nor total.
+This is done by a \newterm{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but needs to be neither surjective nor total.
 Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
-The transformation is done by \emph{application} of a rule to a \emph{host graph} $H$.
+The transformation is done by \newterm{application} of a rule to a \newterm{host graph} $H$.
 To do so, we have to find an occurrence of the pattern graph in the host graph. 
-Mathematically speaking, such a \emph{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
+Mathematically speaking, such a \newterm{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
 This morphism may not be unique, i.e.\ there may be several matches.
 Afterwards we change the matched spot $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.

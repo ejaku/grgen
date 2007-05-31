@@ -7,7 +7,10 @@ for F in $@ ; do
   pdflatex --interaction=nonstopmode "$F".tex > /dev/null
   egrep '^Underfull|^Overfull' "$F".log || true
   rail -h "$F" > /dev/null
+	bibtex "$F" > /dev/null
   pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+	makeindex "$F" > /dev/null
+	pdflatex --interaction=nonstopmode "$F".tex > /dev/null
   thumbpdf "$F".pdf > /dev/null
   pdflatex --interaction=nonstopmode "$F".tex > /dev/null
   mv "$F".pdf "$F".pdf.unopt

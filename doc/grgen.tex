@@ -59,6 +59,11 @@ morestring=[b]",
 \providecommand{\yComp}{{\scshape yComp}}
 \providecommand{\yFiles}{{\scshape yFiles}}
 
+\newcommand{\newterm}[1]{\emph{#1}\index{#1}}
+\newcommand{\newtermsee}[2]{\emph{#1}\index{#1|see{#2}}}
+\newcommand{\indexed}[1]{#1\index{#1}}
+\newcommand{\indexmain}[1]{\index{#1}}
+
 
 \newcommand{\lined}{\hfill \hrule\hfill\vspace{1mm} \\}
 \reversemarginpar
@@ -150,7 +155,7 @@ morestring=[b]",
 }
 
 
-
+\makeindex
 
 \begin{document}
 
@@ -219,6 +224,8 @@ This is the abstract. TODO!
 
 \bibliographystyle{alpha}
 \bibliography{diss}
+
+\printindex
 
 \end{document}
  
