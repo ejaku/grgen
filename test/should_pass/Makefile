@@ -26,6 +26,8 @@ all: clean $(DIRS_CSC)
 	cat failed.log
 	
 %_csc : %.grg $(GMS)
+	touch success.log
+	touch failed.log
 	#create build dir
 	test -d || mkdir $@
 	#call grgen
