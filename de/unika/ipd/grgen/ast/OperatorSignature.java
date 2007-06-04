@@ -359,7 +359,9 @@ public class OperatorSignature extends FunctionSignature
 			try
 			{
 				a0 = (Integer)getArgValue(e, op, 0);
-				a1 = (Integer)getArgValue(e, op, 1);
+				a1 = 0;
+				if (getArity(op.getOpId()) > 1)
+					a1 = (Integer)getArgValue(e, op, 1);
 			}
 			catch (ValueException x)
 			{
