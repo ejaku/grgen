@@ -313,7 +313,9 @@ public class OperatorSignature extends FunctionSignature
 			try
 			{
 				a0 = (String) getArgValue(e, op, 0);
-				a1 = (String) getArgValue(e, op, 1);
+				a1 = "";
+				if (getArity(op.getOpId()) > 1)
+					a1 = (String) getArgValue(e, op, 1);
 			}
 			catch (ValueException x)
 			{
@@ -424,7 +426,9 @@ public class OperatorSignature extends FunctionSignature
 			try
 			{
 				a0 = (Float)getArgValue(e, op, 0);
-				a1 = (Float)getArgValue(e, op, 1);
+				a1 = 0;
+				if (getArity(op.getOpId()) > 1)
+					a1 = (Float)getArgValue(e, op, 1);
 			}
 			catch (ValueException x)
 			{
@@ -471,7 +475,9 @@ public class OperatorSignature extends FunctionSignature
 			try
 			{
 				a0 = (Double)getArgValue(e, op, 0);
-				a1 = (Double)getArgValue(e, op, 1);
+				a1 = 0;
+				if (getArity(op.getOpId()) > 1)
+					a1 = (Double)getArgValue(e, op, 1);
 			}
 			catch (ValueException x)
 			{
@@ -568,7 +574,9 @@ public class OperatorSignature extends FunctionSignature
 			try
 			{
 				a0 = (Boolean) getArgValue(e, op, 0);
-				a1 = (Boolean) getArgValue(e, op, 1);
+				a1 = false;
+				if (getArity(op.getOpId()) > 1)
+					a1 = (Boolean) getArgValue(e, op, 1);
 			}
 			catch (ValueException x)
 			{
@@ -876,3 +884,4 @@ public class OperatorSignature extends FunctionSignature
 	}
 	
 }
+
