@@ -1,7 +1,7 @@
-\chapter{Rule Set Language}
+\chapter{Rule Set Language}\indexmain{rule set language}
 \label{chaprulelang}
 
-The rule set language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more graph models and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule by Geiß et al. \cite{GBGHS:06} gives a rough picture of the language:
+The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more \indexed{graph model}s and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule by Geiß et al. \cite{GBGHS:06} gives a rough picture of the language:
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -40,34 +40,34 @@ In this chapter we use excerpts of example~\ref{ex:rule:SomeRule} (\texttt{SomeR
 \section{Building Blocks}
 \label{rulebb}
 
-The \GrG\ rule set language is case sensitive. The language makes use of several identifier specializations in order to denominate all the \GrG\ entities.\\
+The \GrG\ rule set language is \indexed{case sensitive}. The language makes use of several identifier specializations in order to denominate all the \GrG\ entities.\\
 \\
-\emph{Ident}, \emph{IdentDecl}\\ \nopagebreak
-A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defined in a graph model (see \ref{modelbb}). \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated. See \ref{annotations} for annotations of declarations.
+\emph{Ident}, \emph{IdentDecl}\\ \indexmain{identifier} \nopagebreak
+A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defined in a graph model (see \ref{modelbb}). \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See \ref{annotations} for annotations of declarations.
 \begin{note}
-  The \GrG\ rule set language does not distinguish between declarations and definitions. More precisely, every declaration is also a definition. That means, that every element of a LHS (left hand side, see section \ref{patternpart}) is actually mapped by a match. 
+  The \GrG\ rule set language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. That means, that every element of a LHS (left hand side, see section \ref{patternpart}) is actually mapped by a match. 
 \end{note}
 \mbox{ }\\
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
-These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e. a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}. See \ref{typeexpressions} for the use of type expressions.\\
+These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e.\ a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}\indexmain{type expression}. See \ref{typeexpressions} for the use of type expressions.\\
 
 \begin{rail}
   Graphlet: (GraphletNode (() | Continuation) | Continuation) ';' ;
   Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
 \end{rail}
-A graphlet specifies a connected subgraph. 
-\GrG\ provides graphlets as a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched spots in a host graph. 
+A \indexed{graphlet} specifies a connected subgraph. 
+\GrG\ provides graphlets as a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched \indexed{spot}s in a host graph. 
 A graph is specified piecewise by graphlets. 
-In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the continuation graphlet \texttt{--> n2}.
+In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{--> n2}.
 
-All the graph elements of a graphlet have \emph{name}s.
+All the graph elements of a graphlet have \newterm{name}s.
 The name is either user assigned or an unique internal, non-accessible name.
-In the second case the graph element is called \emph{anonymous}.
-For illustration purposes we use a \texttt{\$<number>} notation to denote anonymous graph elements in this document.
-For example the graphlet \texttt{n1 --> n2} contains a anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
-Names must not be redefined; once defined, a name is \emph{bound} to a graph element. 
-We use the term ``binding of names'' because a name not only denote a graph element of a graphlet, but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
-So graph elements of different names are pairwise distinct except for homomorphically matched graph elements (see section \ref{patternpart}).\\
+In the second case the graph element is called \newterm{anonymous}.
+For illustration purposes we use a \indexed{\texttt{\$<number>}} notation to denote anonymous graph elements in this document.
+For example the graphlet \texttt{n1 --> n2} contains an anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
+Names must not be \indexed{redefine}d; once defined, a name is \emph{bound} to a graph element. 
+We use the term ``\indexed{binding of names}'' because a name not only denote a graph element of a graphlet, but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
+So graph elements of different names are pairwise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see section \ref{patternpart}).\\
 For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
 If \texttt{v} and \texttt{w} are not explicitly marked as homomorphic, they are distinct.\\
 Binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
@@ -84,7 +84,7 @@ n3 <-- n1;
 \end{grgen}
 and \texttt{n1 --> n3} is equivalent to \texttt{n3 <-- n1}, of course.
 \end{example}
-The visibility of names is determined by scopes. 
+The visibility of names is determined by \indexed{scope}s. 
 Scopes can be nested. 
 Names of surrounding scopes are visible in inner scopes. 
 Usually a scope is defined by \texttt{\{} and \texttt{\}}.
@@ -97,10 +97,10 @@ GraphletNode: (Ident |
     '.' |
     (() | IdentDecl) ':' NodeType (() | TypeConstraint | '<' Ident '>')) ;   
 \end{rail}
-Specifies a node of type \emph{NodeType} with respect to \emph{TypeConstraint} (see section \ref{typeexpressions}, \emph{TypeConstraint}). 
+Specifies a node\indexmain{node (graphlet)} of type \emph{NodeType} with respect to \emph{TypeConstraint}\indexmain{type contraint} (see section \ref{typeexpressions}, \emph{TypeConstraint}). 
 Type constraints are allowed in the pattern part only. 
 The \texttt{.}\ is an anonymous node of the base type \texttt{Node}. 
-Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes a node. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).
+Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes\indexmain{retyping} a node. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).
 \begin{center}
   \begin{tabular}[c]{ll}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
@@ -115,7 +115,7 @@ Remember that every node type has \texttt{Node} as super type. The \texttt{<>} o
   GraphletEdge: '-' (() | EdgeRefinement) '->'  | '<-' (() | EdgeRefinement) '-' ;
   EdgeRefinement: Ident | (() | IdentDecl) ':' EdgeType (() | TypeConstraint | '<' Ident '>') ;
 \end{rail}
-Specifies an edge. Anonymous edges are specified by \texttt{-->} or \texttt{<--}. For a more detailed specification you can use an inplace notated edge refinement clause. Type constraints are allowed in the pattern part only (see section \ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes an edge. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).\\
+Specifies an edge\indexmain{edge (graphlet)}. Anonymous edges are specified by \texttt{-->} or \texttt{<--}. For a more detailed specification you can use an inplace notated edge refinement clause. Type constraints\indexmain{type constraint} are allowed in the pattern part only (see section \ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes\indexmain{retyping} an edge. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).\\
 \begin{center}
   \begin{tabular}[c]{ll}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
@@ -125,7 +125,7 @@ Specifies an edge. Anonymous edges are specified by \texttt{-->} or \texttt{<--}
     \texttt{ -e-> ;} & The edge \texttt{e} is bound to.
   \end{tabular}
 \end{center} 
-As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``redirecting''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the SPO approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge or more indirect by re-typing of nodes.} an edge: 
+As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge or more indirect by re-typing of nodes.} an edge: 
 The graphlets
 \begin{grgenlet}
 -e:Edge-> .;
@@ -241,17 +241,17 @@ Although both, the pattern part and the replace/modify part, use graphlets, ther
 
 \section{Rules and Tests}
 \label{ruledecls}
-The structure of a rule set file is as follows:
+The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
   'actions' IdentDecl (() | 'using' ((ModelIdent)+',')) ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
-\end{rail}
-A rule set consists of the underlying graph models and several rewrite rules. In case of multiple graph models \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you could use prefixes as you might do it in C.
+\end{rail}\indexmain{\texttt{actions}}\indexmain{\texttt{using}}
+A rule set consists of the underlying \indexed{graph models} and several rewrite rules. In case of multiple graph models \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you could use prefixes as you might do it in C.
 
 \begin{rail}
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace rbrace ;
-\end{rail}
-Declares a single rewrite rule such as \texttt{SomeRule}. It consists of a pattern part (see section \ref{patternpart}) in conjunction with its rewrite/modify part (see section \ref{replacepart}). A \emph{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
+\end{rail}\indexmain{\texttt{test}}\indexmain{\texttt{rule}}
+Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. It consists of a pattern part (see section \ref{patternpart}) in conjunction with its rewrite/modify part (see section \ref{replacepart}). A \newterm{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
 \begin{example}
 We define a test \texttt{SomeCond}
 \begin{grgen}
@@ -265,19 +265,19 @@ and execute in \GrShell:
 \begin{grshell}
   grs SomeCond & SomeRule
 \end{grshell}
-SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewrite sequences in \GrShell\ see \ref{grsthings}.
+SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For \indexed{regular graph rewrite sequence}s\indexmainsee{graph rewrite sequence}{regular graph rewrite sequence} in \GrShell\ see \ref{grsthings}.
 \end{example}
 
 \begin{rail}  
   ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
 \end{rail}
-The signature sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal parameters as well as a list of return types. Parameters provide users with the ability to pass graph elements to and from a rule. This is similar to parameters of procedural languages.
+The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s. Parameters provide users with the ability to pass graph elements to and from a rule. This is similar to parameters of procedural languages.
 
 \begin{rail}
   Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
   ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
 \end{rail}
-Within a rule parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad search plans, because \GrG\ has to actually search for such a graph element.
+Within a rule parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined\indexmain{undefined parameter}, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad \indexed{search plan}s, because \GrG\ has to actually search for such a graph element.
 \begin{example}
 Assume the following rule:
 \begin{grgen}
@@ -329,10 +329,10 @@ We don't define \texttt{varnode} within the pattern part because this is already
 \label{patternpart}
 \begin{rail}
   Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
-\end{rail}
-A pattern consists of zero or more pattern statements. 
+\end{rail}\indexmain{\texttt{pattern}}
+A \indexed{pattern} consists of zero or more pattern statements. 
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
-An empty pattern always produces exactly one (empty) match. 
+An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the totally undefined function.\\
 Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements. 
 Such names may be used before their declaration. 

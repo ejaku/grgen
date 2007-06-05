@@ -42,7 +42,7 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') (() | '(' 'boolean' ')') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{Sch:1990:ANSIC}, \texttt{!} negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?} operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 Table \ref{compandtypes} describes the semantics of compare operators on type expressions.\\
@@ -79,7 +79,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) (() | '(' 'int' ')') PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}
-The $\sim$ operator is the bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
+The $\sim$ operator is the bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
 The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{table}[htbp] 
   \centering
@@ -97,7 +97,7 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{rail}  
   FloatExpr: ((() | '+' | '-') (() | '(' ('float' | 'double') ')') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/' | percent) FloatExpr);
 \end{rail} 
-The \texttt{?} operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.\\
+The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.\\
 The \texttt{\%} operator works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}. \GrG\ implements the Java semantics. 
 
 \begin{rail}

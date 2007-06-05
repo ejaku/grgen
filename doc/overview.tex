@@ -6,14 +6,14 @@
 
 \GrG\ (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}arator) is a generative programming system for graph rewriting.
 For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
-According to Varr\'o's benchmark it is at least one order of magnitude faster than any other tool known to us.
+According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude faster than any other tool known to us.
 
-In order to accelerate the matching step, we internally introduce search plans to represent different \newterm{matching strategies} and equip these \newterm{search plans} with a cost model, taking the present host graph into account.
+In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BGK:07,Bat:06}.
 For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see \cite{spoapproach}).
 
 For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
-In contrast to systems like Fujaba \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
+In contrast to systems like \indexed{Fujaba} \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
 \GrG.NET is a version of \GrG\ written in C\#.
 
 
@@ -30,7 +30,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Typed nodes and edges, with multiple inheritance on types
     \item Typed attributes can be assigned to node and edge types
     \item Multigraphs (including multiple edges of the same type)
-    \item Connection assertions to restrict the "shape" of graphs
+    \item Connection assertions to restrict the ``shape'' of graphs
   \end{itemize}
   
   \item The pattern language supports:
@@ -40,7 +40,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Attribute conditions (including arithmetic operations on the attributes)
     \item Type conditions (including powerful instanceof-like type expressions)
     \item Parameter passing to rules
-    \item Dynamic patterns with iterative or recursive paths and graphs (yet to be implemented)
+    \item \indexed{Dynamic patterns} with iterative or recursive paths and graphs (yet to be implemented)
   \end{itemize}
   
   \item The rewrite language supports:
@@ -55,10 +55,10 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   
   \item The rule application language (\GrShell) supports:
   \begin{itemize}
-    \item Composing several rules with logical and iterative sequence control (called regular graph rewrite sequences, RGS)
+    \item Composing several rules with logical and iterative sequence control (called regular graph rewrite sequences, GRS)
     \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
-    \item Regular graph rewrite sequences that can contain optionally nested transactions (yet to be implemented)
+    \item Regular graph rewrite sequences that can contain optionally nested transactions\index{transaction, nested} (yet to be implemented)
   \end{itemize}
   
   \item Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. In this way you can build your own algorithmic rule applications in a .NET language of your choice. 
@@ -75,17 +75,17 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
   \begin{tikzpicture}
       \begin{scope}[shape=rectangle,minimum size=0.75cm,text width=3cm,text centered]
           \tikzstyle{every node}=[draw]
-          \node (spec1)    at (0   ,0)    {Rewrite Rules (*.grg)};
-          \node (spec2)    at (0   ,2)    {Graph Model (*.gm)};
-          \node (grgen)    at (4   ,1)    {\GrG\ Generator (Java, C\#)};
+          \node (spec1)    at (0   ,0)    {Rewrite Rules\indexmain{rewrite rule} (*\indexed{.grg})};
+          \node (spec2)    at (0   ,2)    {Graph Model\indexmain{graph model} (*\indexed{.gm})};
+          \node (grgen)    at (4   ,1)    {\GrG\ Generator\indexmain{generator} (Java, C\#)};
           \node (rewriter) at (10  ,0)    {Rewrite Rules (C\#)};
           \node (types)    at (10  ,2)    {Graph Model (C\#)};
           \node (data)     at (14  ,1)    {Graph Management (C\#)};
-          \node (libgr)    at (12  ,4)    {\LibGr (C\#)};
+          \node (libgr)    at (12  ,4)    {\LibGr\indexmain{libGr} (C\#)};
           \node[fill,color=gray] (app)      at (14.1  ,5.6)  {};
           \node[fill=white] (app)      at (14  ,5.5)  {Applications};
-          \node (grsh)     at (10  ,5.5)  {\GrShell (C\#)};
-          \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script (*.grs)};
+          \node (grsh)     at (10  ,5.5)  {\GrShell\indexmain{GrShell} (C\#)};
+          \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script\indexmain{graph rewrite script} (*\indexed{.grs})};
       \end{scope}
 
       \node[draw, minimum width=9cm,minimum height=4cm] (engine) at (12,1) {};
@@ -112,7 +112,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
 \end{figure}
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
-  bin & Contains the .NET assemblies, in particular GrGen.exe (the graph rewrite system generator), LGSPBackend.dll (a \GrG\ backend) and the shell \texttt{GrShell.exe}.  \\ 
+  bin & Contains the .NET assemblies, in particular \indexed{GrGen.exe} (the graph rewrite system generator), \indexed{LGSPBackend.dll} (a \GrG\ backend) and the shell \indexed{GrShell.exe}.  \\ 
   lib & Contains the \GrG\ generated assemblies (*.dll). \\
   specs & Contains the graph rewrite system source documents (*.gm and *.grg). \\ \hline
   \end{tabularx}
@@ -173,7 +173,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to the well-known term rewriting. 
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the left hand side of the rule -- is called \newterm{pattern graph} and $R$ -- the right hand side of the rule -- is the \newterm{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the \newterm{left hand side} of the rule -- is called \newterm{pattern graph} and $R$ -- the \newterm{right hand side} of the rule -- is the \newterm{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -208,7 +208,7 @@ The transformation is done by \newterm{application} of a rule to a \newterm{host
 To do so, we have to find an occurrence of the pattern graph in the host graph. 
 Mathematically speaking, such a \newterm{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
 This morphism may not be unique, i.e.\ there may be several matches.
-Afterwards we change the matched spot $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
+Afterwards we change the matched \indexed{spot} $m(L)$ of the host graph, such that it becomes an isomorphic subgraph of the replacement graph $R$.
 Elements of $L$ not mapped by $r$ are deleted from $m(L)$ during rewrite.
 Elements of $R$ not in the image of $r$ are inserted into $H$, all others (elements that are mapped by $r$) are retained.
 The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xRightarrow{m, p} H'$.
@@ -218,7 +218,7 @@ The outcome of these steps is the resulting graph $H'$. In symbolic language: $H
 \label{ov:example}
 
 We'll have a look at a small example. 
-We start using a special case to construct our host graph: an empty pattern always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So starting with an empty host graph we construct an apple by applying
+We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So starting with an empty host graph we construct an apple by applying
 \[
   p_0:  
   \begin{array}[c]{c} 
@@ -391,11 +391,11 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 
 \section{The Tools}
 
-\subsection{\texttt{GrGen.exe}}
+\subsection{\texttt{\indexed{GrGen.exe}}}
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
   \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
-    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{.grg}. The suffix \texttt{.grg} may be omitted.\\
+    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.\\
 By default \GrG\ tries to write the compiled assemblies to the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
@@ -410,12 +410,12 @@ By default \GrG\ tries to write the compiled assemblies to the directory \texttt
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above). Java Runtime Environment 1.5 (or above).
 \end{description}
 
-\subsection{\texttt{GrShell.exe}}
-The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
+\subsection{\texttt{\indexed{GrShell.exe}}}
+The \GrShell\index{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
 
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
-     Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script} (usually a \texttt{*.grs} file) immediately.  
+     Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script} (usually a \texttt{*\indexed{.grs}} file) immediately.  
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-c} & Execute the quoted \GrShell\ commands immediately. Instead of a line break use a double semicolon \texttt{;;} as command separation terminal.
@@ -423,18 +423,18 @@ The \GrShell\ is a shell application of the \LibGr. \GrShell\ is capable of crea
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above).
 \end{description}
 
-\subsection{\texttt{LibGr.dll}}
-The \LibGr\ is a .NET assembly implementing \GrG's API. See the extracted HTML documentation for interface descriptions. 
+\subsection{\texttt{\indexed{LibGr.dll}}}
+The \LibGr\index{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions. 
 
-\subsection{\texttt{yComp.jar}}
+\subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
-\yComp\ is a graph visualization tool based on \yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for VCG, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+\yComp\index{yComp} is a graph visualization tool based on \yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for VCG, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\
    \texttt{java -jar yComp.jar [<graph-file>]}\\
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
-  \item[Hints] Do not use the compiler graph layout algorithm (\yComp's default setting). Instead \texttt{Organic} or \texttt{Orthogonal} might be good choices. Use the rightmost blue play button to start layouting. This may take a while, depending on the graph size:
+  \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. Use the rightmost blue play button to start layouting. This may take a while, depending on the graph size:
 \begin{center}
 \includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
 \end{center}
