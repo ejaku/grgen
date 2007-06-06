@@ -5,18 +5,18 @@ In the following sections \emph{Ident} refers to an identifier of the graph mode
 
 \section{Built-In Types}
 \label{builtin}
-Besides user-defined node types, edge types and enum types, GrGen supports the built-in primitive types in table \ref{builtintypes}.
+Besides user-defined node types, edge types and enum types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
-	\texttt{boolean} & Covers the values \texttt{true} and \texttt{false}. \\
-	\texttt{int} & A 32-bit signed integer, in two's complement representation. \\
-	\texttt{float}, \texttt{double} & A floating-point number in IEEE 754 format with single precision or double precision respectively. \\
-	\texttt{string} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and enclosed by double quotes.\\ \hline
+	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false}. \\
+	\texttt{\indexed{int}} & A 32-bit signed integer, in two's complement representation. \\
+	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number in IEEE 754 format with single precision or double precision respectively. \\
+	\texttt{\indexed{string}} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and enclosed by double quotes.\\ \hline
 \end{tabularx}
-\caption{\GrG\ built-in types}
+\caption{\GrG\ built-in primitive types}
 \label{builtintypes}
 \end{table}
-Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit type casts. Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for enum types. The cast operator does never accept an enum type.
+Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts. Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for \indexed{enum type}s. The cast operator does never accept an enum type.
 \begin{example}
   \texttt{myfloat = myint; mydouble = (float)myint; mystring = (string)mybool} is allowed, \\
   \texttt{myenum = (myenum)int; myfloat = mydouble; myint = (int)mybool} is forbidden.
@@ -45,7 +45,7 @@ Table \ref{tabcasts} lists \GrG's implicit type casts and the allowed explicit t
 As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
-Table \ref{compandtypes} describes the semantics of compare operators on type expressions.\\
+Table \ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.\\
 The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{table}[htbp]
 \label{compandtypes} 
@@ -61,7 +61,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
   \caption{Compare operators on type expressions}
 \end{table}
 \begin{note}
-  \texttt{A < B} corresponds to the direction of the arrow in an UML class diagram.
+  \texttt{A < B} corresponds to the direction of the arrow in an \indexed{UML class diagram}.
 \end{note}
 
 \begin{table}[htbp] 
@@ -72,7 +72,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
     \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
     \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Strict evaluation. \end{tabular}\\ \hline
   \end{tabular}
-  \caption{Binary boolean operators, in ascending order of precedence}
+  \caption{Binary boolean operators, in ascending order of precedence}\indexmain{order of precedence}
   \label{tabboolops}
 \end{table}
 
@@ -115,12 +115,12 @@ The operator \texttt{+} concatenates two strings.
   \item[QuotedText.] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
 \end{description}
 
-\section{Type Related Conditions}
+\section{Type Related Conditions}\indexmain{type expression}
 \label{typeexpressions}
 
 \begin{rail}
   TypeExpr: TypeIdent | 'typeof' '(' Ident ')' ;
-\end{rail}
+\end{rail}\indexmain{\texttt{typeof}}
 A type expression identifies a type (and -- in terms of matching -- also its subtypes). A type expression is either a type identifier itself or the type of a graph element. So \emph{Ident} has to be a node or edge identifier.
 \begin{example}
 The following rule will add a reverse edge to a one-way street.
@@ -144,7 +144,7 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
 \end{rail}
-A type constraint is used to exclude parts of the type hierarchy. The operator \texttt{+} is used to create a union of its operand types.
+A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types.
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
   \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
@@ -152,18 +152,18 @@ A type constraint is used to exclude parts of the type hierarchy. The operator \
 \end{tabularx}
 \end{example}
 
-\section{Annotations}
+\section{Annotations}\indexmain{annotation}
 \label{annotations}
 
-Identifier definitions can be annotated by pragmas. Annotations are key-value pairs.
+Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
 \begin{rail}
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}
-Although you can use any key-value pairs between the brackets, only the identifier \texttt{prio} has an effect so far.
+Although you can use any key-value pairs between the brackets, only the identifier \indexed{\texttt{prio}} has an effect so far.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for search plans. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
 \end{tabularx}
 \caption{Annotations}
 \label{tabannotations}

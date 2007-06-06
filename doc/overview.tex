@@ -4,17 +4,17 @@
 
 \section{What is \GrG?}
 
-\GrG\ (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}arator) is a generative programming system for graph rewriting.
-For the potentially expensive matching problem, \GrG\ applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
+{\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting.
+For the potentially expensive matching problem, {\scshape GrGen} applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
 According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BGK:07,Bat:06}.
 For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see \cite{spoapproach}).
 
-For ease of use, \GrG\ features an expressive specification language and generates program code with a convenient interface.
+For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like \indexed{Fujaba} \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
-\GrG.NET is a version of \GrG\ written in C\#.
+\GrG\ is a version of {\scshape GrGen} written in C\#.
 
 
 \section{Features of \GrG}
@@ -85,12 +85,12 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
           \node[fill,color=gray] (app)      at (14.1  ,5.6)  {};
           \node[fill=white] (app)      at (14  ,5.5)  {Applications};
           \node (grsh)     at (10  ,5.5)  {\GrShell\indexmain{GrShell} (C\#)};
-          \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script\indexmain{graph rewrite script} (*\indexed{.grs})};
+          \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script\indexmain{graph rewrite script}\indexmainsee{GrShell script}{graph rewrite script}\indexmainsee{script}{graph rewrite script} (*\indexed{.grs})};
       \end{scope}
 
       \node[draw, minimum width=9cm,minimum height=4cm] (engine) at (12,1) {};
       \node[draw, minimum width=9cm,minimum height=4cm,style=dotted] (ct) at (2,1) {};
-      \node[anchor=north east] (engine_lab) at (engine.north east) {Backend (Run Time)};
+      \node[anchor=north east] (engine_lab) at (engine.north east) {Backend\indexmain{backend} (Run Time)};
       \node[anchor=north east] (ct_lab) at (ct.north east) {Frontend (Compile Time)};
 
       \draw[->,dashed,red,>=triangle 45]     (spec1)   -> (grgen);
@@ -173,7 +173,7 @@ The notion of graph rewriting as understood by \GrG\ is a method for declarative
 This is comparable to the well-known term rewriting. 
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the \newterm{left hand side} of the rule -- is called \newterm{pattern graph} and $R$ -- the \newterm{right hand side} of the rule -- is the \newterm{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule -- is called \newterm{pattern graph} and $R$ -- the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule -- is the \newterm{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -204,7 +204,7 @@ Moreover we need to identify graph elements (nodes or edges) of $L$ and $R$ for 
 This is done by a \newterm{preservation morphism} $r$ mapping elements from $L$ to $R$; the morphism $r$ is injective, but needs to be neither surjective nor total.
 Together with a rule name $p$ we have $p : L \xrightarrow{r} R$.
 
-The transformation is done by \newterm{application} of a rule to a \newterm{host graph} $H$.
+The transformation is done by \newterm{application}\indexmainsee{rule application}{application} of a rule to a \newterm{host graph} $H$.
 To do so, we have to find an occurrence of the pattern graph in the host graph. 
 Mathematically speaking, such a \newterm{match} $m$ is an isomorphism from $L$ to a subgraph of $H$.
 This morphism may not be unique, i.e.\ there may be several matches.
@@ -415,7 +415,7 @@ The \GrShell\index{GrShell} is a shell application of the \LibGr. \GrShell\ is c
 
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
-     Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script} (usually a \texttt{*\indexed{.grs}} file) immediately.  
+     Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script}\indexmain{graph rewrite script} (usually a \texttt{*\indexed{.grs}} file) immediately.  
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-c} & Execute the quoted \GrShell\ commands immediately. Instead of a line break use a double semicolon \texttt{;;} as command separation terminal.
@@ -424,11 +424,11 @@ The \GrShell\index{GrShell} is a shell application of the \LibGr. \GrShell\ is c
 \end{description}
 
 \subsection{\texttt{\indexed{LibGr.dll}}}
-The \LibGr\index{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions. 
+The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions. 
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
-\yComp\index{yComp} is a graph visualization tool based on \yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for VCG, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+\yComp\index{yComp} is a graph visualization tool based on \yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\

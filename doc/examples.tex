@@ -3,7 +3,7 @@
 
 \section{Fractals}
 \label{fractals}
-The \GrG\ package ships with samples for fractal generation. We will construct the Sierpinski triangle and the Koch snowflake. First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
+The \GrG\ package ships with samples for fractal generation. We will construct the \indexed{Sierpinski triangle} and the \indexed{Koch snowflake}. First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
 \begin{verbatim}
 GrGen.exe ..\specs\sierpinski.grg
 GrGen.exe ..\specs\snowflake.grg
@@ -13,7 +13,7 @@ or
 mono GrGen.exe ../specs/sierpinski.grg
 mono GrGen.exe ../specs/snowflake.grg
 \end{verbatim}
-respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's layout algorithm might need some time and attempts to layout it nicely.\\
+respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's \indexed{layout algorithm} might need some time and attempts to layout it nicely.\\
 \\
 We execute the Sierpinski script by
 \begin{verbatim}
@@ -39,7 +39,7 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \vfill\pagebreak
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a busy beaver \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is Turing complete. \\
+We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is \indexed{Turing complete}. \\
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
 \subsection{Graph Model}
@@ -302,7 +302,7 @@ We interrupt the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
-In order to improve the performance we generate better search plans. This is a crucial step for execution time: With the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
+In order to improve the performance we generate better \indexed{search plan}s. This is a crucial step for execution time: With the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
 \begin{grshell}[firstnumber=last]
 custom graph analyze_graph
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
@@ -312,6 +312,5 @@ custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyR
 Let the beaver run:
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule))*
-
 \end{grshell}
 

@@ -1,7 +1,7 @@
 \chapter{Rule Set Language}\indexmain{rule set language}
 \label{chaprulelang}
 
-The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph model means that \GrG\ uses a default graph meta model. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more \indexed{graph model}s and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule by Geiß et al. \cite{GBGHS:06} gives a rough picture of the language:
+The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph meta model means that \GrG\ uses a \indexed{default graph model}. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more \indexed{graph model}s and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during a rule application. The following rewrite rule by Geiß et al. \cite{GBGHS:06} gives a rough picture of the language:
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -56,7 +56,7 @@ These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches e
   Continuation: GraphletEdge (() | (GraphletNode (() | Continuation))) ;
 \end{rail}
 A \indexed{graphlet} specifies a connected subgraph. 
-\GrG\ provides graphlets as a descriptive notation to define both, patterns to search for as well as the subgraphs that replace or modify matched \indexed{spot}s in a host graph. 
+\GrG\ provides graphlets as a descriptive notation to define both, patterns\indexmain{pattern graph} to search for as well as the subgraphs that replace or modify matched \indexed{spot}s in a host graph\indexmain{replacement graph}. 
 A graph is specified piecewise by graphlets. 
 In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{--> n2}.
 
@@ -245,7 +245,7 @@ The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
   'actions' IdentDecl (() | 'using' ((ModelIdent)+',')) ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
 \end{rail}\indexmain{\texttt{actions}}\indexmain{\texttt{using}}
-A rule set consists of the underlying \indexed{graph models} and several rewrite rules. In case of multiple graph models \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you could use prefixes as you might do it in C.
+A rule set consists of the underlying \indexed{graph model}s and several rewrite rules. In case of multiple graph models \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you could use prefixes as you might do it in C.
 
 \begin{rail}
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
@@ -265,7 +265,7 @@ and execute in \GrShell:
 \begin{grshell}
   grs SomeCond & SomeRule
 \end{grshell}
-SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For \indexed{regular graph rewrite sequence}s\indexmainsee{graph rewrite sequence}{regular graph rewrite sequence} in \GrShell\ see \ref{grsthings}.
+SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists. For regular graph rewrite sequences in \GrShell\ see \ref{grsthings}.
 \end{example}
 
 \begin{rail}  
@@ -325,7 +325,7 @@ We extend \texttt{SomeRule} with a variable node to find and we want it to retur
 We don't define \texttt{varnode} within the pattern part because this is already covered by the parameter specification itself.
 \end{example}
 
-\section{Pattern Part}
+\section{Pattern Part}\indexmain{pattern}
 \label{patternpart}
 \begin{rail}
   Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
@@ -339,8 +339,8 @@ Such names may be used before their declaration.
 See section \ref{rulebb} for a detailed explanation of names and graphlets.
 \begin{figure}[htbp]
 \begin{note}
-The application of a rule is not deterministic (remember the introducing example in \ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
-Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\ provides a mechanism to deal with such ambiguities. 
+The \indexed{application} of a rule is not deterministic\indexmain{indeterminism} (remember the introducing example in \ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
+Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities. 
 \LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of this matches. 
 By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
 As a \LibGr\ user use the following methods of the \texttt{IAction} interface:
@@ -361,8 +361,8 @@ for (int i = 0;  i < myMatches.NumMatches; i++)
 }
 \end{csharplet}
 
-Also notice that the regular graph rewrite sequences introduces a further variant of indeterminism on rule application level: 
-The \texttt{\$<op>} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is indeterministic. 
+Also notice that the \indexed{regular graph rewrite sequence}s introduces a further variant of indeterminism on rule application level: 
+The \indexed{\texttt{\$<op>}} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is indeterministic. 
 See section \ref{grsthings} for further information on regular graph rewrite sequences.
 \end{note}
 \end{figure}
@@ -374,17 +374,17 @@ See section \ref{grsthings} for further information on regular graph rewrite seq
     'negative' lbrace (()+PatternStatement) rbrace |
     'if' lbrace (BooleanExpr ';' +) rbrace |
     'return' '(' (Ident+',') ')' ';' ;
-\end{rail}
+\end{rail}\indexmain{\texttt{hom}}\indexmain{\texttt{negative}}\indexmain{\texttt{if}}\indexmain{\texttt{return}}
 The semantics of the various pattern statements:
 \begin{description}
-  \item[Graphlet.] Graphlets specify connected subgraphs. See section \ref{rulebb} for a detailed explanation of graphlets. 
-  \item[Isomorphic/Homomorphic Matching.] The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements shall have a common supertype. Several homomorphically matched graph elements will be mapped to a graph element of a common supertype.\\
+  \item[Graphlet.] \indexmain{graphlet}Graphlets specify connected subgraphs. See section \ref{rulebb} for a detailed explanation of graphlets. 
+  \item[Isomorphic/Homomorphic Matching.] \indexmain{isomorphic matching}\indexmain{homomorphic matching}The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements shall have a common supertype. Several homomorphically matched graph elements will be mapped to a graph element of a common supertype.\\
   In example \ref{ex:rule:SomeRule} node \texttt{n1} and node \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).\\
   The \texttt{hom} operator is transitive, i.e.\ \texttt{hom(a, b); hom(b, c);} implies \texttt{hom(a, c);}. 
   Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
-  \item[Negative Application Conditions (NACs).] With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). 
+  \item[Negative Application Conditions (NACs).] \indexmain{negative application condition}\indexmainsee{NAC}{negative application condition}With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf. \cite{adam}). 
   NACs must not be nested.
-  NACs possess an own scope. 
+  NACs possess an own \indexed{scope}. 
   Names defined within a NAC are not alive outside the NAC. 
   Identifiers from surrounding scopes may be overwritten.
   In general NACs does not care about bindings within the outer scope. 
@@ -401,19 +401,19 @@ pattern {
 }
     \end{grgen}
   \end{example}
-  \item[Attribute Conditions.] The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
-  \item[Return values.] The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See \ref{replacepart}, \emph{Return Values}.
+  \item[Attribute Conditions.] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
+  \item[Return values.] \indexmain{return value}The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See \ref{replacepart}, \emph{Return Values}.
 \end{description}
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See section \ref{typeexpressions} for further information.
 
-\section{Replace/Modify Part}
+\section{Replace/Modify Part}\indexmain{replacement graph}
 \label{replacepart}
-For the task of rewriting \GrG\ provides two different modes: A replace mode and a modify mode.
+For the task of rewriting \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
 
-\paragraph{Implicit Definition of the Preservation Morphism $r$}
+\paragraph{Implicit Definition of the Preservation Morphism\indexmain{preservation morphism} $r$}
 \label{rule:morphismr}
-Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the host graph. 
-The transformation specification defines the transition from the left hand side (LHS) to the right hand side (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
+Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the \indexed{host graph}. 
+The \indexed{transformation specification} defines the transition from the \indexed{left hand side} (LHS) to the \indexed{right hand side} (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
 In theory this is done by defining the preservation morphism $r$.
 \begin{figure}[htbp]
 	\centering
@@ -439,13 +439,13 @@ In theory this is done by defining the preservation morphism $r$.
   \caption{Process of Graph Transformation}
   \label{rule:figrule}
 \end{figure}
-In \GrG\ the preservation morphism $r$ is defined implicity by using of names in pattern graphlets and replace graphlets. (The modify part can be assumed to be a special case of a replace part).
+In \GrG\ the preservation morphism $r$ is defined implicity by using of \indexed{name}s in pattern \indexed{graphlet}s and replace graphlets. (The modify part can be assumed to be a special case of a replace part).
 Remember that each of the graph elements of a match have got a name bound to it, either user defined or internal defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
 Otherwise the graph element will be deleted.
 By definition of names in a replace graphlet their graph elements will be newly created.
-So anonymous graph elements in a replace pattern will be created.
+So \indexed{anonymous} graph elements in a replace pattern will be created.
 Multiple using of a name has the same effect as a single using occurrence.\\
-In case of a conflict between deletion and preservation, deletion is prioritized. 
+In case of a conflict between \indexed{deletion} and \indexmain{preservation}, deletion is prioritized. 
 If an incident node of an edge gets deleted, the edge will be deleted as well.
 
 \begin{table}[htbp]
@@ -466,11 +466,11 @@ If an incident node of an edge gets deleted, the edge will be deleted as well.
 
 
 \begin{description}
-  \item[Replace mode.] The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means using a graph element in a graphlet. Attribute calculations are no using occurrences.\\
+  \item[Replace mode.] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (denoted) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means using a graph element in a graphlet. Attribute calculations are no using occurrences.\\
   In example \ref{ex:rule:SomeRule} \texttt{SomeRuleExt} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
 See section \ref{rule:morphismr} for a detailed explanation of the transformation semantics. 
-  \item[Modify mode.] The modify mode can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. 
-In particular all the anonymous graph elements are kept. 
+  \item[Modify mode.] The \indexed{modify mode} can be regarded as a replace part in replace mode, where every pattern graph element is added (denoted) before the first replace statement. 
+In particular all the \indexed{anonymous} graph elements are kept. 
 Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. 
 Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
 \begin{example}
@@ -497,7 +497,7 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
 
 \begin{rail}
   Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace ;
-\end{rail}
+\end{rail}\indexmain{\texttt{replace}}\indexmain{\texttt{modify}}
 Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
 
 \begin{rail}  
@@ -505,21 +505,21 @@ Selects whether the replace mode or the modify mode is used. Several replace sta
     'delete' '(' (Ident + ',') ')' ';' |
     'eval' lbrace (Assignment ';' +) rbrace |
     'return' '(' (Ident+',') ')' ';' ;
-\end{rail}    
+\end{rail}\indexmain{\texttt{delete}}\indexmain{\texttt{eval}}\indexmain{\texttt{return}}
 The semantics of the various pattern statements:
 \begin{description}
-  \item[Graphlet.] Analogous to a pattern graphlet, a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See section \ref{rulebb} for a detailed explanation of graphlets. 
-  \item[Deletion.] The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
-  \item[Attribute Evaluation.] If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated.
-  \item[Return Values.] Graph elements of the replace/modify part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
-  \item[Retyping.] Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. Retyping differs from a type cast: During replacement both of the graph elements are alive. Specifically both of them are available for evaluation. Furthermore the source and destination types need not to be on a path in the directed type hierarchy tree, rather their relation can be arbitrary.\\
+  \item[Graphlet.] \indexmain{graphlet}Analogous to a pattern graphlet, a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See section \ref{rulebb} for a detailed explanation of graphlets. 
+  \item[Deletion.] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
+  \item[Attribute Evaluation.] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated.
+  \item[Return Values.] \indexmain{return value}Graph elements of the replace/modify part can be returned according to the return types in the signature (see \ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
+  \item[Retyping.] \indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. Retyping differs from a \indexedsee{type cast}{retyping}: During replacement both of the graph elements are alive. Specifically both of them are available for evaluation. Furthermore the source and destination types need not to be on a path in the directed \indexed{type hierarchy} graph, rather their relation can be arbitrary.\\
 The edge specification as well as \emph{ReplaceNode} supports retyping. In example \ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
 \end{description} 
 
 \begin{rail}    
    Assignment: Ident '.' Ident '=' Expression ;
-\end{rail}
-Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have imperative semantics. In particular, \GrG\ does not care about data dependencies. Evaluation takes place before any graph element gets deleted and after all the new elements have been created. You may read (and write, although this doesn't make sense) attributes of graph elements to be deleted.
+\end{rail}\indexmain{attribute evaluation}
+Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics. In particular, \GrG\ does not care about data dependencies. Evaluation takes place before any graph element gets deleted and after all the new elements have been created. You may read (and write, although this doesn't make sense) attributes of graph elements to be deleted.
 \begin{example}
 \begin{grgen}
 ...
