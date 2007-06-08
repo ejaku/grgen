@@ -77,7 +77,38 @@ public class AssignNode extends BaseNode {
 		
 		return lhsOk && rhsOk;
 	}
-	
+
+	/**
+	 * Checks wether the expression has a type equal, compatible or castable
+	 * with the type of the target. If so, insert a CastNode in the AST.
+	 *
+	 * @return true, if the types are equal, compatible or castable
+	 */
+	protected boolean typeCheck() {
+		
+		ExprNode expr = (ExprNode) getChild(RHS);
+		
+		TypeNode targetType = (TypeNode) ((QualIdentNode)getChild(LHS)).getDecl().getDeclType();
+		TypeNode exprType = (TypeNode) expr.getType();
+		
+		if (!exprType.isEqual(targetType)) {
+			expr = expr.adjustType(targetType);
+			replaceChild(RHS, expr);
+
+			if (expr == ConstNode.getInvalid()) {
+
+				String msg = "assignment ";
+				if (exprType.isCastableTo(targetType))
+					msg = msg + "of " + exprType + " to " + targetType + " without a cast";
+				else
+					msg = "incompatible " + msg + "from " + exprType + " to " + targetType;
+
+				error.error(getCoords(), msg);
+				return false;
+			}
+		}
+		return true;
+	}
 	/**
 	 * Construct the immediate representation from an assignment node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
@@ -90,3 +121,4 @@ public class AssignNode extends BaseNode {
 	}
 	
 }
+

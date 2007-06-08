@@ -699,6 +699,8 @@ public class OperatorSignature extends FunctionSignature
 		makeBinOp(MUL, FLOAT, FLOAT, FLOAT, floatEvaluator);
 		makeBinOp(DIV, FLOAT, FLOAT, FLOAT, floatEvaluator);
 		makeBinOp(MOD, FLOAT, FLOAT, FLOAT, floatEvaluator);
+
+		makeUnOp(NEG, FLOAT, FLOAT, floatEvaluator);
 		
 		// Double arithmetic
 		makeBinOp(ADD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
@@ -706,6 +708,8 @@ public class OperatorSignature extends FunctionSignature
 		makeBinOp(MUL, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
 		makeBinOp(DIV, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
 		makeBinOp(MOD, DOUBLE, DOUBLE, DOUBLE, doubleEvaluator);
+
+		makeUnOp(NEG, DOUBLE, DOUBLE, doubleEvaluator);
 
 		// "String arithmetic"
 		makeBinOp(ADD, STRING, STRING, STRING, stringEvaluator);
@@ -884,4 +888,5 @@ public class OperatorSignature extends FunctionSignature
 	}
 	
 }
+
 

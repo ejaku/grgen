@@ -67,6 +67,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new StringType(getIdentNode().getIdent());
 		}
+		public String toString() {
+			return "string";
+		}
 	};
 	
 	/**
@@ -85,6 +88,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new IntType(getIdentNode().getIdent());
 		}
+		public String toString() {
+			return "int";
+		}
 	};
 	
 	/**
@@ -94,13 +100,19 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new DoubleType(getIdentNode().getIdent());
 		}
-	};	
+		public String toString() {
+			return "double";
+		}
+	};
 	/**
 	 * The floating point basic type.
 	 */
 	public static final BasicTypeNode floatType = new BasicTypeNode() {
 		protected IR constructIR() {
 			return new FloatType(getIdentNode().getIdent());
+		}
+		public String toString() {
+			return "float";
 		}
 	};
 	
@@ -111,6 +123,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		new BasicTypeNode() {
 		protected IR constructIR() {
 			return new BooleanType(getIdentNode().getIdent());
+		}
+		public String toString() {
+			return "boolean";
 		}
 	};
 	
@@ -132,6 +147,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		new BasicTypeNode() {
 		protected IR constructIR() {
 			return new VoidType(getIdentNode().getIdent());
+		}
+		public String toString() {
+			return "void";
 		}
 	};
 	
@@ -208,17 +226,23 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(voidType.getClass(), "void type");
 		setName(errorType.getClass(), "error type");
 		
-		addCompatibility(enumItemType, intType);
-		addCompatibility(enumItemType, stringType);
-		addCompatibility(booleanType, intType);
-		addCompatibility(floatType, doubleType);
+		//no explicit cast required
 		addCompatibility(intType, floatType);
 		addCompatibility(intType, doubleType);
-		addCastability(intType, stringType);
+		addCompatibility(floatType, doubleType);
+
+		//require explicit cast
+		addCastability(enumItemType, intType);
+		addCastability(enumItemType, floatType);
+		addCastability(enumItemType, doubleType);
+		addCastability(enumItemType, stringType);
 		addCastability(booleanType, stringType);
+		addCastability(intType, stringType);
 		addCastability(floatType, intType);
+		addCastability(floatType, stringType);
 		addCastability(doubleType, intType);
 		addCastability(doubleType, floatType);
+		addCastability(doubleType, stringType);
 		
 		valueMap.put(intType, Integer.class);
 		valueMap.put(floatType, Float.class);

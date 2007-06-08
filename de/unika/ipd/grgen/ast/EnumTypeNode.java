@@ -134,4 +134,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		return Integer.class;
   }
 	
+	public String toString() {
+		return "an enum type";
+	}
 }

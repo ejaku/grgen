@@ -30,6 +30,10 @@ import java.util.HashSet;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Cast;
 
 /**
  * A cast operator for expressions.
@@ -109,12 +113,19 @@ public class CastNode extends ExprNode {
 		else return this;
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-   */
-  public TypeNode getType() {
-  	TypeNode type = (TypeNode) getChild(TYPE);
-  	return type;
-  }
+	/**
+	* @see de.unika.ipd.grgen.ast.ExprNode#getType()
+	*/
+	public TypeNode getType() {
+		TypeNode type = (TypeNode) getChild(TYPE);
+		return type;
+	}
 
+	protected IR constructIR() {
+		Type type = (Type) getChild(TYPE).checkIR(Type.class);
+		Expression expr = (Expression) getChild(EXPR).checkIR(Expression.class);
+		
+		return new Cast(type, expr);
+	}
 }
+

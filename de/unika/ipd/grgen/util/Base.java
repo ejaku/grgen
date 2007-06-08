@@ -40,7 +40,7 @@ public class Base implements Id {
 	private String id;
 
 	/** constants for debug reporting */
-	public static final int NOTE = 1;
+	public static final int NOTE = 4;	//NOTE: changed from 1 to 4
 
 	/** The debug reporter for debugging */
 	public static Reporter debug;

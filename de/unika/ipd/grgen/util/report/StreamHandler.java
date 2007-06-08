@@ -51,14 +51,16 @@ public class StreamHandler implements Handler {
 			stream.print("  ");
 	}
 	
-  /**
-   * @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
-   */
-  public void report(int level, Location loc, String msg) {
+	/**
+	* @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
+	*/
+	public void report(int level, Location loc, String msg) {
+
 		doIndent();
-    stream.println((loc.hasLocation() ? "At " + loc.getLocation() + ": ": "")
-      + msg);
-  }
+		if (level == ErrorReporter.ERROR)
+			stream.print("*** GrGen Error: ");
+		stream.println((loc.hasLocation() ? "[at " + loc.getLocation() + "] ": "") + msg);
+	}
 
   /**
    * @see de.unika.ipd.grgen.util.report.Handler#entering(java.lang.String)

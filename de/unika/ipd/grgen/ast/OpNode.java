@@ -158,12 +158,13 @@ public abstract class OpNode extends ExprNode
 			
 			// Insert implicit type casts for the arguments that need them.
 			TypeNode[] opTypes = operator.getOperandTypes();
+			assert (opTypes.length == argTypes.length);
 			for(int i = 0; i < argTypes.length; i++)
 			{
 				if(!argTypes[i].isEqual(opTypes[i]))
 				{
 					ExprNode child = (ExprNode) getChild(i);
-					replaceChild(i, child.adjustType(argTypes[i]));
+					replaceChild(i, child.adjustType(opTypes[i])); //NOTE: changed argType to optype
 				}
 			}
 		}

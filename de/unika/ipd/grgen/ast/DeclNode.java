@@ -84,9 +84,9 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
   protected DeclNode(IdentNode n, BaseNode t) {
     super(n.getCoords());
 		n.setDecl(this);
-    addChild(n);
-    addChild(t);
-    setChildrenNames(declChildrenNames);
+		addChild(n);
+		addChild(t);
+		setChildrenNames(declChildrenNames);
   }
 
 	/**

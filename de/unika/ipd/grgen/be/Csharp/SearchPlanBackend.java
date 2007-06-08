@@ -1192,6 +1192,23 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			Typeof to = (Typeof)cond;
 			sb.append(formatEntity(to.getEntity())+".type");
 		}
+		else if (cond instanceof Cast) {
+			Cast cast = (Cast) cond;
+			Type type = cast.getType();
+			String typeName = "";
+
+			if (type instanceof IntType) {
+				
+			}
+			else {
+				assert(false) :
+					"This is either a forbidden cast, which should have been " +
+					"rejected on building the IR, or an allowed cast, which " +
+					"should have been processed by the above code.";
+			}
+			
+			sb.append("(" + typeName  + ")");
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 	

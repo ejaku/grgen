@@ -61,10 +61,10 @@ public class PrePostWalker extends Base implements Walker {
 			visited.add(node);
 			pre.visit(node);
 
-      for(Walkable p : node.getWalkableChildren()) {
-        walk(p);
-      }
-      post.visit(node);
+			for(Walkable p : node.getWalkableChildren()) {
+				walk(p);
+			}
+			post.visit(node);
 		}
 	}
 }
