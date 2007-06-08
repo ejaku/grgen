@@ -53,12 +53,14 @@ Basic elements of the \GrG\ graph model language are identifiers to denominate t
 \emph{Ident}, \emph{IdentDecl}\\ \indexmain{identifier}\nopagebreak
 A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See \ref{annotations} for annotations of declarations.
 \begin{note}
-  The \GrG\ model language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. For instance, there are no C-like constructs as the following:
+\label{note:modeldecl}
+  The \GrG\ model language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. For instance, the following C-like pseudo \GrG\ model language code is illegal:
 \begin{grgen}
 node class t_node;
 node class t_node {
 }
 \end{grgen}
+Using an identifier before defining it is allowed.
 \end{note}
 \mbox{ }\\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
@@ -73,7 +75,7 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
 \end{rail}
-\emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Types do not need to be declared\indexmain{declaration} before they are used.
+\emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. As all identifier definitions types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;

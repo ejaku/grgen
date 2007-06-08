@@ -42,7 +42,7 @@ The elements of a graph (nodes and edges) can be accessed both by their \indexed
 \makeatletter
 \begin{rail}
   GraphElement: Text | ('@' '(' Text ')')
-\end{rail}%\indexmain{\texttt{@}}
+\end{rail}\indexmain{\texttt{"@}}
 \makeatother
 The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires the corresponding graph element to be a node or an edge respectively.
 \begin{example}
@@ -126,7 +126,7 @@ Prints \emph{Text} onto the \GrShell\ command prompt.
 
 \begin{rail}
   '!' CommandLine
-\end{rail}%\indexmain{\texttt{!}}
+\end{rail}\indexmain{\texttt{"!}}
 Passes \emph{CommandLine}\indexmain{command line} to the operating system. \emph{CommandLine} is an arbitrary text the operating system attempts to execute.
 \begin{example}
 On a Linux machine you might execute
@@ -396,7 +396,7 @@ Basically a graph rewrite command looks like this:
 \end{rail}
 \makeatother
 \mbox{\quad}\\
-Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following order of precedence, starting with the lowest precedence: 
+Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following \indexed{order of precedence}, starting with the lowest precedence: 
 \[ \text{\texttt{;}} \;\;\;\;\;\;\; \text{\texttt{|}} \;\;\;\;\;\;\;  \text{\texttt{\&}}\] 
 \makeatletter
 \begin{table}[htbp]
@@ -422,9 +422,8 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
-\end{tabularx}\indexmain{\texttt{;}}%\indexmain{\texttt{|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}%
-%\indexmain{\texttt{!}}
+\end{tabularx}\indexmain{\texttt{;}}\indexmain{\texttt{\&\&}@\texttt{"|}}
+\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
 \indexmain{\texttt{def}}
 \end{minipage}\\
 \\ 

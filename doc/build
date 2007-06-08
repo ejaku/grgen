@@ -1,26 +1,79 @@
 #!/bin/bash
 
-rm *.aux *.toc *~ *.backup *.cut *.log *.out *.tpt *.nav *.snm *.rai *.rao 2>/dev/null
+rm *.aux *.bbl *.blg *.idx *.ilg *.ind *.toc *~ *.backup *.cut *.log *.out *.tpt *.nav *.snm *.rai *.rao 2>/dev/null
+
+DRAFT=0
 
 for F in $@ ; do
 
-  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
-  egrep '^Underfull|^Overfull' "$F".log || true
-  rail -h "$F" > /dev/null
-	bibtex "$F" > /dev/null
-  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
-	makeindex "$F" > /dev/null
-	pdflatex --interaction=nonstopmode "$F".tex > /dev/null
-  thumbpdf "$F".pdf > /dev/null
-  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
-  mv "$F".pdf "$F".pdf.unopt
-  pdfopt "$F".pdf.unopt "$F".pdf
-  rm "$F".pdf.unopt
-  
-  if [ $OSTYPE = darwin8.0 ] ; then
-    open "$F".pdf
+  if [ $F = --draft ] ; then
+    DRAFT=1  
   else
-    acroread "$F".pdf&
-  fi
-
+    if [ $DRAFT = 0 ] ; then
+	  echo Processing $F...
+      echo pdfLaTeX [1]...
+      pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+      
+	  echo Building rail diagrams...
+      rail -h "$F" > /dev/null
+    
+	  echo Building bibliography...  
+	  bibtex "$F" > /dev/null
+      grep Warning "$F".blg || true
+      
+	  echo pdfLaTeX [2]...
+      pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+	
+	  makeindex "$F" > /dev/null
+      echo pdfLaTeX [3]...
+	  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+      echo pdfLaTex [4]
+      pdflatex --interaction=nonstopmode "$F".tex > /dev/null 
+  
+      echo Building thumbnails...
+      thumbpdf "$F".pdf > /dev/null
+      echo pdfLaTeX [5]...
+      pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+      
+	  echo Optimizing...
+	  mv "$F".pdf "$F".pdf.unopt
+      pdfopt "$F".pdf.unopt "$F".pdf
+      rm "$F".pdf.unopt
+  
+      if [ $OSTYPE = darwin8.0 ] ; then
+        open "$F".pdf
+      else
+        acroread "$F".pdf&
+      fi
+	
+	else 
+	  echo Processing $F...
+      echo pdfLaTeX [1]...
+      cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+      egrep '^Underfull|^Overfull' texput.log || true
+      
+	  echo Building rail diagrams...
+      rail -h texput > /dev/null
+    
+	  echo Building bibliography...  
+	  bibtex texput > /dev/null
+      grep Warning texput.blg || true
+      
+	  echo pdfLaTeX [2]...
+      cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+	
+	  makeindex texput > /dev/null
+      echo pdfLaTeX [3]...
+	  cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+      echo pdfLaTeX [4]...
+	  cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+	  
+	  if [ $OSTYPE = darwin8.0 ] ; then
+        open texput.pdf
+      else
+        acroread texput.pdf&
+      fi
+	  
+	fi 
+  fi	
 done

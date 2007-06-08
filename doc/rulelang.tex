@@ -45,7 +45,7 @@ The \GrG\ rule set language is \indexed{case sensitive}. The language makes use 
 \emph{Ident}, \emph{IdentDecl}\\ \indexmain{identifier} \nopagebreak
 A non-empty character sequence of arbitrary length consisting of letters, digits or underscores. The first character must not be a digit. \emph{Ident} may be an identifier defined in a graph model (see \ref{modelbb}). \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See \ref{annotations} for annotations of declarations.
 \begin{note}
-  The \GrG\ rule set language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. That means, that every element of a LHS (left hand side, see section \ref{patternpart}) is actually mapped by a match. 
+  As in the \GrG\ model language (see note \ref{note:modeldecl}) every declaration is also a definition. Using an identifier before defining it is allowed. 
 \end{note}
 \mbox{ }\\
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
@@ -335,10 +335,11 @@ All the pattern statements must be fulfilled by a subgraph of the host graph in 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the totally undefined function.\\
 Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements. 
-Such names may be used before their declaration. 
+As all identifier definitions such names may be used before their \indexed{declaration}. 
 See section \ref{rulebb} for a detailed explanation of names and graphlets.
 \begin{figure}[htbp]
 \begin{note}
+\label{note:indeterminism}
 The \indexed{application} of a rule is not deterministic\indexmain{indeterminism} (remember the introducing example in \ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities. 
 \LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of this matches. 

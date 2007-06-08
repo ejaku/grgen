@@ -28,7 +28,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \begin{itemize}
     \item Directed graphs
     \item Typed nodes and edges, with multiple inheritance on types
-    \item Typed attributes can be assigned to node and edge types
+    \item Node and edge types can be equipped with typed attributes (like structs)
     \item Multigraphs (including multiple edges of the same type)
     \item Connection assertions to restrict the ``shape'' of graphs
   \end{itemize}
@@ -67,7 +67,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
 
 \section{System Overview}
 
-Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas table \ref{dirstruc} shows the \GrG\ directory structure.
+Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref{dirstruc} shows the \GrG\ directory structure.
 
 \begin{figure}[htbp]
   \centering
@@ -81,10 +81,10 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
           \node (rewriter) at (10  ,0)    {Rewrite Rules (C\#)};
           \node (types)    at (10  ,2)    {Graph Model (C\#)};
           \node (data)     at (14  ,1)    {Graph Management (C\#)};
-          \node (libgr)    at (12  ,4)    {\LibGr\indexmain{libGr} (C\#)};
+          \node (libgr)    at (12  ,4)    {\LibGr\indexmain{libGr}\ (C\#)};
           \node[fill,color=gray] (app)      at (14.1  ,5.6)  {};
           \node[fill=white] (app)      at (14  ,5.5)  {Applications};
-          \node (grsh)     at (10  ,5.5)  {\GrShell\indexmain{GrShell} (C\#)};
+          \node (grsh)     at (10  ,5.5)  {\GrShell\indexmain{GrShell}\ (C\#)};
           \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script\indexmain{graph rewrite script}\indexmainsee{GrShell script}{graph rewrite script}\indexmainsee{script}{graph rewrite script} (*\indexed{.grs})};
       \end{scope}
 
@@ -112,7 +112,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components, whereas ta
 \end{figure}
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
-  bin & Contains the .NET assemblies, in particular \indexed{GrGen.exe} (the graph rewrite system generator), \indexed{LGSPBackend.dll} (a \GrG\ backend) and the shell \indexed{GrShell.exe}.  \\ 
+  bin & Contains the .NET assemblies, in particular \indexed{GrGen.exe} (the graph rewrite system generator), \indexed{LGSPBackend.dll} (a \GrG\ backend), \indexed{LibGr.dll} (the backend API), and the shell \indexed{GrShell.exe}.  \\ 
   lib & Contains the \GrG\ generated assemblies (*.dll). \\
   specs & Contains the graph rewrite system source documents (*.gm and *.grg). \\ \hline
   \end{tabularx}
@@ -166,6 +166,11 @@ In general you have to distinguish carefully between a graph model (meta level),
 In \GrG\ pattern graphs are implicitly defined by rules, i.e.\ each rule defines its pattern.
 On the technical side, specification documents for a graph rewrite system can be available as source documents for graph models and rule sets (plain text *.gm and *.grg files) or as their translated .NET modules, either C\# source files or their compiled assemblies (*.dll).
 
+Generating a \GrG\ graph rewrite system may be considered as preliminary task.
+The actual process of rewriting as well as dealing with host graphs is performed by \GrG's backend.
+\GrG\ provides a backend \indexed{API}---the .NET library \LibGr.
+For most issues---in particular or experimental purposes---you might rather want to work with the \GrShell\ because of its more convenient interface.
+However, \GrShell\ does not provide the full power of the \LibGr; see also note \ref{note:indeterminism}.
 
 \section{What is Graph Rewriting?}
 

@@ -3,7 +3,12 @@
 
 \section{Fractals}
 \label{fractals}
-The \GrG\ package ships with samples for fractal generation. We will construct the \indexed{Sierpinski triangle} and the \indexed{Koch snowflake}. First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
+The \GrG\ package ships with samples for fractal generation. We will construct the \indexed{Sierpinski triangle} and the \indexed{Koch snowflake}. They are created by consecutive rule applications starting with the initial host graphs
+\begin{center}
+\includegraphics[width=4cm]{fig/startsir}\quad\quad\includegraphics[width=4cm]{fig/startkoch}
+\end{center}
+for the Sierpinski triangle resp. the Koch snowflake. 
+First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
 \begin{verbatim}
 GrGen.exe ..\specs\sierpinski.grg
 GrGen.exe ..\specs\snowflake.grg
@@ -223,7 +228,7 @@ Have a look at the negative conditions within the \emph{ensureMove\dots} rules. 
 
 \subsection{Rule Execution with \GrShell}
 
-Finally we construct the busy beaver and let it work with \GrShell:
+Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine, that is modeling the 6 states with their transitions in our Turing machine model:
 \begin{grshell}[firstnumber=1] 
 select backend "lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
@@ -293,7 +298,7 @@ Our busy beaver looks like this:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
-The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
+We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 
