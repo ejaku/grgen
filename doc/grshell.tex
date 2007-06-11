@@ -156,7 +156,7 @@ Displays a list of currently available graphs.
 \begin{rail}
   'select' 'graph' Graph
 \end{rail}\indexmain{\texttt{select}}\indexmain{\texttt{graph}}
-Selects the current \indexed{working graph}. This graph act as \emph{host graph} for regular graph rewrite sequences (see also sections \ref{ov:whatsallabout} and \ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
+Selects the current \indexed{working graph}. This graph acts as \emph{host graph} for graph rewrite sequences (see also sections \ref{ov:whatsallabout} and \ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
 
 \begin{rail}
   'clear' 'graph' (() | Graph)
@@ -361,7 +361,7 @@ Specifies, whether edge \indexed{label}s will be displayed or not (default to ``
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{reset}}
 Reset all style options (\texttt{dump set}\dots) to their default values.
 
-\subsection{Action Commands (GRS)}\indexmain{action command}\indexmainsee{action}{regular graph rewrite sequence}
+\subsection{Action Commands (GRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
 \label{grsthings}
 An \emph{action} denotes a graph rewrite rule.
 
@@ -380,7 +380,7 @@ Lists all the rules of the loaded rule set, their parameters, and their return v
 \end{rail}\indexmain{\texttt{custom}}\indexmain{\texttt{actions}}
 Executes an action specific to the current \indexed{backend}. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see section \ref{custom}).
 
-\subsubsection*{Regular Graph Rewrite Sequences}\indexmain{regular graph rewrite sequence}\indexmainsee{graph rewrite sequence}{regular graph rewrite sequence}\indexmainsee{GRS}{regular graph rewrite sequence}
+\subsubsection*{Graph Rewrite Sequences}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}
 Basically a graph rewrite command looks like this:
 \makeatletter
 \begin{rail}

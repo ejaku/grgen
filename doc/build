@@ -19,7 +19,6 @@ for F in $@ ; do
     
 	  echo Building bibliography...  
 	  bibtex "$F" > /dev/null
-      grep Warning "$F".blg || true
       
 	  echo pdfLaTeX [2]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
@@ -27,12 +26,19 @@ for F in $@ ; do
 	  makeindex "$F" > /dev/null
       echo pdfLaTeX [3]...
 	  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
+
+		echo Building bibliography...  
+	  bibtex "$F" > /dev/null
+      grep Warning "$F".blg || true
+		
       echo pdfLaTex [4]
+      pdflatex --interaction=nonstopmode "$F".tex > /dev/null 
+      echo pdfLaTex [5]
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null 
   
       echo Building thumbnails...
       thumbpdf "$F".pdf > /dev/null
-      echo pdfLaTeX [5]...
+      echo pdfLaTeX [6]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
       
 	  echo Optimizing...
