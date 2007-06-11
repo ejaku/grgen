@@ -17,7 +17,7 @@ rule r {
 		eval {
 			ni.a = 1;
 			nb.a = true;
-			nf.a = 1.0;
+			nf.a = 1.0;  //Problem: Ist '1.0' ein float oder ein double???
 			nd.a = 1.0;
 			ns.a = "";
 

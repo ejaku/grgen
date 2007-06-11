@@ -356,9 +356,7 @@ public abstract class BaseNode extends Base
 	public final void reportError(String msg) {
 
 		// error.error(getCoords(), "At " + getName() + ": " + msg + ".");
-		
-		debug.report(NOTE, "At " + getName() + ":\\  ");
-		error.error(getCoords(), msg); //NOTE: changed error message format
+		error.error(getCoords(), msg + "(AST: " + getName() + ")");
 	}
 	
 	/**
@@ -595,7 +593,7 @@ public abstract class BaseNode extends Base
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeLabel()
 	 */
 	public String getNodeLabel() {
-		return this.toString(); //Besser getName() ???
+		return this.getName();
 	}
 	
 	/**

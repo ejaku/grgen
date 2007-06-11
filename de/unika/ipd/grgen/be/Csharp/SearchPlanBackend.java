@@ -1197,17 +1197,21 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			Type type = cast.getType();
 			String typeName = "";
 
-			if (type instanceof IntType) {
+			if (type instanceof IntType) typeName = "int";
+			if (type instanceof FloatType) typeName = "float";
+			if (type instanceof DoubleType) typeName = "double";
+			if (type instanceof StringType) typeName = "string";
+			if (type instanceof BooleanType) typeName = "boolean";
 				
-			}
-			else {
-				assert(false) :
-					"This is either a forbidden cast, which should have been " +
-					"rejected on building the IR, or an allowed cast, which " +
-					"should have been processed by the above code.";
-			}
-			
-			sb.append("(" + typeName  + ")");
+			assert(typeName.length() > 0) :
+				"This is either a forbidden cast, which should have been " +
+				"rejected on building the IR, or an allowed cast, which " +
+				"should have been processed by the above code.";
+
+			sb.append("(" + typeName  + ") ");
+			genConditionEval(sb, cast.getExpression(), extractNodeFromMatch, extractEdgeFromMatch);
+		
+		
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
