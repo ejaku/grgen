@@ -30,13 +30,11 @@ rule r {
 		eval {
 			ni.a = 24;
 			nb.a = false;
-			nf.a = 2.4;
 			nd.a = 2.4;
 			ns.a = "Bye";
 
 			ei.a = 24;
 			eb.a = false;
-			ef.a = 2.4;
 			ed.a = 2.4;
 			es.a = "Bye";
 		}

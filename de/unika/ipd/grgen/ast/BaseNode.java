@@ -356,7 +356,7 @@ public abstract class BaseNode extends Base
 	public final void reportError(String msg) {
 
 		// error.error(getCoords(), "At " + getName() + ": " + msg + ".");
-		error.error(getCoords(), msg + "(AST: " + getName() + ")");
+		error.error(getCoords(), msg);
 	}
 	
 	/**
@@ -758,3 +758,4 @@ public abstract class BaseNode extends Base
 	}
 
 }
+

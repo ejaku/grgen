@@ -148,10 +148,10 @@ public abstract class OpNode extends ExprNode
 			
 			params.append('(');
 			for(int i = 0; i < n; i++)
-				params.append((i > 0 ? ", " : "") + argTypes[i].getName());
+				params.append((i > 0 ? ", " : "") + argTypes[i].toString());
 			params.append(')');
 			
-			reportError("No such operator " + OperatorSignature.getName(opId) + " " + params);
+			reportError("No such operator " + OperatorSignature.getName(opId) + params);
 		}
 		else
 		{

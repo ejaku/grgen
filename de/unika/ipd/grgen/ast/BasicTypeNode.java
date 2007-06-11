@@ -160,8 +160,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new VoidType(getIdentNode().getIdent());
 		}
-		
-		
+		public String toString() {
+			return "error type";
+		}
 	};
 	
 	private static Object invalidValueType = new Object() {

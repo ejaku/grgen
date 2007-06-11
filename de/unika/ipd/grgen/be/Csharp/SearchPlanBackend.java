@@ -1201,7 +1201,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			if (type instanceof FloatType) typeName = "float";
 			if (type instanceof DoubleType) typeName = "double";
 			if (type instanceof StringType) typeName = "string";
-			if (type instanceof BooleanType) typeName = "boolean";
+			if (type instanceof BooleanType) typeName = "bool";
 				
 			assert(typeName.length() > 0) :
 				"This is either a forbidden cast, which should have been " +
@@ -1449,5 +1449,6 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 

@@ -64,6 +64,7 @@ public class OperatorSignature extends FunctionSignature
 	public static final int COND = 24;
 	
 	private static final int OPERATORS = COND + 1;
+
 	
 	/** Arity map of the operators. */
 	private static final Map<Integer, Integer> arities = new HashMap<Integer, Integer>();
@@ -641,10 +642,10 @@ public class OperatorSignature extends FunctionSignature
 		// String operators
 		makeBinOp(EQ, BOOLEAN, STRING, STRING, stringEvaluator);
 		makeBinOp(NE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(GE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
-		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
+//		makeBinOp(GE, BOOLEAN, STRING, STRING, stringEvaluator);
+//		makeBinOp(GT, BOOLEAN, STRING, STRING, stringEvaluator);
+//		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
+//		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
 		
 		// Integer comparison
 		makeBinOp(EQ, BOOLEAN, INT, INT, intEvaluator);
@@ -671,11 +672,18 @@ public class OperatorSignature extends FunctionSignature
 		makeBinOp(LT, BOOLEAN, DOUBLE, DOUBLE, doubleEvaluator);
 		
 		// Boolean operators
-		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
-		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(LOG_AND, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeBinOp(LOG_OR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
 		makeUnOp(LOG_NOT, BOOLEAN, BOOLEAN, booleanEvaluator);
+
+		makeBinOp(BIT_AND, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(BIT_OR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(BIT_XOR, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		
+		//Boolean comparision
+		makeBinOp(EQ, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+		makeBinOp(NE, BOOLEAN, BOOLEAN, BOOLEAN, booleanEvaluator);
+
 		
 		// Integer arithmetic
 		makeBinOp(ADD, INT, INT, INT, intEvaluator);
@@ -728,6 +736,10 @@ public class OperatorSignature extends FunctionSignature
 		makeOp(COND, INT, new TypeNode[] { BOOLEAN, INT, INT }, condEvaluator);
 		makeOp(COND, STRING, new TypeNode[] { BOOLEAN, STRING, STRING }, condEvaluator);
 		makeOp(COND, BOOLEAN, new TypeNode[] { BOOLEAN, BOOLEAN, BOOLEAN }, condEvaluator);
+
+		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, condEvaluator);
+		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
+		
 	}
 	
 	/**
