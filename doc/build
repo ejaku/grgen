@@ -31,9 +31,9 @@ for F in $@ ; do
 	  bibtex "$F" > /dev/null
       grep Warning "$F".blg || true
 		
-      echo pdfLaTex [4]
+      echo pdfLaTex [4]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null 
-      echo pdfLaTex [5]
+      echo pdfLaTex [5]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null 
   
       echo Building thumbnails...
@@ -70,8 +70,13 @@ for F in $@ ; do
 	
 	  makeindex texput > /dev/null
       echo pdfLaTeX [3]...
-	  cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+      cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+      echo Building bibliography
+      bibtex texput > /dev/null
+      
       echo pdfLaTeX [4]...
+	  cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
+      echo pdfLaTeX [5]...
 	  cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
 	  
 	  if [ $OSTYPE = darwin8.0 ] ; then

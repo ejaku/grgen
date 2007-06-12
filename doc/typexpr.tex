@@ -40,7 +40,7 @@ Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
 \label{expressions}
 \begin{rail}
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
-  BoolExpr: ((() | '!') (() | '(' 'boolean' ')') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
+  BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
 As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
 The \emph{CompareOperator} is one of the following operators:
@@ -77,7 +77,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \end{table}
 
 \begin{rail}
-  IntExpr: ((() | '+' | '-' | tilde) (() | '(' 'int' ')') PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
+  IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}
 The $\sim$ operator is the bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
 The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
@@ -95,10 +95,23 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \end{table}
 
 \begin{rail}  
-  FloatExpr: ((() | '+' | '-') (() | '(' ('float' | 'double') ')') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr ('+' | '-' | '*' | '/' | percent) FloatExpr);
+  FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail} 
 The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.\\
+The \emph{BinFloatOperator} is one of the operators in table \ref{tabfloatbinops}.\\
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} \texttt{+} \\ \texttt{-} \end{tabular} & \begin{tabular}[c]{l} Addition and subtraction \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{*} \\ \texttt{/} \\ \texttt{\%} \end{tabular} & \begin{tabular}[c]{l}Multiplication, division and modulo \end{tabular} \\ \hline
+  \end{tabular}
+  \caption{Binary float operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabfloatbinops}
+\end{table}
+\begin{note}
 The \texttt{\%} operator works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}. \GrG\ implements the Java semantics. 
+\end{note}
 
 \begin{rail}
   StringExpr: PrimaryExpr | StringExpr '+' StringExpr;
@@ -106,7 +119,7 @@ The \texttt{\%} operator works analogous to the integer modulo operator. For ins
 The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
-  PrimaryExpr: '(' Expression ')' | Ident (() | '.' Ident) | (EnumType '::' Ident) | Constant;
+  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | Ident (() | '.' Ident) | (EnumType '::' Ident) | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
 \end{rail}
 \begin{description}
