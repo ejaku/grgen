@@ -133,8 +133,12 @@ public class EnumTypeNode extends CompoundTypeNode {
   public Class<Integer> getValueType() {
 		return Integer.class;
   }
-	
+
+	public boolean isEqual(TypeNode t) {
+	  return (this == t);
+	}
+
 	public String toString() {
-		return "an enum type";
+		return "enum " + getIdentNode();
 	}
 }

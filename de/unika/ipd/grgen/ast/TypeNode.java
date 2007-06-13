@@ -49,7 +49,7 @@ public abstract class TypeNode extends BaseNode {
 	public boolean isCompatibleTo(TypeNode t) {
 		Set<TypeNode> compat = new HashSet<TypeNode>();
 		getCompatibleToTypes(compat);
-		return isEqual(t) || compat.contains(t);
+		return (this.isEqual(t)) || compat.contains(t);
 	}
 	
 	/**

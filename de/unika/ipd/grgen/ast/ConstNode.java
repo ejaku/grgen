@@ -80,6 +80,10 @@ public abstract class ConstNode extends OpNode {
   	return super.toString() + " " + value.toString();
   }
 
+  public String getNodeLabel() {
+  	return toString();
+  }
+
 	/**
 	 * Just a convenience function.
 	 * @return The IR object.

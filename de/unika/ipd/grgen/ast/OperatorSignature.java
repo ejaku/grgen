@@ -132,7 +132,7 @@ public class OperatorSignature extends FunctionSignature
 
 	/** Just a short form for the float type. */
 	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
-
+	
 	/** Just a short form for the type type. */
 	static final TypeNode TYPE = BasicTypeNode.typeType;
 	
@@ -739,6 +739,8 @@ public class OperatorSignature extends FunctionSignature
 
 		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, condEvaluator);
 		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
+
+//		makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
 		
 	}
 	
@@ -900,5 +902,6 @@ public class OperatorSignature extends FunctionSignature
 	}
 	
 }
+
 
 

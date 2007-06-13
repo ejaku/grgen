@@ -441,7 +441,7 @@ public abstract class BaseNode extends Base
 	/**
 	 * Checks a child of this node to of a certain type.
 	 * If it is not, an error is reported via the ErrorFacility.
-	 * @param child The number of the child to check
+	 * @param childNum The number of the child to check
 	 * @param cls The class the child has to be of
 	 * @return true, if the selected child node was of type cls
 	 */
@@ -452,10 +452,22 @@ public abstract class BaseNode extends Base
 		if(cls.isInstance(child))
 			res = true;
 		else
-			reportError("child " + childNum + " \"" + child.getName() + "\""
-							+ " needs to be instance of \"" + shortClassName(cls) + "\"");
+			reportChildError(childNum, cls);
+
 		return res;
 	}
+	/**
+	 * Reports a bad child node.
+	 * @param childNum The number of the bad child
+	 * @param child The bad child node
+	 * @param cls The class the child should have been of
+	 * @return true, if the selected child node was of type cls
+	 */
+	public void reportChildError(int childNum, Class cls) {
+		reportError("child " + childNum + " \"" + getChild(childNum).getName() +
+				"\"" + " needs to be instance of \"" + shortClassName(cls) + "\"");
+	}
+	
 	
 	/**
 	 * Apply a checker to a specific child

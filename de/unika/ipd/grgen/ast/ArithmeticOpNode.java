@@ -31,6 +31,10 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class ArithmeticOpNode extends OpNode {
 	
+	static {
+		setName(ArithmeticOpNode.class, "arithmetic operator");
+	}
+
 	/**
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.

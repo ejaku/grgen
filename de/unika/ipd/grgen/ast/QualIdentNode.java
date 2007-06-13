@@ -105,7 +105,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				res = false;
 			}
 		} else {
-			reportError("left hand side of . is neither an Edge, Node or Enum Type");
+			reportError("left hand side of . is neither an Edge nor a Node Type");
 			res = false;
 		}
 		setResolved(res);
@@ -139,4 +139,25 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		
 		return new Qualification(owner, member);
 	}
+
+	public void reportChildError (int childNum, Class cls) {
+		
+		switch (childNum) {
+
+			case 0:
+				reportError("node or edge expected before '.'");
+				break;
+
+			case 1:
+				reportError("not a member of " + getChild(0));
+				break;
+
+			default:
+				reportError("internal error: " + getChild(childNum).getName() +
+					"has no child with number " + childNum);
+
+		}
+	}
+
 }
+

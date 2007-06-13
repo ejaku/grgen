@@ -233,10 +233,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(floatType, doubleType);
 
 		//require explicit cast
-		addCastability(enumItemType, intType);
-		addCastability(enumItemType, floatType);
-		addCastability(enumItemType, doubleType);
-		addCastability(enumItemType, stringType);
 		addCastability(booleanType, stringType);
 		addCastability(intType, stringType);
 		addCastability(floatType, intType);

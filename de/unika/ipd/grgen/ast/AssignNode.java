@@ -91,7 +91,7 @@ public class AssignNode extends BaseNode {
 		TypeNode targetType = (TypeNode) ((QualIdentNode)getChild(LHS)).getDecl().getDeclType();
 		TypeNode exprType = (TypeNode) expr.getType();
 		
-		if (!exprType.isEqual(targetType)) {
+		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);
 			replaceChild(RHS, expr);
 

@@ -130,7 +130,11 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	public Symbol getSymbol() {
 		return occ.getSymbol();
 	}
-  
+
+	public String getNodeLabel() {
+		return toString();
+	}
+	
   /**
    * The string representation for this node. for an identidfier, this
    * is the string of the symbol, the identifier represents.

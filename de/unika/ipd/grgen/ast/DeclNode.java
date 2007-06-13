@@ -137,4 +137,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
   	return new Entity("entity", getIdentNode().getIdent(), type);
   }
 
+  public String toString() {
+    return getChild(IDENT).toString();
+  }
 }
