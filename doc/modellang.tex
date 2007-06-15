@@ -1,6 +1,6 @@
 \chapter{Graph Model Language}\indexmain{graph model language}
 \label{chapmodellang}
-The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al. \cite{GBGHS:06}:
+The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al. \cite{GBGHS:06, KG:07}:
 
 \begin{description}
 \item[Types.] Nodes and edges can have \indexed{type}s (classes). This is similar to common programming languages, except \GrG\ types have no concept of methods. 
@@ -58,9 +58,10 @@ A non-empty character sequence of arbitrary length consisting of letters, digits
 \begin{grgen}
 node class t_node;
 node class t_node {
+  ...
 }
 \end{grgen}
-Using an identifier before defining it is allowed.
+Using an identifier before defining it is allowed. Every used identifier has to be defined exactly once.
 \end{note}
 \mbox{ }\\
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
@@ -75,7 +76,7 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
 \end{rail}
-\emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. As all identifier definitions types do not need to be declared\indexmain{declaration} before they are used.
+\emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. As all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
@@ -86,7 +87,7 @@ Defines an \indexed{enum type}.
 \begin{grgen}
 enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
-enum AsInC {a = 2, b, c = 1, d, e = Resident::village + c}
+enum AsInC {a = 2, b, c = 1, d, e = (int)Resident::village + c}
 \end{grgen}
 The semantics is as in C \cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
 \end{example}
@@ -94,8 +95,7 @@ The semantics is as in C \cite{Sch:1990:ANSIC}. So, the following holds: $\textt
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
 \end{rail}\indexmain{\texttt{abstract}}\indexmain{\texttt{const}}
-Defines a new node type or edge type.\\
-The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type. Instead you have to derive non-abstract types to create graph elements. The abstract-property will not be inherited by subclasses, of course.
+Defines a new node type or edge type. The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type. Instead you have to derive non-abstract types to create graph elements. The abstract-property will not be inherited by subclasses, of course.
 
 \begin{example}
 We adjust our map model and make \texttt{city} abstract:

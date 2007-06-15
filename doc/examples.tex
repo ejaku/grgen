@@ -18,8 +18,7 @@ or
 mono GrGen.exe ../specs/sierpinski.grg
 mono GrGen.exe ../specs/snowflake.grg
 \end{verbatim}
-respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake -- \yComp's \indexed{layout algorithm} might need some time and attempts to layout it nicely.\\
-\\
+respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake---\yComp's \indexed{layout algorithm} might need some time and attempts to layout it nicely.
 We execute the Sierpinski script by
 \begin{verbatim}
 GrShell.exe ..\test\Sierpinski.grs
@@ -299,6 +298,7 @@ Our busy beaver looks like this:
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
 We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
+\clearpage
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 

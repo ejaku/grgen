@@ -5,7 +5,7 @@
 \section{What is \GrG?}
 
 {\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting.
-For the potentially expensive matching problem, {\scshape GrGen} applies several novel heuristic optimizations\footnote{\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.}.
+For the potentially expensive matching problem, {\scshape GrGen} applies several novel heuristic optimizations.
 According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
@@ -14,13 +14,14 @@ For the rewrite step, our tool implements the well-founded \newterm{single-pusho
 
 For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like \indexed{Fujaba} \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
-\GrG\ is a version of {\scshape GrGen} written in C\#.
+\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
+The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.
 
 
 \section{Features of \GrG}
 
 The process of graph rewriting can be divided into four steps:
-Representing a graph according to a model, searching a pattern aka finding a match, performing changes to the found match, and, finally, selecting the next rule(s) for application.
+Representing a graph according to a model, searching a pattern aka finding a match, performing changes to the matched spot in the host graph, and, finally, selecting the next rule(s) for application.
 We have organized the features of \GrG\ according to this breakdown of graph rewriting.
 
 \begin{itemize}
@@ -50,15 +51,15 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Creation of new nodes/edges of statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
-	  \item Copying (duplicating) of elements form the match -- comparable with sesqui-pushout rewriting~\cite{CHHK:06} (yet to be implemented)
+	  \item Copying (duplicating) of elements form the match---comparable with \indexed{sesqui-pushout} rewriting~\cite{CHHK:06} (yet to be implemented)
   \end{itemize}
   
   \item The rule application language (\GrShell) supports:
   \begin{itemize}
-    \item Composing several rules with logical and iterative sequence control (called regular graph rewrite sequences, GRS)
+    \item Composing several rules with logical and iterative sequence control (called graph rewrite sequences, GRS)
     \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
-    \item Regular graph rewrite sequences that can contain optionally nested transactions\index{transaction, nested} (yet to be implemented)
+    \item Graph rewrite sequences that can contain optionally nested transactions\index{transaction, nested} (yet to be implemented)
   \end{itemize}
   
   \item Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. In this way you can build your own algorithmic rule applications in a .NET language of your choice. 
@@ -120,7 +121,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref
   \label{dirstruc}
 \end{table}
 
-A graph rewrite system\footnote{System, in this context, is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
+A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
 Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
 Figure \ref{process} shows the generation process.
 
@@ -134,7 +135,7 @@ Figure \ref{process} shows the generation process.
           \node (gm2)      at (0   ,1)    {model2.gm};
           \node (gm3)      at (0   ,2)    {model3.gm};
           \node (grg)      at (4.5 ,1)    {rules1.grg};
-          \node (grgen)    at (10   ,1)    {\GrG.exe};
+          \node (grgen)    at (10   ,1)    {GrGen.exe};
           \node (act)      at (15.5,1) {rules1Actions.dll};
           \node (backend)  at (10   ,2)    {backend.dll};
           \node (mod)      at (15.5,2)  {rules1Model.dll};
@@ -169,16 +170,17 @@ On the technical side, specification documents for a graph rewrite system can be
 Generating a \GrG\ graph rewrite system may be considered as preliminary task.
 The actual process of rewriting as well as dealing with host graphs is performed by \GrG's backend.
 \GrG\ provides a backend \indexed{API}---the .NET library \LibGr.
-For most issues---in particular or experimental purposes---you might rather want to work with the \GrShell\ because of its more convenient interface.
-However, \GrShell\ does not provide the full power of the \LibGr; see also note \ref{note:indeterminism}.
+For most issues---in particular for experimental purposes---you might rather want to work with the \GrShell\ because of its more convenient interface.
+However, \GrShell\ does not provide the full power of the \LibGr; see also note \ref{note:indeterminism} on page \pageref{note:indeterminism}.
 
 \section{What is Graph Rewriting?}
+\label{ov:whatsallabout}
 
 The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
 This is comparable to the well-known term rewriting. 
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
 \GrG\ implements an SPO-based approach.
-In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$ -- the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule -- is called \newterm{pattern graph} and $R$ -- the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule -- is the \newterm{replacement graph}.
+In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{replacement graph}.
 
 \begin{figure}[htbp]
 	\centering
@@ -223,7 +225,7 @@ The outcome of these steps is the resulting graph $H'$. In symbolic language: $H
 \label{ov:example}
 
 We'll have a look at a small example. 
-We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So starting with an empty host graph we construct an apple by applying
+We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So we construct an apple by applying
 \[
   p_0:  
   \begin{array}[c]{c} 
@@ -250,7 +252,7 @@ We start using a special case to construct our host graph: an \indexed{empty pat
   \end{array}
 \]
 to the empty host graph. 
-As a result we get the apple as new host graph $H$. 
+As the result we get an apple as new host graph $H$. 
 Now we want to rewrite our apple with stem to an apple with a leaflet. 
 So we apply
 \[
@@ -392,9 +394,10 @@ If we apply $p_2$ to the modified $H_1$ this leads to
     \end{tikzpicture}
   \end{array}.
 \]
-\emph{Note:} If we had applied $p_1$ to $H_1$ and repetitive to the resulting graphs, this would not have led to a fixed point because each rewrite produces one new candidate (one deleted, two added) for matching.
 
 \section{The Tools}
+
+All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notice that the \yComp\ graph viewer is not a part of \GrG\; \yComp\ ships with its own license.
 
 \subsection{\texttt{\indexed{GrGen.exe}}}
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
@@ -406,9 +409,9 @@ By default \GrG\ tries to write the compiled assemblies to the directory \texttt
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-d} & Enables debug output. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
 \begin{itemize}
-  \item \texttt{printOutput.txt} -- a snapshot of \texttt{stdout} during program execution.
-  \item \emph{Name}\texttt{Actions.cs} -- the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
-  \item \emph{Name}\texttt{Model.cs} -- the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
+  \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
+  \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
+  \item \emph{Name}\texttt{Model.cs}---the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.	
     \end{tabularx}
@@ -433,7 +436,7 @@ The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
-\yComp\index{yComp} is a graph visualization tool based on \yFiles. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+\yComp\index{yComp}\cite[] is a graph visualization tool based on \yFiles\cite[]. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\

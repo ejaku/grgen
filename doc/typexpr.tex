@@ -1,17 +1,19 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
 
-In the following sections \emph{Ident} refers to an identifier of the graph model language (see section \ref{modelbb}) or the rule set language (see section \ref{rulebb}). \emph{TypeIdent} is an identifier of a type.
+In the following sections \emph{Ident} refers to an identifier of the graph model language (see section \ref{modelbb}) or the rule set language (see section \ref{rulebb}). \emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
 \section{Built-In Types}
 \label{builtin}
 Besides user-defined node types, edge types and enum types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
+The exact type format is \indexed{backend} specific. 
+The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false}. \\
-	\texttt{\indexed{int}} & A 32-bit signed integer, in two's complement representation. \\
-	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number in IEEE 754 format with single precision or double precision respectively. \\
-	\texttt{\indexed{string}} & A sequence of digits, letters, underscores and white spaces. Strings are of arbitrary length and enclosed by double quotes.\\ \hline
+	\texttt{\indexed{int}} & A signed integer with at least 32 bits. \\
+	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively. \\
+	\texttt{\indexed{string}} & A character sequence of arbitrary length.\\ \hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
 \label{builtintypes}
@@ -42,10 +44,14 @@ Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. Table \ref{tabboolops} lists the binary operators for boolean expressions. The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.\\
+As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. 
+Table \ref{tabboolops} lists the binary operators for boolean expressions. 
+The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
-Table \ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.\\
+These operators are supported by enum types, \texttt{int} types, and \texttt{float}/\texttt{double} types.
+\texttt{String} types and \texttt{boolean} types support only the \texttt{==} and the \texttt{!=} operators.
+Table \ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.
 The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{table}[htbp]
 \label{compandtypes} 
@@ -59,6 +65,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
     \texttt{A >= B} & True, iff $A$ is a subtype of $B$ or $A$ and $B$ are identical. \\ \hline
   \end{tabularx}
   \caption{Compare operators on type expressions}
+  \label{compandtypes}
 \end{table}
 \begin{note}
   \texttt{A < B} corresponds to the direction of the arrow in an \indexed{UML class diagram}.
@@ -79,7 +86,9 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}
-The $\sim$ operator is the bitwise complement. That means every bit of an integer value will be flipped. The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.\\ 
+The $\sim$ operator is the bitwise complement. 
+That means every bit of an integer value will be flipped. 
+The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
 The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{table}[htbp] 
   \centering
@@ -97,8 +106,8 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{rail}  
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail} 
-The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.\\
-The \emph{BinFloatOperator} is one of the operators in table \ref{tabfloatbinops}.\\
+The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
+The \emph{BinFloatOperator} is one of the operators in table \ref{tabfloatbinops}.
 \begin{table}[htbp] 
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
@@ -119,7 +128,7 @@ The \texttt{\%} operator works analogous to the integer modulo operator. For ins
 The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
-  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | Ident (() | '.' Ident) | (EnumType '::' Ident) | Constant;
+  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
 \end{rail}
 \begin{description}
@@ -132,9 +141,9 @@ The operator \texttt{+} concatenates two strings.
 \label{typeexpressions}
 
 \begin{rail}
-  TypeExpr: TypeIdent | 'typeof' '(' Ident ')' ;
+  TypeExpr: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
 \end{rail}\indexmain{\texttt{typeof}}
-A type expression identifies a type (and -- in terms of matching -- also its subtypes). A type expression is either a type identifier itself or the type of a graph element. So \emph{Ident} has to be a node or edge identifier.
+A type expression identifies a type (and---in terms of matching---also its subtypes). A type expression is either a type identifier itself or the type of a graph element.
 \begin{example}
 The following rule will add a reverse edge to a one-way street.
 \begin{grgen}
@@ -146,8 +155,8 @@ rule oneway {
         }
     } 
     replace {
-      a -x-> y;
-      y -:typeof(x)-> a;
+        a -x-> y;
+        y -:typeof(x)-> a;
     }
 }
 \end{grgen}
@@ -157,7 +166,13 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
 \end{rail}
-A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types.
+A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
+\begin{center}
+\begin{tabular}[c]{lll}
+\begin{tabular}{|l|}\hline\texttt{x:T \char"5C\ (T1 + T2);}\\\hline\end{tabular} && 
+  \begin{tabular}{|l|}\hline\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) == T1) \&\& !(\emph{typeof}(x) == T2)\}}\\\hline\end{tabular}
+\end{tabular}
+\end{center}
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
   \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
