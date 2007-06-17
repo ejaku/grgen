@@ -9,12 +9,12 @@ For the potentially expensive matching problem, {\scshape GrGen} applies several
 According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
-The task of selecting a good search plan is then considered as an optimization problem~\cite{BGK:07,Bat:06}.
+The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
 For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see \cite{spoapproach}).
 
 For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like \indexed{Fujaba} \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
-\GrG\ is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
+\GrG~\cite{grgen_web} is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
 The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.
 
 
@@ -436,7 +436,7 @@ The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
-\yComp\index{yComp}\cite[] is a graph visualization tool based on \yFiles\cite[]. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+\yComp\index{yComp}\cite{ycomp} is a graph visualization tool based on \yFiles\cite{yfiles}. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\

@@ -325,7 +325,7 @@ The following commands control the style of the VCG output. This affects \texttt
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text) ;
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{set}}\indexmain{\texttt{node}}\indexmain{\texttt{only}}\indexmain{\texttt{color}}\indexmain{\texttt{textcolor}}\indexmain{\texttt{bordercolor}}\indexmain{\texttt{shape}}
-Sets the \indexed{color} or text color or border color resp.\ the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (see \cite{}).
+Sets the \indexed{color} or text color or border color resp.\ the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (for VCG definition see \cite{vcg}).
 
 \begin{rail}
   'dump' 'set' 'edge' (() | 'only') EdgeType ('color' | 'textcolor') Color ;
