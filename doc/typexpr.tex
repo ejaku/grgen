@@ -174,8 +174,21 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
 \end{center}
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
-  \parbox{0.25\linewidth}{\includegraphics[width=\linewidth]{fig/hierarchy}} &
-  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left side covers $A$ and $B$.}
+  \begin{tikzpicture}[baseline=(A.base)] \tt
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (A)     at (1   ,4) {A};
+      \node (B)     at (1   ,3) {B};
+      \node (C)     at (0   ,2) {C};
+      \node (D)     at (0   ,1) {D};
+      \node (E)     at (2   ,2) {E};
+    \end{scope}
+    \draw[thick,-open triangle 45]  (B) -> (A)  ;
+    \draw[thick,-open triangle 45]  (C) -> (B)  ;
+    \draw[thick,-open triangle 45]  (E) -> (B)  ;
+    \draw[thick,-open triangle 45]  (D) -> (C)  ;
+  \end{tikzpicture} &
+  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left side yields only the types $A$ and $B$ as valid.}
 \end{tabularx}
 \end{example}
 
