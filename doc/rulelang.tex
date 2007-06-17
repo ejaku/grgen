@@ -102,13 +102,13 @@ Type constraints are allowed in the pattern part only.
 The \texttt{.}\ is an anonymous node of the base type \texttt{Node}. 
 Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes\indexmain{retyping} a node. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).
 \begin{center}
-  \begin{tabular}[c]{ll}
+  \begin{tabularx}{\linewidth}{lX}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
     \texttt{x:NodeType;} & The name \texttt{x} is bound to a node of type \texttt{NodeType} or one of its subtypes. \\
     \texttt{ :NodeType;} & \texttt{\$1:NodeType} \\
     \texttt{.;} & \texttt{\$1:Node} \\
     \texttt{x;} & The node \texttt{x} is bound to.
-  \end{tabular}
+  \end{tabularx}
 \end{center} 
 
 \begin{rail}
@@ -117,13 +117,13 @@ Remember that every node type has \texttt{Node} as super type. The \texttt{<>} o
 \end{rail}
 Specifies an edge\indexmain{edge (graphlet)}. Anonymous edges are specified by \texttt{-->} or \texttt{<--} resp. \texttt{-:T->} or \texttt{<-:T-} for an edge type \texttt{T}. For a more detailed specification you can use an inplace notated edge refinement clause. Type constraints\indexmain{type constraint} are allowed in the pattern part only (see section \ref{typeexpressions}, \emph{TypeConstraint}). The \texttt{<>} operator retypes\indexmain{retyping} an edge. Retyping is allowed in the replace/modify part only (see section \ref{replacepart}, \emph{Retyping}).\\
 \begin{center}
-  \begin{tabular}[c]{ll}
+  \begin{tabularx}{\linewidth}{lX}
     \textbf{Graphlet} & \textbf{Meaning}\\ \hline
-    \texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes  \\
+    \texttt{ -e:EdgeType-> ;} & The name \texttt{e} is bound to an edge of type \texttt{EdgeType} or one of its subtypes. \\
     \texttt{ -:EdgeType-> ;} & \texttt{-\$1:EdgeType-> ;} \\
     \texttt{ --> ;} & \texttt{-\$1:Edge-> ;} \\
     \texttt{ -e-> ;} & The edge \texttt{e} is bound to.
-  \end{tabular}
+  \end{tabularx}
 \end{center} 
 As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge or more indirect by re-typing of nodes.} an edge: 
 The graphlets
