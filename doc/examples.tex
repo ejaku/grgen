@@ -43,7 +43,7 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \vfill\pagebreak
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine, that has got five states, writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is \indexed{Turing complete}. \\
+We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine, that has got five states plus a ``halt''-state, writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is \indexed{Turing complete}. \\
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
 \subsection{Graph Model}
@@ -70,6 +70,8 @@ Finally we need states and transitions. The current configuration is modeled wit
 \begin{grgen}[firstnumber=last]
 node class RWHead;
 
+node class State;
+
 node class WriteValue;
 node class WriteZero extends WriteValue;
 node class WriteOne extends WriteValue;
@@ -78,7 +80,6 @@ node class WriteEmpty extends WriteValue;
 edge class moveLeft;
 edge class moveRight;
 edge class dontMove;
-
 \end{grgen}
 
 \subsection{Rule Set}
@@ -103,7 +104,7 @@ rule readZeroRule {
 	replace {
 		s -zr-> wv;
 		tp -zv-> tp;
-		wv -:RWHead->tp;
+		wv -:RWHead-> tp;
 	}
 }      
 
@@ -235,6 +236,7 @@ select actions "../lib/lgsp-TuringActions.dll"
 
 # Initialize tape
 new tp:TapePosition($="Startposition")
+new tp -:empty-> tp
 
 # States
 new sA:State($="A")
@@ -246,7 +248,7 @@ new sH:State($ = "Halt")
 
 new sA -:RWHead-> tp
 
-# Transitions: three lines per state for
+# Transitions: three lines per state and input symbol for
 #   - updating cell value
 #   - moving read-write-head
 # respectively
@@ -298,7 +300,6 @@ Our busy beaver looks like this:
   \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
 \end{center}
 We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
-\clearpage
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 
@@ -307,7 +308,7 @@ We interrupt the machine after 32 iterations and look at the result so far:
 \begin{center}
   \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
 \end{center}
-In order to improve the performance we generate better \indexed{search plan}s. This is a crucial step for execution time: With the initial search plans the beaver runs for 9 minutes. With improved search plans after the first 32 steps he takes about 170 seconds.
+In order to improve the performance we generate better \indexed{search plan}s. This is a crucial step for execution time: With the initial search plans the beaver runs for 1 minute and 30 seconds. With improved search plans after the first 32 steps he takes about 8.5 seconds\footnote{On a Pentium 4, 3.2Ghz, with 2GiB RAM.}.
 \begin{grshell}[firstnumber=last]
 custom graph analyze_graph
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
