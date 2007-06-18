@@ -7,7 +7,7 @@ The \GrG\ package ships with samples for fractal generation. We will construct t
 \begin{center}
 \includegraphics[width=4cm]{fig/startsir}\quad\quad\includegraphics[width=4cm]{fig/startkoch}
 \end{center}
-for the Sierpinski triangle resp. the Koch snowflake. 
+for the Sierpinski triangle resp.\ the Koch snowflake. 
 First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
 \begin{verbatim}
 GrGen.exe ..\specs\sierpinski.grg
@@ -227,7 +227,7 @@ Have a look at the negative conditions within the \emph{ensureMove\dots} rules. 
 
 \subsection{Rule Execution with \GrShell}
 
-Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine, that is modeling the 6 states with their transitions in our Turing machine model:
+Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the 6 states with their transitions in our Turing machine model:
 \begin{grshell}[firstnumber=1] 
 select backend "lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
@@ -318,4 +318,5 @@ Let the beaver run:
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule))*
 \end{grshell}
+
 

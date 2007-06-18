@@ -49,7 +49,7 @@ A non-empty character sequence of arbitrary length consisting of letters, digits
 \end{note}
 \mbox{ }\\
 \emph{ModelIdent}, \emph{TypeIdent}, \emph{NodeType}, \emph{EdgeType}\\
-These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e.\ a node type, an edge type, an enum type or a primitive type. All the type identifiers are actually type \emph{expressions}\indexmain{type expression}. See \ref{typeexpressions} for the use of type expressions.\\
+These are (semantic) specializations of \emph{Ident}. \emph{TypeIdent} matches every type identifier, i.e.\ a node type, an edge type, an enumeration type or a primitive type. All the type identifiers are actually type \emph{expressions}\indexmain{type expression}. See \ref{typeexpressions} for the use of type expressions.\\
 
 \begin{rail}
   Graphlet: (GraphletNode (() | Continuation) | Continuation) ';' ;
@@ -61,13 +61,13 @@ A graph is specified piecewise by graphlets.
 In example \ref{ex:rule:SomeRule}, line \ref{ex:somerule:graphlet}, the statement \texttt{n1 --> n2} is the node identifier \texttt{n1} followed by the \indexedsee{continuation}{graphlet} graphlet \texttt{--> n2}.
 
 All the graph elements of a graphlet have \newterm{name}s.
-The name is either user assigned or an unique internal, non-accessible name.
+The name is either user assigned or a unique internal, non-accessible name.
 In the second case the graph element is called \newterm{anonymous}.
 For illustration purposes we use a \indexed{\texttt{\$<number>}} notation to denote anonymous graph elements in this document.
 For example the graphlet \texttt{n1 --> n2} contains an anonymous edge; thus can be understood as \texttt{n1 -\$1:Edge-> n2}.
 Names must not be \indexed{redefine}d; once defined, a name is \emph{bound} to a graph element. 
 We use the term ``\indexed{binding of names}'' because a name not only denote a graph element of a graphlet, but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
-So graph elements of different names are pairwise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see section \ref{patternpart}).
+So graph elements of different names are pair wise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see section \ref{patternpart}).
 For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
 If \texttt{v} and \texttt{w} are not explicitly marked as homomorphic, they are distinct.
 Binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
@@ -88,7 +88,7 @@ The visibility of names is determined by \indexed{scope}s.
 Scopes can be nested. 
 Names of surrounding scopes are visible in inner scopes. 
 Usually a scope is defined by \texttt{\{} and \texttt{\}}.
-In contrast to pure syntatic scoping, the replace/modify part is a direct inner scope of the pattern part.
+In contrast to pure syntactic scoping, the replace/modify part is a direct inner scope of the pattern part.
 In example \ref{ex:rule:SomeRule} the negative condition from lines \ref{ex:somerule:secondnac:begin} to \ref{ex:somerule:secondnac:end} uses \texttt{n3} from the surrounding scope and defines \texttt{n4} and \texttt{e1}. 
 We may safely reuse the variable name \texttt{e1} in the replace part.
 
@@ -125,7 +125,7 @@ Specifies an edge\indexmain{edge (graphlet)}. Anonymous edges are specified by \
     \texttt{ -e-> ;} & The edge \texttt{e} is bound to.
   \end{tabularx}
 \end{center} 
-As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge or more indirect by re-typing of nodes.} an edge: 
+As the above table shows, edges can be defined and used separately, i.e.\ without their incident nodes. Beware of accidentally ``\indexed{redirecting}''\footnote{You cannot directly express the redirection of edges. This a direct consquence of the \indexedsee{SPO}{single-pushout approach}\indexmain{single-pushout approach} approach. Redirection of edges can be ``simulated'' by either deleting and re-inserting an edge, or more indirect by re-typing of nodes.} an edge: 
 The graphlets
 \begin{grgenlet}
 -e:Edge-> .;
@@ -355,7 +355,7 @@ See section \ref{rulebb} for a detailed explanation of names and graphlets.
 \label{note:indeterminism}
 The \indexed{application} of a rule is not deterministic\indexmain{non-determinism}\indexmainsee{determinism}{non-determinism} (remember the introducing example in \ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities. 
-\LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of this matches. 
+\LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that matches the pattern and rewrite one of these matches. 
 By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
 As a \LibGr\ user use the following methods of the \texttt{IAction} interface:
 \begin{csharplet}
@@ -404,7 +404,7 @@ The semantics of the various pattern statements:
   Names defined within a NAC are not alive outside the NAC. 
   Identifiers from surrounding scopes may be overwritten.
   In general NACs does not care about bindings within the outer scope. 
-  Nevertheless, if you use an identifier that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
+  Nevertheless, if you use an identifier that is defined in the outer scope, this specifies exactly the graph element; the identifier is bound to in the outer scope.
   \begin{example}
     We specify a node \texttt{x} with out-degree of exactly 2:
     \begin{grgen}
@@ -455,11 +455,11 @@ In theory this is done by defining the preservation morphism $r$.
   \caption{Process of Graph Transformation}
   \label{rule:figrule}
 \end{figure}
-In \GrG\ the preservation morphism $r$ is defined implicity by using of \indexed{name}s in pattern \indexed{graphlet}s and replace graphlets. (The modify part can be assumed to be a special case of a replace part).
+In \GrG\ the preservation morphism $r$ is defined implicitly by using of \indexed{name}s in pattern \indexed{graphlet}s and replace graphlets. (The modify part can be assumed to be a special case of a replace part).
 Remember that each of the graph elements of a match have got a name bound to it, either user defined or internal defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
 Otherwise the graph element will be deleted.
 By defining a name in a replace graphlet a corresponding graph element will be newly created.
-So \indexed{anonymous} graph elements in a replace pattern will be created, always.
+So in a replace pattern \indexed{anonymous} graph elements will be created, always.
 Multiple using of a name has the same effect as a single using occurrence.
 In case of a conflict between \indexed{deletion} and \indexed{preservation}, deletion is prioritized. 
 If an incident node of an edge gets deleted, the edge will be deleted as well.
@@ -563,4 +563,5 @@ modify {
 \end{grgen}
 This nonsense example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
+
 

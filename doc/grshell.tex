@@ -11,7 +11,7 @@ The \GrShell\ provides a line oriented scripting language.
 \GrShell\ is \indexed{case sensitive}. 
 A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line or end-of-file. 
 Any text left of the \texttt{\#} will be treated as a statement.
-The follwing items are required for representing text, numbers, and rule parameters.\\
+The following items are required for representing text, numbers, and rule parameters.\\
 \\
 \emph{Text}\\
 May be one of the following:
@@ -108,7 +108,7 @@ List all the parameters supported by the currently selected backend. The paramet
 \begin{rail}
   'include' Filename
 \end{rail}\indexmain{\texttt{include}}
-Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename}. A \GrShell\ script is just a plain text file containing \GrShell\ commands. They are treated as they would be entered interactively, except for parser errors. If an parser error occurs, execution of the script will stop immediately.
+Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename}. A \GrShell\ script is just a plain text file containing \GrShell\ commands. They are treated as they would be entered interactively, except for parser errors. If a parser error occurs, execution of the script will stop immediately.
 
 \begin{rail}
   'debug' ( 'enable' | 'disable' )
@@ -118,7 +118,7 @@ Enables and disables the \indexed{debug mode}. The debug mode shows the current 
 \begin{rail}
   'debug' 'set' 'layout' (() | Text) ;
 \end{rail}\indexmain{\texttt{debug}}\indexmain{\texttt{set}}\indexmain{\texttt{layout}}
-Sets the default graph \indexed{layout algorithm} to \emph{Text}. If \emph{Text} is omitted, a list of available layout algorithms is displayed. See section \ref{tools:ycomp} on \yComp\ layouters.
+Sets the default graph \indexed{layout algorithm} to \emph{Text}. If \emph{Text} is omitted, a list of available layout algorithms is displayed. See section~\ref{tools:ycomp} on \yComp\ layouters.
 
 \begin{rail}
   'echo' Text
@@ -217,7 +217,7 @@ Graph manipulation commands alter existing graphs including creating and deletin
   SingleAttribute : AttributeName '=' (Text | Number) ; 
 \end{rail}\indexmain{\texttt{\$}}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; float, double $\leftarrow$ 0.0; string $\leftarrow$ ``'').\\
-The \texttt{\$} is a special attribute name: an unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see example \ref{persistentex}). This name can be specified by a constructor only.
+The \texttt{\$} is a special attribute name: a unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see example \ref{persistentex}). This name can be specified by a constructor only.
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
@@ -320,7 +320,7 @@ The temporary file will be deleted, when the application \emph{Filename} is term
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{graph}}
 Dumps the current graph formatted as \indexed{VCG} into the file \emph{Filename}.\\
 
-\paragraph{Vizualisation Styles}
+\paragraph{Visualization Styles}
 The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph} and \texttt{enable debug}. 
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text) ;
@@ -415,7 +415,7 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
 \texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directoy:
+\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directory:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -516,4 +516,5 @@ Specify multiple rewrite rules instead of using multiple commands for each rule 
   'custom' 'actions' setmaxmatches Number
 \end{rail}\indexmain{\texttt{custom}}\indexmain{\texttt{actions}}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. For \emph{Number} less or equal to zero, the constraint is reset.
+
 

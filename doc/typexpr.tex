@@ -5,7 +5,7 @@ In the following sections \emph{Ident} refers to an identifier of the graph mode
 
 \section{Built-In Types}
 \label{builtin}
-Besides user-defined node types, edge types and enum types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
+Besides user-defined node types, edge types and enumeration types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
 The exact type format is \indexed{backend} specific. 
 The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types.
 \begin{table}[htbp]
@@ -44,8 +44,8 @@ Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a boolean. 
-Table \ref{tabboolops} lists the binary operators for boolean expressions. 
+As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a Boolean. 
+Table \ref{tabboolops} lists the binary operators for Boolean expressions. 
 The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
@@ -78,7 +78,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
     \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
     \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Strict evaluation. \end{tabular}\\ \hline
   \end{tabular}
-  \caption{Binary boolean operators, in ascending order of precedence}\indexmain{order of precedence}\indexmainsee{precedence}{order of precedence}
+  \caption{Binary Boolean operators, in ascending order of precedence}\indexmain{order of precedence}\indexmainsee{precedence}{order of precedence}
   \label{tabboolops}
 \end{table}
 
@@ -211,3 +211,4 @@ Although you can use any key-value pairs between the brackets, only the identifi
 \begin{example}
 We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
 \end{example}
+

@@ -123,7 +123,7 @@ Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance}
 Defines a new \indexed{edge type}. Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}. Optionally edges can possess attributes. A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes and, moreover, the number of outgoing and incoming edges can be constrained.
 
 \begin{note}
-It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s. \GrG\ just enables you to check, wether a graph is valid or not. See also section \ref{graphcommands}, \texttt{validate}.
+It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s. \GrG\ just enables you to check, whether a graph is valid or not. See also section \ref{graphcommands}, \texttt{validate}.
 \end{note}
 
 \begin{rail}  
@@ -148,6 +148,7 @@ A \indexed{connection assertion} is denoted as a pair of node types in conjuncti
   AttributeDeclarations: (() | IdentDecl ':' AttributeType ';') + ;
   AttributeType: PrimitiveType | EnumType ; 
 \end{rail}
-Defines a node or edge \indexed{attribute}. Possible types are enumerationn types (\texttt{enum}) and primitive types. See section \ref{builtin} for a list of built-in primitive types.
+Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See section~\ref{builtin} for a list of built-in primitive types.
+
 
 
