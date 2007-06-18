@@ -397,7 +397,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 
 \section{The Tools}
 
-All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notice that the \yComp\ graph viewer is not a part of \GrG\; \yComp\ ships with its own license.
+All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license. Although \yComp\ is not free software, it's free for use in academic and non-commercial areas.
 
 \subsection{\texttt{\indexed{GrGen.exe}}}
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
@@ -436,21 +436,15 @@ The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
-<<<<<<< .mine
-\yComp\index{yComp}\cite[] is a graph visualization tool based on \yFiles\cite[]. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML, and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
-=======
-\yComp\index{yComp}\cite{ycomp} is a graph visualization tool based on \yFiles\cite{yfiles}. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
->>>>>>> .r14583
-
+\yComp\index{yComp}\cite{ycomp} is a graph visualization tool based on \yFiles\cite{yfiles}. 
+It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\
    \texttt{java -jar yComp.jar [<graph-file>]}\\
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
-<<<<<<< .mine
-  \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. Use the rightmost blue play button to start layouting. This may take a while, depending on the graph size.
-=======
-  \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. Use the rightmost blue play button to start layout process. This may take a while, depending on the graph size:
->>>>>>> .r14583
+  \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). 
+  Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. 
+  Use the rightmost blue play button to start layout process. This may take a while, depending on the graph size:
 \begin{center}
 \includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
 \end{center}
