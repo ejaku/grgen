@@ -317,4 +317,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		return t == this;
 	}
 	
+	public static String getKindStr() {
+		return "basic type";
+	}
+
 }

@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Cast;
 
+
 /**
  * A cast operator for expressions.
  */
@@ -48,8 +49,8 @@ public class CastNode extends ExprNode
 	private final static int EXPR = 1;
 	
 	/** The resolver for the type */
-	static private final Resolver typeResolver =
-		new DeclTypeResolver(BasicTypeNode.class);
+	static private final Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
+
 	
 	/**
 	 * Make a new cast node.
@@ -144,4 +145,5 @@ public class CastNode extends ExprNode
 	}
 	
 }
+
 

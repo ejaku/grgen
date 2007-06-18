@@ -113,4 +113,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		
 		return et;
 	}
+
+	public static String getKindStr() {
+		return "edge type";
+	}
 }

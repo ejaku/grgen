@@ -68,7 +68,6 @@ public class EnumTypeNode extends CompoundTypeNode {
 	};
 	
 	
-	
 	public EnumTypeNode(BaseNode body) {
 		super(ELEMENTS, childrenChecker, null);
 		addChild(body);
@@ -141,4 +140,9 @@ public class EnumTypeNode extends CompoundTypeNode {
 	public String toString() {
 		return "enum " + getIdentNode();
 	}
+
+	public static String getKindStr() {
+		return "enum type";
+	}
+
 }

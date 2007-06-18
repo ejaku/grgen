@@ -137,6 +137,15 @@ public abstract class BaseNode extends Base
 		return names.containsKey(cls) ? names.get(cls)
 			: "<" + shortClassName(cls) + ">";
 	}
+
+	public static String getKindStr(Class cls) {
+		try {
+			return (String) cls.getMethod("getKindStr").invoke(null);
+		}
+		catch(Exception e) {
+			return "<unknown>";
+		}
+	}
 	
 	/**
 	 * Set the name of a AST node class.
@@ -247,6 +256,16 @@ public abstract class BaseNode extends Base
 			}
 		};
 		
+		/*
+		Walker w = new PrePostWalker(resolveVisitor, null);
+		w.walk(node);
+		if (resolveVisitor.booleanResult() == false) return false;
+		
+		w = new PrePostWalker(null, checkVisitor);
+		w.walk(node);
+		return checkVisitor.booleanResult();
+		 */
+
 		Walker w = new PrePostWalker(resolveVisitor, checkVisitor);
 		w.walk(node);
 		return resolveVisitor.booleanResult() && checkVisitor.booleanResult();
@@ -325,6 +344,23 @@ public abstract class BaseNode extends Base
 		
 		return name;
 	}
+
+	public String getKindString() {
+		String res = "<unknown>";
+		try { res = (String) getClass().getMethod("getKindStr").invoke(null); }
+		catch (Exception e) {}
+		return res;
+	}
+
+	
+	/**
+	 * Get a string characterising the kind of this node, for example "node type".
+	 * @return The name
+	 */
+	public static String getKindStr() {
+		return "base node";
+	}
+
 	
 	/**
 	 * Set the name of the node.
@@ -770,4 +806,5 @@ public abstract class BaseNode extends Base
 	}
 
 }
+
 

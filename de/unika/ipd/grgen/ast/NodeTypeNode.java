@@ -103,4 +103,9 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		
 		return nt;
 	}
+
+	public static String getKindStr() {
+		return "node type";
+	}
 }
+
