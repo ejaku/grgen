@@ -59,7 +59,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Composing several rules with logical and iterative sequence control (called graph rewrite sequences, GRS)
     \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
-    \item Graph rewrite sequences that can contain optionally nested transactions\index{transaction, nested} (yet to be implemented)
+    \item Graph rewrite sequences that can contain nested transactions\index{transaction, nested} (yet to be implemented)
   \end{itemize}
   
   \item Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. In this way you can build your own algorithmic rule applications in a .NET language of your choice. 
@@ -79,14 +79,14 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref
           \node (spec1)    at (0   ,0)    {Rewrite Rules\indexmain{rewrite rule} (*\indexed{.grg})};
           \node (spec2)    at (0   ,2)    {Graph Model\indexmain{graph model} (*\indexed{.gm})};
           \node (grgen)    at (4   ,1)    {\GrG\ Generator\indexmain{generator} (Java, C\#)};
-          \node (rewriter) at (10  ,0)    {Rewrite Rules (C\#)};
-          \node (types)    at (10  ,2)    {Graph Model (C\#)};
-          \node (data)     at (14  ,1)    {Graph Management (C\#)};
+          \node (rewriter) at (10  ,0)    {Rewrite~Rules (C\#)};
+          \node (types)    at (10  ,2)    {Graph~Model (C\#)};
+          \node (data)     at (14  ,1)    {Graph~Management (C\#)};
           \node (libgr)    at (12  ,4)    {\LibGr\indexmain{libGr}\ (C\#)};
           \node[fill,color=gray] (app)      at (14.1  ,5.6)  {};
           \node[fill=white] (app)      at (14  ,5.5)  {Applications};
           \node (grsh)     at (10  ,5.5)  {\GrShell\indexmain{GrShell}\ (C\#)};
-          \node (grs)      at (6   ,5.5)  {Graph Rrewrite Script\indexmain{graph rewrite script}\indexmainsee{GrShell script}{graph rewrite script}\indexmainsee{script}{graph rewrite script} (*\indexed{.grs})};
+          \node (grs)      at (6   ,5.5)  {Graph Rewrite Script\indexmain{graph rewrite script}\indexmainsee{GrShell script}{graph rewrite script}\indexmainsee{script}{graph rewrite script} (*\indexed{.grs})};
       \end{scope}
 
       \node[draw, minimum width=9cm,minimum height=4cm] (engine) at (12,1) {};
@@ -403,11 +403,11 @@ All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notic
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
   \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
-    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.\\
+    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies to the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      \texttt{-d} & Enables debug output. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
+      \texttt{-d} & Enable debug output. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
 \begin{itemize}
   \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
   \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
@@ -419,7 +419,7 @@ By default \GrG\ tries to write the compiled assemblies to the directory \texttt
 \end{description}
 
 \subsection{\texttt{\indexed{GrShell.exe}}}
-The \GrShell\index{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating and dumping graphs as well as performing graph rewriting and debugging graph rewriting. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
+The \GrShell\index{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting with graphical debug support. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
 
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
@@ -436,13 +436,21 @@ The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}
+<<<<<<< .mine
+\yComp\index{yComp}\cite[] is a graph visualization tool based on \yFiles\cite[]. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML, and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+=======
 \yComp\index{yComp}\cite{ycomp} is a graph visualization tool based on \yFiles\cite{yfiles}. It is well integrated in \GrG, but it's not a part of \GrG. \yComp\ implements several graph layout algorithms and has file format support for \indexed{VCG}, GML and YGF among others. Notice that \yComp\ is not free software. However, it's free for use in academic and non-commercial areas.\\
+>>>>>>> .r14583
 
 \begin{description}
   \item[Usage] Usually \yComp\ will be loaded by the \GrShell. You might want to open \yComp\ manually by typing\\
    \texttt{java -jar yComp.jar [<graph-file>]}\\
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
+<<<<<<< .mine
+  \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. Use the rightmost blue play button to start layouting. This may take a while, depending on the graph size.
+=======
   \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). Instead \texttt{\indexedsee{Organic}{layout algorithm}} or \texttt{\indexedsee{Orthogonal}{layout algorithm}} might be good choices. Use the rightmost blue play button to start layout process. This may take a while, depending on the graph size:
+>>>>>>> .r14583
 \begin{center}
 \includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
 \end{center}

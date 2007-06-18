@@ -168,27 +168,27 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
 \begin{center}
 \begin{tabular}[c]{lll}
-\begin{tabular}{|l|}\hline\texttt{x:T \char"5C\ (T1 + T2);}\\\hline\end{tabular} && 
-  \begin{tabular}{|l|}\hline\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) == T1) \&\& !(\emph{typeof}(x) == T2)\}}\\\hline\end{tabular}
+\begin{tabular}{|l|}\hline\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\hline\end{tabular} && 
+  \begin{tabular}{|l|}\hline\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\hline\end{tabular}
 \end{tabular}
 \end{center}
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
-  \begin{tikzpicture}[baseline=(A.base)] \tt
+  \begin{tikzpicture}[baseline=(T.base)] \tt
     \begin{scope}[minimum size=0.5cm]
       \tikzstyle{every node}=[draw]
-      \node (A)     at (1   ,4) {A};
-      \node (B)     at (1   ,3) {B};
-      \node (C)     at (0   ,2) {C};
-      \node (D)     at (0   ,1) {D};
-      \node (E)     at (2   ,2) {E};
+      \node (T)     at (1   ,4) {\texttt{T}};
+      \node (T1)     at (1   ,3) {\texttt{T1}};
+      \node (T2)     at (0   ,2) {\texttt{T2}};
+      \node (T4)     at (0   ,1) {\texttt{T4}};
+      \node (T3)     at (2   ,2) {\texttt{T3}};
     \end{scope}
-    \draw[thick,-open triangle 45]  (B) -> (A)  ;
-    \draw[thick,-open triangle 45]  (C) -> (B)  ;
-    \draw[thick,-open triangle 45]  (E) -> (B)  ;
-    \draw[thick,-open triangle 45]  (D) -> (C)  ;
+    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
+    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
   \end{tikzpicture} &
-  \parbox{\linewidth}{The expression \texttt{A\char"5C (C+E)} applied to the type hierarchy on the left side yields only the types $A$ and $B$ as valid.}
+  \parbox{\linewidth}{The expression \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
 \end{tabularx}
 \end{example}
 
