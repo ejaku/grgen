@@ -66,6 +66,11 @@ morestring=[b]",
 \newcommand{\indexmain}[1]{\index{#1}}
 \newcommand{\indexmainsee}[2]{\index{#1|see{#2}}}
 
+\newcommand{\keyw}[1]{\texttt{#1}}
+\newcommand{\ixkeyw}[1]{\index{...#1@\protect\keyw{#1}}}
+\newcommand{\nterm}[1]{\emph{#1}}
+\newcommand{\ixnterm}[1]{\index{..#1@\protect\nterm{#1}}}
+
 
 \newcommand{\lined}{\hfill \hrule\hfill\vspace{1mm} \\}
 \reversemarginpar
@@ -160,6 +165,11 @@ morestring=[b]",
 \makeindex
 
 \begin{document}
+
+% dirty, to be replaced by sed
+\index{...AAA}
+\index{..AAA}
+\index{..ZZZ}
 
 \pagenumbering{roman}
 \begin{titlepage}

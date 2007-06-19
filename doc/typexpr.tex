@@ -44,7 +44,7 @@ Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
 \begin{rail}
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
-\end{rail}
+\end{rail}\ixnterm{Expression}\ixnterm{BoolExpr}
 The \texttt{!}\ operator negates a Boolean. 
 Table \ref{tabboolops} lists the binary operators for Boolean expressions. 
 The \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
@@ -85,7 +85,7 @@ Table \ref{compandtypes} describes the semantics of compare operators on \indexe
 
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
-\end{rail}
+\end{rail}\ixnterm{IntExpr}
 The $\sim$ operator is the bitwise complement. 
 That means every bit of an integer value will be flipped. 
 The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
@@ -105,7 +105,7 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 
 \begin{rail}  
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
-\end{rail} 
+\end{rail}\ixnterm{FloatExpr}
 The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
 The \emph{BinFloatOperator} is one of the operators in table \ref{tabfloatbinops}.
 \begin{table}[htbp] 
@@ -124,13 +124,13 @@ The \texttt{\%} operator works analogous to the integer modulo operator. For ins
 
 \begin{rail}
   StringExpr: PrimaryExpr | StringExpr '+' StringExpr;
-\end{rail}
+\end{rail}\ixnterm{StringExpr}
 The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
   PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
-\end{rail}
+\end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
 \begin{description}
   \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.
   \item[HexNumber] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
@@ -142,7 +142,7 @@ The operator \texttt{+} concatenates two strings.
 
 \begin{rail}
   TypeExpr: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
-\end{rail}\indexmain{\texttt{typeof}}
+\end{rail}\ixkeyw{typeof}\ixnterm{TypeExpr}
 A type expression identifies a type (and---in terms of matching---also its subtypes). A type expression is either a type identifier itself or the type of a graph element.
 \begin{example}
 The following rule will add a reverse edge to a one-way street.
@@ -165,12 +165,12 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 
 \begin{rail}
   TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
-\end{rail}
+\end{rail}\ixnterm{TypeConstraint}
 A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
 \begin{center}
-\begin{tabular}[c]{lll}
-\begin{tabular}{|l|}\hline\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\hline\end{tabular} && 
-  \begin{tabular}{|l|}\hline\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\hline\end{tabular}
+\begin{tabular}[c]{|ll|ll|}\hline
+\begin{tabular}{l}\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\end{tabular} &&& 
+  \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\end{tabular} \\\hline
 \end{tabular}
 \end{center}
 \begin{example}
@@ -199,8 +199,8 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
 Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
 \begin{rail}
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
-\end{rail}
-Although you can use any key-value pairs between the brackets, only the identifier \indexed{\texttt{prio}} has an effect so far.
+\end{rail}\ixnterm{IdentDecl}
+Although you can use any key-value pairs between the brackets, only the identifier \ixkeyw{prio} has an effect so far.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline

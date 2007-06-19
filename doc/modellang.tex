@@ -71,17 +71,17 @@ These are (semantic) specializations of \emph{Ident} to restrict an identifier t
 \section{Type Declarations}
 \begin{rail}
   GraphModel: 'model' IdentDecl ';' (() + TypeDeclaration);
-\end{rail}\indexmain{\texttt{model}}
+\end{rail}\ixkeyw{model}\ixnterm{GraphModel}
 The \indexed{graph model} consists of its name \emph{IdentDecl} and type declarations defining specific node and edge types as well as enums.
 
 \begin{rail}
   TypeDeclaration: EnumDeclaration | ClassDeclaration
-\end{rail}
+\end{rail}\ixnterm{TypeDeclaration}
 \emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
-\end{rail}\indexmain{\texttt{enum}}
+\end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
 
 \begin{example}
@@ -95,7 +95,7 @@ The semantics is as in C \cite{Sch:1990:ANSIC}. So, the following holds: $\textt
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
-\end{rail}\indexmain{\texttt{abstract}}\indexmain{\texttt{const}}
+\end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}
 Defines a new node type or edge type. The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type. Instead you have to derive non-abstract types to create graph elements. The abstract-property will not be inherited by subclasses, of course.
 
 \begin{example}
@@ -114,13 +114,13 @@ The keyword \texttt{const} indicates that rules may not write to attributes (see
 \begin{rail}  
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
     (';' | lbrace AttributeDeclarations rbrace);
-\end{rail}\indexmain{\texttt{node}}\indexmain{\texttt{class}}\indexmain{\texttt{extends}}
+\end{rail}\ixkeyw{node}\ixkeyw{class}\ixkeyw{extends}\ixnterm{NodeClass}
 Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance} from other node types defined within the same file. If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{\indexed{Node}}. Optionally nodes can possess attributes.
 
 \begin{rail}    
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectAssertions) (';' | lbrace AttributeDeclarations rbrace);
-\end{rail}\indexmain{\texttt{edge}}\indexmain{\texttt{class}}\indexmain{\texttt{extends}}
+\end{rail}\ixkeyw{edge}\ixkeyw{class}\ixkeyw{extends}\ixnterm{EdgeClass}
 Defines a new \indexed{edge type}. Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}. Optionally edges can possess attributes. A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes and, moreover, the number of outgoing and incoming edges can be constrained.
 
 \begin{note}
@@ -131,8 +131,8 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
   ConnectAssertions: 'connect' (NodeConstraint '->' NodeConstraint + ',');
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
-\end{rail}\indexmain{\texttt{connect}}
-A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in section \ref{expressions}. See \ref{graphcommands}, \indexed{\texttt{validate}}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
+\end{rail}\ixkeyw{connect}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
+A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in section \ref{expressions}. See \ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[$n$:*]} & The number of edges, nodes of that type are incident to, is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 
@@ -148,7 +148,7 @@ A \indexed{connection assertion} is denoted as a pair of node types in conjuncti
 \begin{rail}    
   AttributeDeclarations: (() | IdentDecl ':' AttributeType ';') + ;
   AttributeType: PrimitiveType | EnumType ; 
-\end{rail}
+\end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}
 Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See section~\ref{builtin} for a list of built-in primitive types.
 
 

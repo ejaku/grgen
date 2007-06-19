@@ -24,6 +24,8 @@ for F in $@ ; do
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
 	
 	  makeindex "$F" > /dev/null
+      sed /\\.\\.\\.AAA/c\ '\\\\'paragraph{Keywords} "$F".ind | sed /\\.\\.AAA/c\ '\\\\'paragraph{Non-Terminals} | sed /\\.\\.ZZZ/c\ '\\\\'paragraph{General'\~'Index} > "$F".ind.pimped
+      mv "$F".ind.pimped "$F".ind
       echo pdfLaTeX [3]...
 	  pdflatex --interaction=nonstopmode "$F".tex > /dev/null
 
@@ -68,7 +70,9 @@ for F in $@ ; do
 	  echo pdfLaTeX [2]...
       cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
 	
-	  makeindex "$F" > /dev/null
+	  makeindex texput > /dev/null
+      sed /\\.\\.\\.AAA/c\ '\\\\'paragraph{Keywords} texput.ind | sed /\\.\\.AAA/c\ '\\\\'paragraph{Non-Terminals} | sed /\\.\\.ZZZ/c\ '\\\\'paragraph{General'\~'Index} > texput.ind.pimped
+      mv texput.ind.pimped texput.ind
       echo pdfLaTeX [3]...
       cat "$F".tex | sed 1s/final/draft/ | pdflatex 1> /dev/null
       echo Building bibliography
