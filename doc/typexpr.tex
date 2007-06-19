@@ -5,15 +5,15 @@ In the following sections \emph{Ident} refers to an identifier of the graph mode
 
 \section{Built-In Types}
 \label{builtin}
-Besides user-defined node types, edge types and enumeration types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
+Besides user-defined node types, edge types, and enumeration types, GrGen supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table \ref{builtintypes}.
 The exact type format is \indexed{backend} specific. 
 The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
-	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false}. \\
-	\texttt{\indexed{int}} & A signed integer with at least 32 bits. \\
-	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively. \\
-	\texttt{\indexed{string}} & A character sequence of arbitrary length.\\ \hline
+	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false} \\
+	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
+	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
+	\texttt{\indexed{string}} & A character sequence of arbitrary length\\ \hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
 \label{builtintypes}
@@ -34,32 +34,33 @@ Table \ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
     \texttt{double} &  \texttt{(double)} & & implicit & implicit & $=$ & \\
     \texttt{string} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & $=$ \\ \hline
   \end{tabular}
-  \caption{\GrG\ type casts.}
+  \caption{\GrG\ type casts}
   \label{tabcasts}
 \end{table}
 
 \section{Expressions}
+%left to right, left associative?
 \label{expressions}
 \begin{rail}
   Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
 \end{rail}
-As in C \cite{Sch:1990:ANSIC}, \texttt{!}\ negates a Boolean. 
+The \texttt{!}\ operator negates a Boolean. 
 Table \ref{tabboolops} lists the binary operators for Boolean expressions. 
-The \texttt{?}\ operator is a simple if-then-else: if the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
+The \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
+The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 These operators are supported by enum types, \texttt{int} types, and \texttt{float}/\texttt{double} types.
 \texttt{String} types and \texttt{boolean} types support only the \texttt{==} and the \texttt{!=} operators.
 Table \ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.
-The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. Different types in a type hierarchy are \emph{not} identical. \\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
-    \texttt{A < B} & True, iff $A$ is a supertype of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A > B} & True, iff $A$ is a subtype of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a supertype of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a subtype of $B$, but $A$ and $B$ are not identical. \\
     \texttt{A <= B} & True, iff $A$ is a supertype of $B$ or $A$ and $B$ are identical. \\
     \texttt{A >= B} & True, iff $A$ is a subtype of $B$ or $A$ and $B$ are identical. \\ \hline
   \end{tabularx}
@@ -87,7 +88,7 @@ The \emph{BinBoolOperator} is one of the operators in table \ref{tabboolops}.
 \end{rail}
 The $\sim$ operator is the bitwise complement. 
 That means every bit of an integer value will be flipped. 
-The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
+The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
 The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{table}[htbp] 
   \centering
@@ -96,7 +97,7 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
     \begin{tabular}[c]{l} \texttt{\^} \\ \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Bitwise XOR, AND and OR \end{tabular} \\ \hline
     \begin{tabular}[c]{l} \texttt{\mbox{<}\mbox{<}} \\ \texttt{\mbox{>}\mbox{>}} \\ \texttt{\mbox{>}\mbox{>}\mbox{>}} \end{tabular} & \begin{tabular}[c]{l} Bitwise shift left, bitwise shift right and \\ bitwise shift right preserving the sign \end{tabular}\\ \hline
     \begin{tabular}[c]{l} \texttt{+} \\ \texttt{-} \end{tabular} & \begin{tabular}[c]{l} Addition and subtraction \end{tabular}\\ \hline
-    \begin{tabular}[c]{l} \texttt{*} \\ \texttt{/} \\ \texttt{\%} \end{tabular} & \begin{tabular}[c]{l}Multiplication, integer division and modulo \end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \texttt{*} \\ \texttt{/} \\ \texttt{\%} \end{tabular} & \begin{tabular}[c]{l}Multiplication, integer division, and modulo \end{tabular} \\ \hline
   \end{tabular}
   \caption{Binary integer operators, in ascending order of precedence}\indexmain{order of precedence}
   \label{tabbinops}
@@ -105,7 +106,7 @@ The \emph{BinIntOperator} is one of the operators in table \ref{tabbinops}.
 \begin{rail}  
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail} 
-The \texttt{?}\ operator is a simple if-then-else: if the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
+The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
 The \emph{BinFloatOperator} is one of the operators in table \ref{tabfloatbinops}.
 \begin{table}[htbp] 
   \centering
@@ -131,9 +132,9 @@ The operator \texttt{+} concatenates two strings.
   Constant: Number | HexNumber | QuotedText | 'true' | 'false';
 \end{rail}
 \begin{description}
-  \item[Number.] Is an \texttt{int}, \texttt{float} or \texttt{double} constant in decimal notation.
-  \item[HexNumber.] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
-  \item[QuotedText.] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
+  \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.
+  \item[HexNumber] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
+  \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
 \end{description}
 
 \section{Type Related Conditions}\indexmain{type expression}
@@ -149,7 +150,7 @@ The following rule will add a reverse edge to a one-way street.
 rule oneway {
     pattern {
         a:Node -x:street-> y:Node;
-        negative{
+        negative {
             y -:typeof(x)-> a;
         }
     } 
@@ -209,6 +210,6 @@ Although you can use any key-value pairs between the brackets, only the identifi
 \label{tabannotations}
 \end{table}
 \begin{example}
-We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan, if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
+We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
 \end{example}
 

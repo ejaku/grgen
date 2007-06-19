@@ -2,7 +2,7 @@
 \label{chapgrshell}
 
 \GrShell\ is a \indexedsee{shell}{GrShell} application of \LibGr\indexmain{libGr}. 
-It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting and debugging graph rewriting.
+It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language. 
 \GrShell\ scripts are structured by simple statements separated by line breaks.
 
@@ -31,21 +31,21 @@ Is an \texttt{int} or \texttt{float} constant in decimal notation (see also sect
 
 In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
 \begin{description}
-  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing\textunderscore file.txt"}).
+  \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
   \item[Variable] Identifier of a variable that contains a graph element. 
   \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
-  \item[Color] One of the following \indexed{color} identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yellow}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in \indexed{VCG}/\yComp\ files.
+  \item[Color] One of the following \indexed{color} identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in \indexed{VCG}/\yComp\ files.
 \end{description}
 \makeatletter
 \begin{rail}
   GraphElement: Text | ('@' '(' Text ')')
-\end{rail}\indexmain{\texttt{"@}}
+\end{rail}%\indexmain{\texttt{"@}}
 \makeatother
 The elements of a graph (nodes and edges) can be accessed both by their \indexed{variable} identifier and by their \newterm{persistent name} specified through a constructor (see section \ref{mani}).
-The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} requires the corresponding graph element to be a node or an edge respectively.
+The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
 \begin{example}
 \label{persistentex} 
 We insert a node, \indexed{anonymous}ly and with a \indexed{constructor}:
@@ -68,7 +68,7 @@ new node "start" of type "State" has been created.
 \end{grshell}
 \end{example}
 \begin{note}
-Persistent names belong to a specific graph, whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be \indexed{label}ed with their persistent names. Persistent names have to be unique for a graph.
+Persistent names belong to a specific graph whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see \ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see \ref{outputcmds}), graph elements will be \indexed{label}ed with their persistent names. Persistent names have to be unique for a graph.
 \end{note}
 
 \begin{rail}
@@ -77,7 +77,7 @@ Persistent names belong to a specific graph, whereas variables belong to the cur
 Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither types nor declarations.
 
 \section{\GrShell\ Commands}
-This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by a line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
+This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}
@@ -92,17 +92,17 @@ Displays an information message describing supported commands.
 \begin{rail}
   'quit' | 'exit'
 \end{rail}\indexmain{\texttt{quit}}\indexmain{\texttt{exit}}
-Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph displayers (such as \yComp) will be closed as well.
+Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph viewers (such as \yComp) will be closed as well.
 
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
 \end{rail}\indexmain{\texttt{select}}\indexmain{\texttt{backend}}
-Selects a \indexed{backend} that handles graph and rules representation. \emph{Filename} has to be a .NET assembly (e.g.\ \texttt{\indexed{lgspBackend.dll}}).
+Selects a \indexed{backend} that handles graph and rule representation. \emph{Filename} has to be a .NET assembly (e.g.\ \texttt{\indexed{lgspBackend.dll}}).
 Comma-separated \indexed{parameter}s can be supplied optionally. If so, the backend must support these parameters.
 
 \begin{rail}
   'show' 'backend'
-\end{rail}\indexmain{\texttt{show}}\indexmain{\texttt{backend}}
+\end{rail}\nopagebreak\indexmain{\texttt{show}}\indexmain{\texttt{backend}}
 List all the parameters supported by the currently selected backend. The parameters can be provided to the \texttt{select backend} command.
 
 \begin{rail}
@@ -128,11 +128,11 @@ Prints \emph{Text} onto the \GrShell\ command prompt.
 \begin{rail}
   '!' CommandLine
 \end{rail}\indexmain{\texttt{"!}}
-Passes \emph{CommandLine}\indexmain{command line} to the operating system. \emph{CommandLine} is an arbitrary text the operating system attempts to execute.
+Passes \emph{CommandLine}\indexmain{command line} to the operating system. \emph{CommandLine} is an arbitrary text, the operating system attempts to execute.
 \begin{example}
 On a Linux machine you might execute
 \begin{grshell}
-!sh -C "ls | grep stuff"
+!sh -c "ls | grep stuff"
 \end{grshell}
 \end{example}
 
@@ -147,7 +147,7 @@ Creates a new graph with the model specified in \emph{Filename}\indexmain{graph 
 \begin{rail}
   'open' 'graph' Filename Text
 \end{rail}\indexmain{\texttt{open}}\indexmain{\texttt{graph}}
-Opens the graph \emph{Text} stored in the backend. However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s. \emph{LGSPBackend} is the only backend so far. Therefore this command is currently useless.
+Opens the graph \emph{Text} stored in the backend. However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s. The \emph{LGSPBackend} is the only backend so far. Therefore this command is currently useless.
 
 \begin{rail}
   'show' 'graphs'
@@ -172,9 +172,9 @@ Deletes the graph \emph{Graph} from the backend storage.
 \begin{rail}
   'validate' ( ( ) | 'strict' )
 \end{rail}\indexmain{\texttt{validate}}\indexmain{\texttt{strict}}
-Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion} specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
+Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model. The \emph{strict} mode additionally requires all the edges of the working graph to be specified in order to get a ``valid''. Otherwise edges between nodes without specified constraints are ignored.\\
 \begin{example}
-We reuse a simplified version of the street map model from chapter \ref{chapmodellang}:
+We reuse a simplified version of the road map model from chapter \ref{chapmodellang}:
 \begin{grgen} 
 model Map;
 
@@ -190,7 +190,7 @@ The node constraint on \emph{highway} requires all the metropolises to be connec
   \fbox{\includegraphics[width=8.5cm]{fig/map}}
 \end{center}
 
-This graph is valid, but not strict valid.
+This graph is valid but not strict valid.
 \begin{grshell} 
 > validate
 The graph is valid.
@@ -213,10 +213,9 @@ Graph manipulation commands alter existing graphs including creating and deletin
 
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
-  Attributes : SingleAttribute + ',' ;
-  SingleAttribute : AttributeName '=' (Text | Number) ; 
+  Attributes : AttributeName '=' (Text | Number) + ',' ;
 \end{rail}\indexmain{\texttt{\$}}
-A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int, enum $\leftarrow$ 0; boolean $\leftarrow$ false; float, double $\leftarrow$ 0.0; string $\leftarrow$ ``'').\\
+A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int $\leftarrow$ 0, enum $\leftarrow$ unspecified; boolean $\leftarrow$ false; float, double $\leftarrow$ 0.0; string $\leftarrow$ ``'').\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see example \ref{persistentex}). This name can be specified by a constructor only.
 
 \begin{rail}
@@ -271,9 +270,9 @@ Gets the inherited/descended types of \emph{NodeType}/\emph{EdgeType}.
 \begin{rail}
   'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
 \end{rail}\indexmain{\texttt{show}}\indexmain{\texttt{node}}\indexmain{\texttt{edge}}\indexmain{\texttt{only}}
-Gets the available node/edge \indexed{attribute} types. If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType}. The \texttt{only} keyword excludes inherited attributes.\\
+Gets the available node/edge \indexed{attribute} types. If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType} are diplayed. The \texttt{only} keyword excludes inherited attributes.\\
 \begin{note}
-The \texttt{show nodes/edges attributes\dots} command covers types and \emph{inherited} types. This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified resp. the direction in the type hierarchy is specified explicitly.
+The \texttt{show nodes/edges attributes\dots} command covers types and \emph{inherited} types. This is in contrast to the other \texttt{show\dots} commands where types and \emph{sub}types are specified or the direction in the type hierarchy is specified explicitly, respectively.
 \end{note}
 
 \begin{rail}
@@ -289,7 +288,7 @@ Gets the value of a specific attribute.
 \begin{rail}
   'node' 'type' Node 'is' Node | 'edge' 'type' Edge 'is' Edge
 \end{rail}\indexmain{\texttt{node}}\indexmain{\texttt{edge}}\indexmain{\texttt{type}}\indexmain{\texttt{is}}
-Gets the information, whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
+Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
 \subsection{Graph Output Commands}
 \label{outputcmds}
@@ -301,7 +300,7 @@ Dumps\indexmain{dumping graph} the current graph as \GrShell\ script\indexmain{g
 \begin{itemize}
   \item selecting the backend
   \item creating all nodes and edges
-  \item restoring the persistent names (see \ref{mani}),
+  \item restoring the persistent names (see section \ref{mani})
 \end{itemize}
 but not necessarily using the same commands you typed in during construction. 
 Such a script can be loaded and executed by the \texttt{include} command (see section \ref{commcommands}).
@@ -313,19 +312,19 @@ Dumps the current graph as \indexed{VCG} formatted file into a temporary file. \
 \begin{center}
   \includegraphics[width=0.75\linewidth]{fig/showgraph}
 \end{center}  
-The temporary file will be deleted, when the application \emph{Filename} is terminated, if \GrShell\ is still running at this time.
+The temporary file will be deleted, when the application \emph{Filename} is terminated if \GrShell\ is still running at this time.
 
 \begin{rail}
   'dump' 'graph' Filename
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{graph}}
-Dumps the current graph formatted as \indexed{VCG} into the file \emph{Filename}.\\
+Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
 \paragraph{Visualization Styles}
-The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph} and \texttt{enable debug}. 
+The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}. 
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text) ;
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{set}}\indexmain{\texttt{node}}\indexmain{\texttt{only}}\indexmain{\texttt{color}}\indexmain{\texttt{textcolor}}\indexmain{\texttt{bordercolor}}\indexmain{\texttt{shape}}
-Sets the \indexed{color} or text color or border color resp.\ the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (for VCG definition see \cite{vcg}).
+Sets the \indexed{color}, text color, border color, or the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (for VCG definition see \cite{vcg}).
 
 \begin{rail}
   'dump' 'set' 'edge' (() | 'only') EdgeType ('color' | 'textcolor') Color ;
@@ -335,12 +334,12 @@ Sets the color or text color of the edges of type \emph{EdgeType} and all of its
 \begin{rail}
   'dump' 'add' 'node' (() | 'only') NodeType 'exclude' ;
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{add}}\indexmain{\texttt{node}}\indexmain{\texttt{only}}\indexmain{\texttt{exclude}}
-Excludes nodes of type \emph{NodeType} and all of its subtypes as well as their incident edges from output. The keyword \texttt{only} excludes the subtypes.
+Excludes nodes of type \emph{NodeType} and all of its subtypes as well as their incident edges from output. The keyword \texttt{only} excludes the subtypes, i.e.\ subtypes of \emph{NodeType} are dumped.
 
 \begin{rail}
   'dump' 'add' 'node' NodeType 'group' ;
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{add}}\indexmain{\texttt{node}}\indexmain{\texttt{group}}
-Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node} type. All the different typed nodes that points to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
+Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node} type. All the differently typed nodes that point to a node of type \emph{NodeType} (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
   \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-1}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/group2-2}}\\
@@ -359,7 +358,7 @@ Declares the \indexed{attribute} \emph{AttributeName} to be an ``\indexed{info t
 \begin{rail}
   'dump' 'set' 'edge' 'labels' ('on' | 'off')
 \end{rail}\indexmain{\texttt{dump}}\indexmain{\texttt{set}}\indexmain{\texttt{edge}}\indexmain{\texttt{labels}}\indexmain{\texttt{on}}\indexmain{\texttt{off}}
-Specifies, whether edge \indexed{label}s will be displayed or not (default to ``on'').
+Specifies whether edge \indexed{label}s will be displayed or not (defaults to ``on'').
 
 \begin{rail}
   'dump' 'reset'
@@ -409,22 +408,22 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{s ; t}		& \textbf{Concatenation.} First, \texttt{s} is executed, afterwards \texttt{t} is executed. The sequence \texttt{s ; t} is \emph{successfully} executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s | t}		& \textbf{XOR.} First, \texttt{s} is executed. Only if \texttt{s} fails, \texttt{t} is executed. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s \& t}	& \textbf{Transactional AND.} First, \texttt{s} is executed, afterwards \texttt{t} is executed. If \texttt{s} or \texttt{t} fails, the action will be terminated and a rollback to the state before \texttt{s \& t} is performed.\\
-\texttt{\$<op>}	& Flags the operator \texttt{<op>} as commutative. Usually operands are executed / evaluated from left to right with respect to bracketing (left-associative). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order. \\
-\texttt{s *}		& Executes \texttt{s} repeatedly as long as its execution does not fail.\\
-\texttt{s \{n\}}	& Executes \texttt{s} repeatedly as long as its execution does not fail, but anyway \texttt{n} times at most.\\
-\texttt{!}		& Found matches are dumped into VCG formatted files. Every match produces three files within the current directory:
+\texttt{s ; t}		& \textbf{Concatenation.} First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s ; t} is \emph{successfully} executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s | t}		& \textbf{XOR.} First execute \texttt{s}. Only if \texttt{s} fails execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s \& t}	& \textbf{Transactional AND.} First execute \texttt{s}, afterwards execute \texttt{t}. If \texttt{s} or \texttt{t} fails, the action will be terminated and a rollback to the state before \texttt{s \& t} is performed.\\
+\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
+\texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
+\texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
+\texttt{!}		& Dump found matches into VCG formatted files. Every match produces three files within the current directory:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
   \item A subgraph containing only the matched graph elements
 \end{enumerate}\\
-\texttt{\emph{Rule}} & Only the first pattern match produced by the action \emph{Rule} will be rewritten.\\
-\texttt{[\emph{Rule}]} & Every pattern match produced by the action \emph{Rule} will be rewritten. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantic is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
-\texttt{v = w}	& The variable \texttt{v} is assigned to \texttt{w}. If \texttt{w} is undefined, \texttt{v} will be undefined, too.\\
-\texttt{v = @(x)}	& The variable \texttt{v} is assigned to the graph element identified by \texttt{x}. If \texttt{x} is not defined any more, \texttt{v} will be undefined, too.\\
+\texttt{\emph{Rule}} & Rewrite the first found pattern match produced by the action \emph{Rule}.\\
+\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
+\texttt{v = w}	& Assign the variable \texttt{w} to \texttt{v}. If \texttt{w} is undefined, \texttt{v} will be undefined, too.\\
+\texttt{v = @(x)}	& Assign the graph element identified by \texttt{x} to the variable \texttt{v}. If \texttt{x} is not defined, \texttt{v} will be undefined, too.\\
 \texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
@@ -433,26 +432,26 @@ Table \ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \indexmain{\texttt{def}}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewriting sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
-\caption{Graph rewriting expressions}
+{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
+\caption{Graph rewrite expressions}
 \label{ruletab}
 \end{table}
 \makeatother
 
-Variables\indexmain{variable} can be assigned to graph elements returned by rules using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
+Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
 The desired variable identifiers have to be listed in \emph{Parameters}. 
 Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
 For \indexed{undefined variables} see section \ref{ruledecls}, \emph{Parameters}.
 
-Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process step-by-step. During execution \yComp\indexmain{yComp} will display every single step\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.\\
+Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process step-by-step. During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. The debugger can be controlled by \GrShell. The debug commands are shown in table \ref{tabdebug}.\\
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
-  \texttt{s}(tep) & Executes the next rewriting rule (match and rewrite)\\
-  \texttt{d}(etailed step) & Executes a rewriting rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
-  \texttt{n}(ext) & Ascends one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence\\
-  (step) \texttt{o}(ut) & Continues a rewriting sequence until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
-  \texttt{r}(un) &  Continues execution without further stops\\
-  \texttt{a}(bort) & Cancels the execution immediately\\ \hline 
+  \texttt{s}(tep) & Execute the next rewrite rule (match and rewrite)\\
+  \texttt{d}(etailed step) & Execute a rewrite rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
+  \texttt{n}(ext) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (see example \ref{ex:debug})\\
+  (step) \texttt{o}(ut) & Continue a rewrite sequence until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
+  \texttt{r}(un) &  Continue execution without further stops\\
+  \texttt{a}(bort) & Cancel the execution immediately\\ \hline 
   \end{tabularx}
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
@@ -465,7 +464,7 @@ Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process
 %\end{figure}
 
 \begin{figure}[htbp]
-\begin{example}   
+\begin{example}\label{ex:debug}  
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also \ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
@@ -503,18 +502,18 @@ The \indexed{LGSPBackend} supports the following custom commands:
 \begin{rail}
   'custom' 'graph' analyzegraph
 \end{rail}\indexmain{\texttt{custom}}\indexmain{\texttt{graph}}
-Analyzes\indexmain{analyzing graph} the current working graph. The analysis data provides vital information for efficient \indexed{search plan}s. Analysis data are available as long as \GrShell\ is running, i.e.\ when the working graph changes the analysis data is still available but maybe obsolete.
+Analyzes\indexmain{analyzing graph} the current working graph. The analysis data provides vital information for efficient \indexed{search plan}s. Analysis data is available as long as \GrShell\ is running, i.e.\ when the working graph changes, the analysis data is still available but maybe obsolete.
 
 \subsection{Action Related Commands}
 \begin{rail}
   'custom' 'actions' gensearchplan (Action+)
 \end{rail}\indexmain{\texttt{custom}}\indexmain{\texttt{actions}}
-Creates a search plan for each rewrite rule \emph{Action} using a heuristic method and the analyze data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}). Otherwise a \indexed{default search plan} is used. For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure. Therefore the host graph should be in a stage ``similar'' to the final result. In deed there might be some trial-and-error steps necessary to get a efficient search plan. A search plan is available as long as the current rule set remains loaded. 
+Creates a search plan for each rewrite rule \emph{Action} using a heuristic method and the analyzes data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}). Otherwise a \indexed{default search plan} is used. For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure. Therefore the host graph should be in a stage ``similar'' to the final result. Indeed there might be some trial-and-error steps necessary to get an efficient search plan. A search plan is available as long as the current rule set remains loaded. 
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
 
 \begin{rail}
   'custom' 'actions' setmaxmatches Number
 \end{rail}\indexmain{\texttt{custom}}\indexmain{\texttt{actions}}
-Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. For \emph{Number} less or equal to zero, the constraint is reset.
+Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. If \emph{Number} is less or equal to zero, the constraint is reset.
 
 

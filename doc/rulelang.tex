@@ -287,9 +287,9 @@ The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and 
 
 \begin{rail}
   Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
-  ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
 \end{rail}
 Within a rule parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined\indexmain{undefined parameter}, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad \indexed{search plan}s, because \GrG\ has to actually search for such a graph element.
+\begin{figure}[htbp]
 \begin{example}
 Assume the following \indexed{test} that checks whether the edge \texttt{e} is not \indexed{incident} to \texttt{x}:
 \begin{grgen}
@@ -321,7 +321,13 @@ test s {
 \end{grgen}
 In particular test \texttt{s} is successful if there is \emph{any} edge present in the host graph that is not incident to \texttt{x}.
 \end{example}
+\end{figure}
+
+\begin{rail}
+  ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
+\end{rail}
 The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. See also section \ref{replacepart}, \texttt{return}.
+\begin{figure}[htbp]
 \begin{example}\label{ex:rule:someruleext}
 We extend \texttt{SomeRule} (example \ref{ex:rule:SomeRule}) with a user defined node to match and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
 \begin{grgen}
@@ -339,6 +345,7 @@ We extend \texttt{SomeRule} (example \ref{ex:rule:SomeRule}) with a user defined
 \end{grgen}
 We don't define \texttt{varnode} within the pattern part because this is already covered by the parameter specification itself.
 \end{example}
+\end{figure}
 
 \section{Pattern Part}\indexmain{pattern}
 \label{patternpart}
