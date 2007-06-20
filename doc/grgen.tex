@@ -219,11 +219,33 @@ morestring=[b]",
 Extensive graphical debugging integrated into an interactive shell complements the feature highlights of \GrG.
 This user manual contains both: Normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.
 
-\chapter*{Foreword}		
-We whish all readers of the manual and especially all users of \GrG\ a pleasant graph rewrite experience.\\[3ex]
+\chapter*{Foreword}
+The \textsc{GrGen} project started in spring 2003 as a diploma thesis of Sebastian Hack.
+Back than we needed a tool to find subgraphs in graph based intermediate representation used in compiler construction.
+We imagined a tool that is fast, expressive and easy to integrate into our compiler infrastructure.
+Optimix, was the only system that brought together the areas of compiler construction and graph rewriting~\cite{assmann00graph}.
+However its approach was to feature many provable properties of the system per se, such as termination, confluence of derivation, coverage of graphs.
+This was achieved by restricting the expressiveness of the whole formalism below Turing-completeness.
+Our system \textsc{GrGen} in contrast should be Turing-complete.
+Thus providing the user with strong expressiveness but leaving the task of proving such properties to the user.
+
+To get an early prototype, fast, we let the costly task of subgraph matching up to a relational database system~\cite{Hac:03}.
+Albeit the performance of this early implementation could be improved substantially over the years, we believed that there is more to come.
+Inspired by the PhD theses of Heiko D\"orr~\cite{doerr} we reimplemented the system to use its own search plan based matching algorithms.
+Our search plan based matching algorithms evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and has been ported form C to C\#~\cite{KG:07,Kro:07}. 
+In 2005 Varro~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
+
+Though we started four years ago to facilitate some compiler construction problems, in the meantime \GrG\ has grown into a general purpose tool for graph rewriting.
+Despite ongoing debates we use graph rewriting synonymous to graph transformations.\\[3ex]
+
+
+We whish all readers of the manual and especially all users of \GrG\ a pleasant graph rewrite experience.
+We hope you enjoy using \GrG\ as much as we enjoy developing it.\\[3ex]
+
 If you find that any statements in this manual needs improvement, we encourage you to write the maintainer of \GrG: \url{rubino@ipd.uni-karlsruhe.de}.
 Thank you for using \GrG.\\[3ex]
-The authors of \GrG\\
+
+Karlsruhe in June 2007, the authors of \GrG\\
 
 
 \clearpage
@@ -250,4 +272,5 @@ The authors of \GrG\\
 
 \end{document}
  
+
 
