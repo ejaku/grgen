@@ -83,6 +83,7 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
+A \GrG\ enum is internally represented as \texttt{int} (see section \ref{builtin}).
 
 \begin{example}
 \begin{grgen}

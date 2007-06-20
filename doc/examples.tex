@@ -18,7 +18,7 @@ or
 mono GrGen.exe ../specs/sierpinski.grg
 mono GrGen.exe ../specs/snowflake.grg
 \end{verbatim}
-respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake---\yComp's \indexed{layout algorithm} might need some time and attempts to layout it nicely.
+respectively. If you are on a Unix-like system you have to adjust the path separators of the \GrShell\ scripts. Just edit the first three lines of \texttt{/test/Sierpinski.grs} and \texttt{/test/Snowflake.grs}. And as we have the file \texttt{Sierpinski.grs} already opened, we can increase the number of iterations to get even more beautiful graphs\footnote{Be careful: The complexity increases exponentially in the number of iterations.}. Just follow the comments. Be careful when increasing the number of iterations of Koch's snowflake---\yComp's \indexed{layout algorithm} might need some time and attempts to layout it nicely.
 We execute the Sierpinski script by
 \begin{verbatim}
 GrShell.exe ..\test\Sierpinski.grs
@@ -27,7 +27,7 @@ or
 \begin{verbatim}
 mono GrShell.exe ../test/Sierpinski.grs
 \end{verbatim}
-respectively. Because both of the scripts are using the debug mode, we complete execution by typing \texttt{r}(un). See \ref{grsthings} for further information. The resulting graphs should look like figures \ref{figsierp} and \ref{figsnowflake}.
+respectively. Because both of the scripts are using the debug mode, we complete execution by typing \texttt{r}(un). See section \ref{grsthings} for further information. The resulting graphs should look like figures \ref{figsierp} and \ref{figsnowflake}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig/sierpinski}
@@ -43,17 +43,18 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \vfill\pagebreak
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine, that has got five states plus a ``halt''-state, writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides this example shows that \GrG\ is \indexed{Turing complete}. \\
+We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine that has got five states plus a ``halt''-state; it writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides, this example shows that \GrG\ is \indexed{Turing complete}.
+
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
 \subsection{Graph Model}
-Let's start the model file \emph{TuringModel.gm} with
+Let's start the model file \texttt{TuringModel.gm} with
 \begin{grgen}[firstnumber=1]
 model TuringModel; 
 
 \end{grgen}
 
-The tape will be a chain of \emph{TapePosition} nodes connected by right edges. A cell value is modeled by a reflexive \emph{value} edge, attached to a \emph{TapePosition} node. The leftmost and the rightmost cell (\emph{TapePosition}) does not have an incoming and outgoing edge respectively. Therefore we have the node constraint $[0:1]$.
+The tape will be a chain of \texttt{TapePosition} nodes connected by right edges. A cell value is modeled by a reflexive \texttt{value} edge, attached to a \texttt{TapePosition} node. The leftmost and the rightmost cells (\texttt{TapePosition}) do not have an incoming and outgoing edge respectively. Therefore we have the node constraint $[0:1]$.
 \begin{grgen}[firstnumber=last]
 node class TapePosition; 
 edge class right
@@ -61,16 +62,18 @@ edge class right
   
 edge class value
   connect TapePosition[1] -> TapePosition[1];  
-edge class zero extends value;
-edge class one extends value;
+edge class zero  extends value;
+edge class one   extends value;
 edge class empty extends value;
 
 \end{grgen}
-Finally we need states and transitions. The current configuration is modeled with a \emph{RWHead} edge pointing to a \emph{TapePosition} node. \emph{State} nodes are connected with \emph{WriteValue} nodes via \emph{value} edges and from a \emph{WriteValue} node a \emph{moveLeft}/\emph{moveRight} edge leads to the next state.
+Furthermore we need states and transitions. 
+The machine's current configuration is modeled with a \texttt{RWHead} edge pointing to a \texttt{TapePosition} node. 
+\texttt{State} nodes are connected with \texttt{WriteValue} nodes via \texttt{value} edges, a \texttt{moveLeft}/\texttt{moveRight}/\texttt{dontMove} edge leads from a \texttt{WriteValue} node to the next state (cf. the picture on page \pageref{fig:bbstart}).
 \begin{grgen}[firstnumber=last]
-node class RWHead;
-
 node class State;
+
+node class RWHead;
 
 node class WriteValue;
 node class WriteZero extends WriteValue;
@@ -83,7 +86,7 @@ edge class dontMove;
 \end{grgen}
 
 \subsection{Rule Set}
-Now the rule set: we begin the rule set file \emph{Turing.grg} with
+Now the rule set: We begin the rule set file \texttt{Turing.grg} with
 \begin{grgen}[firstnumber=1] 
 actions Turing using TuringModel;
 
@@ -91,46 +94,43 @@ actions Turing using TuringModel;
 We need rewrite rules for the following steps of the Turing machine:
 \begin{enumerate}
   \item Read the value of the current tape cell and select an outgoing edge of the current state.
-  \item Write a new value into the current cell, according to the sub type of the \emph{WriteValue} node.
-  \item Move the read-write-head along the tape and propagate a new state as current state. 
+  \item Write a new value into the current cell, according to the sub type of the \texttt{WriteValue} node.
+  \item Move the read-write-head along the tape and select a new state as current state. 
 \end{enumerate}
-As you can see a transition of the Turing machine is split into two graph rewriting steps: Writing the new value onto the tape and performing the state transition. We need eleven rules, three rules for each step (for ``zero'', ``one'' and ``empty'') and two rules for extending the tape to the left and the right, respectively.
+As you can see a transition of the Turing machine is split into two graph rewrite steps: Writing the new value onto the tape and performing the state transition. We need eleven rules: Three rules for each step (for ``zero'', ``one'', and ``empty'') and two rules for extending the tape to the left and the right, respectively.
 \begin{grgen}[firstnumber=last] 
 rule readZeroRule {
 	pattern {
-		s:State -:RWHead-> tp:TapePosition -zv:zero-> tp;
-		s -zr:zero-> wv:WriteValue;
+		s:State -h:RWHead-> tp:TapePosition -:zero-> tp;
+		s -:zero-> wv:WriteValue;
 	}
-	replace {
-		s -zr-> wv;
-		tp -zv-> tp;
+	modify {
+		delete(h);
 		wv -:RWHead-> tp;
 	}
 }      
 
 \end{grgen}
-We take the current state \emph{s} and the current cell \emph{tp} implicitly given by the unique \emph{RWHead} edge and check, whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \emph{RWHead} edge between \emph{s} and \emph{tp} and adds it between \emph{wv} and \emph{tp}. The remaining rules are analogous:
+We take the current state \texttt{s} and the current cell \texttt{tp} which is implicitly given by the unique \texttt{RWHead} edge and check whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \texttt{RWHead} edge between \texttt{s} and \texttt{tp} and adds it between \texttt{wv} and \texttt{tp}. The remaining rules are analogous:
 \begin{grgen}[firstnumber=last] 
 rule readOneRule {
 	pattern {
-		s:State -:RWHead-> tp:TapePosition -ov:one-> tp;
-		s -or:one-> wv:WriteValue;
+		s:State -h:RWHead-> tp:TapePosition -:one-> tp;
+		s -:one-> wv:WriteValue;
 	}
-	replace {
-		s -or-> wv;
-		tp -ov-> tp;
+	modify {
+		delete(h);
 		wv -:RWHead-> tp;
 	}
 }
 
 rule readEmptyRule {
 	pattern {
-		s:State -:RWHead-> tp:TapePosition -ev:empty-> tp;
-		s -er:empty-> wv:WriteValue;
+		s:State -h:RWHead-> tp:TapePosition -:empty-> tp;
+		s -:empty-> wv:WriteValue;
 	}
-	replace {
-		s -er-> wv;
-		tp -ev-> tp;
+	modify {
+		delete(h);
 		wv -:RWHead-> tp;
 	}
 }
@@ -164,71 +164,68 @@ rule writeEmptyRule {
 
 rule moveLeftRule {
 	pattern {
-		wv:WriteValue -m:moveLeft-> s:State;
-		wv -:RWHead-> tp:TapePosition <-r:right- ltp:TapePosition;
+		wv:WriteValue -:moveLeft-> s:State;
+		wv -h:RWHead-> tp:TapePosition <-r:right- ltp:TapePosition;
 	}
-	replace {
-		wv -m-> s;
-		s -:RWHead-> ltp -r-> tp;
+	modify {
+		delete(h);
+		s -:RWHead-> ltp;
 	}
 }
 
 rule moveRightRule {
 	pattern {
-		wv:WriteValue -m:moveRight-> s:State;
-		wv -:RWHead-> tp:TapePosition -r:right-> rtp:TapePosition;
+		wv:WriteValue -:moveRight-> s:State;
+		wv -h:RWHead-> tp:TapePosition -r:right-> rtp:TapePosition;
 	}
-	replace {
-		wv -m-> s;
-		s -:RWHead-> rtp <-r- tp;
+	modify {
+		delete(h);
+		s -:RWHead-> rtp;
 	}
 }
 
 rule dontMoveRule {
 	pattern {
-		wv:WriteValue -m:dontMove-> s:State;
-		wv -:RWHead-> tp:TapePosition;
+		wv:WriteValue -:dontMove-> s:State;
+		wv -h:RWHead-> tp:TapePosition;
 	}
 	replace {
-		tp;
-		wv -m-> s;
+		delete(h);
 		s -:RWHead-> tp;
 	}
 }
 
 rule ensureMoveLeftValidRule {
 	pattern {
-		wv:WriteValue -m:moveLeft-> s:State;
-		wv -rw:RWHead-> tp:TapePosition;
+		wv:WriteValue -:moveLeft-> :State;
+		wv -:RWHead-> tp:TapePosition;
 		negative {
-			tp <-:right- ltp:TapePosition;
+			tp <-:right-;
 		}
 	}
-	replace {
-		wv -m-> s;
-		wv -rw-> tp <-:right- ltp:TapePosition -:empty-> ltp;
+	modify {
+		tp <-:right- ltp:TapePosition -:empty-> ltp;
 	}
 }
 
 rule ensureMoveRightValidRule {
 	pattern {
-		wv:WriteValue -m:moveRight-> s:State;
-		wv -rw:RWHead-> tp:TapePosition;
+		wv:WriteValue -:moveRight-> :State;
+		wv -:RWHead-> tp:TapePosition;
 		negative {
-			tp -:right-> rtp:TapePosition;
+			tp -:right->;
 		}
 	}
-	replace {
-		wv -m-> s;
-		wv -rw-> tp -:right-> rtp:TapePosition -:empty-> rtp;
+	modify {
+		tp -:right-> rtp:TapePosition -:empty-> rtp;
 	}
 }
 \end{grgen}
-Have a look at the negative conditions within the \emph{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see \ref{fractals}).
+Have a look at the negative conditions within the \texttt{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see section \ref{fractals}).
 
 \subsection{Rule Execution with \GrShell}
 
-Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the 6 states with their transitions in our Turing machine model:
+Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the six states with their transitions in our Turing machine model:
 \begin{grshell}[firstnumber=1] 
 select backend "lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
@@ -294,19 +291,20 @@ new sE -:one-> sE_1
 new sE_1 -:moveLeft-> sC
 
 \end{grshell}
-
-Our busy beaver looks like this:
+\quad\\Our busy beaver looks like this:\label{fig:bbstart}
 \begin{center}
-  \fbox{\includegraphics[width=\linewidth]{fig/bbstart}}
+  \fbox{\includegraphics[width=\linewidth-2\fboxsep-2\fboxrule]{fig/bbstart}}
 \end{center}
-We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\emph{\dots Empty\dots} | \emph{\dots One\dots}'' selection is unambiguous.
+
+We have an initial host graph now. The graph rewrite sequence is quite straight forward and generic to the Turing graph model. Note that for each state the ``\texttt{\dots Empty\dots} | \texttt{\dots One\dots}'' selection is unambiguous.
+\pagebreak %HACK
 \begin{grshell}[firstnumber=last]
   grs ((readOneRule | readEmptyRule) ; (writeOneRule | writeEmptyRule) ; (ensureMoveLeftValidRule | ensureMoveRightValidRule) ; (moveLeftRule | moveRightRule)){32}
 
 \end{grshell}
-We interrupt the machine after 32 iterations and look at the result so far:
+\quad\\We interrupt the machine after 32 iterations and look at the result so far:
 \begin{center}
-  \fbox{\includegraphics[width=\linewidth]{fig/bbmiddle}}
+  \fbox{\includegraphics[width=\linewidth-2\fboxsep-2\fboxrule]{fig/bbmiddle}}
 \end{center}
 In order to improve the performance we generate better \indexed{search plan}s. This is a crucial step for execution time: With the initial search plans the beaver runs for 1 minute and 30 seconds. With improved search plans after the first 32 steps he takes about 8.5 seconds\footnote{On a Pentium 4, 3.2Ghz, with 2GiB RAM.}.
 \begin{grshell}[firstnumber=last]
