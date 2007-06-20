@@ -27,9 +27,10 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.grgen.util.Util;
 
 /**
- * A type checker, that checks if the declaration node is of a certain type 
+ * A type checker, that checks if the declaration node is of a certain type
  */
 public class TypeChecker implements Checker {
 
@@ -46,14 +47,14 @@ public class TypeChecker implements Checker {
 
   /**
    * Check, if node is an instance of DeclNode and then check, if the declaration
-   * has the right type  
+   * has the right type
    * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
    */
   public boolean check(BaseNode node, ErrorReporter reporter) {
   	boolean res = (node instanceof DeclNode);
   	
   	if(!res) {
-  		node.reportError("not of type " + DeclNode.class.getName());
+  		node.reportError("not a " + DeclNode.getKindStr());
   	} else {
   		BaseNode type = ((DeclNode)node).getDeclType();
  
@@ -65,10 +66,15 @@ public class TypeChecker implements Checker {
   	  		}
   	  	}
   		
-  		if(!res)
-  	  		node.reportError("decl has none of types: " + validTypes);
-  	}
-  		
-  	return res;	
+  		if(!res) {
+			try {
+				String list = Util.getStrListWithOr(validTypes, BaseNode.class,	"getUseStr");
+
+				node.reportError("this declaration should declare a " + list);
+			}
+			catch(Exception e) {}
+		}
+	}
+  	return res;
   }
 }

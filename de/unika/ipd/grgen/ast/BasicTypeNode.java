@@ -185,7 +185,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		s.add(target);
 	}
 	
-	private static void addCastability(TypeNode from, TypeNode to) {
+	public static void addCastability(TypeNode from, TypeNode to) {
 		addTypeToMap(castableMap, from, to);
 	}
 	
@@ -318,6 +318,10 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 	
 	public static String getKindStr() {
+		return "basic type";
+	}
+
+	public static String getUseStr() {
 		return "basic type";
 	}
 

@@ -36,6 +36,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import java.awt.Color;
+import java.lang.reflect.Method;
 
 /**
  * The base class for AST nodes.
@@ -138,15 +139,6 @@ public abstract class BaseNode extends Base
 			: "<" + shortClassName(cls) + ">";
 	}
 
-	public static String getKindStr(Class cls) {
-		try {
-			return (String) cls.getMethod("getKindStr").invoke(null);
-		}
-		catch(Exception e) {
-			return "<unknown>";
-		}
-	}
-	
 	/**
 	 * Set the name of a AST node class.
 	 * @param cls The AST node class.
@@ -354,13 +346,18 @@ public abstract class BaseNode extends Base
 
 	
 	/**
-	 * Get a string characterising the kind of this node, for example "node type".
-	 * @return The name
+	 * Get a string characterising the kind of this class, for example "base node".
+	 * @return The characterisation.
 	 */
-	public static String getKindStr() {
+	public static String getKindStr()
+	{
 		return "base node";
 	}
 
+	public static String getUseStr()
+	{
+		return "base node";
+	}
 	
 	/**
 	 * Set the name of the node.

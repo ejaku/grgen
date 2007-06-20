@@ -57,9 +57,16 @@ public class StreamHandler implements Handler {
 	public void report(int level, Location loc, String msg) {
 
 		doIndent();
+		stream.print("GrGen: [");
+
 		if (level == ErrorReporter.ERROR)
-			stream.print("*** GrGen Error: ");
-		stream.println((loc.hasLocation() ? "[at " + loc.getLocation() + "] ": "") + msg);
+			stream.print("ERROR ");
+		else if (level == ErrorReporter.WARNING)
+			stream.print("WARNING ");
+		else if (level == ErrorReporter.NOTE)
+			stream.print("NOTE ");
+
+		stream.println((loc.hasLocation() ? "at " + loc.getLocation() + "] ": "") + msg);
 	}
 
   /**

@@ -31,9 +31,11 @@ import java.io.*;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Method;
+import java.util.Vector;
 
-public class Util {
-	
+public class Util
+{
 	public static File findFile(File[] paths, String file) {
 		for(int i = 0; i < paths.length; i++) {
 			File curr = new File(paths[i], file);
@@ -102,6 +104,92 @@ public class Util {
 		ps.flush();
 		ps.close();
 	}
+
+	/**
+	 * Tells wether c1 is subclass of c2.
+	 */
+	public static boolean isSubClass(Class c1, Class c2)
+	{
+		for (Class c = c1; c != Object.class; c = c.getSuperclass())
+			if (c == c2) return true;
+		
+		return false;
+	}
+	/**
+	 * Tells wether a given class contains a given method
+	 * @param c The class object
+	 * @param m The Name of the method
+	 */
+	public static boolean containsMethod(Class c, String m)
+	{
+		Vector<Method> allMethods = new Vector<Method>();
+		for (Method mm: c.getMethods()) allMethods.add(mm);
+		
+		try	{
+			return allMethods.contains(c.getMethod(m));
+		}
+		catch (Exception e) { return false; }
+	}
+	/**
+	 * Get a comma separated list of strings characterising the kinds of
+	 * the given class objects.
+	 * @param classes The class objects
+	 * @param sc A class all the given classes must be subclass of
+	 * @param m The Name of the method
+	 */
+	
+	public static String getStrList(Class[] classes, Class sc, String m)
+	{
+		StringBuffer res = new StringBuffer();
+		boolean first = true;
+		
+		for (Class c: classes) {
+			if ( !first ) res.append(", ");
+			try {
+				if (
+					isSubClass(c, sc) &&
+					containsMethod(c, m) &&
+					c.getMethod("m").getReturnType() == String.class
+				)
+					res.append((String) c.getMethod(m).invoke(null));
+				else
+					res.append("<invalid>");
+			}
+			catch(Exception e) { res.append("<invalid>"); }
+			first = false;
+		}
+		return res.toString();
+	}
+	/**
+	 * Get a comma separated list of strings characterising the kinds of
+	 * the given class objects. Between the last two entries there is an 'or'.
+	 */
+	
+	public static String getStrListWithOr(Class[] classes, Class sc, String m)
+	{
+		StringBuffer res = new StringBuffer();
+		boolean first = true;
+		int l = classes.length;
+		
+		for (int i = 0; i < l; i++) {
+			try {
+				Class c = classes[i];
+				if ( i > 0 && l > 2 ) res.append(", ");
+				if ( i == l - 1 && l > 1 ) res.append(" or ");
+
+				if ( isSubClass(c, sc) && containsMethod(c, m) )
+					if ( c.getMethod(m).getReturnType() == String.class ) {
+						res.append( (String) c.getMethod(m).invoke(null) );
+						continue;
+					}
+
+					res.append("<invalid>");
+			}
+			catch(Exception e) { res.append("<invalid>"); }
+		}
+		return res.toString();
+	}
+	
 	
 	public static String toString(StreamDumpable dumpable) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -112,4 +200,5 @@ public class Util {
 		return bos.toString();
 	}
 }
+
 

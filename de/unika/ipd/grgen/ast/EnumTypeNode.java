@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Iterator;
+import java.util.Collection;
 
 /**
  * An enumeration type AST node.
@@ -71,15 +72,32 @@ public class EnumTypeNode extends CompoundTypeNode {
 	public EnumTypeNode(BaseNode body) {
 		super(ELEMENTS, childrenChecker, null);
 		addChild(body);
-		
+
+		//the castability of the enum type declared here
+  	  	BasicTypeNode.addCastability(this, BasicTypeNode.intType);
+  	  	BasicTypeNode.addCastability(this, BasicTypeNode.floatType);
+  	  	BasicTypeNode.addCastability(this, BasicTypeNode.doubleType);
+  	  	BasicTypeNode.addCastability(this, BasicTypeNode.stringType);
+
+		//enumarations can be used with the conditional operator
+		OperatorSignature.makeOp(OperatorSignature.COND, this,
+			new TypeNode[] { BasicTypeNode.booleanType, this, this },
+			OperatorSignature.condEvaluator
+		);
+
+		//each enum type has the operators EQ and NE
 		OperatorSignature.makeBinOp(OperatorSignature.EQ,
-																BasicTypeNode.booleanType,
-																this, this, enumEvaluator);
-		
+			BasicTypeNode.booleanType, this, this, OperatorSignature.enumEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.NE,
-																BasicTypeNode.booleanType,
-																this, this, enumEvaluator);
+			BasicTypeNode.booleanType, this, this, OperatorSignature.enumEvaluator);
+	
 	}
+	/*
+	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
+		Object obj = BasicTypeNode.castableMap.get(this);
+		if(obj != null)
+			coll.addAll((Collection) obj);
+	 }*/
 	
   /**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
@@ -143,6 +161,9 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	public static String getKindStr() {
 		return "enum type";
+	}
+	public static String getUseStr() {
+		return "enum";
 	}
 
 }

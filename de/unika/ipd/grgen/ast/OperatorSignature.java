@@ -149,7 +149,7 @@ public class OperatorSignature extends FunctionSignature
 	 * @param resType The result type of the operator.
 	 * @param opTypes The operand types of the operator.
 	 */
-	final static void makeOp(int id, TypeNode resType,
+	public final static void makeOp(int id, TypeNode resType,
 							 TypeNode[] opTypes, Evaluator eval)
 	{
 		
@@ -167,7 +167,7 @@ public class OperatorSignature extends FunctionSignature
 	 * This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	final static void makeBinOp(int id, TypeNode res,
+	public final static void makeBinOp(int id, TypeNode res,
 								TypeNode op0, TypeNode op1, Evaluator eval)
 	{
 		
@@ -602,7 +602,7 @@ public class OperatorSignature extends FunctionSignature
 		}
 	};
 	
-	private static final Evaluator condEvaluator = new Evaluator()
+	public static final Evaluator condEvaluator = new Evaluator()
 	{
 		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args)
 		{
@@ -629,6 +629,13 @@ public class OperatorSignature extends FunctionSignature
 					return args[2];
 				}
 			}
+			return expr;
+		}
+	};
+	
+	public static final Evaluator enumEvaluator = new Evaluator()
+	{
+		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args) {
 			return expr;
 		}
 	};

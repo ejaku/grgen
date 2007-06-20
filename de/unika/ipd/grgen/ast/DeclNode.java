@@ -69,10 +69,19 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl =
-		new DeclNode(IdentNode.getInvalid(), BasicTypeNode.errorType) { };
+		new DeclNode(IdentNode.getInvalid(), BasicTypeNode.errorType) {
+
+			public  String getKindString() {
+				return "undeclared identifier";
+			}
+
+			public String toString() {
+				return "undeclared identifier";
+			}
+		};
 
 	/** Get an invalid declaration. */
-	protected static final DeclNode getInvalid() {
+	public static final DeclNode getInvalid() {
 		return invalidDecl;
 	}
 
@@ -137,6 +146,10 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
   	return new Entity("entity", getIdentNode().getIdent(), type);
   }
 
+  public static String getKindStr() {
+	  return "declaration";
+  }
+  
   public String toString() {
     return getChild(IDENT).toString();
   }

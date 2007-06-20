@@ -125,12 +125,22 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	 */
 	public DeclNode getDecl() {
 		assertResolved();
-		return (DeclNode) getChild(MEMBER);
+		BaseNode child = getChild(MEMBER);
+
+		if (child instanceof DeclNode)
+			return (DeclNode) child;
+
+		return DeclNode.getInvalid();
 	}
 	
 	protected DeclNode getOwner() {
 		assertResolved();
-		return (DeclNode) getChild(OWNER);
+		BaseNode child = getChild(OWNER);
+
+		if (child instanceof DeclNode)
+			return (DeclNode) child;
+
+		return DeclNode.getInvalid();
 	}
 	
 	protected IR constructIR() {

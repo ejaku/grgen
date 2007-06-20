@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.util.Util;
 
 /**
  * An identifier resover.
@@ -44,8 +45,6 @@ public abstract class IdentResolver extends Resolver
 	/** A string with names of the classes, which are expected. */
 	private String expectList;
 	
-	/** another auxilliary pretty printing string. */
-	private String verb = "is";
 	
 	/**
 	 * Make a new ident resolver.
@@ -54,24 +53,13 @@ public abstract class IdentResolver extends Resolver
 	 */
 	public IdentResolver(Class[] classes)
 	{
-		StringBuffer sb = new StringBuffer();
 		this.classes = classes;
 		
-		if(classes.length > 1)
-		{
-			sb.append("{");
-			verb = "are";
+		try {
+			expectList = Util.getStrListWithOr(
+				classes, BaseNode.class, "getUseStr");
 		}
-		
-		for(int i = 0; i < classes.length; i++)
-		{
-			sb.append((i > 0 ? ", " : "") + BaseNode.getKindStr(classes[i]));
-		}
-		
-		if(classes.length > 1)
-			sb.append("}");
-		
-		expectList = sb.toString();
+		catch(Exception e) {}
 	}
 	
 	/**
@@ -110,9 +98,8 @@ public abstract class IdentResolver extends Resolver
 					return true;
 				}
 			
-			String article = (classes.length > 1) ? "one of " : "a ";
-			reportError(n, "identifier \"" + c + "\" is a " + get.getKindString() +
-						" but " + article + expectList + " " + verb + " expected");
+			reportError(n, "\"" + c + "\" is a " + get +
+						" but a " + expectList + " is expected");
 			
 			n.replaceChild(pos, getDefaultResolution());
 			res = false;

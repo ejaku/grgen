@@ -121,5 +121,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return res;
 	}
 	
-	
+	public static String getKindStr() {
+		return "node declaration";
+	}
+	public static String getUseStr() {
+		return "node";
+	}
 }

@@ -98,7 +98,7 @@ public class CastNode extends ExprNode
 		
 		BaseNode n = getChild(TYPE);
 		if( !(n instanceof BasicTypeNode) ) {
-			reportError("only primitive types are allowed for casts, but got " + n);
+			reportError("only primitive types are allowed for casts, but got \"" + n + "\"");
 			return false;
 		}
 		else {
@@ -107,7 +107,7 @@ public class CastNode extends ExprNode
 			
 			boolean result = castableToTypes.contains(bt);
 			if(!result)
-				reportError("Illegal cast from " + exp.getType() + " to " + bt);
+				reportError("Illegal cast from \"" + exp.getType() + "\" to \"" + bt + "\"");
 			
 			return result;
 		}

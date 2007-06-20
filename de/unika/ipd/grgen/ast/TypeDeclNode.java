@@ -63,5 +63,13 @@ public class TypeDeclNode extends DeclNode {
 		TypeNode declType = (TypeNode) getDeclType();
 		return declType.getIR();
 	}
-	
+
+	public static String getKindStr() {
+		return "type declaration";
+	}
+
+	public static String getUseStr() {
+		return "type";
+	}
+
 }
