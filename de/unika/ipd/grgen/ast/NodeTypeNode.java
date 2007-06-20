@@ -113,3 +113,4 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 }
 
+

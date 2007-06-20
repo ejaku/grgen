@@ -30,11 +30,21 @@ import java.awt.Color;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * An AST node representing a type
  */
 public abstract class TypeNode extends BaseNode {
+
+
+	/**
+	 * A map, that maps each type to a set to all other types,
+	 * that are castable to the type.
+	 */
+	protected static final Map<TypeNode, HashSet> castableMap = new HashMap<TypeNode, HashSet>();
+	
 	
 	TypeNode() {
 		super();
@@ -103,6 +113,19 @@ public abstract class TypeNode extends BaseNode {
 		doGetCompatibleToTypes(coll);
 	}
 	
+	protected static void addTypeToMap(Map<TypeNode, HashSet> map, TypeNode index, TypeNode target)
+	{
+		if(!map.containsKey(index))
+			map.put(index, new HashSet());
+		
+		Set<TypeNode> s = map.get(index);
+		s.add(target);
+	}
+	
+	public static void addCastability(TypeNode from, TypeNode to)
+	{
+		addTypeToMap(castableMap, from, to);
+	}
 	
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 	}
@@ -117,14 +140,10 @@ public abstract class TypeNode extends BaseNode {
 		getCompatibleToTypes(coll);
 	}
 	
-	/**
-	 * This method must be implemented by subclasses.
-	 * You need only put types into the collection, that are subject to
-	 * explicit casts. The implicit ones are done by
-	 * {@link #getCastableTypes(Collection)}.
-	 * @param coll The collection to put them to.
-	 */
-	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
+	private void doGetCastableToTypes(Collection<TypeNode> coll) {
+		Object obj = castableMap.get(this);
+		if(obj != null)
+			coll.addAll((Collection) obj);
 	}
 	
 	/**

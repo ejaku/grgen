@@ -354,6 +354,14 @@ public abstract class BaseNode extends Base
 		return "base node";
 	}
 
+	public String getUseString()
+	{
+		String res = "<unknown>";
+		try { res = (String) getClass().getMethod("getUseStr").invoke(null); }
+		catch (Exception e) {}
+		return res;
+	}
+
 	public static String getUseStr()
 	{
 		return "base node";
@@ -803,5 +811,6 @@ public abstract class BaseNode extends Base
 	}
 
 }
+
 
 

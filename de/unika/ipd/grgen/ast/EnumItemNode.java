@@ -141,4 +141,8 @@ public class EnumItemNode extends MemberDeclNode {
   	return new EnumItem(id.getIdent(), getValue().getConstant());
   }
 
+  public static String getUseStr()
+  {
+	  return "enum item";
+  }
 }

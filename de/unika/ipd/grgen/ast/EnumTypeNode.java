@@ -74,10 +74,10 @@ public class EnumTypeNode extends CompoundTypeNode {
 		addChild(body);
 
 		//the castability of the enum type declared here
-  	  	BasicTypeNode.addCastability(this, BasicTypeNode.intType);
-  	  	BasicTypeNode.addCastability(this, BasicTypeNode.floatType);
-  	  	BasicTypeNode.addCastability(this, BasicTypeNode.doubleType);
-  	  	BasicTypeNode.addCastability(this, BasicTypeNode.stringType);
+  	  	TypeNode.addCastability(this, BasicTypeNode.intType);
+  	  	TypeNode.addCastability(this, BasicTypeNode.floatType);
+  	  	TypeNode.addCastability(this, BasicTypeNode.doubleType);
+  	  	TypeNode.addCastability(this, BasicTypeNode.stringType);
 
 		//enumarations can be used with the conditional operator
 		OperatorSignature.makeOp(OperatorSignature.COND, this,
@@ -167,3 +167,4 @@ public class EnumTypeNode extends CompoundTypeNode {
 	}
 
 }
+

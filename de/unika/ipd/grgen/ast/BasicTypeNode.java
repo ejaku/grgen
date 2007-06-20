@@ -53,12 +53,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * that are compatible to the type.
 	 */
 	private static final Map<TypeNode, HashSet> compatibleMap = new HashMap<TypeNode, HashSet>();
-	
-	/**
-	 * A map, that maps each basic type to a set to all other basic types,
-	 * that are castable to the type.
-	 */
-	private static final Map<TypeNode, HashSet> castableMap = new HashMap<TypeNode, HashSet>();
+
 	
 	/**
 	 * The string basic type.
@@ -177,43 +172,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 */
 	private static Map<BasicTypeNode, Object> valueMap = new HashMap<BasicTypeNode, Object>();
 	
-	private static void addTypeToMap(Map<TypeNode, HashSet> map, TypeNode index, TypeNode target) {
-		if(!map.containsKey(index))
-			map.put(index, new HashSet());
-		
-		Set<TypeNode> s = map.get(index);
-		s.add(target);
-	}
-	
-	public static void addCastability(TypeNode from, TypeNode to) {
-		addTypeToMap(castableMap, from, to);
-	}
-	
-	/**
-	 * Add a compatibility to the compatibility map.
-	 * @param a The first type.
-	 * @param b The second type.
-	 */
-	private static void addCompatibility(TypeNode a, TypeNode b) {
-		addTypeToMap(compatibleMap, a, b);
-	}
-	
-	/**
-	 * Checks, if two types are compatible
-	 * @param a The first type.
-	 * @param b The second type.
-	 * @return true, if the two types are compatible.
-	 */
-	private static boolean isCompatible(TypeNode a, TypeNode b) {
-		boolean res = false;
-		
-		if(compatibleMap.containsKey(a)) {
-			Set s = compatibleMap.get(a);
-			res = s.contains(b);
-		}
-		
-		return res;
-	}
 	
 	static {
 		setName(BasicTypeNode.class, "basic type");
@@ -285,6 +243,34 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 	
 	/**
+	 * Add a compatibility to the compatibility map.
+	 * @param a The first type.
+	 * @param b The second type.
+	 */
+	protected static void addCompatibility(TypeNode a, TypeNode b)
+	{
+		addTypeToMap(compatibleMap, a, b);
+	}
+	
+	/**
+	 * Checks, if two types are compatible
+	 * @param a The first type.
+	 * @param b The second type.
+	 * @return true, if the two types are compatible.
+	 */
+	private static boolean isCompatible(TypeNode a, TypeNode b)
+	{
+		boolean res = false;
+		
+		if(compatibleMap.containsKey(a)) {
+			Set s = compatibleMap.get(a);
+			res = s.contains(b);
+		}
+		
+		return res;
+	}
+
+	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
@@ -298,16 +284,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			}
 			coll.addAll((Collection) obj);
 		}
-	}
-	
-	
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#getCastableTypes(java.util.Collection)
-	 */
-	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
-		Object obj = castableMap.get(this);
-		if(obj != null)
-			coll.addAll((Collection) obj);
 	}
 	
 	/**
@@ -326,3 +302,4 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 }
+

@@ -121,11 +121,12 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
 	 */
-	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
+/*	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 		// TODO This is wrong!!!
 		for(BaseNode n : getChild(inhIndex).getChildren())
 			coll.add((TypeNode)n);
-	}
+	} */
+
 	
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;

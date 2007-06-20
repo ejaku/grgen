@@ -98,7 +98,7 @@ public abstract class IdentResolver extends Resolver
 					return true;
 				}
 			
-			reportError(n, "\"" + c + "\" is a " + get +
+			reportError(n, "\"" + c + "\" is a " + get.getUseString() +
 						" but a " + expectList + " is expected");
 			
 			n.replaceChild(pos, getDefaultResolution());
@@ -128,3 +128,4 @@ public abstract class IdentResolver extends Resolver
 	protected abstract BaseNode resolveIdent(IdentNode n);
 	
 }
+

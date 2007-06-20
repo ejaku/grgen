@@ -75,6 +75,10 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 				return "undeclared identifier";
 			}
 
+			public  String getUseString() {
+				return "undeclared identifier";
+			}
+
 			public String toString() {
 				return "undeclared identifier";
 			}
@@ -154,3 +158,4 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
     return getChild(IDENT).toString();
   }
 }
+
