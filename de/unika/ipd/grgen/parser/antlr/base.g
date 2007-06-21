@@ -384,6 +384,12 @@ primaryExpr returns [ BaseNode res = env.initNode() ]
 	| res=constant
 	| res=enumItemExpr
 	| res=typeOf
+	| p:PLUSPLUS {
+			reportError(getCoords(p), "increment operator \"++\" not supported");
+	}
+	| q:MINUSMINUS {
+			reportError(getCoords(q), "decrement operator \"--\" not supported");
+	}
 	| LPAREN res=expr RPAREN
 	;
 

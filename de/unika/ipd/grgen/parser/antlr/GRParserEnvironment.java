@@ -60,13 +60,14 @@ public class GRParserEnvironment extends ParserEnvironment {
 			    }
 			};
 			
+			sublexer.setTabSize(1);
 			sublexer.setEnv(this);
 			sublexer.setFilename(file.getPath());
 			selectors.peek().push(sublexer);
  			selectors.peek().retry();
     	}
     	catch (FileNotFoundException e) {
-			System.out.println("could not find file: " + file);		
+			System.out.println("could not find file: " + file);
 			System.exit(1);
 	  	}
 	}
@@ -88,6 +89,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
 			GRLexer mainLexer = new GRLexer(new FileInputStream(inputFile));
+			mainLexer.setTabSize(1);
 			mainLexer.setEnv(this);
 			mainLexer.setFilename(inputFile.getPath());
 			selector.select(mainLexer);
@@ -124,6 +126,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
 			GRLexer mainLexer = new GRLexer(new FileInputStream(inputFile));
+			mainLexer.setTabSize(1);
 			mainLexer.setEnv(this);
 			mainLexer.setFilename(inputFile.getPath());
 			selector.select(mainLexer);

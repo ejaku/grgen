@@ -42,7 +42,7 @@ header {
 	import de.unika.ipd.grgen.Main;
 	
 	import antlr.*;
-	
+
 }
 
 class GRLexer extends Lexer;
@@ -134,6 +134,8 @@ BAND			:	'&'		;
 LAND			:	"&&"	;
 SEMI			:	';'		;
 BACKSLASH		:	'\\'	;
+PLUSPLUS		:	"++"	;
+MINUSMINUS		:	"--"	;
 
 // Whitespace -- ignored
 WS	:	(	' '
@@ -225,3 +227,6 @@ INCLUDE
 IDENT
 	options {testLiterals=true;}
 	:	('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+
+
+
