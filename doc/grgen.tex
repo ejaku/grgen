@@ -214,35 +214,35 @@ morestring=[b]",
 \clearpage
 
 \chapter*{Abstract}
-\GrG\ is a graph rewrite system enabling elegant and convenient development of applications with comparable performance to conventionally developed ones.
+\GrG\ is a graph rewrite tool enabling elegant and convenient development of applications with comparable performance to conventionally developed ones.
 \GrG\ uses attributed, typed, and directed multigraphs with multiple inheritance on node and edge types.
 Extensive graphical debugging integrated into an interactive shell complements the feature highlights of \GrG.
 This user manual contains both: Normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.
 
 \chapter*{Foreword}
-First of all a word about terms and definitions: This manual deals with graph rewriting.
-Some people call this graph transformation; some even think there is a difference between the two.
+First of all a word about the term ``graph rewriting''.
+Some would rather say ``graph transformation''; some even think there is a difference between the two.
 We don't see such differences and use graph rewriting for consistency.
 
-The \textsc{GrGen} project started in spring 2003 as a diploma thesis of Sebastian Hack under supervision of Rubino Gei\ss.
-Back than we needed a tool to find subgraphs in graph based intermediate representations used in compiler construction.
+The \textsc{GrGen} project started in spring 2003 with the diploma thesis of Sebastian Hack under supervision of Rubino Gei\ss.
+At that time we needed a tool to find patterns in graph based intermediate representations used in compiler construction.
 We imagined a tool that is fast, expressive and easy to integrate into our compiler infrastructure.
-So far Optimix was the only system that brought together the areas of compiler construction and graph rewriting~\cite{assmann00graph}.
-However its approach is to feature many provable properties of the system per se, such as termination, confluence of derivation, and coverage of graphs.
+So far Optimix was the only tool that brought together the areas of compiler construction and graph rewriting~\cite{assmann00graph}.
+However its approach is to feature many provable properties of the system per se, such as termination, confluence of derivations, and complete coverage of graphs.
 This is achieved by restricting the expressiveness of the whole formalism below Turing-completeness.
-Our system \textsc{GrGen} in contrast should be Turing-complete.
-Thus providing the user with strong expressiveness but leaving the task of proving such properties to the user.
+Our tool \textsc{GrGen} in contrast should be Turing-complete.
+Thus \GrG\ provides the user with strong expressiveness but leaves the task of proving such properties to the user.
 
 To get an early prototype fast, we delegate the costly task of subgraph matching to a relational database system~\cite{Hac:03}.
 Albeit the performance of this implementation could be improved substantially over the years, we believed that there is more to come.
-Inspired by the PhD theses of Heiko D\"orr~\cite{doerr} we reimplemented the system to use search plan based matching algorithms of its own.
-These matching algorithms evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and have been ported from C to C\#~\cite{KG:07,Kro:07}. 
-In 2005 Varr\'o~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
+Inspired by the PhD theses of Heiko D\"orr~\cite{doerr} we reimplemented our tool to use search plan driven graph pattern matching of its own.
+This matching algorithm evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and have been ported from C to C\#~\cite{KG:07,Kro:07}. 
+In the year 2005 Varr\'o~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
 
 Though we started four years ago to facilitate some compiler construction problems, in the meantime \GrG\ has grown into a general purpose tool for graph rewriting.\\[3ex]
 
-Thanks to all co-workers and students that helped during the design and implementation of \GrG\ as well as the writing of this manual.
-Especially we want to thank Dr.~Sebastian Hack, Michael Beck, Tom Gelhausen, Moritz Kroll, Dr.~Andreas Ludwig, Dr.~Markus Noga.
+We want to thank all co-workers and students that helped during the design and implementation of \GrG\ as well as the writing of this manual.
+Especially we want to thank Dr.~Sebastian Hack, G.~Veit Batz, Michael Beck, Tom Gelhausen, Moritz Kroll, Dr.~Andreas Ludwig, Dr.~Markus Noga.
 Finally, all this would not happened without the productive atmosphere and the generous support that Prof.~Goos provides at his chair.\\[3ex]
 
 We wish all readers of the manual---and especially all users of \GrG---a pleasant graph rewrite experience.

@@ -27,7 +27,7 @@ or
 \begin{verbatim}
 mono GrShell.exe ../test/Sierpinski.grs
 \end{verbatim}
-respectively. Because both of the scripts are using the debug mode, we complete execution by typing \texttt{r}(un). See section \ref{grsthings} for further information. The resulting graphs should look like figures \ref{figsierp} and \ref{figsnowflake}.
+respectively. Because both of the scripts are using the debug mode, we complete execution by typing \texttt{r}(un). See section~\ref{grsthings} for further information. The resulting graphs should look like figures~\ref{figsierp} and~\ref{figsnowflake}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig/sierpinski}
@@ -43,7 +43,7 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \vfill\pagebreak
 
 \section{Busy Beaver}
-We want \GrG\ to work as hard as a \indexed{busy beaver} \cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine that has got five states plus a ``halt''-state; it writes 1,471 bars onto the tape and terminates \cite{MB:00}. So first of all we design a Turing machine as graph model. Besides, this example shows that \GrG\ is \indexed{Turing complete}.
+We want \GrG\ to work as hard as a \indexed{busy beaver}~\cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine that has got five states plus a ``halt''-state; it writes 1,471 bars onto the tape and terminates~\cite{MB:00}. So first of all we design a Turing machine as graph model. Besides, this example shows that \GrG\ is \indexed{Turing complete}.
 
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
@@ -69,7 +69,7 @@ edge class empty extends value;
 \end{grgen}
 Furthermore we need states and transitions. 
 The machine's current configuration is modeled with a \texttt{RWHead} edge pointing to a \texttt{TapePosition} node. 
-\texttt{State} nodes are connected with \texttt{WriteValue} nodes via \texttt{value} edges, a \texttt{moveLeft}/\texttt{moveRight}/\texttt{dontMove} edge leads from a \texttt{WriteValue} node to the next state (cf. the picture on page \pageref{fig:bbstart}).
+\texttt{State} nodes are connected with \texttt{WriteValue} nodes via \texttt{value} edges, a \texttt{moveLeft}/\texttt{moveRight}/\texttt{dontMove} edge leads from a \texttt{WriteValue} node to the next state (cf.~the picture on page \pageref{fig:bbstart}).
 \begin{grgen}[firstnumber=last]
 node class State;
 
@@ -221,7 +221,7 @@ rule ensureMoveRightValidRule {
 	}
 }
 \end{grgen}
-Have a look at the negative conditions within the \texttt{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see section \ref{fractals}).
+Have a look at the negative conditions within the \texttt{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see section~\ref{fractals}).
 
 \subsection{Rule Execution with \GrShell}
 

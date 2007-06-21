@@ -10,10 +10,10 @@ According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
-For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see \cite{spoapproach}).
+For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}).
 
 For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
-In contrast to systems like \indexed{Fujaba} \cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
+In contrast to systems like \indexed{Fujaba}~\cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
 \GrG~\cite{grgen_web} is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
 The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.
 
@@ -68,7 +68,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
 
 \section{System Overview}
 
-Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref{dirstruc} shows the \GrG\ directory structure.
+Figure~\ref{figsys} gives an overview of the \GrG\ system components. Table~\ref{dirstruc} shows the \GrG\ directory structure.
 
 \begin{figure}[htbp]
   \centering
@@ -108,7 +108,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref
       \draw[->,dashed,red,>=triangle 45] (-1.25,4.5)  -- +(2.5,0) node[above, midway] {read / generate};
   \end{tikzpicture}
 	}
-  \caption{\GrG\ system components \cite{Kro:07}}
+  \caption{\GrG\ system components~\cite{Kro:07}}
   \label{figsys}
 \end{figure}
 \begin{table}[htbp]
@@ -123,7 +123,7 @@ Figure \ref{figsys} gives an overview of the \GrG\ system components. Table \ref
 
 A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
 Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
-Figure \ref{process} shows the generation process.
+Figure~\ref{process} shows the generation process.
 
 \begin{figure}[htbp]
   \centering
@@ -171,7 +171,7 @@ Generating a \GrG\ graph rewrite system may be considered as preliminary task.
 The actual process of rewriting as well as dealing with host graphs is performed by \GrG's backend.
 \GrG\ provides a backend \indexed{API}---the .NET library \LibGr.
 For most issues---in particular for experimental purposes---you might rather want to work with the \GrShell\ because of its more convenient interface.
-However, \GrShell\ does not provide the full power of the \LibGr; see also note \ref{note:indeterminism} on page \pageref{note:indeterminism}.
+However, \GrShell\ does not provide the full power of the \LibGr; see also note~\ref{note:indeterminism} on page~\pageref{note:indeterminism}.
 
 \section{What is Graph Rewriting?}
 \label{ov:whatsallabout}
@@ -403,7 +403,7 @@ All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notic
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
   \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
-    \emph{rule-set} is a file containing a rule set specification according to chapter \ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
+    \emph{rule-set} is a file containing a rule set specification according to chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies to the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
@@ -419,7 +419,7 @@ By default \GrG\ tries to write the compiled assemblies to the directory \texttt
 \end{description}
 
 \subsection{\texttt{\indexed{GrShell.exe}}}
-The \GrShell\indexmain{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting with graphical debug support. For further information about the \GrShell\ language see chapter \ref{chapgrshell}.
+The \GrShell\indexmain{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting with graphical debug support. For further information about the \GrShell\ language see chapter~\ref{chapgrshell}.
 
 \begin{description}
   \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\

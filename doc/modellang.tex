@@ -1,6 +1,6 @@
 \chapter{Graph Model Language}\indexmain{graph model language}
 \label{chapmodellang}
-The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al. \cite{GBGHS:06,KG:07}:
+The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al.~\cite{GBGHS:06,KG:07}:
 
 \begin{description}
 \item[Types] Nodes and edges are typed. 
@@ -41,18 +41,18 @@ edge class highway extends street
 \end{grgen}
 \end{example}
 \end{figure}
-In this chapter as well as in chapter \ref{chapgrshell} (\GrShell) we use excerpts of example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
+In this chapter as well as in chapter~\ref{chapgrshell} (\GrShell) we use excerpts of example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
 
 \section{Building Blocks}
 \label{modelbb}
 
 \begin{note}
-The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see \cite{MMJW:91}.
+The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows through a diagram to get a valid sentence (or sub sentence) of the language. Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see~\cite{MMJW:91}.
 \end{note}
 Basic elements of the \GrG\ graph model language are identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is \indexed{case sensitive}.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \indexmain{identifier}\nopagebreak
-A non-empty character sequence of arbitrary length consisting of letters, digits, or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See \ref{annotations} for annotations of declarations.
+A non-empty character sequence of arbitrary length consisting of letters, digits, or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See section~\ref{annotations} for annotations of declarations.
 \begin{note}
 \label{note:modeldecl}
   The \GrG\ model language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. For instance, the following C-like pseudo \GrG\ model language code is illegal:
@@ -83,7 +83,7 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
-A \GrG\ enum is internally represented as \texttt{int} (see section \ref{builtin}).
+A \GrG\ enum is internally represented as \texttt{int} (see section~\ref{builtin}).
 
 \begin{example}
 \begin{grgen}
@@ -91,7 +91,7 @@ enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
 enum AsInC {a = 2, b, c = 1, d, e = (int)Resident::village + c}
 \end{grgen}
-The semantics is as in C \cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
+The semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
 \end{example}
 
 \begin{rail}  
@@ -110,7 +110,7 @@ node class ghost_town extends abandoned_city;
 \end{grgen}
 You will be able to create nodes of type \texttt{ghost\_town}, but not of type \texttt{city} or \texttt{abandoned\_city}. However, nodes of type \texttt{ghost\_town} are also of type \texttt{abandoned\_city} as well as of type \texttt{city} and they have the attribute \texttt{size}, hence.
 \end{example}
-The keyword \texttt{const} indicates that rules may not write to attributes (see also section \ref{replacepart}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
+The keyword \texttt{const} indicates that rules may not write to attributes (see also section~\ref{replacepart}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
 
 \begin{rail}  
   NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
@@ -125,7 +125,7 @@ Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance}
 Defines a new \indexed{edge type}. Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}. Optionally edges can possess attributes. A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes and, moreover, the number of outgoing and incoming edges can be constrained.
 
 \begin{note}
-It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s. \GrG\ just enables you to check, whether a graph is valid or not. See also section \ref{graphcommands}, \texttt{validate}.
+It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s. \GrG\ just enables you to check, whether a graph is valid or not. See also section~\ref{graphcommands}, \texttt{validate}.
 \end{note}
 
 \begin{rail}  
@@ -133,7 +133,7 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
-A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in section \ref{expressions}. See \ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table \ref{multiplicities} describes the multiplicity definitions.
+A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in section~\ref{expressions}. See section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[$n$:*]} & The number of edges, nodes of that type are incident to, is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 
