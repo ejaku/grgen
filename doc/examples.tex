@@ -73,7 +73,7 @@ The machine's current configuration is modeled with a \texttt{RWHead} edge point
 \begin{grgen}[firstnumber=last]
 node class State;
 
-node class RWHead;
+edge class RWHead;
 
 node class WriteValue;
 node class WriteZero extends WriteValue;
@@ -189,7 +189,7 @@ rule dontMoveRule {
 		wv:WriteValue -:dontMove-> s:State;
 		wv -h:RWHead-> tp:TapePosition;
 	}
-	replace {
+	modify {
 		delete(h);
 		s -:RWHead-> tp;
 	}
@@ -227,7 +227,7 @@ Have a look at the negative conditions within the \texttt{ensureMove\dots} rules
 
 Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the six states with their transitions in our Turing machine model:
 \begin{grshell}[firstnumber=1] 
-select backend "lgspBackend.dll"
+select backend "../bin/lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
 select actions "../lib/lgsp-TuringActions.dll"
 
