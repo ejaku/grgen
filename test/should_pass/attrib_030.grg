@@ -1,0 +1,37 @@
+actions attrib_030 using attrib_model_001;
+
+rule r {
+	pattern {
+		n : Node;
+		ni : NINT;
+		ni2 : NINT;
+		nb : NBOOL;
+		nf : NFLOAT;
+		nd : NDOUBLE;
+		ns : NSTRING;
+		-ei:EINT->;
+		-eb:EBOOL->;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-es:ESTRING->;
+		if {
+			ni.a == ei.a;
+			nb.a == eb.a;
+			nf.a == ef.a;
+			nd.a == ed.a;
+			ns.a == es.a;
+		}
+	}
+	modify {
+		delete(n, ni, nb);
+		nbi:NFLOAT;
+		nni:NINT;
+
+		eval{
+      ni.a = 42; 
+			ni2.a = 43;
+      nni.a = ni.a;
+		}
+	}
+}
+
