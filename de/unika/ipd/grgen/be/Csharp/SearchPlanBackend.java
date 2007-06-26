@@ -459,6 +459,14 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append(sb3);
 	}
 
+	//
+	// TODO: Choosing the right re-use partner is a complicated issue.
+	// The genRewriteNewEdges() function does not implement any optimization to improve these partners
+	// We believe the cost to be:
+	// re-route-source: 21-29
+	// re-route-target: 21-29
+	// re-type: 32
+	//
 	private void genRewriteNewEdges(StringBuffer sb2, Collection<Edge> newEdges, Collection<Edge> delEdges, Rule rule,
 									Collection<Node> extractNodeFromMatch,
 									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch) {
@@ -483,38 +491,37 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			}
 			
 			// Can we reuse the edge
-			for(Edge delEdge : new HashSet<Edge>(delEdges))
-				if(edge.getEdgeType().getAllMembers().isEmpty() && delEdge.getEdgeType().getAllMembers().isEmpty()) {
-					// We can reuse the edge instead of deleting it!
-					// This is a veritable performance optimization, as object creation is costly
-					
-					String de = formatEntity(delEdge);
-					String src = formatEntity(src_node);
-					String tgt = formatEntity(tgt_node);
-					
-					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
-					
-					sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
-					
-					if(rule.getLeft().getSource(delEdge)!=src_node)
-						sb2.append(src + ", ");
-					else
-						sb2.append("null, ");
-					
-					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-						sb2.append(tgt + ", ");
-					else
-						sb2.append("null, ");
-					
-					if(delEdge.getType() != edge.getType() || edge.inheritsType())
-						sb2.append(type);
-					
-					sb2.append(");\n");
-					
-					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
-					extractEdgeFromMatch.add(delEdge);
-					continue NE;
-				}
+			for(Edge delEdge : new HashSet<Edge>(delEdges)) {
+				// We can reuse the edge instead of deleting it!
+				// This is a veritable performance optimization, as object creation is costly
+				
+				String de = formatEntity(delEdge);
+				String src = formatEntity(src_node);
+				String tgt = formatEntity(tgt_node);
+				
+				sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
+				
+				sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
+				
+				if(rule.getLeft().getSource(delEdge)!=src_node)
+					sb2.append(src + ", ");
+				else
+					sb2.append("null, ");
+				
+				if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+					sb2.append(tgt + ", ");
+				else
+					sb2.append("null, ");
+				
+				if(delEdge.getType() != edge.getType() || edge.inheritsType())
+					sb2.append(type);
+				
+				sb2.append(");\n");
+				
+				delEdges.remove(delEdge); // Do not delete the edge (it is reused)
+				extractEdgeFromMatch.add(delEdge);
+				continue NE;
+			}
 			
 			// Create the edge
 			sb2.append(
@@ -523,7 +530,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			);
 		}
 	}
-
+	
 	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes, Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch) {
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
@@ -1531,6 +1538,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 
