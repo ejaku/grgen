@@ -29,6 +29,7 @@ package de.unika.ipd.grgen.be.Csharp;
 
 
 import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
@@ -38,11 +39,6 @@ import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.util.Util;
 import java.io.File;
 import java.io.PrintStream;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
 public class SearchPlanBackend extends IDBase implements Backend, BackendFactory {
 	
@@ -315,6 +311,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genRuleModify(StringBuffer sb, Rule rule) {
 		StringBuffer sb2 = new StringBuffer();
+		StringBuffer sb3 = new StringBuffer();
 		
 		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
@@ -327,6 +324,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		Collection<Edge> extractEdgeFromMatch = new HashSet<Edge>();
 		Collection<Node> extractNodeTypeFromMatch = new HashSet<Node>();
 		Collection<Edge> extractEdgeTypeFromMatch = new HashSet<Edge>();
+		Collection<Node> extractNodeAttributeObject = new HashSet<Node>();
+		Collection<Edge> extractEdgeAttributeObject = new HashSet<Edge>();
 		
 		newNodes.removeAll(rule.getCommonNodes());
 		newEdges.removeAll(rule.getCommonEdges());
@@ -336,23 +335,133 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		
 		// new nodes
-		for(Node node : newNodes) {
-			String type;
-			
-			if(node.inheritsType()) {
-				type = formatEntity(node.getTypeof()) + "_type";
-				extractNodeFromMatch.add(node.getTypeof());
-				extractNodeTypeFromMatch.add(node.getTypeof());
-			} else {
-				type = formatType(node.getType()) + ".typeVar";
-			}
-			sb2.append(
-				"\t\t\tLGSPNode " + formatEntity(node) + " = graph.AddNode(" +
-					type + ");\n"
-			);
-		}
+		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch, extractNodeTypeFromMatch);
 		
 		// new edges
+		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch, extractEdgeFromMatch, extractEdgeTypeFromMatch);
+		
+		// node type changes
+		for(Node node : rule.getRight().getNodes())
+			if(node.changesType()) {
+				String new_type;
+				RetypedNode rnode = node.getRetypedNode();
+				
+				if(rnode.inheritsType()) {
+					new_type = formatEntity(rnode.getTypeof()) + "_type";
+					extractNodeFromMatch.add(rnode.getTypeof());
+					extractNodeTypeFromMatch.add(node.getTypeof());
+				} else {
+					new_type = formatType(rnode.getType()) + ".typeVar";
+				}
+				
+				extractNodeFromMatch.add(node);
+				extractNodeAttributeObject.add(node);
+				sb3.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
+			}
+		
+		// edge type changes
+		for(Edge edge : rule.getRight().getEdges())
+			if(edge.changesType()) {
+				String new_type;
+				RetypedEdge redge = edge.getRetypedEdge();
+				
+				if(edge.inheritsType()) {
+					new_type = formatEntity(redge.getTypeof()) + "_type";
+					extractEdgeFromMatch.add(redge.getTypeof());
+					extractEdgeTypeFromMatch.add(edge.getTypeof());
+				} else {
+					new_type = formatType(redge.getType()) + ".typeVar";
+				}
+				
+				extractEdgeFromMatch.add(edge);
+				extractEdgeAttributeObject.add(edge);
+				sb3.append("\t\t\tgraph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
+			}
+		
+		// attribute re-calc
+		genEvals(sb3, rule, extractNodeAttributeObject, extractEdgeAttributeObject);
+		extractNodeFromMatch.addAll(extractNodeAttributeObject);
+		extractEdgeFromMatch.addAll(extractEdgeAttributeObject);
+		
+		// remove edges
+		for(Edge edge : delEdges) {
+			extractEdgeFromMatch.add(edge);
+			sb3.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
+		}
+		
+		// remove nodes
+		for(Node node : delNodes) {
+			extractNodeFromMatch.add(node);
+			sb3.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
+			sb3.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
+		}
+		
+		// return parameter (output)
+		//extractNodeFromMatch.addAll(rule.getReturns());
+		if(rule.getReturns().isEmpty())
+			sb3.append("\t\t\treturn RulePattern.EmptyReturnElements;\n");
+		else {
+			sb3.append("\t\t\treturn new IGraphElement[] { ");
+			for(Entity ent : rule.getReturns()) {
+				if(ent instanceof Node)
+					extractNodeFromMatch.add((Node)ent);
+				else if(ent instanceof Edge)
+					extractEdgeFromMatch.add((Edge)ent);
+				else
+					throw new IllegalArgumentException("unknown Entity: " + ent);
+				sb3.append(formatEntity(ent) + ", ");
+			}
+			sb3.append("};\n");
+		}
+		
+		sb3.append("\t\t}\n");
+		
+		// nodes needed from match
+		extractNodeFromMatch.removeAll(newNodes);
+		extractEdgeFromMatch.removeAll(newEdges);
+		
+		for(Node node : extractNodeFromMatch)
+			if(node.isRetyped())
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
+			else
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
+		for(Edge edge : extractEdgeFromMatch)
+			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+		
+		for(Node node : extractNodeTypeFromMatch)
+			sb.append("\t\t\tITypeFramework " + formatEntity(node) + "_type = " + formatEntity(node) + ".type;\n");
+		for(Edge edge : extractEdgeTypeFromMatch)
+			sb.append("\t\t\tITypeFramework " + formatEntity(edge) + "_type = " + formatEntity(edge) + ".type;\n");
+		
+		// get attribute objects for all non added graph elements
+		for(Node node : extractNodeAttributeObject)
+			if(!newNodes.contains(node)) {
+				genAttributeObject(sb, node);
+			}
+		for(Edge edge : extractEdgeAttributeObject)
+			if(!newEdges.contains(edge)) {
+				genAttributeObject(sb, edge);
+			}
+		
+		sb.append(sb2);
+		
+		// get attribute objects for all added graph elements
+		for(Node node : extractNodeAttributeObject)
+			if(newNodes.contains(node)) {
+				genAttributeObject(sb, node);
+			}
+		for(Edge edge : extractEdgeAttributeObject)
+			if(newEdges.contains(edge)) {
+				genAttributeObject(sb, edge);
+			}
+		
+		
+		sb.append(sb3);
+	}
+
+	private void genRewriteNewEdges(StringBuffer sb2, Collection<Edge> newEdges, Collection<Edge> delEdges, Rule rule,
+									Collection<Node> extractNodeFromMatch,
+									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch) {
 		NE:	for(Edge edge : newEdges) {
 			Node src_node = rule.getRight().getSource(edge);
 			Node tgt_node = rule.getRight().getTarget(edge);
@@ -385,16 +494,22 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					
 					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
 					
+					sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
+					
+					if(rule.getLeft().getSource(delEdge)!=src_node)
+						sb2.append(src + ", ");
+					else
+						sb2.append("null, ");
+					
+					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+						sb2.append(tgt + ", ");
+					else
+						sb2.append("null, ");
+					
 					if(delEdge.getType() != edge.getType() || edge.inheritsType())
-						sb2.append("\t\t\tgraph.RetypeEdge(" + de + ", " + type + ");\n");
-					if(rule.getLeft().getSource(delEdge)!=src_node) {
-						if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-							sb2.append("\t\t\tgraph.RerouteEdge(" + de + ", " + src + ", " + tgt + ");\n");
-						else
-							sb2.append("\t\t\tgraph.RerouteSource(" + de + ", " + src + ");\n");
-					}
-					else if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-						sb2.append("\t\t\tgraph.RerouteTarget(" + de + ", " + tgt + ");\n");
+						sb2.append(type);
+					
+					sb2.append(");\n");
 					
 					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
 					extractEdgeFromMatch.add(delEdge);
@@ -407,108 +522,87 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 			);
 		}
-		
-		// node type changes
-		for(Node node : rule.getRight().getNodes())
-			if(node.changesType()) {
-				String new_type;
-				RetypedNode rnode = node.getRetypedNode();
-				
-				if(rnode.inheritsType()) {
-					new_type = formatEntity(rnode.getTypeof()) + "_type";
-					extractNodeFromMatch.add(rnode.getTypeof());
-					extractNodeTypeFromMatch.add(node.getTypeof());
-				} else {
-					new_type = formatType(rnode.getType()) + ".typeVar";
+	}
+
+	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes, Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch) {
+		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
+		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
+		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+			Node node = i.next();
+			// Can we reuse the node
+			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+				Node delNode = j.next();
+				if(delNode.getNodeType() == node.getNodeType()) {
+					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
+					delNodes.remove(delNode);
+					j.remove();
+					i.remove();
+					continue NN;
 				}
-				
-				extractNodeFromMatch.add(node);
-				sb2.append("\t\t\tINode_" + formatIdentifiable(node.getType()));
-				sb2.append(" " + formatEntity(node) + "_attributes = ");
-				sb2.append("(INode_" + formatIdentifiable(node.getType()) + ") ");
-				sb2.append("graph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
-				// TODO fix attribute access for all nodes in evals
 			}
-		
-		// edge type changes
-		for(Edge edge : rule.getRight().getEdges())
-			if(edge.changesType()) {
-				String new_type;
-				RetypedEdge redge = edge.getRetypedEdge();
-				
-				if(edge.inheritsType()) {
-					new_type = formatEntity(redge.getTypeof()) + "_type";
-					extractEdgeFromMatch.add(redge.getTypeof());
-					extractEdgeTypeFromMatch.add(edge.getTypeof());
-				} else {
-					new_type = formatType(redge.getType()) + ".typeVar";
+		}
+		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+			Node node = i.next();
+			// Can we reuse the node
+			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+				Node delNode = j.next();
+				if(!delNode.getNodeType().getAllMembers().isEmpty()) {
+					String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
+					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+					delNodes.remove(delNode);
+					j.remove();
+					i.remove();
+					continue NN;
 				}
-				
-				extractEdgeFromMatch.add(edge);
-				sb2.append("\t\t\tIEdge_" + formatIdentifiable(edge.getType()));
-				sb2.append(" " + formatEntity(edge) + "_attributes = ");
-				sb2.append("(IEdge_" + formatIdentifiable(edge.getType()) + ") ");
-				sb2.append("graph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
-				// TODO fix attribute access for all edges in evals
 			}
-		
-		// attribute re-calc
-		genEvals(sb2, rule, extractNodeFromMatch, extractEdgeFromMatch);
-		
-		// remove edges
-		for(Edge edge : delEdges) {
-			extractEdgeFromMatch.add(edge);
-			sb2.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
 		}
-		
-		// remove nodes
-		for(Node node : delNodes) {
-			extractNodeFromMatch.add(node);
-			sb2.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
-			sb2.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
-		}
-		
-		// return parameter (output)
-		//extractNodeFromMatch.addAll(rule.getReturns());
-		if(rule.getReturns().isEmpty())
-			sb2.append("\t\t\treturn RulePattern.EmptyReturnElements;\n");
-		else {
-			sb2.append("\t\t\treturn new IGraphElement[] { ");
-			for(Entity ent : rule.getReturns()) {
-				if(ent instanceof Node)
-					extractNodeFromMatch.add((Node)ent);
-				else if(ent instanceof Edge)
-					extractEdgeFromMatch.add((Edge)ent);
-				else
-					throw new IllegalArgumentException("unknown Entity: " + ent);
-				sb2.append(formatEntity(ent) + ", ");
+		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+			Node node = i.next();
+			String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
+			// Can we reuse the node
+			if(!tmpDelNodes.isEmpty()) {
+				Node delNode = tmpDelNodes.getFirst();
+				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+				delNodes.remove(delNode);
+				tmpDelNodes.removeFirst();
+				i.remove();
+				continue NN;
 			}
-			sb2.append("};\n");
+			sb2.append(
+				"\t\t\tLGSPNode " + formatEntity(node) + " = graph.AddNode(" +
+					type + ");\n"
+			);
 		}
-		
-		sb2.append("\t\t}\n");
-		
-		// nodes needed from match
-		extractNodeFromMatch.removeAll(newNodes);
-		extractEdgeFromMatch.removeAll(newEdges);
-		
-		for(Node node : extractNodeFromMatch)
-			if(node.isRetyped())
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
-			else
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
-		for(Edge edge : extractEdgeFromMatch)
-			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
-		
-		for(Node node : extractNodeTypeFromMatch)
-			sb.append("\t\t\tITypeFramework " + formatEntity(node) + "_type = " + formatEntity(node) + ".type;\n");
-		for(Edge edge : extractEdgeTypeFromMatch)
-			sb.append("\t\t\tITypeFramework " + formatEntity(edge) + "_type = " + formatEntity(edge) + ".type;\n");
-		
-		sb.append(sb2);
 	}
 	
-	private void genEvals(StringBuffer sb, Rule rule, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
+	private String computeGraphEntityType(Node node, Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch) {
+		String type;
+		if(node.inheritsType()) {
+			type = formatEntity(node.getTypeof()) + "_type";
+			extractNodeFromMatch.add(node.getTypeof());
+			extractNodeTypeFromMatch.add(node.getTypeof());
+		} else {
+			type = formatType(node.getType()) + ".typeVar";
+		}
+		return type;
+	}
+	
+	private void genAttributeObject(StringBuffer sb, Edge edge) {
+		sb.append("\t\t\tIEdge_" + formatIdentifiable(edge.getType()));
+		sb.append(" " + formatEntity(edge) + "_attributes = ");
+		sb.append("(IEdge_" + formatIdentifiable(edge.getType()) + ") ");
+		sb.append(formatEntity(edge) + ".attributes;\n");
+	}
+	
+	private void genAttributeObject(StringBuffer sb, Node node) {
+		sb.append("\t\t\tINode_" + formatIdentifiable(node.getType()));
+		sb.append(" " + formatEntity(node) + "_attributes = ");
+		sb.append("(INode_" + formatIdentifiable(node.getType()) + ") ");
+		sb.append(formatEntity(node) + ".attributes;\n");
+	}
+	
+	private void genEvals(StringBuffer sb, Rule rule,
+						  Collection<Node> neededNode, Collection<Edge> neededEdge) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false;
 		for(Assignment ass : rule.getEvals()) {
 			String varName, varType;
@@ -544,28 +638,28 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					throw new IllegalArgumentException();
 			}
 			
-			sb.append("\t\t\t" + varType + " " + varName + " = ");
+			sb.append("\t\t\t" + varType + varName + " = ");
 			if(ass.getTarget().getType() instanceof EnumType)
 				sb.append("(int) ");
-			genConditionEval(sb, ass.getExpression(), extractNodeFromMatch, extractEdgeFromMatch);
+			genConditionEval(sb, ass.getExpression(), neededNode, neededEdge);
 			sb.append(";\n");
 			
 			if(entity instanceof Node) {
 				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatEntity((Node)entity) +
 							  ", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
 							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+				genConditionEval(sb, ass.getTarget(), neededNode, neededEdge);
 				sb.append(", " + varName + ");\n");
 			} else if(entity instanceof Edge) {
 				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEntity((Edge)entity) +
 							  ", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
 							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
-				genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+				genConditionEval(sb, ass.getTarget(), neededNode, neededEdge);
 				sb.append(", " + varName + ");\n");
 			}
 			
 			sb.append("\t\t\t");
-			genConditionEval(sb, ass.getTarget(), extractNodeFromMatch, extractEdgeFromMatch);
+			genConditionEval(sb, ass.getTarget(), neededNode, neededEdge);
 			sb.append(" = ");
 			if(ass.getTarget().getType() instanceof EnumType)
 				sb.append("(ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
@@ -1116,28 +1210,29 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append("\t\tpublic static AttributeType " + formatAttributeTypeName(member) + ";\n");
 	}
 	
-	private strictfp void genConditionEval(StringBuffer sb, Expression cond, Collection<Node> extractNodeFromMatch, Collection<Edge> extractEdgeFromMatch) {
+	private strictfp void genConditionEval(StringBuffer sb, Expression cond,
+										   Collection<Node> neededNode, Collection<Edge> neededEdge) {
 		if(cond instanceof Operator) {
 			Operator op = (Operator)cond;
 			switch (op.arity()) {
 				case 1:
 					sb.append("(" + opSymbols[op.getOpCode()] + " ");
-					genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
+					genConditionEval(sb, op.getOperand(0), neededNode, neededEdge);
 					sb.append(")");
 					break;
 				case 2:
-					genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
+					genConditionEval(sb, op.getOperand(0), neededNode, neededEdge);
 					sb.append(" " + opSymbols[op.getOpCode()] + " ");
-					genConditionEval(sb, op.getOperand(1), extractNodeFromMatch, extractEdgeFromMatch);
+					genConditionEval(sb, op.getOperand(1), neededNode, neededEdge);
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
 						sb.append("(");
-						genConditionEval(sb, op.getOperand(0), extractNodeFromMatch, extractEdgeFromMatch);
+						genConditionEval(sb, op.getOperand(0), neededNode, neededEdge);
 						sb.append(") ? (");
-						genConditionEval(sb, op.getOperand(1), extractNodeFromMatch, extractEdgeFromMatch);
+						genConditionEval(sb, op.getOperand(1), neededNode, neededEdge);
 						sb.append(") : (");
-						genConditionEval(sb, op.getOperand(2), extractNodeFromMatch, extractEdgeFromMatch);
+						genConditionEval(sb, op.getOperand(2), neededNode, neededEdge);
 						sb.append(")");
 						break;
 					}
@@ -1149,9 +1244,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			Entity entity = qual.getOwner();
 			
 			if(entity instanceof Node)
-				genQualAccess((Node)entity, extractNodeFromMatch, sb, qual);
+				genQualAccess((Node)entity, neededNode, sb, qual);
 			else if (entity instanceof Edge)
-				genQualAccess((Edge)entity, extractEdgeFromMatch, sb, qual);
+				genQualAccess((Edge)entity, neededEdge, sb, qual);
 			else
 				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 		}
@@ -1196,43 +1291,30 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			Cast cast = (Cast) cond;
 			Type type = cast.getType();
 			String typeName = "";
-
+			
 			if (type instanceof IntType) typeName = "int";
 			if (type instanceof FloatType) typeName = "float";
 			if (type instanceof DoubleType) typeName = "double";
 			if (type instanceof StringType) typeName = "string";
 			if (type instanceof BooleanType) typeName = "bool";
-				
+			
 			assert(typeName.length() > 0) :
 				"This is either a forbidden cast, which should have been " +
 				"rejected on building the IR, or an allowed cast, which " +
 				"should have been processed by the above code.";
-
+			
 			sb.append("(" + typeName  + ") ");
-			genConditionEval(sb, cast.getExpression(), extractNodeFromMatch, extractEdgeFromMatch);
-		
-		
+			genConditionEval(sb, cast.getExpression(), neededNode, neededEdge);
+			
+			
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 	
-	private void genQualAccess(GraphEntity entity, Collection extractEntityFromMatch, StringBuffer sb, Qualification qual) {
-		if(extractEntityFromMatch != null && !entity.changesType())
-			extractEntityFromMatch.add(entity);
-		if(entity.changesType()) {
-			sb.append(formatEntity(entity));
-			sb.append("_attributes." + formatIdentifiable(qual.getMember()));
-		} else {
-			if(entity instanceof Edge)
-				sb.append("((IEdge_");
-			else if(entity instanceof Node)
-				sb.append("((INode_");
-			else
-				throw new IllegalArgumentException("Unknown Entity: " + entity);
-			sb.append(formatIdentifiable(entity.getType()) + ")");
-			sb.append(formatEntity(entity));
-			sb.append(".attributes)." + formatIdentifiable(qual.getMember()));
-		}
+	private void genQualAccess(GraphEntity entity, Collection neededGraphEntity, StringBuffer sb, Qualification qual) {
+		if(neededGraphEntity != null)
+			neededGraphEntity.add(entity);
+		sb.append(formatEntity(entity) + "_attributes." + formatIdentifiable(qual.getMember()));
 	}
 	
 	private void genIsA(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
