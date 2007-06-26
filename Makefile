@@ -36,3 +36,4 @@ dir:
 
 clean:
 	rm -rf build/* .generator_build .grammar
+	cd $(PARSER_DIR) && rm -f GRActionsParser.java GRActionsParserTokenTypes.java GRBaseParser.java GRBaseParserTokenTypes.java GRBaseTokenTypes.java GRLexer.java GRTypeParser.java GRTypeParserTokenTypes.java GRActionsParserTokenTypes.txt GRBaseParserTokenTypes.txt  GRTypeParserTokenTypes.txt expandedactions.g expandedtypes.g GRBaseParser.smap GRTypeParser.smap GRActionsParser.smap GRLexer.smap
