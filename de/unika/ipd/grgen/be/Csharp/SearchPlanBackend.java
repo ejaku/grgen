@@ -546,6 +546,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
+					extractNodeFromMatch.add(delNode);
 					continue NN;
 				}
 			}
@@ -561,6 +562,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
+					extractNodeFromMatch.add(delNode);
 					continue NN;
 				}
 			}
@@ -575,6 +577,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				delNodes.remove(delNode);
 				tmpDelNodes.removeFirst();
 				i.remove();
+				extractNodeFromMatch.add(delNode);
 				continue NN;
 			}
 			sb2.append(
