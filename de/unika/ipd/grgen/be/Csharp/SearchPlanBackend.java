@@ -515,6 +515,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				
 				if(delEdge.getType() != edge.getType() || edge.inheritsType())
 					sb2.append(type);
+				else
+					sb2.append("null");
 				
 				sb2.append(");\n");
 				
