@@ -503,17 +503,13 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				
 				sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
 				
-				if(rule.getLeft().getSource(delEdge)!=src_node) {
+				if(rule.getLeft().getSource(delEdge)!=src_node)
 					sb2.append(src + ", ");
-					extractNodeFromMatch.add(src_node);
-				}
 				else
 					sb2.append("null, ");
 				
-				if(rule.getLeft().getTarget(delEdge)!=tgt_node) {
+				if(rule.getLeft().getTarget(delEdge)!=tgt_node)
 					sb2.append(tgt + ", ");
-					extractNodeFromMatch.add(tgt_node);
-				}
 				else
 					sb2.append("null, ");
 				
@@ -546,7 +542,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
 				Node delNode = j.next();
 				if(delNode.getNodeType() == node.getNodeType()) {
-					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
+					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
@@ -562,7 +558,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				Node delNode = j.next();
 				if(!delNode.getNodeType().getAllMembers().isEmpty()) {
 					String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
-					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
@@ -577,7 +573,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			// Can we reuse the node
 			if(!tmpDelNodes.isEmpty()) {
 				Node delNode = tmpDelNodes.getFirst();
-				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
 				delNodes.remove(delNode);
 				tmpDelNodes.removeFirst();
 				i.remove();
