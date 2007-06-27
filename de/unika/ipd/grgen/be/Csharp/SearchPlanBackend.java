@@ -503,13 +503,17 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				
 				sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
 				
-				if(rule.getLeft().getSource(delEdge)!=src_node)
+				if(rule.getLeft().getSource(delEdge)!=src_node) {
 					sb2.append(src + ", ");
+					extractNodeFromMatch.add(src_node);
+				}
 				else
 					sb2.append("null, ");
 				
-				if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+				if(rule.getLeft().getTarget(delEdge)!=tgt_node) {
 					sb2.append(tgt + ", ");
+					extractNodeFromMatch.add(tgt_node);
+				}
 				else
 					sb2.append("null, ");
 				
@@ -1543,6 +1547,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 
