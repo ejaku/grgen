@@ -236,7 +236,7 @@ patternStmt [ Coords coords, BaseNode connCollect, BaseNode condCollect,
 		
 		newNegCount = negCount;
 	}
-	: patternConnections[coords,connCollect] SEMI
+	: patConnections[connCollect] SEMI
 	
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
 	  neg=patternBody[getCoords(p), negsInNegs] {
@@ -252,12 +252,156 @@ patternStmt [ Coords coords, BaseNode connCollect, BaseNode condCollect,
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	;
 
-patternConnections [ Coords coords, BaseNode connColl ]
-  { BaseNode n; }
-  : n=patternAnonNodeOcc[coords] (patternContinuation[n,connColl] | {
-  	connColl.addChild(new SingleNodeConnNode(n));
-  })
+patConnections [ BaseNode connColl ]
+  {
+    BaseNode n,e;
+    boolean forward = true;
+    NodeDeclNode dummyNode = env.getDummyNodeDecl();
+  }
+  : ( e=patForwardEdgeOcc { forward=true; } | e=patBackwardEdgeOcc { forward=false; } )
+    (
+        n=patNodeContinuation[connColl] {
+        	/* the edge declared by <code>e</code> dangles on the left */
+        	if (forward)
+        		connColl.addChild(new ConnectionNode(dummyNode, e, n));
+        	else
+        		connColl.addChild(new ConnectionNode(n, e, dummyNode));
+        }
+      | /* both target and source of the edge <code>e</code> dangle */ {
+    		connColl.addChild(new ConnectionNode(dummyNode, e, dummyNode));
+        }
+    )
+  | n=patNodeOcc ( patEdgeContinuation[n, connColl] {
+    	connColl.addChild(new SingleNodeConnNode(n));
+    })?
   ;
+
+patNodeContinuation [ BaseNode collect ] returns [ BaseNode res = env.initNode() ]
+  { BaseNode n; }
+  : res=patNodeOcc ( patEdgeContinuation[res, collect] )?
+  ;
+
+patEdgeContinuation [ BaseNode left, BaseNode collect ]
+  {
+    BaseNode n,e;
+	boolean forward = true;
+  }
+  : ( e=patForwardEdgeOcc { forward=true; } | e=patBackwardEdgeOcc { forward=false; } )
+    (
+    	  n=patNodeContinuation[collect] {
+    	  		if (forward)
+    	  			collect.addChild(new ConnectionNode(left, e, n));
+    	  		else
+    	  			collect.addChild(new ConnectionNode(n, e, left));
+    	  }
+    	| /* the edge declared by <code>res</code> dangles on the right */ {
+			    NodeDeclNode dummyNode = env.getDummyNodeDecl();
+    	  		if (forward)
+    	  			collect.addChild(new ConnectionNode(left, e, dummyNode));
+    	  		else
+    	  			collect.addChild(new ConnectionNode(dummyNode, e, left));
+    	  }
+    )
+  ;
+
+patNodeOcc returns [ BaseNode res = env.initNode() ]
+  : res=patAnonNodeOcc
+  | res=patKnownNodeOcc
+  ;
+
+patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
+  {
+  	BaseNode type = env.getNodeRoot();
+	BaseNode constr = TypeExprNode.getEmpty();
+  }
+  : d:DOT {
+		IdentNode id = env.defineAnonymousEntity("node", getCoords(d));
+		res = new NodeDeclNode(id, type, constr);
+    }
+  | c:COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN) {
+		IdentNode id = env.defineAnonymousEntity("node", getCoords(c));
+		res = new NodeDeclNode(id, type, constr);
+	}
+  ;
+
+patKnownNodeOcc returns [ BaseNode res = env.initNode() ]
+  : res = entIdentUse
+  | res = patNodeDecl
+  ;
+
+patNodeDecl returns [ BaseNode res = env.initNode() ]
+  {
+    IdentNode id, type;
+    BaseNode constr = TypeExprNode.getEmpty();
+  }
+  : id=entIdentDecl COLON
+    ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
+    (constr=typeConstraint)? {
+    	res = new NodeDeclNode(id, type, constr);
+    }
+  ;
+
+patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
+  {
+    BaseNode type = env.getEdgeRoot();
+    BaseNode constr = TypeExprNode.getEmpty();
+  }
+  : MINUS res=patEdgeDecl RARROW
+  | MINUS res=entIdentUse RARROW
+  | MINUS m:COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN) RARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+		res = new EdgeDeclNode(id, type, constr);
+    }
+  | mm:DOUBLE_RARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
+		res = new EdgeDeclNode(id, type, constr);
+    }
+  ;
+
+patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
+  {
+    BaseNode type = env.getEdgeRoot();
+    BaseNode constr = TypeExprNode.getEmpty();
+  }
+  : LARROW res=patEdgeDecl MINUS
+  | LARROW res=entIdentUse MINUS
+  | LARROW m:COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN) MINUS {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+		res = new EdgeDeclNode(id, type, constr);
+    }
+  | mm:DOUBLE_LARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
+		res = new EdgeDeclNode(id, type, constr);
+    }
+  ;
+
+patEdgeDecl returns [ BaseNode res = env.initNode() ]
+  {
+    IdentNode id, type;
+    BaseNode constr = TypeExprNode.getEmpty();
+  }
+  : id=entIdentDecl COLON
+    ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
+    (constr=typeConstraint)? {
+  		res = new EdgeDeclNode(id, type, constr);
+  }
+  ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * A statement defining some nodes/edges to be mactched potentially
@@ -271,93 +415,6 @@ homStatement returns [ BaseNode res = env.initNode() ]
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
 	;
 
-/**
- * A continuation is a list of edge node pairs or a list of these pair lists, comma
- * seperated and delimited by parantheses.
- * all produced connection nodes are appended to the collect node
- */
-patternContinuation [ BaseNode left, BaseNode collect ]
-  { BaseNode n; }
-  : n=patternPair[left, collect] (patternContinuation[n, collect])?
-  ;
-
-/**
- * An edge node pair.
- * This rule builds a connection node with the parameter left,
- * the edge and the patternNodeOcc
- * and appends this connection node to the children of coll.
- * The rule returns the right node (the one from the nodeOcc rule)
- * It also treats reversed edges (a <-- b).
- */
-patternPair [ BaseNode left, BaseNode coll ] returns [ BaseNode res = env.initNode() ]
-  {
-  	BaseNode e;
-  }
-	:	e=patternEdgeOcc res=patternAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
-			coll.addChild(new ConnectionNode(left, e, res));
-	  }
-	|	e=patternReversedEdge res=patternAnonNodeOcc[(de.unika.ipd.grgen.parser.antlr.Coords) e.getCoords()] {
-		  coll.addChild(new ConnectionNode(res, e, left));
-	  }
- 	;
-
-/**
- * The occurrence of a node in a pattern part is the usage of an
- * identifier (must be a declared node) or a pattern node declaration
- */
-patternNodeOcc returns [ BaseNode res = env.initNode() ]
-  : res=entIdentUse
-  | res=patternNodeDecl
-  ;
-
-/**
- * A potentially anonymous node occurence
- */
-patternAnonNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
-  : res=patternNodeOcc
-  | res=anonPatternNode[coords]
-  ;
-  
-/**
-  * An anonymous Node
-  */
-anonPatternNode [ Coords coords ] returns  [ BaseNode res = env.initNode() ]
-  {
-  	BaseNode type = env.getNodeRoot();
-	BaseNode constr = TypeExprNode.getEmpty();
-  }
-  : (COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN))? {
-		IdentNode id = env.defineAnonymousEntity("node", coords);
-		res = new NodeDeclNode(id, type, constr);
-	}
-  ;
-  	
-
-patternReversedEdge returns [ BaseNode res = env.initNode() ]
-  {
-	BaseNode type = env.getEdgeRoot();
-	BaseNode constr = TypeExprNode.getEmpty();
-  }
-  : LARROW res=patternEdgeDecl MINUS
-  | LARROW res=entIdentUse MINUS
-  | LARROW (COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN))? m:MINUS {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new EdgeDeclNode(id, type, constr);
-    }
-  ;
-
-patternEdgeOcc returns [ BaseNode res = env.initNode() ]
-	{
-		BaseNode type = env.getEdgeRoot();
-		BaseNode constr = TypeExprNode.getEmpty();
-	}
-  : MINUS res=patternEdgeDecl RARROW
-  | MINUS res=entIdentUse RARROW
-  | MINUS (COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN))? m:RARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new EdgeDeclNode(id, type, constr);
-  }
-  ;
 
 /**
  * Pattern bodies consist of connection nodes
@@ -441,8 +498,12 @@ replaceEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ BaseNode type = env.getEdgeRoot(); }
 	: MINUS res=replaceEdgeDecl RARROW
 	| MINUS res=entIdentUse RARROW
-	| m:MINUS (COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN))? RARROW {
+	| m:MINUS COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN) RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+		res = new EdgeDeclNode(id, type);
+	}
+	| mm:DOUBLE_RARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type);
 	}
 	;
@@ -451,8 +512,12 @@ replaceReversedEdge returns [ BaseNode res = env.initNode() ]
 	{ BaseNode type = env.getEdgeRoot(); }
 	: LARROW res=replaceEdgeDecl MINUS
 	| LARROW res=entIdentUse MINUS
-	| m:LARROW(COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN))? MINUS {
+	| m:LARROW COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN) MINUS {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+		res = new EdgeDeclNode(id, type);
+	}
+	| mm:DOUBLE_LARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type);
 	}
 	;
@@ -491,10 +556,14 @@ replaceAnonNodeOcc [ Coords coords ] returns [ BaseNode res = env.initNode() ]
 
 anonReplaceNode [ Coords coords ] returns [ BaseNode res = env.initNode() ]
   { BaseNode type = env.getNodeRoot(); }
-  : (COLON  (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN))? {
-	IdentNode id = env.defineAnonymousEntity("node", coords);
-	res = new NodeDeclNode(id, type);
-  }
+  : d:DOT {
+		IdentNode id = env.defineAnonymousEntity("node", getCoords(d));
+		res = new NodeDeclNode(id, type);
+    }
+  | (COLON  (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN))? {
+		IdentNode id = env.defineAnonymousEntity("node", coords);
+		res = new NodeDeclNode(id, type);
+    }
   ;
 
 
@@ -584,3 +653,4 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   | LPAREN res=typeAddExpr RPAREN
   ;
   
+

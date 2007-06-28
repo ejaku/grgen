@@ -39,7 +39,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
-	
+
 	private static final Resolver typeResolver =
 		new DeclResolver(new Class[] { NodeDeclNode.class, TypeDeclNode.class });
 	
@@ -58,6 +58,34 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	public NodeDeclNode(IdentNode id, BaseNode type) {
 		this(id, type, TypeExprNode.getEmpty());
+	}
+
+	/**
+	 * Yields a dummy <code>NodeDeclNode</code> needed for dangling edges as
+	 * dummy as dummy tgt or src node, respectively.
+	 */
+	public static NodeDeclNode getDummy(IdentNode id, BaseNode type)
+	{
+		NodeDeclNode res = new NodeDeclNode(id, type) {
+
+			public boolean isDummy()
+			{
+				return true;
+			}
+
+			public String toString()
+			{
+				return "a dummy node";
+			}
+		};
+		
+		res.setName("dummy node");
+		return res;
+	}
+	
+	public boolean isDummy()
+	{
+		return false;
 	}
 	
 	/**

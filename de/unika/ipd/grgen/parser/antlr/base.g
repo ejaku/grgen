@@ -87,7 +87,6 @@ options {
 		putOpId(LOR, OperatorSignature.LOG_OR);
 	};
     
-  
   private OpNode makeOp(antlr.Token t) {
    	Coords c = new Coords(t, this);
 		Integer opId = (Integer) opIds.get(new Integer(t.getType()));
@@ -117,7 +116,7 @@ options {
   protected Coords getCoords(antlr.Token tok) {
   	return new Coords(tok, this);
   }
-	
+  
   protected final void reportError(de.unika.ipd.grgen.parser.Coords c, String s) {
     hadError = true;
     env.getSystem().getErrorReporter().error(c, s);

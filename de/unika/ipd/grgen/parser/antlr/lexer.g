@@ -127,6 +127,8 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW			:	"->"	;
 LARROW			:	"<-"	;
+DOUBLE_LARROW	:	"<--"	;
+DOUBLE_RARROW	:	"-->"	;
 BXOR			:	'^'		;
 BOR				:	'|'		;
 LOR				:	"||"	;
@@ -136,6 +138,13 @@ SEMI			:	';'		;
 BACKSLASH		:	'\\'	;
 PLUSPLUS		:	"++"	;
 MINUSMINUS		:	"--"	;
+
+/*
+MINUSMINUS
+  : ("-->") => "-->" { $setType(DOUBLE_RARROW); }
+  | "--"
+  ;
+*/
 
 // Whitespace -- ignored
 WS	:	(	' '
@@ -227,6 +236,7 @@ INCLUDE
 IDENT
 	options {testLiterals=true;}
 	:	('a'..'z'|'A'..'Z') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+
 
 
 

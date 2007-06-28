@@ -47,6 +47,7 @@ import de.unika.ipd.grgen.ast.NodeTypeNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.ast.NodeDeclNode;
 
 public abstract class ParserEnvironment extends Base {
 
@@ -244,6 +245,20 @@ public abstract class ParserEnvironment extends Base {
 	 */
 	public BaseNode initNode() {
 		return BaseNode.getErrorNode();
+	}
+	
+	private	NodeDeclNode dummyNodeDeclNode = null;
+	
+	public NodeDeclNode getDummyNodeDecl()
+	{
+		if ( dummyNodeDeclNode == null ) {
+			dummyNodeDeclNode = NodeDeclNode.getDummy(
+				defineAnonymousEntity("dummy_node", new Coords()),
+				this.getNodeRoot()
+			);
+		}
+		
+		return dummyNodeDeclNode;
 	}
 
 	/**
