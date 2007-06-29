@@ -1,0 +1,22 @@
+actions attrib_078 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni : NINT;
+		nb : NBOOL;
+		nf : NFLOAT;
+		nd : NDOUBLE;
+		ns : NSTRING;
+		-ei:EINT->;
+		-eb:EBOOL->;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-es:ESTRING->;
+	}
+	modify {
+		eval {
+			nb.a = nb.a + eb.a;
+		}
+	}
+}
+

@@ -1,0 +1,28 @@
+// A multiply inherited edge attribute should be
+// rejected when it comes from different non direct super classes
+
+model inh_attrib_model_004.gm;
+
+edge class Type1 {
+}
+
+edge class Type2 extends Type1 {
+	a : int;
+}
+
+edge class Type3 extends Type2 {
+}
+
+
+edge class Type4 extends Type1 {
+	a : int;
+}
+
+edge class Type5 extends Type4 {
+}
+
+
+edge class Type6 extends Type3, Type5 {
+}
+
+

@@ -1,0 +1,16 @@
+// A redeclaration of a directly inherited edge attribute should be rejected
+
+model inh_attrib_model_006.gm;
+
+edge class Type1 {
+}
+
+edge class Type2 extends Type1 {
+	a : int;
+}
+
+edge class Type3 extends Type2 {
+	a: int;
+}
+
+

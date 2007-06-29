@@ -1,0 +1,13 @@
+actions cast_004 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern {
+		x: NDOUBLE;
+		k: A;
+	}
+	modify {
+		eval {
+			k.e = (te) x.a;
+		}
+	}
+}
