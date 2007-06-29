@@ -1,0 +1,21 @@
+// A multiply inherited edge attribute should be rejected when 
+// it is declared on a single path through the class hierarchy
+
+model inh_attrib_model_016.gm;
+
+edge class Type1 {
+}
+
+edge class Type2 extends Type1 {
+	a : float;
+}
+
+edge class Type3 extends Type2 {
+}
+
+edge class Type4 extends Type3 {
+	a : float;
+}
+
+
+

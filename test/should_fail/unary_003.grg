@@ -1,0 +1,12 @@
+actions unary_003 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni: NINT;
+	}
+	modify {
+		eval {
+			ni.a = --- ni.a;
+		}
+	}
+}

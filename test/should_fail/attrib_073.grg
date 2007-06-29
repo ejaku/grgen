@@ -1,0 +1,23 @@
+actions attrib_073 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni : NINT;
+		nb : NBOOL;
+		nf : NFLOAT;
+		nd : NDOUBLE;
+		ns : NSTRING;
+		-ei:EINT->;
+		-eb:EBOOL->;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-es:ESTRING->;
+	}
+	modify {
+		eval {
+			//assignment of float to int without a cast
+			ef.a = 1.0;
+		}
+	}
+}
+

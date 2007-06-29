@@ -1,0 +1,12 @@
+actions cast_007 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern {
+		x: NINT;
+	}
+	modify {
+		eval {
+			x.a = (A) x.a;
+		}
+	}
+}

@@ -1,0 +1,9 @@
+actions inh_attrib_003 using inh_attrib_model_003;
+
+rule r {
+	pattern {
+	}
+	replace {
+	}
+}
+

@@ -1,0 +1,13 @@
+actions enum_001 using enum_model_001;
+
+rule r {
+	pattern {
+		a:A -b:B-> a;
+	}
+	modify {
+		eval {
+			b.i = a.e;
+		}
+	}
+}
+

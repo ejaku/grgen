@@ -1,0 +1,14 @@
+actions basic_062 using attrib_model_001;
+
+rule r {
+	pattern {
+		x: NBOOL;
+		q: Q;
+	}
+	modify {
+		eval {
+			x.a = false == q.a;
+		}
+	}
+}
+

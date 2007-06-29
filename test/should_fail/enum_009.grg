@@ -1,0 +1,15 @@
+//access to an undeclared enum type
+actions enum_009 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern {
+		x: NBOOL;
+		k: A;
+	}
+	modify {
+		eval {
+			x.a = te2::y == k.e;
+		}
+	}
+}
+

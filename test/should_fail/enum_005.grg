@@ -1,0 +1,11 @@
+// empty enum declarations are not allowed (see enum_model_002.gm)
+
+actions enum_001 using enum_model_002;
+
+rule r {
+	pattern {
+	}
+	modify {
+	}
+}
+

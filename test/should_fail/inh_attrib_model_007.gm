@@ -1,0 +1,21 @@
+// A multiply inherited node attribute should be rejected when 
+// it is declared on a single path through the class hierarchy
+
+model inh_attrib_model_007.gm;
+
+node class Type1 {
+}
+
+node class Type2 extends Type1 {
+	a : int;
+}
+
+node class Type3 extends Type2 {
+}
+
+node class Type4 extends Type3 {
+	a : int;
+}
+
+
+

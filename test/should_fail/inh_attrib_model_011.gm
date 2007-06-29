@@ -1,0 +1,28 @@
+// A multiply inherited node attribute should be
+// rejected when it comes from different non direct super classes
+
+model inh_attrib_model_011.gm;
+
+node class Type1 {
+}
+
+node class Type2 extends Type1 {
+	a : float;
+}
+
+node class Type3 extends Type2 {
+}
+
+
+node class Type4 extends Type1 {
+	a : float;
+}
+
+node class Type5 extends Type4 {
+}
+
+
+node class Type6  extends Type3, Type5 {
+}
+
+
