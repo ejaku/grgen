@@ -1,0 +1,21 @@
+actions rep_bug_001 using attrib_model_001;
+
+rule r {
+	pattern{
+		<-- :Node;
+		--> :Node;
+		:Node <--;
+		:Node -->;
+		<-- :Node -->;
+		<-- :Node <--;
+		--> :Node -->;
+		--> :Node <--;
+		--> :Node <-- :Node <--;
+		-->;
+	}
+
+	modify {
+	}
+}
+
+

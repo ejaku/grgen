@@ -1,0 +1,19 @@
+// A multiple node attribute declaration should be
+// accepted when it happens in a common super class
+
+model inh_attrib_model_001;
+
+node class Type1 {
+	a : int;
+}
+
+node class Type2 extends Type1 {
+}
+
+node class Type3 extends Type1 {
+}
+
+node class Type4 extends Type2, Type3 {
+}
+
+

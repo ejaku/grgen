@@ -32,10 +32,18 @@ rule r {
 			nf.a = nf.a + +ef.a;
 			nf.a = nf.a + -ef.a;
 
-			nf.a = ++nf.a;
-			nf.a = --nf.a;
-			nf.a = +++nf.a;
-			nf.a = ---nf.a;
+			nf.a = + + nf.a;
+			nf.a = - - nf.a;
+			nf.a = + + + nf.a;
+			nf.a = - - - nf.a;
+
+			nf.a = ~nf.a;
+			nf.a = ~~nf.a;
+			nf.a = ~~~nf.a;
+			nf.a = ~~~~nf.a;
+			nf.a = ~ ~ ~~ nf.a;
+
+			nf.a = + + + + - +-+- - - + +-+- +- nf.a;
 		}
 	}
 }

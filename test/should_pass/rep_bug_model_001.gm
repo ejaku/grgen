@@ -1,0 +1,9 @@
+model rep_bug_model_001;
+
+node class N1 {
+	a: int;
+}
+
+edge class E1 {
+	a: float;
+}

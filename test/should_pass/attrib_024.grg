@@ -32,10 +32,18 @@ rule r {
 			nd.a = nd.a + +ed.a;
 			nd.a = nd.a + -ed.a;
 
-			nd.a = ++nd.a;
-			nd.a = --nd.a;
-			nd.a = +++nd.a;
-			nd.a = ---nd.a;
+			nd.a = + + ni.a;
+			nd.a = - - ni.a;
+			nd.a = + + + ni.a;
+			nd.a = - - - ni.a;
+
+			nd.a = ~nd.a;
+			nd.a = ~~nd.a;
+			nd.a = ~~~nd.a;
+			nd.a = ~~~~nd.a;
+			nd.a = ~ ~ ~~ nd.a;
+
+			nd.a = + + + + - +-+- - - + +-+- +- nd.a;
 		}
 	}
 }

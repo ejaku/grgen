@@ -1,0 +1,23 @@
+//attributes of the same enumeration type should be comparable
+actions rep_bug_001 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern{
+		x: NINT;
+		k:A -l:B-> k;
+	}
+
+	replace {
+		eval {
+			x.a = (k.e == k.e) ? 0 : 1;
+			x.a = (k.e != k.e) ? 0 : 1;
+
+			x.a = (k.e == l.e) ? 0 : 1;
+			x.a = (k.e != l.e) ? 0 : 1;
+
+			x.a = (k.e == te::c) ? 0 : 1;
+			x.a = (l.e != te::c) ? 0 : 1;
+		}
+	}
+}
+

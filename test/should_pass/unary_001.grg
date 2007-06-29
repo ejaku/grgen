@@ -1,0 +1,47 @@
+actions unary_001 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern{
+		ni: NINT;
+		nf: NFLOAT;
+		nd: NDOUBLE;
+		ns: NSTRING;
+		nb: NBOOL;
+		k: A;
+	}
+	modify {
+		eval {
+			nd.a = - nd.a;
+			nd.a = + nd.a;
+			nd.a = - - nd.a;
+			nd.a = + + nd.a;
+			nd.a = - + nd.a;
+			nd.a = + - nd.a;
+			
+			nd.a = nd.a + - - nd.a;
+			nd.a = nd.a + + - nd.a;
+			nd.a = nd.a + - + nd.a;
+			nd.a = nd.a + + + nd.a;
+
+			nd.a = nd.a - + + nd.a;
+			nd.a = nd.a - + - nd.a;
+			nd.a = nd.a - - + nd.a;
+			nd.a = nd.a - - - nd.a;
+
+			nd.a = + - - + - nd.a;
+			nd.a = 42.0 + - - + - nd.a ;
+			nd.a = nd.a + - - + - nd.a;
+
+			nd.a = - + - - + - nd.a;
+			nd.a = 42.0 - + - - + - nd.a ;
+			nd.a = nd.a - + - - + - nd.a;
+
+			ni.a = ni.a + - - + - (int) k.e;
+			ni.a = 42 + - - + - (int) k.e;
+
+			ni.a = ni.a - + - - + - (int) k.e;
+			ni.a = 42 - + - - + - (int) k.e;
+		}
+	}
+}
+

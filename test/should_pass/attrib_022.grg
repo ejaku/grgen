@@ -31,6 +31,10 @@ rule r {
 
 			nb.a = !!nb.a;
 			nb.a = !!!nb.a;
+
+			nb.a = ! ! nb.a;
+			nb.a = ! ! ! nb.a;
+			nb.a = ! !! !!! !!nb.a;
 		}
 	}
 }

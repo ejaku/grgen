@@ -35,12 +35,18 @@ rule r {
 			ni.a = ni.a + -ei.a;
 			ni.a = ni.a + ~ei.a;
 
-			ni.a = ++ni.a;
-			ni.a = --ni.a;
+			ni.a = + + ni.a;
+			ni.a = - - ni.a;
+			ni.a = + + + ni.a;
+			ni.a = - - - ni.a;
+
+			ni.a = ~ni.a;
 			ni.a = ~~ni.a;
-			ni.a = +++ni.a;
-			ni.a = ---ni.a;
 			ni.a = ~~~ni.a;
+			ni.a = ~~~~ni.a;
+			ni.a = ~ ~ ~~ ni.a;
+
+			ni.a = + + + + - +-+- - - + +-+- +- ni.a;
 		}
 	}
 }

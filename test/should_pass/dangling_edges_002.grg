@@ -1,0 +1,42 @@
+actions loose_edges_002 using attrib_model_001;
+
+rule r {
+	pattern {
+		-->;
+		-:Edge->;
+		-bla:Edge->;
+		<--;
+		<-:Edge-;
+		<-blub:Edge-;
+		--> x:Node --> xx:Node -->;
+		<-- u:Node <-e:EINT- w:Node <--;
+		<-h:Edge- u <-ee:Edge- w <-g:Edge-;
+		-hh:Edge-> u <-eee:Edge- ww:Node -gg:Edge->;
+		--> u <-f:EINT- w <--;
+		<-- u <-- w -->;
+
+		-->.-->.-->;
+		<--.<--.<--;
+		-->.<--.<--;
+		<--.-->.-->;
+
+		<-ei:EINT-.-:EBOOL->.-->;
+		<-:EINT-.-eb:EBOOL->.-->;
+		<-:EINT-.-ebb:EBOOL->.-es:ESTRING->;
+	}
+	replace {
+		u;
+		w;
+		neu: NINT;
+		
+		-e->;
+		u <-f-;
+		neu<--.;
+		neu-->.;
+		.-->.;
+		.<--.;
+
+		eval { e.a = 815 * e.a; }
+	}
+}
+

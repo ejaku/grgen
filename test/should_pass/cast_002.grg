@@ -1,0 +1,96 @@
+// Type casts for primitive types
+actions cast_002 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern{
+		ni: NINT;
+		nf: NFLOAT;
+		nd: NDOUBLE;
+		ns: NSTRING;
+		nb: NBOOL;
+	}
+
+	replace {
+		eval {
+			//from boolean;
+			nb.a = (boolean) nb.a;
+			nb.a = nb.a == (boolean) nb.a;
+			nb.a = nb.a && (boolean) nb.a;
+			nb.a = nb.a & (boolean) nb.a;
+
+			ns.a = (string) nb.a;
+			nb.a = ns.a == (string) nb.a;
+			ns.a = ns.a + (string) nb.a;
+
+
+			//from int			
+			ni.a = (int) ni.a;
+			nb.a = ni.a == (int) ni.a;
+			ni.a = ni.a + (int) ni.a;
+			ni.a = - (int) ni.a;
+
+			nf.a = (float) ni.a;
+			nb.a = nf.a == (float) ni.a;
+			nf.a = nf.a + (float) ni.a;
+			nf.a = - (float) ni.a;
+
+			nd.a = (double) ni.a;
+			nb.a = nd.a == (double) ni.a;
+			nd.a = nd.a + (double) ni.a;
+			nd.a = - (double) ni.a;
+
+			ns.a = (string) ni.a;
+			nb.a = ns.a == (string) ni.a;
+			ns.a = ns.a + (string) ni.a;
+			
+			
+			//from float
+			ni.a = (int) nf.a;
+			nb.a = ni.a == (int) nf.a;
+			ni.a = ni.a + (int) nf.a;
+			ni.a = - (int) nf.a;
+
+			nf.a = (float) nf.a;
+			nb.a = nf.a == (float) nf.a;
+			nf.a = nf.a + (float) nf.a;
+			nf.a = - (float) nf.a;
+
+			nd.a = (double) nf.a;
+			nb.a = nd.a == (double) nf.a;
+			nd.a = nd.a + (double) nf.a;
+			nd.a = - (double) nf.a;
+
+			ns.a = (string) nf.a;
+			nb.a = ns.a == (string) nf.a;
+			ns.a = ns.a + (string) nf.a;
+			
+
+			//from double
+			ni.a = (int) nd.a;
+			nb.a = ni.a == (int) nd.a;
+			ni.a = ni.a + (int) nd.a;
+			ni.a = - (int) nd.a;
+
+			nf.a = (float) nd.a;
+			nb.a = nf.a == (float) nd.a;
+			nf.a = nf.a + (float) nd.a;
+			nf.a = - (float) nd.a;
+
+			nd.a = (double) nd.a;
+			nb.a = nd.a == (double) nd.a;
+			nd.a = nd.a + (double) nd.a;
+			nd.a = - (double) nd.a;
+
+			ns.a = (string) nd.a;
+			nb.a = ns.a == (string) nd.a;
+			ns.a = ns.a + (string) nd.a;
+
+
+			//from string
+			ns.a = (string) ns.a;
+			nb.a = ns.a == (string) ns.a;
+			ns.a = ns.a + (string) ns.a;
+		}
+	}
+}
+

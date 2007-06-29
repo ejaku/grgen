@@ -1,0 +1,22 @@
+// Type casts from enum types to primitive types
+actions cast_001 using attrib_model_001, enum_model_001;
+
+rule r {
+	pattern{
+		k: A;
+		ni: NINT;
+		nf: NFLOAT;
+		nd: NDOUBLE;
+		ns: NSTRING;
+	}
+
+	replace {
+		eval {
+			ni.a = (int) k.e;
+			nf.a = (float) k.e;
+			nd.a = (double) k.e;
+			ns.a = (string) k.e;
+		}
+	}
+}
+
