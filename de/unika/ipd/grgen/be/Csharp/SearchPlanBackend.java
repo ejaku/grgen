@@ -326,6 +326,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		Collection<Edge> extractEdgeTypeFromMatch = new HashSet<Edge>();
 		Collection<Node> extractNodeAttributeObject = new HashSet<Node>();
 		Collection<Edge> extractEdgeAttributeObject = new HashSet<Edge>();
+		List<Node> addedNodes = new ArrayList<Node>();
+		List<Edge> addedEdges = new ArrayList<Edge>();
 		
 		newNodes.removeAll(rule.getCommonNodes());
 		newEdges.removeAll(rule.getCommonEdges());
@@ -335,10 +337,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		
 		// new nodes
-		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch, extractNodeTypeFromMatch);
+		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch, extractNodeTypeFromMatch, addedNodes);
 		
 		// new edges
-		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch, extractEdgeFromMatch, extractEdgeTypeFromMatch);
+		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch, extractEdgeFromMatch, extractEdgeTypeFromMatch, addedEdges);
 		
 		// node type changes
 		for(Node node : rule.getRight().getNodes())
@@ -457,8 +459,19 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		
 		sb.append(sb3);
+		
+		genAddedGraphElementsArray(sb, true, addedNodes);
+		genAddedGraphElementsArray(sb, false, addedEdges);
 	}
-
+	
+	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {
+		String NodesOrEdges = isNode?"Nodes":"Edges";
+		sb.append("\t\tprivate static String[] added" + NodesOrEdges + "Names = new String[] ");
+		genSet(sb, set, "\"", "\"", true);
+		sb.append(";\n");
+		sb.append("\t\tpublic String[] Added" + NodesOrEdges + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
+	}
+	
 	//
 	// TODO: Choosing the right re-use partner is a complicated issue.
 	// The genRewriteNewEdges() function does not implement any optimization to improve these partners
@@ -469,8 +482,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	//
 	private void genRewriteNewEdges(StringBuffer sb2, Collection<Edge> newEdges, Collection<Edge> delEdges, Rule rule,
 									Collection<Node> extractNodeFromMatch,
-									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch) {
+									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch,
+									List<Edge> addedEdges) {
 		NE:	for(Edge edge : newEdges) {
+			addedEdges.add(edge);
 			Node src_node = rule.getRight().getSource(edge);
 			Node tgt_node = rule.getRight().getTarget(edge);
 			
@@ -533,7 +548,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		}
 	}
 	
-	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes, Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch) {
+	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes,
+									Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch,
+									List<Node> addedNodes) {
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
 		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
@@ -542,11 +559,13 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
 				Node delNode = j.next();
 				if(delNode.getNodeType() == node.getNodeType()) {
-					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
+					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
 					extractNodeFromMatch.add(delNode);
+					addedNodes.add(node);
 					continue NN;
 				}
 			}
@@ -558,22 +577,26 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				Node delNode = j.next();
 				if(!delNode.getNodeType().getAllMembers().isEmpty()) {
 					String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
-					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
 					delNodes.remove(delNode);
 					j.remove();
 					i.remove();
 					extractNodeFromMatch.add(delNode);
+					addedNodes.add(node);
 					continue NN;
 				}
 			}
 		}
 		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
 			Node node = i.next();
+			addedNodes.add(node);
 			String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
 			// Can we reuse the node
 			if(!tmpDelNodes.isEmpty()) {
 				Node delNode = tmpDelNodes.getFirst();
-				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = graph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
 				delNodes.remove(delNode);
 				tmpDelNodes.removeFirst();
 				i.remove();
