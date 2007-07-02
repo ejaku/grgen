@@ -46,6 +46,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	private static final Checker typeChecker =
 		new TypeChecker(EdgeTypeNode.class);
 	
+	protected boolean kept = false;
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
 		super(n, e, constraints);

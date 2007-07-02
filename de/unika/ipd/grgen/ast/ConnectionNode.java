@@ -115,6 +115,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		right = (NodeCharacter) getChild(RIGHT);
 		edge = (EdgeCharacter) getChild(EDGE);
 			
+		//TODO: null für dummy-Knoten
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
 	}
 	

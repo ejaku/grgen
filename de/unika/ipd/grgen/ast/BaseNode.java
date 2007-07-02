@@ -108,6 +108,10 @@ public abstract class BaseNode extends Base
 	/** Has this base node already be resolved. */
 	private boolean resolved = false;
 	
+	/** Reappears a pattern node or edge represented by this base node
+	 * in the replace/modify part? */
+	private boolean kept = false;
+	
 	/**
 	 * Strip the package name from the class name.
 	 * @param cls The class.
@@ -146,6 +150,22 @@ public abstract class BaseNode extends Base
 	 */
 	public static void setName(Class cls, String name) {
 		names.put(cls, name);
+	}
+	/**
+	 * tells whether the node or edge of the pattern part, that is represented
+	 * by a base node, occurs in the replace/modify part again
+	 */
+	public boolean isKept()
+	{
+		return kept;
+	}
+	/**
+	 * set whether the node or edge of the pattern part, that is represented
+	 * by a base node, occurs in the replace/modify part again
+	 */
+	public void setKept(boolean x)
+	{
+		kept = x;
 	}
 	
 	/**

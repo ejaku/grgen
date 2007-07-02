@@ -68,6 +68,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	{
 		NodeDeclNode res = new NodeDeclNode(id, type) {
 
+			public Node getNode()
+			{
+				return null;
+			}
+			
 			public boolean isDummy()
 			{
 				return true;
