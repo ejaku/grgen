@@ -211,7 +211,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t\tpublic Schedule_" + actionName + "()\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tActionName = \"" + actionName + "\";\n");
-		sb.append("\t\t\tRulePattern = Rule_" + actionName + ".Instance;\n");
+		sb.append("\t\t\tthis.RulePattern = Rule_" + actionName + ".Instance;\n");
 		genPrios(action, sb);
 		sb.append("\t\t}\n");
 		sb.append("\t}\n");
@@ -313,8 +313,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 		
-		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+//		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+		sb.append("\t\tpublic override IGraphElement[] Modify(IGraph igraph, IMatch imatch)\n");
 		sb.append("\t\t{\n");
+		sb.append("\t\t\tLGSPGraph graph = (LGSPGraph) igraph;\n");
+		sb.append("\t\t\tLGSPMatch match = (LGSPMatch) imatch;\n");
 		
 		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
 		Collection<Edge> newEdges = new HashSet<Edge>(rule.getRight().getEdges());
@@ -465,11 +468,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {
-		String NodesOrEdges = isNode?"Nodes":"Edges";
+		String NodesOrEdges = isNode?"Node":"Edge";
 		sb.append("\t\tprivate static String[] added" + NodesOrEdges + "Names = new String[] ");
 		genSet(sb, set, "\"", "\"", true);
 		sb.append(";\n");
-		sb.append("\t\tpublic String[] Added" + NodesOrEdges + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
+		sb.append("\t\tpublic override String[] Added" + NodesOrEdges + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 	
 	//
@@ -1566,6 +1569,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 
