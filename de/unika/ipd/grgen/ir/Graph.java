@@ -112,6 +112,8 @@ public class Graph extends IR {
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
 		
+		if (n == null) return null;
+		
 		// Do not include the virtual retyped nodes in the graph.
 		// TODO why??? we could just check in the generator whether this is a retyped node
 		// this would eliminate this unnecessary <code>changesType()</code> stuff
@@ -332,8 +334,8 @@ public class Graph extends IR {
 		GraphEdge e = getOrSetEdge(edge);
 		
 		// Update outgoing and incoming of the nodes.
-		l.outgoing.add(e);
-		r.incoming.add(e);
+		if (l != null) l.outgoing.add(e);
+		if (r != null) r.incoming.add(e);
 		
 		// Set the edge source and target
 		e.source = l;
