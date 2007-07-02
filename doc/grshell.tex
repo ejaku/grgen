@@ -22,7 +22,7 @@ May be one of the following:
 \end{itemize}
 \mbox{ }\\
 \emph{Number}\\
-Is an \texttt{int} or \texttt{float} constant in decimal notation (see also section~\ref{builtin}).
+Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{builtin}).
 
 \begin{rail} 
  Parameters : Text + ',' ;
@@ -37,18 +37,18 @@ In order to describe the commands more precisely, the following (semantic) speci
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
   \item[Action] Identifies a rule by its name.
-  \item[Color] One of the following \indexed{color} identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in \indexed{VCG}/\yComp\ files.
+  \item[Color] One of the following \indexed{color} identifiers: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{DarkGreen}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}. These are the same color identifiers as in \indexed{VCG}/\yComp\ files (for a VCG definition see~\cite{vcg}).
 \end{description}
 \makeatletter
 \begin{rail}
   GraphElement: Text | ('@' '(' Text ')')
 \end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
 \makeatother
-The elements of a graph (nodes and edges) can be accessed both by their \indexed{variable} identifier and by their \newterm{persistent name} specified through a constructor (see section~\ref{mani}).
+The elements of a graph (nodes and edges) can be accessed both by their \indexed{variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{mani}).
 The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
 \begin{example}
 \label{persistentex} 
-We insert a node, \indexed{anonymous}ly and with a \indexed{constructor}:
+We insert a node, \indexed{anonymous}ly and with a \indexed{constructor} (see also Section~\ref{mani}):
 \begin{grshell}
 > select backend lgspBackend.dll
 Backend selected successfully.
@@ -68,13 +68,13 @@ new node "start" of type "State" has been created.
 \end{grshell}
 \end{example}
 \begin{note}
-Persistent names belong to a specific graph whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see section~\ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see section~\ref{outputcmds}), graph elements will be \indexed{label}ed with their persistent names. Persistent names have to be unique for a graph.
+Persistent names belong to a specific graph whereas variables belong to the current \GrShell\ environment. Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}), graph elements will be \indexed{label}ed with their persistent names. Persistent names have to be unique for a graph.
 \end{note}
 
 \begin{rail}
   Variable '=' GraphElement   
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither types nor declarations.
+Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
 
 \section{\GrShell\ Commands}
 This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
@@ -118,7 +118,7 @@ Enables and disables the \indexed{debug mode}. The debug mode shows the current 
 \begin{rail}
   'debug' 'set' 'layout' (() | Text) ;
 \end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{layout}
-Sets the default graph \indexed{layout algorithm} to \emph{Text}. If \emph{Text} is omitted, a list of available layout algorithms is displayed. See section~\ref{tools:ycomp} on \yComp\ layouters.
+Sets the default graph \indexed{layout algorithm} to \emph{Text}. If \emph{Text} is omitted, a list of available layout algorithms is displayed. See Section~\ref{tools:ycomp} on \yComp\ layouters.
 
 \begin{rail}
   'echo' Text
@@ -128,7 +128,7 @@ Prints \emph{Text} onto the \GrShell\ command prompt.
 \begin{rail}
   '!' CommandLine
 \end{rail}\indexmain{\texttt{"!}}
-Passes \emph{CommandLine}\indexmain{command line} to the operating system. \emph{CommandLine} is an arbitrary text, the operating system attempts to execute.
+\emph{CommandLine}\indexmain{command line} is an arbitrary text, the operating system attempts to execute.
 \begin{example}
 On a Linux machine you might execute
 \begin{grshell}
@@ -157,7 +157,7 @@ Displays a list of currently available graphs.
 \begin{rail}
   'select' 'graph' Graph
 \end{rail}\ixkeyw{select}\ixkeyw{graph}
-Selects the current \indexed{working graph}. This graph acts as \emph{\indexed{host graph}} for graph rewrite sequences (see also sections~\ref{ov:whatsallabout} and~\ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
+Selects the current \indexed{working graph}. This graph acts as \emph{\indexed{host graph}} for graph rewrite sequences (see also Sections~\ref{ov:whatsallabout} and~\ref{grsthings}). Though you can define multiple graphs, only one graph can be the active ``working graph''.
 
 \begin{rail}
   'clear' 'graph' (() | Graph)
@@ -205,7 +205,7 @@ The graph is NOT valid:
 \begin{rail}
   'custom' 'graph' ( ( ) | SpacedParameters )
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}
-Executes a command specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSP backend see sections~\ref{custom}).
+Executes a command specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSP backend see Sections~\ref{custom}).
 
 \subsection{Graph Manipulation Commands}
 \label{mani}
@@ -215,8 +215,8 @@ Graph manipulation commands alter existing graphs including creating and deletin
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
   Attributes : AttributeName '=' (Text | Number) + ',' ;
 \end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}
-A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int $\leftarrow$ 0, enum $\leftarrow$ unspecified; boolean $\leftarrow$ false; float, double $\leftarrow$ 0.0; string $\leftarrow$ ``'').\\
-The \texttt{\$} is a special attribute name: a unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see example~\ref{persistentex}). This name can be specified by a constructor only.
+A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int $\leftarrow$ \texttt{0}, enum $\leftarrow$ unspecified; boolean $\leftarrow$ \texttt{false}; float, double $\leftarrow$ \texttt{0.0}; string $\leftarrow$ \texttt{""}).\\
+The \texttt{\$} is a special attribute name: a unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}). This name can be specified by a constructor only.
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
@@ -265,7 +265,7 @@ Gets the node/edge types of the current graph model.
 \begin{rail}
 'show' ('node' ('super' | 'sub') 'types' NodeType | 'edge' ('super' | 'sub') 'types' EdgeType)
 \end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{super}\ixkeyw{sub}\indexmain{inheritance}
-Gets the inherited/descended types of \emph{NodeType}/\emph{EdgeType}.
+Gets the inherited/descendant types of \emph{NodeType}/\emph{EdgeType}.
 
 \begin{rail}
   'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
@@ -300,15 +300,15 @@ Dumps\indexmain{dumping graph} the current graph as \GrShell\ script\indexmain{g
 \begin{itemize}
   \item selecting the backend
   \item creating all nodes and edges
-  \item restoring the persistent names (see section~\ref{mani})
+  \item restoring the persistent names (see Section~\ref{mani})
 \end{itemize}
 but not necessarily using the same commands you typed in during construction. 
-Such a script can be loaded and executed by the \texttt{include} command (see section~\ref{commcommands}).
+Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
 
 \begin{rail}
   'show' 'graph' Filename (() | Text)
 \end{rail}\ixkeyw{show}\ixkeyw{graph}
-Dumps the current graph as \indexed{VCG} formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use \yComp\footnote{See section~\ref{tools:ycomp}.}\indexmain{yComp} as executable, this may look like
+Dumps the current graph as \indexed{VCG} formatted file into a temporary file. \emph{Filename} specifies an executable. The temporary VCG file will be passed to \emph{Filename} as last parameter. Additional parameters, such as program options, can be specified by \emph{Text}. If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as executable, this may look like
 \begin{center}
   \includegraphics[width=0.75\linewidth]{fig/showgraph}
 \end{center}  
@@ -324,7 +324,7 @@ The following commands control the style of the VCG output. This affects \texttt
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text) ;
 \end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}
-Sets the \indexed{color}, text color, border color, or the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (for VCG definition see~\cite{vcg}).
+Sets the \indexed{color}, text color, border color, or the shape of the nodes of type \emph{NodeType} and all of its subtypes. The keyword \texttt{only} excludes the subtypes. The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}. Those are shape names of \yComp\ (for a VCG definition see~\cite{vcg}).
 
 \begin{rail}
   'dump' 'set' 'edge' (() | 'only') EdgeType ('color' | 'textcolor') Color ;
@@ -382,7 +382,7 @@ Lists all the rules of the loaded rule set, their parameters, and their return v
 \begin{rail}
   'custom' 'actions' (() | SpacedParameters)
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
-Executes an action specific to the current \indexed{backend}. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see section~\ref{custom}).
+Executes an action specific to the current \indexed{backend}. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see Section~\ref{custom}).
 
 \makeatletter
 \begin{rail}
@@ -401,7 +401,7 @@ This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 \end{rail}\ixnterm{SimpleRewriteSequence}\ixnterm{SimpleTerm}
 \makeatother
 \mbox{\quad}\\
-Table~\ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following \indexed{order of precedence}, starting with the lowest precedence: 
+Table~\ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following \indexed{order of precedence}, starting with the lowest priority: 
 \[ \text{\texttt{;}} \;\;\;\;\;\;\; \text{\texttt{|}} \;\;\;\;\;\;\;  \text{\texttt{\&}}\] 
 \makeatletter
 \begin{table}[htbp]
@@ -409,12 +409,12 @@ Table~\ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
 \texttt{s ; t}		& \textbf{Concatenation.} First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s ; t} is \emph{successfully} executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s | t}		& \textbf{XOR.} First execute \texttt{s}. Only if \texttt{s} fails execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s | t}		& \textbf{XOR.} First execute \texttt{s}. Only if \texttt{s} fails (i.e. can not be executed successfully) then execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
 \texttt{s \& t}	& \textbf{Transactional AND.} First execute \texttt{s}, afterwards execute \texttt{t}. If \texttt{s} or \texttt{t} fails, the action will be terminated and a rollback to the state before \texttt{s \& t} is performed.\\
 \texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
 \texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
-\texttt{!}		& Dump found matches into VCG formatted files. Every match produces three files within the current directory:
+\texttt{!}		& Dump found matches into VCG formatted files (for a VCG definition see~\cite{vcg}). Every match produces three files within the current directory:
 \begin{enumerate}
   \item The complete graph that has the matched graph elements marked
   \item The complete graph with additional information about matching details
@@ -441,14 +441,14 @@ Table~\ref{ruletab} lists graph rewrite expressions at a glance. The operators h
 Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
 The desired variable identifiers have to be listed in \emph{Parameters}. 
 Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
-For \indexed{undefined variables} see section~\ref{ruledecls}, \emph{Parameters}.
+For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
-Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process step-by-step. During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. The debugger can be controlled by \GrShell. The debug commands are shown in table~\ref{tabdebug}.\\
+Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process step-by-step. During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. The debugger can be controlled by \GrShell. The debug commands are shown in Table~\ref{tabdebug}.\\
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Execute the next rewrite rule (match and rewrite)\\
   \texttt{d}(etailed step) & Execute a rewrite rule in a three-step procedure: matching, highlighting elements to be changed, doing rewriting \\
-  \texttt{n}(ext) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (see example~\ref{ex:debug})\\
+  \texttt{n}(ext) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (see Example~\ref{ex:debug})\\
   (step) \texttt{o}(ut) & Continue a rewrite sequence until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed\\
   \texttt{r}(un) &  Continue execution without further stops\\
   \texttt{a}(bort) & Cancel the execution immediately\\ \hline 
@@ -465,7 +465,7 @@ Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process
 
 \begin{figure}[htbp]
 \begin{example}\label{ex:debug}  
-We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also section~\ref{fractals}). The graph rewriting sequence is
+We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
 \end{grshell}

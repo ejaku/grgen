@@ -1,11 +1,11 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
 
-In the following sections \emph{Ident} refers to an identifier of the graph model language (see section~\ref{modelbb}) or the rule set language (see section~\ref{rulebb}). \emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
+In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}). \emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
 \section{Built-In Types}
 \label{builtin}
-Besides user-defined node types, edge types, and enumeration types, \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in table~\ref{builtintypes}.
+Besides user-defined node types, edge types, and enumeration types, \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes}.
 The exact type format is \indexed{backend} specific. 
 The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types.
 \begin{table}[htbp]
@@ -48,7 +48,7 @@ Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed 
 The \texttt{!}\ operator negates a Boolean. 
 Table~\ref{tabboolops} lists the binary operators for Boolean expressions. 
 The \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
-The \emph{BinBoolOperator} is one of the operators in table~\ref{tabboolops}.
+The \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 These operators are supported by enum types, \texttt{int} types, and \texttt{float}/\texttt{double} types.
@@ -89,7 +89,7 @@ Table~\ref{compandtypes} describes the semantics of compare operators on \indexe
 The $\sim$ operator is the bitwise complement. 
 That means every bit of an integer value will be flipped. 
 The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
-The \emph{BinIntOperator} is one of the operators in table~\ref{tabbinops}.
+The \emph{BinIntOperator} is one of the operators in Table~\ref{tabbinops}.
 \begin{table}[htbp] 
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
@@ -107,7 +107,7 @@ The \emph{BinIntOperator} is one of the operators in table~\ref{tabbinops}.
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail}\ixnterm{FloatExpr}
 The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
-The \emph{BinFloatOperator} is one of the operators in table~\ref{tabfloatbinops}.
+The \emph{BinFloatOperator} is one of the operators in Table~\ref{tabfloatbinops}.
 \begin{table}[htbp] 
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
@@ -119,7 +119,7 @@ The \emph{BinFloatOperator} is one of the operators in table~\ref{tabfloatbinops
   \label{tabfloatbinops}
 \end{table}
 \begin{note}
-The \texttt{\%} operator works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}. \GrG\ implements the Java semantics. 
+The \texttt{\%} operator on float values works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}.
 \end{note}
 
 \begin{rail}
@@ -143,7 +143,9 @@ The operator \texttt{+} concatenates two strings.
 \begin{rail}
   TypeExpr: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
 \end{rail}\ixkeyw{typeof}\ixnterm{TypeExpr}
-A type expression identifies a type (and---in terms of matching---also its subtypes). A type expression is either a type identifier itself or the type of a graph element.
+A type expression identifies a type (and---in terms of matching---also its subtypes).
+A type expression is either a type identifier itself or the type of a graph element.
+The type expression \texttt{typeof(x)} stands for the type of the host graph element \texttt{x} is actually bound to.
 \begin{example}
 The following rule will add a reverse edge to a one-way street.
 \begin{grgen}

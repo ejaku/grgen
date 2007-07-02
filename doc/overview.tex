@@ -6,7 +6,7 @@
 
 {\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting.
 For the potentially expensive matching problem, {\scshape GrGen} applies several novel heuristic optimizations.
-According to \indexed{Varr\'o's benchmark} it is at least one order of magnitude faster than any other tool known to us.
+According to \indexed{Varr\'o's benchmark}, it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
@@ -47,7 +47,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item The rewrite language supports:
   \begin{itemize}
     \item Attribute re-calculation (using arithmetic operations on the attributes)
-    \item Retyping of nodes/edges (a stronger version of casts of common programming languages)
+    \item Retyping of nodes/edges (a stronger version of casts known from common programming languages)
     \item Creation of new nodes/edges of statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
@@ -104,8 +104,8 @@ Figure~\ref{figsys} gives an overview of the \GrG\ system components. Table~\ref
       \draw[->,dashed,red,>=triangle 45]     (grs)     -> (grsh);
       \draw[->,line width=1pt,>=triangle 45] (libgr)   -> (engine);
 
-      \draw[->,line width=1pt,>=triangle 45] (-1.25,5.5) -- +(2.5,0) node[above, midway] {call};
-      \draw[->,dashed,red,>=triangle 45] (-1.25,4.5)  -- +(2.5,0) node[above, midway] {read / generate};
+      \draw[->,line width=1pt,>=triangle 45] (-1.75,5.5) -- +(2.5,0) node[above, midway] {call};
+      \draw[->,dashed,red,>=triangle 45] (-1.75,4.5)  -- +(2.5,0) node[above, midway] {read / generate};
   \end{tikzpicture}
 	}
   \caption{\GrG\ system components~\cite{Kro:07}}
@@ -155,8 +155,8 @@ Figure~\ref{process} shows the generation process.
       \draw[->,line width=1pt,>=triangle 45]     (act)     -> (backend);
 
 
-      \draw[->,line width=1pt,>=triangle 45] (-1.25,3.0) -- +(2.5,0) node[above, midway] {referencing};
-      \draw[->,dashed,red,>=triangle 45]     (3.25,3.0)  -- +(2.5,0) node[above, midway] {read / generate};
+      \draw[->,line width=1pt,>=triangle 45] (-1.25,3.5) -- +(2.5,0) node[above, midway] {referencing};
+      \draw[->,dashed,red,>=triangle 45]     (3.25,3.5)  -- +(2.5,0) node[above, midway] {read / generate};
   \end{tikzpicture}
 	}
   \caption{Generating a graph rewrite system}
@@ -225,6 +225,8 @@ The outcome of these steps is the resulting graph $H'$. In symbolic language: $H
 \label{ov:example}
 
 We'll have a look at a small example. 
+Graph elements (nodes and edges) are labeled with and identifier.
+If a type is necessary then it is stated after a colon.
 We start using a special case to construct our host graph: an \indexed{empty pattern} always produces exactly one\footnote{Because of the uniqueness of the total and totally undefined morphism.} match (independent of the host graph). So we construct an apple by applying
 \[
   p_0:  
@@ -324,7 +326,7 @@ What happened?
 \GrG\ has arbitrarily chosen one match out of the set of possible matches, because $x$ matches edge $e_3$ as well as $e_1$.
 A correct solution could make use of edge type information. 
 We have to change rule $p_0$ to generate the edge $e_1$ with a special type ``stem''.
-And this time we'll even keep the stem. 
+And this time we will even keep the stem. 
 So let
 \[
   p_2:
@@ -426,7 +428,7 @@ The \GrShell\indexmain{GrShell} is a shell application of the \LibGr. \GrShell\ 
      Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script}\indexmain{graph rewrite script} (usually a \texttt{*\indexed{.grs}} file) immediately.  
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      \texttt{-c} & Execute the quoted \GrShell\ commands immediately. Instead of a line break use a double semicolon \texttt{;;} as command separation terminal.
+      \texttt{-c} & Execute the quoted \GrShell\ commands immediately. Instead of a line break use a double semicolon \texttt{;;} to separate commands.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above).
 \end{description}
