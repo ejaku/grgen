@@ -66,7 +66,7 @@ public class StreamHandler implements Handler {
 		else if (level == ErrorReporter.NOTE)
 			stream.print("NOTE ");
 
-		stream.println((loc.hasLocation() ? "at " + loc.getLocation() + "] ": "") + msg);
+		stream.println((loc.hasLocation() ? "at " + loc.getLocation() + "] ": "at ?] ") + msg);
 	}
 
   /**

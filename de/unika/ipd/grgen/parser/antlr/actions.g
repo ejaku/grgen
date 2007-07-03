@@ -386,22 +386,6 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
     { res = new EdgeDeclNode(id, type, constr); }
   ;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
  * A statement defining some nodes/edges to be mactched potentially
  * homomorphically
@@ -600,7 +584,7 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
     ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
     (LT oldid=entIdentUse GT {res.setKept(true);} )?
     {
-       if(oldid==null)
+       if( oldid == null )
            res = new EdgeDeclNode(id, type);
        else
            res = new EdgeTypeChangeNode(id, type, oldid);

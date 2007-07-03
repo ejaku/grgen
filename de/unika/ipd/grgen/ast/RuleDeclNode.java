@@ -30,6 +30,7 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * AST node for a replacement rule.
@@ -87,16 +88,109 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean childTypes = super.check() && checkChild(RIGHT, GraphNode.class)
+		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
 		
-		boolean returnParams = true;
+		//check wether the reused node and edges of the RHS are consistens with the LHS
+		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
+		GraphNode right = (GraphNode) getChild(RIGHT);
+		
+		boolean rightHandReuseOk = true;
+		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
+		for (BaseNode lc : left.getConnections())
+			for (BaseNode rc : right.getConnections()) {
+				
+				if (lc instanceof SingleNodeConnNode ||
+						rc instanceof SingleNodeConnNode ) continue;
+
+				ConnectionNode lConn = (ConnectionNode) lc;
+				ConnectionNode rConn = (ConnectionNode) rc;
+	
+				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
+				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
+				
+				if (re instanceof EdgeTypeChangeNode)
+					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+
+				if ( ! le.equals(re) ) continue;
+
+				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
+				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
+				NodeDeclNode rSrc = (NodeDeclNode) rConn.getSrc();
+				NodeDeclNode rTgt = (NodeDeclNode) rConn.getTgt();
+			
+				if (rSrc instanceof NodeTypeChangeNode)
+					rSrc = (NodeDeclNode) ((NodeTypeChangeNode)rSrc).getOldNode();
+				if (rTgt instanceof NodeTypeChangeNode)
+					rTgt = (NodeDeclNode) ((NodeTypeChangeNode)rTgt).getOldNode();
+				
+				if ( ! lSrc.isDummy() ) {
+
+					if ( rSrc.isDummy() ) {
+						if ( ! right.getNodes().contains(lSrc) && ! alreadyReported.contains(re) ) {
+							rightHandReuseOk = false;
+							rConn.reportError("dangling reused edge in the RHS are " +
+								"allowed only if all its incident nodes are reused, too");
+							alreadyReported.add(re);
+						}
+					}
+					else if (lSrc != rSrc) {
+						rightHandReuseOk = false;
+						rConn.reportError("reused edge does not connect the same nodes");
+						alreadyReported.add(re);
+					}
+					
+				}
+				
+				if ( ! lTgt.isDummy() ) {
+					if ( rTgt.isDummy() ) {
+						if ( ! right.getNodes().contains(lTgt) && ! alreadyReported.contains(re) ) {
+							rightHandReuseOk = false;
+							rConn.reportError("dangling reused edge in the RHS are " +
+								"allowed only if all its incident nodes are reused, too");
+							alreadyReported.add(re);
+						}
+					}
+					else if ( lTgt != rTgt ) {
+						rightHandReuseOk = false;
+						rConn.reportError("reused edge does not connect the same nodes");
+						alreadyReported.add(re);
+					}
+				}
+
+				if ( ! alreadyReported.contains(re) ) {
+					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
+						rightHandReuseOk = false;
+						rConn.reportError("reused edge dangles on LHS, but has a src node on RHS");
+						alreadyReported.add(re);
+					}
+					if ( lTgt.isDummy() && ! rTgt.isDummy() ) {
+						rightHandReuseOk = false;
+						rConn.reportError("reused edge dangles on LHS, but has a tgt node on RHS");
+						alreadyReported.add(re);
+					}
+				}
+			}
+		
+		
+
+		/*
+								if (oSrc instanceof NodeTypeChangeNode) {
+									oSrc = ((NodeTypeChangeNode) oSrc).getOldNode();
+								}
+								if (oTgt instanceof NodeTypeChangeNode) {
+									oTgt = ((NodeTypeChangeNode) oTgt).getOldNode();
+								}
+		 */
+		
+		
+		boolean returnParamsOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
 			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
-			returnParams = false;
+			returnParamsOk = false;
 		}
 		
-		return childTypes && returnParams;
+		return leftHandGraphsOk && rightHandReuseOk && returnParamsOk;
 	}
 	
 	

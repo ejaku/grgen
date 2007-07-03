@@ -37,12 +37,6 @@ rule r {
 			nd.a = + + + ni.a;
 			nd.a = - - - ni.a;
 
-			nd.a = ~nd.a;
-			nd.a = ~~nd.a;
-			nd.a = ~~~nd.a;
-			nd.a = ~~~~nd.a;
-			nd.a = ~ ~ ~~ nd.a;
-
 			nd.a = + + + + - +-+- - - + +-+- +- nd.a;
 		}
 	}

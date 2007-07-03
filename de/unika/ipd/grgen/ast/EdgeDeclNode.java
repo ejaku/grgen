@@ -126,3 +126,4 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		return "edge";
 	}
 }
+
