@@ -1,0 +1,13 @@
+actions dangle_002;
+
+rule r {
+	pattern {
+		x: Node;
+		y: Node;
+		x -e:Edge-> y;
+	}
+	replace{
+		y;
+		x-e->;
+	}
+}
