@@ -198,8 +198,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\n");
 		genActionConditions(sb, action);
 		sb.append("\n");
-		if(action instanceof Rule)
-			genRuleModify(sb, (Rule)action);
+		if(action instanceof Rule) {
+			genRuleModify(sb, (Rule)action, true);
+			genRuleModify(sb, (Rule)action, false);
+		}
 		else
 			throw new IllegalArgumentException("NYI. We cannot handle this type upto now! " + action);
 		sb.append("\t}\n");
@@ -309,12 +311,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		return i;
 	}
 	
-	private void genRuleModify(StringBuffer sb, Rule rule) {
+	private void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges) {
 		StringBuffer sb2 = new StringBuffer();
 		StringBuffer sb3 = new StringBuffer();
 		
-//		sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-		sb.append("\t\tpublic override IGraphElement[] Modify(IGraph igraph, IMatch imatch)\n");
+		sb.append("\t\tpublic override IGraphElement[] " + (reuseNodeAndEdges?"Modify":"ModifyNoReuse") + "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tLGSPGraph graph = (LGSPGraph) igraph;\n");
 		sb.append("\t\t\tLGSPMatch match = (LGSPMatch) imatch;\n");
@@ -340,10 +341,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		
 		// new nodes
-		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch, extractNodeTypeFromMatch, addedNodes);
+		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch, extractNodeTypeFromMatch, addedNodes, reuseNodeAndEdges);
 		
 		// new edges
-		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch, extractEdgeFromMatch, extractEdgeTypeFromMatch, addedEdges);
+		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch, extractEdgeFromMatch, extractEdgeTypeFromMatch, addedEdges, reuseNodeAndEdges);
 		
 		// node type changes
 		for(Node node : rule.getRight().getNodes())
@@ -463,8 +464,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		sb.append(sb3);
 		
-		genAddedGraphElementsArray(sb, true, addedNodes);
-		genAddedGraphElementsArray(sb, false, addedEdges);
+		if(reuseNodeAndEdges) { // we need this only once
+			genAddedGraphElementsArray(sb, true, addedNodes);
+			genAddedGraphElementsArray(sb, false, addedEdges);
+		}
 	}
 	
 	private void genAddedGraphElementsArray(StringBuffer sb, boolean isNode, Collection<? extends GraphEntity> set) {
@@ -486,7 +489,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genRewriteNewEdges(StringBuffer sb2, Collection<Edge> newEdges, Collection<Edge> delEdges, Rule rule,
 									Collection<Node> extractNodeFromMatch,
 									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch,
-									List<Edge> addedEdges) {
+									List<Edge> addedEdges, boolean reuseNodeAndEdges) {
 		NE:	for(Edge edge : newEdges) {
 			addedEdges.add(edge);
 			Node src_node = rule.getRight().getSource(edge);
@@ -508,39 +511,41 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				type = formatType(edge.getType()) + ".typeVar";
 			}
 			
-			// Can we reuse the edge
-			for(Edge delEdge : new HashSet<Edge>(delEdges)) {
-				// We can reuse the edge instead of deleting it!
-				// This is a veritable performance optimization, as object creation is costly
-				
-				String de = formatEntity(delEdge);
-				String src = formatEntity(src_node);
-				String tgt = formatEntity(tgt_node);
-				
-				sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
-				
-				sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
-				
-				if(rule.getLeft().getSource(delEdge)!=src_node)
-					sb2.append(src + ", ");
-				else
-					sb2.append("null, ");
-				
-				if(rule.getLeft().getTarget(delEdge)!=tgt_node)
-					sb2.append(tgt + ", ");
-				else
-					sb2.append("null, ");
-				
-				if(delEdge.getType() != edge.getType() || edge.inheritsType())
-					sb2.append(type);
-				else
-					sb2.append("null");
-				
-				sb2.append(");\n");
-				
-				delEdges.remove(delEdge); // Do not delete the edge (it is reused)
-				extractEdgeFromMatch.add(delEdge);
-				continue NE;
+			if(reuseNodeAndEdges) {
+				// Can we reuse the edge
+				for(Edge delEdge : new HashSet<Edge>(delEdges)) {
+					// We can reuse the edge instead of deleting it!
+					// This is a veritable performance optimization, as object creation is costly
+					
+					String de = formatEntity(delEdge);
+					String src = formatEntity(src_node);
+					String tgt = formatEntity(tgt_node);
+					
+					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
+					
+					sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
+					
+					if(rule.getLeft().getSource(delEdge)!=src_node)
+						sb2.append(src + ", ");
+					else
+						sb2.append("null, ");
+					
+					if(rule.getLeft().getTarget(delEdge)!=tgt_node)
+						sb2.append(tgt + ", ");
+					else
+						sb2.append("null, ");
+					
+					if(delEdge.getType() != edge.getType() || edge.inheritsType())
+						sb2.append(type);
+					else
+						sb2.append("null");
+					
+					sb2.append(");\n");
+					
+					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
+					extractEdgeFromMatch.add(delEdge);
+					continue NE;
+				}
 			}
 			
 			// Create the edge
@@ -553,41 +558,44 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes,
 									Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch,
-									List<Node> addedNodes) {
+									List<Node> addedNodes, boolean reuseNodeAndEdges) {
+		
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
-		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-			Node node = i.next();
-			// Can we reuse the node
-			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-				Node delNode = j.next();
-				if(delNode.getNodeType() == node.getNodeType()) {
-					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
-					delNodes.remove(delNode);
-					j.remove();
-					i.remove();
-					extractNodeFromMatch.add(delNode);
-					addedNodes.add(node);
-					continue NN;
+		if(reuseNodeAndEdges) {
+			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+				Node node = i.next();
+				// Can we reuse the node
+				for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+					Node delNode = j.next();
+					if(delNode.getNodeType() == node.getNodeType()) {
+						sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+						sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
+						delNodes.remove(delNode);
+						j.remove();
+						i.remove();
+						extractNodeFromMatch.add(delNode);
+						addedNodes.add(node);
+						continue NN;
+					}
 				}
 			}
-		}
-		NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-			Node node = i.next();
-			// Can we reuse the node
-			for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-				Node delNode = j.next();
-				if(!delNode.getNodeType().getAllMembers().isEmpty()) {
-					String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
-					sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-					sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
-					delNodes.remove(delNode);
-					j.remove();
-					i.remove();
-					extractNodeFromMatch.add(delNode);
-					addedNodes.add(node);
-					continue NN;
+			NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
+				Node node = i.next();
+				// Can we reuse the node
+				for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
+					Node delNode = j.next();
+					if(!delNode.getNodeType().getAllMembers().isEmpty()) {
+						String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
+						sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
+						sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
+						delNodes.remove(delNode);
+						j.remove();
+						i.remove();
+						extractNodeFromMatch.add(delNode);
+						addedNodes.add(node);
+						continue NN;
+					}
 				}
 			}
 		}
@@ -596,7 +604,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			addedNodes.add(node);
 			String type = computeGraphEntityType(node, extractNodeFromMatch, extractNodeTypeFromMatch);
 			// Can we reuse the node
-			if(!tmpDelNodes.isEmpty()) {
+			if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
 				Node delNode = tmpDelNodes.getFirst();
 				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
 				sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
