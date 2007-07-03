@@ -187,7 +187,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genRule(StringBuffer sb, MatchingAction action) {
 		String actionName = formatIdentifiable(action);
 		
-		sb.append("\tpublic class Rule_" + actionName + " : RulePattern\n");
+		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
 		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) instance = new Rule_" + actionName + "(); return instance; } }\n");
@@ -317,8 +317,6 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		sb.append("\t\tpublic override IGraphElement[] " + (reuseNodeAndEdges?"Modify":"ModifyNoReuse") + "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
-		sb.append("\t\t\tLGSPGraph graph = (LGSPGraph) igraph;\n");
-		sb.append("\t\t\tLGSPMatch match = (LGSPMatch) imatch;\n");
 		
 		Collection<Node> newNodes = new HashSet<Node>(rule.getRight().getNodes());
 		Collection<Edge> newEdges = new HashSet<Edge>(rule.getRight().getEdges());
@@ -1358,9 +1356,15 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private void genQualAccess(GraphEntity entity, Collection neededGraphEntity, StringBuffer sb, Qualification qual) {
-		if(neededGraphEntity != null)
+		if(neededGraphEntity != null) { // null iff qual access used in
 			neededGraphEntity.add(entity);
-		sb.append(formatEntity(entity) + "_attributes." + formatIdentifiable(qual.getMember()));
+			sb.append(formatEntity(entity) + "_attributes." + formatIdentifiable(qual.getMember()));
+		}
+		else {
+			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
+					formatIdentifiable(entity.getType()) + ") ");
+			sb.append(formatEntity(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
+		}
 	}
 	
 	private void genIsA(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
