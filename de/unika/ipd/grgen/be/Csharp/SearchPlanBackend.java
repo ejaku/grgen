@@ -246,7 +246,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		PatternGraph pattern = action.getPattern();
 		List<Entity> parameters = action.getParameters();
-		int condCnt = genPatternGraph(sb, null, pattern, "PatternGraph", 0, -1, parameters);
+		int condCnt = genPatternGraph(sb, null, pattern, "patternGraph", 0, -1, parameters);
 		sb.append("\n");
 		
 		i = 0;
@@ -258,7 +258,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append("\t\t\t}\n\n");
 		}
 		
-		sb.append("\t\t\tNegativePatternGraphs = new PatternGraph[] {");
+		sb.append("\t\t\tnegativePatternGraphs = new PatternGraph[] {");
 		for(i = 0; i < action.getNegs().size(); i++)
 			sb.append("negPattern_" + i + ", ");
 		sb.append("};\n");
@@ -269,13 +269,13 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private void genRuleParamResult(StringBuffer sb, Action action) {
-		sb.append("\t\t\tInputs = new IType[] { ");
+		sb.append("\t\t\tinputs = new IType[] { ");
 		if(action instanceof MatchingAction)
 			for(Entity ent : ((MatchingAction)action).getParameters())
 				sb.append(formatType(ent.getType()) + ".typeVar, ");
 		sb.append("};\n");
 		
-		sb.append("\t\t\tOutputs = new IType[] { ");
+		sb.append("\t\t\toutputs = new IType[] { ");
 		if(action instanceof MatchingAction)
 			for(Entity ent : ((MatchingAction)action).getReturns())
 				sb.append(formatType(ent.getType()) + ".typeVar, ");
@@ -403,7 +403,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// return parameter (output)
 		//extractNodeFromMatch.addAll(rule.getReturns());
 		if(rule.getReturns().isEmpty())
-			sb3.append("\t\t\treturn RulePattern.EmptyReturnElements;\n");
+			sb3.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
 			sb3.append("\t\t\treturn new IGraphElement[] { ");
 			for(Entity ent : rule.getReturns()) {
