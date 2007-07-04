@@ -4,10 +4,28 @@ rule r {
 	pattern {
 		x: Node;
 		y: Node;
+		a: Node;
+		b: Node;
+		
 		x -e:Edge-> y;
+		x -ee:Edge-> y;
+		y -f:Edge->;
+		y <-g:Edge-;
+		y <-gg:Edge-;
+
+		-h:Edge->;
+		<-i:Edge-;
+		-j:Edge->;
 	}
 	replace{
 		y;
 		x-e->;
+		<-ee-;
+		<-f-;
+		-g-> y <-gg-;
+
+		-h->;
+		-i->;
+		<-j-;
 	}
 }
