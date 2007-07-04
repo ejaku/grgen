@@ -134,6 +134,7 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
 A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions.
+\TODO{The ConnectAssertions of an edge type are connected by a disjunction, i.e. at least one of the assertions must be fulfilled. Improve this....}
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[$n$:*]} & The number of edges incident to a node of that type is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 
