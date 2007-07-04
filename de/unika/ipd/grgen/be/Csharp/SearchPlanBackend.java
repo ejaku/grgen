@@ -154,7 +154,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genRules() {
 		StringBuffer sb = new StringBuffer();
+//		String filename = Util.removePathPrefix(unit.getFilename() + ".cs");
 		String filename = formatIdentifiable(unit) + "Actions.cs";
+		
 		
 		System.out.println("  generating the "+filename+" file...");
 		

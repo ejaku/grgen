@@ -1,0 +1,14 @@
+actions param_004 using attrib_model_001;
+
+rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT, NINT, NSTRING) {
+	pattern {
+		if { ni.a == 1 && nb.a && nf.a != 42.0 && nd.a != 7.0 && ns.a == "Hi"; }
+		zi : NINT;
+		zzi : NINT;
+	}
+	replace {
+		xi : NINT;
+		return (zi, xi,  ns);
+	}
+}
+

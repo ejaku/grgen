@@ -73,7 +73,13 @@ text returns [ BaseNode main = env.initNode() ]
   		IdentNode id;
   		List modelList = new LinkedList();
   	}
-  	: ACTIONS id=entIdentDecl (USING identList[modelList])? SEMI {
+  	: ACTIONS id=entIdentDecl {
+  	  		if ( ! (id.toString() + ".grg").equals(env.getFilenameWithoutPath()) ) {
+  	  			id.reportError("filename \"" + env.getFilenameWithoutPath() +
+  	  				"\" does not conform with name \"" + id + "\" of this action set");
+  	  		}
+  	  }
+  	  (USING identList[modelList])? SEMI {
   	  
   	  modelChilds.addChild(env.getStdModel());
   	  

@@ -184,13 +184,47 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		boolean returnParamsOk = true;
+		boolean noReturnInPatternOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
 			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
-			returnParamsOk = false;
+			noReturnInPatternOk = false;
+		}
+
+		//check that only graph elems are returned that are not deleted
+		boolean returnsInRhsOk = true;
+		CollectNode returns = (CollectNode) right.getReturn();
+		for (BaseNode x : returns.getChildren()) {
+
+			IdentNode ident = (IdentNode) x;
+			DeclNode retElem = ident.getDecl();
+
+			if (retElem instanceof NodeDeclNode && !right.getNodes().contains(retElem) ) {
+				returnsInRhsOk = false;
+				if (
+					left.getNodes().contains(retElem) ||
+					getChild(PARAM).getChildren().contains(retElem)
+				)
+					((IdentNode)ident).reportError("deleted node \"" + ident + "\" must not be returned");
+				else
+					assert false: "the node \"" + ident + "\", that is even " +
+						"not a parameter and neither contained in LHS nor in " +
+						"RHS and, occurs in a return";
+			}
+			if (retElem instanceof EdgeDeclNode && !right.getNodes().contains(retElem) ) {
+				returnsInRhsOk = false;
+				if (
+					left.getEdges().contains(retElem) ||
+					getChild(PARAM).getChildren().contains(retElem)
+				)
+					((IdentNode)ident).reportError("deleted edge \"" + ident + "\" must not be returned");
+				else
+					assert false: "the edge \"" + ident + "\", that is even " +
+						"not a parameter and neither contained in LHS nor in " +
+						"RHS and, occurs in a return";
+			}
 		}
 		
-		return leftHandGraphsOk && rightHandReuseOk && returnParamsOk;
+		return leftHandGraphsOk && rightHandReuseOk && noReturnInPatternOk && returnsInRhsOk;
 	}
 	
 	
@@ -214,4 +248,5 @@ public class RuleDeclNode extends TestDeclNode {
 		return rule;
 	}
 }
+
 

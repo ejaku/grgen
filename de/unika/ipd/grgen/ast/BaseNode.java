@@ -419,6 +419,10 @@ public abstract class BaseNode extends Base
 		// error.error(getCoords(), "At " + getName() + ": " + msg + ".");
 		error.error(getCoords(), msg);
 	}
+	public final void reportWarning(String msg)
+	{
+		error.warning(getCoords(), msg);
+	}
 	
 	/**
 	 * Add a child to the children list.
@@ -838,6 +842,7 @@ public abstract class BaseNode extends Base
 	}
 
 }
+
 
 
 

@@ -423,11 +423,20 @@ public class Main extends Base implements Sys {
 		}
 		
 		if (ErrorReporter.getErrorCount() > 0) {
-			System.err.println("There were " + ErrorReporter.getErrorCount() + " error(s)");
+
+			if (ErrorReporter.getErrorCount() == 1)
+				System.err.println("There was " + ErrorReporter.getErrorCount() + " error(s)");
+			else
+				System.err.println("There were " + ErrorReporter.getErrorCount() + " error(s)");
+
 			System.exit(-1);
 		}
-		else if (ErrorReporter.getWarnCount() > 0)
-			System.err.println("There were " + ErrorReporter.getWarnCount() + " warning(s)");
+		else if (ErrorReporter.getWarnCount() > 0){
+			if (ErrorReporter.getWarnCount() == 1)
+				System.err.println("There was " + ErrorReporter.getWarnCount() + " warning(s)");
+			else
+				System.err.println("There were " + ErrorReporter.getWarnCount() + " warning(s)");
+		}
 	}
 	
 	/**

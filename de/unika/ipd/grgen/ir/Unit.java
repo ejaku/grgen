@@ -47,6 +47,7 @@ public class Unit extends Identifiable {
 
 	public Unit(Ident ident, String filename) {
 		super("unit", ident);
+		this.filename = filename;
 	}
 	
 	/**

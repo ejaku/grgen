@@ -36,6 +36,21 @@ import java.util.Vector;
 
 public class Util
 {
+	
+	/**
+	 * Removes from a filename the prefix that contains path information
+	 * @param    filename	a filename
+	 * @return   the filename without leading path
+	 */
+	public static String removePathPrefix(String filename)
+	{
+		String res = filename;
+		int lastSepPos = filename.lastIndexOf(File.separatorChar);
+		
+		if (lastSepPos < 0) return filename;
+		
+		return filename.substring(lastSepPos + 1);
+	}
 	public static File findFile(File[] paths, String file) {
 		for(int i = 0; i < paths.length; i++) {
 			File curr = new File(paths[i], file);

@@ -1,4 +1,4 @@
-actions param_001 using attrib_model_001;
+actions param_002 using attrib_model_001;
 
 rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT) {
 	pattern {

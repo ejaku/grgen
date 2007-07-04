@@ -48,6 +48,7 @@ import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.ast.NodeDeclNode;
+import de.unika.ipd.grgen.util.Util;
 
 public abstract class ParserEnvironment extends Base {
 
@@ -268,6 +269,11 @@ public abstract class ParserEnvironment extends Base {
 	 */
 	public IdentNode getDummyIdent() {
 		return IdentNode.getInvalid();
+	}
+	
+	public String getFilenameWithoutPath() {
+		String name = getFilename();
+		return Util.removePathPrefix(name);
 	}
 	
 	public abstract BaseNode parseActions(File inputFile);

@@ -124,6 +124,17 @@ public class GraphNode extends BaseNode {
 		return res;
 	}
 	
+	protected Set<BaseNode> getEdges() {
+		Set<BaseNode> res = new HashSet<BaseNode>();
+		
+		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter)n;
+			conn.addEdge(res);
+		}
+
+		return res;
+	}
+	
 	protected BaseNode getReturn() {
 		return getChild(RETURN);
 	}
