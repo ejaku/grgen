@@ -429,6 +429,13 @@ public abstract class BaseNode extends Base
 		n.parents.add(this);
 	}
 	
+	public final void setChild(int pos, BaseNode n) {
+		BaseNode oldChild = getChild(pos);
+		oldChild.parents.remove(this);
+		children.set(pos, n);
+		n.parents.add(this);
+	}
+	
 	/**
 	 * Add the children of another node to this one.
 	 * @param n The other node

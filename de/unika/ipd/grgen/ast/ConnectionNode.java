@@ -132,9 +132,16 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	public NodeCharacter getSrc() {
 		return (NodeCharacter) getChild(LEFT);
 	}
+	public void setSrc(NodeCharacter n) {
+		setChild(LEFT, (BaseNode)n);
+	}
 	
 	public NodeCharacter getTgt() {
 		return (NodeCharacter) getChild(RIGHT);
+	}
+
+	public void setTgt(NodeCharacter n) {
+		setChild(RIGHT, (BaseNode)n);
 	}
 
   /**

@@ -88,16 +88,20 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
+
 		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
 		
-		//check wether the reused node and edges of the RHS are consistens with the LHS
+		
+		/* Check wether the reused node and edges of the RHS are consistens with the LHS.
+		 * If consistent, replace the dummys node  with the nodes the pattern edge is
+		 * incident to (if there are no dummy nodes itself, of course). */
 		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
 		GraphNode right = (GraphNode) getChild(RIGHT);
 		
 		boolean rightHandReuseOk = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode lc : left.getConnections())
+		for (BaseNode lc : left.getConnections()) {
 			for (BaseNode rc : right.getConnections()) {
 				
 				if (lc instanceof SingleNodeConnNode ||
@@ -125,9 +129,12 @@ public class RuleDeclNode extends TestDeclNode {
 					rTgt = (NodeDeclNode) ((NodeTypeChangeNode)rTgt).getOldNode();
 				
 				if ( ! lSrc.isDummy() ) {
-
 					if ( rSrc.isDummy() ) {
-						if ( ! right.getNodes().contains(lSrc) && ! alreadyReported.contains(re) ) {
+						if ( right.getNodes().contains(lSrc) ) {
+							//replace the dummy src node by the src node of the pattern connection
+							rConn.setSrc(lSrc);
+						}
+						else if ( ! alreadyReported.contains(re) ) {
 							rightHandReuseOk = false;
 							rConn.reportError("dangling reused edge in the RHS are " +
 								"allowed only if all its incident nodes are reused, too");
@@ -144,7 +151,11 @@ public class RuleDeclNode extends TestDeclNode {
 				
 				if ( ! lTgt.isDummy() ) {
 					if ( rTgt.isDummy() ) {
-						if ( ! right.getNodes().contains(lTgt) && ! alreadyReported.contains(re) ) {
+						if ( right.getNodes().contains(lTgt) ) {
+							//replace the dummy tgt node by the tgt node of the pattern connection
+							rConn.setTgt(lTgt);
+						}
+						else if ( ! alreadyReported.contains(re) ) {
 							rightHandReuseOk = false;
 							rConn.reportError("dangling reused edge in the RHS are " +
 								"allowed only if all its incident nodes are reused, too");
@@ -171,19 +182,8 @@ public class RuleDeclNode extends TestDeclNode {
 					}
 				}
 			}
-		
-		
+		}
 
-		/*
-								if (oSrc instanceof NodeTypeChangeNode) {
-									oSrc = ((NodeTypeChangeNode) oSrc).getOldNode();
-								}
-								if (oTgt instanceof NodeTypeChangeNode) {
-									oTgt = ((NodeTypeChangeNode) oTgt).getOldNode();
-								}
-		 */
-		
-		
 		boolean returnParamsOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
 			error.error(this.getCoords(), "no return in pattern parts of rules allowed");

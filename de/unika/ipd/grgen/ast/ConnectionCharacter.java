@@ -50,8 +50,12 @@ public interface ConnectionCharacter {
 
 	public NodeCharacter getSrc();
 	
+	public void setSrc(NodeCharacter src);
+	
 	public NodeCharacter getTgt();
 	
+	public void setTgt(NodeCharacter tgt);
+
 	/**
 	 * Add this connection character to an IR graph.
 	 * @param gr The IR graph.

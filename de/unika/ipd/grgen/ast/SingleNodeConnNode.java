@@ -106,8 +106,14 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		return (NodeCharacter) getChild(NODE);
 	}
 	
+	public void setSrc(NodeCharacter src) {
+	}
+	
 	public NodeCharacter getTgt() {
 		return null;
+	}
+
+	public void setTgt(NodeCharacter tgt) {
 	}
 	
 	/**
