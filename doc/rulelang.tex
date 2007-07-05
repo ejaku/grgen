@@ -466,7 +466,7 @@ In theory this is done by defining the preservation morphism $r$.
   \caption{Process of Graph Transformation}
   \label{rule:figrule}
 \end{figure}
-In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s in pattern \indexed{graphlet}s and replace graphlets. (We don not need to care about the the differences of the replace part and the modify part at the moment.)
+In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and replace graphlets (we don not need to care about the the differences of the replace part and the modify part at the moment).
 Remember that to each of the graph elements a name is bound to, either user defined or internally defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
 Otherwise the graph element will be deleted.
 By defining a name in a replace graphlet a corresponding graph element will be newly created.
@@ -489,6 +489,8 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 \caption{Definition of the preservation morphism $r$}
 \label{rule:impldefinition}
 \end{table}
+
+
 
 \subsection{Specification Modes for Graph Transformation}
 
@@ -543,13 +545,41 @@ The semantics of the various pattern statements are given below:
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
   \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements.
   \item[Return Values] \indexmain{return value}Graph elements of the replace/modify part can be returned according to the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
-  \item[Retyping] \indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type. 
+  \item[Retyping] \indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type (table~\ref{rule:retyping_graphlets} shows how retyping can be expressed both for nodes and edges).
   Retyping differs from a \indexedsee{type cast}{retyping}: During replacement both of the graph elements are alive.
-  Specifically both of them are available for evaluation. 
-  Furthermore the source and destination types need not to be on a path in the directed \indexed{type hierarchy} graph, rather their relation can be arbitrary.
+  Specifically both of them are available for evaluation, a respective evaluation could, e.g., look like this:
+  \begin{grgenlet}
+eval {
+  y.b = (2*x.i == 42 );
+  f.a = e.a;
+}
+  \end{grgenlet}
+  Furthermore the source and destination types need \emph{not} to be on a path in the directed \indexed{type hierarchy} graph, rather their relation can be arbitrary.
+  However, if source and destination type have one ore more common super types, then the respective attribute values are adopted by the retyped version of the respective node (or edge).
   The edge specification as well as \emph{ReplaceNode} supports retyping. 
   In Example~\ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
+  Note, that---conceptually---the retyping is performed \emph{after} the SPO conform rewrite.
 \end{description} 
+
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\linewidth}{lllX}
+  \textbf{Pattern (LHS)} & \textbf{Replace (RHS)} & \textbf{$r: L \longrightarrow R$} & \textbf{Meaning} \\ \hline 
+  \texttt{x:N1;} & \texttt{y:N2<x>;}          & $r:\lhs.x \mapsto \rhs.x$ & Preserve \texttt{x}, then retype \texttt{x} from \texttt{N1} to \texttt{N2} and bind name \texttt{y} to retyped version of \texttt{x}.\\
+  \texttt{e:E1;} & \texttt{f:E2<e>;}          & $r:\lhs.e \mapsto \rhs.e$ & Preserve \texttt{e}, then retype \texttt{e} from \texttt{E1} to \texttt{E2} and bind name \texttt{f} to the retyped version of \texttt{e}.\\
+\end{tabularx}
+\caption{Retyping of preserved nodes and edges}
+\label{rule:retyping_graphlets}
+\end{table}
+
+
+
+
+
+
+
+
+
 
 \begin{rail}    
    Assignment: Ident '.' Ident '=' Expression ;
