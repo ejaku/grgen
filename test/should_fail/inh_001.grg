@@ -1,0 +1,3 @@
+actions inh_001 using inh_model_001;
+
+rule bla { pattern {} modify {} }
