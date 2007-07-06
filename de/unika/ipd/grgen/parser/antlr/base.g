@@ -401,7 +401,7 @@ constant returns [ BaseNode res = env.initNode() ]
 		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10));
 	}
 	| h:NUM_HEX {
-		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText(), 16));
+		res = new IntConstNode(getCoords(h), Integer.parseInt(h.getText().substring(2), 16));
 	}
 	| f:NUM_FLOAT {
 		res = new FloatConstNode(getCoords(f), Float.parseFloat(f.getText()));
