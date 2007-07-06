@@ -1267,9 +1267,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					sb.append(")");
 					break;
 				case 2:
+					sb.append("(");
 					genConditionEval(sb, op.getOperand(0), neededNode, neededEdge);
 					sb.append(" " + opSymbols[op.getOpCode()] + " ");
 					genConditionEval(sb, op.getOperand(1), neededNode, neededEdge);
+					sb.append(")");
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
@@ -1349,9 +1351,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				"rejected on building the IR, or an allowed cast, which " +
 				"should have been processed by the above code.";
 			
+			sb.append("(");
 			sb.append("(" + typeName  + ") ");
 			genConditionEval(sb, cast.getExpression(), neededNode, neededEdge);
-			
+			sb.append(")");
 			
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
