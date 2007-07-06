@@ -107,7 +107,7 @@ edgeClassDecl[int modifiers] returns [ BaseNode res = env.initNode() ]
 	  IdentNode id;
   }
   
-	: EDGE CLASS id=typeIdentDecl ext=edgeExtends cas=connectAssertions pushScope[id]
+	: EDGE CLASS id=typeIdentDecl ext=edgeExtends[id] cas=connectAssertions pushScope[id]
 		(LBRACE! body=edgeClassBody RBRACE! | SEMI) {
 
 		EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
@@ -122,7 +122,7 @@ nodeClassDecl![int modifiers] returns [ BaseNode res = env.initNode() ]
   	IdentNode id;
   }
 
-	: NODE CLASS id=typeIdentDecl ext=nodeExtends pushScope[id]
+	: NODE CLASS id=typeIdentDecl ext=nodeExtends[id] pushScope[id]
 	  (LBRACE! body=nodeClassBody RBRACE! | SEMI) {
 
 		NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
@@ -144,26 +144,52 @@ connectAssertion [ CollectNode c ]
 	}
 	;
 
-edgeExtends returns [ CollectNode c = new CollectNode() ]
-  : EXTENDS edgeExtendsCont[c]
+edgeExtends [IdentNode clsId] returns [ CollectNode c = new CollectNode() ]
+  : EXTENDS edgeExtendsCont[clsId,c]
   | { c.addChild(env.getEdgeRoot()); }
   ;
 
-edgeExtendsCont[ CollectNode c ]
-    { BaseNode e; }
-    : e=typeIdentUse { c.addChild(e); }
-      (COMMA! e=typeIdentUse { c.addChild(e); } )*
+edgeExtendsCont [ IdentNode clsId, CollectNode c ]
+    {
+      BaseNode e;
+      int extCount = 0;
+    }
+    : e=typeIdentUse {
+      	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
+      		c.addChild(e);
+      	else
+      		e.reportError("a class must not extend itself");
+      }
+      (COMMA! e=typeIdentUse {
+      	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
+      		c.addChild(e);
+      	else
+      		e.reportError("a class must not extend itself");
+      })*
+      { if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
 
-nodeExtends returns [ CollectNode c = new CollectNode() ]
-  : EXTENDS nodeExtendsCont[c]
+nodeExtends [ IdentNode clsId ] returns [ CollectNode c = new CollectNode() ]
+  : EXTENDS nodeExtendsCont[clsId, c]
   | { c.addChild(env.getNodeRoot()); }
   ;
 
-nodeExtendsCont[ CollectNode c ]
+nodeExtendsCont [IdentNode clsId, CollectNode c ]
   { BaseNode n; }
-  : n=typeIdentUse { c.addChild(n); }
-    (COMMA! n=typeIdentUse { c.addChild(n); } )* ;
+  : n=typeIdentUse {
+    	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+    		c.addChild(n);
+    	else
+      		n.reportError("a class must not extend itself");
+    }
+    (COMMA! n=typeIdentUse {
+    	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+    		c.addChild(n);
+    	else
+      		n.reportError("a class must not extend itself");
+    })*
+    { if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
+  ;
 
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
   { BaseNode d; }
