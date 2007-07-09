@@ -126,6 +126,7 @@ public class ModelNode extends DeclNode {
 				if ( ! checkInhCycleFree_rec(superType, inProgress, done) )
 					return false;
 		}
+		inProgress.remove(inhType);
 		done.add(inhType);
 		return true;
 	}

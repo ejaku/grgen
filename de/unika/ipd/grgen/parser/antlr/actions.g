@@ -524,14 +524,24 @@ replNodeOcc returns [ BaseNode res = env.initNode() ]
   ;
 
 replAnonNodeOcc returns [ BaseNode res = env.initNode() ]
-  { BaseNode type = env.getNodeRoot(); }
+  {
+    BaseNode type = env.getNodeRoot();
+    IdentNode id = env.getDummyIdent();
+    IdentNode oldid = null;
+  }
   : d:DOT {
-		IdentNode id = env.defineAnonymousEntity("node", getCoords(d));
+		id = env.defineAnonymousEntity("node", getCoords(d));
 		res = new NodeDeclNode(id, type);
     }
   | c:COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN) {
-		IdentNode id = env.defineAnonymousEntity("node", getCoords(c));
-		res = new NodeDeclNode(id, type);
+		id = env.defineAnonymousEntity("node", getCoords(c));
+	}
+    (LT oldid=entIdentUse GT)? {
+    	if(oldid==null) {
+    		res = new NodeDeclNode(id, type);
+    	} else {
+    		res = new NodeTypeChangeNode(id, type, oldid);
+    	}
 	}
   ;
 
@@ -564,20 +574,12 @@ replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type);
     }
-  | MINUS m:COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN) RARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new EdgeDeclNode(id, type);
-    }
   ;
 
 replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   { BaseNode type = env.getEdgeRoot(); }
   : LARROW res=entIdentUse MINUS { res.setKept(true); }
   | LARROW res=replEdgeDecl MINUS
-  | LARROW m:COLON (type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN) MINUS {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
-		res = new EdgeDeclNode(id, type);
-    }
   | mm:DOUBLE_LARROW {
     	IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
     	res = new EdgeDeclNode(id, type);
@@ -585,8 +587,14 @@ replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   ;
 
 replEdgeDecl returns [ BaseNode res = env.initNode() ]
-  { IdentNode id, type, oldid = null; }
-  : id=entIdentDecl COLON
+  {
+    IdentNode id = env.getDummyIdent(), type, oldid = null;
+    boolean anonymous = false;
+  }
+  : ( id=entIdentDecl | { anonymous = true; } )
+    d:COLON {
+    	if (anonymous) id = env.defineAnonymousEntity("edge", getCoords(d));
+    }
     ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
     (LT oldid=entIdentUse GT {res.setKept(true);} )?
     {
