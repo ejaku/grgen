@@ -1,0 +1,7 @@
+model inh_model_004;
+
+node class A extends B;
+node class B extends C,D;
+node class D extends E;
+node class E extends A;
+node class C extends A;

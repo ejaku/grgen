@@ -1,0 +1,26 @@
+actions dangle_004;
+
+rule r {
+	pattern {
+		-e:Edge->;
+		-ee:Edge->;
+		
+		x:Node -f:Edge->;
+		xx:Node -ff:Edge->;
+		xxx:Node -fff:Edge->;
+
+		a:Node -g:Edge-> b:Node;
+		aa:Node -gg:Edge-> bb:Node;
+		aaa:Node -ggg:Edge-> bbb:Node;
+
+		<-- q:Node -->;
+	}
+	modify{
+		delete(ee);
+		delete(ff);
+		delete(xxx);
+		delete(gg);
+		delete(aaa);
+		delete(q);
+	}
+}
