@@ -145,4 +145,5 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 			| (isConst() ? InheritanceType.CONST : 0);
 	}
 	
+	public abstract Collection<BaseNode> getDirectSuperTypes();
 }

@@ -29,6 +29,8 @@ import de.unika.ipd.grgen.ast.util.*;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.util.Iterator;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * A class representing a node type
@@ -81,6 +83,11 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 */
 	public NodeType getNodeType() {
 		return (NodeType) checkIR(NodeType.class);
+	}
+	
+	public Collection<BaseNode> getDirectSuperTypes()
+	{
+		return getChild(EXTENDS).getChildren();
 	}
 	
 	/**

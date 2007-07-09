@@ -32,6 +32,8 @@ import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class ModelNode extends DeclNode {
 	
@@ -71,7 +73,7 @@ public class ModelNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(DECLS, checker);
+		return checkChild(DECLS, checker) && checkInhCycleFree();
 	}
 	
 	/**
@@ -87,7 +89,8 @@ public class ModelNode extends DeclNode {
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
 		Model res = new Model(id);
 		for(BaseNode children : getChild(DECLS).getChildren()) {
@@ -97,5 +100,85 @@ public class ModelNode extends DeclNode {
 		return res;
 	}
 	
+	private boolean checkInhCycleFree_rec(InheritanceTypeNode inhType,
+										  Collection<BaseNode> inProgress,
+										  Collection<BaseNode> done)
+	{
+		inProgress.add(inhType);
+		for (BaseNode t : inhType.getDirectSuperTypes()) {
+			
+			assert (t instanceof InheritanceTypeNode):
+				"Non inharitance type found in inharitance hierarchie";
+
+			assert (
+				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
+				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode))
+			): "nodes should extend nodes and edges should extend edges";
+
+			InheritanceTypeNode superType = (InheritanceTypeNode) t;
+			
+			if ( inProgress.contains(superType) ) {
+				inhType.getIdentNode().reportError(
+					"\"" + inhType.getIdentNode() + "\" extends \"" + superType.getIdentNode() +
+					"\", which introduces a cycle to the type hierarchy");
+				return false;
+			}
+			if ( ! done.contains(superType) )
+				if ( ! checkInhCycleFree_rec(superType, inProgress, done) )
+					return false;
+		}
+		done.add(inhType);
+		return true;
+	}
+	
+	/**
+	 * ensure there are no cycles in the inheritance hierarcy
+	 * @return	<code>true</code> if there are no cycles,
+	 * 			<code>false</code> otherwise
+	 */
+	private boolean checkInhCycleFree()
+	{
+		Collection<BaseNode> coll = getChild(DECLS).getChildren();
+		for (BaseNode t : coll) {
+			
+			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
+
+			if ( !(type instanceof InheritanceTypeNode) ) continue ;
+
+			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
+			Collection<BaseNode> done = new HashSet<BaseNode>();
+			
+			boolean isCycleFree =
+				checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
+
+			if ( ! isCycleFree ) return false;
+		}
+		return true;
+	}
+			
+			
+			/*
+			
+			Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
+			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
+			alreadyExtended.add(type);
+
+			for ( BaseNode tt : alreadyExtended ) {
+				
+				if ( !(tt instanceof InheritanceTypeNode) ) continue ;
+
+				InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
+				Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
+
+				for ( BaseNode s : superTypes ) {
+					if ( alreadyExtended.contains(s) ) {
+						s.reportError("extending \"" + s + "\" causes cyclic inheritance");
+						return false;
+					}
+				}
+				alreadyExtended.addAll(superTypes);
+			}
+		}
+			 */
 }
 
