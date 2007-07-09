@@ -1,4 +1,4 @@
-model inh_model_004;
+model inh_model_005;
 
 node class A extends B;
 node class B extends C,D;

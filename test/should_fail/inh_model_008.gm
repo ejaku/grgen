@@ -1,0 +1,4 @@
+model inh_model_008;
+
+edge class A;
+node class B extends A;

@@ -107,8 +107,7 @@ public class ModelNode extends DeclNode {
 		inProgress.add(inhType);
 		for (BaseNode t : inhType.getDirectSuperTypes()) {
 			
-			assert (t instanceof InheritanceTypeNode):
-				"Non inharitance type found in inharitance hierarchie";
+			if ( ! (t instanceof InheritanceTypeNode)) continue;
 
 			assert (
 				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
