@@ -143,7 +143,7 @@ public class PatternGraphNode extends GraphNode {
 				Expression e1 = new Typeof(n);
 				Expression e2 = new Typeof(n.getTypeof());
 
-				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.EQ);
+				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
 				op.addOperand(e1);
 				op.addOperand(e2);
 				
@@ -156,7 +156,7 @@ public class PatternGraphNode extends GraphNode {
 				Expression e1 = new Typeof(n);
 				Expression e2 = new Typeof(n.getTypeof());
 
-				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.EQ);
+				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
 				op.addOperand(e1);
 				op.addOperand(e2);
 				
