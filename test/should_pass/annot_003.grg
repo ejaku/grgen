@@ -1,0 +1,10 @@
+actions annot_003;
+
+rule r {
+	pattern {
+		[prio=10000] : Node;
+	}
+	modify {
+	}
+}
+

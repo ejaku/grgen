@@ -1,0 +1,10 @@
+actions annot_002;
+
+rule r {
+	pattern {
+		-x[prio=10000] : Edge->;
+	}
+	modify {
+	}
+}
+
