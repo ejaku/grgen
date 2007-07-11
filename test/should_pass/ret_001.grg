@@ -1,0 +1,14 @@
+actions ret_001 using basic_model_002;
+
+rule r : (A, AB, B, N) {
+	pattern {
+		x : A;
+		y : B;
+		z : C;
+		n : N;
+	}
+	modify {
+		return (x, y, y, n);
+	}
+}
+
