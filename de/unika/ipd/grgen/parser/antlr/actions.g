@@ -235,12 +235,12 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
   BaseNode negsCollect, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
   
 	{
-  	IdentNode id = env.getDummyIdent();
-		BaseNode n, o, e, neg, hom;
-		//nesting of negative Parts is not allowed.
-		CollectNode negsInNegs = new CollectNode();
-		
-		newNegCount = negCount;
+  		IdentNode id = env.getDummyIdent();
+    	BaseNode n, o, e, neg, hom;
+    	//nesting of negative Parts is not allowed.
+    	CollectNode negsInNegs = new CollectNode();
+
+    	newNegCount = negCount;
 	}
 	: patConnections[connCollect] SEMI
 	
@@ -317,17 +317,23 @@ patNodeOcc returns [ BaseNode res = env.initNode() ]
 
 patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
   {
+    IdentNode id = env.getDummyIdent();
   	BaseNode type = env.getNodeRoot();
 	BaseNode constr = TypeExprNode.getEmpty();
+	Attributes attrs;
   }
-  : d:DOT {
-		IdentNode id = env.defineAnonymousEntity("node", getCoords(d));
-		res = new NodeDeclNode(id, type, constr);
-    }
-  | c:COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN) {
-		IdentNode id = env.defineAnonymousEntity("node", getCoords(c));
-		res = new NodeDeclNode(id, type, constr);
-	}
+  :
+    (
+        d:DOT {
+	    	id = env.defineAnonymousEntity("node", getCoords(d));
+	    	res = new NodeDeclNode(id, type, constr);
+	    }
+      | c:COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN) {
+			id = env.defineAnonymousEntity("node", getCoords(c));
+			res = new NodeDeclNode(id, type, constr);
+	    }
+    )
+    (attrs=attributes { id.setAttributes(attrs); })?
   ;
 
 patKnownNodeOcc returns [ BaseNode res = env.initNode() ]
