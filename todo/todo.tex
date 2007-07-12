@@ -16,28 +16,38 @@
 
 
 \noindent
-{\bf\Large GrGen ToDo-List}
+{\bf\Large The GrGen.NET ToDo-List}
 
-\mysection{1. Frontend (Java):}
+
+
+\mysection{Frontend (Java):}
 ToDo:
 \begin{itemize}
-  \item Prios funktionieren bei anonymen Knoten und Kanten nicht.
-  \item Im replace/modify-Teil arbeitet das {\tt typeof} nich korrekt.
-  \item In Modify-Teilen ist die Error-Detection bei {\tt return} fehlerhaft.
-  \item Wenn der Dateiname einer Actions-Datei nicht mit dem internen Namen übereinstimmt, wird ein Fehler berichtet, der aber nicht zu einem Abbruch der Verarbeitung führt.
-  \item Wenn eine Regelsignatur einen Rückgabewert vom Typ AB erwartet, man aber einen Typ C zurückliefert, der AB nicht als Obertyp hat, wird das fälschlicherweise akzeptiert (should\_fail/ret\_001.grg)
+  \item Annotions of anonymous nodes and edges do not work.
+  \item In replace/modify-part {\tt typeof} does not work.
+  \item Error detection for the {\tt return} statement is errornous.
+  \item If the filename of a .grg-file does not conform with the name given along with the {\tt actions} keyword, an error is raised (which is just the right behaviour). However, the output file is genrated all the same, which should not happen.
+  \item At test case should\_fail/ret\_001.grg:
+  	The signature of the rule demands a type {\tt AB}.
+	However, if you return a type {\tt C} (that is no subtype of {\tt AB}) no error is reported, which were the right behaviour.
 \end{itemize}
 Done:
 
-\mysection{2. C\#-Searchplan-Backend (Java):}
+
+
+\mysection{C\#-Searchplan-Backend (Java):}
 ToDo:
 Done:
 
-\mysection{3. Backend (C\#):}
+
+
+\mysection{Backend (C\#):}
 ToDo:
 Done:
 
-\mysection{\bf 4. Bugs, von denen wir nicht wissen, wo sie herkommen:}
+
+
+\mysection{Other things like, e.g., bugs of unknown origin}
 ToDo:
 Done:
 
