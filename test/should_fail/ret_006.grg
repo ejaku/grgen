@@ -1,0 +1,12 @@
+actions ret_006;
+
+rule r : (Node) {
+	pattern {
+		x: Node;
+		y: Node;
+	}
+	modify {
+		return(x, y);
+	}
+}
+

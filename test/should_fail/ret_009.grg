@@ -1,0 +1,14 @@
+actions ret_009;
+
+rule r : (Node, Node) {
+	pattern {
+		x: Node;
+		y: Node;
+		
+		x -e:Edge-> y;
+	}
+	modify {
+		return(x, e);
+	}
+}
+
