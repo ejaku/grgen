@@ -21,9 +21,11 @@
 \mysection{1. Frontend (Java):}
 ToDo:
 \begin{itemize}
-  \item Prios funktionieren bei anonymen Knoten (und Kanten?) nicht.
+  \item Prios funktionieren bei anonymen Knoten und Kanten nicht.
   \item Im replace/modify-Teil arbeitet das {\tt typeof} nich korrekt.
   \item In Modify-Teilen ist die Error-Detection bei {\tt return} fehlerhaft.
+  \item Wenn der Dateiname einer Actions-Datei nicht mit dem internen Namen übereinstimmt, wird ein Fehler berichtet, der aber nicht zu einem Abbruch der Verarbeitung führt.
+  \item Wenn eine Regelsignatur einen Rückgabewert vom Typ AB erwartet, man aber einen Typ C zurückliefert, der AB nicht als Obertyp hat, wird das fälschlicherweise akzeptiert (should\_fail/ret\_001.grg)
 \end{itemize}
 Done:
 
@@ -35,7 +37,7 @@ Done:
 ToDo:
 Done:
 
-\mysection{\bf 4. Bugs, von denen wir nicht wissen wo sie herkommen:}
+\mysection{\bf 4. Bugs, von denen wir nicht wissen, wo sie herkommen:}
 ToDo:
 Done:
 
