@@ -320,7 +320,8 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
     IdentNode id = env.getDummyIdent();
   	BaseNode type = env.getNodeRoot();
 	BaseNode constr = TypeExprNode.getEmpty();
-	Attributes attrs;
+	Attributes attrs = env.getEmptyAttributes();
+	boolean hasAttrs = false;
   }
   :
     (
@@ -328,12 +329,14 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 	    	id = env.defineAnonymousEntity("node", getCoords(d));
 	    	res = new NodeDeclNode(id, type, constr);
 	    }
-      | c:COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN) {
+        ( attrs=attributes { id.setAttributes(attrs); } )?
+      | ( attrs=attributes { hasAttrs = true; })?
+        c:COLON (type=typeIdentUse (constr=typeConstraint)?| TYPEOF LPAREN type=entIdentUse RPAREN) {
 			id = env.defineAnonymousEntity("node", getCoords(c));
+			if (hasAttrs) id.setAttributes(attrs);
 			res = new NodeDeclNode(id, type, constr);
 	    }
     )
-    (attrs=attributes { id.setAttributes(attrs); })?
   ;
 
 patKnownNodeOcc returns [ BaseNode res = env.initNode() ]
@@ -357,13 +360,15 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   {
     BaseNode type = env.getEdgeRoot();
     BaseNode constr = TypeExprNode.getEmpty();
+    Attributes attrs = env.getEmptyAttributes();
   }
   : MINUS res=patEdgeDecl RARROW
   | MINUS res=entIdentUse RARROW
-  | MINUS m:COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN) RARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+/*  | MINUS attrs=attributes r:RARROW {
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(r));
+		id.setAttributes(attrs);
 		res = new EdgeDeclNode(id, type, constr);
-    }
+    }*/
   | mm:DOUBLE_RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type, constr);
@@ -372,30 +377,42 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 
 patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   {
+    IdentNode id = env.getDummyIdent();
     BaseNode type = env.getEdgeRoot();
     BaseNode constr = TypeExprNode.getEmpty();
+    Attributes attrs = env.getEmptyAttributes();
   }
   : LARROW res=patEdgeDecl MINUS
   | LARROW res=entIdentUse MINUS
-  | LARROW m:COLON (type=typeIdentUse (constr=typeConstraint)? | TYPEOF LPAREN type=entIdentUse RPAREN) MINUS {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(m));
+/*  | LARROW attrs=attributes m:MINUS {
+		id = env.defineAnonymousEntity("edge", getCoords(m));
+		id.setAttributes(attrs);
 		res = new EdgeDeclNode(id, type, constr);
-    }
+    }*/
   | mm:DOUBLE_LARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
+		id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type, constr);
     }
   ;
 
 patEdgeDecl returns [ BaseNode res = env.initNode() ]
   {
-    IdentNode id, type;
+    IdentNode type;
+    IdentNode id = env.getDummyIdent();
     BaseNode constr = TypeExprNode.getEmpty();
+    Attributes attrs = env.getEmptyAttributes();
+    boolean anonymous = true, hasAttrs = false;
+    
   }
-  : id=entIdentDecl COLON
+  : ( id=entIdentDecl {anonymous = false;} )?
+    ( attrs=attributes {hasAttrs = true;} )?
+    c:COLON
     ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
-    (constr=typeConstraint)?
-    { res = new EdgeDeclNode(id, type, constr); }
+    ( constr=typeConstraint )?
+    {
+    	if (anonymous) id = env.defineAnonymousEntity("edge", getCoords(c));
+    	res = new EdgeDeclNode(id, type, constr);
+    }
   ;
 
 /**
@@ -703,4 +720,5 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   | LPAREN res=typeAddExpr RPAREN
   ;
   
+
 

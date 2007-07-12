@@ -191,7 +191,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		//check that only graph elems are returned that are not deleted
-		boolean returnsInRhsOk = true;
+/*		boolean returnsInRhsOk = true;
 		CollectNode returns = (CollectNode) right.getReturn();
 		for (BaseNode x : returns.getChildren()) {
 
@@ -223,8 +223,8 @@ public class RuleDeclNode extends TestDeclNode {
 						"RHS and, occurs in a return";
 			}
 		}
-		
-		return leftHandGraphsOk && rightHandReuseOk && noReturnInPatternOk && returnsInRhsOk;
+		 */
+		return leftHandGraphsOk && rightHandReuseOk && noReturnInPatternOk;
 	}
 	
 	
