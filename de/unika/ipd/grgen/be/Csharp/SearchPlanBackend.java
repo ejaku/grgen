@@ -202,6 +202,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\n");
 		if(action instanceof Rule) {
 			genRuleModify(sb, (Rule)action, true);
+			sb.append("\n");
 			genRuleModify(sb, (Rule)action, false);
 		}
 		else
@@ -361,8 +362,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				}
 				
 				extractNodeFromMatch.add(node);
-				extractNodeAttributeObject.add(node);
-				sb3.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
+				sb2.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
+				sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = " + formatEntity(node) + ";\n");
 			}
 		
 		// edge type changes
@@ -381,7 +382,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				
 				extractEdgeFromMatch.add(edge);
 				extractEdgeAttributeObject.add(edge);
-				sb3.append("\t\t\tgraph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
+				sb2.append("\t\t\tgraph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
 			}
 		
 		// attribute re-calc
@@ -403,7 +404,6 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		}
 		
 		// return parameter (output)
-		//extractNodeFromMatch.addAll(rule.getReturns());
 		if(rule.getReturns().isEmpty())
 			sb3.append("\t\t\treturn EmptyReturnElements;\n");
 		else {
@@ -422,17 +422,17 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		sb3.append("\t\t}\n");
 		
-		// nodes needed from match
+		// nodes/edges needed from match, but not the new nodes
 		extractNodeFromMatch.removeAll(newNodes);
 		extractEdgeFromMatch.removeAll(newEdges);
 		
+		// extract nodes/edges from match
 		for(Node node : extractNodeFromMatch)
-			if(node.isRetyped())
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(((RetypedNode)node).getOldNode()) + " - 1 ];\n");
-			else
+			if(!node.isRetyped())
 				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
-			sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+			if(!edge.isRetyped())
+				sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
 		
 		for(Node node : extractNodeTypeFromMatch)
 			sb.append("\t\t\tITypeFramework " + formatEntity(node) + "_type = " + formatEntity(node) + ".type;\n");
@@ -441,27 +441,28 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		
 		// get attribute objects for all non added graph elements
 		for(Node node : extractNodeAttributeObject)
-			if(!newNodes.contains(node)) {
+			if(!newNodes.contains(node) && !node.isRetyped()) {
 				genAttributeObject(sb, node);
 			}
 		for(Edge edge : extractEdgeAttributeObject)
-			if(!newEdges.contains(edge)) {
+			if(!newEdges.contains(edge) && !edge.isRetyped()) {
 				genAttributeObject(sb, edge);
 			}
 		
+		// new nodes/edges (re-use) and retype nodes/edges
 		sb.append(sb2);
 		
 		// get attribute objects for all added graph elements
 		for(Node node : extractNodeAttributeObject)
-			if(newNodes.contains(node)) {
+			if(newNodes.contains(node) || node.isRetyped()) {
 				genAttributeObject(sb, node);
 			}
 		for(Edge edge : extractEdgeAttributeObject)
-			if(newEdges.contains(edge)) {
+			if(newEdges.contains(edge) || edge.isRetyped()) {
 				genAttributeObject(sb, edge);
 			}
 		
-		
+		// attribute re-calc, remove, return
 		sb.append(sb3);
 		
 		if(reuseNodeAndEdges) { // we need this only once
@@ -1367,7 +1368,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		}
 		else {
 			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
-					formatIdentifiable(entity.getType()) + ") ");
+						  formatIdentifiable(entity.getType()) + ") ");
 			sb.append(formatEntity(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
 		}
 	}
