@@ -976,7 +976,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		for(EnumType enumt :enumMap.keySet()) {
 			sb.append("\tpublic enum ENUM_" + formatIdentifiable(enumt) + " { ");
 			for(EnumItem enumi : enumt.getItems()) {
-				sb.append(formatIdentifiable(enumi) + " = " + enumi.getValue().getValue() + ", ");
+				sb.append("@" + formatIdentifiable(enumi) + " = " + enumi.getValue().getValue() + ", ");
 			}
 			sb.append("};\n\n");
 		}
