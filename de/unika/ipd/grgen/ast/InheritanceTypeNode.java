@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import java.util.HashSet;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -77,6 +78,35 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		this.bodyIndex = bodyIndex;
 		
 		addResolver(inhIndex, inhResolver);
+	}
+
+	public boolean isA(InheritanceTypeNode type)
+	{
+		if (
+			(this instanceof NodeTypeNode) && !(type instanceof NodeTypeNode)
+		) return false;
+		
+		if (
+			(this instanceof EdgeTypeNode) && !(type instanceof EdgeTypeNode)
+		) return false;
+		
+		Collection<BaseNode> superTypes = new HashSet<BaseNode>();
+		superTypes.add(this);
+		
+		boolean changed;
+		do
+		{
+			changed = false;
+			if ( superTypes.contains(type) ) return true;
+			for (BaseNode x : superTypes) {
+				InheritanceTypeNode t = (InheritanceTypeNode) x;
+				Collection<BaseNode> dsts = t.getDirectSuperTypes();
+				changed = superTypes.addAll(dsts) || changed;
+			}
+		}
+		while (changed);
+		
+		return false;
 	}
 	
 	/**

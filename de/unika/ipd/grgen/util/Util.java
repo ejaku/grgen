@@ -198,7 +198,7 @@ public class Util
 						continue;
 					}
 
-					res.append("<invalid>");
+				res.append("<invalid>");
 			}
 			catch(Exception e) { res.append("<invalid>"); }
 		}

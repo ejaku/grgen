@@ -33,6 +33,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
+import de.unika.ipd.grgen.util.Util;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * A type that represents tests
@@ -51,6 +54,32 @@ public class TestDeclNode extends ActionDeclNode {
 	
 	private static final Checker condChecker =
 		new CollectChecker(new SimpleChecker(ExprNode.class));
+	
+	private static final Checker retDeclarationChecker =
+		new CollectChecker(
+			new Checker() {
+				public boolean check(BaseNode node, ErrorReporter reporter)
+				{
+					boolean res = true;
+
+					if ( ! (node instanceof IdentNode) ) {
+						//this should never be reached
+						node.reportError("not an identifier");
+						return false;
+					}
+					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
+						res = false;
+						node.reportError("\"" + node + "\" is undeclared");
+					}
+					else {
+						BaseNode type = ((IdentNode)node).getDecl().getDeclType();
+						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
+						if (!res) node.reportError("\"" + node + "\" is neither a node nor an edge type");
+					}
+					return res;
+				}
+			}
+		);
 	
 	static {
 		setName(TestDeclNode.class, "test declaration");
@@ -143,7 +172,7 @@ public class TestDeclNode extends ActionDeclNode {
 	 */
 	protected boolean check() {
 		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
-			&& checkChild(NEG, negChecker);
+			& checkChild(NEG, negChecker) & checkChild(RET, retDeclarationChecker);
 		
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;

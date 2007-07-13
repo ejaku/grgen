@@ -21,6 +21,11 @@ import de.unika.ipd.grgen.ir.Rule;
 public class ModifyRuleDeclNode extends RuleDeclNode {
 	
 	private static final int DELETE = LAST + 7;
+
+	private static final String[] childrenNames = {
+		declChildrenNames[0], declChildrenNames[1],
+			"left", "neg", "params", "ret", "right", "eval", "delete"
+	};
 	
 	private static final Resolver deleteResolver =
 		new CollectResolver(
@@ -37,6 +42,49 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
 		addResolver(DELETE, deleteResolver);
+		setChildrenNames(childrenNames);
+	}
+	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
+	{
+		boolean res = true;
+		CollectNode returns = (CollectNode) right.getReturn();
+		CollectNode deletions = (CollectNode) getChild(DELETE);
+		
+		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
+		for (BaseNode x: deletions.getChildren()) {
+			assert (x instanceof DeclNode): "expected a declared entity";
+			deletedElems.add((DeclNode)x);
+		}
+				
+		for (BaseNode x : returns.getChildren()) {
+
+			IdentNode ident = (IdentNode) x;
+			DeclNode retElem = ident.getDecl();
+
+			if (
+				((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))
+				&& deletedElems.contains(retElem)
+			) {
+				res = false;
+
+				String nodeOrEdge = "";
+				if (retElem instanceof NodeDeclNode) nodeOrEdge = "node";
+				else if (retElem instanceof NodeDeclNode) nodeOrEdge = "edge";
+				else nodeOrEdge = "element";
+				
+				if (
+					left.getNodes().contains(retElem) ||
+					getChild(PARAM).getChildren().contains(retElem)
+				)
+					((IdentNode)ident).reportError("the deleted " + nodeOrEdge +
+							" \"" + ident + "\" must not be returned");
+				else
+					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
+						"neither a parameter, nor contained in LHS, nor in " +
+						"RHS, occurs in a return";
+			}
+		}
+		return res;
 	}
 	
 	@Override

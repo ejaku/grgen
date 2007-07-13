@@ -1,0 +1,14 @@
+actions ret_010;
+
+rule r : (Node, EINT, NINT, Node) {
+	pattern {
+		x: Node;
+		y: Node;
+		
+		x -e:Edge-> y;
+	}
+	modify {
+		return(x, e, y, a, x);
+	}
+}
+

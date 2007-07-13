@@ -75,7 +75,7 @@ text returns [ BaseNode main = env.initNode() ]
   	}
   	: ACTIONS id=entIdentDecl {
   	  		if ( ! (id.toString() + ".grg").equals(env.getFilenameWithoutPath()) ) {
-  	  			id.reportError("filename \"" + env.getFilenameWithoutPath() +
+  	  			reportError(id.getCoords(), "filename \"" + env.getFilenameWithoutPath() +
   	  				"\" does not conform with name \"" + id + "\" of this action set");
   	  		}
   	  }
@@ -633,60 +633,13 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 replaceReturns[CollectNode res]
     {
     	BaseNode id;
     }
-	: RETURN LPAREN id=entIdentUse { res.addChild(id); }
+	: r:RETURN LPAREN id=entIdentUse { res.addChild(id); }
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
+      { res.setCoords(getCoords(r)); }
 	;
 
 deleteStmt[CollectNode res]
@@ -720,5 +673,6 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   | LPAREN res=typeAddExpr RPAREN
   ;
   
+
 
 

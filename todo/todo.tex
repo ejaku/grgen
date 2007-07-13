@@ -30,6 +30,8 @@ ToDo:
   \item At test case should\_fail/ret\_001.grg:
   	The signature of the rule demands a type {\tt AB}.
 	However, if you return a type {\tt C} (that is no subtype of {\tt AB}) no error is reported, which were the right behaviour.
+  \item Dangling edge graphlets should work, if the edge is a reused one and if all incident pattern nodes of that edge are also reused.
+    However, if an edge is retyped, GrGen reports an error, which should not be the case.
 \end{itemize}
 Done:
 
