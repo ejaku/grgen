@@ -524,6 +524,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					
 					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
 					
+					sb2.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = " + formatEntity(delEdge) + ";\n");
 					sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
 					
 					if(rule.getLeft().getSource(delEdge)!=src_node)
