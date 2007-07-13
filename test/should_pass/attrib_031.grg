@@ -1,0 +1,16 @@
+actions attrib_031 using attrib_model_001;
+
+rule r {
+	pattern {
+		ni:NINT -e:Edge-> .;
+	}
+	modify {
+		ni -ei:EINT-> ni;
+		delete(e);
+
+		eval{
+			ei.a = 23;
+		}
+	}
+}
+
