@@ -3,7 +3,7 @@ actions ret_001 using basic_model_002;
 rule r : (A, AB, B, N) {
 	pattern {
 		x : A;
-		y : B;
+		y : AB;
 		z : C;
 		n : N;
 	}
