@@ -25,9 +25,6 @@ ToDo:
 \begin{itemize}
   \item Annotions of anonymous nodes and edges do not work.
   \item In replace/modify-part {\tt typeof} does not work.
-  \item At test case should\_fail/ret\_001.grg:
-  	The signature of the rule demands a type {\tt AB}.
-	However, if you return a type {\tt C} (that is no subtype of {\tt AB}) no error is reported, which were the right behaviour.
   \item Dangling edge graphlets should work, if the edge is a reused one and if all incident pattern nodes of that edge are also reused.
     However, if an edge is retyped, GrGen reports an error, which should not be the case.
 \end{itemize}
@@ -37,6 +34,10 @@ Done:
     \{fixed---Batz 7/13/2007\}
   \item Error detection for the {\tt return} statement is errornous.\\
   \{seems to work now---Batz 7/13/2007\}
+  \item At test case should\_fail/ret\_001.grg:
+  	The signature of the rule demands a type {\tt AB}.
+	However, if you return a type {\tt C} (that is no subtype of {\tt AB}) no error is reported, which were the right behaviour.\\
+  \{as the return stuff now works, this works, too---Batz 7/13/2007\}
 \end{itemize}
 
 
