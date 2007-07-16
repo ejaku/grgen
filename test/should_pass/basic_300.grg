@@ -1,0 +1,18 @@
+actions basic_300 using attrib_model_001;
+
+rule r {
+	pattern {
+		:Node;
+		:NINT;
+		
+		-:Edge->;
+		<-:Edge-;
+
+		-:EINT->;
+		<-:EINT-;
+		
+		-->;
+		<--;		
+	}
+	modify {}
+}
