@@ -46,8 +46,7 @@ csc: clean $(DIRS_CSC)
 	@touch successCSC.log
 	@touch failedCSC.log
 	@test -d $@ || mkdir $@
-	@cd $@
-	-mono $(GRGENNET)/GrGen.exe $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
+	-mono $(GRGENNET)/GrGen.exe -o $@ $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
 
 clean:
 	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log
