@@ -49,9 +49,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private File path;
 	
 	/* binary operator symbols of the C-language */
-	// ATTENTION: the forst two shift operations are signed shifts
-	// 		the second right shift is signed. This Backend simply gens
+	// ATTENTION: the first two shift operations are signed shifts,
+	// 		the second right shift is unsigned. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
+	// TODO: Check whether this is correct...
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
@@ -168,10 +169,6 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
 		sb.append("using de.unika.ipd.grGen.models." + formatIdentifiable(unit) + ";\n");
 		sb.append("\n");
-		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("using de.unika.ipd.grGen.grGen;\n");
-		sb.append("#endif\n");
-		sb.append("\n");
 		sb.append("namespace de.unika.ipd.grGen.actions." + formatIdentifiable(unit) + "\n");
 		sb.append("{\n");
 		
@@ -211,7 +208,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\n");
 		
 		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("\tpublic class Schedule_" + actionName + " : Schedule\n");
+		sb.append("\tpublic class Schedule_" + actionName + " : LGSPStaticScheduleInfo\n");
 		sb.append("\t{\n");
 		sb.append("\t\tpublic Schedule_" + actionName + "()\n");
 		sb.append("\t\t{\n");
