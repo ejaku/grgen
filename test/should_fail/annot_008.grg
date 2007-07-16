@@ -1,0 +1,8 @@
+actions annot_008;
+
+rule r {
+	pattern {
+		[prio=42] : ;
+	}
+	modify {}
+}

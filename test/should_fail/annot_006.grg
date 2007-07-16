@@ -1,0 +1,8 @@
+actions annot_006;
+
+rule r {
+	pattern {
+		:Node [prio=42];
+	}
+	modify {}
+}

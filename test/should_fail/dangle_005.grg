@@ -1,4 +1,4 @@
-actions dangle_005;
+actions dangle_005 using attrib_model_001;
 
 rule r {
 	pattern {
@@ -7,6 +7,6 @@ rule r {
 		x -e:Edge-> y;
 	}
 	replace{
-		.-e->y;
+		<- f:EINT<e> - x;
 	}
 }
