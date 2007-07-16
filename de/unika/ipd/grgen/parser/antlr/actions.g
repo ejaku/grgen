@@ -360,15 +360,9 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   {
     BaseNode type = env.getEdgeRoot();
     BaseNode constr = TypeExprNode.getEmpty();
-    Attributes attrs = env.getEmptyAttributes();
   }
   : MINUS res=patEdgeDecl RARROW
   | MINUS res=entIdentUse RARROW
-/*  | MINUS attrs=attributes r:RARROW {
-		IdentNode id = env.defineAnonymousEntity("edge", getCoords(r));
-		id.setAttributes(attrs);
-		res = new EdgeDeclNode(id, type, constr);
-    }*/
   | mm:DOUBLE_RARROW {
 		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type, constr);
@@ -377,42 +371,50 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 
 patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
   {
-    IdentNode id = env.getDummyIdent();
     BaseNode type = env.getEdgeRoot();
     BaseNode constr = TypeExprNode.getEmpty();
-    Attributes attrs = env.getEmptyAttributes();
   }
   : LARROW res=patEdgeDecl MINUS
   | LARROW res=entIdentUse MINUS
-/*  | LARROW attrs=attributes m:MINUS {
-		id = env.defineAnonymousEntity("edge", getCoords(m));
-		id.setAttributes(attrs);
-		res = new EdgeDeclNode(id, type, constr);
-    }*/
   | mm:DOUBLE_LARROW {
-		id = env.defineAnonymousEntity("edge", getCoords(mm));
+		IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 		res = new EdgeDeclNode(id, type, constr);
     }
   ;
 
 patEdgeDecl returns [ BaseNode res = env.initNode() ]
   {
-    IdentNode type;
+  	BaseNode type = env.getEdgeRoot();
     IdentNode id = env.getDummyIdent();
     BaseNode constr = TypeExprNode.getEmpty();
     Attributes attrs = env.getEmptyAttributes();
-    boolean anonymous = true, hasAttrs = false;
-    
+    Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> atCo;
   }
-  : ( id=entIdentDecl {anonymous = false;} )?
-    ( attrs=attributes {hasAttrs = true;} )?
-    c:COLON
-    ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
-    ( constr=typeConstraint )?
-    {
-    	if (anonymous) id = env.defineAnonymousEntity("edge", getCoords(c));
-    	res = new EdgeDeclNode(id, type, constr);
-    }
+  : (
+        id=entIdentDecl
+        ( attrs=attributes { id.setAttributes(attrs); } )?
+        COLON
+        ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
+        ( constr=typeConstraint )?
+      |
+        atCo=attributesWithCoords
+        (
+            c:COLON
+            ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
+            ( constr=typeConstraint )?
+            { id = env.defineAnonymousEntity("edge", getCoords(c)); }
+          |
+            { id = env.defineAnonymousEntity("edge", atCo.second); }
+        )
+        { id.setAttributes(atCo.first); }
+      |
+        cc:COLON
+        ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
+        ( constr=typeConstraint )?
+        { id = env.defineAnonymousEntity("edge", getCoords(cc)); }
+        
+    )
+    { res = new EdgeDeclNode(id, type, constr); }
   ;
 
 /**

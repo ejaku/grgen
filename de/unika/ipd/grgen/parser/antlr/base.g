@@ -181,7 +181,18 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 attributes returns [ DefaultAttributes attrs = new DefaultAttributes() ]
   : LBRACK keyValuePairs[attrs] RBRACK
   ;
-  
+
+attributesWithCoords
+  returns [
+  	Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> res =
+  		new Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords>(
+  			new DefaultAttributes(), Coords.getInvalid()
+  		)
+  ]
+  : l:LBRACK keyValuePairs[res.first] RBRACK
+    { res.second = getCoords(l); }
+  ;
+
 keyValuePairs [ DefaultAttributes attrs ]
   : keyValuePair[attrs] (COMMA keyValuePair[attrs])*
   ;
