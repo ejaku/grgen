@@ -1,0 +1,16 @@
+actions retype_004 using attrib_model_001;
+
+rule r {
+	pattern {
+		a:NINT;
+		b:NINT;
+		a -e:Edge-> b;
+		a -f:Edge-> b;
+	}
+	replace {
+		c: NFLOAT<b>;
+		a -e-> c;
+		c <-f- a;
+	}
+}
+

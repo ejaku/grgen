@@ -1,0 +1,23 @@
+actions dangle_006 using attrib_model_001;
+
+rule r {
+	pattern {
+		x: Node;
+		y: Node;
+		
+		x <-e:EFLOAT- y;
+
+		x -f1:EINT-> y;
+		x -f2:EINT-> y;
+		x <-f3:EINT- y;
+		x <-f4:EINT- y;
+	}
+	replace {
+		x; y;
+
+		- :typeof(e)<f1> ->;
+		<- :typeof(e)<f2> -;
+		- :typeof(e)<f3> ->;
+		<- :typeof(e)<f4> -;
+	}
+}

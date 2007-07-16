@@ -1,0 +1,15 @@
+actions reuse_005;
+
+rule r {
+	pattern {
+		x: Node;
+		y: Node;
+		x-e:Edge->y;
+	}
+	replace {
+		x; y;
+		- e ->;
+	}
+}
+
+

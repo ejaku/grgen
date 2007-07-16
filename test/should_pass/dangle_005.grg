@@ -4,10 +4,18 @@ rule r {
 	pattern {
 		x: Node;
 		y: Node;
-		x -e:EINT-> y;
+
+		x -e1:EINT-> y;
+		x -e2:EINT-> y;
+		x <-e3:EINT- y;
+		x <-e4:EINT- y;
 	}
 	replace {
 		x; y;
-		-:EBOOL<e>->;
+
+		-:EBOOL<e1>->;
+		<-:EBOOL<e2>-;
+		-:EBOOL<e3>->;
+		<-:EBOOL<e4>-;
 	}
 }

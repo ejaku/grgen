@@ -1,0 +1,11 @@
+actions basic_027;
+
+rule r {
+	pattern {
+		x:Node -e:Edge-> y:Node;
+	}
+	modify {
+		delete(x); //e and y are implicitly deleted too, of course...
+		x -e-> y;  //...even if they reused here, but that does not matter!
+	}
+}

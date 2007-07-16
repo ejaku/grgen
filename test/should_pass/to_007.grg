@@ -1,0 +1,13 @@
+actions to_007 using test_model_002, attrib_model_001;
+
+rule to_6 (p:AB) {
+	pattern {
+		a : A;
+	    b : typeof(a);
+		a - e:EINT -> b:
+		a <- ee:EBOOL - b;
+	}
+	modify {
+		- f: typeof(ee)<e> ->;
+	}
+}
