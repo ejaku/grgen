@@ -16,26 +16,28 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
-	\item In modify-parts the error detection wrongly reports invalid reuse of nodes and edges.
 	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.
-	\item Dangling edge graphlets on the RHS should work, if the edge is a reused one and if all incident pattern nodes of that edge are also reused.
-    However, if such an edge is retyped, GrGen reports an error, which should not be the case.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
 	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
 	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.
 \end{itemize}
 Done:
 \begin{itemize}
-  \item If the filename of a .grg-file does not conform with the name given along with the {\tt actions} keyword, an error is raised (which is just the right behaviour). However, the output file is genrated all the same, which should not happen.\\
+	\item In modify-parts the error detection wrongly reports invalid reuse of nodes and edges.\\
+		\{seems to work now---Batz 7/17/2007\}
+	\item Dangling edge graphlets on the RHS should work, if the edge is a reused one and if all incident pattern nodes of that edge are also reused.
+    However, if such an edge is retyped, GrGen wrongly reports an error.\\
+		\{seems to work now---Batz 7/17/2007\}
+	\item Annotions of anonymous nodes and edges do not work.\\
+		\{implemented---Batz 7/14/2007\}
+	\item If the filename of a .grg-file does not conform with the name given along with the {\tt actions} keyword, an error is raised (which is just the right behaviour). However, the output file is genrated all the same, which should not happen.\\
     \{fixed---Batz 7/13/2007\}
-  \item Error detection for the {\tt return} statement is errorneous.\\
-  \{seems to work now---Batz 7/13/2007\}
-  \item At test case should\_fail/ret\_001.grg:
+	\item Error detection for the {\tt return} statement is errorneous.\\
+		\{seems to work now---Batz 7/13/2007\}
+	\item At test case should\_fail/ret\_001.grg:
   	The signature of the rule demands a type {\tt AB}.
 	However, if you return a type {\tt C} (that is no subtype of {\tt AB}) no error is reported, which were the right behaviour.\\
-  \{as the return stuff now works, this works, too---Batz 7/13/2007\}
-  \item Annotions of anonymous nodes and edges do not work.\\
-  \{implemented---Batz 7/14/2007\}
+		\{as the return stuff now works, this works, too---Batz 7/13/2007\}
 \end{itemize}
 
 
