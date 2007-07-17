@@ -1,0 +1,15 @@
+actions ret_003 using basic_model_002, inh_attrib_model_002;
+
+rule r : (A, AB, Type1, N) {
+	pattern {
+		x : A;
+		y : AB;
+		z : C;
+		n : N;
+	}
+	replace {
+	    n; x-type3:Type3->y;
+		return (x, y, type3, n);
+	}
+}
+

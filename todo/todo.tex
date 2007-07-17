@@ -20,6 +20,8 @@ ToDo:
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
 	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
 	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.
+    \item GrGen crashes with a NullPointerException if the .grg file specifies a non-existing model file.
+    \item GrGen crashes when a newly created edge is returned, saying that ''the element 'type3', that isneither a parameter, nor contained in LHS, nor in RHS, occurs in a return''. Crashes in ...ast.RuleDeclNode.checkReturnedElemsNotDeleted. (should\_pass/ret\_003\_fe.grg)
 	\item Where warnings should be raised:
 		\begin{itemize}
 			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.
@@ -56,10 +58,13 @@ Done:
 \subsection*{C\#-Searchplan-Backend (Java):}
 ToDo:
 \begin{itemize}
-	\item Find out wether the C\#-code generated for {/should\_pass/basic\_027.grg} is correct. Batz does not think, that this is the case. What does Kroll say?
+	\item The C\#-code generated for {/should\_pass/basic\_027.grg} is not correct. Because of ''x -e-$>$ y;'' in the modify part, ''delete(x);'' is ignored.
 \end{itemize}
 Done:
-
+\begin{itemize}
+    \item Float constants are not correctly emitted.\\
+    \{fixed---Kroll 2007-07-14\}
+\end{itemize}
 
 
 \subsection*{Backend (C\#):}
