@@ -25,6 +25,7 @@ ToDo:
 			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.
 			\item If an assignment {\tt x.a = \dots} occurs inside an {\tt eval}, but the graph element {\tt x} will be deleted on a rewrite.
 			\item If one or more attributes of a newly created node are not initialized by the eval part of the respective rule.
+			\item If the types of potentially homomorphic pattern nodes have no common subtype (because non-injective matching is \emph{impossible} in this case).
 		\end{itemize}
 	\item The statements {\tt actions} and {\tt model} should be removed from the specification language of GrGen.NET.
 		However, if such a statement occurs at the beginning of a specification, a deprecated-warning should be raised.
