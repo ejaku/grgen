@@ -20,7 +20,7 @@ ToDo:
 	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.
 	\item Dangling edge graphlets on the RHS should work, if the edge is a reused one and if all incident pattern nodes of that edge are also reused.
     However, if such an edge is retyped, GrGen reports an error, which should not be the case.
-	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen reports an error, which should not be the case.
+	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
 	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
 	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.
 \end{itemize}
