@@ -353,7 +353,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				if(rnode.inheritsType()) {
 					new_type = formatEntity(rnode.getTypeof()) + "_type";
 					extractNodeFromMatch.add(rnode.getTypeof());
-					extractNodeTypeFromMatch.add(node.getTypeof());
+/*					extractNodeTypeFromMatch.add(node.getTypeof());*/ //Batz thinks this is wrong!
+					extractNodeTypeFromMatch.add(rnode.getTypeof()); //corrected version of above line
 				} else {
 					new_type = formatType(rnode.getType()) + ".typeVar";
 				}
