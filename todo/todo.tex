@@ -16,7 +16,6 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
-	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
 	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
 	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.
@@ -37,6 +36,8 @@ ToDo:
 \noindent
 Done:
 \begin{itemize}
+	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.\\
+		\{seems to work now---Batz 18. Jul. 2007\}
     \item GrGen crashes when a newly created edge is returned, saying that ''the element 'type3', that isneither a parameter, nor contained in LHS, nor in RHS, occurs in a return''.
 		Crashes in\\
 		...ast.RuleDeclNode.checkReturnedElemsNotDeleted.\\
