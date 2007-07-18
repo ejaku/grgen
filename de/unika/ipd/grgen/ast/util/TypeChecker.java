@@ -79,12 +79,23 @@ public class TypeChecker implements Checker
 		}
 		return res;
 	}
+	protected String getExpection(Class cls)
+	{
+		String res = "";
+
+		try {
+			res = (String) cls.getMethod("getKindStr").invoke(null);
+		}
+		catch(Exception e) { res = "<invalid>"; }
+
+		return res;
+	}
 	
 	protected String getExpectionList(Class[] classes)
 	{
 		StringBuffer list = new StringBuffer();
 		for (int i=0; i < classes.length; i++) {
-			list.append(classes[i]);
+			list.append(getExpection(classes[i]));
 			if ( i < classes.length - 2 )
 				list.append(", ");
 			else if (i == classes.length - 2 )
@@ -97,7 +108,5 @@ public class TypeChecker implements Checker
 	{
 		return "expected a " + getExpectionList(classes);
 	}
-	
-	
 }
 

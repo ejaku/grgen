@@ -45,7 +45,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	
 	private static final Checker typeChecker =
 		new TypeChecker(NodeTypeNode.class);
-	
+
 	/**
 	 * Make a new node declaration.
 	 * @param id The identifier of the node.

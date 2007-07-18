@@ -550,7 +550,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			// Create the edge
 			sb2.append(
 				"\t\t\tLGSPEdge " + formatEntity(edge) + " = graph.AddEdge(" +
-					type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
+					type + ", " +
+					( src_node != null ? formatEntity(src_node) : "null" ) + ", " +
+					( tgt_node != null ? formatEntity(tgt_node) : "null" ) + ");\n"
+					/* type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n" */
 			);
 		}
 	}
@@ -1583,6 +1586,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 

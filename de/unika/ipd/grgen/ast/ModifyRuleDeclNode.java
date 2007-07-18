@@ -29,13 +29,17 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	
 	private static final Resolver deleteResolver =
 		new CollectResolver(
-		new DeclResolver(
-							   new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
+			new DeclResolver(
+				new Class[] { NodeDeclNode.class, EdgeDeclNode.class }
+			)
+		);
 	
 	private static final Checker deleteChecker =
 		new CollectChecker(
-		new MultChecker(
-							  new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
+			new MultChecker(
+				new Class[] { NodeDeclNode.class, EdgeDeclNode.class }
+			)
+		);
 	
 	public ModifyRuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
 							  BaseNode neg, BaseNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
@@ -82,6 +86,85 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
 						"neither a parameter, nor contained in LHS, nor in " +
 						"RHS, occurs in a return";
+			}
+		}
+		return res;
+	}
+
+	protected boolean checkRhsReuse(PatternGraphNode left, GraphNode right)
+	{
+		boolean res = true;
+		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
+		for (BaseNode lc : left.getConnections())
+		{
+			for (BaseNode rc : right.getConnections())
+			{
+				
+				if (lc instanceof SingleNodeConnNode ||
+					rc instanceof SingleNodeConnNode ) continue;
+				
+				ConnectionNode lConn = (ConnectionNode) lc;
+				ConnectionNode rConn = (ConnectionNode) rc;
+				
+				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
+				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
+				
+				if (re instanceof EdgeTypeChangeNode)
+					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+				
+				if ( ! le.equals(re) ) continue;
+				
+				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
+				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
+				NodeDeclNode rSrc = (NodeDeclNode) rConn.getSrc();
+				NodeDeclNode rTgt = (NodeDeclNode) rConn.getTgt();
+				
+				Collection<BaseNode> rhsNodes = right.getNodes();
+
+				if (rSrc instanceof NodeTypeChangeNode) {
+					rSrc = (NodeDeclNode) ((NodeTypeChangeNode)rSrc).getOldNode();
+					rhsNodes.add(rSrc);
+				}
+				if (rTgt instanceof NodeTypeChangeNode) {
+					rTgt = (NodeDeclNode) ((NodeTypeChangeNode)rTgt).getOldNode();
+					rhsNodes.add(rTgt);
+				}
+				
+				//check, wether reuse of nodes and edges is consistent with the LHS
+				if ( rSrc.isDummy() ) {
+					rConn.setSrc(lSrc);
+				}
+				else if ( ! rSrc.equals(lSrc) ) {
+					res = false;
+					rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+					alreadyReported.add(re);
+				}
+				
+				if ( rTgt.isDummy() ) {
+					rConn.setTgt(lTgt);
+				}
+				else if ( ! rTgt.equals(lTgt) ) {
+					res = false;
+					rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+					alreadyReported.add(re);
+				}
+
+				//check, whether RHS "adds" a node to a dangling end of a edge
+				if ( ! alreadyReported.contains(re) )
+				{
+					if ( lSrc.isDummy() && ! rSrc.isDummy() )
+					{
+						res = false;
+						rConn.reportError("reused edge dangles on LHS, but has a source node on RHS");
+						alreadyReported.add(re);
+					}
+					if ( lTgt.isDummy() && ! rTgt.isDummy() )
+					{
+						res = false;
+						rConn.reportError("reused edge dangles on LHS, but has a target node on RHS");
+						alreadyReported.add(re);
+					}
+				}
 			}
 		}
 		return res;

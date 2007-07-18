@@ -486,9 +486,12 @@ replConnections [ BaseNode connColl ]
       | e=replBackwardEdgeOcc { forward=false; }
     )
     {
-		if ( ! e.isKept() ) reportError(e.getCoords(),
-				"dangling edges in replace/modify part must already " +
-				"occur in the pattern part");
+    	BaseNode x = e;
+    	if (e instanceof DeclNode) x = ((DeclNode) e).getIdentNode();
+
+    	if (! x.isKept() ) reportError(e.getCoords(),
+    		"dangling edges in replace/modify part must already " +
+    		"occur in the pattern part");
     }
     (
         n=replNodeContinuation[connColl] {
@@ -529,17 +532,21 @@ replEdgeContinuation [ BaseNode left, BaseNode collect ]
     	  			collect.addChild(new ConnectionNode(n, e, left));
     	  }
     	| /* the edge declared by <code>res</code> dangles on the right */ {
-			    NodeDeclNode dummyNode = env.getDummyNodeDecl();
 
-			    if (! e.isKept() ) reportError(e.getCoords(),
-			    	"dangling edges in replace/modify part must already " +
-			    	"occur in the pattern part");
-			    
-    	  		if (forward)
-    	  			collect.addChild(new ConnectionNode(left, e, dummyNode));
-    	  		else
-    	  			collect.addChild(new ConnectionNode(dummyNode, e, left));
-    	  }
+    			NodeDeclNode dummyNode = env.getDummyNodeDecl();
+    			
+    			BaseNode x = e;
+    			if (e instanceof DeclNode) x = ((DeclNode) e).getIdentNode();
+
+    			if (! x.isKept() ) reportError(e.getCoords(),
+    				"dangling edges in replace/modify part must already " +
+    				"occur in the pattern part");
+				
+     			if (forward)
+    				collect.addChild(new ConnectionNode(left, e, dummyNode));
+    			else
+    				collect.addChild(new ConnectionNode(dummyNode, e, left));
+    	}
     )
   ;
 
@@ -621,7 +628,7 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
     	if (anonymous) id = env.defineAnonymousEntity("edge", getCoords(d));
     }
     ( type=typeIdentUse | TYPEOF LPAREN type=entIdentUse RPAREN )
-    (LT oldid=entIdentUse GT {res.setKept(true);} )?
+    (LT oldid=entIdentUse GT {id.setKept(true);} )?
     {
        if( oldid == null )
            res = new EdgeDeclNode(id, type);
@@ -674,7 +681,8 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   : res=typeIdentUse { res = new TypeConstraintNode(res); }
   | LPAREN res=typeAddExpr RPAREN
   ;
-  
+
+
 
 
 

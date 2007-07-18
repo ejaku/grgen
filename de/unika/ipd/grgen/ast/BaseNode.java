@@ -151,19 +151,21 @@ public abstract class BaseNode extends Base
 	public static void setName(Class cls, String name) {
 		names.put(cls, name);
 	}
+
 	/**
 	 * tells whether the node or edge of the pattern part, that is represented
 	 * by a base node, occurs in the replace/modify part again
 	 */
-	public boolean isKept()
+	public final boolean isKept()
 	{
 		return kept;
 	}
+
 	/**
 	 * set whether the node or edge of the pattern part, that is represented
 	 * by a base node, occurs in the replace/modify part again
 	 */
-	public void setKept(boolean x)
+	public final void setKept(boolean x)
 	{
 		kept = x;
 	}

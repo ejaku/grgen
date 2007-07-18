@@ -66,6 +66,15 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
     return (EdgeCharacter) getChild(OLD);
   }
   
+  public IdentNode getOldEdgeIdent()
+  {
+	  if (getChild(OLD) instanceof IdentNode) return (IdentNode) getChild(OLD);
+	  if (getChild(OLD) instanceof EdgeDeclNode)
+		  return ((EdgeDeclNode) getChild(OLD)).getIdentNode();
+	  
+	  return IdentNode.getInvalid();
+  }
+  
   /**
    * @see de.unika.ipd.grgen.ast.BaseEdge#check()
    */
@@ -97,7 +106,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	res.setOldEdge(edge);
 	
 	if(inheritsType()) {
-		res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));
+		res.setTypeof( (Edge) getChild(TYPE).checkIR(Edge.class) );
 	}
 	  
 	return res;

@@ -68,7 +68,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		new TypeChecker(NodeTypeNode.class);
 		
 	private static final Checker edgeChecker =
-		new TypeChecker(EdgeTypeNode.class);
+					new TypeChecker(EdgeTypeNode.class);
 		
 
 	/**
