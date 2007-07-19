@@ -16,8 +16,11 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
+	\item Bug: There's no check for multiply assigned values in enum declarations.
+		Moreover, for enum items without user defined value there is no check wether the automatically assigned value conflicts with another user defined value.
 	\item There are no implicit casts of enum items to number types, which is just the desired behaviour. But in \emph{enum item declarations} GrGen should insert implicit casts to {\tt int}. Implement this!
-	\item Enum declarations: We must ensure, that enum items from other enum types can \emph{not} be used in expressions initializing an enum item. Check this, when the enum initizilizers are implemented correctly (look right above)!
+	\item Enum declarations: We must ensure, that enum items from other enum types can \emph{not} be used in expressions initializing an enum item.
+		Check this, when the enum initizilizers are implemented correctly (look right above)!
     \item {\tt test} rules don't work yet.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
 	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
