@@ -10,7 +10,7 @@ ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
 all:	grgen
 
 grgen: .grammar
-	@if [ ! -e .generator_build ]; then \
+	@if [ ! -e .generator_build -o ! -f grgen.jar ]; then \
 	  $(MAKE) .generator_build; \
 	else \
 	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \

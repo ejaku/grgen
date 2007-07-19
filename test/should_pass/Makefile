@@ -11,8 +11,8 @@ JARGS=$(GRGENDIR)/jars/jargs.jar
 ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
-# where GrGen.NET is located
-GRGENNET=$(GRGENDIR)/../GrGen/bin
+# guess, where GrGen.NET is located, if not already set
+GRGENNET?=$(GRGENDIR)/../GrGen/bin
 
 #
 # full classpath for executing grgen
@@ -22,18 +22,25 @@ GMS     = $(wildcard *.gm)
 GRGS    = $(wildcard *.grg)
 
 
-DIRS_FE = $(GRGS:.grg=_fe)    # The directory for the C# compiling backend
+TARGETS_FE= $(GRGS:.grg=_fe)        # The targets for the frontend-only test
+SUCCESSFILES_FE= $(GRGS:.grg=_fe)   # The success files for the frontend-only test
+DIRS_FE = $(GRGS:.grg=_fe_out)      # The directory for the frontend-only test
 
-DIRS_CSC= $(GRGS:.grg=_csc)   # The directory for the frontend-only test
+TARGETS_CSC= $(GRGS:.grg=_csc_success)      # The targets for the C# compiling backend
+SUCCESSFILES_CSC= $(GRGS:.grg=_csc_success) # The success files for the C# compiling backend
+DIRS_CSC= $(GRGS:.grg=_csc_out)             # The directory for the C# compiling backend
 BE_CSC  = de.unika.ipd.grgen.be.Csharp.SearchPlanBackend
 
-DIRS_CSI= $(GRGS:.grg=_csi)   # The directory for the C# interpreting backend
+DIRS_CSI= $(GRGS:.grg=_csi)         # The directory for the C# interpreting backend
 
-all: clean $(DIRS_FE)
+all: cleanfelog $(TARGETS_FE)
 	cat failedFE.log
 
-csc: clean $(DIRS_CSC)
-	cat failedCSC.log
+csc: cleancsclog $(TARGETS_CSC)
+	@echo -e "-------------\nFailed in frontend of GrGen (from failedCSC_FE.log):\n"
+	@cat failedCSC_FE.log
+	@echo -e "\nFailed in C# part of GrGen (from failedCSC.log):\n"
+	@cat failedCSC.log
 
 grgenuptodate: $(GRGENDIR)/grgen.jar
 	@touch grgenuptodate
@@ -42,15 +49,24 @@ grgenuptodate: $(GRGENDIR)/grgen.jar
 %_fe : %.grg $(GMS)
 	@touch successFE.log
 	@touch failedFE.log
-	@test -d $@ || mkdir $@
-	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@ $< && echo "$< succeeded" >> successFE.log || echo "$< failed" >> failedFE.log
+	@test -d $@_out || mkdir $@_out
+	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
 
-%_csc : %.grg $(GMS) grgenuptodate
+%_csc : %.grg $(GMS) grgenuptodate %_csc_success ;
+
+%_csc_success : %.grg $(GMS)
+	@echo -e "-------------\nTesting $<...\n"
 	@touch successCSC.log
 	@touch failedCSC.log
-	@test -d $@ || mkdir $@
-	-mono $(GRGENNET)/GrGen.exe -d $@ -o $@ $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
+	@test -d $(@:%_csc_success=%_csc_out) || mkdir $(@:%_csc_success=%_csc_out)
+	-mono $(GRGENNET)/GrGen.exe -d $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
+	@rm -f $@_tmp.log
 
 clean:
-	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log
+	rm -rf $(SUCCESSFILES_FE) $(DIRS_FE) $(SUCCESSFILES_CSC) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log failedCSC_FE.log
 
+cleanfelog:
+	rm -f failedFE.log
+
+cleancsclog:
+	rm -f failedCSC.log failedCSC_FE.log

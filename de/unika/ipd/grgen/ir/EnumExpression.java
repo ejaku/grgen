@@ -36,6 +36,10 @@ public class EnumExpression extends Constant {
 		setName("enum expression");
 	}
 	
+	public EnumItem getEnumItem() {
+		return item;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
 	 */

@@ -353,7 +353,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				if(rnode.inheritsType()) {
 					new_type = formatEntity(rnode.getTypeof()) + "_type";
 					extractNodeFromMatch.add(rnode.getTypeof());
-/*					extractNodeTypeFromMatch.add(node.getTypeof());*/ //Batz thinks this is wrong!
+					/*					extractNodeTypeFromMatch.add(node.getTypeof());*/ //Batz thinks this is wrong!
 					extractNodeTypeFromMatch.add(rnode.getTypeof()); //corrected version of above line
 				} else {
 					new_type = formatType(rnode.getType()) + ".typeVar";
@@ -486,9 +486,9 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	// re-type: 32
 	//
 	private void genRewriteNewEdges(StringBuffer sb2, Collection<Edge> newEdges, Collection<Edge> delEdges, Rule rule,
-									Collection<Node> extractNodeFromMatch,
-									Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch,
-									List<Edge> addedEdges, boolean reuseNodeAndEdges) {
+			Collection<Node> extractNodeFromMatch,
+			Collection<Edge> extractEdgeFromMatch, Collection<Edge> extractEdgeTypeFromMatch,
+			List<Edge> addedEdges, boolean reuseNodeAndEdges) {
 		NE:	for(Edge edge : newEdges) {
 			addedEdges.add(edge);
 			Node src_node = rule.getRight().getSource(edge);
@@ -551,17 +551,17 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			// Create the edge
 			sb2.append(
 				"\t\t\tLGSPEdge " + formatEntity(edge) + " = graph.AddEdge(" +
-					type + ", " +
-					( src_node != null ? formatEntity(src_node) : "null" ) + ", " +
-					( tgt_node != null ? formatEntity(tgt_node) : "null" ) + ");\n"
-					/* type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n" */
+				type + ", " +
+						  ( src_node != null ? formatEntity(src_node) : "null" ) + ", " +
+						  ( tgt_node != null ? formatEntity(tgt_node) : "null" ) + ");\n"
+				/* type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n" */
 			);
 		}
 	}
 	
 	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes,
-									Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch,
-									List<Node> addedNodes, boolean reuseNodeAndEdges) {
+			Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch,
+			List<Node> addedNodes, boolean reuseNodeAndEdges) {
 		
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
@@ -619,7 +619,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			}
 			sb2.append(
 				"\t\t\tLGSPNode " + formatEntity(node) + " = graph.AddNode(" +
-					type + ");\n"
+				type + ");\n"
 			);
 		}
 	}
@@ -651,7 +651,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private void genEvals(StringBuffer sb, Rule rule,
-						  Collection<Node> neededNode, Collection<Edge> neededEdge) {
+			Collection<Node> neededNode, Collection<Edge> neededEdge) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false;
 		for(Assignment ass : rule.getEvals()) {
 			String varName, varType;
@@ -695,14 +695,14 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			
 			if(entity instanceof Node) {
 				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatEntity((Node)entity) +
-							  ", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+						", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genConditionEval(sb, ass.getTarget(), neededNode, neededEdge);
 				sb.append(", " + varName + ");\n");
 			} else if(entity instanceof Edge) {
 				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEntity((Edge)entity) +
-							  ", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+						", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genConditionEval(sb, ass.getTarget(), neededNode, neededEdge);
 				sb.append(", " + varName + ");\n");
 			}
@@ -783,7 +783,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private int genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name,
-								int condCntInit, int negCount, List<Entity> parameters) {
+			int condCntInit, int negCount, List<Entity> parameters) {
 		boolean isNeg = outer != null;
 		String additional_parameters = isNeg?"PatternElementType.NegElement":"PatternElementType.Normal";
 		
@@ -988,7 +988,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t{\n");
 		for(EnumType enumt :enumMap.keySet()) {
 			sb.append("\t\tpublic static EnumAttributeType " + formatIdentifiable(enumt) +
-						  " = new EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt) + "\", new EnumMember[] {\n");
+					" = new EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt) + "\", new EnumMember[] {\n");
 			for(EnumItem enumi : enumt.getItems()) {
 				sb.append("\t\t\tnew EnumMember(" + enumi.getValue().getValue() + ", \"" + formatIdentifiable(enumi) + "\"),\n");
 			}
@@ -1172,7 +1172,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override bool IsNodeType { get { return " + ((type instanceof NodeType) ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override IAttributes CreateAttributes() { return "
-					  + (type.getAllMembers().size() == 0 ? "null" : "new " + cname + "()") + "; }\n");
+				+ (type.getAllMembers().size() == 0 ? "null" : "new " + cname + "()") + "; }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
 		genGetAttributeType(sb, type);
@@ -1187,7 +1187,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	 */
 	private void genAttributeAccess(StringBuffer sb, InheritanceType type) {
 		for(Entity e : type.getMembers()) {
-			sb.append("\t\t" + formatAttributeType(e) + " " + formatAttributeName(e) + " { get; set; }\n");
+			sb.append("\t\t" + formatAttributeType(e) + " @" + formatAttributeName(e) + " { get; set; }\n");
 		}
 	}
 	
@@ -1199,7 +1199,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genAttributeAccessImpl(StringBuffer sb, InheritanceType type) {
 		for(Entity e : type.getAllMembers()) {
 			sb.append("\t\tprivate " + formatAttributeType(e) + " _" + formatAttributeName(e) + ";\n");
-			sb.append("\t\tpublic " + formatAttributeType(e) + " " + formatAttributeName(e) + "\n");
+			sb.append("\t\tpublic " + formatAttributeType(e) + " @" + formatAttributeName(e) + "\n");
 			sb.append("\t\t{\n");
 			sb.append("\t\t\tget { return _" + formatAttributeName(e) + "; }\n");
 			sb.append("\t\t\tset { _" + formatAttributeName(e) + " = value; }\n");
@@ -1260,7 +1260,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 	
 	private strictfp void genConditionEval(StringBuffer sb, Expression cond,
-										   Collection<Node> neededNode, Collection<Edge> neededEdge) {
+			Collection<Node> neededNode, Collection<Edge> neededEdge) {
 		if(cond instanceof Operator) {
 			Operator op = (Operator)cond;
 			switch (op.arity()) {
@@ -1287,7 +1287,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 						sb.append(")");
 						break;
 					}
-				default: throw new UnsupportedOperationException("Unsupported Operation arrity (" + op.arity() + ")");
+					// FALLTHROUGH
+				default:
+					throw new UnsupportedOperationException(
+							"Unsupported operation arity (" + op.arity() + ")");
 			}
 		}
 		else if(cond instanceof Qualification) {
@@ -1301,7 +1304,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			else
 				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
 		}
-		else if (cond instanceof Constant) { // gen C-code for constant expressions
+		else if(cond instanceof EnumExpression) {
+			EnumExpression enumExp = (EnumExpression) cond;
+			sb.append("ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
+		}
+		else if(cond instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) cond;
 			Type type = constant.getType();
 			
@@ -1339,24 +1346,30 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else if(cond instanceof Cast) {
 			Cast cast = (Cast) cond;
 			Type type = cast.getType();
-			String typeName = "";
 			
-			if (type instanceof IntType) typeName = "int";
-			if (type instanceof FloatType) typeName = "float";
-			if (type instanceof DoubleType) typeName = "double";
-			if (type instanceof StringType) typeName = "string";
-			if (type instanceof BooleanType) typeName = "bool";
-			
-			assert(typeName.length() > 0) :
-				"This is either a forbidden cast, which should have been " +
-				"rejected on building the IR, or an allowed cast, which " +
-				"should have been processed by the above code.";
-			
-			sb.append("(");
-			sb.append("(" + typeName  + ") ");
-			genConditionEval(sb, cast.getExpression(), neededNode, neededEdge);
-			sb.append(")");
-			
+			if(type.classify() == Type.IS_STRING) {
+				genConditionEval(sb, cast.getExpression(), neededNode, neededEdge);
+				sb.append(".ToString()");
+			}
+			else {
+				String typeName = "";
+				
+				switch(type.classify()) {
+					case Type.IS_INTEGER: typeName = "int"; break;
+					case Type.IS_FLOAT: typeName = "float"; break;
+					case Type.IS_DOUBLE: typeName = "double"; break;
+					case Type.IS_BOOLEAN: typeName = "bool"; break;
+					default:
+						throw new UnsupportedOperationException(
+							"This is either a forbidden cast, which should have been " +
+							"rejected on building the IR, or an allowed cast, which " +
+							"should have been processed by the above code.");
+				}
+				
+				sb.append("((" + typeName  + ") ");
+				genConditionEval(sb, cast.getExpression(), neededNode, neededEdge);
+				sb.append(")");
+			}
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
@@ -1364,12 +1377,12 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	private void genQualAccess(GraphEntity entity, Collection neededGraphEntity, StringBuffer sb, Qualification qual) {
 		if(neededGraphEntity != null) { // null iff qual access used in
 			neededGraphEntity.add(entity);
-			sb.append(formatEntity(entity) + "_attributes." + formatIdentifiable(qual.getMember()));
+			sb.append(formatEntity(entity) + "_attributes.@" + formatIdentifiable(qual.getMember()));
 		}
 		else {
 			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
-						  formatIdentifiable(entity.getType()) + ") ");
-			sb.append(formatEntity(entity) + ".attributes)." + formatIdentifiable(qual.getMember()));
+					formatIdentifiable(entity.getType()) + ") ");
+			sb.append(formatEntity(entity) + ".attributes).@" + formatIdentifiable(qual.getMember()));
 		}
 	}
 	
@@ -1432,10 +1445,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				Type ownerType = e.getOwner();
 				if(ownerType == type)
 					sb.append("\t\t\t\tcase \"" + formatIdentifiable(e) + "\" : return " +
-								  formatAttributeTypeName(e) + ";\n");
+							formatAttributeTypeName(e) + ";\n");
 				else
 					sb.append("\t\t\t\tcase \"" + formatIdentifiable(e) + "\" : return " +
-								  formatType(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
+							formatType(ownerType) + "." + formatAttributeTypeName(e) + ";\n");
 			}
 			sb.append("\t\t\t}\n");
 			sb.append("\t\t\treturn null;\n");
@@ -1466,7 +1479,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	
 	private void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
-							  PatternGraph outer, int negCount) {
+			PatternGraph outer, int negCount) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
@@ -1510,6 +1523,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else if(cond instanceof Operator)
 			for(Expression child : ((Operator)cond).getWalkableChildren())
 				collectNodesnEdges(nodes, edges, child);
+		else if(cond instanceof Cast)
+			collectNodesnEdges(nodes, edges, ((Cast)cond).getExpression());
 	}
 	
 	private String formatAttributeName(Entity e) {
