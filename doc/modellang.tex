@@ -69,6 +69,8 @@ Using an identifier before defining it is allowed. Every used identifier has to 
 These are (semantic) specializations of \emph{Ident} to restrict an identifier to denote a node type, an edge type, or an enum type, respectively.
 
 \section{Type Declarations}
+\label{typedecl}
+
 \begin{rail}
   GraphModel: 'model' IdentDecl ';' (() + TypeDeclaration);
 \end{rail}\ixkeyw{model}\ixnterm{GraphModel}
@@ -83,7 +85,16 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
-A \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{builtin}).
+An enum type is a collection of so called \indexed{enum item}s that are associated with integral numbers, each.
+Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{builtin}).
+\begin{note}
+	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see section~\ref{builtin}).
+\end{note}
+\begin{note}
+	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see section~\ref{builtin}).
+	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
+	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
+\end{note}
 
 \begin{example}
 \begin{grgen}
@@ -91,8 +102,14 @@ enum Color {red, green, blue}
 enum Resident {village = 500, town = 5000, city = 50000}
 enum AsInC {a = 2, b, c = 1, d, e = (int)Resident::village + c}
 \end{grgen}
-The semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
+Consider, e.g., the declaration of the enum item {\tt e}:
+By implicit casts of   {\tt Resident::village } and {\tt c} to {\tt int} we get the {\tt int} value 501, which is assigned to {\tt e}.
+Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following holds: $\texttt{red} = 0$, $\texttt{green} = 1$, $\texttt{blue} = 2$, $\texttt{a}=2$, $\texttt{b}=3$, $\texttt{c}=1$, $\texttt{d}=2$, and $\texttt{e}=501$.
 \end{example}
+\begin{note}
+	The C-like semantics of enum item declarations implies, that multiple items of one enum type can be associated with the same same {\tt int} value.
+	Moreover, it implies, that an item of the currently declared enum type must not be used \emph{before} its definition.
+\end{note}
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') (NodeClass | EdgeClass);
