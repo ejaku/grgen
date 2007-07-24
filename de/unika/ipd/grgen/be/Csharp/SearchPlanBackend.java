@@ -370,10 +370,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				String new_type;
 				RetypedEdge redge = edge.getRetypedEdge();
 				
-				if(edge.inheritsType()) {
+/*				if(edge.inheritsType()) {*/
+				if(redge.inheritsType()) {
 					new_type = formatEntity(redge.getTypeof()) + "_type";
 					extractEdgeFromMatch.add(redge.getTypeof());
-					extractEdgeTypeFromMatch.add(edge.getTypeof());
+					extractEdgeTypeFromMatch.add(redge.getTypeof());
 				} else {
 					new_type = formatType(redge.getType()) + ".typeVar";
 				}
@@ -1602,6 +1603,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 

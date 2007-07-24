@@ -49,13 +49,6 @@ import de.unika.ipd.grgen.ir.VoidType;
 public abstract class BasicTypeNode extends DeclaredTypeNode {
 	
 	/**
-	 * A map, that maps each basic type to a set to all other basic types,
-	 * that are compatible to the type.
-	 */
-	private static final Map<TypeNode, HashSet> compatibleMap = new HashMap<TypeNode, HashSet>();
-
-	
-	/**
 	 * The string basic type.
 	 */
 	public static final BasicTypeNode stringType = new BasicTypeNode() {
@@ -189,6 +182,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(intType, floatType);
 		addCompatibility(intType, doubleType);
 		addCompatibility(floatType, doubleType);
+		addCompatibility(enumItemType, intType);
 
 		//require explicit cast
 		addCastability(booleanType, stringType);
@@ -198,6 +192,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCastability(doubleType, intType);
 		addCastability(doubleType, floatType);
 		addCastability(doubleType, stringType);
+		addCastability(enumItemType, stringType);
 		
 		valueMap.put(intType, Integer.class);
 		valueMap.put(floatType, Float.class);
@@ -240,50 +235,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return invalidValueType.getClass();
 		else
 			return (Class) valueMap.get(this);
-	}
-	
-	/**
-	 * Add a compatibility to the compatibility map.
-	 * @param a The first type.
-	 * @param b The second type.
-	 */
-	protected static void addCompatibility(TypeNode a, TypeNode b)
-	{
-		addTypeToMap(compatibleMap, a, b);
-	}
-	
-	/**
-	 * Checks, if two types are compatible
-	 * @param a The first type.
-	 * @param b The second type.
-	 * @return true, if the two types are compatible.
-	 */
-	private static boolean isCompatible(TypeNode a, TypeNode b)
-	{
-		boolean res = false;
-		
-		if(compatibleMap.containsKey(a)) {
-			Set s = compatibleMap.get(a);
-			res = s.contains(b);
-		}
-		
-		return res;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
-	 */
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
-		debug.report(NOTE, "compatible types to " + getName() + ":");
-		
-		Object obj = compatibleMap.get(this);
-		if(obj != null) {
-			Collection<BaseNode> compat = (Collection) obj;
-			for(Iterator<BaseNode> it = compat.iterator(); it.hasNext();) {
-				debug.report(NOTE, "" + it.next().getName());
-			}
-			coll.addAll((Collection) obj);
-		}
 	}
 	
 	/**

@@ -49,9 +49,17 @@ public abstract class ConstNode extends OpNode {
 			protected ConstNode doCastTo(TypeNode type) {
 				return this;
 			}
+			
+			public String toString() {
+				return "invalid const";
+			}
 		};
+		
+	static {
+		INVALID.setName(INVALID.getClass(), "invalid const");
+	}
 
-	protected static final ConstNode getInvalid() {
+	public static final ConstNode getInvalid() {
 		return INVALID;
 	}
 

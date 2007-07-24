@@ -51,6 +51,7 @@ import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.util.Util;
 import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.ast.ExprNode;
 
 public abstract class ParserEnvironment extends Base {
 
@@ -248,6 +249,9 @@ public abstract class ParserEnvironment extends Base {
 	 */
 	public BaseNode initNode() {
 		return BaseNode.getErrorNode();
+	}
+	public ExprNode initExprNode() {
+		return ExprNode.getInvalid();
 	}
 	
 	private	NodeDeclNode dummyNodeDeclNode = null;

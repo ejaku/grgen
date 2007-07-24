@@ -32,12 +32,19 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * An AST node representing a type
  */
 public abstract class TypeNode extends BaseNode {
 
+
+	/**
+	 * A map, that maps each basic type to a set to all other basic types,
+	 * that are compatible to the type.
+	 */
+	protected static final Map<TypeNode, HashSet> compatibleMap = new HashMap<TypeNode, HashSet>();
 
 	/**
 	 * A map, that maps each type to a set to all other types,
@@ -122,12 +129,53 @@ public abstract class TypeNode extends BaseNode {
 		s.add(target);
 	}
 	
+	/**
+	 * Add a compatibility to the compatibility map.
+	 * @param a The first type.
+	 * @param b The second type.
+	 */
+	protected static void addCompatibility(TypeNode a, TypeNode b)
+	{
+		addTypeToMap(compatibleMap, a, b);
+	}
+	
+	/**
+	 * Checks, if two types are compatible
+	 * @param a The first type.
+	 * @param b The second type.
+	 * @return true, if the two types are compatible.
+	 */
+	protected static boolean isCompatible(TypeNode a, TypeNode b)
+	{
+		boolean res = false;
+		
+		if(compatibleMap.containsKey(a)) {
+			Set s = compatibleMap.get(a);
+			res = s.contains(b);
+		}
+		
+		return res;
+	}
+	
 	public static void addCastability(TypeNode from, TypeNode to)
 	{
 		addTypeToMap(castableMap, from, to);
 	}
-	
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
+	 */
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+		debug.report(NOTE, "compatible types to " + getName() + ":");
+		
+		Object obj = compatibleMap.get(this);
+		if(obj != null) {
+			Collection<BaseNode> compat = (Collection) obj;
+			for(Iterator<BaseNode> it = compat.iterator(); it.hasNext();) {
+				debug.report(NOTE, "" + it.next().getName());
+			}
+			coll.addAll((Collection) obj);
+		}
 	}
 	
 	/**

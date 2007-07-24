@@ -101,7 +101,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			try {
 				parser.setEnv(this);
 				root = parser.text();
-				hadError = parser.hadError();
+				hadError = hadError || parser.hadError();
 			}
 			catch(ANTLRException e) {
 				e.printStackTrace(System.err);

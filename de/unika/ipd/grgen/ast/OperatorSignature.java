@@ -36,7 +36,6 @@ import java.util.HashSet;
  */
 public class OperatorSignature extends FunctionSignature
 {
-	
 	public static final int ERROR = 0;
 	public static final int LOG_OR = 1;
 	public static final int LOG_AND = 2;
@@ -133,6 +132,9 @@ public class OperatorSignature extends FunctionSignature
 	/** Just a short form for the float type. */
 	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
 	
+	/** Just a short form for the enum type. */
+	static final TypeNode ENUM = BasicTypeNode.enumItemType;
+
 	/** Just a short form for the type type. */
 	static final TypeNode TYPE = BasicTypeNode.typeType;
 	
@@ -149,6 +151,15 @@ public class OperatorSignature extends FunctionSignature
 	 * @param resType The result type of the operator.
 	 * @param opTypes The operand types of the operator.
 	 */
+	/**
+	 * Method makeOp
+	 *
+	 * @param    id                  an int
+	 * @param    resType             a  TypeNode
+	 * @param    opTypes             a  TypeNode[]
+	 * @param    eval                an Evaluator
+	 *
+	 */
 	public final static void makeOp(int id, TypeNode resType,
 							 TypeNode[] opTypes, Evaluator eval)
 	{
@@ -158,8 +169,10 @@ public class OperatorSignature extends FunctionSignature
 		if(operators.get(oid) == null)
 			operators.put(oid, new HashSet());
 		
-		HashSet<OperatorSignature> typeMap = operators.get(oid);
-		typeMap.add(new OperatorSignature(id, resType, opTypes, eval));
+		HashSet typeMap = operators.get(oid);
+
+		OperatorSignature newOpSig = new OperatorSignature(id, resType, opTypes, eval);
+		typeMap.add(newOpSig);
 	}
 	
 	/**
@@ -170,7 +183,6 @@ public class OperatorSignature extends FunctionSignature
 	public final static void makeBinOp(int id, TypeNode res,
 								TypeNode op0, TypeNode op1, Evaluator eval)
 	{
-		
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
 	
@@ -632,14 +644,115 @@ public class OperatorSignature extends FunctionSignature
 			return expr;
 		}
 	};
-	
+
+	/*
 	public static final Evaluator enumEvaluator = new Evaluator()
 	{
-		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args) {
+		
+		public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[] args)
+		{
+			Coords coords = expr.getCoords();
+			
+			if ( ! expr.isInEnumInit() )
+				if ( op.isAllowedOnlyInEnumInit() ) return expr;
+			if (args.length != op.getArity()) return expr;
+
+			int a0 = 0, a1 = 0;
+			try
+			{
+				a0 = getValue(args[0]);
+				a1 = getValue(args[1]);
+			}
+			catch (ValueException e) {
+				debug.report(NOTE,"expression not evaluatable at " + coords);
+			}
+
+			switch(op.getOpId())
+			{
+				case EQ:
+					return new BoolConstNode(coords, a0 == a1);
+				case NE:
+					return new BoolConstNode(coords, a0 != a1);
+				case LT:
+					return new BoolConstNode(coords, a0 < a1);
+				case LE:
+					return new BoolConstNode(coords, a0 <= a1);
+				case GT:
+					return new BoolConstNode(coords, a0 > a1);
+				case GE:
+					return new BoolConstNode(coords, a0 >= a1);
+				case ADD:
+					return new IntConstNode(coords, a0 + a1);
+				case SUB:
+					return new IntConstNode(coords, a0 - a1);
+				case MUL:
+					return new IntConstNode(coords, a0 * a1);
+
+				case DIV:
+					if (a1 != 0)
+						return new IntConstNode(coords, a0 / a1);
+					else
+						expr.reportError("division by zero");
+					return expr;
+
+				case MOD:
+					if (a1 != 0)
+						return new IntConstNode(coords, a0 % a1);
+					else
+						expr.reportError("modulo zero");
+					return expr;
+	
+				case SHL:
+					return new IntConstNode(coords, a0 << a1);
+				case SHR:
+					return new IntConstNode(coords, a0 >> a1);
+				case BIT_SHR:
+					return new IntConstNode(coords, a0 >>> a1);
+				case BIT_OR:
+					return new IntConstNode(coords, a0 | a1);
+				case BIT_AND:
+					return new IntConstNode(coords, a0 & a1);
+				case BIT_XOR:
+					return new IntConstNode(coords, a0 ^ a1);
+				case NEG:
+					return new IntConstNode(coords, -a0);
+				case BIT_NOT:
+					return new IntConstNode(coords, ~a0);
+				default:
+					debug.report(NOTE,"expression not evaluatable at " + coords);
+			}
 			return expr;
 		}
+		
+		private int getValue(ExprNode x) throws ValueException
+		{
+			if (x instanceof ConstNode)	{
+
+				Object value = ((ConstNode) x).getValue();
+
+				if ( ! (value instanceof Integer) ) {
+					debug.report(NOTE,"expression not evaluatable at " + x.getCoords());
+					throw new ValueException(x.getCoords());
+				}
+				return (Integer) value;
+			}
+			else if (x instanceof DeclExprNode) {
+
+				ExprNode expr = ((DeclExprNode) x).evaluate();
+				if ( ! (expr instanceof ConstNode) )
+					throw new ValueException(x.getCoords());
+
+				Object value = ((ConstNode) expr).getValue();
+				if (value instanceof Integer)
+					return (Integer) value;
+				else
+					throw new ValueException(x.getCoords());
+				
+			}
+			else throw new ValueException(x.getCoords());
+		}
 	};
-	
+	 */
 	private static final Evaluator emptyEvaluator = new Evaluator();
 	
 	// Initialize the operators map.
@@ -890,7 +1003,6 @@ public class OperatorSignature extends FunctionSignature
 	{
 		return id;
 	}
-	
 	
 	/**
 	 * @see java.lang.Object#toString()

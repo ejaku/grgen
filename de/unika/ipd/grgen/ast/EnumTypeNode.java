@@ -32,11 +32,13 @@ import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * An enumeration type AST node.
  */
-public class EnumTypeNode extends CompoundTypeNode {
+public class EnumTypeNode extends CompoundTypeNode
+{
 	
 	static {
 		setName(EnumTypeNode.class, "enum type");
@@ -52,7 +54,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 	
 	private static final Resolver childrenResolver =
 		new CollectResolver(new DeclResolver(EnumItemNode.class));
-	
+	/*
 	private static final OperatorSignature.Evaluator enumEvaluator =
 		new OperatorSignature.Evaluator() {
 		public ConstNode evaluate(Coords coords, OperatorSignature op,
@@ -67,7 +69,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 			return ConstNode.getInvalid();
 		}
 	};
-	
+	 */
 	
 	public EnumTypeNode(BaseNode body) {
 		super(ELEMENTS, childrenChecker, null);
@@ -84,13 +86,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 			new TypeNode[] { BasicTypeNode.booleanType, this, this },
 			OperatorSignature.condEvaluator
 		);
-
-		//each enum type has the operators EQ and NE
-		OperatorSignature.makeBinOp(OperatorSignature.EQ,
-			BasicTypeNode.booleanType, this, this, OperatorSignature.enumEvaluator);
-		OperatorSignature.makeBinOp(OperatorSignature.NE,
-			BasicTypeNode.booleanType, this, this, OperatorSignature.enumEvaluator);
-	
+		
+		addCompatibility(this, BasicTypeNode.intType);
 	}
 	/*
 	protected void doGetCastableToTypes(Collection<TypeNode> coll) {

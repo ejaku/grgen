@@ -253,7 +253,10 @@ enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
 		BaseNode init = null;
 		BaseNode value;
 	}
-	: id=entIdentDecl (ASSIGN init=expr)? {
+	: id=entIdentDecl
+	  (
+	  	ASSIGN init=expr[true] //'true' means that expr initializes an enum item
+	  )? {
 
 		if(init != null)
 			value = init;
@@ -267,7 +270,7 @@ enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
 		res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
 		res.addChild(value);
 		res.addChild(env.getOne());
-	}
+	  }
 	;
 
 basicDecl returns [ BaseNode res = env.initNode() ]

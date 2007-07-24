@@ -132,6 +132,10 @@ public class Graph extends IR {
 		GraphEdge res;
 		Map<Edge, Graph.GraphEdge> map = edges;
 		
+		// TODO Batz included this because an analogoues invocation can be found
+		// in the method right above, dont exactly whether this makes sense
+		if(e.isRetyped()) e = ((RetypedEdge)e).getOldEdge();
+
 		if(!map.containsKey(e)) {
 			res = new GraphEdge(e);
 			map.put(e, res);

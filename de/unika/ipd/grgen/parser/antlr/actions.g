@@ -208,9 +208,11 @@ evalPart [ BaseNode n ]
 	;
 	
 evalBody [ BaseNode n  ]
-  { BaseNode a; }
-  : (a=assignment { n.addChild(a); } SEMI)*
-  ;
+	{ BaseNode a; }
+	: (
+		a=assignment { n.addChild(a); } SEMI
+	  )*
+	;
 	
 /**
  * Pattern bodies consist of connection nodes
@@ -252,8 +254,12 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
 	    if(negsInNegs.children() != 0)
 	      reportError(getCoords(p), "Nesting of negative parts not allowed");
 	  }
-	| COND e=expr { condCollect.addChild(e); } SEMI
-	| COND LBRACE (e=expr SEMI { condCollect.addChild(e); })* RBRACE
+	| COND e=expr[false] //'false' means that expr is not an enum item initializer
+	  { condCollect.addChild(e); } SEMI
+	| COND LBRACE (
+		e=expr[false] //'false' means that expr is not an enum item initializer
+		SEMI { condCollect.addChild(e); }
+	  )* RBRACE
 	| replaceReturns[returnz] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	;

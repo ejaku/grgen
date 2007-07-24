@@ -31,12 +31,32 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * Base class for all expression nodes.
  */
-public abstract class ExprNode extends BaseNode {
+public abstract class ExprNode extends BaseNode
+{
 
 	static {
 		setName(ExprNode.class, "expression");
 	}
 
+	static private final ExprNode INVALID = new ExprNode(Coords.getInvalid())
+	{
+		public TypeNode getType() {
+			return BasicTypeNode.errorType;
+		}
+		public String toString() {
+			return "invalid expression";
+		}
+		public String getKindString() {
+			return "invalid expression";
+		}
+	};
+	
+	static {
+		setName(INVALID.getClass(), "invalid expression");
+	}
+	
+	private boolean inEnumInit = false;
+	
   /**
    * Make a new expression
    */
@@ -44,9 +64,29 @@ public abstract class ExprNode extends BaseNode {
 		super(coords);
   }
 
-  /**
-   * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-   */
+  public static ExprNode getInvalid() {
+	  return INVALID;
+  }
+  
+	/**
+	 * Tells whether this expression is subexpression
+	 * of an initializing expression of an enum item.
+	 *
+	 * @return true if so.
+	 */
+	final public boolean isInEnumInit()
+	{
+		return inEnumInit;
+	}
+
+	final public void setInEnumInit(boolean x)
+	{
+		inEnumInit = x;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
+	 */
   public Color getNodeColor() {
 		return Color.PINK;
   }

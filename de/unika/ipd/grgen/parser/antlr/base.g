@@ -232,56 +232,63 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 
 assignment returns [ BaseNode res = env.initNode() ]
   { BaseNode q, e; }
-  : q=qualIdent a:ASSIGN e=expr {
-  	res = new AssignNode(getCoords(a), q, e);
-  }
+  : q=qualIdent a:ASSIGN e=expr[false]
+    //'false' because this rule is not used for the assignments in enum item decls
+    { res = new AssignNode(getCoords(a), q, e); }
 ;
 
-expr returns [ BaseNode res = env.initNode() ]
-	: res=condExpr ;
+expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: res=condExpr[inEnumInit] ;
 
-condExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op0, op1, op2; }
-	: op0=logOrExpr { res=op0; } (t:QUESTION op1=expr COLON op2=condExpr {
+condExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op0, op1, op2; }
+	: op0=logOrExpr[inEnumInit] { res=op0; }
+	  (t:QUESTION op1=expr[inEnumInit] COLON op2=condExpr[inEnumInit] {
 		res=makeOp(t);
+		res.setInEnumInit(inEnumInit);
 		res.addChild(op0);
 		res.addChild(op1);
 		res.addChild(op2);
 	})?
 ;
 
-logOrExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
-	: res=logAndExpr (t:LOR op=logAndExpr {
+logOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op; }
+	: res=logAndExpr[inEnumInit] (t:LOR op=logAndExpr[inEnumInit] {
 		res=makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
-logAndExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
-	: res=bitOrExpr (t:LAND op=bitOrExpr {
+logAndExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op; }
+	: res=bitOrExpr[inEnumInit] (t:LAND op=bitOrExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
-bitOrExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
-	: res=bitXOrExpr (t:BOR op=bitXOrExpr {
+bitOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op; }
+	: res=bitXOrExpr[inEnumInit] (t:BOR op=bitXOrExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
-bitXOrExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
-	: res=bitAndExpr (t:BXOR op=bitAndExpr {
+bitXOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op; }
+	: res=bitAndExpr[inEnumInit] (t:BXOR op=bitAndExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
-bitAndExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
-	: res=eqExpr (t:BAND op=eqExpr {
+bitAndExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{ ExprNode op; }
+	: res=eqExpr[inEnumInit] (t:BAND op=eqExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -290,13 +297,14 @@ eqOp returns [ Token t = null ]
 	| n:NOT_EQUAL { t=n; }
 	;
 
-eqExpr returns [ BaseNode res = env.initNode() ]
+eqExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-		BaseNode op;
+		ExprNode op;
 		Token t;
 	}
-	: res=relExpr (t=eqOp op=relExpr {
+	: res=relExpr[inEnumInit] (t=eqOp op=relExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -307,13 +315,14 @@ relOp returns [ Token t = null ]
 	| ge:GE { t=ge; }
 	;
 	
-relExpr returns [ BaseNode res  = env.initNode() ]
+relExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-		BaseNode op;
+		ExprNode op;
 		Token t;
 	}
-	: res=shiftExpr (t=relOp op=shiftExpr {
+	: res=shiftExpr[inEnumInit] (t=relOp op=shiftExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -323,13 +332,14 @@ shiftOp returns [ Token res = null ]
 	| b:BSR { res=b; }
 	;
 
-shiftExpr returns [ BaseNode res = env.initNode() ]
+shiftExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-		BaseNode op;
+		ExprNode op;
 		Token t;
 	}
-	: res=addExpr (t=shiftOp op=addExpr {
+	: res=addExpr[inEnumInit] (t=shiftOp op=addExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
@@ -338,13 +348,14 @@ addOp returns [ Token t = null ]
 	| m:MINUS { t=m; }
 	;
 	
-addExpr returns [ BaseNode res = env.initNode() ]
+addExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-		BaseNode op;
+		ExprNode op;
 		Token t;
 	}
-	: res=mulExpr (t=addOp op=mulExpr {
+	: res=mulExpr[inEnumInit] (t=addOp op=mulExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
@@ -355,40 +366,48 @@ mulOp returns [ Token t = null ]
 	;
 
 	
-mulExpr returns [ BaseNode res = env.initNode() ]
+mulExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-		BaseNode op;
+		ExprNode op;
 		Token t;
 	}
-	: res=unaryExpr (t=mulOp op=unaryExpr {
+	: res=unaryExpr[inEnumInit] (t=mulOp op=unaryExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
+		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
-unaryExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op, id; }
-	: t:TILDE op=unaryExpr {
+unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	{
+	  ExprNode op;
+	  BaseNode id;
+	}
+	: t:TILDE op=unaryExpr[inEnumInit] {
 		res = makeUnOp(t, op);
+		res.setInEnumInit(inEnumInit);
 	}
-	| n:NOT op=unaryExpr {
+	| n:NOT op=unaryExpr[inEnumInit] {
 		res = makeUnOp(n, op);
+		res.setInEnumInit(inEnumInit);
 	}
-	| m:MINUS op=unaryExpr {
+	| m:MINUS op=unaryExpr[inEnumInit] {
 		res = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
+		res.setInEnumInit(inEnumInit);
 		res.addChild(op);
 	}
-  | PLUS res=unaryExpr
+	| PLUS res=unaryExpr[inEnumInit]
 	| ( options { generateAmbigWarnings = false; } :
-			(LPAREN typeIdentUse RPAREN unaryExpr) => p:LPAREN id=typeIdentUse RPAREN op=unaryExpr {
+			(LPAREN typeIdentUse RPAREN unaryExpr[inEnumInit]) => p:LPAREN id=typeIdentUse RPAREN op=unaryExpr[inEnumInit] {
 				res = new CastNode(getCoords(p));
+				res.setInEnumInit(inEnumInit);
 				res.addChild(id);
 				res.addChild(op);
 			}
-			| res=primaryExpr)
-
+			| res=primaryExpr[inEnumInit]
+	  )
 	;
 	
-primaryExpr returns [ BaseNode res = env.initNode() ]
+primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: res=qualIdentExpr
 	| res=identExpr
 	| res=constant
@@ -396,18 +415,19 @@ primaryExpr returns [ BaseNode res = env.initNode() ]
 	| res=typeOf
 	| p:PLUSPLUS {
 			reportError(getCoords(p), "increment operator \"++\" not supported");
-	}
+	  }
 	| q:MINUSMINUS {
 			reportError(getCoords(q), "decrement operator \"--\" not supported");
-	}
-	| LPAREN res=expr RPAREN
+	  }
+	| LPAREN res=expr[inEnumInit] RPAREN
 	;
 
-typeOf returns [ BaseNode res = env.initNode() ]
-	: t:TYPEOF LPAREN res=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), res); }
+typeOf returns [ ExprNode res = env.initExprNode() ]
+	{ BaseNode id; }
+	: t:TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 
-constant returns [ BaseNode res = env.initNode() ]
+constant returns [ ExprNode res = env.initExprNode() ]
 	: i:NUM_INTEGER {
 		res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10));
 	}
@@ -434,7 +454,7 @@ constant returns [ BaseNode res = env.initNode() ]
 	}
 	;
 
-identExpr returns [ BaseNode res = env.initNode() ]
+identExpr returns [ ExprNode res = env.initExprNode() ]
 	{ IdentNode id; }
 	  : i:IDENT {
 	  	if(env.test(ParserEnvironment.TYPES, i.getText())) {
@@ -460,11 +480,13 @@ enumItemAcc returns [ BaseNode res = env.initNode() ]
     res = new EnumExprNode(getCoords(d), res, id);
   };
   
-enumItemExpr returns [ BaseNode res = env.initNode() ]
-  : res = enumItemAcc { res = new DeclExprNode(res); };
+enumItemExpr returns [ ExprNode res = env.initExprNode() ]
+  { BaseNode n; }
+  : n = enumItemAcc { res = new DeclExprNode(n); };
 	
-qualIdentExpr returns [ BaseNode res = env.initNode() ]
-  : res=qualIdent { res = new DeclExprNode(res); }
+qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
+  { BaseNode n; }
+  : n=qualIdent { res = new DeclExprNode(n); }
   ;
 
 

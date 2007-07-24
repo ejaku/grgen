@@ -95,15 +95,15 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
   	EdgeCharacter oldEdgeDecl = (EdgeCharacter) getChild(OLD);
 
 	// This cast must be ok after checking.
-	EdgeTypeNode tn = (EdgeTypeNode) getDeclType();
-	EdgeType nt = tn.getEdgeType();
+	EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
+	EdgeType et = etn.getEdgeType();
 	IdentNode ident = getIdentNode();
 		
-	RetypedEdge res = new RetypedEdge(ident.getIdent(), nt, ident.getAttributes());
+	RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAttributes());
 
-  	Edge edge = oldEdgeDecl.getEdge();
-  	edge.setRetypedEdge(res);
-	res.setOldEdge(edge);
+  	Edge oldEdge = oldEdgeDecl.getEdge();
+  	oldEdge.setRetypedEdge(res);
+	res.setOldEdge(oldEdge);
 	
 	if(inheritsType()) {
 		res.setTypeof( (Edge) getChild(TYPE).checkIR(Edge.class) );
@@ -113,4 +113,5 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
   }
 
 }
+
 
