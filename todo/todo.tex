@@ -16,7 +16,6 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
-	\item Bug: If an error is reported in a model (.gm) file, the execution of the frontend is not aborted before building the IR.
 	\item Implement enums correctly. This includes implicit type casts to {\tt int} as well as use of already defined items in an enum delcaration as well as use of foreign enum items if they are \emph{fully} qualified. If they are \emph{not} qualified an error must be reported.
     \item {\tt test} rules don't work yet.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
@@ -39,6 +38,8 @@ ToDo:
 \noindent
 Done:
 \begin{itemize}
+	\item Bug: If an error is reported in a model (.gm) file, the execution of the frontend is not aborted before building the IR.\\
+		\{fixed---Batz 24. Jul. 2007\}
 	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.\\
 		\{seems to work now---Batz 18. Jul. 2007\}
     \item GrGen crashes when a newly created edge is returned, saying that ''the element 'type3', that isneither a parameter, nor contained in LHS, nor in RHS, occurs in a return''.
