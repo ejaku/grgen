@@ -1,5 +1,3 @@
-model test_model_002;
-
 node class A;
 
 node class B;

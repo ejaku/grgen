@@ -1,8 +1,6 @@
 // A multiple edge attribute declaration should be
 // accepted when it happens in a common super class
 
-model inh_attrib_model_002;
-
 edge class Type1 {
 	a : int;
 }

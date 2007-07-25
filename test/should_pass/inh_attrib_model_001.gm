@@ -1,8 +1,6 @@
 // A multiple node attribute declaration should be
 // accepted when it happens in a common super class
 
-model inh_attrib_model_001;
-
 node class Type1 {
 	a : int;
 }

@@ -1,5 +1,3 @@
-model enum_model_002;
-
 enum te {
 	a,
 	b,
