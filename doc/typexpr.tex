@@ -41,12 +41,16 @@ Thus, enum values can only be assigned to attributes having the same enum type.
 \end{table}
 
 \begin{example}
-  \texttt{x.myfloat = x.myint; x.mydouble = (float) x.myint; x.mystring = (string) x.mybool;} is allowed,
-  \texttt{x.myfloat = x.mydouble;} and \texttt{x.myint = (int) x.mybool;} are forbidden.
-  
-  Now assume that {\tt myenum1} and {\tt myenum2} have different enum types.
-  Then \texttt{myenum1 = myenum2;} as well as
-  \texttt{myenum1 = (myenum1\_type) int;} and \texttt{myenum2 = (myenum2\_type) myenum1;} are also forbidden.
+  \begin{itemize}
+    \item Allowed:\\
+	  \texttt{x.myfloat = x.myint; x.mydouble = (float) x.myint;\\ x.mystring = (string) x.mybool;}
+    \item Forbidden:\\
+      \texttt{x.myfloat = x.mydouble;} and \texttt{x.myint = (int) x.mybool;}\\
+      \texttt{myenum1 = (myenum1\_type) int;} and \texttt{myenum2 = (myenum2\_type) myenum1;}
+  where {\tt myenum1} and {\tt myenum2} are different enum types.
+
+  \end{itemize}
+
 \end{example}
 \begin{note}
 	Unlike an {\tt eval} part (which must not contain assignments to node or edge attributes) the declaration of an enum type can contain assignments of {\tt int} values to \indexed{enum item}s (see section~\ref{typedecl}).

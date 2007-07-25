@@ -85,7 +85,7 @@ The \indexed{graph model} consists of its name \emph{IdentDecl} and type declara
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
-An enum type is a collection of so called \indexed{enum item}s that are associated with integral numbers, each.
+An enum type is a collection of so called \emph{\indexed{enum item}s} that are associated with integral numbers, each.
 Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{builtin}).
 \begin{note}
 	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see section~\ref{builtin}).
@@ -94,6 +94,7 @@ Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section
 	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see section~\ref{builtin}).
 	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
 	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
+	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt my\_enum::a}, where {\tt my\_enum} is the name of the other enum type).
 \end{note}
 
 \begin{example}
@@ -108,7 +109,8 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 \end{example}
 \begin{note}
 	The C-like semantics of enum item declarations implies, that multiple items of one enum type can be associated with the same same {\tt int} value.
-	Moreover, it implies, that an item of the currently declared enum type must not be used \emph{before} its definition.
+	Moreover, it implies, that an enum item must not be used \emph{before} its definition.
+	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
 \end{note}
 
 \begin{rail}  
