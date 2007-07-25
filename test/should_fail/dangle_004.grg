@@ -1,5 +1,3 @@
-actions dangle_004;
-
 rule r {
 	pattern {
 		x: Node;

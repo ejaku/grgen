@@ -1,4 +1,4 @@
-actions enum_010.grg using enum_model_004;
+using enum_model_004;
 
 rule r {
 	pattern {

@@ -1,4 +1,4 @@
-actions enum_001 using enum_model_001;
+using enum_model_001;
 
 rule r {
 	pattern {
@@ -6,7 +6,7 @@ rule r {
 	}
 	modify {
 		eval {
-			b.i = a.e;
+			a.e = (int) b.i;
 		}
 	}
 }

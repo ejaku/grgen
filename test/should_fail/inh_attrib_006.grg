@@ -1,4 +1,4 @@
-actions inh_attrib_006 using inh_attrib_model_006;
+using inh_attrib_model_006;
 
 rule r {
 	pattern {

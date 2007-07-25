@@ -1,5 +1,3 @@
-actions ret_002;
-
 rule r : (Node, Node) {
 	pattern {
 		x: Node;

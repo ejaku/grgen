@@ -1,4 +1,4 @@
-actions hom_003 using deep_model_001;
+using deep_model_001;
 
 rule r {
 	pattern {

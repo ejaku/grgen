@@ -1,5 +1,3 @@
-actions ret_010;
-
 rule r : (Node, EINT, NINT, Node) {
 	pattern {
 		x: Node;

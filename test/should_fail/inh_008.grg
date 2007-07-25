@@ -1,3 +1,3 @@
-actions inh_008 using inh_model_008;
+using inh_model_008;
 
 rule bla { pattern{} replace{} }
