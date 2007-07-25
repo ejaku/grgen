@@ -19,8 +19,6 @@ ToDo:
 	\item Implement enums correctly. This includes implicit type casts to {\tt int} as well as use of already defined items in an enum delcaration as well as use of foreign enum items if they are \emph{fully} qualified. If they are \emph{not} qualified an error must be reported.
     \item {\tt test} rules don't work yet.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
-	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
-	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.
     \item GrGen crashes with a NullPointerException if the .grg file specifies a non-existing model file.
 	\item Where warnings should be raised:
 		\begin{itemize}
@@ -29,15 +27,19 @@ ToDo:
 			\item If one or more attributes of a newly created node are not initialized by the eval part of the respective rule.
 			\item If the types of potentially homomorphic pattern nodes have no common subtype (because non-injective matching is \emph{impossible} in this case).
 		\end{itemize}
-	\item The statements {\tt actions} and {\tt model} should be removed from the specification language of GrGen.NET.
-		However, if such a statement occurs at the beginning of a specification, a deprecated-warning should be raised.
-		The {\tt using} keyword will be kept, of course.
 	\item In some error messages appear corrupt coordinates (this is where a "`?"' appears instread of line and column).
 \end{itemize}
 
 \noindent
 Done:
 \begin{itemize}
+	\item The statements {\tt actions} and {\tt model} should be removed from the specification language of GrGen.NET.
+		However, if such a statement occurs at the beginning of a specification, a deprecated-warning should be raised.
+		The {\tt using} keyword will be kept, of course.\\
+		\{I did it---Batz 25. Jul. 2007\}
+	\item In declarations of enumeration types (keyword {\tt enum}) user defined integer values can be assigned to elements.
+	  However, on the RHS of such "`assignments"' it should be possible to use already defined elements of that enumeration types in expressions (e.g., \dots{}{\tt{}x = 42, y = x + 3}\dots). However, GrGen does not accept this.\\
+		\{works---Batz 24. Jul. 2007\}
 	\item Bug: If an error is reported in a model (.gm) file, the execution of the frontend is not aborted before building the IR.\\
 		\{fixed---Batz 24. Jul. 2007\}
 	\item In replace/modify-part {\tt typeof} does not work when used with retyping of nodes and/or edges.\\
