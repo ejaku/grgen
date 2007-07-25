@@ -1,5 +1,3 @@
-model attrib_model_001;
-
 node class NINT {
 	a : int;
 }

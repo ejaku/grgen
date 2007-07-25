@@ -1,7 +1,5 @@
 // empty enum declarations are not allowed
 
-model enum_model_002;
-
 enum te { }
 
 node class A {

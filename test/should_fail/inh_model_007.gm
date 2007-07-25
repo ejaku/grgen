@@ -1,4 +1,2 @@
-model inh_model_007;
-
 edge class A extends B;
 edge class B extends A;

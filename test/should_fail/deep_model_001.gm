@@ -1,5 +1,3 @@
-model deep_model_001;
-
 node class A;
 
 node class B;

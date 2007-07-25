@@ -1,5 +1,3 @@
-model enum_model_004;
-
 node class A {
 	x: int;
 }

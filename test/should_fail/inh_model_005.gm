@@ -1,5 +1,3 @@
-model inh_model_005;
-
 node class A extends B;
 node class B extends C,D;
 node class D extends E;

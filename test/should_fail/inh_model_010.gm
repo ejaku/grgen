@@ -1,5 +1,3 @@
-model inh_model_010;
-
 edge class A extends B;
 edge class B extends C,D;
 edge class D extends E;

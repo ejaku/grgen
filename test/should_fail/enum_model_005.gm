@@ -1,5 +1,3 @@
-model enum_model_005;
-
 enum te1 {
 	a = te2::v,
 	b
