@@ -88,6 +88,8 @@ public class EnumTypeNode extends CompoundTypeNode
 		);
 		
 		addCompatibility(this, BasicTypeNode.intType);
+		addCompatibility(this, BasicTypeNode.floatType);
+		addCompatibility(this, BasicTypeNode.doubleType);
 	}
 	/*
 	protected void doGetCastableToTypes(Collection<TypeNode> coll) {

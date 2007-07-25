@@ -86,7 +86,8 @@ text returns [ BaseNode main = env.initNode() ]
   	  	(a:ACTIONS i:IDENT {
   	  		reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
   	  		reportWarning(getCoords(i),
-  	  			"the name of this action set is derived from the filename");
+  	  			"the name of this action set no more the idetifier " +
+  	  			"after the \"actions\" but derived from the filename");
   	    })?
   	    USING identList[modelList]
   	    SEMI {
@@ -696,6 +697,7 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   : res=typeIdentUse { res = new TypeConstraintNode(res); }
   | LPAREN res=typeAddExpr RPAREN
   ;
+
 
 
 

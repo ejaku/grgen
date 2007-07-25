@@ -63,9 +63,19 @@ options {
 text returns [ BaseNode model = env.initNode() ]
   {
     CollectNode n = new CollectNode();
-    IdentNode id;
+    IdentNode id = env.getDummyIdent();
+
+	String modelName = Util.removePathPrefix(
+		Util.removeFileSuffix(getFilename(), "gm") );
+
+    id = new IdentNode(
+    	env.define(ParserEnvironment.ENTITIES, modelName,
+    		new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
   }
-  : MODEL id=entIdentDecl SEMI typeDecls[n] EOF {
+  : ( m:MODEL i:IDENT SEMI {
+    	reportWarning(getCoords(m), "keyword \"model\" is deprecated");
+    })?
+    typeDecls[n] EOF {
     model = new ModelNode(id);
     model.addChild(n);
   }

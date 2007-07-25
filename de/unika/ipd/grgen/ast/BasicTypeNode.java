@@ -186,6 +186,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(intType, doubleType);
 		addCompatibility(floatType, doubleType);
 		addCompatibility(enumItemType, intType);
+		addCompatibility(enumItemType, floatType);
+		addCompatibility(enumItemType, doubleType);
 
 		//require explicit cast
 		addCastability(booleanType, stringType);
@@ -256,4 +258,5 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	}
 
 }
+
 
