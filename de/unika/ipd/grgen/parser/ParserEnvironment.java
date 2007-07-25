@@ -287,11 +287,6 @@ public abstract class ParserEnvironment extends Base {
 		return Coords.getInvalid();
 	}
 	
-	public String getFilenameWithoutPath() {
-		String name = getFilename();
-		return Util.removePathPrefix(name);
-	}
-	
 	public abstract BaseNode parseActions(File inputFile);
 	public abstract BaseNode parseModel(File inputFile);
 	public abstract void pushFile(File inputFile) throws TokenStreamException;

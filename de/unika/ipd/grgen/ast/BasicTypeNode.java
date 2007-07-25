@@ -148,6 +148,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		protected IR constructIR() {
 			return new VoidType(getIdentNode().getIdent());
 		}
+		public String getUseString() {
+			return "error type";
+		}
 		public String toString() {
 			return "error type";
 		}

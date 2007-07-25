@@ -55,8 +55,6 @@ public abstract class ExprNode extends BaseNode
 		setName(INVALID.getClass(), "invalid expression");
 	}
 	
-	private boolean inEnumInit = false;
-	
   /**
    * Make a new expression
    */
@@ -68,21 +66,6 @@ public abstract class ExprNode extends BaseNode
 	  return INVALID;
   }
   
-	/**
-	 * Tells whether this expression is subexpression
-	 * of an initializing expression of an enum item.
-	 *
-	 * @return true if so.
-	 */
-	final public boolean isInEnumInit()
-	{
-		return inEnumInit;
-	}
-
-	final public void setInEnumInit(boolean x)
-	{
-		inEnumInit = x;
-	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
@@ -147,3 +130,4 @@ public abstract class ExprNode extends BaseNode
 	}
 
 }
+

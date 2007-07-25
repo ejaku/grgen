@@ -39,7 +39,9 @@ public class Util
 	
 	/**
 	 * Removes from a filename the prefix that contains path information
+	 *
 	 * @param    filename	a filename
+	 *
 	 * @return   the filename without leading path
 	 */
 	public static String removePathPrefix(String filename)
@@ -51,6 +53,34 @@ public class Util
 		
 		return filename.substring(lastSepPos + 1);
 	}
+	/**
+	 * Removes from a filename the suffix that contains file type information,
+	 * '.grg' for example.
+	 *
+	 * @param	filename 	a filename
+	 * @param	suffix 		file type suffix without the dot
+	 * 						(e.g., "exe", but not ".exe")
+	 *
+	 * @return   the filename without the given suffix and the seperating dot;
+	 * 			 if the given suffix is not there <code>filename</code> is returned.
+	 */
+	public static String removeFileSuffix(String filename, String suffix)
+	{
+		int lastDotPos = filename.lastIndexOf('.');
+		
+		if (lastDotPos < 0) return filename;
+		
+		if (lastDotPos == filename.length()-1) {
+			if ( ! suffix.equals("") ) return filename;
+			else return filename.substring(0, lastDotPos);
+		}
+
+		if (filename.substring(lastDotPos+1).equals(suffix))
+			return filename.substring(0, lastDotPos);
+		
+		return filename;
+	}
+	
 	public static File findFile(File[] paths, String file) {
 		for(int i = 0; i < paths.length; i++) {
 			File curr = new File(paths[i], file);

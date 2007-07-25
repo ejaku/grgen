@@ -137,6 +137,10 @@ options {
   public void reportWarning(String arg0) {
     env.getSystem().getErrorReporter().warning(arg0);
   }
+  
+  public void reportWarning(de.unika.ipd.grgen.parser.Coords c, String s) {
+  	env.getSystem().getErrorReporter().warning(c, s);
+  }
   	
   public boolean hadError() {
  	  return hadError;
@@ -245,7 +249,6 @@ condExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: op0=logOrExpr[inEnumInit] { res=op0; }
 	  (t:QUESTION op1=expr[inEnumInit] COLON op2=condExpr[inEnumInit] {
 		res=makeOp(t);
-		res.setInEnumInit(inEnumInit);
 		res.addChild(op0);
 		res.addChild(op1);
 		res.addChild(op2);
@@ -256,7 +259,6 @@ logOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{ ExprNode op; }
 	: res=logAndExpr[inEnumInit] (t:LOR op=logAndExpr[inEnumInit] {
 		res=makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -264,7 +266,6 @@ logAndExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{ ExprNode op; }
 	: res=bitOrExpr[inEnumInit] (t:LAND op=bitOrExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -272,7 +273,6 @@ bitOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{ ExprNode op; }
 	: res=bitXOrExpr[inEnumInit] (t:BOR op=bitXOrExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -280,7 +280,6 @@ bitXOrExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{ ExprNode op; }
 	: res=bitAndExpr[inEnumInit] (t:BXOR op=bitAndExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -288,7 +287,6 @@ bitAndExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{ ExprNode op; }
 	: res=eqExpr[inEnumInit] (t:BAND op=eqExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -304,7 +302,6 @@ eqExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: res=relExpr[inEnumInit] (t=eqOp op=relExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -322,7 +319,6 @@ relExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: res=shiftExpr[inEnumInit] (t=relOp op=shiftExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 
@@ -339,7 +335,6 @@ shiftExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: res=addExpr[inEnumInit] (t=shiftOp op=addExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
@@ -355,7 +350,6 @@ addExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: res=mulExpr[inEnumInit] (t=addOp op=mulExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
@@ -373,7 +367,6 @@ mulExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: res=unaryExpr[inEnumInit] (t=mulOp op=unaryExpr[inEnumInit] {
 		res = makeBinOp(t, res, op);
-		res.setInEnumInit(inEnumInit);
 	})*
 	;
 	
@@ -384,22 +377,18 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	}
 	: t:TILDE op=unaryExpr[inEnumInit] {
 		res = makeUnOp(t, op);
-		res.setInEnumInit(inEnumInit);
 	}
 	| n:NOT op=unaryExpr[inEnumInit] {
 		res = makeUnOp(n, op);
-		res.setInEnumInit(inEnumInit);
 	}
 	| m:MINUS op=unaryExpr[inEnumInit] {
 		res = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
-		res.setInEnumInit(inEnumInit);
 		res.addChild(op);
 	}
 	| PLUS res=unaryExpr[inEnumInit]
 	| ( options { generateAmbigWarnings = false; } :
 			(LPAREN typeIdentUse RPAREN unaryExpr[inEnumInit]) => p:LPAREN id=typeIdentUse RPAREN op=unaryExpr[inEnumInit] {
 				res = new CastNode(getCoords(p));
-				res.setInEnumInit(inEnumInit);
 				res.addChild(id);
 				res.addChild(op);
 			}
@@ -488,6 +477,7 @@ qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
   { BaseNode n; }
   : n=qualIdent { res = new DeclExprNode(n); }
   ;
+
 
 
 

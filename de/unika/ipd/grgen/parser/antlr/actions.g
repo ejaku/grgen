@@ -72,26 +72,35 @@ text returns [ BaseNode main = env.initNode() ]
   		CollectNode modelChilds = new CollectNode();
   		IdentNode id;
   		List modelList = new LinkedList();
-  	}
-  	: ACTIONS id=entIdentDecl {
-  	  		if ( ! (id.toString() + ".grg").equals(env.getFilenameWithoutPath()) ) {
-  	  			reportError(id.getCoords(), "filename \"" + env.getFilenameWithoutPath() +
-  	  				"\" does not conform with name \"" + id + "\" of this action set");
-  	  		}
-  	  }
-  	  (USING identList[modelList])? SEMI {
-  	  
-  	  modelChilds.addChild(env.getStdModel());
-  	  
-  	  for(Iterator it = modelList.iterator(); it.hasNext();) {
-  	    String modelName = (String) it.next();
-  	    File modelFile = env.findModel(modelName);
-  	  
-  	    BaseNode model = env.parseModel(modelFile);
-  	    modelChilds.addChild(model);
-  	  }
 
-  	} actions=actionDecls EOF {
+	    String actionsName = Util.removePathPrefix(
+	  		Util.removeFileSuffix(getFilename(), "grg") );
+
+        id = new IdentNode(
+    		env.define(ParserEnvironment.ENTITIES, actionsName,
+      			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
+
+  	    modelChilds.addChild(env.getStdModel());
+  	}
+  	: (
+  	  	(a:ACTIONS i:IDENT {
+  	  		reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
+  	  		reportWarning(getCoords(i),
+  	  			"the name of this action set is derived from the filename");
+  	    })?
+  	    USING identList[modelList]
+  	    SEMI {
+  	      for(Iterator it = modelList.iterator(); it.hasNext();) {
+  	        String modelName = (String) it.next();
+  	        File modelFile = env.findModel(modelName);
+  	  
+  	        BaseNode model = env.parseModel(modelFile);
+  	        modelChilds.addChild(model);
+  	      }
+  	    }
+  	  )?
+
+  	  actions=actionDecls EOF {
 
       mainChilds.addChildren(actions);
   	  main = new UnitNode(id, getFilename());

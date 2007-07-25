@@ -31,7 +31,7 @@ public class Coords implements Location {
 	protected static final Coords INVALID = new Coords();
 	
 	protected static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
-	
+
 	public static final Coords getInvalid() {
 		return INVALID;
 	}
