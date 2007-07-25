@@ -1,0 +1,7 @@
+model enum_model_006;
+
+enum bla {
+	it0 = it3 - 5,
+	it1 = 42,
+	it3 = 43
+}

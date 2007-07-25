@@ -1,0 +1,11 @@
+model enum_model_005;
+
+enum te1 {
+	a = te2::v,
+	b
+}
+
+enum te2 {
+	u,
+	v
+}

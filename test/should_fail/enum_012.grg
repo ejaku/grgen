@@ -1,0 +1,11 @@
+actions enum_012 using enum_model_006;
+
+rule r {
+	pattern {
+	}
+	replace {
+	}
+}
+
+
+

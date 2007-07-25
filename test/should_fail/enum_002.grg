@@ -1,0 +1,6 @@
+actions enum_002 using enum_model_004;
+
+rule r {
+	pattern {}
+	modify {}
+}
