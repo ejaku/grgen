@@ -1,4 +1,4 @@
-actions enum_002 using enum_model_002;
+using enum_model_002;
 
 rule r {
 	pattern {

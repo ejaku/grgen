@@ -1,4 +1,4 @@
-actions basic_053 using basic_model_001;
+using basic_model_001;
 
 rule r {
 	pattern {

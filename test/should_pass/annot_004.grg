@@ -1,5 +1,3 @@
-actions annot_004;
-
 rule r {
 	pattern {
 		-[prio=10000] : Edge->;

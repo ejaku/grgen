@@ -1,4 +1,4 @@
-actions to_002 using test_model_002;
+using test_model_002;
 
 rule to_1 {
 	pattern {

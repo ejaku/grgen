@@ -1,5 +1,3 @@
-actions basic_010;
-
 rule r {
 	pattern {
 	}

@@ -1,4 +1,4 @@
-actions retype_003 using attrib_model_001;
+using attrib_model_001;
 
 rule r {
 	pattern {

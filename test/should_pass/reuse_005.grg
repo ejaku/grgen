@@ -1,5 +1,3 @@
-actions reuse_005;
-
 rule r {
 	pattern {
 		x: Node;

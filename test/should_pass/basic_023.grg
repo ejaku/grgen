@@ -1,5 +1,3 @@
-actions basic_023;
-
 rule r {
 	pattern {
 		x : Node;

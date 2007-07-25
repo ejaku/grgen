@@ -1,5 +1,3 @@
-actions dot_001;
-
 rule r {
 	pattern {
 		.;

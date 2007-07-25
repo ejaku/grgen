@@ -1,5 +1,3 @@
-actions basic_027;
-
 rule r {
 	pattern {
 		x:Node -e:Edge-> y:Node;

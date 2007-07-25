@@ -1,4 +1,4 @@
-actions SnowflakeAGTIVE using SnowflakeAGTIVEModel;
+using SnowflakeAGTIVEModel;
 
 rule init : (Gen1Edge, Gen2Edge) {
  pattern {

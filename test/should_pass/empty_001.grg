@@ -1,5 +1,3 @@
-actions empty_001;
-
 rule empty_1 {
 	pattern {
 	}

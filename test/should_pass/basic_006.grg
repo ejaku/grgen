@@ -1,5 +1,3 @@
-actions basic_006;
-
 rule r {
 	pattern {
 		negative {

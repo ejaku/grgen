@@ -1,5 +1,3 @@
-actions basic_200;
-
 rule r {
 	pattern {
 		if{ false; }

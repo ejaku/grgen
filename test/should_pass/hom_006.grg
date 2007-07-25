@@ -1,5 +1,3 @@
-actions hom_006;
-
 rule r {
 	pattern {
 		x:Node -e:Edge-> y:Node -f:Edge-> z:Node <-:Edge- zz:Node;

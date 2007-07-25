@@ -1,5 +1,5 @@
 // Type casts for primitive types
-actions cast_002 using attrib_model_001, enum_model_001;
+using attrib_model_001, enum_model_001;
 
 rule r {
 	pattern{

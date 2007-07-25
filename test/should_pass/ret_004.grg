@@ -1,4 +1,4 @@
-actions ret_004 using basic_model_002, inh_attrib_model_002;
+using basic_model_002, inh_attrib_model_002;
 
 rule r : (A, AB, Type1, N) {
 	pattern {

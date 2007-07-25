@@ -1,4 +1,4 @@
-actions to_007 using test_model_002, attrib_model_001;
+using test_model_002, attrib_model_001;
 
 rule to_6 (p:AB) {
 	pattern {
