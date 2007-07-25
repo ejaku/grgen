@@ -16,7 +16,9 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
-	\item Implement enums correctly. This includes implicit type casts to {\tt int} as well as use of already defined items in an enum delcaration as well as use of foreign enum items if they are \emph{fully} qualified. If they are \emph{not} qualified an error must be reported.
+	\item Implement enums correctly. This includes implicit type casts to {\tt int} as well as use of already defined items in an enum delcaration as well as use of foreign enum items if they are \emph{fully} qualified.
+		If they are \emph{not} qualified an error must be reported.
+		The def-before-use law must also hold if items from other enum types are used in the definition of an enum item.
     \item {\tt test} rules don't work yet.
 	\item For .grg-files, that are empty except for the {\tt actions} statement, GrGen wrongly reports an error.
     \item GrGen crashes with a NullPointerException if the .grg file specifies a non-existing model file.
