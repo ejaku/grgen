@@ -1,0 +1,11 @@
+actions retype_008 using attrib_model_001;
+
+rule r {
+	pattern {
+		-e:EINT->;
+		-f:EBOOL->;
+	}
+	modify {
+		- ee:typeof(f)<e> ->;
+	}
+}

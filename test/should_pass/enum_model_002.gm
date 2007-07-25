@@ -9,7 +9,7 @@ enum te {
 	f = c * d,
 	g = b << 2,
 	h = e==f?11:a+b,
-	x = (a ! b ^ c & d) << 3 + (f >> 1) + (f >>> 1) + (a+b) + (b-a) + (a*b) + (b/a) + (b%a)
+	x = (a | b ^ c & d) << 3 + (f >> 1) + (f >>> 1) + (a+b) + (b-a) + (a*b) + (a/b) + (a%b)
 }
 
 node class A {

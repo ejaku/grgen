@@ -4,7 +4,7 @@ rule r {
 	pattern {
 		x: Node;
 		y: Node;
-		x-e:Edge->y;
+		x -e:Edge-> y;
 	}
 	modify {
 		- f:EINT<e> ->;

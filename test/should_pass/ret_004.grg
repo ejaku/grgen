@@ -1,4 +1,4 @@
-actions ret_003 using basic_model_002, inh_attrib_model_002;
+actions ret_004 using basic_model_002, inh_attrib_model_002;
 
 rule r : (A, AB, Type1, N) {
 	pattern {
@@ -7,8 +7,8 @@ rule r : (A, AB, Type1, N) {
 		z : C;
 		n : N;
 	}
-	replace {
-		n;
+	modify {
+		delete(z);
 		x -type3:Type3-> y;
 		return (x, y, type3, n);
 	}

@@ -1,0 +1,10 @@
+actions retype_006 using attrib_model_001;
+
+rule r {
+	pattern {
+		x: NINT;
+	}
+	modify {
+		y: NBOOL<x>;
+	}
+}

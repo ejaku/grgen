@@ -63,10 +63,10 @@ grgenuptodate: $(GRGENDIR)/grgen.jar
 	@rm -f $@_tmp.log
 
 clean:
-	rm -rf $(SUCCESSFILES_FE) $(DIRS_FE) $(SUCCESSFILES_CSC) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log failedCSC_FE.log
+	@rm -rf $(SUCCESSFILES_FE) $(DIRS_FE) $(SUCCESSFILES_CSC) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log failedCSC_FE.log
 
 cleanfelog:
-	rm -f failedFE.log
+	@rm -f failedFE.log
 
 cleancsclog:
-	rm -f failedCSC.log failedCSC_FE.log
+	@rm -f failedCSC.log failedCSC_FE.log

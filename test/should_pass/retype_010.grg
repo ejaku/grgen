@@ -1,0 +1,15 @@
+actions retype_010 using attrib_model_001;
+
+rule r {
+	pattern {
+		x: Node;
+		y: Node;
+		
+		x -e:EINT-> y;
+		x -f:EBOOL-> y;
+	}
+	modify {
+		x - ee:typeof(f)<e> -> y;
+		x -f-> y;
+	}
+}

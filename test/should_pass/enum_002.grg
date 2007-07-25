@@ -7,7 +7,6 @@ rule r {
 	modify {
 		eval {
 			a.e = b.e;
-			b.i = a.e;
 			b.i = (int)a.e;
 			b.e = te::a;
 		}

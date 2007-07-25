@@ -4,7 +4,7 @@ rule to_6 (p:AB) {
 	pattern {
 		a : A;
 	    b : typeof(a);
-		a - e:EINT -> b:
+		a - e:EINT -> b;
 		a <- ee:EBOOL - b;
 	}
 	modify {
