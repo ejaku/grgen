@@ -1,0 +1,10 @@
+using attrib_model_001, enum_model_004;
+
+rule r {
+	pattern {
+		x:NINT - l:B -> k:A;
+	}
+	modify{
+		eval { x.a = (k.e == te2::y) ? 0 : 1; }
+	}
+}
