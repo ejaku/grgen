@@ -1,0 +1,35 @@
+using attrib_model_001, enum_model_005;
+
+rule r {
+	pattern {
+		xi: NINT;
+		xd: NDOUBLE;
+		xf: NFLOAT;
+		
+		xd -e:EFLOAT-> xi;
+		xd <-f:ESTRING- xi;
+		
+		u: AA;
+	}
+	modify {
+		eval {
+			xi.a = xi.a << 3;
+			xd.a = xi.a << 3;
+			xi.a = u.a << 3;
+			xd.a = u.a << 3;
+
+			xd.a = ee::a;
+			xf.a = ee::a;
+			
+			e.a = u.a;
+			e.a = ee::a;
+			e.a = ee::b;
+
+			f.a = (string) u.a;
+			f.a = (string) ee::b;
+		}
+	}
+}
+
+
+
