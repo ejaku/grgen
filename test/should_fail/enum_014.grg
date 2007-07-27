@@ -1,0 +1,16 @@
+using attrib_model_001, enum_model_007;
+
+rule r {
+	pattern {
+		u: AA;
+		x: NFLOAT;
+	}
+	modify {
+		eval {
+			x.a = u.a + 42.0;
+		}
+	}
+}
+
+
+

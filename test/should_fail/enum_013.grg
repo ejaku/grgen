@@ -1,0 +1,15 @@
+using attrib_model_001, enum_model_007;
+
+rule r {
+	pattern {
+		x: NFLOAT;
+	}
+	modify {
+		eval {
+			x.a = ee::a + 42.0;
+		}
+	}
+}
+
+
+
