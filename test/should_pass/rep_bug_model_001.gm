@@ -1,19 +1,9 @@
-enum te {
-	a,
-	b,
-	c = 42,
-	d = c + 1,
-	e = b - a,
-	f = c * d,
-	g = b << 2,
-	h = e==f?11:a+b,
-	x = (a | b ^ c & d) << 3 + (f >> 1) + (f >>> 1) + (a+b) + (b-a) + (a*b) + (a/b) + (a%b)
+enum ee {
+	a = 42,
+	b = a << a
 }
 
-enum te2 {
-	x = (te::a < te::b) ? 10 : 20,
-	y = (te::a <= 42) ? (te::b+2) : 4,
-	yy = te::a | te::b,
-	z = te::b
+node class AA {
+	a: ee;
 }
 

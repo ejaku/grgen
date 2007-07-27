@@ -1,9 +1,10 @@
+
 enum te {
 	a,
 	b,
 	c = 42,
 	d = c + 1,
-	e = b - a,
+	e = c - a,
 	f = c * d,
 	g = b << 2,
 	h = e==f?11:a+b,
