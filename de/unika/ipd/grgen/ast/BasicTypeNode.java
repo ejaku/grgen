@@ -186,8 +186,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCompatibility(intType, doubleType);
 		addCompatibility(floatType, doubleType);
 		addCompatibility(enumItemType, intType);
-		addCompatibility(enumItemType, floatType);
-		addCompatibility(enumItemType, doubleType);
 
 		//require explicit cast
 		addCastability(booleanType, stringType);
@@ -197,7 +195,10 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCastability(doubleType, intType);
 		addCastability(doubleType, floatType);
 		addCastability(doubleType, stringType);
+
 		addCastability(enumItemType, stringType);
+		addCastability(enumItemType, floatType);
+		addCastability(enumItemType, doubleType);
 		
 		valueMap.put(intType, Integer.class);
 		valueMap.put(floatType, Float.class);

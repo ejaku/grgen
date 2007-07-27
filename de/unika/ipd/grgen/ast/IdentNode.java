@@ -115,7 +115,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
    */
   public DeclNode getDecl() {
   	Symbol.Definition def = getSymDef();
-		DeclNode res = DeclNode.getInvalid();
+	DeclNode res = DeclNode.getInvalid();
   	
   	if(def.isValid())
   		res = def.getNode() == this ? decl : def.getNode().getDecl();

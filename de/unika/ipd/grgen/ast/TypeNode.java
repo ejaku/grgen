@@ -58,6 +58,32 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	/**
+	 * Compute the distance of indirect type compatibility (where 'compatibility'
+	 * means implicit castability of attribute types; accordingly the distance
+	 * means the required number of implicit type casts).
+	 * <br><bf>Note</bf> that this method only supports indirections of a
+	 * distance upto two. If you need more you have to implement this!
+	 *
+	 * @param type	a TypeNode
+	 *
+	 * @return		the compatibility distance or -1 if no compatibility could
+	 * 				be found
+	 */
+	public int compatibilityDist(TypeNode type)
+	{
+		if ( this.isEqual(type) ) return 0;
+		if ( this.isCompatibleTo(type) ) return 1;
+
+		Collection<TypeNode> coll = new HashSet<TypeNode>();
+		this.getCompatibleToTypes(coll);
+
+		for (TypeNode t : coll)
+			if (t.isCompatibleTo(type)) return 2;
+
+		return -1;
+	}
+	
+	/**
 	 * Check, if this type is compatible (implicitly castable) or equal
 	 * to <code>t</code>.
 	 * @param t A type.

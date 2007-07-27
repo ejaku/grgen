@@ -100,14 +100,33 @@ public class FunctionSignature extends Base {
 				
 				boolean equal = ops[i].isEqual(opTypes[i]);
 				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);
+
+				/* Compute indirect compatiblity interms of the "compatibility
+				 * distance". Note that the below function only test indirect
+				 * compatibility of distance two. If you need more you have to
+				 * implement it!!! */
+				int compatDist = ops[i].compatibilityDist(opTypes[i]);
 				
 				debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
 				
+				if (equal)
+					continue;
+				else if (compatible)
+					res++;
+				else if (compatDist > 0)
+					res += compatDist;
+				else {
+					res = Integer.MAX_VALUE;
+					break;
+				}
+				
+				/*
 				if(!compatible) {
 					res = Integer.MAX_VALUE;
 					break;
 				} else if(!equal && compatible)
 					res++;
+				 */
 			}
 		}
 		

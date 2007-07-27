@@ -137,7 +137,7 @@ public class EnumItemNode extends MemberDeclNode {
    */
   protected IR constructIR() {
 		IdentNode id = (IdentNode) getChild(IDENT);
-		ConstNode c = getValue().castTo(BasicTypeNode.intType);
+		//ConstNode c = getValue().castTo(BasicTypeNode.intType);
   	return new EnumItem(id.getIdent(), getValue().getConstant());
   }
 
