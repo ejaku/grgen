@@ -1,0 +1,10 @@
+enum et1 {
+	a,
+	b = et2::u,
+	c
+}
+
+enum et2 {
+	u,
+	v
+}

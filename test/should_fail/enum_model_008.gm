@@ -1,0 +1,9 @@
+
+//this should raise an error in line 6 because of the def-before-use law in enum type declarations
+
+enum et1 {
+	a,
+	b = d
+	c = a,
+	d = 42
+}

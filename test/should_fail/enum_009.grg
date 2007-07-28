@@ -1,4 +1,6 @@
-//access to an undeclared enum type
+
+//access to an undeclared enum type, 'te2' in this case
+
 using attrib_model_001, enum_model_001;
 
 rule r {
