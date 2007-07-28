@@ -1,9 +1,0 @@
-enum ee {
-	a = 42,
-	b = a << a
-}
-
-node class AA {
-	a: ee;
-}
-
