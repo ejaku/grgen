@@ -105,17 +105,18 @@ public abstract class OpNode extends ExprNode
 	protected boolean check()
 	{
 		boolean res = true;
-		if(children() != OperatorSignature.getArity(opId))
-		{
+		TypeNode type = getType();
+		
+		if(children() != OperatorSignature.getArity(opId)) {
 			reportError("Wrong operator arity: " + children());
 			res = false;
 		}
-		
-		if(!getType().isBasic())
-		{
+		if(!type.isBasic()) {
 			res = false;
 			reportError("Result must be a basic type not: " + getType());
 		}
+		if ( type.isEqual(BasicTypeNode.errorType) ) res = false;
+		//above: The error must already have been reported
 		
 		return res;
 	}
@@ -151,7 +152,7 @@ public abstract class OpNode extends ExprNode
 				params.append((i > 0 ? ", " : "") + argTypes[i].toString());
 			params.append(')');
 			
-			reportError("No such operator " + OperatorSignature.getName(opId) + params);
+			reportError("no such operator " + OperatorSignature.getName(opId) + params);
 		}
 		else
 		{

@@ -37,6 +37,9 @@ public class DeclExprNode extends ExprNode {
 		setName(DeclExprNode.class, "decl expression");
 	}
 	
+	/** whether an error has been reported for this enum item */
+	private boolean typeAlreadyReported = false;
+
 	/**
 	 * Make a new declaration expression.
 	 * @param coords The source code coordinates.
@@ -52,7 +55,16 @@ public class DeclExprNode extends ExprNode {
 	 */
 	public TypeNode getType() {
 		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
-		return (TypeNode) c.getDecl().getDeclType();
+		BaseNode type = c.getDecl().getDeclType();
+		if ( ! (type instanceof TypeNode) ) {
+
+			if (!typeAlreadyReported)
+				reportError("undefined entity \"" + c + "\"");
+
+			typeAlreadyReported = true;
+			type = BasicTypeNode.errorType;
+		}
+		return (TypeNode) type;
 	}
 	
 	/**

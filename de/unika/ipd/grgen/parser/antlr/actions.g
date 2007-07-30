@@ -89,14 +89,19 @@ text returns [ BaseNode main = env.initNode() ]
   	  			"the name of this action set no more the idetifier " +
   	  			"after the \"actions\" but derived from the filename");
   	    })?
-  	    USING identList[modelList]
+  	    u:USING identList[modelList]
   	    SEMI {
   	      for(Iterator it = modelList.iterator(); it.hasNext();) {
   	        String modelName = (String) it.next();
   	        File modelFile = env.findModel(modelName);
   	  
-  	        BaseNode model = env.parseModel(modelFile);
-  	        modelChilds.addChild(model);
+  	        if ( modelFile == null )
+  	        	reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
+  	        else {
+				BaseNode model;
+				model = env.parseModel(modelFile);
+				modelChilds.addChild(model);
+			}
   	      }
   	    }
   	  )?

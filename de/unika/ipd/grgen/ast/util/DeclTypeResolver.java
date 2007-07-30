@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
+import de.unika.ipd.grgen.ast.TypeNode;
 
 /**
  * Resolve the type of a type declaration.
@@ -63,10 +64,12 @@ public class DeclTypeResolver extends IdentResolver
 	protected BaseNode resolveIdent(IdentNode n)
 	{
 		BaseNode decl = n.getDecl();
-		BaseNode res = BaseNode.getErrorNode();
+		BaseNode res = BasicTypeNode.errorType;
 		
-		if(decl instanceof DeclNode)
-			res = ((DeclNode) decl).getDeclType();
+		if(decl instanceof DeclNode) {
+			BaseNode t = ((DeclNode) decl).getDeclType();
+			if ( t instanceof TypeNode ) res = t;
+		}
 		
 		return res;
 	}

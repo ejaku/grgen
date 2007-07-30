@@ -50,9 +50,9 @@ public class EnumConstNode extends ConstNode {
   protected ConstNode doCastTo(TypeNode type) {
     ConstNode res = ConstNode.getInvalid();
     
-    if(type.isEqual(BasicTypeNode.intType)) 
+    if(type.isEqual(BasicTypeNode.intType))
     	return new IntConstNode(getCoords(), ((Integer) getValue()).intValue());
-    else if(type.isEqual(BasicTypeNode.stringType)) 
+    else if(type.isEqual(BasicTypeNode.stringType))
     	return new StringConstNode(getCoords(), id.toString());
 
     return res;
