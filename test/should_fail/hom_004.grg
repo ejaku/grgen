@@ -1,0 +1,11 @@
+
+using attrib_model_001;
+
+rule r {
+	pattern {
+		x:NINT -e:EINT-> y:NINT;
+		hom(x,e);
+	}
+	modify {}
+}
+
