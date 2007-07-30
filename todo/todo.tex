@@ -22,7 +22,6 @@ ToDo:
     \item {\tt test} rules don't work yet.
 	\item For empty .grg-files and for .grg-files that are empty except for a {\tt using} statement GrGen wrongly reports an error.\\
 		QUESTION: What is the desired output for such an empty file?
-    \item GrGen crashes with a NullPointerException if the .grg file specifies a non-existing model file.
 	\item Where warnings should be raised:
 		\begin{itemize}
 			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.
@@ -36,10 +35,12 @@ ToDo:
 \noindent
 Done:
 \begin{itemize}
+    \item GrGen crashes with a NullPointerException if the .grg file specifies a non-existing model file.\\
+		\{fixed---Batz 30. Jul. 2007\}
 	\item Implement enums correctly. This includes implicit type casts to {\tt int} as well as use of already defined items in an enum delcaration as well as use of foreign enum items if they are \emph{fully} qualified.
 		If they are \emph{not} qualified an error must be reported.
 		The def-before-use law must also hold if items from other enum types are used in the definition of an enum item.\\
-		\{Seems to work now---Batz 27. Jul. 2007\}
+		\{Seems to work now---Batz 30. Jul. 2007\}
 	\item The statements {\tt actions} and {\tt model} should be removed from the specification language of GrGen.NET.
 		However, if such a statement occurs at the beginning of a specification, a deprecated-warning should be raised.
 		The {\tt using} keyword will be kept, of course.\\
