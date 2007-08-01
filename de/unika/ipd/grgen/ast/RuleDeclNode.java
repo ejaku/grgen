@@ -32,6 +32,9 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * AST node for a replacement rule.
@@ -79,6 +82,26 @@ public class RuleDeclNode extends TestDeclNode {
 		res.add((GraphNode) getChild(RIGHT));
 		return res;
 	}
+	
+	protected Set<DeclNode> getDelete()
+	{
+		Set<DeclNode> res = new HashSet<DeclNode>();
+
+		GraphNode lhs = (GraphNode) getChild(PATTERN);
+		GraphNode rhs = (GraphNode) getChild(RIGHT);
+		
+		for (BaseNode x : lhs.getEdges()) {
+			assert (x instanceof DeclNode);
+			if ( ! rhs.getEdges().contains(x) ) res.add((DeclNode)x);
+		}
+		for (BaseNode x : lhs.getNodes()) {
+			assert (x instanceof DeclNode);
+			if ( ! rhs.getNodes().contains(x) ) res.add((DeclNode)x);
+		}
+		
+		return res;
+	}
+		
 	/**
 	 * Check that only graph elemts are returned, that are not deleted.
 	 */
@@ -133,7 +156,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * Check whether the returned elements are valid and
 	 * whether the number of retuned elements is right.
 	 */
-	protected boolean checkReturnParamList(PatternGraphNode left, GraphNode right)
+	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
 
@@ -183,36 +206,12 @@ public class RuleDeclNode extends TestDeclNode {
 		//check the number of returned elements
 		if (actualNumRets != declaredNumRets) {
 			res = false;
-			returns.reportError("return statement has wrong number of parameters");
+			if (declaredNumRets == 0)
+				returns.reportError("no return values declared for rule \"" + getChild(IDENT) + "\"");
+			else
+				returns.reportError("return statement has wrong number of parameters");
 		}
 		return res;
-	}
-	
-	/**
-	 * Check, if the rule type node is right.
-	 * The children of a rule type are
-	 * 1) a pattern for the left side.
-	 * 2) a pattern for the right side.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
-	 */
-	protected boolean check() {
-
-		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
-			&& checkChild(EVAL, evalChecker);
-		
-		
-		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
-		GraphNode right = (GraphNode) getChild(RIGHT);
-		
-		boolean noReturnInPatternOk = true;
-		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
-			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
-			noReturnInPatternOk = false;
-		}
-		
-		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk
-			& checkReturnedElemsNotDeleted(left, right)
-			& checkReturnParamList(left, right);
 	}
 
 	/* Checks, wether the reused node and edges of the RHS are consistens with the LHS.
@@ -326,6 +325,89 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 	
+	/** Raises a warning if a "delete-return-conflict" for potentially
+	 *  homomorphic nodes is detected or---more pricisely---if a node is
+	 *  returned such that homomorphic matching is allowed with a deleted node.
+	 *
+	 *  NOTE: The implmentation of this method must be changed when
+	 *        non-transitive homomorphism is invented.
+	 * */
+	private void warnHomDeleteReturnConflict()
+	{
+		Set<DeclNode> delSet = getDelete();
+		Set<IdentNode> retSet = new HashSet<IdentNode>();
+
+		Collection<BaseNode> rets =
+			((CollectNode) ((GraphNode) getChild(RIGHT)).getReturn()).getChildren();
+
+		for (BaseNode x : rets)
+			retSet.add(((IdentNode)x));
+
+		Map<DeclNode, Set<BaseNode>>
+			elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
+		
+		// represent homomorphism cliques and map each elem to the clique
+		// it belong to
+		for (BaseNode x : ((PatternGraphNode)getChild(PATTERN)).getHoms()) {
+
+			HomNode hn = (HomNode) x;
+
+			Set<BaseNode> homSet;
+			for (BaseNode y : hn.getChildren()) {
+				DeclNode elem = (DeclNode) y;
+
+				homSet = elemToHomElems.get(elem);
+				if (homSet == null) {
+					homSet = new HashSet<BaseNode>();
+					elemToHomElems.put(elem, homSet);
+				}
+				homSet.addAll(hn.getChildren());
+			}
+		}
+		
+		// for all pairs of deleted and returned elems check whether
+		// homomorphic matching is allowed
+		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
+		for (DeclNode d : delSet) {
+			for (IdentNode r : retSet) {
+				if ( alreadyReported.contains(r) ) continue;
+				if (elemToHomElems.get(d).contains(r.getDecl())) {
+					alreadyReported.add(r);
+					r.reportWarning("returning \"" + r + "\" that may be " +
+							"matched homomorphic with deleted \"" + d + "\"");
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check, if the rule type node is right.
+	 * The children of a rule type are
+	 * 1) a pattern for the left side.
+	 * 2) a pattern for the right side.
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check() {
+
+		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
+			&& checkChild(EVAL, evalChecker);
+		
+		
+		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
+		GraphNode right = (GraphNode) getChild(RIGHT);
+		
+		boolean noReturnInPatternOk = true;
+		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
+			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
+			noReturnInPatternOk = false;
+		}
+		
+		warnHomDeleteReturnConflict();
+		
+		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk
+			& checkReturnedElemsNotDeleted(left, right)
+			& checkRetSignatureAdhered(left, right);
+	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()

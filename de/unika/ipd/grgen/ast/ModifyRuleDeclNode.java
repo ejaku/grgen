@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import java.util.Set;
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
 	
@@ -47,6 +48,17 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		addChild(dels);
 		addResolver(DELETE, deleteResolver);
 		setChildrenNames(childrenNames);
+	}
+	protected Set<DeclNode> getDelete()
+	{
+		Set<DeclNode> res = new HashSet<DeclNode>();
+
+		for (BaseNode x : getChild(DELETE).getChildren()) {
+			assert (x instanceof DeclNode);
+			assert(!x.isKept());
+			res.add((DeclNode)x);
+		}
+		return res;
 	}
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{

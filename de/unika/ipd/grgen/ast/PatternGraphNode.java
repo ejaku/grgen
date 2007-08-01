@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
 
 public class PatternGraphNode extends GraphNode {
 	
@@ -72,6 +73,10 @@ public class PatternGraphNode extends GraphNode {
 		addChild(conditions);
 		addChild(homs);
 	}
+
+	public Collection<BaseNode> getHoms() {
+		return getChild(HOMS).getChildren();
+	}
 	
 	protected boolean check() {
 		boolean childs = super.check() &&
@@ -98,7 +103,8 @@ public class PatternGraphNode extends GraphNode {
 					DeclNode decl = (DeclNode)m;
 					
 					if(hom_ents.contains(decl)) {
-						hom.reportError(m.toString() + " is contained in multiple hom statements");
+						hom.reportError(m.toString() +
+								" is contained in multiple hom statements");
 						homcheck = false;
 					}
 				}

@@ -666,9 +666,15 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
 replaceReturns[CollectNode res]
     {
     	BaseNode id;
+    	boolean multipleReturns = ! res.getChildren().isEmpty();
     }
-	: r:RETURN LPAREN id=entIdentUse { res.addChild(id); }
-      (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
+	: r:RETURN {
+	  		if ( multipleReturns )
+	  			reportError(getCoords(r), "multiple occurence of return statement in one rule");
+	  }
+	  LPAREN id=entIdentUse { if ( !multipleReturns ) res.addChild(id); }
+      (COMMA id=entIdentUse { if ( !multipleReturns ) res.addChild(id); })*
+      RPAREN
       { res.setCoords(getCoords(r)); }
 	;
 
