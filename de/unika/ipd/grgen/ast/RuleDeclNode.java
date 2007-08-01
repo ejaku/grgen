@@ -370,8 +370,13 @@ public class RuleDeclNode extends TestDeclNode {
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (DeclNode d : delSet) {
 			for (IdentNode r : retSet) {
+				
 				if ( alreadyReported.contains(r) ) continue;
-				if (elemToHomElems.get(d).contains(r.getDecl())) {
+
+				Set<BaseNode> homSet = elemToHomElems.get(d);
+				if (homSet == null) continue;
+				
+				if (homSet.contains(r.getDecl())) {
 					alreadyReported.add(r);
 					r.reportWarning("returning \"" + r + "\" that may be " +
 							"matched homomorphic with deleted \"" + d + "\"");
@@ -429,6 +434,7 @@ public class RuleDeclNode extends TestDeclNode {
 		return rule;
 	}
 }
+
 
 
 
