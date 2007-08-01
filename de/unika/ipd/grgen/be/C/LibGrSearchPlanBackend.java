@@ -600,7 +600,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * @param    action            the action
 	 * @param    sb                the String Buffer the matcher ops are
 	 *                             written to
-	 * @returns  the number of matcher ops genreated for the given action
+	 * @return  the number of matcher ops genreated for the given action
 	 */
 	private int op_counter;
 	
@@ -747,7 +747,7 @@ public class LibGrSearchPlanBackend extends MoreInformationCollector implements 
 	 * @param    action            the action
 	 * @param    sb                the String Buffer the matcher ops are
 	 *                             written to
-	 * @returns  the number of matcher ops genreated for the given action
+	 * @return  the number of matcher ops genreated for the given action
 	 */
 	private int genNegOpSequence(MatchingAction action, PatternGraph neg_pattern,
 								 Collection<Expression> alreadyCheckedConditions, Collection<Collection> alreadyCheckedTypeConditions, StringBuffer sb) {

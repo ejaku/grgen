@@ -106,15 +106,14 @@ text returns [ BaseNode main = env.initNode() ]
   	    }
   	  )?
 
-  	  actions=actionDecls EOF {
-
-      mainChilds.addChildren(actions);
-  	  main = new UnitNode(id, getFilename());
-  	  main.addChild(modelChilds);
-  	  main.addChild(mainChilds);
+  	  ( actions=actionDecls EOF { mainChilds.addChildren(actions); } )?
+      {
+  	  	main = new UnitNode(id, getFilename());
+  	  	main.addChild(modelChilds);
+  	  	main.addChild(mainChilds);
     	
-      env.getCurrScope().leaveScope();
-   	}
+      	env.getCurrScope().leaveScope();
+   	  }
   	;
   	
 identList [ Collection strings ]
@@ -708,6 +707,7 @@ typeUnaryExpr returns [ BaseNode res = env.initNode() ]
   : res=typeIdentUse { res = new TypeConstraintNode(res); }
   | LPAREN res=typeAddExpr RPAREN
   ;
+
 
 
 
