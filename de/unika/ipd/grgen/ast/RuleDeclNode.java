@@ -98,6 +98,12 @@ public class RuleDeclNode extends TestDeclNode {
 			assert (x instanceof DeclNode);
 			if ( ! rhs.getNodes().contains(x) ) res.add((DeclNode)x);
 		}
+		for (BaseNode x : getChild(PARAM).getChildren()) {
+			assert (x instanceof DeclNode);
+			if ( !( rhs.getNodes().contains(x) ||
+					rhs.getEdges().contains(x))
+			) res.add((DeclNode)x);
+		}
 		
 		return res;
 	}
@@ -434,6 +440,7 @@ public class RuleDeclNode extends TestDeclNode {
 		return rule;
 	}
 }
+
 
 
 
