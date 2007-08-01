@@ -21,8 +21,6 @@ ToDo:
 		Dont forget to check should\_fail for cases that do \emph{crash} instead of reporting an error.
 	\item Improve error messages: Some of them are errorneous and some are even completely malformed. Possible reason: implemented too generic. Possible Location in Code: Resolvers. Possible solution: Implement some more resolvers (but only for error reporting reasons).
     \item {\tt test} rules don't work yet.
-	\item For empty .grg-files and for .grg-files that are empty except for a {\tt using} statement GrGen wrongly reports an error.\\
-		QUESTION: What is the desired output for such an empty file?
 	\item Where warnings should be raised:
 		\begin{itemize}
 			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.
@@ -36,6 +34,9 @@ ToDo:
 \noindent
 Done:
 \begin{itemize}
+	\item For empty .grg-files and for .grg-files that are empty except for a {\tt using} statement GrGen wrongly reports an error.\\
+		\{fixed---Batz 1. Aug. 2007\}
+	
 	\item Where warnings should be raised:
 		\begin{itemize}
 			\item On the RHS, if for a returned element homomorphic matching is allowed with a deleted node (hom-delete-return conflict).\\
