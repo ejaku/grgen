@@ -1,0 +1,30 @@
+node class A;
+
+node class B;
+
+node class Ac extends A;
+
+node class Bc extends B;
+
+node class Acc extends Ac;
+
+node class Bcc extends Bc;
+
+node class Accc extends Acc;
+
+node class Bccc extends Bcc;
+
+node class AB extends A, B;
+
+node class AcBc extends Ac, Bc;
+
+node class AcA extends A, Ac;
+
+node class AccA extends A, Acc;
+
+node class AcccA extends A, Accc;
+
+node class AcccAccAcA extends A, Accc, Acc, Ac;
+
+node class AcAAB extends AcA, AB;
+
