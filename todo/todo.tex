@@ -16,6 +16,12 @@
 \subsection*{Frontend (Java):}
 ToDo:
 \begin{itemize}
+	\item Large graphs in GrGen rules cause very long running times. Maybe there are memory leaks and/or sloppy coding.
+		Use a profiler to find out where and what.
+	\item
+		Implementation of the {\tt RETURN} child of class {\tt GraphNode} does not follow the presumably intended design principles of the AST implementation:
+		Identifiers are not resolved to instances of {\tt NodeDeclNode} or {\tt EdgeDeclNode}.
+		However, if we fix this, this will have consequences for the check phase, where several things regarding the {\tt return} statement are checked.
 	\item Invent attribute type {\tt object} that only supports the operators {\tt ==} and {\tt !=}.
 	\item Check the cause, why some test cases still do not work as required.
 		Dont forget to check should\_fail for cases that do \emph{crash} instead of reporting an error.
@@ -23,7 +29,6 @@ ToDo:
     \item {\tt test} rules don't work yet.
 	\item Where warnings should be raised:
 		\begin{itemize}
-			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.
 			\item If an assignment {\tt x.a = \dots} occurs inside an {\tt eval}, but the graph element {\tt x} will be deleted on a rewrite.
 			\item If one or more attributes of a newly created node are not initialized by the eval part of the respective rule.
 			\item If the types of potentially homomorphic pattern nodes have no common subtype (because non-injective matching is \emph{impossible} in this case).
@@ -39,6 +44,8 @@ Done:
 	
 	\item Where warnings should be raised:
 		\begin{itemize}
+			\item In modify parts, if a graph element occurs \emph{inside} as well as \emph{outside} a {\tt delete} statement.\\
+				\{implemented---Batz 6. Aug. 2007\}
 			\item On the RHS, if for a returned element homomorphic matching is allowed with a deleted node (hom-delete-return conflict).\\
 				\{implemented---Batz 1. Aug. 2007\}
 		\end{itemize}
