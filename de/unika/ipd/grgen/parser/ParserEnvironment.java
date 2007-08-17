@@ -111,13 +111,15 @@ public abstract class ParserEnvironment extends Base {
 		stdModel.addChild(stdModelChilds);
 		
 		// The node type root
-		nodeRoot = predefineType("Node", new NodeTypeNode(new CollectNode(),
-																											new CollectNode(), 0));
+		nodeRoot = predefineType(
+			"Node", new NodeTypeNode(new CollectNode(), new CollectNode(), 0));
 		
 		// The edge type root
-		edgeRoot = predefineType("Edge", new EdgeTypeNode(new CollectNode(),
-																											new CollectNode(),
-																											new CollectNode(), 0));
+		edgeRoot = predefineType(
+			"Edge", new EdgeTypeNode(
+				new CollectNode(), new CollectNode(), new CollectNode(), 0
+			)
+		);
 		
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(edgeRoot);
@@ -127,6 +129,7 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
 		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
+		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
 	}
 	
 	public ModelNode getStdModel() {

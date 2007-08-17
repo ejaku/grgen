@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import de.unika.ipd.grgen.ast.util.TypeChecker;
 
 /**
  * A class which represents a graph pattern

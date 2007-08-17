@@ -653,7 +653,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	
 	private void genEvals(StringBuffer sb, Rule rule,
 			Collection<Node> neededNode, Collection<Edge> neededEdge) {
-		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false;
+		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
 		for(Assignment ass : rule.getEvals()) {
 			String varName, varType;
 			Entity entity = ass.getTarget().getOwner();
@@ -683,6 +683,11 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					varName = "var_s";
 					varType = def_s?"":"String ";
 					def_s = true;
+					break;
+				case Type.IS_OBJECT:
+					varName = "var_o";
+					varType = def_o?"":"Object ";
+					def_o = true;
 					break;
 				default:
 					throw new IllegalArgumentException();
@@ -1232,6 +1237,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 				sb.append("StringAttr, null");
 			else if (t instanceof EnumType)
 				sb.append("EnumAttr, Enums." + formatIdentifiable(t));
+			else if (t instanceof ObjectType)
+				sb.append("ObjectAttr, null");
 			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 			
 			sb.append(");\n");
@@ -1546,6 +1553,8 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			return "String";
 		else if (t instanceof EnumType)
 			return "ENUM_" + formatIdentifiable(e.getType());
+		else if (t instanceof ObjectType)
+			return "Object"; //TODO maybe we need another output type
 		else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 	}
 	

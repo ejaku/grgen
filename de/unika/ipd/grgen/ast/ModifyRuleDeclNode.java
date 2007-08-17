@@ -182,8 +182,34 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return res;
 	}
 	
+	private void warnElemAppearsInsideAndOutsideDelete() {
+		
+		Set<DeclNode> deletes = getDelete();
+		GraphNode right = (GraphNode) getChild(RIGHT);
+		
+		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
+		for (BaseNode x : right.getConnections()) {
+
+			BaseNode elem = BaseNode.getErrorNode();
+			if (x instanceof SingleNodeConnNode)
+				elem = ((SingleNodeConnNode)x).getNode();
+			else if (x instanceof ConnectionNode)
+				elem = (BaseNode) ((ConnectionNode)x).getEdge();
+
+			if (alreadyReported.contains(elem)) continue;
+			
+			for (BaseNode y : deletes) {
+				if (elem.equals(y)) {
+					x.reportWarning("\"" + y + "\" appears inside as well as outside a delete statement");
+					alreadyReported.add(elem);
+				}
+			}
+		}
+	}
+		
 	@Override
 		protected boolean check() {
+		warnElemAppearsInsideAndOutsideDelete();
 		return super.check() && checkChild(DELETE, deleteChecker);
 	}
 	

@@ -136,23 +136,39 @@ public class RuleDeclNode extends TestDeclNode {
 			String nodeOrEdge = "";
 			if (retElem instanceof NodeDeclNode) nodeOrEdge = "node";
 			else if (retElem instanceof EdgeDeclNode) nodeOrEdge = "edge";
-			else nodeOrEdge = "element";
-
-			assert (retElem instanceof NodeDeclNode) ||	(retElem instanceof EdgeDeclNode):
-				"the element \"" + ident + "\" is neither a node nor an edge";
+			else nodeOrEdge = "entity";
 			
+			
+			//TODO:	The job of the following should be done by a resolver resolving
+			//		the childs of the return nore from identifiers to instances of
+			//		NodeDeclNode or EdgeDevleNode respectively.
+			 if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
+				res = false;
+				ident.reportError(
+					"the element \"" + ident + "\" is neither a node nor an edge");
+			}
+
 			if ( ! rhsElems.contains(retElem) ) {
 
 				res = false;
 
-				assert
-					left.getNodes().contains(oldElem) ||
-					left.getEdges().contains(oldElem) ||
-					getChild(PARAM).getChildren().contains(retElem)
-				: "the " + nodeOrEdge + " \"" + ident + "\", that is neither a " +
-					"parameter, nor contained in LHS, nor in RHS, occurs in a return";
+				//TODO:	The job of the following should be done by a resolver resolving
+				//		the childs of the return nore from identifiers to instances of
+				//		NodeDeclNode or EdgeDevleNode respectively.
+				if ( ! (
+						 left.getNodes().contains(oldElem) ||
+						 left.getEdges().contains(oldElem) ||
+						 getChild(PARAM).getChildren().contains(retElem))
+					 	)
+				{
+					ident.reportError(
+						"\"" + ident + "\", that is neither a parameter, " +
+						"nor contained in LHS, nor in RHS, occurs in a return");
+					
+					continue;
+				}
 
-				((IdentNode)ident).reportError("the deleted " + nodeOrEdge +
+				ident.reportError("the deleted " + nodeOrEdge +
 						" \"" + ident + "\" must not be returned");
 			}
 		}
@@ -385,7 +401,7 @@ public class RuleDeclNode extends TestDeclNode {
 				if (homSet.contains(r.getDecl())) {
 					alreadyReported.add(r);
 					r.reportWarning("returning \"" + r + "\" that may be " +
-							"matched homomorphic with deleted \"" + d + "\"");
+							"matched homomorphically with deleted \"" + d + "\"");
 				}
 			}
 		}

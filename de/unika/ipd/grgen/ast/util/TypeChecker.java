@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.util.Util;
+import de.unika.ipd.grgen.ast.IdentNode;
 
 /**
  * A type checker, that checks if the declaration node is of a certain type
@@ -74,7 +75,7 @@ public class TypeChecker implements Checker
 			}
 			
 			if(!res)
-				node.reportError(getErrorMsg(validTypes, node));
+				((DeclNode)node).getIdentNode().reportError(getErrorMsg(validTypes, node));
 
 		}
 		return res;

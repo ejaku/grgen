@@ -129,9 +129,12 @@ public class OperatorSignature extends FunctionSignature
 	/** Just a short form for the float type. */
 	static final TypeNode FLOAT = BasicTypeNode.floatType;
 
-	/** Just a short form for the float type. */
+	/** Just a short form for the double type. */
 	static final TypeNode DOUBLE = BasicTypeNode.doubleType;
 	
+	/** Just a short form for the object type. */
+	static final TypeNode OBJECT = BasicTypeNode.objectType;
+
 	/** Just a short form for the enum type. */
 	static final TypeNode ENUM = BasicTypeNode.enumItemType;
 
@@ -314,6 +317,40 @@ public class OperatorSignature extends FunctionSignature
 			else throw new ValueException(args[pos].getCoords());
 		}
 	}
+	
+	private static final Evaluator objectEvaluator = new Evaluator()
+	{
+		
+		protected ExprNode eval(Coords coords, OperatorSignature op, ExprNode[] e) throws NotEvaluatableException
+		{
+			
+			ObjectTypeNode.Value a0, a1;
+			
+			if (getArity(op.getOpId()) != 2)
+				throw new NotEvaluatableException(coords);
+
+			try
+			{
+				a0 = (ObjectTypeNode.Value) getArgValue(e, op, 0);
+				a1 = (ObjectTypeNode.Value) getArgValue(e, op, 1);
+			}
+			catch (ValueException x)
+			{
+				throw new NotEvaluatableException(coords);
+			}
+			
+			switch (op.id)
+			{
+				case EQ:
+					return new BoolConstNode(coords, a0.equals(a1));
+				case NE:
+					return new BoolConstNode(coords, !a0.equals(a1));
+				default:
+					throw new NotEvaluatableException(coords);
+			}
+			
+		}
+	};
 	
 	private static final Evaluator stringEvaluator = new Evaluator()
 	{
@@ -767,6 +804,10 @@ public class OperatorSignature extends FunctionSignature
 //		makeBinOp(LE, BOOLEAN, STRING, STRING, stringEvaluator);
 //		makeBinOp(LT, BOOLEAN, STRING, STRING, stringEvaluator);
 		
+		// object operators
+		makeBinOp(EQ, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
+		makeBinOp(NE, BOOLEAN, OBJECT, OBJECT, objectEvaluator);
+
 		// Integer comparison
 		makeBinOp(EQ, BOOLEAN, INT, INT, intEvaluator);
 		makeBinOp(NE, BOOLEAN, INT, INT, intEvaluator);
@@ -859,6 +900,8 @@ public class OperatorSignature extends FunctionSignature
 
 		makeOp(COND, FLOAT, new TypeNode[] { BOOLEAN, FLOAT, FLOAT }, condEvaluator);
 		makeOp(COND, DOUBLE, new TypeNode[] { BOOLEAN, DOUBLE, DOUBLE }, condEvaluator);
+
+		makeOp(COND, OBJECT, new TypeNode[] { BOOLEAN, OBJECT, OBJECT }, condEvaluator);
 
 //		makeOp(COND, ENUM, new TypeNode[] { BOOLEAN, ENUM, ENUM }, condEvaluator);
 		

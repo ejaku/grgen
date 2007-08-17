@@ -42,13 +42,14 @@ import de.unika.ipd.grgen.ir.PrimitiveType;
 import de.unika.ipd.grgen.ir.TypeType;
 import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.VoidType;
+import de.unika.ipd.grgen.ir.ObjectType;
 
 /**
  * A basic type AST node such as string or int
  */
 public abstract class BasicTypeNode extends DeclaredTypeNode {
 	
-	/**
+		/**
 	 * The string basic type.
 	 */
 	public static final BasicTypeNode stringType = new BasicTypeNode() {
@@ -118,6 +119,11 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	};
 	
 	/**
+	 * The object basic type.
+	 */
+	public static final BasicTypeNode objectType = ObjectTypeNode.OBJECT_TYPE;
+
+	/**
 	 * The enum member type.
 	 */
 	public static final BasicTypeNode enumItemType =
@@ -131,8 +137,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	/**
 	 * The void basic type. It is compatible to no other type.
 	 */
-	public static final BasicTypeNode voidType =
-		new BasicTypeNode() {
+	public static final BasicTypeNode voidType = new BasicTypeNode() {
 		protected IR constructIR() {
 			return new VoidType(getIdentNode().getIdent());
 		}
@@ -166,7 +171,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * This map contains the value types of the basic types.
 	 * (BasicTypeNode -> Class)
 	 */
-	private static Map<BasicTypeNode, Object> valueMap = new HashMap<BasicTypeNode, Object>();
+	protected static Map<BasicTypeNode, Object> valueMap = new HashMap<BasicTypeNode, Object>();
 	
 	
 	static {
@@ -206,6 +211,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(booleanType, Boolean.class);
 		valueMap.put(stringType, String.class);
 		valueMap.put(enumItemType, Integer.class);
+		valueMap.put(objectType, ObjectTypeNode.Value.class);
 		
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
