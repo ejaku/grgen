@@ -7,21 +7,26 @@ rule r {
 		nf : NFLOAT;
 		nd : NDOUBLE;
 		ns : NSTRING;
+		no : NOBJECT;
 		-ei:EINT->;
 		-eb:EBOOL->;
 		-ef:EFLOAT->;
 		-ed:EDOUBLE->;
 		-es:ESTRING->;
+		-eo:EOBJECT->;
 		if {
 			ni.a == ei.a;
 			nb.a == eb.a;
 			nf.a == ef.a;
 			nd.a == ed.a;
 			ns.a == es.a;
+			no.a == eo.a;
 		}
 	}
 	modify {
 		eval {
+			no.a = eo.a;
+		
 			ni.a = ei.a;
 			nb.a = eb.a;
 			nf.a = ef.a; 
@@ -34,17 +39,17 @@ rule r {
 			ed.a = nd.a;
 			es.a = ns.a;
 			
-      ei.a = ei.a; 
-      eb.a = eb.a;
-      ef.a = ef.a;
-      ed.a = ed.a;
-      es.a = es.a;
+			ei.a = ei.a; 
+			eb.a = eb.a;
+			ef.a = ef.a;
+			ed.a = ed.a;
+			es.a = es.a;
 
-      ni.a = ni.a; 
-      nb.a = nb.a;
-      nf.a = nf.a;
-      nd.a = nd.a;
-      ns.a = ns.a;
+			ni.a = ni.a; 
+			nb.a = nb.a;
+			nf.a = nf.a;
+			nd.a = nd.a;
+			ns.a = ns.a;
 		}
 	}
 }

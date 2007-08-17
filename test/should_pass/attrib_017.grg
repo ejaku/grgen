@@ -1,0 +1,19 @@
+using attrib_model_001;
+
+rule r {
+	pattern {
+		x: NOBJECT;
+		xx: NOBJECT;
+		y: NINT;
+		z: NSTRING;
+	}
+	modify {
+		eval {
+			x.a = (y.a == 42 ? x.a : xx.a);
+			y.a = (x.a == xx.a ? 42 : 815);
+			x.a = (x.a != xx.a ? xx.a : x.a);
+			z.a = (x.a != xx.a ? "foo" : "bar");
+		}
+	}
+	
+}

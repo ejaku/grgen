@@ -7,17 +7,20 @@ rule r {
 		nf : NFLOAT;
 		nd : NDOUBLE;
 		ns : NSTRING;
+		no : NOBJECT;
 		-ei:EINT->;
 		-eb:EBOOL->;
 		-ef:EFLOAT->;
 		-ed:EDOUBLE->;
 		-es:ESTRING->;
+		-eo:EOBJECT->;
 		if {
 			ni.a == ei.a;
 			nb.a == eb.a;
 			nf.a == ef.a;
 			nd.a == ed.a;
 			ns.a == es.a;
+			no.a == eo.a;
 		}
 	}
 	modify {
