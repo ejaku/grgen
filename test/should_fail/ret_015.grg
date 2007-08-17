@@ -1,0 +1,12 @@
+
+rule r : (Node) {
+	pattern {
+		x: Node;
+		y: Node;
+	}
+	modify {
+		return(x);
+		return(y);
+		return(a);
+	}
+}
