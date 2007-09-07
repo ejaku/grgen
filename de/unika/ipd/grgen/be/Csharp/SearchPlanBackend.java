@@ -1286,13 +1286,13 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
-						sb.append("(");
+						sb.append("((");
 						genConditionEval(sb, op.getOperand(0), neededNode, neededEdge);
 						sb.append(") ? (");
 						genConditionEval(sb, op.getOperand(1), neededNode, neededEdge);
 						sb.append(") : (");
 						genConditionEval(sb, op.getOperand(2), neededNode, neededEdge);
-						sb.append(")");
+						sb.append("))");
 						break;
 					}
 					// FALLTHROUGH
