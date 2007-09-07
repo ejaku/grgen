@@ -116,7 +116,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	}
 
 	public static String getUseStr() {
-		return "node";
+		return "node type";
 	}
 }
 

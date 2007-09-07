@@ -71,6 +71,8 @@ public class DeclTypeResolver extends IdentResolver
 			if ( t instanceof TypeNode ) res = t;
 		}
 		
+		if(res == BasicTypeNode.errorType) res = n;
+		
 		return res;
 	}
 	

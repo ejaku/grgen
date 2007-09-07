@@ -123,6 +123,6 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		return "edge type";
 	}
 	public static String getUseStr() {
-		return "edge";
+		return "edge type";
 	}
 }

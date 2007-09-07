@@ -26,23 +26,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import de.unika.ipd.grgen.ir.*;
 
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.PrimitiveType;
-import de.unika.ipd.grgen.ir.TypeType;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.VoidType;
-import de.unika.ipd.grgen.ir.ObjectType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A basic type AST node such as string or int
@@ -149,9 +136,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	/**
 	 * The error basic type. It is compatible to no other type.
 	 */
-	public static final BasicTypeNode errorType = new BasicTypeNode() {
+	public static final TypeNode errorType = new TypeNode() {
 		protected IR constructIR() {
-			return new VoidType(getIdentNode().getIdent());
+			return new VoidType(IdentNode.getInvalid().getIdent());
 		}
 		public String getUseString() {
 			return "error type";

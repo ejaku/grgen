@@ -342,7 +342,10 @@ public class Main extends Base implements Sys {
 			}
 			else {
 				inputFile = new File(rem[0]);
-				sourcePath = inputFile.getAbsoluteFile().getParentFile();
+				if(rem[0].indexOf('/') != -1 || rem[0].indexOf('\\') != -1)
+					sourcePath = inputFile.getAbsoluteFile().getParentFile();
+				else
+					sourcePath = new File(".");
 				debugPath = new File(sourcePath, inputFile.getName() + "_debug");
 				modelPaths.add(sourcePath);
 			}
@@ -593,5 +596,6 @@ public class Main extends Base implements Sys {
 	}
 	
 }
+
 
 

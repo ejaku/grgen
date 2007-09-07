@@ -57,6 +57,10 @@ public abstract class TypeNode extends BaseNode {
 		super();
 	}
 	
+	public static String getUseStr() {
+		return "type";
+	}
+	
 	/**
 	 * Compute the distance of indirect type compatibility (where 'compatibility'
 	 * means implicit castability of attribute types; accordingly the distance

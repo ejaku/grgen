@@ -1,0 +1,11 @@
+node class test1 {
+  x:String;
+}
+
+node class test2 {
+  y:string;
+}
+
+node class test3 {
+  z:mampf;
+}

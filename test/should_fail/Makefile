@@ -12,7 +12,7 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
 # where GrGen.NET is located
-GRGENNET=$(GRGENDIR)/../GrGen/bin/
+GRGENNET?=$(GRGENDIR)/../GrGen/bin/
 
 #
 # full classpath for executing grgen
@@ -28,12 +28,14 @@ BE_CSC  =	de.unika.ipd.grgen.be.Csharp.SearchPlanBackend
 
 DIRS_CSI= $(GRGS:.grg=_csi) # The directory for the C# interperting backend
 
-all: clean $(DIRS_FE)
+all: cleanfelog $(DIRS_FE)
 	cat successFE.log
 
-csc: clean $(DIRS_CSC)
+csc: cleancsclog $(DIRS_CSC)
 	cat successCSC.log
 
+fe: cleanfelog $(DIRS_FE)
+	cat successFE.log
 
 %_fe : %.grg $(GMS)
 	@touch successFE.log
@@ -50,3 +52,8 @@ csc: clean $(DIRS_CSC)
 clean:
 	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log
 
+cleanfelog:
+	@rm -f successFE.log
+
+cleancsclog:
+	@rm -f successCSC.log

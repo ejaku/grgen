@@ -143,6 +143,11 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
   	return occ.getSymbol().toString();
   }
 
+	public static String getUseStr()
+	{
+		return "identifier";
+	}
+  
   /**
    * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
    */

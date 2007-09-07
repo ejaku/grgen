@@ -83,27 +83,18 @@ text returns [ BaseNode main = env.initNode() ]
   	    modelChilds.addChild(env.getStdModel());
   	}
   	: (
-  	  	(a:ACTIONS i:IDENT {
-  	  		reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
-  	  		reportWarning(getCoords(i),
-  	  			"the name of this action set no more the idetifier " +
-  	  			"after the \"actions\" but derived from the filename");
-  	    })?
-  	    u:USING identList[modelList]
-  	    SEMI {
-  	      for(Iterator it = modelList.iterator(); it.hasNext();) {
-  	        String modelName = (String) it.next();
-  	        File modelFile = env.findModel(modelName);
-  	  
-  	        if ( modelFile == null )
-  	        	reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
-  	        else {
-				BaseNode model;
-				model = env.parseModel(modelFile);
-				modelChilds.addChild(model);
-			}
-  	      }
-  	    }
+  	    ( a:ACTIONS i:IDENT {
+  	        reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
+  	  	    reportWarning(getCoords(i),
+  	      	    "the name of this actions component is not set by the identifier " +
+  	  		    "after the \"actions\" keyword anymore but derived from the filename");
+	      }
+	      (
+	        usingDecl[modelChilds]
+	      | SEMI
+	      )
+	    )
+	    | usingDecl[modelChilds]
   	  )?
 
   	  ( actions=actionDecls EOF { mainChilds.addChildren(actions); } )?
@@ -119,6 +110,25 @@ text returns [ BaseNode main = env.initNode() ]
 identList [ Collection strings ]
   : fid:IDENT { strings.add(fid.getText()); }
     (COMMA sid:IDENT { strings.add(sid.getText()); })*
+  ;
+
+usingDecl [ CollectNode modelChilds ]
+  { List modelList = new LinkedList(); }
+  : u:USING identList[modelList]
+    SEMI {
+  	  for(Iterator it = modelList.iterator(); it.hasNext();) {
+  	    String modelName = (String) it.next();
+  	    File modelFile = env.findModel(modelName);
+
+  	    if ( modelFile == null )
+  	      reportError(getCoords(u), "model \"" + modelName + "\" could not be found");
+  	    else {
+		  BaseNode model;
+		  model = env.parseModel(modelFile);
+		  modelChilds.addChild(model);
+        }
+  	  }
+  	}
   ;
   	
 actionDecls returns [ CollectNode c = new CollectNode() ]

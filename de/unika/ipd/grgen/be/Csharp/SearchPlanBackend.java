@@ -226,18 +226,18 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t\tpublic enum NodeNums { ");
 		for(Node node : action.getPattern().getNodes())
 			if(i++ == 0)
-				sb.append(formatIdentifiable(node) + "  = 1, ");
+				sb.append("@" + formatIdentifiable(node) + "  = 1, ");
 			else
-				sb.append(formatIdentifiable(node) + ", ");
+				sb.append("@" + formatIdentifiable(node) + ", ");
 		sb.append("};\n");
 		
 		i = 0;
 		sb.append("\t\tpublic enum EdgeNums { ");
 		for(Edge edge : action.getPattern().getEdges())
 			if(i++ == 0)
-				sb.append(formatIdentifiable(edge) + " = 1, ");
+				sb.append("@" + formatIdentifiable(edge) + " = 1, ");
 			else
-				sb.append(formatIdentifiable(edge) + ", ");
+				sb.append("@" + formatIdentifiable(edge) + ", ");
 		sb.append("};\n");
 		sb.append("\n");
 		
@@ -428,10 +428,10 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// extract nodes/edges from match
 		for(Node node : extractNodeFromMatch)
 			if(!node.isRetyped())
-				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums." + formatIdentifiable(node) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPNode " + formatEntity(node) + " = match.nodes[ (int) NodeNums.@" + formatIdentifiable(node) + " - 1 ];\n");
 		for(Edge edge : extractEdgeFromMatch)
 			if(!edge.isRetyped())
-				sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums." + formatIdentifiable(edge) + " - 1 ];\n");
+				sb.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = match.edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + " - 1 ];\n");
 		
 		for(Node node : extractNodeTypeFromMatch)
 			sb.append("\t\t\tITypeFramework " + formatEntity(node) + "_type = " + formatEntity(node) + ".type;\n");
@@ -797,7 +797,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			if(outer != null && outer.hasNode(node))
 				continue;
 			sb.append("\t\t\tPatternNode " + formatEntity(node, outer, negCount) + " = new PatternNode(");
-			sb.append("(int) NodeTypes." + formatIdentifiable(node.getType()) + ", \"" + formatEntity(node, outer, negCount) + "\"");
+			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatEntity(node, outer, negCount) + "\"");
 			sb.append(", " + formatEntity(node, outer, negCount) + "_AllowedTypes, ");
 			sb.append(formatEntity(node, outer, negCount) + "_IsAllowedType, ");
 			sb.append(parameters.contains(node)?"PatternElementType.Preset":additional_parameters);
@@ -810,7 +810,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append(pattern.getSource(edge)!=null?formatEntity(pattern.getSource(edge), outer, negCount):"null");
 			sb.append(", ");
 			sb.append(pattern.getTarget(edge)!=null?formatEntity(pattern.getTarget(edge), outer, negCount):"null");
-			sb.append(", (int) EdgeTypes." + formatIdentifiable(edge.getType()) + ", \"" + formatEntity(edge, outer, negCount) + "\"");
+			sb.append(", (int) EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatEntity(edge, outer, negCount) + "\"");
 			sb.append(", " + formatEntity(edge, outer, negCount) + "_AllowedTypes, ");
 			sb.append(formatEntity(edge, outer, negCount) + "_IsAllowedType, ");
 			sb.append(parameters.contains(edge)?"PatternElementType.Preset":additional_parameters);
@@ -993,7 +993,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\tpublic class Enums\n");
 		sb.append("\t{\n");
 		for(EnumType enumt :enumMap.keySet()) {
-			sb.append("\t\tpublic static EnumAttributeType " + formatIdentifiable(enumt) +
+			sb.append("\t\tpublic static EnumAttributeType @" + formatIdentifiable(enumt) +
 					" = new EnumAttributeType(\"ENUM_" + formatIdentifiable(enumt) + "\", new EnumMember[] {\n");
 			for(EnumItem enumi : enumt.getItems()) {
 				sb.append("\t\t\tnew EnumMember(" + enumi.getValue().getValue() + ", \"" + formatIdentifiable(enumi) + "\"),\n");
@@ -1009,7 +1009,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t//\n");
 		sb.append("\n");
 		sb.append("\tpublic enum " + formatNodeOrEdge(isNode) + "Types ");
-		genSet(sb, types, "", "", true);
+		genSet(sb, types, "@", "", true);
 		sb.append(";\n");
 		
 		for(InheritanceType type : types) {
@@ -1170,7 +1170,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		genAttributeAttributes(sb, type);
 		sb.append("\t\tpublic " + tname + "()\n");
 		sb.append("\t\t{\n");
-		sb.append("\t\t\ttypeID   = (int) " + formatNodeOrEdge(type) + "Types." + typeName + ";\n");
+		sb.append("\t\t\ttypeID   = (int) " + formatNodeOrEdge(type) + "Types.@" + typeName + ";\n");
 		genIsA(sb, types, type);
 		genIsMyType(sb, types, type);
 		genAttributeInit(sb, type);
@@ -1236,7 +1236,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			else if (t instanceof StringType)
 				sb.append("StringAttr, null");
 			else if (t instanceof EnumType)
-				sb.append("EnumAttr, Enums." + formatIdentifiable(t));
+				sb.append("EnumAttr, Enums.@" + formatIdentifiable(t));
 			else if (t instanceof ObjectType)
 				sb.append("ObjectAttr, null");
 			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");

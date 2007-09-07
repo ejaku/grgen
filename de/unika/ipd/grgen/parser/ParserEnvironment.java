@@ -104,6 +104,7 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("boolean");
 			symTabs[i].enterKeyword("float");
 			symTabs[i].enterKeyword("double");
+			symTabs[i].enterKeyword("object");
 		}
 
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"));
@@ -141,9 +142,12 @@ public abstract class ParserEnvironment extends Base {
 		File[] modelPaths = system.getModelPaths();
 		String modelFile = modelName + MODEL_SUFFIX;
 		
-		
 		for(int i = 0; i < modelPaths.length; i++) {
-			File curr = new File(modelPaths[i], modelFile);
+			File curr;
+			if(modelPaths[i].getPath().equals("."))
+				curr = new File(modelFile);
+			else
+				curr = new File(modelPaths[i], modelFile);
 			debug.report(NOTE, "trying: " + curr);
 			if(curr.exists()) {
 				res = curr;
