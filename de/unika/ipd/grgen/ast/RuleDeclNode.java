@@ -230,6 +230,8 @@ public class RuleDeclNode extends TestDeclNode {
 			res = false;
 			if (declaredNumRets == 0)
 				returns.reportError("no return values declared for rule \"" + getChild(IDENT) + "\"");
+			else if(actualNumRets == 0)
+				reportError("missing return statement for rule \"" + getChild(IDENT) + "\"");
 			else
 				returns.reportError("return statement has wrong number of parameters");
 		}
