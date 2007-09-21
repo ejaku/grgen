@@ -36,7 +36,6 @@ import java.util.Vector;
 
 public class Util
 {
-	
 	/**
 	 * Removes from a filename the prefix that contains path information
 	 *
@@ -53,6 +52,7 @@ public class Util
 		
 		return filename.substring(lastSepPos + 1);
 	}
+	
 	/**
 	 * Removes from a filename the suffix that contains file type information,
 	 * '.grg' for example.
@@ -81,6 +81,23 @@ public class Util
 		return filename;
 	}
 	
+	/**
+	 * Creates a action name only consisting of characters, numbers, and '_'
+	 * from a given filename.
+	 *
+	 * @param filename 		The filename to create the action name from.
+	 *
+	 * @return the action name corresponding to the filename.
+	 */
+	public static String getActionsNameFromFilename(String filename) {
+		String name = Util.removePathPrefix(Util.removeFileSuffix(filename, "grg"));
+		name = name.replaceAll("[^a-zA-Z0-9_]", "_");
+		char firstChar = name.charAt(0);
+		if(firstChar >= '0' && firstChar <= '9')
+			name = "_" + name;
+		return name;
+	}
+
 	public static File findFile(File[] paths, String file) {
 		for(int i = 0; i < paths.length; i++) {
 			File curr = new File(paths[i], file);
@@ -245,5 +262,4 @@ public class Util
 		return bos.toString();
 	}
 }
-
 

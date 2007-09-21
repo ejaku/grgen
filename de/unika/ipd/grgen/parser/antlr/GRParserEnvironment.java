@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.io.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -88,7 +89,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
-			GRLexer mainLexer = new GRLexer(new FileInputStream(inputFile));
+			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
 			mainLexer.setTabSize(1);
 			mainLexer.setEnv(this);
 			mainLexer.setFilename(inputFile.getPath());

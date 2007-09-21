@@ -73,8 +73,7 @@ text returns [ BaseNode main = env.initNode() ]
   		IdentNode id;
   		List modelList = new LinkedList();
 
-	    String actionsName = Util.removePathPrefix(
-	  		Util.removeFileSuffix(getFilename(), "grg") );
+	    String actionsName = Util.getActionsNameFromFilename(getFilename());
 
         id = new IdentNode(
     		env.define(ParserEnvironment.ENTITIES, actionsName,
