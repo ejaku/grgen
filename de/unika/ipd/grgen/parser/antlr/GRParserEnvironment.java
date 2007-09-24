@@ -22,6 +22,7 @@
  * GRParserActivator.java
  *
  * @author Sebastian Hack
+ * @version $Id$
  */
 
 package de.unika.ipd.grgen.parser.antlr;
@@ -33,11 +34,11 @@ import antlr.TokenStreamSelector;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.parser.ParserEnvironment;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
-import java.io.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Stack;
 
 /**
@@ -45,15 +46,26 @@ import java.util.Stack;
  */
 public class GRParserEnvironment extends ParserEnvironment {
 	private boolean hadError = false;
-	protected Stack<Parser> parsers = new Stack<Parser>();
-	protected Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
+	private Stack<Parser> parsers = new Stack<Parser>();
+	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
+	private HashMap<String, Object> filesOnStack = new HashMap<String, Object>();
 	
 	public GRParserEnvironment(Sys system) {
 		super(system);
 	}
 	
     public void pushFile(File file) throws TokenStreamException {
-    	try {
+		String filePath = file.getPath();
+		if(filesOnStack.containsKey(filePath)) {
+			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
+			System.err.println("GrGen: [ERROR at " + getFilename() + ":" + curlexer.getLine()
+					+ "," + curlexer.getColumn() + "] found circular include with file \""
+					+ filePath + "\"");
+			System.exit(1);
+		}
+		filesOnStack.put(filePath, null);
+
+		try {
     		FileInputStream stream = new FileInputStream(file);
 			GRLexer sublexer = new GRLexer(stream) {
 				public void uponEOF() throws TokenStreamException {
@@ -74,7 +86,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 	}
     
     public void popFile() throws TokenStreamException {
-    	selectors.peek().pop();
+    	GRLexer sublexer = (GRLexer) selectors.peek().pop();
+		filesOnStack.remove(sublexer.getFilename());
     	selectors.peek().retry();
 	}
     
@@ -163,4 +176,5 @@ public class GRParserEnvironment extends ParserEnvironment {
 	}
 
 }
+
 
