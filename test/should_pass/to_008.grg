@@ -1,0 +1,13 @@
+using basic_model_002;
+
+rule to_8 {
+	pattern {
+		a : N;
+	}
+	replace{
+		a;
+		eval {
+			a.in = (typeof(a) == NZ) ? 42 : 815;
+		}
+	}
+}
