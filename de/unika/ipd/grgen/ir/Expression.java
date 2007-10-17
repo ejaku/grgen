@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.Set;
+
 /**
  * An expression node.
  */
@@ -48,4 +50,11 @@ public abstract class Expression extends IR
 		return type;
 	}
 	
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * @param    nodes               a  Set to contain the nodes of cond
+	 * @param    edges               a  Set to contain the edges of cond
+	 * @param    cond                an Expression
+	 */
+	public abstract void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges);
 }

@@ -166,23 +166,20 @@ public abstract class InheritanceType extends CompoundType {
 	 * @see de.unika.ipd.grgen.ir.Type#castableTo(de.unika.ipd.grgen.ir.Type)
 	 */
 	protected boolean castableTo(Type t) {
-		boolean res = false;
-		
-		if(t instanceof InheritanceType) {
-			InheritanceType ty = (InheritanceType) t;
+		if(!(t instanceof InheritanceType))
+			return false;
 			
-			if(isDirectSubTypeOf(ty))
-				res = true;
-			else {
-				for(InheritanceType inh : getDirectSuperTypes())
-					if(inh.castableTo(ty)) {
-						res = true;
-						break;
-					}
-			}
+		InheritanceType ty = (InheritanceType) t;
+		
+		if(isDirectSubTypeOf(ty))
+			return true;
+
+		for(InheritanceType inh : getDirectSuperTypes()) {
+			if(inh.castableTo(ty))
+				return true;
 		}
 		
-		return res;
+		return false;
 	}
 	
 	/**

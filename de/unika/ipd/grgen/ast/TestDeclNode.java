@@ -29,13 +29,12 @@ import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
-import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.util.Util;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.util.Set;
 
 /**
  * A type that represents tests
@@ -238,9 +237,28 @@ public class TestDeclNode extends ActionDeclNode {
 	
 	
 	protected void constructIRaux(MatchingAction ma, BaseNode aReturns) {
+		PatternGraph patternGraph = ma.getPattern();
+		
 		// add negative parts to the IR
 		for (BaseNode n : getChild(NEG).getChildren()) {
 			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
+			
+			// add Condition elements only mentioned in Condition to the IR
+			Set<Node> neededNodes = new HashSet<Node>();
+			Set<Edge> neededEdges = new HashSet<Edge>();
+			
+			for(Expression cond : neg.getConditions()) {
+				cond.collectNodesnEdges(neededNodes, neededEdges);
+			}
+			for(Node neededNode : neededNodes) {
+				if(!neg.hasNode(neededNode))
+					neg.addSingleNode(neededNode);
+			}
+			for(Edge neededEdge : neededEdges) {
+				if(!neg.hasEdge(neededEdge))
+					neg.addSingleEdge(neededEdge);
+			}
+			
 			ma.addNegGraph(neg);
 		}
 		
@@ -249,19 +267,17 @@ public class TestDeclNode extends ActionDeclNode {
 			DeclNode param = (DeclNode)n;
 			ma.addParameter((Entity) param.checkIR(Entity.class));
 			if(param instanceof NodeCharacter) {
-				ma.getPattern().addSingleNode(((NodeCharacter)param).getNode());
+				patternGraph.addSingleNode(((NodeCharacter)param).getNode());
 			}
 			else if (param instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)param).getEdge();
-				ma.getPattern().addSingleEdge(e);
-//				ma.getPattern().addConnection(ma.getPattern().getSource(e), e,
-//											  ma.getPattern().getTarget((e)));
+				patternGraph.addSingleEdge(e);
 			}
 			else
 				throw new IllegalArgumentException("unknown Class: " + n);
 		}
 		
-		// add Return-Prarams to the IR
+		// add Return-Params to the IR
 		for(BaseNode n : aReturns.getChildren()) {
 			IdentNode aReturnAST = (IdentNode)n;
 			Entity aReturn = (Entity)aReturnAST.getDecl().checkIR(Entity.class);

@@ -728,11 +728,11 @@ public abstract class BaseNode extends Base
 	 */
 	public final IR checkIR(Class cls) {
 		IR ir = getIR();
-		String msg = "checking ir object in \"" + getName()
-			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
 		
-		debug.report(NOTE, msg);
-		assert cls.isInstance(ir) : msg;
+		debug.report(NOTE, "checking ir object in \"" + getName()
+			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
+		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
+			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
 		
 		return ir;
 	}

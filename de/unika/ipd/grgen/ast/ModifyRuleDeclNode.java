@@ -183,7 +183,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	}
 	
 	private void warnElemAppearsInsideAndOutsideDelete() {
-		
 		Set<DeclNode> deletes = getDelete();
 		GraphNode right = (GraphNode) getChild(RIGHT);
 		
@@ -208,13 +207,13 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	}
 		
 	@Override
-		protected boolean check() {
+	protected boolean check() {
 		warnElemAppearsInsideAndOutsideDelete();
 		return super.check() && checkChild(DELETE, deleteChecker);
 	}
 	
 	@Override
-		protected IR constructIR() {
+	protected IR constructIR() {
 		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		

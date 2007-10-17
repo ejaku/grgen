@@ -294,7 +294,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		for(Expression expr : conditions) {
 			Set<Node> nodes = new HashSet<Node>();
 			Set<Edge> edges = new HashSet<Edge>();
-			collectNodesnEdges(nodes, edges, expr);
+			expr.collectNodesnEdges(nodes, edges);
 			sb.append("\t\tpublic static bool Condition_" + i + "(");
 			genSet(sb, nodes, "LGSPNode node_", "", false);
 			if(!nodes.isEmpty() && !edges.isEmpty())
@@ -816,11 +816,12 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 			sb.append(parameters.contains(edge)?"PatternElementType.Preset":additional_parameters);
 			sb.append(", " + parameters.indexOf(edge) + ");\n");
 		}
+		
 		int condCnt = condCntInit;
-		for(Expression expr : pattern.getConditions()){
+		for(Expression expr : pattern.getConditions()) {
 			Set<Node> nodes = new HashSet<Node>();
 			Set<Edge> edges = new HashSet<Edge>();
-			collectNodesnEdges(nodes, edges, expr);
+			expr.collectNodesnEdges(nodes, edges);
 			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
 			genEntitySet(sb, nodes, "\"", "\"", true, outer, negCount);
 			sb.append(", new String[] ");
@@ -1499,42 +1500,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		if (brackets)
 			sb.append(" }");
 	}
-	
-	
-	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in an Expression.
-	 *
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
-	 *
-	 */
-	private void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges, Expression cond) {
-		if(cond instanceof Qualification) {
-			Entity entity = ((Qualification)cond).getOwner();
-			if(entity instanceof Node)
-				nodes.add((Node)entity);
-			else if(entity instanceof Edge)
-				edges.add((Edge)entity);
-			else
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-		}
-		else if(cond instanceof Typeof) {
-			Entity entity = ((Typeof)cond).getEntity();
-			if(entity instanceof Node)
-				nodes.add((Node)entity);
-			else if(entity instanceof Edge)
-				edges.add((Edge)entity);
-			else
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-		}
-		else if(cond instanceof Operator)
-			for(Expression child : ((Operator)cond).getWalkableChildren())
-				collectNodesnEdges(nodes, edges, child);
-		else if(cond instanceof Cast)
-			collectNodesnEdges(nodes, edges, ((Cast)cond).getExpression());
-	}
-	
+
 	private String formatAttributeName(Entity e) {
 		return formatIdentifiable(e);
 	}

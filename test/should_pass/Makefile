@@ -50,7 +50,7 @@ grgenuptodate: $(GRGENDIR)/grgen.jar
 	@touch successFE.log
 	@touch failedFE.log
 	@test -d $@_out || mkdir $@_out
-	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
+	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -t -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
 
 %_csc : %.grg $(GMS) grgenuptodate %_csc_success ;
 
@@ -59,7 +59,7 @@ grgenuptodate: $(GRGENDIR)/grgen.jar
 	@touch successCSC.log
 	@touch failedCSC.log
 	@test -d $(@:%_csc_success=%_csc_out) || mkdir $(@:%_csc_success=%_csc_out)
-	-mono $(GRGENNET)/GrGen.exe -d $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
+	-mono $(GRGENNET)/GrGen.exe -keep $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
 	@rm -f $@_tmp.log
 
 clean:

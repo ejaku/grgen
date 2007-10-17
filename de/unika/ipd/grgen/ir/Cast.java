@@ -26,12 +26,11 @@
 package de.unika.ipd.grgen.ir;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Set;
 import java.util.Vector;
 
 public class Cast extends Expression
 {
-	
 	protected Expression expr;
 	
 	public Cast(Type type, Expression expr) {
@@ -53,5 +52,14 @@ public class Cast extends Expression
 		return vec;
 	}
 
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * @param    nodes               a  Set to contain the nodes of cond
+	 * @param    edges               a  Set to contain the edges of cond
+	 * @param    cond                an Expression
+	 */
+	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
+		getExpression().collectNodesnEdges(nodes, edges);
+	}
 }
 

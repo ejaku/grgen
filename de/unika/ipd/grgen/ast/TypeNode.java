@@ -202,7 +202,8 @@ public abstract class TypeNode extends BaseNode {
 		if(obj != null) {
 			Collection<BaseNode> compat = (Collection) obj;
 			for(Iterator<BaseNode> it = compat.iterator(); it.hasNext();) {
-				debug.report(NOTE, "" + it.next().getName());
+				BaseNode curNode = it.next();
+				debug.report(NOTE, "" + curNode.getName());
 			}
 			coll.addAll((Collection) obj);
 		}

@@ -7,7 +7,7 @@ JARGS_JAR  = /usr/public/tools/grs_tools/jargs.jar
 
 ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
 
-GRGENNET = ../GrGen/bin/
+GRGENNET ?= ../GrGen/bin/
 
 all:	grgen
 

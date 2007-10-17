@@ -25,8 +25,9 @@
 package de.unika.ipd.grgen.ir;
 
 
+import java.util.Set;
+
 public class Typeof extends Expression {
-	
 	/** The entitiy whose type we want to know. */
 	private final Entity entity;
 
@@ -43,5 +44,19 @@ public class Typeof extends Expression {
 		return "typeof<" + entity + ">";
 	}
 
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * @param    nodes               a  Set to contain the nodes of cond
+	 * @param    edges               a  Set to contain the edges of cond
+	 * @param    cond                an Expression
+	 */
+	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
+		if(entity instanceof Node)
+			nodes.add((Node)entity);
+		else if(entity instanceof Edge)
+			edges.add((Edge)entity);
+		else
+			throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+	}
 }
 

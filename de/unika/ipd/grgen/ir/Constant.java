@@ -29,6 +29,8 @@ package de.unika.ipd.grgen.ir;
 /**
  * Abstract base class for all constants.
  */
+import java.util.Set;
+
 public class Constant extends Expression {
 	
 	/** The value of the constant. */
@@ -58,4 +60,11 @@ public class Constant extends Expression {
 		return getName() + " " + value;
 	}
 	
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * @param    nodes               a  Set to contain the nodes of cond
+	 * @param    edges               a  Set to contain the edges of cond
+	 * @param    cond                an Expression
+	 */
+	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {}
 }

@@ -27,8 +27,8 @@ package de.unika.ipd.grgen.ir;
 import de.unika.ipd.grgen.ir.Expression;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An operator in an expression.
@@ -128,4 +128,14 @@ public class Operator extends Expression {
 		return operands;
 	}
 	
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * @param    nodes               a  Set to contain the nodes of cond
+	 * @param    edges               a  Set to contain the edges of cond
+	 * @param    cond                an Expression
+	 */
+	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
+		for(Expression child : getWalkableChildren())
+			child.collectNodesnEdges(nodes, edges);
+	}
 }
