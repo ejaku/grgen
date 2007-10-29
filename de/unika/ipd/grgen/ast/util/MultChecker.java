@@ -59,7 +59,7 @@ public class MultChecker implements Checker {
 			}
 		
 		if(!res) {
-			node.reportError("unknown type");
+			node.reportError("Unknown type");
 		}
 		
 		return res;

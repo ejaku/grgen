@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A simple checker, that checks if the node is instance of a certain class 
+ * A simple checker, that checks if the node is instance of a certain class
  */
 public class SimpleChecker implements Checker {
 
@@ -47,8 +47,8 @@ public class SimpleChecker implements Checker {
   	boolean res = c.isInstance(node);
   	
   	if(!res)
-  		node.reportError("not of type " + c.getName());
+  		node.reportError("Not of type \"" + c.getName() + "\"");
   		
-  	return res;	
+  	return res;
   }
 }

@@ -145,7 +145,7 @@ public class RuleDeclNode extends TestDeclNode {
 			 if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
 				res = false;
 				ident.reportError(
-					"the element \"" + ident + "\" is neither a node nor an edge");
+					"The element \"" + ident + "\" is neither a node nor an edge");
 			}
 
 			if ( ! rhsElems.contains(retElem) ) {
@@ -168,7 +168,7 @@ public class RuleDeclNode extends TestDeclNode {
 					continue;
 				}
 
-				ident.reportError("the deleted " + nodeOrEdge +
+				ident.reportError("The deleted " + nodeOrEdge +
 						" \"" + ident + "\" must not be returned");
 			}
 		}
@@ -220,7 +220,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 			if ( ! actualRetType.isA(declaredRetType) ) {
 				res = false;
-				ident.reportError("return parameter \"" + ident + "\" has wrong type");
+				ident.reportError("Return parameter \"" + ident + "\" has wrong type");
 				continue;
 			}
 		}
@@ -229,11 +229,11 @@ public class RuleDeclNode extends TestDeclNode {
 		if (actualNumRets != declaredNumRets) {
 			res = false;
 			if (declaredNumRets == 0)
-				returns.reportError("no return values declared for rule \"" + getChild(IDENT) + "\"");
+				returns.reportError("No return values declared for rule \"" + getChild(IDENT) + "\"");
 			else if(actualNumRets == 0)
-				reportError("missing return statement for rule \"" + getChild(IDENT) + "\"");
+				reportError("Missing return statement for rule \"" + getChild(IDENT) + "\"");
 			else
-				returns.reportError("return statement has wrong number of parameters");
+				returns.reportError("Return statement has wrong number of parameters");
 		}
 		return res;
 	}
@@ -292,14 +292,14 @@ public class RuleDeclNode extends TestDeclNode {
 						else if ( ! alreadyReported.contains(re) )
 						{
 							res = false;
-							rConn.reportError("the source node of reused edge \"" + le + "\" must be reused, too");
+							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
 					}
 					else if (lSrc != rSrc)
 					{
 						res = false;
-						rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
 					}
 					
@@ -317,14 +317,14 @@ public class RuleDeclNode extends TestDeclNode {
 						else if ( ! alreadyReported.contains(re) )
 						{
 							res = false;
-							rConn.reportError("the target node of reused edge \"" + le + "\" must be reused, too");
+							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
 					}
 					else if ( lTgt != rTgt )
 					{
 						res = false;
-						rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
 					}
 				}
@@ -334,13 +334,13 @@ public class RuleDeclNode extends TestDeclNode {
 					if ( lSrc.isDummy() && ! rSrc.isDummy() )
 					{
 						res = false;
-						rConn.reportError("reused edge dangles on LHS, but has a source node on RHS");
+						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
 						alreadyReported.add(re);
 					}
 					if ( lTgt.isDummy() && ! rTgt.isDummy() )
 					{
 						res = false;
-						rConn.reportError("reused edge dangles on LHS, but has a target node on RHS");
+						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
 						alreadyReported.add(re);
 					}
 				}
@@ -427,7 +427,7 @@ public class RuleDeclNode extends TestDeclNode {
 		
 		boolean noReturnInPatternOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
-			error.error(this.getCoords(), "no return in pattern parts of rules allowed");
+			error.error(this.getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
 		

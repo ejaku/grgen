@@ -102,7 +102,7 @@ public class TypeExprNode extends BaseNode {
 		boolean arityOk = arity == 2;
 		
 		if(!arityOk)
-			reportError("type constraint expression has wrong arity: " + arity);
+			reportError("Type constraint expression has wrong arity: " + arity);
 
 		// check the child node types
 		boolean typesOk = checkAllChildren(TypeExprNode.class);

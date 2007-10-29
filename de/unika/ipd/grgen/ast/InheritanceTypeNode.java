@@ -131,7 +131,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 				boolean result = t.fixupDefinition(id);
 				
 				if(found && result)
-					reportError("Identifier " + id + " cannot be resolved unambigously");
+					reportError("Identifier " + id + " is ambiguous");
 				
 				found = found || result;
 			}

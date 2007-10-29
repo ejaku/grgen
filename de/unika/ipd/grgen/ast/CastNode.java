@@ -98,7 +98,7 @@ public class CastNode extends ExprNode
 		
 		BaseNode n = getChild(TYPE);
 		if( !(n instanceof BasicTypeNode) ) {
-			reportError("only primitive types are allowed for casts, but got \"" + n + "\"");
+			reportError("Only primitive types are allowed for casts, but got \"" + n + "\"");
 			return false;
 		}
 		else {

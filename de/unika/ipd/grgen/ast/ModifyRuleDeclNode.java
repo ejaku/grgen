@@ -92,7 +92,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					left.getNodes().contains(retElem) ||
 					getChild(PARAM).getChildren().contains(retElem)
 				)
-					((IdentNode)ident).reportError("the deleted " + nodeOrEdge +
+					((IdentNode)ident).reportError("The deleted " + nodeOrEdge +
 							" \"" + ident + "\" must not be returned");
 				else
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
@@ -148,7 +148,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 				}
 				else if ( ! rSrc.equals(lSrc) ) {
 					res = false;
-					rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+					rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 					alreadyReported.add(re);
 				}
 				
@@ -157,7 +157,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 				}
 				else if ( ! rTgt.equals(lTgt) ) {
 					res = false;
-					rConn.reportError("reused edge \"" + le + "\" does not connect the same nodes");
+					rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 					alreadyReported.add(re);
 				}
 
@@ -167,13 +167,13 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					if ( lSrc.isDummy() && ! rSrc.isDummy() )
 					{
 						res = false;
-						rConn.reportError("reused edge dangles on LHS, but has a source node on RHS");
+						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
 						alreadyReported.add(re);
 					}
 					if ( lTgt.isDummy() && ! rTgt.isDummy() )
 					{
 						res = false;
-						rConn.reportError("reused edge dangles on LHS, but has a target node on RHS");
+						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
 						alreadyReported.add(re);
 					}
 				}

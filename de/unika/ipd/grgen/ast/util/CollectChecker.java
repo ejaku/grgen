@@ -49,10 +49,10 @@ public class CollectChecker implements Checker {
   public boolean check(BaseNode node, ErrorReporter reporter) {
   	boolean res = false;
   	
-  	if(node instanceof CollectNode) 
+  	if(node instanceof CollectNode)
   		res = node.checkAllChildren(childChecker);
   	else
-  		node.reportError("not a collect node");
+  		node.reportError("Not a collect node");
   		
   	return res;
   }

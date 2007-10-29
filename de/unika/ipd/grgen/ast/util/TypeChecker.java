@@ -58,7 +58,7 @@ public class TypeChecker implements Checker
 		boolean res = (node instanceof DeclNode);
 		
 		if(!res) {
-			node.reportError("not a " + BaseNode.getName(DeclNode.class));
+			node.reportError("Not a " + BaseNode.getName(DeclNode.class));
 		}
 		else
 		{

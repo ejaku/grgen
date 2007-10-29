@@ -69,7 +69,7 @@ public class AssignNode extends BaseNode {
 				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
 				
 				if(inhTy.isConst()) {
-					error.error(getCoords(), "assignment to a const type object not allowed");
+					error.error(getCoords(), "Assignment to a const type object not allowed");
 					return false;
 				}
 			}
@@ -97,11 +97,11 @@ public class AssignNode extends BaseNode {
 
 			if (expr == ConstNode.getInvalid()) {
 
-				String msg = "assignment ";
+				String msg;
 				if (exprType.isCastableTo(targetType))
-					msg = msg + "of " + exprType + " to " + targetType + " without a cast";
+					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
 				else
-					msg = "incompatible " + msg + "from " + exprType + " to " + targetType;
+					msg = "Incompatible assignment from " + exprType + " to " + targetType;
 
 				error.error(getCoords(), msg);
 				return false;
@@ -116,7 +116,7 @@ public class AssignNode extends BaseNode {
 	protected IR constructIR() {
 		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
 		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType())
-			error.error(getCoords(), "assignment to an old node of a type changed node is not allowed");
+			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
 		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
 	}
 	

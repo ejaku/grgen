@@ -168,13 +168,13 @@ edgeExtendsCont [ IdentNode clsId, CollectNode c ]
       	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
       		c.addChild(e);
       	else
-      		e.reportError("a class must not extend itself");
+      		e.reportError("A class must not extend itself");
       }
       (COMMA! e=typeIdentUse {
       	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
       		c.addChild(e);
       	else
-      		e.reportError("a class must not extend itself");
+      		e.reportError("A class must not extend itself");
       })*
       { if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
@@ -190,13 +190,13 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
     	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
     		c.addChild(n);
     	else
-      		n.reportError("a class must not extend itself");
+      		n.reportError("A class must not extend itself");
     }
     (COMMA! n=typeIdentUse {
     	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
     		c.addChild(n);
     	else
-      		n.reportError("a class must not extend itself");
+      		n.reportError("A class must not extend itself");
     })*
     { if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
   ;

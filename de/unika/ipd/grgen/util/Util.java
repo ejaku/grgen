@@ -130,14 +130,11 @@ public class Util
 	 * {@link String} or {@link StringBuffer}
 	 */
   public static void writeFile(File file, CharSequence cs, ErrorReporter reporter) {
-		
 		try {
-			FileOutputStream fos =
-				new FileOutputStream(file);
-			PrintStream ps = new PrintStream(fos);
-			
+			BufferedOutputStream bos =
+				new BufferedOutputStream(new FileOutputStream(file));
+			PrintStream ps = new PrintStream(bos);
 			ps.print(cs);
-			ps.flush();
 			ps.close();
 			
 		} catch(FileNotFoundException e) {

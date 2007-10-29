@@ -59,7 +59,7 @@ public class DeclExprNode extends ExprNode {
 		if ( ! (type instanceof TypeNode) ) {
 
 			if (!typeAlreadyReported)
-				reportError("undefined entity \"" + c + "\"");
+				reportError("Undefined entity \"" + c + "\"");
 
 			typeAlreadyReported = true;
 			type = BasicTypeNode.errorType;

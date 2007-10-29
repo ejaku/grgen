@@ -83,7 +83,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 			declResolver.resolve(this, MEMBER);
 			res = getChild(MEMBER).getResolve();
 		} else {
-			reportError("left hand side of :: is not an emum type");
+			reportError("Left hand side of '::' is not an enum type");
 			res = false;
 		}
 			

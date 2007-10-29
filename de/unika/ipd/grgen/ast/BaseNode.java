@@ -538,7 +538,7 @@ public abstract class BaseNode extends Base
 	 * @return true, if the selected child node was of type cls
 	 */
 	public void reportChildError(int childNum, Class cls) {
-		reportError("child " + childNum + " \"" + getChild(childNum).getName() +
+		reportError("Child " + childNum + " \"" + getChild(childNum).getName() +
 				"\"" + " needs to be instance of \"" + shortClassName(cls) + "\"");
 	}
 	

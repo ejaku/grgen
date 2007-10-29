@@ -1178,6 +1178,14 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 		sb.append("\t\tpublic override bool IsNodeType { get { return " + ((type instanceof NodeType) ? "true" : "false") + "; } }\n");
+		/*		if(type.getAllMembers().size() == 0) {
+			sb.append("\t\tprivate static IAttributes attrInstance = new " + cname + "();\n");
+			sb.append("\t\tpublic override IAttributes CreateAttributes() { return attrInstance; }\n");
+		}
+		else {
+			sb.append("\t\tpublic override IAttributes CreateAttributes() { return new " + cname + "(); }\n");
+		 }*/
+			
 		sb.append("\t\tpublic override IAttributes CreateAttributes() { return "
 				+ (type.getAllMembers().size() == 0 ? "null" : "new " + cname + "()") + "; }\n");
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");

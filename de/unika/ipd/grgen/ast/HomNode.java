@@ -54,7 +54,7 @@ public class HomNode extends BaseNode {
 	 */
   protected boolean check() {
     if(getChildren().isEmpty()) {
-  		this.reportError("hom statement empty");
+  		this.reportError("Hom statement is empty");
   		return false;
   	}
   	

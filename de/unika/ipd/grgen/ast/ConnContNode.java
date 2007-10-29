@@ -42,7 +42,7 @@ public class ConnContNode extends BaseNode {
 	}
 	
 	protected boolean check() {
-		reportError("should never appear in the ast");
+		reportError("Should never appear in the AST");
 		checkChild(0, EdgeDeclNode.class);
 		checkChild(1, NodeDeclNode.class);
 		return false;

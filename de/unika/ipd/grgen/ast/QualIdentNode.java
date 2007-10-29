@@ -101,11 +101,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 				declResolver.resolve(this, MEMBER);
 				res = getChild(MEMBER).getResolve();
 			} else {
-				reportError("left hand side of . does not own a scope");
+				reportError("Left hand side of '.' does not own a scope");
 				res = false;
 			}
 		} else {
-			reportError("left hand side of . is neither an Edge nor a Node Type");
+			reportError("Left hand side of '.' is neither a node nor an edge");
 			res = false;
 		}
 		setResolved(res);
@@ -155,15 +155,15 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		switch (childNum) {
 
 			case 0:
-				reportError("node or edge expected before '.'");
+				reportError("Node or edge expected before '.'");
 				break;
 
 			case 1:
-				reportError("not a member of " + getChild(0));
+				reportError("Not a member of " + getChild(0));
 				break;
 
 			default:
-				reportError("internal error: " + getChild(childNum).getName() +
+				reportError("Internal error: " + getChild(childNum).getName() +
 					"has no child with number " + childNum);
 
 		}

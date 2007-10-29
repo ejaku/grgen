@@ -171,6 +171,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(doubleType.getClass(), "double type");
 		setName(typeType.getClass(), "type type");
 		setName(voidType.getClass(), "void type");
+		setName(objectType.getClass(), "object type");
 		setName(errorType.getClass(), "error type");
 		
 		//no explicit cast required

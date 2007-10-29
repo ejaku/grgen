@@ -145,7 +145,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		res.setConstraints(getConstraints());
 		
 		if( res.getConstraints().contains(res.getType()) )
-			error.error(getCoords(), "self NodeType may not be contained in TypeCondition of Node ("+ res.getType() + ")");
+			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node ("+ res.getType() + ")");
 		
 		if(inheritsType()) {
 			res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));

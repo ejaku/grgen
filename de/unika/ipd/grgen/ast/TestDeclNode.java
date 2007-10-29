@@ -63,7 +63,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 					if ( ! (node instanceof IdentNode) ) {
 						//this should never be reached
-						node.reportError("not an identifier");
+						node.reportError("Not an identifier");
 						return false;
 					}
 					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
@@ -139,7 +139,7 @@ public class TestDeclNode extends ActionDeclNode {
 		
 		
 		if(actualReturns.children() != typeReturns.children()) {
-			error.error(this.getCoords(), "actual and formal return-parameter count mismatch (" +
+			error.error(this.getCoords(), "Actual and formal return-parameter count mismatch (" +
 							actualReturns.children() + " vs. " + typeReturns.children() +")");
 			returnTypes = false;
 		} else {
@@ -153,7 +153,7 @@ public class TestDeclNode extends ActionDeclNode {
 				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 				
 				if(!aReturnType.isCastableTo(tReturn)) {
-					error.error(aReturnAST.getCoords(), "actual return-parameter is not conformant to formal parameter (" +
+					error.error(aReturnAST.getCoords(), "Actual return-parameter is not conformant to formal parameter (" +
 									aReturnType + " not castable to " + tReturn + ")");
 					returnTypes = false;
 				}
@@ -220,7 +220,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 								if ( iSrc != oSrc || iTgt != oTgt ) {
 									alreadyReported.add(iConn.getEdge());
-									((ConnectionNode) oConn).reportError("reused edge does not connect the same nodes");
+									((ConnectionNode) oConn).reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
 								}
 							}
