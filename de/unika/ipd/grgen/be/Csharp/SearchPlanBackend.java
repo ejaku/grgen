@@ -205,10 +205,12 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		else if(action instanceof Test) {
 			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
 			sb.append("\t\t}\n");
 			
 			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
 			sb.append("\t\t}\n");
 		}
 		else
@@ -1615,6 +1617,7 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 		// TODO
 	}
 }
+
 
 
 
