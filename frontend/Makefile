@@ -2,12 +2,12 @@
 # build the grgen-tool, grrr
 #
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
-ANTLR_JAR  = /usr/public/tools/grs_tools/antlr.jar
-JARGS_JAR  = /usr/public/tools/grs_tools/jargs.jar
+ANTLR_JAR  = $(PWD)/jars/antlr.jar
+JARGS_JAR  = $(PWD)/jars/jargs.jar
 
 ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
 
-GRGENNET ?= ../GrGen/bin/
+GRGENNET ?= ../engine-net/out/bin/
 
 all:	grgen
 
