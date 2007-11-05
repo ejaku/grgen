@@ -1,0 +1,9 @@
+rule r {
+	pattern {
+		y: Node;
+	}
+	modify {
+		delete(x);
+		x:Node;
+	}
+}
