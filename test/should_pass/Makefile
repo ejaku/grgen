@@ -36,7 +36,9 @@ DIRS_CSI= $(GRGS:.grg=_csi)         # The directory for the C# interpreting back
 all: cleanfelog $(TARGETS_FE)
 	cat failedFE.log
 
-csc: cleancsclog $(TARGETS_CSC)
+csc: cleancsclog csccontinue ;
+
+csccontinue: $(TARGETS_CSC)
 	@echo -e "-------------\nFailed in frontend of GrGen (from failedCSC_FE.log):\n"
 	@cat failedCSC_FE.log
 	@echo -e "\nFailed in C# part of GrGen (from failedCSC.log):\n"

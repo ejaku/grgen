@@ -50,11 +50,17 @@ public class GRParserEnvironment extends ParserEnvironment {
 	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
 	private HashMap<String, Object> filesOnStack = new HashMap<String, Object>();
 	
+	/** The base directory of the specification or null for the current directory */
+	private File baseDir = null;
+	
 	public GRParserEnvironment(Sys system) {
 		super(system);
 	}
 	
     public void pushFile(File file) throws TokenStreamException {
+		if(baseDir != null)
+			file = new File(baseDir, file.getPath());
+		
 		String filePath = file.getPath();
 		if(filesOnStack.containsKey(filePath)) {
 			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
@@ -99,6 +105,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 
     public BaseNode parseActions(File inputFile) {
 		BaseNode root = null;
+		
+		baseDir = inputFile.getParentFile();
 			
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
@@ -152,7 +160,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			try {
 				parser.setEnv(this);
 				root = parser.text();
-				hadError = parser.hadError();
+				hadError = hadError || parser.hadError();
 			}
 			catch(ANTLRException e) {
 				e.printStackTrace(System.err);

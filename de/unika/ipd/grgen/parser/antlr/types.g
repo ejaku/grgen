@@ -65,8 +65,8 @@ text returns [ BaseNode model = env.initNode() ]
     CollectNode n = new CollectNode();
     IdentNode id = env.getDummyIdent();
 
-	String modelName = Util.removePathPrefix(
-		Util.removeFileSuffix(getFilename(), "gm") );
+	String modelName = Util.removePathPrefix(getFilename());
+//		Util.removeFileSuffix(getFilename(), "gm") );
 
     id = new IdentNode(
     	env.define(ParserEnvironment.ENTITIES, modelName,
@@ -168,13 +168,13 @@ edgeExtendsCont [ IdentNode clsId, CollectNode c ]
       	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
       		c.addChild(e);
       	else
-      		e.reportError("A class must not extend itself");
+      		reportError(e.getCoords(), "A class must not extend itself");
       }
       (COMMA! e=typeIdentUse {
       	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
       		c.addChild(e);
       	else
-      		e.reportError("A class must not extend itself");
+      		reportError(e.getCoords(), "A class must not extend itself");
       })*
       { if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
@@ -190,13 +190,13 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
     	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
     		c.addChild(n);
     	else
-      		n.reportError("A class must not extend itself");
+      		reportError(n.getCoords(), "A class must not extend itself");
     }
     (COMMA! n=typeIdentUse {
     	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
     		c.addChild(n);
     	else
-      		n.reportError("A class must not extend itself");
+      		reportError(n.getCoords(), "A class must not extend itself");
     })*
     { if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
   ;

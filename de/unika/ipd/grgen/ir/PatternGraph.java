@@ -26,8 +26,10 @@
 
 package de.unika.ipd.grgen.ir;
 
+import de.unika.ipd.grgen.ir.GraphEntity;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,6 +48,18 @@ public class PatternGraph extends Graph {
 	private final List<Collection> homs = new LinkedList<Collection>();
 	
 	/**
+	 * A list of all pattern nodes, which may be homomorphically matched
+	 * to any other pattern nodes.
+	 **/
+	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
+
+    /**
+	 * A list of all pattern edges, which may be homomorphically matched
+	 * to any other pattern edges.
+	 **/
+	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
+
+	/**
 	 * Add a condition to the graph.
 	 * @param expr The condition's expression.
 	 */
@@ -60,7 +74,15 @@ public class PatternGraph extends Graph {
 	public void addHomomorphic(Collection<GraphEntity> hom) {
 		homs.add(hom);
 	}
+	
+	public void addHomToAll(Node node) {
+		homToAllNodes.add(node);
+	}
 
+	public void addHomToAll(Edge edge) {
+		homToAllEdges.add(edge);
+	}
+	
 	/**
 	 * Get all conditions in this graph.
 	 * @return A collection containing all conditions in this graph.
@@ -101,6 +123,14 @@ public class PatternGraph extends Graph {
 		return c;
 	}
 	
+	public Collection<Node> getElemsHomToAllNodes() {
+		return homToAllNodes;
+	}
+
+	public Collection<Edge> getElemsHomToAllEdges() {
+		return homToAllEdges;
+	}
+	
 	public boolean isHomomorphic(Node n1, Node n2) {
 		return getHomomorphic(n1).contains(n2);
 	}
@@ -109,5 +139,12 @@ public class PatternGraph extends Graph {
 		return getHomomorphic(e1).contains(e2);
 	}
 
+	public boolean isHomToAll(Node node) {
+		return homToAllNodes.contains(node);
+	}
+
+	public boolean isHomToAll(Edge edge) {
+		return homToAllEdges.contains(edge);
+	}
 }
 

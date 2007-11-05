@@ -46,7 +46,7 @@ public class RuleDeclNode extends TestDeclNode {
 	
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
-			"left", "neg", "params", "ret", "right", "eval"
+			"params", "ret", "left", "neg", "right", "eval"
 	};
 	
 	/** Type for this declaration. */
@@ -213,8 +213,16 @@ public class RuleDeclNode extends TestDeclNode {
 				continue;
 			}
 			
+			IdentNode retIdent = (IdentNode) retSignature.get(i);
+			BaseNode retDeclType = retIdent.getDecl().getDeclType();
+			if(!(retDeclType instanceof InheritanceTypeNode)) {
+				res = false;
+				retIdent.reportError("\"" + retIdent + "\" is neither a node nor an edge type");
+				continue;
+			}
+			
 			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)
-				((IdentNode) retSignature.get(i)).getDecl().getDeclType();
+				retDeclType;
 			InheritanceTypeNode actualRetType =
 				(InheritanceTypeNode) retElem.getDeclType();
 

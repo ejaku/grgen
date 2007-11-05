@@ -31,7 +31,9 @@ DIRS_CSI= $(GRGS:.grg=_csi) # The directory for the C# interperting backend
 all: cleanfelog $(DIRS_FE)
 	cat successFE.log
 
-csc: cleancsclog $(DIRS_CSC)
+csc: cleancsclog csccontinue ;
+
+csccontinue: $(DIRS_CSC)
 	cat successCSC.log
 
 fe: cleanfelog $(DIRS_FE)

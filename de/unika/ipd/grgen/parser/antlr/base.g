@@ -122,8 +122,8 @@ options {
     env.getSystem().getErrorReporter().error(c, s);
   }
   
-	public void reportError(String arg0) {
-	  reportError(Coords.getInvalid(), arg0);
+  public void reportError(String arg0) {
+	reportError(Coords.getInvalid(), arg0);
   }
   
   public void reportError(RecognitionException e) {
@@ -143,7 +143,7 @@ options {
   }
   	
   public boolean hadError() {
- 	  return hadError;
+ 	return hadError;
   }
   
   public String getFilename() {

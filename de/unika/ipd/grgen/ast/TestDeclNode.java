@@ -41,13 +41,13 @@ import java.util.Set;
  */
 public class TestDeclNode extends ActionDeclNode {
 	
-	protected static final int PATTERN = LAST + 1;
-	protected static final int NEG = LAST + 2;
-	protected static final int PARAM = LAST + 3;
-	protected static final int RET = LAST + 4;
+	protected static final int PARAM = LAST + 1;
+	protected static final int RET = LAST + 2;
+	protected static final int PATTERN = LAST + 3;
+	protected static final int NEG = LAST + 4;
 	
 	private static final String[] childrenNames =
-		addChildrenNames(new String[] { "test", "neg", "param", "ret" });
+		addChildrenNames(new String[] { "param", "ret", "test", "neg" });
 	
 	private static final TypeNode testType = new TypeNode() { };
 	
@@ -91,10 +91,10 @@ public class TestDeclNode extends ActionDeclNode {
 	
 	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);
-		addChild(pattern);
-		addChild(neg);
 		addChild(params);
 		addChild(rets);
+		addChild(pattern);
+		addChild(neg);
 		setChildrenNames(childrenNames);
 	}
 	
@@ -251,12 +251,16 @@ public class TestDeclNode extends ActionDeclNode {
 				cond.collectNodesnEdges(neededNodes, neededEdges);
 			}
 			for(Node neededNode : neededNodes) {
-				if(!neg.hasNode(neededNode))
+				if(!neg.hasNode(neededNode)) {
 					neg.addSingleNode(neededNode);
+					neg.addHomToAll(neededNode);
+				}
 			}
 			for(Edge neededEdge : neededEdges) {
-				if(!neg.hasEdge(neededEdge))
+				if(!neg.hasEdge(neededEdge)) {
 					neg.addSingleEdge(neededEdge);
+					neg.addHomToAll(neededEdge);
+				}
 			}
 			
 			ma.addNegGraph(neg);

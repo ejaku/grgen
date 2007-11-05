@@ -96,7 +96,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		
 			HashSet<DeclNode> hom_ents = new HashSet<DeclNode>();
-			for(BaseNode n : getChild(HOMS).getChildren()) {
+			for(BaseNode n : getHoms()) {
 				HomNode hom = (HomNode)n;
 				
 				for(BaseNode m : n.getChildren()) {
@@ -128,6 +128,22 @@ public class PatternGraphNode extends GraphNode {
 		return (PatternGraph) checkIR(PatternGraph.class);
 	}
 	
+	/**
+	 * Generates a type condition if the given graph entity inherits its type
+	 * from another element via a typeof expression.
+	 */
+	private void genTypeCondsFromTypeof(PatternGraph gr, GraphEntity elem) {
+		if(elem.inheritsType()) {
+			Expression e1 = new Typeof(elem);
+			Expression e2 = new Typeof(elem.getTypeof());
+
+			Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
+			op.addOperand(e1);
+			op.addOperand(e2);
+			
+			gr.addCondition(op);
+		}
+	}
 	
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph();
@@ -143,34 +159,13 @@ public class PatternGraphNode extends GraphNode {
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
 		}
 		
-		/* genarate type conditions from dynamic type checks via typeof */
-		for(GraphEntity n : gr.getNodes()) {
-			if(n.inheritsType()) {
-				Expression e1 = new Typeof(n);
-				Expression e2 = new Typeof(n.getTypeof());
-
-				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
-				op.addOperand(e1);
-				op.addOperand(e2);
-				
-				gr.addCondition(op);
-			}
-		}
-		//TODO iterate over both sets in a single 'for' statement
-		for(GraphEntity n : gr.getEdges()) {
-			if(n.inheritsType()) {
-				Expression e1 = new Typeof(n);
-				Expression e2 = new Typeof(n.getTypeof());
-
-				Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
-				op.addOperand(e1);
-				op.addOperand(e2);
-				
-				gr.addCondition(op);
-			}
-		}
+		/* generate type conditions from dynamic type checks via typeof */
+		for(GraphEntity n : gr.getNodes())
+			genTypeCondsFromTypeof(gr, n);
+		for(GraphEntity e : gr.getEdges())
+			genTypeCondsFromTypeof(gr, e);
 		
-		for(BaseNode n : getChild(HOMS).getChildren()) {
+		for(BaseNode n : getHoms()) {
 			HomNode hom = (HomNode)n;
 			HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
 
