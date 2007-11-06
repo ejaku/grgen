@@ -24,9 +24,6 @@ For Linux:
 
       tar -xjf GrGenNET.tar.bz2
 
-  - Edit <GrGenNETPath>/bin/yComp.sh by replacing "<GrGenNETPath>" by
-    your chosen path.
-
 For Windows:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to as
     <GrGenNETPath> in the following)
