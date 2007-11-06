@@ -1,7 +1,5 @@
 new graph "Mutex.grg"
 
-xgrs newRule && mountRule
-
 new p1:Process
 new p2:Process
 new p1-:next->p2

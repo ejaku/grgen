@@ -1,4 +1,4 @@
-v1.3 (2007-11-05)
+v1.3 (2007-11-06)
  Features:
   - The reuse optimization reusing deleted elements can now be disabled
   - Infotags with null values are not displayed anymore
@@ -36,6 +36,7 @@ v1.3 (2007-11-05)
   - Fixed attributes output of VCGDumper
   - Fixed infotags
   - Fixed homomorphic matching (testcase hom1 and hom2)
+  - Includes in GRG-files are now also considered as dependencies
 
  Specification processing (grgen.jar):
    Changes:

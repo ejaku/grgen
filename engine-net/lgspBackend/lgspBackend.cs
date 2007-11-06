@@ -183,6 +183,22 @@ namespace de.unika.ipd.grGen.lgsp
             charStream.Backup(1);
         }
 
+        private void IgnoreOther(SimpleCharStream charStream)
+        {
+            char curChar;
+            do
+            {
+                curChar = charStream.ReadChar();
+                if(curChar == '/')
+                {
+                    IgnoreComment(charStream);
+                    continue;
+                }
+            }
+            while(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_'));
+            charStream.Backup(1);
+        }
+
         private void IgnoreString(SimpleCharStream charStream)
         {
             IgnoreSpace(charStream);
@@ -193,6 +209,20 @@ namespace de.unika.ipd.grGen.lgsp
                 curChar = charStream.ReadChar();
             }
             while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_');
+            charStream.Backup(1);
+        }
+
+        /// <summary>
+        /// Ignores the rest of a string.
+        /// </summary>
+        /// <param name="charStream">The SimpleCharStream object.</param>
+        /// <param name="curChar">The last character read. Set to '\0' to ignore.</param>
+        private void IgnoreRest(SimpleCharStream charStream, char curChar)
+        {
+            while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_')
+            {
+                curChar = charStream.ReadChar();
+            }
             charStream.Backup(1);
         }
 
@@ -213,6 +243,31 @@ namespace de.unika.ipd.grGen.lgsp
             return sb.ToString();
         }
 
+        private String ReadQuotedString(SimpleCharStream charStream)
+        {
+            IgnoreSpace(charStream);
+
+            MatchCharOrThrow(charStream, '\"');
+
+            char curChar;
+            StringBuilder sb = new StringBuilder();
+            while(true)
+            {
+                curChar = charStream.ReadChar();
+                if(curChar == '\"')
+                    break;
+                sb.Append(curChar);
+            }
+            return sb.ToString();
+        }
+
+        private void MatchCharOrThrow(SimpleCharStream charStream, char ch)
+        {
+            char curChar = charStream.ReadChar();
+            if(curChar != ch)
+                throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar) + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+        }
+
         private bool MatchString(SimpleCharStream charStream, String str)
         {
             IgnoreSpace(charStream);
@@ -230,46 +285,103 @@ namespace de.unika.ipd.grGen.lgsp
             curChar = charStream.ReadChar();
             if(curChar != ' ' && curChar != '\t' && curChar != '\n' && curChar != '\r')
             {
-                charStream.Backup(str.Length + 1);
+                charStream.Backup(str.Length + 1);  // unread chars
                 return false;
             }
             return true;
         }
 
-        private List<String> GetNeededModelNames(String grgFilename)
+        /// <summary>
+        /// Tries to match a string at the current position of a SimpleCharStream.
+        /// If the string at the current position does not match, it is skipped.
+        /// Here all characters other than A-Z, a-z, 0-9, and _ are skipped.
+        /// </summary>
+        /// <param name="charStream">The char stream.</param>
+        /// <param name="str">The string to be matched.</param>
+        /// <returns>True, iff the string was found.</returns>
+        private bool MatchStringOrIgnoreOther(SimpleCharStream charStream, String str)
         {
-            List<String> neededModelNames = new List<String>();
+            IgnoreOther(charStream);
+
+            char curChar;
+            for(int i = 0; i < str.Length; i++)
+            {
+                curChar = charStream.ReadChar();
+                if(curChar != str[i])
+                {
+                    IgnoreRest(charStream, curChar);
+                    return false;
+                }
+            }
+
+            // Does the string really end here?
+            curChar = charStream.ReadChar();
+            if(curChar != ' ' && curChar != '\t' && curChar != '\n' && curChar != '\r')
+            {
+                IgnoreRest(charStream, curChar);
+                return false;
+            }
+            return true;
+        }
+
+        private String GetPrintable(char ch)
+        {
+            if(ch >= (char) 32) return ch.ToString();
+            else return "\\" + Convert.ToString(ch, 8);
+        }
+
+        private void GetNeededFiles(String grgFilename, List<String> neededFiles, Dictionary<String, object> processedFiles)
+        {
+            if(processedFiles.ContainsKey(grgFilename))
+                throw new Exception("Circular include detected with file \"" + grgFilename + "\"!");
+            processedFiles[grgFilename] = null;
+
+            if(!File.Exists(grgFilename))
+                throw new Exception("Included file \"" + grgFilename + "\" does not exist!");
+
             using(StreamReader reader = new StreamReader(grgFilename))
             {
                 SimpleCharStream charStream = new SimpleCharStream(reader);
                 char curChar;
                 try
                 {
+                    // check optional header
+
+                    bool needSemicolon = false;
+
                     // read optional "actions <name>"
-                    if(MatchString(charStream, "actions"))        
+                    if(MatchString(charStream, "actions"))
+                    {
+                        needSemicolon = true;
                         IgnoreString(charStream);                                       // ignore actions name
+                    }
                     if(MatchString(charStream, "using"))
                     {
                         while(true)
                         {
-                            neededModelNames.Add(ReadString(charStream));
+                            neededFiles.Add(ReadString(charStream) + ".gm");
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
                             if(curChar == ';') break;
                             else if(curChar != ',')
-                            {
-                                charStream.Backup(1);
-                                throw new Exception("Parse error: Unexpected token '" + curChar + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
-                            }
+                                throw new Exception("Parse error: Unexpected token '" + GetPrintable(curChar) + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
                         }
                     }
-                    else
+                    else if(needSemicolon)
                     {
-                        curChar = charStream.ReadChar();
-                        if(curChar != ';')
+                        IgnoreSpace(charStream);
+                        MatchCharOrThrow(charStream, ';');
+                    }
+
+                    // search the rest of the file for include tokens
+                    while(true)
+                    {
+                        if(MatchStringOrIgnoreOther(charStream, "include"))
                         {
-                            charStream.Backup(1);
-                            throw new Exception("Parse error: Unexpected token '" + curChar + "' at line " + charStream.EndLine + ":" + charStream.EndColumn + "!");
+                            String includedGRG = ReadQuotedString(charStream);
+                            MatchCharOrThrow(charStream, ';');
+                            neededFiles.Add(includedGRG);
+                            GetNeededFiles(includedGRG, neededFiles, processedFiles);
                         }
                     }
                 }
@@ -278,7 +390,6 @@ namespace de.unika.ipd.grGen.lgsp
                     // end of file reached
                 }
             }
-            return neededModelNames;
         }
 
         /// <summary>
@@ -356,18 +467,22 @@ namespace de.unika.ipd.grGen.lgsp
 
             String specPath = GetDirName(grgFilename);
 
-            // Check used model file dates
-            foreach(String modelName in GetNeededModelNames(grgFilename))
+            // Check used file dates
+            List<String> neededFilenames = new List<String>();
+            Dictionary<String, object> processedFiles = new Dictionary<String,object>();
+            GetNeededFiles(grgFilename, neededFilenames, processedFiles);
+
+            foreach(String neededFilename in neededFilenames)
             {
-                String modelSpecname = specPath + modelName + ".gm";
-                if(!File.Exists(modelSpecname))
+                String neededSpecname = specPath + neededFilename;
+                if(!File.Exists(neededSpecname))
                 {
-                    throw new FileNotFoundException("The model specification file \"" + modelSpecname + "\" referenced by \""
-                        + grgFilename + "\" does not exist!", modelSpecname);
+                    throw new FileNotFoundException("The specification file \"" + neededSpecname + "\" referenced by \""
+                        + grgFilename + "\" does not exist!");
                 }
 
-                // Model specification newer than libraries?
-                DateTime gmTime = File.GetLastWriteTime(modelSpecname);
+                // Specification file newer than libraries?
+                DateTime gmTime = File.GetLastWriteTime(neededSpecname);
                 if(gmTime > newestOutputTime)
                     return true;
             }
