@@ -1,0 +1,39 @@
+new graph "Turing3.grg" "Busy beaver 3"
+
+new bp:BandPosition($="Startposition")
+new s1:State($="s1")
+new s2:State($="s2")
+new s3:State($="s3")
+new h:State($="h")
+
+new s1_w1:WriteValue(value=1)
+new s1 -:readZero-> s1_w1
+new s1_w1 -:moveRight-> s2
+
+new s1_w2:WriteValue(value=1)
+new s1 -:readOne-> s1_w2
+new s1_w2 -:moveLeft-> s3
+
+new s2_w1:WriteValue(value=1)
+new s2 -:readOne-> s2_w1
+new s2_w1 -:moveRight-> s2
+
+new s2_w2:WriteValue(value=1)
+new s2 -:readZero-> s2_w2
+new s2_w2 -:moveLeft-> s1
+
+new s3_w1:WriteValue(value=1)
+new s3 -:readZero-> s3_w1
+new s3_w1 -:moveLeft-> s2
+
+new s3_w2:WriteValue(value=1)
+new s3 -:readOne-> s3_w2
+new s3_w2 -:moveRight-> h
+
+dump add node BandPosition infotag value
+dump add node WriteValue infotag value
+
+curState = s1
+curPos = bp
+
+debug xgrs (((curValue)=readOneRule(curState, curPos)||(curValue)=readZeroRule(curState,curPos)) && (ensureMoveLeftValidRule(curValue, curPos) || ensureMoveRightValidRule(curValue, curPos) || true) && ((curState, curPos)=moveLeftRule(curValue, curPos) || (curState, curPos)=moveRightRule(curValue, curPos)))*

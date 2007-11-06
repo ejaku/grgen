@@ -1,0 +1,12 @@
+new graph "hom2/hom2"
+new a:AB
+new b:AB
+show num nodes
+show num edges
+xgrs ?[homtest1]
+xgrs ?[homtest2]
+xgrs ?[homtest3]
+xgrs ?[test1]
+show num nodes
+show num edges
+quit

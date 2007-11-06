@@ -1,0 +1,71 @@
+new graph "Turing.grg" "Busy beaver 5 No. 7 (http://drb9.drb.insel.de/~heiner/BB/bb-list)"
+
+# Initialize tape
+new tp:TapePosition($="Startposition")
+new tp-:empty->tp
+
+# States
+new sA:State($="A")
+new sB:State($="B")
+new sC:State($="C")
+new sD:State($="D")
+new sE:State($="E")
+new sH:State($="Halt")
+
+new sA -:rwHead-> tp
+
+# Transitions: three lines per state and input symbol for
+#   - updating cell value
+#   - moving read-write-head
+# respectively
+
+new sA_0:WriteOne
+new sA -:empty-> sA_0
+new sA_0 -:moveLeft-> sB
+
+new sA_1:WriteOne
+new sA -:one-> sA_1
+new sA_1 -:moveLeft-> sD
+
+
+new sB_0:WriteOne
+new sB -:empty-> sB_0
+new sB_0 -:moveRight-> sC
+
+new sB_1:WriteEmpty
+new sB -:one-> sB_1
+new sB_1 -:moveRight-> sE
+
+
+new sC_0:WriteEmpty
+new sC -:empty-> sC_0
+new sC_0 -:moveLeft-> sA
+
+new sC_1:WriteEmpty
+new sC -:one-> sC_1
+new sC_1 -:moveRight-> sB
+
+
+new sD_0:WriteOne
+new sD -:empty-> sD_0
+new sD_0 -:moveLeft-> sE
+
+new sD_1:WriteOne
+new sD -:one-> sD_1
+new sD_1 -:moveLeft-> sH
+
+
+new sE_0:WriteOne
+new sE -:empty-> sE_0
+new sE_0 -:moveRight-> sC
+
+new sE_1:WriteOne
+new sE -:one-> sE_1
+new sE_1 -:moveLeft-> sC
+
+xgrs ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))[1:100]
+
+custom graph analyze
+custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
+
+xgrs ((readOneRule || readEmptyRule) | (writeOneRule || writeEmptyRule) | (ensureMoveLeftValidRule || ensureMoveRightValidRule) | (moveLeftRule || moveRightRule))*

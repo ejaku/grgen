@@ -1,0 +1,111 @@
+v1.3 (2007-11-06)
+ Features:
+  - The reuse optimization reusing deleted elements can now be disabled
+  - Infotags with null values are not displayed anymore
+  - Speedup transactions a bit
+  - GrGen.exe: Renamed -d option to -keep, added -debug and -usefull option
+  - Added options for dumping and commenting generated matcher programs
+    (accessible through properties and "Custom")
+  - Reimplemented LGSPGraph.Clone via copy constructor to allow derived
+    classes to support cloning
+  - Added convenience methods BaseGraph.GetNodeType and BaseGraph.GetEdgeType
+
+ Features for GrShell:
+  - Added "debug layout" to relayout the graph in yComp
+  - Added "debug get layout options" and "debug set layout option" allowing
+    access to the parameters of the current layouter in yComp
+
+ Examples:
+  - Added HelloMutex api example
+  - Added YCompExample api example
+  - Added GrIO example
+  - Added AGTIVE example UML2CSP
+  - Added another Sierpinski triangle implementation
+
+ Tools:
+  - Added spBench, an application to benchmark all possible searchplans for
+    a rule pattern
+
+ Fixes:
+  - Fixed ASTdapter
+  - Fixed multiline custom commands for GrShell
+  - Fixed xgrs parser not allowing "somerule[1:*]"
+  - Fixed node reusing causing a crash
+  - Disabled debug output of yComp
+  - Fixed NACs only containing an if
+  - Fixed attributes output of VCGDumper
+  - Fixed infotags
+  - Fixed homomorphic matching (testcase hom1 and hom2)
+  - Includes in GRG-files are now also considered as dependencies
+
+ Specification processing (grgen.jar):
+   Changes:
+    - Improved processing time
+    - Improved error messages
+    - Added new attribute type "object" 
+      (only operators '=', '==', and '!=' are allowed)
+    - Warn if a graph element occurs inside and outside a delete statement
+    - Warn if a returned graph element may be matched homomorphically to the
+      same element as an element within a delete statement
+    - "actions" and "model" keywords are now deprecated
+    - Enum declarations may now use already existing enum entries
+
+   Fixes:
+    - Fixed '?' operator
+    - Fixed errors with C# keywords in models and rules
+    - Fixed rule specification files without any rules
+    - Fixed crash when using a non-existing model
+
+
+v1.2 (2007-07-19)
+ Features:
+  - Introduced xgrs as replacement for grs (GrShell can still handle grs, but
+    prints the new xgrs version for a given grs).
+    See "Developing Graph Transformations with GrGen.NET" for a description
+    of the new graph rewrite sequence syntax.
+  - Restructured directories
+  - Added test bench
+  - GrGen now places the generated libraries into the directory of the spec
+    files by default (can be overridden with -o)
+  - Updated examples
+  
+ Features for GrShell:
+  - The LGSPBackend is the default backend now. So the "select backend ..."
+    line is not necessary anymore in the normal case.
+  - Introduced 'new graph <grgfile>' which builds the libraries if neccessary
+    and creates graph and actions, superceeding 'new graph <modellibrary>'
+    plus 'select actions <actionslibrary>'. The latter commands stay
+    available, though.
+  - Added "validate xgrs <sequence>" which is successful, if the given
+    sequence can be applied successfully on a clone of the current graph
+    (implemented by BaseActions.ValidateWithSequence)
+  - Added "dump add edge <type> exclude"
+  - Added breakpoint support (% flag for rules, true and false in debug mode)
+  - Added breakpoint toggling while debugging (use the 'b' key)
+  - Fixed infotags
+  - Added element exclusion for debug mode
+  - Added support for multiline commands using '\' at the end of a line
+  - Guess .grg extension for "new graph <specfile>" when <specfile>
+    does not exist
+  - Guess .grs extensions for files given via commandline
+
+ API changes:    
+  - Renamed GetOutgoing/Incoming to GetCompatibleOutgoing/Incoming
+  - Added GetExactOutgoing/Incoming
+  - Added Apply, ApplyStar, ApplyPlus and ApplyMinMax to IAction
+  
+ Fixes:
+  - Fixed problems with dangling edges in patterns
+  - Fixed retyping with typeof operator
+  - Newly created edges could not be returned
+  - Fixed wrongly reported invalid reuse of nodes and edges in modify part
+  - Annotations on anonymous elements did not work
+  - Fixed error detection for return statements
+  - Fixed comparisons with constant enum expressions
+  - Fixed attributes with names of reserved C# keywords
+  - Fixed casts to strings
+  - Fixed conditions containing casts
+  - Fixed float constants
+
+v1.1 (2007-07-02)
+ - Base of change log

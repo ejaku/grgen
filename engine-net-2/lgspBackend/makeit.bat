@@ -1,0 +1,1 @@
+gmcs -r:../libGr/libGr.dll -t:library -debug+ lgspBackend.cs lgspActions.cs lgspGraph.cs lgspGraphElements.cs lgspModel.cs LinkedGrList.cs Properties/AssemblyInfo.cs TestActions.cs TestModel.cs

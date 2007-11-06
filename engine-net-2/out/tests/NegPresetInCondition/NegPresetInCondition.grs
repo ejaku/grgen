@@ -1,0 +1,25 @@
+new graph "NegPresetInCondition/NegPresetInCondition"
+new n1:N
+new n2:N
+new n1-e1:E->n2
+e1.a = 1
+new n1:N
+new n2:N
+new n1-e1:E->n2
+e1.a = 0
+new n1:N
+new n2:N
+new n1-e1:E->n2
+e1.a = 1
+new n1:N
+new n2:N
+new n1-e1:E->n2
+e1.a = 0
+new n1:N
+new n2:N
+new n1-e1:E->n2
+e1.a = 1
+show num nodes
+show num edges
+xgrs ?[test1]
+quit

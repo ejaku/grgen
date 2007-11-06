@@ -1,0 +1,25 @@
+/*** PART OF VARRO BENCHMARK ***/
+
+model MutexModel;
+
+node class Process;
+
+node class Resource;
+
+edge class next
+	connect Process [0:1] -> Process [0:1];
+
+edge class blocked
+	connect Resource [*] -> Process [*];
+
+edge class held_by
+	connect Resource [0:1] -> Process [*];
+
+edge class token
+	connect Resource [0:1] -> Process [*];
+
+edge class release
+	connect Resource [0:1] -> Process [*];
+
+edge class request
+	connect Process [*] -> Resource [*];

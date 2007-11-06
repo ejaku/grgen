@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using antlr;
+using antlr.collections;
+using de.unika.ipd.grGen.libGr;
+
+namespace ASTdapter
+{
+    public class ASTdapter
+    {
+        private ParserPackage parserpackage;
+        private Random myRandom = new Random();
+
+        public ASTdapter(ParserPackage configuration)
+        {
+            parserpackage = configuration;
+        }
+
+        /// <summary>
+        /// This method parses an input stream with the configured parser and loads the resulting AST into the given graph.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public void Load(Stream from, IGraph to)
+        {
+            TokenStream lexer = parserpackage.GetLexer(from);
+            LLkParser instance = parserpackage.GetParser(lexer);
+            Load(instance, to);
+        }
+
+        /// <summary>
+        /// This method parses the given parameter string with the configured parser and loads the resulting AST into the given graph.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public void Load(string from, IGraph to)
+        {
+            TokenStream lexer = parserpackage.GetLexer(from);
+            LLkParser instance = parserpackage.GetParser(lexer);
+            Load(instance, to);
+        }
+
+        private void Load(LLkParser instance, IGraph to)
+        {
+            AST a;
+            parserpackage.CallParser(instance);
+            a = instance.getAST();
+            if (a != null) Emit(a, to);
+            else
+            {
+                throw new Exception("No AST!");
+            }
+        }
+
+        private INode Emit(AST a, IGraph to)
+        {
+            String text = a.getText();
+            int iType = a.Type;
+            String type = parserpackage.GetTypeName(iType);
+            IType currentNodeType = GetNodeType(type, to);
+            INode currentNode = to.AddNode(currentNodeType);
+            currentNode.SetAttribute("value", text);
+
+            if (a.getNumberOfChildren() > 0)
+            {
+                List<AST> l = GetChildren(a);
+                INode previousChild = null;
+                foreach (AST current in l)
+                {
+                    INode childNode = Emit(current, to);
+                    IType childType = GetEdgeType("child", to);
+                    to.AddEdge(childType, currentNode, childNode);
+
+                    if (previousChild != null)
+                    {
+                        IType nextType = GetEdgeType("next", to);
+                        to.AddEdge(nextType, previousChild, childNode);
+                    }
+                    previousChild = childNode;
+                }
+            }
+            return currentNode;
+        }
+
+        private IType GetNodeType(string name, IGraph graph)
+        {
+            return graph.Model.NodeModel.GetType(name);
+        }
+
+        private IType GetEdgeType(string name, IGraph graph)
+        {
+            return graph.Model.EdgeModel.GetType(name);
+        }
+
+        private List<AST> GetChildren(AST a)
+        {
+            List<AST> result = new List<AST>();
+            AST current = a.getFirstChild();
+            while (current != null)
+            {
+                result.Add(current);
+                current = current.getNextSibling();
+            }
+            return result;
+        }
+
+
+    }
+}

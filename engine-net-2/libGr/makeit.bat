@@ -1,0 +1,1 @@
+gmcs -t:library -out:libGr.dll -debug+ actionInterface.cs backendInterface.cs BaseActions.cs BaseGraph.cs dumpInterface.cs graphInterface.cs modelInterface.cs NamedGraph.cs set.cs SingleLinkedList.cs VCGDumper.cs

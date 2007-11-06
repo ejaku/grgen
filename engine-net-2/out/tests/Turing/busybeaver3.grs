@@ -1,0 +1,72 @@
+new graph "lib\lgsp-TuringModel.dll" "Busy beaver 3"
+select actions "lib\lgsp-TuringActions.dll"
+
+new bp:BandPosition($="Startposition")
+new bp-:empty->bp
+new s1:State($="s1")
+new s2:State($="s2")
+new s3:State($="s3")
+new h:State($="h")
+
+new s1 -:rwhead-> bp
+
+new s1_w1:WriteOne
+new s1 -:empty-> s1_w1
+new s1_w1 -:moveRight-> s2
+
+new s1_w2:WriteOne
+new s1 -:one-> s1_w2
+new s1_w2 -:moveLeft-> s3
+
+new s2_w1:WriteOne
+new s2 -:one-> s2_w1
+new s2_w1 -:moveRight-> s2
+
+new s2_w2:WriteOne
+new s2 -:empty-> s2_w2
+new s2_w2 -:moveLeft-> s1
+
+new s3_w1:WriteOne
+new s3 -:empty-> s3_w1
+new s3_w1 -:moveLeft-> s2
+
+new s3_w2:WriteOne
+new s3 -:one-> s3_w2
+new s3_w2 -:moveRight-> h
+
+show num nodes
+show num edges
+show num nodes WriteZero
+show num nodes WriteOne
+show num nodes WriteEmpty
+show num nodes BandPosition
+show num nodes State
+show num nodes WriteValue
+show num edges one
+show num edges empty
+show num edges rwhead
+show num edges moveLeft
+show num edges dontMove
+show num edges moveRight
+show num edges right
+show num edges value
+show num edges zero
+grs ((readZeroRule|readOneRule|readEmptyRule);(writeZeroRule|writeOneRule|writeEmptyRule);(ensureMoveLeftValidRule|ensureMoveRightValidRule);(moveLeftRule|moveRightRule|dontMoveRule))*
+show num nodes
+show num edges
+show num nodes WriteZero
+show num nodes WriteOne
+show num nodes WriteEmpty
+show num nodes BandPosition
+show num nodes State
+show num nodes WriteValue
+show num edges one
+show num edges empty
+show num edges rwhead
+show num edges moveLeft
+show num edges dontMove
+show num edges moveRight
+show num edges right
+show num edges value
+show num edges zero
+quit

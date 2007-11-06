@@ -1,0 +1,1 @@
+gmcs -r:../libGr/libGr.dll -debug+ GrShell.cs GrShellConstants.cs GrShellImpl.cs GrShellTokenManager.cs ParseException.cs SimpleCharStream.cs Token.cs TokenMgrError.cs

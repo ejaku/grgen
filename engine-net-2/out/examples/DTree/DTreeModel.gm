@@ -1,0 +1,12 @@
+model DTreeModel;
+
+node class N;
+
+node class A extends N;
+node class B extends N;
+
+edge class E {
+  v : int;
+}
+edge class SE extends E;
+edge class NE extends E;

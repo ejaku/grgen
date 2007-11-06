@@ -1,0 +1,22 @@
+model CalcParserASTModel;
+
+node class ASTNode {
+	value:string;
+}
+
+edge class child
+	connect ASTNode[0:*] -> ASTNode[0:1];
+
+edge class next
+	connect ASTNode[0:1] -> ASTNode[0:1];
+
+node class EOF extends ASTNode;
+node class NULL_TREE_LOOKAHEAD extends ASTNode;
+node class PLUS extends ASTNode;
+node class SEMI extends ASTNode;
+node class STAR extends ASTNode;
+node class INT extends ASTNode;
+node class WS extends ASTNode;
+node class LPAREN extends ASTNode;
+node class RPAREN extends ASTNode;
+node class DIGIT extends ASTNode;
