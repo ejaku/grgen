@@ -1,0 +1,12 @@
+model Sierpinski2Model;
+
+edge class gen0;
+edge class gen1;
+
+edge class ab0 extends gen0;
+edge class bc0 extends gen0;
+edge class ca0 extends gen0;
+
+edge class ab1 extends gen1;
+edge class bc1 extends gen1;
+edge class ca1 extends gen1;

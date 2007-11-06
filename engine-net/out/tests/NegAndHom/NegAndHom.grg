@@ -1,0 +1,63 @@
+using NegAndHom;
+
+rule testRule {
+  pattern {
+    hom(x,y);
+    x:intNode;
+    y:intNode;
+    if{ x.val == y.val && x.val <= 3; }
+  }
+  modify {}
+}
+
+rule testRuleWithNAC {
+  pattern {
+    hom(x,y);
+    x:intNode;
+    y:intNode;
+    negative {
+      if{ x.val != y.val || x.val > 3; }
+    }
+  }
+  modify {}
+}
+
+rule testRuleWithNAC2 {
+  pattern {
+    hom(x,y);
+    x:intNode;
+    y:intNode;
+    negative {
+      x;
+      if{ x.val != y.val || x.val > 3; }
+    }
+  }
+  modify {}
+}
+
+rule testRuleWithNAC3 {
+  pattern {
+    hom(x,y);
+    x:intNode;
+    y:intNode;
+    negative {
+      x; y;
+      if{ x.val != y.val || x.val > 3; }
+    }
+  }
+  modify {}
+}
+
+rule testRuleWithNAC4 {
+  pattern {
+    hom(x,y);
+    x:intNode;
+    y:intNode;
+    negative {
+      hom(x,y);
+      x; y;
+      if{ x.val != y.val || x.val > 3; }
+    }
+  }
+  modify {}
+}

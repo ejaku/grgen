@@ -1,0 +1,17 @@
+new graph GrIOtest
+
+new out:grIO_OUTPUT
+new filenode:grIO_File
+filenode.path="text.txt"
+
+new out -:grIO_CreateOrOverwrite-> filenode
+new l1:grIO_File_Line
+l1.content="Hallo Welt!"
+new filenode -:grIO_File_ContainsLine-> l1
+
+new l2:grIO_File_Line
+l2.content="Hello World!"
+new filenode -:grIO_File_ContainsLine-> l2
+new l1 -:grIO_File_NextLine-> l2
+
+sync io

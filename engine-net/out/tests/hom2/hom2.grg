@@ -1,0 +1,42 @@
+actions hom2 using hom2Model;
+
+rule homtest1 {
+  pattern {
+    hom(a,b);
+    a:A;
+    b:A;
+    c:B;
+  }
+  modify {}
+}
+
+rule homtest2 {
+  pattern {
+    hom(a,b,c);
+    a:A;
+    b:B;
+    c:A;
+    d:B;
+  }
+  modify {}
+}
+
+rule homtest3 {
+  pattern {
+    hom(a,b,c,d);
+    a:A;
+    b:A;
+    c:A;
+    d:A;
+    e:B;
+  }
+  modify {}
+}
+
+rule test1 {
+  pattern {
+    a:A;
+    b:B;
+  }
+  modify {}
+}

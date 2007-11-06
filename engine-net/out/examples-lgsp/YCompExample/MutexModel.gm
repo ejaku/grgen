@@ -1,0 +1,24 @@
+/*** PART OF VARRO BENCHMARK ***/
+
+node class Process;
+
+node class Resource;
+
+edge class next
+	connect Process [0:1] -> Process [0:1];
+
+edge class blocked
+	connect Resource [*] -> Process [*];
+
+edge class held_by
+	connect Resource [1] -> Process [*];
+
+edge class token
+	connect Resource [1] -> Process [*];
+
+edge class release
+	connect Resource [1] -> Process [*];
+
+edge class request
+	connect Process [*] -> Resource [*];
+

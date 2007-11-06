@@ -1,0 +1,1119 @@
+using System;
+using System.Collections.Generic;
+
+namespace de.unika.ipd.grGen.libGr
+{
+    /// <summary>
+    /// Specifies how an IMatches object should be dumped.
+    /// </summary>
+    public enum DumpMatchSpecial
+    {
+        /// <summary>
+        /// Insert virtual match nodes and connect the matches
+        /// </summary>
+        AllMatches = -1,
+
+        /// <summary>
+        /// Show only the matches
+        /// </summary>
+        OnlyMatches = -2
+    }
+
+    /// <summary>
+    /// A partial implementation of the IGraph interface.
+    /// </summary>
+    public abstract class BaseGraph : IGraph
+    {
+        #region Abstract and virtual members
+
+        /// <summary>
+        /// A name associated with the graph.
+        /// </summary>
+        public abstract String Name { get; }
+
+        /// <summary>
+        /// The model associated with the graph.
+        /// </summary>
+        public abstract IGraphModel Model { get; }
+
+        /// <summary>
+        /// Returns the graph's transaction manager.
+        /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
+        /// Don't forget to call Commit after a transaction is finished!
+        /// </summary>
+        public abstract ITransactionManager TransactionManager { get; }
+
+        /// <summary>
+        /// If true (the default case), elements deleted during a rewrite
+        /// may be reused in the same rewrite.
+        /// As a result new elements may not be discriminable anymore from
+        /// already deleted elements using object equality, hash maps, etc.
+        /// In cases where this is needed this optimization should be disabled.
+        /// </summary>
+        public abstract bool ReuseOptimization { get; set; }
+
+        /// <summary>
+        /// For persistent backends permanently destroys the graph
+        /// </summary>
+        public abstract void DestroyGraph();
+
+        /// <summary>
+        /// Loads a BaseActions instance from the given file, which becomes initialized with the given dumpInfo.
+        /// If the file is a ".cs" file it will be compiled first.
+        /// If dumpInfo is null, a standard dumpInfo will be used
+        /// </summary>
+        public abstract BaseActions LoadActions(String actionFilename, DumpInfo dumpInfo);
+
+        /// <summary>
+        /// Returns the number of nodes with the exact given node type.
+        /// </summary>
+        public abstract int GetNumExactNodes(IType nodeType);
+
+        /// <summary>
+        /// Returns the number of edges with the exact given edge type.
+        /// </summary>
+        public abstract int GetNumExactEdges(IType edgeType);
+
+        /// <summary>
+        /// Enumerates all nodes with the exact given node type.
+        /// </summary>
+        public abstract IEnumerable<INode> GetExactNodes(IType nodeType);
+
+        /// <summary>
+        /// Enumerates all edges with the exact given edge type.
+        /// </summary>
+        public abstract IEnumerable<IEdge> GetExactEdges(IType edgeType);
+
+        /// <summary>
+        /// Returns the number of nodes compatible to the given node type.
+        /// </summary>
+        public abstract int GetNumCompatibleNodes(IType nodeType);
+
+        /// <summary>
+        /// Returns the number of edges compatible to the given edge type.
+        /// </summary>
+        public abstract int GetNumCompatibleEdges(IType edgeType);
+
+        /// <summary>
+        /// Enumerates all nodes compatible to the given node type.
+        /// </summary>
+        public abstract IEnumerable<INode> GetCompatibleNodes(IType nodeType);
+
+        /// <summary>
+        /// Enumerates all edges compatible to the given edge type.
+        /// </summary>
+        public abstract IEnumerable<IEdge> GetCompatibleEdges(IType edgeType);                       // this is NOT supported in original libGr!
+
+        /// <summary>
+        /// Adds a new node to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created node.</returns>
+        public abstract INode AddNode(IType nodeType, String varName);
+
+        /// <summary>
+        /// Adds a new node to the graph.
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <returns>The newly created node.</returns>
+        public abstract INode AddNode(IType nodeType);
+
+        /// <summary>
+        /// Adds a new edge to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created edge.</returns>
+        public abstract IEdge AddEdge(IType edgeType, INode source, INode target, string varName);
+
+        /// <summary>
+        /// Adds a new edge to the graph.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <returns>The newly created edge.</returns>
+        public abstract IEdge AddEdge(IType edgeType, INode source, INode target);
+
+        /// <summary>
+        /// Removes the given node from the graph.
+        /// </summary>
+        public abstract void Remove(INode node);
+
+        /// <summary>
+        /// Removes the given edge from the graph.
+        /// </summary>
+        public abstract void Remove(IEdge edge);
+
+        /// <summary>
+        /// Removes all edges from the given node.
+        /// </summary>
+        public abstract void RemoveEdges(INode node);
+
+        /// <summary>
+        /// Removes all nodes and edges (including any variables pointing to them) from the graph.
+        /// </summary>
+        public abstract void Clear();
+
+        /// <summary>
+        /// Changes the type of the node.
+        /// In contrast to the original libGr, all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="node">The node to be changed</param>
+        /// <param name="newNodeType">The new type for the node</param>
+        /// <returns>The old IAttributes object of the node, which may be null, if it didn't have any attributes</returns>
+        public abstract IAttributes SetNodeType(INode node, IType newNodeType);
+
+        /// <summary>
+        /// Changes the type of the edge.
+        /// All attributes from common super classes are kept.
+        /// This is NOT supported in the original libGr
+        /// </summary>
+        /// <param name="edge">The edge to be changed</param>
+        /// <param name="newEdgeType">The new type for the edge</param>
+        /// <returns>The old IAttributes object of the edge, which may be null, if it didn't have any attributes</returns>
+        public abstract IAttributes SetEdgeType(IEdge edge, IType newEdgeType); 
+
+        /// <summary>
+        /// Mature a graph.
+        /// This method should be invoked after adding all nodes and edges to the graph.
+        /// The backend may implement analyses on the graph to speed up matching etc.
+        /// The graph may not be modified by this function.
+        /// </summary>
+        public abstract void Mature();
+
+        /// <summary>
+        /// Does graph-backend dependent stuff.
+        /// </summary>
+        /// <param name="args">Any kind of paramteres for the stuff to do</param>
+        public abstract void Custom(params object[] args);
+
+        /// <summary>
+        /// Duplicates a graph.
+        /// The new graph will use the same model and backend as the other
+        /// The open transactions will NOT be cloned.
+        /// </summary>
+        /// <param name="newName">Name of the new graph.</param>
+        /// <returns>A new graph with the same structure as this graph.</returns>
+        public abstract IGraph Clone(String newName);
+
+        #endregion Abstract and virtual members
+
+#if VARIABLES_AS_HASHMAP
+        #region Variables management
+
+        protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
+        protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
+
+        /// <summary>
+        /// Returns the first variable name for the given element it finds (if any).
+        /// </summary>
+        /// <param name="elem">Element which name is to be found</param>
+        /// <returns>A name which can be used in GetVariableValue to get this element</returns>
+        public String GetElementName(IGraphElement elem)
+        {
+            LinkedList<Variable> variableList;
+            if(ElementMap.TryGetValue(elem, out variableList))
+                return variableList.First.Value.Name;
+            return "$" + elem.GetHashCode();
+        }
+
+        public LinkedList<Variable> GetElementVariables(IGraphElement elem)
+        {
+            LinkedList<Variable> variableList;
+            ElementMap.TryGetValue(elem, out variableList);
+            return variableList;
+        }
+
+        /// <summary>
+        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// </summary>
+        /// <param name="varName">The variable name to lookup</param>
+        /// <returns>The according IGraphElement or null</returns>
+        public IGraphElement GetVariableValue(String varName)
+        {
+            Variable var;
+            VariableMap.TryGetValue(varName, out var);
+            if(var == null) return null;
+            return var.Element;
+        }
+
+        /// <summary>
+        /// Sets the value of the given variable to the given IGraphElement
+        /// If the variable name is null, this function does nothing
+        /// </summary>
+        /// <param name="varName">The name of the variable</param>
+        /// <param name="elem">The new value of the variable</param>
+        public void SetVariableValue(String varName, IGraphElement elem)
+        {
+            if(varName == null) return;
+
+            Variable var;
+            if(!VariableMap.TryGetValue(varName, out var))
+            {
+                var = new Variable(varName, elem);
+                VariableMap[varName] = var;
+            }
+            else
+            {
+                LinkedList<Variable> oldVarList;
+                if(ElementMap.TryGetValue(var.Element, out oldVarList))
+                    oldVarList.Remove(var);
+                var.Element = elem;
+            }
+            LinkedList<Variable> newVarList;
+            if(!ElementMap.TryGetValue(elem, out newVarList))
+            {
+                newVarList = new LinkedList<Variable>();
+                newVarList.AddFirst(var);
+
+                ElementMap[elem] = newVarList;
+            }
+            else
+            {
+                if(!newVarList.Contains(var))
+                    newVarList.AddFirst(var);
+            }
+        }
+
+        protected void VariableAdded(IGraphElement elem, String varName)
+        {
+            if(varName != null)
+            {
+                Variable var = new Variable(varName, elem);
+                VariableMap[varName] = var;
+                LinkedList<Variable> varList = new LinkedList<Variable>();
+                varList.AddFirst(var);
+                ElementMap[elem] = varList;
+            }
+        }
+
+        protected void RemovingVariable(IGraphElement elem)
+        {
+            LinkedList<Variable> varList;
+            if(!ElementMap.TryGetValue(elem, out varList)) return;
+            foreach(Variable var in varList)
+            {
+                VariableMap.Remove(var.Name);
+            }
+            ElementMap.Remove(elem);
+        }
+
+        #endregion Variables management
+#else
+        /// <summary>
+        /// Returns the first variable name for the given element it finds (if any).
+        /// </summary>
+        /// <param name="elem">Element which name is to be found</param>
+        /// <returns>A name which can be used in GetVariableValue to get this element</returns>
+        public abstract String GetElementName(IGraphElement elem);
+
+        /// <summary>
+        /// Returns a linked list of variables mapped to the given graph element
+        /// or null, if no variable points to this element
+        /// </summary>
+        public abstract LinkedList<Variable> GetElementVariables(IGraphElement elem);
+
+        /// <summary>
+        /// Retrieves the IGraphElement for a variable name or null, if the variable isn't set yet or anymore
+        /// </summary>
+        /// <param name="varName">The variable name to lookup</param>
+        /// <returns>The according IGraphElement or null</returns>
+        public abstract IGraphElement GetVariableValue(String varName);
+
+        /// <summary>
+        /// Sets the value of the given variable to the given IGraphElement
+        /// If the variable name is null, this function does nothing
+        /// If elem is null, the variable is unset
+        /// </summary>
+        /// <param name="varName">The name of the variable</param>
+        /// <param name="elem">The new value of the variable</param>
+        public abstract void SetVariableValue(String varName, IGraphElement elem);
+#endif
+
+        #region Events
+
+        /// <summary>
+        /// Fired after a node has been added
+        /// </summary>
+        public event NodeAddedHandler OnNodeAdded;
+
+        /// <summary>
+        /// Fired after an edge has been added
+        /// </summary>
+        public event EdgeAddedHandler OnEdgeAdded;
+
+        /// <summary>
+        /// Fired before a node is deleted
+        /// </summary>
+        public event RemovingNodeHandler OnRemovingNode;
+
+        /// <summary>
+        /// Fired before an edge is deleted
+        /// </summary>
+        public event RemovingEdgeHandler OnRemovingEdge;
+        /// <summary>
+        /// Fired before all edges of a node are deleted
+        /// </summary>
+        public event RemovingEdgesHandler OnRemovingEdges;
+        /// <summary>
+        /// Fired before the whole graph is cleared
+        /// </summary>
+        public event ClearingGraphHandler OnClearingGraph;
+        /// <summary>
+        /// Fired before an attribute of a node is changed.
+        /// Note for LGSPBackend:
+        /// Because graph elements of the LGSPBackend don't know their graph a call to
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// and want the event to be fired, you have to fire it yourself
+        /// using ChangingNodeAttributes.
+        /// </summary>
+        public event ChangingNodeAttributeHandler OnChangingNodeAttribute;
+        /// <summary>
+        /// Fired before an attribute of an edge is changed.
+        /// Note for LGSPBackend:
+        /// Because graph elements of the LGSPBackend don't know their graph a call to
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// and want the event to be fired, you have to fire it yourself
+        /// using ChangingEdgeAttributes.
+        /// </summary>
+        public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
+        /// <summary>
+        /// Fired before the type of a node is changed.
+        /// Old and new type and attributes are provided to the handler.
+        /// </summary>
+        public event SettingNodeTypeHandler OnSettingNodeType;
+        /// <summary>
+        /// Fired before the type of an edge is changed.
+        /// Old and new type and attributes are provided to the handler.
+        /// </summary>
+        public event SettingEdgeTypeHandler OnSettingEdgeType;
+
+        /// <summary>
+        /// Fires an OnNodeAdded event.
+        /// </summary>
+        /// <param name="node">The added node.</param>
+        public void NodeAdded(INode node)
+        {
+            NodeAddedHandler nodeAdded = OnNodeAdded;
+            if(nodeAdded != null) nodeAdded(node);
+        }
+
+        /// <summary>
+        /// Fires an OnEdgeAdded event.
+        /// </summary>
+        /// <param name="edge">The added edge.</param>
+        public void EdgeAdded(IEdge edge)
+        {
+            EdgeAddedHandler edgeAdded = OnEdgeAdded;
+            if(edgeAdded != null) edgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Fires an OnRemovingNode event.
+        /// </summary>
+        /// <param name="node">The node to be removed.</param>
+        public void RemovingNode(INode node)
+        {
+            RemovingNodeHandler removingNode = OnRemovingNode;
+            if(removingNode != null) removingNode(node);
+        }
+
+        /// <summary>
+        /// Fires an OnRemovingEdge event.
+        /// </summary>
+        /// <param name="edge">The edge to be removed.</param>
+        public void RemovingEdge(IEdge edge)
+        {
+            RemovingEdgeHandler removingEdge = OnRemovingEdge;
+            if(removingEdge != null) removingEdge(edge);
+        }
+
+        /// <summary>
+        /// Fires an OnRemovingEdges event.
+        /// </summary>
+        /// <param name="node">The node whose edges are to be removed.</param>
+        public void RemovingEdges(INode node)
+        {
+            RemovingEdgesHandler removingEdges = OnRemovingEdges;
+            if(removingEdges != null) removingEdges(node);
+        }
+
+        /// <summary>
+        /// Fires an OnClearingGraph event.
+        /// </summary>
+        public void ClearingGraph()
+        {
+            ClearingGraphHandler clearingGraph = OnClearingGraph;
+            if(clearingGraph != null) clearingGraph();
+        }
+
+        /// <summary>
+        /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.
+        /// </summary>
+        /// <param name="node">The node whose attribute is changed.</param>
+        /// <param name="attrType">The type of the attribute to be changed.</param>
+        /// <param name="oldValue">The old value of the attribute.</param>
+        /// <param name="newValue">The new value of the attribute.</param>
+        public void ChangingNodeAttribute(INode node, AttributeType attrType, Object oldValue, Object newValue)
+        {
+            ChangingNodeAttributeHandler changingElemAttr = OnChangingNodeAttribute;
+            if(changingElemAttr != null) changingElemAttr(node, attrType, oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Fires an OnChangingEdgeAttribute event. This should be called before an attribute of a edge is changed.
+        /// </summary>
+        /// <param name="edge">The edge whose attribute is changed.</param>
+        /// <param name="attrType">The type of the attribute to be changed.</param>
+        /// <param name="oldValue">The old value of the attribute.</param>
+        /// <param name="newValue">The new value of the attribute.</param>
+        public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType, Object oldValue, Object newValue)
+        {
+            ChangingEdgeAttributeHandler changingElemAttr = OnChangingEdgeAttribute;
+            if(changingElemAttr != null) changingElemAttr(edge, attrType, oldValue, newValue);
+        }
+
+        /// <summary>
+        /// Fires an OnSettingNodeType event.
+        /// </summary>
+        /// <param name="node">The node to be retyped.</param>
+        /// <param name="oldType">The old (= current) type of the node.</param>
+        /// <param name="oldAttrs">The old (= current) attributes object.</param>
+        /// <param name="newType">The new type for the node.</param>
+        /// <param name="newAttrs">The new attributes object.</param>
+        public void SettingNodeType(INode node, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        {
+            SettingNodeTypeHandler settingNodeType = OnSettingNodeType;
+            if(settingNodeType != null) settingNodeType(node, oldType, oldAttrs, newType, newAttrs);
+        }
+
+        /// <summary>
+        /// Fires an OnSettingEdgeType event.
+        /// </summary>
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="oldType">The old (= current) type of the edge.</param>
+        /// <param name="oldAttrs">The old (= current) attributes object.</param>
+        /// <param name="newType">The new type for the edge.</param>
+        /// <param name="newAttrs">The new attributes object.</param>
+        public void SettingEdgeType(IEdge edge, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        {
+            SettingEdgeTypeHandler settingEdgeType = OnSettingEdgeType;
+            if(settingEdgeType != null) settingEdgeType(edge, oldType, oldAttrs, newType, newAttrs);
+        }
+
+        #endregion Events
+
+        /// <summary>
+        /// The total number of nodes in the graph.
+        /// </summary>
+        public int NumNodes { get { return GetNumCompatibleNodes(Model.NodeModel.RootType); } }
+
+        /// <summary>
+        /// The total number of edges in the graph.
+        /// </summary>
+        public int NumEdges { get { return GetNumCompatibleEdges(Model.EdgeModel.RootType); } }
+
+        /// <summary>
+        /// Enumerates all nodes in the graph.
+        /// </summary>
+        public IEnumerable<INode> Nodes { get { return GetCompatibleNodes(Model.NodeModel.RootType); } }
+
+        /// <summary>
+        /// Enumerates all edges in the graph.
+        /// </summary>
+        public IEnumerable<IEdge> Edges { get { return GetCompatibleEdges(Model.EdgeModel.RootType); } }
+
+        #region Convenience methods
+
+        /// <summary>
+        /// Returns the node type with the given name.
+        /// </summary>
+        /// <param name="typeName">The name of a node type.</param>
+        /// <returns>The node type with the given name or null, if it does not exist.</returns>
+        public IType GetNodeType(String typeName) { return Model.NodeModel.GetType(typeName); }
+        public IType GetEdgeType(String typeName) { return Model.EdgeModel.GetType(typeName); }
+
+        #endregion Convenience methods
+
+        #region Graph validation
+
+        /// <summary>
+        /// Checks whether a graph meets the connection assertions.
+        /// In strict mode all occuring connections must be specified
+        /// by a connection assertion.
+        /// </summary>
+        /// <param name="strict">If false, only check for specified assertions,
+        /// otherwise it isn an error, if an edge connects nodes without a
+        /// specified connection assertion.</param>
+        /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
+        /// <returns>True, if the graph is valid.</returns>
+        /// TODO: Shouldn't strict be fulfilled, if the dictionary sizes equal the number of nodes/edges?
+        ///     --> faster positive answer
+        public bool Validate(bool strict, out List<ConnectionAssertionError> errors)
+        {
+            Dictionary<IEdge, bool> checkedOutEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
+            Dictionary<IEdge, bool> checkedInEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
+            Dictionary<INode, bool> checkedOutNodes = new Dictionary<INode, bool>(2 * NumNodes);
+            Dictionary<INode, bool> checkedInNodes = new Dictionary<INode, bool>(2 * NumNodes);
+            bool result = true;
+            errors = new List<ConnectionAssertionError>();
+
+            foreach(ValidateInfo valInfo in Model.ValidateInfo)
+            {
+                checkedOutNodes.Clear();
+                checkedInNodes.Clear();
+
+                foreach(IEdge edge in GetExactEdges(valInfo.EdgeType))
+                {
+                    if(!edge.Source.Type.IsA(valInfo.SourceType) || !edge.Target.Type.IsA(valInfo.TargetType)) continue;
+
+                    if(!checkedOutNodes.ContainsKey(edge.Source))   // don't check the same node more then once for the same valInfo
+                    {
+                        // Check outgoing edges
+                        int num = 0;
+                        foreach(IEdge outEdge in edge.Source.GetExactOutgoing(valInfo.EdgeType))
+                        {
+                            if(!outEdge.Target.Type.IsA(valInfo.TargetType)) continue;
+                            checkedOutEdges[outEdge] = true;
+                            num++;
+                        }
+                        if(num < valInfo.SourceLower)
+                        {
+                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Source, num, valInfo));
+                            result = false;
+                        }
+                        else if(num > valInfo.SourceUpper)
+                        {
+                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Source, num, valInfo));
+                            result = false;
+                        }
+                        checkedOutNodes[edge.Source] = true;
+                    }
+
+                    if(!checkedInNodes.ContainsKey(edge.Target))   // don't check the same node more then once for the same valInfo
+                    {
+                        // Check incoming edges
+                        int num = 0;
+                        foreach(IEdge inEdge in edge.Target.GetExactIncoming(valInfo.EdgeType))
+                        {
+                            if(!inEdge.Source.Type.IsA(valInfo.SourceType)) continue;
+                            checkedInEdges[inEdge] = true;
+                            num++;
+                        }
+                        if(num < valInfo.TargetLower)
+                        {
+                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Target, num, valInfo));
+                            result = false;
+                        }
+                        else if(num > valInfo.TargetUpper)
+                        {
+                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Target, num, valInfo));
+                            result = false;
+                        }
+                        checkedInNodes[edge.Target] = true;
+                    }
+                }
+
+/*                foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
+                {
+                    int num = 0;
+                    foreach(IEdge outEdge in node.GetExactOutgoing(valInfo.EdgeType))
+                    {
+                        checkedOutEdges[outEdge] = true;
+                        num++;
+                    }
+                    if(num < valInfo.SourceLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.SourceUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, node, num, valInfo));
+                        result = false;
+                    }
+                }*/
+
+/*                // Check outgoing edges
+                foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
+                {
+                    int num = 0;
+                    foreach(IEdge edge in node.GetOutgoing(valInfo.EdgeType))
+                    {
+                        checkedOutEdges[edge] = true;
+                        num++;
+                    }
+                    if(num < valInfo.SourceLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.SourceUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, node, num, valInfo));
+                        result = false;
+                    }
+                }
+
+                // Check incoming edges
+                foreach(INode node in GetCompatibleNodes(valInfo.TargetType))
+                {
+                    int num = 0;
+                    foreach(IEdge edge in node.GetIncoming(valInfo.EdgeType))
+                    {
+                        checkedInEdges[edge] = true;
+                        num++;
+                    }
+                    if(num < valInfo.TargetLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, node, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.TargetUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, node, num, valInfo));
+                        result = false;
+                    }
+                }*/
+            }
+
+            if(strict && (NumEdges != checkedOutEdges.Count || NumEdges != checkedInEdges.Count))
+            {
+                // Some edges are not specified; strict validation prohibits that!
+                foreach(IEdge edge in Edges)
+                {
+                    if(!checkedOutEdges.ContainsKey(edge) || !checkedInEdges.ContainsKey(edge))
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.EdgeNotSpecified, edge, 0, null));
+                        result = false;
+                    }
+                }
+            }
+            if(result) errors = null;
+            return result;
+        }
+        #endregion Graph validation
+
+
+        #region Graph dumping stuff
+
+        /// <summary>
+        /// Trivial IType implementation for virtual nodes
+        /// </summary>
+        internal class VirtualType : IType
+        {
+            public string Name { get { return "__VirtualType__"; } }
+            public int TypeID { get { return 0; } }
+            public bool IsNodeType { get { return true; } }     // not used here anyway
+            public bool IsA(IType other) { return other is VirtualType; }
+            public IEnumerable<IType> SuperTypes { get { yield break; } }
+            public IEnumerable<IType> SuperOrSameTypes { get { yield return this; } }
+            public IEnumerable<IType> SubTypes { get { yield break; } }
+            public IEnumerable<IType> SubOrSameTypes { get { yield return this; } }
+            public bool HasSuperTypes { get { return false; } }
+            public bool HasSubTypes { get { return false; } }
+            public int NumAttributes { get { return 0; } }
+            public IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+            public AttributeType GetAttributeType(String name) { return null; }
+        }
+
+        /// <summary>
+        /// Trivial INode implementation for virtual nodes
+        /// </summary>
+        internal class VirtualNode : INode
+        {
+            int id;
+
+            public VirtualNode(int newID)
+            {
+                id = newID;
+            }
+
+            public int ID { get { return id; } }
+            public IType Type
+            {
+                get { return new VirtualType(); }
+            }
+            public bool InstanceOf(IType type) { return type is VirtualType; }
+
+            public object GetAttribute(String attrName)
+            { throw new NotSupportedException("Get attribute not supported on virtual node!"); }
+            public void SetAttribute(String attrName, object value)
+            { throw new NotSupportedException("Set attribute not supported on virtual node!"); }
+
+            // TODO: Do we need to support this for other dumpers???
+            public IEnumerable<IEdge> Outgoing { get { yield break; } }
+            public IEnumerable<IEdge> Incoming { get { yield break; } }
+            public IEnumerable<IEdge> GetCompatibleOutgoing(IType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetCompatibleIncoming(IType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetExactOutgoing(IType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetExactIncoming(IType edgeType) { yield break; }
+        }
+
+        /// <summary>
+        /// Returns the name of the kind of the given attribute
+        /// </summary>
+        /// <param name="attrType">The IAttributeType</param>
+        /// <returns>The name of the kind of the attribute</returns>
+        private String GetKindName(AttributeType attrType)
+        {
+            switch(attrType.Kind)
+            {
+                case AttributeKind.IntegerAttr: return "int";
+                case AttributeKind.BooleanAttr: return "boolean";
+                case AttributeKind.StringAttr: return "string";
+                case AttributeKind.EnumAttr: return attrType.EnumType.Name;
+                case AttributeKind.FloatAttr: return "float";
+                case AttributeKind.DoubleAttr: return "double";
+                case AttributeKind.ObjectAttr: return "object";
+            }
+            return "<INVALID>";
+        }
+
+        /// <summary>
+        /// Dumps all attributes in the form "kind owner::name = value" into a String List
+        /// </summary>
+        /// <param name="elem">IGraphElement which attributes are to be dumped</param>
+        /// <returns>A String List containing the dumped attributes </returns>
+        private List<String> DumpAttributes(IGraphElement elem)
+        {
+            List<String> attribs = new List<String>();
+            foreach(AttributeType attrType in elem.Type.AttributeTypes)
+            {
+                object attr = elem.GetAttribute(attrType.Name);
+                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
+                attribs.Add(String.Format("{0}::{1} : {2} = {3}",
+                    attrType.OwnerType.Name, attrType.Name, GetKindName(attrType), attrString));
+            }
+            return attribs;
+        }
+
+        private String GetElemLabel(IGraphElement elem, DumpInfo dumpInfo)
+        {
+            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String infoTag = "";
+            if(infoTagTypes != null)
+            {
+                foreach(AttributeType attrType in infoTagTypes)
+                {
+                    object attr = elem.GetAttribute(attrType.Name);
+                    if(attr == null) continue;
+                    infoTag += "\n" + attrType.Name + " = " + attr.ToString();
+                }
+            }
+
+            return dumpInfo.GetElementName(elem) + ":" + elem.Type.Name + infoTag;
+        }
+
+        internal class DumpContext
+        {
+            public IDumper Dumper;
+            public DumpInfo DumpInfo;
+            public Set<INode> MatchedNodes;
+            public Set<INode> MultiMatchedNodes;
+            public Set<IEdge> MatchedEdges;
+            public Set<IEdge> MultiMatchedEdges;
+            public Set<INode> InitialNodes = null;
+            public Set<INode> Nodes = new Set<INode>();
+            public Set<IEdge> ExcludedEdges = new Set<IEdge>();
+
+            public DumpContext(IDumper dumper, DumpInfo dumpInfo, Set<INode> matchedNodes, Set<INode> multiMatchedNodes,
+                Set<IEdge> matchedEdges, Set<IEdge> multiMatchedEdges)
+            {
+                Dumper = dumper;
+                DumpInfo = dumpInfo;
+                MatchedNodes = matchedNodes;
+                MultiMatchedNodes = multiMatchedNodes;
+                MatchedEdges = matchedEdges;
+                MultiMatchedEdges = multiMatchedEdges;
+            }
+        }
+
+        private void DumpNode(INode node, GrColor textColor, GrColor color, GrColor borderColor,
+            GrNodeShape shape, IDumper dumper, DumpInfo dumpInfo)
+        {
+            dumper.DumpNode(node, GetElemLabel(node, dumpInfo), DumpAttributes(node), textColor,
+                color, borderColor, shape);
+        }
+
+        private void DumpEdge(IEdge edge, GrColor textColor, GrColor color, IDumper dumper, DumpInfo dumpInfo)
+        {
+            dumper.DumpEdge(edge.Source, edge.Target, GetElemLabel(edge, dumpInfo), DumpAttributes(edge),
+                textColor, color, GrLineStyle.Default);
+        }
+
+        private void DumpEdgesFromNode(INode node, DumpContext ctx)
+        {
+            foreach(IEdge edge in node.Outgoing)
+            {
+                if(ctx.DumpInfo.IsExcludedEdgeType(edge.Type)) continue;
+                if(ctx.ExcludedEdges.Contains(edge)) continue;
+                if(!ctx.InitialNodes.Contains(edge.Target)) continue;
+
+                GrColor color;
+                GrColor textColor;
+                if(ctx.MatchedEdges != null && ctx.MatchedEdges.Contains(edge))
+                {
+                    GrElemDumpType dumpType;
+                    if(ctx.MultiMatchedEdges != null && ctx.MultiMatchedEdges.Contains(edge))
+                        dumpType = GrElemDumpType.MultiMatched;
+                    else
+                        dumpType = GrElemDumpType.SingleMatched;
+                    color = ctx.DumpInfo.GetEdgeDumpTypeColor(dumpType);
+                    textColor = ctx.DumpInfo.GetEdgeDumpTypeTextColor(dumpType);
+                }
+                else
+                {
+                    color = ctx.DumpInfo.GetEdgeTypeColor(edge.Type);
+                    textColor = ctx.DumpInfo.GetEdgeTypeTextColor(edge.Type);
+                }
+                
+                DumpEdge(edge, textColor, color, ctx.Dumper, ctx.DumpInfo);
+            }
+        }
+
+        private void DumpGroups(int iteration, Set<INode> rootNodes, DumpContext ctx)
+        {
+            if(ctx.DumpInfo.GroupNodeTypes.Count > 0 && iteration < ctx.DumpInfo.GroupNodeTypes.Count)
+            {
+                Set<INode> roots = new Set<INode>();            
+                for(int i = iteration; i < ctx.DumpInfo.GroupNodeTypes.Count; i++)
+                {
+                    roots.Clear();
+
+                    IType nodeType = ctx.DumpInfo.GroupNodeTypes[i];
+                    foreach(INode node in GetCompatibleNodes(nodeType))
+                    {
+                        if(rootNodes.Contains(node))
+                        {
+                            roots.Add(node);
+                            ctx.Nodes.Remove(node);
+                            rootNodes.Remove(node);
+                        }
+                    }
+                    foreach(INode root in roots)
+                    {
+                        GrElemDumpType dumpType = GrElemDumpType.Normal;
+                        if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(root))
+                        {
+                            if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(root))
+                                dumpType = GrElemDumpType.MultiMatched;
+                            else
+                                dumpType = GrElemDumpType.SingleMatched;
+                        }
+
+                        ctx.Dumper.StartSubgraph(root, GetElemLabel(root, ctx.DumpInfo), DumpAttributes(root),
+                            ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType), ctx.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
+
+                        Set<INode> leafNodes = new Set<INode>();
+                        foreach(IEdge edge in root.Incoming)
+                        {
+                            if(!ctx.Nodes.Contains(edge.Source)) continue;
+                            leafNodes.Add(edge.Source);
+                            ctx.ExcludedEdges.Add(edge);
+                        }
+
+                        DumpGroups(iteration + 1, leafNodes, ctx);
+
+                        rootNodes.Remove(leafNodes);
+                        ctx.Dumper.FinishSubgraph();
+
+                        // Dump edges from this subgraph
+                        DumpEdgesFromNode(root, ctx);
+                    }
+                }
+            }
+
+            // Dump the rest, which has not been grouped
+
+            foreach(INode node in rootNodes)
+            {
+                GrElemDumpType dumpType = GrElemDumpType.Normal;
+                GrColor color, borderColor, textColor;
+                GrNodeShape shape;
+                if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(node))
+                {
+                    if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(node))
+                        dumpType = GrElemDumpType.MultiMatched;
+                    else
+                        dumpType = GrElemDumpType.SingleMatched;
+                    color = ctx.DumpInfo.GetNodeDumpTypeColor(dumpType);
+                    borderColor = ctx.DumpInfo.GetNodeDumpTypeBorderColor(dumpType);
+                    textColor = ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType);
+                    shape = GrNodeShape.Default;
+                }
+                else
+                {
+                    color = ctx.DumpInfo.GetNodeTypeColor(node.Type);
+                    borderColor = ctx.DumpInfo.GetNodeTypeBorderColor(node.Type);
+                    textColor = ctx.DumpInfo.GetNodeTypeTextColor(node.Type);
+                    shape = ctx.DumpInfo.GetNodeTypeShape(node.Type);
+                }
+
+                DumpNode(node, textColor, color, borderColor, shape, ctx.Dumper, ctx.DumpInfo);
+
+                DumpEdgesFromNode(node, ctx);
+            }
+
+            if(iteration > 0)                        // for iteration 0 ctx.Nodes == rootNodes
+                ctx.Nodes.Remove(rootNodes);
+        }
+
+        /// <summary>
+        /// Dumps one or more matches with a given graph dumper.
+        /// </summary>
+        /// <param name="dumper">The graph dumper to be used.</param>
+        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
+        /// <param name="matches">An IMatches object containing the matches.</param>
+        /// <param name="which">Which match to dump, or AllMatches for dumping all matches
+        /// adding connections between them, or OnlyMatches to dump the matches only</param>
+        public void DumpMatch(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which)
+        {
+            Set<INode> matchedNodes = null;
+            Set<INode> multiMatchedNodes = null;
+            Set<IEdge> matchedEdges = null;
+            Set<IEdge> multiMatchedEdges = null;
+
+            if(matches != null)
+            {
+                matchedNodes = new Set<INode>();
+                matchedEdges = new Set<IEdge>();
+
+                if((int) which >= 0 && (int) which < matches.NumMatches)
+                {
+                    // Show exactly one match
+
+                    IMatch match = matches.GetMatch((int) which);
+                    matchedNodes.Add(match.Nodes);
+                    matchedEdges.Add(match.Edges);
+                }
+                else
+                {
+                    GrColor vnodeColor = dumpInfo.GetNodeDumpTypeColor(GrElemDumpType.VirtualMatch);
+                    GrColor vedgeColor = dumpInfo.GetEdgeDumpTypeColor(GrElemDumpType.VirtualMatch);
+                    GrColor vnodeBorderColor = dumpInfo.GetNodeDumpTypeBorderColor(GrElemDumpType.VirtualMatch);
+                    GrColor vnodeTextColor = dumpInfo.GetNodeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
+                    GrColor vedgeTextColor = dumpInfo.GetEdgeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
+
+                    multiMatchedNodes = new Set<INode>();
+                    multiMatchedEdges = new Set<IEdge>();
+
+                    // TODO: May edges to nodes be dumped before those nodes exist??
+                    // TODO: Should indices in strings start at 0 or 1? (original: 0)
+
+                    // Dump all matches with virtual nodes
+                    int i = 0;
+                    foreach(IMatch match in matches.Matches)
+                    {
+                        VirtualNode virtNode = new VirtualNode(-i - 1);
+                        dumper.DumpNode(virtNode, String.Format("{0}. match of {1}", i + 1, matches.Producer.Name),
+                            null, vnodeTextColor, vnodeColor, vnodeBorderColor, GrNodeShape.Default);
+                        for(int j = 0; j < match.NumNodes; j++)
+                        {
+                            INode node = match.GetNode(j);
+                            dumper.DumpEdge(virtNode, node, String.Format("node {0}", j + 1), null, vedgeTextColor, vedgeColor,
+                                GrLineStyle.Default);
+
+                            if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
+                            else matchedNodes.Add(node);
+                        }
+
+                        // Collect matched edges
+                        foreach(IEdge edge in match.Edges)
+                        {
+                            if(matchedEdges.Contains(edge)) multiMatchedEdges.Add(edge);
+                            else matchedEdges.Add(edge);
+                        }
+                        i++;
+                    }
+
+                    if(which == DumpMatchSpecial.OnlyMatches)
+                    {
+                        // Dump the matches only
+                        // First dump the matched nodes
+
+                        foreach(INode node in matchedNodes)
+                        {
+                            GrElemDumpType dumpType;
+                            if(multiMatchedNodes.Contains(node))
+                                dumpType = GrElemDumpType.MultiMatched;
+                            else
+                                dumpType = GrElemDumpType.SingleMatched;
+
+                            DumpNode(node, dumpInfo.GetNodeDumpTypeTextColor(dumpType),
+                                dumpInfo.GetNodeDumpTypeColor(dumpType),
+                                dumpInfo.GetNodeDumpTypeBorderColor(dumpType),
+                                GrNodeShape.Default, dumper, dumpInfo);
+                        }
+
+                        // Now add the matched edges (possibly including "Not matched" nodes)
+
+                        foreach(IEdge edge in matchedEdges)
+                        {
+                            if(!matchedNodes.Contains(edge.Source))
+                                DumpNode(edge.Source, dumpInfo.GetNodeTypeTextColor(edge.Source.Type),
+                                    dumpInfo.GetNodeTypeColor(edge.Source.Type),
+                                    dumpInfo.GetNodeTypeBorderColor(edge.Source.Type),
+                                    dumpInfo.GetNodeTypeShape(edge.Source.Type), dumper, dumpInfo);
+
+                            if(!matchedNodes.Contains(edge.Target))
+                                DumpNode(edge.Target, dumpInfo.GetNodeTypeTextColor(edge.Target.Type),
+                                    dumpInfo.GetNodeTypeColor(edge.Target.Type),
+                                    dumpInfo.GetNodeTypeBorderColor(edge.Target.Type),
+                                    dumpInfo.GetNodeTypeShape(edge.Target.Type), dumper, dumpInfo);
+
+                            GrElemDumpType dumpType;
+                            if(multiMatchedEdges.Contains(edge))
+                                dumpType = GrElemDumpType.MultiMatched;
+                            else
+                                dumpType = GrElemDumpType.SingleMatched;
+
+                            DumpEdge(edge, dumpInfo.GetEdgeDumpTypeTextColor(dumpType),
+                                dumpInfo.GetEdgeDumpTypeColor(dumpType), dumper, dumpInfo);
+                        }
+                        return;
+                    }
+                }
+            }
+
+            // Dump the graph, but color the matches if any exist
+
+            DumpContext ctx = new DumpContext(dumper, dumpInfo, matchedNodes, multiMatchedNodes,
+                matchedEdges, multiMatchedEdges);
+
+            foreach(IType nodeType in Model.NodeModel.Types)
+            {
+                if(dumpInfo.IsExcludedNodeType(nodeType)) continue;
+                ctx.Nodes.Add(GetExactNodes(nodeType));
+            }
+
+            ctx.InitialNodes = new Set<INode>(ctx.Nodes);
+
+            DumpGroups(0, ctx.Nodes, ctx);
+        }
+
+        /// <summary>
+        /// Dumps the graph with a given graph dumper.
+        /// </summary>
+        /// <param name="dumper">The graph dumper to be used.</param>
+        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
+        public void Dump(IDumper dumper, DumpInfo dumpInfo)
+        {
+            DumpMatch(dumper, dumpInfo, null, 0);
+        }
+
+        /// <summary>
+        /// Dumps the graph with a given graph dumper and default dump style.
+        /// </summary>
+        /// <param name="dumper">The graph dumper to be used.</param>
+        public void Dump(IDumper dumper)
+        {
+            DumpMatch(dumper, new DumpInfo(GetElementName), null, 0);
+        }
+        #endregion Graph dumping stuff
+    }
+}

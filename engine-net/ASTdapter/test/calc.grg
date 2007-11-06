@@ -1,0 +1,7 @@
+actions calc using CalcParserASTModel;
+rule dummyrule {
+    pattern {
+    }
+    replace {
+    }
+}

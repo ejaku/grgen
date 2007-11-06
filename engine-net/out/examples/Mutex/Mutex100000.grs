@@ -1,0 +1,12 @@
+new graph "Mutex.grg"
+
+new p1:Process
+new p2:Process
+new p1-:next->p2
+new p2-:next->p1
+
+xgrs newRule[99998] && mountRule && requestRule[100000]
+custom graph analyze
+custom actions gen_searchplan takeRule releaseRule giveRule
+xgrs (takeRule && releaseRule \
+     && giveRule)[100000]

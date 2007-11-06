@@ -1,0 +1,23 @@
+node class grIO_OUTPUT {
+    timestamp : int;
+}
+
+node class grIO_File {
+    path : string;
+}
+
+edge class grIO_CreateOrAppend
+    connect grIO_OUTPUT [0:1] -> grIO_File [0:*];
+
+edge class grIO_CreateOrOverwrite
+    connect grIO_OUTPUT [0:1] -> grIO_File [0:*];
+
+node class grIO_File_Line {
+    content : string;
+}
+
+edge class grIO_File_ContainsLine
+    connect grIO_File [0:1] -> grIO_File_Line [0:*];
+
+edge class grIO_File_NextLine
+    connect grIO_File_Line [0:1] -> grIO_File_Line [0:1];

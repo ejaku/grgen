@@ -1,0 +1,64 @@
+new graph Dragon\Dragon.grg
+
+debug set layout Organic
+dump set node GridNode color white
+dump set node GridNode bordercolor lightgrey
+dump set node MarkedGridNode color yellow
+
+dump set edge GridEdgeUp color lightgrey
+dump set edge GridEdgeDown color lightgrey
+dump set edge GridEdgeLeft color lightgrey
+dump set edge GridEdgeRight color lightgrey
+
+dump set edge MarkedGridEdgeUp color black 
+dump set edge MarkedGridEdgeDown color black 
+dump set edge MarkedGridEdgeLeft color black 
+dump set edge MarkedGridEdgeRight color black 
+
+xgrs init && (replaceX1* | replaceY1* | replaceX2* | replaceY2*)[5]
+
+show num nodes
+show num edges
+
+xgrs removeX1* | removeY1* | removeLR* | removeRL*
+
+show num nodes
+show num edges
+show num nodes Command
+
+xgrs (startPoint)=initGrid && (var)=initEnlargeSideU && (var)=enlargeSideU(var)* \
+     && (var)=initEnlargeSideR && (var)=enlargeSideR(var)* && (var)=initEnlargeSideD \
+     && (var)=enlargeSideD(var)* && (var)=initEnlargeSideL && (var)=enlargeSideL(var)* \
+     && initInterpreter(startPoint)
+
+show num nodes
+show num edges
+
+custom graph analyze
+custom actions gen_searchplan doLeft_Up doLeft_Right doLeft_Down doLeft_Left \
+    doRight_Up doRight_Right doRight_Down doRight_Left \
+    doForward_Up doForward_Left doForward_Right doForward_Down \
+    checkCannotDoF_Up initEnlargeSideU enlargeSideU \
+    checkCannotDoF_Right initEnlargeSideR enlargeSideR \
+    checkCannotDoF_Down initEnlargeSideD enlargeSideD \
+    checkCannotDoF_Left initEnlargeSideL enlargeSideL
+
+xgrs ((doLeft_Up || doLeft_Right || doLeft_Down || doLeft_Left \
+        || doRight_Up || doRight_Right || doRight_Down || doRight_Left \
+        || doForward_Up || doForward_Left || doForward_Right || doForward_Down)+ \
+      && (checkCannotDoF_Up && (var)=initEnlargeSideU && (var)=enlargeSideU(var)* \
+        || checkCannotDoF_Right && (var)=initEnlargeSideR && (var)=enlargeSideR(var)* \
+        || checkCannotDoF_Down && (var)=initEnlargeSideD && (var)=enlargeSideD(var)* \
+        || checkCannotDoF_Left && (var)=initEnlargeSideL && (var)=enlargeSideL(var)*))*
+
+show num nodes
+show num edges
+
+xgrs removeGridLeft* | removeGridUp* | removeUnnecRight* | removeUnnecDown* | removeInterpreterRest
+
+show num nodes
+show num edges
+show num nodes GridNode
+show num edges GridEdge
+
+quit

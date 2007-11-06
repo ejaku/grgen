@@ -1,0 +1,48 @@
+new graph "lib\lgsp-SnowflakeModel.dll" "Koch snowflake"
+select actions "lib\lgsp-SnowflakeActions.dll"
+
+new a:Node1
+new b:Node1
+new c:Node1
+new a-:Edge1->b
+new b-:Edge1->c
+new c-:Edge1->a
+
+debug set layout Organic
+dump set edge Edge1 color red
+dump set edge Edge2 color blue
+dump set edge EdgeSperr color grey
+
+show num nodes
+show num edges
+show num nodes Node1
+show num nodes Node2
+show num nodes Node3
+show num edges Edge1
+show num edges Edge2
+show num edges EdgeSperr
+xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
+
+# To get more iterations, uncomment the following commands
+
+custom graph analyze_graph
+custom actions gen_searchplan beautify
+
+show num nodes
+show num edges
+show num nodes Node1
+show num nodes Node2
+show num nodes Node3
+show num edges Edge1
+show num edges Edge2
+show num edges EdgeSperr
+xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
+show num nodes
+show num edges
+show num nodes Node1
+show num nodes Node2
+show num nodes Node3
+show num edges Edge1
+show num edges Edge2
+show num edges EdgeSperr
+quit

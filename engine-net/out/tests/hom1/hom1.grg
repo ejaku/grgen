@@ -1,0 +1,34 @@
+actions hom1;
+
+rule homtest1 {
+  pattern {
+    hom(a,b);
+    a:Node;
+    b:Node;
+    c:Node;
+  }
+  modify {}
+}
+
+rule homtest2 {
+  pattern {
+    hom(a,b,c);
+    a:Node;
+    b:Node;
+    c:Node;
+    d:Node;
+  }
+  modify {}
+}
+
+rule homtest3 {
+  pattern {
+    hom(a,b,c,d);
+    a:Node;
+    b:Node;
+    c:Node;
+    d:Node;
+    e:Node;
+  }
+  modify {}
+}

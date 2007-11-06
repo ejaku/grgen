@@ -1,0 +1,143 @@
+actions TuringZustand_BB_3 using TuringZustandModel;
+
+rule init {
+	pattern {
+	}
+	replace {
+		m : Zustand -:kopf-> b : Band;
+		eval {
+			m.q = 1;
+			b.bu = "#";
+		}
+	}
+}
+
+rule XL {
+	pattern {
+		m : Zustand -:kopf-> b : Band;
+		negative {
+			b <-:rechts- bx : Band;
+		}
+	}
+	replace {
+		m -:kopf-> b <-:rechts- bn: Band;
+		eval {
+			bn.bu = "#";
+		}
+	}
+}
+
+rule XR {
+	pattern {
+		m : Zustand -:kopf-> b : Band;
+		negative {
+			b -:rechts-> bx : Band;
+		}
+	}
+	replace {
+		m -:kopf-> b -:rechts-> bn: Band;
+		eval {
+			bn.bu = "#";
+		}
+	}
+}
+
+rule R1 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		bl:Band -r:rechts-> b;
+		if { m.q == 1 &&  b.bu == "1"; }
+	}
+	replace {
+		m -:kopf-> bl;
+		bl -r-> b;
+		eval {
+			m.q = 3;
+			b.bu = "1";
+			r.moves = r.moves + 1;
+		}
+	}
+}
+
+rule R2 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		b -r:rechts-> br:Band;
+		if { m.q == 1 &&  b.bu == "#"; }
+	}
+	replace {
+		m -:kopf-> br;
+		b -r-> br;
+		eval {
+			m.q = 2;
+			b.bu = "1";
+			r.moves = r.moves + 1;
+		}
+	}
+}
+
+rule R3 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		b -r:rechts-> br:Band;
+		if { m.q == 2 &&  b.bu == "1"; }
+	}
+	replace {
+		m -:kopf-> br;
+		b -r-> br;
+		eval {
+			m.q = 2;
+			b.bu = "1";
+			r.moves = r.moves + 1;
+		}
+	}
+}
+
+rule R4 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		bl:Band -:rechts-> b;
+		if { m.q == 2 &&  b.bu == "#"; }
+	}
+	replace {
+		m -:kopf-> bl;
+		bl -:rechts-> b;
+		eval {
+			m.q = 1;
+			b.bu = "1";
+		}
+	}
+}
+
+rule R5 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		b -:rechts-> br:Band;
+		if { m.q == 3 &&  b.bu == "1"; }
+	}
+	replace {
+		m -:kopf-> br;
+		b -:rechts-> br;
+		eval {
+			m.q = 42;
+			b.bu = "1";
+		}
+	}
+}
+
+rule R6 {
+	pattern {
+		m : Zustand -:kopf-> b:Band;
+		bl:Band -:rechts-> b;
+		if { m.q == 3 &&  b.bu == "#"; }
+	}
+	replace {
+		m -:kopf-> bl;
+		bl -:rechts-> b;
+		eval {
+			m.q = 2;
+			b.bu = "1";
+		}
+	}
+}
+

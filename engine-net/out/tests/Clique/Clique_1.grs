@@ -1,0 +1,128 @@
+new graph "lib\lgsp-CliqueModel.dll" "Clique graph"
+select actions "lib\lgsp-CliqueActions.dll"
+
+dump add node State infotag rand1
+dump add node State infotag rand2
+
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs (state)=init
+# state.maxNodeID = 100
+# state.rand1 = 1231579
+# state.rand2 = 165031
+
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs newNode* && ((nextRandom && !trimRandom)* | newEdge)[200]
+
+echo "C3 exists"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs C3Dir
+echo "C4 exists"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs C4Dir
+echo "K4 exists"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs K4Dir
+
+echo "Number of C3s"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs [C3Dir]
+echo "Number of C4s"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs [C4Dir]
+echo "Number of K4s"
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+xgrs [K4Dir]
+
+show num nodes
+show num edges
+show num nodes "Nout1"
+show num nodes "Nout2"
+show num nodes "N1_2"
+show num nodes "N2_1"
+show num nodes "N2_2"
+show num nodes "State"
+show num nodes "N"
+show num nodes "Nin1"
+show num nodes "Nin2"
+quit
+quit
