@@ -535,6 +535,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="typeName">The name of a node type.</param>
         /// <returns>The node type with the given name or null, if it does not exist.</returns>
         public IType GetNodeType(String typeName) { return Model.NodeModel.GetType(typeName); }
+
+        /// <summary>
+        /// Returns the edge type with the given name.
+        /// </summary>
+        /// <param name="typeName">The name of a edge type.</param>
+        /// <returns>The edge type with the given name or null, if it does not exist.</returns>
         public IType GetEdgeType(String typeName) { return Model.EdgeModel.GetType(typeName); }
 
         #endregion Convenience methods
