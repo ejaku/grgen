@@ -9,7 +9,7 @@ namespace de.unika.ipd.grGen.lgsp
 {
     public abstract class LGSPGraphElement<T>
     {
-        public ITypeFramework type;
+        public GrGenType type;
         public IAttributes attributes;
 #if OLDMAPPEDFIELDS
         public int mappedTo;
@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        public LGSPGraphElement(ITypeFramework elementType)
+        public LGSPGraphElement(GrGenType elementType)
         {
             type = elementType;
             attributes = elementType.CreateAttributes();
@@ -80,7 +80,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        public LGSPNode(ITypeFramework nodeType) : base(nodeType)
+        public LGSPNode(GrGenType nodeType) : base(nodeType)
         {
         }
 
@@ -269,7 +269,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        public LGSPEdge(ITypeFramework edgeType, LGSPNode sourceNode, LGSPNode targetNode) : base(edgeType)
+        public LGSPEdge(GrGenType edgeType, LGSPNode sourceNode, LGSPNode targetNode) : base(edgeType)
         {
             source = sourceNode;
             target = targetNode;

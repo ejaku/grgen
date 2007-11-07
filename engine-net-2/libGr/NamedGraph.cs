@@ -169,7 +169,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="varName">The name of the variable.</param>
         /// <param name="elemName">The name for the new node.</param>
         /// <returns>The newly created node.</returns>
-        public INode AddNode(IType nodeType, String varName, String elemName)
+        public INode AddNode(NodeType nodeType, String varName, String elemName)
         {
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="nodeType">The node type for the new node.</param>
         /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created node.</returns>
-        public INode AddNode(IType nodeType, String varName)
+        public INode AddNode(NodeType nodeType, String varName)
         {
             return AddNode(nodeType, varName, null);
         }
@@ -206,7 +206,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <returns>The newly created node.</returns>
-        public INode AddNode(IType nodeType)
+        public INode AddNode(NodeType nodeType)
         {
             return AddNode(nodeType, null, null);
         }
@@ -220,7 +220,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="varName">The name of the variable.</param>
         /// <param name="elemName">The name for the edge.</param>
         /// <returns>The newly created edge.</returns>
-        public IEdge AddEdge(IType edgeType, INode source, INode target, String varName, String elemName)
+        public IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName, String elemName)
         {
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
@@ -249,7 +249,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="target">The target of the edge.</param>
         /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created edge.</returns>
-        public IEdge AddEdge(IType edgeType, INode source, INode target, string varName)
+        public IEdge AddEdge(EdgeType edgeType, INode source, INode target, string varName)
         {
             return AddEdge(edgeType, source, target, varName, null);
         }
@@ -261,7 +261,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="source">The source of the edge.</param>
         /// <param name="target">The target of the edge.</param>
         /// <returns>The newly created edge.</returns>
-        public IEdge AddEdge(IType edgeType, INode source, INode target)
+        public IEdge AddEdge(EdgeType edgeType, INode source, INode target)
         {
             return AddEdge(edgeType, source, target, null, null);
         }
@@ -441,42 +441,42 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the number of nodes with the exact given node type.
         /// </summary>
-        public int GetNumExactNodes(IType nodeType) { return graph.GetNumExactNodes(nodeType); }
+        public int GetNumExactNodes(NodeType nodeType) { return graph.GetNumExactNodes(nodeType); }
 
         /// <summary>
         /// Returns the number of edges with the exact given edge type.
         /// </summary>
-        public int GetNumExactEdges(IType edgeType) { return graph.GetNumExactEdges(edgeType); }
+        public int GetNumExactEdges(EdgeType edgeType) { return graph.GetNumExactEdges(edgeType); }
 
         /// <summary>
         /// Enumerates all nodes with the exact given node type.
         /// </summary>
-        public IEnumerable<INode> GetExactNodes(IType nodeType) { return graph.GetExactNodes(nodeType); }
+        public IEnumerable<INode> GetExactNodes(NodeType nodeType) { return graph.GetExactNodes(nodeType); }
 
         /// <summary>
         /// Enumerates all edges with the exact given edge type.
         /// </summary>
-        public IEnumerable<IEdge> GetExactEdges(IType edgeType) { return graph.GetExactEdges(edgeType); }
+        public IEnumerable<IEdge> GetExactEdges(EdgeType edgeType) { return graph.GetExactEdges(edgeType); }
 
         /// <summary>
         /// Returns the number of nodes compatible to the given node type.
         /// </summary>
-        public int GetNumCompatibleNodes(IType nodeType) { return graph.GetNumCompatibleNodes(nodeType); }
+        public int GetNumCompatibleNodes(NodeType nodeType) { return graph.GetNumCompatibleNodes(nodeType); }
 
         /// <summary>
         /// Returns the number of edges compatible to the given edge type.
         /// </summary>
-        public int GetNumCompatibleEdges(IType edgeType) { return graph.GetNumCompatibleEdges(edgeType); }
+        public int GetNumCompatibleEdges(EdgeType edgeType) { return graph.GetNumCompatibleEdges(edgeType); }
 
         /// <summary>
         /// Enumerates all nodes compatible to the given node type.
         /// </summary>
-        public IEnumerable<INode> GetCompatibleNodes(IType nodeType) { return graph.GetCompatibleNodes(nodeType); }
+        public IEnumerable<INode> GetCompatibleNodes(NodeType nodeType) { return graph.GetCompatibleNodes(nodeType); }
 
         /// <summary>
         /// Enumerates all edges compatible to the given edge type.
         /// </summary>
-        public IEnumerable<IEdge> GetCompatibleEdges(IType edgeType) { return graph.GetCompatibleEdges(edgeType); }
+        public IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType) { return graph.GetCompatibleEdges(edgeType); }
 
         /// <summary>
         /// Changes the type of the node.
@@ -485,7 +485,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The node to be changed</param>
         /// <param name="newNodeType">The new type for the node</param>
         /// <returns>The old IAttributes object of the node, which may be null, if it didn't have any attributes</returns>
-        public IAttributes SetNodeType(INode node, IType newNodeType) { return graph.SetNodeType(node, newNodeType); }
+        public IAttributes SetNodeType(INode node, NodeType newNodeType) { return graph.SetNodeType(node, newNodeType); }
 
         /// <summary>
         /// Changes the type of the edge.
@@ -494,7 +494,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The edge to be changed</param>
         /// <param name="newEdgeType">The new type for the edge</param>
         /// <returns>The old IAttributes object of the edge, which may be null, if it didn't have any attributes</returns>
-        public IAttributes SetEdgeType(IEdge edge, IType newEdgeType) { return graph.SetEdgeType(edge, newEdgeType); }
+        public IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType) { return graph.SetEdgeType(edge, newEdgeType); }
 
         /// <summary>
         /// Mature a graph.

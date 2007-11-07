@@ -9,14 +9,14 @@ namespace de.unika.ipd.grGen.libGr
     public interface IGraphElement
     {
         /// <summary>
-        /// Returns the IType of the graph element
+        /// Returns the GrGenType of the graph element
         /// </summary>
-        IType Type { get; }
+        GrGenType Type { get; }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
         /// </summary>
-        bool InstanceOf(IType type);
+        bool InstanceOf(GrGenType type);
 
         /// <summary>
         /// Returns the graph element attribute with the given attribute name.
@@ -40,6 +40,11 @@ namespace de.unika.ipd.grGen.libGr
     public interface INode : IGraphElement
     {
         /// <summary>
+        /// Returns the NodeType of the node
+        /// </summary>
+        NodeType Type { get; }
+
+        /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges
         /// </summary>
         IEnumerable<IEdge> Outgoing { get; }
@@ -47,12 +52,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with the same type or a subtype of the given type
         /// </summary>
-        IEnumerable<IEdge> GetCompatibleOutgoing(IType edgeType);
+        IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType);
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with exactly the given type
         /// </summary>
-        IEnumerable<IEdge> GetExactOutgoing(IType edgeType);
+        IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType);
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges
@@ -62,12 +67,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with the same type or a subtype of the given type
         /// </summary>
-        IEnumerable<IEdge> GetCompatibleIncoming(IType edgeType);
+        IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType);
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with exactly the given type
         /// </summary>
-        IEnumerable<IEdge> GetExactIncoming(IType edgeType);
+        IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType);
     }
 
     /// <summary>
@@ -75,6 +80,11 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public interface IEdge : IGraphElement
     {
+        /// <summary>
+        /// Returns the EdgeType of the edge
+        /// </summary>
+        EdgeType Type { get; }
+
         /// <summary>
         /// The source node of the edge.
         /// </summary>

@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="oldAttrs">The old (= current) attributes object.</param>
         /// <param name="newType">The new type for the element.</param>
         /// <param name="newAttrs">The new attributes object.</param>
-        void SettingElementType(IGraphElement elem, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs);
+        void SettingElementType(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs, GrGenType newType, IAttributes newAttrs);
 
         /// <summary>
         /// Indicates, whether a transaction is currently active.
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="oldAttrs">The old (= current) attributes object.</param>
     /// <param name="newType">The new type for the node.</param>
     /// <param name="newAttrs">The new attributes object.</param>
-    public delegate void SettingNodeTypeHandler(INode node, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs);
+    public delegate void SettingNodeTypeHandler(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs);
 
     /// <summary>
     /// Represents a method called before a edge is retyped.
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <param name="oldAttrs">The old (= current) attributes object.</param>
     /// <param name="newType">The new type for the edge.</param>
     /// <param name="newAttrs">The new attributes object.</param>
-    public delegate void SettingEdgeTypeHandler(IEdge edge, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs);
+    public delegate void SettingEdgeTypeHandler(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs);
 
     #endregion GraphDelegates
 
@@ -237,42 +237,42 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the number of nodes with the exact given node type.
         /// </summary>
-        int GetNumExactNodes(IType nodeType);
+        int GetNumExactNodes(NodeType nodeType);
 
         /// <summary>
         /// Returns the number of edges with the exact given edge type.
         /// </summary>
-        int GetNumExactEdges(IType edgeType);
+        int GetNumExactEdges(EdgeType edgeType);
 
         /// <summary>
         /// Enumerates all nodes with the exact given node type.
         /// </summary>
-        IEnumerable<INode> GetExactNodes(IType nodeType);
+        IEnumerable<INode> GetExactNodes(NodeType nodeType);
 
         /// <summary>
         /// Enumerates all edges with the exact given edge type.
         /// </summary>
-        IEnumerable<IEdge> GetExactEdges(IType edgeType);
+        IEnumerable<IEdge> GetExactEdges(EdgeType edgeType);
 
         /// <summary>
         /// Returns the number of nodes compatible to the given node type.
         /// </summary>
-        int GetNumCompatibleNodes(IType nodeType);
+        int GetNumCompatibleNodes(NodeType nodeType);
 
         /// <summary>
         /// Returns the number of edges compatible to the given edge type.
         /// </summary>
-        int GetNumCompatibleEdges(IType edgeType);
+        int GetNumCompatibleEdges(EdgeType edgeType);
 
         /// <summary>
         /// Enumerates all nodes compatible to the given node type.
         /// </summary>
-        IEnumerable<INode> GetCompatibleNodes(IType nodeType);
+        IEnumerable<INode> GetCompatibleNodes(NodeType nodeType);
 
         /// <summary>
         /// Enumerates all edges compatible to the given edge type.
         /// </summary>
-        IEnumerable<IEdge> GetCompatibleEdges(IType edgeType);                       // this is NOT supported in original libGr!
+        IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);                       // this is NOT supported in original libGr!
 
         /// <summary>
         /// Adds a new node to the graph and assigns it to the given variable.
@@ -280,14 +280,14 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="nodeType">The node type for the new node.</param>
         /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created node.</returns>
-        INode AddNode(IType nodeType, String varName);
+        INode AddNode(NodeType nodeType, String varName);
 
         /// <summary>
         /// Adds a new node to the graph.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <returns>The newly created node.</returns>
-        INode AddNode(IType nodeType);
+        INode AddNode(NodeType nodeType);
 
         /// <summary>
         /// Adds a new edge to the graph and assigns it to the given variable.
@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="target">The target of the edge.</param>
         /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created edge.</returns>
-        IEdge AddEdge(IType edgeType, INode source, INode target, string varName);
+        IEdge AddEdge(EdgeType edgeType, INode source, INode target, string varName);
 
         /// <summary>
         /// Adds a new edge to the graph.
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="source">The source of the edge.</param>
         /// <param name="target">The target of the edge.</param>
         /// <returns>The newly created edge.</returns>
-        IEdge AddEdge(IType edgeType, INode source, INode target);
+        IEdge AddEdge(EdgeType edgeType, INode source, INode target);
 
         /// <summary>
         /// Removes the given node from the graph.
@@ -335,7 +335,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="node">The node to be changed</param>
         /// <param name="newNodeType">The new type for the node</param>
         /// <returns>The old IAttributes object of the node, which may be null, if it didn't have any attributes</returns>
-        IAttributes SetNodeType(INode node, IType newNodeType);
+        IAttributes SetNodeType(INode node, NodeType newNodeType);
 
         /// <summary>
         /// Changes the type of the edge.
@@ -344,7 +344,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="edge">The edge to be changed</param>
         /// <param name="newEdgeType">The new type for the edge</param>
         /// <returns>The old IAttributes object of the edge, which may be null, if it didn't have any attributes</returns>
-        IAttributes SetEdgeType(IEdge edge, IType newEdgeType);
+        IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType);
 
         /// <summary>
         /// Mature a graph.

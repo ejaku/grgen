@@ -1536,7 +1536,7 @@ exitSecondLoop: ;
 
                 // TODO: Check type constraints for optimization!!!
                 IType type2 = types[elem2.PatternElement.TypeID];
-                foreach(IType subtype1 in ((ITypeFramework) type1).subOrSameTypes)
+                foreach(IType subtype1 in ((GrGenType) type1).subOrSameTypes)
                 {
                     if((type2.IsA(subtype1) || subtype1.IsA(type2)) // IsA==IsSuperTypeOrSameType
                         && (homArray == null || !homArray[elem1.ElementID - 1, elem2.ElementID - 1]))
@@ -2031,7 +2031,7 @@ exitSecondLoop: ;
 
                 // TODO: Check type constraints!!!
                 IType type2 = types[otherNode.PatternElement.TypeID];
-                foreach(IType subtype1 in ((ITypeFramework) type1).subOrSameTypes)
+                foreach(IType subtype1 in ((GrGenType) type1).subOrSameTypes)
                 {
                     if((type2.IsA(subtype1) || subtype1.IsA(type2)))        // IsA==IsSuperTypeOrSameType
                     {

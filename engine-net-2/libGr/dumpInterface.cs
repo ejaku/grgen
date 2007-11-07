@@ -102,8 +102,8 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     public delegate String ElementNameGetter(IGraphElement elem);
-    public delegate void TypeAppearanceChangedHandler(IType type);
-    public delegate void TypeInfotagsChangedHandler(IType type);
+    public delegate void TypeAppearanceChangedHandler(GrGenType type);
+    public delegate void TypeInfotagsChangedHandler(GrGenType type);
 
     /// <summary>
     /// A description of how to dump a graph.
@@ -116,29 +116,29 @@ namespace de.unika.ipd.grGen.libGr
         GrColor[] nodeTextColors = new GrColor[4];
         GrColor[] edgeTextColors = new GrColor[4];
 
-        Dictionary<IType, bool> excludedNodeTypes = new Dictionary<IType, bool>();
-        Dictionary<IType, bool> excludedEdgeTypes = new Dictionary<IType, bool>();
-        List<IType> groupNodeTypes = new List<IType>();
-        Dictionary<IType, GrColor> nodeTypeColors = new Dictionary<IType, GrColor>();
-        Dictionary<IType, GrColor> nodeTypeBorderColors = new Dictionary<IType, GrColor>();
-        Dictionary<IType, GrColor> nodeTypeTextColors = new Dictionary<IType, GrColor>();
-        Dictionary<IType, GrNodeShape> nodeTypeShapes = new Dictionary<IType, GrNodeShape>();
-        Dictionary<IType, GrColor> edgeTypeColors = new Dictionary<IType, GrColor>();
-        Dictionary<IType, GrColor> edgeTypeTextColors = new Dictionary<IType, GrColor>();
-        Dictionary<IType, List<AttributeType>> infoTags = new Dictionary<IType, List<AttributeType>>();
+        Dictionary<NodeType, bool> excludedNodeTypes = new Dictionary<NodeType, bool>();
+        Dictionary<EdgeType, bool> excludedEdgeTypes = new Dictionary<EdgeType, bool>();
+        List<NodeType> groupNodeTypes = new List<NodeType>();
+        Dictionary<NodeType, GrColor> nodeTypeColors = new Dictionary<NodeType, GrColor>();
+        Dictionary<NodeType, GrColor> nodeTypeBorderColors = new Dictionary<NodeType, GrColor>();
+        Dictionary<NodeType, GrColor> nodeTypeTextColors = new Dictionary<NodeType, GrColor>();
+        Dictionary<NodeType, GrNodeShape> nodeTypeShapes = new Dictionary<NodeType, GrNodeShape>();
+        Dictionary<EdgeType, GrColor> edgeTypeColors = new Dictionary<EdgeType, GrColor>();
+        Dictionary<EdgeType, GrColor> edgeTypeTextColors = new Dictionary<EdgeType, GrColor>();
+        Dictionary<GrGenType, List<AttributeType>> infoTags = new Dictionary<GrGenType, List<AttributeType>>();
 
-        public IEnumerable<IType> ExcludedNodeTypes { get { return excludedNodeTypes.Keys; } }
-        public IEnumerable<IType> ExcludedEdgeTypes { get { return excludedEdgeTypes.Keys; } }
-        public List<IType> GroupNodeTypes { get { return groupNodeTypes; } }
+        public IEnumerable<NodeType> ExcludedNodeTypes { get { return excludedNodeTypes.Keys; } }
+        public IEnumerable<EdgeType> ExcludedEdgeTypes { get { return excludedEdgeTypes.Keys; } }
+        public List<NodeType> GroupNodeTypes { get { return groupNodeTypes; } }
 
-        public IEnumerable<KeyValuePair<IType, GrColor>> NodeTypeColors { get { return nodeTypeColors; } }
-        public IEnumerable<KeyValuePair<IType, GrColor>> NodeTypeBorderColors { get { return nodeTypeBorderColors; } }
-        public IEnumerable<KeyValuePair<IType, GrColor>> NodeTypeTextColors { get { return nodeTypeTextColors; } }
-        public IEnumerable<KeyValuePair<IType, GrNodeShape>> NodeTypeShapes { get { return nodeTypeShapes; } }
-        public IEnumerable<KeyValuePair<IType, GrColor>> EdgeTypeColors { get { return edgeTypeColors; } }
-        public IEnumerable<KeyValuePair<IType, GrColor>> EdgeTypeTextColors { get { return edgeTypeTextColors; } }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeColors { get { return nodeTypeColors; } }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeBorderColors { get { return nodeTypeBorderColors; } }
+        public IEnumerable<KeyValuePair<NodeType, GrColor>> NodeTypeTextColors { get { return nodeTypeTextColors; } }
+        public IEnumerable<KeyValuePair<NodeType, GrNodeShape>> NodeTypeShapes { get { return nodeTypeShapes; } }
+        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeColors { get { return edgeTypeColors; } }
+        public IEnumerable<KeyValuePair<EdgeType, GrColor>> EdgeTypeTextColors { get { return edgeTypeTextColors; } }
 
-        public IEnumerable<KeyValuePair<IType, List<AttributeType>>> InfoTags { get { return infoTags; } }
+        public IEnumerable<KeyValuePair<GrGenType, List<AttributeType>>> InfoTags { get { return infoTags; } }
 
         private ElementNameGetter elementNameGetter;
 
@@ -146,19 +146,19 @@ namespace de.unika.ipd.grGen.libGr
         public event TypeAppearanceChangedHandler OnEdgeTypeAppearanceChanged;
         public event TypeInfotagsChangedHandler OnTypeInfotagsChanged;
 
-        private void NodeTypeAppearanceChanged(IType type)
+        private void NodeTypeAppearanceChanged(NodeType type)
         {
             TypeAppearanceChangedHandler handler = OnNodeTypeAppearanceChanged;
             if(handler != null) handler(type);
         }
 
-        private void EdgeTypeAppearanceChanged(IType type)
+        private void EdgeTypeAppearanceChanged(EdgeType type)
         {
             TypeAppearanceChangedHandler handler = OnEdgeTypeAppearanceChanged;
             if(handler != null) handler(type);
         }
 
-        private void TypeInfotagsChanged(IType type)
+        private void TypeInfotagsChanged(GrGenType type)
         {
             TypeInfotagsChangedHandler handler = OnTypeInfotagsChanged;
             if (handler != null) handler(type);
@@ -170,32 +170,32 @@ namespace de.unika.ipd.grGen.libGr
             InitDumpColors();
         }
 
-        public void ExcludeNodeType(IType nodeType)
+        public void ExcludeNodeType(NodeType nodeType)
         {
             excludedNodeTypes.Add(nodeType, true);
         }
 
-        public bool IsExcludedNodeType(IType nodeType)
+        public bool IsExcludedNodeType(NodeType nodeType)
         {
             return excludedNodeTypes.ContainsKey(nodeType);
         }
 
-        public void ExcludeEdgeType(IType edgeType)
+        public void ExcludeEdgeType(EdgeType edgeType)
         {
             excludedEdgeTypes.Add(edgeType, true);
         }
 
-        public bool IsExcludedEdgeType(IType edgeType)
+        public bool IsExcludedEdgeType(EdgeType edgeType)
         {
             return excludedEdgeTypes.ContainsKey(edgeType);
         }
 
-        public void GroupNodes(IType nodeType)
+        public void GroupNodes(NodeType nodeType)
         {
             GroupNodeTypes.Add(nodeType);
         }
 
-        public GrColor GetNodeTypeColor(IType nodeType)
+        public GrColor GetNodeTypeColor(NodeType nodeType)
         {
             GrColor col;
             if(!nodeTypeColors.TryGetValue(nodeType, out col))
@@ -203,7 +203,7 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
-        public GrColor GetNodeTypeBorderColor(IType nodeType)
+        public GrColor GetNodeTypeBorderColor(NodeType nodeType)
         {
             GrColor col;
             if(!nodeTypeBorderColors.TryGetValue(nodeType, out col))
@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
-        public GrColor GetNodeTypeTextColor(IType nodeType)
+        public GrColor GetNodeTypeTextColor(NodeType nodeType)
         {
             GrColor col;
             if(!nodeTypeTextColors.TryGetValue(nodeType, out col))
@@ -219,7 +219,7 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
-        public GrNodeShape GetNodeTypeShape(IType nodeType)
+        public GrNodeShape GetNodeTypeShape(NodeType nodeType)
         {
             GrNodeShape shape;
             if(!nodeTypeShapes.TryGetValue(nodeType, out shape))
@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.libGr
             return shape;
         }
 
-        public GrColor GetEdgeTypeColor(IType edgeType)
+        public GrColor GetEdgeTypeColor(EdgeType edgeType)
         {
             GrColor col;
             if(!edgeTypeColors.TryGetValue(edgeType, out col))
@@ -235,7 +235,7 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
-        public GrColor GetEdgeTypeTextColor(IType edgeType)
+        public GrColor GetEdgeTypeTextColor(EdgeType edgeType)
         {
             GrColor col;
             if(!edgeTypeTextColors.TryGetValue(edgeType, out col))
@@ -243,37 +243,37 @@ namespace de.unika.ipd.grGen.libGr
             return col;
         }
 
-        public void SetNodeTypeColor(IType nodeType, GrColor color)
+        public void SetNodeTypeColor(NodeType nodeType, GrColor color)
         {
             nodeTypeColors[nodeType] = color;               // overwrites existing mapping
             NodeTypeAppearanceChanged(nodeType);
         }
 
-        public void SetNodeTypeBorderColor(IType nodeType, GrColor color)
+        public void SetNodeTypeBorderColor(NodeType nodeType, GrColor color)
         {
             nodeTypeBorderColors[nodeType] = color;         // overwrites existing mapping
             NodeTypeAppearanceChanged(nodeType);
         }
 
-        public void SetNodeTypeTextColor(IType nodeType, GrColor color)
+        public void SetNodeTypeTextColor(NodeType nodeType, GrColor color)
         {
             nodeTypeTextColors[nodeType] = color;           // overwrites existing mapping
             NodeTypeAppearanceChanged(nodeType);
         }
 
-        public void SetNodeTypeShape(IType nodeType, GrNodeShape shape)
+        public void SetNodeTypeShape(NodeType nodeType, GrNodeShape shape)
         {
             nodeTypeShapes[nodeType] = shape;               // overwrites existing mapping
             NodeTypeAppearanceChanged(nodeType);
         }
 
-        public void SetEdgeTypeColor(IType edgeType, GrColor color)
+        public void SetEdgeTypeColor(EdgeType edgeType, GrColor color)
         {
             edgeTypeColors[edgeType] = color;               // overwrites existing mapping
             EdgeTypeAppearanceChanged(edgeType);
         }
 
-        public void SetEdgeTypeTextColor(IType edgeType, GrColor color)
+        public void SetEdgeTypeTextColor(EdgeType edgeType, GrColor color)
         {
             edgeTypeTextColors[edgeType] = color;           // overwrites existing mapping
             EdgeTypeAppearanceChanged(edgeType);
@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="type">The IType to be examined</param>
         /// <returns>The IAttributeType of the info tag or NULL, if this IType has no registered info tag</returns>
-        public List<AttributeType> GetTypeInfoTags(IType type)
+        public List<AttributeType> GetTypeInfoTags(GrGenType type)
         {
             List<AttributeType> attrTypes;
             if(!infoTags.TryGetValue(type, out attrTypes)) return null;
@@ -346,7 +346,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="nodeType">The IType to be mapped/unmapped</param>
         /// <param name="attrType">The IAttributeType</param>
-        public void AddTypeInfoTag(IType type, AttributeType attrType)
+        public void AddTypeInfoTag(GrGenType type, AttributeType attrType)
         {
             List<AttributeType> attrTypes;
             if(!infoTags.TryGetValue(type, out attrTypes))
@@ -392,45 +392,47 @@ namespace de.unika.ipd.grGen.libGr
 
         public void Reset()
         {
-            Dictionary<IType, bool> changedTypes = new Dictionary<IType, bool>();
+            Dictionary<NodeType, bool> changedNodeTypes = new Dictionary<NodeType, bool>();
 
             excludedNodeTypes.Clear();
             excludedEdgeTypes.Clear();
             GroupNodeTypes.Clear();
 
             // Collect changed node types and clear property arrays
-            foreach(IType type in nodeTypeColors.Keys)
+            foreach(NodeType type in nodeTypeColors.Keys)
                 changedTypes[type] = true;
             nodeTypeColors.Clear();
-            foreach(IType type in nodeTypeBorderColors.Keys)
+            foreach(NodeType type in nodeTypeBorderColors.Keys)
                 changedTypes[type] = true;
             nodeTypeBorderColors.Clear();
-            foreach(IType type in nodeTypeTextColors.Keys)
+            foreach(NodeType type in nodeTypeTextColors.Keys)
                 changedTypes[type] = true;
             nodeTypeTextColors.Clear();
-            foreach(IType type in nodeTypeShapes.Keys)
+            foreach(NodeType type in nodeTypeShapes.Keys)
                 changedTypes[type] = true;
             nodeTypeShapes.Clear();
 
             // Announce changed node types
-            foreach(IType type in changedTypes.Keys)
+            foreach(NodeType type in changedTypes.Keys)
                 NodeTypeAppearanceChanged(type);
 
             changedTypes.Clear();
 
+            Dictionary<EdgeType, bool> changedEdgeTypes = new Dictionary<EdgeType, bool>();
+
             // Collect changed edge types and clear property arrays
-            foreach(IType type in edgeTypeColors.Keys)
+            foreach(EdgeType type in edgeTypeColors.Keys)
                 changedTypes[type] = true;
             edgeTypeColors.Clear();
-            foreach(IType type in edgeTypeTextColors.Keys)
+            foreach(EdgeType type in edgeTypeTextColors.Keys)
                 changedTypes[type] = true;
             edgeTypeTextColors.Clear();
 
             // Announce changed edge types
-            foreach(IType type in changedTypes.Keys)
+            foreach(EdgeType type in changedTypes.Keys)
                 EdgeTypeAppearanceChanged(type);
 
-            foreach(IType type in infoTags.Keys)
+            foreach(EdgeType type in infoTags.Keys)
                 TypeInfotagsChanged(type);
             infoTags.Clear();
 

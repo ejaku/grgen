@@ -122,12 +122,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of GrGen types corresponding to rule parameters.
         /// </summary>
-        IType[] Inputs { get; }
+        GrGenType[] Inputs { get; }
 
         /// <summary>
         /// An array of GrGen types corresponding to rule return values.
         /// </summary>
-        IType[] Outputs { get; }
+        GrGenType[] Outputs { get; }
 
         /// <summary>
         /// The names of the nodes added in Modify() in order of adding
