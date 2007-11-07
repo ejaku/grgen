@@ -104,20 +104,30 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public abstract IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType);
 
+        protected abstract INode AddINode(NodeType nodeType, String varName);
+
         /// <summary>
         /// Adds a new node to the graph and assigns it to the given variable.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <param name="varName">The name of the variable.</param>
         /// <returns>The newly created node.</returns>
-        public abstract INode AddNode(NodeType nodeType, String varName);
+        public INode AddNode(NodeType nodeType, String varName)
+        {
+            return AddINode(nodeType, varName);
+        }
+
+        protected abstract INode AddINode(NodeType nodeType);
 
         /// <summary>
         /// Adds a new node to the graph.
         /// </summary>
         /// <param name="nodeType">The node type for the new node.</param>
         /// <returns>The newly created node.</returns>
-        public abstract INode AddNode(NodeType nodeType);
+        public INode AddNode(NodeType nodeType)
+        {
+            return AddINode(nodeType);
+        }
 
         /// <summary>
         /// Adds a new edge to the graph and assigns it to the given variable.
@@ -534,14 +544,14 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="typeName">The name of a node type.</param>
         /// <returns>The node type with the given name or null, if it does not exist.</returns>
-        public NodeType GetNodeType(String typeName) { return (NodeType) Model.NodeModel.GetType(typeName); }
+        public NodeType GetNodeType(String typeName) { return Model.NodeModel.GetType(typeName); }
 
         /// <summary>
         /// Returns the edge type with the given name.
         /// </summary>
         /// <param name="typeName">The name of a edge type.</param>
         /// <returns>The edge type with the given name or null, if it does not exist.</returns>
-        public EdgeType GetEdgeType(String typeName) { return (EdgeType) Model.EdgeModel.GetType(typeName); }
+        public EdgeType GetEdgeType(String typeName) { return Model.EdgeModel.GetType(typeName); }
 
         #endregion Convenience methods
 
@@ -710,21 +720,37 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Trivial IType implementation for virtual nodes
         /// </summary>
-        internal class VirtualType : GrGenType
+        internal class VirtualNodeType : NodeType
         {
-            public string Name { get { return "__VirtualType__"; } }
-            public int TypeID { get { return 0; } }
-            public bool IsNodeType { get { return true; } }     // not used here anyway
-            public bool IsA(GrGenType other) { return other is VirtualType; }
-            public IEnumerable<GrGenType> SuperTypes { get { yield break; } }
-            public IEnumerable<GrGenType> SuperOrSameTypes { get { yield return this; } }
-            public IEnumerable<GrGenType> SubTypes { get { yield break; } }
-            public IEnumerable<GrGenType> SubOrSameTypes { get { yield return this; } }
-            public bool HasSuperTypes { get { return false; } }
-            public bool HasSubTypes { get { return false; } }
-            public int NumAttributes { get { return 0; } }
-            public IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-            public AttributeType GetAttributeType(String name) { return null; }
+            public static VirtualNodeType Instance = new VirtualNodeType();
+
+            public VirtualNodeType()
+                : base(0)
+            {
+                subOrSameGrGenTypes = superOrSameGrGenTypes = subOrSameTypes = superOrSameTypes
+                    = new NodeType[] { this };
+            }
+
+            public override string Name { get { return "__VirtualType__"; } }
+            public override bool IsA(GrGenType other) { return other is VirtualNodeType; }
+            public override int NumAttributes { get { return 0; } }
+            public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+            public override AttributeType GetAttributeType(String name) { return null; }
+
+            public override IGraphElement CreateElement()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+
+            public override INode CreateNode()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+
+            public override IAttributes CreateAttributes()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
         /// <summary>
@@ -740,11 +766,9 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             public int ID { get { return id; } }
-            public GrGenType Type
-            {
-                get { return new VirtualType(); }
-            }
-            public bool InstanceOf(GrGenType type) { return type is VirtualType; }
+            public NodeType Type { get { return VirtualNodeType.Instance; } }
+            GrGenType IGraphElement.Type { get { return VirtualNodeType.Instance; } }
+            public bool InstanceOf(GrGenType type) { return type is VirtualNodeType; }
 
             public object GetAttribute(String attrName)
             { throw new NotSupportedException("Get attribute not supported on virtual node!"); }
@@ -891,7 +915,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     roots.Clear();
 
-                    IType nodeType = ctx.DumpInfo.GroupNodeTypes[i];
+                    NodeType nodeType = ctx.DumpInfo.GroupNodeTypes[i];
                     foreach(INode node in GetCompatibleNodes(nodeType))
                     {
                         if(rootNodes.Contains(node))
@@ -1091,7 +1115,7 @@ namespace de.unika.ipd.grGen.libGr
             DumpContext ctx = new DumpContext(dumper, dumpInfo, matchedNodes, multiMatchedNodes,
                 matchedEdges, multiMatchedEdges);
 
-            foreach(IType nodeType in Model.NodeModel.Types)
+            foreach(NodeType nodeType in Model.NodeModel.Types)
             {
                 if(dumpInfo.IsExcludedNodeType(nodeType)) continue;
                 ctx.Nodes.Add(GetExactNodes(nodeType));

@@ -126,10 +126,10 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoElemTypeChanged : IUndoItem
     {
         private IGraphElement _elem;
-        private IType _oldType;
+        private GrGenType _oldType;
         private IAttributes _oldAttrs;
 
-        public LGSPUndoElemTypeChanged(IGraphElement elem, IType oldType, IAttributes oldAttrs)
+        public LGSPUndoElemTypeChanged(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs)
         {
             _elem = elem;
             _oldType = oldType;
@@ -143,16 +143,16 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LGSPNode node = (LGSPNode) _elem;
                 lgraph.RemoveNode(node, node.type.TypeID);
-                lgraph.AddNode(node, ((GrGenType) _oldType).typeID);
-                node.type = (GrGenType) _oldType;
+                lgraph.AddNode(node, _oldType.TypeID);
+                node.type = (NodeType) _oldType;
                 node.attributes = _oldAttrs;
             }
             else
             {
                 LGSPEdge edge = (LGSPEdge) _elem;
                 lgraph.RemoveEdge(edge, edge.type.TypeID);
-                lgraph.AddEdge(edge, ((GrGenType) _oldType).typeID);
-                edge.type = (GrGenType) _oldType;
+                lgraph.AddEdge(edge, _oldType.TypeID);
+                edge.type = (EdgeType) _oldType;
                 edge.attributes = _oldAttrs;
             }
         }
@@ -266,7 +266,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType.Name, oldValue));
         }
 
-        public void SettingElementType(IGraphElement elem, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        public void SettingElementType(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs, GrGenType newType, IAttributes newAttrs)
         {
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemTypeChanged(elem, oldType, oldAttrs));
         }
@@ -581,19 +581,19 @@ namespace de.unika.ipd.grGen.lgsp
             return actions;
         }
 
-        public override int GetNumExactNodes(IType nodeType)
+        public override int GetNumExactNodes(NodeType nodeType)
         {
-            return nodesByTypeCounts[((GrGenType) nodeType).TypeID];
+            return nodesByTypeCounts[nodeType.TypeID];
         }
 
-        public override int GetNumExactEdges(IType edgeType)
+        public override int GetNumExactEdges(EdgeType edgeType)
         {
-            return edgesByTypeCounts[((GrGenType) edgeType).TypeID];
+            return edgesByTypeCounts[edgeType.TypeID];
         }
 
-        public override IEnumerable<INode> GetExactNodes(IType nodeType)
+        public override IEnumerable<INode> GetExactNodes(NodeType nodeType)
         {
-            LGSPNode head = nodesByTypeHeads[((GrGenType) nodeType).TypeID];
+            LGSPNode head = nodesByTypeHeads[nodeType.TypeID];
             LGSPNode cur = head.typeNext;
             LGSPNode next;
             while(cur != head)
@@ -604,9 +604,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override IEnumerable<IEdge> GetExactEdges(IType edgeType)
+        public override IEnumerable<IEdge> GetExactEdges(EdgeType edgeType)
         {
-            LGSPEdge head = edgesByTypeHeads[((GrGenType) edgeType).TypeID];
+            LGSPEdge head = edgesByTypeHeads[edgeType.TypeID];
             LGSPEdge cur = head.typeNext;
             LGSPEdge next;
             while(cur != head)
@@ -617,29 +617,29 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override int GetNumCompatibleNodes(IType nodeType)
+        public override int GetNumCompatibleNodes(NodeType nodeType)
         {
             int num = 0;
-            foreach(IType type in nodeType.SubOrSameTypes)
-                num += nodesByTypeCounts[((GrGenType) type).TypeID];
+            foreach(NodeType type in nodeType.SubOrSameTypes)
+                num += nodesByTypeCounts[type.TypeID];
 
             return num;
         }
 
-        public override int GetNumCompatibleEdges(IType edgeType)
+        public override int GetNumCompatibleEdges(EdgeType edgeType)
         {
             int num = 0;
-            foreach(IType type in edgeType.SubOrSameTypes)
-                num += edgesByTypeCounts[((GrGenType) type).TypeID];
+            foreach(EdgeType type in edgeType.SubOrSameTypes)
+                num += edgesByTypeCounts[type.TypeID];
 
             return num;
         }
 
-        public override IEnumerable<INode> GetCompatibleNodes(IType nodeType)
+        public override IEnumerable<INode> GetCompatibleNodes(NodeType nodeType)
         {
-            foreach(IType type in nodeType.SubOrSameTypes)
+            foreach(NodeType type in nodeType.SubOrSameTypes)
             {
-                LGSPNode head = nodesByTypeHeads[((GrGenType) type).TypeID];
+                LGSPNode head = nodesByTypeHeads[type.TypeID];
                 LGSPNode cur = head.typeNext;
                 LGSPNode next;
                 while(cur != head)
@@ -651,11 +651,11 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override IEnumerable<IEdge> GetCompatibleEdges(IType edgeType)
+        public override IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType)
         {
-            foreach(IType type in edgeType.SubOrSameTypes)
+            foreach(EdgeType type in edgeType.SubOrSameTypes)
             {
-                LGSPEdge head = edgesByTypeHeads[((GrGenType) type).TypeID];
+                LGSPEdge head = edgesByTypeHeads[type.TypeID];
                 LGSPEdge cur = head.typeNext;
                 LGSPEdge next;
                 while(cur != head)
@@ -742,7 +742,13 @@ namespace de.unika.ipd.grGen.lgsp
             edgesByTypeCounts[typeid]++;
         }
 
-        public LGSPNode AddNode(GrGenType nodeType)
+        // TODO: Slow but provides a better interface...
+        protected override INode AddINode(NodeType nodeType)
+        {
+            return AddNode(nodeType);
+        }
+
+        public new LGSPNode AddNode(NodeType nodeType)
         {
             LGSPNode node = new LGSPNode(nodeType);
             AddNode(node, nodeType.TypeID);
@@ -750,21 +756,22 @@ namespace de.unika.ipd.grGen.lgsp
             return node;
         }
 
-        public override INode AddNode(IType nodeType)
+        // TODO: Slow but provides a better interface...
+        protected override INode AddINode(NodeType nodeType, String varName)
         {
-            return AddNode((GrGenType)nodeType);
+            return AddNode(nodeType, varName);
         }
 
-        public override INode AddNode(IType nodeType, String varName)
+        public new LGSPNode AddNode(NodeType nodeType, String varName)
         {
-            LGSPNode node = new LGSPNode((GrGenType) nodeType);
-            AddNode(node, ((GrGenType) nodeType).typeID);
+            LGSPNode node = new LGSPNode(nodeType);
+            AddNode(node, nodeType.TypeID);
             SetVariableValue(varName, node);
             NodeAdded(node);
             return node;
         }
 
-        public LGSPEdge AddEdge(GrGenType edgeType, LGSPNode source, LGSPNode target)
+        public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target)
         {
             LGSPEdge edge = new LGSPEdge(edgeType, source, target);
             AddEdge(edge, edgeType.TypeID);
@@ -772,17 +779,17 @@ namespace de.unika.ipd.grGen.lgsp
             return edge;
         }
 
-        public override IEdge AddEdge(IType edgeType, INode source, INode target)
+        public override IEdge AddEdge(EdgeType edgeType, INode source, INode target)
         {
-            return AddEdge((GrGenType)edgeType, (LGSPNode)source, (LGSPNode)target);
+            return AddEdge(edgeType, (LGSPNode)source, (LGSPNode)target);
         }
 
-        public override IEdge AddEdge(IType edgeType, INode source, INode target, String varName)
+        public override IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName)
         {
             LGSPNode lsource = (LGSPNode) source;
             LGSPNode ltarget = (LGSPNode) target;
-            LGSPEdge edge = new LGSPEdge((GrGenType) edgeType, lsource, ltarget);
-            AddEdge(edge, ((GrGenType) edgeType).typeID);
+            LGSPEdge edge = new LGSPEdge(edgeType, lsource, ltarget);
+            AddEdge(edge, edgeType.TypeID);
             transactionManager.ElementAdded(edge);
             SetVariableValue(varName, edge);
 //            VariableAdded(edge, varName);
@@ -887,7 +894,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="node">The LGSPNode object to be reused.</param>
         /// <param name="newType">The new type to be used for the node or null, if the type is not to be changed</param>
-        public void ReuseNode(LGSPNode node, GrGenType newType)
+        public void ReuseNode(LGSPNode node, NodeType newType)
         {
             RemovingNode(node);
 #if ELEMENTKNOWSVARIABLES
@@ -937,7 +944,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newSource"></param>
         /// <param name="newTarget"></param>
         /// <param name="newType"></param>
-        public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, GrGenType newType)
+        public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, EdgeType newType)
         {
             RemovingEdge(edge);
 #if ELEMENTKNOWSVARIABLES
@@ -1045,13 +1052,13 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeGraph();
         }
 
-        private void RetypeWithCopyCommons<T>(LGSPGraphElement<T> elem, GrGenType newType)
+        private void RetypeWithCopyCommons(IGraphElement elem, GrGenType newType)
         {
 //            IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
             IAttributes newAttrs = newType.CreateAttributes();
 
             IEnumerable<AttributeType> minAttrTypes;
-            IType otherType;
+            GrGenType otherType;
 
             // Use the type with the smaller amount of attributes to reduce number of loop iterations
             if(elem.Type.NumAttributes < newType.NumAttributes)
@@ -1075,41 +1082,107 @@ namespace de.unika.ipd.grGen.lgsp
                 newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
             }
             if(elem is INode)
-                SettingNodeType((INode) elem, elem.type, elem.attributes, newType, newAttrs);
+                SettingNodeType((INode) elem, elem.Type, elem.attributes, newType, newAttrs);
             else
-                SettingEdgeType((IEdge) elem, elem.type, elem.attributes, newType, newAttrs);
+                SettingEdgeType((IEdge) elem, elem.Type, elem.attributes, newType, newAttrs);
             elem.type = newType;
             elem.attributes = newAttrs;
         }
 
-        public override IAttributes SetNodeType(INode node, IType newNodeType)
+        private void RetypeWithCopyCommons(LGSPNode elem, NodeType newType)
+        {
+            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
+            IAttributes newAttrs = newType.CreateAttributes();
+
+            IEnumerable<AttributeType> minAttrTypes;
+            GrGenType otherType;
+
+            // Use the type with the smaller amount of attributes to reduce number of loop iterations
+            if(elem.Type.NumAttributes < newType.NumAttributes)
+            {
+                minAttrTypes = elem.Type.AttributeTypes;
+                otherType = newType;
+            }
+            else
+            {
+                minAttrTypes = newType.AttributeTypes;
+                otherType = elem.Type;
+            }
+
+            // Copy all attributes from common super types into newAttrs    
+            foreach(AttributeType attrType in minAttrTypes)
+            {
+                AttributeType otherAttrType = otherType.GetAttributeType(attrType.Name);
+                if(otherAttrType == null || attrType.OwnerType != otherAttrType.OwnerType) continue;
+
+                object value = elem.GetAttribute(attrType.Name);
+                newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
+            }
+            SettingNodeType(elem, elem.Type, elem.attributes, newType, newAttrs);
+            elem.type = newType;
+            elem.attributes = newAttrs;
+        }
+
+        private void RetypeWithCopyCommons(LGSPEdge elem, EdgeType newType)
+        {
+            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
+            IAttributes newAttrs = newType.CreateAttributes();
+
+            IEnumerable<AttributeType> minAttrTypes;
+            GrGenType otherType;
+
+            // Use the type with the smaller amount of attributes to reduce number of loop iterations
+            if(elem.Type.NumAttributes < newType.NumAttributes)
+            {
+                minAttrTypes = elem.Type.AttributeTypes;
+                otherType = newType;
+            }
+            else
+            {
+                minAttrTypes = newType.AttributeTypes;
+                otherType = elem.Type;
+            }
+
+            // Copy all attributes from common super types into newAttrs    
+            foreach(AttributeType attrType in minAttrTypes)
+            {
+                AttributeType otherAttrType = otherType.GetAttributeType(attrType.Name);
+                if(otherAttrType == null || attrType.OwnerType != otherAttrType.OwnerType) continue;
+
+                object value = elem.GetAttribute(attrType.Name);
+                newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
+            }
+            SettingEdgeType(elem, elem.Type, elem.attributes, newType, newAttrs);
+            elem.type = newType;
+            elem.attributes = newAttrs;
+        }
+
+        public override IAttributes SetNodeType(INode node, NodeType newNodeType)
         {
             LGSPNode lnode = (LGSPNode) node;
             IAttributes oldAttrs = lnode.attributes;
             int oldtypeid = lnode.type.TypeID;
-            GrGenType newType = (GrGenType) newNodeType;
 
-            RetypeWithCopyCommons(lnode, newType);
+            RetypeWithCopyCommons(lnode, newNodeType);
 
             // Update node type array
             RemoveNode(lnode, oldtypeid);
-            AddNode(lnode, newType.TypeID);
+            AddNode(lnode, newNodeType.TypeID);
 
             return oldAttrs;
         }
 
-        public override IAttributes SetEdgeType(IEdge edge, IType newEdgeType)
+        public override IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType)
         {
             LGSPEdge ledge = (LGSPEdge) edge;
             IAttributes oldAttrs = ledge.attributes;
             int oldtypeid = ledge.type.TypeID;
-            GrGenType newType = (GrGenType) newEdgeType;
 
-            RetypeWithCopyCommons(ledge, newType);
+            RetypeWithCopyCommons(ledge, newEdgeType);
 
             // Update edge type array
             RemoveEdge(ledge, oldtypeid);
-            AddEdge(ledge, newType.TypeID);
+            AddEdge(ledge, newEdgeType.TypeID);
 
             return oldAttrs;
         }
@@ -1702,9 +1775,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 #endif
 
-            foreach(GrGenType nodeType in Model.NodeModel.Types)
+            foreach(NodeType nodeType in Model.NodeModel.Types)
             {
-                foreach(GrGenType superType in nodeType.superOrSameTypes)
+                foreach(NodeType superType in nodeType.SuperOrSameTypes)
                     nodeCounts[superType.TypeID] += nodesByTypeCounts[nodeType.TypeID];
 
                 for(LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.typeNext; node != nodeHead; node = node.typeNext)
@@ -1723,12 +1796,12 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = outhead;
                         do
                         {
-                            GrGenType targetType = edge.target.type;
+                            NodeType targetType = edge.target.type;
                             meanOutDegree[nodeType.TypeID]++;
-                            foreach(GrGenType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
                             {
                                 int superTypeID = edgeSuperType.TypeID;
-                                foreach(GrGenType targetSuperType in targetType.superOrSameTypes)
+                                foreach(NodeType targetSuperType in targetType.SuperOrSameTypes)
                                 {
                                     outgoingVCount[superTypeID, targetSuperType.TypeID]++;
                                 }
@@ -1752,12 +1825,12 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = inhead;
                         do
                         {
-                            GrGenType sourceType = edge.source.type;
+                            NodeType sourceType = edge.source.type;
                             meanInDegree[nodeType.TypeID]++;
-                            foreach(GrGenType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
                             {
                                 int superTypeID = edgeSuperType.TypeID;
-                                foreach(GrGenType sourceSuperType in sourceType.superOrSameTypes)
+                                foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
                                 {
                                     incomingVCount[superTypeID, sourceSuperType.TypeID]++;
                                 }
@@ -1776,21 +1849,21 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = outhead;
                         do
                         {
-                            GrGenType targetType = edge.target.type;
+                            NodeType targetType = edge.target.type;
                             int targetTypeID = targetType.TypeID;
 
-                            foreach(GrGenType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
                             {
                                 int edgeSuperTypeID = edgeSuperType.TypeID;
 
-                                foreach(GrGenType targetSuperType in targetType.superOrSameTypes)
+                                foreach(NodeType targetSuperType in targetType.superOrSameTypes)
                                 {
                                     int targetSuperTypeID = targetSuperType.TypeID;
                                     if(outgoingVCount[edgeSuperTypeID, targetSuperTypeID] > 0)
                                     {
 //                                        float val = (float) Math.Log(outgoingVCount[edgeSuperTypeID, targetSuperTypeID]);     // > 1 im if
                                         float val = outgoingVCount[edgeSuperTypeID, targetSuperTypeID];
-                                        foreach(GrGenType nodeSuperType in nodeType.superOrSameTypes)
+                                        foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
                                         {
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                             vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + targetSuperTypeID) * 2
@@ -1813,20 +1886,20 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = inhead;
                         do
                         {
-                            GrGenType sourceType = edge.source.type;
+                            NodeType sourceType = edge.source.type;
                             int sourceTypeID = sourceType.TypeID;
 
-                            foreach(GrGenType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
                             {
                                 int edgeSuperTypeID = edgeSuperType.TypeID;
-                                foreach(GrGenType sourceSuperType in sourceType.superOrSameTypes)
+                                foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
                                 {
                                     int sourceSuperTypeID = sourceSuperType.TypeID;
                                     if(incomingVCount[edgeSuperTypeID, sourceSuperTypeID] > 0)
                                     {
 //                                        float val = (float) Math.Log(incomingVCount[edgeSuperTypeID, sourceSuperTypeID]);     // > 1 im if
                                         float val = incomingVCount[edgeSuperTypeID, sourceSuperTypeID];
-                                        foreach(GrGenType nodeSuperType in nodeType.superOrSameTypes)
+                                        foreach(NodeType nodeSuperType in nodeType.superOrSameTypes)
 #if MONO_MULTIDIMARRAY_WORKAROUND
                                             vstructs[((nodeSuperType.TypeID * dim1size + edgeSuperTypeID) * dim2size + sourceSuperTypeID) * 2
                                                 + (int) LGSPDir.In] += val;
@@ -1860,9 +1933,9 @@ namespace de.unika.ipd.grGen.lgsp
             }*/
 
             // Calculate edgeCounts
-            foreach(GrGenType edgeType in Model.EdgeModel.Types)
+            foreach(EdgeType edgeType in Model.EdgeModel.Types)
             {
-                foreach(GrGenType superType in edgeType.superOrSameTypes)
+                foreach(EdgeType superType in edgeType.superOrSameTypes)
                     edgeCounts[superType.TypeID] += edgesByTypeCounts[edgeType.TypeID];
             }
         }

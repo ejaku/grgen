@@ -102,7 +102,8 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     public delegate String ElementNameGetter(IGraphElement elem);
-    public delegate void TypeAppearanceChangedHandler(GrGenType type);
+    public delegate void NodeTypeAppearanceChangedHandler(NodeType type);
+    public delegate void EdgeTypeAppearanceChangedHandler(EdgeType type);
     public delegate void TypeInfotagsChangedHandler(GrGenType type);
 
     /// <summary>
@@ -142,19 +143,19 @@ namespace de.unika.ipd.grGen.libGr
 
         private ElementNameGetter elementNameGetter;
 
-        public event TypeAppearanceChangedHandler OnNodeTypeAppearanceChanged;
-        public event TypeAppearanceChangedHandler OnEdgeTypeAppearanceChanged;
+        public event NodeTypeAppearanceChangedHandler OnNodeTypeAppearanceChanged;
+        public event EdgeTypeAppearanceChangedHandler OnEdgeTypeAppearanceChanged;
         public event TypeInfotagsChangedHandler OnTypeInfotagsChanged;
 
         private void NodeTypeAppearanceChanged(NodeType type)
         {
-            TypeAppearanceChangedHandler handler = OnNodeTypeAppearanceChanged;
+            NodeTypeAppearanceChangedHandler handler = OnNodeTypeAppearanceChanged;
             if(handler != null) handler(type);
         }
 
         private void EdgeTypeAppearanceChanged(EdgeType type)
         {
-            TypeAppearanceChangedHandler handler = OnEdgeTypeAppearanceChanged;
+            EdgeTypeAppearanceChangedHandler handler = OnEdgeTypeAppearanceChanged;
             if(handler != null) handler(type);
         }
 
@@ -400,36 +401,36 @@ namespace de.unika.ipd.grGen.libGr
 
             // Collect changed node types and clear property arrays
             foreach(NodeType type in nodeTypeColors.Keys)
-                changedTypes[type] = true;
+                changedNodeTypes[type] = true;
             nodeTypeColors.Clear();
             foreach(NodeType type in nodeTypeBorderColors.Keys)
-                changedTypes[type] = true;
+                changedNodeTypes[type] = true;
             nodeTypeBorderColors.Clear();
             foreach(NodeType type in nodeTypeTextColors.Keys)
-                changedTypes[type] = true;
+                changedNodeTypes[type] = true;
             nodeTypeTextColors.Clear();
             foreach(NodeType type in nodeTypeShapes.Keys)
-                changedTypes[type] = true;
+                changedNodeTypes[type] = true;
             nodeTypeShapes.Clear();
 
             // Announce changed node types
-            foreach(NodeType type in changedTypes.Keys)
+            foreach(NodeType type in nodeTypeShapes.Keys)
                 NodeTypeAppearanceChanged(type);
 
-            changedTypes.Clear();
+            changedNodeTypes.Clear();
 
             Dictionary<EdgeType, bool> changedEdgeTypes = new Dictionary<EdgeType, bool>();
 
             // Collect changed edge types and clear property arrays
             foreach(EdgeType type in edgeTypeColors.Keys)
-                changedTypes[type] = true;
+                changedEdgeTypes[type] = true;
             edgeTypeColors.Clear();
             foreach(EdgeType type in edgeTypeTextColors.Keys)
-                changedTypes[type] = true;
+                changedEdgeTypes[type] = true;
             edgeTypeTextColors.Clear();
 
             // Announce changed edge types
-            foreach(EdgeType type in changedTypes.Keys)
+            foreach(EdgeType type in changedEdgeTypes.Keys)
                 EdgeTypeAppearanceChanged(type);
 
             foreach(EdgeType type in infoTags.Keys)

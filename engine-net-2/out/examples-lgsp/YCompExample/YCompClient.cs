@@ -225,8 +225,8 @@ namespace de.unika.ipd.grGen.grShell
             NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Solid);
             DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Solid);
 
-            dumpInfo.OnNodeTypeAppearanceChanged += new TypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
-            dumpInfo.OnEdgeTypeAppearanceChanged += new TypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
+            dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
+            dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
             dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
         }
 
@@ -355,7 +355,7 @@ namespace de.unika.ipd.grGen.grShell
             return nr.Name;
         }
 
-        String GetNodeRealizer(IType type)
+        String GetNodeRealizer(NodeType type)
         {
             return GetNodeRealizer(dumpInfo.GetNodeTypeColor(type), dumpInfo.GetNodeTypeBorderColor(type),
                 dumpInfo.GetNodeTypeTextColor(type), dumpInfo.GetNodeTypeShape(type));
@@ -379,12 +379,12 @@ namespace de.unika.ipd.grGen.grShell
             return er.Name;
         }
 
-        String GetEdgeRealizer(IType type)
+        String GetEdgeRealizer(EdgeType type)
         {
             return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Solid);
         }
 
-        void OnNodeTypeAppearanceChanged(IType type)
+        void OnNodeTypeAppearanceChanged(NodeType type)
         {
             if(dumpInfo.IsExcludedNodeType(type)) return;
 
@@ -394,7 +394,7 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        void OnEdgeTypeAppearanceChanged(IType type)
+        void OnEdgeTypeAppearanceChanged(EdgeType type)
         {
             if(dumpInfo.IsExcludedEdgeType(type)) return;
 
@@ -404,20 +404,20 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        void OnTypeInfotagsChanged(IType type)
+        void OnTypeInfotagsChanged(GrGenType type)
         {
             if(type.IsNodeType)
             {
-                if(dumpInfo.IsExcludedNodeType(type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) type)) return;
 
-                foreach(INode node in graph.GetExactNodes(type))
+                foreach(INode node in graph.GetExactNodes((NodeType) type))
                     ycompStream.Write("setNodeLabel \"n" + dumpInfo.GetElementName(node) + "\" \"" + GetElemLabel(node) + "\"\n");
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType(type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) type)) return;
 
-                foreach(IEdge edge in graph.GetExactEdges(type))
+                foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
                     ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
             }
             isDirty = true;
@@ -552,7 +552,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
 
-        private String GetRetypedElemLabel(IGraphElement elem, IType type, IAttributes attrs)
+        private String GetRetypedElemLabel(IGraphElement elem, GrGenType type, IAttributes attrs)
         {
             List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(type);
             String infoTag = "";
@@ -620,11 +620,11 @@ namespace de.unika.ipd.grGen.grShell
             bool isNode = elem is INode;
             if(isNode)
             {
-                if(dumpInfo.IsExcludedNodeType(elem.Type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) elem.Type)) return;
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType(elem.Type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) elem.Type)) return;
             }
             
 
@@ -724,27 +724,27 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void SettingNodeType(INode node, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        public void SettingNodeType(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs)
         {
             RetypeElement(node, oldType, newType, newAttrs);
         }
 
-        public void SettingEdgeType(IEdge edge, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        public void SettingEdgeType(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs)
         {
             RetypeElement(edge, oldType, newType, newAttrs);
         }
 
-        public void RetypeElement(IGraphElement elem, IType oldType, IType newType, IAttributes newAttrs)
+        public void RetypeElement(IGraphElement elem, GrGenType oldType, GrGenType newType, IAttributes newAttrs)
         {
             bool isNode = elem is INode;
 
             if(isNode)
             {
-                if(dumpInfo.IsExcludedNodeType(elem.Type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) elem.Type)) return;
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType(elem.Type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) elem.Type)) return;
             }
 
 
@@ -768,15 +768,15 @@ namespace de.unika.ipd.grGen.grShell
 
             if(isNode)
             {
-                String oldNr = GetNodeRealizer(oldType);
-                String newNr = GetNodeRealizer(newType);
+                String oldNr = GetNodeRealizer((NodeType) oldType);
+                String newNr = GetNodeRealizer((NodeType) newType);
                 if(oldNr != newNr)
                     ChangeNode((INode) elem, newNr);
             }
             else
             {
-                String oldEr = GetEdgeRealizer(oldType);
-                String newEr = GetEdgeRealizer(newType);
+                String oldEr = GetEdgeRealizer((EdgeType) oldType);
+                String newEr = GetEdgeRealizer((EdgeType) newType);
                 if(oldEr != newEr)
                     ChangeEdge((IEdge) elem, newEr);
             }
@@ -838,8 +838,8 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.Close();
             ycompClient = null;
 
-            dumpInfo.OnNodeTypeAppearanceChanged -= new TypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
-            dumpInfo.OnEdgeTypeAppearanceChanged -= new TypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
+            dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
+            dumpInfo.OnEdgeTypeAppearanceChanged -= new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
         }
 
         /// <summary>

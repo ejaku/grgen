@@ -16,7 +16,7 @@ namespace BusyBeaver
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
         {
-            IType moveType;
+            EdgeType moveType;
             switch(move)
             {
                 case L: moveType = EdgeType_moveLeft.typeVar; break;
@@ -29,7 +29,7 @@ namespace BusyBeaver
             // Set the "value" attribute of the "WriteValue" node to the integer value output
             ((Node_WriteValue) writeNode.attributes).value = output;
 
-            graph.AddEdge(input == 0 ? (ITypeFramework) EdgeType_readZero.typeVar : (ITypeFramework) EdgeType_readOne.typeVar,
+            graph.AddEdge(input == 0 ? (EdgeType) EdgeType_readZero.typeVar : (EdgeType) EdgeType_readOne.typeVar,
                 (LGSPNode) graph.GetVariableValue(srcState), writeNode);
             graph.AddEdge(moveType, writeNode, (LGSPNode) graph.GetVariableValue(destState));
         }
@@ -49,7 +49,7 @@ namespace BusyBeaver
             LGSPNode bp = graph.AddNode(NodeType_BandPosition.typeVar);
 
             // Initialize states
-            LGSPNode sA = (LGSPNode) graph.AddNode(NodeType_State.typeVar, "sA");
+            LGSPNode sA = graph.AddNode(NodeType_State.typeVar, "sA");
             graph.AddNode(NodeType_State.typeVar, "sB");
             graph.AddNode(NodeType_State.typeVar, "sC");
             graph.AddNode(NodeType_State.typeVar, "sD");

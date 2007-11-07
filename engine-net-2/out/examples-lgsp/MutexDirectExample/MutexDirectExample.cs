@@ -72,9 +72,9 @@ namespace Mutex
              * 
              * graph.AnalyzeGraph();
              * actions.GenerateSearchPlans("takeRule", "releaseRule", "giveRule");
-             * LGSPAction takeRule = (LGSPAction) actions.GetAction("takeRule");
-             * LGSPAction releaseRule = (LGSPAction) actions.GetAction("releaseRule");
-             * LGSPAction giveRule = (LGSPAction) actions.GetAction("giveRule");
+             * LGSPAction takeRule = actions.GetAction("takeRule");
+             * LGSPAction releaseRule = actions.GetAction("releaseRule");
+             * LGSPAction giveRule = actions.GetAction("giveRule");
              */
 
             LGSPAction takeRule = Action_takeRule.Instance;

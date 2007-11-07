@@ -622,11 +622,16 @@ invalidCommand:
 
         public override IEnumerable<IAction> Actions { get { foreach(IAction action in actions.Values) yield return action; } }
 
-        public override IAction GetAction(string name)
+        public new LGSPAction GetAction(string name)
         {
             LGSPAction action;
             if(!actions.TryGetValue(name, out action)) return null;
             return action;
+        }
+
+        protected override IAction GetIAction(string name)
+        {
+            return GetAction(name);
         }
     }
 }

@@ -35,7 +35,7 @@ rule InitExample
       c2.name = "C2";
       d1a.name = "D1a";
       d1a.guard = "else";
-      ad.name = "assessDesciption";
+      ad.name = "assessDescription";
       d1b.name = "D1b";
       d2.name = "D2";
       d2.guard = "askhelp";

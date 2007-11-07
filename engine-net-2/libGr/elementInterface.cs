@@ -42,7 +42,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the NodeType of the node
         /// </summary>
-        NodeType Type { get; }
+        new NodeType Type { get; }
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges
@@ -83,7 +83,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Returns the EdgeType of the edge
         /// </summary>
-        EdgeType Type { get; }
+        new EdgeType Type { get; }
 
         /// <summary>
         /// The source node of the edge.

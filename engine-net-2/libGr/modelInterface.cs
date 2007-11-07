@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType RootType { get; }
 
         /// <summary>
-        /// Returns the element type with the given type name or null, if no type with this name exists
+        /// Returns the element type with the given type name or null, if no type with this name exists.
         /// </summary>
         GrGenType GetType(String name);
 
@@ -42,12 +42,38 @@ namespace de.unika.ipd.grGen.libGr
 
     public interface INodeModel : ITypeModel
     {
-        NodeType RootType { get; }
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new NodeType RootType { get; }
+
+        /// <summary>
+        /// Returns the element type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new NodeType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new NodeType[] Types { get; }
     }
 
     public interface IEdgeModel : ITypeModel
     {
-        EdgeType RootType { get; }
+        /// <summary>
+        /// The root type of this type model. All other types of this model inherit from the root type (in the GrGen model, not in C#).
+        /// </summary>
+        new EdgeType RootType { get; }
+
+        /// <summary>
+        /// Returns the element type with the given type name or null, if no type with this name exists.
+        /// </summary>
+        new EdgeType GetType(String name);
+
+        /// <summary>
+        /// An array of all types in this type model.
+        /// </summary>
+        new EdgeType[] Types { get; }
     }
 
     public class ValidateInfo
@@ -290,85 +316,6 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<EnumMember> Members { get { return members; } }
     }
 
-#if OLD
-    /// <summary>
-    /// A description of a GrGen element type.
-    /// </summary>
-    public interface IType
-    {
-        /// <summary>
-        /// The name of the type.
-        /// </summary>
-        String Name { get; }
-
-        /// <summary>
-        /// An identification number of the type, unique among all other types of the same kind (node/edge) in the owning type model.
-        /// </summary>
-        int TypeID { get; }
-
-        /// <summary>
-        /// True, if this type is a node type.
-        /// </summary>
-        bool IsNodeType { get; }
-
-        /// <summary>
-        /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
-        /// or it is a sub type of the given type.
-        /// </summary>
-        /// <param name="other">The type to be compared to.</param>
-        /// <returns>True, if this type is compatible to the given type.</returns>
-        bool IsA(IType other);
-
-        /// <summary>
-        /// Enumerates all super types of this type.
-        /// </summary>
-        IEnumerable<IType> SuperTypes { get; }
-
-        /// <summary>
-        /// Enumerates this type and all super types of this type (in this order).
-        /// </summary>
-        IEnumerable<IType> SuperOrSameTypes { get; }            // this is NOT supported in original libGr!
-
-        /// <summary>
-        /// Enumerates all sub types of this type.
-        /// </summary>
-        IEnumerable<IType> SubTypes { get; }                    // this is NOT supported in original libGr!
-
-        /// <summary>
-        /// Enumerates this type and all sub types of this type (in this order).
-        /// </summary>
-        IEnumerable<IType> SubOrSameTypes { get; }              // this is NOT supported in original libGr!
-
-        /// <summary>
-        /// True, if this type has any super types, i.e. if it is not the node/edge root type.
-        /// </summary>
-        bool HasSuperTypes { get; }
-
-        /// <summary>
-        /// True, if this type has any sub types.
-        /// </summary>
-        bool HasSubTypes { get; }
-        
-        /// <summary>
-        /// The number of attributes of this type.
-        /// </summary>
-        int NumAttributes { get; }
-
-        /// <summary>
-        /// Enumerates all attribute types of this type.
-        /// </summary>
-        IEnumerable<AttributeType> AttributeTypes { get; }     // this is NOT supported in original libGr!
-
-        /// <summary>
-        /// Returns an AttributeType object for the given attribute name.
-        /// If this type does not have an attribute with this name, null is returned.
-        /// </summary>
-        /// <param name="name">Name of the attribute</param>
-        /// <returns>The AttributeType matching the name, or null if there is no such</returns>
-        AttributeType GetAttributeType(String name);
-    }
-#endif
- 
     /// <summary>
     /// A representation of a GrGen graph element type.
     /// </summary>
@@ -389,28 +336,39 @@ namespace de.unika.ipd.grGen.libGr
         public readonly int TypeID;
 
         /// <summary>
-        /// Array containing this type first and following all sub types
-        /// </summary>
-        public GrGenType[] subOrSameTypes;
-        /// <summary>
-        /// Array containing this type first and following all super types
-        /// </summary>
-        public GrGenType[] superOrSameTypes;
-
-        /// <summary>
         /// The name of the type.
         /// </summary>
         public abstract String Name { get; }
 
         /// <summary>
-        /// Array containing this type first and following all sub types
+        /// Array containing this type first and following all sub types.
+        /// Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
+        /// It is ugly, but one of the few ways to override a property of
+        /// an abstract class with another return type.
+        /// Not meant to be used by users, but public because of assignments from
+        /// generated code.
         /// </summary>
-        public GrGenType[] SubOrSameTypes { get { return subOrSameTypes; } }
+        public GrGenType[] subOrSameGrGenTypes;
 
         /// <summary>
-        /// Array containing this type first and following all super types
+        /// Array containing this type first and following all super types.
+        /// Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
+        /// It is ugly, but one of the few ways to override a property of
+        /// an abstract class with another return type.
+        /// Not meant to be used by users, but public because of assignments from
+        /// generated code.
         /// </summary>
-        public GrGenType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+        public GrGenType[] superOrSameGrGenTypes;
+
+        /// <summary>
+        /// Array containing this type first and following all sub types.
+        /// </summary>
+        public GrGenType[] SubOrSameTypes { get { return subOrSameGrGenTypes; } }
+
+        /// <summary>
+        /// Array containing this type first and following all super types.
+        /// </summary>
+        public GrGenType[] SuperOrSameTypes { get { return superOrSameGrGenTypes; } }
 
         /// <summary>
         /// Enumerates over all real subtypes of this type
@@ -421,8 +379,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                for(int i = 1; i < subOrSameTypes.Length; i++)
-                    yield return subOrSameTypes[i];
+                for(int i = 1; i < SubOrSameTypes.Length; i++)
+                    yield return SubOrSameTypes[i];
             }
         }
 
@@ -435,34 +393,32 @@ namespace de.unika.ipd.grGen.libGr
         {
             get
             {
-                for(int i = 1; i < superOrSameTypes.Length; i++)
-                    yield return superOrSameTypes[i];
+                for(int i = 1; i < SuperOrSameTypes.Length; i++)
+                    yield return SuperOrSameTypes[i];
             }
         }
 
         /// <summary>
         /// True, if this type has any super types, i.e. if it is not the node/edge root type.
         /// </summary>
-        public bool HasSuperTypes { get { return superOrSameTypes.Length > 1; } }
+        public bool HasSuperTypes { get { return SuperOrSameTypes.Length > 1; } }
 
         /// <summary>
         /// True, if this type has any sub types.
         /// </summary>
-        public bool HasSubTypes { get { return subOrSameTypes.Length > 1; } }
+        public bool HasSubTypes { get { return SubOrSameTypes.Length > 1; } }
 
         /// <summary>
         /// True, if this type is a node type.
         /// </summary>
         public abstract bool IsNodeType { get; }
 
-#if OLD
         /// <summary>
         /// Creates an IAttributes instance according to this type.
         /// If the the type does not have any attributes, null is returned.
         /// </summary>
         /// <returns>A new IAttributes instance or null, if the type does not have any attributes.</returns>
         public abstract IAttributes CreateAttributes();
-#endif
 
         /// <summary>
         /// Creates a graph element according to this type.
@@ -543,10 +499,12 @@ namespace de.unika.ipd.grGen.libGr
 
     public abstract class NodeType : GrGenType
     {
+        public NodeType(int typeID) : base(typeID) { }
+
         /// <summary>
         /// Always returns true.
         /// </summary>
-        public bool IsNodeType { get { return true; } }
+        public override bool IsNodeType { get { return true; } }
 
         /// <summary>
         /// Creates an INode object according to this type.
@@ -562,14 +520,35 @@ namespace de.unika.ipd.grGen.libGr
         {
             return CreateNode();
         }
+
+        /// <summary>
+        /// Array containing this type first and following all sub types
+        /// </summary>
+        public NodeType[] subOrSameTypes;
+        /// <summary>
+        /// Array containing this type first and following all super types
+        /// </summary>
+        public NodeType[] superOrSameTypes;
+
+        /// <summary>
+        /// Array containing this type first and following all sub types
+        /// </summary>
+        public new NodeType[] SubOrSameTypes { get { return subOrSameTypes; } }
+
+        /// <summary>
+        /// Array containing this type first and following all super types
+        /// </summary>
+        public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
     }
 
     public abstract class EdgeType : GrGenType
     {
+        public EdgeType(int typeID) : base(typeID) { }
+
         /// <summary>
         /// Always returns false.
         /// </summary>
-        public bool IsNodeType { get { return false; } }
+        public override bool IsNodeType { get { return false; } }
 
         /// <summary>
         /// Creates an IEdge object according to this type.
@@ -585,6 +564,25 @@ namespace de.unika.ipd.grGen.libGr
         {
             return CreateEdge();
         }
+
+        /// <summary>
+        /// Array containing this type first and following all sub types
+        /// </summary>
+        public EdgeType[] subOrSameTypes;
+        /// <summary>
+        /// Array containing this type first and following all super types
+        /// </summary>
+        public EdgeType[] superOrSameTypes;
+
+        /// <summary>
+        /// Array containing this type first and following all sub types
+        /// </summary>
+        public EdgeType[] SubOrSameTypes { get { return subOrSameTypes; } }
+
+        /// <summary>
+        /// Array containing this type first and following all super types
+        /// </summary>
+        public EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
     }
 
 #if OLD

@@ -9,8 +9,8 @@ class HelloMutex
         LGSPActions actions;
         new LGSPBackend().CreateFromSpec("Mutex.grg", out graph, out actions);
 
-        IType processType = graph.GetNodeType("Process");
-        IType nextType = graph.GetEdgeType("next");
+        NodeType processType = graph.GetNodeType("Process");
+        EdgeType nextType = graph.GetEdgeType("next");
 
         INode p1 = graph.AddNode(processType);
         INode p2 = graph.AddNode(processType);

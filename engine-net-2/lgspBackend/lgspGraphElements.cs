@@ -7,9 +7,9 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public abstract class LGSPGraphElement<T>
+    public class LGSPNode : INode
     {
-        public GrGenType type;
+        public NodeType type;
         public IAttributes attributes;
 #if OLDMAPPEDFIELDS
         public int mappedTo;
@@ -32,7 +32,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool isNegMapped;
 #endif
 
-        public T typeNext, typePrev;
+        public LGSPNode typeNext, typePrev;
 
 #if ELEMENTKNOWSVARIABLES
         /// <summary>
@@ -43,35 +43,6 @@ namespace de.unika.ipd.grGen.lgsp
         public bool hasVariables;
 #endif
 
-        internal LGSPGraphElement()
-        {
-        }
-
-        public LGSPGraphElement(GrGenType elementType)
-        {
-            type = elementType;
-            attributes = elementType.CreateAttributes();
-        }
-
-        public IType Type { get { return type; } }
-        public bool InstanceOf(IType otherType)
-        {
-            return type.IsA(otherType);
-        }
-
-        public object GetAttribute(String attrName)
-        {
-            return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
-        }
-
-        public void SetAttribute(String attrName, object value)
-        {
-            attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
-        }
-    }
-
-    public class LGSPNode : LGSPGraphElement<LGSPNode>, INode
-    {
         public LGSPEdge outhead;
         public LGSPEdge inhead;
 
@@ -80,11 +51,13 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        public LGSPNode(GrGenType nodeType) : base(nodeType)
+        public LGSPNode(NodeType nodeType)
         {
+            type = nodeType;
+            attributes = type.CreateAttributes();
         }
 
-        public IEnumerable<IEdge> GetCompatibleOutgoing(IType edgeType)
+        public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
         {
             if(outhead == null) yield break;
             LGSPEdge cur = outhead.outNext;
@@ -99,7 +72,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(outhead != null && outhead.Type.IsA(edgeType))
                 yield return outhead;
         }
-        public IEnumerable<IEdge> GetCompatibleIncoming(IType edgeType)
+        public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType)
         {
             if(inhead == null) yield break;
             LGSPEdge cur = inhead.inNext;
@@ -115,7 +88,7 @@ namespace de.unika.ipd.grGen.lgsp
                 yield return inhead;
         }
 
-        public IEnumerable<IEdge> GetExactOutgoing(IType edgeType)
+        public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
         {
             if(outhead == null) yield break;
             LGSPEdge cur = outhead.outNext;
@@ -130,7 +103,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(outhead != null && outhead.Type == edgeType)
                 yield return outhead;
         }
-        public IEnumerable<IEdge> GetExactIncoming(IType edgeType)
+
+        public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType)
         {
             if(inhead == null) yield break;
             LGSPEdge cur = inhead.inNext;
@@ -256,10 +230,62 @@ namespace de.unika.ipd.grGen.lgsp
         {
             inhead = edge.inNext;
         }
+
+        public NodeType Type { get { return type; } }
+        GrGenType IGraphElement.Type { get { return type; } }
+
+        public bool InstanceOf(GrGenType otherType)
+        {
+            return type.IsA(otherType);
+        }
+
+        public object GetAttribute(string attrName)
+        {
+            return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
+        }
+
+        public void SetAttribute(string attrName, object value)
+        {
+            attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
+        }
     }
 
-    public class LGSPEdge : LGSPGraphElement<LGSPEdge>, IEdge
+    public class LGSPEdge : IEdge
     {
+        public EdgeType type;
+        public IAttributes attributes;
+#if OLDMAPPEDFIELDS
+        public int mappedTo;
+        public int negMappedTo;
+#else
+        /// <summary>
+        /// Determines whether the element is currently mapped during the matching process.
+        /// </summary>
+        public bool isMapped;
+
+        /// <summary>
+        /// Determines whether the element has been mapped in a prior matching step,
+        /// e.g. the main pattern when currently matching a NAC.
+        /// </summary>
+        public bool isOldMapped;
+
+        /// <summary>
+        /// Only temporarily!!
+        /// </summary>
+        public bool isNegMapped;
+#endif
+
+        public LGSPEdge typeNext, typePrev;
+
+#if ELEMENTKNOWSVARIABLES
+        /// <summary>
+        /// List of variables pointing to this element or null if there is no such variable
+        /// </summary>
+        public LinkedList<Variable> variableList;
+#else
+        public bool hasVariables;
+#endif
+
         public LGSPNode source, target;
 
         public LGSPEdge inNext, inPrev, outNext, outPrev;
@@ -269,13 +295,33 @@ namespace de.unika.ipd.grGen.lgsp
         {
         }
 
-        public LGSPEdge(GrGenType edgeType, LGSPNode sourceNode, LGSPNode targetNode) : base(edgeType)
+        public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
+            type = edgeType;
+            attributes = type.CreateAttributes();
             source = sourceNode;
             target = targetNode;
         }
 
         public INode Source { get { return source; } }
         public INode Target { get { return target; } }
+
+        public EdgeType Type { get { return type; } }
+        GrGenType IGraphElement.Type { get { return type; } }
+
+        public bool InstanceOf(GrGenType otherType)
+        {
+            return type.IsA(otherType);
+        }
+
+        public object GetAttribute(string attrName)
+        {
+            return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
+        }
+
+        public void SetAttribute(string attrName, object value)
+        {
+            attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
+        }
     }
 }

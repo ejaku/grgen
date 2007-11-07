@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     ProcessStartInfo startInfo = new ProcessStartInfo(javaString, "-Xmx1024M -classpath \"" + binPath + "grgen.jar\""
                         + Path.PathSeparator + "\"" + binPath + "antlr.jar\"" + Path.PathSeparator + "\"" + binPath + "jargs.jar\" "
-                        + "de.unika.ipd.grgen.Main -n -b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend "
+                        + "de.unika.ipd.grgen.Main -n -b de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2 "
                         + "-c " + tmpDir + Path.DirectorySeparatorChar + "printOutput.txt -o " + tmpDir + " \"" + specFile + "\"");
                     startInfo.CreateNoWindow = true;
                     Process grGenJava = Process.Start(startInfo);

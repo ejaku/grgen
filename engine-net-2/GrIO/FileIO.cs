@@ -9,13 +9,13 @@ namespace grIO
     public class FileIO
     {
         private IGraph graph;
-        private IType outputnodetype;
-        private IType fileType;
-        private IType createOrOverwriteType;
-        private IType createOrAppendType;
-        private IType containsLineType;
-        private IType nextLineType;
-        private IType lineType;
+        private NodeType outputnodetype;
+        private NodeType fileType;
+        private EdgeType createOrOverwriteType;
+        private EdgeType createOrAppendType;
+        private EdgeType containsLineType;
+        private EdgeType nextLineType;
+        private NodeType lineType;
         private AttributeType fileNameAttrType;
         private AttributeType lineContentAttrType;
 

@@ -59,7 +59,7 @@ namespace ASTdapter
             String text = a.getText();
             int iType = a.Type;
             String type = parserpackage.GetTypeName(iType);
-            IType currentNodeType = GetNodeType(type, to);
+            NodeType currentNodeType = GetNodeType(type, to);
             INode currentNode = to.AddNode(currentNodeType);
             currentNode.SetAttribute("value", text);
 
@@ -70,12 +70,12 @@ namespace ASTdapter
                 foreach (AST current in l)
                 {
                     INode childNode = Emit(current, to);
-                    IType childType = GetEdgeType("child", to);
+                    EdgeType childType = GetEdgeType("child", to);
                     to.AddEdge(childType, currentNode, childNode);
 
                     if (previousChild != null)
                     {
-                        IType nextType = GetEdgeType("next", to);
+                        EdgeType nextType = GetEdgeType("next", to);
                         to.AddEdge(nextType, previousChild, childNode);
                     }
                     previousChild = childNode;
@@ -84,12 +84,12 @@ namespace ASTdapter
             return currentNode;
         }
 
-        private IType GetNodeType(string name, IGraph graph)
+        private NodeType GetNodeType(string name, IGraph graph)
         {
             return graph.Model.NodeModel.GetType(name);
         }
 
-        private IType GetEdgeType(string name, IGraph graph)
+        private EdgeType GetEdgeType(string name, IGraph graph)
         {
             return graph.Model.EdgeModel.GetType(name);
         }

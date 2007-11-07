@@ -16,7 +16,7 @@ debug xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
 
 # To get more iterations, uncomment the following commands
 
-custom graph analyze_graph
-custom actions gen_searchplan beautify
+# custom graph analyze_graph
+# custom actions gen_searchplan beautify
 
-xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]
+# xgrs (makeFlake1* & beautify* & makeFlake2* & beautify*)[1]

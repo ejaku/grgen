@@ -224,10 +224,10 @@ namespace de.unika.ipd.grGen.grShell
             return (IEdge) elem;
         }
 
-        public IType GetNodeType(String typeName)
+        public NodeType GetNodeType(String typeName)
         {
             if(!GraphExists()) return null;
-            IType type = curShellGraph.Graph.Model.NodeModel.GetType(typeName);
+            NodeType type = curShellGraph.Graph.Model.NodeModel.GetType(typeName);
             if(type == null)
             {
                 Console.WriteLine("Unknown node type: \"{0}\"", typeName);
@@ -236,10 +236,10 @@ namespace de.unika.ipd.grGen.grShell
             return type;
         }
 
-        public IType GetEdgeType(String typeName)
+        public EdgeType GetEdgeType(String typeName)
         {
             if(!GraphExists()) return null;
-            IType type = curShellGraph.Graph.Model.EdgeModel.GetType(typeName);
+            EdgeType type = curShellGraph.Graph.Model.EdgeModel.GetType(typeName);
             if(type == null)
             {
                 Console.WriteLine("Unknown edge type: \"{0}\"", typeName);
@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 Console.Write("(");
                 bool first = true;
-                foreach(IType type in action.RulePattern.Inputs)
+                foreach(GrGenType type in action.RulePattern.Inputs)
                 {
                     Console.Write("{0}{1}", first ? "" : ", ", type.Name);
                     first = false;
@@ -296,7 +296,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 Console.Write(" : (");
                 bool first = true;
-                foreach(IType type in action.RulePattern.Outputs)
+                foreach(GrGenType type in action.RulePattern.Outputs)
                 {
                     Console.Write("{0}{1}", first ? "" : ", ", type.Name);
                     first = false;
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     Console.Write("(");
                     bool first = true;
-                    foreach(IType type in action.RulePattern.Inputs)
+                    foreach(GrGenType type in action.RulePattern.Inputs)
                     {
                         Console.Write("{0}{1}", first ? "" : ",", type.Name);
                     }
@@ -338,7 +338,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     Console.Write(" : (");
                     bool first = true;
-                    foreach(IType type in action.RulePattern.Outputs)
+                    foreach(GrGenType type in action.RulePattern.Outputs)
                     {
                         Console.Write("{0}{1}", first ? "" : ",", type.Name);
                     }
@@ -641,7 +641,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return null;
 
-            IType nodeType;
+            NodeType nodeType;
             if(elemDef.TypeName != null)
             {
                 nodeType = curShellGraph.Graph.Model.NodeModel.GetType(elemDef.TypeName);
@@ -695,7 +695,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(node1 == null || node2 == null) return null;
 
-            IType edgeType;
+            EdgeType edgeType;
             if(elemDef.TypeName != null)
             {
                 edgeType = curShellGraph.Graph.Model.EdgeModel.GetType(elemDef.TypeName);
@@ -743,7 +743,7 @@ namespace de.unika.ipd.grGen.grShell
             return edge;
         }
 
-        private bool CheckAttributes(IType type, ArrayList attributes)
+        private bool CheckAttributes(GrGenType type, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
@@ -994,7 +994,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public void ShowNodes(IType nodeType, bool only)
+        public void ShowNodes(NodeType nodeType, bool only)
         {
             if(nodeType == null)
             {
@@ -1008,7 +1008,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("There are no nodes " + (only ? "compatible to" : "of") + " type \"" + nodeType.Name + "\"!");
         }
 
-        public void ShowEdges(IType edgeType, bool only)
+        public void ShowEdges(EdgeType edgeType, bool only)
         {
             if(edgeType == null)
             {
@@ -1022,7 +1022,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("There are no edges of " + (only ? "compatible to" : "of") + " type \"" + edgeType.Name + "\"!");
         }
 
-        public void ShowNumNodes(IType nodeType, bool only)
+        public void ShowNumNodes(NodeType nodeType, bool only)
         {
             if(nodeType == null)
             {
@@ -1037,7 +1037,7 @@ namespace de.unika.ipd.grGen.grShell
                     + curShellGraph.Graph.GetNumCompatibleNodes(nodeType));
         }
 
-        public void ShowNumEdges(IType edgeType, bool only)
+        public void ShowNumEdges(EdgeType edgeType, bool only)
         {
             if(edgeType == null)
             {
@@ -1063,7 +1063,7 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 Console.WriteLine("Node types:");
-                foreach(IType type in curShellGraph.Graph.Model.NodeModel.Types)
+                foreach(NodeType type in curShellGraph.Graph.Model.NodeModel.Types)
                     Console.WriteLine(" - \"{0}\"", type.Name);
             }
         }
@@ -1079,12 +1079,12 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 Console.WriteLine("Edge types:");
-                foreach(IType type in curShellGraph.Graph.Model.EdgeModel.Types)
+                foreach(EdgeType type in curShellGraph.Graph.Model.EdgeModel.Types)
                     Console.WriteLine(" - \"{0}\"", type.Name);
             }
         }
 
-        public void ShowSuperTypes(IType elemType, bool isNode)
+        public void ShowSuperTypes(GrGenType elemType, bool isNode)
         {
             if(elemType == null) return;
 
@@ -1095,12 +1095,12 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 Console.WriteLine("Super types of " + (isNode ? "node" : "edge") + " type \"" + elemType.Name + "\":");
-                foreach(IType type in elemType.SuperTypes)
+                foreach(GrGenType type in elemType.SuperTypes)
                     Console.WriteLine(" - \"" + type.Name + "\"");
             }
         }
 
-        public void ShowSubTypes(IType elemType, bool isNode)
+        public void ShowSubTypes(GrGenType elemType, bool isNode)
         {
             if(elemType == null) return;
 
@@ -1111,7 +1111,7 @@ namespace de.unika.ipd.grGen.grShell
             else
             {
                 Console.WriteLine("Sub types of " + (isNode ? "node" : "edge") + " type \"{0}\":", elemType.Name);
-                foreach(IType type in elemType.SubTypes)
+                foreach(GrGenType type in elemType.SubTypes)
                     Console.WriteLine(" - \"{0}\"", type.Name);
             }
         }
@@ -1205,7 +1205,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     Console.Write("(");
                     bool isFirst = true;
-                    foreach(IType inType in action.RulePattern.Inputs)
+                    foreach(GrGenType inType in action.RulePattern.Inputs)
                     {
                         if(!isFirst) Console.Write(", ");
                         else isFirst = false;
@@ -1218,7 +1218,7 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     Console.Write(" : (");
                     bool isFirst = true;
-                    foreach(IType outType in action.RulePattern.Outputs)
+                    foreach(GrGenType outType in action.RulePattern.Outputs)
                     {
                         if(!isFirst) Console.Write(", ");
                         else isFirst = false;
@@ -1253,7 +1253,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="showOnly">If true, only non inherited attributes are shown</param>
         /// <param name="typeName">Type which attributes are to be shown or null to show all attributes of all types</param>
         /// <param name="model">The model to take the attributes from</param>
-        private void ShowAvailableAttributes(IEnumerable<AttributeType> attrTypes, IType onlyType)
+        private void ShowAvailableAttributes(IEnumerable<AttributeType> attrTypes, GrGenType onlyType)
         {
             bool first = true;
             foreach(AttributeType attrType in attrTypes)
@@ -1284,7 +1284,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("No attribute types found.");
         }
 
-        public void ShowAvailableNodeAttributes(bool showOnly, IType nodeType)
+        public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
         {
             if(nodeType == null)
                 ShowAvailableAttributes(curShellGraph.Graph.Model.NodeModel.AttributeTypes, null);
@@ -1292,7 +1292,7 @@ namespace de.unika.ipd.grGen.grShell
                 ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
         }
 
-        public void ShowAvailableEdgeAttributes(bool showOnly, IType edgeType)
+        public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
         {
             if(edgeType == null)
                 ShowAvailableAttributes(curShellGraph.Graph.Model.EdgeModel.AttributeTypes, null);
@@ -1734,9 +1734,9 @@ namespace de.unika.ipd.grGen.grShell
             return shape;
         }
 
-        delegate void SetDumpColorProc(IType type, GrColor color);
+        delegate void SetNodeDumpColorProc(NodeType type, GrColor color);
 
-        private void SetDumpColor(IType type, String colorName, bool only, SetDumpColorProc setDumpColorProc)
+        private void SetDumpColor(NodeType type, String colorName, bool only, SetNodeDumpColorProc setDumpColorProc)
         {
             GrColor? color = ParseGrColor(colorName);
             if(color == null) return;
@@ -1745,32 +1745,50 @@ namespace de.unika.ipd.grGen.grShell
                 setDumpColorProc(type, (GrColor) color);
             else
             {
-                foreach(IType subType in type.SubOrSameTypes)
+                foreach(NodeType subType in type.SubOrSameTypes)
                     setDumpColorProc(subType, (GrColor) color);
             }
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
         }
 
-        public void SetDumpNodeTypeColor(IType type, String colorName, bool only)
+        delegate void SetEdgeDumpColorProc(EdgeType type, GrColor color);
+
+        private void SetDumpColor(EdgeType type, String colorName, bool only, SetEdgeDumpColorProc setDumpColorProc)
+        {
+            GrColor? color = ParseGrColor(colorName);
+            if(color == null) return;
+
+            if(only)
+                setDumpColorProc(type, (GrColor) color);
+            else
+            {
+                foreach(EdgeType subType in type.SubOrSameTypes)
+                    setDumpColorProc(subType, (GrColor) color);
+            }
+            if(InDebugMode)
+                debugger.UpdateYCompDisplay();
+        }
+
+        public void SetDumpNodeTypeColor(NodeType type, String colorName, bool only)
         {
             if(type == null) return;
             SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeColor);
         }
 
-        public void SetDumpNodeTypeBorderColor(IType type, String colorName, bool only)
+        public void SetDumpNodeTypeBorderColor(NodeType type, String colorName, bool only)
         {
             if(type == null) return;
             SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeBorderColor);
         }
 
-        public void SetDumpNodeTypeTextColor(IType type, String colorName, bool only)
+        public void SetDumpNodeTypeTextColor(NodeType type, String colorName, bool only)
         {
             if(type == null) return;
             SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetNodeTypeTextColor);
         }
 
-        public void SetDumpNodeTypeShape(IType type, String shapeName, bool only)
+        public void SetDumpNodeTypeShape(NodeType type, String shapeName, bool only)
         {
             if(type == null) return;
 
@@ -1781,38 +1799,38 @@ namespace de.unika.ipd.grGen.grShell
                 curShellGraph.DumpInfo.SetNodeTypeShape(type, (GrNodeShape) shape);
             else
             {
-                foreach(IType subType in type.SubOrSameTypes)
+                foreach(NodeType subType in type.SubOrSameTypes)
                     curShellGraph.DumpInfo.SetNodeTypeShape(subType, (GrNodeShape) shape);
             }
             if(InDebugMode)
                 debugger.UpdateYCompDisplay();
         }
 
-        public void SetDumpEdgeTypeColor(IType type, String colorName, bool only)
+        public void SetDumpEdgeTypeColor(EdgeType type, String colorName, bool only)
         {
             if(type == null) return;
             SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeColor);
         }
 
-        public void SetDumpEdgeTypeTextColor(IType type, String colorName, bool only)
+        public void SetDumpEdgeTypeTextColor(EdgeType type, String colorName, bool only)
         {
             if(type == null) return;
             SetDumpColor(type, colorName, only, curShellGraph.DumpInfo.SetEdgeTypeTextColor);
         }
 
-        public void AddDumpExcludeNodeType(IType nodeType, bool only)
+        public void AddDumpExcludeNodeType(NodeType nodeType, bool only)
         {
             if(nodeType == null) return;
             curShellGraph.DumpInfo.ExcludeNodeType(nodeType);
         }
 
-        public void AddDumpExcludeEdgeType(IType edgeType, bool only)
+        public void AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
         {
             if(edgeType == null) return;
             curShellGraph.DumpInfo.ExcludeEdgeType(edgeType);
         }
 
-        public void AddDumpGroupNodes(IType nodeType)
+        public void AddDumpGroupNodes(NodeType nodeType)
         {
             if(nodeType == null) return;
             curShellGraph.DumpInfo.GroupNodes(nodeType);
@@ -1827,7 +1845,7 @@ namespace de.unika.ipd.grGen.grShell
                 curShellGraph.VcgFlags &= ~VCGFlags.EdgeLabels;
         }
 
-        public void AddDumpInfoTag(IType type, String attrName, bool only)
+        public void AddDumpInfoTag(GrGenType type, String attrName, bool only)
         {
             if(type == null) return;
 
@@ -1841,7 +1859,7 @@ namespace de.unika.ipd.grGen.grShell
             if(only)
                 curShellGraph.DumpInfo.AddTypeInfoTag(type, attrType);
             else
-                foreach(IType subtype in type.SubOrSameTypes)
+                foreach(GrGenType subtype in type.SubOrSameTypes)
                     curShellGraph.DumpInfo.AddTypeInfoTag(subtype, attrType);
 
             if(InDebugMode)
@@ -1940,37 +1958,37 @@ namespace de.unika.ipd.grGen.grShell
                 sw.WriteLine("# Over all number of edges: {0}", numEdges);
                 sw.WriteLine();
 
-                foreach(KeyValuePair<IType, GrColor> nodeTypeColor in curShellGraph.DumpInfo.NodeTypeColors)
+                foreach(KeyValuePair<NodeType, GrColor> nodeTypeColor in curShellGraph.DumpInfo.NodeTypeColors)
                     sw.WriteLine("dump set node only {0} color {1}", nodeTypeColor.Key.Name, nodeTypeColor.Value);
 
-                foreach(KeyValuePair<IType, GrColor> nodeTypeBorderColor in curShellGraph.DumpInfo.NodeTypeBorderColors)
+                foreach(KeyValuePair<NodeType, GrColor> nodeTypeBorderColor in curShellGraph.DumpInfo.NodeTypeBorderColors)
                     sw.WriteLine("dump set node only {0} bordercolor {1}", nodeTypeBorderColor.Key.Name, nodeTypeBorderColor.Value);
 
-                foreach(KeyValuePair<IType, GrColor> nodeTypeTextColor in curShellGraph.DumpInfo.NodeTypeTextColors)
+                foreach(KeyValuePair<NodeType, GrColor> nodeTypeTextColor in curShellGraph.DumpInfo.NodeTypeTextColors)
                     sw.WriteLine("dump set node only {0} textcolor {1}", nodeTypeTextColor.Key.Name, nodeTypeTextColor.Value);
 
-                foreach(KeyValuePair<IType, GrNodeShape> nodeTypeShape in curShellGraph.DumpInfo.NodeTypeShapes)
+                foreach(KeyValuePair<NodeType, GrNodeShape> nodeTypeShape in curShellGraph.DumpInfo.NodeTypeShapes)
                     sw.WriteLine("dump set node only {0} shape {1}", nodeTypeShape.Key.Name, nodeTypeShape.Value);
 
-                foreach(KeyValuePair<IType, GrColor> edgeTypeColor in curShellGraph.DumpInfo.EdgeTypeColors)
+                foreach(KeyValuePair<EdgeType, GrColor> edgeTypeColor in curShellGraph.DumpInfo.EdgeTypeColors)
                     sw.WriteLine("dump set edge only {0} color {1}", edgeTypeColor.Key.Name, edgeTypeColor.Value);
 
-                foreach(KeyValuePair<IType, GrColor> edgeTypeTextColor in curShellGraph.DumpInfo.EdgeTypeTextColors)
+                foreach(KeyValuePair<EdgeType, GrColor> edgeTypeTextColor in curShellGraph.DumpInfo.EdgeTypeTextColors)
                     sw.WriteLine("dump set edge only {0} textcolor {1}", edgeTypeTextColor.Key.Name, edgeTypeTextColor.Value);
 
                 if((curShellGraph.VcgFlags & VCGFlags.EdgeLabels) == 0)
                     sw.WriteLine("dump set edge labels off");
 
-                foreach(IType excludedNodeType in curShellGraph.DumpInfo.ExcludedNodeTypes)
+                foreach(NodeType excludedNodeType in curShellGraph.DumpInfo.ExcludedNodeTypes)
                     sw.WriteLine("dump add exclude node only " + excludedNodeType.Name);
 
-                foreach (IType excludedEdgeType in curShellGraph.DumpInfo.ExcludedEdgeTypes)
+                foreach(EdgeType excludedEdgeType in curShellGraph.DumpInfo.ExcludedEdgeTypes)
                     sw.WriteLine("dump add exclude edge only " + excludedEdgeType.Name);
 
-                foreach(IType groupNodeType in curShellGraph.DumpInfo.GroupNodeTypes)
+                foreach(NodeType groupNodeType in curShellGraph.DumpInfo.GroupNodeTypes)
                     sw.WriteLine("dump add group node " + groupNodeType.Name);
 
-                foreach(KeyValuePair<IType, List<AttributeType>> infoTag in curShellGraph.DumpInfo.InfoTags)
+                foreach(KeyValuePair<GrGenType, List<AttributeType>> infoTag in curShellGraph.DumpInfo.InfoTags)
                 {
                     String kind;
                     if(infoTag.Key.IsA(graph.Model.NodeModel.RootType)) kind = "node";      // TODO: this does not work as type ids are used!
@@ -2096,8 +2114,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(node1 == null || node2 == null) return;
 
-            IType type1 = node1.Type;
-            IType type2 = node2.Type;
+            NodeType type1 = node1.Type;
+            NodeType type2 = node2.Type;
 
             Console.WriteLine("{0} type {1} is a node: {2}", type1.Name, type2.Name,
                 type1.IsA(type2) ? "yes" : "no");
@@ -2107,8 +2125,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(edge1 == null || edge2 == null) return;
 
-            IType type1 = edge1.Type;
-            IType type2 = edge2.Type;
+            EdgeType type1 = edge1.Type;
+            EdgeType type2 = edge2.Type;
 
             Console.WriteLine("{0} type {1} is an edge: {2}", type1.Name, type2.Name,
                 type1.IsA(type2) ? "yes" : "no");

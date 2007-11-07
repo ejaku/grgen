@@ -482,7 +482,7 @@ IEdge Edge():
 	{ return edge; }
 }
 
-IType NodeType():
+NodeType NodeType():
 {
 	String str;
 }
@@ -490,7 +490,7 @@ IType NodeType():
 	str=Text() { return impl.GetNodeType(str); }
 }
 
-IType EdgeType():
+EdgeType EdgeType():
 {
 	String str;
 }
@@ -871,34 +871,35 @@ void ShowCommand():
 {
 	String str;
 	String args = null;
-	IType type = null;
+	NodeType nodeType = null;
+	EdgeType edgeType = null;
 	bool typeProvided = false;
 	bool only = false;
 }
 {
-	"nodes" (("only" { only=true; })? type=NodeType() { typeProvided=true; })? LineEnd()
+	"nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
 	{
-		if(!typeProvided || type != null)
-			impl.ShowNodes(type, only);
+		if(!typeProvided || nodeType != null)
+			impl.ShowNodes(nodeType, only);
 	}
 |
-	"edges" (("only" { only=true; })? type=EdgeType() { typeProvided=true; })? LineEnd()
+	"edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
 	{
-		if(!typeProvided || type != null)
-			impl.ShowEdges(type, only);
+		if(!typeProvided || edgeType != null)
+			impl.ShowEdges(edgeType, only);
 	}
 |
 	LOOKAHEAD(2)
-	"num" "nodes" (("only" { only=true; })? type=NodeType() { typeProvided=true; })? LineEnd()
+	"num" "nodes" (("only" { only=true; })? nodeType=NodeType() { typeProvided=true; })? LineEnd()
 	{
-		if(!typeProvided || type != null)
-			impl.ShowNumNodes(type, only);
+		if(!typeProvided || nodeType != null)
+			impl.ShowNumNodes(nodeType, only);
 	}
 |
-	"num" "edges" (("only" { only=true; })? type=EdgeType() { typeProvided=true; })? LineEnd()
+	"num" "edges" (("only" { only=true; })? edgeType=EdgeType() { typeProvided=true; })? LineEnd()
 	{
-		if(!typeProvided || type != null)
-			impl.ShowNumEdges(type, only);
+		if(!typeProvided || edgeType != null)
+			impl.ShowNumEdges(edgeType, only);
 	}
 |
 	"node" ShowNode()
@@ -930,7 +931,7 @@ void ShowNode():
 {
 	bool only = false;
 	INode node;
-	IType nodeType = null;
+    NodeType nodeType = null;
 }
 {
 	"types" LineEnd()
@@ -963,7 +964,7 @@ void ShowEdge():
 {
 	bool only = false;
 	IEdge edge;
-	IType edgeType = null;
+	EdgeType edgeType = null;
 }
 {
 	"types" LineEnd()
@@ -1276,46 +1277,47 @@ void DumpCommand():
 
 void DumpSet():
 {
-	IType type;
+	NodeType nodeType;
+	EdgeType edgeType;
 	String colorName, shapeName;
 	bool labels = false, only = false;
 }
 {
-	"node" ("only" { only=true; })? type=NodeType()
+	"node" ("only" { only=true; })? nodeType=NodeType()
 	(
 		"color" colorName=Text() LineEnd()
 		{
-			impl.SetDumpNodeTypeColor(type, colorName, only);
+			impl.SetDumpNodeTypeColor(nodeType, colorName, only);
 		}
     |
 		"bordercolor" colorName=Text() LineEnd()
 		{
-			impl.SetDumpNodeTypeBorderColor(type, colorName, only);
+			impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
 		}
     |
 		"shape" shapeName=Text() LineEnd()
 		{
-			impl.SetDumpNodeTypeShape(type, shapeName, only);
+			impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
 		}
     |
 		"textcolor" colorName=Text() LineEnd()
 		{
-			impl.SetDumpNodeTypeTextColor(type, colorName, only);
+			impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
 		}
 	)
 |
 	"edge"
 	(
-	    ("only" { only=true; })? type=EdgeType()
+	    ("only" { only=true; })? edgeType=EdgeType()
 	    (
 	        "color" colorName=Text() LineEnd()
 	        {
-		        impl.SetDumpEdgeTypeColor(type, colorName, only);
+		        impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
 	        }
         | 
 	        "textcolor" colorName=Text() LineEnd()
 	        {
-		        impl.SetDumpEdgeTypeTextColor(type, colorName, only);
+		        impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
 	        }
 	    )
     |
@@ -1328,16 +1330,17 @@ void DumpSet():
 
 void DumpAdd():
 {
-	IType type;
+	NodeType nodeType;
+	EdgeType edgeType;
 	String attrName;
 	bool only = false;
 }
 {
-	"node" ("only" { only=true; })? type=NodeType()
+	"node" ("only" { only=true; })? nodeType=NodeType()
 	(
 		"exclude" LineEnd()
 		{
-			impl.AddDumpExcludeNodeType(type, only);
+			impl.AddDumpExcludeNodeType(nodeType, only);
 		}
 	|
 		"group" LineEnd()		// TODO: Add "only" option?
@@ -1345,25 +1348,25 @@ void DumpAdd():
 			if(only)
 				Console.WriteLine("The 'only' modifier is not allowed for 'dump add group'!");
 			else
-				impl.AddDumpGroupNodes(type);
+				impl.AddDumpGroupNodes(nodeType);
 		}
 	|
 		"infotag" attrName=Text() LineEnd()
 		{
-		    impl.AddDumpInfoTag(type, attrName, only);
+		    impl.AddDumpInfoTag(nodeType, attrName, only);
 	    }
     )
 |
-	"edge" ("only" { only=true; })? type=EdgeType()
+	"edge" ("only" { only=true; })? edgeType=EdgeType()
 	(
 	    "exclude" LineEnd()
 	    {
-	        impl.AddDumpExcludeEdgeType(type, only);
+	        impl.AddDumpExcludeEdgeType(edgeType, only);
 	    }
 	|
 	    "infotag" attrName=Text() LineEnd()
 	    {
-            impl.AddDumpInfoTag(type, attrName, only);
+            impl.AddDumpInfoTag(edgeType, attrName, only);
         }
 	)
 }

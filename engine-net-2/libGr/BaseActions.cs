@@ -50,7 +50,11 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IGraph Graph { get; set; }
 
         public abstract IEnumerable<IAction> Actions { get; }
-        public abstract IAction GetAction(String name);
+        protected abstract IAction GetIAction(String name);
+        public IAction GetAction(String name)
+        {
+            return GetIAction(name);
+        }
 
         public abstract void Custom(params object[] args);
 

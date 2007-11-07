@@ -53,11 +53,11 @@ namespace YCompExample
             // Let yComp observe any changes to the graph
             ycomp.RegisterLibGrEvents();
 
-            IType processType = graph.GetNodeType("Process");
-            IType nextType = graph.GetEdgeType("next");
+            NodeType processType = graph.GetNodeType("Process");
+            EdgeType nextType = graph.GetEdgeType("next");
 
-            INode p1 = graph.AddNode(processType);
-            INode p2 = graph.AddNode(processType);
+            LGSPNode p1 = graph.AddNode(processType);
+            LGSPNode p2 = graph.AddNode(processType);
             graph.AddEdge(nextType, p1, p2);
             graph.AddEdge(nextType, p2, p1);
             PrintAndWait("Initial 2-process ring constructed.", ycomp);

@@ -1491,7 +1491,7 @@ exitSecondLoop: ;
         /// </summary>
         private void CheckMapsForOperation(SearchOperation op1, ScheduledSearchPlan curSSP, int op2StartIndex)
         {
-            IType[] types;
+            GrGenType[] types;
             bool[,] homArray;
             bool[] homToAllArray;
             SearchPlanNode elem1 = (SearchPlanNode) op1.Element;
@@ -1511,7 +1511,7 @@ exitSecondLoop: ;
 
             if(homToAllArray[elem1.ElementID - 1]) return;
 
-            IType type1 = types[elem1.PatternElement.TypeID];
+            GrGenType type1 = types[elem1.PatternElement.TypeID];
 
             for(int j = op2StartIndex; j < curSSP.Operations.Length; j++)
             {
@@ -1535,8 +1535,8 @@ exitSecondLoop: ;
 
 
                 // TODO: Check type constraints for optimization!!!
-                IType type2 = types[elem2.PatternElement.TypeID];
-                foreach(IType subtype1 in ((GrGenType) type1).subOrSameTypes)
+                GrGenType type2 = types[elem2.PatternElement.TypeID];
+                foreach(GrGenType subtype1 in type1.SubOrSameTypes)
                 {
                     if((type2.IsA(subtype1) || subtype1.IsA(type2)) // IsA==IsSuperTypeOrSameType
                         && (homArray == null || !homArray[elem1.ElementID - 1, elem2.ElementID - 1]))
@@ -2001,7 +2001,7 @@ exitSecondLoop: ;
             sourceCode.Append(" && (false");
 
             bool[,] homArray;
-            IType[] types;
+            GrGenType[] types;
             if(spnode.NodeType == PlanNodeType.Node)
             {
                 homArray = patternGraph.homomorphicNodes;
@@ -2018,7 +2018,7 @@ exitSecondLoop: ;
             }
 
             String curElemName = opStack.First.Value.CurPosVar;
-            IType type1 = types[spnode.PatternElement.TypeID];
+            GrGenType type1 = types[spnode.PatternElement.TypeID];
 
             foreach(OperationState opState in opStack)
             {
@@ -2030,8 +2030,8 @@ exitSecondLoop: ;
                 if(homArray != null && homArray[spnode.ElementID - 1, otherNode.ElementID - 1]) continue;
 
                 // TODO: Check type constraints!!!
-                IType type2 = types[otherNode.PatternElement.TypeID];
-                foreach(IType subtype1 in ((GrGenType) type1).subOrSameTypes)
+                GrGenType type2 = types[otherNode.PatternElement.TypeID];
+                foreach(GrGenType subtype1 in type1.SubOrSameTypes)
                 {
                     if((type2.IsA(subtype1) || subtype1.IsA(type2)))        // IsA==IsSuperTypeOrSameType
                     {
@@ -2050,13 +2050,16 @@ exitSecondLoop: ;
         {
             if(CommentSourceCode)
                 sourceCode.AppendFront("// Lookup(" + target.PatternElement.Name + ":"
-                        + (target.NodeType == PlanNodeType.Node ? model.NodeModel : model.EdgeModel).Types[target.PatternElement.TypeID].Name + ")\n");
+                        + (target.NodeType == PlanNodeType.Node ?
+                            (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel)
+                          .Types[target.PatternElement.TypeID].Name + ")\n");
 
             String elemName = target.PatternElement.Name;
             bool isNode = (target.NodeType == PlanNodeType.Node);
-            ITypeModel typeModel = isNode ? model.NodeModel : model.EdgeModel;
+            ITypeModel typeModel = isNode ? (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel;
             String elemTypeName = isNode ? "LGSPNode" : "LGSPEdge";
             String nodeEdgeString = isNode ? "node" : "edge";
+            String bigNodeEdgeString = isNode ? "Node" : "Edge";
             String typeName = nodeEdgeString + "_type_" + elemName;
             String listName = nodeEdgeString + "_list_" + elemName;
             String headName = nodeEdgeString + "_head_" + elemName;
@@ -2074,13 +2077,14 @@ exitSecondLoop: ;
 
                 if(usesLoop)
                 {
-                    // foreach(ITypeFramework type in <element type>.typeVar.SubOrSameTypes)
+                    // foreach(<Node/Edge>Type type in <element type>.typeVar.SubOrSameTypes)
 
-                    sourceCode.AppendFrontFormat("foreach(ITypeFramework {0} in {1}.typeVar.SubOrSameTypes)\n",
+                    sourceCode.AppendFrontFormat("foreach(" + bigNodeEdgeString
+                        + "Type {0} in {1}.typeVar.SubOrSameTypes)\n",
                         typeName, typeModel.TypeTypes[target.PatternElement.TypeID].Name);
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
-                    typeIDStr = typeName + ".typeID";
+                    typeIDStr = typeName + ".TypeID";
                 }
                 else typeIDStr = target.PatternElement.TypeID.ToString();
             }
@@ -2103,11 +2107,12 @@ exitSecondLoop: ;
                 }
                 else
                 {
-                    sourceCode.AppendFrontFormat("foreach(ITypeFramework {0} in {1})\n",
+                    sourceCode.AppendFrontFormat("foreach(" + bigNodeEdgeString
+                        + "Type {0} in {1})\n",
                         typeName, rulePattern.GetType().Name + "." + elemName + "_AllowedTypes");
                     sourceCode.AppendFront("{\n");
                     sourceCode.Indent();
-                    typeIDStr = typeName + ".typeID";
+                    typeIDStr = typeName + ".TypeID";
                     usesLoop = true;
                 }
             }
@@ -2217,7 +2222,9 @@ exitSecondLoop: ;
             if(CommentSourceCode)
                 sourceCode.AppendFront("// Implicit" + ((opType == SearchOperationType.ImplicitSource) ? "Source" : "Target")
                         + "(" + source.PatternElement.Name + " -> " + target.PatternElement.Name + ":"
-                        + (target.NodeType == PlanNodeType.Node ? model.NodeModel : model.EdgeModel).Types[target.PatternElement.TypeID].Name
+                        + (target.NodeType == PlanNodeType.Node ?
+                            (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel)
+                          .Types[target.PatternElement.TypeID].Name
                         + ")\n");
 
             // curpos = edge.<source/target>
@@ -2227,7 +2234,7 @@ exitSecondLoop: ;
 
             if(target.PatternElement.IsAllowedType != null)         // some types allowed
             {
-                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[node_cur_{1}.type.typeID]) goto {2};\n",
+                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[node_cur_{1}.type.TypeID]) goto {2};\n",
                     rulePattern.GetType().Name + "." + target.PatternElement.Name,
                     target.PatternElement.Name, lastOpState.ContinueBeforeUnmapLabel);
             }
@@ -2240,7 +2247,7 @@ exitSecondLoop: ;
                         ((ITypeFramework) model.NodeModel.Types[target.PatternElement.TypeID]).AttributesType.Name,
                         lastOpState.ContinueBeforeUnmapLabel);
 #else
-                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[node_cur_{1}.type.typeID]) goto {2};\n",
+                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[node_cur_{1}.type.TypeID]) goto {2};\n",
                         model.NodeModel.TypeTypes[target.PatternElement.TypeID].Name,
                         target.PatternElement.Name, lastOpState.ContinueBeforeUnmapLabel);
 #endif
@@ -2253,7 +2260,7 @@ exitSecondLoop: ;
             }
             else // target.PatternElement.AllowedTypes.Length == 1  // only one type allowed
             {
-                sourceCode.AppendFrontFormat("if(node_cur_{0}.type.typeID != {1}) goto {2};\n",
+                sourceCode.AppendFrontFormat("if(node_cur_{0}.type.TypeID != {1}) goto {2};\n",
                     target.PatternElement.Name, target.PatternElement.AllowedTypes[0].TypeID, lastOpState.ContinueBeforeUnmapLabel);
             }
 
@@ -2289,7 +2296,9 @@ exitSecondLoop: ;
             if(CommentSourceCode)
                 sourceCode.AppendFront("// Extend" + (opType == SearchOperationType.Incoming ? "Incoming" : "Outgoing")
                         + "(" + source.PatternElement.Name + " -> " + target.PatternElement.Name + ":"
-                        + (target.NodeType == PlanNodeType.Node ? model.NodeModel : model.EdgeModel).Types[target.PatternElement.TypeID].Name
+                        + (target.NodeType == PlanNodeType.Node ?
+                            (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel)
+                          .Types[target.PatternElement.TypeID].Name
                         + ")\n");
 
             bool isIncoming = opType == SearchOperationType.Incoming;
@@ -2322,7 +2331,7 @@ exitSecondLoop: ;
 
             if(target.PatternElement.IsAllowedType != null)         // some types allowed
             {
-                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[{1}.type.typeID]) continue;\n",
+                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[{1}.type.TypeID]) continue;\n",
                     rulePattern.GetType().Name + "." + target.PatternElement.Name, curName);
             }
             else if(target.PatternElement.AllowedTypes == null)     // all subtypes of pattern element type allowed
@@ -2332,7 +2341,7 @@ exitSecondLoop: ;
                     curName, ((ITypeFramework)model.EdgeModel.Types[target.PatternElement.TypeID]).AttributesType.Name);
 #else
                 if(model.EdgeModel.Types[target.PatternElement.TypeID] != model.EdgeModel.RootType)
-                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.typeID]) continue;\n",
+                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.TypeID]) continue;\n",
                         model.EdgeModel.TypeTypes[target.PatternElement.TypeID].Name, curName);
 #endif
             }
@@ -2342,7 +2351,7 @@ exitSecondLoop: ;
             }
             else // target.PatternElement.AllowedTypes.Length == 1  // only one type allowed
             {
-                sourceCode.AppendFrontFormat("if({0}.type.typeID != {1}) continue;\n",
+                sourceCode.AppendFrontFormat("if({0}.type.TypeID != {1}) continue;\n",
                     curName, target.PatternElement.AllowedTypes[0].TypeID);
             }
 
@@ -2390,9 +2399,11 @@ exitSecondLoop: ;
         private OperationState EmitMaybePresetFront(SearchPlanNode target, LGSPRulePattern rulePattern, OperationState lastOpState,
             SourceBuilder sourceCode)
         {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            ITypeModel typeModel = isNode ? (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel;
+
             sourceCode.AppendFront("// Preset(" + target.PatternElement.Name + ":"
-                    + (target.NodeType == PlanNodeType.Node ? model.NodeModel : model.EdgeModel).Types[target.PatternElement.TypeID].Name
-                    + ")\n");
+                    + typeModel.Types[target.PatternElement.TypeID].Name + ")\n");
 
             String curPosVar;
             String elemType;
@@ -2402,8 +2413,6 @@ exitSecondLoop: ;
 //            String listVar;
             String headVar;
             String wasSetVar;
-            ITypeModel typeModel;
-            bool isNode = target.NodeType == PlanNodeType.Node;
 
             if(isNode)
             {
@@ -2415,7 +2424,7 @@ exitSecondLoop: ;
 //                listVar = "node_list_" + target.PatternElement.Name;
                 headVar = "node_listhead_" + target.PatternElement.Name;
                 wasSetVar = "node_parWasSet_" + target.PatternElement.Name;
-                typeModel = model.NodeModel;
+                sourceCode.AppendFrontFormat("NodeType[] {0} = null;\n", typeListVar);
             }
             else // edge
             {
@@ -2427,10 +2436,9 @@ exitSecondLoop: ;
 //                listVar = "edge_list_" + target.PatternElement.Name;
                 headVar = "node_listhead_" + target.PatternElement.Name;
                 wasSetVar = "edge_parWasSet_" + target.PatternElement.Name;
-                typeModel = model.EdgeModel;
+                sourceCode.AppendFrontFormat("EdgeType[] {0} = null;\n", typeListVar);
             }
 
-            sourceCode.AppendFrontFormat("ITypeFramework[] {0} = null;\n", typeListVar);
             sourceCode.AppendFrontFormat("int {0} = 0;\n", typeIterVar);
 //            sourceCode.AppendFrontFormat("LinkedGrList<{0}> {1} = null;\n", elemType, listVar);
             sourceCode.AppendFrontFormat("{0} {1} = null;\n", elemType, headVar);
@@ -2442,14 +2450,14 @@ exitSecondLoop: ;
             sourceCode.AppendFrontFormat("{0} = true;\n", wasSetVar);
             if(target.PatternElement.IsAllowedType != null)         // some types allowed
             {
-                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[{1}.type.typeID]) goto {2};\n",
+                sourceCode.AppendFrontFormat("if(!{0}_IsAllowedType[{1}.type.TypeID]) goto {2};\n",
                     rulePattern.GetType().Name + "." + target.PatternElement.Name,
                     curPosVar, lastOpState.ContinueBeforeUnmapLabel);
             }
             else if(target.PatternElement.AllowedTypes == null)     // all subtypes of pattern element type allowed
             {
                 if(typeModel.Types[target.PatternElement.TypeID] != typeModel.RootType)
-                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.typeID]) goto {2};\n",
+                    sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.TypeID]) goto {2};\n",
                         typeModel.TypeTypes[target.PatternElement.TypeID].Name,
                         curPosVar, lastOpState.ContinueBeforeUnmapLabel);
             }
@@ -2461,7 +2469,7 @@ exitSecondLoop: ;
             }
             else // target.PatternElement.AllowedTypes.Length == 1  // only one type allowed
             {
-                sourceCode.AppendFrontFormat("if({0}.type.typeID != {1}) goto {2};\n",
+                sourceCode.AppendFrontFormat("if({0}.type.TypeID != {1}) goto {2};\n",
                     curPosVar, target.PatternElement.AllowedTypes[0].TypeID, lastOpState.ContinueBeforeUnmapLabel);
             }
             lastOpState.ContinueBeforeUnmapLabelUsed = true;
@@ -2489,7 +2497,7 @@ exitSecondLoop: ;
 
 //            sourceCode.AppendFrontFormat("{0} = lgraph.{1}[{2}[{3}].typeID];\n", listVar, graphList, typeListVar, typeIterVar);
 //            sourceCode.AppendFrontFormat("{0} = {1}.head.typeNext;\n", curPosVar, listVar);
-            sourceCode.AppendFrontFormat("{0} = graph.{1}ByTypeHeads[{2}[{3}].typeID];\n", headVar, graphList, typeListVar, typeIterVar);
+            sourceCode.AppendFrontFormat("{0} = graph.{1}ByTypeHeads[{2}[{3}].TypeID];\n", headVar, graphList, typeListVar, typeIterVar);
             sourceCode.AppendFrontFormat("{0} = {1}.typeNext;\n", curPosVar, headVar);
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -2513,7 +2521,7 @@ exitSecondLoop: ;
 //            sourceCode.AppendFrontFormat("{0} = lgraph.{1}[{2}[{3}].TypeID];\n", listVar,
 //                isNode ? "nodes" : "edges", typeListVar, typeIterVar);
 //            sourceCode.AppendFrontFormat("{0} = {1}.head.typeNext;\n", curPosVar, listVar);
-            sourceCode.AppendFrontFormat("{0} = graph.{1}ByTypeHeads[{2}[{3}].typeID];\n", headVar, graphList, typeListVar, typeIterVar);
+            sourceCode.AppendFrontFormat("{0} = graph.{1}ByTypeHeads[{2}[{3}].TypeID];\n", headVar, graphList, typeListVar, typeIterVar);
             sourceCode.AppendFrontFormat("{0} = {1}.typeNext;\n", curPosVar, headVar);
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
@@ -6427,7 +6435,7 @@ exitSecondLoop: ;
             out SearchProgramOperation continuationPoint)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            ITypeModel typeModel = isNode ? model.NodeModel : model.EdgeModel;
+            ITypeModel typeModel = isNode ? (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel;
 
             if (target.PatternElement.AllowedTypes == null)
             { // the pattern element type and all subtypes are allowed
@@ -6495,7 +6503,7 @@ exitSecondLoop: ;
             SearchPlanNode target)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
-            ITypeModel typeModel = isNode ? model.NodeModel : model.EdgeModel;
+            ITypeModel typeModel = isNode ? (ITypeModel) model.NodeModel : (ITypeModel) model.EdgeModel;
 
             if (target.PatternElement.IsAllowedType != null)
             { // the allowed types are given by an array for checking against them

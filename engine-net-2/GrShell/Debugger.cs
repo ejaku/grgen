@@ -574,12 +574,12 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
         }
 
-        void DebugSettingNodeType(INode node, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        void DebugSettingNodeType(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs)
         {
             ycompClient.RetypeElement(node, oldType, newType, newAttrs);
         }
 
-        void DebugSettingEdgeType(IEdge edge, IType oldType, IAttributes oldAttrs, IType newType, IAttributes newAttrs)
+        void DebugSettingEdgeType(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs)
         {
             ycompClient.RetypeElement(edge, oldType, newType, newAttrs);
         }

@@ -243,8 +243,8 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph PatternGraph { get { return patternGraph; } }
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
-        public IType[] Inputs { get { return inputs; } }
-        public IType[] Outputs { get { return outputs; } }
+        public GrGenType[] Inputs { get { return inputs; } }
+        public GrGenType[] Outputs { get { return outputs; } }
 
         public abstract String[] AddedNodeNames { get; }
         public abstract String[] AddedEdgeNames { get; }
@@ -264,7 +264,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph patternGraph;
         public PatternGraph[] negativePatternGraphs;
 
-        public IType[] inputs; // information already given by the PatternElements within PatternGraph
-        public IType[] outputs;
+        public GrGenType[] inputs; // information already given by the PatternElements within PatternGraph
+        public GrGenType[] outputs;
     }
 }
