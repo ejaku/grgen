@@ -7,10 +7,10 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public class LGSPNode : INode
+    public abstract class LGSPNode : INode
     {
         public NodeType type;
-        public IAttributes attributes;
+//        public IAttributes attributes;
 #if OLDMAPPEDFIELDS
         public int mappedTo;
         public int negMappedTo;
@@ -46,15 +46,10 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge outhead;
         public LGSPEdge inhead;
 
-        // Only for heads of linked lists
-        public LGSPNode()
-        {
-        }
-
         public LGSPNode(NodeType nodeType)
         {
             type = nodeType;
-            attributes = type.CreateAttributes();
+//            attributes = type.CreateAttributes();
         }
 
         public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
@@ -239,21 +234,40 @@ namespace de.unika.ipd.grGen.lgsp
             return type.IsA(otherType);
         }
 
-        public object GetAttribute(string attrName)
+        public abstract object GetAttribute(string attrName);
+
+/*        public object GetAttribute(string attrName)
         {
             return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
-        }
+        }*/
 
-        public void SetAttribute(string attrName, object value)
+        public abstract void SetAttribute(string attrName, object value);
+
+/*        public void SetAttribute(string attrName, object value)
         {
             attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
+        }*/
+    }
+
+    public class LGSPNodeHead : LGSPNode
+    {
+        public LGSPNodeHead() : base(null) { }
+
+        public override object GetAttribute(string attrName)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void SetAttribute(string attrName, object value)
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 
-    public class LGSPEdge : IEdge
+    public abstract class LGSPEdge : IEdge
     {
         public EdgeType type;
-        public IAttributes attributes;
+//        public IAttributes attributes;
 #if OLDMAPPEDFIELDS
         public int mappedTo;
         public int negMappedTo;
@@ -290,15 +304,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public LGSPEdge inNext, inPrev, outNext, outPrev;
               
-        // only for heads of linked lists                                 
-        public LGSPEdge()
-        {
-        }
-
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
             type = edgeType;
-            attributes = type.CreateAttributes();
+//            attributes = type.CreateAttributes();
             source = sourceNode;
             target = targetNode;
         }
@@ -314,14 +323,33 @@ namespace de.unika.ipd.grGen.lgsp
             return type.IsA(otherType);
         }
 
-        public object GetAttribute(string attrName)
+        public abstract object GetAttribute(string attrName);
+
+/*        public object GetAttribute(string attrName)
         {
             return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
-        }
+        }*/
 
-        public void SetAttribute(string attrName, object value)
+        public abstract void SetAttribute(string attrName, object value);
+
+/*        public void SetAttribute(string attrName, object value)
         {
             attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
+        }*/
+    }
+
+    public class LGSPEdgeHead : LGSPEdge
+    {
+        public LGSPEdgeHead() : base(null, null, null) { }
+
+        public override object GetAttribute(string attrName)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void SetAttribute(string attrName, object value)
+        {
+            throw new Exception("The method or operation is not implemented.");
         }
     }
 }

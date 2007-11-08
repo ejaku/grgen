@@ -414,19 +414,6 @@ namespace de.unika.ipd.grGen.libGr
         public abstract bool IsNodeType { get; }
 
         /// <summary>
-        /// Creates an IAttributes instance according to this type.
-        /// If the the type does not have any attributes, null is returned.
-        /// </summary>
-        /// <returns>A new IAttributes instance or null, if the type does not have any attributes.</returns>
-        public abstract IAttributes CreateAttributes();
-
-        /// <summary>
-        /// Creates a graph element according to this type.
-        /// </summary>
-        /// <returns>The created graph element.</returns>
-        public abstract IGraphElement CreateElement();
-
-        /// <summary>
         /// The number of attributes of this type.
         /// </summary>
         public abstract int NumAttributes { get; }
@@ -513,15 +500,6 @@ namespace de.unika.ipd.grGen.libGr
         public abstract INode CreateNode();
 
         /// <summary>
-        /// Creates an INode object according to this type.
-        /// </summary>
-        /// <returns>The created INode object.</returns>
-        public override IGraphElement CreateElement()
-        {
-            return CreateNode();
-        }
-
-        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public NodeType[] subOrSameTypes;
@@ -553,17 +531,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Creates an IEdge object according to this type.
         /// </summary>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
         /// <returns>The created IEdge object.</returns>
-        public abstract IEdge CreateEdge();
-
-        /// <summary>
-        /// Creates an IEdge object according to this type.
-        /// </summary>
-        /// <returns>The created IEdge object.</returns>
-        public override IGraphElement CreateElement()
-        {
-            return CreateEdge();
-        }
+        public abstract IEdge CreateEdge(INode source, INode target);
 
         /// <summary>
         /// Array containing this type first and following all sub types

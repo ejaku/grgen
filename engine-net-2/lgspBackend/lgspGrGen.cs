@@ -125,6 +125,7 @@ namespace de.unika.ipd.grGen.lgsp
             CompilerParameters compParams = new CompilerParameters();
             compParams.ReferencedAssemblies.Add("System.dll");
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
+            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
 
             compParams.CompilerOptions = compileWithDebug ? "/debug" : "/optimize";
             compParams.OutputAssembly = destDir  + "lgsp-" + modelName + ".dll";

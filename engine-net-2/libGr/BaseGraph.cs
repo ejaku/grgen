@@ -117,6 +117,12 @@ namespace de.unika.ipd.grGen.libGr
             return AddINode(nodeType, varName);
         }
 
+        /// <summary>
+        /// Adds a new node to the graph.
+        /// TODO: Slow but provides a better interface...
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <returns>The newly created node.</returns>
         protected abstract INode AddINode(NodeType nodeType);
 
         /// <summary>
@@ -737,17 +743,7 @@ namespace de.unika.ipd.grGen.libGr
             public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
             public override AttributeType GetAttributeType(String name) { return null; }
 
-            public override IGraphElement CreateElement()
-            {
-                throw new Exception("The method or operation is not implemented.");
-            }
-
             public override INode CreateNode()
-            {
-                throw new Exception("The method or operation is not implemented.");
-            }
-
-            public override IAttributes CreateAttributes()
             {
                 throw new Exception("The method or operation is not implemented.");
             }

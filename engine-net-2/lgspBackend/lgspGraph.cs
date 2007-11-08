@@ -60,8 +60,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void DoUndo(IGraph graph)
         {
-            if(_elem is LGSPNode) ((LGSPGraph) graph).AddNodeWithEvent((LGSPNode) _elem);
-            else ((LGSPGraph) graph).AddEdgeWithEvent((LGSPEdge) _elem);
+            if(_elem is LGSPNode) ((LGSPGraph) graph).AddNode((LGSPNode) _elem);
+            else ((LGSPGraph) graph).AddEdge((LGSPEdge) _elem);
 
             if(graph is NamedGraph)
                 ((NamedGraph) graph).SetElementName(_elem, _name);
@@ -95,10 +95,12 @@ namespace de.unika.ipd.grGen.lgsp
             _elem = elem; _attrName = attrName; _oldValue = oldValue;
         }
 
+        // TODO: NYI
         // TODO: Perhaps replace reflection stuff by custom emitted accessor functions stored in a Dictionary in the type objects
         public void DoUndo(IGraph graph)
         {
-            IAttributes attributes;
+            throw new Exception("Not implemented yet!");
+/*            IAttributes attributes;
             PropertyInfo prop;
             LGSPNode node = _elem as LGSPNode;
             if(node != null)
@@ -114,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
                 prop = attributes.GetType().GetProperty(_attrName);
                 graph.ChangingEdgeAttribute(edge, edge.type.GetAttributeType(_attrName), prop.GetValue(attributes, null), _oldValue);
             }
-            prop.SetValue(attributes, _oldValue, null);
+            prop.SetValue(attributes, _oldValue, null);*/
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
@@ -136,25 +138,27 @@ namespace de.unika.ipd.grGen.lgsp
             _oldAttrs = oldAttrs;
         }
 
+        // TODO: NYI
         public void DoUndo(IGraph graph)
         {
-            LGSPGraph lgraph = (LGSPGraph) graph;
-            if(_elem is LGSPNode)
-            {
-                LGSPNode node = (LGSPNode) _elem;
-                lgraph.RemoveNode(node, node.type.TypeID);
-                lgraph.AddNode(node, _oldType.TypeID);
-                node.type = (NodeType) _oldType;
-                node.attributes = _oldAttrs;
-            }
-            else
-            {
-                LGSPEdge edge = (LGSPEdge) _elem;
-                lgraph.RemoveEdge(edge, edge.type.TypeID);
-                lgraph.AddEdge(edge, _oldType.TypeID);
-                edge.type = (EdgeType) _oldType;
-                edge.attributes = _oldAttrs;
-            }
+            throw new Exception("Not implemented yet!");
+/*            LGSPGraph lgraph = (LGSPGraph) graph;
+                        if(_elem is LGSPNode)
+                        {
+                            LGSPNode node = (LGSPNode) _elem;
+                            lgraph.RemoveNode(node, node.type.TypeID);
+                            lgraph.AddNode(node, _oldType.TypeID);
+                            node.type = (NodeType) _oldType;
+                            node.attributes = _oldAttrs;
+                        }
+                        else
+                        {
+                            LGSPEdge edge = (LGSPEdge) _elem;
+                            lgraph.RemoveEdge(edge, edge.type.TypeID);
+                            lgraph.AddEdge(edge, _oldType.TypeID);
+                            edge.type = (EdgeType) _oldType;
+                            edge.attributes = _oldAttrs;
+                        }*/
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
@@ -376,6 +380,7 @@ namespace de.unika.ipd.grGen.lgsp
             modelAssemblyName = modelassemblyname;
         }
 
+        // TODO: NYI
         /// <summary>
         /// Copy constructor.
         /// Open transaction data and variables are lost.
@@ -384,7 +389,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newName">Name of the copied graph.</param>
         protected LGSPGraph(LGSPGraph dataSource, String newName)
         {
-            model = dataSource.model;
+            throw new Exception("Not implemented yet!");
+
+/*            model = dataSource.model;
             name = newName;
 
             InitializeGraph();
@@ -437,7 +444,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nodeLookupCosts = (float[]) dataSource.nodeLookupCosts.Clone();
             if(dataSource.edgeLookupCosts != null)
                 edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
-#endif
+#endif*/
         }
 
         private void InitializeGraph()
@@ -447,7 +454,7 @@ namespace de.unika.ipd.grGen.lgsp
             nodesByTypeHeads = new LGSPNode[model.NodeModel.Types.Length];
             for(int i = 0; i < model.NodeModel.Types.Length; i++)
             {
-                LGSPNode head = new LGSPNode();
+                LGSPNode head = new LGSPNodeHead();
                 head.typeNext = head;
                 head.typePrev = head;
                 nodesByTypeHeads[i] = head;
@@ -456,7 +463,7 @@ namespace de.unika.ipd.grGen.lgsp
             edgesByTypeHeads = new LGSPEdge[model.EdgeModel.Types.Length];
             for(int i = 0; i < model.EdgeModel.Types.Length; i++)
             {
-                LGSPEdge head = new LGSPEdge();
+                LGSPEdge head = new LGSPEdgeHead();
                 head.typeNext = head;
                 head.typePrev = head;
                 edgesByTypeHeads[i] = head;
@@ -695,24 +702,13 @@ namespace de.unika.ipd.grGen.lgsp
             elem.typeNext = head;
         }
 
-        internal void AddNodeWithEvent(LGSPNode node)
-        {
-            AddNode(node, node.type.TypeID);
-            NodeAdded(node);
-        }
-
-        internal void AddEdgeWithEvent(LGSPEdge edge)
-        {
-            AddEdge(edge, edge.type.TypeID);
-            EdgeAdded(edge);
-        }
-
         /// <summary>
         /// Adds an existing node to this graph.
         /// The graph may not already contain the node!
+        /// The edge may not be connected to any other elements!
         /// Intended only for undo, clone and internal use!
         /// </summary>
-        internal void AddNode(LGSPNode node, int typeid)
+        internal void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
             LGSPNode head = nodesByTypeHeads[typeid];
             head.typeNext.typePrev = node;
@@ -726,9 +722,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Adds an existing edge to this graph.
         /// The graph may not already contain the edge!
+        /// The edge may not be connected to any other elements!
         /// Intended only for undo and internal use!
         /// </summary>
-        internal void AddEdge(LGSPEdge edge, int typeid)
+        internal void AddEdgeWithoutEvents(LGSPEdge edge, int typeid)
         {
             LGSPEdge head = edgesByTypeHeads[typeid];
             head.typeNext.typePrev = edge;
@@ -742,54 +739,147 @@ namespace de.unika.ipd.grGen.lgsp
             edgesByTypeCounts[typeid]++;
         }
 
+        /// <summary>
+        /// Adds an existing LGSPNode object to the graph.
+        /// The node must not be part of another graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        public void AddNode(LGSPNode node)
+        {
+            AddNodeWithoutEvents(node, node.type.TypeID);
+            NodeAdded(node);
+        }
+
         // TODO: Slow but provides a better interface...
         protected override INode AddINode(NodeType nodeType)
         {
             return AddNode(nodeType);
         }
 
+        /// <summary>
+        /// Creates a new LGSPNode according to the given type and adds
+        /// it to the graph.
+        /// </summary>
+        /// <param name="nodeType">The type for the new node.</param>
+        /// <returns>The created node.</returns>
         public new LGSPNode AddNode(NodeType nodeType)
         {
-            LGSPNode node = new LGSPNode(nodeType);
-            AddNode(node, nodeType.TypeID);
+//            LGSPNode node = new LGSPNode(nodeType);
+            LGSPNode node = (LGSPNode) nodeType.CreateNode();
+            AddNodeWithoutEvents(node, nodeType.TypeID);
             NodeAdded(node);
             return node;
         }
 
-        // TODO: Slow but provides a better interface...
+        /// <summary>
+        /// Adds an existing LGSPNode object to the graph and assigns it to the given variable.
+        /// The node must not be part of another graph, yet!
+        /// The node may not be connected to any other elements!
+        /// </summary>
+        /// <param name="node">The node to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public void AddNode(LGSPNode node, String varName)
+        {
+            AddNodeWithoutEvents(node, node.type.TypeID);
+            SetVariableValue(varName, node);
+            NodeAdded(node);
+        }
+
+        /// <summary>
+        /// Adds a new node to the graph.
+        /// TODO: Slow but provides a better interface...
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <returns>The newly created node.</returns>
         protected override INode AddINode(NodeType nodeType, String varName)
         {
             return AddNode(nodeType, varName);
         }
 
+        /// <summary>
+        /// Adds a new LGSPNode to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="nodeType">The node type for the new node.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created node.</returns>
         public new LGSPNode AddNode(NodeType nodeType, String varName)
         {
-            LGSPNode node = new LGSPNode(nodeType);
-            AddNode(node, nodeType.TypeID);
+//            LGSPNode node = new LGSPNode(nodeType);
+            LGSPNode node = (LGSPNode) nodeType.CreateNode();
+            AddNodeWithoutEvents(node, nodeType.TypeID);
             SetVariableValue(varName, node);
             NodeAdded(node);
             return node;
         }
 
+        /// <summary>
+        /// Adds an existing LGSPEdge object to the graph.
+        /// The edge must not be part of another graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        public void AddEdge(LGSPEdge edge)
+        {
+            AddEdgeWithoutEvents(edge, edge.type.TypeID);
+            EdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Adds a new edge to the graph.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <returns>The newly created edge.</returns>
         public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target)
         {
-            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
-            AddEdge(edge, edgeType.TypeID);
+//            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
+            LGSPEdge edge = (LGSPEdge) edgeType.CreateEdge(source, target);
+            AddEdgeWithoutEvents(edge, edgeType.TypeID);
             EdgeAdded(edge);
             return edge;
         }
 
+        /// <summary>
+        /// Adds a new edge to the graph.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <returns>The newly created edge.</returns>
         public override IEdge AddEdge(EdgeType edgeType, INode source, INode target)
         {
             return AddEdge(edgeType, (LGSPNode)source, (LGSPNode)target);
         }
 
-        public override IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName)
+        /// <summary>
+        /// Adds an existing LGSPEdge object to the graph and assigns it to the given variable.
+        /// The edge must not be part of another graph, yet!
+        /// Source and target of the edge must already be part of the graph.
+        /// </summary>
+        /// <param name="edge">The edge to be added.</param>
+        /// <param name="varName">The name of the variable.</param>
+        public void AddEdge(LGSPEdge edge, String varName)
         {
-            LGSPNode lsource = (LGSPNode) source;
-            LGSPNode ltarget = (LGSPNode) target;
-            LGSPEdge edge = new LGSPEdge(edgeType, lsource, ltarget);
-            AddEdge(edge, edgeType.TypeID);
+            AddEdgeWithoutEvents(edge, edge.type.TypeID);
+            SetVariableValue(varName, edge);
+            EdgeAdded(edge);
+        }
+
+        /// <summary>
+        /// Adds a new edge to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created edge.</returns>
+        public LGSPEdge AddEdge(EdgeType edgeType, LGSPNode source, LGSPNode target, String varName)
+        {
+//            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
+            LGSPEdge edge = (LGSPEdge) edgeType.CreateEdge(source, target);
+            AddEdgeWithoutEvents(edge, edgeType.TypeID);
             transactionManager.ElementAdded(edge);
             SetVariableValue(varName, edge);
 //            VariableAdded(edge, varName);
@@ -797,7 +887,20 @@ namespace de.unika.ipd.grGen.lgsp
             return edge;
         }
 
-        internal void RemoveNode(LGSPNode node, int typeid)
+        /// <summary>
+        /// Adds a new edge to the graph and assigns it to the given variable.
+        /// </summary>
+        /// <param name="edgeType">The edge type for the new edge.</param>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <param name="varName">The name of the variable.</param>
+        /// <returns>The newly created edge.</returns>
+        public override IEdge AddEdge(EdgeType edgeType, INode source, INode target, String varName)
+        {
+            return AddEdge(edgeType, (LGSPNode) source, (LGSPNode) target, varName);
+        }
+
+        internal void RemoveNodeWithoutEvents(LGSPNode node, int typeid)
         {
             node.typePrev.typeNext = node.typeNext;
             node.typeNext.typePrev = node.typePrev;
@@ -807,6 +910,9 @@ namespace de.unika.ipd.grGen.lgsp
             nodesByTypeCounts[typeid]--;
         }
 
+        /// <summary>
+        /// Removes the given node from the graph.
+        /// </summary>
         public override void Remove(INode node)
         {
             LGSPNode lnode = (LGSPNode) node;
@@ -834,10 +940,10 @@ namespace de.unika.ipd.grGen.lgsp
                 lnode.hasVariables = false;
             }
 #endif
-            RemoveNode(lnode, lnode.type.TypeID);
+            RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
         }
 
-        internal void RemoveEdge(LGSPEdge edge, int typeid)
+        internal void RemoveEdgeWithoutEvents(LGSPEdge edge, int typeid)
         {
             edge.typePrev.typeNext = edge.typeNext;
             edge.typeNext.typePrev = edge.typePrev;
@@ -847,6 +953,9 @@ namespace de.unika.ipd.grGen.lgsp
             edgesByTypeCounts[typeid]--;
         }
 
+        /// <summary>
+        /// Removes the given edge from the graph.
+        /// </summary>
         public override void Remove(IEdge edge)
         {
             LGSPEdge ledge = (LGSPEdge) edge;
@@ -874,9 +983,12 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             ledge.source.RemoveOutgoing(ledge);
             ledge.target.RemoveIncoming(ledge);
-            RemoveEdge(ledge, ledge.type.TypeID);
+            RemoveEdgeWithoutEvents(ledge, ledge.type.TypeID);
         }
 
+        /// <summary>
+        /// Removes all edges from the given node.
+        /// </summary>
         public override void RemoveEdges(INode node)
         {
             LGSPNode lnode = (LGSPNode) node;
@@ -888,6 +1000,7 @@ namespace de.unika.ipd.grGen.lgsp
                 Remove(edge);
         }
 
+        // TODO: NYI
         /// <summary>
         /// Reuses an LGSPNode object for a new node and optionally changes the type.
         /// This causes a RemovingNode and a NodeAdded event and removes all variables pointing to the old element.
@@ -896,7 +1009,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newType">The new type to be used for the node or null, if the type is not to be changed</param>
         public void ReuseNode(LGSPNode node, NodeType newType)
         {
-            RemovingNode(node);
+            throw new Exception("Not implemented yet!");
+
+/*            RemovingNode(node);
 #if ELEMENTKNOWSVARIABLES
             if(node.variableList != null)
             {
@@ -933,9 +1048,10 @@ namespace de.unika.ipd.grGen.lgsp
             // Reset attributes
             node.attributes = node.type.CreateAttributes();
 
-            NodeAdded(node);
+            NodeAdded(node);*/
         }
 
+        // TODO: NYI
         /// <summary>
         /// Reuses an LGSPEdge object for a new edge and optionally changes the source, target and/or type.
         /// This causes a RemovingEdge and a EdgeAdded event and removes all variables pointing to the old element.
@@ -946,7 +1062,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newType"></param>
         public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, EdgeType newType)
         {
-            RemovingEdge(edge);
+            throw new Exception("Not implemented yet!");
+
+/*            RemovingEdge(edge);
 #if ELEMENTKNOWSVARIABLES
             if(edge.variableList != null)
             {
@@ -1043,7 +1161,7 @@ namespace de.unika.ipd.grGen.lgsp
             // Reset attributes
             edge.attributes = edge.type.CreateAttributes();
 
-            EdgeAdded(edge);
+            EdgeAdded(edge);*/
         }
 
         public override void Clear()
@@ -1052,7 +1170,7 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeGraph();
         }
 
-        private void RetypeWithCopyCommons(IGraphElement elem, GrGenType newType)
+/*        private void RetypeWithCopyCommons(IGraphElement elem, GrGenType newType)
         {
 //            IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
             IAttributes newAttrs = newType.CreateAttributes();
@@ -1087,11 +1205,14 @@ namespace de.unika.ipd.grGen.lgsp
                 SettingEdgeType((IEdge) elem, elem.Type, elem.attributes, newType, newAttrs);
             elem.type = newType;
             elem.attributes = newAttrs;
-        }
+        }*/
 
+        // TODO: NYI
         private void RetypeWithCopyCommons(LGSPNode elem, NodeType newType)
         {
-            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
+            throw new Exception("Not implemented yet!");
+
+/*            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
             IAttributes newAttrs = newType.CreateAttributes();
 
             IEnumerable<AttributeType> minAttrTypes;
@@ -1120,12 +1241,15 @@ namespace de.unika.ipd.grGen.lgsp
             }
             SettingNodeType(elem, elem.Type, elem.attributes, newType, newAttrs);
             elem.type = newType;
-            elem.attributes = newAttrs;
+            elem.attributes = newAttrs;*/
         }
 
+        // TODO: NYI
         private void RetypeWithCopyCommons(LGSPEdge elem, EdgeType newType)
         {
-            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
+            throw new Exception("Not implemented yet!");
+
+/*            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
             IAttributes newAttrs = newType.CreateAttributes();
 
             IEnumerable<AttributeType> minAttrTypes;
@@ -1154,12 +1278,15 @@ namespace de.unika.ipd.grGen.lgsp
             }
             SettingEdgeType(elem, elem.Type, elem.attributes, newType, newAttrs);
             elem.type = newType;
-            elem.attributes = newAttrs;
+            elem.attributes = newAttrs;*/
         }
 
+        // TODO: NYI
         public override IAttributes SetNodeType(INode node, NodeType newNodeType)
         {
-            LGSPNode lnode = (LGSPNode) node;
+            throw new Exception("Not implemented yet!");
+
+/*            LGSPNode lnode = (LGSPNode) node;
             IAttributes oldAttrs = lnode.attributes;
             int oldtypeid = lnode.type.TypeID;
 
@@ -1169,12 +1296,15 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveNode(lnode, oldtypeid);
             AddNode(lnode, newNodeType.TypeID);
 
-            return oldAttrs;
+            return oldAttrs;*/
         }
 
+        // TODO: NYI
         public override IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType)
         {
-            LGSPEdge ledge = (LGSPEdge) edge;
+            throw new Exception("Not implemented yet!");
+
+/*            LGSPEdge ledge = (LGSPEdge) edge;
             IAttributes oldAttrs = ledge.attributes;
             int oldtypeid = ledge.type.TypeID;
 
@@ -1184,7 +1314,7 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveEdge(ledge, oldtypeid);
             AddEdge(ledge, newEdgeType.TypeID);
 
-            return oldAttrs;
+            return oldAttrs;*/
         }
 
         #region Variables management
