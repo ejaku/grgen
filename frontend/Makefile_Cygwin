@@ -2,10 +2,10 @@
 # build the grgen-tool, grrr
 #
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
-ANTLR_JAR  = c:/diplomarbeit/grgen/jars/antlr.jar
-JARGS_JAR  = c:/diplomarbeit/grgen/jars/jargs.jar
+ANTLR_JAR  = jars/antlr.jar
+JARGS_JAR  = jars/jargs.jar
 
-ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
+ANTLR = java -cp ../../../../../../$(ANTLR_JAR) antlr.Tool
 
 all:	grgen
 
