@@ -329,22 +329,22 @@ namespace de.unika.ipd.grGen.libGr
         void Clear();
 
         /// <summary>
-        /// Changes the type of the node.
-        /// All attributes from common super classes are kept.
+        /// Retypes a node by creating a new node of the given type.
+        /// All adjacent edges as well as all attributes from common super classes are kept.
         /// </summary>
-        /// <param name="node">The node to be changed</param>
-        /// <param name="newNodeType">The new type for the node</param>
-        /// <returns>The old IAttributes object of the node, which may be null, if it didn't have any attributes</returns>
-        IAttributes SetNodeType(INode node, NodeType newNodeType);
+        /// <param name="node">The node to be retyped.</param>
+        /// <param name="newNodeType">The new type for the node.</param>
+        /// <returns>The new node object representing the retyped node.</returns>
+        INode Retype(INode node, NodeType newNodeType);
 
         /// <summary>
-        /// Changes the type of the edge.
-        /// All attributes from common super classes are kept.
+        /// Retypes an edge by creating a new edge of the given type.
+        /// Source and target node as well as all attributes from common super classes are kept.
         /// </summary>
-        /// <param name="edge">The edge to be changed</param>
-        /// <param name="newEdgeType">The new type for the edge</param>
-        /// <returns>The old IAttributes object of the edge, which may be null, if it didn't have any attributes</returns>
-        IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType);
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="newEdgeType">The new type for the edge.</param>
+        /// <returns>The new edge object representing the retyped edge.</returns>
+        IEdge Retype(IEdge edge, EdgeType newEdgeType);
 
         /// <summary>
         /// Mature a graph.

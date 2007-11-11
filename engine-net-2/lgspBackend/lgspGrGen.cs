@@ -396,6 +396,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     output = sr.ReadToEnd();
                 }
+                if(output.Contains("ERROR"))
+                    return ErrorType.GrGenJavaError;
                 if(output.Contains(" warning(s)"))
                 {
                     Console.WriteLine(output);

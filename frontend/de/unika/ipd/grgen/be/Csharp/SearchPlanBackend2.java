@@ -364,7 +364,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
          reuseNodeAndEdges);
 		
 		// node type changes
-		for(Node node : rule.getRight().getNodes())
+		for(Node node : rule.getRight().getNodes()) {
 			if(node.changesType()) {
 				String new_type;
 				RetypedNode rnode = node.getRetypedNode();
@@ -379,12 +379,15 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				}
 				
 				extractNodeFromMatch.add(node);
-				sb2.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
-				sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = " + formatEntity(node) + ";\n");
+				sb2.append("\t\t\t" + formatNodeAssign(rnode, extractNodeAttributeObject)
+               + "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
+//				sb2.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
+//				sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = " + formatEntity(node) + ";\n");
 			}
+      }
 		
 		// edge type changes
-		for(Edge edge : rule.getRight().getEdges())
+		for(Edge edge : rule.getRight().getEdges()) {
 			if(edge.changesType()) {
 				String new_type;
 				RetypedEdge redge = edge.getRetypedEdge();
@@ -399,9 +402,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				}
 				
 				extractEdgeFromMatch.add(edge);
-				extractEdgeAttributeObject.add(edge);
-				sb2.append("\t\t\tgraph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
+				sb2.append("\t\t\t" + formatEdgeAssign(redge, extractEdgeAttributeObject)
+               + "graph.Retype(" + formatEntity(edge) + ", " + new_type + ");\n");
+//				extractEdgeAttributeObject.add(edge);
+//				sb2.append("\t\t\tgraph.SetEdgeType(" + formatEntity(edge) + ", " + new_type + ");\n");
 			}
+		}
 		
 /*		// attribute re-calc
 		genEvals(sb3, rule, extractNodeAttributeObject, extractEdgeAttributeObject);
@@ -447,30 +453,14 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// extract nodes/edges from match
 		for(Node node : extractNodeFromMatch) {
 			if(!node.isRetyped()) {
-            if(extractNodeAttributeObject.contains(node)) {
-               String ctype = formatClassType(node.getType());
-               sb.append("\t\t\t" + ctype + " " + formatEntity(node)
-                  + " = (" + ctype + ") match.nodes[ (int) NodeNums.@"
-                  + formatIdentifiable(node) + " - 1 ];\n");
-            } else {
-               sb.append("\t\t\tLGSPNode " + formatEntity(node)
-                  + " = match.nodes[ (int) NodeNums.@"
-                  + formatIdentifiable(node) + " - 1 ];\n");
-            }
+            sb.append("\t\t\t" + formatNodeAssign(node, extractNodeAttributeObject)
+                  + "match.nodes[ (int) NodeNums.@" + formatIdentifiable(node) + " - 1 ];\n");
          }
       }
 		for(Edge edge : extractEdgeFromMatch) {
 			if(!edge.isRetyped()) {
-            if(extractEdgeAttributeObject.contains(edge)) {
-               String ctype = formatClassType(edge.getType());
-               sb.append("\t\t\t" + ctype + " " + formatEntity(edge)
-                  + " = (" + ctype + ") match.edges[ (int) EdgeNums.@"
-                  + formatIdentifiable(edge) + " - 1 ];\n");
-            } else {
-               sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-                  + " = match.edges[ (int) EdgeNums.@"
-                  + formatIdentifiable(edge) + " - 1 ];\n");
-            }
+            sb.append("\t\t\t" + formatEdgeAssign(edge, extractEdgeAttributeObject)
+               + "match.edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + " - 1 ];\n");
          }
       }
 		
@@ -1259,7 +1249,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		else
 		{
          sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
-            + ": base("+ tname + ".typeVar, source, target) { }\n");
+            + "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n");
 		}
 		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n\n");
 		if(isNode)
@@ -1755,6 +1745,26 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 	
+	private String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject) {
+      if(extractNodeAttributeObject.contains(node)) {
+         String ctype = formatClassType(node.getType());
+         return ctype + " " + formatEntity(node)
+            + " = (" + ctype + ") ";
+      } else {
+         return "LGSPNode " + formatEntity(node);
+      }      
+   }
+
+   private String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject) {
+      if(extractEdgeAttributeObject.contains(edge)) {
+         String ctype = formatClassType(edge.getType());
+         return ctype + " " + formatEntity(edge)
+            + " = (" + ctype + ") ";
+      } else {
+         return "LGSPEdge " + formatEntity(edge);
+      }      
+   }
+
 	public void done() {
 		// TODO
 	}

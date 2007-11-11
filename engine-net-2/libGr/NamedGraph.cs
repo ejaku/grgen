@@ -479,22 +479,38 @@ namespace de.unika.ipd.grGen.libGr
         public IEnumerable<IEdge> GetCompatibleEdges(EdgeType edgeType) { return graph.GetCompatibleEdges(edgeType); }
 
         /// <summary>
-        /// Changes the type of the node.
-        /// All attributes from common super classes are kept.
+        /// Retypes a node by creating a new node of the given type.
+        /// All adjacent edges as well as all attributes from common super classes are kept.
         /// </summary>
-        /// <param name="node">The node to be changed</param>
-        /// <param name="newNodeType">The new type for the node</param>
-        /// <returns>The old IAttributes object of the node, which may be null, if it didn't have any attributes</returns>
-        public IAttributes SetNodeType(INode node, NodeType newNodeType) { return graph.SetNodeType(node, newNodeType); }
+        /// <param name="node">The node to be retyped.</param>
+        /// <param name="newNodeType">The new type for the node.</param>
+        /// <returns>The new node object representing the retyped node.</returns>
+        public INode Retype(INode node, NodeType newNodeType)
+        {
+            INode newNode = graph.Retype(node, newNodeType);
+            String name = ElemToName[node];
+            ElemToName.Remove(node);
+            ElemToName[newNode] = name;
+            NameToElem[name] = newNode;
+            return newNode;
+        }
 
         /// <summary>
-        /// Changes the type of the edge.
-        /// All attributes from common super classes are kept.
+        /// Retypes an edge by creating a new edge of the given type.
+        /// Source and target node as well as all attributes from common super classes are kept.
         /// </summary>
-        /// <param name="edge">The edge to be changed</param>
-        /// <param name="newEdgeType">The new type for the edge</param>
-        /// <returns>The old IAttributes object of the edge, which may be null, if it didn't have any attributes</returns>
-        public IAttributes SetEdgeType(IEdge edge, EdgeType newEdgeType) { return graph.SetEdgeType(edge, newEdgeType); }
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="newEdgeType">The new type for the edge.</param>
+        /// <returns>The new edge object representing the retyped edge.</returns>
+        public IEdge Retype(IEdge edge, EdgeType newEdgeType)
+        {
+            IEdge newEdge = graph.Retype(edge, newEdgeType);
+            String name = ElemToName[edge];
+            ElemToName.Remove(edge);
+            ElemToName[newEdge] = name;
+            NameToElem[name] = newEdge;
+            return newEdge;
+        }
 
         /// <summary>
         /// Mature a graph.

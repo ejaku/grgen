@@ -706,9 +706,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Adds an existing node to this graph.
         /// The graph may not already contain the node!
         /// The edge may not be connected to any other elements!
-        /// Intended only for undo, clone and internal use!
+        /// Intended only for undo, clone, retyping and internal use!
         /// </summary>
-        internal void AddNodeWithoutEvents(LGSPNode node, int typeid)
+        public void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
             LGSPNode head = nodesByTypeHeads[typeid];
             head.typeNext.typePrev = node;
@@ -723,9 +723,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// Adds an existing edge to this graph.
         /// The graph may not already contain the edge!
         /// The edge may not be connected to any other elements!
-        /// Intended only for undo and internal use!
+        /// Intended only for undo, clone, retyping and internal use!
         /// </summary>
-        internal void AddEdgeWithoutEvents(LGSPEdge edge, int typeid)
+        public void AddEdgeWithoutEvents(LGSPEdge edge, int typeid)
         {
             LGSPEdge head = edgesByTypeHeads[typeid];
             head.typeNext.typePrev = edge;
@@ -1281,6 +1281,76 @@ namespace de.unika.ipd.grGen.lgsp
             elem.attributes = newAttrs;*/
         }
 
+        public LGSPNode Retype(LGSPNode node, NodeType newNodeType)
+        {
+            throw new Exception("Not implemented yet!");
+//            return newNodeType.Retype(this, node);
+        }
+
+        public override INode Retype(INode node, NodeType newNodeType)
+        {
+            return Retype((LGSPNode) node, newNodeType);
+        }
+
+        public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
+        {
+            throw new Exception("Not implemented yet!");
+        }
+
+        public override IEdge Retype(IEdge edge, EdgeType newEdgeType)
+        {
+            return Retype((LGSPEdge) edge, newEdgeType);
+        }
+
+        /// <summary>
+        /// Replaces a given node by another one.
+        /// All adjacent edges are transferred to the new node.
+        /// The attributes are not touched.
+        /// This function is used for retyping.
+        /// </summary>
+        /// <param name="oldNode">The node to be replaced.</param>
+        /// <param name="newNode">The replacement for the node.</param>
+        public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
+        {
+        }
+
+        /// <summary>
+        /// Replaces a given edge by another one.
+        /// Source and target node are transferred to the new edge,
+        /// but the new edge must already have source and target set to these nodes.
+        /// The new edge is added to the graph, the old edge is removed.
+        /// A SettingEdgeType event is generated before.
+        /// The attributes are not touched.
+        /// This function is used for retyping.
+        /// </summary>
+        /// <param name="oldEdge">The edge to be replaced.</param>
+        /// <param name="newEdge">The replacement for the edge.</param>
+        public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
+        {
+            // Reassign source node
+            LGSPNode src = oldEdge.source;
+            if(src.outhead == oldEdge)
+                src.outhead = newEdge;
+            oldEdge.outNext.outPrev = newEdge;
+            oldEdge.outPrev.outNext = newEdge;
+            newEdge.outNext = oldEdge.outNext;
+            newEdge.outPrev = oldEdge.outPrev;
+            oldEdge.outNext = null;
+            oldEdge.outPrev = null;
+
+            // Reassign target node
+            LGSPNode tgt = oldEdge.target;
+            if(tgt.inhead == oldEdge)
+                tgt.inhead = newEdge;
+            oldEdge.inNext.inPrev = newEdge;
+            oldEdge.inPrev.inNext = newEdge;
+            newEdge.inNext = oldEdge.inNext;
+            newEdge.inPrev = oldEdge.inPrev;
+            oldEdge.inNext = null;
+            oldEdge.inPrev = null;
+        }
+
+#if OLD
         // TODO: NYI
         public override IAttributes SetNodeType(INode node, NodeType newNodeType)
         {
@@ -1316,6 +1386,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             return oldAttrs;*/
         }
+#endif
 
         #region Variables management
 
