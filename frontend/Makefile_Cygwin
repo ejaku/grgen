@@ -7,6 +7,8 @@ JARGS_JAR  = jars/jargs.jar
 
 ANTLR = java -cp ../../../../../../$(ANTLR_JAR) antlr.Tool
 
+GRGENNET ?= ../engine-net/out/bin/
+
 all:	grgen
 
 grgen: .grammar
@@ -20,9 +22,8 @@ grgen: .grammar
 
 .generator_build: dir .grammar
 	find de -type f -name "*.java" | xargs javac -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR)" -source 1.5
-	cd build ; \
-	jar cf grgen.jar . ; \
-	mv grgen.jar ..
+	jar -cf grgen.jar -C build .
+	cp grgen.jar $(GRGENNET)
 	@touch .generator_build
 
 .PHONY: dir

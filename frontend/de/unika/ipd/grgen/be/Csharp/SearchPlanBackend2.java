@@ -90,7 +90,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	}
 	
 	/**
-	 * Starts the C-code Genration of the FrameBasedBackend
+	 * Starts the C-code Generation of the FrameBasedBackend
 	 * @see de.unika.ipd.grgen.be.Backend#generate()
 	 */
 	public void generate() {
@@ -356,12 +356,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		
 		// new nodes
 		genRewriteNewNodes(sb2, newNodes, delNodes, extractNodeFromMatch,
-         extractNodeTypeFromMatch, addedNodes, reuseNodeAndEdges);
+			extractNodeTypeFromMatch, addedNodes, reuseNodeAndEdges);
 		
 		// new edges
 		genRewriteNewEdges(sb2, newEdges, delEdges, rule, extractNodeFromMatch,
-         extractEdgeFromMatch, extractEdgeTypeFromMatch, addedEdges,
-         reuseNodeAndEdges);
+			extractEdgeFromMatch, extractEdgeTypeFromMatch, addedEdges,
+			reuseNodeAndEdges);
 		
 		// node type changes
 		for(Node node : rule.getRight().getNodes()) {
@@ -380,7 +380,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				
 				extractNodeFromMatch.add(node);
 				sb2.append("\t\t\t" + formatNodeAssign(rnode, extractNodeAttributeObject)
-               + "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
+					+ "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
 //				sb2.append("\t\t\tgraph.SetNodeType(" + formatEntity(node) + ", " + new_type + ");\n");
 //				sb2.append("\t\t\tLGSPNode " + formatEntity(rnode) + " = " + formatEntity(node) + ";\n");
 			}
@@ -1088,7 +1088,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t//\n");
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + formatIdentifiable(unit) + formatNodeOrEdge(isNode)
-         + "Model : I" + (isNode ? "Node" : "Edge") + "Model\n");
+			+ "Model : I" + (isNode ? "Node" : "Edge") + "Model\n");
 		sb.append("\t{\n");
 		
 		InheritanceType rootType = genModelModel1(sb, isNode, types);
@@ -1107,8 +1107,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t\t{\n");
 		for(InheritanceType type : types) {
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.subOrSameGrGenTypes = "
-            + formatType(type) + ".typeVar.subOrSameTypes = new "
-            + (isNode ? "Node" : "Edge") + "Type[] {\n");
+				+ formatType(type) + ".typeVar.subOrSameTypes = new "
+				+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			sb.append("\t\t\t\t" + formatType(type) + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
 				if(type != otherType && otherType.isCastableTo(type))
@@ -1117,8 +1117,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			sb.append("\t\t\t};\n");
 			
 			sb.append("\t\t\t" + formatType(type) + ".typeVar.superOrSameGrGenTypes = "
-            + formatType(type) + ".typeVar.superOrSameTypes = new "
-            + (isNode ? "Node" : "Edge") + "Type[] {\n");
+				+ formatType(type) + ".typeVar.superOrSameTypes = new "
+				+ (isNode ? "Node" : "Edge") + "Type[] {\n");
 			sb.append("\t\t\t\t" + formatType(type) + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
 				if(type != otherType && type.isCastableTo(otherType))
@@ -1244,34 +1244,34 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t{\n");
 		if(isNode)
 		{
-         sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n");
+			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n");
 		}
 		else
 		{
-         sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
-            + "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n");
+			sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
+				+ "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n");
 		}
 		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n\n");
 		if(isNode)
 		{
-         sb.append(
-            "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n" +
-            "\t\t{\n" +
-            "\t\t\t" + cname + " node = new " + cname + "();\n" +
-            "\t\t\tgraph.AddNode(node);\n" +
-            "\t\t\treturn node;\n" +
-            "\t\t}\n\n");
-      }
-      else
-      {
-         sb.append(
-            "\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)\n" +
-            "\t\t{\n" +
-            "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n" +
-            "\t\t\tgraph.AddEdge(edge);\n" +
-            "\t\t\treturn edge;\n" +
-            "\t\t}\n\n");
-      }
+			sb.append(
+				"\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n" +
+				"\t\t{\n" +
+				"\t\t\t" + cname + " node = new " + cname + "();\n" +
+				"\t\t\tgraph.AddNode(node);\n" +
+				"\t\t\treturn node;\n" +
+				"\t\t}\n\n");
+		}
+		else
+		{
+			sb.append(
+				"\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)\n" +
+				"\t\t{\n" +
+				"\t\t\t" + cname + " edge = new " + cname + "(source, target);\n" +
+				"\t\t\tgraph.AddEdge(edge);\n" +
+				"\t\t\treturn edge;\n" +
+				"\t\t}\n\n");
+		}
 		genAttributeAccessImpl(sb, type);
 		sb.append("\t}\n");
 		
@@ -1297,24 +1297,26 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		 
 		if(isNode)
 		{
-         sb.append("\t\tpublic override INode CreateNode() { return new " + cname + "(); }\n");
-      }
-      else
-      {
-         sb.append("\t\tpublic override IEdge CreateEdge(INode source, INode target)\n"
-            + "\t\t{\n"
-            + "\t\t\treturn new " + cname + "((LGSPNode) source, (LGSPNode) target);\n"
-            + "\t\t}\n");
-      }
+			sb.append("\t\tpublic override INode CreateNode() { return new " + cname + "(); }\n");
+		}
+		else
+		{
+			sb.append("\t\tpublic override IEdge CreateEdge(INode source, INode target)\n"
+				+ "\t\t{\n"
+				+ "\t\t\treturn new " + cname + "((LGSPNode) source, (LGSPNode) target);\n"
+				+ "\t\t}\n");
+		}
 		
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnum(sb, type);
 		genGetAttributeType(sb, type);
 		
-      sb.append("\t\tpublic override bool IsA(GrGenType other)\n");
-      sb.append("\t\t{\n");
-      sb.append("\t\t\treturn (this == other) || isA[other.TypeID];\n");
-      sb.append("\t\t}\n");
+		sb.append("\t\tpublic override bool IsA(GrGenType other)\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t\treturn (this == other) || isA[other.TypeID];\n");
+		sb.append("\t\t}\n");
+      
+		genRetype(sb, type);
 		sb.append("\t}\n");
 	}
 	
@@ -1632,9 +1634,73 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		}
 	}
 	
+	private void getHighestCommonSuperTypes(InheritanceType curType,
+			InheritanceType type, HashSet<InheritanceType> resTypes)
+	{
+		if(type.isCastableTo(curType))
+			resTypes.add(curType);
+		else
+			for(InheritanceType superType : curType.getDirectSuperTypes())
+				getHighestCommonSuperTypes(superType, type, resTypes);
+	}
+			
+	
+	private void genRetype(StringBuffer sb, InheritanceType type) {
+		boolean isNode = type instanceof NodeType;
+		String typeName = formatIdentifiable(type);
+		String cname = formatNodeOrEdge(type) + "_" + typeName;
+		String kindName = isNode ? "Node" : "Edge";
+		
+		if(isNode)
+		{
+			sb.append("\t\tpublic LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)\n"
+				+ "\t\t{\n"
+				+ "\t\t\t" + cname + " newNode = new " + cname + "();\n");
+		}
+		else
+		{
+			sb.append("\t\tpublic LGSPEdge Retype(LGSPGraph graph, LGSPEdge oldEdge)\n" +
+				"\t\t{\n" +
+				"\t\t\t" + cname + " newEdge = new " + cname + "(oldEdge.source, oldEdge.target);\n");
+		}
+		sb.append("\t\t\tswitch(old" + kindName + ".Type.TypeID)\n"
+			+ "\t\t\t{\n");
+		
+		if(isNode) {
+			for(InheritanceType itype : nodeTypeMap.keySet()) {
+				HashSet<InheritanceType> highestCommonSuperTypes = new HashSet<InheritanceType>();
+				getHighestCommonSuperTypes(itype, type, highestCommonSuperTypes);
+				
+				boolean mustCopyAttribs = false;
+				for(InheritanceType commonType : highestCommonSuperTypes) {
+					if(commonType.getAllMembers().size() != 0) {
+						mustCopyAttribs = true;
+						break;
+					}
+				}
+				
+				if(!mustCopyAttribs) continue;
+				sb.append("\t\t\t\tcase (int) NodeTypes.@" + formatIdentifiable(itype) + ":\n");
+				for(InheritanceType commonType : highestCommonSuperTypes) {
+					if(commonType.getAllMembers().size() != 0) {
+						sb.append("\t\t\t\t\t// copy attribs for: "
+								+ formatIdentifiable(commonType) + "\n");
+						
+						// TODO: Attribute nicht mehrfach ausgeben, wenn ueber mehrere Pfade geerbt
+					}
+				}
+				sb.append("\t\t\t\t\tbreak;\n");
+			}
+		}
+		
+		sb.append("\t\t\t}\n"
+			+ "\t\t\tgraph.Replace" + kindName + "(old" + kindName + ", new" + kindName + ");\n"
+			+ "\t\t\treturn new" + kindName + ";\n"
+			+ "\t\t}\n\n");
+	}
 	
 	/**
-	 * Method genSet dumps C-like Set representaion.
+	 * Method genSet dumps C-like Set representation.
 	 *
 	 * @param    sb                  a  StringBuffer
 	 * @param    get                 a  Collection<Node>
@@ -1751,7 +1817,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
          return ctype + " " + formatEntity(node)
             + " = (" + ctype + ") ";
       } else {
-         return "LGSPNode " + formatEntity(node);
+         return "LGSPNode " + formatEntity(node) + " = ";
       }      
    }
 
@@ -1761,7 +1827,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
          return ctype + " " + formatEntity(edge)
             + " = (" + ctype + ") ";
       } else {
-         return "LGSPEdge " + formatEntity(edge);
+         return "LGSPEdge " + formatEntity(edge) + " = ";
       }      
    }
 

@@ -1,0 +1,15 @@
+using testModel;
+
+rule testRule {
+   pattern {
+      p1:Process -c1:bigspeedcon-> p2:Process;
+   }
+   replace {
+      p1 -c2:fluffway<c1>-> p2 -c3:connection-> p3:Process;
+      
+      eval {
+        c2.numtunnels = p1.val / (c1.bandwidth - c2.bandwidth + 1);
+        c3.bandwidth = p2.val + 30 + c2.bandwidth;
+      }
+   }
+}

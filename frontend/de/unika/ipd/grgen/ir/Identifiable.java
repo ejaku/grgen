@@ -99,7 +99,7 @@ public class Identifiable extends IR implements Attributed, Comparable {
 	
 	/**
 	 * Get the attributes.
-	 * @return The atttributes.
+	 * @return The attributes.
 	 */
 	public Attributes getAttributes() {
 		return getIdent().getAttributes();

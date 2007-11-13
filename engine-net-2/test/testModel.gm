@@ -1,0 +1,26 @@
+node class Process {
+    name:string;
+    val:int;
+}
+
+edge class connection {
+    bandwidth:int;
+}
+
+edge class speedway {
+    speed:int;
+}
+
+edge class slowway {
+    slowspeed:int;
+}
+
+edge class speedcon extends connection, speedway {
+    classkind:string;
+}
+
+edge class bigspeedcon extends speedcon, slowway;
+
+edge class fluffway extends connection {
+    numtunnels:int;
+}

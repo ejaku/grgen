@@ -41,7 +41,7 @@ import javax.swing.table.TableModel;
 public class TableHandler implements TableModel, Handler {
 
 	private static final String[] msgNames = {
-		"error", "warning", "note", "debug"
+		"error", "warning", "note", "debug", "note"
 	};
 	
 	private static final int COL_DEGREE = 0;
@@ -59,6 +59,9 @@ public class TableHandler implements TableModel, Handler {
 		public Message(int degree, String msg) {
 			this.degree = (byte) degree;
 			this.msg = msg;
+			
+			if(degree < 0 || degree > 4)
+				throw new IllegalArgumentException("degree is out of range!");
 		}
 	}
 	

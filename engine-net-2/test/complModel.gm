@@ -1,0 +1,67 @@
+node class A1 {
+    a1:int;
+}
+
+node class A2 {
+    a2:int;
+}
+
+node class A3 {
+    a3:int;
+}
+
+node class A4 {
+    a4:int;
+}
+
+node class A5 {
+    a5:int;
+}
+
+node class B21 extends A2 {
+    b21:int;
+}
+
+node class B22 extends A2 {
+    b22:int;
+}
+
+node class B23 extends A2 {
+    b23:int;
+}
+
+node class B41 extends A4 {
+    b41:int;
+}
+
+node class B42 extends A4 {
+    b42:int;
+}
+
+node class B43 extends A4 {
+    b43:int;
+}
+
+node class C221 extends B22 {
+    c221:int;
+}
+
+node class C222_411 extends B22, B41 {
+    c222_411:int;
+}
+
+node class C412_421_431_51 extends B41, B42, B43, A5 {
+    c412_421_432_51:int;
+}
+
+node class D11_2221 extends A1, C222_411 {
+    d11_2221:int;
+}
+
+node class D2211_2222_31 extends C221, C222_411, A3 {
+    d2211_2222_31:int;
+}
+
+node class D231_4121 extends B23, C412_421_431_51 {
+    d231_4121:int;
+}

@@ -174,6 +174,36 @@ public class Dumper {
 					public String getEdgeLabel(int edge) { return null; }
 				});
 	}
+
+	public final void dump(final String s, final String fromId,
+			final String toId, GraphDumper gd) {
+		gd.edge(new GraphDumpable() {
+					public String getNodeId() {	return fromId; }
+					
+					public Color getNodeColor() { return Color.ORANGE; }
+					
+					public int getNodeShape() { return GraphDumper.BOX; }
+					
+					public String getNodeLabel() { return fromId; }
+					
+					public String getNodeInfo() { return null; }
+					
+					public String getEdgeLabel(int edge) { return null; }
+				},
+				new GraphDumpable() {
+					public String getNodeId() {	return toId; }
+					
+					public Color getNodeColor() { return Color.ORANGE; }
+					
+					public int getNodeShape() { return GraphDumper.BOX; }
+					
+					public String getNodeLabel() { return fromId; }
+					
+					public String getNodeInfo() { return null; }
+					
+					public String getEdgeLabel(int edge) { return null; }
+				}, s);
+	}
 	
 	public final void dump(Expression expr, GraphDumper gd) {
 		if(compactCondEval) {
@@ -199,6 +229,28 @@ public class Dumper {
 			if(act instanceof MatchingAction) {
 				MatchingAction mact = (MatchingAction) act;
 				dump(mact, curr);
+			}
+		}
+		
+		curr.finish();
+		
+		curr = dumperFactory.get(fileName + "Model");
+		curr.begin();
+		
+		for(Model model : unit.getModels()) {
+			for(Type type : model.getTypes()) {
+				String typeName = type.getIdent().toString(); 
+				dump(typeName, typeName, curr);
+			}
+			for(Type type : model.getTypes()) {
+				String typeName = type.getIdent().toString();
+				if(type instanceof InheritanceType) {
+					InheritanceType inhType = (InheritanceType) type;
+					for(InheritanceType superType : inhType.getDirectSuperTypes()) {
+						String superTypeName = superType.getIdent().toString();
+						dump("", typeName, superTypeName, curr);
+					}					
+				}
 			}
 		}
 		
