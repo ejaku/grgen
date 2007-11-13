@@ -29,6 +29,7 @@ package de.unika.ipd.grgen.be.Csharp;
 
 
 import de.unika.ipd.grgen.ir.*;
+
 import java.util.*;
 
 import de.unika.ipd.grgen.Sys;
@@ -608,6 +609,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private void genRewriteNewNodes(StringBuffer sb2, Collection<Node> newNodes, Collection<Node> delNodes,
 									Collection<Node> extractNodeFromMatch, Collection<Node> extractNodeTypeFromMatch,
 									List<Node> addedNodes, boolean reuseNodeAndEdges) {
+		
+		reuseNodeAndEdges = false;							// TODO: reimplement this!!
 		
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(newNodes);
 		LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
@@ -1647,54 +1650,107 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	
 	private void genRetype(StringBuffer sb, InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
-		String typeName = formatIdentifiable(type);
-		String cname = formatNodeOrEdge(type) + "_" + typeName;
+		String cname = formatClassType(type);
 		String kindName = isNode ? "Node" : "Edge";
 		
 		if(isNode)
 		{
-			sb.append("\t\tpublic LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)\n"
+			sb.append("\t\tpublic override INode Retype(IGraph igraph, INode oldINode)\n"
 				+ "\t\t{\n"
+				+ "\t\t\tLGSPGraph graph = (LGSPGraph) igraph;\n"
+				+ "\t\t\tLGSPNode oldNode = (LGSPNode) oldINode;\n"
 				+ "\t\t\t" + cname + " newNode = new " + cname + "();\n");
 		}
 		else
 		{
-			sb.append("\t\tpublic LGSPEdge Retype(LGSPGraph graph, LGSPEdge oldEdge)\n" +
-				"\t\t{\n" +
-				"\t\t\t" + cname + " newEdge = new " + cname + "(oldEdge.source, oldEdge.target);\n");
+			sb.append("\t\tpublic override IEdge Retype(IGraph igraph, IEdge oldIEdge)\n"
+				+ "\t\t{\n"
+				+ "\t\t\tLGSPGraph graph = (LGSPGraph) igraph;\n"
+				+ "\t\t\tLGSPEdge oldEdge = (LGSPEdge) oldIEdge;\n"
+				+ "\t\t\t" + cname + " newEdge = new " + cname
+				+ "(oldEdge.source, oldEdge.target);\n");
 		}
-		sb.append("\t\t\tswitch(old" + kindName + ".Type.TypeID)\n"
-			+ "\t\t\t{\n");
+
+		HashMap<BitSet, LinkedList<InheritanceType>> commonGroups = new HashMap<BitSet, LinkedList<InheritanceType>>();
 		
-		if(isNode) {
-			for(InheritanceType itype : nodeTypeMap.keySet()) {
-				HashSet<InheritanceType> highestCommonSuperTypes = new HashSet<InheritanceType>();
-				getHighestCommonSuperTypes(itype, type, highestCommonSuperTypes);
-				
-				boolean mustCopyAttribs = false;
-				for(InheritanceType commonType : highestCommonSuperTypes) {
-					if(commonType.getAllMembers().size() != 0) {
-						mustCopyAttribs = true;
+		Collection typeSet = isNode ? nodeTypeMap.keySet() : edgeTypeMap.keySet();
+		for(InheritanceType itype : (Collection<InheritanceType>) typeSet) {
+			HashSet<InheritanceType> highestCommonSuperTypes = new HashSet<InheritanceType>();
+			getHighestCommonSuperTypes(itype, type, highestCommonSuperTypes);
+			
+			TreeSet<InheritanceType> sortedCommonTypes = new TreeSet<InheritanceType>(
+				new Comparator<InheritanceType>() {
+					public int compare(InheritanceType o1, InheritanceType o2) {
+						return o1.getMaxDist() - o2.getMaxDist();
+					}
+				});
+			
+			sortedCommonTypes.addAll(highestCommonSuperTypes);
+			Iterator<InheritanceType> iter = sortedCommonTypes.iterator();
+			while(iter.hasNext()) {
+				InheritanceType commonType = iter.next();
+				for(InheritanceType superType : commonType.getAllSuperTypes()) {
+					if(highestCommonSuperTypes.contains(superType)) {
+						iter.remove();
 						break;
 					}
 				}
-				
-				if(!mustCopyAttribs) continue;
-				sb.append("\t\t\t\tcase (int) NodeTypes.@" + formatIdentifiable(itype) + ":\n");
-				for(InheritanceType commonType : highestCommonSuperTypes) {
-					if(commonType.getAllMembers().size() != 0) {
-						sb.append("\t\t\t\t\t// copy attribs for: "
-								+ formatIdentifiable(commonType) + "\n");
-						
-						// TODO: Attribute nicht mehrfach ausgeben, wenn ueber mehrere Pfade geerbt
+			}
+			
+			boolean mustCopyAttribs = false;
+			for(InheritanceType commonType : highestCommonSuperTypes) {
+				if(commonType.getAllMembers().size() != 0) {
+					mustCopyAttribs = true;
+					break;
+				}
+			}
+			
+			if(!mustCopyAttribs) continue;
+			
+			BitSet commonTypesBitset = new BitSet();
+			for(InheritanceType commonType : highestCommonSuperTypes) {
+				commonTypesBitset.set(commonType.getTypeID());
+			}
+			LinkedList<InheritanceType> commonList = commonGroups.get(commonTypesBitset);
+			if(commonList == null) {
+				commonList = new LinkedList<InheritanceType>();
+				commonGroups.put(commonTypesBitset, commonList);
+			}
+			commonList.add(itype);
+		}
+		
+		if(commonGroups.size() != 0) {
+			sb.append("\t\t\tswitch(old" + kindName + ".Type.TypeID)\n"
+					+ "\t\t\t{\n");
+			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
+				for(InheritanceType itype : entry.getValue()) { 
+					sb.append("\t\t\t\tcase (int) " + kindName + "Types.@"
+						+ formatIdentifiable(itype) + ":\n");
+				}
+				BitSet bitset = entry.getKey();
+				for(int i = bitset.nextSetBit(0); i >= 0; i = bitset.nextSetBit(i+1)) {
+					InheritanceType commonType = InheritanceType.getByTypeID(i);
+					Collection<Entity> members = commonType.getAllMembers();
+					if(members.size() != 0) {
+						sb.append("\t\t\t\t\t// copy attributes for: "
+							+ formatIdentifiable(commonType) + "\n"
+							+ "\t\t\t\t\t{\n"
+							+ "\t\t\t\t\t\t" + formatCastedAssign(commonType, "old")
+							+ "old" + kindName + ";\n");
+						for(Entity member : members) {
+							String memberName = formatAttributeName(member);
+							sb.append("\t\t\t\t\t\tnew" + kindName + "." + memberName
+								+ " = old." + memberName + ";\n");
+						}
+						sb.append("\t\t\t\t\t}\n");
 					}
 				}
 				sb.append("\t\t\t\t\tbreak;\n");
 			}
+			sb.append("\t\t\t}\n");
 		}
 		
-		sb.append("\t\t\t}\n"
-			+ "\t\t\tgraph.Replace" + kindName + "(old" + kindName + ", new" + kindName + ");\n"
+		sb.append("\t\t\tgraph.Replace" + kindName + "(old" + kindName + ", new" + kindName + ");\n"
 			+ "\t\t\treturn new" + kindName + ";\n"
 			+ "\t\t}\n\n");
 	}
@@ -1811,25 +1867,24 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
 	
+	private String formatCastedAssign(Type type, String varName) {
+		String ctype = formatClassType(type); 
+		return ctype + " " + varName + " = (" + ctype + ") "; 
+	}
+	
 	private String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject) {
-      if(extractNodeAttributeObject.contains(node)) {
-         String ctype = formatClassType(node.getType());
-         return ctype + " " + formatEntity(node)
-            + " = (" + ctype + ") ";
-      } else {
-         return "LGSPNode " + formatEntity(node) + " = ";
-      }      
-   }
+		if(extractNodeAttributeObject.contains(node))
+			return formatCastedAssign(node.getType(), formatEntity(node));					
+		else
+			return "LGSPNode " + formatEntity(node) + " = ";
+	}
 
-   private String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject) {
-      if(extractEdgeAttributeObject.contains(edge)) {
-         String ctype = formatClassType(edge.getType());
-         return ctype + " " + formatEntity(edge)
-            + " = (" + ctype + ") ";
-      } else {
-         return "LGSPEdge " + formatEntity(edge) + " = ";
-      }      
-   }
+	private String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject) {
+		if(extractEdgeAttributeObject.contains(edge))
+			return formatCastedAssign(edge.getType(), formatEntity(edge));
+		else
+			return "LGSPEdge " + formatEntity(edge) + " = ";
+	}
 
 	public void done() {
 		// TODO

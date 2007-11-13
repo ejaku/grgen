@@ -36,12 +36,16 @@ public abstract class InheritanceType extends CompoundType {
 	public static final int ABSTRACT = 1;
 	public static final int CONST = 2;
 	
+	private static int nextTypeID = 0;
+	private static ArrayList<InheritanceType> inheritanceTypesByID = new ArrayList<InheritanceType>();
+
+	private int typeID;
 	private int maxDist = -1;
 	private final Set<InheritanceType> directSuperTypes = new LinkedHashSet<InheritanceType>();
 	private final Set<InheritanceType> directSubTypes = new LinkedHashSet<InheritanceType>();
-	
+
 	private Set<InheritanceType> allSuperTypes = null;
-	
+
 	/**
 	 * Collection containing all members defined in that type and in its supertype.
 	 * This field is used for caching.
@@ -58,10 +62,23 @@ public abstract class InheritanceType extends CompoundType {
 	protected InheritanceType(String name, Ident ident, int modifiers) {
 		super(name, ident);
 		this.modifiers = modifiers;
+		typeID = nextTypeID++;
+		inheritanceTypesByID.add(this);
 	}
 	
+	/***
+	 * @return a unique type identifier starting with zero.
+	 */
+	public int getTypeID() {
+		return typeID;
+	}
+
+	public static InheritanceType getByTypeID(int typeID) {
+		return inheritanceTypesByID.get(typeID);
+	}
+
 	/**
-	 * Is this inheritance type the root of a ingeritance hierachy.
+	 * Is this inheritance type the root of an inheritance hierarchy.
 	 * @return true, if this type does not inherit from some other type.
 	 */
 	public boolean isRoot() {

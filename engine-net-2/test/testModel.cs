@@ -97,16 +97,26 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A3 newNode = new Node_A3();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A3:
-					// copy attribs for: A3
-					break;
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A3
+					// copy attributes for: A3
+					{
+						Node_A3 old = (Node_A3) oldNode;
+						newNode.a3 = old.a3;
+					}
+					break;
+				case (int) NodeTypes.@A3:
+					// copy attributes for: A3
+					{
+						Node_A3 old = (Node_A3) oldNode;
+						newNode.a3 = old.a3;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -204,37 +214,47 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B22 newNode = new Node_B22();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@B22:
-					// copy attribs for: B22
-					break;
 				case (int) NodeTypes.@C221:
-					// copy attribs for: B22
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@C222_411:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B22
+				case (int) NodeTypes.@D11_2221:
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
-				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: B22
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -247,7 +267,6 @@ namespace de.unika.ipd.grGen.models.test
 
 	public interface INode_C412_421_431_51 : INode_B41, INode_B42, INode_B43, INode_A5
 	{
-		int @c412_421_432_51 { get; set; }
 	}
 
 	public sealed class Node_C412_421_431_51 : LGSPNode, INode_C412_421_431_51
@@ -283,13 +302,6 @@ namespace de.unika.ipd.grGen.models.test
 			set { _a5 = value; }
 		}
 
-		private int _c412_421_432_51;
-		public int @c412_421_432_51
-		{
-			get { return _c412_421_432_51; }
-			set { _c412_421_432_51 = value; }
-		}
-
 		private int _b42;
 		public int @b42
 		{
@@ -311,7 +323,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41": return _b41;
 				case "a4": return _a4;
 				case "a5": return _a5;
-				case "c412_421_432_51": return _c412_421_432_51;
 				case "b42": return _b42;
 				case "b43": return _b43;
 			}
@@ -325,7 +336,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41": _b41 = (int) value; return;
 				case "a4": _a4 = (int) value; return;
 				case "a5": _a5 = (int) value; return;
-				case "c412_421_432_51": _c412_421_432_51 = (int) value; return;
 				case "b42": _b42 = (int) value; return;
 				case "b43": _b43 = (int) value; return;
 			}
@@ -339,14 +349,12 @@ namespace de.unika.ipd.grGen.models.test
 		public static NodeType_C412_421_431_51 typeVar = new NodeType_C412_421_431_51();
 		public static bool[] isA = new bool[] { false, false, true, false, true, false, true, true, true, false, false, false, true, true, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, };
-		public static AttributeType AttributeType_c412_421_432_51;
 		public NodeType_C412_421_431_51() : base((int) NodeTypes.@C412_421_431_51)
 		{
-			AttributeType_c412_421_432_51 = new AttributeType("c412_421_432_51", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "C412_421_431_51"; } }
 		public override INode CreateNode() { return new Node_C412_421_431_51(); }
-		public override int NumAttributes { get { return 6; } }
+		public override int NumAttributes { get { return 5; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
@@ -354,7 +362,6 @@ namespace de.unika.ipd.grGen.models.test
 				yield return NodeType_B41.AttributeType_b41;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_A5.AttributeType_a5;
-				yield return AttributeType_c412_421_432_51;
 				yield return NodeType_B42.AttributeType_b42;
 				yield return NodeType_B43.AttributeType_b43;
 			}
@@ -366,7 +373,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41" : return NodeType_B41.AttributeType_b41;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "a5" : return NodeType_A5.AttributeType_a5;
-				case "c412_421_432_51" : return AttributeType_c412_421_432_51;
 				case "b42" : return NodeType_B42.AttributeType_b42;
 				case "b43" : return NodeType_B43.AttributeType_b43;
 			}
@@ -376,40 +382,82 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C412_421_431_51 newNode = new Node_C412_421_431_51();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: C412_421_431_51
-					break;
-				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: B41
+				case (int) NodeTypes.@A5:
+					// copy attributes for: A5
+					{
+						Node_A5 old = (Node_A5) oldNode;
+						newNode.a5 = old.a5;
+					}
 					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
-				case (int) NodeTypes.@B42:
-					// copy attribs for: B42
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: C412_421_431_51
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B41
+				case (int) NodeTypes.@A4:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: B43
+					// copy attributes for: B43
+					{
+						Node_B43 old = (Node_B43) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b43 = old.b43;
+					}
 					break;
-				case (int) NodeTypes.@A5:
-					// copy attribs for: A5
+				case (int) NodeTypes.@B42:
+					// copy attributes for: B42
+					{
+						Node_B42 old = (Node_B42) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b42 = old.b42;
+					}
 					break;
+				case (int) NodeTypes.@C412_421_431_51:
+					// copy attributes for: C412_421_431_51
+					{
+						Node_C412_421_431_51 old = (Node_C412_421_431_51) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+						newNode.a5 = old.a5;
+						newNode.b42 = old.b42;
+						newNode.b43 = old.b43;
+					}
+					break;
+				case (int) NodeTypes.@C222_411:
+				case (int) NodeTypes.@D2211_2222_31:
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: C412_421_431_51
+					{
+						Node_C412_421_431_51 old = (Node_C412_421_431_51) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+						newNode.a5 = old.a5;
+						newNode.b42 = old.b42;
+						newNode.b43 = old.b43;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -518,38 +566,69 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C221 newNode = new Node_C221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@B22:
-					// copy attribs for: B22
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@C221:
-					// copy attribs for: C221
+					// copy attributes for: C221
+					{
+						Node_C221 old = (Node_C221) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.c221 = old.c221;
+					}
 					break;
 				case (int) NodeTypes.@C222_411:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B22
-					// copy attribs for: C221
+				case (int) NodeTypes.@D11_2221:
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
-				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: B22
+				case (int) NodeTypes.@D2211_2222_31:
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
+					// copy attributes for: C221
+					{
+						Node_C221 old = (Node_C221) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.c221 = old.c221;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -636,37 +715,33 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A4 newNode = new Node_A4();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
+				case (int) NodeTypes.@C412_421_431_51:
+				case (int) NodeTypes.@C222_411:
+				case (int) NodeTypes.@D231_4121:
+				case (int) NodeTypes.@D2211_2222_31:
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A4
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -797,56 +872,117 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C222_411 newNode = new Node_C222_411();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@B22:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					break;
 				case (int) NodeTypes.@C221:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: C222_411
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
+				case (int) NodeTypes.@A4:
 				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B22
-					// copy attribs for: C222_411
-					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: C222_411
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
+					break;
+				case (int) NodeTypes.@B21:
+				case (int) NodeTypes.@B23:
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D2211_2222_31:
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
+					break;
+				case (int) NodeTypes.@C222_411:
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -944,39 +1080,53 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B41 newNode = new Node_B41();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					// copy attribs for: B41
+				case (int) NodeTypes.@B41:
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
+				case (int) NodeTypes.@B42:
+				case (int) NodeTypes.@B43:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@C222_411:
-					// copy attribs for: B41
-					break;
-				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
-					break;
-				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					break;
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B41
-					break;
-				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1032,12 +1182,11 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Node newNode = new Node_Node();
-			switch(oldNode.Type.TypeID)
-			{
-			}
 			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
@@ -1133,39 +1282,52 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B42 newNode = new Node_B42();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					// copy attribs for: B42
-					break;
 				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: A4
+				case (int) NodeTypes.@B43:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@B42:
-					// copy attribs for: B42
+					// copy attributes for: B42
+					{
+						Node_B42 old = (Node_B42) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b42 = old.b42;
+					}
 					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					// copy attribs for: B42
-					break;
+				case (int) NodeTypes.@C222_411:
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A4
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B42
+					{
+						Node_B42 old = (Node_B42) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b42 = old.b42;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1221,13 +1383,6 @@ namespace de.unika.ipd.grGen.models.test
 			set { _a5 = value; }
 		}
 
-		private int _c412_421_432_51;
-		public int @c412_421_432_51
-		{
-			get { return _c412_421_432_51; }
-			set { _c412_421_432_51 = value; }
-		}
-
 		private int _b42;
 		public int @b42
 		{
@@ -1264,7 +1419,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "a2": return _a2;
 				case "a4": return _a4;
 				case "a5": return _a5;
-				case "c412_421_432_51": return _c412_421_432_51;
 				case "b42": return _b42;
 				case "b23": return _b23;
 				case "d231_4121": return _d231_4121;
@@ -1281,7 +1435,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "a2": _a2 = (int) value; return;
 				case "a4": _a4 = (int) value; return;
 				case "a5": _a5 = (int) value; return;
-				case "c412_421_432_51": _c412_421_432_51 = (int) value; return;
 				case "b42": _b42 = (int) value; return;
 				case "b23": _b23 = (int) value; return;
 				case "d231_4121": _d231_4121 = (int) value; return;
@@ -1304,7 +1457,7 @@ namespace de.unika.ipd.grGen.models.test
 		}
 		public override String Name { get { return "D231_4121"; } }
 		public override INode CreateNode() { return new Node_D231_4121(); }
-		public override int NumAttributes { get { return 9; } }
+		public override int NumAttributes { get { return 8; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
@@ -1313,7 +1466,6 @@ namespace de.unika.ipd.grGen.models.test
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_A5.AttributeType_a5;
-				yield return NodeType_C412_421_431_51.AttributeType_c412_421_432_51;
 				yield return NodeType_B42.AttributeType_b42;
 				yield return NodeType_B23.AttributeType_b23;
 				yield return AttributeType_d231_4121;
@@ -1328,7 +1480,6 @@ namespace de.unika.ipd.grGen.models.test
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "a5" : return NodeType_A5.AttributeType_a5;
-				case "c412_421_432_51" : return NodeType_C412_421_431_51.AttributeType_c412_421_432_51;
 				case "b42" : return NodeType_B42.AttributeType_b42;
 				case "b23" : return NodeType_B23.AttributeType_b23;
 				case "d231_4121" : return AttributeType_d231_4121;
@@ -1340,58 +1491,120 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D231_4121 newNode = new Node_D231_4121();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@B22:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: C412_421_431_51
-					break;
-				case (int) NodeTypes.@C221:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: B41
-					// copy attribs for: A2
+				case (int) NodeTypes.@A5:
+					// copy attributes for: A5
+					{
+						Node_A5 old = (Node_A5) oldNode;
+						newNode.a5 = old.a5;
+					}
 					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
-				case (int) NodeTypes.@B42:
-					// copy attribs for: B42
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: D231_4121
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B41
-					// copy attribs for: A2
+				case (int) NodeTypes.@A4:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: B43
+					// copy attributes for: B43
+					{
+						Node_B43 old = (Node_B43) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b43 = old.b43;
+					}
 					break;
-				case (int) NodeTypes.@A5:
-					// copy attribs for: A5
+				case (int) NodeTypes.@B42:
+					// copy attributes for: B42
+					{
+						Node_B42 old = (Node_B42) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b42 = old.b42;
+					}
 					break;
+				case (int) NodeTypes.@C222_411:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+					// copy attributes for: C412_421_431_51
+					{
+						Node_C412_421_431_51 old = (Node_C412_421_431_51) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+						newNode.a5 = old.a5;
+						newNode.b42 = old.b42;
+						newNode.b43 = old.b43;
+					}
+					break;
+				case (int) NodeTypes.@B22:
+				case (int) NodeTypes.@C221:
 				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: D231_4121
+					{
+						Node_D231_4121 old = (Node_D231_4121) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.a4 = old.a4;
+						newNode.a5 = old.a5;
+						newNode.b42 = old.b42;
+						newNode.b23 = old.b23;
+						newNode.d231_4121 = old.d231_4121;
+						newNode.b43 = old.b43;
+					}
 					break;
 				case (int) NodeTypes.@B23:
-					// copy attribs for: B23
+					// copy attributes for: B23
+					{
+						Node_B23 old = (Node_B23) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b23 = old.b23;
+					}
 					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
-					break;
+				case (int) NodeTypes.@D2211_2222_31:
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: B41
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1478,16 +1691,26 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A1 newNode = new Node_A1();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@A1:
-					// copy attribs for: A1
+					// copy attributes for: A1
+					{
+						Node_A1 old = (Node_A1) oldNode;
+						newNode.a1 = old.a1;
+					}
 					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A1
+					// copy attributes for: A1
+					{
+						Node_A1 old = (Node_A1) oldNode;
+						newNode.a1 = old.a1;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1651,58 +1874,129 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D2211_2222_31 newNode = new Node_D2211_2222_31();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@A3:
-					// copy attribs for: A3
-					break;
 				case (int) NodeTypes.@B22:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					break;
-				case (int) NodeTypes.@C221:
-					// copy attribs for: C221
-					break;
-				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: C222_411
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
 					break;
+				case (int) NodeTypes.@A4:
 				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: D2211_2222_31
-					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: C222_411
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
+					break;
+				case (int) NodeTypes.@C221:
+					// copy attributes for: C221
+					{
+						Node_C221 old = (Node_C221) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.c221 = old.c221;
+					}
+					break;
+				case (int) NodeTypes.@B21:
+				case (int) NodeTypes.@B23:
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@A3:
+					// copy attributes for: A3
+					{
+						Node_A3 old = (Node_A3) oldNode;
+						newNode.a3 = old.a3;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D2211_2222_31:
+					// copy attributes for: D2211_2222_31
+					{
+						Node_D2211_2222_31 old = (Node_D2211_2222_31) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+						newNode.a3 = old.a3;
+						newNode.d2211_2222_31 = old.d2211_2222_31;
+						newNode.c221 = old.c221;
+					}
+					break;
+				case (int) NodeTypes.@C222_411:
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1800,39 +2094,52 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B43 newNode = new Node_B43();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: B43
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B41:
-					// copy attribs for: A4
-					break;
 				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: B43
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A4
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
 					break;
 				case (int) NodeTypes.@B43:
-					// copy attribs for: B43
+					// copy attributes for: B43
+					{
+						Node_B43 old = (Node_B43) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b43 = old.b43;
+					}
 					break;
+				case (int) NodeTypes.@C222_411:
+				case (int) NodeTypes.@D2211_2222_31:
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A4
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B43
+					{
+						Node_B43 old = (Node_B43) oldNode;
+						newNode.a4 = old.a4;
+						newNode.b43 = old.b43;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -1919,19 +2226,27 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A5 newNode = new Node_A5();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A5
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A5
-					break;
 				case (int) NodeTypes.@A5:
-					// copy attribs for: A5
+					// copy attributes for: A5
+					{
+						Node_A5 old = (Node_A5) oldNode;
+						newNode.a5 = old.a5;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A5
+					{
+						Node_A5 old = (Node_A5) oldNode;
+						newNode.a5 = old.a5;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -2029,37 +2344,40 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B21 newNode = new Node_B21();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@B22:
-					// copy attribs for: A2
+				case (int) NodeTypes.@B21:
+					// copy attributes for: B21
+					{
+						Node_B21 old = (Node_B21) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b21 = old.b21;
+					}
 					break;
+				case (int) NodeTypes.@B22:
 				case (int) NodeTypes.@C221:
-					// copy attribs for: A2
+				case (int) NodeTypes.@B23:
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B21:
-					// copy attribs for: B21
-					break;
-				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -2157,37 +2475,47 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B23 newNode = new Node_B23();
 			switch(oldNode.Type.TypeID)
 			{
-				case (int) NodeTypes.@B22:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@C221:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: B23
+					// copy attributes for: B23
+					{
+						Node_B23 old = (Node_B23) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b23 = old.b23;
+					}
 					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A2
-					break;
+				case (int) NodeTypes.@B22:
+				case (int) NodeTypes.@C221:
 				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 				case (int) NodeTypes.@B23:
-					// copy attribs for: B23
+					// copy attributes for: B23
+					{
+						Node_B23 old = (Node_B23) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b23 = old.b23;
+					}
 					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
-					break;
+				case (int) NodeTypes.@C222_411:
+				case (int) NodeTypes.@D2211_2222_31:
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -2274,37 +2602,33 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A2 newNode = new Node_A2();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@B22:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@C221:
-					// copy attribs for: A2
+				case (int) NodeTypes.@B21:
+				case (int) NodeTypes.@B23:
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 				case (int) NodeTypes.@C222_411:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
-					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: A2
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -2457,59 +2781,126 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPNode Retype(LGSPGraph graph, LGSPNode oldNode)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D11_2221 newNode = new Node_D11_2221();
 			switch(oldNode.Type.TypeID)
 			{
 				case (int) NodeTypes.@B22:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@C412_421_431_51:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					break;
 				case (int) NodeTypes.@C221:
-					// copy attribs for: B22
-					break;
-				case (int) NodeTypes.@A4:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@C222_411:
-					// copy attribs for: C222_411
-					break;
-				case (int) NodeTypes.@B41:
-					// copy attribs for: B41
-					break;
-				case (int) NodeTypes.@B42:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@D231_4121:
-					// copy attribs for: A4
-					// copy attribs for: B41
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A1:
-					// copy attribs for: A1
-					break;
-				case (int) NodeTypes.@D2211_2222_31:
-					// copy attribs for: B22
-					// copy attribs for: C222_411
-					break;
-				case (int) NodeTypes.@B43:
-					// copy attribs for: A4
-					break;
-				case (int) NodeTypes.@B21:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@B23:
-					// copy attribs for: A2
-					break;
-				case (int) NodeTypes.@A2:
-					// copy attribs for: A2
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
 					break;
 				case (int) NodeTypes.@D11_2221:
-					// copy attribs for: D11_2221
+					// copy attributes for: D11_2221
+					{
+						Node_D11_2221 old = (Node_D11_2221) oldNode;
+						newNode.b41 = old.b41;
+						newNode.d11_2221 = old.d11_2221;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+						newNode.a1 = old.a1;
+					}
+					break;
+				case (int) NodeTypes.@B41:
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@A4:
+				case (int) NodeTypes.@B42:
+				case (int) NodeTypes.@B43:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@A1:
+					// copy attributes for: A1
+					{
+						Node_A1 old = (Node_A1) oldNode;
+						newNode.a1 = old.a1;
+					}
+					break;
+				case (int) NodeTypes.@B21:
+				case (int) NodeTypes.@B23:
+				case (int) NodeTypes.@A2:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					break;
+				case (int) NodeTypes.@C412_421_431_51:
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D231_4121:
+					// copy attributes for: A2
+					{
+						Node_A2 old = (Node_A2) oldNode;
+						newNode.a2 = old.a2;
+					}
+					// copy attributes for: A4
+					{
+						Node_A4 old = (Node_A4) oldNode;
+						newNode.a4 = old.a4;
+					}
+					// copy attributes for: B41
+					{
+						Node_B41 old = (Node_B41) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a4 = old.a4;
+					}
+					break;
+				case (int) NodeTypes.@D2211_2222_31:
+					// copy attributes for: B22
+					{
+						Node_B22 old = (Node_B22) oldNode;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+					}
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
+					break;
+				case (int) NodeTypes.@C222_411:
+					// copy attributes for: C222_411
+					{
+						Node_C222_411 old = (Node_C222_411) oldNode;
+						newNode.b41 = old.b41;
+						newNode.a2 = old.a2;
+						newNode.b22 = old.b22;
+						newNode.a4 = old.a4;
+						newNode.c222_411 = old.c222_411;
+					}
 					break;
 			}
 			graph.ReplaceNode(oldNode, newNode);
@@ -2823,7 +3214,6 @@ namespace de.unika.ipd.grGen.models.test
 		private AttributeType[] attributeTypes = {
 			NodeType_A3.AttributeType_a3,
 			NodeType_B22.AttributeType_b22,
-			NodeType_C412_421_431_51.AttributeType_c412_421_432_51,
 			NodeType_C221.AttributeType_c221,
 			NodeType_A4.AttributeType_a4,
 			NodeType_C222_411.AttributeType_c222_411,
@@ -2899,12 +3289,11 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public LGSPEdge Retype(LGSPGraph graph, LGSPEdge oldEdge)
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
 			Edge_Edge newEdge = new Edge_Edge(oldEdge.source, oldEdge.target);
-			switch(oldEdge.Type.TypeID)
-			{
-			}
 			graph.ReplaceEdge(oldEdge, newEdge);
 			return newEdge;
 		}
@@ -2970,6 +3359,6 @@ namespace de.unika.ipd.grGen.models.test
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "9b696504e2bb6caeeab23ead0d77cc7d"; } }
+		public String MD5Hash { get { return "755460643659ae7c57b5f1286c8c9eba"; } }
 	}
 }

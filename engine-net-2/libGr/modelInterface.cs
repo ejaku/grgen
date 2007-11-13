@@ -517,6 +517,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing this type first and following all super types
         /// </summary>
         public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+
+        /// <summary>
+        /// Retypes a given node of a given graph to a node of this type.
+        /// All adjacent nodes and all common attributes are kept.
+        /// </summary>
+        /// <param name="graph">The graph containing the node.</param>
+        /// <param name="oldNode">The old node.</param>
+        /// <returns>A new node of this type.</returns>
+        public abstract INode Retype(IGraph graph, INode oldNode);
     }
 
     public abstract class EdgeType : GrGenType
@@ -554,6 +563,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing this type first and following all super types
         /// </summary>
         public EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+
+        /// <summary>
+        /// Retypes a given edge of a given graph to a edge of this type.
+        /// Source and target node as well as all common attributes are kept.
+        /// </summary>
+        /// <param name="graph">The graph containing the edge.</param>
+        /// <param name="oldEdge">The old edge.</param>
+        /// <returns>A new edge of this type.</returns>
+        public abstract IEdge Retype(IGraph graph, IEdge oldEdge);
     }
 
 #if OLD

@@ -51,7 +51,7 @@ node class C222_411 extends B22, B41 {
 }
 
 node class C412_421_431_51 extends B41, B42, B43, A5 {
-    c412_421_432_51:int;
+//    c412_421_432_51:int;
 }
 
 node class D11_2221 extends A1, C222_411 {

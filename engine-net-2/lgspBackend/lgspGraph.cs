@@ -1009,7 +1009,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newType">The new type to be used for the node or null, if the type is not to be changed</param>
         public void ReuseNode(LGSPNode node, NodeType newType)
         {
-            throw new Exception("Not implemented yet!");
+            throw new Exception("ReuseNode not implemented yet!");
 
 /*            RemovingNode(node);
 #if ELEMENTKNOWSVARIABLES
@@ -1062,7 +1062,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newType"></param>
         public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, EdgeType newType)
         {
-            throw new Exception("Not implemented yet!");
+            throw new Exception("ReuseEdge not implemented yet!");
 
 /*            RemovingEdge(edge);
 #if ELEMENTKNOWSVARIABLES
@@ -1283,8 +1283,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public LGSPNode Retype(LGSPNode node, NodeType newNodeType)
         {
-            throw new Exception("Not implemented yet!");
-//            return newNodeType.Retype(this, node);
+            return (LGSPNode) newNodeType.Retype(this, node);
         }
 
         public override INode Retype(INode node, NodeType newNodeType)
@@ -1294,7 +1293,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
-            throw new Exception("Not implemented yet!");
+            return (LGSPEdge) newEdgeType.Retype(this, edge);
         }
 
         public override IEdge Retype(IEdge edge, EdgeType newEdgeType)

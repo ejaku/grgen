@@ -746,6 +746,11 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new Exception("The method or operation is not implemented.");
             }
+
+            public override INode Retype(IGraph graph, INode oldNode)
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
         /// <summary>
