@@ -73,6 +73,15 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with exactly the given type
         /// </summary>
         IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType);
+
+        /// <summary>
+        /// Creates a copy of this node.
+        /// All attributes will be transfered to the new node.
+        /// The node will not be associated to a graph, yet.
+        /// So it will not have any adjacent edges nor any assigned variables.
+        /// </summary>
+        /// <returns>A copy of this node.</returns>
+        INode Clone();
     }
 
     /// <summary>
@@ -94,5 +103,16 @@ namespace de.unika.ipd.grGen.libGr
         /// The target node of the edge.
         /// </summary>
         INode Target { get; }
+
+        /// <summary>
+        /// Creates a copy of this edge.
+        /// All attributes will be transfered to the new edge.
+        /// The edge will not be associated to a graph, yet.
+        /// So it will not have any assigned variables.
+        /// </summary>
+        /// <param name="newSource">The new source node for the new edge.</param>
+        /// <param name="newTarget">The new target node for the new edge.</param>
+        /// <returns>A copy of this edge.</returns>
+        IEdge Clone(INode newSource, INode newTarget);
     }
 }

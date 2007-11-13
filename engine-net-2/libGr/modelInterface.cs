@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A interface implemented by all GrGen attribute classes.
     /// </summary>
-    public interface IAttributes : ICloneable
+    public interface IAttributes // : ICloneable
     {
     }
 }

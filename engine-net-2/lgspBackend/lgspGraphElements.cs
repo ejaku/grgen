@@ -247,6 +247,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
         }*/
+
+        public abstract INode Clone();
     }
 
     public class LGSPNodeHead : LGSPNode
@@ -259,6 +261,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override void SetAttribute(string attrName, object value)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override INode Clone()
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -336,6 +343,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
         }*/
+
+        public abstract IEdge Clone(INode newSource, INode newTarget);
     }
 
     public class LGSPEdgeHead : LGSPEdge
@@ -348,6 +357,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override void SetAttribute(string attrName, object value)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override IEdge Clone(INode newSource, INode newTarget)
         {
             throw new Exception("The method or operation is not implemented.");
         }

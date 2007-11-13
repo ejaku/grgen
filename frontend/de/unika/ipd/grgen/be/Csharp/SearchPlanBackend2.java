@@ -22,7 +22,7 @@
  * A GrGen Backend which generates C# code for a search-plan-based
  * graph model impl and a frame based graph matcher
  * @author Rubino Geiss
- * @version $Id: SearchPlanBackend2.java 16442 2007-11-05 19:09:34Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.be.Csharp;
 
@@ -1247,33 +1247,44 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t{\n");
 		if(isNode)
 		{
-			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n");
+			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n"
+				+ "\t\tprivate " + cname + "(" + cname + " oldElem) : base(" + tname + ".typeVar)\n");
 		}
 		else
 		{
 			sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
-				+ "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n");
+				+ "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n"
+				+ "\t\tprivate " + cname + "(" + cname + " oldElem, INode newSource, INode newTarget)\n"
+				+ "\t\t\t: base(" + tname + ".typeVar, newSource, newTarget)\n");
 		}
-		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n\n");
+		sb.append("\t\t{\n");
+		for(Entity member : type.getAllMembers()) {
+			String attrName = formatAttributeName(member);
+			sb.append("\t\t\t_" + attrName + " = oldElem._" + attrName + ";\n");
+		}
+		sb.append("\t\t}\n");
+	
+//		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n\n");
 		if(isNode)
 		{
-			sb.append(
-				"\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n" +
-				"\t\t{\n" +
-				"\t\t\t" + cname + " node = new " + cname + "();\n" +
-				"\t\t\tgraph.AddNode(node);\n" +
-				"\t\t\treturn node;\n" +
-				"\t\t}\n\n");
+			sb.append("\t\tpublic override INode Clone() { return new " + cname + "(this); }\n"
+				+ "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n"
+				+ "\t\t{\n"
+				+ "\t\t\t" + cname + " node = new " + cname + "();\n"
+				+ "\t\t\tgraph.AddNode(node);\n"
+				+ "\t\t\treturn node;\n"
+				+ "\t\t}\n\n");
 		}
 		else
 		{
-			sb.append(
-				"\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)\n" +
-				"\t\t{\n" +
-				"\t\t\t" + cname + " edge = new " + cname + "(source, target);\n" +
-				"\t\t\tgraph.AddEdge(edge);\n" +
-				"\t\t\treturn edge;\n" +
-				"\t\t}\n\n");
+			sb.append("\t\tpublic override IEdge Clone(INode newSource, IEdge newTarget)\n"
+				+ "\t\t{ return new " + cname + "(this, newSource, newTarget); }\n"
+				+ "\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)\n"
+				+ "\t\t{\n"
+				+ "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n"
+				+ "\t\t\tgraph.AddEdge(edge);\n"
+				+ "\t\t\treturn edge;\n"
+				+ "\t\t}\n\n");
 		}
 		genAttributeAccessImpl(sb, type);
 		sb.append("\t}\n");

@@ -29,8 +29,11 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_A3 : LGSPNode, INode_A3
 	{
 		public Node_A3() : base(NodeType_A3.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_A3(Node_A3 oldElem) : base(NodeType_A3.typeVar)
+		{
+			_a3 = oldElem._a3;
+		}
+		public override INode Clone() { return new Node_A3(this); }
 		public static Node_A3 CreateNode(LGSPGraph graph)
 		{
 			Node_A3 node = new Node_A3();
@@ -135,8 +138,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B22 : LGSPNode, INode_B22
 	{
 		public Node_B22() : base(NodeType_B22.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B22(Node_B22 oldElem) : base(NodeType_B22.typeVar)
+		{
+			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
+		}
+		public override INode Clone() { return new Node_B22(this); }
 		public static Node_B22 CreateNode(LGSPGraph graph)
 		{
 			Node_B22 node = new Node_B22();
@@ -272,8 +279,15 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_C412_421_431_51 : LGSPNode, INode_C412_421_431_51
 	{
 		public Node_C412_421_431_51() : base(NodeType_C412_421_431_51.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_C412_421_431_51(Node_C412_421_431_51 oldElem) : base(NodeType_C412_421_431_51.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_a4 = oldElem._a4;
+			_a5 = oldElem._a5;
+			_b42 = oldElem._b42;
+			_b43 = oldElem._b43;
+		}
+		public override INode Clone() { return new Node_C412_421_431_51(this); }
 		public static Node_C412_421_431_51 CreateNode(LGSPGraph graph)
 		{
 			Node_C412_421_431_51 node = new Node_C412_421_431_51();
@@ -476,8 +490,13 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_C221 : LGSPNode, INode_C221
 	{
 		public Node_C221() : base(NodeType_C221.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_C221(Node_C221 oldElem) : base(NodeType_C221.typeVar)
+		{
+			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
+			_c221 = oldElem._c221;
+		}
+		public override INode Clone() { return new Node_C221(this); }
 		public static Node_C221 CreateNode(LGSPGraph graph)
 		{
 			Node_C221 node = new Node_C221();
@@ -647,8 +666,11 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_A4 : LGSPNode, INode_A4
 	{
 		public Node_A4() : base(NodeType_A4.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_A4(Node_A4 oldElem) : base(NodeType_A4.typeVar)
+		{
+			_a4 = oldElem._a4;
+		}
+		public override INode Clone() { return new Node_A4(this); }
 		public static Node_A4 CreateNode(LGSPGraph graph)
 		{
 			Node_A4 node = new Node_A4();
@@ -760,8 +782,15 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_C222_411 : LGSPNode, INode_C222_411
 	{
 		public Node_C222_411() : base(NodeType_C222_411.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_C222_411(Node_C222_411 oldElem) : base(NodeType_C222_411.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
+			_a4 = oldElem._a4;
+			_c222_411 = oldElem._c222_411;
+		}
+		public override INode Clone() { return new Node_C222_411(this); }
 		public static Node_C222_411 CreateNode(LGSPGraph graph)
 		{
 			Node_C222_411 node = new Node_C222_411();
@@ -1001,8 +1030,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B41 : LGSPNode, INode_B41
 	{
 		public Node_B41() : base(NodeType_B41.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B41(Node_B41 oldElem) : base(NodeType_B41.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_a4 = oldElem._a4;
+		}
+		public override INode Clone() { return new Node_B41(this); }
 		public static Node_B41 CreateNode(LGSPGraph graph)
 		{
 			Node_B41 node = new Node_B41();
@@ -1144,8 +1177,10 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_Node : LGSPNode, INode_Node
 	{
 		public Node_Node() : base(NodeType_Node.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_Node(Node_Node oldElem) : base(NodeType_Node.typeVar)
+		{
+		}
+		public override INode Clone() { return new Node_Node(this); }
 		public static Node_Node CreateNode(LGSPGraph graph)
 		{
 			Node_Node node = new Node_Node();
@@ -1203,8 +1238,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B42 : LGSPNode, INode_B42
 	{
 		public Node_B42() : base(NodeType_B42.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B42(Node_B42 oldElem) : base(NodeType_B42.typeVar)
+		{
+			_a4 = oldElem._a4;
+			_b42 = oldElem._b42;
+		}
+		public override INode Clone() { return new Node_B42(this); }
 		public static Node_B42 CreateNode(LGSPGraph graph)
 		{
 			Node_B42 node = new Node_B42();
@@ -1346,8 +1385,18 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_D231_4121 : LGSPNode, INode_D231_4121
 	{
 		public Node_D231_4121() : base(NodeType_D231_4121.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_D231_4121(Node_D231_4121 oldElem) : base(NodeType_D231_4121.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_a2 = oldElem._a2;
+			_a4 = oldElem._a4;
+			_a5 = oldElem._a5;
+			_b42 = oldElem._b42;
+			_b23 = oldElem._b23;
+			_d231_4121 = oldElem._d231_4121;
+			_b43 = oldElem._b43;
+		}
+		public override INode Clone() { return new Node_D231_4121(this); }
 		public static Node_D231_4121 CreateNode(LGSPGraph graph)
 		{
 			Node_D231_4121 node = new Node_D231_4121();
@@ -1623,8 +1672,11 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_A1 : LGSPNode, INode_A1
 	{
 		public Node_A1() : base(NodeType_A1.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_A1(Node_A1 oldElem) : base(NodeType_A1.typeVar)
+		{
+			_a1 = oldElem._a1;
+		}
+		public override INode Clone() { return new Node_A1(this); }
 		public static Node_A1 CreateNode(LGSPGraph graph)
 		{
 			Node_A1 node = new Node_A1();
@@ -1729,8 +1781,18 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_D2211_2222_31 : LGSPNode, INode_D2211_2222_31
 	{
 		public Node_D2211_2222_31() : base(NodeType_D2211_2222_31.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_D2211_2222_31(Node_D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
+			_a4 = oldElem._a4;
+			_c222_411 = oldElem._c222_411;
+			_a3 = oldElem._a3;
+			_d2211_2222_31 = oldElem._d2211_2222_31;
+			_c221 = oldElem._c221;
+		}
+		public override INode Clone() { return new Node_D2211_2222_31(this); }
 		public static Node_D2211_2222_31 CreateNode(LGSPGraph graph)
 		{
 			Node_D2211_2222_31 node = new Node_D2211_2222_31();
@@ -2015,8 +2077,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B43 : LGSPNode, INode_B43
 	{
 		public Node_B43() : base(NodeType_B43.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B43(Node_B43 oldElem) : base(NodeType_B43.typeVar)
+		{
+			_a4 = oldElem._a4;
+			_b43 = oldElem._b43;
+		}
+		public override INode Clone() { return new Node_B43(this); }
 		public static Node_B43 CreateNode(LGSPGraph graph)
 		{
 			Node_B43 node = new Node_B43();
@@ -2158,8 +2224,11 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_A5 : LGSPNode, INode_A5
 	{
 		public Node_A5() : base(NodeType_A5.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_A5(Node_A5 oldElem) : base(NodeType_A5.typeVar)
+		{
+			_a5 = oldElem._a5;
+		}
+		public override INode Clone() { return new Node_A5(this); }
 		public static Node_A5 CreateNode(LGSPGraph graph)
 		{
 			Node_A5 node = new Node_A5();
@@ -2265,8 +2334,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B21 : LGSPNode, INode_B21
 	{
 		public Node_B21() : base(NodeType_B21.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B21(Node_B21 oldElem) : base(NodeType_B21.typeVar)
+		{
+			_a2 = oldElem._a2;
+			_b21 = oldElem._b21;
+		}
+		public override INode Clone() { return new Node_B21(this); }
 		public static Node_B21 CreateNode(LGSPGraph graph)
 		{
 			Node_B21 node = new Node_B21();
@@ -2396,8 +2469,12 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_B23 : LGSPNode, INode_B23
 	{
 		public Node_B23() : base(NodeType_B23.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_B23(Node_B23 oldElem) : base(NodeType_B23.typeVar)
+		{
+			_a2 = oldElem._a2;
+			_b23 = oldElem._b23;
+		}
+		public override INode Clone() { return new Node_B23(this); }
 		public static Node_B23 CreateNode(LGSPGraph graph)
 		{
 			Node_B23 node = new Node_B23();
@@ -2534,8 +2611,11 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_A2 : LGSPNode, INode_A2
 	{
 		public Node_A2() : base(NodeType_A2.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_A2(Node_A2 oldElem) : base(NodeType_A2.typeVar)
+		{
+			_a2 = oldElem._a2;
+		}
+		public override INode Clone() { return new Node_A2(this); }
 		public static Node_A2 CreateNode(LGSPGraph graph)
 		{
 			Node_A2 node = new Node_A2();
@@ -2647,8 +2727,17 @@ namespace de.unika.ipd.grGen.models.test
 	public sealed class Node_D11_2221 : LGSPNode, INode_D11_2221
 	{
 		public Node_D11_2221() : base(NodeType_D11_2221.typeVar) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Node_D11_2221(Node_D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
+		{
+			_b41 = oldElem._b41;
+			_d11_2221 = oldElem._d11_2221;
+			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
+			_a4 = oldElem._a4;
+			_c222_411 = oldElem._c222_411;
+			_a1 = oldElem._a1;
+		}
+		public override INode Clone() { return new Node_D11_2221(this); }
 		public static Node_D11_2221 CreateNode(LGSPGraph graph)
 		{
 			Node_D11_2221 node = new Node_D11_2221();
@@ -3248,8 +3337,12 @@ namespace de.unika.ipd.grGen.models.test
 	{
 		public Edge_Edge(LGSPNode source, LGSPNode target)
 			: base(EdgeType_Edge.typeVar, source, target) { }
-		public Object Clone() { return MemberwiseClone(); }
-
+		private Edge_Edge(Edge_Edge oldElem, INode newSource, INode newTarget)
+			: base(EdgeType_Edge.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, IEdge newTarget)
+		{ return new Edge_Edge(this, newSource, newTarget); }
 		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
 			Edge_Edge edge = new Edge_Edge(source, target);

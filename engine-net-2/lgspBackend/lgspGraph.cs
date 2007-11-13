@@ -163,7 +163,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            return new LGSPUndoElemTypeChanged(oldToNewMap[_elem], _oldType, _oldAttrs == null ? null : (IAttributes) _oldAttrs.Clone());
+            throw new Exception("Not implemented yet!");
+//            return new LGSPUndoElemTypeChanged(oldToNewMap[_elem], _oldType, _oldAttrs == null ? null : (IAttributes) _oldAttrs.Clone());
         }
     }
 

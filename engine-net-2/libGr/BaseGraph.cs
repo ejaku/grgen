@@ -782,6 +782,11 @@ namespace de.unika.ipd.grGen.libGr
             public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType) { yield break; }
+
+            public INode Clone()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
         /// <summary>
