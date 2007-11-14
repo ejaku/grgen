@@ -1272,6 +1272,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				+ "\t\t\t" + cname + " node = new " + cname + "();\n"
 				+ "\t\t\tgraph.AddNode(node);\n"
 				+ "\t\t\treturn node;\n"
+				+ "\t\t}\n\n"
+				+ "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph, String varName)\n"
+				+ "\t\t{\n"
+				+ "\t\t\t" + cname + " node = new " + cname + "();\n"
+				+ "\t\t\tgraph.AddNode(node, varName);\n"
+				+ "\t\t\treturn node;\n"
 				+ "\t\t}\n\n");
 		}
 		else
@@ -1282,6 +1288,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				+ "\t\t{\n"
 				+ "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n"
 				+ "\t\t\tgraph.AddEdge(edge);\n"
+				+ "\t\t\treturn edge;\n"
+				+ "\t\t}\n\n"
+				+ "\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)\n"
+				+ "\t\t{\n"
+				+ "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n"
+				+ "\t\t\tgraph.AddEdge(edge, varName);\n"
 				+ "\t\t\treturn edge;\n"
 				+ "\t\t}\n\n");
 		}
@@ -1911,3 +1923,4 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// TODO
 	}
 }
+
