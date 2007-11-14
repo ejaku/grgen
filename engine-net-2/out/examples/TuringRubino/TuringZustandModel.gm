@@ -1,5 +1,3 @@
-model TuringZustandModel;
-
 node class Zustand {
   q : int;
 }

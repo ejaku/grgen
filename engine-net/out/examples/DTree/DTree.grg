@@ -1,4 +1,4 @@
-actions DTree using DTreeModel;
+using DTreeModel;
 
 rule init {
  pattern {

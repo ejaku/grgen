@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.models.Turing3
 {
@@ -16,7 +17,74 @@ namespace de.unika.ipd.grGen.models.Turing3
 	// Node types
 	//
 
-	public enum NodeTypes { @WriteValue, @State, @Node, @BandPosition };
+	public enum NodeTypes { @Node, @WriteValue, @BandPosition, @State };
+
+	// *** Node Node ***
+
+	public interface INode_Node : IAttributes
+	{
+	}
+
+	public sealed class Node_Node : LGSPNode, INode_Node
+	{
+		public Node_Node() : base(NodeType_Node.typeVar) { }
+		private Node_Node(Node_Node oldElem) : base(NodeType_Node.typeVar)
+		{
+		}
+		public override INode Clone() { return new Node_Node(this); }
+		public static Node_Node CreateNode(LGSPGraph graph)
+		{
+			Node_Node node = new Node_Node();
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_Node CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_Node node = new Node_Node();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The node type \"Node\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class NodeType_Node : NodeType
+	{
+		public static NodeType_Node typeVar = new NodeType_Node();
+		public static bool[] isA = new bool[] { true, false, false, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, };
+		public NodeType_Node() : base((int) NodeTypes.@Node)
+		{
+		}
+		public override String Name { get { return "Node"; } }
+		public override INode CreateNode() { return new Node_Node(); }
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override INode Retype(IGraph igraph, INode oldINode)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
+			Node_Node newNode = new Node_Node();
+			graph.ReplaceNode(oldNode, newNode);
+			return newNode;
+		}
+
+	}
 
 	// *** Node WriteValue ***
 
@@ -25,9 +93,28 @@ namespace de.unika.ipd.grGen.models.Turing3
 		int @value { get; set; }
 	}
 
-	public sealed class Node_WriteValue : INode_WriteValue
+	public sealed class Node_WriteValue : LGSPNode, INode_WriteValue
 	{
-		public Object Clone() { return MemberwiseClone(); }
+		public Node_WriteValue() : base(NodeType_WriteValue.typeVar) { }
+		private Node_WriteValue(Node_WriteValue oldElem) : base(NodeType_WriteValue.typeVar)
+		{
+			_value = oldElem._value;
+		}
+		public override INode Clone() { return new Node_WriteValue(this); }
+		public static Node_WriteValue CreateNode(LGSPGraph graph)
+		{
+			Node_WriteValue node = new Node_WriteValue();
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_WriteValue CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_WriteValue node = new Node_WriteValue();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _value;
 		public int @value
 		{
@@ -35,21 +122,38 @@ namespace de.unika.ipd.grGen.models.Turing3
 			set { _value = value; }
 		}
 
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "value": return _value;
+			}
+			throw new NullReferenceException(
+				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "value": _value = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");
+		}
 	}
 
 	public sealed class NodeType_WriteValue : NodeType
 	{
 		public static NodeType_WriteValue typeVar = new NodeType_WriteValue();
-		public static bool[] isA = new bool[] { true, false, true, false, };
-		public static bool[] isMyType = new bool[] { true, false, false, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, };
+		public static bool[] isMyType = new bool[] { false, true, false, false, };
 		public static AttributeType AttributeType_value;
 		public NodeType_WriteValue() : base((int) NodeTypes.@WriteValue)
 		{
 			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "WriteValue"; } }
-		public override INode CreateNode() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return new Node_WriteValue(); }
+		public override INode CreateNode() { return new Node_WriteValue(); }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -70,68 +174,25 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-	}
-
-	// *** Node State ***
-
-	public interface INode_State : INode_Node
-	{
-	}
-
-	public sealed class Node_State : INode_State
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class NodeType_State : NodeType
-	{
-		public static NodeType_State typeVar = new NodeType_State();
-		public static bool[] isA = new bool[] { false, true, true, false, };
-		public static bool[] isMyType = new bool[] { false, true, false, false, };
-		public NodeType_State() : base((int) NodeTypes.@State)
+		public override INode Retype(IGraph igraph, INode oldINode)
 		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
+			Node_WriteValue newNode = new Node_WriteValue();
+			switch(oldNode.Type.TypeID)
+			{
+				case (int) NodeTypes.@WriteValue:
+					// copy attributes for: WriteValue
+					{
+						INode_WriteValue old = (INode_WriteValue) oldNode;
+						newNode.value = old.value;
+					}
+					break;
+			}
+			graph.ReplaceNode(oldNode, newNode);
+			return newNode;
 		}
-		public override String Name { get { return "State"; } }
-		public override INode CreateNode() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-	}
 
-	// *** Node Node ***
-
-	public interface INode_Node : IAttributes
-	{
-	}
-
-	public sealed class Node_Node : INode_Node
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class NodeType_Node : NodeType
-	{
-		public static NodeType_Node typeVar = new NodeType_Node();
-		public static bool[] isA = new bool[] { false, false, true, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, true, };
-		public NodeType_Node() : base((int) NodeTypes.@Node)
-		{
-		}
-		public override String Name { get { return "Node"; } }
-		public override INode CreateNode() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
 	}
 
 	// *** Node BandPosition ***
@@ -141,9 +202,28 @@ namespace de.unika.ipd.grGen.models.Turing3
 		int @value { get; set; }
 	}
 
-	public sealed class Node_BandPosition : INode_BandPosition
+	public sealed class Node_BandPosition : LGSPNode, INode_BandPosition
 	{
-		public Object Clone() { return MemberwiseClone(); }
+		public Node_BandPosition() : base(NodeType_BandPosition.typeVar) { }
+		private Node_BandPosition(Node_BandPosition oldElem) : base(NodeType_BandPosition.typeVar)
+		{
+			_value = oldElem._value;
+		}
+		public override INode Clone() { return new Node_BandPosition(this); }
+		public static Node_BandPosition CreateNode(LGSPGraph graph)
+		{
+			Node_BandPosition node = new Node_BandPosition();
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_BandPosition CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_BandPosition node = new Node_BandPosition();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _value;
 		public int @value
 		{
@@ -151,21 +231,38 @@ namespace de.unika.ipd.grGen.models.Turing3
 			set { _value = value; }
 		}
 
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "value": return _value;
+			}
+			throw new NullReferenceException(
+				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "value": _value = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
+		}
 	}
 
 	public sealed class NodeType_BandPosition : NodeType
 	{
 		public static NodeType_BandPosition typeVar = new NodeType_BandPosition();
-		public static bool[] isA = new bool[] { false, false, true, true, };
-		public static bool[] isMyType = new bool[] { false, false, false, true, };
+		public static bool[] isA = new bool[] { true, false, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, true, false, };
 		public static AttributeType AttributeType_value;
 		public NodeType_BandPosition() : base((int) NodeTypes.@BandPosition)
 		{
 			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "BandPosition"; } }
-		public override INode CreateNode() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return new Node_BandPosition(); }
+		public override INode CreateNode() { return new Node_BandPosition(); }
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -186,6 +283,92 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
+		public override INode Retype(IGraph igraph, INode oldINode)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
+			Node_BandPosition newNode = new Node_BandPosition();
+			switch(oldNode.Type.TypeID)
+			{
+				case (int) NodeTypes.@BandPosition:
+					// copy attributes for: BandPosition
+					{
+						INode_BandPosition old = (INode_BandPosition) oldNode;
+						newNode.value = old.value;
+					}
+					break;
+			}
+			graph.ReplaceNode(oldNode, newNode);
+			return newNode;
+		}
+
+	}
+
+	// *** Node State ***
+
+	public interface INode_State : INode_Node
+	{
+	}
+
+	public sealed class Node_State : LGSPNode, INode_State
+	{
+		public Node_State() : base(NodeType_State.typeVar) { }
+		private Node_State(Node_State oldElem) : base(NodeType_State.typeVar)
+		{
+		}
+		public override INode Clone() { return new Node_State(this); }
+		public static Node_State CreateNode(LGSPGraph graph)
+		{
+			Node_State node = new Node_State();
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_State CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_State node = new Node_State();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The node type \"State\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The node type \"State\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class NodeType_State : NodeType
+	{
+		public static NodeType_State typeVar = new NodeType_State();
+		public static bool[] isA = new bool[] { true, false, false, true, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, };
+		public NodeType_State() : base((int) NodeTypes.@State)
+		{
+		}
+		public override String Name { get { return "State"; } }
+		public override INode CreateNode() { return new Node_State(); }
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override INode Retype(IGraph igraph, INode oldINode)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPNode oldNode = (LGSPNode) oldINode;
+			Node_State newNode = new Node_State();
+			graph.ReplaceNode(oldNode, newNode);
+			return newNode;
+		}
+
 	}
 
 	//
@@ -196,34 +379,34 @@ namespace de.unika.ipd.grGen.models.Turing3
 	{
 		public Turing3NodeModel()
 		{
-			NodeType_WriteValue.typeVar.subOrSameGrGenTypes = NodeType_WriteValue.typeVar.subOrSameTypes = new NodeType[] {
-				NodeType_WriteValue.typeVar,
-			};
-			NodeType_WriteValue.typeVar.subOrSameGrGenTypes = NodeType_WriteValue.typeVar.superOrSameTypes = new NodeType[] {
-				NodeType_WriteValue.typeVar,
-				NodeType_Node.typeVar,
-			};
-			NodeType_State.typeVar.subOrSameGrGenTypes = NodeType_State.typeVar.subOrSameTypes = new NodeType[] {
-				NodeType_State.typeVar,
-			};
-			NodeType_State.typeVar.subOrSameGrGenTypes = NodeType_State.typeVar.superOrSameTypes = new NodeType[] {
-				NodeType_State.typeVar,
-				NodeType_Node.typeVar,
-			};
 			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
 				NodeType_WriteValue.typeVar,
-				NodeType_State.typeVar,
 				NodeType_BandPosition.typeVar,
+				NodeType_State.typeVar,
 			};
-			NodeType_Node.typeVar.subOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
+				NodeType_Node.typeVar,
+			};
+			NodeType_WriteValue.typeVar.subOrSameGrGenTypes = NodeType_WriteValue.typeVar.subOrSameTypes = new NodeType[] {
+				NodeType_WriteValue.typeVar,
+			};
+			NodeType_WriteValue.typeVar.superOrSameGrGenTypes = NodeType_WriteValue.typeVar.superOrSameTypes = new NodeType[] {
+				NodeType_WriteValue.typeVar,
 				NodeType_Node.typeVar,
 			};
 			NodeType_BandPosition.typeVar.subOrSameGrGenTypes = NodeType_BandPosition.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_BandPosition.typeVar,
 			};
-			NodeType_BandPosition.typeVar.subOrSameGrGenTypes = NodeType_BandPosition.typeVar.superOrSameTypes = new NodeType[] {
+			NodeType_BandPosition.typeVar.superOrSameGrGenTypes = NodeType_BandPosition.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_BandPosition.typeVar,
+				NodeType_Node.typeVar,
+			};
+			NodeType_State.typeVar.subOrSameGrGenTypes = NodeType_State.typeVar.subOrSameTypes = new NodeType[] {
+				NodeType_State.typeVar,
+			};
+			NodeType_State.typeVar.superOrSameGrGenTypes = NodeType_State.typeVar.superOrSameTypes = new NodeType[] {
+				NodeType_State.typeVar,
 				NodeType_Node.typeVar,
 			};
 		}
@@ -234,10 +417,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(name)
 			{
-				case "WriteValue" : return NodeType_WriteValue.typeVar;
-				case "State" : return NodeType_State.typeVar;
 				case "Node" : return NodeType_Node.typeVar;
+				case "WriteValue" : return NodeType_WriteValue.typeVar;
 				case "BandPosition" : return NodeType_BandPosition.typeVar;
+				case "State" : return NodeType_State.typeVar;
 			}
 			return null;
 		}
@@ -246,18 +429,18 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return GetType(name);
 		}
 		private NodeType[] types = {
-			NodeType_WriteValue.typeVar,
-			NodeType_State.typeVar,
 			NodeType_Node.typeVar,
+			NodeType_WriteValue.typeVar,
 			NodeType_BandPosition.typeVar,
+			NodeType_State.typeVar,
 		};
 		public NodeType[] Types { get { return types; } }
 		GrGenType[] ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
-			typeof(NodeType_WriteValue),
-			typeof(NodeType_State),
 			typeof(NodeType_Node),
+			typeof(NodeType_WriteValue),
 			typeof(NodeType_BandPosition),
+			typeof(NodeType_State),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private AttributeType[] attributeTypes = {
@@ -271,131 +454,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 	// Edge types
 	//
 
-	public enum EdgeTypes { @readOne, @Edge, @moveLeft, @right, @readZero, @moveRight };
-
-	// *** Edge readOne ***
-
-	public interface IEdge_readOne : IEdge_Edge
-	{
-	}
-
-	public sealed class Edge_readOne : IEdge_readOne
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class EdgeType_readOne : EdgeType
-	{
-		public static EdgeType_readOne typeVar = new EdgeType_readOne();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { true, false, false, false, false, false, };
-		public EdgeType_readOne() : base((int) EdgeTypes.@readOne)
-		{
-		}
-		public override String Name { get { return "readOne"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-	}
-
-	// *** Edge Edge ***
-
-	public interface IEdge_Edge : IAttributes
-	{
-	}
-
-	public sealed class Edge_Edge : IEdge_Edge
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class EdgeType_Edge : EdgeType
-	{
-		public static EdgeType_Edge typeVar = new EdgeType_Edge();
-		public static bool[] isA = new bool[] { false, true, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, };
-		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
-		{
-		}
-		public override String Name { get { return "Edge"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-	}
-
-	// *** Edge moveLeft ***
-
-	public interface IEdge_moveLeft : IEdge_Edge
-	{
-	}
-
-	public sealed class Edge_moveLeft : IEdge_moveLeft
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class EdgeType_moveLeft : EdgeType
-	{
-		public static EdgeType_moveLeft typeVar = new EdgeType_moveLeft();
-		public static bool[] isA = new bool[] { false, true, true, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, };
-		public EdgeType_moveLeft() : base((int) EdgeTypes.@moveLeft)
-		{
-		}
-		public override String Name { get { return "moveLeft"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-	}
-
-	// *** Edge right ***
-
-	public interface IEdge_right : IEdge_Edge
-	{
-	}
-
-	public sealed class Edge_right : IEdge_right
-	{
-		public Object Clone() { return MemberwiseClone(); }
-	}
-
-	public sealed class EdgeType_right : EdgeType
-	{
-		public static EdgeType_right typeVar = new EdgeType_right();
-		public static bool[] isA = new bool[] { false, true, false, true, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, };
-		public EdgeType_right() : base((int) EdgeTypes.@right)
-		{
-		}
-		public override String Name { get { return "right"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-	}
+	public enum EdgeTypes { @readZero, @readOne, @moveRight, @right, @Edge, @moveLeft };
 
 	// *** Edge readZero ***
 
@@ -403,22 +462,55 @@ namespace de.unika.ipd.grGen.models.Turing3
 	{
 	}
 
-	public sealed class Edge_readZero : IEdge_readZero
+	public sealed class Edge_readZero : LGSPEdge, IEdge_readZero
 	{
-		public Object Clone() { return MemberwiseClone(); }
+		public Edge_readZero(LGSPNode source, LGSPNode target)
+			: base(EdgeType_readZero.typeVar, source, target) { }
+		private Edge_readZero(Edge_readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_readZero.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_readZero edge = new Edge_readZero(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_readZero edge = new Edge_readZero(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+		}
 	}
 
 	public sealed class EdgeType_readZero : EdgeType
 	{
 		public static EdgeType_readZero typeVar = new EdgeType_readZero();
-		public static bool[] isA = new bool[] { false, true, false, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, };
+		public static bool[] isA = new bool[] { true, false, false, false, true, false, };
+		public static bool[] isMyType = new bool[] { true, false, false, false, false, false, };
 		public EdgeType_readZero() : base((int) EdgeTypes.@readZero)
 		{
 		}
 		public override String Name { get { return "readZero"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
+		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
 		public override AttributeType GetAttributeType(String name) { return null; }
@@ -426,6 +518,88 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_readZero newEdge = new Edge_readZero(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge readOne ***
+
+	public interface IEdge_readOne : IEdge_Edge
+	{
+	}
+
+	public sealed class Edge_readOne : LGSPEdge, IEdge_readOne
+	{
+		public Edge_readOne(LGSPNode source, LGSPNode target)
+			: base(EdgeType_readOne.typeVar, source, target) { }
+		private Edge_readOne(Edge_readOne oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_readOne.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_readOne(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_readOne edge = new Edge_readOne(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_readOne CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_readOne edge = new Edge_readOne(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"readOne\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"readOne\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class EdgeType_readOne : EdgeType
+	{
+		public static EdgeType_readOne typeVar = new EdgeType_readOne();
+		public static bool[] isA = new bool[] { false, true, false, false, true, false, };
+		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, };
+		public EdgeType_readOne() : base((int) EdgeTypes.@readOne)
+		{
+		}
+		public override String Name { get { return "readOne"; } }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_readOne((LGSPNode) source, (LGSPNode) target);
+		}
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_readOne newEdge = new Edge_readOne(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
 	}
 
 	// *** Edge moveRight ***
@@ -434,22 +608,55 @@ namespace de.unika.ipd.grGen.models.Turing3
 	{
 	}
 
-	public sealed class Edge_moveRight : IEdge_moveRight
+	public sealed class Edge_moveRight : LGSPEdge, IEdge_moveRight
 	{
-		public Object Clone() { return MemberwiseClone(); }
+		public Edge_moveRight(LGSPNode source, LGSPNode target)
+			: base(EdgeType_moveRight.typeVar, source, target) { }
+		private Edge_moveRight(Edge_moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_moveRight.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_moveRight edge = new Edge_moveRight(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_moveRight edge = new Edge_moveRight(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+		}
 	}
 
 	public sealed class EdgeType_moveRight : EdgeType
 	{
 		public static EdgeType_moveRight typeVar = new EdgeType_moveRight();
-		public static bool[] isA = new bool[] { false, true, false, false, false, true, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, };
+		public static bool[] isA = new bool[] { false, false, true, false, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, };
 		public EdgeType_moveRight() : base((int) EdgeTypes.@moveRight)
 		{
 		}
 		public override String Name { get { return "moveRight"; } }
-		public override IEdge CreateEdge() { throw new Exception("The method or operation is not implemented."); }
-		public override IAttributes CreateAttributes() { return null; }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
+		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
 		public override AttributeType GetAttributeType(String name) { return null; }
@@ -457,6 +664,234 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_moveRight newEdge = new Edge_moveRight(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge right ***
+
+	public interface IEdge_right : IEdge_Edge
+	{
+	}
+
+	public sealed class Edge_right : LGSPEdge, IEdge_right
+	{
+		public Edge_right(LGSPNode source, LGSPNode target)
+			: base(EdgeType_right.typeVar, source, target) { }
+		private Edge_right(Edge_right oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_right.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_right edge = new Edge_right(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_right edge = new Edge_right(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class EdgeType_right : EdgeType
+	{
+		public static EdgeType_right typeVar = new EdgeType_right();
+		public static bool[] isA = new bool[] { false, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, };
+		public EdgeType_right() : base((int) EdgeTypes.@right)
+		{
+		}
+		public override String Name { get { return "right"; } }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_right((LGSPNode) source, (LGSPNode) target);
+		}
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_right newEdge = new Edge_right(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge Edge ***
+
+	public interface IEdge_Edge : IAttributes
+	{
+	}
+
+	public sealed class Edge_Edge : LGSPEdge, IEdge_Edge
+	{
+		public Edge_Edge(LGSPNode source, LGSPNode target)
+			: base(EdgeType_Edge.typeVar, source, target) { }
+		private Edge_Edge(Edge_Edge oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_Edge.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_Edge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_Edge edge = new Edge_Edge(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_Edge edge = new Edge_Edge(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"Edge\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class EdgeType_Edge : EdgeType
+	{
+		public static EdgeType_Edge typeVar = new EdgeType_Edge();
+		public static bool[] isA = new bool[] { false, false, false, false, true, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, };
+		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
+		{
+		}
+		public override String Name { get { return "Edge"; } }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
+		}
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_Edge newEdge = new Edge_Edge(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
+	}
+
+	// *** Edge moveLeft ***
+
+	public interface IEdge_moveLeft : IEdge_Edge
+	{
+	}
+
+	public sealed class Edge_moveLeft : LGSPEdge, IEdge_moveLeft
+	{
+		public Edge_moveLeft(LGSPNode source, LGSPNode target)
+			: base(EdgeType_moveLeft.typeVar, source, target) { }
+		private Edge_moveLeft(Edge_moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_moveLeft.typeVar, newSource, newTarget)
+		{
+		}
+		public override IEdge Clone(INode newSource, INode newTarget)
+		{ return new Edge_moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		{
+			Edge_moveLeft edge = new Edge_moveLeft(source, target);
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_moveLeft edge = new Edge_moveLeft(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+		}
+	}
+
+	public sealed class EdgeType_moveLeft : EdgeType
+	{
+		public static EdgeType_moveLeft typeVar = new EdgeType_moveLeft();
+		public static bool[] isA = new bool[] { false, false, false, false, true, true, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, };
+		public EdgeType_moveLeft() : base((int) EdgeTypes.@moveLeft)
+		{
+		}
+		public override String Name { get { return "moveLeft"; } }
+		public override IEdge CreateEdge(INode source, INode target)
+		{
+			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
+		}
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
+		public override AttributeType GetAttributeType(String name) { return null; }
+		public override bool IsA(GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		{
+			LGSPGraph graph = (LGSPGraph) igraph;
+			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
+			Edge_moveLeft newEdge = new Edge_moveLeft(oldEdge.source, oldEdge.target);
+			graph.ReplaceEdge(oldEdge, newEdge);
+			return newEdge;
+		}
+
 	}
 
 	//
@@ -467,50 +902,50 @@ namespace de.unika.ipd.grGen.models.Turing3
 	{
 		public Turing3EdgeModel()
 		{
-			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_readOne.typeVar,
-			};
-			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_readOne.typeVar,
-				EdgeType_Edge.typeVar,
-			};
-			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_Edge.typeVar,
-				EdgeType_readOne.typeVar,
-				EdgeType_moveLeft.typeVar,
-				EdgeType_right.typeVar,
-				EdgeType_readZero.typeVar,
-				EdgeType_moveRight.typeVar,
-			};
-			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_Edge.typeVar,
-			};
-			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_moveLeft.typeVar,
-			};
-			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_moveLeft.typeVar,
-				EdgeType_Edge.typeVar,
-			};
-			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_right.typeVar,
-			};
-			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_right.typeVar,
-				EdgeType_Edge.typeVar,
-			};
 			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_readZero.typeVar,
 			};
-			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_readZero.typeVar.superOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_readZero.typeVar,
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_readOne.typeVar,
+			};
+			EdgeType_readOne.typeVar.superOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_readOne.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_moveRight.typeVar.subOrSameGrGenTypes = EdgeType_moveRight.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_moveRight.typeVar,
 			};
-			EdgeType_moveRight.typeVar.subOrSameGrGenTypes = EdgeType_moveRight.typeVar.superOrSameTypes = new EdgeType[] {
+			EdgeType_moveRight.typeVar.superOrSameGrGenTypes = EdgeType_moveRight.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_moveRight.typeVar,
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_right.typeVar,
+			};
+			EdgeType_right.typeVar.superOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_right.typeVar,
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_Edge.typeVar,
+				EdgeType_readZero.typeVar,
+				EdgeType_readOne.typeVar,
+				EdgeType_moveRight.typeVar,
+				EdgeType_right.typeVar,
+				EdgeType_moveLeft.typeVar,
+			};
+			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_moveLeft.typeVar,
+			};
+			EdgeType_moveLeft.typeVar.superOrSameGrGenTypes = EdgeType_moveLeft.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_moveLeft.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 		}
@@ -521,12 +956,12 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(name)
 			{
+				case "readZero" : return EdgeType_readZero.typeVar;
 				case "readOne" : return EdgeType_readOne.typeVar;
+				case "moveRight" : return EdgeType_moveRight.typeVar;
+				case "right" : return EdgeType_right.typeVar;
 				case "Edge" : return EdgeType_Edge.typeVar;
 				case "moveLeft" : return EdgeType_moveLeft.typeVar;
-				case "right" : return EdgeType_right.typeVar;
-				case "readZero" : return EdgeType_readZero.typeVar;
-				case "moveRight" : return EdgeType_moveRight.typeVar;
 			}
 			return null;
 		}
@@ -535,22 +970,22 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return GetType(name);
 		}
 		private EdgeType[] types = {
+			EdgeType_readZero.typeVar,
 			EdgeType_readOne.typeVar,
+			EdgeType_moveRight.typeVar,
+			EdgeType_right.typeVar,
 			EdgeType_Edge.typeVar,
 			EdgeType_moveLeft.typeVar,
-			EdgeType_right.typeVar,
-			EdgeType_readZero.typeVar,
-			EdgeType_moveRight.typeVar,
 		};
 		public EdgeType[] Types { get { return types; } }
 		GrGenType[] ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
+			typeof(EdgeType_readZero),
 			typeof(EdgeType_readOne),
+			typeof(EdgeType_moveRight),
+			typeof(EdgeType_right),
 			typeof(EdgeType_Edge),
 			typeof(EdgeType_moveLeft),
-			typeof(EdgeType_right),
-			typeof(EdgeType_readZero),
-			typeof(EdgeType_moveRight),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private AttributeType[] attributeTypes = {

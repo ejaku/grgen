@@ -24,14 +24,12 @@ namespace BusyBeaver
                 default: throw new ArgumentException("Illegal move value: " + move);
             }
 
-            LGSPNode writeNode = graph.AddNode(NodeType_WriteValue.typeVar);
-
-            // Set the "value" attribute of the "WriteValue" node to the integer value output
-            ((Node_WriteValue) writeNode.attributes).value = output;
+            Node_WriteValue writeNode = Node_WriteValue.CreateNode(graph);
+            writeNode.value = output;
 
             graph.AddEdge(input == 0 ? (EdgeType) EdgeType_readZero.typeVar : (EdgeType) EdgeType_readOne.typeVar,
-                (LGSPNode) graph.GetVariableValue(srcState), writeNode);
-            graph.AddEdge(moveType, writeNode, (LGSPNode) graph.GetVariableValue(destState));
+                graph.GetNodeVarValue(srcState), writeNode);
+            graph.AddEdge(moveType, writeNode, graph.GetNodeVarValue(destState));
         }
 
         void DoBusyBeaver()
@@ -46,15 +44,15 @@ namespace BusyBeaver
             actions.PerformanceInfo = new PerformanceInfo();
 
             // Initialize tape
-            LGSPNode bp = graph.AddNode(NodeType_BandPosition.typeVar);
+            Node_BandPosition bp = Node_BandPosition.CreateNode(graph);
 
             // Initialize states
-            LGSPNode sA = graph.AddNode(NodeType_State.typeVar, "sA");
-            graph.AddNode(NodeType_State.typeVar, "sB");
-            graph.AddNode(NodeType_State.typeVar, "sC");
-            graph.AddNode(NodeType_State.typeVar, "sD");
-            graph.AddNode(NodeType_State.typeVar, "sE");
-            graph.AddNode(NodeType_State.typeVar, "sH");
+            Node_State sA = Node_State.CreateNode(graph, "sA");
+            Node_State.CreateNode(graph, "sB");
+            Node_State.CreateNode(graph, "sC");
+            Node_State.CreateNode(graph, "sD");
+            Node_State.CreateNode(graph, "sE");
+            Node_State.CreateNode(graph, "sH");
 
             // Create state transitions
             GenStateTransition("sA", 0, "sB", 1, L);
@@ -101,7 +99,7 @@ namespace BusyBeaver
             // Count the number of "BandPosition" nodes with a "value" attribute being one
             int numOnes = 0;
             foreach(LGSPNode valueNode in graph.GetExactNodes(NodeType_BandPosition.typeVar))
-                if(((INode_BandPosition) valueNode.attributes).value == 1)
+                if(((Node_BandPosition) valueNode).value == 1)
                     numOnes++;
 
             int countTime = Environment.TickCount - stopTime;

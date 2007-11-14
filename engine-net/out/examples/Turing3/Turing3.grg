@@ -1,4 +1,4 @@
-actions Turing3 using Turing3Model;
+using Turing3Model;
 
 rule readZeroRule(s:State, bp:BandPosition) : (WriteValue) {
 	pattern {

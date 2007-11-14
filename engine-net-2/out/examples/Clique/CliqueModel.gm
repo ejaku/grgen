@@ -1,5 +1,3 @@
-model CliqueModel;
-
 node class N { id : int; }
 node class Nin1 extends N;
 node class Nin2 extends Nin1;

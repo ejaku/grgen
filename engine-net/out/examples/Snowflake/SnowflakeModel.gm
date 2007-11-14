@@ -1,5 +1,3 @@
-model SnowflakeModel;
-
 node class Node1;
 node class Node2;
 node class Node3;

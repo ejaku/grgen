@@ -1,4 +1,4 @@
-actions Sierpinski using SierpinskiModel;
+using SierpinskiModel;
 
 rule init {
  pattern {

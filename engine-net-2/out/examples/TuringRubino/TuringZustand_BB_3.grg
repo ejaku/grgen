@@ -1,4 +1,4 @@
-actions TuringZustand_BB_3 using TuringZustandModel;
+using TuringZustandModel;
 
 rule init {
 	pattern {

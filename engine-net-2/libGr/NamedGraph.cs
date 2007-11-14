@@ -549,6 +549,28 @@ namespace de.unika.ipd.grGen.libGr
         public IGraphElement GetVariableValue(string varName) { return graph.GetVariableValue(varName); }
 
         /// <summary>
+        /// Retrieves the INode for a variable name or null, if the variable isn't set yet or anymore.
+        /// A InvalidCastException is thrown, if the variable is set and does not point to an INode object.
+        /// </summary>
+        /// <param name="varName">The variable name to lookup.</param>
+        /// <returns>The according INode or null.</returns>
+        public INode GetNodeVarValue(string varName)
+        {
+            return (INode) graph.GetVariableValue(varName);
+        }
+
+        /// <summary>
+        /// Retrieves the IEdge for a variable name or null, if the variable isn't set yet or anymore.
+        /// A InvalidCastException is thrown, if the variable is set and does not point to an IEdge object.
+        /// </summary>
+        /// <param name="varName">The variable name to lookup.</param>
+        /// <returns>The according INode or null.</returns>
+        public IEdge GetEdgeVarValue(string varName)
+        {
+            return (IEdge) graph.GetVariableValue(varName);
+        }
+
+        /// <summary>
         /// Sets the value of the given variable to the given IGraphElement
         /// If the variable name is null, this function does nothing
         /// If elem is null, the variable is unset

@@ -1,4 +1,4 @@
-actions Agri using AgriModel;
+using AgriModel;
 rule repRule(f:Farmer) : (Apple) {
  pattern {
   f -sa:Sees-> a:Apple\ToffeeApple

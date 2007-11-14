@@ -1,4 +1,4 @@
-actions Ludo2 using Ludo2Model;
+using Ludo2Model;
 
 rule init {
   pattern {}

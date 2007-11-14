@@ -1,4 +1,4 @@
-actions Snowflake using SnowflakeModel;
+using SnowflakeModel;
 
 rule init {
  pattern {

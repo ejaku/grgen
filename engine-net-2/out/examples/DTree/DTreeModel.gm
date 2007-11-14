@@ -1,5 +1,3 @@
-model DTreeModel;
-
 node class N;
 
 node class A extends N;

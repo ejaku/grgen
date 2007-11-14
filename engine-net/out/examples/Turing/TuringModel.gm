@@ -1,5 +1,3 @@
-model TuringModel; 
-
 node class TapePosition; 
 edge class right
   connect TapePosition[0:1] -> TapePosition[0:1];

@@ -1506,6 +1506,28 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Retrieves the LGSPNode for a variable name or null, if the variable isn't set yet or anymore.
+        /// A InvalidCastException is thrown, if the variable is set and does not point to an LGSPNode object.
+        /// </summary>
+        /// <param name="varName">The variable name to lookup.</param>
+        /// <returns>The according LGSPNode or null.</returns>
+        public LGSPNode GetNodeVarValue(string varName)
+        {
+            return (LGSPNode) GetVariableValue(varName);
+        }
+
+        /// <summary>
+        /// Retrieves the LGSPEdge for a variable name or null, if the variable isn't set yet or anymore.
+        /// A InvalidCastException is thrown, if the variable is set and does not point to an LGSPEdge object.
+        /// </summary>
+        /// <param name="varName">The variable name to lookup.</param>
+        /// <returns>The according LGSPEdge or null.</returns>
+        public LGSPEdge GetEdgeVarValue(string varName)
+        {
+            return (LGSPEdge) GetVariableValue(varName);
+        }
+
+        /// <summary>
         /// Detaches the specified variable from the according graph element.
         /// If it was the last variable pointing to the element, the variable list for the element is removed.
         /// </summary>
