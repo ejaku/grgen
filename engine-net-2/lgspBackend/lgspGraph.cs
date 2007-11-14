@@ -381,7 +381,6 @@ namespace de.unika.ipd.grGen.lgsp
             modelAssemblyName = modelassemblyname;
         }
 
-        // TODO: NYI
         /// <summary>
         /// Copy constructor.
         /// Open transaction data and variables are lost.
@@ -390,9 +389,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newName">Name of the copied graph.</param>
         protected LGSPGraph(LGSPGraph dataSource, String newName)
         {
-            throw new Exception("Not implemented yet!");
-
-/*            model = dataSource.model;
+            model = dataSource.model;
             name = newName;
 
             InitializeGraph();
@@ -409,9 +406,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 for(LGSPNode head = dataSource.nodesByTypeHeads[i], node = head.typePrev; node != head; node = node.typePrev)
                 {
-                    LGSPNode newNode = new LGSPNode(node.type);
-                    newNode.attributes = node.attributes == null ? null : (IAttributes) node.attributes.Clone();
-                    AddNode(newNode, node.type.TypeID);
+                    LGSPNode newNode = (LGSPNode) node.Clone();
+                    AddNodeWithoutEvents(newNode, node.type.TypeID);
                     oldToNewMap[node] = newNode;
                 }
             }
@@ -420,8 +416,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 for(LGSPEdge head = dataSource.edgesByTypeHeads[i], edge = head.typePrev; edge != head; edge = edge.typePrev)
                 {
-                    LGSPEdge newEdge = (LGSPEdge) AddEdge(edge.type, (INode) oldToNewMap[edge.source], (INode) oldToNewMap[edge.target]);
-                    newEdge.attributes = edge.attributes == null ? null : (IAttributes) edge.attributes.Clone();
+                    LGSPEdge newEdge = (LGSPEdge) edge.Clone((INode) oldToNewMap[edge.source], (INode) oldToNewMap[edge.target]);
+                    AddEdgeWithoutEvents(newEdge, newEdge.type.TypeID);
                     oldToNewMap[edge] = newEdge;
                 }
             }
@@ -445,7 +441,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nodeLookupCosts = (float[]) dataSource.nodeLookupCosts.Clone();
             if(dataSource.edgeLookupCosts != null)
                 edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
-#endif*/
+#endif
         }
 
         private void InitializeGraph()
@@ -1304,7 +1300,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Replaces a given node by another one.
-        /// All adjacent edges are transferred to the new node.
+        /// All adjacent edges and variables are transferred to the new node.
         /// The attributes are not touched.
         /// This function is used for retyping.
         /// </summary>
@@ -1312,6 +1308,56 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newNode">The replacement for the node.</param>
         public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
         {
+            if(oldNode.hasVariables)
+            {
+                LinkedList<Variable> varList = ElementMap[oldNode];
+                foreach(Variable var in varList)
+                    var.Element = newNode;
+                ElementMap.Remove(oldNode);
+                ElementMap[newNode] = varList;
+                newNode.hasVariables = true;
+            }
+
+            if(oldNode.type != newNode.type)
+            {
+                RemoveNodeWithoutEvents(oldNode, oldNode.type.TypeID);
+                AddNodeWithoutEvents(newNode, newNode.type.TypeID);
+            }
+            else
+            {
+                newNode.typeNext = oldNode.typeNext;
+                newNode.typePrev = oldNode.typePrev;
+                oldNode.typeNext.typePrev = newNode;
+                oldNode.typePrev.typeNext = newNode;
+            }
+
+            // Reassign all outgoing edges
+            LGSPEdge outHead = oldNode.outhead;
+            if(outHead != null)
+            {
+                LGSPEdge outCur = outHead;
+                do
+                {
+                    outCur.source = newNode;
+                    outCur = outCur.outNext;
+                }
+                while(outCur != outHead);
+            }
+            newNode.outhead = outHead;
+
+            // Reassign all incoming edges
+            LGSPEdge inHead = oldNode.inhead;
+            if(inHead != null)
+            {
+                LGSPEdge inCur = inHead;
+                do
+                {
+                    inCur.target = newNode;
+                    inCur = inCur.inNext;
+                }
+                while(inCur != inHead);
+            }
+            newNode.inhead = inHead;
         }
 
         /// <summary>
@@ -1327,6 +1373,29 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newEdge">The replacement for the edge.</param>
         public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
         {
+            if(oldEdge.hasVariables)
+            {
+                LinkedList<Variable> varList = ElementMap[oldEdge];
+                foreach(Variable var in varList)
+                    var.Element = newEdge;
+                ElementMap.Remove(oldEdge);
+                ElementMap[newEdge] = varList;
+                newEdge.hasVariables = true;
+            }
+
+            if(oldEdge.type != newEdge.type)
+            {
+                RemoveEdgeWithoutEvents(oldEdge, oldEdge.type.TypeID);
+                AddEdgeWithoutEvents(newEdge, newEdge.type.TypeID);
+            }
+            else
+            {
+                newEdge.typeNext = oldEdge.typeNext;
+                newEdge.typePrev = oldEdge.typePrev;
+                oldEdge.typeNext.typePrev = newEdge;
+                oldEdge.typePrev.typeNext = newEdge;
+            }
+
             // Reassign source node
             LGSPNode src = oldEdge.source;
             if(src.outhead == oldEdge)

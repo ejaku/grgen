@@ -39,7 +39,7 @@ node class B42 extends A4 {
 }
 
 node class B43 extends A4 {
-    b43:int;
+    //b43:int;
 }
 
 node class C221 extends B22 {
@@ -52,6 +52,10 @@ node class C222_411 extends B22, B41 {
 
 node class C412_421_431_51 extends B41, B42, B43, A5 {
 //    c412_421_432_51:int;
+}
+
+node class C432_422 extends B43, B42 {
+    c432_422:int;
 }
 
 node class D11_2221 extends A1, C222_411 {
