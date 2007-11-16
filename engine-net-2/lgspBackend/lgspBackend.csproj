@@ -74,6 +74,8 @@
     <Compile Include="SearchOperationType.cs" />
     <Compile Include="SearchPlanGraph.cs" />
     <Compile Include="SearchProgram.cs" />
+    <Compile Include="SearchProgramBuilder.cs" />
+    <Compile Include="SearchProgramCompleter.cs" />
     <Compile Include="SourceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
