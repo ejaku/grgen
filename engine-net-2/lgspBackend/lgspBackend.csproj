@@ -64,9 +64,17 @@
     <Compile Include="lgspGraphElements.cs" />
     <Compile Include="lgspMatcherGenerator.cs" />
     <None Include="MonoILReader.cs" />
+    <Compile Include="lgspMatcherGeneratorOld.cs" />
     <Compile Include="lgspPattern.cs" />
+    <Compile Include="NamesOfEntities.cs" />
+    <Compile Include="PlanGraph.cs" />
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScheduledSearchPlan.cs" />
+    <Compile Include="SearchOperationType.cs" />
+    <Compile Include="SearchPlanGraph.cs" />
+    <Compile Include="SearchProgram.cs" />
+    <Compile Include="SourceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libGr\libGr.csproj">

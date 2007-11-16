@@ -25,60 +25,60 @@ namespace de.unika.ipd.grGen.lgsp
         public float[][] NegEdgeCost;
     }
     
-    class SourceBuilder
-    {
-        StringBuilder builder;
-        String indentation = "";
-
-        public SourceBuilder(String str)
-        {
-            builder = new StringBuilder(str);
-        }
-
-        public SourceBuilder Append(String str)
-        {
-            builder.Append(str);
-            return this;
-        }
-
-        public SourceBuilder AppendFormat(String str, params object[] args)
-        {
-            builder.AppendFormat(str, args);
-            return this;
-        }
-
-        public SourceBuilder AppendFront(String str)
-        {
-            builder.Append(indentation);
-            builder.Append(str);
-            return this;
-        }
-
-        public SourceBuilder AppendFrontFormat(String str, params object[] args)
-        {
-            builder.Append(indentation);
-            builder.AppendFormat(str, args);
-            return this;
-        }
-
-        public void Indent()
-        {
-            indentation += "    ";
-        }
-
-        public void Unindent()
-        {
-            indentation = indentation.Substring(4);
-        }
-
-        public override String ToString()
-        {
-            return builder.ToString();
-        }
-    }
-
     public class LGSPGrGen
     {
+        class SourceBuilder
+        {
+            StringBuilder builder;
+            String indentation = "";
+
+            public SourceBuilder(String str)
+            {
+                builder = new StringBuilder(str);
+            }
+
+            public SourceBuilder Append(String str)
+            {
+                builder.Append(str);
+                return this;
+            }
+
+            public SourceBuilder AppendFormat(String str, params object[] args)
+            {
+                builder.AppendFormat(str, args);
+                return this;
+            }
+
+            public SourceBuilder AppendFront(String str)
+            {
+                builder.Append(indentation);
+                builder.Append(str);
+                return this;
+            }
+
+            public SourceBuilder AppendFrontFormat(String str, params object[] args)
+            {
+                builder.Append(indentation);
+                builder.AppendFormat(str, args);
+                return this;
+            }
+
+            public void Indent()
+            {
+                indentation += "    ";
+            }
+
+            public void Unindent()
+            {
+                indentation = indentation.Substring(4);
+            }
+
+            public override String ToString()
+            {
+                return builder.ToString();
+            }
+        }
+
         private Dictionary<String, Assembly> loadedAssemblies = new Dictionary<string, Assembly>();
         private bool assemblyHandlerInstalled = false;
 
