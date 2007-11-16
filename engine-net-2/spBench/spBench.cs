@@ -654,7 +654,7 @@ namespace spBench
         static int BenchmarkActionOnce(LGSPGraph orgGraph, LGSPActions actions)
         {
             LGSPGraph graph = (LGSPGraph) orgGraph.Clone("tempGraph");
-
+            actions.Graph = graph;
             Sequence seq = SequenceParser.ParseSequence(benchGRS, actions);
 
             PerformanceInfo perfInfo = new PerformanceInfo();
@@ -1282,6 +1282,7 @@ namespace spBench
             String replaceM = null;
             testActionName = null;
             bool error = false;
+            List<String> ruleNamesForGenSP = new List<String>();
 
             for(int i = 0; i < args.Length && !error; i++)
             {
@@ -1315,6 +1316,19 @@ namespace spBench
                             }
                             initGRS = args[++i];
                             break;
+                        case "-gensp":
+                        {
+                            if(i + 1 >= args.Length)
+                            {
+                                error = true;
+                                Console.WriteLine("No rules specified for -gensp!");
+                                break;
+                            }
+                            String genSPRuleStr = args[++i];
+                            foreach(String name in genSPRuleStr.Split(' '))
+                                ruleNamesForGenSP.Add(name);
+                            break;
+                        }    
                         case "-benchgrs":
                             if(i + 1 >= args.Length)
                             {
@@ -1422,6 +1436,8 @@ namespace spBench
                     + "  -forceimplicit         Forces implicits to be matched as soon as possible\n"
                     + "  -initgrs \"<xgrs>\"      Sets the xgrs used to initialize the graph\n"
                     + "                         (default: none)\n"
+                    + "  -gensp \"<rules>\"       Generates new searchplans for all rules in the\n"
+                    + "                         space separated list <rules> before benchmarking\n"
                     + "  -benchgrs \"<xgrs>\"     Sets the xgrs used for benchmarking\n"
                     + "                         (default: \"[<actionName>][50]\")\n"
                     + "  -timeout <n>           Sets the timeout in ms for one benchgrs execution\n"
@@ -1473,6 +1489,9 @@ namespace spBench
 #endif
 
             graph.AnalyzeGraph();
+            if(ruleNamesForGenSP.Count != 0)
+                actions.GenerateSearchPlans(ruleNamesForGenSP.ToArray());
+
             LGSPAction action = (LGSPAction) actions.GetAction(testActionName);
             if(action == null)
             {
@@ -1558,7 +1577,7 @@ namespace spBench
             int height = (int) Math.Round(timeScale * Math.Log10(ctx.MaxTime), MidpointRounding.AwayFromZero);
             float costScale = height / Math.Max(Math.Max(Math.Max(ctx.MaxCostFlat, ctx.MaxSPCostProduct), ctx.MaxSPCostSum), ctx.MaxCostBatz);
 
-            if(ctx.Results.Count == 0 || height < 0)
+            if(ctx.Results.Count == 0 || height < 0 || height > 500)
             {
                 Console.WriteLine("No useful data to be painted...");
                 return;

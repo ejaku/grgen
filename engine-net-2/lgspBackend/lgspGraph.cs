@@ -1278,24 +1278,52 @@ namespace de.unika.ipd.grGen.lgsp
             elem.attributes = newAttrs;*/
         }
 
+        /// <summary>
+        /// Retypes a node by creating a new node of the given type.
+        /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="node">The node to be retyped.</param>
+        /// <param name="newNodeType">The new type for the node.</param>
+        /// <returns>The new node object representing the retyped node.</returns>
         public LGSPNode Retype(LGSPNode node, NodeType newNodeType)
         {
             return (LGSPNode) newNodeType.Retype(this, node);
         }
 
+        /// <summary>
+        /// Retypes a node by creating a new node of the given type.
+        /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="node">The node to be retyped.</param>
+        /// <param name="newNodeType">The new type for the node.</param>
+        /// <returns>The new node object representing the retyped node.</returns>
         public override INode Retype(INode node, NodeType newNodeType)
         {
-            return Retype((LGSPNode) node, newNodeType);
+            return newNodeType.Retype(this, node);
         }
 
+        /// <summary>
+        /// Retypes an edge by replacing it by a new edge of the given type.
+        /// Source and target node as well as all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="newEdgeType">The new type for the edge.</param>
+        /// <returns>The new edge object representing the retyped edge.</returns>
         public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
             return (LGSPEdge) newEdgeType.Retype(this, edge);
         }
 
+        /// <summary>
+        /// Retypes an edge by replacing it by a new edge of the given type.
+        /// Source and target node as well as all attributes from common super classes are kept.
+        /// </summary>
+        /// <param name="edge">The edge to be retyped.</param>
+        /// <param name="newEdgeType">The new type for the edge.</param>
+        /// <returns>The new edge object representing the retyped edge.</returns>
         public override IEdge Retype(IEdge edge, EdgeType newEdgeType)
         {
-            return Retype((LGSPEdge) edge, newEdgeType);
+            return newEdgeType.Retype(this, edge);
         }
 
         /// <summary>
