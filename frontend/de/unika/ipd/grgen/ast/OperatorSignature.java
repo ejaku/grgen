@@ -146,7 +146,7 @@ public class OperatorSignature extends FunctionSignature
 	 * each result type of the specific operator to a its
 	 * signature.
 	 */
-	final static private Map<Integer, HashSet> operators = new HashMap<Integer, HashSet>();
+	final static private Map<Integer, HashSet<OperatorSignature>> operators = new HashMap<Integer, HashSet<OperatorSignature>>();
 	
 	/**
 	 * Makes an entry in the {@link #operators} map.
@@ -170,9 +170,9 @@ public class OperatorSignature extends FunctionSignature
 		Integer oid = new Integer(id);
 		
 		if(operators.get(oid) == null)
-			operators.put(oid, new HashSet());
+			operators.put(oid, new HashSet<OperatorSignature>());
 		
-		HashSet typeMap = operators.get(oid);
+		HashSet<OperatorSignature> typeMap = operators.get(oid);
 
 		OperatorSignature newOpSig = new OperatorSignature(id, resType, opTypes, eval);
 		typeMap.add(newOpSig);
@@ -290,7 +290,7 @@ public class OperatorSignature extends FunctionSignature
 			return null;
 		}
 		
-		private Object checkValue(ExprNode e, Class type) throws ValueException
+		private Object checkValue(ExprNode e, Class<?> type) throws ValueException
 		{
 			if(e.isConst())
 			{

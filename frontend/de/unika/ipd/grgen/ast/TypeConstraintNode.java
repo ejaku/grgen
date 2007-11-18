@@ -33,7 +33,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.TypeExprConst;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Iterator;
 
 /**
  * A type expression constant.

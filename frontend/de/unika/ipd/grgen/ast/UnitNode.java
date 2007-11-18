@@ -31,7 +31,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
-import java.util.Iterator;
 
 /**
  * The main node of the text. It is the root of the ast.
@@ -57,7 +56,7 @@ public class UnitNode extends DeclNode {
 	};
 	
 	/** Contains the classes of all valid types which can be declared */
-	private static Class[] validTypes = {
+	private static Class<?>[] validTypes = {
 		TestDeclNode.class, RuleDeclNode.class
 	};
 	

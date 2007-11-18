@@ -38,7 +38,7 @@ import de.unika.ipd.grgen.parser.Scope;
  */
 public class EdgeResolver extends IdentResolver {
 
-  private static final Class[] edgeClass = {
+  private static final Class<?>[] edgeClass = {
 		EdgeDeclNode.class
 	};
 	

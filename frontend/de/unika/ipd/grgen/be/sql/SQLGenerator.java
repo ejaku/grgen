@@ -146,7 +146,7 @@ public class SQLGenerator extends Base {
 		List<IR> matchedNodes = ctx.matchedNodes;
 		List<IR> matchedEdges = ctx.matchedEdges;
 		
-		Collection nodes = graph.getNodes();
+		Collection<Node> nodes = graph.getNodes();
 		Collection<Edge> edges = new HashSet<Edge>();
 		
 		List nodeTables = new LinkedList();
@@ -161,8 +161,8 @@ public class SQLGenerator extends Base {
 		
 		
 		// Two sets for incoming/outgoing edges.
-		Set[] incidentSets = new Set[] {
-			new HashSet(), new HashSet()
+		Set<Edge>[] incidentSets = new Set[] {
+			new HashSet<Edge>(), new HashSet<Edge>()
 		};
 		
 		// Edge table column for incoming/outgoing edges.
@@ -174,9 +174,9 @@ public class SQLGenerator extends Base {
 		workset.addAll(nodes);
 		HashMap edgeNotEx = new HashMap();
 		
-		for(Iterator it = nodes.iterator(); it.hasNext();) {
+		for(Iterator<Node> it = nodes.iterator(); it.hasNext();) {
 			
-			Node n = (Node) it.next();
+			Node n = it.next();
 			NodeTable table = factory.nodeTable(n);
 			Column col = table.colId();
 			Term nodeColExpr = factory.expression(col);
@@ -336,7 +336,7 @@ public class SQLGenerator extends Base {
 		UpdateQualGen qg = new UpdateQualGen(owner);
 		
 		Term term = genExprSQL(expr, ms, factory,
-							   new HashSet(), qg);
+							   new HashSet<IR>(), qg);
 		
 		
 		List<Column> cols = Collections.singletonList(col);
@@ -359,7 +359,7 @@ public class SQLGenerator extends Base {
 		
 		/**
 		 * Make a term from a qualification.
-		 * @param qual The qualifiaction.
+		 * @param qual The qualification.
 		 * @param ms A marker source that is probably needed.
 		 * @param fact A statement factory.
 		 * @param tableFact A table factory.
@@ -464,7 +464,7 @@ public class SQLGenerator extends Base {
 		}
 	};
 	
-	protected Term genExprSQL(Expression expr, MetaFactory factory, Collection used) {
+	protected Term genExprSQL(Expression expr, MetaFactory factory, Collection<IR> used) {
 		return genExprSQL(expr, markerSourceFactory.getMarkerSource(),
 						  factory, used, qualColExpr);
 	}
@@ -481,7 +481,7 @@ public class SQLGenerator extends Base {
 	protected Term genExprSQL(Expression expr,
 							  MarkerSource ms,
 							  MetaFactory factory,
-							  Collection usedEntities,
+							  Collection<IR> usedEntities,
 							  QualGenerator qualGen) {
 		
 		Term res = null;

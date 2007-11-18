@@ -29,8 +29,6 @@ package de.unika.ipd.grgen.util;
 import java.io.*;
 
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import java.util.HashMap;
-import java.util.Map;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
@@ -139,8 +137,6 @@ public class Util
 			
 		} catch(FileNotFoundException e) {
 			reporter.error(e.toString());
-		} catch(IOException e) {
-			reporter.error(e.toString());
 		}
   }
 	
@@ -151,8 +147,6 @@ public class Util
 			os = new BufferedOutputStream(new FileOutputStream(file));
 
 		} catch(FileNotFoundException e) {
-			reporter.error(e.toString());
-		} catch(IOException e) {
 			reporter.error(e.toString());
 		}
 
@@ -165,21 +159,21 @@ public class Util
 	}
 
 	/**
-	 * Tells wether c1 is subclass of c2.
+	 * Tells whether c1 is subclass of c2.
 	 */
-	public static boolean isSubClass(Class c1, Class c2)
+	public static boolean isSubClass(Class<?> c1, Class<?> c2)
 	{
-		for (Class c = c1; c != Object.class; c = c.getSuperclass())
+		for (Class<?> c = c1; c != Object.class; c = c.getSuperclass())
 			if (c == c2) return true;
 		
 		return false;
 	}
 	/**
-	 * Tells wether a given class contains a given method
+	 * Tells whether a given class contains a given method
 	 * @param c The class object
 	 * @param m The Name of the method
 	 */
-	public static boolean containsMethod(Class c, String m)
+	public static boolean containsMethod(Class<?> c, String m)
 	{
 		Vector<Method> allMethods = new Vector<Method>();
 		for (Method mm: c.getMethods()) allMethods.add(mm);
@@ -197,12 +191,12 @@ public class Util
 	 * @param m The Name of the method
 	 */
 	
-	public static String getStrList(Class[] classes, Class sc, String m)
+	public static String getStrList(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
 		boolean first = true;
 		
-		for (Class c: classes) {
+		for (Class<?> c: classes) {
 			if ( !first ) res.append(", ");
 			try {
 				if (
@@ -224,7 +218,7 @@ public class Util
 	 * the given class objects. Between the last two entries there is an 'or'.
 	 */
 	
-	public static String getStrListWithOr(Class[] classes, Class sc, String m)
+	public static String getStrListWithOr(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
 		boolean first = true;
@@ -232,7 +226,7 @@ public class Util
 		
 		for (int i = 0; i < l; i++) {
 			try {
-				Class c = classes[i];
+				Class<?> c = classes[i];
 				if ( i > 0 && l > 2 ) res.append(", ");
 				if ( i == l - 1 && l > 1 ) res.append(" or ");
 

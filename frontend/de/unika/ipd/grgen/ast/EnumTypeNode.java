@@ -29,10 +29,6 @@ import de.unika.ipd.grgen.ast.util.*;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.parser.Coords;
-import java.util.Iterator;
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * An enumeration type AST node.

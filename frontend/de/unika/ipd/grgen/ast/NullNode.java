@@ -77,7 +77,7 @@ public class NullNode extends BaseNode {
 	}
 	
 	public Collection<? extends BaseNode> getWalkableChildren() {
-		return (Collection<? extends BaseNode>)Collections.EMPTY_SET;
+		return Collections.emptySet();
 	}
 	
 	public boolean isError() {

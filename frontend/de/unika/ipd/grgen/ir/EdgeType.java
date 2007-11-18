@@ -44,15 +44,13 @@ public class EdgeType extends InheritanceType {
 	/**
 	 * Sorts the Connection assertion of this edge type, such that the
 	 * computed graph model digest is stable according to semantically
-	 * euivalent connection aasertions. The order of the sorting is given
+	 * equivalent connection assertions. The order of the sorting is given
 	 * by the <code>compareTo</code> method.
 	 *
 	 */
 	public void canonicalizeConnectionAsserts() {
-		Collections.sort(connectionAsserts, new Comparator() {
-					public int compare(Object o1, Object o2) {
-						ConnAssert ca1 = (ConnAssert) o1;
-						ConnAssert ca2 = (ConnAssert) o2;
+		Collections.sort(connectionAsserts, new Comparator<ConnAssert>() {
+					public int compare(ConnAssert ca1, ConnAssert ca2) {
 						return ca1.compareTo(ca2);
 					}
 				});

@@ -39,7 +39,7 @@ import java.util.Collection;
  */
 public abstract class DefaultGraphDumpable extends Base implements GraphDumpable, Walkable {
 
-	private Collection children = null;
+	private Collection<BaseNode> children = null;
 	
 	private final Color color;
 	private final int shape;
@@ -119,7 +119,8 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	/**
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return children == null ? Collections.EMPTY_SET : children;
+	public Collection<BaseNode> getWalkableChildren() {
+		Collection<BaseNode> empty = Collections.emptySet();
+		return children == null ? empty : children;
 	}
 }

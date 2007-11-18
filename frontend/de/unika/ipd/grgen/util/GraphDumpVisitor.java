@@ -25,9 +25,6 @@
  */
 package de.unika.ipd.grgen.util;
 
-import java.util.Iterator;
-import de.unika.ipd.grgen.ast.BaseNode;
-
 /**
  * A visitor that dumps graphs
  * Every object that is visited must implement Walkable and GraphDumpable

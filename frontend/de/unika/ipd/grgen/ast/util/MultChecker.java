@@ -28,11 +28,11 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A checker which checks, if a given AST node ist instance of some types.
+ * A checker which checks, if a given AST node is instance of some types.
  */
 public class MultChecker implements Checker {
 	/** The array of Class objects determining the types. */
-	private Class[] validTypes;
+	private Class<?>[] validTypes;
 	
 	/**
 	 * Make a new decl mult type checker giving an array of classes.
@@ -40,7 +40,7 @@ public class MultChecker implements Checker {
 	 * specified in the array.
 	 * @param validTypes The classes a given node is to be checked against.
 	 */
-	public MultChecker(Class[] validTypes) {
+	public MultChecker(Class<?>[] validTypes) {
 		this.validTypes = validTypes;
 	}
 	

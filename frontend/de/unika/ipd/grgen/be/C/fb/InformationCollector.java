@@ -86,22 +86,22 @@ public class InformationCollector extends CBackend {
 	/* a map  action_id --> node --> pattern_node_num, e.g
 	 pattern_node_num[act_id].get(someNode)
 	 yields an Integer object wrapping node number for an fb_acts_graph_t */
-	protected Map[] pattern_node_num;
+	protected Map<Node,Integer>[] pattern_node_num;
 	/* the same, but edges */
-	protected Map[] pattern_edge_num;
+	protected Map<Edge,Integer>[] pattern_edge_num;
 	/* just like above, but for the replacement graph if the given action has one
 	 otherwise the array yields a null pointer instead of a map */
-	protected Map[] replacement_node_num;
-	protected Map[] replacement_edge_num;
+	protected Map<Node,Integer>[] replacement_node_num;
+	protected Map<Edge,Integer>[] replacement_edge_num;
 	
 	/* realizes a map
 	 cond_num -> pattern_node_num -> Collection_of_attr_ids,
 	 i.e. yields a Collection of attr-ids occuring in Qualification expressions
 	 of the given condition together with the given pattern node. Usage:
 	 involvedPatternNodeAttrIds[cond_num].get(pattern_node_num) */
-	protected Map<Expression, Map> involvedPatternNodeAttrIds;
+	protected Map<Expression, Map<Node,Collection<Integer>>> involvedPatternNodeAttrIds;
 	/* just the same, but edge attrs */
-	protected Map<Expression, Map> involvedPatternEdgeAttrIds;
+	protected Map<Expression, Map<Edge,Collection<Integer>>> involvedPatternEdgeAttrIds;
 	
 	/* the conditions of the pattern graphs are decomposed into subexpression
 	 down to sub expressions, which are not AND-Operations. These "conjunctive"
@@ -118,13 +118,13 @@ public class InformationCollector extends CBackend {
 	/* maps asubconditoin to a Collection of edges involved in */
 	protected Map<Expression, Collection<Edge>> conditionsInvolvedEdges = new HashMap<Expression, Collection<Edge>>();
 	
-	protected Collection[] typeConditions;
+	protected Collection<Collection<InheritanceType>>[] typeConditions;
 	/* maps a subcondition to the condition number created for it */
-	protected Map<Collection, Integer> typeConditionNumbers = new HashMap<Collection, Integer>();
+	protected Map<Collection<InheritanceType>, Integer> typeConditionNumbers = new HashMap<Collection<InheritanceType>, Integer>();
 	/* maps a subcondition to a Collection of nodes involved in */
-	protected Map<Collection, Collection> typeConditionsInvolvedNodes = new HashMap<Collection, Collection>();
-	/* maps asubconditoin to a Collection of edges involved in */
-	protected Map<Collection, Collection> typeConditionsInvolvedEdges = new HashMap<Collection, Collection>();
+	protected Map<Collection<InheritanceType>, Collection<Node>> typeConditionsInvolvedNodes = new HashMap<Collection<InheritanceType>, Collection<Node>>();
+	/* maps a subcondition to a Collection of edges involved in */
+	protected Map<Collection<InheritanceType>, Collection<Edge>> typeConditionsInvolvedEdges = new HashMap<Collection<InheritanceType>, Collection<Edge>>();
 	
 	
 	
@@ -157,44 +157,38 @@ public class InformationCollector extends CBackend {
 	
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
-	protected Collection[] newEdgesOfAction;
+	protected Collection<Edge>[] newEdgesOfAction;
 	
 	/* compares conditions by their condition numbers */
-	protected Comparator<Expression> conditionsComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
-			Expression expr1 = (Expression)o1;
-			Expression expr2 = (Expression)o2;
+	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
+		public int compare(Expression expr1, Expression expr2) {
 			int cmp =
 				((Integer) conditionNumbers.get(expr1)).compareTo((Integer)conditionNumbers.get(expr2));
-			if (cmp == 0 && o1 != o2)
+			if (cmp == 0 && expr1 != expr2)
 				return 1;
 			return cmp;
 		}
 	};
 	
-	protected Comparator<Collection> typeConditionsComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
+	protected Comparator<Collection<InheritanceType>> typeConditionsComparator = new Comparator<Collection<InheritanceType>>() {
+		public int compare(Collection<InheritanceType> type_col1, Collection<InheritanceType> type_col2) {
 			//if o1 and o2 are Collections, the the conditions represented
 			//by this collections are type conditions, which are conditions
 			//about the types of nodes and edges. The collections contain
 			//exactly all types, which the corresponding node or edge needs
 			//not to be of!
-			Collection type_col1 = (Collection)o1;
-			Collection type_col2 = (Collection)o2;
 			int cmp =
 				typeConditionNumbers.get(type_col1).compareTo(
 				typeConditionNumbers.get(type_col2));
-			if (cmp == 0 && o1 != o2)
+			if (cmp == 0 && type_col1 != type_col2)
 				return 1;
 			return cmp;
 		}
 	};
 	
 	/* compares integer objects */
-	protected Comparator integerComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
-			Integer i1 = (Integer) o1;
-			Integer i2 = (Integer) o2;
+	protected Comparator<Integer> integerComparator = new Comparator<Integer>() {
+		public int compare(Integer i1, Integer i2) {
 			return i1.compareTo(i2);
 		}
 	};
@@ -292,15 +286,15 @@ public class InformationCollector extends CBackend {
 			
 			//if action has a pattern graph, compute node/edge numbers
 			if (act instanceof MatchingAction) {
-				pattern_node_num[act_id] = new HashMap();
-				pattern_edge_num[act_id] = new HashMap();
+				pattern_node_num[act_id] = new HashMap<Node,Integer>();
+				pattern_edge_num[act_id] = new HashMap<Edge,Integer>();
 				
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
-				Iterator node_it =
+				Iterator<Node> node_it =
 					((MatchingAction)act).getPattern().getNodes().iterator();
 				for ( ; node_it.hasNext(); ) {
-					Node node = (Node) node_it.next();
+					Node node = node_it.next();
 					pattern_node_num[act_id].put(node, new Integer(node_num++));
 				}
 				assert node_num == ((MatchingAction)act).getPattern().getNodes().size():
@@ -308,10 +302,10 @@ public class InformationCollector extends CBackend {
 				
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
-				Iterator edge_it =
+				Iterator<Edge> edge_it =
 					((MatchingAction)act).getPattern().getEdges().iterator();
 				for ( ; edge_it.hasNext(); ) {
-					Edge edge = (Edge) edge_it.next();
+					Edge edge = edge_it.next();
 					pattern_edge_num[act_id].put(edge, new Integer(edge_num++));
 				}
 				assert edge_num == ((MatchingAction)act).getPattern().getEdges().size():
@@ -324,15 +318,15 @@ public class InformationCollector extends CBackend {
 			
 			//if action has a replacement graph, compute node/edge numbers
 			if (act instanceof Rule) {
-				replacement_node_num[act_id] = new HashMap();
-				replacement_edge_num[act_id] = new HashMap();
+				replacement_node_num[act_id] = new HashMap<Node,Integer>();
+				replacement_edge_num[act_id] = new HashMap<Edge,Integer>();
 				
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
-				Iterator node_it =
+				Iterator<Node> node_it =
 					((Rule)act).getRight().getNodes().iterator();
 				for ( ; node_it.hasNext(); ) {
-					Node node = (Node) node_it.next();
+					Node node = node_it.next();
 					replacement_node_num[act_id].put(node, new Integer(node_num++));
 				}
 				assert node_num == ((Rule)act).getRight().getNodes().size():
@@ -340,10 +334,10 @@ public class InformationCollector extends CBackend {
 				
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
-				Iterator edge_it =
+				Iterator<Edge> edge_it =
 					((Rule)act).getRight().getEdges().iterator();
 				for ( ; edge_it.hasNext(); ) {
-					Edge edge = (Edge) edge_it.next();
+					Edge edge = edge_it.next();
 					replacement_edge_num[act_id].put(edge, new Integer(edge_num++));
 				}
 				assert edge_num == ((Rule)act).getRight().getEdges().size():
@@ -412,23 +406,23 @@ public class InformationCollector extends CBackend {
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
 			
-			typeConditions[act_id] = new TreeSet(typeConditionsComparator);
+			typeConditions[act_id] = new TreeSet<Collection<InheritanceType>>(typeConditionsComparator);
 			
 			if (act instanceof MatchingAction) {
 				
 				/* for all nodes of the current MatchingActions pattern graph
 				 extract that nodes type constraints */
 				PatternGraph pattern = ((MatchingAction)act).getPattern();
-				Iterator pattern_node_it = pattern.getNodes().iterator();
+				Iterator<Node> pattern_node_it = pattern.getNodes().iterator();
 				for ( ; pattern_node_it.hasNext() ; ) {
-					Node node = (Node) pattern_node_it.next();
+					Node node = pattern_node_it.next();
 					
-					//if node has type costraints, register the as conditions
+					//if node has type constraints, register the as conditions
 					if (! node.getConstraints().isEmpty()) {
 						
 						//note that a type condition is the set of all types,
 						//the corresponding node/edge is not allowed to be of
-						Collection type_condition = node.getConstraints();
+						Collection<InheritanceType> type_condition = node.getConstraints();
 						
 						//...create condition numbers
 						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
@@ -438,23 +432,24 @@ public class InformationCollector extends CBackend {
 						involvedNodes.add(node);
 						//and at these Collections to prepared Maps
 						typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
-						typeConditionsInvolvedEdges.put(type_condition, Collections.EMPTY_SET);
+						Collection<Edge> empty = Collections.emptySet();
+						typeConditionsInvolvedEdges.put(type_condition, empty);
 						
 						//store the subcondition in an ordered Collection
 						typeConditions[act_id].add(type_condition);
 					}
 				}
 				//do the same thing for all edges of the current pattern
-				Iterator pattern_edge_it = pattern.getEdges().iterator();
+				Iterator<Edge> pattern_edge_it = pattern.getEdges().iterator();
 				for ( ; pattern_edge_it.hasNext() ; ) {
-					Edge edge = (Edge) pattern_edge_it.next();
+					Edge edge = pattern_edge_it.next();
 					
-					//if node has type costraints, register the as conditions
+					//if node has type constraints, register the as conditions
 					if (! edge.getConstraints().isEmpty()) {
 						
 						//note that a type condition is the set of all types,
 						//the corresponding edge is not allowed to be of
-						Collection type_condition = edge.getConstraints();
+						Collection<InheritanceType> type_condition = edge.getConstraints();
 						
 						//...create condition numbers
 						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
@@ -463,7 +458,8 @@ public class InformationCollector extends CBackend {
 						Collection<Edge> involvedEdges = new HashSet<Edge>();
 						involvedEdges.add(edge);
 						//and at these Collections to prepared Maps
-						typeConditionsInvolvedNodes.put(type_condition, Collections.EMPTY_SET);
+						Collection<Node> empty = Collections.emptySet();
+						typeConditionsInvolvedNodes.put(type_condition, empty);
 						typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
 						
 						//store the subcondition in an ordered Collection
@@ -486,8 +482,8 @@ public class InformationCollector extends CBackend {
 		 involvedPatternNodeAttrIds[cond_num].get(pattern_node_num)
 		 which yields a Collection of attr-ids.
 		 */
-		involvedPatternNodeAttrIds = new HashMap<Expression, Map>();
-		involvedPatternEdgeAttrIds = new HashMap<Expression, Map>();
+		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node,Collection<Integer>>>();
+		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge,Collection<Integer>>>();
 		
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
@@ -500,8 +496,8 @@ public class InformationCollector extends CBackend {
 				int cond_num = conditionNumbers.get(cond).intValue();
 				
 				//descent to the conditions leaves and look for qualifications
-				Map<Entity, Collection> node_map = new HashMap<Entity, Collection>();
-				Map<Entity, Collection> edge_map = new HashMap<Entity, Collection>();
+				Map<Node, Collection<Integer>> node_map = new HashMap<Node, Collection<Integer>>();
+				Map<Edge, Collection<Integer>> edge_map = new HashMap<Edge, Collection<Integer>>();
 				__recursive_qual_collect(act_id, node_map, edge_map, cond);
 				involvedPatternNodeAttrIds.put(cond,node_map);
 				involvedPatternEdgeAttrIds.put(cond,edge_map);
@@ -524,7 +520,7 @@ public class InformationCollector extends CBackend {
 			if(pattern.getNodes().iterator().hasNext()) {
 				max_prio_node = (Node) pattern.getNodes().iterator().next();
 			}
-			for (Iterator node_it = pattern.getNodes().iterator(); node_it.hasNext(); ) {
+			for (Iterator<Node> node_it = pattern.getNodes().iterator(); node_it.hasNext(); ) {
 				Node node = (Node) node_it.next();
 				
 				//get the nodes priority
@@ -563,7 +559,7 @@ public class InformationCollector extends CBackend {
 		
 		//init the array with empty HashSets
 		for (int i = 0; i < n_graph_actions; i++)
-			newEdgesOfAction[i] = new HashSet();
+			newEdgesOfAction[i] = new HashSet<Edge>();
 		
 		//for all actions collect the edges to be newly inserted
 		Iterator<Action> act_it = actionMap.keySet().iterator();
@@ -745,7 +741,7 @@ public class InformationCollector extends CBackend {
 	 * @param    expr                an Expression
 	 *
 	 */
-	protected void __recursive_qual_collect(int act_id, Map<Entity, Collection> node_map, Map<Entity, Collection> edge_map, Expression expr) {
+	protected void __recursive_qual_collect(int act_id, Map<Node, Collection<Integer>> node_map, Map<Edge, Collection<Integer>> edge_map, Expression expr) {
 		if (expr == null) return;
 		
 		//recursive descent
@@ -761,31 +757,33 @@ public class InformationCollector extends CBackend {
 			
 			//if owner is a node, add to the node_map
 			if (owner instanceof Node) {
+				Node node = (Node)owner;
 				//Integer node_num = (Integer) pattern_node_num[ act_id ].get( owner );
 				Integer attr_id = nodeAttrMap.get( member );
 				
 				//add the pair (node_num, attr_id to the map)
-				if (node_map.containsKey( owner ))
-					node_map.get( owner ).add( attr_id );
+				if (node_map.containsKey( node ))
+					node_map.get( node ).add( attr_id );
 				else {
 					Collection<Integer> newCol = new HashSet<Integer>();
 					newCol.add( attr_id );
-					node_map.put( owner, newCol );
+					node_map.put( node, newCol );
 				}
 			}
 			
 			//if owner is an edge. add to the edge_map
 			if (owner instanceof Edge) {
+				Edge egde = (Edge)owner;
 				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
 				Integer attr_id = edgeAttrMap.get(member);
 				
 				//add the pair (edge_num, attr_id to the map)
-				if (edge_map.containsKey( owner ))
-					edge_map.get( owner ).add(attr_id);
+				if (edge_map.containsKey( egde ))
+					edge_map.get( egde ).add(attr_id);
 				else {
 					Collection<Integer> newCol = new TreeSet<Integer>(integerComparator);
 					newCol.add(attr_id);
-					edge_map.put(owner, newCol);
+					edge_map.put(egde, newCol);
 				}
 			}
 		}
@@ -1091,15 +1089,15 @@ public class InformationCollector extends CBackend {
 		for ( ; act_it.hasNext(); ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			PatternGraph pattern = action.getPattern();
-			Iterator node_it_1 = pattern.getNodes().iterator();
+			Iterator<Node> node_it_1 = pattern.getNodes().iterator();
 			for ( ; node_it_1.hasNext(); ) {
-				Node node_1 = (Node) node_it_1.next();
+				Node node_1 = node_it_1.next();
 				Collection<Node> hom_of_node_1 = new HashSet<Node>();
 				hom_of_node_1 = pattern.getHomomorphic(node_1);
 				
-				Iterator node_it_2 = pattern.getNodes().iterator();
+				Iterator<Node> node_it_2 = pattern.getNodes().iterator();
 				for ( ; node_it_2.hasNext() ; ) {
-					Node node_2 = (Node) node_it_2.next();
+					Node node_2 = node_it_2.next();
 					//check wether these to nodes are potentially homomorphic
 					//the pattern graph of the currrent action
 					if (hom_of_node_1.contains(node_2)) {

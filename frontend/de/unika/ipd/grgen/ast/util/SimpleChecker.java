@@ -33,9 +33,9 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 public class SimpleChecker implements Checker {
 
 	/// The class the node is to checked for
-	private Class c;
+	private Class<?> c;
 
-	public SimpleChecker(Class c) {
+	public SimpleChecker(Class<?> c) {
 		this.c = c;
 	}
 

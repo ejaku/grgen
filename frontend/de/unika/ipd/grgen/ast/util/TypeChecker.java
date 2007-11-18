@@ -27,8 +27,6 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.grgen.util.Util;
-import de.unika.ipd.grgen.ast.IdentNode;
 
 /**
  * A type checker, that checks if the declaration node is of a certain type
@@ -37,13 +35,13 @@ public class TypeChecker implements Checker
 {
 	
 	/// The classes the decl type is to checked for
-	private Class[] validTypes;
+	private Class<?>[] validTypes;
 	
-	public TypeChecker(Class[] types)
+	public TypeChecker(Class<?>[] types)
 	{
 		this.validTypes = types;
 	}
-	public TypeChecker(Class c)
+	public TypeChecker(Class<?> c)
 	{
 		this(new Class[] { c });
 	}
@@ -65,7 +63,7 @@ public class TypeChecker implements Checker
 			BaseNode type = ((DeclNode)node).getDeclType();
 			
 			res = false;
-			for(Class c : this.validTypes)
+			for(Class<?> c : this.validTypes)
 			{
 				if(c.isInstance(type))
 				{
@@ -80,7 +78,7 @@ public class TypeChecker implements Checker
 		}
 		return res;
 	}
-	protected String getExpection(Class cls)
+	protected String getExpection(Class<?> cls)
 	{
 		String res = "";
 
@@ -92,7 +90,7 @@ public class TypeChecker implements Checker
 		return res;
 	}
 	
-	protected String getExpectionList(Class[] classes)
+	protected String getExpectionList(Class<?>[] classes)
 	{
 		StringBuffer list = new StringBuffer();
 		for (int i=0; i < classes.length; i++) {
@@ -105,7 +103,7 @@ public class TypeChecker implements Checker
 		return list.toString();
 	}
 
-	protected String getErrorMsg(Class[] classes, BaseNode node)
+	protected String getErrorMsg(Class<?>[] classes, BaseNode node)
 	{
 		return "expected a " + getExpectionList(classes);
 	}

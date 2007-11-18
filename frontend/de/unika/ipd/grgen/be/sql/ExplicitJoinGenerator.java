@@ -229,7 +229,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	private SearchPath[] computeSearchPaths(Graph pattern) {
 		
 		Collection<IR> rest = new HashSet<IR>(pattern.getNodes());
-		Iterator edgeIterator = pattern.getEdges().iterator();
+		Iterator<Edge> edgeIterator = pattern.getEdges().iterator();
 		Comparator<Node> comparator = new NodeComparator(pattern);
 		
 		debug.report(NOTE, "all nodes" + rest);
@@ -293,14 +293,14 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	class CondState {
 		
 		Term cond;
-		Set usedEntities;
+		Set<IR> usedEntities;
 		
 		/**
 		 * Make a new cond state.
 		 * @param cond The SQL term expressing this conditional expression.
 		 * @param usedEntities All entities that are referenced in the cond expression.
 		 */
-		CondState(Term cond, Set usedEntities) {
+		CondState(Term cond, Set<IR> usedEntities) {
 			this.cond = cond;
 			this.usedEntities = usedEntities;
 			
@@ -358,7 +358,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		}
 		
 		//TODO this will be obsolete
-		StmtContext(Graph graph, TypeStatementFactory factory, GraphTableFactory tableFactory, List excludeNodes) {
+		StmtContext(Graph graph, TypeStatementFactory factory, GraphTableFactory tableFactory, List<Node> excludeNodes) {
 			this.graph = graph;
 			this.factory = factory;
 			this.tableFactory = tableFactory;
@@ -591,9 +591,9 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		StmtContext stmtCtx = new StmtContext(act.getPattern(), factory, tableFactory);
 		
 		// Generate all conditions.
-		for(Iterator it = act.getPattern().getConditions().iterator(); it.hasNext();) {
-			Set usedColumns = new HashSet();
-			Expression cond = (Expression) it.next();
+		for(Iterator<Expression> it = act.getPattern().getConditions().iterator(); it.hasNext();) {
+			Set<IR> usedColumns = new HashSet<IR>();
+			Expression cond = it.next();
 			
 			// Note that the genExprSQL method records all entities appearing as owners
 			// in qualification (see ir.Qualification) expressions in the usedColumns set.
@@ -747,7 +747,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		if(pendingConds == null)
 			result = factory.explicitQuery(true, columns, stmtCtx.currJoin, null, null, StatementFactory.NO_LIMIT);
 		else {
-			List relations = new LinkedList();
+			List<Relation> relations = new LinkedList<Relation>();
 			relations.add(stmtCtx.currJoin);
 			result = factory.simpleQuery(columns, relations, pendingConds,
 										 StatementFactory.NO_LIMIT);
@@ -760,8 +760,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	
 	private Term getNacConds(MatchingAction act, TypeStatementFactory factory, GraphTableFactory tableFactory) {
 		//The nodes and edges of the pattern part
-		Collection patNodes = act.getPattern().getNodes();
-		Collection patEdges = act.getPattern().getEdges();
+		Collection<Node> patNodes = act.getPattern().getNodes();
+		Collection<Edge> patEdges = act.getPattern().getEdges();
 		Collection<IR> negNodes = new HashSet<IR>();
 		Collection<IR> negEdges = new HashSet<IR>();
 		

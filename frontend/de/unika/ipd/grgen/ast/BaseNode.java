@@ -36,7 +36,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import java.awt.Color;
-import java.lang.reflect.Method;
 
 /**
  * The base class for AST nodes.
@@ -52,7 +51,7 @@ public abstract class BaseNode extends Base
 	 * The reason for this is, that in some situations, only the Class object
 	 * is available and no instance of the class itself.
 	 */
-	private static final Map<Class, String> names = new HashMap<Class, String>();
+	private static final Map<Class<? extends BaseNode>, String> names = new HashMap<Class<? extends BaseNode>, String>();
 	
 	/** coordinates for builtin types and declarations */
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
@@ -117,7 +116,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class.
 	 * @return stripped class name.
 	 */
-	protected static String shortClassName(Class cls) {
+	protected static String shortClassName(Class<?> cls) {
 		String s = cls.getName();
 		return s.substring(s.lastIndexOf('.') + 1);
 	}
@@ -138,7 +137,7 @@ public abstract class BaseNode extends Base
 	 * @param cls A class to get its name.
 	 * @return The registered name of the class or the class name.
 	 */
-	public static String getName(Class cls) {
+	public static String getName(Class<? extends BaseNode> cls) {
 		return names.containsKey(cls) ? names.get(cls)
 			: "<" + shortClassName(cls) + ">";
 	}
@@ -148,7 +147,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The AST node class.
 	 * @param name A human readable name for that class.
 	 */
-	public static void setName(Class cls, String name) {
+	public static void setName(Class<? extends BaseNode> cls, String name) {
 		names.put(cls, name);
 	}
 
@@ -350,7 +349,7 @@ public abstract class BaseNode extends Base
 	 * @return The name
 	 */
 	public String getName() {
-		Class cls = getClass();
+		Class<? extends BaseNode> cls = getClass();
 		String name = getName(cls);
 		
 		if(verboseErrorMsg)
@@ -519,7 +518,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class the child has to be of
 	 * @return true, if the selected child node was of type cls
 	 */
-	public final boolean checkChild(int childNum, Class cls) {
+	public final boolean checkChild(int childNum, Class<?> cls) {
 		boolean res = false;
 		
 		BaseNode child = getChild(childNum);
@@ -537,7 +536,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class the child should have been of
 	 * @return true, if the selected child node was of type cls
 	 */
-	public void reportChildError(int childNum, Class cls) {
+	public void reportChildError(int childNum, Class<?> cls) {
 		reportError("Child " + childNum + " \"" + getChild(childNum).getName() +
 				"\"" + " needs to be instance of \"" + shortClassName(cls) + "\"");
 	}
@@ -559,7 +558,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class the children should be an instance of
 	 * @return true, if all children of this node were an instance of cls
 	 */
-	public final boolean checkAllChildren(Class cls) {
+	public final boolean checkAllChildren(Class<?> cls) {
 		boolean res = true;
 		
 		for(BaseNode n :  getChildren())
@@ -726,7 +725,7 @@ public abstract class BaseNode extends Base
 	 * @param cls The class to check the ir object for.
 	 * @return The ir object.
 	 */
-	public final IR checkIR(Class cls) {
+	public final IR checkIR(Class<? extends IR> cls) {
 		IR ir = getIR();
 		
 		debug.report(NOTE, "checking ir object in \"" + getName()

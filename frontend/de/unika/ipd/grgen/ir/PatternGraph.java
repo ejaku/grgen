@@ -45,7 +45,7 @@ public class PatternGraph extends Graph {
 	private final List<Expression> conds = new LinkedList<Expression>();
 	
 	/** A list of all potentially homomorphic sets. */
-	private final List<Collection> homs = new LinkedList<Collection>();
+	private final List<Collection<GraphEntity>> homs = new LinkedList<Collection<GraphEntity>>();
 	
 	/**
 	 * A list of all pattern nodes, which may be homomorphically matched
@@ -95,12 +95,12 @@ public class PatternGraph extends Graph {
 	 * Get all potentially homomorphic sets.
 	 * @return A collection containing all conditions in this graph.
 	 */
-	public Collection<Collection> getHomomorphic() {
+	public Collection<Collection<GraphEntity>> getHomomorphic() {
 		return Collections.unmodifiableCollection(homs);
 	}
 	
 	public Collection<Node> getHomomorphic(Node n) {
-		for(Collection c : homs) {
+		for(Collection<? extends GraphEntity> c : homs) {
 			if (c.contains(n)) {
 				return (Collection<Node>)c;
 			}
@@ -112,7 +112,7 @@ public class PatternGraph extends Graph {
 	}
 
 	public Collection<Edge> getHomomorphic(Edge e) {
-		for(Collection c : homs) {
+		for(Collection<? extends GraphEntity> c : homs) {
 			if (c.contains(e)) {
 				return (Collection<Edge>)c;
 			}

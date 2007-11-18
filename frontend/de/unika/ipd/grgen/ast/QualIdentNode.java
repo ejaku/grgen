@@ -150,7 +150,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return new Qualification(owner, member);
 	}
 
-	public void reportChildError (int childNum, Class cls) {
+	public void reportChildError (int childNum, Class<?> cls) {
 		
 		switch (childNum) {
 

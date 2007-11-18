@@ -35,11 +35,7 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
-import de.unika.ipd.grgen.be.C.fb.AttrTypeDescriptor;
-import de.unika.ipd.grgen.be.C.fb.EnumDescriptor;
 import de.unika.ipd.grgen.be.C.fb.MoreInformationCollector;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
 import java.io.File;
 import java.io.PrintStream;
 
@@ -373,11 +369,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	
 	private void genEvalFunctions(StringBuffer sb, String indent, Rule rule, IdGenerator<Node> nodeIds, IdGenerator<Edge> edgeIds)
 	{
-		Collection evalList = rule.getEvals();
+		Collection<Assignment> evalList = rule.getEvals();
 		
-		for(Iterator<Object> it = evalList.iterator(); it.hasNext(); )
+		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
 		{
-			Assignment eval = (Assignment)it.next();
+			Assignment eval = it.next();
 			Qualification target = eval.getTarget();
 			Entity targetOwner = target.getOwner();
 			Entity targetMember = target.getMember();
@@ -435,11 +431,11 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	
 	private void registerEvalFunctions(StringBuffer sb, String indent, Rule rule)
 	{
-		Collection evalList = rule.getEvals();
+		Collection<Assignment> evalList = rule.getEvals();
 		
-		for(Iterator<Object> it = evalList.iterator(); it.hasNext(); )
+		for(Iterator<Assignment> it = evalList.iterator(); it.hasNext(); )
 		{
-			Assignment eval = (Assignment)it.next();
+			Assignment eval = it.next();
 			sb.append(indent + "ext_grs_act_register_eval(act, NULL, (ext_grs_eval_out_func_t) &grs_eval_out_func_" + eval.getId() + ");\n");
 		}
 		
@@ -506,7 +502,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 	// Remember the changed name in here in relatedNodes. The connection between related nodes
 	// is not announced by name like in the GrGen Syntax but by special announce-functions
 	
-	HashMap relatedNodes;
+	HashMap<Node,String> relatedNodes;
 	
 	private void genPatternGraph(StringBuffer sb, String indent, String funcName,
 								 PatternGraph graph,
@@ -529,7 +525,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		sb.append(indent + "ext_grs_graph_t *pattern = " + funcName + "(act);\n\n");
 		
 		// nodes
-		relatedNodes = new HashMap();
+		relatedNodes = new HashMap<Node,String>();
 		genPatternNodes(sb, indent, graph, nodeIds, graphType);
 		sb.append("\n");
 		

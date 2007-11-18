@@ -30,13 +30,12 @@ import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.SymbolTable;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.util.HashMap;
 
 /**
  * A class representing an identifier.
  */
-public class Ident extends IR implements Comparable, Attributed {
+public class Ident extends IR implements Comparable<Ident>, Attributed {
 	
 	private static final String defaultScope = "<default>";
 	
@@ -186,8 +185,7 @@ public class Ident extends IR implements Comparable, Attributed {
 	 * @param obj The other identifier.
 	 * @return -1, 0, 1, respectively.
 	 */
-	public int compareTo(Object obj) {
-		Ident id = (Ident) obj;
+	public int compareTo(Ident id) {
 		return toString().compareTo(id.toString());
 	}
 	

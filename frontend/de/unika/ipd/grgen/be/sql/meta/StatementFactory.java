@@ -67,7 +67,7 @@ public interface StatementFactory {
 	 * {@link #expression(Opcode, Term, Term)}. The same is true vice versa.
 	 * You may <i>not</i> pass two <code>null</code> values.
 	 * This is useful if you construct expression successively and you can not
-	 * be sure that the expression you wnat to extend was created.
+	 * be sure that the expression you want to extend was created.
 	 * @param op The opcode.
 	 * @param exp0 operand 1.
 	 * @param exp1 operand 2.

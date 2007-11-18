@@ -30,7 +30,6 @@ import java.awt.Color;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import de.unika.ipd.grgen.parser.Coords;
 
 

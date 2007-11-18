@@ -60,7 +60,7 @@ public abstract class Resolver extends Base {
 	}
 	
 	/** A collection holding all error messages, this resolver produced. */
-	private Collection errorMessages = new LinkedList();
+	private Collection<ErrorMessage> errorMessages = new LinkedList<ErrorMessage>();
 
 	/**
 	 * Resolve a node.
@@ -89,7 +89,7 @@ public abstract class Resolver extends Base {
 	 * @param c A collection, where objects instance of {@link ErrorMessage}
 	 * are inserted.
 	 */
-	protected final void setErrorQueue(Collection c) {
+	protected final void setErrorQueue(Collection<ErrorMessage> c) {
 		errorMessages = c;
 	}
 	

@@ -38,7 +38,7 @@ public class ClassType extends CompoundType {
   /**
    * Make a new class.
    * @param name The name of the class type.
-   * @param ident The ident used to declare this clas.
+   * @param ident The ident used to declare this class.
    */
   public ClassType(String name, Ident ident) {
     super(name, ident);

@@ -39,11 +39,11 @@ public class DeclTypeResolver extends IdentResolver
 	/**
 	 * Make a new type decl resolver.
 	 * @param classes An array of classes, the resolved node must be
-	 * instance of. E.g., If youe have a declaration declaring an
+	 * instance of. E.g., If you have a declaration declaring an
 	 * <code>BasicTypeNode</code> instance with "int", you can give
 	 * <code>new TypeNode[] { BasicTypeNode }</code> as an argument.
 	 */
-	public DeclTypeResolver(Class[] classes)
+	public DeclTypeResolver(Class<?>[] classes)
 	{
 		super(classes);
 	}
@@ -53,7 +53,7 @@ public class DeclTypeResolver extends IdentResolver
 	 * @param cls The class
 	 * @see #DeclTypeResolver(Class[]).
 	 */
-	public DeclTypeResolver(Class cls)
+	public DeclTypeResolver(Class<?> cls)
 	{
 		this(new Class[] { cls });
 	}

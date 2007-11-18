@@ -40,7 +40,7 @@ public abstract class IdentResolver extends Resolver
 	 * The class of the resolved node must be in the set, otherwise,
 	 * an error is reported.
 	 */
-	private Class[] classes;
+	private Class<?>[] classes;
 	
 	/** A string with names of the classes, which are expected. */
 	private String expectList;
@@ -51,7 +51,7 @@ public abstract class IdentResolver extends Resolver
 	 * @param classes An array of classes of which the resolved ident
 	 * must be an instance of.
 	 */
-	public IdentResolver(Class[] classes)
+	public IdentResolver(Class<?>[] classes)
 	{
 		this.classes = classes;
 		

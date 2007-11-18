@@ -53,16 +53,16 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 			final int id;
 			final String name;
 			final Statement stmt;
-			final Collection types;
-			final Collection usedEntities;
+			final Collection<DataType> types;
+			final Collection<Entity> usedEntities;
 			final String comment;
 			final String idName;
 			
 			
 			Stmt(String name,
 				 Statement stmt,
-				 Collection types,
-				 Collection usedEntities,
+				 Collection<DataType> types,
+				 Collection<Entity> usedEntities,
 				 String comment) {
 				
 				this.id = counter;
@@ -118,8 +118,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		public Stmt add(String name,
 						Statement stmt,
-						Collection types,
-						Collection usedEntities,
+						Collection<DataType> types,
+						Collection<Entity> usedEntities,
 						String comment) {
 			Stmt q = new Stmt(name, stmt, types, usedEntities, comment);
 			counter++;
@@ -129,15 +129,16 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		public Stmt add(String name,
 						Statement stmt,
-						Collection types,
-						Collection usedEntities) {
+						Collection<DataType> types,
+						Collection<Entity> usedEntities) {
 			return add(name, stmt, types, usedEntities, "");
 		}
 		
 		public Stmt add(String name,
 						Statement stmt,
-						Collection types) {
-			return add(name, stmt, types, Collections.EMPTY_SET, "");
+						Collection<DataType> types) {
+			Collection<Entity> empty = Collections.emptySet();
+			return add(name, stmt, types, empty, "");
 		}
 		
 		public final void emit(PrintStream ps) {
@@ -411,11 +412,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 				edgeIndexMap.put(it.next(), new Integer(i));
 		}
 		
-		protected static final Comparator comparator = new Comparator() {
-			public int compare(Object x, Object y) {
-				Match m = (Match) x;
-				Match n = (Match) y;
-				
+		protected static final Comparator<Match> comparator = new Comparator<Match>() {
+			public int compare(Match m, Match n) {
 				if (m.id < n.id)
 					return -1;
 				if (m.id > n.id)
@@ -543,7 +541,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		}
 		
 		public void accessEntity(PrintStream ps, Entity ent) {
-			Collection toInsert;
+			//Collection toInsert;
 			
 			if(ent instanceof Node) {
 				Node n = (Node) ent;
@@ -618,8 +616,8 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 				
 				ps.println("\n  {\n    gr_id_t evals_arr[" + arrSize + "];");
 				int j = 0;
-				for(Iterator jt = q.usedEntities.iterator(); jt.hasNext(); j++) {
-					Entity ent = (Entity) jt.next();
+				for(Iterator<Entity> jt = q.usedEntities.iterator(); jt.hasNext(); j++) {
+					Entity ent = jt.next();
 					ps.print("    evals_arr[" + j + "] = ");
 					accessEntity(ps, ent);
 					ps.println(';');
@@ -681,7 +679,7 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		
 		for(Assignment assign : r.getEvals()) {
 			MarkerSource ms = getMarkerSource();
-			Collection usedEntities = new LinkedList();
+			Collection<Entity> usedEntities = new LinkedList<Entity>();
 			Statement s = sqlGen.genEvalUpdateStmt(assign, factory, ms, usedEntities);
 			String name = "eval_" + mangle(r) + '_' + num;
 			
@@ -726,9 +724,12 @@ public abstract class SQLBackend extends CBackend	implements Dialect {
 		 */
 		
 		Query stmt = sqlGen.genMatchStatement(matchCtx);
+		Collection<DataType> emptyData = Collections.emptySet();
+		Collection<Entity> emptyEntity = Collections.emptySet();
+		
 		PreparedStatements.Stmt prepStmt =
 			matchStmts.add("match_" + actionIdent, stmt,
-						   Collections.EMPTY_SET,	Collections.EMPTY_SET);
+						   emptyData,	emptyEntity);
 		
 		// Make an array of strings that contains the node names.
 		ps.println("static const char *" + nodeNamesIdent + "[] = {");

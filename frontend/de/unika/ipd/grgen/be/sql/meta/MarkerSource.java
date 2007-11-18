@@ -47,7 +47,7 @@ public interface MarkerSource {
 	 * you are interested in.
 	 * @return An array containing all types of gotten markers.
 	 */
-	Collection getTypes();
+	Collection<DataType> getTypes();
 	
 }
 

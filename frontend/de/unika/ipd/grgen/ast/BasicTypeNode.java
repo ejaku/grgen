@@ -158,7 +158,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * This map contains the value types of the basic types.
 	 * (BasicTypeNode -> Class)
 	 */
-	protected static Map<BasicTypeNode, Object> valueMap = new HashMap<BasicTypeNode, Object>();
+	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
 	
 	
 	static {
@@ -230,11 +230,11 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * type.
 	 * @return
 	 */
-	public Class getValueType() {
+	public Class<?> getValueType() {
 		if(!valueMap.containsKey(this))
 			return invalidValueType.getClass();
 		else
-			return (Class) valueMap.get(this);
+			return valueMap.get(this);
 	}
 	
 	/**

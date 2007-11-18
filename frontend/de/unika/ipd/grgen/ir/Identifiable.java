@@ -30,15 +30,13 @@ import java.util.Map;
 
 /**
  * Identifier with an identifier.
- * This is a super clas for all classes which are associated with
+ * This is a super class for all classes which are associated with
  * an identifier.
  */
 public class Identifiable extends IR implements Attributed, Comparable {
 	
-	static final Comparator<Identifiable> COMPARATOR = new Comparator() {
-		public int compare(Object lhs, Object rhs) {
-			Identifiable lt = (Identifiable) lhs;
-			Identifiable rt = (Identifiable) rhs;
+	static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
+		public int compare(Identifiable lt, Identifiable rt) {
 			return lt.getIdent().compareTo(rt.getIdent());
 		}
 	};
@@ -94,7 +92,7 @@ public class Identifiable extends IR implements Attributed, Comparable {
 	}
 	
 	public int compareTo(Object obj) {
-		return COMPARATOR.compare(this, (Identifiable) obj);
+		return COMPARATOR.compare(this,(Identifiable) obj);
 	}
 	
 	/**

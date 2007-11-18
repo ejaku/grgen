@@ -39,9 +39,9 @@ public class OneOfResolver extends Resolver {
 
   private Resolver[] resolvers;
 	
-	private Collection errorMsgs = new LinkedList();
+	private Collection<ErrorMessage> errorMsgs = new LinkedList<ErrorMessage>();
 
-	public OneOfResolver(Collection resolvers) {
+	public OneOfResolver(Collection<? extends Resolver> resolvers) {
 		this((Resolver[]) resolvers.toArray());
 	}
 	

@@ -275,7 +275,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		
 		startingPoints.retainAll(rest);
 		
-		Iterator edgeIterator = graph.getEdges().iterator();
+		Iterator<Edge> edgeIterator = graph.getEdges().iterator();
 		Comparator<Node> comparator = new NodeComparator();
 		
 		debug.report(NOTE, "all nodes" + rest);
@@ -510,11 +510,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			
 			// Get the elements to generate for
 			Collection<Node> negNodes = neg.putNodes(new HashSet<Node>());
-			Collection negAllNode = neg.getNodes();
+			Collection<Node> negAllNode = neg.getNodes();
 			negNodes.removeAll(patNodes);
 			
 			Collection<Edge> negEdges = neg.putEdges(new HashSet<Edge>());
-			Collection negAllEdges = neg.getEdges();
+			Collection<Edge> negAllEdges = neg.getEdges();
 			negEdges.removeAll(patEdges);
 			
 			// This checks the neggraph beeing a sub to pattern
@@ -526,7 +526,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				if (neg.getConditions().size() == 0) {
 					// TODO Tell the user which rule and which neg-graph
 					// TODO There _is_ a better way to solve this. For now add a "AND FALSE" to the next join
-					seq.scheduleCond(factory.constant(false), new HashSet<Object>());
+					seq.scheduleCond(factory.constant(false), new HashSet<Table>());
 					error.warning("Negative part is a subgraph of pattern part and has no conditions ("+matchCtx.action+"). This action is never applicable.");
 				} else {
 					error.warning("Negative part is a subgraph of pattern part ("+matchCtx.action+")");
@@ -540,9 +540,9 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				Term edgeIdCol = factory.expression(edgeTable.colId());
 				
 				Term edgeUneq = null;
-				Collection<Object> depsUneq = new HashSet<Object>();
-				for(Iterator jt = patEdges.iterator(); jt.hasNext();) {
-					Edge patE = (Edge) jt.next();
+				Collection<Table> depsUneq = new HashSet<Table>();
+				for(Iterator<Edge> jt = patEdges.iterator(); jt.hasNext();) {
+					Edge patE = jt.next();
 					EdgeTable patEdgeTable = tableFactory.edgeTable(patE);
 					Term patEdgeIdCol = factory.expression(patEdgeTable.colId());
 					edgeUneq = factory.addExpression(Opcodes.AND, edgeUneq, factory.expression(Opcodes.NE, edgeIdCol, patEdgeIdCol));
@@ -558,12 +558,12 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	private void addMultigraphEdgeConds(MatchCtx ctx, JoinSequence seq) {
 		
 		Graph pattern = ctx.action.getPattern();
-		Collection tmp = pattern.getEdges();
+		Collection<Edge> tmp = pattern.getEdges();
 		Edge[] edges = (Edge[]) tmp.toArray(new Edge[tmp.size()]);
 		GraphTableFactory tableFactory = ctx.factory;
 		TypeStatementFactory stmtFactory = ctx.factory;
 		
-		Collection<Object> deps = new HashSet<Object>();
+		Collection<Table> deps = new HashSet<Table>();
 		Term cond = null;
 		
 		for(int i = 0; i < edges.length; i++) {
@@ -614,7 +614,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 	 */
 	private class JoinSequence {
 		
-		private final Map<Term, Collection> conditions = new HashMap<Term, Collection>();
+		private final Map<Term, Collection<Table>> conditions = new HashMap<Term, Collection<Table>>();
 		
 		/**
 		 * Record all processed tables and map them
@@ -726,8 +726,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			for(Iterator<Graph> gi = c.iterator(); gi.hasNext();) {
 				PatternGraph graph = (PatternGraph) gi.next();
 				
-				for(Iterator it = graph.getConditions().iterator(); it.hasNext();) {
-					List usedEntities = new LinkedList();
+				for(Iterator<Expression> it = graph.getConditions().iterator(); it.hasNext();) {
+					List<IR> usedEntities = new LinkedList<IR>();
 					
 					Expression expr = (Expression) it.next();
 					Term term = genExprSQL(expr, factory, usedEntities);
@@ -744,7 +744,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 						}
 					}
 					
-					for(Iterator et = usedEntities.iterator(); et.hasNext();) {
+					for(Iterator<IR> et = usedEntities.iterator(); et.hasNext();) {
 						Object obj = et.next();
 						
 						if(obj instanceof Node)
@@ -810,7 +810,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param cond The condition tree.
 		 * @param ents All ents the condition depends on.
 		 */
-		private void addCondDep(Term cond, Collection tables) {
+		private void addCondDep(Term cond, Collection<Table> tables) {
 			BitSet deps = new BitSet();
 			
 			for(Iterator<Table> it = tables.iterator(); it.hasNext();) {
@@ -834,10 +834,10 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param tables A collection recording all relations, the
 		 * condition depends on.
 		 */
-		public void scheduleCond(Term cond, Collection<Object> tables) {
+		public void scheduleCond(Term cond, Collection<Table> tables) {
 			assert cond != null : "Cannot schedule a null term";
 			if(conditions.containsKey(cond)) {
-				Collection<Object> deps = conditions.get(cond);
+				Collection<Table> deps = conditions.get(cond);
 				deps.addAll(tables);
 			} else
 				conditions.put(cond, tables);
@@ -850,13 +850,13 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param cond The condition.
 		 * @param table A table on which <code>cond</code> depends.
 		 */
-		public void scheduleCond(Term cond, Relation table) {
+		public void scheduleCond(Term cond, Table table) {
 			assert cond != null : "Cannot schedule a null term";
 			if(conditions.containsKey(cond)) {
-				Collection<Relation> deps = conditions.get(cond);
+				Collection<Table> deps = conditions.get(cond);
 				deps.add(table);
 			} else {
-				Collection<Relation> deps = new HashSet<Relation>();
+				Collection<Table> deps = new HashSet<Table>();
 				deps.add(table);
 				conditions.put(cond, deps);
 			}
@@ -927,7 +927,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param node The node.
 		 */
 		private void addNodeJoinCond(Graph g, Node node) {
-			Collection<Object> dep = new LinkedList<Object>();
+			Collection<Table> dep = new LinkedList<Table>();
 			NodeTable nodeTable = factory.nodeTable(node);
 			dep.add(nodeTable);
 			// Make type constraints
@@ -968,7 +968,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		 * @param node2
 		 */
 		private void checkHomoCond(Node node1, Node node2) {
-			Collection patternNodes = act.getPattern().getNodes();
+			Collection<Node> patternNodes = act.getPattern().getNodes();
 			//Nodes that occur in a NAC part but not in the left side of a rule
 			//may not be mapped non-injectively.
 			if (!patternNodes.contains(node1) || !patternNodes.contains(node2))
@@ -1155,7 +1155,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			// the join cond dependency map.
 			for(Iterator<Term> it = conditions.keySet().iterator(); it.hasNext();) {
 				Term term = it.next();
-				Collection tables = conditions.get(term);
+				Collection<Table> tables = conditions.get(term);
 				addCondDep(term, tables);
 			}
 			
@@ -1217,7 +1217,7 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
 			
 			// Just add group by clauses, if we have a having clause.
-			List groupBy = having != null ? columns : null;
+			List<Column> groupBy = having != null ? columns : null;
 			
 			//TODO assert conditions.isEmpty();
 			

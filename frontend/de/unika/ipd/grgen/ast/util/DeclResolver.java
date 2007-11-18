@@ -39,7 +39,7 @@ public class DeclResolver extends IdentResolver
 	 * @param classes A list of classes, the resolved node must be
 	 * instance of.
 	 */
-	public DeclResolver(Class[] classes)
+	public DeclResolver(Class<?>[] classes)
 	{
 		super(classes);
 	}
@@ -47,7 +47,7 @@ public class DeclResolver extends IdentResolver
 	/**
 	 * Just a convenience constructor for {@link #DeclResolver(Class[])}
 	 */
-	public DeclResolver(Class cls)
+	public DeclResolver(Class<?> cls)
 	{
 		super(new Class[] { cls });
 	}

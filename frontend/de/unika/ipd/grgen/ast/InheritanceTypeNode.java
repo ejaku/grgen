@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;

@@ -44,13 +44,13 @@ public abstract class TypeNode extends BaseNode {
 	 * A map, that maps each basic type to a set to all other basic types,
 	 * that are compatible to the type.
 	 */
-	protected static final Map<TypeNode, HashSet> compatibleMap = new HashMap<TypeNode, HashSet>();
+	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap = new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	/**
 	 * A map, that maps each type to a set to all other types,
 	 * that are castable to the type.
 	 */
-	protected static final Map<TypeNode, HashSet> castableMap = new HashMap<TypeNode, HashSet>();
+	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = new HashMap<TypeNode, HashSet<TypeNode>>();
 	
 	
 	TypeNode() {
@@ -150,10 +150,10 @@ public abstract class TypeNode extends BaseNode {
 		doGetCompatibleToTypes(coll);
 	}
 	
-	protected static void addTypeToMap(Map<TypeNode, HashSet> map, TypeNode index, TypeNode target)
+	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map, TypeNode index, TypeNode target)
 	{
 		if(!map.containsKey(index))
-			map.put(index, new HashSet());
+			map.put(index, new HashSet<TypeNode>());
 		
 		Set<TypeNode> s = map.get(index);
 		s.add(target);
@@ -180,7 +180,7 @@ public abstract class TypeNode extends BaseNode {
 		boolean res = false;
 		
 		if(compatibleMap.containsKey(a)) {
-			Set s = compatibleMap.get(a);
+			Set<TypeNode> s = compatibleMap.get(a);
 			res = s.contains(b);
 		}
 		
@@ -198,14 +198,13 @@ public abstract class TypeNode extends BaseNode {
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 		
-		Object obj = compatibleMap.get(this);
-		if(obj != null) {
-			Collection<BaseNode> compat = (Collection) obj;
-			for(Iterator<BaseNode> it = compat.iterator(); it.hasNext();) {
+		Collection<TypeNode> compat = compatibleMap.get(this);
+		if(compat != null) {
+			for(Iterator<TypeNode> it = compat.iterator(); it.hasNext();) {
 				BaseNode curNode = it.next();
 				debug.report(NOTE, "" + curNode.getName());
 			}
-			coll.addAll((Collection) obj);
+			coll.addAll(compat);
 		}
 	}
 	
@@ -220,9 +219,9 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	private void doGetCastableToTypes(Collection<TypeNode> coll) {
-		Object obj = castableMap.get(this);
-		if(obj != null)
-			coll.addAll((Collection) obj);
+		Collection<TypeNode> castable = castableMap.get(this);
+		if(castable != null)
+			coll.addAll(castable);
 	}
 	
 	/**

@@ -1577,7 +1577,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
 
-	private void genQualAccess(GraphEntity entity, Collection neededGraphEntity, StringBuffer sb, Qualification qual) {
+	private <T extends GraphEntity> void genQualAccess(T entity, Collection<T> neededGraphEntity, StringBuffer sb, Qualification qual) {
 		if(neededGraphEntity != null) { // null iff qual access used in
 			neededGraphEntity.add(entity);
 			sb.append(formatEntity(entity) + ".@" + formatIdentifiable(qual.getMember()));
