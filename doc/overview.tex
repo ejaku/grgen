@@ -404,12 +404,12 @@ All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notic
 \subsection{\texttt{\indexed{GrGen.exe}}}
 The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
 \begin{description}
-  \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-d] <rule-set> [<output-dir>]}\\
+  \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-keep] <rule-set> [<output-dir>]}\\
     \emph{rule-set} is a file containing a rule set specification according to chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies to the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      \texttt{-d} & Enable debug output. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
+      \texttt{-keep} & Keep the generated C\# source files. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
 \begin{itemize}
   \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
   \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.

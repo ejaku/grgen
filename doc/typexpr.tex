@@ -13,13 +13,14 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false} \\
 	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
 	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
-	\texttt{\indexed{string}} & A character sequence of arbitrary length\\ \hline
+	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
+        \texttt{\indexed{object}} & Contains a .NET object\\ \hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
 \label{builtintypes}
 \end{table}
 Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
-Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for 
+Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for \TODO{WTF?}
 
 According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
 This is because the range of an enum type is very sparse in general.

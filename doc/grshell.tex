@@ -77,7 +77,9 @@ Persistent names belong to a specific graph whereas variables belong to the curr
 Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
 
 \section{\GrShell\ Commands}
-This section describes the \GrShell\ commands. Commands are assembled from basic elements. As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
+This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements. 
+As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
+Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.  
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
