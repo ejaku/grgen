@@ -30,7 +30,8 @@ namespace de.unika.ipd.grGen.lgsp
         // used in check for isomorphic elements
         public IsomorphyInformation Isomorphy = new IsomorphyInformation();
 
-        public SearchOperation(SearchOperationType type, object elem, SearchPlanNode srcSPNode, float costToEnd)
+        public SearchOperation(SearchOperationType type, object elem,
+            SearchPlanNode srcSPNode, float costToEnd)
         {
             Type = type;
             Element = elem;
@@ -40,47 +41,63 @@ namespace de.unika.ipd.grGen.lgsp
 
         public static SearchOperation CreateMaybePreset(SearchPlanNode element)
         {
-            return new SearchOperation(SearchOperationType.MaybePreset, element, null, 0);
+            return new SearchOperation(SearchOperationType.MaybePreset,
+                element, null, 0);
         }
 
         public static SearchOperation CreateNegPreset(SearchPlanNode element)
         {
-            return new SearchOperation(SearchOperationType.NegPreset, element, null, 0);
+            return new SearchOperation(SearchOperationType.NegPreset,
+                element, null, 0);
         }
 
-        public static SearchOperation CreateLookup(SearchPlanNode element, float costToEnd)
+        public static SearchOperation CreateLookup(
+            SearchPlanNode element, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.Lookup, element, null, costToEnd);
+            return new SearchOperation(SearchOperationType.Lookup,
+                element, null, costToEnd);
         }
 
-        public static SearchOperation CreateOutgoing(SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
+        public static SearchOperation CreateOutgoing(
+            SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.Outgoing, outgoingEdge, source, costToEnd);
+            return new SearchOperation(SearchOperationType.Outgoing,
+                outgoingEdge, source, costToEnd);
         }
 
-        public static SearchOperation CreateIncoming(SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
+        public static SearchOperation CreateIncoming(
+            SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.Incoming, outgoingEdge, source, costToEnd);
+            return new SearchOperation(SearchOperationType.Incoming,
+                outgoingEdge, source, costToEnd);
         }
 
-        public static SearchOperation CreateImplicitSource(SearchPlanEdgeNode edge, SearchPlanNodeNode sourceNode, float costToEnd)
+        public static SearchOperation CreateImplicitSource(
+            SearchPlanEdgeNode edge, SearchPlanNodeNode sourceNode, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.ImplicitSource, sourceNode, edge, costToEnd);
+            return new SearchOperation(SearchOperationType.ImplicitSource,
+                sourceNode, edge, costToEnd);
         }
 
-        public static SearchOperation CreateImplicitTarget(SearchPlanEdgeNode edge, SearchPlanNodeNode targetNode, float costToEnd)
+        public static SearchOperation CreateImplicitTarget(
+            SearchPlanEdgeNode edge, SearchPlanNodeNode targetNode, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.ImplicitTarget, targetNode, edge, costToEnd);
+            return new SearchOperation(SearchOperationType.ImplicitTarget,
+                targetNode, edge, costToEnd);
         }
 
-        public static SearchOperation CreateNegativePattern(ScheduledSearchPlan schedSP, float costToEnd)
+        public static SearchOperation CreateNegativePattern(
+            ScheduledSearchPlan schedSP, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.NegativePattern, schedSP, null, costToEnd);
+            return new SearchOperation(SearchOperationType.NegativePattern,
+                schedSP, null, costToEnd);
         }
 
-        public static SearchOperation CreateCondition(Condition condition, float costToEnd)
+        public static SearchOperation CreateCondition(
+            Condition condition, float costToEnd)
         {
-            return new SearchOperation(SearchOperationType.Condition, condition, null, costToEnd);
+            return new SearchOperation(SearchOperationType.Condition,
+                condition, null, costToEnd);
         }
 
         public int CompareTo(SearchOperation other)
@@ -93,7 +110,8 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// The scheduled search plan is a list of search operations, plus the information which nodes/edges are homomorph
+    /// The scheduled search plan is a list of search operations,
+    /// plus the information which nodes/edges are homomorph
     /// </summary>
     public class ScheduledSearchPlan
     {
