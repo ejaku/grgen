@@ -43,6 +43,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_C221 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_C221 node = new Node_C221();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _c221;
 		public int @c221
 		{
@@ -194,6 +201,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_D2211_2222_31 node = new Node_D2211_2222_31();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_D2211_2222_31 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_D2211_2222_31 node = new Node_D2211_2222_31();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -460,6 +474,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_A2 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_A2 node = new Node_A2();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a2;
 		public int @a2
 		{
@@ -568,6 +589,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_B41 node = new Node_B41();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_B41 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B41 node = new Node_B41();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -700,6 +728,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_A3 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_A3 node = new Node_A3();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a3;
 		public int @a3
 		{
@@ -801,6 +836,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_B42 node = new Node_B42();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_B42 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B42 node = new Node_B42();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -933,6 +975,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_A1 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_A1 node = new Node_A1();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a1;
 		public int @a1
 		{
@@ -1035,6 +1084,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_C412_421_431_51 node = new Node_C412_421_431_51();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_C412_421_431_51 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_C412_421_431_51 node = new Node_C412_421_431_51();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -1225,6 +1281,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_A4 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_A4 node = new Node_A4();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a4;
 		public int @a4
 		{
@@ -1339,6 +1402,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_D11_2221 node = new Node_D11_2221();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_D11_2221 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_D11_2221 node = new Node_D11_2221();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -1585,6 +1655,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_A5 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_A5 node = new Node_A5();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a5;
 		public int @a5
 		{
@@ -1685,6 +1762,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_B43 node = new Node_B43();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_B43 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B43 node = new Node_B43();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -1801,6 +1885,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_Node CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_Node node = new Node_Node();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -1861,6 +1952,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_B22 node = new Node_B22();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_B22 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B22 node = new Node_B22();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -1993,6 +2091,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_B21 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B21 node = new Node_B21();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _a2;
 		public int @a2
 		{
@@ -2119,6 +2224,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_B23 node = new Node_B23();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_B23 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_B23 node = new Node_B23();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -2253,6 +2365,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_D231_4121 node = new Node_D231_4121();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_D231_4121 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_D231_4121 node = new Node_D231_4121();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -2522,6 +2641,13 @@ namespace de.unika.ipd.grGen.models.test
 			return node;
 		}
 
+		public static Node_C432_422 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_C432_422 node = new Node_C432_422();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		private int _c432_422;
 		public int @c432_422
 		{
@@ -2686,6 +2812,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Node_C222_411 node = new Node_C222_411();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_C222_411 CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_C222_411 node = new Node_C222_411();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -3235,6 +3368,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			Edge_Edge edge = new Edge_Edge(source, target);
 			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_Edge edge = new Edge_Edge(source, target);
+			graph.AddEdge(edge, varName);
 			return edge;
 		}
 

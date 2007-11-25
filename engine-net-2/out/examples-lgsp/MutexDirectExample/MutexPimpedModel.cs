@@ -39,6 +39,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return node;
 		}
 
+		public static Node_Resource CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_Resource node = new Node_Resource();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -99,6 +106,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return node;
 		}
 
+		public static Node_Node CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_Node node = new Node_Node();
+			graph.AddNode(node, varName);
+			return node;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -156,6 +170,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			Node_Process node = new Node_Process();
 			graph.AddNode(node);
+			return node;
+		}
+
+		public static Node_Process CreateNode(LGSPGraph graph, String varName)
+		{
+			Node_Process node = new Node_Process();
+			graph.AddNode(node, varName);
 			return node;
 		}
 
@@ -294,6 +315,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return edge;
 		}
 
+		public static Edge_request CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_request edge = new Edge_request(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -357,6 +385,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			Edge_held_by edge = new Edge_held_by(source, target);
 			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_held_by CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_held_by edge = new Edge_held_by(source, target);
+			graph.AddEdge(edge, varName);
 			return edge;
 		}
 
@@ -426,6 +461,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return edge;
 		}
 
+		public static Edge_release CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_release edge = new Edge_release(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -489,6 +531,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			Edge_blocked edge = new Edge_blocked(source, target);
 			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_blocked CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_blocked edge = new Edge_blocked(source, target);
+			graph.AddEdge(edge, varName);
 			return edge;
 		}
 
@@ -558,6 +607,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return edge;
 		}
 
+		public static Edge_next CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_next edge = new Edge_next(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -624,6 +680,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			return edge;
 		}
 
+		public static Edge_token CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_token edge = new Edge_token(source, target);
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
@@ -687,6 +750,13 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			Edge_Edge edge = new Edge_Edge(source, target);
 			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static Edge_Edge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		{
+			Edge_Edge edge = new Edge_Edge(source, target);
+			graph.AddEdge(edge, varName);
 			return edge;
 		}
 

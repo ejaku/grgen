@@ -848,100 +848,165 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// checks for each operation in the scheduled search plan whether the resulting host graph element 
-        /// must be mapped to a pattern element, needed for isomorphism checks later on
-        /// </summary>
-        public void CalculateNeededMaps(ScheduledSearchPlan schedSP)
+        /// Appends homomorphy information to each operation of the scheduled search plan
+         /// </summary>
+        public void AppendHomomorphyInformation(ScheduledSearchPlan ssp)
         {
-            // examine all operations pairwise
-            // find first element of pair here, second is searched for within CheckMapsForOperation
-            for(int i = 0; i < schedSP.Operations.Length; i++)
+            // no operation -> nothing which could be homomorph
+            if (ssp.Operations.Length == 0)
             {
-                SearchOperation op1 = schedSP.Operations[i];
+                return;
+            }
 
-                if(op1.Type == SearchOperationType.Condition) continue;
-                if(op1.Type == SearchOperationType.NegativePattern)
+            // iterate operations of the search plan to append homomorphy checks
+            for (int i = 0; i < ssp.Operations.Length; ++i)
+            {
+                if (ssp.Operations[i].Type == SearchOperationType.Condition)
                 {
-                    ScheduledSearchPlan curSSP = (ScheduledSearchPlan) op1.Element;
-                    for(int j = 0; j < curSSP.Operations.Length - 1; j++)
-                    {
-                        op1 = curSSP.Operations[j];
-                        if(op1.Type == SearchOperationType.Condition) continue;
-                        CheckMapsForOperation(op1, curSSP, j + 1);
-                    }
+                    continue;
                 }
-                else
+
+                if (ssp.Operations[i].Type == SearchOperationType.NegativePattern)
                 {
-                    if(i == schedSP.Operations.Length - 1) break;
-                    CheckMapsForOperation(op1, schedSP, i + 1);
+                    AppendHomomorphyInformation((ScheduledSearchPlan)ssp.Operations[i].Element);
+                    continue;
                 }
+
+                DetermineAndAppendHomomorphyChecks(ssp, i);
             }
         }
 
         /// <summary>
-        /// Checks whether two non-homomorphic pattern elements might be matched as the same host graph element.
-        /// For any pair fulfilling this condition, flags are set letting the first operation(op1) set the
-        /// mappedTo/negMappedTo-field of the host graph element and the second operation check this field
+        /// Determines which homomorphy check operations are necessary 
+        /// at the operation of the given position within the scheduled search plan
+        /// and appends them.
         /// </summary>
-        private void CheckMapsForOperation(SearchOperation op1, ScheduledSearchPlan curSSP, int op2StartIndex)
+        public void DetermineAndAppendHomomorphyChecks(ScheduledSearchPlan ssp, int j)
         {
+            ///////////////////////////////////////////////////////////////////////////
+            // first handle special cases pure homomorphy and pure isomorphy
+
+            SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
+
+            bool[] homToAll;
+            bool[] isoToAll;
+
+            if (spn_j.NodeType == PlanNodeType.Node) {
+                homToAll = ssp.PatternGraph.HomomorphicToAllNodes;
+                isoToAll = ssp.PatternGraph.IsomorphicToAllNodes;
+            }
+            else { // (spn_j.NodeType == PlanNodeType.Edge)
+                homToAll = ssp.PatternGraph.HomomorphicToAllEdges;
+                isoToAll = ssp.PatternGraph.IsomorphicToAllEdges;
+            }
+
+            if (homToAll[spn_j.ElementID - 1])
+            {
+                // operation is allowed to be homomorph with everything
+                // no checks for isomorphy or restricted homomorphy needed
+                return;
+            }
+
+            if (isoToAll[spn_j.ElementID - 1])
+            { 
+                // operation is not allowed to be homomorph with anything - pure isomorpy
+
+                // so order operation to check whether the is-matched-bit is set
+                ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
+                // and set the is-matched-bit if all checks succeeded
+                ssp.Operations[j].Isomorphy.SetIsMatchedBit = true;
+
+                return;
+            }
+
+            ///////////////////////////////////////////////////////////////////////////
+            // no pure homomorphy or isomorphy, so we have restricted homomorphy
+            // and need to inspect the operations before together with the homomorphy matrix 
+            // for determining the necessary homomorphy checks
+
             GrGenType[] types;
-            bool[,] homArray;
-            bool[] homToAllArray;
-            SearchPlanNode elem1 = (SearchPlanNode) op1.Element;
-            PlanNodeType pntype = elem1.NodeType;
-            if(pntype == PlanNodeType.Node)
-            {
+            bool[,] hom;
+
+            if (spn_j.NodeType == PlanNodeType.Node) {
                 types = model.NodeModel.Types;
-                homArray = curSSP.PatternGraph.HomomorphicNodes;
-                homToAllArray = curSSP.PatternGraph.HomomorphicToAllNodes;
+                hom = ssp.PatternGraph.HomomorphicNodes;
             }
-            else
-            {
+            else { // (spn_j.NodeType == PlanNodeType.Edge)
                 types = model.EdgeModel.Types;
-                homArray = curSSP.PatternGraph.HomomorphicEdges;
-                homToAllArray = curSSP.PatternGraph.HomomorphicToAllEdges;
+                hom = ssp.PatternGraph.HomomorphicEdges;
             }
 
-            if(homToAllArray[elem1.ElementID - 1]) return;
+            // order operation to check against all elements it's not allowed to be homomorph to
 
-            GrGenType type1 = types[elem1.PatternElement.TypeID];
-
-            for(int j = op2StartIndex; j < curSSP.Operations.Length; j++)
+            // iterate through the operations before our position
+            for (int i = 0; i < j; ++i)
             {
-                SearchOperation op2 = curSSP.Operations[j];
-                if(op2.Type == SearchOperationType.Condition) continue;
-                if(op2.Type == SearchOperationType.NegativePattern) continue;
-
-                SearchPlanNode elem2 = (SearchPlanNode) op2.Element;
-                if(elem2.NodeType != pntype) continue;          // aren't both elements edges or both nodes?
-
-                if(homToAllArray[elem2.ElementID - 1]) continue;
-
-                if(homArray != null && homArray[elem1.ElementID - 1, elem2.ElementID - 1])
+                // only check operations computing nodes or edges
+                if (ssp.Operations[i].Type == SearchOperationType.Condition
+                    || ssp.Operations[i].Type == SearchOperationType.NegativePattern)
                 {
-                    if(op1.Isomorphy.HomomorphicID == 0) {
-                        op1.Isomorphy.HomomorphicID = op2.Isomorphy.HomomorphicID = elem1.ElementID;
-                    } else {
-                        op2.Isomorphy.HomomorphicID = op1.Isomorphy.HomomorphicID;
-                    }
+                    continue;
                 }
 
+                SearchPlanNode spn_i = (SearchPlanNode)ssp.Operations[i].Element;
 
-                // TODO: Check type constraints for optimization!!!
-                GrGenType type2 = types[elem2.PatternElement.TypeID];
-                foreach(GrGenType subtype1 in type1.SubOrSameTypes)
+                // don't compare nodes with edges
+                if (spn_i.NodeType != spn_j.NodeType)
                 {
-                    if((type2.IsA(subtype1) || subtype1.IsA(type2)) // IsA==IsSuperTypeOrSameType
-                        && (homArray == null || !homArray[elem1.ElementID - 1, elem2.ElementID - 1]))
+                    continue;
+                }
+
+                // don't check homomorph elements
+                if (hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
+                {
+                    continue;
+                }
+                
+                // find out whether element types are disjoint
+                    // todo: optimization: check type constraints
+                    // todo: why not check it before and combine it into hom-matrix?
+                GrGenType type_i = types[spn_i.PatternElement.TypeID];
+                GrGenType type_j = types[spn_j.PatternElement.TypeID];
+                bool disjoint = true;
+                foreach (GrGenType subtype_i in type_i.SubOrSameTypes)
+                {
+                    if (type_j.IsA(subtype_i) || subtype_i.IsA(type_j)) // IsA==IsSuperTypeOrSameType
                     {
-                        op1.Isomorphy.MustSetMapped = true;
-                        op2.Isomorphy.MustCheckMapped = true;
+                        disjoint = false;
+                        break;
                     }
                 }
-            }
-        }
 
+                // don't check elements if their types are disjoint
+                if (disjoint)
+                {
+                    continue;
+                }
+
+                // the generated matcher code has to check 
+                // that pattern element j doen't get bound to the same graph element
+                // that pattern element i is already bound to 
+                if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
+                    ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = 
+                        new List<SearchPlanNode>();
+                }
+                ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Add(spn_i);
+            }
+
+            // only if elements the operation must be isomorph to were matched before
+            // (otherwise there were only elements the operation is allowed to be homomorph to
+            //  matched before, so no check needed here)
+            if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst != null
+                && ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Count > 0)
+            {
+                // order operation to check whether the is-matched-bit is set
+                ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
+            }
+
+            // order operation to set the is-matched-bit after all checks succeeded
+            ssp.Operations[j].Isomorphy.SetIsMatchedBit = true;
+        }
+     
         /// <summary>
         /// Generates the source code of the matcher function for the given scheduled search plan
         /// new version building first abstract search program then search program code
@@ -1084,7 +1149,7 @@ exitSecondLoop: ;
 
                 ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
 
-                CalculateNeededMaps(scheduledSearchPlan);
+                AppendHomomorphyInformation(scheduledSearchPlan);
 
                 sourceCode.Append("    public class DynAction_" + action.Name + " : LGSPAction\n    {\n"
                     + "        public DynAction_" + action.Name + "() { rulePattern = "

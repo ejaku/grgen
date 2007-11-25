@@ -83,6 +83,16 @@ namespace de.unika.ipd.grGen.libGr
         bool[] HomomorphicToAllEdges { get; }
 
         /// <summary>
+        /// An array specifiying for each pattern node, whether it must be matched isomorphic to all other nodes.
+        /// </summary>
+        bool[] IsomorphicToAllNodes { get; }
+
+        /// <summary>
+        /// An array specifiying for each pattern edge, whether it must be matched isomorphic to all other edges.
+        /// </summary>
+        bool[] IsomorphicToAllEdges { get; }
+
+        /// <summary>
         /// Not yet implemented...
         /// </summary>
         IPatternGraphEmbedding[] EmbeddedGraphs { get; } // niy

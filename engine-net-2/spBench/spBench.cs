@@ -181,7 +181,7 @@ namespace spBench
             }
 
             ScheduledSearchPlan scheduledSearchPlan = MatchGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-            MatchGen.CalculateNeededMaps(scheduledSearchPlan);
+            MatchGen.AppendHomomorphyInformation(scheduledSearchPlan);
             return scheduledSearchPlan;
         }
 
@@ -895,7 +895,7 @@ namespace spBench
 
                 ScheduledSearchPlan ssp = new ScheduledSearchPlan(ops, (PatternGraph) ctx.Action.RulePattern.PatternGraph, spcostproduct);
 
-                ctx.MatchGen.CalculateNeededMaps(ssp);
+                ctx.MatchGen.AppendHomomorphyInformation(ssp);
 
 #if DUMP_MATCHERPROGRAMS
                 String outputName = "test.cs";

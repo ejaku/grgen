@@ -1046,12 +1046,12 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public CheckCandidateForIsomorphy(
             string patternElementName,
-            string homomorphicID,
+            List<string> namesOfPatternElementsToCheckAgainst,
             bool positive,
             bool isNode)
         {
             PatternElementName = patternElementName;
-            HomomorphicID = homomorphicID;
+            NamesOfPatternElementsToCheckAgainst = namesOfPatternElementsToCheckAgainst;
             Positive = positive;
             IsNode = isNode;
         }
@@ -1060,8 +1060,16 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump check
             builder.AppendFront("CheckCandidate ForIsomorphy ");
-            builder.AppendFormat("on {0} hom-id:{1} positive:{2} node:{3}\n",
-                PatternElementName, HomomorphicID, Positive, IsNode);
+            builder.AppendFormat("on {0} positive:{1} node:{2} ",
+                PatternElementName, Positive, IsNode);
+            if (NamesOfPatternElementsToCheckAgainst != null)
+            {
+                builder.Append("against ");
+                foreach (string name in NamesOfPatternElementsToCheckAgainst)
+                {
+                    builder.AppendFormat("{0} ", name);
+                }
+            }
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -1084,35 +1092,68 @@ namespace de.unika.ipd.grGen.lgsp
             // as this would cause a homomorphic match
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(
                 PatternElementName, IsNode);
-            string mappedToMember = Positive ? "mappedTo" : "negMappedTo";
-            sourceCode.AppendFormat("{0}.{1} != 0",
-                variableContainingCandidate, mappedToMember);
+            string isMatchedBit = Positive ? "isMatched" : "isMatchedNeg";
+            sourceCode.AppendFormat("{0}.{1}", variableContainingCandidate, isMatchedBit);
 
-            // but only if isomorphy is demanded (homomorphic id == 0)
-            // otherwise homomorphy is allowed, then we only fail if the graph element 
-            // is not matched to the same homomorphy class as the candidate
-            if (HomomorphicID != "0")
+            // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
+            // otherwise homomorphy to certain elements is allowed, 
+            // so we only fail if the graph element is matched to one of the not allowed elements,
+            // given in NamesOfPatternElementsToCheckAgainst 
+            if (NamesOfPatternElementsToCheckAgainst != null)
             {
-                sourceCode.AppendFormat("&& {0}.{1} != {2}",
-                    variableContainingCandidate, mappedToMember,
-                    HomomorphicID);
+                Debug.Assert(NamesOfPatternElementsToCheckAgainst.Count > 0);
+
+                sourceCode.Append("\n");
+                sourceCode.Indent();
+
+                if (NamesOfPatternElementsToCheckAgainst.Count == 1)
+                {
+                    string name = NamesOfPatternElementsToCheckAgainst[0];
+                    sourceCode.AppendFrontFormat("&& {0}=={1}\n", variableContainingCandidate,
+                        NamesOfEntities.CandidateVariable(name, IsNode));
+                }
+                else
+                {
+                    bool first = true;
+                    foreach (string name in NamesOfPatternElementsToCheckAgainst)
+                    {
+                        if (first)
+                        {
+                            sourceCode.AppendFrontFormat("&& ({0}=={1}\n", variableContainingCandidate,
+                                NamesOfEntities.CandidateVariable(name, IsNode));
+                            sourceCode.Indent();
+                            first = false;
+                        }
+                        else
+                        {
+                            sourceCode.AppendFrontFormat("|| {0}=={1}\n", variableContainingCandidate,
+                               NamesOfEntities.CandidateVariable(name, IsNode));
+                        }
+                    }
+                    sourceCode.AppendFront(")\n");
+                    sourceCode.Unindent();
+                }
+
+                // close decision
+                sourceCode.AppendFront(")\n");
+                sourceCode.Unindent();
+            }
+            else
+            {
+                // close decision
+                sourceCode.Append(")\n");
             }
 
-            // close decision
-            sourceCode.Append(") ");
-
             // emit check failed code
-            sourceCode.Append("{\n");
+            sourceCode.AppendFront("{\n");
             sourceCode.Indent();
             CheckFailedOperations.Emit(sourceCode);
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
         }
 
-        public string HomomorphicID; // if 0 check for isomorphy, 
-                                     // otherwise homomorphic mapping allowed, 
-                                     // then check for given homomorphy class 
-        public bool Positive; // positive|negative (mappedTo/negMappedTo)
+        public List<string> NamesOfPatternElementsToCheckAgainst;
+        public bool Positive; // positive|negative
         public bool IsNode; // node|edge
     }
 
@@ -1407,12 +1448,10 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public AcceptIntoPartialMatchWriteIsomorphy(
             string patternElementName,
-            string homomorphicID,
             bool positive,
             bool isNode)
         {
             PatternElementName = patternElementName;
-            HomomorphicID = homomorphicID;
             Positive = positive;
             IsNode = isNode;
         }
@@ -1420,8 +1459,8 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("AcceptIntoPartialMatch WriteIsomorphy ");
-            builder.AppendFormat("on {0} hom-id:{1} positive:{2} node:{3}\n",
-                PatternElementName, HomomorphicID, Positive, IsNode);
+            builder.AppendFormat("on {0} positive:{1} node:{2}\n",
+                PatternElementName, Positive, IsNode);
         }
 
         /// <summary>
@@ -1429,15 +1468,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            string variableContainingCandidate = NamesOfEntities.CandidateVariable(
-                PatternElementName, IsNode);
-            string mappedToMember = Positive ? "mappedTo" : "negMappedTo";
-            string variableContainingBackupOfMappedMember = NamesOfEntities.VariableWithBackupOfMappedMember(
-                PatternElementName, IsNode, Positive);
-            sourceCode.AppendFrontFormat("int {0} = {1}.{2};\n",
-                variableContainingBackupOfMappedMember, variableContainingCandidate, mappedToMember);
-            sourceCode.AppendFrontFormat("{0}.{1} = {2};\n",
-                variableContainingCandidate, mappedToMember, HomomorphicID);
+            string variableContainingCandidate = 
+                NamesOfEntities.CandidateVariable(PatternElementName, IsNode);
+            string variableContainingBackupOfMappedMember =
+                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, IsNode, Positive);
+            string isMatchedBit = Positive ? "isMatched" : "isMatchedNeg";
+            sourceCode.AppendFrontFormat("bool {0} = {1}.{2};\n",
+                variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
+            sourceCode.AppendFrontFormat("{0}.{1} = true;\n",
+                variableContainingCandidate, isMatchedBit);
         }
 
         public override bool IsNestingOperation()
@@ -1451,8 +1490,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public string HomomorphicID; // homomorphy class
-        public bool Positive; // positive|negative (mappedTo/negMappedTo)
+        public bool Positive; // positive|negative
         public bool IsNode; // node|edge
     }
 
@@ -1494,13 +1532,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            string variableContainingCandidate = NamesOfEntities.CandidateVariable(
-                PatternElementName, IsNode);
-            string mappedToMember = Positive ? "mappedTo" : "negMappedTo";
-            string variableContainingBackupOfMappedMember = NamesOfEntities.VariableWithBackupOfMappedMember(
-                PatternElementName, IsNode, Positive);
+            string variableContainingCandidate = 
+                NamesOfEntities.CandidateVariable(PatternElementName, IsNode);
+            string variableContainingBackupOfIsMatchedBit =
+                NamesOfEntities.VariableWithBackupOfIsMatchedBit(PatternElementName, IsNode, Positive);
+            string isMatchedBit = Positive ? "isMatched" : "isMatchedNeg";
             sourceCode.AppendFrontFormat("{0}.{1} = {2};\n",
-                variableContainingCandidate, mappedToMember, variableContainingBackupOfMappedMember);
+                variableContainingCandidate, isMatchedBit, variableContainingBackupOfIsMatchedBit);
         }
 
         public override bool IsNestingOperation()
@@ -1514,7 +1552,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public string PatternElementName;
-        public bool Positive; // positive|negative (mappedTo/negMappedTo)
+        public bool Positive; // positive|negative
         public bool IsNode; // node|edge
     }
 

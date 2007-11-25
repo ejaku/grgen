@@ -64,11 +64,11 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Returns name of the variable which will be created within the seach program
-        /// backing up the value of the mapped member of the graph element before assigning to it
+        /// backing up the value of the isMatched-Bit of the graph element before assigning to it
         /// </summary>
-        public static string VariableWithBackupOfMappedMember(string patternElementName, bool isNode, bool isPositive)
+        public static string VariableWithBackupOfIsMatchedBit(string patternElementName, bool isNode, bool isPositive)
         {
-            return CandidateVariable(patternElementName, isNode) + "_prev" + (isPositive ? "MappedTo" : "NegMappedTo");
+            return CandidateVariable(patternElementName, isNode) + "_prev" + (isPositive ? "IsMatched" : "IsMatchedNeg");
         }
     }
 }

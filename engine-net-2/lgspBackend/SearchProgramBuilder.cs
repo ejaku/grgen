@@ -335,30 +335,24 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(!positive, "Negative preset in positive search plan");
 
             // check candidate for isomorphy 
-            if (isomorphy.MustCheckMapped)
+            if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
-                        isomorphy.HomomorphicID.ToString(),
-                        false,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        positive,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
             // accept candidate and write candidate isomorphy (until withdrawn)
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             {
-                // no homomorphic id set -> plain isomorphy check, 
-                // id unequal null and all homomorphic ids needed -> take element id
-                // todo: is it ensured that homomorphic ids are uneqal element ids ?
-                int homomorphicID = isomorphy.HomomorphicID != 0 ?
-                    isomorphy.HomomorphicID : target.ElementID;
                 AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
                     new AcceptIntoPartialMatchWriteIsomorphy(
                         target.PatternElement.Name,
-                        homomorphicID.ToString(),
-                        false,
+                        positive,
                         isNode);
                 insertionPoint = insertionPoint.Append(writeIsomorphy);
             }
@@ -377,12 +371,12 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // withdraw candidate and remove candidate isomorphy
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
                     new WithdrawFromPartialMatchRemoveIsomorphy(
                         target.PatternElement.Name,
-                        false,
+                        positive,
                         isNode);
                 insertionPoint = insertionPoint.Append(removeIsomorphy);
             }
@@ -447,29 +441,23 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for isomorphy 
-            if (isomorphy.MustCheckMapped)
+            if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
-                        isomorphy.HomomorphicID.ToString(),
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         positive,
                         isNode);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
             // accept candidate and write candidate isomorphy (until withdrawn)
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             {
-                // no homomorphic id set -> plain isomorphy check, 
-                // id unequal null and all homomorphic ids needed -> take element id
-                // todo: is it ensured that homomorphic ids are uneqal element ids ?
-                int homomorphicID = isomorphy.HomomorphicID != 0 ?
-                    isomorphy.HomomorphicID : target.ElementID;
                 AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
                     new AcceptIntoPartialMatchWriteIsomorphy(
                         target.PatternElement.Name,
-                        homomorphicID.ToString(),
                         positive,
                         isNode);
                 insertionPoint = insertionPoint.Append(writeIsomorphy);
@@ -489,7 +477,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // withdraw candidate and remove candidate isomorphy
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
                     new WithdrawFromPartialMatchRemoveIsomorphy(
@@ -549,29 +537,23 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check candidate for isomorphy 
             bool positive = enclosingPositiveOperation == null;
-            if (isomorphy.MustCheckMapped)
+            if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
-                        isomorphy.HomomorphicID.ToString(),
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(), 
                         positive,
                         true);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
             // accept candidate and write candidate isomorphy (until withdrawn)
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             {
-                // no homomorphic id set -> plain isomorphy check, 
-                // id unequal null and all homomorphic ids needed -> take element id
-                // todo: is it ensured that homomorphic ids are uneqal element ids ?
-                int homomorphicID = isomorphy.HomomorphicID != 0 ?
-                    isomorphy.HomomorphicID : target.ElementID;
                 AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
                     new AcceptIntoPartialMatchWriteIsomorphy(
                         target.PatternElement.Name,
-                        homomorphicID.ToString(),
                         positive,
                         true);
                 insertionPoint = insertionPoint.Append(writeIsomorphy);
@@ -591,7 +573,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // withdraw candidate and remove candidate isomorphy
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
                     new WithdrawFromPartialMatchRemoveIsomorphy(
@@ -650,29 +632,23 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check candidate for isomorphy 
             bool positive = enclosingPositiveOperation == null;
-            if (isomorphy.MustCheckMapped)
+            if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
                     new CheckCandidateForIsomorphy(
                         target.PatternElement.Name,
-                        isomorphy.HomomorphicID.ToString(),
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         positive,
                         false);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
             // accept candidate and write candidate isomorphy (until withdrawn)
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             {
-                // no homomorphic id set -> plain isomorphy check, 
-                // id unequal null and all homomorphic ids needed -> take element id
-                // todo: is it ensured that homomorphic ids are uneqal element ids ?
-                int homomorphicID = isomorphy.HomomorphicID != 0 ?
-                    isomorphy.HomomorphicID : target.ElementID;
                 AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
                     new AcceptIntoPartialMatchWriteIsomorphy(
                         target.PatternElement.Name,
-                        homomorphicID.ToString(),
                         positive,
                         false);
                 insertionPoint = insertionPoint.Append(writeIsomorphy);
@@ -692,7 +668,7 @@ namespace de.unika.ipd.grGen.lgsp
             target.Visited = false;
 
             // withdraw candidate and remove candidate isomorphy
-            if (isomorphy.MustSetMapped)
+            if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
                 WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
                     new WithdrawFromPartialMatchRemoveIsomorphy(

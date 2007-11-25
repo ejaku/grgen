@@ -332,7 +332,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
 
-            matcherGen.CalculateNeededMaps(scheduledSearchPlan);
+            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
             source.Append(matcherGen.GenerateMatcherSourceCode(scheduledSearchPlan, schedule.ActionName, schedule.RulePattern));
         }
 

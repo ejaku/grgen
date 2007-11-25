@@ -943,8 +943,28 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				sb.append(", ");
 			}
 		}
-
+		sb.append("},\n");
+		
+		sb.append("\t\t\t\tnew bool[] {");
+		if(pattern.getNodes().size() > 0) {
+			sb.append("\n\t\t\t\t\t");
+			for(Node node : pattern.getNodes()) {
+				sb.append(pattern.isIsoToAll(node));
+				sb.append(", ");
+			}
+		}
+		sb.append("},\n");
+		
+		sb.append("\t\t\t\tnew bool[] {");
+		if(pattern.getEdges().size() > 0) {
+			sb.append("\n\t\t\t\t\t");
+			for(Edge edge : pattern.getEdges()) {
+				sb.append(pattern.isIsoToAll(edge));
+				sb.append(", ");
+			}
+		}
 		sb.append("}\n");
+		
 		sb.append("\t\t\t);\n");
 
 		return condCnt;

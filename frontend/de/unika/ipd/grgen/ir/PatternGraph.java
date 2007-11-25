@@ -146,5 +146,23 @@ public class PatternGraph extends Graph {
 	public boolean isHomToAll(Edge edge) {
 		return homToAllEdges.contains(edge);
 	}
+	
+	public boolean isIsoToAll(Node node) {
+		for(Collection<? extends GraphEntity> c : homs) {
+			if (c.contains(node)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean isIsoToAll(Edge edge) {
+		for(Collection<? extends GraphEntity> c : homs) {
+			if (c.contains(edge)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
 

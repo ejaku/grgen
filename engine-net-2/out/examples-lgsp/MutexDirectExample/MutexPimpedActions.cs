@@ -45,7 +45,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -132,7 +136,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -219,7 +227,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -310,7 +322,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 
 			PatternGraph negPattern_0;
@@ -331,7 +347,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -403,6 +423,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[0, 0] ,
 				new bool[] {
 					false, },
+				new bool[] {},
+				new bool[] {
+					true, },
 				new bool[] {}
 			);
 
@@ -424,7 +447,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -522,7 +549,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, false, },
 				new bool[] {
-					false, false, false, }
+					false, false, false, },
+				new bool[] {
+					true, true, true, true, },
+				new bool[] {
+					true, true, true, }
 			);
 
 			PatternGraph negPattern_0;
@@ -542,7 +573,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -622,7 +657,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -719,7 +758,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			PatternGraph negPattern_0;
@@ -739,7 +782,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -839,7 +886,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, false, },
 				new bool[] {
-					false, false, false, }
+					false, false, false, },
+				new bool[] {
+					true, true, true, true, },
+				new bool[] {
+					true, true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -930,7 +981,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -1043,7 +1098,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, false, false, },
 				new bool[] {
-					false, false, false, }
+					false, false, false, },
+				new bool[] {
+					true, true, true, true, true, },
+				new bool[] {
+					true, true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -1136,7 +1195,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 
 			PatternGraph negPattern_0;
@@ -1157,7 +1220,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -1243,7 +1310,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 
 			PatternGraph negPattern_0;
@@ -1263,7 +1334,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -1333,6 +1408,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[0, 0] ,
 				new bool[] {
 					false, },
+				new bool[] {},
+				new bool[] {
+					true, },
 				new bool[] {}
 			);
 
@@ -1420,7 +1498,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -1499,6 +1581,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[0, 0] ,
 				new bool[] {
 					false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, },
 				new bool[] {}
 			);
 
@@ -1519,7 +1604,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -1541,7 +1630,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, },
 				new bool[] {
-					false, }
+					false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, }
 			);
 			}
 
@@ -1629,7 +1722,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 				new bool[] {
 					false, false, false, },
 				new bool[] {
-					false, false, }
+					false, false, },
+				new bool[] {
+					true, true, true, },
+				new bool[] {
+					true, true, }
 			);
 
 			negativePatternGraphs = new PatternGraph[] {};
@@ -1692,24 +1789,62 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_req:request)
-            for(LGSPEdge edge_head_edge_req = graph.edgesByTypeHeads[0], edge_cur_edge_req = edge_head_edge_req.typeNext; edge_cur_edge_req != edge_head_edge_req; edge_cur_edge_req = edge_cur_edge_req.typeNext)
+            // Lookup edge_req 
+            int edge_type_id_edge_req = 0;
+            for(LGSPEdge edge_head_edge_req = graph.edgesByTypeHeads[edge_type_id_edge_req], edge_cur_edge_req = edge_head_edge_req.typeNext; edge_cur_edge_req != edge_head_edge_req; edge_cur_edge_req = edge_cur_edge_req.typeNext)
             {
-                // ImplicitTarget(edge_req -> node_r:Resource)
+                if(edge_cur_edge_req.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_req_prevIsMatched = edge_cur_edge_req.isMatched;
+                edge_cur_edge_req.isMatched = true;
+                // Implicit target node_r from edge_req 
                 LGSPNode node_cur_node_r = edge_cur_edge_req.target;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_req_2;
-                // ExtendOutgoing(node_r -> edge_t:token)
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Extend outgoing edge_t from node_r 
                 LGSPEdge edge_head_edge_t = node_cur_node_r.outhead;
                 if(edge_head_edge_t != null)
                 {
                     LGSPEdge edge_cur_edge_t = edge_head_edge_t;
                     do
                     {
-                        if(!EdgeType_token.isMyType[edge_cur_edge_t.type.TypeID]) continue;
-                        // ImplicitTarget(edge_t -> node_p:Process)
+                        if(!EdgeType_token.isMyType[edge_cur_edge_t.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_t.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_t_prevIsMatched = edge_cur_edge_t.isMatched;
+                        edge_cur_edge_t.isMatched = true;
+                        // Implicit target node_p from edge_t 
                         LGSPNode node_cur_node_p = edge_cur_edge_t.target;
-                        if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_edge_cur_edge_t_6;
-                        if(edge_cur_edge_req.source != node_cur_node_p) goto contunmap_edge_cur_edge_t_6;
+                        if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                            edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                            continue;
+                        }
+                        if(edge_cur_edge_req.source != node_cur_node_p) {
+                            edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_p.isMatched)
+                        {
+                            edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                        node_cur_node_p.isMatched = true;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_r;
                         match.nodes[1] = node_cur_node_p;
@@ -1718,17 +1853,21 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            graph.MoveHeadAfter(edge_cur_edge_req);
                             node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_t);
+                            graph.MoveHeadAfter(edge_cur_edge_req);
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
                             return matches;
                         }
-contunmap_edge_cur_edge_t_6:;
-                        // Tail ExtendOutgoing(edge_cur_edge_t)
+                        node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                        edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
                     }
-                    while((edge_cur_edge_t = edge_cur_edge_t.outNext) != edge_head_edge_t);
+                    while( (edge_cur_edge_t = edge_cur_edge_t.outNext) != edge_head_edge_t );
                 }
-contunmap_edge_cur_edge_req_2:;
-                // Tail of Lookup(edge_cur_edge_req)
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
             }
             return matches;
         }
@@ -1746,15 +1885,44 @@ contunmap_edge_cur_edge_req_2:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_t:token)
-            for(LGSPEdge edge_head_edge_t = graph.edgesByTypeHeads[5], edge_cur_edge_t = edge_head_edge_t.typeNext; edge_cur_edge_t != edge_head_edge_t; edge_cur_edge_t = edge_cur_edge_t.typeNext)
+            // Lookup edge_t 
+            int edge_type_id_edge_t = 5;
+            for(LGSPEdge edge_head_edge_t = graph.edgesByTypeHeads[edge_type_id_edge_t], edge_cur_edge_t = edge_head_edge_t.typeNext; edge_cur_edge_t != edge_head_edge_t; edge_cur_edge_t = edge_cur_edge_t.typeNext)
             {
-                // ImplicitSource(edge_t -> node_r:Resource)
+                if(edge_cur_edge_t.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_t_prevIsMatched = edge_cur_edge_t.isMatched;
+                edge_cur_edge_t.isMatched = true;
+                // Implicit source node_r from edge_t 
                 LGSPNode node_cur_node_r = edge_cur_edge_t.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_t_12;
-                // ImplicitTarget(edge_t -> node_p:Process)
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p from edge_t 
                 LGSPNode node_cur_node_p = edge_cur_edge_t.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_r_14;
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_r;
                 match.nodes[1] = node_cur_node_p;
@@ -1763,11 +1931,14 @@ contunmap_edge_cur_edge_req_2:;
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_t);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
                     return matches;
                 }
-contunmap_node_cur_node_r_14:;
-contunmap_edge_cur_edge_t_12:;
-                // Tail of Lookup(edge_cur_edge_t)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
             }
             return matches;
         }
@@ -1785,24 +1956,63 @@ contunmap_edge_cur_edge_t_12:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_b:blocked)
-            for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[3], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
+            // Lookup edge_b 
+            int edge_type_id_edge_b = 3;
+            for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[edge_type_id_edge_b], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
             {
-                // ImplicitSource(edge_b -> node_r:Resource)
+                if(edge_cur_edge_b.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_b_prevIsMatched = edge_cur_edge_b.isMatched;
+                edge_cur_edge_b.isMatched = true;
+                // Implicit source node_r from edge_b 
                 LGSPNode node_cur_node_r = edge_cur_edge_b.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_b_20;
-                // ImplicitTarget(edge_b -> node_p:Process)
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p from edge_b 
                 LGSPNode node_cur_node_p = edge_cur_edge_b.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_r_22;
-                // ExtendOutgoing(node_r -> edge_hb:held_by)
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // Extend outgoing edge_hb from node_r 
                 LGSPEdge edge_head_edge_hb = node_cur_node_r.outhead;
                 if(edge_head_edge_hb != null)
                 {
                     LGSPEdge edge_cur_edge_hb = edge_head_edge_hb;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) continue;
-                        if(edge_cur_edge_hb.target != node_cur_node_p) continue;
+                        if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_hb.target != node_cur_node_p) {
+                            continue;
+                        }
+                        if(edge_cur_edge_hb.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_hb_prevIsMatched = edge_cur_edge_hb.isMatched;
+                        edge_cur_edge_hb.isMatched = true;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_r;
                         match.nodes[1] = node_cur_node_p;
@@ -1811,17 +2021,21 @@ contunmap_edge_cur_edge_t_12:;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            graph.MoveHeadAfter(edge_cur_edge_b);
                             node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_hb);
+                            graph.MoveHeadAfter(edge_cur_edge_b);
+                            edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
                             return matches;
                         }
-                        // Tail ExtendOutgoing(edge_cur_edge_hb)
+                        edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
                     }
-                    while((edge_cur_edge_hb = edge_cur_edge_hb.outNext) != edge_head_edge_hb);
+                    while( (edge_cur_edge_hb = edge_cur_edge_hb.outNext) != edge_head_edge_hb );
                 }
-contunmap_node_cur_node_r_22:;
-contunmap_edge_cur_edge_b_20:;
-                // Tail of Lookup(edge_cur_edge_b)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
             }
             return matches;
         }
@@ -1839,34 +2053,96 @@ contunmap_edge_cur_edge_b_20:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_b:blocked)
-            for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[3], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
+            // Lookup edge_b 
+            int edge_type_id_edge_b = 3;
+            for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[edge_type_id_edge_b], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
             {
-                // ImplicitSource(edge_b -> node_r:Resource)
-                LGSPNode node_cur_node_r = edge_cur_edge_b.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_b_30;
-                // ImplicitTarget(edge_b -> node_p:Process)
-                LGSPNode node_cur_node_p = edge_cur_edge_b.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_r_32;
-                // NegativePattern
-                // ExtendIncoming(node_p -> neg_0_edge_hb:held_by)
-                LGSPEdge edge_head_neg_0_edge_hb = node_cur_node_p.inhead;
-                if(edge_head_neg_0_edge_hb != null)
+                if(edge_cur_edge_b.isMatched)
                 {
-                    LGSPEdge edge_cur_neg_0_edge_hb = edge_head_neg_0_edge_hb;
-                    do
-                    {
-                        if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge_hb.type.TypeID]) continue;
-                        // ImplicitSource(neg_0_edge_hb -> neg_0_node_m:Resource)
-                        LGSPNode node_cur_neg_0_node_m = edge_cur_neg_0_edge_hb.source;
-                        if(!NodeType_Resource.isMyType[node_cur_neg_0_node_m.type.TypeID]) goto contunmap_edge_cur_neg_0_edge_hb_40;
-                        goto contunmap_node_cur_node_p_34;
-contunmap_edge_cur_neg_0_edge_hb_40:;
-                        // Tail ExtendIncoming(edge_cur_neg_0_edge_hb)
-                    }
-                    while((edge_cur_neg_0_edge_hb = edge_cur_neg_0_edge_hb.inNext) != edge_head_neg_0_edge_hb);
+                    continue;
                 }
-                // End of NegativePattern
+                bool edge_cur_edge_b_prevIsMatched = edge_cur_edge_b.isMatched;
+                edge_cur_edge_b.isMatched = true;
+                // Implicit source node_r from edge_b 
+                LGSPNode node_cur_node_r = edge_cur_edge_b.source;
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p from edge_b 
+                LGSPNode node_cur_node_p = edge_cur_edge_b.target;
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // NegativePattern 
+                {
+                    if(node_cur_node_p.isMatchedNeg)
+                    {
+                        goto label0;
+                    }
+                    bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                    node_cur_node_p.isMatchedNeg = true;
+                    // Extend incoming neg_0_edge_hb from node_p 
+                    LGSPEdge edge_head_neg_0_edge_hb = node_cur_node_p.inhead;
+                    if(edge_head_neg_0_edge_hb != null)
+                    {
+                        LGSPEdge edge_cur_neg_0_edge_hb = edge_head_neg_0_edge_hb;
+                        do
+                        {
+                            if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge_hb.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_neg_0_edge_hb.isMatchedNeg)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_neg_0_edge_hb_prevIsMatchedNeg = edge_cur_neg_0_edge_hb.isMatchedNeg;
+                            edge_cur_neg_0_edge_hb.isMatchedNeg = true;
+                            // Implicit source neg_0_node_m from neg_0_edge_hb 
+                            LGSPNode node_cur_neg_0_node_m = edge_cur_neg_0_edge_hb.source;
+                            if(!NodeType_Resource.isMyType[node_cur_neg_0_node_m.type.TypeID]) {
+                                edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                                continue;
+                            }
+                            if(node_cur_neg_0_node_m.isMatchedNeg)
+                            {
+                                edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                                continue;
+                            }
+                            bool node_cur_neg_0_node_m_prevIsMatchedNeg = node_cur_neg_0_node_m.isMatchedNeg;
+                            node_cur_neg_0_node_m.isMatchedNeg = true;
+                            node_cur_neg_0_node_m.isMatchedNeg = node_cur_neg_0_node_m_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                            node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                            goto label1;
+                            node_cur_neg_0_node_m.isMatchedNeg = node_cur_neg_0_node_m_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                        }
+                        while( (edge_cur_neg_0_edge_hb = edge_cur_neg_0_edge_hb.inNext) != edge_head_neg_0_edge_hb );
+                    }
+                    node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                }
+label0: ;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_r;
                 match.nodes[1] = node_cur_node_p;
@@ -1875,12 +2151,15 @@ contunmap_edge_cur_neg_0_edge_hb_40:;
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_b);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
                     return matches;
                 }
-contunmap_node_cur_node_p_34:;
-contunmap_node_cur_node_r_32:;
-contunmap_edge_cur_edge_b_30:;
-                // Tail of Lookup(edge_cur_edge_b)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+label1: ;
             }
             return matches;
         }
@@ -1898,38 +2177,77 @@ contunmap_edge_cur_edge_b_30:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(node_p:Process)
-            for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[2], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
+            // Lookup node_p 
+            int node_type_id_node_p = 2;
+            for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[node_type_id_node_p], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
             {
-                // NegativePattern
-                // ExtendIncoming(node_p -> neg_0_edge__edge0:held_by)
-                LGSPEdge edge_head_neg_0_edge__edge0 = node_cur_node_p.inhead;
-                if(edge_head_neg_0_edge__edge0 != null)
+                if(node_cur_node_p.isMatched)
                 {
-                    LGSPEdge edge_cur_neg_0_edge__edge0 = edge_head_neg_0_edge__edge0;
-                    do
-                    {
-                        if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge__edge0.type.TypeID]) continue;
-                        // ImplicitSource(neg_0_edge__edge0 -> neg_0_node_r:Resource)
-                        LGSPNode node_cur_neg_0_node_r = edge_cur_neg_0_edge__edge0.source;
-                        if(!NodeType_Resource.isMyType[node_cur_neg_0_node_r.type.TypeID]) goto contunmap_edge_cur_neg_0_edge__edge0_52;
-                        goto contunmap_node_cur_node_p_46;
-contunmap_edge_cur_neg_0_edge__edge0_52:;
-                        // Tail ExtendIncoming(edge_cur_neg_0_edge__edge0)
-                    }
-                    while((edge_cur_neg_0_edge__edge0 = edge_cur_neg_0_edge__edge0.inNext) != edge_head_neg_0_edge__edge0);
+                    continue;
                 }
-                // End of NegativePattern
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // NegativePattern 
+                {
+                    if(node_cur_node_p.isMatchedNeg)
+                    {
+                        goto label2;
+                    }
+                    bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                    node_cur_node_p.isMatchedNeg = true;
+                    // Extend incoming neg_0_edge__edge0 from node_p 
+                    LGSPEdge edge_head_neg_0_edge__edge0 = node_cur_node_p.inhead;
+                    if(edge_head_neg_0_edge__edge0 != null)
+                    {
+                        LGSPEdge edge_cur_neg_0_edge__edge0 = edge_head_neg_0_edge__edge0;
+                        do
+                        {
+                            if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge__edge0.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_neg_0_edge__edge0.isMatchedNeg)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_neg_0_edge__edge0_prevIsMatchedNeg = edge_cur_neg_0_edge__edge0.isMatchedNeg;
+                            edge_cur_neg_0_edge__edge0.isMatchedNeg = true;
+                            // Implicit source neg_0_node_r from neg_0_edge__edge0 
+                            LGSPNode node_cur_neg_0_node_r = edge_cur_neg_0_edge__edge0.source;
+                            if(!NodeType_Resource.isMyType[node_cur_neg_0_node_r.type.TypeID]) {
+                                edge_cur_neg_0_edge__edge0.isMatchedNeg = edge_cur_neg_0_edge__edge0_prevIsMatchedNeg;
+                                continue;
+                            }
+                            if(node_cur_neg_0_node_r.isMatchedNeg)
+                            {
+                                edge_cur_neg_0_edge__edge0.isMatchedNeg = edge_cur_neg_0_edge__edge0_prevIsMatchedNeg;
+                                continue;
+                            }
+                            bool node_cur_neg_0_node_r_prevIsMatchedNeg = node_cur_neg_0_node_r.isMatchedNeg;
+                            node_cur_neg_0_node_r.isMatchedNeg = true;
+                            node_cur_neg_0_node_r.isMatchedNeg = node_cur_neg_0_node_r_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge__edge0.isMatchedNeg = edge_cur_neg_0_edge__edge0_prevIsMatchedNeg;
+                            node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            goto label3;
+                            node_cur_neg_0_node_r.isMatchedNeg = node_cur_neg_0_node_r_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge__edge0.isMatchedNeg = edge_cur_neg_0_edge__edge0_prevIsMatchedNeg;
+                        }
+                        while( (edge_cur_neg_0_edge__edge0 = edge_cur_neg_0_edge__edge0.inNext) != edge_head_neg_0_edge__edge0 );
+                    }
+                    node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                }
+label2: ;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_p;
                 matchesList.CommitMatch();
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(node_cur_node_p);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
                     return matches;
                 }
-contunmap_node_cur_node_p_46:;
-                // Tail of Lookup(node_cur_node_p)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+label3: ;
             }
             return matches;
         }
@@ -1947,59 +2265,151 @@ contunmap_node_cur_node_p_46:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_n:next)
-            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[4], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
+            // Lookup edge_n 
+            int edge_type_id_edge_n = 4;
+            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[edge_type_id_edge_n], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
             {
-                // ImplicitTarget(edge_n -> node_p1:Process)
+                if(edge_cur_edge_n.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_n_prevIsMatched = edge_cur_edge_n.isMatched;
+                edge_cur_edge_n.isMatched = true;
+                // Implicit target node_p1 from edge_n 
                 LGSPNode node_cur_node_p1 = edge_cur_edge_n.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_n_58;
-                node_cur_node_p1.mappedTo = 1;
-                // ImplicitSource(edge_n -> node_p2:Process)
+                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p1.isMatched)
+                {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                node_cur_node_p1.isMatched = true;
+                // Implicit source node_p2 from edge_n 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_n.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_node_cur_node_p1_60;
-                if(node_cur_node_p2.mappedTo != 0) goto cont_node_cur_node_p2_63;
-                // ExtendIncoming(node_p1 -> edge_h1:held_by)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Extend incoming edge_h1 from node_p1 
                 LGSPEdge edge_head_edge_h1 = node_cur_node_p1.inhead;
                 if(edge_head_edge_h1 != null)
                 {
                     LGSPEdge edge_cur_edge_h1 = edge_head_edge_h1;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h1.type.TypeID]) continue;
-                        edge_cur_edge_h1.mappedTo = 3;
-                        // ImplicitSource(edge_h1 -> node_r1:Resource)
+                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h1.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_h1.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_h1_prevIsMatched = edge_cur_edge_h1.isMatched;
+                        edge_cur_edge_h1.isMatched = true;
+                        // Implicit source node_r1 from edge_h1 
                         LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) goto contunmap_edge_cur_edge_h1_64;
-                        node_cur_node_r1.mappedTo = 3;
-                        // ExtendIncoming(node_p2 -> edge_h2:held_by)
+                        if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                            edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_r1.isMatched)
+                        {
+                            edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
+                        node_cur_node_r1.isMatched = true;
+                        // Extend incoming edge_h2 from node_p2 
                         LGSPEdge edge_head_edge_h2 = node_cur_node_p2.inhead;
                         if(edge_head_edge_h2 != null)
                         {
                             LGSPEdge edge_cur_edge_h2 = edge_head_edge_h2;
                             do
                             {
-                                if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) continue;
-                                if(edge_cur_edge_h2.mappedTo != 0) goto cont_edge_cur_edge_h2_69;
-                                // ImplicitSource(edge_h2 -> node_r2:Resource)
-                                LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
-                                if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) goto contunmap_edge_cur_edge_h2_68;
-                                if(node_cur_node_r2.mappedTo != 0) goto cont_node_cur_node_r2_71;
-                                // NegativePattern
-                                // ExtendOutgoing(node_p1 -> neg_0_edge_req:request)
-                                LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
-                                if(edge_head_neg_0_edge_req != null)
-                                {
-                                    LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
-                                    do
-                                    {
-                                        if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) continue;
-                                        if(edge_cur_neg_0_edge_req.target != node_cur_node_r2) continue;
-                                        goto contunmap_node_cur_node_r2_70;
-                                        // Tail ExtendOutgoing(edge_cur_neg_0_edge_req)
-                                    }
-                                    while((edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req);
+                                if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) {
+                                    continue;
                                 }
-                                // End of NegativePattern
+                                if(edge_cur_edge_h2.isMatched)
+                                {
+                                    continue;
+                                }
+                                bool edge_cur_edge_h2_prevIsMatched = edge_cur_edge_h2.isMatched;
+                                edge_cur_edge_h2.isMatched = true;
+                                // Implicit source node_r2 from edge_h2 
+                                LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
+                                if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
+                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                    continue;
+                                }
+                                if(node_cur_node_r2.isMatched)
+                                {
+                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                    continue;
+                                }
+                                bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
+                                node_cur_node_r2.isMatched = true;
+                                // NegativePattern 
+                                {
+                                    if(node_cur_node_p1.isMatchedNeg)
+                                    {
+                                        goto label4;
+                                    }
+                                    bool node_cur_node_p1_prevIsMatchedNeg = node_cur_node_p1.isMatchedNeg;
+                                    node_cur_node_p1.isMatchedNeg = true;
+                                    if(node_cur_node_r2.isMatchedNeg)
+                                    {
+                                        node_cur_node_p1.isMatchedNeg = node_cur_node_p1_prevIsMatchedNeg;
+                                        goto label5;
+                                    }
+                                    bool node_cur_node_r2_prevIsMatchedNeg = node_cur_node_r2.isMatchedNeg;
+                                    node_cur_node_r2.isMatchedNeg = true;
+                                    // Extend outgoing neg_0_edge_req from node_p1 
+                                    LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
+                                    if(edge_head_neg_0_edge_req != null)
+                                    {
+                                        LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
+                                        do
+                                        {
+                                            if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
+                                                continue;
+                                            }
+                                            if(edge_cur_neg_0_edge_req.target != node_cur_node_r2) {
+                                                continue;
+                                            }
+                                            if(edge_cur_neg_0_edge_req.isMatchedNeg)
+                                            {
+                                                continue;
+                                            }
+                                            bool edge_cur_neg_0_edge_req_prevIsMatchedNeg = edge_cur_neg_0_edge_req.isMatchedNeg;
+                                            edge_cur_neg_0_edge_req.isMatchedNeg = true;
+                                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                            node_cur_node_r2.isMatchedNeg = node_cur_node_r2_prevIsMatchedNeg;
+                                            node_cur_node_p1.isMatchedNeg = node_cur_node_p1_prevIsMatchedNeg;
+                                            node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                                            edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                            goto label6;
+                                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                        }
+                                        while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
+                                    }
+                                    node_cur_node_r2.isMatchedNeg = node_cur_node_r2_prevIsMatchedNeg;
+                                    node_cur_node_p1.isMatchedNeg = node_cur_node_p1_prevIsMatchedNeg;
+                                }
+label5: ;
+label4: ;
                                 LGSPMatch match = matchesList.GetNewMatch();
                                 match.nodes[0] = node_cur_node_p1;
                                 match.nodes[1] = node_cur_node_p2;
@@ -2011,34 +2421,32 @@ contunmap_node_cur_node_p_46:;
                                 matchesList.CommitMatch();
                                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_node_r1.mappedTo = 0;
-                                    edge_cur_edge_h1.mappedTo = 0;
-                                    node_cur_node_p1.mappedTo = 0;
-                                    graph.MoveHeadAfter(edge_cur_edge_n);
-                                    node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_h1);
                                     node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
+                                    node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_h1);
+                                    graph.MoveHeadAfter(edge_cur_edge_n);
+                                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
                                     return matches;
                                 }
-contunmap_node_cur_node_r2_70:;
-cont_node_cur_node_r2_71:;
-contunmap_edge_cur_edge_h2_68:;
-cont_edge_cur_edge_h2_69:;
-                                // Tail ExtendIncoming(edge_cur_edge_h2)
+                                node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                                edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+label6: ;
                             }
-                            while((edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2);
+                            while( (edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2 );
                         }
-                        node_cur_node_r1.mappedTo = 0;
-contunmap_edge_cur_edge_h1_64:;
-                        edge_cur_edge_h1.mappedTo = 0;
-                        // Tail ExtendIncoming(edge_cur_edge_h1)
+                        node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                        edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                     }
-                    while((edge_cur_edge_h1 = edge_cur_edge_h1.inNext) != edge_head_edge_h1);
+                    while( (edge_cur_edge_h1 = edge_cur_edge_h1.inNext) != edge_head_edge_h1 );
                 }
-cont_node_cur_node_p2_63:;
-contunmap_node_cur_node_p1_60:;
-                node_cur_node_p1.mappedTo = 0;
-contunmap_edge_cur_edge_n_58:;
-                // Tail of Lookup(edge_cur_edge_n)
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
             }
             return matches;
         }
@@ -2056,17 +2464,44 @@ contunmap_edge_cur_edge_n_58:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_n:next)
-            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[4], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
+            // Lookup edge_n 
+            int edge_type_id_edge_n = 4;
+            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[edge_type_id_edge_n], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
             {
-                // ImplicitSource(edge_n -> node_p1:Process)
+                if(edge_cur_edge_n.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_n_prevIsMatched = edge_cur_edge_n.isMatched;
+                edge_cur_edge_n.isMatched = true;
+                // Implicit source node_p1 from edge_n 
                 LGSPNode node_cur_node_p1 = edge_cur_edge_n.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_n_82;
-                node_cur_node_p1.mappedTo = 1;
-                // ImplicitTarget(edge_n -> node_p2:Process)
+                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p1.isMatched)
+                {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                node_cur_node_p1.isMatched = true;
+                // Implicit target node_p2 from edge_n 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_n.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_node_cur_node_p1_84;
-                if(node_cur_node_p2.mappedTo != 0) goto cont_node_cur_node_p2_87;
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_p1;
                 match.nodes[1] = node_cur_node_p2;
@@ -2074,15 +2509,15 @@ contunmap_edge_cur_edge_n_58:;
                 matchesList.CommitMatch();
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
-                    node_cur_node_p1.mappedTo = 0;
                     graph.MoveHeadAfter(edge_cur_edge_n);
+                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
                     return matches;
                 }
-cont_node_cur_node_p2_87:;
-contunmap_node_cur_node_p1_84:;
-                node_cur_node_p1.mappedTo = 0;
-contunmap_edge_cur_edge_n_82:;
-                // Tail of Lookup(edge_cur_edge_n)
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
             }
             return matches;
         }
@@ -2100,44 +2535,122 @@ contunmap_edge_cur_edge_n_82:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_n:next)
-            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[4], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
+            // Lookup edge_n 
+            int edge_type_id_edge_n = 4;
+            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[edge_type_id_edge_n], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
             {
-                // ImplicitSource(edge_n -> node_p1:Process)
+                if(edge_cur_edge_n.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_n_prevIsMatched = edge_cur_edge_n.isMatched;
+                edge_cur_edge_n.isMatched = true;
+                // Implicit source node_p1 from edge_n 
                 LGSPNode node_cur_node_p1 = edge_cur_edge_n.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_n_90;
-                node_cur_node_p1.mappedTo = 2;
-                // ImplicitTarget(edge_n -> node_p2:Process)
+                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p1.isMatched)
+                {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                node_cur_node_p1.isMatched = true;
+                // Implicit target node_p2 from edge_n 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_n.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_node_cur_node_p1_92;
-                if(node_cur_node_p2.mappedTo != 0) goto cont_node_cur_node_p2_95;
-                // ExtendIncoming(node_p1 -> edge__edge0:token)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Extend incoming edge__edge0 from node_p1 
                 LGSPEdge edge_head_edge__edge0 = node_cur_node_p1.inhead;
                 if(edge_head_edge__edge0 != null)
                 {
                     LGSPEdge edge_cur_edge__edge0 = edge_head_edge__edge0;
                     do
                     {
-                        if(!EdgeType_token.isMyType[edge_cur_edge__edge0.type.TypeID]) continue;
-                        // ImplicitSource(edge__edge0 -> node_r:Resource)
-                        LGSPNode node_cur_node_r = edge_cur_edge__edge0.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge__edge0_96;
-                        // NegativePattern
-                        // ExtendOutgoing(node_p1 -> neg_0_edge_req:request)
-                        LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
-                        if(edge_head_neg_0_edge_req != null)
-                        {
-                            LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
-                            do
-                            {
-                                if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) continue;
-                                if(edge_cur_neg_0_edge_req.target != node_cur_node_r) continue;
-                                goto contunmap_node_cur_node_r_98;
-                                // Tail ExtendOutgoing(edge_cur_neg_0_edge_req)
-                            }
-                            while((edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req);
+                        if(!EdgeType_token.isMyType[edge_cur_edge__edge0.type.TypeID]) {
+                            continue;
                         }
-                        // End of NegativePattern
+                        if(edge_cur_edge__edge0.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
+                        edge_cur_edge__edge0.isMatched = true;
+                        // Implicit source node_r from edge__edge0 
+                        LGSPNode node_cur_node_r = edge_cur_edge__edge0.source;
+                        if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_r.isMatched)
+                        {
+                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                        node_cur_node_r.isMatched = true;
+                        // NegativePattern 
+                        {
+                            if(node_cur_node_r.isMatchedNeg)
+                            {
+                                goto label7;
+                            }
+                            bool node_cur_node_r_prevIsMatchedNeg = node_cur_node_r.isMatchedNeg;
+                            node_cur_node_r.isMatchedNeg = true;
+                            if(node_cur_node_p1.isMatchedNeg)
+                            {
+                                node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                                goto label8;
+                            }
+                            bool node_cur_node_p1_prevIsMatchedNeg = node_cur_node_p1.isMatchedNeg;
+                            node_cur_node_p1.isMatchedNeg = true;
+                            // Extend outgoing neg_0_edge_req from node_p1 
+                            LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
+                            if(edge_head_neg_0_edge_req != null)
+                            {
+                                LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
+                                do
+                                {
+                                    if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
+                                        continue;
+                                    }
+                                    if(edge_cur_neg_0_edge_req.target != node_cur_node_r) {
+                                        continue;
+                                    }
+                                    if(edge_cur_neg_0_edge_req.isMatchedNeg)
+                                    {
+                                        continue;
+                                    }
+                                    bool edge_cur_neg_0_edge_req_prevIsMatchedNeg = edge_cur_neg_0_edge_req.isMatchedNeg;
+                                    edge_cur_neg_0_edge_req.isMatchedNeg = true;
+                                    edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                    node_cur_node_p1.isMatchedNeg = node_cur_node_p1_prevIsMatchedNeg;
+                                    node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                    goto label9;
+                                    edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                }
+                                while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
+                            }
+                            node_cur_node_p1.isMatchedNeg = node_cur_node_p1_prevIsMatchedNeg;
+                            node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                        }
+label8: ;
+label7: ;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_r;
                         match.nodes[1] = node_cur_node_p1;
@@ -2147,22 +2660,24 @@ contunmap_edge_cur_edge_n_82:;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            node_cur_node_p1.mappedTo = 0;
-                            graph.MoveHeadAfter(edge_cur_edge_n);
                             node_cur_node_p1.MoveInHeadAfter(edge_cur_edge__edge0);
+                            graph.MoveHeadAfter(edge_cur_edge_n);
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                            node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                            node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                            edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
                             return matches;
                         }
-contunmap_node_cur_node_r_98:;
-contunmap_edge_cur_edge__edge0_96:;
-                        // Tail ExtendIncoming(edge_cur_edge__edge0)
+                        node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+label9: ;
                     }
-                    while((edge_cur_edge__edge0 = edge_cur_edge__edge0.inNext) != edge_head_edge__edge0);
+                    while( (edge_cur_edge__edge0 = edge_cur_edge__edge0.inNext) != edge_head_edge__edge0 );
                 }
-cont_node_cur_node_p2_95:;
-contunmap_node_cur_node_p1_92:;
-                node_cur_node_p1.mappedTo = 0;
-contunmap_edge_cur_edge_n_90:;
-                // Tail of Lookup(edge_cur_edge_n)
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
             }
             return matches;
         }
@@ -2180,43 +2695,102 @@ contunmap_edge_cur_edge_n_90:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_h1:held_by)
-            for(LGSPEdge edge_head_edge_h1 = graph.edgesByTypeHeads[1], edge_cur_edge_h1 = edge_head_edge_h1.typeNext; edge_cur_edge_h1 != edge_head_edge_h1; edge_cur_edge_h1 = edge_cur_edge_h1.typeNext)
+            // Lookup edge_h1 
+            int edge_type_id_edge_h1 = 1;
+            for(LGSPEdge edge_head_edge_h1 = graph.edgesByTypeHeads[edge_type_id_edge_h1], edge_cur_edge_h1 = edge_head_edge_h1.typeNext; edge_cur_edge_h1 != edge_head_edge_h1; edge_cur_edge_h1 = edge_cur_edge_h1.typeNext)
             {
-                edge_cur_edge_h1.mappedTo = 3;
-                // ImplicitTarget(edge_h1 -> node_p2:Process)
+                if(edge_cur_edge_h1.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_h1_prevIsMatched = edge_cur_edge_h1.isMatched;
+                edge_cur_edge_h1.isMatched = true;
+                // Implicit target node_p2 from edge_h1 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_h1.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_edge_cur_edge_h1_110;
-                node_cur_node_p2.mappedTo = 2;
-                // ImplicitSource(edge_h1 -> node_r1:Resource)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Implicit source node_r1 from edge_h1 
                 LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) goto contunmap_node_cur_node_p2_112;
-                node_cur_node_r1.mappedTo = 3;
-                // ExtendIncoming(node_p2 -> edge_h2:held_by)
+                if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r1.isMatched)
+                {
+                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
+                node_cur_node_r1.isMatched = true;
+                // Extend incoming edge_h2 from node_p2 
                 LGSPEdge edge_head_edge_h2 = node_cur_node_p2.inhead;
                 if(edge_head_edge_h2 != null)
                 {
                     LGSPEdge edge_cur_edge_h2 = edge_head_edge_h2;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) continue;
-                        if(edge_cur_edge_h2.mappedTo != 0) goto cont_edge_cur_edge_h2_117;
-                        // ImplicitSource(edge_h2 -> node_r2:Resource)
+                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_h2.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_h2_prevIsMatched = edge_cur_edge_h2.isMatched;
+                        edge_cur_edge_h2.isMatched = true;
+                        // Implicit source node_r2 from edge_h2 
                         LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) goto contunmap_edge_cur_edge_h2_116;
-                        if(node_cur_node_r2.mappedTo != 0) goto cont_node_cur_node_r2_119;
-                        // ExtendIncoming(node_r1 -> edge_rq:request)
+                        if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
+                            edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_r2.isMatched)
+                        {
+                            edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
+                        node_cur_node_r2.isMatched = true;
+                        // Extend incoming edge_rq from node_r1 
                         LGSPEdge edge_head_edge_rq = node_cur_node_r1.inhead;
                         if(edge_head_edge_rq != null)
                         {
                             LGSPEdge edge_cur_edge_rq = edge_head_edge_rq;
                             do
                             {
-                                if(!EdgeType_request.isMyType[edge_cur_edge_rq.type.TypeID]) continue;
-                                // ImplicitSource(edge_rq -> node_p1:Process)
+                                if(!EdgeType_request.isMyType[edge_cur_edge_rq.type.TypeID]) {
+                                    continue;
+                                }
+                                if(edge_cur_edge_rq.isMatched)
+                                {
+                                    continue;
+                                }
+                                bool edge_cur_edge_rq_prevIsMatched = edge_cur_edge_rq.isMatched;
+                                edge_cur_edge_rq.isMatched = true;
+                                // Implicit source node_p1 from edge_rq 
                                 LGSPNode node_cur_node_p1 = edge_cur_edge_rq.source;
-                                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_rq_120;
-                                if(node_cur_node_p1.mappedTo != 0) goto cont_node_cur_node_p1_123;
+                                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                                    edge_cur_edge_rq.isMatched = edge_cur_edge_rq_prevIsMatched;
+                                    continue;
+                                }
+                                if(node_cur_node_p1.isMatched)
+                                {
+                                    edge_cur_edge_rq.isMatched = edge_cur_edge_rq_prevIsMatched;
+                                    continue;
+                                }
+                                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                                node_cur_node_p1.isMatched = true;
                                 LGSPMatch match = matchesList.GetNewMatch();
                                 match.nodes[0] = node_cur_node_p1;
                                 match.nodes[1] = node_cur_node_p2;
@@ -2228,33 +2802,31 @@ contunmap_edge_cur_edge_n_90:;
                                 matchesList.CommitMatch();
                                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_node_r1.mappedTo = 0;
-                                    node_cur_node_p2.mappedTo = 0;
-                                    edge_cur_edge_h1.mappedTo = 0;
-                                    graph.MoveHeadAfter(edge_cur_edge_h1);
-                                    node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
                                     node_cur_node_r1.MoveInHeadAfter(edge_cur_edge_rq);
+                                    node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
+                                    graph.MoveHeadAfter(edge_cur_edge_h1);
+                                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                                    edge_cur_edge_rq.isMatched = edge_cur_edge_rq_prevIsMatched;
+                                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                                     return matches;
                                 }
-cont_node_cur_node_p1_123:;
-contunmap_edge_cur_edge_rq_120:;
-                                // Tail ExtendIncoming(edge_cur_edge_rq)
+                                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                                edge_cur_edge_rq.isMatched = edge_cur_edge_rq_prevIsMatched;
                             }
-                            while((edge_cur_edge_rq = edge_cur_edge_rq.inNext) != edge_head_edge_rq);
+                            while( (edge_cur_edge_rq = edge_cur_edge_rq.inNext) != edge_head_edge_rq );
                         }
-cont_node_cur_node_r2_119:;
-contunmap_edge_cur_edge_h2_116:;
-cont_edge_cur_edge_h2_117:;
-                        // Tail ExtendIncoming(edge_cur_edge_h2)
+                        node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                        edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
                     }
-                    while((edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2);
+                    while( (edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2 );
                 }
-                node_cur_node_r1.mappedTo = 0;
-contunmap_node_cur_node_p2_112:;
-                node_cur_node_p2.mappedTo = 0;
-contunmap_edge_cur_edge_h1_110:;
-                edge_cur_edge_h1.mappedTo = 0;
-                // Tail of Lookup(edge_cur_edge_h1)
+                node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
             }
             return matches;
         }
@@ -2272,32 +2844,73 @@ contunmap_edge_cur_edge_h1_110:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_n2:next)
-            for(LGSPEdge edge_head_edge_n2 = graph.edgesByTypeHeads[4], edge_cur_edge_n2 = edge_head_edge_n2.typeNext; edge_cur_edge_n2 != edge_head_edge_n2; edge_cur_edge_n2 = edge_cur_edge_n2.typeNext)
+            // Lookup edge_n2 
+            int edge_type_id_edge_n2 = 4;
+            for(LGSPEdge edge_head_edge_n2 = graph.edgesByTypeHeads[edge_type_id_edge_n2], edge_cur_edge_n2 = edge_head_edge_n2.typeNext; edge_cur_edge_n2 != edge_head_edge_n2; edge_cur_edge_n2 = edge_cur_edge_n2.typeNext)
             {
-                edge_cur_edge_n2.mappedTo = 1;
-                // ImplicitTarget(edge_n2 -> node_p2:Process)
+                if(edge_cur_edge_n2.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_n2_prevIsMatched = edge_cur_edge_n2.isMatched;
+                edge_cur_edge_n2.isMatched = true;
+                // Implicit target node_p2 from edge_n2 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_n2.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_edge_cur_edge_n2_126;
-                node_cur_node_p2.mappedTo = 2;
-                // ImplicitSource(edge_n2 -> node_p:Process)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Implicit source node_p from edge_n2 
                 LGSPNode node_cur_node_p = edge_cur_edge_n2.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_p2_128;
-                if(node_cur_node_p.mappedTo != 0) goto cont_node_cur_node_p_131;
-                node_cur_node_p.mappedTo = 3;
-                // ExtendIncoming(node_p -> edge_n1:next)
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // Extend incoming edge_n1 from node_p 
                 LGSPEdge edge_head_edge_n1 = node_cur_node_p.inhead;
                 if(edge_head_edge_n1 != null)
                 {
                     LGSPEdge edge_cur_edge_n1 = edge_head_edge_n1;
                     do
                     {
-                        if(!EdgeType_next.isMyType[edge_cur_edge_n1.type.TypeID]) continue;
-                        if(edge_cur_edge_n1.mappedTo != 0) goto cont_edge_cur_edge_n1_133;
-                        // ImplicitSource(edge_n1 -> node_p1:Process)
+                        if(!EdgeType_next.isMyType[edge_cur_edge_n1.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_n1.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_n1_prevIsMatched = edge_cur_edge_n1.isMatched;
+                        edge_cur_edge_n1.isMatched = true;
+                        // Implicit source node_p1 from edge_n1 
                         LGSPNode node_cur_node_p1 = edge_cur_edge_n1.source;
-                        if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_n1_132;
-                        if(node_cur_node_p1.mappedTo != 0) goto cont_node_cur_node_p1_135;
+                        if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                            edge_cur_edge_n1.isMatched = edge_cur_edge_n1_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_p1.isMatched)
+                        {
+                            edge_cur_edge_n1.isMatched = edge_cur_edge_n1_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                        node_cur_node_p1.isMatched = true;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_p1;
                         match.nodes[1] = node_cur_node_p2;
@@ -2307,27 +2920,23 @@ contunmap_edge_cur_edge_h1_110:;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            node_cur_node_p.mappedTo = 0;
-                            node_cur_node_p2.mappedTo = 0;
-                            edge_cur_edge_n2.mappedTo = 0;
-                            graph.MoveHeadAfter(edge_cur_edge_n2);
                             node_cur_node_p.MoveInHeadAfter(edge_cur_edge_n1);
+                            graph.MoveHeadAfter(edge_cur_edge_n2);
+                            node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                            edge_cur_edge_n1.isMatched = edge_cur_edge_n1_prevIsMatched;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                            edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
                             return matches;
                         }
-cont_node_cur_node_p1_135:;
-contunmap_edge_cur_edge_n1_132:;
-cont_edge_cur_edge_n1_133:;
-                        // Tail ExtendIncoming(edge_cur_edge_n1)
+                        node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                        edge_cur_edge_n1.isMatched = edge_cur_edge_n1_prevIsMatched;
                     }
-                    while((edge_cur_edge_n1 = edge_cur_edge_n1.inNext) != edge_head_edge_n1);
+                    while( (edge_cur_edge_n1 = edge_cur_edge_n1.inNext) != edge_head_edge_n1 );
                 }
-                node_cur_node_p.mappedTo = 0;
-cont_node_cur_node_p_131:;
-contunmap_node_cur_node_p2_128:;
-                node_cur_node_p2.mappedTo = 0;
-contunmap_edge_cur_edge_n2_126:;
-                edge_cur_edge_n2.mappedTo = 0;
-                // Tail of Lookup(edge_cur_edge_n2)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                edge_cur_edge_n2.isMatched = edge_cur_edge_n2_prevIsMatched;
             }
             return matches;
         }
@@ -2345,46 +2954,112 @@ contunmap_edge_cur_edge_n2_126:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(node_r:Resource)
-            for(LGSPNode node_head_node_r = graph.nodesByTypeHeads[0], node_cur_node_r = node_head_node_r.typeNext; node_cur_node_r != node_head_node_r; node_cur_node_r = node_cur_node_r.typeNext)
+            // Lookup node_r 
+            int node_type_id_node_r = 0;
+            for(LGSPNode node_head_node_r = graph.nodesByTypeHeads[node_type_id_node_r], node_cur_node_r = node_head_node_r.typeNext; node_cur_node_r != node_head_node_r; node_cur_node_r = node_cur_node_r.typeNext)
             {
-                node_cur_node_r.mappedTo = 1;
-                // Lookup(edge_b:blocked)
-                for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[3], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
+                if(node_cur_node_r.isMatched)
                 {
-                    // ImplicitTarget(edge_b -> node_p1:Process)
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Lookup edge_b 
+                int edge_type_id_edge_b = 3;
+                for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[edge_type_id_edge_b], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
+                {
+                    if(edge_cur_edge_b.isMatched)
+                    {
+                        continue;
+                    }
+                    bool edge_cur_edge_b_prevIsMatched = edge_cur_edge_b.isMatched;
+                    edge_cur_edge_b.isMatched = true;
+                    // Implicit target node_p1 from edge_b 
                     LGSPNode node_cur_node_p1 = edge_cur_edge_b.target;
-                    if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_b_140;
-                    node_cur_node_p1.mappedTo = 2;
-                    // ImplicitSource(edge_b -> node_r2:Resource)
+                    if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                        edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_node_p1.isMatched)
+                    {
+                        edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                        continue;
+                    }
+                    bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                    node_cur_node_p1.isMatched = true;
+                    // Implicit source node_r2 from edge_b 
                     LGSPNode node_cur_node_r2 = edge_cur_edge_b.source;
-                    if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) goto contunmap_node_cur_node_p1_142;
-                    if(node_cur_node_r2.mappedTo != 0) goto cont_node_cur_node_r2_145;
-                    node_cur_node_r2.mappedTo = 5;
-                    // ExtendIncoming(node_p1 -> edge_hb:held_by)
+                    if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
+                        node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                        edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_node_r2.isMatched)
+                    {
+                        node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                        edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                        continue;
+                    }
+                    bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
+                    node_cur_node_r2.isMatched = true;
+                    // Extend incoming edge_hb from node_p1 
                     LGSPEdge edge_head_edge_hb = node_cur_node_p1.inhead;
                     if(edge_head_edge_hb != null)
                     {
                         LGSPEdge edge_cur_edge_hb = edge_head_edge_hb;
                         do
                         {
-                            if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) continue;
-                            // ImplicitSource(edge_hb -> node_r1:Resource)
+                            if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_edge_hb.isMatched)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_edge_hb_prevIsMatched = edge_cur_edge_hb.isMatched;
+                            edge_cur_edge_hb.isMatched = true;
+                            // Implicit source node_r1 from edge_hb 
                             LGSPNode node_cur_node_r1 = edge_cur_edge_hb.source;
-                            if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) goto contunmap_edge_cur_edge_hb_146;
-                            if(node_cur_node_r1.mappedTo != 0) goto cont_node_cur_node_r1_149;
-                            // ExtendIncoming(node_r1 -> edge_req:request)
+                            if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                                edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                                continue;
+                            }
+                            if(node_cur_node_r1.isMatched)
+                            {
+                                edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                                continue;
+                            }
+                            bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
+                            node_cur_node_r1.isMatched = true;
+                            // Extend incoming edge_req from node_r1 
                             LGSPEdge edge_head_edge_req = node_cur_node_r1.inhead;
                             if(edge_head_edge_req != null)
                             {
                                 LGSPEdge edge_cur_edge_req = edge_head_edge_req;
                                 do
                                 {
-                                    if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) continue;
-                                    // ImplicitSource(edge_req -> node_p2:Process)
+                                    if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge_req.isMatched)
+                                    {
+                                        continue;
+                                    }
+                                    bool edge_cur_edge_req_prevIsMatched = edge_cur_edge_req.isMatched;
+                                    edge_cur_edge_req.isMatched = true;
+                                    // Implicit source node_p2 from edge_req 
                                     LGSPNode node_cur_node_p2 = edge_cur_edge_req.source;
-                                    if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_edge_cur_edge_req_150;
-                                    if(node_cur_node_p2.mappedTo != 0) goto cont_node_cur_node_p2_153;
+                                    if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                                        edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                                        continue;
+                                    }
+                                    if(node_cur_node_p2.isMatched)
+                                    {
+                                        edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                                        continue;
+                                    }
+                                    bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                                    node_cur_node_p2.isMatched = true;
                                     LGSPMatch match = matchesList.GetNewMatch();
                                     match.nodes[0] = node_cur_node_r;
                                     match.nodes[1] = node_cur_node_p1;
@@ -2397,36 +3072,35 @@ contunmap_edge_cur_edge_n2_126:;
                                     matchesList.CommitMatch();
                                     if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                     {
-                                        node_cur_node_r2.mappedTo = 0;
-                                        node_cur_node_p1.mappedTo = 0;
-                                        node_cur_node_r.mappedTo = 0;
-                                        graph.MoveHeadAfter(node_cur_node_r);
-                                        graph.MoveHeadAfter(edge_cur_edge_b);
-                                        node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_hb);
                                         node_cur_node_r1.MoveInHeadAfter(edge_cur_edge_req);
+                                        node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_hb);
+                                        graph.MoveHeadAfter(edge_cur_edge_b);
+                                        graph.MoveHeadAfter(node_cur_node_r);
+                                        node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                                        edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                                        node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                        edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                                        node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                                        node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                                        edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
+                                        node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
                                         return matches;
                                     }
-cont_node_cur_node_p2_153:;
-contunmap_edge_cur_edge_req_150:;
-                                    // Tail ExtendIncoming(edge_cur_edge_req)
+                                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                                    edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
                                 }
-                                while((edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req);
+                                while( (edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req );
                             }
-cont_node_cur_node_r1_149:;
-contunmap_edge_cur_edge_hb_146:;
-                            // Tail ExtendIncoming(edge_cur_edge_hb)
+                            node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                            edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
                         }
-                        while((edge_cur_edge_hb = edge_cur_edge_hb.inNext) != edge_head_edge_hb);
+                        while( (edge_cur_edge_hb = edge_cur_edge_hb.inNext) != edge_head_edge_hb );
                     }
-                    node_cur_node_r2.mappedTo = 0;
-cont_node_cur_node_r2_145:;
-contunmap_node_cur_node_p1_142:;
-                    node_cur_node_p1.mappedTo = 0;
-contunmap_edge_cur_edge_b_140:;
-                    // Tail of Lookup(edge_cur_edge_b)
+                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_b.isMatched = edge_cur_edge_b_prevIsMatched;
                 }
-                node_cur_node_r.mappedTo = 0;
-                // Tail of Lookup(node_cur_node_r)
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
             }
             return matches;
         }
@@ -2444,34 +3118,96 @@ contunmap_edge_cur_edge_b_140:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_hb:held_by)
-            for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[1], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
+            // Lookup edge_hb 
+            int edge_type_id_edge_hb = 1;
+            for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[edge_type_id_edge_hb], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
             {
-                // ImplicitSource(edge_hb -> node_r:Resource)
-                LGSPNode node_cur_node_r = edge_cur_edge_hb.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_hb_156;
-                // ImplicitTarget(edge_hb -> node_p:Process)
-                LGSPNode node_cur_node_p = edge_cur_edge_hb.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_r_158;
-                // NegativePattern
-                // ExtendOutgoing(node_p -> neg_0_edge_req:request)
-                LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p.outhead;
-                if(edge_head_neg_0_edge_req != null)
+                if(edge_cur_edge_hb.isMatched)
                 {
-                    LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
-                    do
-                    {
-                        if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) continue;
-                        // ImplicitTarget(neg_0_edge_req -> neg_0_node_m:Resource)
-                        LGSPNode node_cur_neg_0_node_m = edge_cur_neg_0_edge_req.target;
-                        if(!NodeType_Resource.isMyType[node_cur_neg_0_node_m.type.TypeID]) goto contunmap_edge_cur_neg_0_edge_req_166;
-                        goto contunmap_node_cur_node_p_160;
-contunmap_edge_cur_neg_0_edge_req_166:;
-                        // Tail ExtendOutgoing(edge_cur_neg_0_edge_req)
-                    }
-                    while((edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req);
+                    continue;
                 }
-                // End of NegativePattern
+                bool edge_cur_edge_hb_prevIsMatched = edge_cur_edge_hb.isMatched;
+                edge_cur_edge_hb.isMatched = true;
+                // Implicit source node_r from edge_hb 
+                LGSPNode node_cur_node_r = edge_cur_edge_hb.source;
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p from edge_hb 
+                LGSPNode node_cur_node_p = edge_cur_edge_hb.target;
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // NegativePattern 
+                {
+                    if(node_cur_node_p.isMatchedNeg)
+                    {
+                        goto label10;
+                    }
+                    bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                    node_cur_node_p.isMatchedNeg = true;
+                    // Extend outgoing neg_0_edge_req from node_p 
+                    LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p.outhead;
+                    if(edge_head_neg_0_edge_req != null)
+                    {
+                        LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
+                        do
+                        {
+                            if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_neg_0_edge_req.isMatchedNeg)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_neg_0_edge_req_prevIsMatchedNeg = edge_cur_neg_0_edge_req.isMatchedNeg;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = true;
+                            // Implicit target neg_0_node_m from neg_0_edge_req 
+                            LGSPNode node_cur_neg_0_node_m = edge_cur_neg_0_edge_req.target;
+                            if(!NodeType_Resource.isMyType[node_cur_neg_0_node_m.type.TypeID]) {
+                                edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                continue;
+                            }
+                            if(node_cur_neg_0_node_m.isMatchedNeg)
+                            {
+                                edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                                continue;
+                            }
+                            bool node_cur_neg_0_node_m_prevIsMatchedNeg = node_cur_neg_0_node_m.isMatchedNeg;
+                            node_cur_neg_0_node_m.isMatchedNeg = true;
+                            node_cur_neg_0_node_m.isMatchedNeg = node_cur_neg_0_node_m_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                            node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                            goto label11;
+                            node_cur_neg_0_node_m.isMatchedNeg = node_cur_neg_0_node_m_prevIsMatchedNeg;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                        }
+                        while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
+                    }
+                    node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                }
+label10: ;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_r;
                 match.nodes[1] = node_cur_node_p;
@@ -2480,12 +3216,15 @@ contunmap_edge_cur_neg_0_edge_req_166:;
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_hb);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
                     return matches;
                 }
-contunmap_node_cur_node_p_160:;
-contunmap_node_cur_node_r_158:;
-contunmap_edge_cur_edge_hb_156:;
-                // Tail of Lookup(edge_cur_edge_hb)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+label11: ;
             }
             return matches;
         }
@@ -2503,31 +3242,94 @@ contunmap_edge_cur_edge_hb_156:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_t:token)
-            for(LGSPEdge edge_head_edge_t = graph.edgesByTypeHeads[5], edge_cur_edge_t = edge_head_edge_t.typeNext; edge_cur_edge_t != edge_head_edge_t; edge_cur_edge_t = edge_cur_edge_t.typeNext)
+            // Lookup edge_t 
+            int edge_type_id_edge_t = 5;
+            for(LGSPEdge edge_head_edge_t = graph.edgesByTypeHeads[edge_type_id_edge_t], edge_cur_edge_t = edge_head_edge_t.typeNext; edge_cur_edge_t != edge_head_edge_t; edge_cur_edge_t = edge_cur_edge_t.typeNext)
             {
-                // ImplicitSource(edge_t -> node_r:Resource)
-                LGSPNode node_cur_node_r = edge_cur_edge_t.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_t_172;
-                // ImplicitTarget(edge_t -> node_p:Process)
-                LGSPNode node_cur_node_p = edge_cur_edge_t.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) goto contunmap_node_cur_node_r_174;
-                // NegativePattern
-                // ExtendOutgoing(node_p -> neg_0_edge_req:request)
-                LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p.outhead;
-                if(edge_head_neg_0_edge_req != null)
+                if(edge_cur_edge_t.isMatched)
                 {
-                    LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
-                    do
-                    {
-                        if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) continue;
-                        if(edge_cur_neg_0_edge_req.target != node_cur_node_r) continue;
-                        goto contunmap_node_cur_node_p_176;
-                        // Tail ExtendOutgoing(edge_cur_neg_0_edge_req)
-                    }
-                    while((edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req);
+                    continue;
                 }
-                // End of NegativePattern
+                bool edge_cur_edge_t_prevIsMatched = edge_cur_edge_t.isMatched;
+                edge_cur_edge_t.isMatched = true;
+                // Implicit source node_r from edge_t 
+                LGSPNode node_cur_node_r = edge_cur_edge_t.source;
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p from edge_t 
+                LGSPNode node_cur_node_p = edge_cur_edge_t.target;
+                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
+                // NegativePattern 
+                {
+                    if(node_cur_node_r.isMatchedNeg)
+                    {
+                        goto label12;
+                    }
+                    bool node_cur_node_r_prevIsMatchedNeg = node_cur_node_r.isMatchedNeg;
+                    node_cur_node_r.isMatchedNeg = true;
+                    if(node_cur_node_p.isMatchedNeg)
+                    {
+                        node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                        goto label13;
+                    }
+                    bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                    node_cur_node_p.isMatchedNeg = true;
+                    // Extend outgoing neg_0_edge_req from node_p 
+                    LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p.outhead;
+                    if(edge_head_neg_0_edge_req != null)
+                    {
+                        LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
+                        do
+                        {
+                            if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_neg_0_edge_req.target != node_cur_node_r) {
+                                continue;
+                            }
+                            if(edge_cur_neg_0_edge_req.isMatchedNeg)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_neg_0_edge_req_prevIsMatchedNeg = edge_cur_neg_0_edge_req.isMatchedNeg;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = true;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                            node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                            node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                            node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+                            goto label14;
+                            edge_cur_neg_0_edge_req.isMatchedNeg = edge_cur_neg_0_edge_req_prevIsMatchedNeg;
+                        }
+                        while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
+                    }
+                    node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                    node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                }
+label13: ;
+label12: ;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_r;
                 match.nodes[1] = node_cur_node_p;
@@ -2536,12 +3338,15 @@ contunmap_edge_cur_edge_hb_156:;
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_t);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
                     return matches;
                 }
-contunmap_node_cur_node_p_176:;
-contunmap_node_cur_node_r_174:;
-contunmap_edge_cur_edge_t_172:;
-                // Tail of Lookup(edge_cur_edge_t)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_t.isMatched = edge_cur_edge_t_prevIsMatched;
+label14: ;
             }
             return matches;
         }
@@ -2559,18 +3364,26 @@ contunmap_edge_cur_edge_t_172:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(node_p:Process)
-            for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[2], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
+            // Lookup node_p 
+            int node_type_id_node_p = 2;
+            for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[node_type_id_node_p], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
             {
+                if(node_cur_node_p.isMatched)
+                {
+                    continue;
+                }
+                bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                node_cur_node_p.isMatched = true;
                 LGSPMatch match = matchesList.GetNewMatch();
                 match.nodes[0] = node_cur_node_p;
                 matchesList.CommitMatch();
                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(node_cur_node_p);
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
                     return matches;
                 }
-                // Tail of Lookup(node_cur_node_p)
+                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
             }
             return matches;
         }
@@ -2588,28 +3401,73 @@ contunmap_edge_cur_edge_t_172:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_hb:held_by)
-            for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[1], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
+            // Lookup edge_hb 
+            int edge_type_id_edge_hb = 1;
+            for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[edge_type_id_edge_hb], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
             {
-                // ImplicitSource(edge_hb -> node_r:Resource)
+                if(edge_cur_edge_hb.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_hb_prevIsMatched = edge_cur_edge_hb.isMatched;
+                edge_cur_edge_hb.isMatched = true;
+                // Implicit source node_r from edge_hb 
                 LGSPNode node_cur_node_r = edge_cur_edge_hb.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_hb_192;
-                // ImplicitTarget(edge_hb -> node_p2:Process)
+                if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_r.isMatched)
+                {
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Implicit target node_p2 from edge_hb 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_hb.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_node_cur_node_r_194;
-                node_cur_node_p2.mappedTo = 3;
-                // ExtendIncoming(node_r -> edge_req:request)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                    edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Extend incoming edge_req from node_r 
                 LGSPEdge edge_head_edge_req = node_cur_node_r.inhead;
                 if(edge_head_edge_req != null)
                 {
                     LGSPEdge edge_cur_edge_req = edge_head_edge_req;
                     do
                     {
-                        if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) continue;
-                        // ImplicitSource(edge_req -> node_p1:Process)
+                        if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_req.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_req_prevIsMatched = edge_cur_edge_req.isMatched;
+                        edge_cur_edge_req.isMatched = true;
+                        // Implicit source node_p1 from edge_req 
                         LGSPNode node_cur_node_p1 = edge_cur_edge_req.source;
-                        if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_req_198;
-                        if(node_cur_node_p1.mappedTo != 0) goto cont_node_cur_node_p1_201;
+                        if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                            edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_p1.isMatched)
+                        {
+                            edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                        node_cur_node_p1.isMatched = true;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_r;
                         match.nodes[1] = node_cur_node_p1;
@@ -2619,21 +3477,23 @@ contunmap_edge_cur_edge_t_172:;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            node_cur_node_p2.mappedTo = 0;
-                            graph.MoveHeadAfter(edge_cur_edge_hb);
                             node_cur_node_r.MoveInHeadAfter(edge_cur_edge_req);
+                            graph.MoveHeadAfter(edge_cur_edge_hb);
+                            node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                            edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
+                            node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
                             return matches;
                         }
-cont_node_cur_node_p1_201:;
-contunmap_edge_cur_edge_req_198:;
-                        // Tail ExtendIncoming(edge_cur_edge_req)
+                        node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                        edge_cur_edge_req.isMatched = edge_cur_edge_req_prevIsMatched;
                     }
-                    while((edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req);
+                    while( (edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req );
                 }
-                node_cur_node_p2.mappedTo = 0;
-contunmap_node_cur_node_r_194:;
-contunmap_edge_cur_edge_hb_192:;
-                // Tail of Lookup(edge_cur_edge_hb)
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                edge_cur_edge_hb.isMatched = edge_cur_edge_hb_prevIsMatched;
             }
             return matches;
         }
@@ -2651,61 +3511,141 @@ contunmap_edge_cur_edge_hb_192:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(node_r:Resource)
-            for(LGSPNode node_head_node_r = graph.nodesByTypeHeads[0], node_cur_node_r = node_head_node_r.typeNext; node_cur_node_r != node_head_node_r; node_cur_node_r = node_cur_node_r.typeNext)
+            // Lookup node_r 
+            int node_type_id_node_r = 0;
+            for(LGSPNode node_head_node_r = graph.nodesByTypeHeads[node_type_id_node_r], node_cur_node_r = node_head_node_r.typeNext; node_cur_node_r != node_head_node_r; node_cur_node_r = node_cur_node_r.typeNext)
             {
-                // Lookup(node_p:Process)
-                for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[2], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
+                if(node_cur_node_r.isMatched)
                 {
-                    // NegativePattern
-                    // ExtendOutgoing(node_r -> neg_0_edge_hb:held_by)
-                    LGSPEdge edge_head_neg_0_edge_hb = node_cur_node_r.outhead;
-                    if(edge_head_neg_0_edge_hb != null)
+                    continue;
+                }
+                bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                node_cur_node_r.isMatched = true;
+                // Lookup node_p 
+                int node_type_id_node_p = 2;
+                for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[node_type_id_node_p], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
+                {
+                    if(node_cur_node_p.isMatched)
                     {
-                        LGSPEdge edge_cur_neg_0_edge_hb = edge_head_neg_0_edge_hb;
-                        do
-                        {
-                            if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge_hb.type.TypeID]) continue;
-                            if(edge_cur_neg_0_edge_hb.target != node_cur_node_p) continue;
-                            goto contunmap_node_cur_node_p_206;
-                            // Tail ExtendOutgoing(edge_cur_neg_0_edge_hb)
-                        }
-                        while((edge_cur_neg_0_edge_hb = edge_cur_neg_0_edge_hb.outNext) != edge_head_neg_0_edge_hb);
+                        continue;
                     }
-                    // End of NegativePattern
-                    // NegativePattern
-                    // ExtendOutgoing(node_p -> neg_1_edge_req:request)
-                    LGSPEdge edge_head_neg_1_edge_req = node_cur_node_p.outhead;
-                    if(edge_head_neg_1_edge_req != null)
+                    bool node_cur_node_p_prevIsMatched = node_cur_node_p.isMatched;
+                    node_cur_node_p.isMatched = true;
+                    // NegativePattern 
                     {
-                        LGSPEdge edge_cur_neg_1_edge_req = edge_head_neg_1_edge_req;
-                        do
+                        if(node_cur_node_r.isMatchedNeg)
                         {
-                            if(!EdgeType_request.isMyType[edge_cur_neg_1_edge_req.type.TypeID]) continue;
-                            // ImplicitTarget(neg_1_edge_req -> neg_1_node_m:Resource)
-                            LGSPNode node_cur_neg_1_node_m = edge_cur_neg_1_edge_req.target;
-                            if(!NodeType_Resource.isMyType[node_cur_neg_1_node_m.type.TypeID]) goto contunmap_edge_cur_neg_1_edge_req_220;
-                            goto contunmap_node_cur_node_p_206;
-contunmap_edge_cur_neg_1_edge_req_220:;
-                            // Tail ExtendOutgoing(edge_cur_neg_1_edge_req)
+                            goto label15;
                         }
-                        while((edge_cur_neg_1_edge_req = edge_cur_neg_1_edge_req.outNext) != edge_head_neg_1_edge_req);
+                        bool node_cur_node_r_prevIsMatchedNeg = node_cur_node_r.isMatchedNeg;
+                        node_cur_node_r.isMatchedNeg = true;
+                        if(node_cur_node_p.isMatchedNeg)
+                        {
+                            node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                            goto label16;
+                        }
+                        bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                        node_cur_node_p.isMatchedNeg = true;
+                        // Extend outgoing neg_0_edge_hb from node_r 
+                        LGSPEdge edge_head_neg_0_edge_hb = node_cur_node_r.outhead;
+                        if(edge_head_neg_0_edge_hb != null)
+                        {
+                            LGSPEdge edge_cur_neg_0_edge_hb = edge_head_neg_0_edge_hb;
+                            do
+                            {
+                                if(!EdgeType_held_by.isMyType[edge_cur_neg_0_edge_hb.type.TypeID]) {
+                                    continue;
+                                }
+                                if(edge_cur_neg_0_edge_hb.target != node_cur_node_p) {
+                                    continue;
+                                }
+                                if(edge_cur_neg_0_edge_hb.isMatchedNeg)
+                                {
+                                    continue;
+                                }
+                                bool edge_cur_neg_0_edge_hb_prevIsMatchedNeg = edge_cur_neg_0_edge_hb.isMatchedNeg;
+                                edge_cur_neg_0_edge_hb.isMatchedNeg = true;
+                                edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                                node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                                node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
+                                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                                goto label17;
+                                edge_cur_neg_0_edge_hb.isMatchedNeg = edge_cur_neg_0_edge_hb_prevIsMatchedNeg;
+                            }
+                            while( (edge_cur_neg_0_edge_hb = edge_cur_neg_0_edge_hb.outNext) != edge_head_neg_0_edge_hb );
+                        }
+                        node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                        node_cur_node_r.isMatchedNeg = node_cur_node_r_prevIsMatchedNeg;
                     }
-                    // End of NegativePattern
+label16: ;
+label15: ;
+                    // NegativePattern 
+                    {
+                        if(node_cur_node_p.isMatchedNeg)
+                        {
+                            goto label18;
+                        }
+                        bool node_cur_node_p_prevIsMatchedNeg = node_cur_node_p.isMatchedNeg;
+                        node_cur_node_p.isMatchedNeg = true;
+                        // Extend outgoing neg_1_edge_req from node_p 
+                        LGSPEdge edge_head_neg_1_edge_req = node_cur_node_p.outhead;
+                        if(edge_head_neg_1_edge_req != null)
+                        {
+                            LGSPEdge edge_cur_neg_1_edge_req = edge_head_neg_1_edge_req;
+                            do
+                            {
+                                if(!EdgeType_request.isMyType[edge_cur_neg_1_edge_req.type.TypeID]) {
+                                    continue;
+                                }
+                                if(edge_cur_neg_1_edge_req.isMatchedNeg)
+                                {
+                                    continue;
+                                }
+                                bool edge_cur_neg_1_edge_req_prevIsMatchedNeg = edge_cur_neg_1_edge_req.isMatchedNeg;
+                                edge_cur_neg_1_edge_req.isMatchedNeg = true;
+                                // Implicit target neg_1_node_m from neg_1_edge_req 
+                                LGSPNode node_cur_neg_1_node_m = edge_cur_neg_1_edge_req.target;
+                                if(!NodeType_Resource.isMyType[node_cur_neg_1_node_m.type.TypeID]) {
+                                    edge_cur_neg_1_edge_req.isMatchedNeg = edge_cur_neg_1_edge_req_prevIsMatchedNeg;
+                                    continue;
+                                }
+                                if(node_cur_neg_1_node_m.isMatchedNeg)
+                                {
+                                    edge_cur_neg_1_edge_req.isMatchedNeg = edge_cur_neg_1_edge_req_prevIsMatchedNeg;
+                                    continue;
+                                }
+                                bool node_cur_neg_1_node_m_prevIsMatchedNeg = node_cur_neg_1_node_m.isMatchedNeg;
+                                node_cur_neg_1_node_m.isMatchedNeg = true;
+                                node_cur_neg_1_node_m.isMatchedNeg = node_cur_neg_1_node_m_prevIsMatchedNeg;
+                                edge_cur_neg_1_edge_req.isMatchedNeg = edge_cur_neg_1_edge_req_prevIsMatchedNeg;
+                                node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                                node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                                goto label19;
+                                node_cur_neg_1_node_m.isMatchedNeg = node_cur_neg_1_node_m_prevIsMatchedNeg;
+                                edge_cur_neg_1_edge_req.isMatchedNeg = edge_cur_neg_1_edge_req_prevIsMatchedNeg;
+                            }
+                            while( (edge_cur_neg_1_edge_req = edge_cur_neg_1_edge_req.outNext) != edge_head_neg_1_edge_req );
+                        }
+                        node_cur_node_p.isMatchedNeg = node_cur_node_p_prevIsMatchedNeg;
+                    }
+label18: ;
                     LGSPMatch match = matchesList.GetNewMatch();
                     match.nodes[0] = node_cur_node_r;
                     match.nodes[1] = node_cur_node_p;
                     matchesList.CommitMatch();
                     if(maxMatches > 0 && matchesList.Count >= maxMatches)
                     {
-                        graph.MoveHeadAfter(node_cur_node_r);
                         graph.MoveHeadAfter(node_cur_node_p);
+                        graph.MoveHeadAfter(node_cur_node_r);
+                        node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+                        node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
                         return matches;
                     }
-contunmap_node_cur_node_p_206:;
-                    // Tail of Lookup(node_cur_node_p)
+                    node_cur_node_p.isMatched = node_cur_node_p_prevIsMatched;
+label17: ;
+label19: ;
                 }
-                // Tail of Lookup(node_cur_node_r)
+                node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
             }
             return matches;
         }
@@ -2723,28 +3663,73 @@ contunmap_node_cur_node_p_206:;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup(edge_n:next)
-            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[4], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
+            // Lookup edge_n 
+            int edge_type_id_edge_n = 4;
+            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[edge_type_id_edge_n], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
             {
-                // ImplicitSource(edge_n -> node_p1:Process)
+                if(edge_cur_edge_n.isMatched)
+                {
+                    continue;
+                }
+                bool edge_cur_edge_n_prevIsMatched = edge_cur_edge_n.isMatched;
+                edge_cur_edge_n.isMatched = true;
+                // Implicit source node_p1 from edge_n 
                 LGSPNode node_cur_node_p1 = edge_cur_edge_n.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) goto contunmap_edge_cur_edge_n_226;
-                node_cur_node_p1.mappedTo = 2;
-                // ImplicitTarget(edge_n -> node_p2:Process)
+                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p1.isMatched)
+                {
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                node_cur_node_p1.isMatched = true;
+                // Implicit target node_p2 from edge_n 
                 LGSPNode node_cur_node_p2 = edge_cur_edge_n.target;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) goto contunmap_node_cur_node_p1_228;
-                if(node_cur_node_p2.mappedTo != 0) goto cont_node_cur_node_p2_231;
-                // ExtendIncoming(node_p1 -> edge_rel:release)
+                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_p2.isMatched)
+                {
+                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                    edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
+                node_cur_node_p2.isMatched = true;
+                // Extend incoming edge_rel from node_p1 
                 LGSPEdge edge_head_edge_rel = node_cur_node_p1.inhead;
                 if(edge_head_edge_rel != null)
                 {
                     LGSPEdge edge_cur_edge_rel = edge_head_edge_rel;
                     do
                     {
-                        if(!EdgeType_release.isMyType[edge_cur_edge_rel.type.TypeID]) continue;
-                        // ImplicitSource(edge_rel -> node_r:Resource)
+                        if(!EdgeType_release.isMyType[edge_cur_edge_rel.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_rel.isMatched)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge_rel_prevIsMatched = edge_cur_edge_rel.isMatched;
+                        edge_cur_edge_rel.isMatched = true;
+                        // Implicit source node_r from edge_rel 
                         LGSPNode node_cur_node_r = edge_cur_edge_rel.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) goto contunmap_edge_cur_edge_rel_232;
+                        if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
+                            edge_cur_edge_rel.isMatched = edge_cur_edge_rel_prevIsMatched;
+                            continue;
+                        }
+                        if(node_cur_node_r.isMatched)
+                        {
+                            edge_cur_edge_rel.isMatched = edge_cur_edge_rel_prevIsMatched;
+                            continue;
+                        }
+                        bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
+                        node_cur_node_r.isMatched = true;
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.nodes[0] = node_cur_node_r;
                         match.nodes[1] = node_cur_node_p1;
@@ -2754,21 +3739,23 @@ contunmap_node_cur_node_p_206:;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            node_cur_node_p1.mappedTo = 0;
-                            graph.MoveHeadAfter(edge_cur_edge_n);
                             node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_rel);
+                            graph.MoveHeadAfter(edge_cur_edge_n);
+                            node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                            edge_cur_edge_rel.isMatched = edge_cur_edge_rel_prevIsMatched;
+                            node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                            node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                            edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
                             return matches;
                         }
-contunmap_edge_cur_edge_rel_232:;
-                        // Tail ExtendIncoming(edge_cur_edge_rel)
+                        node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
+                        edge_cur_edge_rel.isMatched = edge_cur_edge_rel_prevIsMatched;
                     }
-                    while((edge_cur_edge_rel = edge_cur_edge_rel.inNext) != edge_head_edge_rel);
+                    while( (edge_cur_edge_rel = edge_cur_edge_rel.inNext) != edge_head_edge_rel );
                 }
-cont_node_cur_node_p2_231:;
-contunmap_node_cur_node_p1_228:;
-                node_cur_node_p1.mappedTo = 0;
-contunmap_edge_cur_edge_n_226:;
-                // Tail of Lookup(edge_cur_edge_n)
+                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                edge_cur_edge_n.isMatched = edge_cur_edge_n_prevIsMatched;
             }
             return matches;
         }

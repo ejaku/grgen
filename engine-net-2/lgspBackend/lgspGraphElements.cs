@@ -1,5 +1,4 @@
 //#define ELEMENTKNOWSVARIABLES
-#define OLDMAPPEDFIELDS
 
 using System;
 using System.Collections.Generic;
@@ -11,26 +10,24 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public NodeType type;
 //        public IAttributes attributes;
-#if OLDMAPPEDFIELDS
-        public int mappedTo;
-        public int negMappedTo;
-#else
-        /// <summary>
-        /// Determines whether the element is currently mapped during the matching process.
-        /// </summary>
-        public bool isMapped;
 
         /// <summary>
-        /// Determines whether the element has been mapped in a prior matching step,
-        /// e.g. the main pattern when currently matching a NAC.
+        /// Tells during the matching process whether the element 
+        /// is already matched within the local pattern
         /// </summary>
-        public bool isOldMapped;
+        public bool isMatched = false;
 
         /// <summary>
-        /// Only temporarily!!
+        /// Tells during the matching process whether the element 
+        /// is already matched within the local nested negative pattern
         /// </summary>
-        public bool isNegMapped;
-#endif
+        public bool isMatchedNeg = false;
+
+        /// <summary>
+        /// Tells during the matching process whether the element 
+        /// is already matched within an enclosing pattern
+        /// </summary>
+        public bool isMatchedByEnclosingPattern = false;
 
         public LGSPNode typeNext, typePrev;
 
@@ -275,26 +272,24 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public EdgeType type;
 //        public IAttributes attributes;
-#if OLDMAPPEDFIELDS
-        public int mappedTo;
-        public int negMappedTo;
-#else
-        /// <summary>
-        /// Determines whether the element is currently mapped during the matching process.
-        /// </summary>
-        public bool isMapped;
 
         /// <summary>
-        /// Determines whether the element has been mapped in a prior matching step,
-        /// e.g. the main pattern when currently matching a NAC.
+        /// Tells during the matching process whether the element 
+        /// is already matched within the local pattern
         /// </summary>
-        public bool isOldMapped;
+        public bool isMatched = false;
 
         /// <summary>
-        /// Only temporarily!!
+        /// Tells during the matching process whether the element 
+        /// is already matched within the local nested negative pattern
         /// </summary>
-        public bool isNegMapped;
-#endif
+        public bool isMatchedNeg = false;
+
+        /// <summary>
+        /// Tells during the matching process whether the element 
+        /// is already matched within an enclosing pattern
+        /// </summary>
+        public bool isMatchedByEnclosingPattern = false;
 
         public LGSPEdge typeNext, typePrev;
 

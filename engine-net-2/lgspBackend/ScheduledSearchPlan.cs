@@ -1,13 +1,33 @@
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.lgsp
 {
     public class IsomorphyInformation
     {
-        public bool MustSetMapped = false; // if true, the graph element's (neg/)mappedTo field must be set
-        public bool MustCheckMapped = false; // if true, the graph element's (neg/)mappedTo field must be checked
-        public int HomomorphicID = 0;
+        // if true, the graph element's is-matched-bit must be checked
+        public bool CheckIsMatchedBit = false;
+        // if true, the graph element's is-matched-bit must be set
+        public bool SetIsMatchedBit = false;
+        // pattern elements the current element is not allowed to be homomorph to
+        public List<SearchPlanNode> PatternElementsToCheckAgainst = null;
+
+        public List<string> PatternElementsToCheckAgainstAsListOfStrings()
+        {
+            if (PatternElementsToCheckAgainst == null) 
+            {
+                return null;
+            }
+
+            List<string> result = new List<string>(PatternElementsToCheckAgainst.Count);
+            foreach (SearchPlanNode spn in PatternElementsToCheckAgainst)
+            {
+                result.Add(spn.PatternElement.Name);
+            }
+
+            return result;
+        }
     }
 
     /// <summary>
