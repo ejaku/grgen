@@ -1,0 +1,5 @@
+new graph "PatternHomNeg/PatternHomNeg"
+new n1:N
+show num nodes
+xgrs ?[test1]
+quit

@@ -1,0 +1,11 @@
+actions PatternHomNeg using PatternHomNeg;
+
+rule test1 {
+  pattern {
+    a:N;
+    negative {
+      b:N;
+    }
+  }
+  modify {}
+}
