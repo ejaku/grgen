@@ -45,9 +45,7 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 	/** Index of the body collect node. */
 	private int bodyIndex;
 		
-	protected CompoundTypeNode(int bodyIndex,
-														 Checker bodyChecker,
-														 Resolver bodyResolver) {
+	protected CompoundTypeNode(int bodyIndex, Checker bodyChecker, Resolver bodyResolver) {
 		this.bodyIndex = bodyIndex;
 		this.bodyChecker = bodyChecker;
 		

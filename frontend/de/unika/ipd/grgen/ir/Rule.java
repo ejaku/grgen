@@ -83,8 +83,8 @@ public class Rule extends MatchingAction {
 	 * @return A set with nodes, that occur on the left and on the right side
 	 * of the rule.
 	 */
-	public Collection<IR> getCommonNodes() {
-		Collection<IR> common = new HashSet<IR>(pattern.getNodes());
+	public Collection<Node> getCommonNodes() {
+		Collection<Node> common = new HashSet<Node>(pattern.getNodes());
 		common.retainAll(right.getNodes());
 		return common;
 	}
@@ -93,8 +93,8 @@ public class Rule extends MatchingAction {
 	 * Get the set of edges that are common to both sides of the rule.
 	 * @return The set containing all common edges.
 	 */
-	public Collection<IR> getCommonEdges() {
-		Collection<IR> common = new HashSet<IR>(pattern.getEdges());
+	public Collection<Edge> getCommonEdges() {
+		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
 		return common;
 	}

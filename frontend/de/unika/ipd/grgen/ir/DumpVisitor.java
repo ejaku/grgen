@@ -138,18 +138,18 @@ public class DumpVisitor extends GraphDumpVisitor {
 			dumpGraph(r.getRight(), "r");
 			
 			// Draw edges from left nodes that occur also on the right side.
-			Iterator<IR> common = r.getCommonNodes().iterator();
-			while(common.hasNext()) {
-				Node node = (Node) common.next();
+			Iterator<Node> commonNodes = r.getCommonNodes().iterator();
+			while(commonNodes.hasNext()) {
+				Node node = commonNodes.next();
 				PrefixNode left = new PrefixNode(node, "l");
 				PrefixNode right = new PrefixNode(node, "r");
 				
 				dumper.edge(left, right, null, GraphDumper.DOTTED);
 			}
 			
-			common = r.getCommonEdges().iterator();
-			while(common.hasNext()) {
-				Edge edge = (Edge) common.next();
+			Iterator<Edge> commonEdges = r.getCommonEdges().iterator();
+			while(commonEdges.hasNext()) {
+				Edge edge = commonEdges.next();
 				PrefixNode left = new PrefixNode(edge, "l");
 				PrefixNode right = new PrefixNode(edge, "r");
 				

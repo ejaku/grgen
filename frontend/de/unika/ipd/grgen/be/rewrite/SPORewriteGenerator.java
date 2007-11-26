@@ -58,8 +58,8 @@ public class SPORewriteGenerator implements RewriteGenerator {
 	 * @see de.unika.ipd.grgen.be.rewrite.RewriteGenerator#rewrite(de.unika.ipd.grgen.ir.Rule, de.unika.ipd.grgen.be.spo.RewriteHandler)
 	 */
 	public void rewrite(Rule r, RewriteHandler handler) {
-		Collection<IR> commonNodes = r.getCommonNodes();
-		Collection<IR> commonEdges = r.getCommonEdges();
+		Collection<Node> commonNodes = r.getCommonNodes();
+		Collection<Edge> commonEdges = r.getCommonEdges();
 		Graph right = r.getRight();
 		Graph left = r.getLeft();
 		Collection<Edge> es = new HashSet<Edge>();
