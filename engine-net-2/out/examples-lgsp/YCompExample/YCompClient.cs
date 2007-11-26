@@ -319,8 +319,8 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnClearingGraph += new ClearingGraphHandler(ClearGraph);
             graph.OnChangingNodeAttribute += new ChangingNodeAttributeHandler(ChangeNodeAttribute);
             graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(ChangeEdgeAttribute);
-            graph.OnSettingNodeType += new SettingNodeTypeHandler(SettingNodeType);
-            graph.OnSettingEdgeType += new SettingEdgeTypeHandler(SettingEdgeType);
+            graph.OnRetypingNode += new RetypingNodeHandler(RetypingElement);
+            graph.OnRetypingEdge += new RetypingEdgeHandler(RetypingElement);
         }
 
         public void UnregisterLibGrEvents()
@@ -332,8 +332,8 @@ namespace de.unika.ipd.grGen.grShell
             graph.OnClearingGraph -= new ClearingGraphHandler(ClearGraph);
             graph.OnChangingNodeAttribute -= new ChangingNodeAttributeHandler(ChangeNodeAttribute);
             graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(ChangeEdgeAttribute);
-            graph.OnSettingNodeType -= new SettingNodeTypeHandler(SettingNodeType);
-            graph.OnSettingEdgeType -= new SettingEdgeTypeHandler(SettingEdgeType);
+            graph.OnRetypingNode -= new RetypingNodeHandler(RetypingElement);
+            graph.OnRetypingEdge -= new RetypingEdgeHandler(RetypingElement);
         }
 
         String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
@@ -724,45 +724,39 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void SettingNodeType(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs)
+        public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
-            RetypeElement(node, oldType, newType, newAttrs);
-        }
-
-        public void SettingEdgeType(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs)
-        {
-            RetypeElement(edge, oldType, newType, newAttrs);
-        }
-
-        public void RetypeElement(IGraphElement elem, GrGenType oldType, GrGenType newType, IAttributes newAttrs)
-        {
-            bool isNode = elem is INode;
+            bool isNode = oldElem is INode;
+            GrGenType oldType = oldElem.Type;
+            GrGenType newType = newElem.Type;
 
             if(isNode)
             {
-                if(dumpInfo.IsExcludedNodeType((NodeType) elem.Type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) oldType)) return;
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) elem.Type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) oldType)) return;
             }
 
-
-            String name = graph.GetElementName(elem);
             String elemKind = isNode ? "Node" : "Edge";
             String elemNamePrefix = isNode ? "n" : "e";
-            ycompStream.Write("set" + elemKind + "Label \"" + elemNamePrefix + name + "\" \""
-                + GetRetypedElemLabel(elem, newType, newAttrs) + "\"\n");
+            String name = elemNamePrefix + graph.GetElementName(oldElem);
+
+            ycompStream.Write("set" + elemKind + "Label \"" + name + "\" \"" + GetElemLabel(newElem) + "\"\n");
+
+            // remove the old attributes
             foreach(AttributeType attrType in oldType.AttributeTypes)
             {
-                ycompStream.Write("clear" + elemKind + "Attr \"" + elemNamePrefix + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("clear" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\"\n");
             }
+            // set the new attributes
             foreach(AttributeType attrType in newType.AttributeTypes)
             {
-                object attr = newAttrs.GetType().GetProperty(attrType.Name).GetValue(newAttrs, null);
+                object attr = newElem.GetAttribute(attrType.Name);
                 String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
-                ycompStream.Write("change" + elemKind + "Attr \"" + elemNamePrefix + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("change" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
             }
 
@@ -771,14 +765,14 @@ namespace de.unika.ipd.grGen.grShell
                 String oldNr = GetNodeRealizer((NodeType) oldType);
                 String newNr = GetNodeRealizer((NodeType) newType);
                 if(oldNr != newNr)
-                    ChangeNode((INode) elem, newNr);
+                    ChangeNode((INode) oldElem, newNr);
             }
             else
             {
                 String oldEr = GetEdgeRealizer((EdgeType) oldType);
                 String newEr = GetEdgeRealizer((EdgeType) newType);
                 if(oldEr != newEr)
-                    ChangeEdge((IEdge) elem, newEr);
+                    ChangeEdge((IEdge) oldElem, newEr);
             }
             isDirty = true;
         }

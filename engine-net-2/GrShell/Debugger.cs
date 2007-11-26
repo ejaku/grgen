@@ -574,14 +574,9 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
         }
 
-        void DebugSettingNodeType(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs)
+        void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
-            ycompClient.RetypeElement(node, oldType, newType, newAttrs);
-        }
-
-        void DebugSettingEdgeType(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs)
-        {
-            ycompClient.RetypeElement(edge, oldType, newType, newAttrs);
+            ycompClient.RetypingElement(oldElem, newElem);
         }
 
         void DebugFinished(IMatches matches, bool special)
@@ -648,8 +643,8 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnClearingGraph += new ClearingGraphHandler(DebugClearingGraph);
             shellGraph.Graph.OnChangingNodeAttribute += new ChangingNodeAttributeHandler(DebugChangingNodeAttribute);
             shellGraph.Graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(DebugChangingEdgeAttribute);
-            shellGraph.Graph.OnSettingNodeType += new SettingNodeTypeHandler(DebugSettingNodeType);
-            shellGraph.Graph.OnSettingEdgeType += new SettingEdgeTypeHandler(DebugSettingEdgeType);
+            shellGraph.Graph.OnRetypingNode += new RetypingNodeHandler(DebugRetypingElement);
+            shellGraph.Graph.OnRetypingEdge += new RetypingEdgeHandler(DebugRetypingElement);
 
             if(shellGraph.Actions != null)
             {
@@ -672,8 +667,8 @@ namespace de.unika.ipd.grGen.grShell
             shellGraph.Graph.OnClearingGraph -= new ClearingGraphHandler(DebugClearingGraph);
             shellGraph.Graph.OnChangingNodeAttribute -= new ChangingNodeAttributeHandler(DebugChangingNodeAttribute);
             shellGraph.Graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(DebugChangingEdgeAttribute);
-            shellGraph.Graph.OnSettingNodeType -= new SettingNodeTypeHandler(DebugSettingNodeType);
-            shellGraph.Graph.OnSettingEdgeType -= new SettingEdgeTypeHandler(DebugSettingEdgeType);
+            shellGraph.Graph.OnRetypingNode -= new RetypingNodeHandler(DebugRetypingElement);
+            shellGraph.Graph.OnRetypingEdge -= new RetypingEdgeHandler(DebugRetypingElement);
 
             if(shellGraph.Actions != null)
             {

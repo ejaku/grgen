@@ -246,16 +246,18 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public static bool Condition_0(LGSPNode node_bp)
 		{
-			return (((Node_BandPosition) node_bp).@value == 0);
+			return (((INode_BandPosition) node_bp).@value == 0);
 		}
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_BandPosition node_bp = (Node_BandPosition) match.nodes[ (int) NodeNums.@bp - 1 ];
-			Node_WriteValue node_wv = (Node_WriteValue) match.nodes[ (int) NodeNums.@wv - 1 ];
-			int var_i = node_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, node_bp.@value, var_i);
-			node_bp.@value = var_i;
+			LGSPNode node_bp = match.nodes[ (int) NodeNums.@bp - 1 ];
+			LGSPNode node_wv = match.nodes[ (int) NodeNums.@wv - 1 ];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
 			return new IGraphElement[] { node_wv, };
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -265,11 +267,13 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_BandPosition node_bp = (Node_BandPosition) match.nodes[ (int) NodeNums.@bp - 1 ];
-			Node_WriteValue node_wv = (Node_WriteValue) match.nodes[ (int) NodeNums.@wv - 1 ];
-			int var_i = node_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, node_bp.@value, var_i);
-			node_bp.@value = var_i;
+			LGSPNode node_bp = match.nodes[ (int) NodeNums.@bp - 1 ];
+			LGSPNode node_wv = match.nodes[ (int) NodeNums.@wv - 1 ];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
 			return new IGraphElement[] { node_wv, };
 		}
 	}
@@ -342,16 +346,18 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public static bool Condition_0(LGSPNode node_bp)
 		{
-			return (((Node_BandPosition) node_bp).@value == 1);
+			return (((INode_BandPosition) node_bp).@value == 1);
 		}
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_BandPosition node_bp = (Node_BandPosition) match.nodes[ (int) NodeNums.@bp - 1 ];
-			Node_WriteValue node_wv = (Node_WriteValue) match.nodes[ (int) NodeNums.@wv - 1 ];
-			int var_i = node_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, node_bp.@value, var_i);
-			node_bp.@value = var_i;
+			LGSPNode node_bp = match.nodes[ (int) NodeNums.@bp - 1 ];
+			LGSPNode node_wv = match.nodes[ (int) NodeNums.@wv - 1 ];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
 			return new IGraphElement[] { node_wv, };
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -361,11 +367,13 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_BandPosition node_bp = (Node_BandPosition) match.nodes[ (int) NodeNums.@bp - 1 ];
-			Node_WriteValue node_wv = (Node_WriteValue) match.nodes[ (int) NodeNums.@wv - 1 ];
-			int var_i = node_wv.@value;
-			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, node_bp.@value, var_i);
-			node_bp.@value = var_i;
+			LGSPNode node_bp = match.nodes[ (int) NodeNums.@bp - 1 ];
+			LGSPNode node_wv = match.nodes[ (int) NodeNums.@wv - 1 ];
+			INode_BandPosition inode_bp = (INode_BandPosition) node_bp;
+			INode_WriteValue inode_wv = (INode_WriteValue) node_wv;
+			int var_i = inode_wv.@value;
+			graph.ChangingNodeAttribute(node_bp, NodeType_BandPosition.AttributeType_value, inode_bp.@value, var_i);
+			inode_bp.@value = var_i;
 			return new IGraphElement[] { node_wv, };
 		}
 	}

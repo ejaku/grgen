@@ -75,12 +75,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Node newNode = new Node_Node();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -174,9 +172,8 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_WriteValue newNode = new Node_WriteValue();
 			switch(oldNode.Type.TypeID)
@@ -189,7 +186,6 @@ namespace de.unika.ipd.grGen.models.Turing3
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -283,9 +279,8 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_BandPosition newNode = new Node_BandPosition();
 			switch(oldNode.Type.TypeID)
@@ -298,7 +293,6 @@ namespace de.unika.ipd.grGen.models.Turing3
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -360,12 +354,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_State newNode = new Node_State();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -518,12 +510,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_readZero newEdge = new Edge_readZero(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_readZero newEdge = new Edge_readZero((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -591,12 +581,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_readOne newEdge = new Edge_readOne(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_readOne newEdge = new Edge_readOne((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -664,12 +652,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_moveRight newEdge = new Edge_moveRight(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_moveRight newEdge = new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -737,12 +723,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_right newEdge = new Edge_right(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_right newEdge = new Edge_right((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -810,12 +794,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_Edge newEdge = new Edge_Edge(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_Edge newEdge = new Edge_Edge((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -883,12 +865,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_moveLeft newEdge = new Edge_moveLeft(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_moveLeft newEdge = new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 

@@ -131,9 +131,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C221 newNode = new Node_C221();
 			switch(oldNode.Type.TypeID)
@@ -169,7 +168,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -347,9 +345,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D2211_2222_31 newNode = new Node_D2211_2222_31();
 			switch(oldNode.Type.TypeID)
@@ -446,7 +443,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -540,9 +536,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A2 newNode = new Node_A2();
 			switch(oldNode.Type.TypeID)
@@ -563,7 +558,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -669,9 +663,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B41 newNode = new Node_B41();
 			switch(oldNode.Type.TypeID)
@@ -700,7 +693,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -794,9 +786,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A3 newNode = new Node_A3();
 			switch(oldNode.Type.TypeID)
@@ -810,7 +801,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -916,9 +906,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B42 newNode = new Node_B42();
 			switch(oldNode.Type.TypeID)
@@ -947,7 +936,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1041,9 +1029,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A1 newNode = new Node_A1();
 			switch(oldNode.Type.TypeID)
@@ -1057,7 +1044,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1184,9 +1170,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C412_421_431_51 newNode = new Node_C412_421_431_51();
 			switch(oldNode.Type.TypeID)
@@ -1253,7 +1238,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1347,9 +1331,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A4 newNode = new Node_A4();
 			switch(oldNode.Type.TypeID)
@@ -1371,7 +1354,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1537,9 +1519,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D11_2221 newNode = new Node_D11_2221();
 			switch(oldNode.Type.TypeID)
@@ -1627,7 +1608,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1721,9 +1701,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_A5 newNode = new Node_A5();
 			switch(oldNode.Type.TypeID)
@@ -1738,7 +1717,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1829,9 +1807,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B43 newNode = new Node_B43();
 			switch(oldNode.Type.TypeID)
@@ -1859,7 +1836,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -1921,12 +1897,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Node newNode = new Node_Node();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2032,9 +2006,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B22 newNode = new Node_B22();
 			switch(oldNode.Type.TypeID)
@@ -2062,7 +2035,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2168,9 +2140,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B21 newNode = new Node_B21();
 			switch(oldNode.Type.TypeID)
@@ -2198,7 +2169,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2304,9 +2274,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_B23 newNode = new Node_B23();
 			switch(oldNode.Type.TypeID)
@@ -2334,7 +2303,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2500,9 +2468,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_D231_4121 newNode = new Node_D231_4121();
 			switch(oldNode.Type.TypeID)
@@ -2611,7 +2578,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2729,9 +2695,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C432_422 newNode = new Node_C432_422();
 			switch(oldNode.Type.TypeID)
@@ -2783,7 +2748,6 @@ namespace de.unika.ipd.grGen.models.test
 						// already copied: a4
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -2925,9 +2889,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_C222_411 newNode = new Node_C222_411();
 			switch(oldNode.Type.TypeID)
@@ -2996,7 +2959,6 @@ namespace de.unika.ipd.grGen.models.test
 					}
 					break;
 			}
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -3410,12 +3372,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_Edge newEdge = new Edge_Edge(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_Edge newEdge = new Edge_Edge((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 

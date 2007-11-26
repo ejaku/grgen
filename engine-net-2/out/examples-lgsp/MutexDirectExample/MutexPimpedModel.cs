@@ -75,12 +75,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Resource newNode = new Node_Resource();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -142,12 +140,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Node newNode = new Node_Node();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -209,12 +205,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override INode Retype(IGraph igraph, INode oldINode)
+		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPNode oldNode = (LGSPNode) oldINode;
 			Node_Process newNode = new Node_Process();
-			graph.ReplaceNode(oldNode, newNode);
 			return newNode;
 		}
 
@@ -354,12 +348,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_request newEdge = new Edge_request(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_request newEdge = new Edge_request((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -427,12 +419,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_held_by newEdge = new Edge_held_by(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_held_by newEdge = new Edge_held_by((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -500,12 +490,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_release newEdge = new Edge_release(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_release newEdge = new Edge_release((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -573,12 +561,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_blocked newEdge = new Edge_blocked(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_blocked newEdge = new Edge_blocked((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -646,12 +632,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_next newEdge = new Edge_next(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_next newEdge = new Edge_next((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -719,12 +703,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_token newEdge = new Edge_token(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_token newEdge = new Edge_token((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 
@@ -792,12 +774,10 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		{
 			return (this == other) || isA[other.TypeID];
 		}
-		public override IEdge Retype(IGraph igraph, IEdge oldIEdge)
+		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPGraph graph = (LGSPGraph) igraph;
 			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_Edge newEdge = new Edge_Edge(oldEdge.source, oldEdge.target);
-			graph.ReplaceEdge(oldEdge, newEdge);
+			Edge_Edge newEdge = new Edge_Edge((LGSPNode) source, (LGSPNode) target);
 			return newEdge;
 		}
 

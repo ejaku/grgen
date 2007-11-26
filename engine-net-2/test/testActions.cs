@@ -67,9 +67,18 @@ namespace de.unika.ipd.grGen.actions.test
 			LGSPNode node_a = match.nodes[ (int) NodeNums.@a - 1 ];
 			LGSPNode node_f = match.nodes[ (int) NodeNums.@f - 1 ];
 			LGSPNode node_m = match.nodes[ (int) NodeNums.@m - 1 ];
-			LGSPNode node__node0 = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			LGSPNode node__node1 = graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			LGSPNode node__node2 = graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
+			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
+			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			int var_i = 1234;
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, node_are.@d2211_2222_31, var_i);
+			node_are.@d2211_2222_31 = var_i;
+			var_i = 5678;
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, node_fre.@d231_4121, var_i);
+			node_fre.@d231_4121 = var_i;
+			var_i = 9012;
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, node_mre.@d11_2221, var_i);
+			node_mre.@d11_2221 = var_i;
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -82,9 +91,18 @@ namespace de.unika.ipd.grGen.actions.test
 			LGSPNode node_a = match.nodes[ (int) NodeNums.@a - 1 ];
 			LGSPNode node_f = match.nodes[ (int) NodeNums.@f - 1 ];
 			LGSPNode node_m = match.nodes[ (int) NodeNums.@m - 1 ];
-			LGSPNode node__node0 = graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
-			LGSPNode node__node1 = graph.Retype(node_f, NodeType_D231_4121.typeVar);
-			LGSPNode node__node2 = graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
+			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
+			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
+			int var_i = 1234;
+			graph.ChangingNodeAttribute(node_are, NodeType_D2211_2222_31.AttributeType_d2211_2222_31, node_are.@d2211_2222_31, var_i);
+			node_are.@d2211_2222_31 = var_i;
+			var_i = 5678;
+			graph.ChangingNodeAttribute(node_fre, NodeType_D231_4121.AttributeType_d231_4121, node_fre.@d231_4121, var_i);
+			node_fre.@d231_4121 = var_i;
+			var_i = 9012;
+			graph.ChangingNodeAttribute(node_mre, NodeType_D11_2221.AttributeType_d11_2221, node_mre.@d11_2221, var_i);
+			node_mre.@d11_2221 = var_i;
 			return EmptyReturnElements;
 		}
 	}

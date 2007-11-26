@@ -419,15 +419,15 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public event ChangingEdgeAttributeHandler OnChangingEdgeAttribute;
         /// <summary>
-        /// Fired before the type of a node is changed.
-        /// Old and new type and attributes are provided to the handler.
+        /// Fired before a node is retyped.
+        /// Old and new node are provided to the handler.
         /// </summary>
-        public event SettingNodeTypeHandler OnSettingNodeType;
+        public event RetypingNodeHandler OnRetypingNode;
         /// <summary>
-        /// Fired before the type of an edge is changed.
-        /// Old and new type and attributes are provided to the handler.
+        /// Fired before an edge is retyped.
+        /// Old and new edge are provided to the handler.
         /// </summary>
-        public event SettingEdgeTypeHandler OnSettingEdgeType;
+        public event RetypingEdgeHandler OnRetypingEdge;
 
         /// <summary>
         /// Fires an OnNodeAdded event.
@@ -515,31 +515,25 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Fires an OnSettingNodeType event.
+        /// Fires an OnRetypingNode event.
         /// </summary>
-        /// <param name="node">The node to be retyped.</param>
-        /// <param name="oldType">The old (= current) type of the node.</param>
-        /// <param name="oldAttrs">The old (= current) attributes object.</param>
-        /// <param name="newType">The new type for the node.</param>
-        /// <param name="newAttrs">The new attributes object.</param>
-        public void SettingNodeType(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs)
+        /// <param name="oldNode">The node to be retyped.</param>
+        /// <param name="newNode">The new node with the common attributes, but without any adjacent edges assigned, yet.</param>
+        public void RetypingNode(INode oldNode, INode newNode)
         {
-            SettingNodeTypeHandler settingNodeType = OnSettingNodeType;
-            if(settingNodeType != null) settingNodeType(node, oldType, oldAttrs, newType, newAttrs);
+            RetypingNodeHandler retypingNode = OnRetypingNode;
+            if(retypingNode != null) retypingNode(oldNode, newNode);
         }
 
         /// <summary>
-        /// Fires an OnSettingEdgeType event.
+        /// Fires an OnRetypingEdge event.
         /// </summary>
-        /// <param name="edge">The edge to be retyped.</param>
-        /// <param name="oldType">The old (= current) type of the edge.</param>
-        /// <param name="oldAttrs">The old (= current) attributes object.</param>
-        /// <param name="newType">The new type for the edge.</param>
-        /// <param name="newAttrs">The new attributes object.</param>
-        public void SettingEdgeType(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs)
+        /// <param name="oldEdge">The edge to be retyped.</param>
+        /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
+        public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
-            SettingEdgeTypeHandler settingEdgeType = OnSettingEdgeType;
-            if(settingEdgeType != null) settingEdgeType(edge, oldType, oldAttrs, newType, newAttrs);
+            RetypingEdgeHandler retypingEdge = OnRetypingEdge;
+            if(retypingEdge != null) retypingEdge(oldEdge, newEdge);
         }
 
         #endregion Events
@@ -769,7 +763,7 @@ namespace de.unika.ipd.grGen.libGr
                 throw new Exception("The method or operation is not implemented.");
             }
 
-            public override INode Retype(IGraph graph, INode oldNode)
+            public override INode CreateNodeWithCopyCommons(INode oldNode)
             {
                 throw new Exception("The method or operation is not implemented.");
             }

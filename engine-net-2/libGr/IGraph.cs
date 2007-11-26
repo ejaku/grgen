@@ -75,14 +75,11 @@ namespace de.unika.ipd.grGen.libGr
         void ChangingElementAttribute(IGraphElement elem, AttributeType attrType, Object oldValue, Object newValue);
 
         /// <summary>
-        /// Event handler for IGraph.OnSettingNodeType and IGraph.OnSettingEdgeType.
+        /// Event handler for IGraph.OnRetypingNode and IGraph.OnRetypingEdge.
         /// </summary>
-        /// <param name="elem">The element to be retyped.</param>
-        /// <param name="oldType">The old (= current) type of the element.</param>
-        /// <param name="oldAttrs">The old (= current) attributes object.</param>
-        /// <param name="newType">The new type for the element.</param>
-        /// <param name="newAttrs">The new attributes object.</param>
-        void SettingElementType(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs, GrGenType newType, IAttributes newAttrs);
+        /// <param name="oldElem">The element to be retyped.</param>
+        /// <param name="newElem">The new element with the common attributes, but without the correct connections, yet.</param>
+        void RetypingElement(IGraphElement oldElem, IGraphElement newElem);
 
         /// <summary>
         /// Indicates, whether a transaction is currently active.
@@ -150,22 +147,16 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Represents a method called before a node is retyped.
     /// </summary>
-    /// <param name="node">The node to be retyped.</param>
-    /// <param name="oldType">The old (= current) type of the node.</param>
-    /// <param name="oldAttrs">The old (= current) attributes object.</param>
-    /// <param name="newType">The new type for the node.</param>
-    /// <param name="newAttrs">The new attributes object.</param>
-    public delegate void SettingNodeTypeHandler(INode node, NodeType oldType, IAttributes oldAttrs, NodeType newType, IAttributes newAttrs);
+    /// <param name="oldNode">The node to be retyped.</param>
+    /// <param name="newNode">The new node with the common attributes, but without any adjacent edges assigned, yet.</param>
+    public delegate void RetypingNodeHandler(INode oldNode, INode newNode);
 
     /// <summary>
     /// Represents a method called before a edge is retyped.
     /// </summary>
-    /// <param name="edge">The edge to be retyped.</param>
-    /// <param name="oldType">The old (= current) type of the edge.</param>
-    /// <param name="oldAttrs">The old (= current) attributes object.</param>
-    /// <param name="newType">The new type for the edge.</param>
-    /// <param name="newAttrs">The new attributes object.</param>
-    public delegate void SettingEdgeTypeHandler(IEdge edge, EdgeType oldType, IAttributes oldAttrs, EdgeType newType, IAttributes newAttrs);
+    /// <param name="oldEdge">The edge to be retyped.</param>
+    /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
+    public delegate void RetypingEdgeHandler(IEdge oldEdge, IEdge newEdge);
 
     #endregion GraphDelegates
 
@@ -470,13 +461,13 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before the type of a node is changed.
         /// Old and new type and attributes are provided to the handler.
         /// </summary>
-        event SettingNodeTypeHandler OnSettingNodeType;
+        event RetypingNodeHandler OnRetypingNode;
 
         /// <summary>
         /// Fired before the type of an edge is changed.
         /// Old and new type and attributes are provided to the handler.
         /// </summary>
-        event SettingEdgeTypeHandler OnSettingEdgeType;
+        event RetypingEdgeHandler OnRetypingEdge;
 
         /// <summary>
         /// Fires an OnChangingNodeAttribute event. This should be called before an attribute of a node is changed.

@@ -87,78 +87,64 @@ namespace de.unika.ipd.grGen.lgsp
     public class LGSPUndoAttributeChanged : IUndoItem
     {
         private IGraphElement _elem;
-        private String _attrName;
+        private AttributeType _attrType;
         private Object _oldValue;
 
-        public LGSPUndoAttributeChanged(IGraphElement elem, String attrName, Object oldValue)
+        public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType, Object oldValue)
         {
-            _elem = elem; _attrName = attrName; _oldValue = oldValue;
+            _elem = elem; _attrType = attrType; _oldValue = oldValue;
         }
 
-        // TODO: NYI
-        // TODO: Perhaps replace reflection stuff by custom emitted accessor functions stored in a Dictionary in the type objects
         public void DoUndo(IGraph graph)
         {
-            throw new Exception("Not implemented yet!");
-/*            IAttributes attributes;
-            PropertyInfo prop;
+            String attrName = _attrType.Name;
             LGSPNode node = _elem as LGSPNode;
             if(node != null)
-            {
-                attributes = node.attributes;
-                prop = attributes.GetType().GetProperty(_attrName);
-                graph.ChangingNodeAttribute(node, node.type.GetAttributeType(_attrName), prop.GetValue(attributes, null), _oldValue);
-            }
+                graph.ChangingNodeAttribute(node, _attrType, node.GetAttribute(attrName), _oldValue);
             else
             {
                 LGSPEdge edge = (LGSPEdge) _elem;
-                attributes = edge.attributes;
-                prop = attributes.GetType().GetProperty(_attrName);
-                graph.ChangingEdgeAttribute(edge, edge.type.GetAttributeType(_attrName), prop.GetValue(attributes, null), _oldValue);
+                graph.ChangingEdgeAttribute(edge, _attrType, edge.GetAttribute(attrName), _oldValue);
             }
-            prop.SetValue(attributes, _oldValue, null);*/
+
+            _elem.SetAttribute(attrName, _oldValue);
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
         {
-            return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrName, _oldValue);
+            return new LGSPUndoAttributeChanged(oldToNewMap[_elem], _attrType, _oldValue);
         }
     }
 
-    public class LGSPUndoElemTypeChanged : IUndoItem
+    public class LGSPUndoElemRetyped : IUndoItem
     {
-        private IGraphElement _elem;
-        private GrGenType _oldType;
-        private IAttributes _oldAttrs;
+        private IGraphElement _oldElem;
+        private IGraphElement _newElem;
 
-        public LGSPUndoElemTypeChanged(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs)
+        public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem)
         {
-            _elem = elem;
-            _oldType = oldType;
-            _oldAttrs = oldAttrs;
+            _oldElem = oldElem;
+            _newElem = newElem;
         }
 
-        // TODO: NYI
         public void DoUndo(IGraph graph)
         {
-            throw new Exception("Not implemented yet!");
-/*            LGSPGraph lgraph = (LGSPGraph) graph;
-                        if(_elem is LGSPNode)
-                        {
-                            LGSPNode node = (LGSPNode) _elem;
-                            lgraph.RemoveNode(node, node.type.TypeID);
-                            lgraph.AddNode(node, _oldType.TypeID);
-                            node.type = (NodeType) _oldType;
-                            node.attributes = _oldAttrs;
-                        }
-                        else
-                        {
-                            LGSPEdge edge = (LGSPEdge) _elem;
-                            lgraph.RemoveEdge(edge, edge.type.TypeID);
-                            lgraph.AddEdge(edge, _oldType.TypeID);
-                            edge.type = (EdgeType) _oldType;
-                            edge.attributes = _oldAttrs;
-                        }*/
+            LGSPGraph lgraph = (LGSPGraph) graph;
+
+            LGSPNode newNode = _newElem as LGSPNode;
+            if(newNode != null)
+            {
+                LGSPNode oldNode = (LGSPNode) _oldElem;
+                lgraph.RetypingNode(newNode, oldNode);
+                lgraph.ReplaceNode(newNode, oldNode);
+            }
+            else
+            {
+                LGSPEdge newEdge = (LGSPEdge) _newElem;
+                LGSPEdge oldEdge = (LGSPEdge) _oldElem;
+                lgraph.RetypingEdge(newEdge, oldEdge);
+                lgraph.ReplaceEdge(newEdge, oldEdge);
+            }
         }
 
         public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
@@ -188,8 +174,8 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnRemovingEdge += new RemovingEdgeHandler(RemovingElement);
             graph.OnChangingNodeAttribute += new ChangingNodeAttributeHandler(ChangingElementAttribute);
             graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(ChangingElementAttribute);
-            graph.OnSettingNodeType += new SettingNodeTypeHandler(SettingElementType);
-            graph.OnSettingEdgeType += new SettingEdgeTypeHandler(SettingElementType);
+            graph.OnRetypingNode += new RetypingNodeHandler(RetypingElement);
+            graph.OnRetypingEdge += new RetypingEdgeHandler(RetypingElement);
         }
 
         private void UnsubscribeEvents()
@@ -200,8 +186,8 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnRemovingEdge -= new RemovingEdgeHandler(RemovingElement);
             graph.OnChangingNodeAttribute -= new ChangingNodeAttributeHandler(ChangingElementAttribute);
             graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(ChangingElementAttribute);
-            graph.OnSettingNodeType -= new SettingNodeTypeHandler(SettingElementType);
-            graph.OnSettingEdgeType -= new SettingEdgeTypeHandler(SettingElementType);
+            graph.OnRetypingNode -= new RetypingNodeHandler(RetypingElement);
+            graph.OnRetypingEdge -= new RetypingEdgeHandler(RetypingElement);
         }
 
         /// <summary>
@@ -268,12 +254,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType, Object oldValue, Object newValue)
         {
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType.Name, oldValue));
+            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, oldValue));
         }
 
-        public void SettingElementType(IGraphElement elem, GrGenType oldType, IAttributes oldAttrs, GrGenType newType, IAttributes newAttrs)
+        public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
-            if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemTypeChanged(elem, oldType, oldAttrs));
+            if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
         }
 
         public bool TransactionActive { get { return recording; } }
@@ -1167,139 +1153,35 @@ namespace de.unika.ipd.grGen.lgsp
             InitializeGraph();
         }
 
-/*        private void RetypeWithCopyCommons(IGraphElement elem, GrGenType newType)
-        {
-//            IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
-            IAttributes newAttrs = newType.CreateAttributes();
-
-            IEnumerable<AttributeType> minAttrTypes;
-            GrGenType otherType;
-
-            // Use the type with the smaller amount of attributes to reduce number of loop iterations
-            if(elem.Type.NumAttributes < newType.NumAttributes)
-            {
-                minAttrTypes = elem.Type.AttributeTypes;
-                otherType = newType;
-            }
-            else
-            {
-                minAttrTypes = newType.AttributeTypes;
-                otherType = elem.Type;
-            }
-
-            // Copy all attributes from common super types into newAttrs    
-            foreach(AttributeType attrType in minAttrTypes)
-            {
-                AttributeType otherAttrType = otherType.GetAttributeType(attrType.Name);
-                if(otherAttrType == null || attrType.OwnerType != otherAttrType.OwnerType) continue;
-
-                object value = elem.GetAttribute(attrType.Name);
-                newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
-            }
-            if(elem is INode)
-                SettingNodeType((INode) elem, elem.Type, elem.attributes, newType, newAttrs);
-            else
-                SettingEdgeType((IEdge) elem, elem.Type, elem.attributes, newType, newAttrs);
-            elem.type = newType;
-            elem.attributes = newAttrs;
-        }*/
-
-        // TODO: NYI
-        private void RetypeWithCopyCommons(LGSPNode elem, NodeType newType)
-        {
-            throw new Exception("Not implemented yet!");
-
-/*            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
-            IAttributes newAttrs = newType.CreateAttributes();
-
-            IEnumerable<AttributeType> minAttrTypes;
-            GrGenType otherType;
-
-            // Use the type with the smaller amount of attributes to reduce number of loop iterations
-            if(elem.Type.NumAttributes < newType.NumAttributes)
-            {
-                minAttrTypes = elem.Type.AttributeTypes;
-                otherType = newType;
-            }
-            else
-            {
-                minAttrTypes = newType.AttributeTypes;
-                otherType = elem.Type;
-            }
-
-            // Copy all attributes from common super types into newAttrs    
-            foreach(AttributeType attrType in minAttrTypes)
-            {
-                AttributeType otherAttrType = otherType.GetAttributeType(attrType.Name);
-                if(otherAttrType == null || attrType.OwnerType != otherAttrType.OwnerType) continue;
-
-                object value = elem.GetAttribute(attrType.Name);
-                newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
-            }
-            SettingNodeType(elem, elem.Type, elem.attributes, newType, newAttrs);
-            elem.type = newType;
-            elem.attributes = newAttrs;*/
-        }
-
-        // TODO: NYI
-        private void RetypeWithCopyCommons(LGSPEdge elem, EdgeType newType)
-        {
-            throw new Exception("Not implemented yet!");
-
-/*            // IAttributes newAttrs = (IAttributes) Activator.CreateInstance(newType.AttributesType);
-            IAttributes newAttrs = newType.CreateAttributes();
-
-            IEnumerable<AttributeType> minAttrTypes;
-            GrGenType otherType;
-
-            // Use the type with the smaller amount of attributes to reduce number of loop iterations
-            if(elem.Type.NumAttributes < newType.NumAttributes)
-            {
-                minAttrTypes = elem.Type.AttributeTypes;
-                otherType = newType;
-            }
-            else
-            {
-                minAttrTypes = newType.AttributeTypes;
-                otherType = elem.Type;
-            }
-
-            // Copy all attributes from common super types into newAttrs    
-            foreach(AttributeType attrType in minAttrTypes)
-            {
-                AttributeType otherAttrType = otherType.GetAttributeType(attrType.Name);
-                if(otherAttrType == null || attrType.OwnerType != otherAttrType.OwnerType) continue;
-
-                object value = elem.GetAttribute(attrType.Name);
-                newAttrs.GetType().GetProperty(attrType.Name).SetValue(newAttrs, value, null);
-            }
-            SettingEdgeType(elem, elem.Type, elem.attributes, newType, newAttrs);
-            elem.type = newType;
-            elem.attributes = newAttrs;*/
-        }
-
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
         /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
         /// <returns>The new node object representing the retyped node.</returns>
         public LGSPNode Retype(LGSPNode node, NodeType newNodeType)
         {
-            return (LGSPNode) newNodeType.Retype(this, node);
+            LGSPNode newNode = (LGSPNode) newNodeType.CreateNodeWithCopyCommons(node);
+
+            RetypingNode(node, newNode);
+
+            ReplaceNode(node, newNode);
+            return newNode;
         }
 
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
         /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// WARNING: GetElementName will probably not return the same element name for the new edge, yet! (TODO)
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
         /// <returns>The new node object representing the retyped node.</returns>
         public override INode Retype(INode node, NodeType newNodeType)
         {
-            return newNodeType.Retype(this, node);
+            return Retype((LGSPNode) node, newNodeType);
         }
 
         /// <summary>
@@ -1311,7 +1193,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new edge object representing the retyped edge.</returns>
         public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
-            return (LGSPEdge) newEdgeType.Retype(this, edge);
+            LGSPEdge newEdge = (LGSPEdge) newEdgeType.CreateEdgeWithCopyCommons(edge.source, edge.target, edge);
+
+            RetypingEdge(edge, newEdge);
+
+            ReplaceEdge(edge, newEdge);
+            return newEdge;
         }
 
         /// <summary>
@@ -1323,7 +1210,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new edge object representing the retyped edge.</returns>
         public override IEdge Retype(IEdge edge, EdgeType newEdgeType)
         {
-            return newEdgeType.Retype(this, edge);
+            return Retype((LGSPEdge) edge, newEdgeType);
         }
 
         /// <summary>
@@ -1539,7 +1426,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="varName">The variable name to lookup.</param>
         /// <returns>The according LGSPNode or null.</returns>
-        public LGSPNode GetNodeVarValue(string varName)
+        public new LGSPNode GetNodeVarValue(string varName)
         {
             return (LGSPNode) GetVariableValue(varName);
         }
@@ -1550,7 +1437,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="varName">The variable name to lookup.</param>
         /// <returns>The according LGSPEdge or null.</returns>
-        public LGSPEdge GetEdgeVarValue(string varName)
+        public new LGSPEdge GetEdgeVarValue(string varName)
         {
             return (LGSPEdge) GetVariableValue(varName);
         }

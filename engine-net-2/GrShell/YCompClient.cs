@@ -451,23 +451,6 @@ namespace de.unika.ipd.grGen.grShell
         }
 
 
-        private String GetRetypedElemLabel(IGraphElement elem, GrGenType type, IAttributes attrs)
-        {
-            List<AttributeType> infoTagTypes = dumpInfo.GetTypeInfoTags(type);
-            String infoTag = "";
-            if(infoTagTypes != null)
-            {
-                foreach(AttributeType attrType in infoTagTypes)
-                {
-                    object attr = attrs.GetType().GetProperty(attrType.Name).GetValue(attrs, null);
-                    if(attr == null) continue;
-                    infoTag += "\\n" + attrType.Name + " = " + attr.ToString();
-                }
-            }
-
-            return dumpInfo.GetElementName(elem) + ":" + type.Name + infoTag;
-        }
-
         public void AddNode(INode node)
         {
             if(dumpInfo.IsExcludedNodeType(node.Type)) return;
@@ -617,35 +600,39 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void RetypeElement(IGraphElement elem, GrGenType oldType, GrGenType newType, IAttributes newAttrs)
+        public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
-            bool isNode = elem is INode;
+            bool isNode = oldElem is INode;
+            GrGenType oldType = oldElem.Type;
+            GrGenType newType = newElem.Type;
 
             if(isNode)
             {
-                if(dumpInfo.IsExcludedNodeType((NodeType) elem.Type)) return;
+                if(dumpInfo.IsExcludedNodeType((NodeType) oldType)) return;
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) elem.Type)) return;
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) oldType)) return;
             }
 
-
-            String name = graph.GetElementName(elem);
             String elemKind = isNode ? "Node" : "Edge";
             String elemNamePrefix = isNode ? "n" : "e";
-            ycompStream.Write("set" + elemKind + "Label \"" + elemNamePrefix + name + "\" \""
-                + GetRetypedElemLabel(elem, newType, newAttrs) + "\"\n");
+            String name = elemNamePrefix + graph.GetElementName(oldElem);
+
+            ycompStream.Write("set" + elemKind + "Label \"" + name + "\" \"" + GetElemLabel(newElem) + "\"\n");
+
+            // remove the old attributes
             foreach(AttributeType attrType in oldType.AttributeTypes)
             {
-                ycompStream.Write("clear" + elemKind + "Attr \"" + elemNamePrefix + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("clear" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\"\n");
             }
+            // set the new attributes
             foreach(AttributeType attrType in newType.AttributeTypes)
             {
-                object attr = newAttrs.GetType().GetProperty(attrType.Name).GetValue(newAttrs, null);
+                object attr = newElem.GetAttribute(attrType.Name);
                 String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
-                ycompStream.Write("change" + elemKind + "Attr \"" + elemNamePrefix + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("change" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
             }
 
@@ -654,14 +641,14 @@ namespace de.unika.ipd.grGen.grShell
                 String oldNr = GetNodeRealizer((NodeType) oldType);
                 String newNr = GetNodeRealizer((NodeType) newType);
                 if(oldNr != newNr)
-                    ChangeNode((INode) elem, newNr);
+                    ChangeNode((INode) oldElem, newNr);
             }
             else
             {
                 String oldEr = GetEdgeRealizer((EdgeType) oldType);
                 String newEr = GetEdgeRealizer((EdgeType) newType);
                 if(oldEr != newEr)
-                    ChangeEdge((IEdge) elem, newEr);
+                    ChangeEdge((IEdge) oldElem, newEr);
             }
             isDirty = true;
         }

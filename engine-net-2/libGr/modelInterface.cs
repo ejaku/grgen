@@ -500,6 +500,14 @@ namespace de.unika.ipd.grGen.libGr
         public abstract INode CreateNode();
 
         /// <summary>
+        /// Creates an INode object according to this type and copies all
+        /// common attributes from the given node.
+        /// </summary>
+        /// <param name="oldNode">The old node.</param>
+        /// <returns>The created INode object.</returns>
+        public abstract INode CreateNodeWithCopyCommons(INode oldNode);
+
+        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public NodeType[] subOrSameTypes;
@@ -517,15 +525,6 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing this type first and following all super types
         /// </summary>
         public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
-
-        /// <summary>
-        /// Retypes a given node of a given graph to a node of this type.
-        /// All adjacent nodes and all common attributes are kept.
-        /// </summary>
-        /// <param name="graph">The graph containing the node.</param>
-        /// <param name="oldNode">The old node.</param>
-        /// <returns>A new node of this type.</returns>
-        public abstract INode Retype(IGraph graph, INode oldNode);
     }
 
     public abstract class EdgeType : GrGenType
@@ -546,6 +545,16 @@ namespace de.unika.ipd.grGen.libGr
         public abstract IEdge CreateEdge(INode source, INode target);
 
         /// <summary>
+        /// Creates an IEdge object according to this type and copies all
+        /// common attributes from the given edge.
+        /// </summary>
+        /// <param name="source">The source of the edge.</param>
+        /// <param name="target">The target of the edge.</param>
+        /// <param name="oldEdge">The old edge.</param>
+        /// <returns>The created IEdge object.</returns>
+        public abstract IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldEdge);
+
+        /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
         public EdgeType[] subOrSameTypes;
@@ -557,21 +566,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Array containing this type first and following all sub types
         /// </summary>
-        public EdgeType[] SubOrSameTypes { get { return subOrSameTypes; } }
+        public new EdgeType[] SubOrSameTypes { get { return subOrSameTypes; } }
 
         /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
-        public EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
-
-        /// <summary>
-        /// Retypes a given edge of a given graph to a edge of this type.
-        /// Source and target node as well as all common attributes are kept.
-        /// </summary>
-        /// <param name="graph">The graph containing the edge.</param>
-        /// <param name="oldEdge">The old edge.</param>
-        /// <returns>A new edge of this type.</returns>
-        public abstract IEdge Retype(IGraph graph, IEdge oldEdge);
+        public new EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
     }
 
 #if OLD

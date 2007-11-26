@@ -625,13 +625,13 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before the type of a node is changed.
         /// Old and new type and attributes are provided to the handler.
         /// </summary>
-        public event SettingNodeTypeHandler OnSettingNodeType { add { graph.OnSettingNodeType += value; } remove { graph.OnSettingNodeType -= value; } }
+        public event RetypingNodeHandler OnRetypingNode { add { graph.OnRetypingNode += value; } remove { graph.OnRetypingNode -= value; } }
 
         /// <summary>
         /// Fired before the type of an edge is changed.
         /// Old and new type and attributes are provided to the handler.
         /// </summary>
-        public event SettingEdgeTypeHandler OnSettingEdgeType { add { graph.OnSettingEdgeType += value; } remove { graph.OnSettingEdgeType -= value; } }
+        public event RetypingEdgeHandler OnRetypingEdge { add { graph.OnRetypingEdge += value; } remove { graph.OnRetypingEdge -= value; } }
 
 
         /// <summary>
