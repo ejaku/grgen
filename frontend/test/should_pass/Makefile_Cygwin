@@ -16,7 +16,7 @@ GRGENNET?=$(GRGENDIR)/../engine-net/out/bin
 
 #
 # full classpath for executing grgen
-CLASSPATH=$(JARGS):$(ANTLR):$(GRGENNET)/grgen.jar
+CLASSPATH=$(JARGS);$(ANTLR);$(GRGENNET)/grgen.jar
 
 GMS     = $(wildcard *.gm)
 GRGS    = $(wildcard *.grg)
@@ -52,7 +52,7 @@ grgenuptodate: $(GRGENDIR)/grgen.jar
 	@touch successFE.log
 	@touch failedFE.log
 	@test -d $@_out || mkdir $@_out
-	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -t -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
+	-java -Xmx256M -cp "$(CLASSPATH)" -ea de.unika.ipd.grgen.Main -n -t -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
 
 %_csc : %.grg $(GMS) grgenuptodate %_csc_success ;
 

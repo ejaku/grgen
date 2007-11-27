@@ -12,11 +12,11 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
 # guess, where GrGen.NET is located, if not already set
-GRGENNET?=$(GRGENDIR)/../grgennet/out/bin
+GRGENNET?=$(GRGENDIR)/../engine-net/out/bin
 
 #
 # full classpath for executing grgen
-CLASSPATH=$(JARGS):$(ANTLR):$(GRGENDIR)/grgen.jar
+CLASSPATH=$(JARGS):$(ANTLR):$(GRGENNET)/grgen.jar
 
 GMS     = $(wildcard *.gm)
 GRGS    = $(wildcard *.grg)
@@ -44,9 +44,9 @@ csccontinue: $(TARGETS_CSC)
 	@echo -e "\nFailed in C# part of GrGen (from failedCSC.log):\n"
 	@cat failedCSC.log
 
-grgenuptodate: $(GRGENDIR)/grgen.jar
+grgenuptodate: $(GRGENNET)/grgen.jar
 	@touch grgenuptodate
-	cp $(GRGENDIR)/grgen.jar $(GRGENNET)/
+	cp $(GRGENNET)/grgen.jar $(GRGENNET)/
 
 %_fe : %.grg $(GMS)
 	@touch successFE.log
