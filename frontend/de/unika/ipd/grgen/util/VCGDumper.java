@@ -176,23 +176,24 @@ public class VCGDumper implements GraphDumper {
 	
 	public void edge(GraphDumpable from, GraphDumpable to, String label,
 					 int style, Color color) {
-		
-		String col = getColor(color);
-		
-		String s = "edge:{sourcename:\"" + getPrefix() + from.getNodeId()
-			+ "\" targetname:\"" + getPrefix() + to.getNodeId() + "\"";
-		
-		if(label != null)
-			s += " label:\"" + escapeString(label) + "\"";
-		
-		s += " color:" + col;
-		
-		if(style != DEFAULT)
-			s += " linestyle:" + lineStyleMap.get(new Integer(style));
-		
-		s += "}";
-		
-		ps.println(s);
+		if(from!=null && to !=null) {
+			String col = getColor(color);
+			
+			String s = "edge:{sourcename:\"" + getPrefix() + from.getNodeId()
+				+ "\" targetname:\"" + getPrefix() + to.getNodeId() + "\"";
+			
+			if(label != null)
+				s += " label:\"" + escapeString(label) + "\"";
+			
+			s += " color:" + col;
+			
+			if(style != DEFAULT)
+				s += " linestyle:" + lineStyleMap.get(new Integer(style));
+			
+			s += "}";
+			
+			ps.println(s);
+		}
 	}
 	
 	public void edge(GraphDumpable from, GraphDumpable to, String label, int style) {
