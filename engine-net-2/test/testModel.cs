@@ -28,6 +28,9 @@ namespace de.unika.ipd.grGen.models.test
 
 	public sealed class Node_C221 : LGSPNode, INode_C221
 	{
+        private static int poolLevel = 0;
+        private static Node_C221[] pool = new Node_C221[10];
+
 		public Node_C221() : base(NodeType_C221.typeVar) { }
 		private Node_C221(Node_C221 oldElem) : base(NodeType_C221.typeVar)
 		{
@@ -38,17 +41,31 @@ namespace de.unika.ipd.grGen.models.test
 		public override INode Clone() { return new Node_C221(this); }
 		public static Node_C221 CreateNode(LGSPGraph graph)
 		{
-			Node_C221 node = new Node_C221();
+            Node_C221 node;
+            if(poolLevel == 0)
+                node = new Node_C221();
+            else
+                node = pool[--poolLevel];
 			graph.AddNode(node);
 			return node;
 		}
 
 		public static Node_C221 CreateNode(LGSPGraph graph, String varName)
 		{
-			Node_C221 node = new Node_C221();
-			graph.AddNode(node, varName);
+            Node_C221 node;
+            if(poolLevel == 0)
+                node = new Node_C221();
+            else
+                node = pool[--poolLevel];
+            graph.AddNode(node, varName);
 			return node;
 		}
+
+        public override void Recycle()
+        {
+            if(poolLevel < 10)
+                pool[poolLevel++] = this;
+        }
 
 		private int _c221;
 		public int @c221

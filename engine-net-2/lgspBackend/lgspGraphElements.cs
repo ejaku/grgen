@@ -246,6 +246,11 @@ namespace de.unika.ipd.grGen.lgsp
         }*/
 
         public abstract INode Clone();
+
+        /// <summary>
+        /// Recycles this node. This may pool the node or just ignore it.
+        /// </summary>
+        public abstract void Recycle();
     }
 
     public class LGSPNodeHead : LGSPNode
@@ -263,6 +268,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override INode Clone()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void Recycle()
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -340,6 +350,11 @@ namespace de.unika.ipd.grGen.lgsp
         }*/
 
         public abstract IEdge Clone(INode newSource, INode newTarget);
+
+        /// <summary>
+        /// Recycles this edge. This may pool the edge or just ignore it.
+        /// </summary>
+        public abstract void Recycle();
     }
 
     public class LGSPEdgeHead : LGSPEdge
@@ -357,6 +372,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override IEdge Clone(INode newSource, INode newTarget)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void Recycle()
         {
             throw new Exception("The method or operation is not implemented.");
         }

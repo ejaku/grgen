@@ -891,6 +891,8 @@ namespace de.unika.ipd.grGen.lgsp
             node.typePrev = null;
 
             nodesByTypeCounts[typeid]--;
+            if(reuseOptimization)
+                node.Recycle();
         }
 
         /// <summary>
@@ -934,6 +936,8 @@ namespace de.unika.ipd.grGen.lgsp
             edge.typePrev = null;
 
             edgesByTypeCounts[typeid]--;
+            if(reuseOptimization)
+                edge.Recycle();
         }
 
         /// <summary>
@@ -1273,6 +1277,9 @@ namespace de.unika.ipd.grGen.lgsp
                 while(inCur != inHead);
             }
             newNode.inhead = inHead;
+
+            if(reuseOptimization)
+                oldNode.Recycle();
         }
 
         /// <summary>
@@ -1332,6 +1339,9 @@ namespace de.unika.ipd.grGen.lgsp
             newEdge.inPrev = oldEdge.inPrev;
             oldEdge.inNext = null;
             oldEdge.inPrev = null;
+
+            if(reuseOptimization)
+                oldEdge.Recycle();
         }
 
 #if OLD
