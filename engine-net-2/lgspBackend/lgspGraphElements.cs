@@ -9,7 +9,6 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPNode : INode
     {
         public NodeType type;
-//        public IAttributes attributes;
 
         /// <summary>
         /// Tells during the matching process whether the element 
@@ -46,7 +45,6 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPNode(NodeType nodeType)
         {
             type = nodeType;
-//            attributes = type.CreateAttributes();
         }
 
         public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
@@ -232,18 +230,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public abstract object GetAttribute(string attrName);
-
-/*        public object GetAttribute(string attrName)
-        {
-            return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
-        }*/
-
         public abstract void SetAttribute(string attrName, object value);
-
-/*        public void SetAttribute(string attrName, object value)
-        {
-            attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
-        }*/
 
         public abstract INode Clone();
 
@@ -281,7 +268,6 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPEdge : IEdge
     {
         public EdgeType type;
-//        public IAttributes attributes;
 
         /// <summary>
         /// Tells during the matching process whether the element 
@@ -319,7 +305,6 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
             type = edgeType;
-//            attributes = type.CreateAttributes();
             source = sourceNode;
             target = targetNode;
         }
@@ -336,18 +321,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public abstract object GetAttribute(string attrName);
-
-/*        public object GetAttribute(string attrName)
-        {
-            return attributes.GetType().GetProperty(attrName).GetValue(attributes, null);
-        }*/
-
         public abstract void SetAttribute(string attrName, object value);
-
-/*        public void SetAttribute(string attrName, object value)
-        {
-            attributes.GetType().GetProperty(attrName).SetValue(attributes, value, null);
-        }*/
 
         public abstract IEdge Clone(INode newSource, INode newTarget);
 

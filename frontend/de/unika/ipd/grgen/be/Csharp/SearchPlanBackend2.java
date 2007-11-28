@@ -1252,9 +1252,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		genAttributeAccess(sb, type);
 		sb.append("\t}\n");
 
-		sb.append("\n");
-		sb.append("\tpublic sealed class " + cname + " : LGSP" + elemKind + ", " + iname + "\n");
-		sb.append("\t{\n");
+		sb.append("\n"
+				+ "\tpublic sealed class " + cname + " : LGSP" + elemKind + ", " + iname + "\n"
+				+ "\t{\n"
+				+ "\t\tprivate static int poolLevel = 0;\n"
+				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
+		
 		if(isNode) {
 			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n"
 					+ "\t\tprivate " + cname + "(" + cname + " oldElem) : base(" + tname + ".typeVar)\n");
@@ -1277,13 +1280,33 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			sb.append("\t\tpublic override INode Clone() { return new " + cname + "(this); }\n"
 					+ "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n"
 					+ "\t\t{\n"
-					+ "\t\t\t" + cname + " node = new " + cname + "();\n"
+					+ "\t\t\t" + cname + " node;\n"
+					+ "\t\t\tif(poolLevel == 0)\n"
+					+ "\t\t\t\tnode = new " + cname + "();\n"
+					+ "\t\t\telse\n"
+					+ "\t\t\t{\n"
+					+ "\t\t\t\tnode = pool[--poolLevel];\n"
+					+ "\t\t\t\tnode.inhead = null;\n"
+					+ "\t\t\t\tnode.outhead = null;\n"
+					+ "\t\t\t\tnode.hasVariables = false;\n");
+			initAllMembers(sb, type, "node");
+			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
 					+ "\t\t}\n\n"
 					+ "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph, String varName)\n"
 					+ "\t\t{\n"
-					+ "\t\t\t" + cname + " node = new " + cname + "();\n"
+					+ "\t\t\t" + cname + " node;\n"
+					+ "\t\t\tif(poolLevel == 0)\n"
+					+ "\t\t\t\tnode = new " + cname + "();\n"
+					+ "\t\t\telse\n"
+					+ "\t\t\t{\n"
+					+ "\t\t\t\tnode = pool[--poolLevel];\n"
+					+ "\t\t\t\tnode.inhead = null;\n"
+					+ "\t\t\t\tnode.outhead = null;\n"
+					+ "\t\t\t\tnode.hasVariables = false;\n");
+			initAllMembers(sb, type, "node");
+			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
 					+ "\t\t\treturn node;\n"
 					+ "\t\t}\n\n");
@@ -1293,17 +1316,42 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t{ return new " + cname + "(this, (LGSPNode) newSource, (LGSPNode) newTarget); }\n"
 					+ "\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)\n"
 					+ "\t\t{\n"
-					+ "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n"
+					+ "\t\t\t" + cname + " edge;\n"
+					+ "\t\t\tif(poolLevel == 0)\n"
+					+ "\t\t\t\tedge = new " + cname + "(source, target);\n"
+					+ "\t\t\telse\n"
+					+ "\t\t\t{\n"
+					+ "\t\t\t\tedge = pool[--poolLevel];\n"
+					+ "\t\t\t\tedge.hasVariables = false;\n"
+					+ "\t\t\t\tedge.source = source;\n"
+					+ "\t\t\t\tedge.target = target;\n");
+			initAllMembers(sb, type, "edge");
+			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
 					+ "\t\t}\n\n"
 					+ "\t\tpublic static " + cname + " CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)\n"
 					+ "\t\t{\n"
-					+ "\t\t\t" + cname + " edge = new " + cname + "(source, target);\n"
+					+ "\t\t\t" + cname + " edge;\n"
+					+ "\t\t\tif(poolLevel == 0)\n"
+					+ "\t\t\t\tedge = new " + cname + "(source, target);\n"
+					+ "\t\t\telse\n"
+					+ "\t\t\t{\n"
+					+ "\t\t\t\tedge = pool[--poolLevel];\n"
+					+ "\t\t\t\tedge.hasVariables = false;\n"
+					+ "\t\t\t\tedge.source = source;\n"
+					+ "\t\t\t\tedge.target = target;\n");
+			initAllMembers(sb, type, "edge");
+			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
 					+ "\t\t\treturn edge;\n"
 					+ "\t\t}\n\n");
 		}
+		sb.append("\t\tpublic override void Recycle()\n"
+				+ "\t\t{\n"
+				+ "\t\t\tif(poolLevel < 10)\n"
+				+ "\t\t\t\tpool[poolLevel++] = this;\n"
+				+ "\t\t}\n\n");
 		genAttributeAccessImpl(sb, type);
 		sb.append("\t}\n");
 
@@ -1350,6 +1398,22 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t}\n");
 	}
 
+	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName) {
+		for(Entity member : type.getAllMembers()) {
+			String attrName = formatAttributeName(member);
+			sb.append("\t\t\t\t" + varName + ".@" + attrName + " = ");
+			Type t = member.getType();
+			if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
+				sb.append("0;\n");
+			else if(t instanceof FloatType)
+				sb.append("0f;\n");
+			else if(t instanceof BooleanType)
+				sb.append("false;\n");
+			else if(t instanceof StringType || t instanceof ObjectType)
+				sb.append("null;\n");
+			else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+		}
+	}
 
 	/**
 	 * Method genAttributeAccess

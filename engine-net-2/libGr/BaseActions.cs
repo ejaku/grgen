@@ -185,7 +185,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Apply a graph rewrite sequence.
         /// </summary>
         /// <param name="sequence">The graph rewrite sequence</param>
-        /// <returns>False, if no rule could be applied</returns>
+        /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(Sequence sequence)
         {
             if(perfInfo != null) perfInfo.Start();
@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Apply a graph rewrite sequence.
         /// </summary>
         /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
-        /// <returns>False, if no rule could be applied</returns>
+        /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(String seqStr)
         {
             return ApplyGraphRewriteSequence(SequenceParser.ParseSequence(seqStr, this));

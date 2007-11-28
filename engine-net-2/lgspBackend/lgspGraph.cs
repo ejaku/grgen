@@ -693,6 +693,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
+            if(node.typeNext != null)
+                Console.WriteLine("ARRRRRGGGHHH!!!!");
+
             LGSPNode head = nodesByTypeHeads[typeid];
             head.typeNext.typePrev = node;
             node.typeNext = head.typeNext;
@@ -1248,6 +1251,8 @@ namespace de.unika.ipd.grGen.lgsp
                 newNode.typePrev = oldNode.typePrev;
                 oldNode.typeNext.typePrev = newNode;
                 oldNode.typePrev.typeNext = newNode;
+                oldNode.typeNext = null;
+                oldNode.typePrev = null;
             }
 
             // Reassign all outgoing edges
@@ -1278,7 +1283,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             newNode.inhead = inHead;
 
-            if(reuseOptimization)
+            if(oldNode.type == newNode.type && reuseOptimization)
                 oldNode.Recycle();
         }
 
@@ -1316,6 +1321,8 @@ namespace de.unika.ipd.grGen.lgsp
                 newEdge.typePrev = oldEdge.typePrev;
                 oldEdge.typeNext.typePrev = newEdge;
                 oldEdge.typePrev.typeNext = newEdge;
+                oldEdge.typeNext = null;
+                oldEdge.typePrev = null;
             }
 
             // Reassign source node
