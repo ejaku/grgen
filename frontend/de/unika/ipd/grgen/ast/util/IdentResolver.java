@@ -119,7 +119,7 @@ public abstract class IdentResolver extends Resolver
 	}
 	
 	/**
-	 * Get the resolved AST node for an Identtifier.
+	 * Get the resolved AST node for an Identifier.
 	 * This can be the declaration, which the identifier occurs in, for
 	 * example. See {@link DeclResolver} as an example.
 	 * @param n The identifier.

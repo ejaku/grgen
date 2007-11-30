@@ -101,7 +101,7 @@ public abstract class BaseNode extends Base
 	/** The ir object for this node. */
 	private IR irObject = null;
 	
-	/** The result of the resulotion. */
+	/** The result of the resolution. */
 	private boolean resolveResult = false;
 	
 	/** Has this base node already be resolved. */

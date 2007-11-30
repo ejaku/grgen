@@ -203,7 +203,7 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	
 	/**
 	 * Get the attributes.
-	 * @return The atttributes.
+	 * @return The attributes.
 	 */
 	public Attributes getAttributes() {
 		return attrs;

@@ -102,7 +102,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	
 	/**
 	 * This adds the connection to an IR graph.
-	 * This method should only be used by {@link PatternNode#constructIR()}.
+	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {

@@ -39,8 +39,8 @@ import de.unika.ipd.grgen.util.Walkable;
  * The nodes and edges in a rule   that are common to the left and the right
  * side exist only once as a object (that's due to the fact, that these
  * objects are created from the AST declaration, which exist only once per
- * defined object). But we want to dicriminate between the nodes on the
- * left and right hand side od a rule, even, if they represent the same
+ * defined object). But we want to discriminate between the nodes on the
+ * left and right hand side of a rule, even, if they represent the same
  * declared nodes.
  */
 public class Graph extends IR {
