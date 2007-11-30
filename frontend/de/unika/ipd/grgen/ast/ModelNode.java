@@ -45,7 +45,7 @@ public class ModelNode extends DeclNode {
 	}
 	
 	/** Index of the decl collect node in the children. */
-	private static final int DECLS = 2;
+	public static final int DECLS = 2;
 	
 	/** Names of the children */
 	private static String[] childrenNames = {

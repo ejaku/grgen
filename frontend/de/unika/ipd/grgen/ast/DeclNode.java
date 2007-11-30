@@ -41,7 +41,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	}
 
 	/** Index of the identifier in the children array */
-	protected static final int IDENT = 0;
+	public static final int IDENT = 0;
 
 	/** Index of the type in the children array */
 	protected static final int TYPE = 1;

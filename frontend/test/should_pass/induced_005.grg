@@ -1,0 +1,11 @@
+rule r {
+	induced pattern {
+		x:Node --> y:Node;
+		y --> y;
+		y --> y;
+		z:Node;
+	}
+	replace {
+	}
+}
+

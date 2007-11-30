@@ -65,6 +65,8 @@ tokens {
   MODEL = "model";
   NODE = "node";
   EDGE = "edge";
+  INDUCED = "induced";
+  DPO = "dpo";
   PATTERN = "pattern";
   REPLACE = "replace";
   NEGATIVE = "negative";

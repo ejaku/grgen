@@ -174,6 +174,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 		return res;
 	}
+
 	/**
 	 * Check whether the returned elements are valid and
 	 * whether the number of retuned elements is right.
@@ -454,20 +455,26 @@ public class RuleDeclNode extends TestDeclNode {
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
-		
-		constructIRaux(rule, ((GraphNode)getChild(RIGHT)).getReturn());
-		
-		// add Eval statments to the IR
-		for(BaseNode n : getChild(EVAL).getChildren()) {
-			AssignNode eval = (AssignNode)n;
+
+		constructImplicitNegs(rule);
+		constructIRaux(rule, ((GraphNode) getChild(RIGHT)).getReturn());
+
+		// add Eval statements to the IR
+		for (BaseNode n : getChild(EVAL).getChildren()) {
+			AssignNode eval = (AssignNode) n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 				
 		return rule;
 	}
+
+	/**
+	 * add NACs for induced- or DPO-semantic
+	 */
+	protected void constructImplicitNegs(Rule rule) {
+		PatternGraphNode leftNode = (PatternGraphNode) getChild(PATTERN);
+		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
+			rule.addNegGraph(neg);
+		}
+	}
 }
-
-
-
-
-

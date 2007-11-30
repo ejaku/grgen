@@ -215,7 +215,8 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	;
 
 patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
-  : p:PATTERN LBRACE! res=patternBody[getCoords(p), negsCollect] RBRACE!
+	{ int mod=0; }
+  : mod=patternModifiers p:PATTERN LBRACE! res=patternBody[getCoords(p), negsCollect, mod] RBRACE!
   ;
   
 replacePart [ CollectNode eval ] returns [ BaseNode res = env.initNode() ]
@@ -237,19 +238,29 @@ evalBody [ BaseNode n  ]
 	  )*
 	;
 	
+patternModifiers returns [ int res = 0 ]{ int mod = 0; }
+	:(mod=patternModifier { res |= mod; })*
+	;
+
+patternModifier returns [ int res = 0 ]
+	: INDUCED {res |= PatternGraphNode.MOD_INDUCED;}
+	| DPO {res |= PatternGraphNode.MOD_DPO;}
+	;
+
 /**
  * Pattern bodies consist of connection nodes
  * The connection nodes in the collect node from subgraphSpec are integrated
  * In the collect node of the pattern node.
  */
-patternBody [ Coords coords, BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
+patternBody [ Coords coords, BaseNode negsCollect, int mod ] returns [ BaseNode res = env.initNode() ]
   {
 		BaseNode s;
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
  		CollectNode returnz = new CollectNode();
  		CollectNode homs = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz, homs);
+ 		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, mod);
+ 		
 		int negCounter = 0;
   }
   // TODO: where to get coordinates from for the statement???
@@ -260,6 +271,7 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
   BaseNode negsCollect, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
   
 	{
+		int mod = 0;
   		IdentNode id = env.getDummyIdent();
     	BaseNode n, o, e, neg, hom;
     	//nesting of negative Parts is not allowed.
@@ -269,8 +281,9 @@ patternStmt [ BaseNode connCollect, BaseNode condCollect,
 	}
 	: patConnections[connCollect] SEMI
 	
+	// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
-	  neg=patternBody[getCoords(p), negsInNegs] {
+	  neg=patternBody[getCoords(p), negsInNegs, mod] {
 	    newNegCount = negCount + 1;
 	    negsCollect.addChild(neg);
 	  } RBRACE! popScope! {
