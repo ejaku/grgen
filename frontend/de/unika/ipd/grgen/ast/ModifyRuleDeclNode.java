@@ -49,6 +49,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		addResolver(DELETE, deleteResolver);
 		setChildrenNames(childrenNames);
 	}
+	
 	protected Set<DeclNode> getDelete()
 	{
 		Set<DeclNode> res = new HashSet<DeclNode>();
@@ -60,6 +61,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		}
 		return res;
 	}
+	
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
@@ -257,7 +259,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					throw new IllegalArgumentException("unknown Class: " + n);
 		}
 		
-		// add Eval statments to the IR
+		// add Eval statements to the IR
 		for(BaseNode n : getChild(EVAL).getChildren()) {
 			AssignNode eval = (AssignNode)n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));

@@ -69,7 +69,7 @@ public class SymbolTable {
 	
 	/**
 	 * Get the name of the symbol table.
-	 * @return THe symbol table's name.
+	 * @return The symbol table's name.
 	 */
 	public final String getName() {
 		return name;

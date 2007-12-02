@@ -33,7 +33,7 @@ import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
 
 /**
- * The main node of the text. It is the root of the ast.
+ * The main node of the text. It is the root of the AST.
  */
 public class UnitNode extends DeclNode {
 	
@@ -86,8 +86,8 @@ public class UnitNode extends DeclNode {
 	/**
 	 * The main node has an ident node and a collect node with
 	 * - group declarations
-	 * - edge class decls
-	 * - node class decls
+	 * - edge class declarations
+	 * - node class declarations
 	 * as child.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
@@ -96,15 +96,15 @@ public class UnitNode extends DeclNode {
 	}
 	
 	/**
-	 * Get the IR unit node for this ast node.
-	 * @return The Unit for this ast node.
+	 * Get the IR unit node for this AST node.
+	 * @return The Unit for this AST node.
 	 */
 	public Unit getUnit() {
 		return (Unit) checkIR(Unit.class);
 	}
 	
 	/**
-	 * Construct the ir object for this ast node.
+	 * Construct the IR object for this AST node.
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */

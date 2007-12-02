@@ -30,17 +30,17 @@ package de.unika.ipd.grgen.parser.antlr;
 public class Coords extends de.unika.ipd.grgen.parser.Coords {
 
 	/**
-	 * Construct coordinates from an antlr token. The filename is set
+	 * Construct coordinates from an ANTLR token. The filename is set
 	 * to the default filename.
-	 * @param tok The antlr token.
+	 * @param tok The ANTLR token.
 	 */
 	public Coords(antlr.Token tok) {
 		super(tok.getLine(), tok.getColumn());
 	}
 	
 	/**
-	 * Get the coordinates from an antlr recognition exception.
-	 * @param e The antlr recognition exception.
+	 * Get the coordinates from an ANTLR recognition exception.
+	 * @param e The ANTLR recognition exception.
 	 */
 	public Coords(antlr.RecognitionException e) {
 		super(e.getLine(), e.getColumn(), e.getFilename());

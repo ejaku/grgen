@@ -28,14 +28,13 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.util.Util;
 
 /**
- * An identifier resover.
+ * An identifier resolver.
  * It's a framework for a resolver, that finds the AST node, that is
  * declared by an identifier and replaces the ident node by the resolved
  * node.
  */
 public abstract class IdentResolver extends Resolver
 {
-	
 	/**
 	 * The class of the resolved node must be in the set, otherwise,
 	 * an error is reported.

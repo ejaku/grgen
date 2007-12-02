@@ -134,11 +134,6 @@ actionDecls returns [ CollectNode c = new CollectNode() ]
   { BaseNode d; }
   : ( d=actionDecl { c.addChild(d); } )+;
 
-/**
- * graph declarations contain
- * - rules
- * - tests
- */
 actionDecl returns [ BaseNode res = env.initNode() ]
   : res=testDecl
   | res=ruleDecl
@@ -214,17 +209,17 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ BaseNode negsCollect ] returns [ BaseNode res = env.initNode() ]
+patternPart [ CollectNode negs ] returns [ BaseNode res = env.initNode() ]
 	{ int mod=0; }
-  : mod=patternModifiers p:PATTERN LBRACE! res=patternBody[getCoords(p), negsCollect, mod] RBRACE!
+  : mod=patternModifiers p:PATTERN LBRACE! res=patternBody[getCoords(p), negs, mod] RBRACE!
   ;
   
 replacePart [ CollectNode eval ] returns [ BaseNode res = env.initNode() ]
-	: r:REPLACE LBRACE! res=replaceBody[getCoords(r),eval] RBRACE!
+	: r:REPLACE LBRACE! res=replaceBody[getCoords(r), eval] RBRACE!
 	;
 
 modifyPart [ CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
-	: r:MODIFY LBRACE! res=modifyBody[getCoords(r),eval,dels] RBRACE!
+	: r:MODIFY LBRACE! res=modifyBody[getCoords(r), eval, dels] RBRACE!
 	;
 
 evalPart [ BaseNode n ]
@@ -247,12 +242,7 @@ patternModifier returns [ int res = 0 ]
 	| DPO {res |= PatternGraphNode.MOD_DPO;}
 	;
 
-/**
- * Pattern bodies consist of connection nodes
- * The connection nodes in the collect node from subgraphSpec are integrated
- * In the collect node of the pattern node.
- */
-patternBody [ Coords coords, BaseNode negsCollect, int mod ] returns [ BaseNode res = env.initNode() ]
+patternBody [ Coords coords, CollectNode negs, int mod ] returns [ BaseNode res = env.initNode() ]
   {
 		BaseNode s;
  		CollectNode connections = new CollectNode();
@@ -264,43 +254,43 @@ patternBody [ Coords coords, BaseNode negsCollect, int mod ] returns [ BaseNode 
 		int negCounter = 0;
   }
   // TODO: where to get coordinates from for the statement???
-  : (negCounter = patternStmt[connections, conditions, negsCollect, negCounter, returnz, homs])*
+  : (negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs])*
   ;
 
-patternStmt [ BaseNode connCollect, BaseNode condCollect,
-  BaseNode negsCollect, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
+patternStmt [ CollectNode conn, CollectNode cond,
+  CollectNode negs, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
   
 	{
 		int mod = 0;
   		IdentNode id = env.getDummyIdent();
-    	BaseNode n, o, e, neg, hom;
+    	BaseNode e, neg, hom;
     	//nesting of negative Parts is not allowed.
     	CollectNode negsInNegs = new CollectNode();
 
     	newNegCount = negCount;
 	}
-	: patConnections[connCollect] SEMI
+	: patConnections[conn] SEMI
 	
 	// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
 	  neg=patternBody[getCoords(p), negsInNegs, mod] {
 	    newNegCount = negCount + 1;
-	    negsCollect.addChild(neg);
+	    negs.addChild(neg);
 	  } RBRACE! popScope! {
 	    if(negsInNegs.children() != 0)
 	      reportError(getCoords(p), "Nesting of negative parts not allowed");
 	  }
 	| COND e=expr[false] //'false' means that expr is not an enum item initializer
-	  { condCollect.addChild(e); } SEMI
+	  { cond.addChild(e); } SEMI
 	| COND LBRACE (
 		e=expr[false] //'false' means that expr is not an enum item initializer
-		SEMI { condCollect.addChild(e); }
+		SEMI { cond.addChild(e); }
 	  )* RBRACE
 	| replaceReturns[returnz] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	;
 
-patConnections [ BaseNode connColl ]
+patConnections [ CollectNode conn ]
   {
     BaseNode n,e;
     boolean forward = true;
@@ -308,28 +298,28 @@ patConnections [ BaseNode connColl ]
   }
   : ( e=patForwardEdgeOcc { forward=true; } | e=patBackwardEdgeOcc { forward=false; } )
     (
-        n=patNodeContinuation[connColl] {
+        n=patNodeContinuation[conn] {
         	/* the edge declared by <code>e</code> dangles on the left */
         	if (forward)
-        		connColl.addChild(new ConnectionNode(dummyNode, e, n));
+        		conn.addChild(new ConnectionNode(dummyNode, e, n));
         	else
-        		connColl.addChild(new ConnectionNode(n, e, dummyNode));
+        		conn.addChild(new ConnectionNode(n, e, dummyNode));
         }
       | /* both target and source of the edge <code>e</code> dangle */ {
-    		connColl.addChild(new ConnectionNode(dummyNode, e, dummyNode));
+    		conn.addChild(new ConnectionNode(dummyNode, e, dummyNode));
         }
     )
-  | n=patNodeOcc ( patEdgeContinuation[n, connColl] | {
-    	connColl.addChild(new SingleNodeConnNode(n));
+  | n=patNodeOcc ( patEdgeContinuation[n, conn] | {
+    	conn.addChild(new SingleNodeConnNode(n));
     })
   ;
 
-patNodeContinuation [ BaseNode collect ] returns [ BaseNode res = env.initNode() ]
+patNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNode() ]
   { BaseNode n; }
   : res=patNodeOcc ( patEdgeContinuation[res, collect] )?
   ;
 
-patEdgeContinuation [ BaseNode left, BaseNode collect ]
+patEdgeContinuation [ BaseNode left, CollectNode collect ]
   {
     BaseNode n,e;
 	boolean forward = true;
@@ -471,12 +461,6 @@ homStatement returns [ BaseNode res = env.initNode() ]
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
 	;
 
-
-/**
- * Pattern bodies consist of connection nodes
- * The connection nodes in the collect node from subgraphSpec are integrated
- * In the collect node of the pattern node.
- */
 replaceBody [ Coords coords, CollectNode eval ] returns [ BaseNode res = env.initNode() ]
     {
   		CollectNode connections = new CollectNode();
@@ -494,11 +478,6 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, Colle
     | evalPart[eval]
 	;
 
-/**
- * Pattern bodies consist of connection nodes
- * The connection nodes in the collect node from subgraphSpec are integrated
- * In the collect node of the pattern node.
- */
 modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
     {
   		CollectNode connections = new CollectNode();
@@ -517,7 +496,7 @@ modifyStmt [ Coords coords, CollectNode connections, CollectNode returnz, Collec
     | evalPart[eval]
 	;
 
-replConnections [ BaseNode connColl ]
+replConnections [ CollectNode conn ]
   {
     BaseNode n,e;
     boolean forward = true;
@@ -536,28 +515,28 @@ replConnections [ BaseNode connColl ]
     		"occur in the pattern part");
     }
     (
-        n=replNodeContinuation[connColl] {
+        n=replNodeContinuation[conn] {
         	/* the edge declared by <code>e</code> dangles on the left */
         	if (forward)
-        		connColl.addChild(new ConnectionNode(dummyNode, e, n));
+        		conn.addChild(new ConnectionNode(dummyNode, e, n));
         	else
-        		connColl.addChild(new ConnectionNode(n, e, dummyNode));
+        		conn.addChild(new ConnectionNode(n, e, dummyNode));
         }
       | /* the edge declared by <code>e</code> dangles on both sides */ {
-    		connColl.addChild(new ConnectionNode(dummyNode, e, dummyNode));
+    		conn.addChild(new ConnectionNode(dummyNode, e, dummyNode));
         }
     )
-  | n=replNodeOcc ( replEdgeContinuation[n, connColl] | {
-    	connColl.addChild(new SingleNodeConnNode(n));
+  | n=replNodeOcc ( replEdgeContinuation[n, conn] | {
+    	conn.addChild(new SingleNodeConnNode(n));
     })
   ;
 
-replNodeContinuation [ BaseNode collect ] returns [ BaseNode res = env.initNode() ]
+replNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNode() ]
   { BaseNode n; }
   : res=replNodeOcc ( replEdgeContinuation[res, collect] )?
   ;
 
-replEdgeContinuation [ BaseNode left, BaseNode collect ]
+replEdgeContinuation [ BaseNode left, CollectNode collect ]
   {
     BaseNode n,e;
 	boolean forward = true;
@@ -679,11 +658,6 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
 	}
   ;
 
-
-
-
-
-
 replaceReturns[CollectNode res]
     {
     	BaseNode id;
@@ -706,10 +680,6 @@ deleteStmt[CollectNode res]
 	: DELETE LPAREN id=entIdentUse { res.addChild(id); }
       (COMMA id=entIdentUse { res.addChild(id); })* RPAREN
 	;
-
-
-
-
 
 typeConstraint returns [ BaseNode constr = env.initNode() ]
   : BACKSLASH constr=typeUnaryExpr

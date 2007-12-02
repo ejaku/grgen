@@ -34,8 +34,7 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
 /**
- * A single node occurrence in the graph.
- * This AST node is used only for nodes that occur without an edge connection
+ * AST node representing nodes that occur without any edge connection
  * to the rest of the graph.
  */
 public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter {

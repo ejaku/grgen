@@ -34,6 +34,9 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 
+/**
+ * Base class for all AST nodes representing declarations.
+ */
 public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 
 	static {
@@ -65,8 +68,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 		return n;
 	}
 	
-	
-	
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl =
 		new DeclNode(IdentNode.getInvalid(), BasicTypeNode.errorType) {
@@ -90,9 +91,9 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 	}
 
   /**
-   * Create a new decl node
-   * @param n The identifier that declares
-   * @param t The type with which is declared
+   * Create a new declaration node
+   * @param n The identifier that is declared
+   * @param t The type with which it is declared
    */
   protected DeclNode(IdentNode n, BaseNode t) {
     super(n.getCoords());

@@ -35,19 +35,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * An AST node representing a type
+ * Base class for all AST nodes representing types.
  */
 public abstract class TypeNode extends BaseNode {
 
-
 	/**
-	 * A map, that maps each basic type to a set to all other basic types,
+	 * A map, that maps each basic type to a set of all other basic types,
 	 * that are compatible to the type.
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap = new HashMap<TypeNode, HashSet<TypeNode>>();
 
 	/**
-	 * A map, that maps each type to a set to all other types,
+	 * A map, that maps each type to a set of all other types,
 	 * that are castable to the type.
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = new HashMap<TypeNode, HashSet<TypeNode>>();
@@ -116,9 +115,9 @@ public abstract class TypeNode extends BaseNode {
 	}
 	
 	/**
-	 * Get the ir object as type.
+	 * Get the IR object as type.
 	 * The cast must always succeed.
-	 * @return The ir object as type.
+	 * @return The IR object as type.
 	 */
 	public Type getType() {
 		return (Type) checkIR(Type.class);

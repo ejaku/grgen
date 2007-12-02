@@ -54,7 +54,7 @@ public class CastNode extends ExprNode
 	
 	/**
 	 * Make a new cast node.
-	 * @param coords The source code coordiantes.
+	 * @param coords The source code coordinates.
 	 */
 	public CastNode(Coords coords)
 	{

@@ -52,6 +52,10 @@ import de.unika.ipd.grgen.parser.SymbolTable;
 import java.util.Collection;
 import java.util.Map.Entry;
 
+/**
+ * AST node that represents a graph pattern
+ * as it appears within the pattern part of some rule
+ */
 public class PatternGraphNode extends GraphNode {
 
 	public static final int MOD_INDUCED = 1;

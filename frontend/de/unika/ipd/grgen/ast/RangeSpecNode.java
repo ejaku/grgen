@@ -27,13 +27,14 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * Specification of a range.
+ * AST node representing a range specification.
+ * To be used by ConnAssertNode
  */
 public class RangeSpecNode extends BaseNode {
 	static {
 		setName(RangeSpecNode.class, "range spec");
 	}
-	/** Constant, signalling if one bound is bounded. */
+	/** Constant, signaling if one bound is bounded. */
 	public static final int UNBOUND = Integer.MAX_VALUE;
 	
 	/** The upper and lower bound. */

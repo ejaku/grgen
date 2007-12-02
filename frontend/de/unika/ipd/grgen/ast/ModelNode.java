@@ -77,15 +77,15 @@ public class ModelNode extends DeclNode {
 	}
 	
 	/**
-	 * Get the IR model node for this ast node.
-	 * @return The model for this ast node.
+	 * Get the IR model node for this AST node.
+	 * @return The model for this AST node.
 	 */
 	public Model getModel() {
 		return (Model) checkIR(Model.class);
 	}
 	
 	/**
-	 * Construct the ir object for this ast node.
+	 * Construct the IR object for this AST node.
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -132,7 +132,7 @@ public class ModelNode extends DeclNode {
 	}
 	
 	/**
-	 * ensure there are no cycles in the inheritance hierarcy
+	 * ensure there are no cycles in the inheritance hierarchy
 	 * @return	<code>true</code> if there are no cycles,
 	 * 			<code>false</code> otherwise
 	 */

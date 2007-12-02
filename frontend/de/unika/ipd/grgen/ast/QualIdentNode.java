@@ -32,9 +32,8 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A operator node for the identifier qualification.
- * This node treats expressions like:
- * a.b.c.d
+ * AST node that represents a qualified identifier
+ * i.e. expressions like this one: a.b.c.d
  */
 public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	
@@ -72,7 +71,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	}
 	
 	/**
-	 * This AST node implies an other way of name resolution.
+	 * This AST node implies another way of name resolution.
 	 * First of all, the left hand side (lhs) has to be resolved. It must be
 	 * a declaration and its type must be an instance of {@link ScopeOwner},
 	 * since qualification can only be done, if the lhs owns a scope.

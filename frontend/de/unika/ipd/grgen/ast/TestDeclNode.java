@@ -37,7 +37,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * A type that represents tests
+ * AST node class representing tests
  */
 public class TestDeclNode extends ActionDeclNode {
 	
@@ -136,7 +136,6 @@ public class TestDeclNode extends ActionDeclNode {
 		 System.out.println("*** actualReturns = " + actualReturns);
 		 System.out.println("    actualReturns = " + actualReturns.getChildren());
 		 */
-		
 		
 		if(actualReturns.children() != typeReturns.children()) {
 			error.error(this.getCoords(), "Actual and formal return-parameter count mismatch (" +

@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.Collection;
 
 /**
- * Base class for all expression nodes.
+ * Base class for all AST nodes representing expressions.
  */
 public abstract class ExprNode extends BaseNode
 {
@@ -108,9 +108,9 @@ public abstract class ExprNode extends BaseNode
 		if( src.isCompatibleTo(tgt) )
 			return new CastNode(getCoords(), tgt, this);
 
-		/* in general we had to compute a shortest path in the conceptual
-		 * compatibility graph, here. But as it is very small we do it shortly
-		 * and nicely with this little piece of code findung a compatibility
+		/* in general we would have to compute a shortest path in the conceptual
+		 * compatibility graph. But as it is very small we do it shortly
+		 * and nicely with this little piece of code finding a compatibility
 		 * with only one indirection */
 		Collection<TypeNode> coll = new HashSet<TypeNode>();
 		src.getCompatibleToTypes(coll);

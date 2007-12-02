@@ -29,7 +29,11 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 
 /**
- * A node that represents a collection of other nodes
+ * An AST node that represents a collection of other nodes.
+ * Normally AST nodes contain a fixed number of children,
+ * which are accessed by their fixed index within the children vector.
+ * This node collects a statically unknown number of children AST nodes,
+ * originating in unbounded list constructs in the parsing syntax.
  */
 public class CollectNode extends BaseNode {
 

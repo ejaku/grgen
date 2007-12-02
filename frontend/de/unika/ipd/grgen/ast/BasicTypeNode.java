@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public abstract class BasicTypeNode extends DeclaredTypeNode {
 	
-		/**
+	/**
 	 * The string basic type.
 	 */
 	public static final BasicTypeNode stringType = new BasicTypeNode() {

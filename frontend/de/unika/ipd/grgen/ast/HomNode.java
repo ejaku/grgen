@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.parser.Coords;
 
 
 /**
- * A node that represents a set of potentially homomorph nodes
+ * AST node that represents a set of potentially homomorph nodes
  */
 public class HomNode extends BaseNode {
 
@@ -48,7 +48,7 @@ public class HomNode extends BaseNode {
 
 	/**
 	 * Check whether all children are of same type (node or edge)
-	 * and addtionally one entity may not be used in two different hom
+	 * and additionally one entity may not be used in two different hom
 	 * statements
 	 */
   protected boolean check() {

@@ -32,7 +32,7 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * An expression node, denoting an assignment.
+ * AST node representing an assignment.
  */
 public class AssignNode extends BaseNode {
 	static {
@@ -79,10 +79,9 @@ public class AssignNode extends BaseNode {
 	}
 
 	/**
-	 * Checks wether the expression has a type equal, compatible or castable
-	 * with the type of the target. If so, insert a CastNode in the AST.
-	 *
-	 * @return true, if the types are equal, compatible or castable
+	 * Checks whether the expression has a type equal, compatible or castable
+	 * to the type of the target. Inserts implicit cast if compatible.
+	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheck() {
 		
@@ -109,6 +108,7 @@ public class AssignNode extends BaseNode {
 		}
 		return true;
 	}
+
 	/**
 	 * Construct the immediate representation from an assignment node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()

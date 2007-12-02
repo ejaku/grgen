@@ -55,7 +55,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * Resolve the identifier nodes.
 	 * Each AST node can add resolvers to a list administrated by
 	 * {@link BaseNode}. These resolvers replace the identifier node in the
-	 * childrens of this node by something, that can be produced out of it.
+	 * children of this node by something, that can be produced out of it.
 	 * For example, an identifier representing a declared type is replaced by
 	 * the declared type. The behaviour depends on the {@link Resolver}.
 	 *
@@ -64,7 +64,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * {@link #getResolve()} on each child.
 	 *
 	 * A base node subclass can overload this method, to apply another
-	 * policy of resultion.
+	 * policy of resolution.
 	 *
 	 * @return true, if all resolvers finished their job and no error
 	 * occurred, false, if there was some error.

@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Stack;
 
 /**
- * Ease the antlr parser calling
+ * Ease the ANTLR parser calling
  */
 public class GRParserEnvironment extends ParserEnvironment {
 	private boolean hadError = false;

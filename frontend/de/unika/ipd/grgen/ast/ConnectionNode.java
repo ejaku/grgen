@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
 /**
- * Node that represents a Connection
+ * AST node that represents a Connection (an edge connecting two nodes)
  * Children are: Node, Edge, Node
  */
 public class ConnectionNode extends BaseNode implements ConnectionCharacter {
@@ -62,19 +62,19 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	/** Resolver for the nodes. */
 	private static final Resolver nodeResolver =
 		new OptionalResolver(
-				new DeclResolver(new Class[] {NodeDeclNode.class}));
+			new DeclResolver(new Class[] { NodeDeclNode.class })
+			);
 
 	private static final Checker nodeChecker =
 		new TypeChecker(NodeTypeNode.class);
 		
 	private static final Checker edgeChecker =
-					new TypeChecker(EdgeTypeNode.class);
+		new TypeChecker(EdgeTypeNode.class);
 		
 
 	/**
 	 * Construct a new connection node.
 	 * A connection node has two node nodes and one edge node
-	 * @param loc Location in the source code
 	 * @param n1 First node
 	 * @param edge Edge that connects n1 with n2
 	 * @param n2 Second node.
@@ -106,11 +106,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {
-		// After the AST is checked, this cast must succeed.
 		NodeCharacter left, right;
 		EdgeCharacter edge;
 			
-		// Again, after the AST is checked, these casts must succeed.
+		// After the AST is checked, these casts must succeed.
 		left = (NodeCharacter) getChild(LEFT);
 		right = (NodeCharacter) getChild(RIGHT);
 		edge = (EdgeCharacter) getChild(EDGE);
@@ -118,9 +117,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
 	}
 	
-  /**
-   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
-   */
+	/**
+	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
+	 */
 	public void addEdge(Set<BaseNode> set) {
 		set.add(getChild(EDGE));
 	}
@@ -132,6 +131,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	public NodeCharacter getSrc() {
 		return (NodeCharacter) getChild(LEFT);
 	}
+	
 	public void setSrc(NodeCharacter n) {
 		setChild(LEFT, (BaseNode)n);
 	}
@@ -144,13 +144,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		setChild(RIGHT, (BaseNode)n);
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
-   */
-  public void addNodes(Set<BaseNode> set) {
+	/**
+	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
+	 */
+	public void addNodes(Set<BaseNode> set) {
 		set.add(getChild(LEFT));
 		set.add(getChild(RIGHT));
-  }
+	}
 
 }
 

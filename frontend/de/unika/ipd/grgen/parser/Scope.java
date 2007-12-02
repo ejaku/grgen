@@ -49,7 +49,7 @@ public class Scope {
 	/** The name of this scope. */
 	private final String name;
 	
-	/** An error reoprter for error reporting. */
+	/** An error reporter for error reporting. */
 	private final ErrorReporter reporter;
 	
 	/** All definitions of this scope. Map from symbol to Symbol.Definition */
@@ -62,8 +62,8 @@ public class Scope {
 	private final List<Scope> childs = new LinkedList<Scope>();
 	
 	/**
-	 * A list for all occurrences, without a definition on this scope.
-	 * Will be used to enter the proper definiton in {@link #leaveScope()}
+	 * A list of all occurrences without a definition in this scope.
+	 * Will be used to enter the proper definition in {@link #leaveScope()}
 	 */
 	private final List<Symbol.Occurrence> occFixup = new LinkedList<Symbol.Occurrence>();
 	
@@ -108,7 +108,7 @@ public class Scope {
 	 * Checks, if a symbol has been defined in the current scope.
 	 * Subscopes are not considered.
 	 * @param sym The symbol to check for.
-	 * @return true, if the symbol was definied in <b>this</b> scope, false
+	 * @return true, if the symbol was defined in <b>this</b> scope, false
 	 * otherwise.
 	 */
 	public boolean definedHere(Symbol sym) {
@@ -160,13 +160,12 @@ public class Scope {
 	
 	/**
 	 * Signal the occurrence of a symbol.
-	 * If a symbol occurrs before it is defined, the scope remembers the
-	 * occurrence and enters the correct definition for each occurrence
+	 * The scope remembers the occurrence and enters the correct definition
 	 * at the moment the scope is left. This can be a local definition in the
 	 * scope, or a visible definition in a subscope, or an invalid definition,
 	 * if the symbol was used in this scope, but has never been defined to be
 	 * visible in this scope.
-	 * @param sym The symbol, that occurrs.
+	 * @param sym The symbol, that occurs.
 	 * @param coords The source code coordinates.
 	 * @return The symbol's occurrence.
 	 */
@@ -188,8 +187,8 @@ public class Scope {
 	
 	/**
 	 * Signal the definition of a symbol.
-	 * This method should be called, if the parser encounteres a symbol in
-	 * a define situatation.
+	 * This method should be called, if the parser encounters a symbol in
+	 * a define situation.
 	 * @param sym The symbol that is being defined.
 	 * @param coords The source code coordinates for the definition.
 	 * @return The symbol's definition.

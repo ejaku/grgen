@@ -36,7 +36,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A class which represents a graph pattern
+ * AST node that represents a graph pattern
+ * as it appears within the replace/modify part of some rule
+ * or to be used as base class of the extended PatternGraphNode
  */
 public class GraphNode extends BaseNode {
 	
@@ -108,9 +110,9 @@ public class GraphNode extends BaseNode {
 	
 	/**
 	 * Get a set of all nodes in this pattern.
-	 * Use this function after this not has been checked with {@link #check()}
+	 * Use this function after this node has been checked with {@link #check()}
 	 * to ensure, that the children have the right type.
-	 * @return A set containing the declarations of all nodes occuring
+	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.
 	 */
 	protected Set<BaseNode> getNodes() {

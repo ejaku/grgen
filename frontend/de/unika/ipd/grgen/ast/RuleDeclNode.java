@@ -109,7 +109,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 		
 	/**
-	 * Check that only graph elemts are returned, that are not deleted.
+	 * Check that only graph elements are returned, that are not deleted.
 	 */
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{
@@ -140,7 +140,7 @@ public class RuleDeclNode extends TestDeclNode {
 			
 			
 			//TODO:	The job of the following should be done by a resolver resolving
-			//		the childs of the return nore from identifiers to instances of
+			//		the childs of the return node from identifiers to instances of
 			//		NodeDeclNode or EdgeDevleNode respectively.
 			 if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
 				res = false;
@@ -177,7 +177,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 	/**
 	 * Check whether the returned elements are valid and
-	 * whether the number of retuned elements is right.
+	 * whether the number of returned elements is right.
 	 */
 	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right)
 	{
@@ -247,9 +247,9 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 
-	/* Checks, wether the reused node and edges of the RHS are consistens with the LHS.
-	 * If consistent, replace the dummys node  with the nodes the pattern edge is
-	 * incident to (if there are no dummy nodes itself, of course). */
+	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
+	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
+	 * incident to (if these aren't dummy nodes themselves, of course). */
 	protected boolean checkRhsReuse(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
@@ -359,10 +359,10 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 	
 	/** Raises a warning if a "delete-return-conflict" for potentially
-	 *  homomorphic nodes is detected or---more pricisely---if a node is
+	 *  homomorphic nodes is detected or---more precisely---if a node is
 	 *  returned such that homomorphic matching is allowed with a deleted node.
 	 *
-	 *  NOTE: The implmentation of this method must be changed when
+	 *  NOTE: The implementation of this method must be changed when
 	 *        non-transitive homomorphism is invented.
 	 * */
 	private void warnHomDeleteReturnConflict()

@@ -147,7 +147,7 @@ connectAssertions returns [ CollectNode c = new CollectNode() ]
 	;
 
 connectAssertion [ CollectNode c ]
-	{ BaseNode src, srcRange, edge, tgt, tgtRange; }
+	{ BaseNode src, srcRange, tgt, tgtRange; }
 	: src=typeIdentUse srcRange=rangeSpec RARROW
 	  tgt=typeIdentUse tgtRange=rangeSpec {
 	  c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange));

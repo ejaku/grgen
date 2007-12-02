@@ -33,7 +33,6 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public class TypeChecker implements Checker
 {
-	
 	/// The classes the decl type is to checked for
 	private Class<?>[] validTypes;
 	

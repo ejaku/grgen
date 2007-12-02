@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A dummy node, that is used in the case of an error.
+ * Dummy AST node, that is used in the case of an error.
  */
 public class NullNode extends BaseNode {
 	

@@ -33,8 +33,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
 
 /**
- * Node that represents a Connection
- * Children are: Node, Edge, Node
+ * AST node that represents a Connection Assertion
  */
 public class ConnAssertNode extends BaseNode {
 	
@@ -42,7 +41,7 @@ public class ConnAssertNode extends BaseNode {
 		setName(ConnAssertNode.class, "conn assert");
 	}
 	
-	/** edge names for the children. */
+	/** names for the children. */
 	private static final String[] childrenNames = {
 		"src", "src range", "tgt", "tgt range"
 	};
@@ -66,11 +65,6 @@ public class ConnAssertNode extends BaseNode {
 	
 	/**
 	 * Construct a new connection assertion node.
-	 * Graphically: hostnode -> edge [range] -> node
-	 * @param src The node the host node is connected to, via the edge.
-	 * @param srcRange ?
-	 * @param tgt
-	 * @param tgtRange The allowed number of edges of one type connected to the host node.
 	 */
 	public ConnAssertNode(BaseNode src, BaseNode srcRange,
 						  BaseNode tgt, BaseNode tgtRange) {

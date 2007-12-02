@@ -32,6 +32,9 @@ import de.unika.ipd.grgen.ir.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 
+/**
+ * AST node representing type expressions.
+ */
 public class TypeExprNode extends BaseNode {
 	
 	static {

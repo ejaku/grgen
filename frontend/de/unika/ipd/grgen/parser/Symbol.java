@@ -47,7 +47,7 @@ public class Symbol {
 		
 		/**
 		 * The corresponding definition of the symbol.
-		 * Points to itsself, if this occurrence is a definition,
+		 * Points to itself, if this occurrence is a definition,
 		 */
 		protected Definition def;
 		
@@ -104,7 +104,7 @@ public class Symbol {
 		
 		/**
 		 * Set the definition for a symbol occurrence.
-		 * @param def The coresponding definition.
+		 * @param def The corresponding definition.
 		 */
 		public void setDefinition(Definition def) {
 			this.def = def;
@@ -183,7 +183,7 @@ public class Symbol {
 	/** The symbol table the symbol was defined in. */
 	private final SymbolTable symbolTable;
 	
-	/** A current id number symbols.*/
+	/** An id counter for assigning ids to symbols*/
 	private static int currId = 0;
 	
 	/** The id for this symbol. */
@@ -278,12 +278,12 @@ public class Symbol {
 	}
 	
 	/**
-	 * Make a anonymous symbol.
+	 * Make an anonymous symbol.
 	 * This symbol could not have been declared somewhere in the parsed text.
 	 * So, it must contain a character, that is not allowed in the language's
 	 * identifier rule.
 	 * @param name An addition to the name of the symbol.
-	 * @param symTab The symbol table the symbol occurrs in.
+	 * @param symTab The symbol table the symbol occurs in.
 	 * @return An anonymous symbol.
 	 */
 	public static Symbol makeAnonymous(String name, SymbolTable symTab) {

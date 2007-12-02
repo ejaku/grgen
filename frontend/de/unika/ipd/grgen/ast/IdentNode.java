@@ -34,6 +34,10 @@ import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.awt.Color;
 
+/**
+ * AST node that represents an Identifier 
+ * (for name that appears within the specification)
+ */
 public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
 	
 	static {
@@ -44,13 +48,13 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	private Attributes attributes = EmptyAttributes.get();
 	
 	/** Occurrence of the identifier. */
-  private Symbol.Occurrence occ;
+	private Symbol.Occurrence occ;
   
-  /** The declaration associated with this identifier. */
-  private DeclNode decl = DeclNode.getInvalid();
+	/** The declaration associated with this identifier. */
+	private DeclNode decl = DeclNode.getInvalid();
   
-  private static final IdentNode INVALID =
-  	new IdentNode(Symbol.Definition.getInvalid());
+	private static final IdentNode INVALID =
+		new IdentNode(Symbol.Definition.getInvalid());
 
 	/**
 	 * Get an invalid ident node.
@@ -61,7 +65,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
   }
 
 	/**
-	 * Make a new ident node at a symbols's definition.
+	 * Make a new identifier node at a symbols's definition.
 	 * @param def The definition of the symbol.
 	 */
 	public IdentNode(Symbol.Definition def) {
@@ -70,7 +74,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	}
 
 	/**
-	 * Make a new identifier node an a symbol's occurrence.
+	 * Make a new identifier node at a symbol's occurrence.
 	 * @param occ The occurrence of the symbol.
 	 */
   public IdentNode(Symbol.Occurrence occ) {

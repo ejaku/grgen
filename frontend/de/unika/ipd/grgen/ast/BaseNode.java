@@ -41,75 +41,83 @@ import java.awt.Color;
  * The base class for AST nodes.
  * Base AST storage in ANTLR is insufficient due to the
  * children/sibling storing scheme. This reimplemented here.
- *
+ * AST root node is UnitNode.
  */
 public abstract class BaseNode extends Base
 	implements GraphDumpable, Walkable {
 	
 	/**
 	 * AST global name map, that maps from Class to String.
-	 * The reason for this is, that in some situations, only the Class object
-	 * is available and no instance of the class itself.
+	 * Needed as in some situations only the class object itself is available 
+	 * (no instance objects of the class)
 	 */
-	private static final Map<Class<? extends BaseNode>, String> names = new HashMap<Class<? extends BaseNode>, String>();
+	private static final Map<Class<? extends BaseNode>, String> names = 
+		new HashMap<Class<? extends BaseNode>, String>();
+
+	/** A dummy AST node used in case of an error */
+	protected static final BaseNode NULL = new NullNode();
+
+	/** Print verbose error messages. */
+	private static boolean verboseErrorMsg = true;
+
 	
 	/** coordinates for builtin types and declarations */
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
 	
-	/** A dummy AST node used in case of an error */
-	protected static final BaseNode NULL = new NullNode();
+	/** Location in the source corresponding to this node */
+	private Coords coords = Coords.getInvalid();
+
 	
-	/** Default array with the children names of the node */
-	private static final String[] noChildrenNames = { };
-	
-	/** The current scope, with hich the scopes of the new BaseNodes are initialized. */
+	/** The current scope, with which the scopes of the new BaseNodes are initialized. */
 	private static Scope currScope = Scope.getInvalid();
-	
-	/** Print verbose error messages. */
-	private static boolean verboseErrorMsg = true;
-	
-	/** Has this base node already been checked? */
-	private boolean checked = false;
-	
-	/** Has this base node already been type checked? */
-	private boolean typeChecked = false;
-	
-	/** The result of the check, if checked. */
-	private boolean checkResult = false;
-	
-	/** The result of the type checking. */
-	private boolean typeCheckResult = false;
-	
-	/** The list of resolvers. */
-	private Map<Integer, Resolver> resolvers = new HashMap<Integer, Resolver>();
 	
 	/** The scope in which this node occurred. */
 	private Scope scope;
-	
-	/** array with the children names */
-	private String[] childrenNames = noChildrenNames;
-	
-	/** Location in the source corresponding to this node */
-	private Coords coords = Coords.getInvalid();
+
 	
 	/** Vector of the children of this node */
 	private final Vector<BaseNode> children = new Vector<BaseNode>();
 	
 	/** The parent node of this node. */
 	private Set<BaseNode> parents = new HashSet<BaseNode>();
+
+	/** Default array with the children names of the node */
+	private static final String[] noChildrenNames = { };
+
+	/** array with the children names */
+	private String[] childrenNames = noChildrenNames;
+
 	
-	/** The ir object for this node. */
-	private IR irObject = null;
-	
+	/** The list of resolvers. */
+	private Map<Integer, Resolver> resolvers = new HashMap<Integer, Resolver>();
+						
+	/** Has this base node already been resolved? */
+	private boolean resolved = false;
+
 	/** The result of the resolution. */
 	private boolean resolveResult = false;
 	
-	/** Has this base node already be resolved. */
-	private boolean resolved = false;
+	/** Has this base node already been checked? */
+	private boolean checked = false;
+	
+	/** The result of the check, if checked. */
+	private boolean checkResult = false;
+
+	/** Has this base node already been type checked? */
+	private boolean typeChecked = false;
+	
+	/** The result of the type checking. */
+	private boolean typeCheckResult = false;
+
+	
+	/** The IR object for this node. */
+	private IR irObject = null;
+
 	
 	/** Reappears a pattern node or edge represented by this base node
 	 * in the replace/modify part? */
 	private boolean kept = false;
+	
 	
 	/**
 	 * Strip the package name from the class name.
@@ -189,7 +197,7 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Check the whole AST with a given root.
+	 * Check the whole AST, starting with the given root.
 	 * @param node The root.
 	 * @return true, if every node in the AST is right, false, if not.
 	 */
@@ -211,9 +219,9 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Resolve the whole AST with a given root.
+	 * Resolve the whole AST, starting with the given root.
 	 * @param node The root.
-	 * @return true, if every node in the AST was resolved right, false, if not.
+	 * @return true, if every node in the AST was resolved correctly, false, if not.
 	 */
 	public static final boolean resolveAST(BaseNode node) {
 		
@@ -285,8 +293,8 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Make new base node with coordinates.
-	 * @param coords The coords of this node.
+	 * Make a new base node with given coordinates.
+	 * @param coords The coordinates of this node.
 	 */
 	protected BaseNode(Coords coords) {
 		this();
@@ -303,15 +311,18 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Get the parent node of this node.
-	 * @return The parent node of this node. null if this node is the root.
+	 * Get an iterator over the parent nodes of this node.
+	 * Mostly only one parent (syntax tree), 
+	 * few nodes with multiple parents (syntax DAG),
+	 * root node with immediately exhausting iterator.
+	 * @return Iterator over the parent nodes of this node.
 	 */
 	protected Iterator<BaseNode> getParents() {
 		return parents.iterator();
 	}
 	
 	/**
-	 * Check, if this AST node is a root node (i.e. it has no predecessors)
+	 * Check whether this AST node is a root node (i.e. it has no predecessors)
 	 * @return true, if it's a root node, false, if not.
 	 */
 	public boolean isRoot() {
@@ -329,16 +340,16 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Get the coords of this node.
-	 * @return The coords.
+	 * Get the coordinates within the source code of this node.
+	 * @return The coordinates.
 	 */
 	public Coords getCoords() {
 		return coords;
 	}
 	
 	/**
-	 * Set the location of this node.
-	 * @param loc The location.
+	 * Set the coordinates within the source code of this node.
+	 * @param coords The coordinates.
 	 */
 	public void setCoords(Coords coords) {
 		this.coords = coords;
@@ -397,8 +408,8 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Get the scope of the AST node.
-	 * @return The scope in which the base node was created.
+	 * Get the scope of this AST node.
+	 * @return The scope in which the node was created.
 	 */
 	public Scope getScope() {
 		return scope;
@@ -469,7 +480,7 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Get the number of children this node has.
+	 * Get the number of children of this node.
 	 * @return The number of children of this node.
 	 */
 	public final int children() {
@@ -479,7 +490,7 @@ public abstract class BaseNode extends Base
 	/**
 	 * Replace the child at a given position.
 	 * @param i The position.
-	 * @param n The the new child to be replace the old.
+	 * @param n The new child to replace the old.
 	 * @return The old one.
 	 */
 	public final BaseNode replaceChild(int i, BaseNode n) {
@@ -495,7 +506,7 @@ public abstract class BaseNode extends Base
 	
 	/**
 	 * Replace this node with another one.
-	 * This AST node becomes replaced by another node in all its parents.
+	 * This AST node gets replaced by another node in all its parents.
 	 * @param n The other node.
 	 * @return This node.
 	 */
@@ -512,10 +523,10 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Checks a child of this node to of a certain type.
+	 * Checks a child of this node to be of a certain type.
 	 * If it is not, an error is reported via the ErrorFacility.
 	 * @param childNum The number of the child to check
-	 * @param cls The class the child has to be of
+	 * @param cls The class the child must be an instance of
 	 * @return true, if the selected child node was of type cls
 	 */
 	public final boolean checkChild(int childNum, Class<?> cls) {
@@ -598,7 +609,7 @@ public abstract class BaseNode extends Base
 	
 	/**
 	 * Check the types of this AST node.
-	 * Subclasses should implement this, if neccessary.
+	 * Subclasses should implement this, if necessary.
 	 * @return true, if all types are right. False, if not.
 	 */
 	protected boolean typeCheck() {
@@ -608,7 +619,7 @@ public abstract class BaseNode extends Base
 	/**
 	 * Check this AST node.
 	 * If the node has been checked before, the result of the former
-	 * check ist returned.
+	 * check is returned.
 	 * @return true, if the node is ok, false if not.
 	 */
 	public final boolean getCheck() {
@@ -718,12 +729,12 @@ public abstract class BaseNode extends Base
 	}
 	
 	/**
-	 * Checks, if the ir object of this ast node is instance of a certain
+	 * Checks whether the IR object of this AST node is an instance of a certain
 	 * Class <code>cls</code>.
-	 * If it is not, an assertion is raised, else, the ir object
+	 * If it is not, an assertion is raised, else, the IR object
 	 * is returned.
-	 * @param cls The class to check the ir object for.
-	 * @return The ir object.
+	 * @param cls The class to check the IR object for.
+	 * @return The IR object.
 	 */
 	public final IR checkIR(Class<? extends IR> cls) {
 		IR ir = getIR();
@@ -747,18 +758,12 @@ public abstract class BaseNode extends Base
 	
 	/**
 	 * Resolve the identifier nodes.
-	 * Each AST node can add resolvers to a list administrated by
-	 * {@link BaseNode}. These resolvers replace the identifier node in the
-	 * childrens of this node by something, that can be produced out of it.
 	 * For example, an identifier representing a declared type is replaced by
-	 * the declared type. The behaviour depends on the {@link Resolver}.
+	 * the declared type.
 	 *
-	 * This method first calls all resolvers registered in this node
-	 * and descends to the this node's children by invoking
-	 * {@link #getResolve()} on each child.
-	 *
-	 * A base node subclass can overload this method, to apply another
-	 * policy of resolution.
+	 * This method calls all resolvers registered in this node.
+	 * A subclass can overload this method or change the registered resolvers
+	 * to apply another policy of resolution.
 	 *
 	 * @return true, if all resolvers finished their job and no error
 	 * occurred, false, if there was some error.
@@ -785,7 +790,7 @@ public abstract class BaseNode extends Base
 	 * Get the result of the resolution.
 	 * If this node has already been resolved, then return the result of
 	 * that former resolution, if not, resolve it and store the result.
-	 * @return The result of the reolution. true, if everything went right,
+	 * @return The result of the resolution. true, if everything went right,
 	 * false, if something went wrong.
 	 */
 	public final boolean getResolve() {
@@ -797,7 +802,7 @@ public abstract class BaseNode extends Base
 	
 	/**
 	 * Mark this node as resolved and give the result of the resolution.
-	 * @param resolveResult The reult of the resultion.
+	 * @param resolveResult The result of the resolution.
 	 */
 	protected final void setResolved(boolean resolveResult) {
 		resolved = true;
@@ -814,7 +819,7 @@ public abstract class BaseNode extends Base
 	
 	/**
 	 * Assert, that the node has been resolved.
-	 * This function can be used in methods of sublcasses of this one,
+	 * This function can be used in methods of subclasses of this one,
 	 * to mark that a resolution has to take place before the particular
 	 * method takes place.
 	 */
@@ -828,8 +833,8 @@ public abstract class BaseNode extends Base
 	 * overwritten. This is sensible, since sub classes may need to
 	 * overwrite resolvers entered by superclasses.
 	 * @see #resolve()
-	 * @param pos The child to resolve.
-	 * @param r A resolver to process the child at position <code>pos</code>.
+	 * @param pos Position at which to add the resolver.
+	 * @param r Resolver to add.
 	 */
 	protected final void addResolver(int pos, Resolver r) {
 		resolvers.put(new Integer(pos), r);
