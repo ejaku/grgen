@@ -7,7 +7,7 @@ JARGS_JAR  = $(PWD)/jars/jargs.jar
 
 ANTLR = java -cp $(ANTLR_JAR) antlr.Tool
 
-GRGENNET ?= ../engine-net/out/bin/
+GRGENNET ?= ../engine-net-2/out/bin/
 
 all:	grgen
 

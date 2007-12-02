@@ -12,7 +12,7 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
 # where GrGen.NET is located
-GRGENNET?=$(GRGENDIR)/../engine-net/out/bin/
+GRGENNET?=$(GRGENDIR)/../engine-net-2/out/bin/
 
 #
 # full classpath for executing grgen
@@ -49,7 +49,7 @@ fe: cleanfelog $(DIRS_FE)
 	@touch successCSC.log
 	@touch failedCSC.log
 	@test -d $@ || mkdir $@
-	-mono $(GRGENNET)/GrGen.exe -o $@ $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
+	-$(GRGENNET)/GrGen.exe -o $@ $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
 
 clean:
 	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log

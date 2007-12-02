@@ -12,7 +12,7 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
 # guess, where GrGen.NET is located, if not already set
-GRGENNET?=$(GRGENDIR)/../engine-net/out/bin
+GRGENNET?=$(GRGENDIR)/../engine-net-2/out/bin
 
 #
 # full classpath for executing grgen
@@ -61,7 +61,7 @@ grgenuptodate: $(GRGENNET)/grgen.jar
 	@touch successCSC.log
 	@touch failedCSC.log
 	@test -d $(@:%_csc_success=%_csc_out) || mkdir $(@:%_csc_success=%_csc_out)
-	-mono $(GRGENNET)/GrGen.exe -keep $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
+	-$(GRGENNET)/GrGen.exe -keep $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
 	@rm -f $@_tmp.log
 
 clean:

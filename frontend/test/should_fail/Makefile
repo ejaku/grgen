@@ -12,7 +12,7 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 
 #
 # where GrGen.NET is located
-GRGENNET?=$(GRGENDIR)/../engine-net/out/bin/
+GRGENNET?=$(GRGENDIR)/../engine-net-2/out/bin/
 
 #
 # full classpath for executing grgen
