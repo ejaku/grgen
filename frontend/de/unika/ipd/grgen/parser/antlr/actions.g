@@ -71,7 +71,6 @@ text returns [ BaseNode main = env.initNode() ]
   		CollectNode mainChilds = new CollectNode();
   		CollectNode modelChilds = new CollectNode();
   		IdentNode id;
-  		List modelList = new LinkedList();
 
 	    String actionsName = Util.getActionsNameFromFilename(getFilename());
 
@@ -106,17 +105,17 @@ text returns [ BaseNode main = env.initNode() ]
    	  }
   	;
   	
-identList [ Collection strings ]
+identList [ Collection<String> strings ]
   : fid:IDENT { strings.add(fid.getText()); }
     (COMMA sid:IDENT { strings.add(sid.getText()); })*
   ;
 
 usingDecl [ CollectNode modelChilds ]
-  { List modelList = new LinkedList(); }
-  : u:USING identList[modelList]
+  { Collection<String> modelNames = new LinkedList<String>(); }
+  : u:USING identList[modelNames]
     SEMI {
-  	  for(Iterator it = modelList.iterator(); it.hasNext();) {
-  	    String modelName = (String) it.next();
+  	  for(Iterator<String> it = modelNames.iterator(); it.hasNext();) {
+  	    String modelName = it.next();
   	    File modelFile = env.findModel(modelName);
 
   	    if ( modelFile == null )
@@ -142,7 +141,7 @@ actionDecl returns [ BaseNode res = env.initNode() ]
 testDecl returns [ BaseNode res = env.initNode() ]
     {
   		IdentNode id;
-  		BaseNode tb, pattern;
+  		BaseNode pattern;
   		CollectNode params, ret, negs = new CollectNode();
   	}
   	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
@@ -155,7 +154,7 @@ testDecl returns [ BaseNode res = env.initNode() ]
 ruleDecl returns [ BaseNode res = env.initNode() ]
   {
   		IdentNode id;
-  		BaseNode rb, left, right;
+  		BaseNode left, right;
   		CollectNode params, ret;
 
   		CollectNode negs = new CollectNode();
@@ -189,10 +188,10 @@ paramList [ CollectNode params ]
 	;
 	
 param returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode id;
-		BaseNode type;
-	}
+//	{
+//		IdentNode id;
+//		BaseNode type;
+//	}
 	: MINUS res=patEdgeDecl RARROW
 	| res=patNodeDecl
 //	: id=entIdentDecl COLON type=typeIdentUse
@@ -223,7 +222,7 @@ modifyPart [ CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.i
 	;
 
 evalPart [ BaseNode n ]
-	: e:EVAL LBRACE evalBody[n] RBRACE
+	: EVAL LBRACE evalBody[n] RBRACE
 	;
 	
 evalBody [ BaseNode n  ]
@@ -244,7 +243,6 @@ patternModifier returns [ int res = 0 ]
 
 patternBody [ Coords coords, CollectNode negs, int mod ] returns [ BaseNode res = env.initNode() ]
   {
-		BaseNode s;
  		CollectNode connections = new CollectNode();
  		CollectNode conditions = new CollectNode();
  		CollectNode returnz = new CollectNode();
@@ -261,8 +259,7 @@ patternStmt [ CollectNode conn, CollectNode cond,
   CollectNode negs, int negCount, CollectNode returnz, CollectNode homs ] returns [ int newNegCount ]
   
 	{
-		int mod = 0;
-  		IdentNode id = env.getDummyIdent();
+	int mod = 0;
     	BaseNode e, neg, hom;
     	//nesting of negative Parts is not allowed.
     	CollectNode negsInNegs = new CollectNode();
@@ -315,7 +312,6 @@ patConnections [ CollectNode conn ]
   ;
 
 patNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNode() ]
-  { BaseNode n; }
   : res=patNodeOcc ( patEdgeContinuation[res, collect] )?
   ;
 
@@ -472,7 +468,6 @@ replaceBody [ Coords coords, CollectNode eval ] returns [ BaseNode res = env.ini
   ;
 
 replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval ]
-	{ BaseNode n; }
 	: replConnections[connections] SEMI
 	| replaceReturns[returnz] SEMI
     | evalPart[eval]
@@ -489,7 +484,6 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ BaseN
   ;
 
 modifyStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval, CollectNode dels ]
-	{ BaseNode n; }
 	: replConnections[connections] SEMI
 	| replaceReturns[returnz] SEMI
     | deleteStmt[dels] SEMI
@@ -532,7 +526,6 @@ replConnections [ CollectNode conn ]
   ;
 
 replNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNode() ]
-  { BaseNode n; }
   : res=replNodeOcc ( replEdgeContinuation[res, collect] )?
   ;
 
