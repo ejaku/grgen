@@ -175,7 +175,7 @@ public class Symbol {
 	
 	/** An invalid symbol. */
 	private static final Symbol INVALID = new Symbol("<invalid>",
-																									 SymbolTable.getInvalid());
+                                                     SymbolTable.getInvalid());
 
 	/** The number of definitions concerning this symbol. */
 	private int definitions = 0;

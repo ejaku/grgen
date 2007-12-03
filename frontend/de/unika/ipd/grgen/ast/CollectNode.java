@@ -30,6 +30,8 @@ import java.awt.Color;
 
 /**
  * An AST node that represents a collection of other nodes.
+ * children: *:BaseNode
+ * 
  * Normally AST nodes contain a fixed number of children,
  * which are accessed by their fixed index within the children vector.
  * This node collects a statically unknown number of children AST nodes,

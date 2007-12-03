@@ -30,6 +30,7 @@ import java.util.Collections;
 
 /**
  * Dummy AST node, that is used in the case of an error.
+ * children: none
  */
 public class NullNode extends BaseNode {
 	

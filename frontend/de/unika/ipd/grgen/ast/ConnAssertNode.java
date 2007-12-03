@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 
 /**
  * AST node that represents a Connection Assertion
+ * children: SRC:IdentNode, SRCRANGE:RangeSpecNode, TGT:IdentNode, TGTRANGE:RangeSpecNode
  */
 public class ConnAssertNode extends BaseNode {
 	

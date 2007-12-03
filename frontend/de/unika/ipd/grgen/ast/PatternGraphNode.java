@@ -55,6 +55,7 @@ import java.util.Map.Entry;
 /**
  * AST node that represents a graph pattern
  * as it appears within the pattern part of some rule
+ * Extension of the graph pattern of the rewrite part
  */
 public class PatternGraphNode extends GraphNode {
 
@@ -87,14 +88,11 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * A new pattern node
-	 * 
-	 * @param connections
-	 *            A collection containing connection nodes
-	 * @param conditions
-	 *            A collection of conditions.
+	 * @param connections A collection containing connection nodes
+	 * @param conditions A collection of conditions.
 	 */
-	public PatternGraphNode(Coords coords, BaseNode connections,
-			BaseNode conditions, CollectNode returns, CollectNode homs,
+	public PatternGraphNode(Coords coords, CollectNode connections,
+			CollectNode conditions, CollectNode returns, CollectNode homs,
 			int modifiers) {
 		super(coords, connections, returns);
 		addChild(conditions);

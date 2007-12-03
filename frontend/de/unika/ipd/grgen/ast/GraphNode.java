@@ -38,7 +38,8 @@ import java.util.Set;
 /**
  * AST node that represents a graph pattern
  * as it appears within the replace/modify part of some rule
- * or to be used as base class of the extended PatternGraphNode
+ * or to be used as base class for PatternGraphNode 
+ * representing the graph pattern of the pattern part of some rule
  */
 public class GraphNode extends BaseNode {
 	
@@ -62,7 +63,7 @@ public class GraphNode extends BaseNode {
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, BaseNode connections, CollectNode returns) {
+	public GraphNode(Coords coords, CollectNode connections, CollectNode returns) {
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(connections);

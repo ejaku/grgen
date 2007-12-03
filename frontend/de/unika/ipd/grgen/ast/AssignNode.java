@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing an assignment.
+ * children: LHS:QualIdentNode, RHS:ExprNode
  */
 public class AssignNode extends BaseNode {
 	static {

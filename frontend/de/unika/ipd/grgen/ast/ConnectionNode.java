@@ -37,7 +37,7 @@ import de.unika.ipd.grgen.ir.Graph;
 
 /**
  * AST node that represents a Connection (an edge connecting two nodes)
- * Children are: Node, Edge, Node
+ * children: LEFT:NodeDeclNode, EDGE:EdgeDeclNode, RIGHT:NodeDeclNode
  */
 public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 

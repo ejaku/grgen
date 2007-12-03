@@ -34,8 +34,9 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
 /**
- * AST node representing nodes that occur without any edge connection
- * to the rest of the graph.
+ * AST node representing nodes 
+ * that occur without any edge connection to the rest of the graph.
+ * children: NODE:NodeDeclNode|IdentNode
  */
 public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter {
 	

@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node that represents a set of potentially homomorph nodes
+ * children: *:IdentNode resolved to NodeDeclNode|EdgeDeclNoe
  */
 public class HomNode extends BaseNode {
 

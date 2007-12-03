@@ -36,6 +36,7 @@ import de.unika.ipd.grgen.ir.Type;
 
 /**
  * Base class for all AST nodes representing declarations.
+ * children: IDENT:IdentNode TYPE:
  */
 public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 

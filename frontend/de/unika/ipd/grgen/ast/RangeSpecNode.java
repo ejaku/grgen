@@ -27,8 +27,8 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a range specification.
- * To be used by ConnAssertNode
+ * AST node representing a range specification (used by ConnAssertNode). 
+ * children: none
  */
 public class RangeSpecNode extends BaseNode {
 	static {

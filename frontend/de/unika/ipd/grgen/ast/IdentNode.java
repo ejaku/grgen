@@ -35,8 +35,8 @@ import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.awt.Color;
 
 /**
- * AST node that represents an Identifier 
- * (for name that appears within the specification)
+ * AST node that represents an Identifier (name that appears within the specification)
+ * children: none
  */
 public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
 	

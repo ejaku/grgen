@@ -142,7 +142,9 @@ testDecl returns [ BaseNode res = env.initNode() ]
     {
   		IdentNode id;
   		BaseNode pattern;
-  		CollectNode params, ret, negs = new CollectNode();
+  		CollectNode params, ret;
+
+		CollectNode negs = new CollectNode();
   	}
   	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
   	  pattern=patternPart[negs]
@@ -169,8 +171,8 @@ ruleDecl returns [ BaseNode res = env.initNode() ]
 		res = id;
     }|right=modifyPart[eval,dels]
   	{
-  	   id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
-  	   res = id;
+  		id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
+  		res = id;
     })
     RBRACE! popScope!
   ;
@@ -446,7 +448,7 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
   ;
 
 /**
- * A statement defining some nodes/edges to be mactched potentially
+ * A statement defining some nodes/edges to be matched potentially
  * homomorphically
  */
 homStatement returns [ BaseNode res = env.initNode() ]
@@ -463,7 +465,6 @@ replaceBody [ Coords coords, CollectNode eval ] returns [ BaseNode res = env.ini
   		CollectNode returnz = new CollectNode();
   	  	res = new GraphNode(coords, connections, returnz);
     }
-    // TODO: where to get coordinates from for the statement???
     : ( replaceStmt[coords, connections, returnz, eval] )*
   ;
 
@@ -479,7 +480,6 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ BaseN
   		CollectNode returnz = new CollectNode();
   	  	res = new GraphNode(coords, connections, returnz);
     }
-    // TODO: where to get coordinates from for the statement???
     : ( modifyStmt[coords, connections, returnz, eval, dels] )*
   ;
 
@@ -531,7 +531,7 @@ replNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNo
 
 replEdgeContinuation [ BaseNode left, CollectNode collect ]
   {
-    BaseNode n,e;
+	BaseNode n,e;
 	boolean forward = true;
   }
   : (
