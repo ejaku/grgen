@@ -369,7 +369,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Copy constructor.
-        /// Open transaction data and variables are lost.
+        /// Open transaction data lost.
         /// </summary>
         /// <param name="dataSource">The LGSPGraph object to get the data from</param>
         /// <param name="newName">Name of the copied graph.</param>
@@ -408,6 +408,13 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
+            foreach(KeyValuePair<IGraphElement, LinkedList<Variable>> kvp in dataSource.ElementMap)
+            {
+                IGraphElement newElem = oldToNewMap[kvp.Key];
+                foreach(Variable var in kvp.Value)
+                    SetVariableValue(var.Name, newElem);
+            }
+
 #if MONO_MULTIDIMARRAY_WORKAROUND
             dim0size = dataSource.dim0size;
             dim1size = dataSource.dim1size;
@@ -428,6 +435,10 @@ namespace de.unika.ipd.grGen.lgsp
             if(dataSource.edgeLookupCosts != null)
                 edgeLookupCosts = (float[]) dataSource.edgeLookupCosts.Clone();
 #endif
+            if(dataSource.meanInDegree != null)
+                meanInDegree = (float[]) dataSource.meanInDegree.Clone();
+            if(dataSource.meanOutDegree != null)
+                meanOutDegree = (float[]) dataSource.meanOutDegree.Clone();
         }
 
         private void InitializeGraph()
@@ -693,9 +704,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
-            if(node.typeNext != null)
-                Console.WriteLine("ARRRRRGGGHHH!!!!");
-
             LGSPNode head = nodesByTypeHeads[typeid];
             head.typeNext.typePrev = node;
             node.typeNext = head.typeNext;
@@ -2218,7 +2226,7 @@ invalidCommand:
         /// <summary>
         /// Duplicates a graph.
         /// The new graph will use the same model and backend as the other
-        /// Open transaction data and variables will not be cloned.
+        /// Open transaction data will not be cloned.
         /// </summary>
         /// <param name="newName">Name of the new graph.</param>
         /// <returns>A new graph with the same structure as this graph.</returns>
