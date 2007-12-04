@@ -1,0 +1,7 @@
+node class A {
+  val : int;
+}
+
+edge class E {
+  val : int;
+}

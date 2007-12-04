@@ -32,6 +32,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="value">The new value for the attribute. It must have the correct type.
         /// Otherwise a TargetException is thrown.</param>
         void SetAttribute(String attrName, object value);
+
+        /// <summary>
+        /// Resets all graph element attributes to their initial values.
+        /// </summary>
+        void ResetAllAttributes();
     }
 
     /// <summary>

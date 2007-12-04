@@ -21,16 +21,32 @@ for scriptfile in $*; do
   
   echo "$scriptfile"
 
-  $exeprefix ../bin/GrShell.exe "$scriptfile" | awk "/matches found/ { print \$2 }
+  $exeprefix ../bin/GrShell.exe "$scriptfile" | awk "/^All attributes/ {
+      do {
+        getline
+        while(\$0 ~ /^ - /) {
+          print getAttribute(4)
+          getline            
+        }
+      }
+      while(\$0 ~ /^All attributes/)
+    }
+    /matches found/ { print \$2 }
     /rewrites performed/ { print \$2 }
     /Number/ { print \$8 }
     /value of attribute/ {
-      value = \"\"
-      for(i = 7; i <= NF; i++)
+      print getAttribute(7)
+    }
+    
+    function getAttribute(startindex)
+    {
+      if(startindex > NF) return \"\"
+
+      value = \$startindex
+      for(i = startindex + 1; i <= NF; i++)
       {
-        if(i == 7) value = \$i
-        else value = value \" \" \$i
+        value = value \" \" \$i
       }
-      print value
+      return value
     }" > "$scriptfile".data && echo "Data file generated" || echo "Data file generation failed!"    
 done

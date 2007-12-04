@@ -803,6 +803,11 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new Exception("The method or operation is not implemented.");
             }
+
+            public void ResetAllAttributes()
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
         }
 
         /// <summary>

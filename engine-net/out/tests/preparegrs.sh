@@ -13,7 +13,7 @@ for grs in "$1"/*.grs; do
   
   gmfile=`echo "$1"/*.gm`
   echo "$gmfile"
-  if [ $gmfile != "" ]; then
+  if [ $gmfile == "" ]; then
     echo "No model files found in $1!"
     exit 1
   fi
@@ -64,11 +64,20 @@ for grs in "$1"/*.grs; do
     /^debug enable/ { next }
     /^debug disable/ { next }
     /^grs / { printShows() }
-    /^xgrs / { printShows() }
-    /^quit/ {
+    /^xgrs / {
+      if(xgrsfound == 0)
+      {
+        printShows()
+        xgrsfound = 1
+      }
+      print \$0
       printShows()
+      next
+    }
+    /^quit/ {
       print \"quit\"
       quitfound = 1
+      next
     }
     { print \$0 }
     function printShows() {
@@ -82,7 +91,6 @@ for grs in "$1"/*.grs; do
     END {
       if(quitfound == 0)
       {
-        printShows()
         print \"quit\"
       }
     }" > $grs.tmp

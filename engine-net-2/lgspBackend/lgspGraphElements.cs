@@ -47,6 +47,9 @@ namespace de.unika.ipd.grGen.lgsp
             type = nodeType;
         }
 
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with the same type or a subtype of the given type
+        /// </summary>
         public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
         {
             if(outhead == null) yield break;
@@ -62,6 +65,10 @@ namespace de.unika.ipd.grGen.lgsp
             if(outhead != null && outhead.Type.IsA(edgeType))
                 yield return outhead;
         }
+
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with the same type or a subtype of the given type
+        /// </summary>
         public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType)
         {
             if(inhead == null) yield break;
@@ -78,6 +85,9 @@ namespace de.unika.ipd.grGen.lgsp
                 yield return inhead;
         }
 
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with exactly the given type
+        /// </summary>
         public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
         {
             if(outhead == null) yield break;
@@ -94,6 +104,9 @@ namespace de.unika.ipd.grGen.lgsp
                 yield return outhead;
         }
 
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with exactly the given type
+        /// </summary>
         public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType)
         {
             if(inhead == null) yield break;
@@ -110,6 +123,9 @@ namespace de.unika.ipd.grGen.lgsp
                 yield return inhead;
         }
 
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges
+        /// </summary>
         public IEnumerable<IEdge> Outgoing
         {
             get
@@ -127,6 +143,10 @@ namespace de.unika.ipd.grGen.lgsp
                     yield return outhead;
             }
         }
+
+        /// <summary>
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incoming edges
+        /// </summary>
         public IEnumerable<IEdge> Incoming
         {
             get
@@ -221,17 +241,51 @@ namespace de.unika.ipd.grGen.lgsp
             inhead = edge.inNext;
         }
 
+        /// <summary>
+        /// Returns the NodeType of the graph element.
+        /// </summary>
         public NodeType Type { get { return type; } }
+
+        /// <summary>
+        /// Returns the GrGenType of the graph element.
+        /// </summary>
         GrGenType IGraphElement.Type { get { return type; } }
 
+        /// <summary>
+        /// Returns true, if the graph element is compatible to the given type.
+        /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
             return type.IsA(otherType);
         }
 
+        /// <summary>
+        /// Returns the graph element attribute with the given attribute name.
+        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
+        /// </summary>
         public abstract object GetAttribute(string attrName);
+
+        /// <summary>
+        /// Sets the graph element attribute with the given attribute name to the given value.
+        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
+        /// </summary>
+        /// <param name="attrName">The name of the attribute.</param>
+        /// <param name="value">The new value for the attribute. It must have the correct type.
+        /// Otherwise a TargetException is thrown.</param>
         public abstract void SetAttribute(string attrName, object value);
 
+        /// <summary>
+        /// Resets all graph element attributes to their initial values.
+        /// </summary>
+        public abstract void ResetAllAttributes();
+
+        /// <summary>
+        /// Creates a copy of this node.
+        /// All attributes will be transfered to the new node.
+        /// The node will not be associated to a graph, yet.
+        /// So it will not have any adjacent edges nor any assigned variables.
+        /// </summary>
+        /// <returns>A copy of this node.</returns>
         public abstract INode Clone();
 
         /// <summary>
@@ -260,6 +314,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override void Recycle()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void ResetAllAttributes()
         {
             throw new Exception("The method or operation is not implemented.");
         }
@@ -309,10 +368,24 @@ namespace de.unika.ipd.grGen.lgsp
             target = targetNode;
         }
 
+        /// <summary>
+        /// The source node of the edge.
+        /// </summary>
         public INode Source { get { return source; } }
+
+        /// <summary>
+        /// The target node of the edge.
+        /// </summary>
         public INode Target { get { return target; } }
 
+        /// <summary>
+        /// Returns the EdgeType of the edge.
+        /// </summary>
         public EdgeType Type { get { return type; } }
+
+        /// <summary>
+        /// Returns the GrGenType of the edge.
+        /// </summary>
         GrGenType IGraphElement.Type { get { return type; } }
 
         public bool InstanceOf(GrGenType otherType)
@@ -320,9 +393,35 @@ namespace de.unika.ipd.grGen.lgsp
             return type.IsA(otherType);
         }
 
+        /// <summary>
+        /// Returns the graph element attribute with the given attribute name.
+        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
+        /// </summary>
         public abstract object GetAttribute(string attrName);
+
+        /// <summary>
+        /// Sets the graph element attribute with the given attribute name to the given value.
+        /// If the graph element type doesn't have an attribute with this name, a NullReferenceException is thrown.
+        /// </summary>
+        /// <param name="attrName">The name of the attribute.</param>
+        /// <param name="value">The new value for the attribute. It must have the correct type.
+        /// Otherwise a TargetException is thrown.</param>
         public abstract void SetAttribute(string attrName, object value);
 
+        /// <summary>
+        /// Resets all graph element attributes to their initial values.
+        /// </summary>
+        public abstract void ResetAllAttributes();
+
+        /// <summary>
+        /// Creates a copy of this edge.
+        /// All attributes will be transfered to the new edge.
+        /// The edge will not be associated to a graph, yet.
+        /// So it will not have any assigned variables.
+        /// </summary>
+        /// <param name="newSource">The new source node for the new edge.</param>
+        /// <param name="newTarget">The new target node for the new edge.</param>
+        /// <returns>A copy of this edge.</returns>
         public abstract IEdge Clone(INode newSource, INode newTarget);
 
         /// <summary>
@@ -351,6 +450,11 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public override void Recycle()
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+
+        public override void ResetAllAttributes()
         {
             throw new Exception("The method or operation is not implemented.");
         }

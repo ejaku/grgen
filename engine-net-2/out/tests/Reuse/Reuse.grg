@@ -1,0 +1,171 @@
+using ReuseModel;
+
+rule init1:(A) {
+  pattern {}
+  replace {
+    a:A;
+    eval {
+      a.val = 5;
+    }
+    return (a);
+  }
+}
+
+rule init2:(A,A) {
+  pattern {}
+  replace {
+    a:A;
+    b:A;
+    eval {
+      a.val = 5;
+      b.val = 8;
+    }
+    return (a,b);
+  }
+}
+
+rule init3:(A,A,E) {
+  pattern {}
+  replace {
+    a:A -e:E-> b:A;
+    eval {
+      a.val = 5;
+      b.val = 8;
+      e.val = 20;
+    }
+    return (a,b,e);
+  }
+}
+
+rule init4:(A,E) {
+  pattern {}
+  replace {
+    a:A -e:E-> a;
+    eval {
+      a.val = 5;
+      e.val = 20;
+    }
+    return (a,e);
+  }
+}
+
+rule init5:(A,E,E) {
+  pattern {}
+  replace {
+    a:A -e:E-> a -f:E-> a;
+    eval {
+      a.val = 5;
+      e.val = 20;
+      f.val = 50;
+    }
+    return (a,e,f);
+  }
+}
+
+rule init6:(A,A,E,E) {
+  pattern {}
+  replace {
+    a:A -e:E-> a -f:E-> b:A;
+    eval {
+      a.val = 5;
+      b.val = 8;
+      e.val = 20;
+      f.val = 50;
+    }
+    return (a,b,e,f);
+  }
+}
+
+rule test1:(A) {
+  pattern {
+    a:A;
+  }
+  replace {
+    x:A;
+    eval {
+      x.val = a.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test2:(A) {
+  pattern {
+    a:A;
+    b:A;
+  }
+  replace {
+    b;
+    x:A;
+    eval {
+      x.val = a.val + b.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test3:(E) {
+  pattern {
+    a:A -e:E-> a;
+  }
+  replace {
+    a -x:E -> a;
+    eval {
+      x.val = e.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test4:(E) {
+  pattern {
+    a:A -e:E-> b:A;
+  }
+  replace {
+    a -x:E -> a;
+    eval {
+      x.val = e.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test5:(E) {
+  pattern {
+    a:A -e:E-> a -f:E-> a;
+  }
+  replace {
+    a -x:E -> a;
+    eval {
+      x.val = e.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test6:(E) {
+  pattern {
+    a:A -e:E-> b:A -f:E-> a;
+  }
+  replace {
+    a -x:E -> a;
+    eval {
+      x.val = e.val + f.val + 2;
+    }
+    return (x);
+  }
+}
+
+rule test7:(E) {
+  pattern {
+    a:A -e:E-> b:A -f:E-> a;
+  }
+  replace {
+    b -f->;
+    a -x:E -> a;
+    eval {
+      x.val = e.val + f.val + 2;
+    }
+    return (x);
+  }
+}

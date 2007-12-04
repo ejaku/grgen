@@ -898,12 +898,14 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Reuses an LGSPNode object for a new node and optionally changes the type.
-        /// This causes a RemovingNode and a NodeAdded event and removes all variables pointing to the old element.
+        /// This causes a RemovingEdges, a RemovingNode and a NodeAdded event and removes all edges
+        /// and variables pointing to the old element.
         /// </summary>
         /// <param name="node">The LGSPNode object to be reused.</param>
         /// <param name="newType">The new type to be used for the node or null, if the type is not to be changed</param>
         public void ReuseNode(LGSPNode node, ITypeFramework newType)
         {
+            RemoveEdges(node);
             RemovingNode(node);
 #if ELEMENTKNOWSVARIABLES
             if(node.variableList != null)

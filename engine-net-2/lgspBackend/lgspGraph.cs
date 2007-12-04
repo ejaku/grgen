@@ -1,4 +1,3 @@
-//#define ELEMENTKNOWSVARIABLES
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define OPCOST_WITH_GEO_MEAN
 
@@ -921,17 +920,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(lnode.typeNext == null) return;          // node not in graph (anymore)
 
             RemovingNode(node);
-#if ELEMENTKNOWSVARIABLES
-            if(lnode.variableList != null)
-            {
-                foreach(Variable var in lnode.variableList)
-                {
-                    VariableMap.Remove(var.Name);
-                }
-                lnode.variableList = null;
-                // TODO: What about ElementMap??
-            }
-#else
+
             if(lnode.hasVariables)
             {
                 foreach(Variable var in ElementMap[lnode])
@@ -939,7 +928,6 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(lnode);
                 lnode.hasVariables = false;
             }
-#endif
             RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
         }
 
@@ -964,17 +952,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(ledge.typeNext == null) return;          // edge not in graph (anymore)
 
             RemovingEdge(edge);
-#if ELEMENTKNOWSVARIABLES
-            if(ledge.variableList != null)
-            {
-                foreach(Variable var in ledge.variableList)
-                {
-                    VariableMap.Remove(var.Name);
-                }
-                ledge.variableList = null;
-                // TODO: What about ElementMap??
-            }
-#else
+
             if(ledge.hasVariables)
             {
                 foreach(Variable var in ElementMap[ledge])
@@ -982,7 +960,6 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(ledge);
                 ledge.hasVariables = false;
             }
-#endif
             ledge.source.RemoveOutgoing(ledge);
             ledge.target.RemoveIncoming(ledge);
             RemoveEdgeWithoutEvents(ledge, ledge.type.TypeID);
@@ -1002,27 +979,17 @@ namespace de.unika.ipd.grGen.lgsp
                 Remove(edge);
         }
 
-        // TODO: NYI
         /// <summary>
-        /// Reuses an LGSPNode object for a new node and optionally changes the type.
-        /// This causes a RemovingNode and a NodeAdded event and removes all variables pointing to the old element.
+        /// Reuses an LGSPNode object for a new node of the same type.
+        /// This causes a RemovingEdges, a RemovingNode and a NodeAdded event and removes all edges
+        /// and variables pointing to the old element.
         /// </summary>
         /// <param name="node">The LGSPNode object to be reused.</param>
-        /// <param name="newType">The new type to be used for the node or null, if the type is not to be changed</param>
-        public void ReuseNode(LGSPNode node, NodeType newType)
+        public void ReuseNode(LGSPNode node)
         {
-            throw new Exception("ReuseNode not implemented yet!");
+            RemoveEdges(node);
+            RemovingNode(node);
 
-/*            RemovingNode(node);
-#if ELEMENTKNOWSVARIABLES
-            if(node.variableList != null)
-            {
-                foreach(Variable var in node.variableList)
-                    VariableMap.Remove(var.Name);
-                node.variableList = null;
-                // TODO: What about ElementMap??
-            }
-#else
             if(node.hasVariables)
             {
                 foreach(Variable var in ElementMap[node])
@@ -1030,52 +997,23 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(node);
                 node.hasVariables = false;
             }
-#endif
 
-            if(newType != null)
-            {
-                node.typePrev.typeNext = node.typeNext;
-                node.typeNext.typePrev = node.typePrev;
-                nodesByTypeCounts[node.type.TypeID]--;
-                node.type = newType;
+            node.ResetAllAttributes();
 
-                LGSPNode head = nodesByTypeHeads[newType.TypeID];
-                head.typeNext.typePrev = node;
-                node.typeNext = head.typeNext;
-                node.typePrev = head;
-                head.typeNext = node;
-                nodesByTypeCounts[newType.TypeID]++;
-            }
-
-            // Reset attributes
-            node.attributes = node.type.CreateAttributes();
-
-            NodeAdded(node);*/
+            NodeAdded(node);
         }
 
-        // TODO: NYI
         /// <summary>
-        /// Reuses an LGSPEdge object for a new edge and optionally changes the source, target and/or type.
-        /// This causes a RemovingEdge and a EdgeAdded event and removes all variables pointing to the old element.
+        /// Reuses an LGSPEdge object for a new edge of the same type and optionally changes the source and/or target.
+        /// This causes a RemovingEdge and an EdgeAdded event and removes all variables pointing to the old element.
         /// </summary>
-        /// <param name="edge"></param>
-        /// <param name="newSource"></param>
-        /// <param name="newTarget"></param>
-        /// <param name="newType"></param>
-        public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget, EdgeType newType)
+        /// <param name="edge">The LGSPEdge object to be reused.</param>
+        /// <param name="newSource">The new source of the edge, or null if it is not to be changed.</param>
+        /// <param name="newTarget">The new target of the edge, or null if it is not to be changed.</param>
+        public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget)
         {
-            throw new Exception("ReuseEdge not implemented yet!");
+            RemovingEdge(edge);
 
-/*            RemovingEdge(edge);
-#if ELEMENTKNOWSVARIABLES
-            if(edge.variableList != null)
-            {
-                foreach(Variable var in edge.variableList)
-                    VariableMap.Remove(var.Name);
-                edge.variableList = null;
-                // TODO: What about ElementMap??
-            }
-#else
             if(edge.hasVariables)
             {
                 foreach(Variable var in ElementMap[edge])
@@ -1083,7 +1021,6 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(edge);
                 edge.hasVariables = false;
             }
-#endif
 
             if(newSource != null)
             {
@@ -1145,25 +1082,9 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            if(newType != null)
-            {
-                edge.typePrev.typeNext = edge.typeNext;
-                edge.typeNext.typePrev = edge.typePrev;
-                edgesByTypeCounts[edge.type.TypeID]--;
-                edge.type = newType;
+            edge.ResetAllAttributes();
 
-                LGSPEdge head = edgesByTypeHeads[newType.TypeID];
-                head.typeNext.typePrev = edge;
-                edge.typeNext = head.typeNext;
-                edge.typePrev = head;
-                head.typeNext = edge;
-                edgesByTypeCounts[newType.TypeID]++;
-            }
-
-            // Reset attributes
-            edge.attributes = edge.type.CreateAttributes();
-
-            EdgeAdded(edge);*/
+            EdgeAdded(edge);
         }
 
         public override void Clear()
@@ -1425,15 +1346,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override LinkedList<Variable> GetElementVariables(IGraphElement elem)
         {
-#if ELEMENTKNOWSVARIABLES
-            LGSPNode node = elem as LGSPNode;
-            if(node != null) return node.variableList;
-            else return ((LGSPEdge) elem).variableList;
-#else
             LinkedList<Variable> variableList;
             ElementMap.TryGetValue(elem, out variableList);
             return variableList;
-#endif
         }
 
         /// <summary>
@@ -1503,87 +1418,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elem">The new value of the variable or null to unset the variable.</param>
         public override void SetVariableValue(String varName, IGraphElement elem)
         {
-#if ELEMENTKNOWSVARIABLES            
-            Variable var;
-
-            if (varName == null) return;
-            if (elem == null)
-            {
-                if (VariableMap.TryGetValue(varName, out var))
-                {
-                    LinkedList<Variable> oldVarList;
-                    LGSPNode oldNode = var.Element as LGSPNode;
-                    if (oldNode != null)
-                    {
-                        oldVarList = oldNode.variableList;
-                        if (oldVarList != null)
-                            oldVarList.Remove(var);
-                    }
-                    else
-                    {
-                        LGSPEdge oldEdge = (LGSPEdge)var.Element;
-                        oldVarList = oldEdge.variableList;
-                        if (oldVarList != null)
-                            oldVarList.Remove(var);
-                    }
-                    VariableMap.Remove(varName);
-                }
-                return;
-            }
-
-            if(!VariableMap.TryGetValue(varName, out var))
-            {
-                var = new Variable(varName, elem);
-                VariableMap[varName] = var;
-            }
-            else
-            {
-                LinkedList<Variable> oldVarList;
-                LGSPNode oldNode = var.Element as LGSPNode;
-                if(oldNode != null)
-                {
-                    oldVarList = oldNode.variableList;
-                    if(oldVarList != null)
-                        oldVarList.Remove(var);
-                }
-                else
-                {
-                    LGSPEdge oldEdge = (LGSPEdge) var.Element;
-                    oldVarList = oldEdge.variableList;
-                    if(oldVarList != null)
-                        oldVarList.Remove(var);
-                }
-                var.Element = elem;
-            }
-
-            LinkedList<Variable> newVarList;
-            LGSPNode node = elem as LGSPNode;
-            if(node != null)
-            {
-                newVarList = node.variableList;
-                if(newVarList == null)
-                {
-                    newVarList = new LinkedList<Variable>();
-                    newVarList.AddFirst(var);
-                    node.variableList = newVarList;
-                }
-                else if(!newVarList.Contains(var))
-                    newVarList.AddFirst(var);
-            }
-            else
-            {
-                LGSPEdge edge = (LGSPEdge) elem;
-                newVarList = edge.variableList;
-                if(newVarList == null)
-                {
-                    newVarList = new LinkedList<Variable>();
-                    newVarList.AddFirst(var);
-                    edge.variableList = newVarList;
-                }
-                else if(!newVarList.Contains(var))
-                    newVarList.AddFirst(var);
-            }
-#else
             if(varName == null) return;
 
             Variable var;
@@ -1625,7 +1459,6 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPEdge edge = (LGSPEdge) elem;
                 edge.hasVariables = true;
             }
-#endif
         }
 
         #endregion Variables management

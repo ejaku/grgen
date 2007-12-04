@@ -51,6 +51,20 @@ for filename in $targets; do
   
     $exeprefix ../bin/GrShell.exe $grs < /dev/null | awk "BEGIN { testnum = 0 }
       {sub(\"\\r\$\", \"\")}
+      /^All attributes/ {
+        do {
+          getline
+          while(\$0 ~ /^ - /) {
+            testnum++
+            value = getAttribute(4)
+            getline correctvalue < \"$grs.data\"
+            if(value != correctvalue)
+              fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+            getline            
+          }
+        }
+        while(\$0 ~ /^All attributes/)
+      }
       /NOT valid/ {
         print \"\n    Graph validation failed after test \" testnum \": \" > \"/dev/stderr\"
         getline
@@ -86,12 +100,7 @@ for filename in $targets; do
       }
       /value of attribute/ {
         testnum++
-        value = \"\"
-        for(i = 7; i <= NF; i++)
-        {
-          if(i == 7) value = \$i
-          else value = value \" \" \$i
-        }
+        value = getAttribute(7)
         getline correctvalue < \"$grs.data\"
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
@@ -104,6 +113,19 @@ for filename in $targets; do
         
         print \" Success! Total told time: \" time \" ms\"
       }
+      
+      function getAttribute(startindex)
+      {
+        if(startindex > NF) return \"\"
+        
+        value = \$startindex
+        for(i = startindex + 1; i <= NF; i++)
+        {
+          value = value \" \" \$i
+        }
+        return value
+      }
+      
       function fail(testnum, string)
       {
         if(string)
