@@ -330,6 +330,9 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private Collection<Edge> commonEdges;
 	private HashSet<Node> newOrRetypedNodes;
 	private HashSet<Edge> newOrRetypedEdges;
+	private HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
+
+	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new HashMap<GraphEntity, HashSet<Entity>>();
 
 	private HashSet<Node> nodesNeededAsElements = new HashSet<Node>();
 	private HashSet<Edge> edgesNeededAsElements = new HashSet<Edge>();
@@ -337,6 +340,13 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private HashSet<Edge> edgesNeededAsAttributes = new HashSet<Edge>();
 	private HashSet<Node> nodesNeededAsTypes = new HashSet<Node>();
 	private HashSet<Edge> edgesNeededAsTypes = new HashSet<Edge>();
+
+	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
+		if(!reusedElements.contains(elem)) return false;
+		HashSet<Entity> neededAttrs = neededAttributes.get(elem);
+		return neededAttrs != null && neededAttrs.contains(attr);
+	}
+
 
 	private void genRuleModify(StringBuffer sb, Rule rule, boolean reuseNodeAndEdges) {
 		StringBuffer sb2 = new StringBuffer();
@@ -351,6 +361,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		newEdges = new HashSet<Edge>(rule.getRight().getEdges());
 		delNodes = new HashSet<Node>(rule.getLeft().getNodes());
 		delEdges = new HashSet<Edge>(rule.getLeft().getEdges());
+		reusedElements.clear();
+		neededAttributes.clear();
 		nodesNeededAsElements.clear();
 		edgesNeededAsElements.clear();
 		nodesNeededAsTypes.clear();
@@ -377,14 +389,18 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				newOrRetypedEdges.add(edge.getRetypedEdge());
 		}
 
-		// attribute re-calc
-		genEvals(sb3, rule);
+		for(Assignment ass : rule.getEvals()) {
+			collectNeededAttributes(ass.getExpression());
+		}
 
 		// new nodes
 		genRewriteNewNodes(sb2, reuseNodeAndEdges);
 
 		// new edges
 		genRewriteNewEdges(sb2, rule, reuseNodeAndEdges);
+
+		// attribute re-calc
+		genEvals(sb3, rule);
 
 		// node type changes
 		for(Node node : rule.getRight().getNodes()) {
@@ -507,6 +523,42 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			sb.append("\t\t\tEdgeType " + name + "_type = " + name + ".type;\n");
 		}
 
+		// create variables for used attributes of reused elements
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributes.entrySet()) {
+			if(!reusedElements.contains(entry.getKey())) continue;
+
+			String grEntName = formatEntity(entry.getKey());
+			for(Entity entity : entry.getValue()) {
+				String varTypeName;
+				String attrName = formatIdentifiable(entity);
+				switch(entity.getType().classify()) {
+					case Type.IS_BOOLEAN:
+						varTypeName = "bool";
+						break;
+					case Type.IS_INTEGER:
+						varTypeName = "int";
+						break;
+					case Type.IS_FLOAT:
+						varTypeName = "float";
+						break;
+					case Type.IS_DOUBLE:
+						varTypeName = "double";
+						break;
+					case Type.IS_STRING:
+						varTypeName = "String";
+						break;
+					case Type.IS_OBJECT:
+						varTypeName = "Object";
+						break;
+					default:
+						throw new IllegalArgumentException();
+				}
+
+				sb.append("\t\t\t" + varTypeName + " var_" + grEntName + "_" + attrName
+						+ " = i" + grEntName + ".@" + attrName + ";\n");
+			}
+		}
+
 		// new nodes/edges (re-use) and retype nodes/edges
 		sb.append(sb2);
 
@@ -527,20 +579,15 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t\tpublic override String[] Added" + NodesOrEdges + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
-	//
-	// TODO: Choosing the right re-use partner is a complicated issue.
-	// The genRewriteNewEdges() function does not implement any optimization to improve these partners
-	// We believe the cost to be:
-	// re-route-source: 21-29
-	// re-route-target: 21-29
-	// re-type: 32
-	//
 	private void genRewriteNewEdges(StringBuffer sb2, Rule rule, boolean reuseNodeAndEdges) {
-		reuseNodeAndEdges = false;							   // TODO: reimplement reuse!!
+		PatternGraph leftSide = rule.getLeft();
+		Graph rightSide = rule.getRight();
 
 		NE:	for(Edge edge : newEdges) {
-			Node src_node = rule.getRight().getSource(edge);
-			Node tgt_node = rule.getRight().getTarget(edge);
+			String ctype = formatClassType(edge.getType());
+
+			Node src_node = rightSide.getSource(edge);
+			Node tgt_node = rightSide.getTarget(edge);
 
 			if( commonNodes.contains(src_node) )
 				nodesNeededAsElements.add(src_node);
@@ -548,70 +595,75 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			if( commonNodes.contains(tgt_node) )
 				nodesNeededAsElements.add(tgt_node);
 
-			String type;
-
 			if(edge.inheritsType()) {
-				type = formatEntity(edge.getTypeof()) + "_type";
 				edgesNeededAsElements.add(edge.getTypeof());
 				edgesNeededAsTypes.add(edge.getTypeof());
 			} else {
-				type = formatType(edge.getType()) + ".typeVar";
-			}
+				if(reuseNodeAndEdges) {
+					Edge bestDelEdge = null;
+					int bestPoints = -1;
 
-			if(reuseNodeAndEdges) {
-				// Can we reuse the edge
-				for(Edge delEdge : new HashSet<Edge>(delEdges)) {
-					// We can reuse the edge instead of deleting it!
-					// This is a veritable performance optimization, as object creation is costly
+					// Can we reuse a deleted edge of the same type?
+					for(Edge delEdge : new HashSet<Edge>(delEdges)) {
+						if(delEdge.getType() != edge.getType()) continue;
 
-					String de = formatEntity(delEdge);
-					String src = formatEntity(src_node);
-					String tgt = formatEntity(tgt_node);
+						int curPoints = 0;
+						if(leftSide.getSource(delEdge) == src_node)
+							curPoints++;
+						if(leftSide.getTarget(delEdge) == tgt_node)
+							curPoints++;
+						if(curPoints > bestPoints) {
+							bestPoints = curPoints;
+							bestDelEdge = delEdge;
+							if(curPoints == 2) break;
+						}
+					}
 
-					sb2.append("\t\t\t// re-using " + de + " as " + formatEntity(edge) + "\n");
+					if(bestDelEdge != null) {
+						// We may be able to reuse the edge instead of deleting it!
+						// This is a veritable performance optimization, as object creation is costly
 
-					sb2.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = " + formatEntity(delEdge) + ";\n");
-					sb2.append("\t\t\tgraph.ReuseEdge(" + de + ", ");
+						String newEdgeName = formatEntity(edge);
+						String reusedEdgeName = formatEntity(bestDelEdge);
+						String src = formatEntity(src_node);
+						String tgt = formatEntity(tgt_node);
 
-					if(rule.getLeft().getSource(delEdge) != src_node)
-						sb2.append(src + ", ");
-					else
-						sb2.append("null, ");
+						sb2.append("\t\t\t" + ctype + " " + newEdgeName + ";\n"
+								+ "\t\t\tif(" + reusedEdgeName + ".type == " + formatType(edge.getType()) + ".typeVar)\n"
+								+ "\t\t\t{\n"
+								+ "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
+								+ "\t\t\t\t" + newEdgeName + " = (" + ctype + ") " + reusedEdgeName + ";\n"
+								+ "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
 
-					if(rule.getLeft().getTarget(delEdge) != tgt_node)
-						sb2.append(tgt + ", ");
-					else
-						sb2.append("null, ");
+						if(leftSide.getSource(bestDelEdge) != src_node)
+							sb2.append(src + ", ");
+						else
+							sb2.append("null, ");
 
-					if(delEdge.getType() != edge.getType() || edge.inheritsType())
-						sb2.append(type);
-					else
-						sb2.append("null");
+						if(leftSide.getTarget(bestDelEdge) != tgt_node)
+							sb2.append(tgt + "");
+						else
+							sb2.append("null");
 
-					sb2.append(");\n");
+						sb2.append(");\n"
+								+ "\t\t\t}\n"
+								+ "\t\t\telse\n"
+								+ "\t\t\t\t" + formatEntity(edge) + " = " + ctype
+								+ ".CreateEdge(graph, " + formatEntity(src_node)
+								+ ", " + formatEntity(tgt_node) + ");\n");
 
-					delEdges.remove(delEdge); // Do not delete the edge (it is reused)
-					edgesNeededAsElements.add(delEdge);
-					continue NE;
+						delEdges.remove(bestDelEdge); // Do not delete the edge (it is reused)
+						edgesNeededAsElements.add(bestDelEdge);
+						reusedElements.add(bestDelEdge);
+						continue NE;
+					}
 				}
 			}
 
 			// Create the edge
-//			sb2.append(
-//				"\t\t\tLGSPEdge " + formatEntity(edge) + " = graph.AddEdge(" +
-//					type + ", " +
-//				( src_node != null ? formatEntity(src_node) : "null" ) + ", " +
-//				( tgt_node != null ? formatEntity(tgt_node) : "null" ) + ");\n"
-//					/* type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n" */
-//			);
-
-			String ctype = formatClassType(edge.getType());
-			sb2.append("\t\t\t" + ctype + " " + formatEntity(edge)
-					+ " = " + ctype + ".CreateEdge(graph, " +
-						  ( src_node != null ? formatEntity(src_node) : "null" ) + ", " +
-						  ( tgt_node != null ? formatEntity(tgt_node) : "null" ) + ");\n"
-					/* type + ", " + formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n" */
-				);
+			sb2.append("\t\t\t" + ctype + " " + formatEntity(edge) + " = " + ctype
+					+ ".CreateEdge(graph, " + formatEntity(src_node)
+					+ ", " + formatEntity(tgt_node) + ");\n");
 		}
 	}
 
@@ -633,6 +685,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 						j.remove();
 						i.remove();
 						nodesNeededAsElements.add(delNode);
+						reusedElements.add(delNode);
 						continue NN;
 					}
 				}
@@ -650,6 +703,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 						j.remove();
 						i.remove();
 						nodesNeededAsElements.add(delNode);
+						reusedElements.add(delNode);
 						continue NN;
 					}
 				}
@@ -667,6 +721,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				tmpDelNodes.removeFirst();
 				i.remove();
 				nodesNeededAsElements.add(delNode);
+				reusedElements.add(delNode);
 				continue NN;
 			}
 			String ctype = formatClassType(node.getType());
@@ -1257,7 +1312,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				+ "\t{\n"
 				+ "\t\tprivate static int poolLevel = 0;\n"
 				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
-		
+
 		if(isNode) {
 			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n"
 					+ "\t\tprivate " + cname + "(" + cname + " oldElem) : base(" + tname + ".typeVar)\n");
@@ -1289,7 +1344,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.hasVariables = false;\n");
-			initAllMembers(sb, type, "node");
+			initAllMembers(sb, type, "node", "\t\t\t\t");
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
@@ -1305,7 +1360,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.hasVariables = false;\n");
-			initAllMembers(sb, type, "node");
+			initAllMembers(sb, type, "node", "\t\t\t\t");
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
 					+ "\t\t\treturn node;\n"
@@ -1325,7 +1380,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t\t\tedge.hasVariables = false;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(sb, type, "edge");
+			initAllMembers(sb, type, "edge", "\t\t\t\t");
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
@@ -1341,7 +1396,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t\t\tedge.hasVariables = false;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(sb, type, "edge");
+			initAllMembers(sb, type, "edge", "\t\t\t\t");
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
 					+ "\t\t\treturn edge;\n"
@@ -1367,13 +1422,6 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		genAttributeInit(sb, type);
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
-		/*		if(type.getAllMembers().size() == 0) {
-		 sb.append("\t\tprivate static IAttributes attrInstance = new " + cname + "();\n");
-		 sb.append("\t\tpublic override IAttributes CreateAttributes() { return attrInstance; }\n");
-		 }
-		 else {
-		 sb.append("\t\tpublic override IAttributes CreateAttributes() { return new " + cname + "(); }\n");
-		 }*/
 
 		if(isNode) {
 			sb.append("\t\tpublic override INode CreateNode() { return new " + cname + "(); }\n");
@@ -1398,10 +1446,10 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t}\n");
 	}
 
-	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName) {
+	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName, String indentString) {
 		for(Entity member : type.getAllMembers()) {
 			String attrName = formatAttributeName(member);
-			sb.append("\t\t\t\t" + varName + ".@" + attrName + " = ");
+			sb.append(indentString + varName + ".@" + attrName + " = ");
 			Type t = member.getType();
 			if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
 				sb.append("0;\n");
@@ -1476,6 +1524,11 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				+ " type \\\"" + formatIdentifiable(type)
 				+ "\\\" does not have the attribute \\\" + attrName + \\\"\\\"!\");\n");
 		sb.append("\t\t}\n");
+
+		sb.append("\t\tpublic override void ResetAllAttributes()\n");
+		sb.append("\t\t{\n");
+		initAllMembers(sb, type, "this", "\t\t\t");
+		sb.append("\t\t}\n");
 	}
 
 	/**
@@ -1529,6 +1582,36 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private void genAttributeAttributes(StringBuffer sb, InheritanceType type) {
 		for(Entity member : type.getMembers()) // only for locally defined members
 			sb.append("\t\tpublic static AttributeType " + formatAttributeTypeName(member) + ";\n");
+	}
+
+	private void collectNeededAttributes(Expression expr) {
+		if(expr instanceof Operator) {
+			Operator op = (Operator) expr;
+			switch(op.arity()) {
+				case 3:
+					collectNeededAttributes(op.getOperand(2));
+					// FALLTHROUGH
+				case 2:
+					collectNeededAttributes(op.getOperand(1));
+					// FALLTHROUGH
+				case 1:
+					collectNeededAttributes(op.getOperand(0));
+					break;
+			}
+		}
+		else if(expr instanceof Qualification) {
+			Qualification qual = (Qualification) expr;
+			GraphEntity entity = (GraphEntity) qual.getOwner();
+			HashSet<Entity> neededAttrs = neededAttributes.get(entity);
+			if(neededAttrs == null) {
+				neededAttributes.put(entity, neededAttrs = new HashSet<Entity>());
+			}
+			neededAttrs.add(qual.getMember());
+		}
+		else if(expr instanceof Cast) {
+			Cast cast = (Cast) expr;
+			collectNeededAttributes(cast.getExpression());
+		}
 	}
 
 	private strictfp void genConditionEval(StringBuffer sb, Expression cond, boolean inRewriteModify) {
@@ -1640,26 +1723,37 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	}
 
 	private void genQualAccess(Entity entity, StringBuffer sb, Qualification qual, boolean inRewriteModify) {
+		Entity member = qual.getMember();
 		if(inRewriteModify) {
-			if(entity instanceof Node) {
-				nodesNeededAsAttributes.add((Node) entity);
-				if(!newOrRetypedNodes.contains(entity))		// element extracted from match?
-					sb.append("i");							// yes, attributes only accessible via interface
-			}
-			else if(entity instanceof Edge) {
-				edgesNeededAsAttributes.add((Edge) entity);
-				if(!newOrRetypedEdges.contains(entity))		// element extracted from match?
-					sb.append("i");							// yes, attributes only accessible via interface
-			}
-			else
-				throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+			if(accessViaVariable((GraphEntity) entity, member)) {
+				if(entity instanceof Node)
+					nodesNeededAsAttributes.add((Node) entity);
+				else if(entity instanceof Edge)
+					edgesNeededAsAttributes.add((Edge) entity);
 
-			sb.append(formatEntity(entity) + ".@" + formatIdentifiable(qual.getMember()));
+				sb.append("var_" + formatEntity(entity) + "_" + formatIdentifiable(member));
+			}
+			else {
+				if(entity instanceof Node) {
+					nodesNeededAsAttributes.add((Node) entity);
+					if(!newOrRetypedNodes.contains(entity))		// element extracted from match?
+						sb.append("i");							// yes, attributes only accessible via interface
+				}
+				else if(entity instanceof Edge) {
+					edgesNeededAsAttributes.add((Edge) entity);
+					if(!newOrRetypedEdges.contains(entity))		// element extracted from match?
+						sb.append("i");							// yes, attributes only accessible via interface
+				}
+				else
+					throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+
+				sb.append(formatEntity(entity) + ".@" + formatIdentifiable(member));
+			}
 		}
 		else {	 // in genConditions()
 			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
 					formatIdentifiable(entity.getType()) + ") ");
-			sb.append(formatEntity(entity) + ").@" + formatIdentifiable(qual.getMember()));
+			sb.append(formatEntity(entity) + ").@" + formatIdentifiable(member));
 		}
 	}
 
@@ -1990,5 +2084,3 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// TODO
 	}
 }
-
-
