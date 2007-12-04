@@ -51,7 +51,7 @@ header {
  */
 class GRTypeParser extends GRBaseParser;
 options {
-  k=3;
+	k=3;
 	codeGenMakeSwitchThreshold = 2;
 	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;
@@ -61,43 +61,48 @@ options {
 }
 
 text returns [ BaseNode model = env.initNode() ]
-  {
-    CollectNode n = new CollectNode();
-    IdentNode id = env.getDummyIdent();
+	{
+		CollectNode n = new CollectNode();
+		IdentNode id = env.getDummyIdent();
 
-	String modelName = Util.removePathPrefix(getFilename());
+		String modelName = Util.removePathPrefix(getFilename());
 //		Util.removeFileSuffix(getFilename(), "gm") );
 
-    id = new IdentNode(
-    	env.define(ParserEnvironment.ENTITIES, modelName,
-    		new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
-  }
-  : ( m:MODEL i:IDENT SEMI {
-    	reportWarning(getCoords(m), "keyword \"model\" is deprecated");
-    })?
-    typeDecls[n] EOF {
-    model = new ModelNode(id);
-    model.addChild(n);
-  }
-  ;
-  	
+		id = new IdentNode(
+		env.define(ParserEnvironment.ENTITIES, modelName,
+		new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
+	}
+	
+	:   ( m:MODEL i:IDENT SEMI
+			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
+		)? 
+		typeDecls[n] EOF
+			{
+				model = new ModelNode(id);
+				model.addChild(n);
+			}
+	;
+	
 typeDecls [ BaseNode n ]
-  { BaseNode d; }
-  : (d=typeDecl { n.addChild(d); } )*
-  ;
+	{ BaseNode d; }
+	
+	: (d=typeDecl { n.addChild(d); } )*
+	;
 
 typeDecl returns [ BaseNode res = env.initNode() ]
-  : res=classDecl
-  | res=enumDecl
-  ;
+	: res=classDecl
+	| res=enumDecl
+	;
 
 classDecl returns [ BaseNode res = env.initNode() ]
 	{ int mods = 0; }
+	
 	: mods=typeModifiers (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
 	;
 
 typeModifiers returns [ int res = 0; ]
-  { int mod = 0; }
+	{ int mod = 0; }
+	
 	: (mod=typeModifier { res |= mod; })*
 	;
 	
@@ -105,110 +110,129 @@ typeModifier returns [ int res = 0; ]
 	: ABSTRACT { res |= InheritanceTypeNode.MOD_ABSTRACT; }
 	| CONST { res |= InheritanceTypeNode.MOD_CONST; }
 	;
-	
 
 /**
  * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
 edgeClassDecl[int modifiers] returns [ BaseNode res = env.initNode() ]
-  {
-  	BaseNode body = new CollectNode(), ext, cas;
-	  IdentNode id;
-  }
-  
+	{
+		BaseNode body = new CollectNode(), ext, cas;
+		IdentNode id;
+	}
+	
 	: EDGE CLASS id=typeIdentDecl ext=edgeExtends[id] cas=connectAssertions pushScope[id]
-		(LBRACE! body=edgeClassBody RBRACE! | SEMI) {
-
-		EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
-		id.setDecl(new TypeDeclNode(id, et));
-		res = id;
-  } popScope!
+		(LBRACE! body=edgeClassBody RBRACE! 
+		| SEMI
+		)
+			{
+				EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
+				id.setDecl(new TypeDeclNode(id, et));
+				res = id;
+			}
+		popScope!
   ;
 
 nodeClassDecl![int modifiers] returns [ BaseNode res = env.initNode() ]
 	{
-  	BaseNode body = new CollectNode(), ext;
-  	IdentNode id;
-  }
+		BaseNode body = new CollectNode(), ext;
+		IdentNode id;
+	}
 
 	: NODE CLASS id=typeIdentDecl ext=nodeExtends[id] pushScope[id]
-	  (LBRACE! body=nodeClassBody RBRACE! | SEMI) {
-
-		NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
-		id.setDecl(new TypeDeclNode(id, nt));
-		res = id;
-	} popScope!
+		(LBRACE! body=nodeClassBody RBRACE! 
+		| SEMI
+		)
+			{
+				NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
+				id.setDecl(new TypeDeclNode(id, nt));
+				res = id;
+			}
+		popScope!
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]
-	: CONNECT connectAssertion[c] ( COMMA connectAssertion[c] )*
+	: CONNECT connectAssertion[c] 
+		( COMMA connectAssertion[c] )*
 	|
 	;
 
 connectAssertion [ CollectNode c ]
-	{ BaseNode src, srcRange, tgt, tgtRange; }
-	: src=typeIdentUse srcRange=rangeSpec RARROW
-	  tgt=typeIdentUse tgtRange=rangeSpec {
-	  c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange));
+	{
+		IdentNode src, tgt;
+		BaseNode srcRange, tgtRange;
 	}
+	
+	: src=typeIdentUse srcRange=rangeSpec RARROW
+		tgt=typeIdentUse tgtRange=rangeSpec
+			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
 edgeExtends [IdentNode clsId] returns [ CollectNode c = new CollectNode() ]
-  : EXTENDS edgeExtendsCont[clsId,c]
-  | { c.addChild(env.getEdgeRoot()); }
-  ;
+	: EXTENDS edgeExtendsCont[clsId,c]
+	|	{ c.addChild(env.getEdgeRoot()); }
+	;
 
 edgeExtendsCont [ IdentNode clsId, CollectNode c ]
-    {
-      BaseNode e;
-      int extCount = 0;
-    }
-    : e=typeIdentUse {
-      	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
-      		c.addChild(e);
-      	else
-      		reportError(e.getCoords(), "A class must not extend itself");
-      }
-      (COMMA! e=typeIdentUse {
-      	if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
-      		c.addChild(e);
-      	else
-      		reportError(e.getCoords(), "A class must not extend itself");
-      })*
-      { if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
+	{
+		IdentNode e;
+		int extCount = 0;
+	}
+	
+	: e=typeIdentUse
+		{
+			if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
+				c.addChild(e);
+			else
+				reportError(e.getCoords(), "A class must not extend itself");
+		}
+	(COMMA! e=typeIdentUse
+		{
+			if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
+				c.addChild(e);
+			else
+				reportError(e.getCoords(), "A class must not extend itself");
+		}
+	)*
+		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
 
 nodeExtends [ IdentNode clsId ] returns [ CollectNode c = new CollectNode() ]
-  : EXTENDS nodeExtendsCont[clsId, c]
-  | { c.addChild(env.getNodeRoot()); }
-  ;
+	: EXTENDS nodeExtendsCont[clsId, c]
+	|	{ c.addChild(env.getNodeRoot()); }
+	;
 
 nodeExtendsCont [IdentNode clsId, CollectNode c ]
-  { BaseNode n; }
-  : n=typeIdentUse {
-    	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
-    		c.addChild(n);
-    	else
-      		reportError(n.getCoords(), "A class must not extend itself");
-    }
-    (COMMA! n=typeIdentUse {
-    	if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
-    		c.addChild(n);
-    	else
-      		reportError(n.getCoords(), "A class must not extend itself");
-    })*
-    { if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
-  ;
+	{ IdentNode n; }
+  
+	: n=typeIdentUse
+		{
+			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+				c.addChild(n);
+			else
+				reportError(n.getCoords(), "A class must not extend itself");
+		}
+	(COMMA! n=typeIdentUse
+		{
+			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+				c.addChild(n);
+			else
+				reportError(n.getCoords(), "A class must not extend itself");
+		}
+	)* 
+		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
+	;
 
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
-  { BaseNode d; }
-  : (d=basicDecl { c.addChild(d); } SEMI!)*
-  ;
+	{ BaseNode d; }
+	
+	: ( d=basicDecl { c.addChild(d); } SEMI! )*
+	;
 
 edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode d; }
-    : (d=basicDecl { c.addChild(d); } SEMI!)*
+	
+	: ( d=basicDecl { c.addChild(d); } SEMI! )*
 	;
 	
 rangeSpec returns [ BaseNode res = env.initNode() ]
@@ -217,20 +241,18 @@ rangeSpec returns [ BaseNode res = env.initNode() ]
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
 		// TODO fix range to allow only [*], [+], [c:*], [c], [c:d]
 	}
-	: (	l:LBRACK { coords = getCoords(l); }
-			( 	(STAR | PLUS { lower=1; }) |
-				lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
-		) RBRACK
-	  )?
-	{
-			res = new RangeSpecNode(coords, lower, upper);
-	}
+	
+	:   ( l:LBRACK { coords = getCoords(l); }
+			( ( STAR | PLUS { lower=1; } )
+			| lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
+			) RBRACK
+		)?
+			{ res = new RangeSpecNode(coords, lower, upper); }
 	;
 	
 integerConst returns [ int value = 0 ]
-	: i:NUM_INTEGER {
-		value = Integer.parseInt(i.getText());
-	}
+	: i:NUM_INTEGER
+		{ value = Integer.parseInt(i.getText()); }
 	;
 	
 enumDecl returns [ BaseNode res = env.initNode() ]
@@ -238,64 +260,63 @@ enumDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id;
 		BaseNode c = new CollectNode();
 	}
-	: ENUM id=typeIdentDecl pushScope[id] LBRACE enumList[id, c] {
-		TypeNode enumType = new EnumTypeNode(c);
-  		enumType.addChild(enumType);
-
-  		id.setDecl(new TypeDeclNode(id, enumType));
-  		res = id;
-
-  	} RBRACE popScope;
+	
+	: ENUM id=typeIdentDecl pushScope[id]
+		LBRACE enumList[id, c]
+		{
+			TypeNode enumType = new EnumTypeNode(c);
+			enumType.addChild(enumType);
+			id.setDecl(new TypeDeclNode(id, enumType));
+			res = id;
+		}
+		RBRACE popScope
+	;
 
 enumList[ BaseNode enumType, BaseNode collect ]
 	{
 		int pos = 0;
 		BaseNode init;
 	}
-	:	init=enumItemDecl[enumType, collect, env.getZero(), pos++]
-	    (COMMA init=enumItemDecl[enumType, collect, init, pos++])*
+	
+	: init=enumItemDecl[enumType, collect, env.getZero(), pos++]
+		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
 	
 enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
-  returns [ BaseNode res = env.initNode() ]
+				returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id;
 		BaseNode init = null;
 		BaseNode value;
 	}
+	
 	: id=entIdentDecl
-	  (
-	  	ASSIGN init=expr[true] //'true' means that expr initializes an enum item
-	  )? {
-
-		if(init != null)
-			value = init;
-		else
-			value = defInit;
-			
-		MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
-		id.setDecl(memberDecl);
-		coll.addChild(memberDecl);
-		
-		res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
-		res.addChild(value);
-		res.addChild(env.getOne());
-	  }
+		( ASSIGN init=expr[true] )? //'true' means that expr initializes an enum item
+			{
+				if(init != null)
+					value = init;
+				else
+					value = defInit;
+				MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
+				id.setDecl(memberDecl);
+				coll.addChild(memberDecl);
+				res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+				res.addChild(value);
+				res.addChild(env.getOne());
+			}
 	;
 
 basicDecl returns [ BaseNode res = env.initNode() ]
-    {
-  	  IdentNode id;
-  	  BaseNode type;
-  	  DeclNode decl;
-    }
+	{
+		IdentNode id;
+		IdentNode type;
+		DeclNode decl;
+	}
   
-  : id=entIdentDecl COLON! type=typeIdentUse {
-	
-	decl = new MemberDeclNode(id, type);
-	id.setDecl(decl);
-	res = decl;
-};
-
-
-
+	: id=entIdentDecl COLON! type=typeIdentUse
+		{
+			decl = new MemberDeclNode(id, type);
+			id.setDecl(decl);
+			res = decl;
+		}
+	;
