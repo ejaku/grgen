@@ -474,6 +474,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
 
+            // Reset variables
+            ElementMap.Clear();
+            VariableMap.Clear();
+
             // Reset statistical data
 #if MONO_MULTIDIMARRAY_WORKAROUND
             dim0size = dim1size = dim2size = 0;
