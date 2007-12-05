@@ -133,6 +133,7 @@ rule test4:(E) {
 rule test5:(E) {
   pattern {
     a:A -e:E-> a -f:E-> a;
+    if { e.val == 50; }
   }
   replace {
     a -x:E -> a;
