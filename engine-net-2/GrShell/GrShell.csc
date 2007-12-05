@@ -631,7 +631,7 @@ void ShellCommand():
         }
         catch(Exception ex)
         {
-            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+            Console.WriteLine("Unable to execute xgrs: " + ex);
             noError = false;
         }
     }
@@ -653,7 +653,7 @@ void ShellCommand():
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+                Console.WriteLine("Unable to execute xgrs: " + ex);
                 noError = false;
             }
         }
@@ -1029,7 +1029,7 @@ void DebugCommand():
         }
         catch(Exception ex)
         {
-            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+            Console.WriteLine("Unable to execute xgrs: " + ex);
             noError = false;
         }
     }
