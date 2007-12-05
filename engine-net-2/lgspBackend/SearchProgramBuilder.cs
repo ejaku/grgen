@@ -431,7 +431,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (isNode)
             {
                 insertionPoint = decideOnAndInsertCheckConnectednessOfNode(
-                    insertionPoint, (SearchPlanNodeNode)target, null);
+                    insertionPoint, (SearchPlanNodeNode)target, null, null);
             }
             else
             {
@@ -533,7 +533,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check connectedness of candidate
             insertionPoint = decideOnAndInsertCheckConnectednessOfNode(
-                insertionPoint, target, source);
+                insertionPoint, target, source,
+                getSource ? source.PatternEdgeTarget : source.PatternEdgeSource);
 
             // check candidate for isomorphy 
             bool positive = enclosingPositiveOperation == null;
@@ -998,18 +999,20 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation decideOnAndInsertCheckConnectednessOfNode(
             SearchProgramOperation insertionPoint,
             SearchPlanNodeNode node,
-            SearchPlanEdgeNode originatingEdge)
+            SearchPlanEdgeNode originatingEdge,
+            SearchPlanNodeNode otherNodeOfOriginatingEdge)
         {
             // check whether incoming/outgoing-edges of the candidate node 
             // are the same as the already found edges to which the node must be incident
             // only for the edges required by the pattern to be incident with the node
             // only if edge is already matched by now (signaled by visited)
             // only if the node was not taken from the given originating edge
+            //   with the exception of reflexive edges, as these won't get checked thereafter
             foreach (SearchPlanEdgeNode edge in node.OutgoingPatternEdges)
             {
                 if (edge.Visited)
                 {
-                    if (edge != originatingEdge)
+                    if (edge != originatingEdge || node==otherNodeOfOriginatingEdge)
                     {
                         CheckCandidateForConnectedness checkConnectedness =
                             new CheckCandidateForConnectedness(
@@ -1025,7 +1028,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if (edge.Visited)
                 {
-                    if (edge != originatingEdge)
+                    if (edge != originatingEdge || node == otherNodeOfOriginatingEdge)
                     {
                         CheckCandidateForConnectedness checkConnectedness =
                             new CheckCandidateForConnectedness(
