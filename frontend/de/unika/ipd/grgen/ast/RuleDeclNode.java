@@ -472,7 +472,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 */
 	protected void constructImplicitNegs(Rule rule) {
 		PatternGraphNode leftNode = (PatternGraphNode) getChild(PATTERN);
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
+		for (PatternGraph neg : leftNode.getImplicitNegGraphs(this)) {
 			rule.addNegGraph(neg);
 		}
 	}

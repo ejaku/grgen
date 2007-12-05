@@ -1,0 +1,8 @@
+rule r {
+	dpo pattern {
+		x: Node -:Edge-> y:Node;
+	}
+	replace {
+	}
+}
+

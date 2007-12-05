@@ -1,0 +1,22 @@
+new graph "lib\lgsp-dpoModel.dll" "Clique graph"
+select actions "lib\lgsp-dpoActions.dll"
+
+show num nodes
+show num edges
+xgrs init2
+show num nodes
+show num edges
+xgrs ?[deleteLeftNode]
+show num nodes
+show num edges
+xgrs [deleteRightNode]
+show num nodes
+show num edges
+xgrs [deleteLeftNode]
+show num nodes
+show num edges
+xgrs [deleteRightNode]
+show num nodes
+show num edges
+
+quit

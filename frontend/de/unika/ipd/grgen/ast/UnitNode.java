@@ -45,7 +45,7 @@ public class UnitNode extends DeclNode {
 	}
 	
 	/** The index of the model child. */
-	public static final int MODELS = 2;
+	protected static final int MODELS = 2;
 	
 	/** Index of the decl collect node in the children. */
 	private static final int DECLS = 3;

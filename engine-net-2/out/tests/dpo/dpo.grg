@@ -1,0 +1,91 @@
+rule init1
+{
+    pattern
+    {
+    }
+    replace
+    {
+        x:Node;
+        y:Node;
+        z:Node;
+        
+        x --> y;
+        y --> z;
+    }
+}
+
+rule init2
+{
+    pattern
+    {
+    }
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+        y --> y;
+    }
+}
+
+rule init3
+{
+    pattern
+    {
+    }
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> x;
+        x --> y;
+    }
+}
+
+rule init4
+{
+    pattern
+    {
+    }
+    replace
+    {
+        x:Node;
+        y:Node;        
+        z:Node;
+                
+        x --> y;
+        y <-- z;
+    }
+}
+
+rule deleteRightNode
+{
+    dpo pattern
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+    }
+    replace
+    {
+        x;
+    }
+}
+
+rule deleteLeftNode
+{
+    dpo pattern
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+    }
+    modify
+    {
+        delete(x);
+    }
+}
