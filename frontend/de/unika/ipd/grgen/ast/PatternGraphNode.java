@@ -25,13 +25,8 @@
 
 package de.unika.ipd.grgen.ast;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.ConnectionCharacter;
@@ -40,16 +35,8 @@ import de.unika.ipd.grgen.ast.GraphNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
-
-import java.util.Collection;
 import java.util.Map.Entry;
 
 /**
@@ -124,10 +111,10 @@ public class PatternGraphNode extends GraphNode {
 			HashSet<DeclNode> hom_ents = new HashSet<DeclNode>();
 			for(BaseNode n : getHoms()) {
 				HomNode hom = (HomNode)n;
-				
+
 				for(BaseNode m : n.getChildren()) {
 					DeclNode decl = (DeclNode)m;
-					
+
 					if(hom_ents.contains(decl)) {
 						hom.reportError(m.toString() +
 								" is contained in multiple hom statements");
@@ -148,13 +135,13 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Get the correctly casted IR object.
-	 * 
+	 *
 	 * @return The IR object.
 	 */
 	public PatternGraph getPatternGraph() {
 		return (PatternGraph) checkIR(PatternGraph.class);
 	}
-	
+
 	/**
 	 * Generates a type condition if the given graph entity inherits its type
 	 * from another element via a typeof expression.
@@ -167,11 +154,11 @@ public class PatternGraphNode extends GraphNode {
 			Operator op = new Operator(BasicTypeNode.booleanType.getPrimitiveType(), Operator.GE);
 			op.addOperand(e1);
 			op.addOperand(e2);
-			
+
 			gr.addCondition(op);
 		}
 	}
-	
+
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph();
 
@@ -191,7 +178,7 @@ public class PatternGraphNode extends GraphNode {
 			genTypeCondsFromTypeof(gr, n);
 		for(GraphEntity e : gr.getEdges())
 			genTypeCondsFromTypeof(gr, e);
-		
+
 		for(BaseNode n : getHoms()) {
 			HomNode hom = (HomNode)n;
 			HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
@@ -217,7 +204,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Get all implicit NACs.
-	 * 
+	 *
 	 * @return The Collection for the NACs.
 	 */
 	public Collection<PatternGraph> getImplicitNegGraphs() {
@@ -232,13 +219,13 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Add NACs required for the "induced"-semantic.
-	 * 
+	 *
 	 * @param negs
 	 *            The collection for the NACs.
 	 */
 	protected void addInducedNegGraphs(Collection<PatternGraph> negs) {
 		// map each pair of nodes to a pattern graph
-		Map<List<NodeCharacter>, PatternGraph> negMap = new HashMap<List<NodeCharacter>, PatternGraph>();
+		Map<List<NodeCharacter>, PatternGraph> negMap = new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
 
 		Set<NodeCharacter> nodes = new HashSet<NodeCharacter>();
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {

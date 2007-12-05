@@ -25,35 +25,31 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
 
 /**
  * AST node class representing tests
  */
 public class TestDeclNode extends ActionDeclNode {
-	
+
 	protected static final int PARAM = LAST + 1;
 	protected static final int RET = LAST + 2;
 	protected static final int PATTERN = LAST + 3;
 	protected static final int NEG = LAST + 4;
-	
+
 	private static final String[] childrenNames =
 		addChildrenNames(new String[] { "param", "ret", "test", "neg" });
-	
+
 	private static final TypeNode testType = new TypeNode() { };
-	
+
 	private static final Checker condChecker =
 		new CollectChecker(new SimpleChecker(ExprNode.class));
-	
+
 	private static final Checker retDeclarationChecker =
 		new CollectChecker(
 			new Checker() {
@@ -79,16 +75,16 @@ public class TestDeclNode extends ActionDeclNode {
 				}
 			}
 		);
-	
+
 	static {
 		setName(TestDeclNode.class, "test declaration");
 		setName(testType.getClass(), "test type");
 	}
-	
+
 	protected TestDeclNode(IdentNode id, TypeNode type) {
 		super(id, testType);
 	}
-	
+
 	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);
 		addChild(params);
@@ -97,11 +93,11 @@ public class TestDeclNode extends ActionDeclNode {
 		addChild(neg);
 		setChildrenNames(childrenNames);
 	}
-	
+
 	public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		this(id, testType, pattern, neg, params, rets);
 	}
-	
+
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		CollectNode negs  = (CollectNode) getChild(NEG);
@@ -110,7 +106,7 @@ public class TestDeclNode extends ActionDeclNode {
 			res.add((GraphNode)n);
 		return res;
 	}
-	
+
 	protected Collection<GraphNode> getNegativeGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		CollectNode negs  = (CollectNode) getChild(NEG);
@@ -120,14 +116,14 @@ public class TestDeclNode extends ActionDeclNode {
 
 		return res;
 	}
-	
+
 	/**
 	 * check if actual return entities are conformant
 	 * to the formal return parameters.
 	 */
 	protected boolean checkReturnParams(BaseNode typeReturns, BaseNode actualReturns) {
 		boolean returnTypes = true;
-		
+
 		/*
 		 System.out.println("\n*** this          = " + this.getClass());
 		 System.out.println("    this          = " + this.getChildren());
@@ -136,21 +132,21 @@ public class TestDeclNode extends ActionDeclNode {
 		 System.out.println("*** actualReturns = " + actualReturns);
 		 System.out.println("    actualReturns = " + actualReturns.getChildren());
 		 */
-		
+
 		if(actualReturns.children() != typeReturns.children()) {
 			error.error(this.getCoords(), "Actual and formal return-parameter count mismatch (" +
 							actualReturns.children() + " vs. " + typeReturns.children() +")");
 			returnTypes = false;
 		} else {
 			Iterator<BaseNode> itAR = actualReturns.getChildren().iterator();
-			
+
 			for(BaseNode n : typeReturns.getChildren()) {
 				IdentNode       tReturnAST  = (IdentNode)n;
 				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-				
+
 				IdentNode       aReturnAST  = (IdentNode)itAR.next();
 				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-				
+
 				if(!aReturnType.isCastableTo(tReturn)) {
 					error.error(aReturnAST.getCoords(), "Actual return-parameter is not conformant to formal parameter (" +
 									aReturnType + " not castable to " + tReturn + ")");
@@ -158,10 +154,10 @@ public class TestDeclNode extends ActionDeclNode {
 				}
 			}
 		}
-		
+
 		return returnTypes;
 	}
-	
+
 	/**
 	 * Method check
 	 *
@@ -171,7 +167,7 @@ public class TestDeclNode extends ActionDeclNode {
 	protected boolean check() {
 		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
 			& checkChild(NEG, negChecker) & checkChild(RET, retDeclarationChecker);
-		
+
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;
 		if (childs) {
@@ -183,17 +179,17 @@ public class TestDeclNode extends ActionDeclNode {
 
 			GraphNode[] graphs = (GraphNode[]) leftHandGraphs.toArray(new GraphNode[0]);
 			Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
-			
+
 			for (int i=0; i<graphs.length; i++)
 				for (int o=i+1; o<graphs.length; o++)
 					for (BaseNode iBN : graphs[i].getConnections()) {
 						ConnectionCharacter iConn = (ConnectionCharacter)iBN;
 						if (! (iConn instanceof ConnectionNode)) continue;
-						
+
 						for (BaseNode oBN : graphs[o].getConnections()) {
 							ConnectionCharacter oConn = (ConnectionCharacter)oBN;
 							if (! (oConn instanceof ConnectionNode)) continue;
-							
+
 							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
 
 								NodeCharacter oSrc, oTgt, iSrc, iTgt;
@@ -226,26 +222,26 @@ public class TestDeclNode extends ActionDeclNode {
 						}
 					}
 		}
-		
+
 		boolean returnParams = true;
 		if(! (this instanceof RuleDeclNode))
 			returnParams = checkReturnParams(getChild(RET), ((GraphNode)getChild(PATTERN)).getReturn());
-		
+
 		return childs && edgeReUse && returnParams;
 	}
-	
-	
+
+
 	protected void constructIRaux(MatchingAction ma, BaseNode aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
-		
+
 		// add negative parts to the IR
 		for (BaseNode n : getChild(NEG).getChildren()) {
 			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
-			
+
 			// add Condition elements only mentioned in Condition to the IR
-			Set<Node> neededNodes = new HashSet<Node>();
-			Set<Edge> neededEdges = new HashSet<Edge>();
-			
+			Set<Node> neededNodes = new LinkedHashSet<Node>();
+			Set<Edge> neededEdges = new LinkedHashSet<Edge>();
+
 			for(Expression cond : neg.getConditions()) {
 				cond.collectNodesnEdges(neededNodes, neededEdges);
 			}
@@ -261,10 +257,10 @@ public class TestDeclNode extends ActionDeclNode {
 					neg.addHomToAll(neededEdge);
 				}
 			}
-			
+
 			ma.addNegGraph(neg);
 		}
-		
+
 		// add Params to the IR
 		for(BaseNode n : getChild(PARAM).getChildren()) {
 			DeclNode param = (DeclNode)n;
@@ -279,23 +275,23 @@ public class TestDeclNode extends ActionDeclNode {
 			else
 				throw new IllegalArgumentException("unknown Class: " + n);
 		}
-		
+
 		// add Return-Params to the IR
 		for(BaseNode n : aReturns.getChildren()) {
 			IdentNode aReturnAST = (IdentNode)n;
 			Entity aReturn = (Entity)aReturnAST.getDecl().checkIR(Entity.class);
-			
+
 			// actual return-parameter
 			ma.addReturn(aReturn);
 		}
 	}
-	
+
 	protected IR constructIR() {
 		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Test test = new Test(getIdentNode().getIdent(), left);
-		
+
 		constructIRaux(test, getChild(RET));
-		
+
 		return test;
 	}
 }

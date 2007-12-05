@@ -303,8 +303,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private int genConditions(StringBuffer sb, Collection<Expression> conditions, int condCntInit) {
 		int i = condCntInit;
 		for(Expression expr : conditions) {
-			Set<Node> nodes = new HashSet<Node>();
-			Set<Edge> edges = new HashSet<Edge>();
+			Set<Node> nodes = new LinkedHashSet<Node>();
+			Set<Edge> edges = new LinkedHashSet<Edge>();
 			expr.collectNodesnEdges(nodes, edges);
 			sb.append("\t\tpublic static bool Condition_" + i + "(");
 			genSet(sb, nodes, "LGSPNode node_", "", false);
@@ -332,14 +332,14 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private HashSet<Edge> newOrRetypedEdges;
 	private HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
 
-	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new HashMap<GraphEntity, HashSet<Entity>>();
+	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
-	private HashSet<Node> nodesNeededAsElements = new HashSet<Node>();
-	private HashSet<Edge> edgesNeededAsElements = new HashSet<Edge>();
-	private HashSet<Node> nodesNeededAsAttributes = new HashSet<Node>();
-	private HashSet<Edge> edgesNeededAsAttributes = new HashSet<Edge>();
-	private HashSet<Node> nodesNeededAsTypes = new HashSet<Node>();
-	private HashSet<Edge> edgesNeededAsTypes = new HashSet<Edge>();
+	private HashSet<Node> nodesNeededAsElements = new LinkedHashSet<Node>();
+	private HashSet<Edge> edgesNeededAsElements = new LinkedHashSet<Edge>();
+	private HashSet<Node> nodesNeededAsAttributes = new LinkedHashSet<Node>();
+	private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
+	private HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
+	private HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
 	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
 		if(!reusedElements.contains(elem)) return false;
@@ -604,7 +604,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					int bestPoints = -1;
 
 					// Can we reuse a deleted edge of the same type?
-					for(Edge delEdge : new HashSet<Edge>(delEdges)) {
+					for(Edge delEdge : delEdges) {
 						if(delEdge.getType() != edge.getType()) continue;
 
 						int curPoints = 0;
@@ -912,8 +912,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 
 		int condCnt = condCntInit;
 		for(Expression expr : pattern.getConditions()) {
-			Set<Node> nodes = new HashSet<Node>();
-			Set<Edge> edges = new HashSet<Edge>();
+			Set<Node> nodes = new LinkedHashSet<Node>();
+			Set<Edge> edges = new LinkedHashSet<Edge>();
 			expr.collectNodesnEdges(nodes, edges);
 			sb.append("\t\t\tCondition cond_" + condCnt + " = new Condition(" + condCnt + ", new String[] ");
 			genEntitySet(sb, nodes, "\"", "\"", true, outer, negCount);
@@ -1055,7 +1055,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 				aux.append("{ ");
 				for(Type type : nodeTypeMap.keySet()) {
 					boolean isAllowed = type.isCastableTo(node.getNodeType()) && !allForbiddenTypes.contains(type);
-					// all permitted nodes, aka node that are not forbidden
+					// all permitted nodes, aka nodes that are not forbidden
 					if( isAllowed )
 						sb.append(formatType(type) + ".typeVar, ");
 					aux.append(isAllowed);
@@ -1604,7 +1604,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			GraphEntity entity = (GraphEntity) qual.getOwner();
 			HashSet<Entity> neededAttrs = neededAttributes.get(entity);
 			if(neededAttrs == null) {
-				neededAttributes.put(entity, neededAttrs = new HashSet<Entity>());
+				neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
 			}
 			neededAttrs.add(qual.getMember());
 		}
@@ -1828,7 +1828,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	}
 
 	private void getFirstCommonAncestors(InheritanceType curType,
-			InheritanceType type, HashSet<InheritanceType> resTypes) {
+			InheritanceType type, Set<InheritanceType> resTypes) {
 		if(type.isCastableTo(curType))
 			resTypes.add(curType);
 		else
@@ -1855,13 +1855,13 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t\t" + cname + " newEdge = new " + cname + "((LGSPNode) source, (LGSPNode) target);\n");
 		}
 
-		HashMap<BitSet, LinkedList<InheritanceType>> commonGroups = new HashMap<BitSet, LinkedList<InheritanceType>>();
+		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
 
 		Collection<? extends InheritanceType> typeSet =
 			isNode ? (Collection<? extends InheritanceType>) nodeTypeMap.keySet()
 			: (Collection<? extends InheritanceType>) edgeTypeMap.keySet();
 		for(InheritanceType itype : typeSet) {
-			HashSet<InheritanceType> firstCommonAncestors = new HashSet<InheritanceType>();
+			Set<InheritanceType> firstCommonAncestors = new LinkedHashSet<InheritanceType>();
 			getFirstCommonAncestors(itype, type, firstCommonAncestors);
 
 			TreeSet<InheritanceType> sortedCommonTypes = new TreeSet<InheritanceType>(
@@ -2084,3 +2084,4 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// TODO
 	}
 }
+

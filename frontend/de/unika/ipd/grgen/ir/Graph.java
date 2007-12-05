@@ -43,7 +43,6 @@ import de.unika.ipd.grgen.util.Walkable;
  * declared nodes.
  */
 public class Graph extends IR {
-
 	protected abstract class GraphObject extends GraphDumpableProxy implements
 			Walkable {
 		public GraphObject(GraphDumpable gd) {
@@ -59,8 +58,8 @@ public class Graph extends IR {
 
 		private GraphNode(Node n) {
 			super(n.getIdent(), n.getNodeType());
-			this.incoming = new HashSet<Graph.GraphEdge>();
-			this.outgoing = new HashSet<Graph.GraphEdge>();
+			this.incoming = new LinkedHashSet<Graph.GraphEdge>();
+			this.outgoing = new LinkedHashSet<Graph.GraphEdge>();
 			this.node = n;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
@@ -104,16 +103,14 @@ public class Graph extends IR {
 	}
 
 	/** Map that maps a node to an internal node. */
-	private final Map<Node, Graph.GraphNode> nodes = new HashMap<Node, Graph.GraphNode>();
+	private final Map<Node, Graph.GraphNode> nodes = new LinkedHashMap<Node, Graph.GraphNode>();
 
 	/** Map that maps an edge to an internal edge. */
-	private final Map<Edge, Graph.GraphEdge> edges = new HashMap<Edge, Graph.GraphEdge>();
+	private final Map<Edge, Graph.GraphEdge> edges = new LinkedHashMap<Edge, Graph.GraphEdge>();
 
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
-
-		if (n == null)
-			return null;
+		if (n == null) return null;
 
 		// Do not include the virtual retyped nodes in the graph.
 		// TODO why??? we could just check in the generator whether this is a retyped node
@@ -344,12 +341,10 @@ public class Graph extends IR {
 		GraphEdge e = getOrSetEdge(edge);
 
 		// Update outgoing and incoming of the nodes.
-		if (l != null)
-			l.outgoing.add(e);
-		if (r != null)
-			r.incoming.add(e);
+		if (l != null) l.outgoing.add(e);
+		if (r != null) r.incoming.add(e);
 
-		// Set the edge source and target
+        // Set the edge source and target
 		e.source = l;
 		e.target = r;
 	}
@@ -362,7 +357,7 @@ public class Graph extends IR {
 		getOrSetNode(node);
 	}
 
-	/**
+    /**
 	 * Add a single node (without an edge) to the graph.
 	 * @param node The node.
 	 */

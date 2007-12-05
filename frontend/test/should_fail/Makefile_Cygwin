@@ -24,7 +24,7 @@ GRGS    = $(wildcard *.grg)
 DIRS_FE = $(GRGS:.grg=_fe)  # The directory for the C# compiling backend
 
 DIRS_CSC= $(GRGS:.grg=_csc) # The directory for the C# compiling backend
-BE_CSC  =	de.unika.ipd.grgen.be.Csharp.SearchPlanBackend
+BE_CSC  =	de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
 
 DIRS_CSI= $(GRGS:.grg=_csi) # The directory for the C# interperting backend
 

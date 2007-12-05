@@ -24,42 +24,41 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashMap;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Rule;
 
 /**
  * AST node for a replacement rule.
  */
 public class RuleDeclNode extends TestDeclNode {
-	
+
 	protected static final int RIGHT = LAST + 5;
 	protected static final int EVAL = LAST + 6;
-	
+
 	private static final String[] childrenNames = {
 		declChildrenNames[0], declChildrenNames[1],
 			"params", "ret", "left", "neg", "right", "eval"
 	};
-	
+
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new TypeNode() { };
-	
+
 	private static final Checker evalChecker =
 		new CollectChecker(new SimpleChecker(AssignNode.class));
-	
+
 	static {
 		setName(RuleDeclNode.class, "rule declaration");
 		setName(ruleType.getClass(), "rule type");
 	}
-	
+
 	/**
 	 * Make a new rule.
 	 * @param id The identifier of this rule.
@@ -70,26 +69,26 @@ public class RuleDeclNode extends TestDeclNode {
 	 */
 	public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
 						BaseNode eval, CollectNode params, CollectNode rets) {
-		
+
 		super(id, ruleType, left, neg, params, rets);
 		addChild(right);
 		addChild(eval);
 		setChildrenNames(childrenNames);
 	}
-	
+
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
 		res.add((GraphNode) getChild(RIGHT));
 		return res;
 	}
-	
+
 	protected Set<DeclNode> getDelete()
 	{
-		Set<DeclNode> res = new HashSet<DeclNode>();
+		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
 		GraphNode lhs = (GraphNode) getChild(PATTERN);
 		GraphNode rhs = (GraphNode) getChild(RIGHT);
-		
+
 		for (BaseNode x : lhs.getEdges()) {
 			assert (x instanceof DeclNode);
 			if ( ! rhs.getEdges().contains(x) ) res.add((DeclNode)x);
@@ -104,10 +103,10 @@ public class RuleDeclNode extends TestDeclNode {
 					rhs.getEdges().contains(x))
 			) res.add((DeclNode)x);
 		}
-		
+
 		return res;
 	}
-		
+
 	/**
 	 * Check that only graph elements are returned, that are not deleted.
 	 */
@@ -126,7 +125,7 @@ public class RuleDeclNode extends TestDeclNode {
 				oldElem = (NodeDeclNode) ((NodeTypeChangeNode)retElem).getOldNode();
 			else if (retElem instanceof EdgeTypeChangeNode)
 				oldElem = (EdgeDeclNode) ((EdgeTypeChangeNode)retElem).getOldEdge();
-			
+
 			// rhsElems contains all elems of the RHS except for the old nodes
 			// and edges (in case of retyping)
 			Collection<BaseNode> rhsElems = right.getNodes();
@@ -137,8 +136,8 @@ public class RuleDeclNode extends TestDeclNode {
 			if (retElem instanceof NodeDeclNode) nodeOrEdge = "node";
 			else if (retElem instanceof EdgeDeclNode) nodeOrEdge = "edge";
 			else nodeOrEdge = "entity";
-			
-			
+
+
 			//TODO:	The job of the following should be done by a resolver resolving
 			//		the childs of the return node from identifiers to instances of
 			//		NodeDeclNode or EdgeDevleNode respectively.
@@ -164,7 +163,7 @@ public class RuleDeclNode extends TestDeclNode {
 					ident.reportError(
 						"\"" + ident + "\", that is neither a parameter, " +
 						"nor contained in LHS, nor in RHS, occurs in a return");
-					
+
 					continue;
 				}
 
@@ -191,7 +190,7 @@ public class RuleDeclNode extends TestDeclNode {
 		int actualNumRets = returns.getChildren().size();
 
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-		
+
 			IdentNode ident =
 				(IdentNode) ((Vector<BaseNode>)returns.getChildren()).get(i);
 			DeclNode retElem = ident.getDecl();
@@ -201,7 +200,7 @@ public class RuleDeclNode extends TestDeclNode {
 				ident.reportError("\"" + ident + "\" is undeclared");
 				continue;
 			}
-			
+
 			if ( !(retElem instanceof NodeDeclNode) && !(retElem instanceof EdgeDeclNode)) {
 				res = false;
 				ident.reportError("\"" + ident + "\" is neither a node nor an edge");
@@ -213,7 +212,7 @@ public class RuleDeclNode extends TestDeclNode {
 				//this should have been reported elsewhere
 				continue;
 			}
-			
+
 			IdentNode retIdent = (IdentNode) retSignature.get(i);
 			BaseNode retDeclType = retIdent.getDecl().getDeclType();
 			if(!(retDeclType instanceof InheritanceTypeNode)) {
@@ -221,7 +220,7 @@ public class RuleDeclNode extends TestDeclNode {
 				retIdent.reportError("\"" + retIdent + "\" is neither a node nor an edge type");
 				continue;
 			}
-			
+
 			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)
 				retDeclType;
 			InheritanceTypeNode actualRetType =
@@ -233,7 +232,7 @@ public class RuleDeclNode extends TestDeclNode {
 				continue;
 			}
 		}
-		
+
 		//check the number of returned elements
 		if (actualNumRets != declaredNumRets) {
 			res = false;
@@ -258,26 +257,26 @@ public class RuleDeclNode extends TestDeclNode {
 		{
 			for (BaseNode rc : right.getConnections())
 			{
-				
+
 				if (lc instanceof SingleNodeConnNode ||
 					rc instanceof SingleNodeConnNode ) continue;
-				
+
 				ConnectionNode lConn = (ConnectionNode) lc;
 				ConnectionNode rConn = (ConnectionNode) rc;
-				
+
 				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
 				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
-				
+
 				if (re instanceof EdgeTypeChangeNode)
 					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
-				
+
 				if ( ! le.equals(re) ) continue;
-				
+
 				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
 				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
 				NodeDeclNode rSrc = (NodeDeclNode) rConn.getSrc();
 				NodeDeclNode rTgt = (NodeDeclNode) rConn.getTgt();
-				
+
 				Collection<BaseNode> rhsNodes = right.getNodes();
 
 				if (rSrc instanceof NodeTypeChangeNode) {
@@ -288,7 +287,7 @@ public class RuleDeclNode extends TestDeclNode {
 					rTgt = (NodeDeclNode) ((NodeTypeChangeNode)rTgt).getOldNode();
 					rhsNodes.add(rTgt);
 				}
-				
+
 				if ( ! lSrc.isDummy() )
 				{
 					if ( rSrc.isDummy() )
@@ -311,9 +310,9 @@ public class RuleDeclNode extends TestDeclNode {
 						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
 					}
-					
+
 				}
-				
+
 				if ( ! lTgt.isDummy() )
 				{
 					if ( rTgt.isDummy() )
@@ -337,7 +336,7 @@ public class RuleDeclNode extends TestDeclNode {
 						alreadyReported.add(re);
 					}
 				}
-				
+
 				if ( ! alreadyReported.contains(re) )
 				{
 					if ( lSrc.isDummy() && ! rSrc.isDummy() )
@@ -357,7 +356,7 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 		return res;
 	}
-	
+
 	/** Raises a warning if a "delete-return-conflict" for potentially
 	 *  homomorphic nodes is detected or---more precisely---if a node is
 	 *  returned such that homomorphic matching is allowed with a deleted node.
@@ -378,7 +377,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		Map<DeclNode, Set<BaseNode>>
 			elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
-		
+
 		// represent homomorphism cliques and map each elem to the clique
 		// it belong to
 		for (BaseNode x : ((PatternGraphNode)getChild(PATTERN)).getHoms()) {
@@ -397,18 +396,18 @@ public class RuleDeclNode extends TestDeclNode {
 				homSet.addAll(hn.getChildren());
 			}
 		}
-		
+
 		// for all pairs of deleted and returned elems check whether
 		// homomorphic matching is allowed
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (DeclNode d : delSet) {
 			for (IdentNode r : retSet) {
-				
+
 				if ( alreadyReported.contains(r) ) continue;
 
 				Set<BaseNode> homSet = elemToHomElems.get(d);
 				if (homSet == null) continue;
-				
+
 				if (homSet.contains(r.getDecl())) {
 					alreadyReported.add(r);
 					r.reportWarning("returning \"" + r + "\" that may be " +
@@ -429,31 +428,31 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
-		
-		
+
+
 		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
 		GraphNode right = (GraphNode) getChild(RIGHT);
-		
+
 		boolean noReturnInPatternOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
 			error.error(this.getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
-		
+
 		warnHomDeleteReturnConflict();
-		
+
 		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk
 			& checkReturnedElemsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
 		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
 		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
-		
+
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(rule);
@@ -464,7 +463,7 @@ public class RuleDeclNode extends TestDeclNode {
 			AssignNode eval = (AssignNode) n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
-				
+
 		return rule;
 	}
 

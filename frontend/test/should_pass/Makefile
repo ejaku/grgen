@@ -29,7 +29,7 @@ DIRS_FE = $(GRGS:.grg=_fe_out)      # The directory for the frontend-only test
 TARGETS_CSC= $(GRGS:.grg=_csc_success)      # The targets for the C# compiling backend
 SUCCESSFILES_CSC= $(GRGS:.grg=_csc_success) # The success files for the C# compiling backend
 DIRS_CSC= $(GRGS:.grg=_csc_out)             # The directory for the C# compiling backend
-BE_CSC  = de.unika.ipd.grgen.be.Csharp.SearchPlanBackend
+BE_CSC  = de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
 
 DIRS_CSI= $(GRGS:.grg=_csi)         # The directory for the C# interpreting backend
 

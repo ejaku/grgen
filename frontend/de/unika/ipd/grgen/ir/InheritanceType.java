@@ -32,10 +32,10 @@ import de.unika.ipd.grgen.util.Base;
  * A IR class that represents types that inherit from other types.
  */
 public abstract class InheritanceType extends CompoundType {
-	
+
 	public static final int ABSTRACT = 1;
 	public static final int CONST = 2;
-	
+
 	private static int nextTypeID = 0;
 	private static ArrayList<InheritanceType> inheritanceTypesByID = new ArrayList<InheritanceType>();
 
@@ -51,10 +51,10 @@ public abstract class InheritanceType extends CompoundType {
 	 * This field is used for caching.
 	 */
 	private Map<String, Entity> allMembers = null;
-	
+
 	/** The type modifiers. */
 	private final int modifiers;
-	
+
 	/**
 	 * @param name The name of the type.
 	 * @param ident The identifier, declaring this type;
@@ -65,7 +65,7 @@ public abstract class InheritanceType extends CompoundType {
 		typeID = nextTypeID++;
 		inheritanceTypesByID.add(this);
 	}
-	
+
 	/***
 	 * @return a unique type identifier starting with zero.
 	 */
@@ -84,7 +84,7 @@ public abstract class InheritanceType extends CompoundType {
 	public boolean isRoot() {
 		return directSuperTypes.isEmpty();
 	}
-	
+
 	/**
 	 * Add a type, this type inherits from.
 	 * @param t The supertype.
@@ -93,7 +93,7 @@ public abstract class InheritanceType extends CompoundType {
 		directSuperTypes.add(t);
 		t.directSubTypes.add(this);
 	}
-	
+
 	/**
 	 * Get an iterator over all types, this type directly inherits from.
 	 * @return The iterator.
@@ -101,8 +101,8 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<InheritanceType> getDirectSuperTypes() {
 		return Collections.unmodifiableCollection(directSuperTypes);
 	}
-	
-	
+
+
 	/**
 	 * Get an iterator over all types, this type inherits from (including indirect supertypes).
 	 * @return The iterator.
@@ -111,7 +111,7 @@ public abstract class InheritanceType extends CompoundType {
 		if( allSuperTypes == null ) {
 			allSuperTypes = new LinkedHashSet<InheritanceType>();
 			LinkedList<InheritanceType> worklist = new LinkedList<InheritanceType>();
-			
+
 			worklist.addAll(getDirectSuperTypes());
 			while(!worklist.isEmpty()) {
 				InheritanceType it = worklist.remove();
@@ -121,7 +121,7 @@ public abstract class InheritanceType extends CompoundType {
 		}
 		return Collections.unmodifiableCollection(allSuperTypes);
 	}
-	
+
 	/**
 	 * Get all subtypes of this type.
 	 * @return An iterator iterating over all sub types of this one.
@@ -129,20 +129,20 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<InheritanceType> getDirectSubTypes() {
 		return Collections.unmodifiableCollection(directSubTypes);
 	}
-	
-	
+
+
 	/**
 	 * Method getAllMembers computes the transitive closure of the members (attributes) of a type.
 	 * @return   a Collection containing all members defined in that type and in its supertype.
 	 */
 	public Collection<Entity> getAllMembers() {
 		if( allMembers == null ) {
-			allMembers = new HashMap<String, Entity>();
-			
+			allMembers = new LinkedHashMap<String, Entity>();
+
 			// add members of the current type
 			for(Entity member : getMembers())
 				allMembers.put(member.getIdent().toString(), member);
-			
+
 			// add the members of the supertype
 			for(InheritanceType superType : getAllSuperTypes())
 				for(Entity member : superType.getMembers())
@@ -152,12 +152,12 @@ public abstract class InheritanceType extends CompoundType {
 					else
 						allMembers.put(member.getIdent().toString(), member);
 		}
-		
+
 		return allMembers.values();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Check, if this type is a direct sub type of another type.
 	 * This means, that this type inherited from the other type.
@@ -167,7 +167,7 @@ public abstract class InheritanceType extends CompoundType {
 	public boolean isDirectSubTypeOf(InheritanceType t) {
 		return directSuperTypes.contains(t);
 	}
-	
+
 	/**
 	 * Check, if this type is a direct super type of another type.
 	 * @param t The other type
@@ -176,7 +176,7 @@ public abstract class InheritanceType extends CompoundType {
 	public boolean isDirectSuperTypeOf(InheritanceType t) {
 		return t.isDirectSubTypeOf(this);
 	}
-	
+
 	/**
 	 * Check, if this inheritance type is castable to another one.
 	 * This means, that this type must be a sub type <code>t</code>.
@@ -185,9 +185,9 @@ public abstract class InheritanceType extends CompoundType {
 	protected boolean castableTo(Type t) {
 		if(!(t instanceof InheritanceType))
 			return false;
-			
+
 		InheritanceType ty = (InheritanceType) t;
-		
+
 		if(isDirectSubTypeOf(ty))
 			return true;
 
@@ -195,10 +195,10 @@ public abstract class InheritanceType extends CompoundType {
 			if(inh.castableTo(ty))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Get the maximum distance to the root inheritance type.
 	 * This method returns the length of the longest path (considering the inheritance
@@ -206,19 +206,19 @@ public abstract class InheritanceType extends CompoundType {
 	 * @return The length of the longest path to the root type.
 	 */
 	public final int getMaxDist() {
-		
+
 		if(maxDist == -1) {
 			maxDist = 0;
-			
+
 			for(InheritanceType inh : directSuperTypes) {
 				int dist = inh.getMaxDist() + 1;
 				maxDist = dist > maxDist ? dist : maxDist;
 			}
 		}
-		
+
 		return maxDist;
 	}
-	
+
 	/**
 	 * Check, if this type is abstract.
 	 * If a type is abstract, no entities of this types may be instantiated.
@@ -228,7 +228,7 @@ public abstract class InheritanceType extends CompoundType {
 	public final boolean isAbstract() {
 		return (modifiers & ABSTRACT) != 0;
 	}
-	
+
 	/**
 	 * Check, if this type is const.
 	 * Members of entities of a const type may not be modified.
@@ -237,7 +237,7 @@ public abstract class InheritanceType extends CompoundType {
 	public final boolean isConst() {
 		return (modifiers & CONST) != 0;
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("inherits", directSuperTypes.iterator());
