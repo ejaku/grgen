@@ -212,6 +212,11 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 			sb.append("\t\t{  // test does not have modifications\n");
 			sb.append("\t\t\treturn EmptyReturnElements;\n");
 			sb.append("\t\t}\n");
+
+			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
+			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
 		}
 		else
 			throw new IllegalArgumentException("Unknown action type: " + action);
@@ -1933,8 +1938,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 							}
 							copiedAttribs.add(member);
 							String memberName = formatAttributeName(member);
-							sb.append("\t\t\t\t\t\tnew" + kindName + "." + memberName
-									+ " = old." + memberName + ";\n");
+							sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
+									+ " = old.@" + memberName + ";\n");
 						}
 						if(alreadyCasted)
 							sb.append("\t\t\t\t\t}\n");
@@ -2084,4 +2089,5 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// TODO
 	}
 }
+
 
