@@ -28,7 +28,9 @@ import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MemberInit;
 import java.util.Collection;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
@@ -89,8 +91,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	public EdgeType getEdgeType() {
 		return (EdgeType) checkIR(EdgeType.class);
 	}
-	public Collection<BaseNode> getDirectSuperTypes()
-	{
+	public Collection<BaseNode> getDirectSuperTypes() {
 		return getChild(EXTENDS).getChildren();
 	}
 	
@@ -103,6 +104,10 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		for(BaseNode n :  getChild(BODY).getChildren()) {
 			DeclNode decl = (DeclNode)n;
 			et.addMember(decl.getEntity());
+			
+			// add init expressions of
+			if(decl instanceof MemberDeclNode)
+				et.addMemberInit(new MemberInit(decl.getEntity(), ((MemberDeclNode)decl).getInitExpr()));
 		}
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			EdgeTypeNode etn = (EdgeTypeNode)n;
@@ -114,11 +119,11 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		}
 		
 		// to check overwriting of attributes
-		et.getAllMembers();
+		Collection<Entity> allMembers = et.getAllMembers();
 		
 		return et;
 	}
-
+	
 	public static String getKindStr() {
 		return "edge type";
 	}

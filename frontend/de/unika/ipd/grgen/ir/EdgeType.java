@@ -33,6 +33,9 @@ public class EdgeType extends InheritanceType {
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
 	
+	/** The list of initializer expressions */
+	private List<MemberInit> initExpressions = new LinkedList<MemberInit>();
+	
 	/**
 	 * Make a new edge type.
 	 * @param ident The identifier declaring this type.
@@ -63,6 +66,12 @@ public class EdgeType extends InheritanceType {
 	public void addConnAssert(ConnAssert ca) {
 		connectionAsserts.add(ca);
 	}
+	
+
+	public void addMemberInit(MemberInit init) {
+		initExpressions.add(init);
+	}
+	
 	
 	/**
 	 * Get all connection assertions.

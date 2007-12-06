@@ -75,7 +75,7 @@ text returns [ BaseNode model = env.initNode() ]
 	
 	:   ( m:MODEL i:IDENT SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
-		)? 
+		)?
 		typeDecls[n] EOF
 			{
 				model = new ModelNode(id);
@@ -122,7 +122,7 @@ edgeClassDecl[int modifiers] returns [ BaseNode res = env.initNode() ]
 	}
 	
 	: EDGE CLASS id=typeIdentDecl ext=edgeExtends[id] cas=connectAssertions pushScope[id]
-		(LBRACE! body=edgeClassBody RBRACE! 
+		(LBRACE! body=edgeClassBody RBRACE!
 		| SEMI
 		)
 			{
@@ -140,7 +140,7 @@ nodeClassDecl![int modifiers] returns [ BaseNode res = env.initNode() ]
 	}
 
 	: NODE CLASS id=typeIdentDecl ext=nodeExtends[id] pushScope[id]
-		(LBRACE! body=nodeClassBody RBRACE! 
+		(LBRACE! body=nodeClassBody RBRACE!
 		| SEMI
 		)
 			{
@@ -152,7 +152,7 @@ nodeClassDecl![int modifiers] returns [ BaseNode res = env.initNode() ]
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]
-	: CONNECT connectAssertion[c] 
+	: CONNECT connectAssertion[c]
 		( COMMA connectAssertion[c] )*
 	|
 	;
@@ -219,7 +219,7 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 			else
 				reportError(n.getCoords(), "A class must not extend itself");
 		}
-	)* 
+	)*
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
@@ -311,12 +311,14 @@ basicDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id;
 		IdentNode type;
 		DeclNode decl;
+		ExprNode e = env.initExprNode();
 	}
   
-	: id=entIdentDecl COLON! type=typeIdentUse
+	: id=entIdentDecl COLON! type=typeIdentUse ( a:ASSIGN e=expr[false] ) ?
 		{
-			decl = new MemberDeclNode(id, type);
+			decl = new MemberDeclNode(id, type, e);
 			id.setDecl(decl);
 			res = decl;
 		}
 	;
+
