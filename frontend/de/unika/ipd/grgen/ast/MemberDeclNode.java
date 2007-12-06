@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -53,7 +54,7 @@ public class MemberDeclNode extends DeclNode {
 	private static final Checker typeChecker =
 		new MultChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
 	
-	private Expression initExpr;
+	private Expression initExpr = null;
 	
 	/**
 	 * @param n Identifier which declared the member.
@@ -94,9 +95,10 @@ public class MemberDeclNode extends DeclNode {
 	
 	protected IR constructIR() {
 		Type type = (Type) getDeclType().checkIR(Type.class);
-		initExpr = (Expression) getChild(INIT).checkIR(Expression.class);
+		if(!(getChild(INIT).getIR() instanceof Bad))
+			initExpr = (Expression) getChild(INIT).checkIR(Expression.class);
 		//TODO fix init of node/edge classes
-		System.out.println("TODO: fix init of node/edge classes: " + initExpr);
+		//System.out.println("TODO: fix init of node/edge classes: " + initExpr);
 		return new Entity("entity", getIdentNode().getIdent(), type);
 	}
 	
