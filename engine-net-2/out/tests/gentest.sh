@@ -21,7 +21,8 @@ for scriptfile in $*; do
   
   echo "$scriptfile"
 
-  $exeprefix ../bin/GrShell.exe "$scriptfile" | awk "/^All attributes/ {
+  $exeprefix ../bin/GrShell.exe "$scriptfile" | awk "{sub(\"\\r\$\", \"\")}
+    /^All attributes/ {
       do {
         getline
         while(\$0 ~ /^ - /) {

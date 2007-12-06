@@ -65,7 +65,7 @@ rule init5:(A,E,E) {
 rule init6:(A,A,E,E) {
   pattern {}
   replace {
-    a:A -e:E-> a -f:E-> b:A;
+    a:A -e:E-> b:A -f:E-> a;
     eval {
       a.val = 5;
       b.val = 8;
@@ -79,6 +79,7 @@ rule init6:(A,A,E,E) {
 rule test1:(A) {
   pattern {
     a:A;
+    if { a.val == 5; }
   }
   replace {
     x:A;
@@ -93,6 +94,7 @@ rule test2:(A) {
   pattern {
     a:A;
     b:A;
+    if { a.val == 5; }
   }
   replace {
     b;
@@ -107,6 +109,7 @@ rule test2:(A) {
 rule test3:(E) {
   pattern {
     a:A -e:E-> a;
+    if { e.val == 20; }
   }
   replace {
     a -x:E -> a;
@@ -147,6 +150,7 @@ rule test5:(E) {
 rule test6:(E) {
   pattern {
     a:A -e:E-> b:A -f:E-> a;
+    if { a.val == 5; e.val == 20; }
   }
   replace {
     a -x:E -> a;
@@ -160,6 +164,7 @@ rule test6:(E) {
 rule test7:(E) {
   pattern {
     a:A -e:E-> b:A -f:E-> a;
+    if { a.val == 5; e.val == 20; }
   }
   replace {
     b -f->;

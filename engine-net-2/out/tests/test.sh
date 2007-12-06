@@ -54,13 +54,16 @@ for filename in $targets; do
       /^All attributes/ {
         do {
           getline
+          sub(\"\\r\$\", \"\")
           while(\$0 ~ /^ - /) {
             testnum++
             value = getAttribute(4)
             getline correctvalue < \"$grs.data\"
+            sub(\"\\r\$\", \"\", correctvalue)
             if(value != correctvalue)
               fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
-            getline            
+            getline
+            sub(\"\\r\$\", \"\")
           }
         }
         while(\$0 ~ /^All attributes/)
@@ -83,18 +86,21 @@ for filename in $targets; do
       /matches found/ {
         testnum++
         getline correctmatches < \"$grs.data\"
+        sub(\"\\r\$\", \"\", correctmatches)
         if(\$2 != correctmatches)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected matches = \" correctmatches \", Found matches = \" \$2)
       }
       /rewrites performed/ {
         testnum++
         getline correctrewrites < \"$grs.data\"
+        sub(\"\\r\$\", \"\", correctrewrites)
         if(\$2 != correctrewrites)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected rewrites = \" correctrewrites \", Found rewrites = \" \$2)
       }
       /Number/ {
         testnum++
         getline correctnum < \"$grs.data\"
+        sub(\"\\r\$\", \"\", correctnum)
         if(\$8 != correctnum)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected number = \" correctnum \", Found \" \$0)
       }
@@ -102,6 +108,7 @@ for filename in $targets; do
         testnum++
         value = getAttribute(7)
         getline correctvalue < \"$grs.data\"
+        sub(\"\\r\$\", \"\", correctvalue)
         if(value != correctvalue)
           fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
       }
