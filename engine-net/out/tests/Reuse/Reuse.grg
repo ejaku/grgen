@@ -123,6 +123,7 @@ rule test3:(E) {
 rule test4:(E) {
   pattern {
     a:A -e:E-> b:A;
+    if { e.val == 20; }
   }
   replace {
     a -x:E -> a;
