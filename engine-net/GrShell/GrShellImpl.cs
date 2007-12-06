@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine("GrShell version v1.3 ($Revision$)");
+            Console.WriteLine("GrShell version v1.3.1 ($Revision$)");
         }
 
         private bool BackendExists()

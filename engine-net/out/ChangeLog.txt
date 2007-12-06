@@ -1,3 +1,17 @@
+v1.3.1 (2007-12-06)
+ Features:
+  - Added "-gensp" option to spBench allowing generation of dynamic
+    searchplans after execution of the initialization xgrs
+  - Stabilized content of generated C# files for better version control
+
+ Fixes:
+  - spBench acted on the original graph instead of the cloned version 
+  - Clone variables and all statistical information when cloning a graph
+  - Clear variables when clearing a graph
+  - Disabled buggy node reusing as a workaround
+  - Reflexive pattern edges were not always matched correctly
+
+
 v1.3 (2007-11-06)
  Features:
   - The reuse optimization reusing deleted elements can now be disabled

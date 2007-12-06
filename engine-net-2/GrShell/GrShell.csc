@@ -629,6 +629,11 @@ void ShellCommand():
             impl.HandleSequenceParserRuleException(ex);
             noError = false;
         }
+        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+        {
+            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+            noError = false;
+        }
         catch(Exception ex)
         {
             Console.WriteLine("Unable to execute xgrs: " + ex);
@@ -649,6 +654,11 @@ void ShellCommand():
             catch(SequenceParserRuleException ex)
             {
                 impl.HandleSequenceParserRuleException(ex);
+                noError = false;
+            }
+            catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+            {
+                Console.WriteLine("Unable to execute xgrs: " + ex.Message);
                 noError = false;
             }
             catch(Exception ex)
@@ -1025,6 +1035,11 @@ void DebugCommand():
         catch(SequenceParserRuleException ex)
         {
             impl.HandleSequenceParserRuleException(ex);
+            noError = false;
+        }
+        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+        {
+            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
             noError = false;
         }
         catch(Exception ex)
