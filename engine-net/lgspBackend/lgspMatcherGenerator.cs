@@ -2261,7 +2261,7 @@ exitSecondLoop: ;
 
             foreach (SearchPlanEdgeNode edge in target.OutgoingPatternEdges)
             {
-                if(edge == source) continue;
+                if(edge == source && opType == SearchOperationType.ImplicitSource) continue;
                 if(edge.Visited)    // check op?
                 {
                     sourceCode.AppendFrontFormat("if(edge_cur_{0}.source != node_cur_{1}) goto {2};\n",
@@ -2270,7 +2270,7 @@ exitSecondLoop: ;
             }
             foreach (SearchPlanEdgeNode edge in target.IncomingPatternEdges)
             {
-                if(edge == source) continue;
+                if(edge == source && opType == SearchOperationType.ImplicitTarget) continue;
                 if(edge.Visited)    // check op?
                 {
                     sourceCode.AppendFrontFormat("if(edge_cur_{0}.target != node_cur_{1}) goto {2};\n",
