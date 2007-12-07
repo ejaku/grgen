@@ -49,11 +49,11 @@ public class MemberInitNode extends BaseNode {
 	 * @param member The member to be initialized.
 	 * @param expr The expression, that is assigned.
 	 */
-	public MemberInitNode(Coords coords, BaseNode member, BaseNode expr) {
+	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
 		super(coords);
 		addChild(member);
 		addChild(expr);
-		addResolver(LHS, new DeclResolver(Entity.class));
+		addResolver(LHS, new DeclResolver(DeclNode.class)); //Entity.class));
 	}
 
 	/**
@@ -104,4 +104,5 @@ public class MemberInitNode extends BaseNode {
 		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
 	}
 }
+
 

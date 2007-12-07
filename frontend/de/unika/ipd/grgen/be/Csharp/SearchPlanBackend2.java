@@ -1452,19 +1452,31 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	}
 
 	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName, String indentString) {
+		Collection<MemberInit> memberInits = type.getMemberInits();
+
+		HashMap<Entity, Expression> initializedMembers = new HashMap<Entity, Expression>();
+		for(MemberInit mi : memberInits)
+			initializedMembers.put(mi.getMember(), mi.getExpression());
+
 		for(Entity member : type.getAllMembers()) {
 			String attrName = formatAttributeName(member);
 			sb.append(indentString + varName + ".@" + attrName + " = ");
-			Type t = member.getType();
-			if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
-				sb.append("0;\n");
-			else if(t instanceof FloatType)
-				sb.append("0f;\n");
-			else if(t instanceof BooleanType)
-				sb.append("false;\n");
-			else if(t instanceof StringType || t instanceof ObjectType)
-				sb.append("null;\n");
-			else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+			Expression expr = initializedMembers.get(member);
+			if(expr != null) {
+				genConditionEval(sb, expr, false);
+			}
+			else {
+				Type t = member.getType();
+				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
+					sb.append("0;\n");
+				else if(t instanceof FloatType)
+					sb.append("0f;\n");
+				else if(t instanceof BooleanType)
+					sb.append("false;\n");
+				else if(t instanceof StringType || t instanceof ObjectType)
+					sb.append("null;\n");
+				else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+			}
 		}
 	}
 
@@ -2089,5 +2101,4 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		// TODO
 	}
 }
-
 
