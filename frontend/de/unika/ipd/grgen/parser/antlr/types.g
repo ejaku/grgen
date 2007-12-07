@@ -224,15 +224,21 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 	;
 
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
-	{ BaseNode d; }
+	{ BaseNode b;}
 	
-	: ( d=basicDecl { c.addChild(d); } SEMI! )*
+	: (
+		(
+			b=basicDecl { c.addChild(b); } (
+				b=initExprDecl[((DeclNode)b).getIdentNode()] { c.addChild(b); }
+			)? |
+			b=initExpr { c.addChild(b); } ) SEMI!
+	)*
 	;
 
 edgeClassBody returns [ CollectNode c = new CollectNode() ]
-	{ BaseNode d; }
+	{ BaseNode b; }
 	
-	: ( d=basicDecl { c.addChild(d); } SEMI! )*
+	: ( ( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI! )*
 	;
 	
 rangeSpec returns [ BaseNode res = env.initNode() ]
@@ -311,14 +317,36 @@ basicDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id;
 		IdentNode type;
 		DeclNode decl;
+	}
+  
+	: id=entIdentDecl COLON! type=typeIdentUse
+		{
+			decl = new MemberDeclNode(id, type);
+			id.setDecl(decl);
+			res = decl;
+		}
+	;
+	
+initExpr returns [ BaseNode res = env.initNode() ]
+	{
+		IdentNode id;
 		ExprNode e = env.initExprNode();
 	}
   
-	: id=entIdentDecl COLON! type=typeIdentUse ( a:ASSIGN e=expr[false] ) ?
+	: id=entIdentUse a:ASSIGN e=expr[false]
 		{
-			decl = new MemberDeclNode(id, type, e);
-			id.setDecl(decl);
-			res = decl;
+			res = new MemberInitNode(getCoords(a), id, e);
+		}
+	;
+	
+initExprDecl[IdentNode id] returns [ BaseNode res = env.initNode() ]
+	{
+		ExprNode e;
+	}
+  
+	: a:ASSIGN e=expr[false]
+		{
+			res = new MemberInitNode(getCoords(a), id, e);
 		}
 	;
 

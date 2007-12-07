@@ -46,7 +46,7 @@ public class EnumItemNode extends MemberDeclNode
 	}
 	
 	/** Index of the value child. */
-	private static final int VALUE = INIT + 1;
+	private static final int VALUE = LAST + 1;
 	
 	/** Position of this item in the enum. */
 	private final int pos;

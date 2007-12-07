@@ -28,10 +28,10 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MultChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.Type;
 
 /**
@@ -43,38 +43,19 @@ public class MemberDeclNode extends DeclNode {
 		setName(MemberDeclNode.class, "member declaration");
 	}
 	
-	protected static final int INIT = LAST + 1;
-	
-	private static final String[] childrenNames =
-		addChildrenNames(new String[] { "init"});
-	
 	private static final Resolver typeResolver =
 		new DeclTypeResolver(TypeNode.class);
 	
 	private static final Checker typeChecker =
 		new MultChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
-	
-	private Expression initExpr = null;
-	
+		
 	/**
 	 * @param n Identifier which declared the member.
 	 * @param t Type with which the member was declared.
 	 */
 	public MemberDeclNode(IdentNode n, BaseNode t) {
-		this(n, t, ExprNode.getInvalid());
-	}
-	
-	
-	/**
-	 * @param n Identifier which declared the member.
-	 * @param t Type with which the member was declared.
-	 * @param e Initializer expression.
-	 */
-	public MemberDeclNode(IdentNode n, BaseNode t, ExprNode e) {
 		super(n, t);
 		addResolver(TYPE, typeResolver);
-		addChild(e);
-		setChildrenNames(childrenNames);
 	}
 	
 	
@@ -83,22 +64,11 @@ public class MemberDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		return checkChild(TYPE, typeChecker) && checkChild(INIT, ExprNode.class);
-	}
-	
-	/**
-	 * Constructs InitExpr; do not call before constructIR() has been called.
-	 */
-	protected Expression getInitExpr() {
-		return initExpr;
+		return checkChild(TYPE, typeChecker);
 	}
 	
 	protected IR constructIR() {
 		Type type = (Type) getDeclType().checkIR(Type.class);
-		if(!(getChild(INIT).getIR() instanceof Bad))
-			initExpr = (Expression) getChild(INIT).checkIR(Expression.class);
-		//TODO fix init of node/edge classes
-		//System.out.println("TODO: fix init of node/edge classes: " + initExpr);
 		return new Entity("entity", getIdentNode().getIdent(), type);
 	}
 	

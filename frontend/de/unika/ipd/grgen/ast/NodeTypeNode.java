@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.util.Collection;
 
@@ -50,13 +51,13 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		new CollectChecker(new SimpleChecker(NodeTypeNode.class));
 	
 	private static final Checker bodyChecker =
-		new CollectChecker(new SimpleChecker(MemberDeclNode.class));
+		new CollectChecker(new MultChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
 	
 	private static final Resolver bodyResolver =
-		new CollectResolver(new DeclResolver(MemberDeclNode.class));
+		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	/**
 	 * Create a new node type
@@ -83,8 +84,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return (NodeType) checkIR(NodeType.class);
 	}
 	
-	public Collection<BaseNode> getDirectSuperTypes()
-	{
+	public Collection<BaseNode> getDirectSuperTypes() {
 		return getChild(EXTENDS).getChildren();
 	}
 	
@@ -95,8 +95,14 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	protected IR constructIR() {
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
 		for(BaseNode n : getChild(BODY).getChildren()) {
-			DeclNode decl = (DeclNode)n;
-			nt.addMember(decl.getEntity());
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+				nt.addMember(decl.getEntity());
+			}
+			else if(n instanceof MemberInitNode) {
+				MemberInitNode mi = (MemberInitNode)n;
+				nt.addMemberInit((MemberInit)mi.getIR());
+			}
 		}
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			NodeTypeNode x = (NodeTypeNode)n;
@@ -108,11 +114,11 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		
 		return nt;
 	}
-
+	
 	public static String getKindStr() {
 		return "node type";
 	}
-
+	
 	public static String getUseStr() {
 		return "node type";
 	}

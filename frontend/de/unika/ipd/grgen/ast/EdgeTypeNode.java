@@ -54,7 +54,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
 	
 	private static final Checker bodyChecker =
-		new CollectChecker(new SimpleChecker(MemberDeclNode.class));
+		new CollectChecker(new MultChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
@@ -63,7 +63,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
 	
 	private static final Resolver bodyResolver =
-		new CollectResolver(new DeclTypeResolver(MemberDeclNode.class));
+		new CollectResolver(new DeclTypeResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	
 	/**
@@ -102,12 +102,14 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
 		
 		for(BaseNode n :  getChild(BODY).getChildren()) {
-			DeclNode decl = (DeclNode)n;
-			et.addMember(decl.getEntity());
-			
-			// add init expressions of
-			if(decl instanceof MemberDeclNode)
-				et.addMemberInit(new MemberInit(decl.getEntity(), ((MemberDeclNode)decl).getInitExpr()));
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+				et.addMember(decl.getEntity());
+			}
+			else if(n instanceof MemberInitNode) {
+				MemberInitNode mi = (MemberInitNode)n;
+				et.addMemberInit((MemberInit)mi.getIR());
+			}
 		}
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			EdgeTypeNode etn = (EdgeTypeNode)n;
