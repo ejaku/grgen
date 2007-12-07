@@ -889,33 +889,18 @@ exitSecondLoop: ;
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
             bool[] homToAll;
-            bool[] isoToAll;
 
             if (spn_j.NodeType == PlanNodeType.Node) {
                 homToAll = ssp.PatternGraph.HomomorphicToAllNodes;
-                isoToAll = ssp.PatternGraph.IsomorphicToAllNodes;
             }
             else { // (spn_j.NodeType == PlanNodeType.Edge)
                 homToAll = ssp.PatternGraph.HomomorphicToAllEdges;
-                isoToAll = ssp.PatternGraph.IsomorphicToAllEdges;
             }
 
             if (homToAll[spn_j.ElementID - 1])
             {
                 // operation is allowed to be homomorph with everything
                 // no checks for isomorphy or restricted homomorphy needed
-                return;
-            }
-
-            if (isoToAll[spn_j.ElementID - 1])
-            { 
-                // operation is not allowed to be homomorph with anything - pure isomorpy
-
-                // so order operation to check whether the is-matched-bit is set
-                ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
-                // and set the is-matched-bit if all checks succeeded
-                ssp.Operations[j].Isomorphy.SetIsMatchedBit = true;
-
                 return;
             }
 
@@ -984,17 +969,19 @@ exitSecondLoop: ;
                 }
 
                 // the generated matcher code has to check 
-                // that pattern element j doen't get bound to the same graph element
-                // that pattern element i is already bound to 
+                // that pattern element j doesn't get bound to the same graph element
+                // the pattern element i is already bound to 
                 if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
-                    ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = 
-                        new List<SearchPlanNode>();
+                    ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = new List<SearchPlanNode>();
                 }
                 ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Add(spn_i);
+
+                // order operation to set the is-matched-bit after all checks succeeded
+                ssp.Operations[i].Isomorphy.SetIsMatchedBit = true;
             }
 
-            // only if elements the operation must be isomorph to were matched before
-            // (otherwise there were only elements the operation is allowed to be homomorph to
+            // only if elements, the operation must be isomorph to, were matched before
+            // (otherwise there were only elements, the operation is allowed to be homomorph to,
             //  matched before, so no check needed here)
             if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst != null
                 && ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst.Count > 0)
@@ -1002,9 +989,6 @@ exitSecondLoop: ;
                 // order operation to check whether the is-matched-bit is set
                 ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
             }
-
-            // order operation to set the is-matched-bit after all checks succeeded
-            ssp.Operations[j].Isomorphy.SetIsMatchedBit = true;
         }
      
         /// <summary>
