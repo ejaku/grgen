@@ -1,0 +1,107 @@
+/*
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2007  IPD Goos, Universit"at Karlsruhe, Germany
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
+
+
+/**
+ * @author Rubino Geiss
+ * @version $Id$
+ */
+package de.unika.ipd.grgen.ast;
+
+
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.parser.Coords;
+
+/**
+ * AST node representing a member initialization.
+ * children: LHS:IdentNode, RHS:ExprNode
+ */
+public class MemberInitNode extends BaseNode {
+	static {
+		setName(MemberInitNode.class, "member init");
+	}
+
+	private static final int LHS = 0;
+	private static final int RHS = 1;
+
+	/**
+	 * @param coords The source code coordinates of = operator.
+	 * @param member The member to be initialized.
+	 * @param expr The expression, that is assigned.
+	 */
+	public MemberInitNode(Coords coords, BaseNode member, BaseNode expr) {
+		super(coords);
+		addChild(member);
+		addChild(expr);
+		addResolver(LHS, new DeclResolver(Entity.class));
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check() {
+		boolean lhsOk = checkChild(LHS, IdentNode.class);
+		boolean rhsOk = checkChild(RHS, ExprNode.class);
+
+		return lhsOk && rhsOk;
+	}
+
+	/**
+	 * Checks whether the expression has a type equal, compatible or castable
+	 * to the type of the target. Inserts implicit cast if compatible.
+	 * @return true, if the types are equal or compatible, false otherwise
+	 */
+	protected boolean typeCheck() {
+		ExprNode expr = (ExprNode) getChild(RHS);
+
+		TypeNode targetType = (TypeNode) ((IdentNode) getChild(LHS)).getDecl().getDeclType();
+		TypeNode exprType = (TypeNode) expr.getType();
+
+		if (! exprType.isEqual(targetType)) {
+			expr = expr.adjustType(targetType);
+			replaceChild(RHS, expr);
+
+			if (expr == ConstNode.getInvalid()) {
+
+				String msg;
+				if (exprType.isCastableTo(targetType))
+					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
+				else
+					msg = "Incompatible assignment from " + exprType + " to " + targetType;
+
+				error.error(getCoords(), msg);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Construct the intermediate representation from a member init.
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR() {
+		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
+	}
+}
+
