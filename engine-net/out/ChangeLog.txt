@@ -1,8 +1,9 @@
-v1.3.1 (2007-12-06)
+v1.3.1 (2007-12-07)
  Features:
   - Added "-gensp" option to spBench allowing generation of dynamic
     searchplans after execution of the initialization xgrs
   - Stabilized content of generated C# files for better version control
+  - Test actions work now
 
  Fixes:
   - spBench acted on the original graph instead of the cloned version 
