@@ -1,0 +1,11 @@
+using model_init;
+
+rule r1 {
+ pattern { }
+ replace {
+	 a : A;
+	 eval {
+		 a.i1 = a.i1*2;
+	 }
+ }
+}
