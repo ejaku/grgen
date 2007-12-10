@@ -69,7 +69,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		super(ext, body, extendsChecker, extendsResolver);
 		addChild(cas);
 		setChildrenNames(childrenNames);
-		addResolver(CAS, casResolver);
+		setResolver(CAS, casResolver);
 		setModifiers(modifiers);
 	}
 
@@ -104,3 +104,4 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		return "edge type";
 	}
 }
+

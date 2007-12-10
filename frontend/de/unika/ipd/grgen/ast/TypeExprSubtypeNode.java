@@ -47,7 +47,7 @@ public class TypeExprSubtypeNode extends TypeExprNode {
 	public TypeExprSubtypeNode(Coords coords, BaseNode type) {
 		super(coords, SUBTYPES);
 		addChild(type);
-		addResolver(OPERAND, typeResolver);
+		setResolver(OPERAND, typeResolver);
 	}
 	
 	protected boolean check() {

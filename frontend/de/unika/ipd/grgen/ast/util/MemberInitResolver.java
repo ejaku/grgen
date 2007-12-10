@@ -19,19 +19,18 @@
 
 
 /**
- * @author Sebastian Hack
- * @version $Id: DeclResolver.java 16773 2007-11-18 16:30:56Z buchwald $
+ * @author Rubino Geiss
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast.util;
 
 
 import de.unika.ipd.grgen.ast.*;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Map;
 
 /**
- * A resolver, that resolves a declaration node from an identifier.
+ * A resolver, that resolves a declaration node from an identifier (used in a member init).
  */
 public class MemberInitResolver extends IdentResolver {
 
@@ -55,23 +54,29 @@ public class MemberInitResolver extends IdentResolver {
 	 * @see de.unika.ipd.grgen.ast.check.Resolver#resolve()
 	 */
 	protected BaseNode resolveIdent(IdentNode n) {
+		DeclNode res = DeclNode.getInvalid();
+
 		System.out.println("resolveIdent:" + n);
 		System.out.println("resolveIdent getDecl():" + n.getDecl());
-		for(BaseNode p : n.getParents())
+
+		ret:for(BaseNode p : n.getParents())
 			if(p instanceof MemberInitNode)
 				for(BaseNode p2 : p.getParents()) {
 					assert p2 instanceof CollectNode;
 					for(BaseNode p3 : p2.getParents()) {
 						InheritanceTypeNode typeNode = (InheritanceTypeNode)p3;
-						Collection<TypeNode> allSuperTypes = new HashSet<TypeNode>();
-						typeNode.getCastableToTypes(allSuperTypes);
-						System.out.println("Parents:" + p3);
-						System.out.println("getCastableToTypes:" + allSuperTypes);
-						for(TypeNode superType : allSuperTypes)
-							;//superType.get;
+						Map<String, DeclNode> allMembers = typeNode.getAllMembers();
+						res = allMembers.get(n.toString());
+
+						if(res==null) {
+							error.error(n.getCoords(), "Undefined member " + n.toString() + " of "+ typeNode.getId());
+							res = DeclNode.getInvalid();
+						}
+
+						break ret;
 					}
 				}
-		return n.getDecl();
+		return res;
 	}
 
 

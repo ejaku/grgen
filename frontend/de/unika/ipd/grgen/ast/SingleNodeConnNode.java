@@ -65,7 +65,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		super(n.getCoords());
 		addChild(n);
 		setChildrenNames(childrenNames);
-		addResolver(NODE, nodeResolver);
+		setResolver(NODE, nodeResolver);
 	}
 	
 	/**

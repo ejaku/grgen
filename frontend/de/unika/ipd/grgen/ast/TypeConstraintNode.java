@@ -53,7 +53,7 @@ public class TypeConstraintNode extends TypeExprNode {
 	
 	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
-		addResolver(OPERANDS, typeResolver);
+		setResolver(OPERANDS, typeResolver);
 		addChild(collect);
 	}
 	

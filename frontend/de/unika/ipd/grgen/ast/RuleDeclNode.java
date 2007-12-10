@@ -435,7 +435,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean noReturnInPatternOk = true;
 		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
-			error.error(this.getCoords(), "No return statements in pattern parts of rules allowed");
+			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
 

@@ -54,7 +54,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
   		
   	super(id, newType, TypeExprNode.getEmpty() );
 	addChild(oldid);
-  	addResolver(OLD, edgeResolver);
+  	setResolver(OLD, edgeResolver);
   }
 
   /**

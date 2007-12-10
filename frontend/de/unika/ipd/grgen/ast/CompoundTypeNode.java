@@ -38,34 +38,34 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public abstract class CompoundTypeNode extends DeclaredTypeNode
 	implements ScopeOwner {
-	
+
 	/** Checker for the body of the compound type. */
 	private final Checker bodyChecker;
-		
+
 	/** Index of the body collect node. */
 	private int bodyIndex;
-		
+
 	protected CompoundTypeNode(int bodyIndex, Checker bodyChecker, Resolver bodyResolver) {
 		this.bodyIndex = bodyIndex;
 		this.bodyChecker = bodyChecker;
-		
+
 		if(bodyResolver != null)
-			addResolver(bodyIndex, bodyResolver);
+			setResolver(bodyIndex, bodyResolver);
 	}
-		
+
 	public boolean fixupDefinition(IdentNode id) {
 		return fixupDefinition(id, true);
 	}
-	
+
 	protected boolean fixupDefinition(IdentNode id, boolean reportErr) {
 		Scope scope = getScope();
-		
+
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
-		
+
 		// Get the definition of the ident's symbol local to the owned scope.
 		Symbol.Definition def = scope.getLocalDef(id.getSymbol());
 		debug.report(NOTE, "definition is: " + def);
-		
+
 		// The result is true, if the definition's valid.
 		boolean res = def.isValid();
 
@@ -81,7 +81,7 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 			if(reportErr)
 				reportError("Identifier " + id + " not declared in this scope: "
 					+ scope);
-				
+
 		return res;
 	}
 

@@ -25,7 +25,11 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
+import de.unika.ipd.grgen.ast.util.OneOfResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -44,6 +48,10 @@ public class MemberInitNode extends BaseNode {
 	private static final int LHS = 0;
 	private static final int RHS = 1;
 
+	private static final String[] childrenNames = {
+		"LHS", "RHS"
+	};
+
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param member The member to be initialized.
@@ -53,7 +61,9 @@ public class MemberInitNode extends BaseNode {
 		super(coords);
 		addChild(member);
 		addChild(expr);
-		addResolver(LHS, new MemberInitResolver(DeclNode.class));
+		setChildrenNames(childrenNames);
+		setResolver(LHS, new MemberInitResolver(DeclNode.class));
+		//setResolver(RHS, new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)}));
 	}
 
 	/**
@@ -104,5 +114,6 @@ public class MemberInitNode extends BaseNode {
 		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
 	}
 }
+
 
 

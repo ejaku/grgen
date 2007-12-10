@@ -61,7 +61,7 @@ public class ModelNode extends DeclNode {
 	public ModelNode(IdentNode id) {
 		super(id, modelType);
 		setChildrenNames(childrenNames);
-		addResolver(DECLS, declResolver);
+		setResolver(DECLS, declResolver);
 	}
 	
 	/**

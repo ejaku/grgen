@@ -49,7 +49,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
 		super(n, e, constraints);
 		setName("edge");
-		addResolver(TYPE, typeResolver);
+		setResolver(TYPE, typeResolver);
 	}
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e) {

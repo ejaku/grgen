@@ -46,7 +46,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
-		addResolver(DELETE, deleteResolver);
+		setResolver(DELETE, deleteResolver);
 		setChildrenNames(childrenNames);
 	}
 	

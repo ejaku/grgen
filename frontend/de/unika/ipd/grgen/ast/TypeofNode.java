@@ -64,7 +64,7 @@ public class TypeofNode extends ExprNode {
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(entity);
-		addResolver(ENTITY, entityResolver);
+		setResolver(ENTITY, entityResolver);
 	}
 	
 	/**

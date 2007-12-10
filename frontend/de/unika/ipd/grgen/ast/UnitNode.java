@@ -80,7 +80,7 @@ public class UnitNode extends DeclNode {
 		super(id, mainType);
 		this.filename = filename;
 		setChildrenNames(childrenNames);
-		addResolver(DECLS, declResolver);
+		setResolver(DECLS, declResolver);
 	}
 	
 	/**

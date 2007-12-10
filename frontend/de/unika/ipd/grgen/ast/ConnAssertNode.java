@@ -75,9 +75,9 @@ public class ConnAssertNode extends BaseNode {
 		addChild(tgt);
 		addChild(tgtRange);
 		setChildrenNames(childrenNames);
-		addResolver(SRC, 		nodeResolver);
+		setResolver(SRC, 		nodeResolver);
 		//addResolver(SRCRANGE, 	null);
-		addResolver(TGT, 		nodeResolver);
+		setResolver(TGT, 		nodeResolver);
 		//addResolver(TGTRANGE, 	null);
 	}
 	

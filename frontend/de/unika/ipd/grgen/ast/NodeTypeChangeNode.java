@@ -54,7 +54,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
   		
   	super(id, newType, TypeExprNode.getEmpty() );
 	addChild(oldid);
-  	addResolver(OLD, nodeResolver);
+  	setResolver(OLD, nodeResolver);
   }
 
   /**

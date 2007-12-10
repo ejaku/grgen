@@ -38,28 +38,28 @@ import java.util.Iterator;
  * Base class for all AST nodes representing types.
  */
 public abstract class TypeNode extends BaseNode {
-	
+
 	/**
 	 * A map, that maps each basic type to a set of all other basic types,
 	 * that are compatible to the type.
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap = new HashMap<TypeNode, HashSet<TypeNode>>();
-	
+
 	/**
 	 * A map, that maps each type to a set of all other types,
 	 * that are castable to the type.
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = new HashMap<TypeNode, HashSet<TypeNode>>();
-	
-	
+
+
 	TypeNode() {
 		super();
 	}
-	
+
 	public static String getUseStr() {
 		return "type";
 	}
-	
+
 	/**
 	 * Compute the distance of indirect type compatibility (where 'compatibility'
 	 * means implicit castability of attribute types; accordingly the distance
@@ -75,16 +75,16 @@ public abstract class TypeNode extends BaseNode {
 	public int compatibilityDist(TypeNode type) {
 		if ( this.isEqual(type) ) return 0;
 		if ( this.isCompatibleTo(type) ) return 1;
-		
+
 		Collection<TypeNode> coll = new HashSet<TypeNode>();
 		this.getCompatibleToTypes(coll);
-		
+
 		for (TypeNode t : coll)
 			if (t.isCompatibleTo(type)) return 2;
-		
+
 		return -1;
 	}
-	
+
 	/**
 	 * Check, if this type is compatible (implicitly castable) or equal
 	 * to <code>t</code>.
@@ -96,7 +96,7 @@ public abstract class TypeNode extends BaseNode {
 		getCompatibleToTypes(compat);
 		return (this.isEqual(t)) || compat.contains(t);
 	}
-	
+
 	/**
 	 * Check, if this type is only castable (explicitly castable)
 	 * to <code>t</code>
@@ -108,11 +108,11 @@ public abstract class TypeNode extends BaseNode {
 		getCastableToTypes(castable);
 		return castable.contains(t);
 	}
-	
+
 	public Color getNodeColor() {
 		return Color.MAGENTA;
 	}
-	
+
 	/**
 	 * Get the IR object as type.
 	 * The cast must always succeed.
@@ -121,7 +121,7 @@ public abstract class TypeNode extends BaseNode {
 	public Type getType() {
 		return (Type) checkIR(Type.class);
 	}
-	
+
 	/**
 	 * Checks, if two types are equal.
 	 * @param t The type to check for.
@@ -130,7 +130,7 @@ public abstract class TypeNode extends BaseNode {
 	public boolean isEqual(TypeNode t) {
 		return getClass().equals(t.getClass());
 	}
-	
+
 	/**
 	 * Check, if the type is a basic type (integer, boolean, string, void).
 	 * @return true, if the type is a basic type.
@@ -138,7 +138,7 @@ public abstract class TypeNode extends BaseNode {
 	public boolean isBasic() {
 		return false;
 	}
-	
+
 	/**
 	 * Put all compatible types which are compatible to this one in a collection
 	 * @param coll The collection to put the compatible types to.
@@ -147,15 +147,15 @@ public abstract class TypeNode extends BaseNode {
 		coll.add(this);
 		doGetCompatibleToTypes(coll);
 	}
-	
+
 	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map, TypeNode index, TypeNode target) {
 		if(!map.containsKey(index))
 			map.put(index, new HashSet<TypeNode>());
-		
+
 		Set<TypeNode> s = map.get(index);
 		s.add(target);
 	}
-	
+
 	/**
 	 * Add a compatibility to the compatibility map.
 	 * @param a The first type.
@@ -164,7 +164,7 @@ public abstract class TypeNode extends BaseNode {
 	protected static void addCompatibility(TypeNode a, TypeNode b) {
 		addTypeToMap(compatibleMap, a, b);
 	}
-	
+
 	/**
 	 * Checks, if two types are compatible
 	 * @param a The first type.
@@ -173,25 +173,25 @@ public abstract class TypeNode extends BaseNode {
 	 */
 	protected static boolean isCompatible(TypeNode a, TypeNode b) {
 		boolean res = false;
-		
+
 		if(compatibleMap.containsKey(a)) {
 			Set<TypeNode> s = compatibleMap.get(a);
 			res = s.contains(b);
 		}
-		
+
 		return res;
 	}
-	
+
 	public static void addCastability(TypeNode from, TypeNode to) {
 		addTypeToMap(castableMap, from, to);
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
-		
+
 		Collection<TypeNode> compat = compatibleMap.get(this);
 		if(compat != null) {
 			if (debug.willReport(NOTE))
@@ -201,9 +201,9 @@ public abstract class TypeNode extends BaseNode {
 			coll.addAll(compat);
 		}
 	}
-	
+
 	/**
-	 * Pit all types this one is castable (implicitly and explicitly) to
+	 * Put all types this one is castable (implicitly and explicitly) to
 	 * into a collection.
 	 * @param coll A collection they are put into.
 	 */
@@ -211,13 +211,13 @@ public abstract class TypeNode extends BaseNode {
 		doGetCastableToTypes(coll);
 		getCompatibleToTypes(coll);
 	}
-	
+
 	private void doGetCastableToTypes(Collection<TypeNode> coll) {
 		Collection<TypeNode> castable = castableMap.get(this);
 		if(castable != null)
 			coll.addAll(castable);
 	}
-	
+
 	/**
 	 * Cast a constant of this type to another type.
 	 * @param constant The constant. Its type must be equal to this.
@@ -227,7 +227,7 @@ public abstract class TypeNode extends BaseNode {
 	protected final ConstNode cast(TypeNode newType, ConstNode constant) {
 		TypeNode constType = constant.getType();
 		ConstNode res = ConstNode.getInvalid();
-		
+
 		if(isEqual(constType)) {
 			if(newType.isEqual(constType))
 				res = constant;
@@ -236,10 +236,10 @@ public abstract class TypeNode extends BaseNode {
 			else
 				res = ConstNode.getInvalid();
 		}
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Implement this method for your types to implement casts
 	 * of constants.
@@ -249,5 +249,5 @@ public abstract class TypeNode extends BaseNode {
 	protected ConstNode doCast(TypeNode newType, ConstNode constant) {
 		return ConstNode.getInvalid();
 	}
-	
+
 }

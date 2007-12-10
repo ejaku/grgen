@@ -26,12 +26,14 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.*;
 
-import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.util.Base;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -69,6 +71,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	private static final Checker myInhChecker =
 		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
 
+	Map<String, DeclNode> allMembers = null;
+
 	/**
 	 * @param bodyIndex Index of the body collect node.
 	 * @param inhIndex Index of the inheritance types collect node.
@@ -85,7 +89,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		addChild(body);
 
 		setChildrenNames(childrenNames);
-		addResolver(EXTENDS, inhResolver);
+		setResolver(EXTENDS, inhResolver);
 	}
 
 	public boolean isA(InheritanceTypeNode type) {
@@ -119,6 +123,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
+		getAllMembers();
 		return super.check()
 			&& checkChild(EXTENDS, myInhChecker)
 			&& checkChild(EXTENDS, inhChecker);
@@ -154,16 +159,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
-	 */
-	/*	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
-	 // TODO This is wrong!!!
-	 for(BaseNode n : getChild(inhIndex).getChildren())
-	 coll.add((TypeNode)n);
-	 } */
-
-
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
 	}
@@ -186,6 +181,38 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		return getChild(EXTENDS).getChildren();
 	}
 
+	private void getMembers(Map<String, DeclNode> members) {
+		for(BaseNode n : getChild(BODY).getChildren()) {
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+
+				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
+				if(old!=null)
+					error.error(decl.getCoords(), decl.toString() +" of " + getUseString() + " " + getIdentNode() + " already defined. " +
+									"It is also declared in " + old.getParents() + "." // TODO improve error message
+							   );
+			}
+		}
+	}
+
+	/**
+	 * Returns all members (including inherited ones) of this type.
+	 */
+	public Map<String, DeclNode> getAllMembers() {
+		if(allMembers==null) {
+
+			allMembers = new LinkedHashMap<String, DeclNode>();
+
+			// add the members of the supertype
+			Collection<TypeNode> allSuperOrSameTypes = new HashSet<TypeNode>();
+			getCastableToTypes(allSuperOrSameTypes);
+			//System.out.println("+++" + allSuperOrSameTypes);
+			for(TypeNode superType : allSuperOrSameTypes)
+					((InheritanceTypeNode)superType).getMembers(allMembers);
+		}
+		return allMembers;
+	}
+
 	protected void constructIR(InheritanceType inhType) {
 		for(BaseNode n : getChild(BODY).getChildren()) {
 			if(n instanceof DeclNode) {
@@ -206,3 +233,4 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		inhType.getAllMembers();
 	}
 }
+

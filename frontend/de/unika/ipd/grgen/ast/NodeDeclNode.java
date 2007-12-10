@@ -53,7 +53,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 */
 	public NodeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
 		super(id, type, constr);
-		addResolver(TYPE, typeResolver);
+		setResolver(TYPE, typeResolver);
 	}
 
 	public NodeDeclNode(IdentNode id, BaseNode type) {

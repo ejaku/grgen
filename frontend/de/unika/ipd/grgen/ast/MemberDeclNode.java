@@ -55,7 +55,7 @@ public class MemberDeclNode extends DeclNode {
 	 */
 	public MemberDeclNode(IdentNode n, BaseNode t) {
 		super(n, t);
-		addResolver(TYPE, typeResolver);
+		setResolver(TYPE, typeResolver);
 	}
 	
 	

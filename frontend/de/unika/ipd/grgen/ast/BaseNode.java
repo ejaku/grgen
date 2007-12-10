@@ -830,7 +830,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Add a resolver to this node.
+	 * Set a resolver to this node.
 	 * If a resolver was already entered for a given position, it is
 	 * overwritten. This is sensible, since sub classes may need to
 	 * overwrite resolvers entered by superclasses.
@@ -838,7 +838,7 @@ public abstract class BaseNode extends Base
 	 * @param pos Position at which to add the resolver.
 	 * @param r Resolver to add.
 	 */
-	protected final void addResolver(int pos, Resolver r) {
+	protected final void setResolver(int pos, Resolver r) {
 		resolvers.put(new Integer(pos), r);
 	}
 

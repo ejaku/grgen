@@ -130,7 +130,7 @@ public class TestDeclNode extends ActionDeclNode {
 		 */
 
 		if(actualReturns.children() != typeReturns.children()) {
-			error.error(this.getCoords(), "Actual and formal return-parameter count mismatch (" +
+			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
 							actualReturns.children() + " vs. " + typeReturns.children() +")");
 			returnTypes = false;
 		} else {

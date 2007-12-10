@@ -59,7 +59,7 @@ public class CastNode extends ExprNode
 	public CastNode(Coords coords)
 	{
 		super(coords);
-		addResolver(TYPE, typeResolver);
+		setResolver(TYPE, typeResolver);
 	}
 	
 	/**
