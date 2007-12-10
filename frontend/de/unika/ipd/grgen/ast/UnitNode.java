@@ -66,7 +66,7 @@ public class UnitNode extends DeclNode {
 
 	/** checker for this node */
 	private static final Checker declChecker =
-		new CollectChecker(new MultChecker(validTypes));
+		new CollectChecker(new SimpleChecker(validTypes));
 	
 	private static final Resolver declResolver =
 		new CollectResolver(new DeclResolver(validTypes));

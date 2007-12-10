@@ -67,8 +67,8 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, BaseNode left, BaseNode right, BaseNode neg,
-						BaseNode eval, CollectNode params, CollectNode rets) {
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode neg,
+						CollectNode eval, CollectNode params, CollectNode rets) {
 
 		super(id, ruleType, left, neg, params, rets);
 		addChild(right);

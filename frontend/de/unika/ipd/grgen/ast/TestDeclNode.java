@@ -81,10 +81,6 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(testType.getClass(), "test type");
 	}
 
-	protected TestDeclNode(IdentNode id, TypeNode type) {
-		super(id, testType);
-	}
-
 	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);
 		addChild(params);
@@ -94,7 +90,7 @@ public class TestDeclNode extends ActionDeclNode {
 		setChildrenNames(childrenNames);
 	}
 
-	public TestDeclNode(IdentNode id, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
 		this(id, testType, pattern, neg, params, rets);
 	}
 

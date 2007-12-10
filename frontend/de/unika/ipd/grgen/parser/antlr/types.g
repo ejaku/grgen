@@ -62,7 +62,7 @@ options {
 
 text returns [ BaseNode model = env.initNode() ]
 	{
-		CollectNode n = new CollectNode();
+		CollectNode types = new CollectNode();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removePathPrefix(getFilename());
@@ -76,25 +76,25 @@ text returns [ BaseNode model = env.initNode() ]
 	:   ( m:MODEL i:IDENT SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
-		typeDecls[n] EOF
+		typeDecls[types] EOF
 			{
 				model = new ModelNode(id);
-				model.addChild(n);
+				model.addChild(types);
 			}
 	;
 	
-typeDecls [ BaseNode n ]
-	{ BaseNode d; }
+typeDecls [ CollectNode types ]
+	{ IdentNode type; }
 	
-	: (d=typeDecl { n.addChild(d); } )*
+	: (type=typeDecl { types.addChild(type); } )*
 	;
 
-typeDecl returns [ BaseNode res = env.initNode() ]
+typeDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=classDecl
 	| res=enumDecl
 	;
 
-classDecl returns [ BaseNode res = env.initNode() ]
+classDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{ int mods = 0; }
 	
 	: mods=typeModifiers (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
@@ -115,15 +115,17 @@ typeModifier returns [ int res = 0; ]
  * An edge class decl makes a new type decl node with the declaring id and
  * a new edge type node as children
  */
-edgeClassDecl[int modifiers] returns [ BaseNode res = env.initNode() ]
+edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
-		BaseNode body = new CollectNode(), ext, cas;
 		IdentNode id;
+		CollectNode body, ext, cas;
+		body = null;
 	}
 	
 	: EDGE CLASS id=typeIdentDecl ext=edgeExtends[id] cas=connectAssertions pushScope[id]
 		(LBRACE! body=edgeClassBody RBRACE!
 		| SEMI
+			{ body = new CollectNode(); }
 		)
 			{
 				EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
@@ -133,15 +135,17 @@ edgeClassDecl[int modifiers] returns [ BaseNode res = env.initNode() ]
 		popScope!
   ;
 
-nodeClassDecl![int modifiers] returns [ BaseNode res = env.initNode() ]
+nodeClassDecl![int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
-		BaseNode body = new CollectNode(), ext;
 		IdentNode id;
+		CollectNode body, ext;
+		body = null;
 	}
 
 	: NODE CLASS id=typeIdentDecl ext=nodeExtends[id] pushScope[id]
 		(LBRACE! body=nodeClassBody RBRACE!
 		| SEMI
+			{ body = new CollectNode(); }
 		)
 			{
 				NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
@@ -169,7 +173,7 @@ connectAssertion [ CollectNode c ]
 	;
 
 edgeExtends [IdentNode clsId] returns [ CollectNode c = new CollectNode() ]
-	: EXTENDS edgeExtendsCont[clsId,c]
+	: EXTENDS edgeExtendsCont[clsId, c]
 	|	{ c.addChild(env.getEdgeRoot()); }
 	;
 
@@ -226,22 +230,27 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode b;}
 	
-	: (
-		(
-			b=basicDecl { c.addChild(b); } (
-				b=initExprDecl[((DeclNode)b).getIdentNode()] { c.addChild(b); }
-			)? |
-			b=initExpr { c.addChild(b); } ) SEMI!
-	)*
+	:   (
+			(
+				b=basicDecl { c.addChild(b); } 
+				(
+					b=initExprDecl[((DeclNode)b).getIdentNode()] { c.addChild(b); }
+				)?
+			|
+				b=initExpr { c.addChild(b); } 
+			) SEMI!
+		)*
 	;
 
 edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode b; }
 	
-	: ( ( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI! )*
+	:   ( 
+			( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI! 
+		)*
 	;
 	
-rangeSpec returns [ BaseNode res = env.initNode() ]
+rangeSpec returns [ RangeSpecNode res = null ]
 	{
 		int lower = 0, upper = RangeSpecNode.UNBOUND;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
@@ -261,10 +270,10 @@ integerConst returns [ int value = 0 ]
 		{ value = Integer.parseInt(i.getText()); }
 	;
 	
-enumDecl returns [ BaseNode res = env.initNode() ]
+enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		BaseNode c = new CollectNode();
+		CollectNode c = new CollectNode();
 	}
 	
 	: ENUM id=typeIdentDecl pushScope[id]
@@ -278,7 +287,7 @@ enumDecl returns [ BaseNode res = env.initNode() ]
 		RBRACE popScope
 	;
 
-enumList[ BaseNode enumType, BaseNode collect ]
+enumList[ IdentNode enumType, CollectNode collect ]
 	{
 		int pos = 0;
 		BaseNode init;
@@ -288,7 +297,7 @@ enumList[ BaseNode enumType, BaseNode collect ]
 		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
 	
-enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
+enumItemDecl [ IdentNode type, CollectNode coll, BaseNode defInit, int pos ]
 				returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id;
@@ -312,11 +321,11 @@ enumItemDecl [ BaseNode type, BaseNode coll, BaseNode defInit, int pos ]
 			}
 	;
 
-basicDecl returns [ BaseNode res = env.initNode() ]
+basicDecl returns [ MemberDeclNode res = null ]
 	{
 		IdentNode id;
 		IdentNode type;
-		DeclNode decl;
+		MemberDeclNode decl;
 	}
   
 	: id=entIdentDecl COLON! type=typeIdentUse
@@ -327,7 +336,7 @@ basicDecl returns [ BaseNode res = env.initNode() ]
 		}
 	;
 	
-initExpr returns [ BaseNode res = env.initNode() ]
+initExpr returns [ MemberInitNode res = null ]
 	{
 		IdentNode id;
 		ExprNode e = env.initExprNode();
@@ -339,7 +348,7 @@ initExpr returns [ BaseNode res = env.initNode() ]
 		}
 	;
 	
-initExprDecl[IdentNode id] returns [ BaseNode res = env.initNode() ]
+initExprDecl[IdentNode id] returns [ MemberInitNode res = null ]
 	{
 		ExprNode e;
 	}

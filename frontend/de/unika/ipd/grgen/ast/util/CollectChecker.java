@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author shack
@@ -29,31 +28,33 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A checker that checks if the node is a collection node and
- * applies a second checker to all the children
+ * A checker that checks if the node is a collection node 
+ * and if so applies a contained child checker to all the children
  */
-public class CollectChecker implements Checker {
-
-	/// The checker to apply to the children of the checked collect node
+public class CollectChecker implements Checker
+{
+	/** The checker to apply to the children of the collect node to be checked by this checker */
 	private Checker childChecker;
-	
-	public CollectChecker(Checker childChecker) {
+
+	/** Create checker with the checker to apply to the children */
+	public CollectChecker(Checker childChecker)
+	{
 		this.childChecker = childChecker;
 	}
-	
-  /**
-   * Check if the node is a collect node and apply the child checker to
-   * all children.
-   * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
-   */
-  public boolean check(BaseNode node, ErrorReporter reporter) {
-  	boolean res = false;
-  	
-  	if(node instanceof CollectNode)
-  		res = node.checkAllChildren(childChecker);
-  	else
-  		node.reportError("Not a collect node");
-  		
-  	return res;
-  }
+
+	/**
+	 * Check if the node is a collect node and if so apply the child checker to all children.
+	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
+	 */
+	public boolean check(BaseNode node, ErrorReporter reporter) 
+	{
+		boolean res = false;
+
+		if (node instanceof CollectNode)
+			res = node.checkAllChildren(childChecker);
+		else
+			node.reportError("Not a collect node");
+
+		return res;
+	}
 }

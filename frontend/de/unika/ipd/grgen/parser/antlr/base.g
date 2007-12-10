@@ -245,7 +245,7 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 // Expressions
 ///////////////////////////////////////////////////////////////////////////
 
-assignment returns [ BaseNode res = env.initNode() ]
+assignment returns [ AssignNode res = null ]
 	{ BaseNode q, e; }
 	
 	: q=qualIdent a:ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls

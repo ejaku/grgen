@@ -441,11 +441,13 @@ public abstract class BaseNode extends Base
 	 * @param n AST node to add to the children list.
 	 */
 	public final void addChild(BaseNode n) {
+		n = n==null ? NULL : n;
 		children.add(n);
 		n.parents.add(this);
 	}
 
 	public final void setChild(int pos, BaseNode n) {
+		n = n==null ? NULL : n;
 		BaseNode oldChild = getChild(pos);
 		oldChild.parents.remove(this);
 		children.set(pos, n);
@@ -494,6 +496,7 @@ public abstract class BaseNode extends Base
 	 * @return The old one.
 	 */
 	public final BaseNode replaceChild(int i, BaseNode n) {
+		n = n==null ? NULL : n;
 		BaseNode res = NULL;
 		if(i < children.size()) {
 			res = children.get(i);

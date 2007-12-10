@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.MultChecker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
@@ -54,7 +54,7 @@ public class TypeofNode extends ExprNode {
 		new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
 	
 	private static final Checker entityChecker =
-		new MultChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
+		new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
 	
 	/**
 	 * Make a new typeof node.

@@ -7,7 +7,7 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.MultChecker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
@@ -37,13 +37,13 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	
 	private static final Checker deleteChecker =
 		new CollectChecker(
-			new MultChecker(
+			new SimpleChecker(
 				new Class[] { NodeDeclNode.class, EdgeDeclNode.class }
 			)
 		);
 	
-	public ModifyRuleDeclNode(IdentNode id, BaseNode left, BaseNode right,
-							  BaseNode neg, BaseNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
+							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
 		addResolver(DELETE, deleteResolver);

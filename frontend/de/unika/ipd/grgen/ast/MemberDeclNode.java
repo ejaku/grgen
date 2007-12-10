@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.MultChecker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
@@ -47,7 +47,7 @@ public class MemberDeclNode extends DeclNode {
 		new DeclTypeResolver(TypeNode.class);
 	
 	private static final Checker typeChecker =
-		new MultChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
+		new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
 		
 	/**
 	 * @param n Identifier which declared the member.

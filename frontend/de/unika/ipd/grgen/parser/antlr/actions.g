@@ -133,15 +133,15 @@ actionDecls returns [ CollectNode c = new CollectNode() ]
 	: ( d=actionDecl { c.addChild(d); } )+
 	;
 
-actionDecl returns [ BaseNode res = env.initNode() ]
+actionDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=testDecl
 	| res=ruleDecl
 	;
 
-testDecl returns [ BaseNode res = env.initNode() ]
+testDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		BaseNode pattern;
+		PatternGraphNode pattern;
 		CollectNode params, ret;
 		CollectNode negs = new CollectNode();
 	}
@@ -155,10 +155,11 @@ testDecl returns [ BaseNode res = env.initNode() ]
 		RBRACE! popScope!
 	;
 
-ruleDecl returns [ BaseNode res = env.initNode() ]
+ruleDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		BaseNode left, right;
+		PatternGraphNode left;
+		GraphNode right;
 		CollectNode params, ret;
 		CollectNode negs = new CollectNode();
 		CollectNode eval = new CollectNode();
@@ -213,7 +214,7 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ CollectNode negs ] returns [ BaseNode res = env.initNode() ]
+patternPart [ CollectNode negs ] returns [ PatternGraphNode res = null ]
 	{ int mod=0; }
 	
 	: mod=patternModifiers p:PATTERN LBRACE!
@@ -221,26 +222,26 @@ patternPart [ CollectNode negs ] returns [ BaseNode res = env.initNode() ]
 		RBRACE!
 	;
   
-replacePart [ CollectNode eval ] returns [ BaseNode res = env.initNode() ]
+replacePart [ CollectNode eval ] returns [ GraphNode res = null ]
 	: r:REPLACE LBRACE!
 		res=replaceBody[getCoords(r), eval]
 		RBRACE!
 	;
 
-modifyPart [ CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
+modifyPart [ CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]
 	: r:MODIFY LBRACE!
 		res=modifyBody[getCoords(r), eval, dels]
 		RBRACE!
 	;
 
-evalPart [ BaseNode n ]
+evalPart [ CollectNode n ]
 	: EVAL LBRACE
 		evalBody[n]
 		RBRACE
 	;
 	
-evalBody [ BaseNode n  ]
-	{ BaseNode a; }
+evalBody [ CollectNode n  ]
+	{ AssignNode a; }
 	
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
@@ -256,7 +257,7 @@ patternModifier returns [ int res = 0 ]
 	| DPO { res |= PatternGraphNode.MOD_DPO; }
 	;
 
-patternBody [ Coords coords, CollectNode negs, int mod ] returns [ BaseNode res = env.initNode() ]
+patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
 		CollectNode conditions = new CollectNode();
@@ -274,7 +275,9 @@ patternStmt [ CollectNode conn, CollectNode cond,
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
-		BaseNode e, neg, hom;
+		ExprNode e;
+		PatternGraphNode neg;
+		HomNode hom;
 		//nesting of negative Parts is not allowed.
 		CollectNode negsInNegs = new CollectNode();
 		newNegCount = negCount;
@@ -477,7 +480,7 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
  * A statement defining some nodes/edges to be matched potentially
  * homomorphically
  */
-homStatement returns [ BaseNode res = env.initNode() ]
+homStatement returns [ HomNode res = null ]
 	{
 		IdentNode id;
 	}
@@ -488,7 +491,7 @@ homStatement returns [ BaseNode res = env.initNode() ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode eval ] returns [ BaseNode res = env.initNode() ]
+replaceBody [ Coords coords, CollectNode eval ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
 		CollectNode returnz = new CollectNode();
@@ -504,7 +507,7 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, Colle
 	| evalPart[eval]
 	;
 
-modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ BaseNode res = env.initNode() ]
+modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
 		CollectNode returnz = new CollectNode();
@@ -725,21 +728,22 @@ deleteStmt[CollectNode res]
 		RPAREN
 	;
 
-typeConstraint returns [ BaseNode constr = env.initNode() ]
+typeConstraint returns [ TypeExprNode constr = null ]
 	: BACKSLASH constr=typeUnaryExpr
 	;
 
-typeAddExpr returns [ BaseNode res = env.initNode() ]
-	{ BaseNode op; }
+typeAddExpr returns [ TypeExprNode res = null ]
+	{ IdentNode typeUse; TypeExprNode op; }
 	
-	: res=typeIdentUse { res = new TypeConstraintNode(res); }
+	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 		(t:PLUS op=typeUnaryExpr
 			{ res = new TypeExprNode(getCoords(t), TypeExprNode.UNION, res, op); } 
 		)*
 	;
 
-typeUnaryExpr returns [ BaseNode res = env.initNode() ]
-	: res=typeIdentUse { res = new TypeConstraintNode(res); }
+typeUnaryExpr returns [ TypeExprNode res = null ]
+	{ IdentNode typeUse; }
+	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
 

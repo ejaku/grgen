@@ -51,7 +51,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		new CollectChecker(new SimpleChecker(NodeTypeNode.class));
 	
 	private static final Checker bodyChecker =
-		new CollectChecker(new MultChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
@@ -66,7 +66,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * @param body the collect node with body declarations
 	 * @param modifiers Type modifiers for this type.
 	 */
-	public NodeTypeNode(BaseNode ext, BaseNode body, int modifiers) {
+	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers) {
 		super(BODY, bodyChecker, bodyResolver,
 			  EXTENDS, extendsChecker, extendsResolver);
 		
@@ -118,7 +118,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	public static String getKindStr() {
 		return "node type";
 	}
-	
+
 	public static String getUseStr() {
 		return "node type";
 	}

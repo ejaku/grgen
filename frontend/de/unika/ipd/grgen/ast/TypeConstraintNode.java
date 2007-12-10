@@ -51,15 +51,15 @@ public class TypeConstraintNode extends TypeExprNode {
 	private static final Checker typeChecker =
 		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
 	
-	public TypeConstraintNode(Coords coords, BaseNode collect) {
+	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
 		addResolver(OPERANDS, typeResolver);
 		addChild(collect);
 	}
 	
-	public TypeConstraintNode(BaseNode singleton) {
-		this(singleton.getCoords(), new CollectNode());
-		getChild(OPERANDS).addChild(singleton);
+	public TypeConstraintNode(IdentNode typeIdentUse) {
+		this(typeIdentUse.getCoords(), new CollectNode());
+		getChild(OPERANDS).addChild(typeIdentUse);
 	}
 	
 	protected boolean check() {

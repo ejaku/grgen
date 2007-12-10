@@ -54,7 +54,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
 	
 	private static final Checker bodyChecker =
-		new CollectChecker(new MultChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 	
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
@@ -73,7 +73,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * declarations.
 	 * @param modifiers The modifiers for this type.
 	 */
-	public EdgeTypeNode(BaseNode ext, BaseNode cas,  BaseNode body, int modifiers) {
+	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body, int modifiers) {
 		super(BODY, bodyChecker, bodyResolver,
 			  EXTENDS, extendsChecker, extendsResolver);
 		addChild(ext);

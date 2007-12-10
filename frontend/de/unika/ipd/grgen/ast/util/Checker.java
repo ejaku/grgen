@@ -28,13 +28,13 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * Interface for something, that can check a node
+ * Interface for something, that can check an AST node
  */
-public interface Checker {
-	
+public interface Checker
+{
 	/**
-	 * Check a node
-	 * @param node The ast node to check
+	 * Check some AST node
+	 * @param node The AST node to check
 	 * @return true if the check succeeded, false if not.
 	 */
 	public abstract boolean check(BaseNode node, ErrorReporter reporter);

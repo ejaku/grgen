@@ -77,7 +77,7 @@ public class TypeExprNode extends BaseNode {
 		assert op >= 0 && op <= LAST : "Illegal type constraint expr opcode";
   }
 	
-	public TypeExprNode(Coords coords, int op, BaseNode op0, BaseNode op1) {
+	public TypeExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
 		this(coords, op);
 		addChild(op0);
 		addChild(op1);

@@ -67,7 +67,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	};
 	 */
 	
-	public EnumTypeNode(BaseNode body) {
+	public EnumTypeNode(CollectNode body) {
 		super(ELEMENTS, childrenChecker, null);
 		addChild(body);
 

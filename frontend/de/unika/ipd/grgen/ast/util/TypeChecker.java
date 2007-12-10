@@ -29,25 +29,28 @@ import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A type checker, that checks if the declaration node is of a certain type
+ * A checker that checks whether the declared type of the AST declaration node is one of the specified types
  */
 public class TypeChecker implements Checker
 {
-	/// The classes the decl type is to checked for
+	/** The types the declaration type is to be checked against */
 	private Class<?>[] validTypes;
 	
+	/** Create checker with one type to check the declared type of the AST declaration node against */
 	public TypeChecker(Class<?>[] types)
 	{
 		this.validTypes = types;
 	}
-	public TypeChecker(Class<?> c)
+
+	/** Create checker with the types to check the declared type of the AST declaration node against */
+	public TypeChecker(Class<?> type)
 	{
-		this(new Class[] { c });
+		this(new Class[] { type });
 	}
 	
 	/**
-	 * Check, if node is an instance of DeclNode and then check, if the declaration
-	 * has the right type
+	 * Check if node is an instance of DeclNode
+	 * if so check whether the declaration has the right type
 	 * @see de.unika.ipd.grgen.ast.check.Checker#check(de.unika.ipd.grgen.ast.BaseNode, de.unika.ipd.grgen.util.report.ErrorReporter)
 	 */
 	public boolean check(BaseNode node, ErrorReporter reporter)
@@ -77,6 +80,7 @@ public class TypeChecker implements Checker
 		}
 		return res;
 	}
+	
 	protected String getExpection(Class<?> cls)
 	{
 		String res = "";
@@ -84,7 +88,10 @@ public class TypeChecker implements Checker
 		try {
 			res = (String) cls.getMethod("getKindStr").invoke(null);
 		}
-		catch(Exception e) { res = "<invalid>"; }
+		catch(Exception e) 
+		{ 
+			res = "<invalid>";
+		}
 
 		return res;
 	}
