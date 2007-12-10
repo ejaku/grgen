@@ -5,7 +5,7 @@ The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
-actions SomeActions using SomeModel;
+using SomeModel;
 
 rule SomeRule {
   pattern {
@@ -68,7 +68,7 @@ For example the graphlet \texttt{n1 --> n2} contains an anonymous edge; thus can
 Names must not be \indexed{redefine}d; once defined, a name is \emph{bound} to a graph element. 
 We use the term ``\indexed{binding of names}'' because a name not only denotes a graph element of a graphlet but also denotes the mapping of the abstract graph element of a graphlet to a concrete graph element of a host graph.
 So graph elements of different names are pair wise distinct except for homomorphically matched\indexmain{homomorphic matching} graph elements (see Section~\ref{patternpart}).
-For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType1} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
+For instance \texttt{v:NodeType1 -e:EdgeType-> w:NodeType2} selects some node of type \texttt{Node\-Type1} that is connected to a node of type \texttt{NodeType2} by an edge of type \texttt{EdgeType} and binds the names \texttt{v}, \texttt{w}, and \texttt{e}. 
 If \texttt{v} and \texttt{w} are not explicitly marked as homomorphic, the graph elements they bind to are distinct.
 Binding of names allows for splitting a single graphlet into multiple graphlets as well as defining cyclic structures.
 \begin{example}
@@ -255,8 +255,8 @@ Although both, the pattern part and the replace/modify part use graphlets, there
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: 'actions' IdentDecl (() | 'using' ((ModelIdent)+',')) ';' \\ ((TestDeclaration | RuleDeclaration)+) ;
-\end{rail}\ixkeyw{actions}\ixkeyw{using}\ixnterm{RuleSet}
+  RuleSet: (() | 'using' ((ModelIdent)+',') ';') ((TestDeclaration | RuleDeclaration)+) ;
+\end{rail}\ixkeyw{using}\ixnterm{RuleSet}
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules. In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
@@ -299,7 +299,7 @@ test r(-e:Edge->, x:Node) {
       -e-> x;
     }
     negative {
-      x <-e-;
+      x -e->;
     }
   }
 }
@@ -314,7 +314,7 @@ test s {
       -e-> x;
     }
     negative {
-      x <-e-;
+      x -e->;
     }
   }
 }
@@ -343,19 +343,20 @@ We extend \texttt{SomeRule} (Example~\ref{ex:rule:SomeRule}) with a user defined
       eval {
         ...
 \end{grgen}
-We don not define \texttt{varnode} within the pattern part because this is already covered by the parameter specification itself.
+We do not define \texttt{varnode} within the pattern part because this is already covered by the parameter specification itself.
 \end{example}
 \end{figure}
 
 \section{Pattern Part}\indexmain{pattern}
 \label{patternpart}
 \begin{rail}
-  Pattern: 'pattern' lbrace (()+PatternStatement) rbrace ;
-\end{rail}\ixkeyw{pattern}\ixnterm{Pattern}
+  Pattern: (() | 'dpo' | 'induced' | 'exact') 'pattern' lbrace (()+PatternStatement) rbrace ;
+\end{rail}\ixkeyw{pattern}\ixkeyw{dpo}\ixkeyw{induced}\ixnterm{Pattern}
 A \indexed{pattern} consists of zero or more pattern statements. 
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the total and totally undefined function.
+For an explanation of the pattern modifiers \texttt{dpo}, \texttt{induced}, and \texttt{exact} see section~\ref{sct:patternmodifier}.
 
 Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements. 
 Like all identifier definitions, such names may be used before their \indexed{declaration}. 
@@ -367,7 +368,7 @@ The \indexed{application} of a rule is not deterministic\indexmain{non-determini
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities. 
 \LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that match the pattern and rewrite one of these matches. 
 By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
-As a \LibGr\ user use the following methods of the \texttt{IAction} interface:
+As a \LibGr\ user have a look at the following methods of the \texttt{IAction} interface:
 \begin{csharplet}
 IMatches Match(IGraph graph, int maxMatches, IGraphElement[] parameters);
 IGraphElement[] Modify(IGraph graph, IMatch match);
@@ -385,7 +386,7 @@ for (int i = 0;  i < myMatches.NumMatches; i++)
 }
 \end{csharplet}
 
-Also notice that \indexed{graph rewrite sequence}s introduce a further variant of non-determinism on rule application level: 
+Also notice that graph rewrite \emph{sequences}\indexmain{graph rewrite sequence} introduce a further variant of non-determinism on rule application level: 
 The \indexed{\texttt{\$<op>}} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is non-deterministic. 
 See Section~\ref{grsthings} for further information on graph rewrite sequences.
 \end{note}
@@ -397,11 +398,12 @@ See Section~\ref{grsthings} for further information on graph rewrite sequences.
     'hom' '(' (Ident + ',') ')' ';' |
     'negative' lbrace (()+PatternStatement) rbrace |
     'if' lbrace (BooleanExpr ';' +) rbrace |
-    'return' '(' (Ident+',') ')' ';' ;
-\end{rail}\ixkeyw{hom}\ixkeyw{negative}\ixkeyw{if}\ixkeyw{return}\ixnterm{PatternStatement}
+    'return' '(' (Ident+',') ')' ';' |
+    ('dpo' | 'induced' | 'exact') '(' (Ident+',') ')';
+\end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{negative}\ixkeyw{if}\ixkeyw{return}\ixnterm{PatternStatement}
 The semantics of the various pattern statements are given below:
 \begin{description}
-  \item[Graphlet] \indexmain{graphlet}Graphlets specify connected subgraphs. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
+  \item[Graphlet] \indexmain{graphlet}Graphlets specify connected subgraphs. See Section~\ref{rulebb} for a detailed explanation of graphlets.
   \item[Isomorphic/Homomorphic Matching] \indexmain{isomorphic matching}\indexmain{homomorphic matching}The \texttt{hom} operator specifies the nodes or edges that may be matched homomorphically. 
   In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements must have a common subtype. 
   Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
@@ -427,21 +429,26 @@ pattern {
   }
 }
     \end{grgen}
+\TODO{What's this fucked up thing? Maybe also a bad example since we have exact...}
   \end{example}
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Return values] \indexmain{return value}The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See Section~\ref{replacepart}, \emph{Return Values}.
+  \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain an edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{dpo}, \texttt{induced}, and \texttt{exact} modifier. 
 \end{description}
-Keep in mind that using type constraints or the \texttt{typeof} operator can be helpful. See Section~\ref{typeexpressions} for further information.
+Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
+
+\subsection{Pattern Modifier}\indexmain{Modifier} 
+\label{sct:patternmodifier}
+\TODO{Explain dpo, induced, and exact}
 
 \section{Replace/Modify Part}\indexmain{replacement graph}
 \label{replacepart}
-For the task of rewriting, \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
+Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the \indexed{host graph}. 
+Such a \indexed{transformation specification} defines the transition from the \indexed{left hand side} (LHS) to the \indexed{right hand side} (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
 
 \subsection{Implicit Definition of the Preservation Morphism\indexmain{preservation morphism} $r$}
 \label{rule:morphismr}
-Besides specifying the pattern, a main task of a rule is to specify the transformation of a matched subgraph within the \indexed{host graph}. 
-The \indexed{transformation specification} defines the transition from the \indexed{left hand side} (LHS) to the \indexed{right hand side} (RHS), i.e.\ which graph elements of a match will be kept, which of them will be deleted and which graph elements have to be newly created.
-In theory this is done by defining the preservation morphism $r$.
+In theory the transformation specification is done by defining the preservation morphism $r$.
 \begin{figure}[htbp]
 	\centering
   \begin{tikzpicture}
@@ -466,7 +473,7 @@ In theory this is done by defining the preservation morphism $r$.
   \caption{Process of Graph Transformation}
   \label{rule:figrule}
 \end{figure}
-In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and replace graphlets (we don not need to care about the the differences of the replace part and the modify part at the moment).
+In \GrG\, the preservation morphism $r$ is defined implicitly by using \indexed{name}s both in pattern \indexed{graphlet}s and replace graphlets.
 Remember that to each of the graph elements a name is bound to, either user defined or internally defined. If such a name is used in a replace graphlet, the denoted graph element will be kept. 
 Otherwise the graph element will be deleted.
 By defining a name in a replace graphlet a corresponding graph element will be newly created.
@@ -493,9 +500,9 @@ If an incident node of an edge gets deleted, the edge will be deleted as well (i
 
 
 \subsection{Specification Modes for Graph Transformation}
-
+For the task of rewriting, \GrG\ provides two different modes: A \emph{replace mode} and a \emph{modify mode}.
 \begin{description}
-  \item[Replace mode] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (occur) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means that the name of a graph element occurs in a graphlet. Attribute calculations are no using occurrences.\\
+  \item[Replace mode] \indexmain{replace mode}The semantics of this mode is to delete every graph element of the pattern that is not used (occur) in the replace part, keep every graph element that is used, and create every additionally defined graph elements. ``Using'' means that the name of a graph element occurs in a replace graphlet. Attribute calculations are no using occurrences.\\
   In Example~\ref{ex:rule:someruleext} the nodes \texttt{varnode} and \texttt{n3} will be kept. The node \texttt{n1} is replaced by the node \texttt{n5} preserving \texttt{n1}'s edges. The anonymous edge instance between \texttt{n1} and \texttt{n2} only occurs in the pattern and therefore gets deleted.\\
 See Section~\ref{rule:morphismr} for a detailed explanation of the transformation semantics. 
   \item[Modify mode] The \indexed{modify mode} can be regarded as a replace part in replace mode, where every pattern graph element is added (occurs) before the first replace statement. 

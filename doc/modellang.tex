@@ -14,8 +14,6 @@ The key features of \GrG\ \emph{graph models}\indexmain{graph model} as describe
 \begin{example}\label{ex:model:map}
 The following toy example of a model of road maps gives a rough picture of the language:
 \begin{grgen}
-model Map;
-
 enum resident {village = 500, town = 5000, city = 50000}
 
 node class sight;
@@ -49,10 +47,10 @@ In this chapter as well as in chapter~\ref{chapgrshell} (\GrShell) we use excerp
 \begin{note}
 The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows through a diagram to get a valid sentence (or subsentence) of the language. Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see~\cite{MMJW:91}.
 \end{note}
-Basic elements of the \GrG\ graph model language are identifiers to denominate types, attributes, and the model itself. The \GrG\ graph model language is \indexed{case sensitive}.\\
+Basic elements of the \GrG\ graph model language are identifiers to denominate nodes, edges, and attributes. The model's name itself is given by its file name. The \GrG\ graph model language is \indexed{case sensitive}.\\
 \\
 \emph{Ident}, \emph{IdentDecl}\\ \indexmain{identifier}\nopagebreak
-A non-empty character sequence of arbitrary length consisting of letters, digits, or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal can be annotated\indexmain{annotation}. See Section~\ref{annotations} for annotations of declarations.
+A non-empty character sequence of arbitrary length consisting of letters, digits, or underscores. The first character must not be a digit. \emph{Ident} and \emph{IdentDecl} differ in their role: While \emph{IdentDecl} is a \emph{defining} occurrence of an identifier, \emph{Ident} is a \emph{using} occurrence. An \emph{IdentDecl} non-terminal may be annotated\indexmain{annotation}. See Section~\ref{annotations} for annotations of declarations.
 \begin{note}
 \label{note:modeldecl}
   The \GrG\ model language does not distinguish between \indexed{declaration}s and \indexed{definition}s. More precisely, every declaration is also a definition. For instance, the following C-like pseudo \GrG\ model language code is illegal:
@@ -72,14 +70,9 @@ These are (semantic) specializations of \emph{Ident} to restrict an identifier t
 \label{typedecl}
 
 \begin{rail}
-  GraphModel: 'model' IdentDecl ';' (() + TypeDeclaration);
-\end{rail}\ixkeyw{model}\ixnterm{GraphModel}
-The \indexed{graph model} consists of its name \emph{IdentDecl} and type declarations defining specific node and edge types as well as enums.
-
-\begin{rail}
-  TypeDeclaration: EnumDeclaration | ClassDeclaration
-\end{rail}\ixnterm{TypeDeclaration}
-\emph{ClassDeclaration} defines a node type or an edge type. \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
+  GraphModel: () + (ClassDeclaration | EnumDeclaration);
+\end{rail}\ixnterm{GraphModel}
+The \indexed{graph model} consists of zero or multiple type declarations. Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;

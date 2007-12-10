@@ -68,7 +68,8 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
 
 \section{System Overview}
 
-Figure~\ref{figsys} gives an overview of the \GrG\ system components. Table~\ref{dirstruc} shows the \GrG\ directory structure.
+Figure~\ref{figsys} gives an overview of the \GrG\ system components. 
+%Table~\ref{dirstruc} shows the \GrG\ directory structure.
 
 \begin{figure}[htbp]
   \centering
@@ -111,15 +112,17 @@ Figure~\ref{figsys} gives an overview of the \GrG\ system components. Table~\ref
   \caption{\GrG\ system components~\cite{Kro:07}}
   \label{figsys}
 \end{figure}
-\begin{table}[htbp]
-  \begin{tabularx}{\linewidth}{|lX|} \hline
-  bin & Contains the .NET assemblies, in particular \indexed{GrGen.exe} (the graph rewrite system generator), \indexed{lgspBackend.dll} (a \GrG\ backend), \indexed{LibGr.dll} (the backend API), and the shell \indexed{GrShell.exe}.  \\ 
-  lib & Contains the \GrG\ generated assemblies (*.dll). \\
-  specs & Contains the graph rewrite system source documents (*.gm and *.grg). \\ \hline
-  \end{tabularx}
-  \caption{\GrG\ directory structure}
-  \label{dirstruc}
-\end{table}
+% DELETED, "specs" and "lib" is not applicable any more
+%\begin{table}[htbp]
+%  \begin{tabularx}{\linewidth}{|lX|} \hline
+%  bin & Contains the .NET assemblies, in particular \indexed{GrGen.exe} (the graph rewrite system generator), \indexed{lgspBackend.dll} (a \GrG\ backend), \indexed{LibGr.dll} (the backend API), and the shell \indexed{GrShell.exe}.  \\ 
+%  lib & Contains the \GrG\ generated assemblies (*.dll). \\
+%  specs & Contains the graph rewrite system source documents (*.gm and *.grg). \\
+%  examples & 
+%  \end{tabularx}
+%  \caption{\GrG\ directory structure}
+%  \label{dirstruc}
+%\end{table}
 
 A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
 Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
@@ -141,9 +144,10 @@ Figure~\ref{process} shows the generation process.
           \node (mod)      at (15.5,2)  {rules1Model.dll};
       \end{scope}
          
-			\draw[|-|] (-1,-1.5)   -- (5.5, -1.5)    node[below, midway] {/specs};
-			\draw[|-|] (9,-1.5)    -- (11, -1.5)     node[below, midway] {/bin};
-			\draw[|-|] (14.5,-1.5) -- (16.5, -1.5)   node[below, midway] {/lib};
+			%not applicable any more
+			%\draw[|-|] (-1,-1.5)   -- (5.5, -1.5)    node[below, midway] {/specs};
+			%\draw[|-|] (9,-1.5)    -- (11, -1.5)     node[below, midway] {/bin};
+			%\draw[|-|] (14.5,-1.5) -- (16.5, -1.5)   node[below, midway] {/lib};
 
       \draw[->,line width=1pt,>=triangle 45]     (grg)     -> (gm1);
       \draw[->,line width=1pt,>=triangle 45]     (grg)     -> (gm2);
@@ -399,23 +403,32 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 
 \section{The Tools}
 
-All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license. Although \yComp\ is not free software, it's free for use in academic and non-commercial areas.
+All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. 
+Notice that the \yComp\ graph viewer is not a part of \GrG ; \yComp\ ships with its own license. 
+Although \yComp\ is not free software, it's free for use in academic and non-commercial areas.
+You'll find the tools in the \texttt{bin} subdirectory of your \GrG\ installation.
 
 \subsection{\texttt{\indexed{GrGen.exe}}}
-The \texttt{GrGen.exe} assembly implements the \GrG\ generator. The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies. The compiled assemblies interact with the \GrG\ backend.
+The \texttt{GrGen.exe} assembly implements the \GrG\ generator. 
+The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies.
+The compiled assemblies form a specific graph rewriting system by interacting with the \GrG\ backend.
 \begin{description}
-  \item[Usage] \texttt{[mono] GrGen.exe [-use <existing-dir>] [-keep] <rule-set> [<output-dir>]}\\
+  \item[Usage] \texttt{[mono] GrGen.exe [-keep [<dest-dir>]] [-use <existing-dir>]}\\
+\quad\texttt{[-debug] [-o <output-dir>] <rule-set>}\\ \TODO{Alignment}
     \emph{rule-set} is a file containing a rule set specification according to chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
-By default \GrG\ tries to write the compiled assemblies to the directory \texttt{../lib} relative to the path of \texttt{GrGen.exe}. This can be changed by the optional parameter \emph{output-dir}.
+By default \GrG\ tries to write the compiled assemblies into the same directory as the rule set file. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      \texttt{-keep} & Keep the generated C\# source files. A subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. This directory contains:
+      \texttt{-keep} & Keep the generated C\# source files. If \emph{dest-dir} is omitted, a subdirectory \texttt{tmpgrgen$n$}\footnote{$n$ is an increasing number.} within the current directory will be created. The destination directory contains:
 \begin{itemize}
   \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
-  \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
   \item \emph{Name}\texttt{Model.cs}---the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
+  \item \emph{Name}\texttt{Actions\_intermediate.cs}---a preliminary the C\# source file of the \emph{rule-set}'s actions assembly. This file is for internal debug purposes only.
+  \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
 \end{itemize}\\
-      \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.	
+      \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\	
+      \texttt{-debug} & Compile the assemblies with debug information.\\
+      \texttt{-o} & Store generated assemblies in \emph{output-dir}.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above). Java Runtime Environment 1.5 (or above).
 \end{description}
@@ -424,17 +437,17 @@ By default \GrG\ tries to write the compiled assemblies to the directory \texttt
 The \GrShell\indexmain{GrShell} is a shell application of the \LibGr. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing graph rewriting with graphical debug support. For further information about the \GrShell\ language see chapter~\ref{chapgrshell}.
 
 \begin{description}
-  \item[Usage] \texttt{[mono] grShell.exe [-c "<commands>" | <grshell-script>]}\\
-     Opens the interactive shell. The \GrShell\ will execute the commands in \emph{grshell-script}\indexmain{graph rewrite script} (usually a \texttt{*\indexed{.grs}} file) immediately.  
+  \item[Usage] \texttt{[mono] grShell.exe [-C "<commands>"] <grshell-script>*} \\
+     Opens the interactive shell. The \GrShell\ will include and execute the commands in the optional list of \emph{grshell-script}s\indexmain{graph rewrite script} (usually \texttt{*\indexed{.grs}} files) in the given order. The \texttt{grs} suffixes may be omitted. 
   \item[Options] \mbox{} 
     \begin{tabularx}{\linewidth}{lX}
-      \texttt{-c} & Execute the quoted \GrShell\ commands immediately. Instead of a line break use a double semicolon \texttt{;;} to separate commands.
+      \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above).
 \end{description}
 
 \subsection{\texttt{\indexed{LibGr.dll}}}
-The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions. 
+The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions at \url{http://www.info.uni-karlsruhe.de/software/grgen/doc/libGr/}. 
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}

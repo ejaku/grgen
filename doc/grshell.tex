@@ -1,6 +1,6 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
-
+\TODO{Explain the debugger in its own subsection, XGRS, new syntax}
 \GrShell\ is a \indexedsee{shell}{GrShell} application of \LibGr\indexmain{libGr}. 
 It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language. 
@@ -50,8 +50,6 @@ The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require t
 \label{persistentex} 
 We insert a node, \indexed{anonymous}ly and with a \indexed{constructor} (see also Section~\ref{mani}):
 \begin{grshell}
-> select backend lgspBackend.dll
-Backend selected successfully.
 > new graph "../lib/lgsp-TuringModel.dll" G
 New graph "G" of model "Turing" created.
   
@@ -94,13 +92,14 @@ Displays an information message describing supported commands.
 \begin{rail}
   'quit' | 'exit'
 \end{rail}\ixkeyw{quit}\ixkeyw{exit}
-Quits \GrShell. If \GrShell\ is opened in debug mode, currently active graph viewers (such as \yComp) will be closed as well.
+Quits \GrShell. If \GrShell\ is opened in debug mode, a currently active graph viewer (such as \yComp) will be closed as well.
 
 \begin{rail}
   'select' 'backend' Filename ( ( ) | ':' Parameters )
 \end{rail}\ixkeyw{select}\ixkeyw{backend}
 Selects a \indexed{backend} that handles graph and rule representation. \emph{Filename} has to be a .NET assembly (e.g.\ \texttt{\indexed{lgspBackend.dll}}).
-Comma-separated \indexed{parameter}s can be supplied optionally. If so, the backend must support these parameters.
+Comma-separated \indexed{parameter}s can be supplied optionally; if so, the backend must support these parameters.
+By default the LGSPBackend is used.
 
 \begin{rail}
   'show' 'backend'
