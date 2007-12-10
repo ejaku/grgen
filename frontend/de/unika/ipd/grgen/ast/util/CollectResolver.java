@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -28,30 +27,37 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
- * 
+ * A resolver that resolves a collection node 
+ * by applying its subresolver to all children of the collection node
  */
-public class CollectResolver extends Resolver {
+public class CollectResolver extends Resolver
+{
+	private Resolver subResolver;
 
-  private Resolver resolver;
-
-  public CollectResolver(Resolver resolver) {
-    this.resolver = resolver;
-  }
-
-	public boolean resolve(BaseNode node, int pos) {
-		boolean res = true;
-		
-		BaseNode c = node.getChild(pos);
-		if(c instanceof CollectNode) {
-			for(int i = 0; i < c.children(); i++)
-				if(!resolver.resolve(c, i))
-					res = false;
-		} else
-			reportError(node, "Expecting \"" + BaseNode.getName(CollectNode.class) 
-				+ "\", found \"" + c.getName() + "\" instead.");
-		
-		return res;
+	public CollectResolver(Resolver subResolver)
+	{
+		this.subResolver = subResolver;
 	}
 
+	public boolean resolve(BaseNode node, int pos)
+	{
+		BaseNode childToResolve = node.getChild(pos);
+		if(!(childToResolve instanceof CollectNode))
+		{
+			reportError(node, "Expecting \""
+				+ BaseNode.getName(CollectNode.class) + "\", found \""
+				+ childToResolve.getName() + "\" instead.");
+				// TODO: this case returns true but reports an error - wanted that way?
+			return true;
+		}
+
+		boolean res = true;
+		CollectNode collectNode = (CollectNode)childToResolve;
+		for (int i = 0; i < collectNode.children(); i++) {
+			if (!subResolver.resolve(collectNode, i)) {
+				res = false;
+			}
+		}
+		return res;
+	}
 }
-   

@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -27,28 +26,28 @@ package de.unika.ipd.grgen.ast.util;
 import de.unika.ipd.grgen.ast.BaseNode;
 
 /**
- * A resolver that always succeeds.
- * This resolver even succeeds, if the resolver passed as an argument 
- * to the constructor doesn't succeed. But the passed resolver is 
- * evaluated in any case, though.
- * This has the meaning of an optional resolver. If the passed resolver
- * resolves anything, then ok, else also.
+ * A resolver that applies its subresolver but always succeeds, even if the subresolver failed. 
+ * Thus the resolver makes the passed subresolver optional: fine if it succeeds, if not, too.
  */
-public class OptionalResolver extends OneOfResolver {
-
-	/** An "always succeed resolver. */
-  private static final Resolver alwaysSucceed = new Resolver() {
-		public boolean resolve(BaseNode node, int child) {
-			return true;
-		}
-	};
-
+public class OptionalResolver extends Resolver
+{
+	private Resolver subResolver;
+		
 	/**
-	 * Make a new optional resolver. 
+	 * Make a new optional resolver.
 	 * @param resolver The resolver, that is optional.
 	 */
-	public OptionalResolver(Resolver resolver) {
-		super(new Resolver[] { resolver, alwaysSucceed });
+	public OptionalResolver(Resolver subResolver)
+	{
+		this.subResolver = subResolver;
 	}
 	
+	/**
+	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode, int)
+	 */
+	public boolean resolve(BaseNode node, int child)
+	{
+		subResolver.resolve(node, child);
+		return true;
+	}
 }

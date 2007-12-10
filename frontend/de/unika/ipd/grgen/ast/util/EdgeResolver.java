@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -25,58 +24,38 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.EdgeDeclNode;
-import de.unika.ipd.grgen.ast.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
-import de.unika.ipd.grgen.ast.TypeNode;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Scope;
 
 /**
- * A resolver, that resolves the identifier in an edge node.
+ * A resolver, that resolves an identifier into it's edge node.
  */
-public class EdgeResolver extends IdentResolver {
+public class EdgeResolver extends IdentResolver
+{
+	private static final Class<?>[] edgeClass = { EdgeDeclNode.class };
 
-  private static final Class<?>[] edgeClass = {
-		EdgeDeclNode.class
-	};
-	
-	private Scope scope;
-
-	private Coords coords;
-	
-	public EdgeResolver(Scope scope, Coords coords) {
+	public EdgeResolver()
+	{
 		super(edgeClass);
-		this.scope = scope;
-		this.coords = coords;
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.util.IdentResolver#resolveIdent(de.unika.ipd.grgen.ast.IdentNode)
-   */
-  protected BaseNode resolveIdent(IdentNode n) {
-  	BaseNode d = n.getDecl();
-  	BaseNode res = BaseNode.getErrorNode();
-  	
-  	if(d instanceof TypeDeclNode) {
-  		TypeNode ty = (TypeNode) ((TypeDeclNode) d).getDeclType();
-  		if(ty instanceof EdgeTypeNode) {
-				System.out.println("here!!");
-  			// TODO Symbol.Definition def = scope.defineAnonymous("edge", coords);
-				//res = new EdgeDeclNode(new IdentNode(def), ty);
-  		} else
-  			reportError(n, "identifier \"" + n + "\" is expected to declare "
-  			  + "an edge type not a \"" + ty.getName() + "\"");
-  	} else if(d instanceof EdgeDeclNode) {
-			res = d;
-  	}
-  		
-  	else
-  		reportError(n, "edge or edge type expected");
-  	
-    return res;
-  }
+	/**
+	 * Get the resolved AST node for an Identifier.
+	 * Should be the corresponding AST edge declaration node.
+	 * used from / @see de.unika.ipd.grgen.ast.check.Resolver#resolve()
+	 */
+	protected BaseNode resolveIdent(IdentNode n)
+	{
+		DeclNode d = n.getDecl();
 
-
+		if (d instanceof EdgeDeclNode) {
+			return d;
+		} else {
+			assert(!(d instanceof TypeDeclNode));
+			reportError(n, "edge expected");
+			return BaseNode.getErrorNode();
+		}
+	}
 }

@@ -782,7 +782,6 @@ public abstract class BaseNode extends Base
 			if(!resolver.resolve(this, pos.intValue())) {
 				debug.report(NOTE, "resolve error");
 				local = false;
-				resolver.printErrors();
 			}
 		}
 		setResolved(local);

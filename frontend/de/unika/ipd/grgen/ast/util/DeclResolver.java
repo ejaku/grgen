@@ -29,15 +29,13 @@ import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.DeclNode;
 
 /**
- * A resolver, that resolves a declaration node from an identifier.
+ * A resolver, that resolves an identifier into it's declaration.
  */
 public class DeclResolver extends IdentResolver
 {
-	
 	/**
 	 * Make a new declaration resolver.
-	 * @param classes A list of classes, the resolved node must be
-	 * instance of.
+	 * @param classes An array of classes, the resolved node must be an instance of.
 	 */
 	public DeclResolver(Class<?>[] classes)
 	{
@@ -45,7 +43,8 @@ public class DeclResolver extends IdentResolver
 	}
 	
 	/**
-	 * Just a convenience constructor for {@link #DeclResolver(Class[])}
+	 * Make a new declaration resolver.
+	 * @param cls A class, the resolved node must be an instance of.
 	 */
 	public DeclResolver(Class<?> cls)
 	{
@@ -53,17 +52,20 @@ public class DeclResolver extends IdentResolver
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.check.Resolver#resolve()
+	 * Get the resolved AST node for an Identifier.
+	 * Should be the corresponding AST declaration node.
+	 * used from / @see de.unika.ipd.grgen.ast.check.Resolver#resolve()
 	 */
 	protected BaseNode resolveIdent(IdentNode n)
 	{
 		return n.getDecl();
 	}
-	
-	
+
+	/**
+	 * Get a default resolution if the resolving fails (error node).
+	 */
 	protected BaseNode getDefaultResolution()
 	{
 		return DeclNode.getInvalid();
 	}
-	
 }

@@ -87,7 +87,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		setChildrenNames(childrenNames);
 		addResolver(LEFT, nodeResolver);
 		addResolver(RIGHT, nodeResolver);
-		addResolver(EDGE, new EdgeResolver(getScope(), edge.getCoords()));
+		addResolver(EDGE, new EdgeResolver());
 	}
 	
 	/**

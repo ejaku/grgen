@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -24,43 +23,39 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-import java.util.LinkedList;
-import java.util.Collection;
-
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.util.Base;
 
 /**
  * something, that resolves a node to another node.
  */
-public abstract class Resolver extends Base {
-	
-	protected static class ErrorMessage {
-		
+public abstract class Resolver extends Base
+{
+	protected static class ErrorMessage
+	{
 		private BaseNode node;
-		
+
 		private String msg;
-		
+
 		private Resolver resolver;
-		
-		public ErrorMessage(Resolver resolver, BaseNode node, String msg) {
+
+		public ErrorMessage(Resolver resolver, BaseNode node, String msg)
+		{
 			this.resolver = resolver;
 			this.node = node;
 			this.msg = msg;
 		}
-		
-		public void print() {
+
+		public void print()
+		{
 			node.reportError(msg);
 		}
-		
-		public Resolver getResolver() {
+
+		public Resolver getResolver()
+		{
 			return resolver;
 		}
-		
 	}
-	
-	/** A collection holding all error messages, this resolver produced. */
-	private Collection<ErrorMessage> errorMessages = new LinkedList<ErrorMessage>();
 
 	/**
 	 * Resolve a node.
@@ -70,7 +65,7 @@ public abstract class Resolver extends Base {
 	 * @return true, if the resolving was successful, false, if not.
 	 */
 	public abstract boolean resolve(BaseNode node, int child);
-	
+
 	/**
 	 * Report an error during resolution.
 	 * Some resolvers might want to overwrite this method, so 
@@ -78,25 +73,8 @@ public abstract class Resolver extends Base {
 	 * @param node The node that caused the error.
 	 * @param msg The error message to be printed.
 	 */
-	protected void reportError(BaseNode node, String msg) {
+	protected void reportError(BaseNode node, String msg)
+	{
 		node.reportError(msg);
 	}
-	
-	/**
-	 * Set the place, where error messages are put to.
-	 * This can be used by resolvers, which call other resolvers to collect
-	 * the error messages of these subresolvers. 
-	 * @param c A collection, where objects instance of {@link ErrorMessage}
-	 * are inserted.
-	 */
-	protected final void setErrorQueue(Collection<ErrorMessage> c) {
-		errorMessages = c;
-	}
-	
-	/**
-	 * Print all error messages concerning this resolver.
-	 */
-	public void printErrors() {
-	}
-
 }

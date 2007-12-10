@@ -31,15 +31,14 @@ import de.unika.ipd.grgen.ast.BasicTypeNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 
 /**
- * Resolve the type of a type declaration.
+ * A resolver, that resolves an identifier into it's AST type node.
  */
 public class DeclTypeResolver extends IdentResolver
 {
-	
 	/**
-	 * Make a new type decl resolver.
-	 * @param classes An array of classes, the resolved node must be
-	 * instance of. E.g., If you have a declaration declaring an
+	 * Make a new type declaration resolver.
+	 * @param classes An array of classes, the resolved node must be an instance of.
+	 * Example: If you have a declaration declaring a
 	 * <code>BasicTypeNode</code> instance with "int", you can give
 	 * <code>new TypeNode[] { BasicTypeNode }</code> as an argument.
 	 */
@@ -49,9 +48,8 @@ public class DeclTypeResolver extends IdentResolver
 	}
 	
 	/**
-	 * A convenience function for {@link #DeclTypeResolver(Class[])}.
-	 * @param cls The class
-	 * @see #DeclTypeResolver(Class[]).
+ 	 * Make a new type declaration resolver.
+	 * @param cls A class, the resolved node must be an instance of.
 	 */
 	public DeclTypeResolver(Class<?> cls)
 	{
@@ -59,21 +57,19 @@ public class DeclTypeResolver extends IdentResolver
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.check.Resolver#doResolve(de.unika.ipd.grgen.ast.IdentNode)
+	 * Get the resolved AST node for an Identifier.
+	 * Should be the corresponding AST type node.
+	 * used from / @see de.unika.ipd.grgen.ast.check.Resolver#resolve()
 	 */
 	protected BaseNode resolveIdent(IdentNode n)
 	{
-		BaseNode decl = n.getDecl();
-		BaseNode res = BasicTypeNode.errorType;
+		DeclNode decl = n.getDecl();
 		
-		if(decl instanceof DeclNode) {
-			BaseNode t = ((DeclNode) decl).getDeclType();
-			if ( t instanceof TypeNode ) res = t;
+		if (decl.getDeclType() instanceof TypeNode ) {
+			return decl.getDeclType();
+		} else {
+			return n;
 		}
-		
-		if(res == BasicTypeNode.errorType) res = n;
-		
-		return res;
 	}
 	
 	protected BaseNode getDefaultResolution()
