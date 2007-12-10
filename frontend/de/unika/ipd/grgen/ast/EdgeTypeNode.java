@@ -34,38 +34,30 @@ import de.unika.ipd.grgen.ir.MemberInit;
 import java.util.Collection;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
-	
+
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
-	
-	private static final int EXTENDS = 0;
-	private static final int CAS = 1;
-	private static final int BODY = 2;
-	
+
+	private static final int CAS = 2;
+
 	private static final String[] childrenNames = {
-		"extends", "cas", "body"
+		"extends", "body", "cas"
 	};
-	
+
 	private static final Checker extendsChecker =
 		new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
-	
+
 	private static final Checker casChecker = // TODO use this
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
-	
-	private static final Checker bodyChecker =
-		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
-	
+
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
-	
+
 	private static final Resolver casResolver =
 		new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
-	
-	private static final Resolver bodyResolver =
-		new CollectResolver(new DeclTypeResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
-	
-	
+
+
 	/**
 	 * Make a new edge type node.
 	 * @param ext The collect node with all edge classes that this one extends.
@@ -74,16 +66,13 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 */
 	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body, int modifiers) {
-		super(BODY, bodyChecker, bodyResolver,
-			  EXTENDS, extendsChecker, extendsResolver);
-		addChild(ext);
+		super(ext, body, extendsChecker, extendsResolver);
 		addChild(cas);
-		addChild(body);
 		setChildrenNames(childrenNames);
 		addResolver(CAS, casResolver);
 		setModifiers(modifiers);
 	}
-	
+
 	/**
 	 * Get the edge type ir object.
 	 * @return The edge type ir object for this ast node.
@@ -91,41 +80,23 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	public EdgeType getEdgeType() {
 		return (EdgeType) checkIR(EdgeType.class);
 	}
-	public Collection<BaseNode> getDirectSuperTypes() {
-		return getChild(EXTENDS).getChildren();
-	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
 		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
-		
-		for(BaseNode n :  getChild(BODY).getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				et.addMember(decl.getEntity());
-			}
-			else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				et.addMemberInit((MemberInit)mi.getIR());
-			}
-		}
-		for(BaseNode n : getChild(EXTENDS).getChildren()) {
-			EdgeTypeNode etn = (EdgeTypeNode)n;
-			et.addDirectSuperType(etn.getEdgeType());
-		}
+
+		constructIR(et);
+
 		for(BaseNode n : getChild(CAS).getChildren()) {
 			ConnAssertNode can = (ConnAssertNode)n;
 			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
 		}
-		
-		// to check overwriting of attributes
-		Collection<Entity> allMembers = et.getAllMembers();
-		
+
 		return et;
 	}
-	
+
 	public static String getKindStr() {
 		return "edge type";
 	}

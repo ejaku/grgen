@@ -228,11 +228,11 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Add NACs required for the "dpo"-semantic.
-	 * 
+	 *
 	 * @param negs
 	 *            The collection for the NACs.
 	 * @param set
-	 *            The set of a all deleted entities. 
+	 *            The set of a all deleted entities.
 	 */
 	protected void addDpoNegGraphs(Collection<PatternGraph> ret,
 			Set<DeclNode> deletedEntities) {
@@ -319,7 +319,7 @@ public class PatternGraphNode extends GraphNode {
 		// get root node
 		BaseNode root = this;
 		while (!root.isRoot()) {
-			root = root.getParents().next();
+			root = root.getParents().iterator().next();
 		}
 
 		// find an edgeRoot-type and nodeRoot
@@ -411,7 +411,7 @@ public class PatternGraphNode extends GraphNode {
 		// get root node
 		BaseNode root = this;
 		while (!root.isRoot()) {
-			root = root.getParents().next();
+			root = root.getParents().iterator().next();
 		}
 
 		// find an edgeRoot-type

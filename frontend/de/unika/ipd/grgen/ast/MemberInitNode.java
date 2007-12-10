@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -53,14 +53,14 @@ public class MemberInitNode extends BaseNode {
 		super(coords);
 		addChild(member);
 		addChild(expr);
-		addResolver(LHS, new DeclResolver(DeclNode.class)); //Entity.class));
+		addResolver(LHS, new MemberInitResolver(DeclNode.class));
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
-		boolean lhsOk = checkChild(LHS, IdentNode.class);
+		boolean lhsOk = checkChild(LHS, DeclNode.class);
 		boolean rhsOk = checkChild(RHS, ExprNode.class);
 
 		return lhsOk && rhsOk;
@@ -74,7 +74,7 @@ public class MemberInitNode extends BaseNode {
 	protected boolean typeCheck() {
 		ExprNode expr = (ExprNode) getChild(RHS);
 
-		TypeNode targetType = (TypeNode) ((IdentNode) getChild(LHS)).getDecl().getDeclType();
+		TypeNode targetType = (TypeNode) ((DeclNode) getChild(LHS)).getDeclType();
 		TypeNode exprType = (TypeNode) expr.getType();
 
 		if (! exprType.isEqual(targetType)) {

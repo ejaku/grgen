@@ -24,77 +24,84 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
+import de.unika.ipd.grgen.ast.util.*;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.ir.NodeType;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
  * Base class for compound types, that allow inheritance.
  */
 public abstract class InheritanceTypeNode extends CompoundTypeNode {
-	
+
 	public static final int MOD_CONST = 1;
-	
+
 	public static final int MOD_ABSTRACT = 2;
-	
+
+	private static final int EXTENDS = 0;
+
+	private static final int BODY = 1;
+
+
+	private static final String[] childrenNames = {
+		"extends", "body"
+	};
+
+	private static final Checker bodyChecker =
+		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+
+	private static final Resolver bodyResolver =
+		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+
 	/**
 	 * The modifiers for this type.
 	 * An ORed combination of the constants above.
 	 */
 	private int modifiers = 0;
-	
-	/** Index of the inheritance types collect node. */
-	private final int inhIndex;
-	
-	/** The body index. */
-	private final int bodyIndex;
-	
+
 	/** The inheritance checker. */
 	private final Checker inhChecker;
-	
+
 	private static final Checker myInhChecker =
 		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
-	
+
 	/**
 	 * @param bodyIndex Index of the body collect node.
 	 * @param inhIndex Index of the inheritance types collect node.
 	 */
-	protected InheritanceTypeNode(int bodyIndex,
-								  Checker bodyChecker,
-								  Resolver bodyResolver,
-								  int inhIndex,
+	protected InheritanceTypeNode(CollectNode ext,
+								  CollectNode body,
 								  Checker inhChecker,
 								  Resolver inhResolver) {
-		
-		super(bodyIndex, bodyChecker, bodyResolver);
-		this.inhIndex = inhIndex;
+
+		super(BODY, bodyChecker, bodyResolver);
 		this.inhChecker = inhChecker;
-		this.bodyIndex = bodyIndex;
-		
-		addResolver(inhIndex, inhResolver);
+
+		addChild(ext);
+		addChild(body);
+
+		setChildrenNames(childrenNames);
+		addResolver(EXTENDS, inhResolver);
 	}
 
-	public boolean isA(InheritanceTypeNode type)
-	{
+	public boolean isA(InheritanceTypeNode type) {
 		if (
-			(this instanceof NodeTypeNode) && !(type instanceof NodeTypeNode)
+			   (this instanceof NodeTypeNode) && !(type instanceof NodeTypeNode)
 		) return false;
-		
+
 		if (
-			(this instanceof EdgeTypeNode) && !(type instanceof EdgeTypeNode)
+			   (this instanceof EdgeTypeNode) && !(type instanceof EdgeTypeNode)
 		) return false;
-		
+
 		Collection<BaseNode> superTypes = new HashSet<BaseNode>();
 		superTypes.add(this);
-		
+
 		boolean changed;
-		do
-		{
+		do {
 			changed = false;
 			if ( superTypes.contains(type) ) return true;
 			for (BaseNode x : superTypes) {
@@ -104,75 +111,98 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 			}
 		}
 		while (changed);
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
 	protected boolean check() {
 		return super.check()
-			&& checkChild(inhIndex, myInhChecker)
-			&& checkChild(inhIndex, inhChecker);
+			&& checkChild(EXTENDS, myInhChecker)
+			&& checkChild(EXTENDS, inhChecker);
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode)
 	 */
 	public boolean fixupDefinition(IdentNode id) {
 		boolean found = super.fixupDefinition(id, false);
-		
+
 		if(!found) {
-			
-			for(BaseNode n : getChild(inhIndex).getChildren()) {
+
+			for(BaseNode n : getChild(EXTENDS).getChildren()) {
 				InheritanceTypeNode t = (InheritanceTypeNode)n;
 				boolean result = t.fixupDefinition(id);
-				
+
 				if(found && result)
 					reportError("Identifier " + id + " is ambiguous");
-				
+
 				found = found || result;
 			}
 		}
-		
+
 		return found;
 	}
-	
+
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
-		for(BaseNode n : getChild(inhIndex).getChildren()) {
+		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			InheritanceTypeNode inh = (InheritanceTypeNode)n;
 			coll.add(inh);
 			inh.getCompatibleToTypes(coll);
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#doGetCastableToTypes(java.util.Collection)
 	 */
-/*	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
-		// TODO This is wrong!!!
-		for(BaseNode n : getChild(inhIndex).getChildren())
-			coll.add((TypeNode)n);
-	} */
+	/*	protected void doGetCastableToTypes(Collection<TypeNode> coll) {
+	 // TODO This is wrong!!!
+	 for(BaseNode n : getChild(inhIndex).getChildren())
+	 coll.add((TypeNode)n);
+	 } */
 
-	
+
 	public void setModifiers(int modifiers) {
 		this.modifiers = modifiers;
 	}
-	
+
 	public final boolean isAbstract() {
 		return (modifiers & MOD_ABSTRACT) != 0;
 	}
-	
+
 	public final boolean isConst() {
 		return (modifiers & MOD_CONST) != 0;
 	}
-	
+
 	protected final int getIRModifiers() {
 		return (isAbstract() ? InheritanceType.ABSTRACT : 0)
 			| (isConst() ? InheritanceType.CONST : 0);
 	}
-	
-	public abstract Collection<BaseNode> getDirectSuperTypes();
+
+
+	public Collection<BaseNode> getDirectSuperTypes() {
+		return getChild(EXTENDS).getChildren();
+	}
+
+	protected void constructIR(InheritanceType inhType) {
+		for(BaseNode n : getChild(BODY).getChildren()) {
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+				inhType.addMember(decl.getEntity());
+			}
+			else if(n instanceof MemberInitNode) {
+				MemberInitNode mi = (MemberInitNode)n;
+				inhType.addMemberInit((MemberInit)mi.getIR());
+			}
+		}
+		for(BaseNode n : getChild(EXTENDS).getChildren()) {
+			InheritanceTypeNode x = (InheritanceTypeNode)n;
+			inhType.addDirectSuperType((InheritanceType)x.getType());
+		}
+
+		// to check overwriting of attributes
+		inhType.getAllMembers();
+	}
 }

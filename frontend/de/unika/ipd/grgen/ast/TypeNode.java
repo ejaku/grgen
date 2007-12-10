@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -38,13 +38,13 @@ import java.util.Iterator;
  * Base class for all AST nodes representing types.
  */
 public abstract class TypeNode extends BaseNode {
-
+	
 	/**
 	 * A map, that maps each basic type to a set of all other basic types,
 	 * that are compatible to the type.
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap = new HashMap<TypeNode, HashSet<TypeNode>>();
-
+	
 	/**
 	 * A map, that maps each type to a set of all other types,
 	 * that are castable to the type.
@@ -72,17 +72,16 @@ public abstract class TypeNode extends BaseNode {
 	 * @return		the compatibility distance or -1 if no compatibility could
 	 * 				be found
 	 */
-	public int compatibilityDist(TypeNode type)
-	{
+	public int compatibilityDist(TypeNode type) {
 		if ( this.isEqual(type) ) return 0;
 		if ( this.isCompatibleTo(type) ) return 1;
-
+		
 		Collection<TypeNode> coll = new HashSet<TypeNode>();
 		this.getCompatibleToTypes(coll);
-
+		
 		for (TypeNode t : coll)
 			if (t.isCompatibleTo(type)) return 2;
-
+		
 		return -1;
 	}
 	
@@ -149,8 +148,7 @@ public abstract class TypeNode extends BaseNode {
 		doGetCompatibleToTypes(coll);
 	}
 	
-	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map, TypeNode index, TypeNode target)
-	{
+	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map, TypeNode index, TypeNode target) {
 		if(!map.containsKey(index))
 			map.put(index, new HashSet<TypeNode>());
 		
@@ -163,8 +161,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param a The first type.
 	 * @param b The second type.
 	 */
-	protected static void addCompatibility(TypeNode a, TypeNode b)
-	{
+	protected static void addCompatibility(TypeNode a, TypeNode b) {
 		addTypeToMap(compatibleMap, a, b);
 	}
 	
@@ -174,8 +171,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param b The second type.
 	 * @return true, if the two types are compatible.
 	 */
-	protected static boolean isCompatible(TypeNode a, TypeNode b)
-	{
+	protected static boolean isCompatible(TypeNode a, TypeNode b) {
 		boolean res = false;
 		
 		if(compatibleMap.containsKey(a)) {
@@ -186,11 +182,10 @@ public abstract class TypeNode extends BaseNode {
 		return res;
 	}
 	
-	public static void addCastability(TypeNode from, TypeNode to)
-	{
+	public static void addCastability(TypeNode from, TypeNode to) {
 		addTypeToMap(castableMap, from, to);
 	}
-
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
@@ -199,10 +194,10 @@ public abstract class TypeNode extends BaseNode {
 		
 		Collection<TypeNode> compat = compatibleMap.get(this);
 		if(compat != null) {
-			for(Iterator<TypeNode> it = compat.iterator(); it.hasNext();) {
-				BaseNode curNode = it.next();
-				debug.report(NOTE, "" + curNode.getName());
-			}
+			if (debug.willReport(NOTE))
+				for(BaseNode curNode :compat) {
+					debug.report(NOTE, "" + curNode.getName());
+				}
 			coll.addAll(compat);
 		}
 	}

@@ -317,8 +317,8 @@ public abstract class BaseNode extends Base
 	 * root node with immediately exhausting iterator.
 	 * @return Iterator over the parent nodes of this node.
 	 */
-	protected Iterator<BaseNode> getParents() {
-		return parents.iterator();
+	public Collection<BaseNode> getParents() {
+		return Collections.unmodifiableCollection(parents);
 	}
 
 	/**
