@@ -1,0 +1,17 @@
+new graph "lib\lgsp-induced3Model.dll" "Nice Graph"
+select actions "lib\lgsp-induced3Actions.dll"
+
+
+show num nodes
+show num edges
+xgrs init2
+show num nodes
+show num edges
+xgrs ?[inducedTest1]
+show num nodes
+show num edges
+xgrs ?[inducedTest2]
+show num nodes
+show num edges
+
+quit

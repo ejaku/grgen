@@ -113,15 +113,15 @@ public class PatternGraphNode extends GraphNode {
 			}
 
 			HashSet<DeclNode> hom_ents = new HashSet<DeclNode>();
-			for(BaseNode n : getHoms()) {
-				HomNode hom = (HomNode)n;
+			for (BaseNode n : getHoms()) {
+				HomNode hom = (HomNode) n;
 
-				for(BaseNode m : n.getChildren()) {
-					DeclNode decl = (DeclNode)m;
+				for (BaseNode m : n.getChildren()) {
+					DeclNode decl = (DeclNode) m;
 
-					if(hom_ents.contains(decl)) {
-						hom.reportError(m.toString() +
-								" is contained in multiple hom statements");
+					if (hom_ents.contains(decl)) {
+						hom.reportError(m.toString()
+								+ " is contained in multiple hom statements");
 						homcheck = false;
 					}
 				}
@@ -184,8 +184,8 @@ public class PatternGraphNode extends GraphNode {
 		for (GraphEntity e : gr.getEdges())
 			genTypeCondsFromTypeof(gr, e);
 
-		for(BaseNode n : getHoms()) {
-			HomNode hom = (HomNode)n;
+		for (BaseNode n : getHoms()) {
+			HomNode hom = (HomNode) n;
 			HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
 
 			for (BaseNode m : hom.getChildren()) {
@@ -353,9 +353,15 @@ public class PatternGraphNode extends GraphNode {
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
 
-			nodes.add(conn.getSrc());
-			if (conn.getTgt() != null) {
-				nodes.add(conn.getTgt());
+			NodeCharacter cand = conn.getSrc();
+			if (cand instanceof NodeDeclNode
+					&& !((NodeDeclNode) cand).isDummy()) {
+				nodes.add(cand);
+			}
+			cand = conn.getTgt();
+			if (cand != null && cand instanceof NodeDeclNode
+					&& !((NodeDeclNode) cand).isDummy()) {
+				nodes.add(cand);
 			}
 		}
 
@@ -381,8 +387,11 @@ public class PatternGraphNode extends GraphNode {
 				key.add(conn.getTgt());
 
 				PatternGraph neg = negMap.get(key);
-				conn.addToGraph(neg);
-				negMap.put(key, neg);
+				// neg == null for dangling edges
+				if (neg != null) {
+					conn.addToGraph(neg);
+					negMap.put(key, neg);
+				}
 			}
 		}
 

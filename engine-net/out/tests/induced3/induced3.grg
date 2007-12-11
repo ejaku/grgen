@@ -1,0 +1,56 @@
+rule init1
+{
+    pattern
+    {
+    }
+    replace
+    {
+        a:Node;
+        b:Node;
+        
+        a -e:Edge-> b;
+        a -f:Edge-> b;
+    }
+}
+
+rule init2
+{
+    pattern
+    {
+    }
+    replace
+    {
+        a:Node;
+        b:Node;
+        
+        a -e:Edge-> b;
+        a -f:Edge-> b;
+        a -g:Edge-> a;
+    }
+}
+
+rule inducedTest1
+{
+    induced pattern
+    {
+        a:Node;
+        
+        a -->;
+    }
+    replace
+    {
+    }    
+}
+
+rule inducedTest2
+{
+    induced pattern
+    {
+        a:Node;
+        
+        --> a;
+    }
+    replace
+    {
+    }    
+}
