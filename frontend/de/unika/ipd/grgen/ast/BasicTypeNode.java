@@ -35,7 +35,7 @@ import java.util.Map;
  * A basic type AST node such as string or int
  */
 public abstract class BasicTypeNode extends DeclaredTypeNode {
-	
+
 	/**
 	 * The string basic type.
 	 */
@@ -47,7 +47,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "string";
 		}
 	};
-	
+
 	/**
 	 * The type basic type.
 	 */
@@ -56,7 +56,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return new TypeType(getIdentNode().getIdent());
 		}
 	};
-	
+
 	/**
 	 * The integer basic type.
 	 */
@@ -68,7 +68,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "int";
 		}
 	};
-	
+
 	/**
 	 * The double precision floating point basic type.
 	 */
@@ -91,7 +91,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "float";
 		}
 	};
-	
+
 	/**
 	 * The boolean basic type.
 	 */
@@ -104,7 +104,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "boolean";
 		}
 	};
-	
+
 	/**
 	 * The object basic type.
 	 */
@@ -132,13 +132,19 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "void";
 		}
 	};
-	
+
 	/**
 	 * The error basic type. It is compatible to no other type.
 	 */
-	public static final TypeNode errorType = new TypeNode() {
+	private static class ErrorType extends TypeNode {
+		private IdentNode id;
+
+		public ErrorType(IdentNode id) {
+			this.id = id;
+			setCoords(id.getCoords());
+		}
 		protected IR constructIR() {
-			return new VoidType(IdentNode.getInvalid().getIdent());
+			return new VoidType(id.getIdent());
 		}
 		public String getUseString() {
 			return "error type";
@@ -147,20 +153,26 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "error type";
 		}
 	};
-	
+
+	public static final TypeNode errorType = new ErrorType(IdentNode.getInvalid());
+
+	public static TypeNode getErrorType(IdentNode id) {
+		return new ErrorType(id);
+	}
+
 	private static Object invalidValueType = new Object() {
 		public String toString() {
 			return "invalid value";
 		}
 	};
-	
+
 	/**
 	 * This map contains the value types of the basic types.
 	 * (BasicTypeNode -> Class)
 	 */
 	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
-	
-	
+
+
 	static {
 		setName(BasicTypeNode.class, "basic type");
 		setName(intType.getClass(), "int type");
@@ -173,7 +185,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		setName(voidType.getClass(), "void type");
 		setName(objectType.getClass(), "object type");
 		setName(errorType.getClass(), "error type");
-		
+
 		//no explicit cast required
 		addCompatibility(intType, floatType);
 		addCompatibility(intType, doubleType);
@@ -192,7 +204,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		addCastability(enumItemType, stringType);
 		addCastability(enumItemType, floatType);
 		addCastability(enumItemType, doubleType);
-		
+
 		valueMap.put(intType, Integer.class);
 		valueMap.put(floatType, Float.class);
 		valueMap.put(doubleType, Double.class);
@@ -200,12 +212,12 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		valueMap.put(stringType, String.class);
 		valueMap.put(enumItemType, Integer.class);
 		valueMap.put(objectType, ObjectTypeNode.Value.class);
-		
+
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
 //		addCompatibility(voidType, stringType);
 	}
-	
+
 	/**
 	 * This node may have no children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
@@ -213,18 +225,18 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	protected boolean check() {
 		return children() == 0;
 	}
-	
+
 	protected PrimitiveType getPrimitiveType() {
 		return (PrimitiveType) checkIR(PrimitiveType.class);
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#isBasic()
 	 */
 	public boolean isBasic() {
 		return true;
 	}
-	
+
 	/**
 	 * Return the Java class, that represents a value of a constant in this
 	 * type.
@@ -236,14 +248,14 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 		else
 			return valueMap.get(this);
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#isEqual(de.unika.ipd.grgen.ast.TypeNode)
 	 */
 	public boolean isEqual(TypeNode t) {
 		return t == this;
 	}
-	
+
 	public static String getKindStr() {
 		return "basic type";
 	}
