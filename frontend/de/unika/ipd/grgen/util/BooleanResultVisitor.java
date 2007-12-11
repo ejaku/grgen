@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -26,33 +25,36 @@ package de.unika.ipd.grgen.util;
 
 /**
  * A visitor that returns a boolean value.
- * They are occurring more often, so they're an own class. 
+ * They are occurring rather often, so they're an own class. 
  */
-public abstract class BooleanResultVisitor implements ResultVisitor {
-
+public abstract class BooleanResultVisitor implements ResultVisitor<Boolean>
+{
 	private boolean result;
 
-  /**
-   * Make a new one.
-   * @param def The value, the result is initialized.
-   */
-  public BooleanResultVisitor(boolean init) {
-  	result = init;
-  }
+	/**
+	 * Make a new one.
+	 * @param def The value, the result is initialized.
+	 */
+	public BooleanResultVisitor(boolean init)
+	{
+		result = init;
+	}
 
-	protected void setResult(boolean value) {
+	protected void setResult(boolean value)
+	{
 		result = value;
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.util.ResultVisitor#getResult()
-   */
-  public Object getResult() {
-  	return new Boolean(result);
-  }
-  
-  public boolean booleanResult() {
-  	return result;
-  }
+	/**
+	 * @see de.unika.ipd.grgen.util.ResultVisitor#getResult()
+	 */
+	public Boolean getResult()
+	{
+		return new Boolean(result);
+	}
 
+	public boolean booleanResult()
+	{
+		return result;
+	}
 }

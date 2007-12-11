@@ -46,18 +46,17 @@ public class GraphDumpVisitor extends Base implements Visitor {
 		this.dumper = dumper;
 	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
-   */
-  public void visit(Walkable n) {
-  	GraphDumpable gd = (GraphDumpable) n;
-		dumper.node(gd);
-		
-		int i = 0;
-		for(GraphDumpable target : n.getWalkableChildren()) {
-			dumper.edge(gd, target, gd.getEdgeLabel(i));
-			i++;
+/**
+ * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
+ */
+public void visit(Walkable n) {
+	GraphDumpable gd = (GraphDumpable) n;
+	dumper.node(gd);
+			
+	int i = 0;
+	for(GraphDumpable target : n.getWalkableChildren()) {
+		dumper.edge(gd, target, gd.getEdgeLabel(i));
+		i++;
 		}
-  }
-
+	}
 }

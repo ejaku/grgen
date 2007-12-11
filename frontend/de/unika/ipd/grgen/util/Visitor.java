@@ -28,6 +28,7 @@ package de.unika.ipd.grgen.util;
 /**
  * A Visitor
  */
-public interface Visitor {
+public interface Visitor
+{
 	public abstract void visit(Walkable n);
 }

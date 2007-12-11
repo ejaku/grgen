@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 /**
  * @file PostWalker.java
  * @author shack
@@ -28,40 +27,50 @@ package de.unika.ipd.grgen.util;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
- * A walker calling visitors before descding to the children and after
- * returning from the descent.
+ * A walker calling visitors 
+ * pre before descending to the first child
+ * post after ascending from the last child.
  */
-public class PrePostWalker extends Base implements Walker {
+public class PrePostWalker extends Base implements Walker
+{
 	private Set<Walkable> visited;
 	private Visitor pre, post;
 
 	/**
-	 * @param pre Visitor called before descending to children
-	 * @param post Visitor called after returning from descend
+	 * Creates PrePostWalker
+	 * @param pre Visitor called before descending to the first child
+	 * @param post Visitor called after ascending from the last child
 	 */
-	public PrePostWalker(Visitor pre, Visitor post) {
+	public PrePostWalker(Visitor pre, Visitor post)
+	{
 		this.pre = pre;
 		this.post = post;
 		visited = new HashSet<Walkable>();
 	}
 
-	public void reset() {
+	public void reset()
+	{
 		visited.clear();
 	}
 
-	public void walk(Walkable node) {
-		int i = 0;
+	public void walk(Walkable node)
+	{
 
-		if(!visited.contains(node)) {
+		if (!visited.contains(node)) {
 			visited.add(node);
 
-			if (pre != null) pre.visit(node);
-			for(Walkable p : node.getWalkableChildren()) {
+			if (pre != null) {
+				pre.visit(node);
+			}
+			
+			for (Walkable p : node.getWalkableChildren()) {
 				walk(p);
 			}
-			if (post != null) post.visit(node);
+			
+			if (post != null) {
+				post.visit(node);
+			}
 		}
 	}
 }

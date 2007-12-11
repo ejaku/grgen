@@ -34,7 +34,7 @@ public interface Walkable {
 	
 	/**
 	 * Get the children of this object
-	 * All Objects in the iterator must also implement Walkable!
+	 * Note: BaseNode implements Walkable
 	 * @return The children
 	 */
 	public Collection<? extends BaseNode> getWalkableChildren();

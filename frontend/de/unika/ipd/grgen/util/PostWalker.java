@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author shack
@@ -25,17 +24,24 @@
 package de.unika.ipd.grgen.util;
 
 /**
- * Just a post walker 
+ * A walker calling a visitor after ascending from the last child
  */
-public class PostWalker extends PrePostWalker {
-
-  /**
-   * @param post The visitor to call after the descent
-   */
-  public PostWalker(Visitor post) {
-    super(new Visitor() {
-    	public void visit(Walkable w) {
-    	}
-    }, post);
-  }
+public class PostWalker extends PrePostWalker
+{
+	/**
+	 * Make a new post walker.
+	 * @param post The visitor to use after ascending from the last child of a node
+	 */
+	public PostWalker(Visitor post)
+	{
+		super(
+			new Visitor()
+			{
+				public void visit(Walkable w)
+				{
+				}
+			},
+			post
+		);
+	}
 }

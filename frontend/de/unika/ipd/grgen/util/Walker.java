@@ -25,9 +25,14 @@
 package de.unika.ipd.grgen.util;
 
 /**
- * A basic walker
+ * User interface of walkers, 
+ * walking over structures of walkable objects (i.e. containing walkable children)
  */
-public interface Walker {
+public interface Walker
+{
+	/** reset state of walk, i.e. forget about already visited children */
 	public abstract void reset();
+	
+	/** start walk on node w */
 	public abstract void walk(Walkable w);
 }

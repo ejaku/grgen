@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -25,19 +24,24 @@
 package de.unika.ipd.grgen.util;
 
 /**
- * Just a Pre Walker
+ * A walker calling a visitor before descending to the first child
  */
-public class PreWalker extends PrePostWalker {
-
+public class PreWalker extends PrePostWalker
+{
 	/**
 	 * Make a new pre walker.
-	 * @param v The visitor to use before descending to the children of a node.
+	 * @param pre The visitor to use before descending to the first child of a node.
 	 */
-	public PreWalker(Visitor v) {
-		super(v, new Visitor() {
-			public void visit(Walkable w) {
+	public PreWalker(Visitor pre)
+	{
+		super(
+			pre,
+			new Visitor()
+			{
+				public void visit(Walkable w)
+				{
+				}
 			}
-		});
+		);
 	}
-
 }
