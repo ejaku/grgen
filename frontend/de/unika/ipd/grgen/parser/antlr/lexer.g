@@ -34,13 +34,13 @@ header {
 	import java.io.FileInputStream;
 	import java.io.FileNotFoundException;
 	import java.io.File;
-	
+
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.util.report.*;
 	import de.unika.ipd.grgen.util.*;
 	import de.unika.ipd.grgen.Main;
-	
+
 	import antlr.*;
 
 }
@@ -48,43 +48,42 @@ header {
 class GRLexer extends Lexer;
 
 options {
-  charVocabulary = '\u0000'..'\u00FF';
+	charVocabulary = '\u0000'..'\u00FF';
 	testLiterals=false;    // don't automatically test for literals
 	k=8;                   // four characters of lookahead
 	codeGenBitsetTestThreshold=20;
-  exportVocab = GRBase;
-
+	exportVocab = GRBase;
 }
 
 tokens {
-  TEST = "test";
-  RULE = "rule";
-  CLASS = "class";
+  ABSTRACT = "abstract";
   ACTIONS = "actions";
-  USING = "using";
-  MODEL = "model";
-  NODE = "node";
-  EDGE = "edge";
-  INDUCED = "induced";
+  CLASS = "class";
+  COND = "if";
+  CONNECT = "connect";
+  CONST = "const";
+  DELETE = "delete";
   DPO = "dpo";
+  EDGE = "edge";
+  ENUM = "enum";
+  EVAL = "eval";
+  EXTENDS = "extends";
+  FALSE = "false";
+  HOM = "hom";
+  INDUCED = "induced";
+  MODEL = "model";
+  MODIFY = "modify";
+  NEGATIVE = "negative";
+  NODE = "node";
   PATTERN = "pattern";
   REPLACE = "replace";
-  NEGATIVE = "negative";
-  ENUM = "enum";
-  ABSTRACT = "abstract";
-  CONST = "const";
-  EXTENDS = "extends";
-  TRUE = "true";
-  FALSE = "false";
-  COND = "if";
-  EVAL = "eval";
-  TERM = "term";
-  CONNECT = "connect";
   RETURN = "return";
+  RULE = "rule";
+  TERM = "term";
+  TEST = "test";
+  TRUE = "true";
   TYPEOF = "typeof";
-  MODIFY = "modify";
-  DELETE = "delete";
-  HOM = "hom";
+  USING = "using";
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;
@@ -92,7 +91,7 @@ tokens {
 
 {
   GRParserEnvironment env;
-  
+
   void setEnv(GRParserEnvironment env) {
     this.env = env;
   }
@@ -194,7 +193,7 @@ ML_COMMENT
 		"*/"
 		{ $setType(Token.SKIP); }
   ;
-  
+
 NUMBER
    : ('0'..'9')+
    ( '.' ('0'..'9')*
@@ -204,11 +203,11 @@ NUMBER
    | { $setType(NUM_INTEGER); }
    )
    ;
-	
+
 NUM_HEX
 	: '0' 'x' ('0'..'9' | 'a' .. 'f' | 'A' .. 'F')+
 	;
-	
+
 protected
 ESC
 	:	'\\'
@@ -221,7 +220,7 @@ ESC
 		|	'\''
 		|	'\\')
 		;
-		
+
 STRING_LITERAL
 	:	'"' (ESC|~('"'|'\\'))* '"'
 	;
