@@ -44,8 +44,8 @@ import java.awt.Color;
  * AST root node is UnitNode.
  */
 public abstract class BaseNode extends Base
-	implements GraphDumpable, Walkable {
-
+	implements GraphDumpable, Walkable
+{
 	/**
 	 * AST global name map, that maps from Class to String.
 	 * Needed as in some situations only the class object itself is available
@@ -119,6 +119,35 @@ public abstract class BaseNode extends Base
 	private boolean kept = false;
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Make a new base node with given coordinates.
+	 * @param coords The coordinates of this node.
+	 */
+	protected BaseNode(Coords coords) {
+		this();
+		this.coords = coords;
+	}
+
+	/**
+	 * Make a new base node without a location.
+	 * It is assumed, that the location is set afterwards using
+	 * {@link #setLocation(Location)}.
+	 */
+	protected BaseNode() {
+		this.scope = currScope;
+	}
+
+	/**
+	 * Ordinary to string cast method
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return getName();
+	}
+
 	/**
 	 * Strip the package name from the class name.
 	 * @param cls The class.
@@ -127,14 +156,6 @@ public abstract class BaseNode extends Base
 	protected static String shortClassName(Class<?> cls) {
 		String s = cls.getName();
 		return s.substring(s.lastIndexOf('.') + 1);
-	}
-
-	/**
-	 * Gets an error node
-	 * @return an error node
-	 */
-	public static BaseNode getErrorNode() {
-		return NULL;
 	}
 
 	/**
@@ -160,202 +181,6 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * tells whether the node or edge of the pattern part, that is represented
-	 * by a base node, occurs in the replace/modify part again
-	 */
-	public final boolean isKept()
-	{
-		return kept;
-	}
-
-	/**
-	 * set whether the node or edge of the pattern part, that is represented
-	 * by a base node, occurs in the replace/modify part again
-	 */
-	public final void setKept(boolean x)
-	{
-		kept = x;
-	}
-
-	/**
-	 * Set a new current scope.
-	 * This function is called from the parser as new scopes are entered
-	 * or left.
-	 * @param scope The new current scope.
-	 */
-	public static void setCurrScope(Scope scope) {
-		currScope = scope;
-	}
-
-	/**
-	 * Enable or disable more verbose messages.
-	 * @param verbose If true, the AST classes generate slightly more verbose
-	 * error messages.
-	 */
-	public static void setVerbose(boolean verbose) {
-		verboseErrorMsg = verbose;
-	}
-
-	/**
-	 * Check the whole AST, starting with the given root.
-	 * @param node The root.
-	 * @return true, if every node in the AST is right, false, if not.
-	 */
-	public static final boolean checkAST(BaseNode node) {
-
-		BooleanResultVisitor visitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean res = n.getCheck();
-				if(!res)
-					setResult(false);
-			}
-		};
-
-		Walker w = new PostWalker(visitor);
-		w.walk(node);
-
-		return visitor.booleanResult();
-	}
-
-	/**
-	 * Resolve the whole AST, starting with the given root.
-	 * @param node The root.
-	 * @return true, if every node in the AST was resolved correctly, false, if not.
-	 */
-	public static final boolean resolveAST(BaseNode node) {
-
-		BooleanResultVisitor visitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean res = n.getResolve();
-				if(!res)
-					setResult(false);
-			}
-		};
-
-		Walker w = new PreWalker(visitor);
-		w.walk(node);
-
-		return visitor.booleanResult();
-	}
-
-	/**
-	 * Finish up the AST.
-	 * This method runs all resolvers, checks the AST and type checks it.
-	 * It should be called after complete AST construction from
-	 * the driver.
-	 * @param node The root node of the AST.
-	 * @return true, if everything went right, false, if not.
-	 */
-	public static final boolean manifestAST(BaseNode node) {
-
-		// Resolve visitor
-		final BooleanResultVisitor resolveVisitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean res = n.getResolve();
-				if(!res)
-					setResult(false);
-			}
-		};
-
-		// check and type check visitor
-		final BooleanResultVisitor checkVisitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean correctlyResolved = n.getResolve();
-				if(correctlyResolved) {
-					boolean childCheck = n.getCheck();
-					boolean typeCheck = false;
-					if(childCheck)
-						typeCheck = n.getTypeCheck();
-
-					if(!(childCheck && typeCheck))
-						setResult(false);
-				}
-			}
-		};
-
-		/*
-		Walker w = new PrePostWalker(resolveVisitor, null);
-		w.walk(node);
-		if (resolveVisitor.booleanResult() == false) return false;
-
-		w = new PrePostWalker(null, checkVisitor);
-		w.walk(node);
-		return checkVisitor.booleanResult();
-		 */
-
-		Walker w = new PrePostWalker(resolveVisitor, checkVisitor);
-		w.walk(node);
-		return resolveVisitor.booleanResult() && checkVisitor.booleanResult();
-	}
-
-	/**
-	 * Make a new base node with given coordinates.
-	 * @param coords The coordinates of this node.
-	 */
-	protected BaseNode(Coords coords) {
-		this();
-		this.coords = coords;
-	}
-
-	/**
-	 * Make a new base node without a location.
-	 * It is assumed, that the location is set afterwards using
-	 * {@link #setLocation(Location)}.
-	 */
-	protected BaseNode() {
-		this.scope = currScope;
-	}
-
-	/**
-	 * Get an iterator over the parent nodes of this node.
-	 * Mostly only one parent (syntax tree),
-	 * few nodes with multiple parents (syntax DAG),
-	 * root node with immediately exhausting iterator.
-	 * @return Iterator over the parent nodes of this node.
-	 */
-	public Collection<BaseNode> getParents() {
-		return Collections.unmodifiableCollection(parents);
-	}
-
-	/**
-	 * Check whether this AST node is a root node (i.e. it has no predecessors)
-	 * @return true, if it's a root node, false, if not.
-	 */
-	public boolean isRoot() {
-		return parents.isEmpty();
-	}
-
-	/**
-	 * Set the names of the children of this node.
-	 * By default the children names array is empty, so the number of
-	 * the child is used as its name.
-	 * @param names An array containing the names of the children.
-	 */
-	protected void setChildrenNames(String[] names) {
-		childrenNames = names;
-	}
-
-	/**
-	 * Get the coordinates within the source code of this node.
-	 * @return The coordinates.
-	 */
-	public Coords getCoords() {
-		return coords;
-	}
-
-	/**
-	 * Set the coordinates within the source code of this node.
-	 * @param coords The coordinates.
-	 */
-	public void setCoords(Coords coords) {
-		this.coords = coords;
-	}
-
-	/**
 	 * Get the name of this node.
 	 * @return The name
 	 */
@@ -368,6 +193,14 @@ public abstract class BaseNode extends Base
 
 		return name;
 	}
+	
+	/**
+	 * Set the name of the node.
+	 * @param name The new name.
+	 */
+	protected void setName(String name) {
+		names.put(getClass(), name);
+	}
 
 	public String getKindString() {
 		String res = "<unknown>";
@@ -375,7 +208,6 @@ public abstract class BaseNode extends Base
 		catch (Exception e) {}
 		return res;
 	}
-
 
 	/**
 	 * Get a string characterising the kind of this class, for example "base node".
@@ -400,21 +232,32 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Set the name of the node.
-	 * @param name The new name.
+	 * Gets an error node
+	 * @return an error node
 	 */
-	protected void setName(String name) {
-		names.put(getClass(), name);
+	public static BaseNode getErrorNode() {
+		return NULL;
 	}
 
 	/**
-	 * Get the scope of this AST node.
-	 * @return The scope in which the node was created.
+	 * Extra info for the node, that is used by {@link #getNodeInfo()}
+	 * to compose the node info.
+	 * @return extra info for the node (return null, if no extra info
+	 * shall be available).
 	 */
-	public Scope getScope() {
-		return scope;
+	protected String extraNodeInfo() {
+		return null;
 	}
 
+	/**
+	 * Enable or disable more verbose messages.
+	 * @param verbose If true, the AST classes generate slightly more verbose
+	 * error messages.
+	 */
+	public static void setVerbose(boolean verbose) {
+		verboseErrorMsg = verbose;
+	}
+	
 	/**
 	 * @return true, if this node is an error node
 	 */
@@ -431,9 +274,66 @@ public abstract class BaseNode extends Base
 		// error.error(getCoords(), "At " + getName() + ": " + msg + ".");
 		error.error(getCoords(), msg);
 	}
+	
 	public final void reportWarning(String msg)
 	{
 		error.warning(getCoords(), msg);
+	}
+
+	/**
+	 * Get the coordinates within the source code of this node.
+	 * @return The coordinates.
+	 */
+	public Coords getCoords() {
+		return coords;
+	}
+
+	/**
+	 * Set the coordinates within the source code of this node.
+	 * @param coords The coordinates.
+	 */
+	public void setCoords(Coords coords) {
+		this.coords = coords;
+	}
+	
+	/**
+	 * Get the scope of this AST node.
+	 * @return The scope in which the node was created.
+	 */
+	public Scope getScope() {
+		return scope;
+	}
+	
+	/**
+	 * Set a new current scope.
+	 * This function is called from the parser as new scopes are entered
+	 * or left.
+	 * @param scope The new current scope.
+	 */
+	public static void setCurrScope(Scope scope) {
+		currScope = scope;
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////
+// Children, Parents, AST structure handling
+//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The walkable children are the children of this node
+	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	 */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
+	/**
+	 * Set the names of the children of this node.
+	 * By default the children names array is empty, so the number of
+	 * the child is used as its name.
+	 * @param names An array containing the names of the children.
+	 */
+	protected void setChildrenNames(String[] names) {
+		childrenNames = names;
 	}
 
 	/**
@@ -508,6 +408,25 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
+	 * Check whether this AST node is a root node (i.e. it has no predecessors)
+	 * @return true, if it's a root node, false, if not.
+	 */
+	public boolean isRoot() {
+		return parents.isEmpty();
+	}
+
+	/**
+	 * Get an iterator over the parent nodes of this node.
+	 * Mostly only one parent (syntax tree),
+	 * few nodes with multiple parents (syntax DAG),
+	 * root node with immediately exhausting iterator.
+	 * @return Iterator over the parent nodes of this node.
+	 */
+	public Collection<BaseNode> getParents() {
+		return Collections.unmodifiableCollection(parents);
+	}
+
+	/**
 	 * Replace this node with another one.
 	 * This AST node gets replaced by another node in all its parents.
 	 * @param n The other node.
@@ -523,6 +442,142 @@ public abstract class BaseNode extends Base
 		}
 
 		return this;
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////
+// Resolving, Checking, Type Checking
+//////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Finish up the AST.
+	 * This method runs all resolvers, checks the AST and type checks it.
+	 * It should be called after complete AST construction from
+	 * the driver.
+	 * @param node The root node of the AST.
+	 * @return true, if everything went right, false, if not.
+	 */
+	public static final boolean manifestAST(BaseNode node) {
+
+		// Resolve visitor
+		final BooleanResultVisitor resolveVisitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean res = n.getResolve();
+				if(!res)
+					setResult(false);
+			}
+		};
+
+		// check and type check visitor
+		final BooleanResultVisitor checkVisitor = new BooleanResultVisitor(true) {
+			public void visit(Walkable w) {
+				BaseNode n = (BaseNode) w;
+				boolean correctlyResolved = n.getResolve();
+				if(correctlyResolved) {
+					boolean childCheck = n.getCheck();
+					boolean typeCheck = false;
+					if(childCheck)
+						typeCheck = n.getTypeCheck();
+
+					if(!(childCheck && typeCheck))
+						setResult(false);
+				}
+			}
+		};
+
+		Walker w = new PrePostWalker(resolveVisitor, checkVisitor);
+		w.walk(node);
+		return resolveVisitor.booleanResult() && checkVisitor.booleanResult();
+	}
+
+	/**
+	 * Resolve the identifier nodes.
+	 * For example, an identifier representing a declared type is replaced by
+	 * the declared type.
+	 *
+	 * This method calls all resolvers registered in this node.
+	 * A subclass can overload this method or change the registered resolvers
+	 * to apply another policy of resolution.
+	 *
+	 * @return true, if all resolvers finished their job and no error
+	 * occurred, false, if there was some error.
+	 */
+	protected boolean resolve() {
+		boolean local = true;
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+
+		for(Iterator<Integer> i = resolvers.keySet().iterator(); i.hasNext();) {
+			Integer pos = i.next();
+			Resolver resolver = resolvers.get(pos);
+
+			if(!resolver.resolve(this, pos.intValue())) {
+				debug.report(NOTE, "resolve error");
+				local = false;
+			}
+		}
+		setResolved(local);
+		return local;
+	}
+
+	/**
+	 * Get the result of the resolution.
+	 * If this node has already been resolved, then return the result of
+	 * that former resolution, if not, resolve it and store the result.
+	 * @return The result of the resolution. true, if everything went right,
+	 * false, if something went wrong.
+	 */
+	public final boolean getResolve() {
+		if(!resolved)
+			resolveResult = resolve();
+
+		return resolveResult;
+	}
+
+	/**
+	 * Mark this node as resolved and give the result of the resolution.
+	 * @param resolveResult The result of the resolution.
+	 */
+	protected final void setResolved(boolean resolveResult) {
+		resolved = true;
+		this.resolveResult = resolveResult;
+	}
+
+	/**
+	 * Check, if this node has been resolved already.
+	 * @return true, if this node has been resolved, false, if not.
+	 */
+	protected final boolean isResolved() {
+		return resolved;
+	}
+
+	/**
+	 * Assert, that the node has been resolved.
+	 * This function can be used in methods of subclasses of this one,
+	 * to mark that a resolution has to take place before the particular
+	 * method takes place.
+	 */
+	protected final void assertResolved() {
+		assert isResolved() : "This node has to be resolved first.";
+	}
+
+	/**
+	 * Set a resolver to this node.
+	 * If a resolver was already entered for a given position, it is
+	 * overwritten. This is sensible, since sub classes may need to
+	 * overwrite resolvers entered by superclasses.
+	 * @see #resolve()
+	 * @param pos Position at which to add the resolver.
+	 * @param r Resolver to add.
+	 */
+	protected final void setResolver(int pos, Resolver r) {
+		resolvers.put(new Integer(pos), r);
+	}
+
+	/**
+	 * Clear all resolvers in this node.
+	 */
+	protected final void clearResolvers() {
+		resolvers.clear();
 	}
 
 	/**
@@ -647,24 +702,55 @@ public abstract class BaseNode extends Base
 		return typeCheckResult;
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////
+// IR handling
+//////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
-	 * Extra info for the node, that is used by {@link #getNodeInfo()}
-	 * to compose the node info.
-	 * @return extra info for the node (return null, if no extra info
-	 * shall be available).
+	 * Get the IR object for this AST node.
+	 * This method gets the IR object, if it was already constructed.
+	 * If not, it calls {@link #constructIR()} to construct the
+	 * IR object and stores the result. This assures, that for each AST
+	 * node, {@link #constructIR()} is just called once.
+	 * @return The constructed/stored IR object.
 	 */
-	protected String extraNodeInfo() {
-		return null;
+	public final IR getIR() {
+		if(irObject == null)
+			irObject = constructIR();
+		return irObject;
 	}
 
 	/**
-	 * Ordinary to string cast method
-	 * @see java.lang.Object#toString()
+	 * Checks whether the IR object of this AST node is an instance of a certain
+	 * Class <code>cls</code>.
+	 * If it is not, an assertion is raised, else, the IR object
+	 * is returned.
+	 * @param cls The class to check the IR object for.
+	 * @return The IR object.
 	 */
-	public String toString() {
-		return getName();
+	public final IR checkIR(Class<? extends IR> cls) {
+		IR ir = getIR();
+
+		debug.report(NOTE, "checking ir object in \"" + getName()
+			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
+		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
+			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
+
+		return ir;
 	}
 
+	/**
+	 * Construct the IR object.
+	 * This method should never be called. It is used by {@link #getIR()}.
+	 * @return The constructed IR object.
+	 */
+	protected IR constructIR() {
+		return IR.getBad();
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////
+// graph dumping
+//////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor()
@@ -709,148 +795,26 @@ public abstract class BaseNode extends Base
 		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;
 	}
 
+//////////////////////////////////////////////////////////////////////////////////////////
+// misplaced stuff
+//////////////////////////////////////////////////////////////////////////////////////////
+		
 	/**
-	 * The walkable children are the children of this node
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
+	 * tells whether the node or edge of the pattern part, that is represented
+	 * by a base node, occurs in the replace/modify part again
 	 */
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return children;
+	public final boolean isKept()
+	{
+		return kept;
 	}
 
 	/**
-	 * Get the IR object for this AST node.
-	 * This method gets the IR object, if it was already constructed.
-	 * If not, it calls {@link #constructIR()} to construct the
-	 * IR object and stores the result. This assures, that for each AST
-	 * node, {@link #constructIR()} is just called once.
-	 * @return The constructed/stored IR object.
+	 * set whether the node or edge of the pattern part, that is represented
+	 * by a base node, occurs in the replace/modify part again
 	 */
-	public final IR getIR() {
-		if(irObject == null)
-			irObject = constructIR();
-		return irObject;
+	public final void setKept(boolean x)
+	{
+		kept = x;
 	}
-
-	/**
-	 * Checks whether the IR object of this AST node is an instance of a certain
-	 * Class <code>cls</code>.
-	 * If it is not, an assertion is raised, else, the IR object
-	 * is returned.
-	 * @param cls The class to check the IR object for.
-	 * @return The IR object.
-	 */
-	public final IR checkIR(Class<? extends IR> cls) {
-		IR ir = getIR();
-
-		debug.report(NOTE, "checking ir object in \"" + getName()
-			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
-		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
-			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
-
-		return ir;
-	}
-
-	/**
-	 * Construct the IR object.
-	 * This method should never be called. It is used by {@link #getIR()}.
-	 * @return The constructed IR object.
-	 */
-	protected IR constructIR() {
-		return IR.getBad();
-	}
-
-	/**
-	 * Resolve the identifier nodes.
-	 * For example, an identifier representing a declared type is replaced by
-	 * the declared type.
-	 *
-	 * This method calls all resolvers registered in this node.
-	 * A subclass can overload this method or change the registered resolvers
-	 * to apply another policy of resolution.
-	 *
-	 * @return true, if all resolvers finished their job and no error
-	 * occurred, false, if there was some error.
-	 */
-	protected boolean resolve() {
-		boolean local = true;
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-
-		for(Iterator<Integer> i = resolvers.keySet().iterator(); i.hasNext();) {
-			Integer pos = i.next();
-			Resolver resolver = resolvers.get(pos);
-
-			if(!resolver.resolve(this, pos.intValue())) {
-				debug.report(NOTE, "resolve error");
-				local = false;
-			}
-		}
-		setResolved(local);
-		return local;
-	}
-
-	/**
-	 * Get the result of the resolution.
-	 * If this node has already been resolved, then return the result of
-	 * that former resolution, if not, resolve it and store the result.
-	 * @return The result of the resolution. true, if everything went right,
-	 * false, if something went wrong.
-	 */
-	public final boolean getResolve() {
-		if(!resolved)
-			resolveResult = resolve();
-
-		return resolveResult;
-	}
-
-	/**
-	 * Mark this node as resolved and give the result of the resolution.
-	 * @param resolveResult The result of the resolution.
-	 */
-	protected final void setResolved(boolean resolveResult) {
-		resolved = true;
-		this.resolveResult = resolveResult;
-	}
-
-	/**
-	 * Check, if this node has been resolved already.
-	 * @return true, if this node has been resolved, false, if not.
-	 */
-	protected final boolean isResolved() {
-		return resolved;
-	}
-
-	/**
-	 * Assert, that the node has been resolved.
-	 * This function can be used in methods of subclasses of this one,
-	 * to mark that a resolution has to take place before the particular
-	 * method takes place.
-	 */
-	protected final void assertResolved() {
-		assert isResolved() : "This node has to be resolved first.";
-	}
-
-	/**
-	 * Set a resolver to this node.
-	 * If a resolver was already entered for a given position, it is
-	 * overwritten. This is sensible, since sub classes may need to
-	 * overwrite resolvers entered by superclasses.
-	 * @see #resolve()
-	 * @param pos Position at which to add the resolver.
-	 * @param r Resolver to add.
-	 */
-	protected final void setResolver(int pos, Resolver r) {
-		resolvers.put(new Integer(pos), r);
-	}
-
-	/**
-	 * Clear all resolvers in this node.
-	 */
-	protected final void clearResolvers() {
-		resolvers.clear();
-	}
-
 }
-
-
-
 
