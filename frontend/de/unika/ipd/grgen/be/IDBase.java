@@ -24,11 +24,11 @@
  * @author Sebastian Hack
  * @version $Id$
  */
+
 package de.unika.ipd.grgen.be;
 
-import de.unika.ipd.grgen.ir.*;
 import java.util.*;
-
+import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.util.Base;
 
 
@@ -36,24 +36,23 @@ import de.unika.ipd.grgen.util.Base;
  * Basic equipment for backends that treat node and edge types as IDs.
  */
 public abstract class IDBase extends Base implements IDTypeModel {
+	/** node type to type id map. (Type -> Integer) */
+	public final Map<NodeType, Integer> nodeTypeMap = new LinkedHashMap<NodeType, Integer>();
 
 	/** node type to type id map. (Type -> Integer) */
-	protected final Map<NodeType, Integer> nodeTypeMap = new LinkedHashMap<NodeType, Integer>();
-
-	/** node type to type id map. (Type -> Integer) */
-	protected final Map<EdgeType, Integer> edgeTypeMap = new LinkedHashMap<EdgeType, Integer>();
+	public final Map<EdgeType, Integer> edgeTypeMap = new LinkedHashMap<EdgeType, Integer>();
 
 	/** node attribute map. (Entity -> Integer) */
-	protected final Map<Entity, Integer> nodeAttrMap = new LinkedHashMap<Entity, Integer>();
+	public final Map<Entity, Integer> nodeAttrMap = new LinkedHashMap<Entity, Integer>();
 
 	/** node attribute map. (Entity -> Integer) */
-	protected final Map<Entity, Integer> edgeAttrMap = new LinkedHashMap<Entity, Integer>();
+	public final Map<Entity, Integer> edgeAttrMap = new LinkedHashMap<Entity, Integer>();
 
 	/** enum value map. (Enum -> Integer) */
-	protected final Map<EnumType, Integer> enumMap = new LinkedHashMap<EnumType, Integer>();
+	public final Map<EnumType, Integer> enumMap = new LinkedHashMap<EnumType, Integer>();
 
 	/** action map. (Action -> Integer) */
-	protected final Map<Action, Integer> actionMap = new LinkedHashMap<Action, Integer>();
+	public final Map<Action, Integer> actionMap = new LinkedHashMap<Action, Integer>();
 
 	private short[][] nodeTypeIsAMatrix;
 
@@ -242,6 +241,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	public final int getId(EdgeType et) {
 		return getTypeId(edgeTypeMap, et);
 	}
+
 	/**
 	 * @see de.unika.ipd.grgen.be.sql.TypeID#getId(de.unika.ipd.grgen.ir.NodeType)
 	 */
@@ -286,7 +286,6 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res;
 	}
 
-
 	/**
 	 * Compute all IDs.
 	 * @param unit The IR unit for ID computation.
@@ -305,5 +304,4 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		nodeTypeNames = makeNames(nodeTypeMap);
 		edgeTypeNames = makeNames(edgeTypeMap);
 	}
-
 }
