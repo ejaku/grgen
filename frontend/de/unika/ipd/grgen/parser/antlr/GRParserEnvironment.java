@@ -49,18 +49,18 @@ public class GRParserEnvironment extends ParserEnvironment {
 	private Stack<Parser> parsers = new Stack<Parser>();
 	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
 	private HashMap<String, Object> filesOnStack = new HashMap<String, Object>();
-	
+
 	/** The base directory of the specification or null for the current directory */
 	private File baseDir = null;
-	
+
 	public GRParserEnvironment(Sys system) {
 		super(system);
 	}
-	
+
     public void pushFile(File file) throws TokenStreamException {
 		if(baseDir != null)
 			file = new File(baseDir, file.getPath());
-		
+
 		String filePath = file.getPath();
 		if(filesOnStack.containsKey(filePath)) {
 			GRLexer curlexer = (GRLexer) selectors.peek().getCurrentStream();
@@ -73,12 +73,12 @@ public class GRParserEnvironment extends ParserEnvironment {
 
 		try {
     		FileInputStream stream = new FileInputStream(file);
-			GRLexer sublexer = new GRLexer(stream) {
+			GRLexer sublexer = new GRLexer(new BufferedInputStream(stream)) {
 				public void uponEOF() throws TokenStreamException {
 		            env.popFile();
 			    }
 			};
-			
+
 			sublexer.setTabSize(1);
 			sublexer.setEnv(this);
 			sublexer.setFilename(file.getPath());
@@ -90,13 +90,13 @@ public class GRParserEnvironment extends ParserEnvironment {
 			System.exit(1);
 	  	}
 	}
-    
+
     public void popFile() throws TokenStreamException {
     	GRLexer sublexer = (GRLexer) selectors.peek().pop();
 		filesOnStack.remove(sublexer.getFilename());
     	selectors.peek().retry();
 	}
-    
+
 	@Override
 	public String getFilename() {
 		String file = ((GRLexer)selectors.peek().getCurrentStream()).getFilename();
@@ -105,9 +105,9 @@ public class GRParserEnvironment extends ParserEnvironment {
 
     public BaseNode parseActions(File inputFile) {
 		BaseNode root = null;
-		
+
 		baseDir = inputFile.getParentFile();
-			
+
 		try {
 			TokenStreamSelector selector = new TokenStreamSelector();
 			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
@@ -116,44 +116,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 			mainLexer.setFilename(inputFile.getPath());
 			selector.select(mainLexer);
 			GRActionsParser parser = new GRActionsParser(selector);
-			
-			selectors.push(selector);
-			parsers.push(parser);
-			
-			try {
-				parser.setEnv(this);
-				root = parser.text();
-				hadError = hadError || parser.hadError();
-			}
-			catch(ANTLRException e) {
-				e.printStackTrace(System.err);
-				System.err.println("parser exception: " + e.getMessage());
-				System.exit(1);
-			}
-			
-			selectors.pop();
-			parsers.pop();
-		}
-		catch(FileNotFoundException e) {
-			System.err.println("input file not found: " + e.getMessage());
-			System.exit(1);
-		}
-		
-		return root;
-	}
-	
-    public BaseNode parseModel(File inputFile) {
-		BaseNode root = null;
-			
-		try {
-			TokenStreamSelector selector = new TokenStreamSelector();
-			GRLexer mainLexer = new GRLexer(new FileInputStream(inputFile));
-			mainLexer.setTabSize(1);
-			mainLexer.setEnv(this);
-			mainLexer.setFilename(inputFile.getPath());
-			selector.select(mainLexer);
-			GRTypeParser parser = new GRTypeParser(selector);
-			
+
 			selectors.push(selector);
 			parsers.push(parser);
 
@@ -167,7 +130,44 @@ public class GRParserEnvironment extends ParserEnvironment {
 				System.err.println("parser exception: " + e.getMessage());
 				System.exit(1);
 			}
-			
+
+			selectors.pop();
+			parsers.pop();
+		}
+		catch(FileNotFoundException e) {
+			System.err.println("input file not found: " + e.getMessage());
+			System.exit(1);
+		}
+
+		return root;
+	}
+
+    public BaseNode parseModel(File inputFile) {
+		BaseNode root = null;
+
+		try {
+			TokenStreamSelector selector = new TokenStreamSelector();
+			GRLexer mainLexer = new GRLexer(new BufferedInputStream(new FileInputStream(inputFile)));
+			mainLexer.setTabSize(1);
+			mainLexer.setEnv(this);
+			mainLexer.setFilename(inputFile.getPath());
+			selector.select(mainLexer);
+			GRTypeParser parser = new GRTypeParser(selector);
+
+			selectors.push(selector);
+			parsers.push(parser);
+
+			try {
+				parser.setEnv(this);
+				root = parser.text();
+				hadError = hadError || parser.hadError();
+			}
+			catch(ANTLRException e) {
+				e.printStackTrace(System.err);
+				System.err.println("parser exception: " + e.getMessage());
+				System.exit(1);
+			}
+
 			selectors.pop();
 			parsers.pop();
 		}
@@ -175,10 +175,10 @@ public class GRParserEnvironment extends ParserEnvironment {
 			System.err.println("cannot load graph model: " + e.getMessage());
 			System.exit(1);
 		}
-		
+
 		return root;
 	}
-	
+
 	public boolean hadError() {
 		return hadError;
 	}
