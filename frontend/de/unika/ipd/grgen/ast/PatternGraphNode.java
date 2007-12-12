@@ -236,13 +236,16 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	protected void addDpoNegGraphs(Collection<PatternGraph> ret,
 			Set<DeclNode> deletedEntities) {
-		Set<NodeCharacter> deletedNodes = new HashSet<NodeCharacter>();
+		Set<NodeCharacter> deletedNodes = new LinkedHashSet<NodeCharacter>();
 		// Map to a set of edges -> don't count edges twice
 		Map<NodeCharacter, Set<ConnectionNode>> negMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
 
 		for (DeclNode declNode : deletedEntities) {
 			if (declNode instanceof NodeCharacter) {
-				deletedNodes.add((NodeCharacter) declNode);
+				if (!(declNode instanceof NodeDeclNode)
+						|| !((NodeDeclNode) declNode).isDummy()) {
+					deletedNodes.add((NodeCharacter) declNode);
+				}
 			}
 		}
 

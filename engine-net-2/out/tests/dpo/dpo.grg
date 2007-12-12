@@ -60,6 +60,23 @@ rule init4
     }
 }
 
+rule init5
+{
+    pattern
+    {
+    }
+    replace
+    {
+        x:Node;
+        y:Node;
+        z:Node;
+                
+        x --> y;
+        x --> y;
+        y --> z;
+    }
+}
+
 rule deleteRightNode
 {
     dpo pattern
@@ -72,6 +89,32 @@ rule deleteRightNode
     replace
     {
         x;
+    }
+}
+
+rule deleteDanglingIncomingEdge
+{
+    dpo pattern
+    {
+        x:Node;
+        
+         --> x;
+    }
+    replace
+    {
+    }
+}
+
+rule deleteDanglingOutgoingEdge
+{
+    dpo pattern
+    {
+        x:Node;
+        
+        x --> ;
+    }
+    replace
+    {
     }
 }
 
