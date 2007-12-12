@@ -14,3 +14,29 @@ node class B extends A {
 	i2 = i3 / i2;
 }
 
+node class BB extends B {
+	i1 = 42;
+	f = f * f;
+	i4 : int = 43;
+	i2 = i3 / i2;
+}
+
+node class C extends B, BB;
+
+node class CC extends C {
+	i5 : int = 18;
+	i1 = i2 + i3 + i4 * i5;
+}
+
+edge class E1 {
+	i1 : int;
+}
+
+edge class E2 {
+	i2 : int;
+}
+
+edge class EE extends E1, E2 {
+	i1 = i2 + 42;
+}
+

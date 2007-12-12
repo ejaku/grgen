@@ -26,10 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
-import de.unika.ipd.grgen.ast.util.OneOfResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -114,6 +111,7 @@ public class MemberInitNode extends BaseNode {
 		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
 	}
 }
+
 
 
 

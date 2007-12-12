@@ -69,8 +69,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 		return n;
 	}
 
-	private static class InvalidDeclNode extends DeclNode {
-		public InvalidDeclNode(IdentNode id) {
+	public static class InvalidDeclNode extends DeclNode {
+		private InvalidDeclNode(IdentNode id) {
 			super(id, BasicTypeNode.getErrorType(id));
 		}
 

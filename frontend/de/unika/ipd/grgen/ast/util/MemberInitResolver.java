@@ -56,26 +56,58 @@ public class MemberInitResolver extends IdentResolver {
 	protected BaseNode resolveIdent(IdentNode n) {
 		DeclNode res = DeclNode.getInvalid();
 
-		System.out.println("resolveIdent:" + n);
-		System.out.println("resolveIdent getDecl():" + n.getDecl());
+		//System.out.println("resolveIdent:" + n);
+		//System.out.println("resolveIdent getDecl():" + n.getDecl());
 
-		ret:for(BaseNode p : n.getParents())
-			if(p instanceof MemberInitNode)
-				for(BaseNode p2 : p.getParents()) {
-					assert p2 instanceof CollectNode;
-					for(BaseNode p3 : p2.getParents()) {
-						InheritanceTypeNode typeNode = (InheritanceTypeNode)p3;
-						Map<String, DeclNode> allMembers = typeNode.getAllMembers();
-						res = allMembers.get(n.toString());
+		if(!(n.getDecl() instanceof DeclNode.InvalidDeclNode))
+			return n.getDecl();
 
-						if(res==null) {
-							error.error(n.getCoords(), "Undefined member " + n.toString() + " of "+ typeNode.getId());
-							res = DeclNode.getInvalid();
-						}
+		InheritanceTypeNode typeNode = (InheritanceTypeNode)n.getScope().getIdentNode().getDecl().getDeclType();
 
-						break ret;
-					}
-				}
+		//System.out.println("resolveIdent: (InheritanceTypeNode)n.getScope().getIdentNode().getDecl().getDeclType(): " + typeNode);
+
+		Map<String, DeclNode> allMembers = typeNode.getAllMembers();
+
+		//System.out.println("resolveIdent: allMembers: " + allMembers);
+
+		res = allMembers.get(n.toString());
+
+		//System.out.println("=== resolveIdent: res: " + res);
+
+		if(res==null) {
+			error.error(n.getCoords(), "Undefined member " + n.toString() + " of "+ typeNode.getDecl().getIdentNode());
+			res = DeclNode.getInvalid();
+		}
+		/*
+		 System.out.println("resolveIdent: n.getParents()" + n.getParents());
+
+		 ret:for(BaseNode p : n.getParents())
+		 if(p instanceof MemberInitNode)
+		 for(BaseNode p2 : p.getParents()) {
+		 System.out.println("resolveIdent: p.getParents()" + p.getParents());
+		 assert p2 instanceof CollectNode;
+		 for(BaseNode p3 : p2.getParents()) {
+		 InheritanceTypeNode typeNode = (InheritanceTypeNode)p3;
+
+		 System.out.println("resolveIdent: typeNode: " + typeNode);
+
+		 Map<String, DeclNode> allMembers = typeNode.getAllMembers();
+
+		 System.out.println("resolveIdent: allMembers: " + allMembers);
+
+		 res = allMembers.get(n.toString());
+
+		 System.out.println("=== resolveIdent: res: " + res);
+
+		 if(res==null) {
+		 error.error(n.getCoords(), "Undefined member " + n.toString() + " of "+ typeNode.getDecl().getIdentNode());
+		 res = DeclNode.getInvalid();
+		 }
+
+		 break ret;
+		 }
+		 }
+		 */
 		return res;
 	}
 
@@ -85,3 +117,4 @@ public class MemberInitResolver extends IdentResolver {
 	}
 
 }
+

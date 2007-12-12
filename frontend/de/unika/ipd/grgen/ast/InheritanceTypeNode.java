@@ -26,14 +26,13 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.*;
 
-import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.util.Base;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -71,7 +70,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	private static final Checker myInhChecker =
 		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
 
-	Map<String, DeclNode> allMembers = null;
+	/** Maps all member (attribute) names to their declarations. */
+	private Map<String, DeclNode> allMembers = null;
+
+	/** Contains all super types of this type (not including this itself) */
+	private Collection<InheritanceTypeNode> allSuperTypes = null;
 
 	/**
 	 * @param bodyIndex Index of the body collect node.
@@ -93,30 +96,23 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	}
 
 	public boolean isA(InheritanceTypeNode type) {
-		if (
-			   (this instanceof NodeTypeNode) && !(type instanceof NodeTypeNode)
-		) return false;
+		assert type != null;
+		return this==type || getAllSuperTypes().contains(type);
+	}
 
-		if (
-			   (this instanceof EdgeTypeNode) && !(type instanceof EdgeTypeNode)
-		) return false;
+	/**
+	 * Returns all super types of this type (not including this itself).
+	 */
+	public Collection<InheritanceTypeNode> getAllSuperTypes() {
+		if(allSuperTypes==null) {
+			allSuperTypes = new HashSet<InheritanceTypeNode>();
 
-		Collection<BaseNode> superTypes = new HashSet<BaseNode>();
-		superTypes.add(this);
-
-		boolean changed;
-		do {
-			changed = false;
-			if ( superTypes.contains(type) ) return true;
-			for (BaseNode x : superTypes) {
-				InheritanceTypeNode t = (InheritanceTypeNode) x;
-				Collection<BaseNode> dsts = t.getDirectSuperTypes();
-				changed = superTypes.addAll(dsts) || changed;
+			for(InheritanceTypeNode type : getDirectSuperTypes()) {
+				allSuperTypes.addAll(type.getAllSuperTypes());
+				allSuperTypes.add(type);
 			}
 		}
-		while (changed);
-
-		return false;
+		return allSuperTypes;
 	}
 
 	/**
@@ -124,6 +120,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 */
 	protected boolean check() {
 		getAllMembers();
+		getAllSuperTypes();
 		return super.check()
 			&& checkChild(EXTENDS, myInhChecker)
 			&& checkChild(EXTENDS, inhChecker);
@@ -177,8 +174,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	}
 
 
-	public Collection<BaseNode> getDirectSuperTypes() {
-		return getChild(EXTENDS).getChildren();
+	public Collection<InheritanceTypeNode> getDirectSuperTypes() {
+		return (Collection<InheritanceTypeNode>)(Collection)getChild(EXTENDS).getChildren();
 	}
 
 	private void getMembers(Map<String, DeclNode> members) {
@@ -200,16 +197,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 */
 	public Map<String, DeclNode> getAllMembers() {
 		if(allMembers==null) {
-
 			allMembers = new LinkedHashMap<String, DeclNode>();
 
-			// add the members of the supertype
-			Collection<TypeNode> allSuperOrSameTypes = new HashSet<TypeNode>();
-			getCastableToTypes(allSuperOrSameTypes);
-			//System.out.println("+++" + allSuperOrSameTypes);
-			for(TypeNode superType : allSuperOrSameTypes)
-					((InheritanceTypeNode)superType).getMembers(allMembers);
+			for(InheritanceTypeNode superType : getDirectSuperTypes())
+				allMembers.putAll(superType.getAllMembers());
+
+			getMembers(allMembers);
 		}
+		//System.out.println("+++++++ getAllSuperTypes: " + getAllSuperTypes());
+
 		return allMembers;
 	}
 
@@ -233,4 +229,5 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		inhType.getAllMembers();
 	}
 }
+
 

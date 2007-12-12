@@ -25,10 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
-import de.unika.ipd.grgen.ast.util.OneOfResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 
 /**
@@ -52,8 +49,7 @@ public class DeclExprNode extends ExprNode {
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
-		//setResolver(DECL, new MemberInitResolver(DeclNode.class));
-		setResolver(DECL, new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)}));
+		setResolver(DECL, new MemberInitResolver(MemberDeclNode.class));
 		addChild(declCharacter);
 	}
 
@@ -113,3 +109,4 @@ public class DeclExprNode extends ExprNode {
 
 
 }
+

@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -24,6 +24,7 @@
  */
 package de.unika.ipd.grgen.parser;
 
+import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.parser.Symbol.Definition;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.HashMap;
@@ -36,40 +37,40 @@ import java.util.Map;
  * A namespace.
  */
 public class Scope {
-	
+
 	/**
 	 * The id of this scope. It is basically the number of the child of
 	 * the super scope.
 	 */
 	private final int id;
-	
+
 	/** This scope's parent scope. */
 	private final Scope parent;
-	
+
 	/** The name of this scope. */
-	private final String name;
-	
+	private final IdentNode ident;
+
 	/** An error reporter for error reporting. */
 	private final ErrorReporter reporter;
-	
+
 	/** All definitions of this scope. Map from symbol to Symbol.Definition */
 	private final Map<Symbol, Symbol.Definition> defs = new HashMap<Symbol, Symbol.Definition>();
-	
+
 	/** A map for numbering of anonymous id's */
 	private final Map<String, Integer> anonIds = new HashMap<String, Integer>();
-	
+
 	/** The children scopes. */
 	private final List<Scope> childs = new LinkedList<Scope>();
-	
+
 	/**
 	 * A list of all occurrences without a definition in this scope.
 	 * Will be used to enter the proper definition in {@link #leaveScope()}
 	 */
 	private final List<Symbol.Occurrence> occFixup = new LinkedList<Symbol.Occurrence>();
-	
+
 	/** An invalid scope. */
-	private static final Scope INVALID = new Scope(null, -1, "<invalid>");
-	
+	private static final Scope INVALID = null;//new Scope(null, -1, new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("<invalid>", SymbolTable.getInvalid()))));
+
 	/**
 	 * Get an invalid scope.
 	 * @return An invalid scope.
@@ -77,7 +78,7 @@ public class Scope {
 	public static Scope getInvalid() {
 		return INVALID;
 	}
-	
+
 	/**
 	 * Make a new root scope.
 	 * This constructor may only used for initial root scopes.
@@ -87,23 +88,23 @@ public class Scope {
 		this.parent = null;
 		this.id = 0;
 		this.reporter = reporter;
-		this.name = "ROOT";
+		this.ident = null;//new IdentNode(new Definition(null, Coords.getBuiltin(), new Symbol("ROOT", SymbolTable.getInvalid())));
 	}
-	
+
 	/**
 	 * Internal constructor used by {@link #newScope(String)}.
 	 * @param parent The parent scope.
 	 * @param id The numeral id of this scope.
-	 * @param name The name of this scope (commonly this is the symbol's
-	 * string that opened the scope).
+	 * @param ident The ident node of this scope (commonly this is the ident
+	 * that opened the scope).
 	 */
-	private Scope(Scope parent, int id, String name) {
+	private Scope(Scope parent, int id, IdentNode ident) {
 		this.parent = parent;
 		this.id = id;
-		this.name = name;
+		this.ident = ident;
 		this.reporter = parent != null ? parent.reporter : null;
 	}
-	
+
 	/**
 	 * Checks, if a symbol has been defined in the current scope.
 	 * Subscopes are not considered.
@@ -114,7 +115,7 @@ public class Scope {
 	public boolean definedHere(Symbol sym) {
 		return getLocalDef(sym).isValid();
 	}
-	
+
 	/**
 	 * Checks, if a symbol is legally defined at this position.
 	 * First, it is checked, if the symbol has been  defined in this scope, if
@@ -126,7 +127,7 @@ public class Scope {
 	public boolean defined(Symbol sym) {
 		return getCurrDef(sym).isValid();
 	}
-	
+
 	/**
 	 * Returns the local definition of a symbol.
 	 * @param sym The symbol whose definition to get.
@@ -135,13 +136,13 @@ public class Scope {
 	 */
 	public Symbol.Definition getLocalDef(Symbol sym) {
 		Symbol.Definition res = Symbol.Definition.getInvalid();
-		
+
 		if(defs.containsKey(sym))
 			res = defs.get(sym);
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Get the current definition of a symbol.
 	 * @param symbol The symbol whose definition to get.
@@ -151,13 +152,13 @@ public class Scope {
 	 */
 	private Definition getCurrDef(Symbol symbol) {
 		Symbol.Definition def = getLocalDef(symbol);
-		
+
 		if(!(def.isValid() || isRoot()))
 			def = parent.getCurrDef(symbol);
-		
+
 		return def;
 	}
-	
+
 	/**
 	 * Signal the occurrence of a symbol.
 	 * The scope remembers the occurrence and enters the correct definition
@@ -172,10 +173,10 @@ public class Scope {
 	public Symbol.Occurrence occurs(Symbol sym, Coords coords) {
 		Symbol.Occurrence occ = sym.occurs(this, coords);
 		occFixup.add(occ);
-		
+
 		return occ;
 	}
-	
+
 	/**
 	 * Signal the definition of a symbol.
 	 * @param sym The symbol that is occurring as a definition.
@@ -184,7 +185,7 @@ public class Scope {
 	public Symbol.Definition define(Symbol sym) {
 		return define(sym, new Coords());
 	}
-	
+
 	/**
 	 * Signal the definition of a symbol.
 	 * This method should be called, if the parser encounters a symbol in
@@ -195,12 +196,12 @@ public class Scope {
 	 */
 	public Symbol.Definition define(Symbol sym, Coords coords) {
 		Symbol.Definition def = Symbol.Definition.getInvalid();
-		
+
 		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
 			reporter.error(coords, "Cannot redefine keyword \"" + sym + "\"");
 			def = Symbol.Definition.getInvalid();
 		} else {
-			
+
 			if(definedHere(sym)) {
 				def = getLocalDef(sym);
 				reporter.error(coords, "Symbol \"" + sym + "\" has already been "
@@ -214,10 +215,10 @@ public class Scope {
 				}
 			}
 		}
-		
+
 		return def;
 	}
-	
+
 	/**
 	 * Define an unique anonymous symbol in this scope.
 	 * Especially, this can also be done after parsing.
@@ -229,42 +230,42 @@ public class Scope {
 	 * unique in this scope.
 	 */
 	public Symbol.Definition defineAnonymous(String name, SymbolTable symTab,
-																					 Coords coords) {
+											 Coords coords) {
 		int currId = 0;
 		if(anonIds.containsKey(name))
 			currId = anonIds.get(name).intValue();
-		
+
 		anonIds.put(name, new Integer(currId + 1));
-		
+
 		return define(Symbol.makeAnonymous(name + currId, symTab), coords);
 	}
-	
+
 	/**
 	 * Enter a new subscope.
 	 * @param name The name of the new subscope.
 	 * @return The newly entered scope.
 	 */
-	public Scope newScope(String name) {
+	public Scope newScope(IdentNode name) {
 		Scope s = new Scope(this, childs.size(), name);
 		childs.add(s);
 		return s;
 	}
-	
+
 	/**
 	 * Leave a scope.
 	 * @return The parent scope of the one to leave.
 	 */
 	public Scope leaveScope() {
-		
+
 		// fixup all occurrences by entering the correct definition.
 		for(Iterator<Symbol.Occurrence> it = occFixup.iterator(); it.hasNext();) {
 			Symbol.Occurrence occ = it.next();
 			occ.def = getCurrDef(occ.symbol);
 		}
-		
+
 		return parent;
 	}
-	
+
 	/**
 	 * Check, if a scope is the root scope.
 	 * @return true, if the scope is the root scope, false, if not.
@@ -272,7 +273,7 @@ public class Scope {
 	public boolean isRoot() {
 		return parent == null;
 	}
-	
+
 	/**
 	 * Get the parent of the scope.
 	 * @return The parent of the scope, or null, if it is the root scope.
@@ -280,23 +281,32 @@ public class Scope {
 	public Scope getParent() {
 		return parent;
 	}
-	
+
 	public String getName() {
-		return name;
+		if(ident==null)
+			return "<ROOT>";
+		return ident.toString();
 	}
-	
+
+	/**
+	 * Returns the defining ident.
+	 */
+	public IdentNode getIdentNode() {
+		return ident;
+	}
+
 	public String getPath() {
 		String res = "";
 		if(!isRoot())
 			res = res + parent + ".";
-		return res + name;
+		return res + getName();
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return getName();
 	}
-    
+
 }

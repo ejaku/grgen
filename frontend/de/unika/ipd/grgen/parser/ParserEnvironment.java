@@ -56,43 +56,43 @@ import de.unika.ipd.grgen.ast.ExprNode;
 public abstract class ParserEnvironment extends Base {
 
 	public static final String MODEL_SUFFIX = ".gm";
-	
+
 	public static final Coords BUILTIN = new Coords(0, 0, "<builtin>");
-	
+
 	public static final int TYPES = 0;
 	public static final int ENTITIES = 1;
 	public static final int ACTIONS = 2;
-	
+
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),
 		new SymbolTable("entities"),
 		new SymbolTable("actions")
 	};
-	
+
 	private final ConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
-	
+
 	private final ConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
 
 	private final Scope rootScope;
-	
+
 	private Scope currScope;
-	
+
 	private final IdentNode nodeRoot;
-	
+
 	private final IdentNode edgeRoot;
-	
+
 	private final Sys system;
-	
+
 	private final ModelNode stdModel;
-	
+
 	private final Collection builtins = new LinkedList();
-	
+
 	/**
 	 * Make a new parser environment.
 	 */
 	public ParserEnvironment(Sys system) {
 		this.system = system;
-		
+
 		// Make the root scope
 		currScope = rootScope = new Scope(system.getErrorReporter());
 		BaseNode.setCurrScope(currScope);
@@ -110,21 +110,21 @@ public abstract class ParserEnvironment extends Base {
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"));
 		CollectNode stdModelChilds = new CollectNode();
 		stdModel.addChild(stdModelChilds);
-		
+
 		// The node type root
 		nodeRoot = predefineType(
 			"Node", new NodeTypeNode(new CollectNode(), new CollectNode(), 0));
-		
+
 		// The edge type root
 		edgeRoot = predefineType(
 			"Edge", new EdgeTypeNode(
 				new CollectNode(), new CollectNode(), new CollectNode(), 0
 			)
 		);
-		
+
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(edgeRoot);
-		
+
 		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
 		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
 		stdModelChilds.addChild(predefineType("boolean", BasicTypeNode.booleanType));
@@ -132,16 +132,16 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
 	}
-	
+
 	public ModelNode getStdModel() {
 		return stdModel;
 	}
-	
+
 	public File findModel(String modelName) {
 		File res = null;
 		File[] modelPaths = system.getModelPaths();
 		String modelFile = modelName + MODEL_SUFFIX;
-		
+
 		for(int i = 0; i < modelPaths.length; i++) {
 			File curr;
 			if(modelPaths[i].getPath().equals("."))
@@ -179,48 +179,44 @@ public abstract class ParserEnvironment extends Base {
 		id.setDecl(new TypeDeclNode(id, type));
 		return id;
 	}
-	
+
 	public Scope getCurrScope() {
 		return currScope;
 	}
-	
+
 	public void pushScope(IdentNode ident) {
-		pushScope(ident.toString());
-	}
-	
-	public void pushScope(String name) {
-		currScope = currScope.newScope(name);
+		currScope = currScope.newScope(ident);
 		BaseNode.setCurrScope(currScope);
 	}
-	
+
 	public void popScope() {
 		if(!currScope.isRoot())
 			currScope = currScope.leaveScope();
 		BaseNode.setCurrScope(currScope);
 	}
-	
+
 	public Symbol.Definition define(int symTab, String text, Coords coords) {
 		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
 		Symbol sym = symTabs[symTab].get(text);
 		return currScope.define(sym, coords);
 	}
-	
+
 	public IdentNode defineAnonymousEntity(String text, Coords coords) {
 		Symbol.Definition def = currScope.defineAnonymous(text, symTabs[ENTITIES], coords);
 		return new IdentNode(def);
 	}
-	
+
 	public Symbol.Occurrence occurs(int symTab, String text, Coords coords) {
 		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
 		Symbol sym = symTabs[symTab].get(text);
 		return currScope.occurs(sym, coords);
 	}
-	
+
 	public boolean test(int symTab, String text) {
 		assert symTab >= 0 && symTab < symTabs.length : "Illegal symbol table index";
 		return symTabs[symTab].test(text);
 	}
-	
+
 	/**
 	 * Get the node root identifier.
 	 * @return The node root type identifier.
@@ -228,7 +224,7 @@ public abstract class ParserEnvironment extends Base {
 	public IdentNode getNodeRoot() {
 		return nodeRoot;
 	}
-	
+
 	/**
 	 * Get the edge root identifier.
 	 * @return The edge root type identifier.
@@ -236,19 +232,19 @@ public abstract class ParserEnvironment extends Base {
 	public IdentNode getEdgeRoot() {
 		return edgeRoot;
 	}
-	
+
 	public BaseNode getOne() {
 		return one;
 	}
-	
+
 	public BaseNode getZero() {
 		return zero;
 	}
-	
+
 	public Sys getSystem() {
 		return system;
 	}
-	
+
 	/**
 	 * Get an initializer for an AST node.
 	 * This defaults to the error node.
@@ -260,9 +256,9 @@ public abstract class ParserEnvironment extends Base {
 	public ExprNode initExprNode() {
 		return ExprNode.getInvalid();
 	}
-	
+
 	private	NodeDeclNode dummyNodeDeclNode = null;
-	
+
 	public NodeDeclNode getDummyNodeDecl()
 	{
 		if ( dummyNodeDeclNode == null ) {
@@ -271,7 +267,7 @@ public abstract class ParserEnvironment extends Base {
 				this.getNodeRoot()
 			);
 		}
-		
+
 		return dummyNodeDeclNode;
 	}
 
@@ -283,23 +279,23 @@ public abstract class ParserEnvironment extends Base {
 	public IdentNode getDummyIdent() {
 		return IdentNode.getInvalid();
 	}
-	
+
 	public Attributes getEmptyAttributes()
 	{
 		return EmptyAttributes.get();
 	}
-	
+
 	public Coords getInvalidCoords()
 	{
 		return Coords.getInvalid();
 	}
-	
+
 	public abstract BaseNode parseActions(File inputFile);
 	public abstract BaseNode parseModel(File inputFile);
 	public abstract void pushFile(File inputFile) throws TokenStreamException;
 	public abstract void popFile() throws TokenStreamException;
 	public abstract String getFilename();
-	
+
 	public abstract boolean hadError();
 }
 

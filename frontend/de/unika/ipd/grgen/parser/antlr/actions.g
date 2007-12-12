@@ -34,13 +34,13 @@ header {
 	import java.io.FileInputStream;
 	import java.io.FileNotFoundException;
 	import java.io.File;
-		
+
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.util.report.*;
 	import de.unika.ipd.grgen.util.*;
 	import de.unika.ipd.grgen.Main;
-	
+
 	import antlr.*;
 }
 
@@ -77,7 +77,7 @@ text returns [ BaseNode main = env.initNode() ]
 				new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 		modelChilds.addChild(env.getStdModel());
 	}
-	
+
 	: (
 		( a:ACTIONS i:IDENT
 			{
@@ -101,7 +101,7 @@ text returns [ BaseNode main = env.initNode() ]
 			env.getCurrScope().leaveScope();
 		}
 	;
-	
+
 identList [ Collection<String> strings ]
 	: fid:IDENT { strings.add(fid.getText()); }
 		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
@@ -109,8 +109,8 @@ identList [ Collection<String> strings ]
 
 usingDecl [ CollectNode modelChilds ]
 	{ Collection<String> modelNames = new LinkedList<String>(); }
-	
-	: u:USING identList[modelNames] SEMI 
+
+	: u:USING identList[modelNames] SEMI
 		{
 			for(Iterator<String> it = modelNames.iterator(); it.hasNext();)
 			{
@@ -126,10 +126,10 @@ usingDecl [ CollectNode modelChilds ]
 			}
 		}
 	;
-	
+
 actionDecls returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode d; }
-	
+
 	: ( d=actionDecl { c.addChild(d); } )+
 	;
 
@@ -145,12 +145,12 @@ testDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode params, ret;
 		CollectNode negs = new CollectNode();
 	}
-	
+
 	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
 		pattern=patternPart[negs]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
-				res = id;		
+				res = id;
 			}
 		RBRACE! popScope!
 	;
@@ -165,13 +165,13 @@ ruleDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode eval = new CollectNode();
 		CollectNode dels = new CollectNode();
 	}
-	
+
 	: RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
 		left=patternPart[negs]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
-				res = id;	
+				res = id;
 			}
 		| right=modifyPart[eval,dels]
 			{
@@ -189,10 +189,10 @@ parameters returns [ CollectNode res = new CollectNode() ]
 
 paramList [ CollectNode params ]
 	{ BaseNode p; }
-	
+
 	: p=param { params.addChild(p); } ( COMMA p=param { params.addChild(p); } )*
 	;
-	
+
 param returns [ BaseNode res = env.initNode() ]
 //	{
 //		IdentNode id;
@@ -216,12 +216,12 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 
 patternPart [ CollectNode negs ] returns [ PatternGraphNode res = null ]
 	{ int mod=0; }
-	
+
 	: mod=patternModifiers p:PATTERN LBRACE!
 		res=patternBody[getCoords(p), negs, mod]
 		RBRACE!
 	;
-  
+
 replacePart [ CollectNode eval ] returns [ GraphNode res = null ]
 	: r:REPLACE LBRACE!
 		res=replaceBody[getCoords(r), eval]
@@ -239,14 +239,14 @@ evalPart [ CollectNode n ]
 		evalBody[n]
 		RBRACE
 	;
-	
+
 evalBody [ CollectNode n  ]
 	{ AssignNode a; }
-	
+
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
-	
-patternModifiers returns [ int res = 0 ] 
+
+patternModifiers returns [ int res = 0 ]
 	{ int mod = 0; }
 
 	: ( mod=patternModifier { res |= mod; } )*
@@ -266,7 +266,7 @@ patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphN
 		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, mod);
 		int negCounter = 0;
 	}
-	
+
 	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs] )*
 	;
 
@@ -282,23 +282,23 @@ patternStmt [ CollectNode conn, CollectNode cond,
 		CollectNode negsInNegs = new CollectNode();
 		newNegCount = negCount;
 	}
-	
+
 	: patConnections[conn] SEMI
 		// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
-	| p:NEGATIVE pushScopeStr[ "neg" + negCount ] LBRACE!
+	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE!
 		neg=patternBody[getCoords(p), negsInNegs, mod]
 			{
 				newNegCount = negCount + 1;
 				negs.addChild(neg);
 			}
-		RBRACE! popScope! 
+		RBRACE! popScope!
 			{
 				if(negsInNegs.children() != 0)
 					reportError(getCoords(p), "Nesting of negative parts not allowed");
 			}
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
 	| COND LBRACE
-		( e=expr[false] { cond.addChild(e); } SEMI )* 
+		( e=expr[false] { cond.addChild(e); } SEMI )*
 		RBRACE
 	| replaceReturns[returnz] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
@@ -311,7 +311,7 @@ patConnections [ CollectNode conn ]
 		NodeDeclNode dummyNode = env.getDummyNodeDecl();
 	}
 	:   ( e=patForwardEdgeOcc { forward=true; }
-		| e=patBackwardEdgeOcc { forward=false; } 
+		| e=patBackwardEdgeOcc { forward=false; }
 		)
 		( n=patNodeContinuation[conn]
 			{
@@ -324,7 +324,7 @@ patConnections [ CollectNode conn ]
 		|   /* both target and source of the edge <code>e</code> dangle */
 			{ conn.addChild(new ConnectionNode(dummyNode, e, dummyNode)); }
 		)
-	| n=patNodeOcc 
+	| n=patNodeOcc
 		( patEdgeContinuation[n, conn]
 		|   { conn.addChild(new SingleNodeConnNode(n)); }
 		)
@@ -339,13 +339,13 @@ patEdgeContinuation [ BaseNode left, CollectNode collect ]
 		BaseNode n,e;
 		boolean forward = true;
 	}
-	:   ( e=patForwardEdgeOcc { forward=true; } 
+	:   ( e=patForwardEdgeOcc { forward=true; }
 		| e=patBackwardEdgeOcc { forward=false; }
 		)
 		( n=patNodeContinuation[collect]
-			{ 
-				if (forward)		
-					collect.addChild(new ConnectionNode(left, e, n));	
+			{
+				if (forward)
+					collect.addChild(new ConnectionNode(left, e, n));
 				else
 					collect.addChild(new ConnectionNode(n, e, left));
 			}
@@ -373,7 +373,7 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 		Attributes attrs = env.getEmptyAttributes();
 		boolean hasAttrs = false;
 	}
-	
+
 	:   ( d:DOT
 			{
 				id = env.defineAnonymousEntity("node", getCoords(d));
@@ -382,7 +382,7 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 			( attrs=attributes { id.setAttributes(attrs); } )?
 		|   ( attrs=attributes { hasAttrs = true; } )?
 			c:COLON
-				( type=typeIdentUse ( constr=typeConstraint )? 
+				( type=typeIdentUse ( constr=typeConstraint )?
 				| TYPEOF LPAREN type=entIdentUse RPAREN
 				)
 					{
@@ -403,12 +403,12 @@ patNodeDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id, type;
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	
+
 	: id=entIdentDecl COLON
-		( type=typeIdentUse 
+		( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
-		( constr=typeConstraint )? 
+		( constr=typeConstraint )?
 			{ res = new NodeDeclNode(id, type, constr); }
 	;
 
@@ -417,7 +417,7 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 		BaseNode type = env.getEdgeRoot();
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	
+
 	: MINUS res=patEdgeDecl RARROW
 	| MINUS res=entIdentUse RARROW
 	| mm:DOUBLE_RARROW
@@ -432,7 +432,7 @@ patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 		BaseNode type = env.getEdgeRoot();
 		BaseNode constr = TypeExprNode.getEmpty();
 	}
-	
+
 	: LARROW res=patEdgeDecl MINUS
 	| LARROW res=entIdentUse MINUS
 	| mm:DOUBLE_LARROW
@@ -450,15 +450,15 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
 		Attributes attrs = env.getEmptyAttributes();
 		Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> atCo;
 	}
-	
+
 	:   ( id=entIdentDecl ( attrs=attributes { id.setAttributes(attrs); } )? COLON
-			( type=typeIdentUse 
+			( type=typeIdentUse
 			| TYPEOF LPAREN type=entIdentUse RPAREN
 			)
 				( constr=typeConstraint )?
 		| atCo=attributesWithCoords
 			( c:COLON
-				( type=typeIdentUse 
+				( type=typeIdentUse
 				| TYPEOF LPAREN type=entIdentUse RPAREN
 				)
 				( constr=typeConstraint )?
@@ -468,7 +468,7 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
 				{ id.setAttributes(atCo.first); }
 		| cc:COLON
 			( type=typeIdentUse
-			| TYPEOF LPAREN type=entIdentUse RPAREN 
+			| TYPEOF LPAREN type=entIdentUse RPAREN
 			)
 			( constr=typeConstraint )?
 				{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
@@ -484,10 +484,10 @@ homStatement returns [ HomNode res = null ]
 	{
 		IdentNode id;
 	}
-	
-	: h:HOM {res = new HomNode(getCoords(h)); } 
+
+	: h:HOM {res = new HomNode(getCoords(h)); }
 		LPAREN id=entIdentUse { res.addChild(id); }
-			(COMMA id=entIdentUse { res.addChild(id); } )* 
+			(COMMA id=entIdentUse { res.addChild(id); } )*
 		RPAREN
 	;
 
@@ -497,7 +497,7 @@ replaceBody [ Coords coords, CollectNode eval ] returns [ GraphNode res = null ]
 		CollectNode returnz = new CollectNode();
 		res = new GraphNode(coords, connections, returnz);
 	}
-	
+
 	: ( replaceStmt[coords, connections, returnz, eval] )*
 	;
 
@@ -513,7 +513,7 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ Graph
 		CollectNode returnz = new CollectNode();
 		res = new GraphNode(coords, connections, returnz);
 	}
-	
+
 	: ( modifyStmt[coords, connections, returnz, eval, dels] )*
 	;
 
@@ -554,7 +554,7 @@ replConnections [ CollectNode conn ]
 				{ conn.addChild(new ConnectionNode(dummyNode, e, dummyNode)); }
 			)
 	| n=replNodeOcc
-		( replEdgeContinuation[n, conn] 
+		( replEdgeContinuation[n, conn]
 		|   { conn.addChild(new SingleNodeConnNode(n)); }
 		)
 	;
@@ -568,12 +568,12 @@ replEdgeContinuation [ BaseNode left, CollectNode collect ]
 		BaseNode n,e;
 		boolean forward = true;
 	}
-	
+
 	:   ( e=replForwardEdgeOcc { forward=true; }
 		| e=replBackwardEdgeOcc { forward=false; }
 		)
 			( n=replNodeContinuation[collect]
-				{ 
+				{
 					if (forward)
 						collect.addChild(new ConnectionNode(left, e, n));
 					else
@@ -607,20 +607,20 @@ replAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 		IdentNode id = env.getDummyIdent();
 		IdentNode oldid = null;
 	}
-	
+
 	: d:DOT
 		{
 			id = env.defineAnonymousEntity("node", getCoords(d));
 			res = new NodeDeclNode(id, type);
 		}
-	| c:COLON 
-		( type=typeIdentUse 
+	| c:COLON
+		( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 		( LT oldid=entIdentUse GT )?
-			{ 
-				if(oldid==null) { 
+			{
+				if(oldid==null) {
 					res = new NodeDeclNode(id, type);
 				} else {
 					res = new NodeTypeChangeNode(id, type, oldid);
@@ -642,9 +642,9 @@ replNodeDecl returns [ BaseNode res = env.initNode() ]
 		( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
-		( LT oldid=entIdentUse GT )? 
-			{ 
-				if(oldid==null) { 
+		( LT oldid=entIdentUse GT )?
+			{
+				if(oldid==null) {
 					res = new NodeDeclNode(id, type);
 				} else {
 					res = new NodeTypeChangeNode(id, type, oldid);
@@ -654,9 +654,9 @@ replNodeDecl returns [ BaseNode res = env.initNode() ]
 
 replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
-	
+
 	: MINUS res=entIdentUse RARROW { res.setKept(true); }
-	| MINUS res=replEdgeDecl RARROW	
+	| MINUS res=replEdgeDecl RARROW
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
@@ -666,7 +666,7 @@ replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 
 replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
-	
+
 	: LARROW res=entIdentUse MINUS { res.setKept(true); }
 	| LARROW res=replEdgeDecl MINUS
 	| mm:DOUBLE_LARROW
@@ -681,8 +681,8 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
 		IdentNode id = env.getDummyIdent(), type, oldid = null;
 		boolean anonymous = false;
 	}
-	
-	:   ( id=entIdentDecl 
+
+	:   ( id=entIdentDecl
 		|   { anonymous = true; }
 		)
 		d:COLON
@@ -705,10 +705,10 @@ replaceReturns[CollectNode res]
 		IdentNode id;
 		boolean multipleReturns = ! res.getChildren().isEmpty();
 	}
-	
+
 	: r:RETURN
 		{
-			if ( multipleReturns )	
+			if ( multipleReturns )
 				reportError(getCoords(r), "multiple occurence of return statement in one rule");
 		}
 		LPAREN id=entIdentUse { if ( !multipleReturns ) res.addChild(id); }
@@ -721,8 +721,8 @@ deleteStmt[CollectNode res]
 	{
 		IdentNode id;
 	}
-	
-	: DELETE 
+
+	: DELETE
 		LPAREN id=entIdentUse { res.addChild(id); }
 		( COMMA id=entIdentUse { res.addChild(id); } )*
 		RPAREN
@@ -734,10 +734,10 @@ typeConstraint returns [ TypeExprNode constr = null ]
 
 typeAddExpr returns [ TypeExprNode res = null ]
 	{ IdentNode typeUse; TypeExprNode op; }
-	
+
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 		(t:PLUS op=typeUnaryExpr
-			{ res = new TypeExprNode(getCoords(t), TypeExprNode.UNION, res, op); } 
+			{ res = new TypeExprNode(getCoords(t), TypeExprNode.UNION, res, op); }
 		)*
 	;
 

@@ -28,29 +28,27 @@ import de.unika.ipd.grgen.ast.*;
 import de.unika.ipd.grgen.util.Util;
 
 /**
- * Base class for identifier resolvers, 
+ * Base class for identifier resolvers,
  * replacing an identifier node with it's corresponding declaration node.
- * Searching of the declaration occurs within the subclasses, 
+ * Searching of the declaration occurs within the subclasses,
  * which must overwrite resolveIdent for that purpose.
  */
-public abstract class IdentResolver extends Resolver
-{
+public abstract class IdentResolver extends Resolver {
 	/** The set of classes the resolved node must be an instance of */
 	private Class<?>[] classes;
-	
+
 	/** A string with names of the classes, which are expected. */
 	private String expectList;
-	
-	
+
+
 	/**
 	 * Make a new ident resolver.
 	 * @param classes An array of classes the resolved ident
 	 * must be an instance of.
 	 */
-	protected IdentResolver(Class<?>[] classes)
-	{
+	protected IdentResolver(Class<?>[] classes) {
 		this.classes = classes;
-		
+
 		try {
 			expectList = Util.getStrListWithOr(
 				classes, BaseNode.class, "getUseStr");
@@ -58,15 +56,14 @@ public abstract class IdentResolver extends Resolver
 		catch(Exception e) {
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode, int)
-	 * The function resolves an IdentNode into it's declaration node. 
-	 * If <code>n</code> at position <code>pos</code> is not an IdentNode, 
+	 * The function resolves an IdentNode into it's declaration node.
+	 * If <code>n</code> at position <code>pos</code> is not an IdentNode,
 	 * the method returns true and the node is considered as resolved.
 	 */
-	public boolean resolve(BaseNode n, int pos)
-	{
+	public boolean resolve(BaseNode n, int pos) {
 		assert pos < n.children() : "position exceeds children count";
 
 		debug.report(NOTE, "resolving position: " + pos);
@@ -81,7 +78,7 @@ public abstract class IdentResolver extends Resolver
 		IdentNode identNode = (IdentNode)childToResolve;
 		BaseNode get = resolveIdent(identNode);
 		debug.report(NOTE, "resolved to a: " + get.getName());
-			
+
 		// Check, if the class of the resolved node is one of the desired classes.
 		// If that's true, replace the desired node with the resolved one.
 		for(int i = 0; i < classes.length; i++) {
@@ -91,22 +88,21 @@ public abstract class IdentResolver extends Resolver
 				return true;
 			}
 		}
-		
+
 		// If not, replace with error node
 		reportError(identNode, "\"" + identNode + "\" is a " + get.getUseString() +
-				" but a " + expectList + " is expected");		
+						" but a " + expectList + " is expected");
 		n.replaceChild(pos, getDefaultResolution());
 		return false;
 	}
-	
+
 	/**
 	 * Get a default resolution if the resolving fails (error node).
 	 */
-	protected BaseNode getDefaultResolution()
-	{
+	protected BaseNode getDefaultResolution() {
 		return BaseNode.getErrorNode();
 	}
-	
+
 	/**
 	 * Get the resolved AST node for an Identifier.
 	 * This can be the declaration, the identifier occurs in, for example.
@@ -114,5 +110,6 @@ public abstract class IdentResolver extends Resolver
 	 * @param n The identifier.
 	 * @return The resolved AST node.
 	 */
-	protected abstract BaseNode resolveIdent(IdentNode n);	
+	protected abstract BaseNode resolveIdent(IdentNode n);
 }
+

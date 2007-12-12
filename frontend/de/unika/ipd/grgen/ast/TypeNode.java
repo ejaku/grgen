@@ -251,3 +251,4 @@ public abstract class TypeNode extends BaseNode {
 	}
 
 }
+
