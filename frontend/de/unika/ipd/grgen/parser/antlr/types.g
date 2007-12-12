@@ -34,13 +34,13 @@ header {
 	import java.io.FileInputStream;
 	import java.io.FileNotFoundException;
 	import java.io.File;
-		
+
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
 	import de.unika.ipd.grgen.util.report.*;
 	import de.unika.ipd.grgen.util.*;
 	import de.unika.ipd.grgen.Main;
-	
+
 	import antlr.*;
 }
 
@@ -57,7 +57,7 @@ options {
 	defaultErrorHandler = true;
 	buildAST = false;
 	importVocab = GRBase;
-	
+
 }
 
 text returns [ BaseNode model = env.initNode() ]
@@ -72,7 +72,7 @@ text returns [ BaseNode model = env.initNode() ]
 		env.define(ParserEnvironment.ENTITIES, modelName,
 		new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
-	
+
 	:   ( m:MODEL i:IDENT SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
@@ -82,10 +82,10 @@ text returns [ BaseNode model = env.initNode() ]
 				model.addChild(types);
 			}
 	;
-	
+
 typeDecls [ CollectNode types ]
 	{ IdentNode type; }
-	
+
 	: (type=typeDecl { types.addChild(type); } )*
 	;
 
@@ -96,16 +96,16 @@ typeDecl returns [ IdentNode res = env.getDummyIdent() ]
 
 classDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{ int mods = 0; }
-	
+
 	: mods=typeModifiers (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
 	;
 
 typeModifiers returns [ int res = 0; ]
 	{ int mod = 0; }
-	
+
 	: (mod=typeModifier { res |= mod; })*
 	;
-	
+
 typeModifier returns [ int res = 0; ]
 	: ABSTRACT { res |= InheritanceTypeNode.MOD_ABSTRACT; }
 	| CONST { res |= InheritanceTypeNode.MOD_CONST; }
@@ -118,41 +118,59 @@ typeModifier returns [ int res = 0; ]
 edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body, ext, cas;
-		body = null;
+		CollectNode body = null, ext, cas;
+		String externalName = null;
 	}
-	
-	: EDGE CLASS id=typeIdentDecl ext=edgeExtends[id] cas=connectAssertions pushScope[id]
-		(LBRACE! body=edgeClassBody RBRACE!
-		| SEMI
+
+	:	EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
+	  	ext=edgeExtends[id] cas=connectAssertions pushScope[id]
+		(
+			LBRACE! body=edgeClassBody RBRACE!
+		|	SEMI
 			{ body = new CollectNode(); }
 		)
-			{
-				EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers);
-				id.setDecl(new TypeDeclNode(id, et));
-				res = id;
-			}
+		{
+			EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers, externalName);
+			id.setDecl(new TypeDeclNode(id, et));
+			res = id;
+		}
 		popScope!
   ;
 
 nodeClassDecl![int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body, ext;
-		body = null;
+		CollectNode body = null, ext;
+		String externalName = null;
 	}
 
-	: NODE CLASS id=typeIdentDecl ext=nodeExtends[id] pushScope[id]
-		(LBRACE! body=nodeClassBody RBRACE!
-		| SEMI
+	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
+	  	ext=nodeExtends[id] pushScope[id]
+		(
+			LBRACE! body=nodeClassBody RBRACE!
+		|	SEMI
 			{ body = new CollectNode(); }
 		)
-			{
-				NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers);
-				id.setDecl(new TypeDeclNode(id, nt));
-				res = id;
-			}
+		{
+			NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers, externalName);
+			id.setDecl(new TypeDeclNode(id, nt));
+			res = id;
+		}
 		popScope!
+	;
+
+validIdent returns [ String id = "" ]
+	:	i:~GT
+		{
+			if(i.getType() != IDENT && !env.isKeyword(i.getText()))
+				throw new SemanticException(i.getText() + " is not a valid identifier",
+					getFilename(), i.getLine(), i.getColumn());
+		}
+	;
+
+fullQualIdent returns [ String id = "", id2 = "" ]
+	:	id=validIdent
+	 	(DOT id2=validIdent { id += "." + id2; })*
 	;
 
 connectAssertions returns [ CollectNode c = new CollectNode() ]
@@ -166,7 +184,7 @@ connectAssertion [ CollectNode c ]
 		IdentNode src, tgt;
 		BaseNode srcRange, tgtRange;
 	}
-	
+
 	: src=typeIdentUse srcRange=rangeSpec RARROW
 		tgt=typeIdentUse tgtRange=rangeSpec
 			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
@@ -182,7 +200,7 @@ edgeExtendsCont [ IdentNode clsId, CollectNode c ]
 		IdentNode e;
 		int extCount = 0;
 	}
-	
+
 	: e=typeIdentUse
 		{
 			if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
@@ -208,7 +226,7 @@ nodeExtends [ IdentNode clsId ] returns [ CollectNode c = new CollectNode() ]
 
 nodeExtendsCont [IdentNode clsId, CollectNode c ]
 	{ IdentNode n; }
-  
+
 	: n=typeIdentUse
 		{
 			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
@@ -229,34 +247,34 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode b;}
-	
+
 	:   (
 			(
-				b=basicDecl { c.addChild(b); } 
+				b=basicDecl { c.addChild(b); }
 				(
 					b=initExprDecl[((DeclNode)b).getIdentNode()] { c.addChild(b); }
 				)?
 			|
-				b=initExpr { c.addChild(b); } 
+				b=initExpr { c.addChild(b); }
 			) SEMI!
 		)*
 	;
 
 edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode b; }
-	
-	:   ( 
-			( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI! 
+
+	:   (
+			( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI!
 		)*
 	;
-	
+
 rangeSpec returns [ RangeSpecNode res = null ]
 	{
 		int lower = 0, upper = RangeSpecNode.UNBOUND;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
 		// TODO fix range to allow only [*], [+], [c:*], [c], [c:d]
 	}
-	
+
 	:   ( l:LBRACK { coords = getCoords(l); }
 			( ( STAR | PLUS { lower=1; } )
 			| lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
@@ -264,18 +282,18 @@ rangeSpec returns [ RangeSpecNode res = null ]
 		)?
 			{ res = new RangeSpecNode(coords, lower, upper); }
 	;
-	
+
 integerConst returns [ int value = 0 ]
 	: i:NUM_INTEGER
 		{ value = Integer.parseInt(i.getText()); }
 	;
-	
+
 enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
 		CollectNode c = new CollectNode();
 	}
-	
+
 	: ENUM id=typeIdentDecl pushScope[id]
 		LBRACE enumList[id, c]
 		{
@@ -292,11 +310,11 @@ enumList[ IdentNode enumType, CollectNode collect ]
 		int pos = 0;
 		BaseNode init;
 	}
-	
+
 	: init=enumItemDecl[enumType, collect, env.getZero(), pos++]
 		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
-	
+
 enumItemDecl [ IdentNode type, CollectNode coll, BaseNode defInit, int pos ]
 				returns [ BaseNode res = env.initNode() ]
 	{
@@ -304,7 +322,7 @@ enumItemDecl [ IdentNode type, CollectNode coll, BaseNode defInit, int pos ]
 		BaseNode init = null;
 		BaseNode value;
 	}
-	
+
 	: id=entIdentDecl
 		( ASSIGN init=expr[true] )? //'true' means that expr initializes an enum item
 			{
@@ -327,7 +345,7 @@ basicDecl returns [ MemberDeclNode res = null ]
 		IdentNode type;
 		MemberDeclNode decl;
 	}
-  
+
 	: id=entIdentDecl COLON! type=typeIdentUse
 		{
 			decl = new MemberDeclNode(id, type);
@@ -335,27 +353,28 @@ basicDecl returns [ MemberDeclNode res = null ]
 			res = decl;
 		}
 	;
-	
+
 initExpr returns [ MemberInitNode res = null ]
 	{
 		IdentNode id;
 		ExprNode e = env.initExprNode();
 	}
-  
+
 	: id=entIdentUse a:ASSIGN e=expr[false]
 		{
 			res = new MemberInitNode(getCoords(a), id, e);
 		}
 	;
-	
+
 initExprDecl[IdentNode id] returns [ MemberInitNode res = null ]
 	{
 		ExprNode e;
 	}
-  
+
 	: a:ASSIGN e=expr[false]
 		{
 			res = new MemberInitNode(getCoords(a), id, e);
 		}
 	;
+
 

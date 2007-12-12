@@ -25,14 +25,12 @@
 package de.unika.ipd.grgen.ir;
 
 import java.util.*;
-
 import de.unika.ipd.grgen.util.Base;
 
 /**
  * A IR class that represents types that inherit from other types.
  */
 public abstract class InheritanceType extends CompoundType {
-
 	public static final int ABSTRACT = 1;
 	public static final int CONST = 2;
 
@@ -59,17 +57,27 @@ public abstract class InheritanceType extends CompoundType {
 	private final int modifiers;
 
 	/**
-	 * @param name The name of the type.
-	 * @param ident The identifier, declaring this type;
+	 * The name of the external implementation of this type or null.
 	 */
-	protected InheritanceType(String name, Ident ident, int modifiers) {
+	private String externalName = null;
+
+
+	/**
+	 * @param name The name of the type.
+	 * @param ident The identifier, declaring this type.
+	 * @param modifiers The modifiers for this type.
+	 * @param externalName The name of the external implementation of this type or null.
+	 */
+	protected InheritanceType(String name, Ident ident, int modifiers, String externalName) {
 		super(name, ident);
 		this.modifiers = modifiers;
+		this.externalName = externalName;
 		typeID = nextTypeID++;
 		inheritanceTypesByID.add(this);
 	}
 
 	/***
+	 * (Used in SearchPlanBackend2.java)
 	 * @return a unique type identifier starting with zero.
 	 */
 	public int getTypeID() {
@@ -235,6 +243,10 @@ public abstract class InheritanceType extends CompoundType {
 		}
 
 		return maxDist;
+	}
+
+	public final String getExternalName() {
+		return externalName;
 	}
 
 	/**

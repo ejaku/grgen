@@ -95,6 +95,14 @@ tokens {
   void setEnv(GRParserEnvironment env) {
     this.env = env;
   }
+
+  ANTLRHashString getHashString() {
+  	return hashString;
+  }
+
+  Hashtable getLiterals() {
+  	return literals;
+  }
 }
 
 

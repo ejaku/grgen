@@ -64,6 +64,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	 */
 	private int modifiers = 0;
 
+	/**
+	 * The name of the external implementation of this type or null.
+	 */
+	private String externalName = null;
+
 	/** The inheritance checker. */
 	private final Checker inhChecker;
 
@@ -173,6 +178,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 			| (isConst() ? InheritanceType.CONST : 0);
 	}
 
+	public void setExternalName(String extName) {
+		externalName = extName;
+	}
+
+	public final String getExternalName() {
+		return externalName;
+	}
 
 	public Collection<InheritanceTypeNode> getDirectSuperTypes() {
 		return (Collection<InheritanceTypeNode>)(Collection)getChild(EXTENDS).getChildren();

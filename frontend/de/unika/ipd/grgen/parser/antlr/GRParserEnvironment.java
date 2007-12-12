@@ -28,6 +28,7 @@
 package de.unika.ipd.grgen.parser.antlr;
 
 import antlr.ANTLRException;
+import antlr.ANTLRHashString;
 import antlr.Parser;
 import antlr.TokenStreamException;
 import antlr.TokenStreamSelector;
@@ -49,6 +50,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 	private Stack<Parser> parsers = new Stack<Parser>();
 	private Stack<TokenStreamSelector> selectors = new Stack<TokenStreamSelector>();
 	private HashMap<String, Object> filesOnStack = new HashMap<String, Object>();
+
+	private ANTLRHashString hashString;
 
 	/** The base directory of the specification or null for the current directory */
 	private File baseDir = null;
@@ -114,6 +117,8 @@ public class GRParserEnvironment extends ParserEnvironment {
 			mainLexer.setTabSize(1);
 			mainLexer.setEnv(this);
 			mainLexer.setFilename(inputFile.getPath());
+			hashString = mainLexer.getHashString();
+			literals = mainLexer.getLiterals();
 			selector.select(mainLexer);
 			GRActionsParser parser = new GRActionsParser(selector);
 
@@ -183,6 +188,9 @@ public class GRParserEnvironment extends ParserEnvironment {
 		return hadError;
 	}
 
+	public boolean isKeyword(String str) {
+		hashString.setString(str);
+		return literals.containsKey(hashString);
+	}
 }
-
 

@@ -25,22 +25,18 @@
  */
 package de.unika.ipd.grgen.be.Csharp;
 
-
-
-import de.unika.ipd.grgen.ir.*;
+import java.io.File;
+import java.io.PrintStream;
 import java.util.*;
-
+import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.IDBase;
 import de.unika.ipd.grgen.util.Util;
-import java.io.File;
-import java.io.PrintStream;
 
 public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactory {
-
 	/** The unit to generate code for. */
 	protected Unit unit;
 
@@ -1296,6 +1292,8 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private void genModelType(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
 		String typeName = formatIdentifiable(type);
 		String cname = formatNodeOrEdge(type) + "_" + typeName;
+		String extName = type.getExternalName();
+		String allocName = extName != null ? extName : cname;
 		String tname = formatType(type);
 		String iname = "I" + cname;
 		boolean isNode = type instanceof NodeType;
@@ -1312,8 +1310,11 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		genAttributeAccess(sb, type);
 		sb.append("\t}\n");
 
-		sb.append("\n"
-				+ "\tpublic sealed class " + cname + " : LGSP" + elemKind + ", " + iname + "\n"
+		if(extName == null)
+			sb.append("\n\tpublic sealed class ");
+		else
+			sb.append("\n\tpublic abstract class ");
+		sb.append(cname + " : LGSP" + elemKind + ", " + iname + "\n"
 				+ "\t{\n"
 				+ "\t\tprivate static int poolLevel = 0;\n"
 				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
@@ -1335,14 +1336,13 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		}
 		sb.append("\t\t}\n");
 
-//		sb.append("\t\tpublic Object Clone() { return MemberwiseClone(); }\n\n");
 		if(isNode) {
-			sb.append("\t\tpublic override INode Clone() { return new " + cname + "(this); }\n"
+			sb.append("\t\tpublic override INode Clone() { return new " + allocName + "(this); }\n"
 					+ "\t\tpublic static " + cname + " CreateNode(LGSPGraph graph)\n"
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " node;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
-					+ "\t\t\t\tnode = new " + cname + "();\n"
+					+ "\t\t\t\tnode = new " + allocName + "();\n"
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
@@ -1358,7 +1358,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " node;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
-					+ "\t\t\t\tnode = new " + cname + "();\n"
+					+ "\t\t\t\tnode = new " + allocName + "();\n"
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
@@ -1378,7 +1378,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " edge;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
-					+ "\t\t\t\tedge = new " + cname + "(source, target);\n"
+					+ "\t\t\t\tedge = new " + allocName + "(source, target);\n"
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
@@ -1394,7 +1394,7 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 					+ "\t\t{\n"
 					+ "\t\t\t" + cname + " edge;\n"
 					+ "\t\t\tif(poolLevel == 0)\n"
-					+ "\t\t\t\tedge = new " + cname + "(source, target);\n"
+					+ "\t\t\t\tedge = new " + allocName + "(source, target);\n"
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
@@ -1429,12 +1429,12 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 
 		if(isNode) {
-			sb.append("\t\tpublic override INode CreateNode() { return new " + cname + "(); }\n");
+			sb.append("\t\tpublic override INode CreateNode() { return new " + allocName + "(); }\n");
 		}
 		else {
 			sb.append("\t\tpublic override IEdge CreateEdge(INode source, INode target)\n"
 					+ "\t\t{\n"
-					+ "\t\t\treturn new " + cname + "((LGSPNode) source, (LGSPNode) target);\n"
+					+ "\t\t\treturn new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n"
 					+ "\t\t}\n");
 		}
 
@@ -1857,19 +1857,21 @@ public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactor
 	private void genCreateWithCopyCommons(StringBuffer sb, InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
 		String cname = formatClassType(type);
+		String extName = type.getExternalName();
+		String allocName = extName != null ? extName : cname;
 		String kindName = isNode ? "Node" : "Edge";
 
 		if(isNode) {
 			sb.append("\t\tpublic override INode CreateNodeWithCopyCommons(INode oldINode)\n"
 					+ "\t\t{\n"
 					+ "\t\t\tLGSPNode oldNode = (LGSPNode) oldINode;\n"
-					+ "\t\t\t" + cname + " newNode = new " + cname + "();\n");
+					+ "\t\t\t" + cname + " newNode = new " + allocName + "();\n");
 		}
 		else {
 			sb.append("\t\tpublic override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)\n"
 					+ "\t\t{\n"
 					+ "\t\t\tLGSPEdge oldEdge = (LGSPEdge) oldIEdge;\n"
-					+ "\t\t\t" + cname + " newEdge = new " + cname + "((LGSPNode) source, (LGSPNode) target);\n");
+					+ "\t\t\t" + cname + " newEdge = new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n");
 		}
 
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();

@@ -111,7 +111,3 @@ public class MemberInitNode extends BaseNode {
 		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
 	}
 }
-
-
-
-

@@ -36,11 +36,9 @@ import java.util.Collection;
  * A class representing a node type
  */
 public class NodeTypeNode extends InheritanceTypeNode {
-
 	static {
 		setName(NodeTypeNode.class, "node type");
 	}
-
 
 	private static final Checker extendsChecker =
 		new CollectChecker(new SimpleChecker(NodeTypeNode.class));
@@ -55,11 +53,14 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * by this type.
 	 * @param body the collect node with body declarations
 	 * @param modifiers Type modifiers for this type.
+	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers) {
+	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers,
+			String externalName) {
 		super(ext, body, extendsChecker, extendsResolver);
 
 		setModifiers(modifiers);
+		setExternalName(externalName);
 	}
 
 	/**
@@ -70,13 +71,13 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return (NodeType) checkIR(NodeType.class);
 	}
 
-
 	/**
 	 * Construct IR object for this AST node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
+		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(),
+				getIRModifiers(), getExternalName());
 
 		constructIR(nt);
 
@@ -91,5 +92,4 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return "node type";
 	}
 }
-
 

@@ -33,10 +33,10 @@ public class StreamHandler implements Handler {
 
 	/** The output stream */
 	private PrintStream stream;
-	
+
 	/** level of indentation */
 	private int indent;
-	
+
 	/**
 	 * Make a new stream report handler
 	 * @param stream The stream all messages shall go to.
@@ -45,12 +45,12 @@ public class StreamHandler implements Handler {
 		this.stream = stream;
 		indent = 0;
 	}
-	
+
 	private void doIndent() {
 		for(int i = 0; i < indent; i++)
 			stream.print("  ");
 	}
-	
+
 	/**
 	* @see de.unika.ipd.grgen.util.report.Handler#report(int, de.unika.ipd.grgen.util.report.Location, java.lang.String)
 	*/

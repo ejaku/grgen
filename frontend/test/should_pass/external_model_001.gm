@@ -1,0 +1,8 @@
+node class A {
+    val:int;
+}
+
+node class B<test.BImpl> extends A
+{
+    kartoffel:string;
+}

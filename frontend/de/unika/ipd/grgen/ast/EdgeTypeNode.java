@@ -61,16 +61,20 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	/**
 	 * Make a new edge type node.
 	 * @param ext The collect node with all edge classes that this one extends.
+	 * @param cas The collect node with all connection assertion of this type.
 	 * @param body The body of the type declaration. It consists of basic
 	 * declarations.
 	 * @param modifiers The modifiers for this type.
+	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body, int modifiers) {
+	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body,
+			int modifiers, String externalName) {
 		super(ext, body, extendsChecker, extendsResolver);
 		addChild(cas);
 		setChildrenNames(childrenNames);
 		setResolver(CAS, casResolver);
 		setModifiers(modifiers);
+		setExternalName(externalName);
 	}
 
 	/**
@@ -85,7 +89,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(), getIRModifiers());
+		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
+				getIRModifiers(), getExternalName());
 
 		constructIR(et);
 

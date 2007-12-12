@@ -29,18 +29,19 @@ import java.util.*;
  * An edge type.
  */
 public class EdgeType extends InheritanceType {
-	
 	/** The connection assertions. */
 	private final List<ConnAssert> connectionAsserts = new LinkedList<ConnAssert>();
-		
+
 	/**
 	 * Make a new edge type.
 	 * @param ident The identifier declaring this type.
+	 * @param modifiers The modifiers for this type.
+	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeType(Ident ident, int modifiers) {
-		super("edge type", ident, modifiers);
+	public EdgeType(Ident ident, int modifiers, String externalName) {
+		super("edge type", ident, modifiers, externalName);
 	}
-	
+
 	/**
 	 * Sorts the Connection assertion of this edge type, such that the
 	 * computed graph model digest is stable according to semantically
@@ -55,7 +56,7 @@ public class EdgeType extends InheritanceType {
 					}
 				});
 	}
-	
+
 	/**
 	 * Add a connection assertion to this edge type.
 	 * @param ca The connection assertion.
@@ -64,8 +65,6 @@ public class EdgeType extends InheritanceType {
 		connectionAsserts.add(ca);
 	}
 
-	
-	
 	/**
 	 * Get all connection assertions.
 	 * @return An iterator iterating over all connection assertions.
@@ -73,16 +72,15 @@ public class EdgeType extends InheritanceType {
 	public Collection<ConnAssert> getConnAsserts() {
 		return Collections.unmodifiableCollection(connectionAsserts);
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("conn_asserts", connectionAsserts.iterator());
 	}
-	
+
 	void addToDigest(StringBuffer sb) {
-		
 		super.addToDigest(sb);
-		
+
 		sb.append('[');
 		int i = 0;
 		for(Iterator<ConnAssert> it = connectionAsserts.iterator(); it.hasNext(); i++) {
