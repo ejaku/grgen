@@ -1,0 +1,20 @@
+node class A {
+	i1 : int = 42;
+	f  : float = 42.815f;
+	s  : string = "hello world";
+	i2 : int = i1 * (int)f;
+	f = 42.815f;
+	i2 = i1 * (int)f;
+}
+
+node class B extends A {
+	i1 = 42;
+	f = f * f;
+	i3 : int = 43;
+	i2 = i3 / i2;
+}
+
+node class BB extends A {
+	i1 : int = 55; //allready defined in A
+}
+
