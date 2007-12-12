@@ -26,7 +26,9 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.MemberExpression;
 
 /**
  * An expression that results from a declared identifier.
@@ -104,9 +106,11 @@ public class DeclExprNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		return getChild(DECL).getIR();
+		BaseNode decl = getChild(DECL);
+		if(decl instanceof MemberDeclNode)
+			return new MemberExpression((Entity)decl.getIR());
+		else
+			return getChild(DECL).getIR();
 	}
-
-
 }
 

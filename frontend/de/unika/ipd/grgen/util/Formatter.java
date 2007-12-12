@@ -9,7 +9,7 @@ package de.unika.ipd.grgen.util;
 import de.unika.ipd.grgen.ir.*;
 
 public class Formatter {
-	
+
 	/* binary operator symbols of the C-language */
 	// ATTENTION: the forst two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
@@ -19,13 +19,13 @@ public class Formatter {
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
 			"-", "*", "/", "%", "!", "~", "-", "(cast)"
 	};
-	
+
 	public static String formatConditionEval(Expression cond) {
 		StringBuffer sb = new StringBuffer();
 		formatConditionEvalAux(sb, cond);
 		return sb.toString();
 	}
-	
+
 	private static void formatConditionEvalAux(StringBuffer sb, Expression cond) {
 		if(cond instanceof Operator) {
 			Operator op = (Operator)cond;
@@ -57,7 +57,7 @@ public class Formatter {
 		else if(cond instanceof Qualification) {
 			Qualification qual = (Qualification)cond;
 			Entity entity = qual.getOwner();
-			
+
 			if(entity instanceof Node) {
 				sb.append(formatIdentifiable(entity) + "." + formatIdentifiable(qual.getMember()));
 			} else if (entity instanceof Edge) {
@@ -68,7 +68,7 @@ public class Formatter {
 		else if (cond instanceof Constant) { // gen C-code for constant expressions
 			Constant constant = (Constant) cond;
 			Type type = constant.getType();
-			
+
 			switch (type.classify()) {
 				case Type.IS_STRING: //emit C-code for string constants
 					sb.append("'" +constant.getValue() + "'");
@@ -84,9 +84,45 @@ public class Formatter {
 					sb.append(constant.getValue().toString()); /* this also applys to enum constants */
 			}
 		}
+		else if(cond instanceof EnumExpression) {
+			EnumExpression enumExp = (EnumExpression) cond;
+			sb.append("ENUM_" + enumExp.getType().getIdent().toString() + ".@" + enumExp.getEnumItem().toString());
+		}
+		else if(cond instanceof Typeof) {
+			Typeof to = (Typeof)cond;
+			sb.append(formatIdentifiable(to.getEntity()) + ".type");
+		}
+		else if(cond instanceof Cast) {
+			Cast cast = (Cast) cond;
+			Type type = cast.getType();
+
+			if(type.classify() == Type.IS_STRING) {
+				formatConditionEvalAux(sb, cast.getExpression());
+				sb.append(".ToString()");
+			}
+			else {
+				String typeName = "";
+
+				switch(type.classify()) {
+					case Type.IS_INTEGER: typeName = "int"; break;
+					case Type.IS_FLOAT: typeName = "float"; break;
+					case Type.IS_DOUBLE: typeName = "double"; break;
+					case Type.IS_BOOLEAN: typeName = "bool"; break;
+					default:
+						throw new UnsupportedOperationException(
+							"This is either a forbidden cast, which should have been " +
+							"rejected on building the IR, or an allowed cast, which " +
+							"should have been processed by the above code.");
+				}
+
+				sb.append("((" + typeName  + ") ");
+				formatConditionEvalAux(sb, cast.getExpression());
+				sb.append(")");
+			}
+		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");
 	}
-	
+
 	private static String formatIdentifiable(Identifiable id) {
 		String res = id.getIdent().toString();
 		return res.replace('$', '_');
