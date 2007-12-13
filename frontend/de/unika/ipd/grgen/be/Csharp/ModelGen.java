@@ -37,14 +37,17 @@ public class ModelGen extends CSharpBase {
 	private SearchPlanBackend2 be;
 
 	public ModelGen(SearchPlanBackend2 backend) {
-		this.be = backend;
+		be = backend;
 	}
 
+	/**
+	 * Generates the model sourcecode for the current unit.
+	 */
 	public void genModel() {
 		StringBuffer sb = new StringBuffer();
 		String filename = formatIdentifiable(be.unit) + "Model.cs";
 
-		System.out.println("  generating the "+filename+" file...");
+		System.out.println("  generating the " + filename + " file...");
 
 		sb.append("using System;\n");
 		sb.append("using System.Collections.Generic;\n");

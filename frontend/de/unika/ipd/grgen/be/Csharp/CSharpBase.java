@@ -46,6 +46,20 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
+	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
+			PatternGraph outer, int negCount) {
+		if (brackets)
+			sb.append("{ ");
+		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
+			Entity id = iter.next();
+			sb.append(pre + formatEntity(id, outer, negCount) + post);
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		if (brackets)
+			sb.append(" }");
+	}
+
 	public String formatIdentifiable(Identifiable id) {
 		String res = id.getIdent().toString();
 		return res.replace('$', '_');
@@ -78,6 +92,20 @@ public abstract class CSharpBase {
 	public String formatCastedAssign(Type type, String typePrefix, String varName) {
 		String ctype = typePrefix + formatElementClass(type);
 		return ctype + " " + varName + " = (" + ctype + ") ";
+	}
+
+	public String formatNodeAssign(Node node, Collection<Node> extractNodeAttributeObject) {
+		if(extractNodeAttributeObject.contains(node))
+			return formatCastedAssign(node.getType(), "", formatEntity(node));
+		else
+			return "LGSPNode " + formatEntity(node) + " = ";
+	}
+
+	public String formatEdgeAssign(Edge edge, Collection<Edge> extractEdgeAttributeObject) {
+		if(extractEdgeAttributeObject.contains(edge))
+			return formatCastedAssign(edge.getType(), "", formatEntity(edge));
+		else
+			return "LGSPEdge " + formatEntity(edge) + " = ";
 	}
 
 	public String formatAttributeType(Entity e) {
