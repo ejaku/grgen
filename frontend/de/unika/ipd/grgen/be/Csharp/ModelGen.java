@@ -141,9 +141,9 @@ public class ModelGen extends CSharpBase {
 		genTypeImplementation(sb, types, type);
 	}
 
-	/********************************
-	 * Element interface generation *
-	 ********************************/
+	//////////////////////////////////
+	// Element interface generation //
+	//////////////////////////////////
 
 	/**
 	 * Generates the element interface for the given type
@@ -184,9 +184,9 @@ public class ModelGen extends CSharpBase {
 		}
 	}
 
-	/*************************************
-	 * Element implementation generation *
-	 *************************************/
+	///////////////////////////////////////
+	// Element implementation generation //
+	///////////////////////////////////////
 
 	/**
 	 * Generates the element implementation for the given type
@@ -397,9 +397,9 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\t}\n");
 	}
 
-	/**********************************
-	 * Type implementation generation *
-	 **********************************/
+	////////////////////////////////////
+	// Type implementation generation //
+	////////////////////////////////////
 
 	/**
 	 * Generates the type implementation
@@ -814,4 +814,5 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\t};\n");
 	}
 }
+
 
