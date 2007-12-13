@@ -113,21 +113,16 @@ public abstract class InheritanceType extends CompoundType {
 		return Collections.unmodifiableCollection(directSuperTypes);
 	}
 
-
 	/**
-	 * Get an iterator over all types, this type inherits from (including indirect supertypes).
-	 * @return The iterator.
+	 * Returns all super types of this type (not including itself).
 	 */
 	public Collection<InheritanceType> getAllSuperTypes() {
-		if( allSuperTypes == null ) {
+		if(allSuperTypes==null) {
 			allSuperTypes = new LinkedHashSet<InheritanceType>();
-			LinkedList<InheritanceType> worklist = new LinkedList<InheritanceType>();
 
-			worklist.addAll(getDirectSuperTypes());
-			while(!worklist.isEmpty()) {
-				InheritanceType it = worklist.remove();
-				worklist.addAll(it.getDirectSuperTypes());
-				allSuperTypes.add(it);
+			for(InheritanceType type : directSuperTypes) {
+				allSuperTypes.addAll(type.getAllSuperTypes());
+				allSuperTypes.add(type);
 			}
 		}
 		return Collections.unmodifiableCollection(allSuperTypes);

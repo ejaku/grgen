@@ -106,7 +106,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	}
 
 	/**
-	 * Returns all super types of this type (not including this itself).
+	 * Returns all super types of this type (not including itself).
 	 */
 	public Collection<InheritanceTypeNode> getAllSuperTypes() {
 		if(allSuperTypes==null) {

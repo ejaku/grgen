@@ -34,8 +34,6 @@ import java.util.*;
 import de.unika.ipd.grgen.be.IDBase;
 
 public class ModelGen extends CSharpBase {
-	private SearchPlanBackend2 be;
-
 	public ModelGen(SearchPlanBackend2 backend) {
 		be = backend;
 	}
@@ -58,11 +56,11 @@ public class ModelGen extends CSharpBase {
 		sb.append("{\n");
 
 		System.out.println("    generating enums...");
-		genModelEnum(sb);
+		genEnums(sb);
 
 		System.out.println("    generating node types...");
 		sb.append("\n");
-		genModelTypes(sb, be.nodeTypeMap.keySet(), true);
+		genTypes(sb, be.nodeTypeMap.keySet(), true);
 
 		System.out.println("    generating node model...");
 		sb.append("\n");
@@ -70,7 +68,7 @@ public class ModelGen extends CSharpBase {
 
 		System.out.println("    generating edge types...");
 		sb.append("\n");
-		genModelTypes(sb, be.edgeTypeMap.keySet(), false);
+		genTypes(sb, be.edgeTypeMap.keySet(), false);
 
 		System.out.println("    generating edge model...");
 		sb.append("\n");
@@ -85,7 +83,7 @@ public class ModelGen extends CSharpBase {
 		writeFile(be.path, filename, sb);
 	}
 
-	private void genModelEnum(StringBuffer sb) {
+	private void genEnums(StringBuffer sb) {
 		sb.append("\t//\n");
 		sb.append("\t// Enums\n");
 		sb.append("\t//\n");
@@ -114,7 +112,10 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t}\n");
 	}
 
-	private void genModelTypes(StringBuffer sb, Set<? extends InheritanceType> types, boolean isNode) {
+	/**
+	 * Generates code for all given element types.
+	 */
+	private void genTypes(StringBuffer sb, Set<? extends InheritanceType> types, boolean isNode) {
 		sb.append("\t//\n");
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " types\n");
 		sb.append("\t//\n");
@@ -124,14 +125,14 @@ public class ModelGen extends CSharpBase {
 		sb.append(";\n");
 
 		for(InheritanceType type : types) {
-			genModelType(sb, types, type);
+			genType(sb, types, type);
 		}
 	}
 
 	/**
 	 * Generates all code for a given type.
 	 */
-	private void genModelType(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
+	private void genType(StringBuffer sb, Set<? extends InheritanceType> types, InheritanceType type) {
 		sb.append("\n");
 		sb.append("\t// *** " + formatNodeOrEdge(type) + " " + formatIdentifiable(type) + " ***\n");
 		sb.append("\n");
@@ -210,12 +211,18 @@ public class ModelGen extends CSharpBase {
 				+ "\t\tprivate static " + cname + "[] pool = new " + cname + "[10];\n");
 
 		if(isNode) {
-			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar) { }\n"
+			sb.append("\t\tpublic " + cname + "() : base("+ tname + ".typeVar)\n"
+					+ "\t\t{\n");
+			initAllMembers(sb, type, "this", "\t\t\t", false);
+			sb.append("\t\t}\n"
 					+ "\t\tprivate " + cname + "(" + cname + " oldElem) : base(" + tname + ".typeVar)\n");
 		}
 		else {
 			sb.append("\t\tpublic " + cname + "(LGSPNode source, LGSPNode target)\n"
-					+ "\t\t\t: base("+ tname + ".typeVar, source, target) { }\n"
+					+ "\t\t\t: base("+ tname + ".typeVar, source, target)\n"
+					+ "\t\t{\n");
+			initAllMembers(sb, type, "this", "\t\t\t", false);
+			sb.append("\t\t}\n"
 					+ "\t\tprivate " + cname + "(" + cname + " oldElem, LGSPNode newSource, LGSPNode newTarget)\n"
 					+ "\t\t\t: base(" + tname + ".typeVar, newSource, newTarget)\n");
 		}
@@ -239,7 +246,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.hasVariables = false;\n");
-			initAllMembers(sb, type, "node", "\t\t\t\t");
+			initAllMembers(sb, type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
 					+ "\t\t\treturn node;\n"
@@ -255,7 +262,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tnode.inhead = null;\n"
 					+ "\t\t\t\tnode.outhead = null;\n"
 					+ "\t\t\t\tnode.hasVariables = false;\n");
-			initAllMembers(sb, type, "node", "\t\t\t\t");
+			initAllMembers(sb, type, "node", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
 					+ "\t\t\treturn node;\n"
@@ -275,7 +282,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tedge.hasVariables = false;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(sb, type, "edge", "\t\t\t\t");
+			initAllMembers(sb, type, "edge", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge);\n"
 					+ "\t\t\treturn edge;\n"
@@ -291,7 +298,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\t\tedge.hasVariables = false;\n"
 					+ "\t\t\t\tedge.source = source;\n"
 					+ "\t\t\t\tedge.target = target;\n");
-			initAllMembers(sb, type, "edge", "\t\t\t\t");
+			initAllMembers(sb, type, "edge", "\t\t\t\t", true);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
 					+ "\t\t\treturn edge;\n"
@@ -306,19 +313,26 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t}\n");
 	}
 
-	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName, String indentString) {
+	/*	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName,
+			String indentString, boolean withDefaultInits) {
 		Collection<MemberInit> memberInits = type.getMemberInits();
 
 		HashMap<Entity, Expression> initializedMembers = new HashMap<Entity, Expression>();
 		for(MemberInit mi : memberInits)
 			initializedMembers.put(mi.getMember(), mi.getExpression());
 
+		curMemberOwner = varName;
+
 		for(Entity member : type.getAllMembers()) {
+			Expression expr = initializedMembers.get(member);
+			if(expr == null && !withDefaultInits) continue;
+
 			String attrName = formatIdentifiable(member);
 			sb.append(indentString + varName + ".@" + attrName + " = ");
-			Expression expr = initializedMembers.get(member);
+
 			if(expr != null) {
 				genExpression(sb, expr);
+				sb.append(";\n");
 			}
 			else {
 				Type t = member.getType();
@@ -333,12 +347,57 @@ public class ModelGen extends CSharpBase {
 				else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
 			}
 		}
+
+		curMemberOwner = null;
+	 }*/
+
+	private void initAllMembers(StringBuffer sb, InheritanceType type, String varName,
+			String indentString, boolean withDefaultInits) {
+		curMemberOwner = varName;
+
+		if(withDefaultInits) {
+			for(Entity member : type.getAllMembers()) {
+				String attrName = formatIdentifiable(member);
+				sb.append(indentString + varName + ".@" + attrName + " = ");
+				Type t = member.getType();
+				if(t instanceof IntType || t instanceof DoubleType || t instanceof EnumType)
+					sb.append("0;\n");
+				else if(t instanceof FloatType)
+					sb.append("0f;\n");
+				else if(t instanceof BooleanType)
+					sb.append("false;\n");
+				else if(t instanceof StringType || t instanceof ObjectType)
+					sb.append("null;\n");
+				else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+			}
+		}
+
+		for(InheritanceType superType : type.getAllSuperTypes())
+			genMemberInit(sb, superType, indentString, varName);
+		genMemberInit(sb, type, indentString, varName);
+
+		curMemberOwner = null;
+	}
+
+	private void genMemberInit(StringBuffer sb, InheritanceType type, String indentString, String varName) {
+		for(MemberInit mi : type.getMemberInits()) {
+			String attrName = formatIdentifiable(mi.getMember());
+			sb.append(indentString + varName + ".@" + attrName + " = ");
+			genExpression(sb, mi.getExpression());
+			sb.append(";\n");
+		}
 	}
 
 	protected void genQualAccess(Entity entity, StringBuffer sb, Qualification qual) {
 		sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
 				formatIdentifiable(entity.getType()) + ") ");
 		sb.append(formatEntity(entity) + ").@" + formatIdentifiable(qual.getMember()));
+	}
+
+	protected void genMemberAccess(Entity member, StringBuffer sb) {
+		if(curMemberOwner != null)
+			sb.append(curMemberOwner + ".");
+		sb.append("@" + formatIdentifiable(member));
 	}
 
 
@@ -393,7 +452,7 @@ public class ModelGen extends CSharpBase {
 
 		sb.append("\t\tpublic override void ResetAllAttributes()\n");
 		sb.append("\t\t{\n");
-		initAllMembers(sb, type, "this", "\t\t\t");
+		initAllMembers(sb, type, "this", "\t\t\t", true);
 		sb.append("\t\t}\n");
 	}
 
@@ -813,6 +872,12 @@ public class ModelGen extends CSharpBase {
 
 		sb.append("\t\t};\n");
 	}
-}
 
+	///////////////////////
+	// Private variables //
+	///////////////////////
+
+	private SearchPlanBackend2 be;
+	private String curMemberOwner = null;
+}
 

@@ -152,41 +152,6 @@ public abstract class CSharpBase {
 		return (i == Integer.MAX_VALUE) ? "int.MaxValue" : new Integer(i).toString();
 	}
 
-	/*	public void collectNeededAttributes(Expression expr) {
-		if(expr instanceof Operator) {
-			Operator op = (Operator) expr;
-			switch(op.arity()) {
-				case 3:
-					collectNeededAttributes(op.getOperand(2));
-					// FALLTHROUGH
-				case 2:
-					collectNeededAttributes(op.getOperand(1));
-					// FALLTHROUGH
-				case 1:
-					collectNeededAttributes(op.getOperand(0));
-					break;
-			}
-		}
-		else if(expr instanceof Qualification) {
-			Qualification qual = (Qualification) expr;
-			GraphEntity entity = (GraphEntity) qual.getOwner();
-			if(entity instanceof Node)
-				nodesNeededAsAttributes.add((Node) entity);
-			else if(entity instanceof Edge)
-				edgesNeededAsAttributes.add((Edge) entity);
-
-			HashSet<Entity> neededAttrs = neededAttributes.get(entity);
-			if(neededAttrs == null) {
-				neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
-			}
-			neededAttrs.add(qual.getMember());
-		}
-		else if(expr instanceof Cast) {
-			Cast cast = (Cast) expr;
-			collectNeededAttributes(cast.getExpression());
-		}
-	 }*/
-
 	public strictfp void genExpression(StringBuffer sb, Expression expr) {
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
@@ -224,6 +189,10 @@ public abstract class CSharpBase {
 			Qualification qual = (Qualification) expr;
 			Entity entity = qual.getOwner();
 			genQualAccess(entity, sb, qual);
+		}
+		else if(expr instanceof MemberExpression) {
+			MemberExpression memberExp = (MemberExpression) expr;
+			genMemberAccess(memberExp.getMember(), sb);
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -296,34 +265,7 @@ public abstract class CSharpBase {
 	}
 
 	protected abstract void genQualAccess(Entity entity, StringBuffer sb, Qualification qual);
-
-	/*	private void genQualAccess(Entity entity, StringBuffer sb, Qualification qual, boolean inRewriteModify) {
-		Entity member = qual.getMember();
-		if(inRewriteModify) {
-			if(accessViaVariable((GraphEntity) entity, member)) {
-				sb.append("var_" + formatEntity(entity) + "_" + formatIdentifiable(member));
-			}
-			else {
-				if(entity instanceof Node) {
-					if(!newOrRetypedNodes.contains(entity))		// element extracted from match?
-						sb.append("i");							// yes, attributes only accessible via interface
-				}
-				else if(entity instanceof Edge) {
-					if(!newOrRetypedEdges.contains(entity))		// element extracted from match?
-						sb.append("i");							// yes, attributes only accessible via interface
-				}
-				else
-					throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
-
-				sb.append(formatEntity(entity) + ".@" + formatIdentifiable(member));
-			}
-		}
-		else {	 // in genConditions()
-			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
-					formatIdentifiable(entity.getType()) + ") ");
-			sb.append(formatEntity(entity) + ").@" + formatIdentifiable(member));
-		}
-	 }*/
+	protected abstract void genMemberAccess(Entity member, StringBuffer sb);
 
 	///////////////////////
 	// Private variables //

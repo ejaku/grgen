@@ -27,7 +27,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.Set;
 
 /**
- * An expression node.
+ * A member expression node.
  */
 public class MemberExpression extends Expression {
 	private Entity member;
@@ -38,7 +38,15 @@ public class MemberExpression extends Expression {
 	}
 
 	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * Returns the member entity of this member expression.
+	 */
+	public Entity getMember() {
+		return member;
+	}
+
+	/**
+	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression,
+	 * i.e. none.
 	 * @param    nodes               a  Set to contain the nodes of cond
 	 * @param    edges               a  Set to contain the edges of cond
 	 * @param    cond                an Expression

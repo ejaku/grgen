@@ -32,8 +32,6 @@ import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
 public class ActionsGen extends CSharpBase {
-	private SearchPlanBackend2 be;
-
 	public ActionsGen(SearchPlanBackend2 backend) {
 		be = backend;
 	}
@@ -1072,6 +1070,10 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
+	protected void genMemberAccess(Entity member, StringBuffer sb) {
+		throw new UnsupportedOperationException("Member expressions not allowed in actions!");
+	}
+
 	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
 		if(!reusedElements.contains(elem)) return false;
 		HashSet<Entity> neededAttrs = neededAttributes.get(elem);
@@ -1081,6 +1083,8 @@ public class ActionsGen extends CSharpBase {
 	///////////////////////
 	// Private variables //
 	///////////////////////
+
+	private SearchPlanBackend2 be;
 
 	private boolean inRewriteModify;
 
