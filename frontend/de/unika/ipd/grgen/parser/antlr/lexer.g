@@ -67,6 +67,7 @@ tokens {
   EDGE = "edge";
   ENUM = "enum";
   EVAL = "eval";
+  EXACT = "exact";
   EXTENDS = "extends";
   FALSE = "false";
   HOM = "hom";

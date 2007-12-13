@@ -255,6 +255,7 @@ patternModifiers returns [ int res = 0 ]
 patternModifier returns [ int res = 0 ]
 	: INDUCED { res |= PatternGraphNode.MOD_INDUCED; }
 	| DPO { res |= PatternGraphNode.MOD_DPO; }
+	| EXACT { res |= PatternGraphNode.MOD_EXACT; }
 	;
 
 patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
@@ -263,21 +264,27 @@ patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphN
 		CollectNode conditions = new CollectNode();
 		CollectNode returnz = new CollectNode();
 		CollectNode homs = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, mod);
+		CollectNode dpo = new CollectNode();
+		CollectNode exact = new CollectNode();
+		CollectNode induced = new CollectNode();
+		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, dpo, exact, induced, mod);
 		int negCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs] )*
+	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, dpo, exact, induced] )*
 	;
 
 patternStmt [ CollectNode conn, CollectNode cond,
-	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs ]
+	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode dpo, CollectNode exact, CollectNode induced ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
 		ExprNode e;
 		PatternGraphNode neg;
 		HomNode hom;
+		DpoNode dp;
+		ExactNode exa;
+		InducedNode ind;
 		//nesting of negative Parts is not allowed.
 		CollectNode negsInNegs = new CollectNode();
 		newNegCount = negCount;
@@ -302,6 +309,9 @@ patternStmt [ CollectNode conn, CollectNode cond,
 		RBRACE
 	| replaceReturns[returnz] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
+	| dp=dpoStatement { dpo.addChild(dp); } SEMI
+	| exa=exactStatement { exact.addChild(exa); } SEMI
+	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
 patConnections [ CollectNode conn ]
@@ -488,6 +498,39 @@ homStatement returns [ HomNode res = null ]
 	: h:HOM {res = new HomNode(getCoords(h)); }
 		LPAREN id=entIdentUse { res.addChild(id); }
 			(COMMA id=entIdentUse { res.addChild(id); } )*
+		RPAREN
+	;
+
+dpoStatement returns [ DpoNode res = null ]
+	{
+		IdentNode id;
+	}
+	
+	: d:DPO {res = new DpoNode(getCoords(d)); } 
+		LPAREN id=entIdentUse { res.addChild(id); }
+			(COMMA id=entIdentUse { res.addChild(id); } )*
+		RPAREN
+	;
+
+exactStatement returns [ ExactNode res = null ]
+	{
+		IdentNode id;
+	}
+	
+	: e:EXACT {res = new ExactNode(getCoords(e)); } 
+		LPAREN id=entIdentUse { res.addChild(id); }
+			(COMMA id=entIdentUse { res.addChild(id); } )*
+		RPAREN
+	;
+
+inducedStatement returns [ InducedNode res = null ]
+	{
+		IdentNode id;
+	}
+	
+	: i:INDUCED {res = new InducedNode(getCoords(i)); } 
+		LPAREN id=entIdentUse { res.addChild(id); }
+			(COMMA id=entIdentUse { res.addChild(id); } )* 
 		RPAREN
 	;
 

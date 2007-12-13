@@ -40,15 +40,16 @@ import de.unika.ipd.grgen.parser.SymbolTable;
 import java.util.Map.Entry;
 
 /**
- * AST node that represents a graph pattern
- * as it appears within the pattern part of some rule
- * Extension of the graph pattern of the rewrite part
+ * AST node that represents a graph pattern as it appears within the pattern
+ * part of some rule Extension of the graph pattern of the rewrite part
  */
 public class PatternGraphNode extends GraphNode {
 
-	public static final int MOD_INDUCED = 1;
+	public static final int MOD_DPO = 1;
 
-	public static final int MOD_DPO = 2;
+	public static final int MOD_EXACT = 2;
+
+	public static final int MOD_INDUCED = 4;
 
 	/**
 	 * The modifiers for this type. An ORed combination of the constants above.
@@ -65,6 +66,12 @@ public class PatternGraphNode extends GraphNode {
 	/** Index of the hom statements collect node. */
 	private static final int HOMS = CONDITIONS + 1;
 
+	/** Index of the induced statements collect node. */
+	private static final int INDUCED = CONDITIONS + 2;
+
+	/** Index of the exact statements collect node. */
+	private static final int EXACT = CONDITIONS + 3;
+
 	/** Conditions checker. */
 	private static final Checker conditionsChecker = new CollectChecker(
 			new SimpleChecker(ExprNode.class));
@@ -79,15 +86,21 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * A new pattern node
-	 * @param connections A collection containing connection nodes
-	 * @param conditions A collection of conditions.
+	 * 
+	 * @param connections
+	 *            A collection containing connection nodes
+	 * @param conditions
+	 *            A collection of conditions.
 	 */
 	public PatternGraphNode(Coords coords, CollectNode connections,
 			CollectNode conditions, CollectNode returns, CollectNode homs,
+			CollectNode dpo, CollectNode exact, CollectNode induced,
 			int modifiers) {
 		super(coords, connections, returns);
 		addChild(conditions);
 		addChild(homs);
+		addChild(induced);
+		addChild(exact);
 		this.modifiers = modifiers;
 	}
 
@@ -139,7 +152,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Get the correctly casted IR object.
-	 *
+	 * 
 	 * @return The IR object.
 	 */
 	public PatternGraph getPatternGraph() {
@@ -207,9 +220,13 @@ public class PatternGraphNode extends GraphNode {
 		return (modifiers & MOD_DPO) != 0;
 	}
 
+	public final boolean isExact() {
+		return (modifiers & MOD_EXACT) != 0;
+	}
+
 	/**
 	 * Get all implicit NACs.
-	 *
+	 * 
 	 * @return The Collection for the NACs.
 	 */
 	public Collection<PatternGraph> getImplicitNegGraphs(RuleDeclNode ruleNode) {
@@ -228,7 +245,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Add NACs required for the "dpo"-semantic.
-	 *
+	 * 
 	 * @param negs
 	 *            The collection for the NACs.
 	 * @param set
@@ -344,7 +361,7 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * Add NACs required for the "induced"-semantic.
-	 *
+	 * 
 	 * @param negs
 	 *            The collection for the NACs.
 	 */
