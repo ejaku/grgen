@@ -1,0 +1,26 @@
+rule init1
+{
+    pattern
+    {
+    }
+    replace
+    {
+        a:Node;
+        b:Node;
+        
+        a --> a;
+    }
+}
+
+rule deleteSingleNode
+{
+    pattern
+    {
+        a:Node;
+        
+        induced(a);
+    }
+    replace
+    {
+    }    
+}

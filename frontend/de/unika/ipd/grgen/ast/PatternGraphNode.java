@@ -84,6 +84,30 @@ public class PatternGraphNode extends GraphNode {
 	private static final Checker homChecker = new CollectChecker(
 			new SimpleChecker(HomNode.class));
 
+	/** DPO checker. */
+	private static final Checker dpoChecker = new CollectChecker(
+			new SimpleChecker(DpoNode.class));
+
+	/** Exact checker. */
+	private static final Checker exactChecker = new CollectChecker(
+			new SimpleChecker(ExactNode.class));
+
+	/** Induced checker. */
+	private static final Checker inducedChecker = new CollectChecker(
+			new SimpleChecker(InducedNode.class));
+
+	/**
+	 * TODO
+	 *  Map to a set of edges -> don't count edges twice
+	 */
+	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
+
+	/**
+	 * TODO
+	 * map each pair of nodes to a pattern graph
+	 */
+	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap = new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
+
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");
 	}
@@ -116,7 +140,9 @@ public class PatternGraphNode extends GraphNode {
 	protected boolean check() {
 		boolean childs = super.check()
 				&& checkChild(CONDITIONS, conditionsChecker)
-				&& checkChild(HOMS, homChecker);
+				&& checkChild(HOMS, homChecker) && checkChild(DPO, dpoChecker)
+				&& checkChild(EXACT, exactChecker)
+				&& checkChild(INDUCED, inducedChecker);
 
 		boolean expr = true;
 		boolean homcheck = true;
@@ -237,30 +263,66 @@ public class PatternGraphNode extends GraphNode {
 	public Collection<PatternGraph> getImplicitNegGraphs(RuleDeclNode ruleNode) {
 		Collection<PatternGraph> ret = new LinkedList<PatternGraph>();
 
-		if (isDPO()) {
-			addDpoNegGraphs(ret, ruleNode.getDelete());
-		}
-		if (isExact()) {
-			addExactNegGraphs(ret);
-		}
-		if (isInduced()) {
-			addInducedNegGraphs(ret);
-		}
+		initDoubleNodeNegMap();
+		addDoubleNodeNegGraphs(ret);
+
+		initSingleNodeNegMap(ruleNode);
+		addSingleNodeNegGraphs(ret);
 
 		return ret;
 	}
 
-	/**
-	 * Add NACs required for the "exact"-semantic.
-	 * 
-	 * @param negs
-	 *            The collection for the NACs.
-	 */
-	private void addExactNegGraphs(Collection<PatternGraph> ret) {
-		// Map to a set of edges -> don't count edges twice
-		Map<NodeCharacter, Set<ConnectionNode>> negMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
+	private void initDoubleNodeNegMap() {
+		Collection<BaseNode> inducedNodes = getChild(INDUCED).getChildren();
+		if (isInduced()) {
+			addToDoubleNodeMap(getInducedPatternNodes());
 
-		Set<NodeCharacter> nodes = new HashSet<NodeCharacter>();
+			for (BaseNode node : inducedNodes) {
+				node
+						.reportWarning("Induced statement occurs in induced pattern");
+			}
+			return;
+		}
+
+		for (BaseNode node : inducedNodes) {
+			InducedNode inducedNode = (InducedNode) node;
+
+			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
+
+			for (BaseNode inducedChild : inducedNode.getChildren()) {
+				NodeDeclNode nodeDeclNode = (NodeDeclNode) inducedChild;
+				// TODO coords of occurrence
+				if (nodes.contains(nodeDeclNode)) {
+					inducedChild.reportWarning("Multiple occurrence of "
+							+ nodeDeclNode.getUseString() + " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " in a single induced statement");
+				} else {
+					nodes.add(nodeDeclNode);
+				}
+			}
+
+			addToDoubleNodeMap(nodes);
+		}
+
+	}
+
+	private void initSingleNodeNegMap(RuleDeclNode ruleNode) {
+		if (isExact()) {
+			addToSingleNodeMap(getExactPatternNodes());
+		}
+		if (isDPO()) {
+			addToSingleNodeMap(getDpoPatternNodes(ruleNode.getDelete()));
+		}
+	}
+
+	/**
+	 * Return the set of nodes needed for the singleNodeNegMap if the whole
+	 * pattern is exact.
+	 */
+	private Set<NodeCharacter> getExactPatternNodes() {
+
+		Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
 
@@ -276,75 +338,15 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		// init map
-		for (NodeCharacter node : nodes) {
-			Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
-			negMap.put(node, edgeSet);
-		}
-
-		// add existing edges to the corresponding sets
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
-			Set<NodeCharacter> keySet = negMap.keySet();
-			if (n instanceof ConnectionNode) {
-				ConnectionNode conn = (ConnectionNode) n;
-				if (keySet.contains(conn.getSrc())) {
-					Set<ConnectionNode> edges = negMap.get(conn.getSrc());
-					edges.add(conn);
-					negMap.put(conn.getSrc(), edges);
-				}
-				if (keySet.contains(conn.getTgt())) {
-					Set<ConnectionNode> edges = negMap.get(conn.getTgt());
-					edges.add(conn);
-					negMap.put(conn.getTgt(), edges);
-				}
-			}
-		}
-
-		BaseNode edgeRoot = getEdgeRootType();
-		BaseNode nodeRoot = getNodeRootType();
-
-		// generate and add pattern graphs
-		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : negMap
-				.entrySet()) {
-			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
-				PatternGraph neg = new PatternGraph();
-				neg.addSingleNode(entry.getKey().getNode());
-				for (ConnectionNode conn : entry.getValue()) {
-					conn.addToGraph(neg);
-				}
-
-				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
-				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot);
-
-				ConnectionCharacter conn = null;
-				if (direction == INCOMING) {
-					conn = new ConnectionNode(dummyNode, edge,
-							(NodeDeclNode) entry.getKey());
-				} else {
-					conn = new ConnectionNode((NodeDeclNode) entry.getKey(),
-							edge, dummyNode);
-				}
-				conn.addToGraph(neg);
-
-				ret.add(neg);
-			}
-		}
-
+		return nodes;
 	}
 
 	/**
-	 * Add NACs required for the "dpo"-semantic.
-	 * 
-	 * @param negs
-	 *            The collection for the NACs.
-	 * @param set
-	 *            The set of a all deleted entities.
+	 * Return the set of nodes needed for the singleNodeNegMap if the whole
+	 * pattern is dpo.
 	 */
-	private void addDpoNegGraphs(Collection<PatternGraph> ret,
-			Set<DeclNode> deletedEntities) {
+	private Set<NodeCharacter> getDpoPatternNodes(Set<DeclNode> deletedEntities) {
 		Set<NodeCharacter> deletedNodes = new LinkedHashSet<NodeCharacter>();
-		// Map to a set of edges -> don't count edges twice
-		Map<NodeCharacter, Set<ConnectionNode>> negMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
 
 		for (DeclNode declNode : deletedEntities) {
 			if (declNode instanceof NodeCharacter) {
@@ -355,26 +357,26 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		// init map
-		for (NodeCharacter node : deletedNodes) {
-			Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
-			negMap.put(node, edgeSet);
-		}
+		return deletedNodes;
+	}
 
+	private void addSingleNodeNegGraphs(Collection<PatternGraph> ret) {
 		// add existing edges to the corresponding sets
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
-			Set<NodeCharacter> keySet = negMap.keySet();
+			Set<NodeCharacter> keySet = singleNodeNegMap.keySet();
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
 				if (keySet.contains(conn.getSrc())) {
-					Set<ConnectionNode> edges = negMap.get(conn.getSrc());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
+							.getSrc());
 					edges.add(conn);
-					negMap.put(conn.getSrc(), edges);
+					singleNodeNegMap.put(conn.getSrc(), edges);
 				}
 				if (keySet.contains(conn.getTgt())) {
-					Set<ConnectionNode> edges = negMap.get(conn.getTgt());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
+							.getTgt());
 					edges.add(conn);
-					negMap.put(conn.getTgt(), edges);
+					singleNodeNegMap.put(conn.getTgt(), edges);
 				}
 			}
 		}
@@ -383,7 +385,7 @@ public class PatternGraphNode extends GraphNode {
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
-		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : negMap
+		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : singleNodeNegMap
 				.entrySet()) {
 			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
 				PatternGraph neg = new PatternGraph();
@@ -406,6 +408,20 @@ public class PatternGraphNode extends GraphNode {
 				conn.addToGraph(neg);
 
 				ret.add(neg);
+			}
+		}
+	}
+
+	/**
+	 * Add a set of nodes to the singleNodeMap.
+	 * 
+	 * @param nodes Set of Nodes.
+	 */
+	private void addToSingleNodeMap(Set<NodeCharacter> nodes) {
+		for (NodeCharacter node : nodes) {
+			if (!singleNodeNegMap.containsKey(node)) {
+				Set<ConnectionNode> edgeSet = new HashSet<ConnectionNode>();
+				singleNodeNegMap.put(node, edgeSet);
 			}
 		}
 	}
@@ -449,15 +465,10 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	/**
-	 * Add NACs required for the "induced"-semantic.
-	 * 
-	 * @param negs
-	 *            The collection for the NACs.
+	 * Return the set of nodes needed for the doubleNodeNegMap if the whole
+	 * pattern is induced.
 	 */
-	private void addInducedNegGraphs(Collection<PatternGraph> negs) {
-		// map each pair of nodes to a pattern graph
-		Map<List<NodeCharacter>, PatternGraph> negMap = new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
-
+	private Set<NodeCharacter> getInducedPatternNodes() {
 		Set<NodeCharacter> nodes = new HashSet<NodeCharacter>();
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
@@ -474,18 +485,13 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		// init map
-		for (NodeCharacter src : nodes) {
-			for (NodeCharacter tgt : nodes) {
-				List<NodeCharacter> key = new LinkedList<NodeCharacter>();
-				key.add(src);
-				key.add(tgt);
+		return nodes;
+	}
 
-				PatternGraph neg = new PatternGraph();
-				negMap.put(key, neg);
-			}
-		}
-
+	/**
+	 * @param negs
+	 */
+	private void addDoubleNodeNegGraphs(Collection<PatternGraph> negs) {
 		// add existing edges to the corresponding pattern graph
 		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
 			if (n instanceof ConnectionNode) {
@@ -495,11 +501,11 @@ public class PatternGraphNode extends GraphNode {
 				key.add(conn.getSrc());
 				key.add(conn.getTgt());
 
-				PatternGraph neg = negMap.get(key);
+				PatternGraph neg = doubleNodeNegMap.get(key);
 				// neg == null for dangling edges
 				if (neg != null) {
 					conn.addToGraph(neg);
-					negMap.put(key, neg);
+					doubleNodeNegMap.put(key, neg);
 				}
 			}
 		}
@@ -507,7 +513,8 @@ public class PatternGraphNode extends GraphNode {
 		BaseNode edgeRoot = getEdgeRootType();
 
 		// add another Edge of type edgeRoot to each NAC
-		for (Entry<List<NodeCharacter>, PatternGraph> entry : negMap.entrySet()) {
+		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap
+				.entrySet()) {
 			// TODO check casts
 			NodeDeclNode src = (NodeDeclNode) entry.getKey().get(0);
 			NodeDeclNode tgt = (NodeDeclNode) entry.getKey().get(1);
@@ -520,8 +527,23 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		// finally add all pattern graphs
-		for (PatternGraph n : negMap.values()) {
+		for (PatternGraph n : doubleNodeNegMap.values()) {
 			negs.add(n);
+		}
+	}
+
+	private void addToDoubleNodeMap(Set<NodeCharacter> nodes) {
+		for (NodeCharacter src : nodes) {
+			for (NodeCharacter tgt : nodes) {
+				List<NodeCharacter> key = new LinkedList<NodeCharacter>();
+				key.add(src);
+				key.add(tgt);
+
+				if (!doubleNodeNegMap.containsKey(key)) {
+					PatternGraph neg = new PatternGraph();
+					doubleNodeNegMap.put(key, neg);
+				}
+			}
 		}
 	}
 
