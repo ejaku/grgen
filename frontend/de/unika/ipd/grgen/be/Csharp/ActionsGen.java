@@ -1035,7 +1035,7 @@ public class ActionsGen extends CSharpBase {
 	// Expression stuff //
 	//////////////////////
 
-	protected void genQualAccess(Entity entity, StringBuffer sb, Qualification qual) {
+	protected void genQualAccess(StringBuffer sb, Entity entity, Qualification qual) {
 		Entity member = qual.getMember();
 		if(inRewriteModify) {
 			if(accessViaVariable((GraphEntity) entity, member)) {
@@ -1070,7 +1070,7 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	protected void genMemberAccess(Entity member, StringBuffer sb) {
+	protected void genMemberAccess(StringBuffer sb, Entity member) {
 		throw new UnsupportedOperationException("Member expressions not allowed in actions!");
 	}
 

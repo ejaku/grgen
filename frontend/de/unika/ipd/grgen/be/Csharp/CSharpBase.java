@@ -188,11 +188,11 @@ public abstract class CSharpBase {
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
 			Entity entity = qual.getOwner();
-			genQualAccess(entity, sb, qual);
+			genQualAccess(sb, entity, qual);
 		}
 		else if(expr instanceof MemberExpression) {
 			MemberExpression memberExp = (MemberExpression) expr;
-			genMemberAccess(memberExp.getMember(), sb);
+			genMemberAccess(sb, memberExp.getMember());
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -264,8 +264,8 @@ public abstract class CSharpBase {
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 
-	protected abstract void genQualAccess(Entity entity, StringBuffer sb, Qualification qual);
-	protected abstract void genMemberAccess(Entity member, StringBuffer sb);
+	protected abstract void genQualAccess(StringBuffer sb, Entity entity, Qualification qual);
+	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
 
 	///////////////////////
 	// Private variables //

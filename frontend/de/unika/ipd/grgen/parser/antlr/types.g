@@ -165,6 +165,7 @@ validIdent returns [ String id = "" ]
 			if(i.getType() != IDENT && !env.isKeyword(i.getText()))
 				throw new SemanticException(i.getText() + " is not a valid identifier",
 					getFilename(), i.getLine(), i.getColumn());
+			id = i.getText();
 		}
 	;
 
