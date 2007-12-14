@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(String modelFilename, String destDir, bool compileWithDebug, out Assembly modelAssembly, out String modelAssemblyName)
+        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, bool compileWithDebug, out Assembly modelAssembly, out String modelAssemblyName)
         {
             String modelName = Path.GetFileNameWithoutExtension(modelFilename);
             String modelExtension = Path.GetExtension(modelFilename);
@@ -133,7 +133,10 @@ namespace de.unika.ipd.grGen.lgsp
             CompilerResults compResults;
             try
             {
-                compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename);
+                if(modelStubFilename != null)
+                    compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename);
+                else                   
+                    compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename);
                 if(compResults.Errors.HasErrors)
                 {
                     Console.Error.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");
@@ -372,6 +375,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             String modelFilename = null;
+            String modelStubFilename = null;
             String actionsFilename = null;
 
             String[] producedFiles = Directory.GetFiles(tmpDir);
@@ -381,6 +385,8 @@ namespace de.unika.ipd.grGen.lgsp
                     modelFilename = file;
                 else if(file.EndsWith("Actions_intermediate.cs"))
                     actionsFilename = file;
+                else if(file.EndsWith("ModelStub.cs"))
+                    modelStubFilename = file;
             }
 
             if(modelFilename == null || actionsFilename == null)
@@ -406,7 +412,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             Assembly modelAssembly;
             String modelAssemblyName;
-            if(!ProcessModel(modelFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName)) return ErrorType.GrGenNetError;
+            if(!ProcessModel(modelFilename, modelStubFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName)) return ErrorType.GrGenNetError;
 
             IGraphModel model = GetGraphModel(modelAssembly);
             if(model == null) return ErrorType.GrGenNetError;
