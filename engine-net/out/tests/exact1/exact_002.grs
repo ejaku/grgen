@@ -1,4 +1,4 @@
-new graph "lib\lgsp-dpoModel.dll" "Exact graph"
+new graph "lib\lgsp-exactModel.dll" "Exact graph"
 select actions "lib\lgsp-exactActions.dll"
 
 show num nodes
