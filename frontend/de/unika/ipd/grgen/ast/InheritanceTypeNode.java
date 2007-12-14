@@ -37,16 +37,13 @@ import java.util.TreeSet;
 /**
  * Base class for compound types, that allow inheritance.
  */
-public abstract class InheritanceTypeNode extends CompoundTypeNode {
-
+public abstract class InheritanceTypeNode extends CompoundTypeNode 
+{
 	public static final int MOD_CONST = 1;
-
 	public static final int MOD_ABSTRACT = 2;
 
 	private static final int EXTENDS = 0;
-
 	private static final int BODY = 1;
-
 
 	private static final String[] childrenNames = {
 		"extends", "body"
@@ -88,8 +85,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	protected InheritanceTypeNode(CollectNode ext,
 								  CollectNode body,
 								  Checker inhChecker,
-								  Resolver inhResolver) {
-
+								  Resolver inhResolver) 
+	{
 		super(BODY, bodyChecker, bodyResolver);
 		this.inhChecker = inhChecker;
 
@@ -123,7 +120,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
-	protected boolean check() {
+	protected boolean check() 
+	{
 		getAllMembers();
 		getAllSuperTypes();
 		return super.check()
@@ -134,18 +132,19 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode)
 	 */
-	public boolean fixupDefinition(IdentNode id) {
+	public boolean fixupDefinition(IdentNode id) 
+	{
 		boolean found = super.fixupDefinition(id, false);
 
 		if(!found) {
-
 			for(BaseNode n : getChild(EXTENDS).getChildren()) {
 				InheritanceTypeNode t = (InheritanceTypeNode)n;
 				boolean result = t.fixupDefinition(id);
 
-				if(found && result)
+				if(found && result) {
 					reportError("Identifier " + id + " is ambiguous");
-
+				}
+				
 				found = found || result;
 			}
 		}
@@ -153,7 +152,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		return found;
 	}
 
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) 
+	{
 		for(BaseNode n : getChild(EXTENDS).getChildren()) {
 			InheritanceTypeNode inh = (InheritanceTypeNode)n;
 			coll.add(inh);
@@ -196,10 +196,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 				DeclNode decl = (DeclNode)n;
 
 				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
-				if(old!=null)
+				if(old!=null) {
 					error.error(decl.getCoords(), decl.toString() +" of " + getUseString() + " " + getIdentNode() + " already defined. " +
 									"It is also declared in " + old.getParents() + "." // TODO improve error message
 							   );
+				}
 			}
 		}
 	}
@@ -207,7 +208,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 	/**
 	 * Returns all members (including inherited ones) of this type.
 	 */
-	public Map<String, DeclNode> getAllMembers() {
+	public Map<String, DeclNode> getAllMembers() 
+	{
 		if(allMembers==null) {
 			allMembers = new LinkedHashMap<String, DeclNode>();
 
@@ -221,7 +223,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		return allMembers;
 	}
 
-	protected void constructIR(InheritanceType inhType) {
+	protected void constructIR(InheritanceType inhType) 
+	{
 		for(BaseNode n : getChild(BODY).getChildren()) {
 			if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
@@ -241,5 +244,3 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode {
 		inhType.getAllMembers();
 	}
 }
-
-

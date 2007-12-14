@@ -25,16 +25,17 @@
 package de.unika.ipd.grgen.ast;
 
 /**
- * Class for declared types. 
+ * Base class for all AST nodes representing declared types. 
  * Declared types have identifiers (and declaration nodes).
  * The location of this type is set by the declaration node's 
  * constructor
  * @see DeclNode#DeclNode(IdentNode, BaseNode)
  */
-public abstract class DeclaredTypeNode extends TypeNode {
-
+public abstract class DeclaredTypeNode extends TypeNode
+{
 	private DeclNode decl = null;
 
+	
 	/**
 	 * Get the identifier of the type declaration.
 	 * @return The identifier of the type declaration or an invalid
@@ -59,5 +60,4 @@ public abstract class DeclaredTypeNode extends TypeNode {
 	public DeclNode getDecl() {
 		return decl;
 	}
-	
 }

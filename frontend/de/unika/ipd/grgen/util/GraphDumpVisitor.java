@@ -17,7 +17,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 /**
  * @file GraphDumpVisitor.java
  * @author shack
@@ -31,32 +30,36 @@ package de.unika.ipd.grgen.util;
  * @see GraphDumpable
  * @see Walkable
  */
-public class GraphDumpVisitor extends Base implements Visitor {
-
+public class GraphDumpVisitor extends Base implements Visitor
+{
 	protected GraphDumper dumper;
-	
-	public GraphDumpVisitor(GraphDumper dumper) {
-		this.dumper = dumper;
-	}
-	
-	public GraphDumpVisitor() {
-	}
-	
-	public void setDumper(GraphDumper dumper) {
+
+	public GraphDumpVisitor(GraphDumper dumper)
+	{
 		this.dumper = dumper;
 	}
 
-/**
- * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
- */
-public void visit(Walkable n) {
-	GraphDumpable gd = (GraphDumpable) n;
-	dumper.node(gd);
-			
-	int i = 0;
-	for(GraphDumpable target : n.getWalkableChildren()) {
-		dumper.edge(gd, target, gd.getEdgeLabel(i));
-		i++;
+	public GraphDumpVisitor()
+	{
+	}
+
+	public void setDumper(GraphDumper dumper)
+	{
+		this.dumper = dumper;
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.Visitor#visit(de.unika.ipd.grgen.ast.BaseNode)
+	 */
+	public void visit(Walkable n)
+	{
+		GraphDumpable gd = (GraphDumpable) n;
+		dumper.node(gd);
+
+		int i = 0;
+		for (GraphDumpable target : n.getWalkableChildren()) {
+			dumper.edge(gd, target, gd.getEdgeLabel(i));
+			i++;
 		}
 	}
 }

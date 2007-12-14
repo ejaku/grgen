@@ -33,13 +33,13 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberInit;
 import java.util.Collection;
 
-public class EdgeTypeNode extends InheritanceTypeNode {
-
+public class EdgeTypeNode extends InheritanceTypeNode
+{
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	private static final int CAS = 2;
+	private static final int CAS = 2; // connection assertions
 
 	private static final String[] childrenNames = {
 		"extends", "body", "cas"
@@ -78,8 +78,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	/**
-	 * Get the edge type ir object.
-	 * @return The edge type ir object for this ast node.
+	 * Get the edge type IR object.
+	 * @return The edge type IR object for this AST node.
 	 */
 	public EdgeType getEdgeType() {
 		return (EdgeType) checkIR(EdgeType.class);
@@ -88,7 +88,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() {
+	protected IR constructIR() 
+	{
 		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
 				getIRModifiers(), getExternalName());
 
@@ -105,8 +106,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	public static String getKindStr() {
 		return "edge type";
 	}
+	
 	public static String getUseStr() {
 		return "edge type";
 	}
 }
-

@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 /**
  * @author Sebastian Hack
  * @version $Id$
@@ -33,14 +32,14 @@ import de.unika.ipd.grgen.ir.Ident;
 /**
  * An enumeration type AST node.
  */
-public class EnumTypeNode extends CompoundTypeNode {
-
+public class EnumTypeNode extends CompoundTypeNode
+{
 	static {
 		setName(EnumTypeNode.class, "enum type");
 	}
 
 	/**
-	 * Index of the elemets' collect node.
+	 * Index of the elements' collect node.
 	 */
 	private static final int ELEMENTS = 0;
 
@@ -49,6 +48,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	private static final Resolver childrenResolver =
 		new CollectResolver(new DeclResolver(EnumItemNode.class));
+
 	/*
 	 private static final OperatorSignature.Evaluator enumEvaluator =
 	 new OperatorSignature.Evaluator() {
@@ -66,7 +66,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 	 };
 	 */
 
-	public EnumTypeNode(CollectNode body) {
+	public EnumTypeNode(CollectNode body)
+	{
 		super(ELEMENTS, childrenChecker, null);
 		addChild(body);
 
@@ -75,7 +76,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		addCastability(this, BasicTypeNode.floatType);
 		addCastability(this, BasicTypeNode.doubleType);
 
-		//enumarations can be used with the conditional operator
+		//enumerations can be used with the conditional operator
 		OperatorSignature.makeOp(OperatorSignature.COND, this,
 								 new TypeNode[] { BasicTypeNode.booleanType, this, this },
 								 OperatorSignature.condEvaluator
@@ -84,6 +85,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		//the compatibility of the this enum type
 		addCompatibility(this, BasicTypeNode.intType);
 	}
+
 	/*
 	 protected void doGetCastableToTypes(Collection<TypeNode> coll) {
 	 Object obj = BasicTypeNode.castableMap.get(this);
@@ -101,12 +103,13 @@ public class EnumTypeNode extends CompoundTypeNode {
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() {
+	protected IR constructIR()
+	{
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
-		for(BaseNode n : getChild(ELEMENTS).getChildren()) {
-			EnumItemNode item = (EnumItemNode)n;
+		for (BaseNode n : getChild(ELEMENTS).getChildren()) {
+			EnumItemNode item = (EnumItemNode) n;
 			ty.addItem(item.getItem());
 		}
 		/*
@@ -154,9 +157,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 	public static String getKindStr() {
 		return "enum type";
 	}
+
 	public static String getUseStr() {
 		return "enum";
 	}
-
 }
-
