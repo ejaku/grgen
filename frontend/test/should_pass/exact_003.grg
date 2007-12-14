@@ -1,0 +1,8 @@
+rule r {
+	exact pattern {
+		x: Node -:Edge-> x;
+	}
+	replace {
+	}
+}
+

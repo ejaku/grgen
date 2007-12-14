@@ -1,0 +1,11 @@
+rule r {
+	exact pattern {
+		x:Node;
+		y:Node;
+		x --> y;
+		y --> ;
+	}
+	modify {
+	}
+}
+

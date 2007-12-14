@@ -1,0 +1,19 @@
+new graph "lib\lgsp-dpoModel.dll" "Exact graph"
+select actions "lib\lgsp-exactActions.dll"
+
+show num nodes
+show num edges
+xgrs init1
+show num nodes
+show num edges
+xgrs [deleteSrcNode]
+show num nodes
+show num edges
+xgrs [deleteNodeWithDanglingEdge]
+show num nodes
+show num edges
+xgrs [deleteSrcNode]
+show num nodes
+show num edges
+
+quit
