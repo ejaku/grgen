@@ -293,7 +293,7 @@ public class PatternGraphNode extends GraphNode {
 				NodeDeclNode nodeDeclNode = (NodeDeclNode) inducedChild;
 				// TODO coords of occurrence
 				if (nodes.contains(nodeDeclNode)) {
-					inducedChild.reportWarning("Multiple occurrence of "
+					inducedNode.reportWarning("Multiple occurrence of "
 							+ nodeDeclNode.getUseString() + " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " in a single induced statement");
@@ -308,12 +308,90 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private void initSingleNodeNegMap(RuleDeclNode ruleNode) {
+		Collection<BaseNode> dpoNodes = getChild(DPO).getChildren();
+		Collection<BaseNode> exactNodes = getChild(EXACT).getChildren();
+		Set<DeclNode> deletedNodes = ruleNode.getDelete();
+
 		if (isExact()) {
 			addToSingleNodeMap(getExactPatternNodes());
+
+			if (isDPO()) {
+				reportWarning("The keyword \"dpo\" is redundant for exact patterns");
+			}
+
+			for (BaseNode node : exactNodes) {
+				node.reportWarning("Exact statement occurs in exact pattern");
+			}
+
+			for (BaseNode node : dpoNodes) {
+				node.reportWarning("DPO statement occurs in exact pattern");
+			}
+
+			return;
 		}
+
 		if (isDPO()) {
-			addToSingleNodeMap(getDpoPatternNodes(ruleNode.getDelete()));
+			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
+
+			for (BaseNode node : dpoNodes) {
+				node.reportWarning("DPO statement occurs in DPO pattern");
+			}
+
+			//TODO warn if deleted nodes occurs in exact statement
 		}
+
+		// exact Statements
+		for (BaseNode node : exactNodes) {
+			ExactNode exactNode = (ExactNode) node;
+
+			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
+
+			for (BaseNode exactChild : exactNode.getChildren()) {
+				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
+				// TODO coords of occurrence
+				if (nodes.contains(nodeDeclNode)) {
+					exactNode.reportWarning("Multiple occurrence of "
+							+ nodeDeclNode.getUseString() + " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " in a single exact statement");
+				} else {
+					nodes.add(nodeDeclNode);
+				}
+			}
+
+			addToSingleNodeMap(nodes);
+		}
+
+		// dpo Statements
+		for (BaseNode node : dpoNodes) {
+			DpoNode dpoNode = (DpoNode) node;
+
+			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
+
+			for (BaseNode dpoChild : dpoNode.getChildren()) {
+				NodeDeclNode nodeDeclNode = (NodeDeclNode) dpoChild;
+				// TODO coords of occurrence
+				if (nodes.contains(nodeDeclNode)) {
+					dpoNode.reportWarning("Multiple occurrence of "
+							+ nodeDeclNode.getUseString() + " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " in a single dpo statement");
+				} else {
+					if (deletedNodes.contains(nodeDeclNode)) {
+						nodes.add(nodeDeclNode);
+					} else {
+						dpoNode.reportWarning("DPO statement is redundant since "
+								+ nodeDeclNode.getUseString() + " "
+								+ nodeDeclNode.getIdentNode().getSymbol().getText()
+								+ " is not deleted");
+					}
+				}
+			}
+
+			addToSingleNodeMap(nodes);
+		}
+
+		// TODO warn on redundant exact/dpo statements
 	}
 
 	/**

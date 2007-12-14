@@ -1,0 +1,8 @@
+rule r {
+	exact dpo pattern {
+	    x:Node;
+	}
+	replace {
+	}
+}
+

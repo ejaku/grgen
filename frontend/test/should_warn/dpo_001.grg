@@ -1,0 +1,9 @@
+rule r {
+	dpo pattern {
+	    x:Node;
+        dpo(x);
+	}
+	replace {
+	}
+}
+

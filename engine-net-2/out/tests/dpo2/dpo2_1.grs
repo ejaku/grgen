@@ -1,0 +1,26 @@
+new graph "lib\lgsp-dpo2Model.dll" "check tree"
+select actions "lib\lgsp-dpo2Actions.dll"
+
+
+show num nodes
+show num edges
+xgrs init
+show num nodes
+show num edges
+xgrs [deleteSingleNode]
+xgrs [deleteSingleSource]
+show num nodes
+show num edges
+xgrs [deleteSingleTarget]
+show num nodes
+show num edges
+xgrs [deleteSingleNode]
+xgrs [deleteSingleTarget]
+show num nodes
+show num edges
+xgrs [deleteSingleSource]
+xgrs [deleteSingleNode]
+show num nodes
+show num edges
+
+quit

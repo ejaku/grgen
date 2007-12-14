@@ -1,0 +1,9 @@
+rule r {
+	exact pattern {
+	    x:Node;
+        exact(x);
+	}
+	replace {
+	}
+}
+

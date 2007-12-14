@@ -1,0 +1,90 @@
+rule init
+{
+    pattern
+    {
+    }
+    replace
+    {
+        a:Node;
+        b:Node;
+        c:Node;
+        d:Node;
+        e:Node;
+        f:Node;
+        
+        a --> b;
+        b --> c;
+        c --> d;
+        c --> f;
+        e --> b;
+    }
+}
+
+rule deleteSingleTarget
+{
+    pattern
+    {
+        a:Node;
+        b:Node;
+        
+        a --> b;
+        
+        dpo(b);
+    }
+    modify
+    {
+        delete(b);
+    }    
+}
+
+rule deleteSingleSource
+{
+    pattern
+    {
+        a:Node;
+        b:Node;
+        
+        a --> b;
+        
+        dpo(a);
+    }
+    modify
+    {
+        delete(a);
+    }    
+}
+
+rule deleteSingleNode
+{
+    pattern
+    {
+        a:Node;
+        
+        dpo(a);
+    }
+    modify
+    {
+        delete(a);
+    }    
+}
+
+rule deleteSourceAndTargetNode
+{
+    pattern
+    {
+        a:Node;
+        b:Node;
+        c:Node;
+        
+        a --> b;
+        b --> c;
+        
+        dpo(a);
+        dpo(c);
+    }
+    modify
+    {
+        delete(a);
+        delete(c);
+    }    
+}

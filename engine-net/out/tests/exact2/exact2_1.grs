@@ -1,0 +1,18 @@
+new graph "lib\lgsp-exact2Model.dll" "Nice Graph"
+select actions "lib\lgsp-exact2Actions.dll"
+
+
+show num nodes
+show num edges
+xgrs init1
+show num nodes
+show num edges
+xgrs ?[twoOfThreeExact]
+xgrs ?[oneOfTwoExact]
+xgrs oneOfTwoExact
+show num nodes
+show num edges
+xgrs ?[twoOfThreeExact]
+xgrs ?[oneOfTwoExact]
+
+quit
