@@ -32,31 +32,6 @@ import java.util.LinkedList;
  * something, that resolves a node to another node.
  */
 public abstract class Resolver extends Base {
-	protected static class ErrorMessage {
-		private BaseNode node;
-
-		private String msg;
-
-		private Resolver resolver;
-
-		public ErrorMessage(Resolver resolver, BaseNode node, String msg) {
-			this.resolver = resolver;
-			this.node = node;
-			this.msg = msg;
-		}
-
-		public void print() {
-			node.reportError(msg);
-		}
-
-		public Resolver getResolver() {
-			return resolver;
-		}
-	}
-
-	/** A collection holding all error messages, this resolver produced. */
-	private Collection<ErrorMessage> errorMessages = new LinkedList<ErrorMessage>();
-
 	/**
 	 * Resolve a node.
 	 * @param node The parent node of the node to resolve.
@@ -75,17 +50,6 @@ public abstract class Resolver extends Base {
 	 */
 	protected void reportError(BaseNode node, String msg) {
 		node.reportError(msg);
-	}
-
-	/**
-	 * Set the place, where error messages are put to.
-	 * This can be used by resolvers, which call other resolvers to collect
-	 * the error messages of these subresolvers.
-	 * @param c A collection, where objects instance of {@link ErrorMessage}
-	 * are inserted.
-	 */
-	protected final void setErrorQueue(Collection<ErrorMessage> c) {
-		errorMessages = c;
 	}
 }
 
