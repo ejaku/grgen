@@ -43,7 +43,10 @@ public abstract class ExprNode extends BaseNode
 	{
 		/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
 		protected boolean doResolve() {
-			return getResolve();
+			return true;
+		}
+		protected boolean doCheck() {
+			return true;
 		}
 		public TypeNode getType() {
 			return BasicTypeNode.errorType;

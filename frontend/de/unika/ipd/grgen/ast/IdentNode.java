@@ -92,6 +92,22 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		return successfullyChecked;
+	}
+	
 	/**
 	 * Get the symbol definition of this identifier
 	 * @see Symbol#Definition

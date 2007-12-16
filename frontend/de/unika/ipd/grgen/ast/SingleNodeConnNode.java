@@ -79,6 +79,24 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(NODE).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+	
 	/**
 	 * Get the node child of this node.
 	 * @return The node child.

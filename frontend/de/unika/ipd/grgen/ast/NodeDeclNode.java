@@ -72,6 +72,26 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
 	
 	/**
 	 * Yields a dummy <code>NodeDeclNode</code> needed for dangling edges as

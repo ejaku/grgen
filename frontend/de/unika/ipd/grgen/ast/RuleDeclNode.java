@@ -94,6 +94,31 @@ public class RuleDeclNode extends TestDeclNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(PARAM).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(RET).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(PATTERN).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(NEG).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(EVAL).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
 		res.add((GraphNode) getChild(RIGHT));

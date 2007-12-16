@@ -75,6 +75,26 @@ public class EnumItemNode extends MemberDeclNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(VALUE).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */

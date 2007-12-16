@@ -83,6 +83,25 @@ public class CastNode extends ExprNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(EXPR).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 * A cast node is valid, if the second child is an expression node

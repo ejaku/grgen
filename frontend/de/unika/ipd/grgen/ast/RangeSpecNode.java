@@ -61,6 +61,23 @@ public class RangeSpecNode extends BaseNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+	
+		return successfullyChecked;
+	}
+	
 	public String getName() {
 		return super.getName() + " [" + lower + ":" + upper + "]";
 	}

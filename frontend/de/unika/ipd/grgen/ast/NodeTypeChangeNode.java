@@ -70,6 +70,27 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(OLD).doCheck() && successfullyChecked;
+
+		return successfullyChecked;
+	}
+	
 	/**
 	 * @return the original node for this retyped node
 	 */

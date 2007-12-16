@@ -66,7 +66,25 @@ public class AssignNode extends BaseNode
 		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(LHS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(RHS).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
 		boolean lhsOk = checkChild(LHS, QualIdentNode.class);
@@ -96,7 +114,6 @@ public class AssignNode extends BaseNode
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheck() {
-		
 		ExprNode expr = (ExprNode) getChild(RHS);
 		
 		TypeNode targetType = (TypeNode) ((QualIdentNode)getChild(LHS)).getDecl().getDeclType();
@@ -108,11 +125,11 @@ public class AssignNode extends BaseNode
 
 			if (expr == ConstNode.getInvalid()) {
 				String msg;
-				if (exprType.isCastableTo(targetType))
+				if (exprType.isCastableTo(targetType)) {
 					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
-				else
+				} else {
 					msg = "Incompatible assignment from " + exprType + " to " + targetType;
-
+				}
 				error.error(getCoords(), msg);
 				return false;
 			}
@@ -126,8 +143,9 @@ public class AssignNode extends BaseNode
 	 */
 	protected IR constructIR() {
 		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
-		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType())
+		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+		}
 		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
 	}
 }

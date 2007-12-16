@@ -89,6 +89,25 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(EXTENDS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(BODY).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CAS).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
+
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.

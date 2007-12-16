@@ -100,6 +100,27 @@ public class UnitNode extends DeclNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(MODELS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(DECLS).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+	
 	/**
 	 * The main node has an ident node and a collect node with
 	 * - group declarations

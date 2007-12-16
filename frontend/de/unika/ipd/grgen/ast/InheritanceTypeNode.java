@@ -108,6 +108,24 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(EXTENDS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(BODY).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
 	
 	public boolean isA(InheritanceTypeNode type) {
 		assert type != null;

@@ -99,6 +99,25 @@ public class TypeExprNode extends BaseNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		for(int i=0; i<children(); ++i) {
+			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
+		}
+		return successfullyChecked;
+	}
+
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */

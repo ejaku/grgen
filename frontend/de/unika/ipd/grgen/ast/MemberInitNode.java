@@ -76,6 +76,25 @@ public class MemberInitNode extends BaseNode
 		return successfullyResolved;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(LHS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(RHS).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */

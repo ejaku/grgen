@@ -102,6 +102,25 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(LEFT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(EDGE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
 	
 	/**
 	 * Check, if the AST node is correctly built.

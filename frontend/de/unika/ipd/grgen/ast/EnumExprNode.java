@@ -26,6 +26,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -63,6 +65,25 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(OWNER).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(MEMBER).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+
 	/**
 	 * Resolve the identifier nodes.
 	 * Each AST node can add resolvers to a list administrated by

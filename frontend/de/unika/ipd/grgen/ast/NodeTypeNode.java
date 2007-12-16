@@ -73,6 +73,24 @@ public class NodeTypeNode extends InheritanceTypeNode
 		return successfullyResolved;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(EXTENDS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(BODY).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
+
 	/**
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.

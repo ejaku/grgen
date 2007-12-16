@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
@@ -82,6 +84,25 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(OWNER).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(MEMBER).doCheck() && successfullyChecked;
+	
+		return successfullyChecked;
+	}
+
 	/**
 	 * This AST node implies another way of name resolution.
 	 * First of all, the left hand side (lhs) has to be resolved. It must be

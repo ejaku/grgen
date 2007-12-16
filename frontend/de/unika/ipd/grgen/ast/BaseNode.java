@@ -457,39 +457,24 @@ public abstract class BaseNode extends Base
 	 * @return true, if everything went right, false, if not.
 	 */
 	public static final boolean manifestAST(BaseNode node) {
-
-		// check and type check visitor
-		final BooleanResultVisitor checkVisitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean correctlyResolved = n.getResolve();
-				if(correctlyResolved) {
-					boolean childCheck = n.getCheck();
-					boolean typeCheck = false;
-					if(childCheck)
-						typeCheck = n.getTypeCheck();
-
-					if(!(childCheck && typeCheck))
-						setResult(false);
-				}
-			}
-		};
-
 		// resolve AST
-		boolean successfullyResolved = node.doResolve();
-				
+		boolean successfullyResolved = node.doResolve();		
 		// check AST
-		Walker w = new PostWalker(checkVisitor);
-		w.walk(node);
+		boolean successfullyChecked = node.doCheck();
 		
-		return successfullyResolved && checkVisitor.booleanResult();
+		return successfullyResolved && successfullyChecked;
 	}
 
 	/** resolves AST subtree beginning with this node, descending to all children
 	 *  returns success of resolution of the subtree (only true if every resolver succeeded)
 	 *  replaces BooleanResultVisitor calling getResolve during PreWalk of AST */
 	protected abstract boolean doResolve();
-	
+
+	/** checks AST subtree beginning with this node, descending to all children
+	 *  returns success of checking the subtree (only true if every check succeeded)
+	 *  replaces BooleanResultVisitor calling getCheck and getTypeCheck during PostWalk of AST */
+	protected abstract boolean doCheck();
+
 	/**
 	 * Resolve the identifier nodes.
 	 * For example, an identifier representing a declared type is replaced by
@@ -700,6 +685,23 @@ public abstract class BaseNode extends Base
 		}
 
 		return typeCheckResult;
+	}
+	
+	/** Has this node already been checked? */
+	protected final boolean isChecked() {
+		return checked;
+	}
+	
+	/**
+	 * yields result of checking this AST node, type checking included
+	 * ATTENTION: different from getCheck without type checking
+	 */
+	protected final boolean getChecked() {
+		assert(isChecked());
+		if(!getCheck()) {
+			return false;
+		}
+		return getTypeCheck();
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

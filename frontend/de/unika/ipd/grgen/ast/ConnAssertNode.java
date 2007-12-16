@@ -95,6 +95,26 @@ public class ConnAssertNode extends BaseNode
 		return successfullyResolved;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
+	protected boolean doCheck() {
+		if(!getResolve()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = getCheck();
+		if(successfullyChecked) {
+			successfullyChecked = getTypeCheck();
+		}
+		successfullyChecked = getChild(SRC).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(SRCRANGE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TGT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TGTRANGE).doCheck() && successfullyChecked;
+		return successfullyChecked;
+	}
+
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
