@@ -93,6 +93,17 @@ public class EnumTypeNode extends CompoundTypeNode
 	 coll.addAll((Collection) obj);
 	 }*/
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(ELEMENTS).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */

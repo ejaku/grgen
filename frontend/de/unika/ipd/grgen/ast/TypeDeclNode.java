@@ -29,8 +29,8 @@ import de.unika.ipd.grgen.ir.IR;
 /**
  * Declaration of a type.
  */
-public class TypeDeclNode extends DeclNode {
-	
+public class TypeDeclNode extends DeclNode
+{
 	static {
 		setName(TypeDeclNode.class, "type declaration");
 	}
@@ -71,5 +71,4 @@ public class TypeDeclNode extends DeclNode {
 	public static String getUseStr() {
 		return "type";
 	}
-
 }

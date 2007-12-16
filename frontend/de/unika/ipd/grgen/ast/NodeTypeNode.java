@@ -47,7 +47,6 @@ public class NodeTypeNode extends InheritanceTypeNode
 	private static final Resolver extendsResolver =
 		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
 
-
 	/**
 	 * Create a new node type
 	 * @param ext The collect node containing the node types which are extended by this type.
@@ -60,6 +59,18 @@ public class NodeTypeNode extends InheritanceTypeNode
 		super(ext, body, extendsChecker, extendsResolver);
 		setModifiers(modifiers);
 		setExternalName(externalName);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 
 	/**

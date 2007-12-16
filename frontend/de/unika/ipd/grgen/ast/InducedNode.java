@@ -29,8 +29,11 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class InducedNode extends BaseNode {
-
+/**
+ *
+ */
+public class InducedNode extends BaseNode
+{
 	static {
 		setName(InducedNode.class, "induced");
 	}
@@ -39,6 +42,19 @@ public class InducedNode extends BaseNode {
 		super(coords);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Check whether all children are of node type.
 	 * 

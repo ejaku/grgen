@@ -34,8 +34,8 @@ import de.unika.ipd.grgen.ir.IR;
 
 import java.awt.Color;
 
-public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
-	
+public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
+{
 	static {
 		setName(EdgeDeclNode.class, "edge declaration");
 	}
@@ -54,6 +54,19 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e) {
 		this(n, e, TypeExprNode.getEmpty());
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	protected boolean check() {

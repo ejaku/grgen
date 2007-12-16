@@ -57,6 +57,16 @@ public abstract class TypeNode extends BaseNode
 	TypeNode() {
 		super();
 	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		return successfullyResolved;
+	}
 
 	public static String getUseStr() {
 		return "type";

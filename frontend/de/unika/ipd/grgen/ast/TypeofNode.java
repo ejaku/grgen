@@ -37,8 +37,8 @@ import de.unika.ipd.grgen.ir.Typeof;
  * A node representing the current type of a
  * certain node/edge.
  */
-public class TypeofNode extends ExprNode {
-	
+public class TypeofNode extends ExprNode
+{
 	static {
 		setName(TypeofNode.class, "typeof");
 	}
@@ -65,6 +65,17 @@ public class TypeofNode extends ExprNode {
 		setChildrenNames(childrenNames);
 		addChild(entity);
 		setResolver(ENTITY, entityResolver);
+	}
+	
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(ENTITY).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**

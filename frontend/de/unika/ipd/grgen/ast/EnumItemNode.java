@@ -39,9 +39,7 @@ import de.unika.ipd.grgen.util.Walker;
  */
 public class EnumItemNode extends MemberDeclNode
 {
-	
-	static
-	{
+	static {
 		setName(EnumItemNode.class, "enum item");
 	}
 	
@@ -62,6 +60,19 @@ public class EnumItemNode extends MemberDeclNode
 		super(identifier, type);
 		this.pos = pos;
 		addChild(value);
+	}
+
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(VALUE).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**

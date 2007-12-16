@@ -29,8 +29,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * An arithmetic operator.
  */
-public class ArithmeticOpNode extends OpNode {
-	
+public class ArithmeticOpNode extends OpNode
+{
 	static {
 		setName(ArithmeticOpNode.class, "arithmetic operator");
 	}
@@ -41,6 +41,19 @@ public class ArithmeticOpNode extends OpNode {
 	 */
 	public ArithmeticOpNode(Coords coords, int opId) {
 		super(coords, opId);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
 	}
 	
 	/**
@@ -70,7 +83,4 @@ public class ArithmeticOpNode extends OpNode {
 		return super.check()
 			&& checkAllChildren(ExprNode.class);
 	}
-	
-	
-	
 }

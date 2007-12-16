@@ -15,19 +15,18 @@ public class ObjectConstNode extends ConstNode
 	/**
 	 * @param coords The coordinates.
 	 */
-	public ObjectConstNode(Coords coords)
-	{
+	public ObjectConstNode(Coords coords) {
 		super(coords, "object", ObjectTypeNode.Value.NULL);
 	}
-	
-	public TypeNode getType()
-	{
+
+	public TypeNode getType() {
 		return BasicTypeNode.objectType;
 	}
 	
-	protected ConstNode doCastTo(TypeNode type)
-	{
-		if ( type.isEqual(BasicTypeNode.objectType) ) return this;
+	protected ConstNode doCastTo(TypeNode type)	{
+		if ( type.isEqual(BasicTypeNode.objectType) ) {
+			return this;
+		}
 		return ConstNode.getInvalid();
 	}
 	

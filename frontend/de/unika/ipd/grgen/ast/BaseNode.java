@@ -458,16 +458,6 @@ public abstract class BaseNode extends Base
 	 */
 	public static final boolean manifestAST(BaseNode node) {
 
-		// Resolve visitor
-		final BooleanResultVisitor resolveVisitor = new BooleanResultVisitor(true) {
-			public void visit(Walkable w) {
-				BaseNode n = (BaseNode) w;
-				boolean res = n.getResolve();
-				if(!res)
-					setResult(false);
-			}
-		};
-
 		// check and type check visitor
 		final BooleanResultVisitor checkVisitor = new BooleanResultVisitor(true) {
 			public void visit(Walkable w) {
@@ -485,11 +475,21 @@ public abstract class BaseNode extends Base
 			}
 		};
 
-		Walker w = new PrePostWalker(resolveVisitor, checkVisitor);
+		// resolve AST
+		boolean successfullyResolved = node.doResolve();
+				
+		// check AST
+		Walker w = new PostWalker(checkVisitor);
 		w.walk(node);
-		return resolveVisitor.booleanResult() && checkVisitor.booleanResult();
+		
+		return successfullyResolved && checkVisitor.booleanResult();
 	}
 
+	/** resolves AST subtree beginning with this node, descending to all children
+	 *  returns success of resolution of the subtree (only true if every resolver succeeded)
+	 *  replaces BooleanResultVisitor calling getResolve during PreWalk of AST */
+	protected abstract boolean doResolve();
+	
 	/**
 	 * Resolve the identifier nodes.
 	 * For example, an identifier representing a declared type is replaced by
@@ -598,6 +598,7 @@ public abstract class BaseNode extends Base
 
 		return res;
 	}
+	
 	/**
 	 * Reports a bad child node.
 	 * @param childNum The number of the bad child
@@ -609,7 +610,6 @@ public abstract class BaseNode extends Base
 		reportError("Child " + childNum + " \"" + getChild(childNum).getName() +
 				"\"" + " needs to be instance of \"" + shortClassName(cls) + "\"");
 	}
-
 
 	/**
 	 * Apply a checker to a specific child

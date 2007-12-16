@@ -29,8 +29,11 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class DpoNode extends BaseNode {
-
+/**
+ *  
+ */
+public class DpoNode extends BaseNode
+{
 	static {
 		setName(DpoNode.class, "dpo");
 	}
@@ -39,6 +42,19 @@ public class DpoNode extends BaseNode {
 		super(coords);
 	}
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Check whether all children are of node type.
 	 * 
@@ -69,8 +85,9 @@ public class DpoNode extends BaseNode {
 
 		for (int i = 0; i < children(); ++i) {
 			boolean res = resolver.resolve(this, i);
-			if (!res)
+			if (!res) {
 				resolved = false;
+			}
 		}
 
 		return resolved;

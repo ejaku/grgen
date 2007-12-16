@@ -32,7 +32,6 @@ import de.unika.ipd.grgen.ir.IR;
  */
 public class TypeConstNode extends ConstNode
 {
-	
 	/** The name of the type. */
 	private IdentNode id;
 	
@@ -41,21 +40,20 @@ public class TypeConstNode extends ConstNode
 	 * @param id The name of the enum item.
 	 * @param value The value of the enum item.
 	 */
-	public TypeConstNode(IdentNode id)
-	{
+	public TypeConstNode(IdentNode id) {
 		super(id.getCoords(), "type const", "DO NOT USE");
 		this.id = id;
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
 	 */
-	protected ConstNode doCastTo(TypeNode type)
-	{
+	protected ConstNode doCastTo(TypeNode type)	{
 		ConstNode res = ConstNode.getInvalid();
 		
-		if(type.isEqual(BasicTypeNode.stringType))
+		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
+		}
 		
 		return res;
 	}
@@ -63,16 +61,14 @@ public class TypeConstNode extends ConstNode
     /**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR()
-	{
+	protected IR constructIR() {
 		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
 	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
-	public TypeNode getType()
-	{
+	public TypeNode getType() {
 		return BasicTypeNode.typeType;
 	}
 
@@ -80,5 +76,4 @@ public class TypeConstNode extends ConstNode
 	public Object getValue() {
 		return id.getDecl().getDeclType();
 	}
-	
 }

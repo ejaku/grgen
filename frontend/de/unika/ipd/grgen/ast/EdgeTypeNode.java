@@ -57,7 +57,6 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	private static final Resolver casResolver =
 		new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
 
-
 	/**
 	 * Make a new edge type node.
 	 * @param ext The collect node with all edge classes that this one extends.
@@ -77,6 +76,19 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		setExternalName(externalName);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CAS).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.

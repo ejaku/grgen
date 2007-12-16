@@ -37,8 +37,8 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * A type expression constant.
  */
-public class TypeConstraintNode extends TypeExprNode {
-	
+public class TypeConstraintNode extends TypeExprNode
+{
 	static {
 		setName(TypeConstraintNode.class, "type expression const");
 	}
@@ -62,6 +62,19 @@ public class TypeConstraintNode extends TypeExprNode {
 		getChild(OPERANDS).addChild(typeIdentUse);
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	protected boolean check() {
 		return checkChild(OPERANDS, typeChecker);
 	}
@@ -76,6 +89,5 @@ public class TypeConstraintNode extends TypeExprNode {
 		
 		return cnst;
 	}
-	
 }
 

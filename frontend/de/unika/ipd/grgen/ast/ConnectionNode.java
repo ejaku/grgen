@@ -90,6 +90,19 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		setResolver(EDGE, new EdgeResolver());
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(LEFT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(EDGE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()

@@ -35,7 +35,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing an assignment.
  * children: LHS:QualIdentNode, RHS:ExprNode
  */
-public class AssignNode extends BaseNode {
+public class AssignNode extends BaseNode
+{
 	static {
 		setName(AssignNode.class, "Assign");
 	}
@@ -54,9 +55,19 @@ public class AssignNode extends BaseNode {
 		addChild(expr);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(LHS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
 		boolean lhsOk = checkChild(LHS, QualIdentNode.class);
 		boolean rhsOk = checkChild(RHS, ExprNode.class);
@@ -96,7 +107,6 @@ public class AssignNode extends BaseNode {
 			replaceChild(RHS, expr);
 
 			if (expr == ConstNode.getInvalid()) {
-
 				String msg;
 				if (exprType.isCastableTo(targetType))
 					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
@@ -120,6 +130,5 @@ public class AssignNode extends BaseNode {
 			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
 		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
 	}
-	
 }
 

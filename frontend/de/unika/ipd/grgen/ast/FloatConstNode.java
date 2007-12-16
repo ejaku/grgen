@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -29,35 +28,34 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * An single precision floating point constant.
  */
-public class FloatConstNode extends ConstNode {
+public class FloatConstNode extends ConstNode
+{
+	/**
+	 * @param coords The coordinates.
+	 * @param value The float value
+	 */
+	public FloatConstNode(Coords coords, double v) {
+		super(coords, "float", new Float(v));
+	}
 
-  /**
-   * @param coords The coordinates.
-   * @param value The float value
-   */
-  public FloatConstNode(Coords coords, double v) {
-    super(coords, "float", new Float(v));
-  }
-  
-  public TypeNode getType() {
-  	return BasicTypeNode.floatType;
-  }
-  
+	public TypeNode getType() {
+		return BasicTypeNode.floatType;
+	}
+
 	protected ConstNode doCastTo(TypeNode type) {
 		float value = ((Float) getValue()).floatValue();
 		ConstNode res = ConstNode.getInvalid();
-  	
-  	if(type.isEqual(BasicTypeNode.booleanType)) 
-  		res = new BoolConstNode(getCoords(), value != 0 ? true : false); 
-	else if(type.isEqual(BasicTypeNode.stringType)) 
-		res = new StringConstNode(getCoords(), "" + value);
-	else if(type.isEqual(BasicTypeNode.doubleType)) 
-		res = new DoubleConstNode(getCoords(), (double)value);
-	else if(type.isEqual(BasicTypeNode.intType)) 
-		res = new IntConstNode(getCoords(), (int)value);
-  		
+
+		if (type.isEqual(BasicTypeNode.booleanType)) {
+			res = new BoolConstNode(getCoords(), value != 0 ? true : false);
+		} else if (type.isEqual(BasicTypeNode.stringType)) {
+			res = new StringConstNode(getCoords(), "" + value);
+		} else if (type.isEqual(BasicTypeNode.doubleType)) {
+			res = new DoubleConstNode(getCoords(), (double) value);
+		} else if (type.isEqual(BasicTypeNode.intType)) {
+			res = new IntConstNode(getCoords(), (int) value);
+		}
+		
 		return res;
 	}
-
-
 }

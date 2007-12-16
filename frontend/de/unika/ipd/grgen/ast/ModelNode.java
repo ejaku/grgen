@@ -35,9 +35,12 @@ import de.unika.ipd.grgen.ir.Model;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class ModelNode extends DeclNode {
-	
-	protected static final TypeNode modelType = new TypeNode() { };
+public class ModelNode extends DeclNode
+{
+	protected static final TypeNode modelType = 
+		new TypeNode()
+		{ 
+		};
 	
 	static {
 		setName(ModelNode.class, "model declaration");
@@ -62,6 +65,19 @@ public class ModelNode extends DeclNode {
 		super(id, modelType);
 		setChildrenNames(childrenNames);
 		setResolver(DECLS, declResolver);
+	}
+	
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(DECLS).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**
@@ -106,8 +122,9 @@ public class ModelNode extends DeclNode {
 	{
 		inProgress.add(inhType);
 		for (BaseNode t : inhType.getDirectSuperTypes()) {
-			
-			if ( ! (t instanceof InheritanceTypeNode)) continue;
+			if ( ! (t instanceof InheritanceTypeNode)) {
+				continue;
+			}
 
 			assert (
 				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
@@ -122,9 +139,11 @@ public class ModelNode extends DeclNode {
 					"\", which introduces a cycle to the type hierarchy");
 				return false;
 			}
-			if ( ! done.contains(superType) )
-				if ( ! checkInhCycleFree_rec(superType, inProgress, done) )
+			if ( ! done.contains(superType) ) {
+				if ( ! checkInhCycleFree_rec(superType, inProgress, done) ) {
 					return false;
+				}
+			}
 		}
 		inProgress.remove(inhType);
 		done.add(inhType);
@@ -140,10 +159,11 @@ public class ModelNode extends DeclNode {
 	{
 		Collection<BaseNode> coll = getChild(DECLS).getChildren();
 		for (BaseNode t : coll) {
-			
 			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
 
-			if ( !(type instanceof InheritanceTypeNode) ) continue ;
+			if ( !(type instanceof InheritanceTypeNode) ) { 
+				continue ;
+			}
 
 			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
 			Collection<BaseNode> done = new HashSet<BaseNode>();
@@ -151,34 +171,34 @@ public class ModelNode extends DeclNode {
 			boolean isCycleFree =
 				checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
 
-			if ( ! isCycleFree ) return false;
+			if ( ! isCycleFree ) {
+				return false;
+			}
 		}
 		return true;
 	}
 			
 			
-			/*
-			
-			Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
-			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
-			alreadyExtended.add(type);
+	/*
+	Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
+	TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
+	alreadyExtended.add(type);
 
-			for ( BaseNode tt : alreadyExtended ) {
-				
-				if ( !(tt instanceof InheritanceTypeNode) ) continue ;
+	for ( BaseNode tt : alreadyExtended ) {
+		
+		if ( !(tt instanceof InheritanceTypeNode) ) continue ;
 
-				InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
-				Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
+		InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
+		Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
 
-				for ( BaseNode s : superTypes ) {
-					if ( alreadyExtended.contains(s) ) {
-						s.reportError("extending \"" + s + "\" causes cyclic inheritance");
-						return false;
-					}
-				}
-				alreadyExtended.addAll(superTypes);
+		for ( BaseNode s : superTypes ) {
+			if ( alreadyExtended.contains(s) ) {
+				s.reportError("extending \"" + s + "\" causes cyclic inheritance");
+				return false;
 			}
 		}
-			 */
+		alreadyExtended.addAll(superTypes);
+	}
+	*/
 }
 

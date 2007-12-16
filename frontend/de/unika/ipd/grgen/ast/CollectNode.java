@@ -37,8 +37,8 @@ import java.awt.Color;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class CollectNode extends BaseNode {
-
+public class CollectNode extends BaseNode
+{
 	static {
 		setName(CollectNode.class, "collect");
 	}
@@ -47,6 +47,19 @@ public class CollectNode extends BaseNode {
 		super();
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	/**
 	 * The collect node is always in a correct state.
 	 * Use #checkAllChildren(Class) to check for the state

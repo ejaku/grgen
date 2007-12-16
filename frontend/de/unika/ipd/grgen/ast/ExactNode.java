@@ -29,8 +29,11 @@ import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class ExactNode extends BaseNode {
-
+/**
+ * 
+ */
+public class ExactNode extends BaseNode
+{
 	static {
 		setName(ExactNode.class, "exact");
 	}
@@ -39,6 +42,19 @@ public class ExactNode extends BaseNode {
 		super(coords);
 	}
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Check whether all children are of node type.
 	 * 
@@ -75,5 +91,4 @@ public class ExactNode extends BaseNode {
 
 		return resolved;
 	}
-
 }

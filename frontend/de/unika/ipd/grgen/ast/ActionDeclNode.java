@@ -33,15 +33,15 @@ import de.unika.ipd.grgen.ir.Action;
 /**
  * Base class for all action types (tests, rules)
  */
-public abstract class ActionDeclNode extends DeclNode {
-    
+public abstract class ActionDeclNode extends DeclNode
+{
 	protected static final Checker negChecker =
 		new CollectChecker(new SimpleChecker(PatternGraphNode.class));
 
 	public ActionDeclNode(IdentNode id, TypeNode type) {
         super(id, type);
     }
-    
+	
     /**
      * Get the IR object for this action node.
      * The IR object is instance of Action here.
@@ -51,6 +51,4 @@ public abstract class ActionDeclNode extends DeclNode {
     public Action getAction() {
         return (Action) getIR();
     }
-
-    
 }

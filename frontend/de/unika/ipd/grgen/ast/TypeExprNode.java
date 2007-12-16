@@ -35,8 +35,8 @@ import java.awt.Color;
 /**
  * AST node representing type expressions.
  */
-public class TypeExprNode extends BaseNode {
-	
+public class TypeExprNode extends BaseNode
+{
 	static {
 		setName(TypeExprNode.class, "type constraint expr");
 	}
@@ -57,7 +57,6 @@ public class TypeExprNode extends BaseNode {
 			TypeExprSetOperator.DIFFERENCE, TypeExprSetOperator.INTERSECT
 	};
 			
-	
 	/** Opcode of the set operation. */
 	private final int op;
 	
@@ -68,32 +67,45 @@ public class TypeExprNode extends BaseNode {
 		return EMPTY;
 	}
 	
-  /**
+	/**
 	 * Make a new expression
 	 */
-  public TypeExprNode(Coords coords, int op) {
+	public TypeExprNode(Coords coords, int op) {
 		super(coords);
 		this.op = op;
 		assert op >= 0 && op <= LAST : "Illegal type constraint expr opcode";
-  }
-	
+	}
+
 	public TypeExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
 		this(coords, op);
 		addChild(op0);
 		addChild(op1);
 	}
-	
-  private TypeExprNode(int op) {
-		this(Coords.getBuiltin(), op);
-  }
 
-  /**
+	private TypeExprNode(int op) {
+		this(Coords.getBuiltin(), op);
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
+	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
-  public Color getNodeColor() {
+	public Color getNodeColor() {
 		return Color.CYAN;
-  }
-	
+	}
+
 	public String getNodeLabel() {
 		return "type expr " + opName[op];
 	}
@@ -103,9 +115,10 @@ public class TypeExprNode extends BaseNode {
 		int arity = children();
 		boolean arityOk = arity == 2;
 		
-		if(!arityOk)
+		if(!arityOk) {
 			reportError("Type constraint expression has wrong arity: " + arity);
-
+		}
+		
 		// check the child node types
 		boolean typesOk = checkAllChildren(TypeExprNode.class);
 		
@@ -114,7 +127,6 @@ public class TypeExprNode extends BaseNode {
 
 	protected IR constructIR() {
 		TypeExpr lhs = (TypeExpr) getChild(0).checkIR(TypeExpr.class);
-
 		TypeExpr rhs = (TypeExpr) getChild(1).checkIR(TypeExpr.class);
 		
 		TypeExprSetOperator expr = new TypeExprSetOperator(irOp[op]);
@@ -123,6 +135,5 @@ public class TypeExprNode extends BaseNode {
 		
 		return expr;
 	}
-  
 }
 

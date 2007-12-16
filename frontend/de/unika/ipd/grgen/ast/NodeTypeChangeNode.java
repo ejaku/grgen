@@ -36,8 +36,8 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 /**
  *
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
-
+public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
+{
 	static {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
@@ -50,57 +50,67 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 	private static final Checker nodeChecker =
 		new TypeChecker(NodeTypeNode.class);
 		
-  public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
-  		
-  	super(id, newType, TypeExprNode.getEmpty() );
-	addChild(oldid);
-  	setResolver(OLD, nodeResolver);
-  }
-
-  /**
-   * @return the original node for this retyped node
-   */
-  public NodeCharacter getOldNode()
-  {
-    return (NodeCharacter) getChild(OLD);
-  }
-  
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#check()
-   */
-  protected boolean check() {
-    return super.check()
-	&&  checkChild(OLD, nodeChecker);
-  }
-  
-  public Node getNode() {
-  	return (Node) checkIR(Node.class);
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-   */
-  protected IR constructIR() {
-    // This cast must be ok after checking.
-  	NodeCharacter oldNodeDecl = (NodeCharacter) getChild(OLD);
-
-	// This cast must be ok after checking.
-	NodeTypeNode tn = (NodeTypeNode) getDeclType();
-	NodeType nt = tn.getNodeType();
-	IdentNode ident = getIdentNode();
-		
-	RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
-
-  	Node node = oldNodeDecl.getNode();
-  	node.setRetypedNode(res);
-	res.setOldNode(node);
-	
-	if(inheritsType()) {
-		res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
+		super(id, newType, TypeExprNode.getEmpty());
+		addChild(oldid);
+		setResolver(OLD, nodeResolver);
 	}
-	  
-	return res;
-  }
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
+	/**
+	 * @return the original node for this retyped node
+	 */
+	public NodeCharacter getOldNode() {
+		return (NodeCharacter) getChild(OLD);
+	}
+  
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 */
+	protected boolean check() {
+		return super.check() && checkChild(OLD, nodeChecker);
+	}
+
+	public Node getNode() {
+		return (Node) checkIR(Node.class);
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
+	 */
+	protected IR constructIR() {
+		// This cast must be ok after checking.
+		NodeCharacter oldNodeDecl = (NodeCharacter) getChild(OLD);
+
+		// This cast must be ok after checking.
+		NodeTypeNode tn = (NodeTypeNode) getDeclType();
+		NodeType nt = tn.getNodeType();
+		IdentNode ident = getIdentNode();
+
+		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
+
+		Node node = oldNodeDecl.getNode();
+		node.setRetypedNode(res);
+		res.setOldNode(node);
+
+		if (inheritsType()) {
+			res.setTypeof((Node) getChild(TYPE).checkIR(Node.class));
+		}
+
+		return res;
+	}
 }
 

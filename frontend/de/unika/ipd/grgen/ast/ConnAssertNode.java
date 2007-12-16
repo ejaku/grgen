@@ -36,8 +36,8 @@ import de.unika.ipd.grgen.ir.NodeType;
  * AST node that represents a Connection Assertion
  * children: SRC:IdentNode, SRCRANGE:RangeSpecNode, TGT:IdentNode, TGTRANGE:RangeSpecNode
  */
-public class ConnAssertNode extends BaseNode {
-	
+public class ConnAssertNode extends BaseNode
+{
 	static {
 		setName(ConnAssertNode.class, "conn assert");
 	}
@@ -79,6 +79,20 @@ public class ConnAssertNode extends BaseNode {
 		//addResolver(SRCRANGE, 	null);
 		setResolver(TGT, 		nodeResolver);
 		//addResolver(TGTRANGE, 	null);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(SRC).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(SRCRANGE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TGT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TGTRANGE).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**

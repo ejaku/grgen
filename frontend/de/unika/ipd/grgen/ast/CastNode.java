@@ -41,7 +41,6 @@ import de.unika.ipd.grgen.ir.Cast;
  */
 public class CastNode extends ExprNode
 {
-	
 	/** The type child index. */
 	private final static int TYPE = 0;
 	
@@ -51,13 +50,11 @@ public class CastNode extends ExprNode
 	/** The resolver for the type */
 	static private final Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
 
-	
 	/**
 	 * Make a new cast node.
 	 * @param coords The source code coordinates.
 	 */
-	public CastNode(Coords coords)
-	{
+	public CastNode(Coords coords) {
 		super(coords);
 		setResolver(TYPE, typeResolver);
 	}
@@ -68,11 +65,22 @@ public class CastNode extends ExprNode
 	 * @param targetType The target type.
 	 * @param expr The expression to be casted.
 	 */
-	public CastNode(Coords coords, TypeNode targetType, BaseNode expr)
-	{
+	public CastNode(Coords coords, TypeNode targetType, BaseNode expr) {
 		this(coords);
 		addChild(targetType);
 		addChild(expr);
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(EXPR).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**
@@ -80,8 +88,7 @@ public class CastNode extends ExprNode
 	 * A cast node is valid, if the second child is an expression node
 	 * and the first node is a type node identifier.
 	 */
-	protected boolean check()
-	{
+	protected boolean check() {
 		return checkChild(TYPE, BasicTypeNode.class)
 			&& checkChild(EXPR, ExprNode.class);
 	}
@@ -100,14 +107,14 @@ public class CastNode extends ExprNode
 		if( !(n instanceof BasicTypeNode) ) {
 			reportError("Only primitive types are allowed for casts, but got \"" + n + "\"");
 			return false;
-		}
-		else {
+		} else {
 			BasicTypeNode bt = (BasicTypeNode) getChild(TYPE);
 			exp.getType().getCastableToTypes(castableToTypes);
 			
 			boolean result = castableToTypes.contains(bt);
-			if(!result)
+			if(!result) {
 				reportError("Illegal cast from \"" + exp.getType() + "\" to \"" + bt + "\"");
+			}
 			
 			return result;
 		}
@@ -123,8 +130,11 @@ public class CastNode extends ExprNode
 		ExprNode expr = (ExprNode) getChild(EXPR);
 		TypeNode type = (TypeNode) getChild(TYPE);
 		
-		if(expr.isConst()) return expr.getConst().castTo(type);
-		else return this;
+		if(expr.isConst()) {
+			return expr.getConst().castTo(type);
+		} else {
+			return this;
+		}
 	}
 	
 	/**
@@ -143,7 +153,6 @@ public class CastNode extends ExprNode
 		
 		return new Cast(type, expr);
 	}
-	
 }
 
 

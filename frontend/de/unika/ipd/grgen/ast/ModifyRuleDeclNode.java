@@ -19,8 +19,8 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import java.util.Set;
 
-public class ModifyRuleDeclNode extends RuleDeclNode {
-	
+public class ModifyRuleDeclNode extends RuleDeclNode
+{
 	private static final int DELETE = LAST + 7;
 
 	private static final String[] childrenNames = {
@@ -48,6 +48,25 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		addChild(dels);
 		setResolver(DELETE, deleteResolver);
 		setChildrenNames(childrenNames);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PARAM).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RET).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PATTERN).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(NEG).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(EVAL).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(DELETE).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	protected Set<DeclNode> getDelete()
@@ -267,5 +286,4 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		
 		return rule;
 	}
-	
 }

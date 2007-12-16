@@ -34,8 +34,8 @@ import java.awt.Color;
 /**
  * Declaration of a node.
  */
-public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
-	
+public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
+{
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
@@ -60,26 +60,34 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		this(id, type, TypeExprNode.getEmpty());
 	}
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Yields a dummy <code>NodeDeclNode</code> needed for dangling edges as
 	 * dummy as dummy tgt or src node, respectively.
 	 */
-	public static NodeDeclNode getDummy(IdentNode id, BaseNode type)
-	{
+	public static NodeDeclNode getDummy(IdentNode id, BaseNode type) {
 		NodeDeclNode res = new NodeDeclNode(id, type) {
-
-			public Node getNode()
-			{
+			public Node getNode() {
 				return null;
 			}
 			
-			public boolean isDummy()
-			{
+			public boolean isDummy() {
 				return true;
 			}
 
-			public String toString()
-			{
+			public String toString() {
 				return "a dummy node";
 			}
 		};
@@ -88,8 +96,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		return res;
 	}
 	
-	public boolean isDummy()
-	{
+	public boolean isDummy() {
 		return false;
 	}
 	
@@ -117,7 +124,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 */
 	public Node getNode() {
 		return (Node) checkIR(Node.class);
-		
 	}
 	
 	/**
@@ -144,8 +150,9 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		Node res = new Node(ident.getIdent(), nt, ident.getAttributes());
 		res.setConstraints(getConstraints());
 		
-		if( res.getConstraints().contains(res.getType()) )
+		if( res.getConstraints().contains(res.getType()) ) {
 			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node ("+ res.getType() + ")");
+		}
 		
 		if(inheritsType()) {
 			res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));

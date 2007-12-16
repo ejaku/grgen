@@ -60,6 +60,19 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		}
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
+	}
+	
 	public boolean fixupDefinition(IdentNode id) {
 		return fixupDefinition(id, true);
 	}

@@ -35,52 +35,46 @@ import java.util.Collection;
  */
 public abstract class ExprNode extends BaseNode
 {
-	
-	static
-	{
+	static {
 		setName(ExprNode.class, "expression");
 	}
 	
 	static private final ExprNode INVALID = new ExprNode(Coords.getInvalid())
 	{
-		public TypeNode getType()
-		{
+		/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+		protected boolean doResolve() {
+			return getResolve();
+		}
+		public TypeNode getType() {
 			return BasicTypeNode.errorType;
 		}
-		public String toString()
-		{
+		public String toString() {
 			return "invalid expression";
 		}
-		public String getKindString()
-		{
+		public String getKindString() {
 			return "invalid expression";
 		}
 	};
 	
-	static
-	{
+	static {
 		setName(INVALID.getClass(), "invalid expression");
 	}
 	
 	/**
 	 * Make a new expression
 	 */
-	public ExprNode(Coords coords)
-	{
+	public ExprNode(Coords coords) {
 		super(coords);
 	}
 	
-	public static ExprNode getInvalid()
-	{
+	public static ExprNode getInvalid() {
 		return INVALID;
 	}
-	
 	
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
-	public Color getNodeColor()
-	{
+	public Color getNodeColor()	{
 		return Color.PINK;
 	}
 	
@@ -99,14 +93,16 @@ public abstract class ExprNode extends BaseNode
 	 * this expression, if <code>type</code> was compatible with the type of
 	 * this expression, an invalid expression otherwise (one of an error type).
 	 */
-	protected ExprNode adjustType(TypeNode tgt)
-	{
+	protected ExprNode adjustType(TypeNode tgt)	{
 		TypeNode src = getType();
 		
-		if(src.isEqual(tgt)) return this;
+		if(src.isEqual(tgt)) {
+			return this;
+		}
 			
-		if( src.isCompatibleTo(tgt) )
+		if( src.isCompatibleTo(tgt) ) {
 			return new CastNode(getCoords(), tgt, this);
+		}
 
 		/* in general we would have to compute a shortest path in the conceptual
 		 * compatibility graph. But as it is very small we do it shortly
@@ -114,9 +110,11 @@ public abstract class ExprNode extends BaseNode
 		 * with only one indirection */
 		Collection<TypeNode> coll = new HashSet<TypeNode>();
 		src.getCompatibleToTypes(coll);
-		for (TypeNode t : coll)
-			if (t.isCompatibleTo(tgt))
+		for (TypeNode t : coll) {
+			if (t.isCompatibleTo(tgt)) {
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this));
+			}
+		}
 		
 		return ConstNode.getInvalid();
 	}
@@ -125,8 +123,7 @@ public abstract class ExprNode extends BaseNode
 	 * Check, if the expression is constant.
 	 * @return True, if the expression can be evaluated to a constant.
 	 */
-	public boolean isConst()
-	{
+	public boolean isConst() {
 		return false;
 	}
 	
@@ -134,13 +131,13 @@ public abstract class ExprNode extends BaseNode
 	 * Try to evaluate and return a constant version
 	 * of this expression
 	 */
-	public ConstNode getConst()
-	{
+	public ConstNode getConst()	{
 		ExprNode expr = evaluate();
-		if(expr instanceof ConstNode)
+		if(expr instanceof ConstNode) {
 			return (ConstNode)expr;
-		else
+		} else {
 			return ConstNode.getInvalid();
+		}
 	}
 	
 	/**
@@ -148,10 +145,7 @@ public abstract class ExprNode extends BaseNode
 	 * have to check for it.
 	 * @return The value of the expression.
 	 */
-	public ExprNode evaluate()
-	{
+	public ExprNode evaluate() {
 		return this;
 	}
-	
 }
-

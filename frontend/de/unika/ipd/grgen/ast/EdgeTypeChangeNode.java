@@ -36,8 +36,8 @@ import de.unika.ipd.grgen.ir.RetypedEdge;
 /**
  *
  */
-public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
-
+public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
+{
 	static {
 		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
@@ -50,67 +50,81 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	private static final Checker edgeChecker =
 		new TypeChecker(EdgeTypeNode.class);
 		
-  public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
-  		
-  	super(id, newType, TypeExprNode.getEmpty() );
-	addChild(oldid);
-  	setResolver(OLD, edgeResolver);
-  }
+	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 
-  /**
-   * @return the original edge for this retyped edge
-   */
-  public EdgeCharacter getOldEdge()
-  {
-    return (EdgeCharacter) getChild(OLD);
-  }
-  
-  public IdentNode getOldEdgeIdent()
-  {
-	  if (getChild(OLD) instanceof IdentNode) return (IdentNode) getChild(OLD);
-	  if (getChild(OLD) instanceof EdgeDeclNode)
-		  return ((EdgeDeclNode) getChild(OLD)).getIdentNode();
-	  
-	  return IdentNode.getInvalid();
-  }
-  
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseEdge#check()
-   */
-  protected boolean check() {
-    return super.check()
-	&&  checkChild(OLD, edgeChecker);
-  }
-  
-  public Edge getEdge() {
-  	return (Edge) checkIR(Edge.class);
-  }
-
-  /**
-   * @see de.unika.ipd.grgen.ast.BaseEdge#constructIR()
-   */
-  protected IR constructIR() {
-    // This cast must be ok after checking.
-  	EdgeCharacter oldEdgeDecl = (EdgeCharacter) getChild(OLD);
-
-	// This cast must be ok after checking.
-	EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
-	EdgeType et = etn.getEdgeType();
-	IdentNode ident = getIdentNode();
-		
-	RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAttributes());
-
-  	Edge oldEdge = oldEdgeDecl.getEdge();
-  	oldEdge.setRetypedEdge(res);
-	res.setOldEdge(oldEdge);
-	
-	if(inheritsType()) {
-		res.setTypeof( (Edge) getChild(TYPE).checkIR(Edge.class) );
+		super(id, newType, TypeExprNode.getEmpty());
+		addChild(oldid);
+		setResolver(OLD, edgeResolver);
 	}
-	  
-	return res;
-  }
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
+	/**
+	 * @return the original edge for this retyped edge
+	 */
+	public EdgeCharacter getOldEdge() {
+		return (EdgeCharacter) getChild(OLD);
+	}
+
+	public IdentNode getOldEdgeIdent() {
+		if (getChild(OLD) instanceof IdentNode) {
+			return (IdentNode) getChild(OLD);
+		}
+		if (getChild(OLD) instanceof EdgeDeclNode) {
+			return ((EdgeDeclNode) getChild(OLD)).getIdentNode();
+		}
+
+		return IdentNode.getInvalid();
+	}
+  
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseEdge#check()
+	 */
+	protected boolean check() {
+		return super.check() && checkChild(OLD, edgeChecker);
+	}
+
+	public Edge getEdge() {
+		return (Edge) checkIR(Edge.class);
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.BaseEdge#constructIR()
+	 */
+	protected IR constructIR() {
+		// This cast must be ok after checking.
+		EdgeCharacter oldEdgeDecl = (EdgeCharacter) getChild(OLD);
+
+		// This cast must be ok after checking.
+		EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
+		EdgeType et = etn.getEdgeType();
+		IdentNode ident = getIdentNode();
+
+		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident
+				.getAttributes());
+
+		Edge oldEdge = oldEdgeDecl.getEdge();
+		oldEdge.setRetypedEdge(res);
+		res.setOldEdge(oldEdge);
+
+		if (inheritsType()) {
+			res.setTypeof((Edge) getChild(TYPE).checkIR(Edge.class));
+		}
+
+		return res;
+	}
 }
 
 

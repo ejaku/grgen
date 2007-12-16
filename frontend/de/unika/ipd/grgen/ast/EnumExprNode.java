@@ -35,8 +35,8 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
-	
+public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
+{
 	static {
 		setName(EnumExprNode.class, "enum access expression");
 	}
@@ -49,6 +49,18 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	
 	public EnumExprNode(Coords c, BaseNode owner, BaseNode member) {
 		super(c, owner, member);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**
@@ -108,6 +120,4 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		EnumItem it = (EnumItem) getChild(MEMBER).checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
 	}
-
 }
-

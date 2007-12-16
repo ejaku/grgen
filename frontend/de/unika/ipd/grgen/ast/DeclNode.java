@@ -38,8 +38,8 @@ import de.unika.ipd.grgen.ir.Type;
  * Base class for all AST nodes representing declarations.
  * children: IDENT:IdentNode TYPE:
  */
-public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
-
+public abstract class DeclNode extends BaseNode implements DeclaredCharacter
+{
 	static {
 		setName(DeclNode.class, "declaration");
 	}
@@ -113,6 +113,18 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter {
 		setChildrenNames(declChildrenNames);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Get the ident node for this declaration. The ident node represents
 	 * the declared identifier.

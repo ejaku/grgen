@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -29,40 +28,40 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  * An enum item value.
  */
-public class EnumConstNode extends ConstNode {
-
+public class EnumConstNode extends ConstNode
+{
 	/** The name of the enum item. */
 	private IdentNode id;
 
-  /**
-   * @param coords The source code coordinates.
-   * @param id The name of the enum item.
-   * @param value The value of the enum item.
-   */
-  public EnumConstNode(Coords coords, IdentNode id, int value) {
-    super(coords, "enum item", new Integer(value));
-    this.id = id;
-  }
+	/**
+	 * @param coords The source code coordinates.
+	 * @param id The name of the enum item.
+	 * @param value The value of the enum item.
+	 */
+	public EnumConstNode(Coords coords, IdentNode id, int value) {
+		super(coords, "enum item", new Integer(value));
+		this.id = id;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
+	 */
+	protected ConstNode doCastTo(TypeNode type) {
+		ConstNode res = ConstNode.getInvalid();
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
-   */
-  protected ConstNode doCastTo(TypeNode type) {
-    ConstNode res = ConstNode.getInvalid();
-    
-    if(type.isEqual(BasicTypeNode.intType))
-    	return new IntConstNode(getCoords(), ((Integer) getValue()).intValue());
-    else if(type.isEqual(BasicTypeNode.stringType))
-    	return new StringConstNode(getCoords(), id.toString());
+		if (type.isEqual(BasicTypeNode.intType)) {
+			return new IntConstNode(getCoords(), ((Integer) getValue()).intValue());
+		} else if (type.isEqual(BasicTypeNode.stringType)) {
+			return new StringConstNode(getCoords(), id.toString());
+		}
 
-    return res;
-  }
+		return res;
+	}
 
-  /**
-   * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-   */
-  public TypeNode getType() {
-    return BasicTypeNode.enumItemType;
-  }
-
+	/**
+	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
+	 */
+	public TypeNode getType() {
+		return BasicTypeNode.enumItemType;
+	}
 }

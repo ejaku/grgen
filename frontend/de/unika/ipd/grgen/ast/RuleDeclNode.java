@@ -38,8 +38,8 @@ import de.unika.ipd.grgen.ir.Rule;
 /**
  * AST node for a replacement rule.
  */
-public class RuleDeclNode extends TestDeclNode {
-
+public class RuleDeclNode extends TestDeclNode
+{
 	protected static final int RIGHT = LAST + 5;
 	protected static final int EVAL = LAST + 6;
 
@@ -76,6 +76,24 @@ public class RuleDeclNode extends TestDeclNode {
 		setChildrenNames(childrenNames);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PARAM).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RET).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PATTERN).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(NEG).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(EVAL).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
 		res.add((GraphNode) getChild(RIGHT));
@@ -428,7 +446,6 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
-
 
 		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
 		GraphNode right = (GraphNode) getChild(RIGHT);

@@ -33,8 +33,8 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.TypeExprSubtypes;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class TypeExprSubtypeNode extends TypeExprNode {
-	
+public class TypeExprSubtypeNode extends TypeExprNode
+{
 	static {
 		setName(TypeExprSubtypeNode.class, "type expr subtype");
 	}
@@ -48,6 +48,19 @@ public class TypeExprSubtypeNode extends TypeExprNode {
 		super(coords, SUBTYPES);
 		addChild(type);
 		setResolver(OPERAND, typeResolver);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+		}
+		return successfullyResolved;
 	}
 	
 	protected boolean check() {
@@ -67,6 +80,5 @@ public class TypeExprSubtypeNode extends TypeExprNode {
 			(InheritanceType) getChild(OPERAND).checkIR(InheritanceType.class);
 		return new TypeExprSubtypes(inh);
 	}
-	
 }
 

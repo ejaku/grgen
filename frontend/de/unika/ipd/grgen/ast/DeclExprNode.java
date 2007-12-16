@@ -33,8 +33,8 @@ import de.unika.ipd.grgen.ir.MemberExpression;
 /**
  * An expression that results from a declared identifier.
  */
-public class DeclExprNode extends ExprNode {
-
+public class DeclExprNode extends ExprNode
+{
 	private static final int DECL = 0;
 
 	static {
@@ -55,6 +55,17 @@ public class DeclExprNode extends ExprNode {
 		addChild(declCharacter);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(DECL).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */

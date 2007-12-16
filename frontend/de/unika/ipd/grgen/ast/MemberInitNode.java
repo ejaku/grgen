@@ -37,7 +37,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing a member initialization.
  * children: LHS:IdentNode, RHS:ExprNode
  */
-public class MemberInitNode extends BaseNode {
+public class MemberInitNode extends BaseNode
+{
 	static {
 		setName(MemberInitNode.class, "member init");
 	}
@@ -61,6 +62,18 @@ public class MemberInitNode extends BaseNode {
 		setChildrenNames(childrenNames);
 		setResolver(LHS, new MemberInitResolver(DeclNode.class));
 		//setResolver(RHS, new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)}));
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(LHS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 
 	/**
@@ -89,13 +102,12 @@ public class MemberInitNode extends BaseNode {
 			replaceChild(RHS, expr);
 
 			if (expr == ConstNode.getInvalid()) {
-
 				String msg;
-				if (exprType.isCastableTo(targetType))
+				if (exprType.isCastableTo(targetType)) {
 					msg = "Assignment of " + exprType + " to " + targetType + " without a cast";
-				else
+				} else {
 					msg = "Incompatible assignment from " + exprType + " to " + targetType;
-
+				}
 				error.error(getCoords(), msg);
 				return false;
 			}

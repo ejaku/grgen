@@ -35,9 +35,12 @@ import de.unika.ipd.grgen.ir.Unit;
 /**
  * The main node of the text. It is the root of the AST.
  */
-public class UnitNode extends DeclNode {
-	
-	protected static final TypeNode mainType = new TypeNode() { };
+public class UnitNode extends DeclNode
+{
+	protected static final TypeNode mainType =
+		new TypeNode()
+		{
+		};
 	
 	static {
 		setName(UnitNode.class, "unit declaration");
@@ -83,6 +86,20 @@ public class UnitNode extends DeclNode {
 		setResolver(DECLS, declResolver);
 	}
 	
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(MODELS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(DECLS).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * The main node has an ident node and a collect node with
 	 * - group declarations
@@ -124,5 +141,4 @@ public class UnitNode extends DeclNode {
 
 		return res;
 	}
-	
 }

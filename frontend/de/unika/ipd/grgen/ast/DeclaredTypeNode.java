@@ -34,7 +34,6 @@ package de.unika.ipd.grgen.ast;
 public abstract class DeclaredTypeNode extends TypeNode
 {
 	private DeclNode decl = null;
-
 	
 	/**
 	 * Get the identifier of the type declaration.

@@ -30,10 +30,12 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing a range specification (used by ConnAssertNode). 
  * children: none
  */
-public class RangeSpecNode extends BaseNode {
+public class RangeSpecNode extends BaseNode
+{
 	static {
 		setName(RangeSpecNode.class, "range spec");
 	}
+	
 	/** Constant, signaling if one bound is bounded. */
 	public static final int UNBOUND = Integer.MAX_VALUE;
 	
@@ -47,6 +49,16 @@ public class RangeSpecNode extends BaseNode {
 		super(coords);
 		this.lower = lower;
 		this.upper = upper;
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		return successfullyResolved;
 	}
 	
 	public String getName() {
@@ -74,5 +86,4 @@ public class RangeSpecNode extends BaseNode {
 	public int getUpper() {
 		return upper;
 	}
-	
 }

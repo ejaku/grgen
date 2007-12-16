@@ -44,17 +44,13 @@ import java.util.Map.Entry;
  * AST node that represents a graph pattern as it appears within the pattern
  * part of some rule Extension of the graph pattern of the rewrite part
  */
-public class PatternGraphNode extends GraphNode {
-
+public class PatternGraphNode extends GraphNode
+{
 	public static final int MOD_DPO = 1;
-
 	public static final int MOD_EXACT = 2;
-
 	public static final int MOD_INDUCED = 4;
 
-	/**
-	 * The modifiers for this type. An ORed combination of the constants above.
-	 */
+	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
 
 	/** used to add an dangling edge to a PatternGraph. */
@@ -100,13 +96,15 @@ public class PatternGraphNode extends GraphNode {
 	 * TODO
 	 *  Map to a set of edges -> don't count edges twice
 	 */
-	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
+	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap =
+		new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
 
 	/**
 	 * TODO
 	 * map each pair of nodes to a pattern graph
 	 */
-	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap = new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
+	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap =
+		new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
 
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");
@@ -114,11 +112,8 @@ public class PatternGraphNode extends GraphNode {
 
 	/**
 	 * A new pattern node
-	 * 
-	 * @param connections
-	 *            A collection containing connection nodes
-	 * @param conditions
-	 *            A collection of conditions.
+	 * @param connections A collection containing connection nodes
+	 * @param conditions A collection of conditions.
 	 */
 	public PatternGraphNode(Coords coords, CollectNode connections,
 			CollectNode conditions, CollectNode returns, CollectNode homs,
@@ -133,6 +128,23 @@ public class PatternGraphNode extends GraphNode {
 		this.modifiers = modifiers;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(CONNECTIONS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RETURN).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONDITIONS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(HOMS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(DPO).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(EXACT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(INDUCED).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	public Collection<BaseNode> getHoms() {
 		return getChild(HOMS).getChildren();
 	}
@@ -140,7 +152,8 @@ public class PatternGraphNode extends GraphNode {
 	protected boolean check() {
 		boolean childs = super.check()
 				&& checkChild(CONDITIONS, conditionsChecker)
-				&& checkChild(HOMS, homChecker) && checkChild(DPO, dpoChecker)
+				&& checkChild(HOMS, homChecker) 
+				&& checkChild(DPO, dpoChecker)
 				&& checkChild(EXACT, exactChecker)
 				&& checkChild(INDUCED, inducedChecker);
 
@@ -223,10 +236,12 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		/* generate type conditions from dynamic type checks via typeof */
-		for (GraphEntity n : gr.getNodes())
+		for (GraphEntity n : gr.getNodes()) {
 			genTypeCondsFromTypeof(gr, n);
-		for (GraphEntity e : gr.getEdges())
+		}
+		for (GraphEntity e : gr.getEdges()) {
 			genTypeCondsFromTypeof(gr, e);
+		}
 
 		for (BaseNode n : getHoms()) {
 			HomNode hom = (HomNode) n;
@@ -278,8 +293,7 @@ public class PatternGraphNode extends GraphNode {
 			addToDoubleNodeMap(getInducedPatternNodes());
 
 			for (BaseNode node : inducedNodes) {
-				node
-						.reportWarning("Induced statement occurs in induced pattern");
+				node.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
@@ -445,14 +459,12 @@ public class PatternGraphNode extends GraphNode {
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
 				if (keySet.contains(conn.getSrc())) {
-					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
-							.getSrc());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn.getSrc());
 					edges.add(conn);
 					singleNodeNegMap.put(conn.getSrc(), edges);
 				}
 				if (keySet.contains(conn.getTgt())) {
-					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
-							.getTgt());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn.getTgt());
 					edges.add(conn);
 					singleNodeNegMap.put(conn.getTgt(), edges);
 				}
@@ -463,8 +475,7 @@ public class PatternGraphNode extends GraphNode {
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
-		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : singleNodeNegMap
-				.entrySet()) {
+		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : singleNodeNegMap.entrySet()) {
 			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
 				PatternGraph neg = new PatternGraph();
 				neg.addSingleNode(entry.getKey().getNode());
@@ -528,10 +539,9 @@ public class PatternGraphNode extends GraphNode {
 		// find an edgeRoot-type and nodeRoot
 		BaseNode nodeRoot = null;
 		BaseNode model = root.getChild(UnitNode.MODELS).getChild(0);
-		Collection<BaseNode> types = model.getChild(ModelNode.DECLS)
-				.getChildren();
+		Collection<BaseNode> types = model.getChild(ModelNode.DECLS).getChildren();
 
-		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
+		for (Iterator<BaseNode> it = types.iterator(); it.hasNext(); ) {
 			BaseNode candidate = it.next();
 			IdentNode ident = (IdentNode) candidate.getChild(DeclNode.IDENT);
 			String name = ident.getSymbol().getText();
@@ -591,8 +601,7 @@ public class PatternGraphNode extends GraphNode {
 		BaseNode edgeRoot = getEdgeRootType();
 
 		// add another Edge of type edgeRoot to each NAC
-		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap
-				.entrySet()) {
+		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap.entrySet()) {
 			// TODO check casts
 			NodeDeclNode src = (NodeDeclNode) entry.getKey().get(0);
 			NodeDeclNode tgt = (NodeDeclNode) entry.getKey().get(1);
@@ -635,8 +644,7 @@ public class PatternGraphNode extends GraphNode {
 		// find an edgeRoot-type
 		BaseNode edgeRoot = null;
 		BaseNode model = root.getChild(UnitNode.MODELS).getChild(0);
-		Collection<BaseNode> types = model.getChild(ModelNode.DECLS)
-				.getChildren();
+		Collection<BaseNode> types = model.getChild(ModelNode.DECLS).getChildren();
 
 		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
 			BaseNode candidate = it.next();

@@ -42,8 +42,8 @@ import java.util.Set;
  * or to be used as base class for PatternGraphNode
  * representing the graph pattern of the pattern part of some rule
  */
-public class GraphNode extends BaseNode {
-
+public class GraphNode extends BaseNode
+{
 	/** Index of the connections collect node. */
 	protected static final int CONNECTIONS = 0;
 	protected static final int RETURN = CONNECTIONS+1;
@@ -71,6 +71,18 @@ public class GraphNode extends BaseNode {
 		addChild(returns);
 	}
 
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(CONNECTIONS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RETURN).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * A pattern node contains just a collect node with connection nodes
 	 * as its children.
@@ -167,5 +179,4 @@ public class GraphNode extends BaseNode {
 
 		return gr;
 	}
-
 }

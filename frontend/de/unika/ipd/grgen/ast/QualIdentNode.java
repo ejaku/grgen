@@ -35,8 +35,8 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node that represents a qualified identifier
  * i.e. expressions like this one: a.b.c.d
  */
-public class QualIdentNode extends BaseNode implements DeclaredCharacter {
-	
+public class QualIdentNode extends BaseNode implements DeclaredCharacter
+{
 	static {
 		setName(QualIdentNode.class, "Qual");
 	}
@@ -68,6 +68,18 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		addChild(member);
 		// addResolver(OWNER, declResolver);
 		// addResolver(MEMBER, identExprResolver);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**
@@ -126,8 +138,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		assertResolved();
 		BaseNode child = getChild(MEMBER);
 
-		if (child instanceof DeclNode)
+		if (child instanceof DeclNode) {
 			return (DeclNode) child;
+		}
 
 		return DeclNode.getInvalid();
 	}
@@ -136,8 +149,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		assertResolved();
 		BaseNode child = getChild(OWNER);
 
-		if (child instanceof DeclNode)
+		if (child instanceof DeclNode) {
 			return (DeclNode) child;
+		}
 
 		return DeclNode.getInvalid();
 	}
@@ -149,24 +163,17 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return new Qualification(owner, member);
 	}
 
-	public void reportChildError (int childNum, Class<?> cls) {
-		
+	public void reportChildError(int childNum, Class<?> cls) {
 		switch (childNum) {
-
-			case 0:
-				reportError("Node or edge expected before '.'");
-				break;
-
-			case 1:
-				reportError("Not a member of " + getChild(0));
-				break;
-
-			default:
-				reportError("Internal error: " + getChild(childNum).getName() +
-					"has no child with number " + childNum);
-
+		case 0:
+			reportError("Node or edge expected before '.'");
+			break;
+		case 1:
+			reportError("Not a member of " + getChild(0));
+			break;
+		default:
+			reportError("Internal error: " + getChild(childNum).getName()
+					+ "has no child with number " + childNum);
 		}
 	}
-
 }
-

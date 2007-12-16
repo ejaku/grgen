@@ -35,8 +35,8 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
 /**
  * AST node class representing tests
  */
-public class TestDeclNode extends ActionDeclNode {
-
+public class TestDeclNode extends ActionDeclNode
+{
 	protected static final int PARAM = LAST + 1;
 	protected static final int RET = LAST + 2;
 	protected static final int PATTERN = LAST + 3;
@@ -65,8 +65,7 @@ public class TestDeclNode extends ActionDeclNode {
 					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
 						res = false;
 						node.reportError("\"" + node + "\" is undeclared");
-					}
-					else {
+					} else {
 						BaseNode type = ((IdentNode)node).getDecl().getDeclType();
 						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
 						if (!res) node.reportError("\"" + node + "\" is neither a node nor an edge type");
@@ -94,6 +93,22 @@ public class TestDeclNode extends ActionDeclNode {
 		this(id, testType, pattern, neg, params, rets);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PARAM).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(RET).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(PATTERN).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(NEG).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		CollectNode negs  = (CollectNode) getChild(NEG);
@@ -291,6 +306,4 @@ public class TestDeclNode extends ActionDeclNode {
 		return test;
 	}
 }
-
-
 

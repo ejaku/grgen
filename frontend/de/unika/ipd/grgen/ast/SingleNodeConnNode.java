@@ -38,8 +38,8 @@ import de.unika.ipd.grgen.ir.Graph;
  * that occur without any edge connection to the rest of the graph.
  * children: NODE:NodeDeclNode|IdentNode
  */
-public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter {
-	
+public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
+{
 	/** Index of the node in the children array. */
 	private static final int NODE = 0;
 	
@@ -66,6 +66,17 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		addChild(n);
 		setChildrenNames(childrenNames);
 		setResolver(NODE, nodeResolver);
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(NODE).doResolve() && successfullyResolved;
+		return successfullyResolved;
 	}
 	
 	/**
@@ -128,5 +139,4 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	public boolean isNegated() {
 		return false;
 	}
-	
 }

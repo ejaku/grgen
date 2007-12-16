@@ -34,8 +34,8 @@ import java.util.Map;
 /**
  * A basic type AST node such as string or int
  */
-public abstract class BasicTypeNode extends DeclaredTypeNode {
-
+public abstract class BasicTypeNode extends DeclaredTypeNode
+{
 	/**
 	 * The string basic type.
 	 */
@@ -80,6 +80,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return "double";
 		}
 	};
+	
 	/**
 	 * The floating point basic type.
 	 */
@@ -119,7 +120,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 			return new IntType(getIdentNode().getIdent());
 		}
 	};
-
 
 	/**
 	 * The void basic type. It is compatible to no other type.
@@ -171,7 +171,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	 * (BasicTypeNode -> Class)
 	 */
 	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
-
 
 	static {
 		setName(BasicTypeNode.class, "basic type");
@@ -263,6 +262,5 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static String getUseStr() {
 		return "basic type";
 	}
-
 }
 

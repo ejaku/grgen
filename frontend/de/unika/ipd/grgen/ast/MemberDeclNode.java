@@ -35,8 +35,8 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * A compound type member declaration.
  */
-public class MemberDeclNode extends DeclNode {
-
+public class MemberDeclNode extends DeclNode
+{
 	static {
 		setName(MemberDeclNode.class, "member declaration");
 	}
@@ -56,8 +56,18 @@ public class MemberDeclNode extends DeclNode {
 		setResolver(TYPE, typeResolver);
 	}
 
-
-
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
 	 */
@@ -69,5 +79,4 @@ public class MemberDeclNode extends DeclNode {
 		Type type = (Type) getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type);
 	}
-
 }

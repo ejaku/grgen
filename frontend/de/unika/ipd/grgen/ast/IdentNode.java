@@ -38,7 +38,8 @@ import java.awt.Color;
  * AST node that represents an Identifier (name that appears within the specification)
  * children: none
  */
-public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
+public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
+{
 	static {
 		setName(IdentNode.class, "identifier");
 	}
@@ -81,6 +82,16 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		this.occ = occ;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		return successfullyResolved;
+	}
+	
 	/**
 	 * Get the symbol definition of this identifier
 	 * @see Symbol#Definition
@@ -120,10 +131,14 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		Symbol.Definition def = getSymDef();
 
 		if(def.isValid()) {
-			if(def.getNode() == this) return decl;
-			else return def.getNode().getDecl();
+			if(def.getNode() == this) {
+				return decl;
+			} else { 
+				return def.getNode().getDecl();
+			}
+		} else {
+			return DeclNode.getInvalid(this);
 		}
-		else return DeclNode.getInvalid(this);
 	}
 
 	/**

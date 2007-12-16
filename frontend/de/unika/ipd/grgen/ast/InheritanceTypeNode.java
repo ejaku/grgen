@@ -42,8 +42,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
 
-	private static final int EXTENDS = 0;
-	private static final int BODY = 1;
+	protected static final int EXTENDS = 0;
+	protected static final int BODY = 1;
 
 	private static final String[] childrenNames = {
 		"extends", "body"
@@ -97,6 +97,18 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		setResolver(EXTENDS, inhResolver);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+	
 	public boolean isA(InheritanceTypeNode type) {
 		assert type != null;
 		return this==type || getAllSuperTypes().contains(type);
@@ -213,8 +225,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		if(allMembers==null) {
 			allMembers = new LinkedHashMap<String, DeclNode>();
 
-			for(InheritanceTypeNode superType : getDirectSuperTypes())
+			for(InheritanceTypeNode superType : getDirectSuperTypes()) {
 				allMembers.putAll(superType.getAllMembers());
+			}
 
 			getMembers(allMembers);
 		}

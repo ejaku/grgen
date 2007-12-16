@@ -32,14 +32,24 @@ import java.util.Collections;
  * Dummy AST node, that is used in the case of an error.
  * children: none
  */
-public class NullNode extends BaseNode {
-	
+public class NullNode extends BaseNode
+{
 	static {
 		setName(NullNode.class, "error node");
 	}
 	
 	protected NullNode() {
 		super();
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
+	protected boolean doResolve() {
+		if(isResolved()) {
+			return getResolve();
+		}
+		
+		boolean successfullyResolved = resolve();
+		return successfullyResolved;
 	}
 	
 	/*
@@ -69,6 +79,7 @@ public class NullNode extends BaseNode {
 	 return dummy;
 	 }
 	 */
+	
 	public Color getNodeColor() {
 		return Color.RED;
 	}
@@ -84,5 +95,4 @@ public class NullNode extends BaseNode {
 	public boolean isError() {
 		return true;
 	}
-	
 }
