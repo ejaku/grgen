@@ -44,8 +44,7 @@ import java.util.Map.Entry;
  * AST node that represents a graph pattern as it appears within the pattern
  * part of some rule Extension of the graph pattern of the rewrite part
  */
-public class PatternGraphNode extends GraphNode
-{
+public class PatternGraphNode extends GraphNode {
 	public static final int MOD_DPO = 1;
 	public static final int MOD_EXACT = 2;
 	public static final int MOD_INDUCED = 4;
@@ -96,15 +95,13 @@ public class PatternGraphNode extends GraphNode
 	 * TODO
 	 *  Map to a set of edges -> don't count edges twice
 	 */
-	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap =
-		new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
+	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap = new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
 
 	/**
 	 * TODO
 	 * map each pair of nodes to a pattern graph
 	 */
-	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap =
-		new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
+	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap = new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
 
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");
@@ -130,45 +127,55 @@ public class PatternGraphNode extends GraphNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
 	protected boolean doResolve() {
-		if(isResolved()) {
+		if (isResolved()) {
 			return getResolve();
 		}
-		
+
 		boolean successfullyResolved = resolve();
-		successfullyResolved = getChild(CONNECTIONS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(RETURN).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(CONDITIONS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(HOMS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(DPO).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(EXACT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(INDUCED).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONNECTIONS).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(RETURN).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(CONDITIONS).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(HOMS).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(DPO).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(EXACT).doResolve()
+				&& successfullyResolved;
+		successfullyResolved = getChild(INDUCED).doResolve()
+				&& successfullyResolved;
 		return successfullyResolved;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		if(!getResolve()) {
+		if (!getResolve()) {
 			return false;
 		}
-		if(isChecked()) {
+		if (isChecked()) {
 			return getChecked();
 		}
-		
+
 		boolean successfullyChecked = getCheck();
-		if(successfullyChecked) {
+		if (successfullyChecked) {
 			successfullyChecked = getTypeCheck();
 		}
-		successfullyChecked = getChild(CONNECTIONS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONNECTIONS).doCheck()
+				&& successfullyChecked;
 		successfullyChecked = getChild(RETURN).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONDITIONS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONDITIONS).doCheck()
+				&& successfullyChecked;
 		successfullyChecked = getChild(HOMS).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(DPO).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(EXACT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(INDUCED).doCheck() && successfullyChecked;
-	
+		successfullyChecked = getChild(INDUCED).doCheck()
+				&& successfullyChecked;
+
 		return successfullyChecked;
 	}
-	
+
 	public Collection<BaseNode> getHoms() {
 		return getChild(HOMS).getChildren();
 	}
@@ -176,8 +183,7 @@ public class PatternGraphNode extends GraphNode
 	protected boolean check() {
 		boolean childs = super.check()
 				&& checkChild(CONDITIONS, conditionsChecker)
-				&& checkChild(HOMS, homChecker) 
-				&& checkChild(DPO, dpoChecker)
+				&& checkChild(HOMS, homChecker) && checkChild(DPO, dpoChecker)
 				&& checkChild(EXACT, exactChecker)
 				&& checkChild(INDUCED, inducedChecker);
 
@@ -317,7 +323,8 @@ public class PatternGraphNode extends GraphNode
 			addToDoubleNodeMap(getInducedPatternNodes());
 
 			for (BaseNode node : inducedNodes) {
-				node.reportWarning("Induced statement occurs in induced pattern");
+				node
+						.reportWarning("Induced statement occurs in induced pattern");
 			}
 			return;
 		}
@@ -329,7 +336,8 @@ public class PatternGraphNode extends GraphNode
 
 			for (BaseNode inducedChild : inducedNode.getChildren()) {
 				NodeDeclNode nodeDeclNode = (NodeDeclNode) inducedChild;
-				// TODO coords of occurrence
+
+				// coords of occurrence are not available
 				if (nodes.contains(nodeDeclNode)) {
 					inducedNode.reportWarning("Multiple occurrence of "
 							+ nodeDeclNode.getUseString() + " "
@@ -375,61 +383,75 @@ public class PatternGraphNode extends GraphNode
 				node.reportWarning("DPO statement occurs in DPO pattern");
 			}
 
-			//TODO warn if deleted nodes occurs in exact statement
-		}
-
-		// exact Statements
-		for (BaseNode node : exactNodes) {
-			ExactNode exactNode = (ExactNode) node;
-
-			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
-
-			for (BaseNode exactChild : exactNode.getChildren()) {
-				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
-				// TODO coords of occurrence
-				if (nodes.contains(nodeDeclNode)) {
-					exactNode.reportWarning("Multiple occurrence of "
-							+ nodeDeclNode.getUseString() + " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
-							+ " in a single exact statement");
-				} else {
-					nodes.add(nodeDeclNode);
-				}
-			}
-
-			addToSingleNodeMap(nodes);
-		}
-
-		// dpo Statements
-		for (BaseNode node : dpoNodes) {
-			DpoNode dpoNode = (DpoNode) node;
-
-			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
-
-			for (BaseNode dpoChild : dpoNode.getChildren()) {
-				NodeDeclNode nodeDeclNode = (NodeDeclNode) dpoChild;
-				// TODO coords of occurrence
-				if (nodes.contains(nodeDeclNode)) {
-					dpoNode.reportWarning("Multiple occurrence of "
-							+ nodeDeclNode.getUseString() + " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
-							+ " in a single dpo statement");
-				} else {
+			for (BaseNode exactNode : exactNodes) {
+				for (BaseNode exactChild : exactNode.getChildren()) {
+					NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
 					if (deletedNodes.contains(nodeDeclNode)) {
-						nodes.add(nodeDeclNode);
-					} else {
-						dpoNode.reportWarning("DPO statement is redundant since "
-								+ nodeDeclNode.getUseString() + " "
-								+ nodeDeclNode.getIdentNode().getSymbol().getText()
-								+ " is not deleted");
+						exactNode.reportWarning("Exact statement for "
+								+ nodeDeclNode.getUseString()
+								+ " "
+								+ nodeDeclNode.getIdentNode().getSymbol()
+										.getText()
+								+ " is redundant, since the pattern is DPO");
+
 					}
 				}
 			}
-
-			addToSingleNodeMap(nodes);
 		}
 
-		// TODO warn on redundant exact/dpo statements
+		//Set<NodeCharacter> genExactNodes = new LinkedHashSet<NodeCharacter>();
+		Map<NodeCharacter, Integer> genExactNodes = new LinkedHashMap<NodeCharacter, Integer>();
+		// exact Statements
+		for (int i = 0; i < getChild(EXACT).getChildren().size(); i++) {
+			BaseNode exactNode = getChild(EXACT).getChild(i);
+			for (BaseNode exactChild : exactNode.getChildren()) {
+				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
+				// coords of occurrence are not available
+				if (genExactNodes.containsKey(nodeDeclNode)) {
+					exactNode.reportWarning(nodeDeclNode.getUseString()
+							+ " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " already occurs in exact statement at "
+							+ getChild(EXACT).getChild(
+									genExactNodes.get(nodeDeclNode))
+									.getCoords());
+				} else {
+					genExactNodes.put(nodeDeclNode, i);
+				}
+			}
+		}
+
+		Map<NodeCharacter, Integer> genDpoNodes = new LinkedHashMap<NodeCharacter, Integer>();
+		// dpo Statements
+		for (int i = 0; i < getChild(DPO).getChildren().size(); i++) {
+			BaseNode dpoNode = getChild(DPO).getChild(i);
+
+			for (BaseNode dpoChild : dpoNode.getChildren()) {
+				NodeDeclNode nodeDeclNode = (NodeDeclNode) dpoChild;
+				// coords of occurrence are not available
+				if (genExactNodes.containsKey(nodeDeclNode)) {
+					dpoNode.reportWarning(nodeDeclNode.getUseString()
+							+ " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " already occurs in exact statement at "
+							+ getChild(EXACT).getChild(
+									genExactNodes.get(nodeDeclNode))
+									.getCoords());
+				}
+				if (genDpoNodes.containsKey(nodeDeclNode)) {
+					dpoNode.reportWarning(nodeDeclNode.getUseString()
+							+ " "
+							+ nodeDeclNode.getIdentNode().getSymbol().getText()
+							+ " already occurs in dpo statement at "
+							+ getChild(DPO).getChild(
+									genDpoNodes.get(nodeDeclNode)).getCoords());
+				} else {
+					genDpoNodes.put(nodeDeclNode, i);
+				}
+			}
+		}
+		addToSingleNodeMap(genDpoNodes.keySet());
+		addToSingleNodeMap(genExactNodes.keySet());
 	}
 
 	/**
@@ -483,12 +505,14 @@ public class PatternGraphNode extends GraphNode
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
 				if (keySet.contains(conn.getSrc())) {
-					Set<ConnectionNode> edges = singleNodeNegMap.get(conn.getSrc());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
+							.getSrc());
 					edges.add(conn);
 					singleNodeNegMap.put(conn.getSrc(), edges);
 				}
 				if (keySet.contains(conn.getTgt())) {
-					Set<ConnectionNode> edges = singleNodeNegMap.get(conn.getTgt());
+					Set<ConnectionNode> edges = singleNodeNegMap.get(conn
+							.getTgt());
 					edges.add(conn);
 					singleNodeNegMap.put(conn.getTgt(), edges);
 				}
@@ -499,7 +523,8 @@ public class PatternGraphNode extends GraphNode
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
-		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : singleNodeNegMap.entrySet()) {
+		for (Entry<NodeCharacter, Set<ConnectionNode>> entry : singleNodeNegMap
+				.entrySet()) {
 			for (int direction = INCOMING; direction <= OUTGOING; direction++) {
 				PatternGraph neg = new PatternGraph();
 				neg.addSingleNode(entry.getKey().getNode());
@@ -563,9 +588,10 @@ public class PatternGraphNode extends GraphNode
 		// find an edgeRoot-type and nodeRoot
 		BaseNode nodeRoot = null;
 		BaseNode model = root.getChild(UnitNode.MODELS).getChild(0);
-		Collection<BaseNode> types = model.getChild(ModelNode.DECLS).getChildren();
+		Collection<BaseNode> types = model.getChild(ModelNode.DECLS)
+				.getChildren();
 
-		for (Iterator<BaseNode> it = types.iterator(); it.hasNext(); ) {
+		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
 			BaseNode candidate = it.next();
 			IdentNode ident = (IdentNode) candidate.getChild(DeclNode.IDENT);
 			String name = ident.getSymbol().getText();
@@ -625,7 +651,8 @@ public class PatternGraphNode extends GraphNode
 		BaseNode edgeRoot = getEdgeRootType();
 
 		// add another Edge of type edgeRoot to each NAC
-		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap.entrySet()) {
+		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap
+				.entrySet()) {
 			// TODO check casts
 			NodeDeclNode src = (NodeDeclNode) entry.getKey().get(0);
 			NodeDeclNode tgt = (NodeDeclNode) entry.getKey().get(1);
@@ -668,7 +695,8 @@ public class PatternGraphNode extends GraphNode
 		// find an edgeRoot-type
 		BaseNode edgeRoot = null;
 		BaseNode model = root.getChild(UnitNode.MODELS).getChild(0);
-		Collection<BaseNode> types = model.getChild(ModelNode.DECLS).getChildren();
+		Collection<BaseNode> types = model.getChild(ModelNode.DECLS)
+				.getChildren();
 
 		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
 			BaseNode candidate = it.next();
