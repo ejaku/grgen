@@ -1,3 +1,8 @@
+v2.0alpha
+ Features:
+  - "dpo", "induced", "exact" are keywords, now.
+  - "null" is keyword, now. It represents the default object value.
+
 v1.3.1 (2007-12-07)
  Features:
   - Added "-gensp" option to spBench allowing generation of dynamic

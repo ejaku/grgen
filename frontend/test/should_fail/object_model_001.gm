@@ -1,0 +1,7 @@
+node class A {
+    obj:object;
+}
+edge class e {
+    obj:object;
+    val:int;
+}

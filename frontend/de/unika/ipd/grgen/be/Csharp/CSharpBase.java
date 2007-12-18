@@ -225,6 +225,11 @@ public abstract class CSharpBase {
 					InheritanceType it = (InheritanceType) constant.getValue();
 					sb.append(formatTypeClass(it) + ".typeVar");
 					break;
+				case Type.IS_OBJECT: // If value is not null throw Exc
+					if(constant.getValue() == null) {
+						sb.append("null");
+						break;
+					}
 				default:
 					throw new UnsupportedOperationException("unsupported type");
 			}

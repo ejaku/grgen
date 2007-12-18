@@ -468,10 +468,12 @@ constant returns [ ExprNode res = env.initExprNode() ]
 			buff = buff.substring(1, buff.length() - 1);
 			res = new StringConstNode(getCoords(s), buff);
 		}
-	| t:TRUE
-		{ res = new BoolConstNode(getCoords(t), true); }
-	| n:FALSE
-		{ res = new BoolConstNode(getCoords(n), false); }
+	| tt:TRUE
+		{ res = new BoolConstNode(getCoords(tt), true); }
+	| ff:FALSE
+		{ res = new BoolConstNode(getCoords(ff), false); }
+	| n:NULL
+		{ res = new NullConstNode(getCoords(n)); }
 	;
 
 identExpr returns [ ExprNode res = env.initExprNode() ]

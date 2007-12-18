@@ -76,6 +76,7 @@ tokens {
   MODIFY = "modify";
   NEGATIVE = "negative";
   NODE = "node";
+  NULL = "null";
   PATTERN = "pattern";
   REPLACE = "replace";
   RETURN = "return";
