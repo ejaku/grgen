@@ -48,7 +48,14 @@ public class InducedNode extends BaseNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		Resolver resolver = new DeclResolver(new Class[] { NodeDeclNode.class });
+		for(int i=0; i<children(); ++i) {
+			successfullyResolved = resolver.resolve(this, i) && successfullyResolved;
+		}
+		setResolved(successfullyResolved); // local result
+
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}

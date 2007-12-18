@@ -53,7 +53,6 @@ public class TypeConstraintNode extends TypeExprNode
 	
 	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
-		setResolver(OPERANDS, typeResolver);
 		addChild(collect);
 	}
 	
@@ -68,11 +67,24 @@ public class TypeConstraintNode extends TypeExprNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveOperands() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}
 		return successfullyResolved;
+	}
+
+	protected boolean resolveOperands()
+	{
+		if(!typeResolver.resolve(this, OPERANDS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

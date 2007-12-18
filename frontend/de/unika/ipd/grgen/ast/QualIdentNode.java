@@ -68,8 +68,6 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		setChildrenNames(childrenNames);
 		addChild(owner);
 		addChild(member);
-		// addResolver(OWNER, declResolver);
-		// addResolver(MEMBER, identExprResolver);
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -78,7 +76,42 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		/* This AST node implies another way of name resolution.
+		 * First of all, the left hand side (lhs) has to be resolved. It must be
+		 * a declaration and its type must be an instance of {@link ScopeOwner},
+		 * since qualification can only be done, if the lhs owns a scope.
+		 *
+		 * Then the right side (rhs) is tought to search the declarations
+		 * of its identifiers in the scope owned by the lhs. This is done
+		 * via {@link ExprNode#fixupDeclaration(ScopeOwner)}.
+		 *
+		 * Then, the rhs contains the rhs' ident nodes contains the
+		 * right declarations and can be resolved either. */
+		boolean successfullyResolved = false;
+		IdentNode member = (IdentNode) getChild(MEMBER);
+		
+		ownerResolver.resolve(this, OWNER);
+		BaseNode owner = getChild(OWNER);
+		successfullyResolved = owner.getResolve();
+		
+		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
+			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
+			
+			if(ownerType instanceof ScopeOwner) {
+				ScopeOwner o = (ScopeOwner) ownerType;
+				o.fixupDefinition(member);
+				declResolver.resolve(this, MEMBER);
+				successfullyResolved = getChild(MEMBER).getResolve();
+			} else {
+				reportError("Left hand side of '.' does not own a scope");
+				successfullyResolved = false;
+			}
+		} else {
+			reportError("Left hand side of '.' is neither a node nor an edge");
+			successfullyResolved = false;
+		}
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;
 		return successfullyResolved;
@@ -124,6 +157,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
 		res = owner.getResolve();
+		
 		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
 			

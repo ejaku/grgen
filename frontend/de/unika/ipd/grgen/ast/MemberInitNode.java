@@ -60,8 +60,6 @@ public class MemberInitNode extends BaseNode
 		addChild(member);
 		addChild(expr);
 		setChildrenNames(childrenNames);
-		setResolver(LHS, new MemberInitResolver(DeclNode.class));
-		//setResolver(RHS, new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)}));
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -70,10 +68,33 @@ public class MemberInitNode extends BaseNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveLhs() && successfullyResolved;
+		successfullyResolved = resolveRhs() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(LHS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveLhs()
+	{
+		if(!(new MemberInitResolver(DeclNode.class)).resolve(this, LHS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean resolveRhs()
+	{
+		//if(!(new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)})).resolve(this, RHS)) {
+		//	debug.report(NOTE, "resolve error");
+		//	return false;
+		//}
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

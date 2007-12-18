@@ -53,7 +53,10 @@ public class CollectNode extends BaseNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		setResolved(successfullyResolved); // local result
+		
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}

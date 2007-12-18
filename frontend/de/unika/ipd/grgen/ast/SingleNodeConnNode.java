@@ -65,7 +65,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		super(n.getCoords());
 		addChild(n);
 		setChildrenNames(childrenNames);
-		setResolver(NODE, nodeResolver);
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -74,9 +73,22 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveNode() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+
 		successfullyResolved = getChild(NODE).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveNode()
+	{
+		if(!nodeResolver.resolve(this, NODE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

@@ -47,7 +47,6 @@ public class TypeExprSubtypeNode extends TypeExprNode
 	public TypeExprSubtypeNode(Coords coords, BaseNode type) {
 		super(coords, SUBTYPES);
 		addChild(type);
-		setResolver(OPERAND, typeResolver);
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -56,13 +55,26 @@ public class TypeExprSubtypeNode extends TypeExprNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveOperand() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
 	
+	protected boolean resolveOperand()
+	{
+		if(!typeResolver.resolve(this, OPERAND)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		if(!getResolve()) {

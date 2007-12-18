@@ -61,7 +61,10 @@ public class AssignNode extends BaseNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(LHS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
 		return successfullyResolved;

@@ -39,8 +39,8 @@ import de.unika.ipd.grgen.ir.Graph;
  * AST node that represents a Connection (an edge connecting two nodes)
  * children: LEFT:NodeDeclNode, EDGE:EdgeDeclNode, RIGHT:NodeDeclNode
  */
-public class ConnectionNode extends BaseNode implements ConnectionCharacter {
-
+public class ConnectionNode extends BaseNode implements ConnectionCharacter
+{
 	static {
 		setName(ConnectionNode.class, "connection");
 	}
@@ -85,9 +85,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		addChild(edge);
 		addChild(n2);
 		setChildrenNames(childrenNames);
-		setResolver(LEFT, nodeResolver);
-		setResolver(RIGHT, nodeResolver);
-		setResolver(EDGE, new EdgeResolver());
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -96,13 +93,46 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveLeft() && successfullyResolved;
+		successfullyResolved = resolveEdge() && successfullyResolved;
+		successfullyResolved = resolveRight() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+
 		successfullyResolved = getChild(LEFT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(EDGE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
+	protected boolean resolveLeft()
+	{
+		if(!nodeResolver.resolve(this, LEFT)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+	
+	protected boolean resolveEdge()
+	{
+		if(!(new EdgeResolver()).resolve(this, EDGE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean resolveRight()
+	{
+		if(!nodeResolver.resolve(this, RIGHT)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		if(!getResolve()) {
@@ -183,7 +213,5 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		set.add(getChild(LEFT));
 		set.add(getChild(RIGHT));
 	}
-
 }
-
 
