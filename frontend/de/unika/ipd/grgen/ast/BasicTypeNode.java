@@ -34,8 +34,7 @@ import java.util.Map;
 /**
  * A basic type AST node such as string or int
  */
-public abstract class BasicTypeNode extends DeclaredTypeNode
-{
+public abstract class BasicTypeNode extends DeclaredTypeNode {
 	/**
 	 * The string basic type.
 	 */
@@ -80,7 +79,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 			return "double";
 		}
 	};
-	
+
 	/**
 	 * The floating point basic type.
 	 */
@@ -223,10 +222,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	 */
 	protected boolean check() {
 		return children() == 0;
-	}
-
-	protected PrimitiveType getPrimitiveType() {
-		return (PrimitiveType) checkIR(PrimitiveType.class);
 	}
 
 	/**
