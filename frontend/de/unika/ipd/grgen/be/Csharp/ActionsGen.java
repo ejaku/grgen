@@ -601,7 +601,7 @@ public class ActionsGen extends CSharpBase {
 		for(Node node : nodesNeededAsElements) {
 			if(!node.isRetyped()) {
 				sb.append("\t\t\tLGSPNode " + formatEntity(node)
-						+ " = match.nodes[ (int) NodeNums.@"
+						+ " = match.Nodes[ (int) NodeNums.@"
 						+ formatIdentifiable(node) + " - 1 ];\n");
 			}
 		}
@@ -611,13 +611,13 @@ public class ActionsGen extends CSharpBase {
 				if(nodesNeededAsElements.contains(node))
 					sb.append(formatEntity(node) + ";\n");
 				else
-					sb.append("match.nodes[ (int) NodeNums.@" + formatIdentifiable(node) + " - 1 ];\n");
+					sb.append("match.Nodes[ (int) NodeNums.@" + formatIdentifiable(node) + " - 1 ];\n");
 			}
 		}
 		for(Edge edge : edgesNeededAsElements) {
 			if(!edge.isRetyped()) {
 				sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-						+ " = match.edges[ (int) EdgeNums.@"
+						+ " = match.Edges[ (int) EdgeNums.@"
 						+ formatIdentifiable(edge) + " - 1 ];\n");
 			}
 		}
@@ -627,7 +627,7 @@ public class ActionsGen extends CSharpBase {
 				if(edgesNeededAsElements.contains(edge))
 					sb.append(formatEntity(edge) + ";\n");
 				else
-					sb.append("match.edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + " - 1 ];\n");
+					sb.append("match.Edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + " - 1 ];\n");
 			}
 		}
 
