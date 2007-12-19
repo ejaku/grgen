@@ -19,7 +19,7 @@
 
 /**
  * @author buchwald
- * @version $Id: $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 

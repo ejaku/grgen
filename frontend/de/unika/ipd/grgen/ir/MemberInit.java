@@ -20,7 +20,7 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id: Assignment.java 16449 2007-11-05 19:58:17Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 

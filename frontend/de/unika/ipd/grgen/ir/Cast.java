@@ -20,7 +20,7 @@
  
 /**
  * @author G. Veit Batz
- * @version $Id: ActionDeclNode.java 9940 2005-10-10 12:56:19Z rubino $
+ * @version $Id$
  *
  */
 package de.unika.ipd.grgen.ir;

@@ -18,8 +18,8 @@
  */
 
 /**
- * @author Sebastian Hack
- * @version $Id: BoolConstNode.java 16994 2007-12-16 15:12:19Z eja $
+ * @author Rubino Geiss
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -47,15 +47,8 @@ public class NullConstNode extends ConstNode
 	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
 	 */
 	protected ConstNode doCastTo(TypeNode type) {
-		// TODO FIME
-		boolean value = ((Boolean) getValue()).booleanValue();
+		// The null value is not castable to any the (besides object)
 		ConstNode res = ConstNode.getInvalid();
-
-		if (type.isEqual(BasicTypeNode.intType))
-			res = new IntConstNode(getCoords(), value ? 1 : 0);
-		else if (type.isEqual(BasicTypeNode.stringType))
-			res = new StringConstNode(getCoords(), "" + value);
-
 		return res;
 	}
 }
