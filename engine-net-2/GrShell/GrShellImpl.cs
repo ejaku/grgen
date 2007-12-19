@@ -1557,14 +1557,15 @@ namespace de.unika.ipd.grGen.grShell
             int i = 1;
             IPatternGraph patternGraph = matches.Producer.RulePattern.PatternGraph;
             Console.WriteLine("Matched " + matches.Producer.Name + " rule:");
-            foreach(IMatch match in matches.Matches)
+            foreach(IMatch match in matches)
             {
-                Console.WriteLine(" - " + i + ". match:");
-                for(int j = 0; j < match.NumNodes; j++)
-                    Console.WriteLine("   " + patternGraph.Nodes[j].Name + ": " + curShellGraph.Graph.GetElementName(match.GetNode(j)));
-                for(int j = 0; j < match.NumEdges; j++)
-                    Console.WriteLine("   " + patternGraph.Edges[j].Name + ": " + curShellGraph.Graph.GetElementName(match.GetEdge(j)));
-                i++;
+                Console.WriteLine(" - " + i++ + ". match:");
+                int j = 0;
+                foreach(INode node in match.Nodes)
+                    Console.WriteLine("   " + patternGraph.Nodes[j++].Name + ": " + curShellGraph.Graph.GetElementName(node));
+                j = 0;
+                foreach(IEdge edge in match.Edges)
+                    Console.WriteLine("   " + patternGraph.Edges[j++].Name + ": " + curShellGraph.Graph.GetElementName(edge));
             }
         }
 

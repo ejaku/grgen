@@ -173,60 +173,28 @@ namespace de.unika.ipd.grGen.libGr
         IPatternGraph Pattern { get; } // niy
 
         /// <summary>
-        /// The number of nodes in the match.
+        /// An array of all nodes in the match.
+        /// The order is given by the Nodes array of the according IPatternGraph.
         /// </summary>
-        int NumNodes { get; }
+        INode[] Nodes { get; }
 
         /// <summary>
-        /// Gets the index-th node in the match.
+        /// An array of all edges in the match.
+        /// The order is given by the Edges array of the according IPatternGraph.
         /// </summary>
-        /// <param name="index">Which node to return.</param>
-        /// <returns>The index-th node in the match.</returns>
-        INode GetNode(int index);
-
-        /// <summary>
-        /// Enumerates all nodes in the match.
-        /// </summary>
-        IEnumerable<INode> Nodes { get; }
-
-        /// <summary>
-        /// The number of edges in the match.
-        /// </summary>
-        int NumEdges { get; }
-
-        /// <summary>
-        /// Gets the index-th edge in the match.
-        /// </summary>
-        /// <param name="index">Which edge to return.</param>
-        /// <returns>The index-th edge in the match.</returns>
-        IEdge GetEdge(int index); 
-
-        /// <summary>
-        /// Enumerates all edges in the match.
-        /// </summary>
-        IEnumerable<IEdge> Edges { get; }
+        IEdge[] Edges { get; }
 
         /// <summary>
         /// Not implemented yet
         /// </summary>
-        int NumEmbeddedGraphs { get; } // niy
-
-        /// <summary>
-        /// Not implemented yet
-        /// </summary>
-        IMatch GetEmbeddedGraph(int index); // niy
-
-        /// <summary>
-        /// Not implemented yet
-        /// </summary>
-        IEnumerable<IMatch> EmbeddedGraphs { get; } // niy
+        IMatch[] EmbeddedGraphs { get; } // niy
     }
 
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
     /// It is returned by IAction.Match() and given to the OnMatched event.
     /// </summary>
-    public interface IMatches
+    public interface IMatches : IEnumerable<IMatch>
     {
         /// <summary>
         /// The action object used to generate this IMatches object
@@ -236,18 +204,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The number of matches found by Producer
         /// </summary>
-        int NumMatches { get; }
+        int Count { get; }
 
         /// <summary>
         /// Returns the match with the given index. Invalid indices cause an exception.
         /// This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
         /// </summary>
         IMatch GetMatch(int index);
-
-        /// <summary>
-        /// Enumerates over all found matches.
-        /// </summary>
-        IEnumerable<IMatch> Matches { get; }
     }
 
     /// <summary>

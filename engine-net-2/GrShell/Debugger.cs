@@ -446,12 +446,12 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugMatched(IMatches matches, bool special)
         {
-            if(detailedMode == false || matches.NumMatches == 0) return;
+            if(detailedMode == false || matches.Count == 0) return;
 
             markedNodes.Clear();
             markedEdges.Clear();
 
-            foreach(IMatch match in matches.Matches)
+            foreach(IMatch match in matches)
             {
                 int i = 0;
                 foreach(INode node in match.Nodes)
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Press any key to apply rewrite...");
             ReadKeyWithCancel();
 
-            foreach(IMatch match in matches.Matches)
+            foreach(IMatch match in matches)
             {
                 int i = 0;
                 foreach(INode node in match.Nodes)

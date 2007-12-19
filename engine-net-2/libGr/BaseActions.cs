@@ -77,7 +77,7 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement[] retElems = null;
             if(which != -1)
             {
-                if(which < 0 || which >= matches.NumMatches)
+                if(which < 0 || which >= matches.Count)
                     throw new ArgumentOutOfRangeException("\"which\" is out of range!");
 
                 retElems = matches.Producer.Modify(Graph, matches.GetMatch(which));
@@ -85,7 +85,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                foreach(IMatch match in matches.Matches)
+                foreach(IMatch match in matches)
                 {
                     retElems = matches.Producer.Modify(Graph, match);
                     if(perfInfo != null) perfInfo.RewritesPerformed++;
@@ -124,13 +124,13 @@ namespace de.unika.ipd.grGen.libGr
             if(perfInfo != null)
             {
                 perfInfo.StopMatch();              // total match time does NOT include listeners anymore
-                perfInfo.MatchesFound += matches.NumMatches;
+                perfInfo.MatchesFound += matches.Count;
             }
 
             if(OnMatched != null) OnMatched(matches, special);
-            if(matches.NumMatches == 0) return 0;
+            if(matches.Count == 0) return 0;
 
-            if(test) return matches.NumMatches;
+            if(test) return matches.Count;
 
 /*            if(dump && DumperFactory != null)
             {
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.libGr
 
             if(OnFinished != null) OnFinished(matches, special);
 
-            return matches.NumMatches;
+            return matches.Count;
         }
 
         /// <summary>

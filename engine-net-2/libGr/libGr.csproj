@@ -29,8 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>..\out\bin\libGr.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>

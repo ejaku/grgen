@@ -1677,7 +1677,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(
                 PatternElementName, IsNode);
             string matchObjectElementMember =
-                IsNode ? "nodes" : "edges";
+                IsNode ? "Nodes" : "Edges";
             sourceCode.AppendFrontFormat("match.{0}[{1}] = {2};\n",
                 matchObjectElementMember, MatchIndex,
                 variableContainingCandidate);

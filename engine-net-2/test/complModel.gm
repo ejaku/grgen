@@ -66,6 +66,6 @@ node class D2211_2222_31 extends C221, C222_411, A3 {
     d2211_2222_31:int;
 }
 
-node class D231_4121 extends B23, C412_421_431_51 {
+node class D231_4121<test.D231_4121_Impl> extends B23, C412_421_431_51 {
     d231_4121:int;
 }

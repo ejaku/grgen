@@ -1039,7 +1039,7 @@ namespace de.unika.ipd.grGen.libGr
                 matchedNodes = new Set<INode>();
                 matchedEdges = new Set<IEdge>();
 
-                if((int) which >= 0 && (int) which < matches.NumMatches)
+                if((int) which >= 0 && (int) which < matches.Count)
                 {
                     // Show exactly one match
 
@@ -1063,15 +1063,15 @@ namespace de.unika.ipd.grGen.libGr
 
                     // Dump all matches with virtual nodes
                     int i = 0;
-                    foreach(IMatch match in matches.Matches)
+                    foreach(IMatch match in matches)
                     {
                         VirtualNode virtNode = new VirtualNode(-i - 1);
                         dumper.DumpNode(virtNode, String.Format("{0}. match of {1}", i + 1, matches.Producer.Name),
                             null, vnodeTextColor, vnodeColor, vnodeBorderColor, GrNodeShape.Default);
-                        for(int j = 0; j < match.NumNodes; j++)
+                        int j = 1;
+                        foreach(INode node in match.Nodes)
                         {
-                            INode node = match.GetNode(j);
-                            dumper.DumpEdge(virtNode, node, String.Format("node {0}", j + 1), null, vedgeTextColor, vedgeColor,
+                            dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null, vedgeTextColor, vedgeColor,
                                 GrLineStyle.Default);
 
                             if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
