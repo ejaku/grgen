@@ -46,7 +46,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
-		setResolver(DELETE, deleteResolver);
 		setChildrenNames(childrenNames);
 	}
 	
@@ -56,7 +55,11 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveDelete() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(PARAM).doResolve() && successfullyResolved;
@@ -67,6 +70,15 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		successfullyResolved = getChild(EVAL).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(DELETE).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveDelete()
+	{
+		if(!deleteResolver.resolve(this, DELETE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

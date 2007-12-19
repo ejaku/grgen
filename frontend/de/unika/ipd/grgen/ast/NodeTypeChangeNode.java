@@ -53,7 +53,6 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
 		addChild(oldid);
-		setResolver(OLD, nodeResolver);
 	}
 
   	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -62,12 +61,26 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		successfullyResolved = resolveOld() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveOld()
+	{
+		if(!nodeResolver.resolve(this, OLD)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

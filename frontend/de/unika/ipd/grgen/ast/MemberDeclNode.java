@@ -53,7 +53,6 @@ public class MemberDeclNode extends DeclNode
 	 */
 	public MemberDeclNode(IdentNode n, BaseNode t) {
 		super(n, t);
-		setResolver(TYPE, typeResolver);
 	}
 
   	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -62,10 +61,23 @@ public class MemberDeclNode extends DeclNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveType()
+	{
+		if(!typeResolver.resolve(this, TYPE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

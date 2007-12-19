@@ -25,8 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.EnumTypeNode;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.BooleanResultVisitor;
@@ -49,9 +47,6 @@ public class EnumItemNode extends MemberDeclNode
 	/** Position of this item in the enum. */
 	private final int pos;
 	
-	private static final Resolver typeResolver =
-		new DeclTypeResolver(EnumTypeNode.class);
-	
 	/**
 	 * Make a new enum item node.
 	 */
@@ -68,7 +63,11 @@ public class EnumItemNode extends MemberDeclNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(VALUE).doResolve() && successfullyResolved;

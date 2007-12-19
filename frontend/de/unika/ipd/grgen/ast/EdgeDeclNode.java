@@ -49,7 +49,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
 		super(n, e, constraints);
 		setName("edge");
-		setResolver(TYPE, typeResolver);
 	}
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e) {
@@ -62,11 +61,24 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveType()
+	{
+		if(!typeResolver.resolve(this, TYPE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

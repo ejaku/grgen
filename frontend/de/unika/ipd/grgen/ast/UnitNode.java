@@ -83,7 +83,6 @@ public class UnitNode extends DeclNode
 		super(id, mainType);
 		this.filename = filename;
 		setChildrenNames(childrenNames);
-		setResolver(DECLS, declResolver);
 	}
 	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -92,12 +91,25 @@ public class UnitNode extends DeclNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveDecls() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(MODELS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(DECLS).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveDecls()
+	{
+		if(!declResolver.resolve(this, DECLS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

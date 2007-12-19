@@ -54,7 +54,6 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 
 		super(id, newType, TypeExprNode.getEmpty());
 		addChild(oldid);
-		setResolver(OLD, edgeResolver);
 	}
 
   	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -63,12 +62,26 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		successfullyResolved = resolveOld() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveOld()
+	{
+		if(!edgeResolver.resolve(this, OLD)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
