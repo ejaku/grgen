@@ -1,0 +1,11 @@
+rule r {
+	pattern {
+	    x:Node;
+	    induced(x);
+	    induced(x);
+	    induced(x);
+	}
+	replace {
+	}
+}
+

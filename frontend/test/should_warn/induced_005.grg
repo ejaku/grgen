@@ -1,0 +1,37 @@
+rule r {
+	pattern {
+	    a:Node;
+	    b:Node;
+	    c:Node;
+	    d:Node;
+	    e:Node;
+	    f:Node;
+	    
+	    a --> b;
+	    a <-- b;
+	    a --> d;
+	    a <-- d;
+	    b --> c;
+	    b <-- c;
+	    b --> d;
+	    b <-- d;
+	    b --> e;
+	    b <-- e;
+	    c --> e;
+	    c <-- e;
+	    d --> e;
+	    d <-- e;
+	    d --> f;
+	    d <-- f;
+	    e --> f;
+	    e <-- f;
+	    
+	    induced(a,b,d);
+	    induced(b,c,e);
+	    induced(d,e,f);
+	    induced(b,d,e);
+	}
+	replace {
+	}
+}
+
