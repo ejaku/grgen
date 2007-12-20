@@ -29,7 +29,6 @@ package de.unika.ipd.grgen.be.sql.meta;
 import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
 import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-import java.util.Properties;
 
 /**
  * An SQL dialect.

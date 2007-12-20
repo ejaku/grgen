@@ -31,8 +31,6 @@ package de.unika.ipd.grgen.be.Csharp;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
-import de.unika.ipd.grgen.be.IDBase;
-
 public class ModelGen extends CSharpBase {
 	public ModelGen(SearchPlanBackend2 backend) {
 		be = backend;

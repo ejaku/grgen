@@ -25,8 +25,6 @@ package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.util.Base;
-import java.util.Collection;
-import java.util.LinkedList;
 
 /**
  * something, that resolves a node to another node.

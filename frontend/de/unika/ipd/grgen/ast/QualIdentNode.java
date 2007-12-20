@@ -24,8 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;

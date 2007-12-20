@@ -26,15 +26,12 @@
 package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
-import java.io.PrintStream;
-import java.util.*;
 import de.unika.ipd.grgen.ir.*;
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.IDBase;
-import de.unika.ipd.grgen.util.Util;
 
 public class SearchPlanBackend2 extends IDBase implements Backend, BackendFactory {
 	/** The unit to generate code for. */

@@ -27,10 +27,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.util.Collection;
 
 /**
  * A class representing a node type

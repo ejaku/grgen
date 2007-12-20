@@ -32,7 +32,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Base class for all AST nodes representing types.
