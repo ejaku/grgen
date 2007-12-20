@@ -1,0 +1,7 @@
+rule r {
+	induced induced pattern {
+	}
+	replace {
+	}
+}
+

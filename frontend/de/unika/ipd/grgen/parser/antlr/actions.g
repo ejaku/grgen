@@ -247,15 +247,25 @@ evalBody [ CollectNode n  ]
 	;
 
 patternModifiers returns [ int res = 0 ]
-	{ int mod = 0; }
-
-	: ( mod=patternModifier { res |= mod; } )*
+	: ( res = patternModifier[ res ] )*
 	;
 
-patternModifier returns [ int res = 0 ]
-	: INDUCED { res |= PatternGraphNode.MOD_INDUCED; }
-	| DPO { res |= PatternGraphNode.MOD_DPO; }
-	| EXACT { res |= PatternGraphNode.MOD_EXACT; }
+patternModifier [ int mod ] returns [ int res = 0 ]
+	: i:INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
+	              reportWarning(getCoords(i), "pattern already has an \"induced\" modifier");
+	              }
+	              res = mod | PatternGraphNode.MOD_INDUCED;
+	            }
+	| d:DPO { if((mod & PatternGraphNode.MOD_DPO)!=0) {
+	            reportWarning(getCoords(d), "pattern already has a \"dpo\" modifier");
+	            }
+	            res = mod | PatternGraphNode.MOD_DPO;
+	        }
+	| e:EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
+	              reportWarning(getCoords(e), "pattern already has an \"exact\" modifier");
+	              }
+	              res = mod | PatternGraphNode.MOD_EXACT;
+	          }
 	;
 
 patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]

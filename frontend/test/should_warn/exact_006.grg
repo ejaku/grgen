@@ -1,0 +1,7 @@
+rule r {
+	exact exact pattern {
+	}
+	replace {
+	}
+}
+
