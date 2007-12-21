@@ -54,8 +54,8 @@ public class VCGDumper implements GraphDumper {
 		colorMap.put(Color.BLACK, "black");
 		colorMap.put(Color.BLUE, "lightblue");
 		colorMap.put(Color.CYAN, "cyan");
-		colorMap.put(Color.GRAY, "lightgray");
-		colorMap.put(Color.DARK_GRAY, "darkgray");
+		colorMap.put(Color.GRAY, "lightgrey");
+		colorMap.put(Color.DARK_GRAY, "darkgrey");
 		colorMap.put(Color.MAGENTA, "magenta");
 		colorMap.put(Color.ORANGE, "orange");
 		colorMap.put(Color.GREEN, "green");
