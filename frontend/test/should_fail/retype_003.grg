@@ -1,0 +1,14 @@
+using retype_model_001;
+
+// forbidden, because y is only temporarily existing object
+
+rule r {
+	pattern {
+		x:TYPE1;
+	}
+	replace {
+		y:TYPE2<x>;
+		z:TYPE3<y>;
+	}
+}
+

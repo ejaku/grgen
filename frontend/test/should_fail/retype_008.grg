@@ -1,0 +1,14 @@
+using retype_model_001;
+
+// forbidden, because of ambiguous retyping statements
+
+rule r {
+	pattern {
+		x:TYPE1;
+	}
+	replace {
+		y:TYPE1<x>;
+		z:TYPE2<x>;
+	}
+}
+

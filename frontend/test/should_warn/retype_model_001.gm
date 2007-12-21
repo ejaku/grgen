@@ -1,0 +1,12 @@
+node class TYPE1 {
+	a : double;
+}
+
+node class TYPE2 extends TYPE1 {
+	b: object;
+}
+
+node class TYPE3 {
+	a : double;
+	b : object;
+}

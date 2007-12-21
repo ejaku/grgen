@@ -1,0 +1,13 @@
+using retype_model_001;
+
+rule r {
+	pattern {
+		x:TYPE1;
+		a:TYPE1;
+	}
+	replace {
+		z:TYPE2<x>;
+		y:typeof(x)<a>;
+	}
+}
+

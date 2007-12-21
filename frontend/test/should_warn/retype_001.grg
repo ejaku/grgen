@@ -1,0 +1,14 @@
+using retype_model_001;
+
+// warn, because type of z is statically known (so "typeof" is useless)
+
+rule r {
+	pattern {
+		x:TYPE1;
+	}
+	replace {
+		z:TYPE2<x>;
+		y:typeof(z);
+	}
+}
+
