@@ -53,7 +53,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 */
 	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers,
 			String externalName) {
-		super(ext, body, extendsChecker, extendsResolver);
+		super(ext, body, extendsChecker);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
@@ -64,12 +64,26 @@ public class NodeTypeNode extends InheritanceTypeNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveBody() && successfullyResolved;
+		successfullyResolved = resolveExtends() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
+	protected boolean resolveExtends()
+	{
+		if(!extendsResolver.resolve(this, EXTENDS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		if(!getResolve()) {

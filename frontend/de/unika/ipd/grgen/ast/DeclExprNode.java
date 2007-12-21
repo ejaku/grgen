@@ -51,7 +51,6 @@ public class DeclExprNode extends ExprNode
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
-		setResolver(DECL, new MemberInitResolver(MemberDeclNode.class));
 		addChild(declCharacter);
 	}
 
@@ -61,9 +60,22 @@ public class DeclExprNode extends ExprNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveDecl() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(DECL).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveDecl()
+	{
+		if(!(new MemberInitResolver(MemberDeclNode.class)).resolve(this, DECL)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

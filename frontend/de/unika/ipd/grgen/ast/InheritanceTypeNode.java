@@ -77,23 +77,17 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** Contains all super types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSuperTypes = null;
 
-	/**
-	 * @param bodyIndex Index of the body collect node.
-	 * @param inhIndex Index of the inheritance types collect node.
-	 */
 	protected InheritanceTypeNode(CollectNode ext,
 								  CollectNode body,
-								  Checker inhChecker,
-								  Resolver inhResolver) 
+								  Checker inhChecker) 
 	{
-		super(BODY, bodyChecker, bodyResolver);
+		super(BODY, bodyChecker);
 		this.inhChecker = inhChecker;
 
 		addChild(ext);
 		addChild(body);
 
 		setChildrenNames(childrenNames);
-		setResolver(EXTENDS, inhResolver);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -102,12 +96,25 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveBody() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-
+	
+	protected boolean resolveBody()
+	{
+		if(!bodyResolver.resolve(this, BODY)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		if(!getResolve()) {

@@ -46,9 +46,6 @@ public class EnumTypeNode extends CompoundTypeNode
 	private static final Checker childrenChecker =
 		new CollectChecker(new SimpleChecker(EnumItemNode.class));
 
-	private static final Resolver childrenResolver =
-		new CollectResolver(new DeclResolver(EnumItemNode.class));
-
 	/*
 	 private static final OperatorSignature.Evaluator enumEvaluator =
 	 new OperatorSignature.Evaluator() {
@@ -68,7 +65,7 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public EnumTypeNode(CollectNode body)
 	{
-		super(ELEMENTS, childrenChecker, null);
+		super(ELEMENTS, childrenChecker);
 		addChild(body);
 
 		//the castability of the this enum type
@@ -99,7 +96,10 @@ public class EnumTypeNode extends CompoundTypeNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(ELEMENTS).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}

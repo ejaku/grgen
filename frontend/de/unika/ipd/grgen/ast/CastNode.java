@@ -56,7 +56,6 @@ public class CastNode extends ExprNode
 	 */
 	public CastNode(Coords coords) {
 		super(coords);
-		setResolver(TYPE, typeResolver);
 	}
 	
 	/**
@@ -77,10 +76,23 @@ public class CastNode extends ExprNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveType() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(EXPR).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveType()
+	{
+		if(!typeResolver.resolve(this, TYPE)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

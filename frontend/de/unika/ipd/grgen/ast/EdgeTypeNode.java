@@ -65,10 +65,9 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	 */
 	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body,
 			int modifiers, String externalName) {
-		super(ext, body, extendsChecker, extendsResolver);
+		super(ext, body, extendsChecker);
 		addChild(cas);
 		setChildrenNames(childrenNames);
-		setResolver(CAS, casResolver);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
@@ -79,11 +78,35 @@ public class EdgeTypeNode extends InheritanceTypeNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveBody() && successfullyResolved;
+		successfullyResolved = resolveExtends() && successfullyResolved;
+		successfullyResolved = resolveCas() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CAS).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveExtends()
+	{
+		if(!extendsResolver.resolve(this, EXTENDS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
+	}
+	
+	protected boolean resolveCas()
+	{
+		if(!casResolver.resolve(this, CAS)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

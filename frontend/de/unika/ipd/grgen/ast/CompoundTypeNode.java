@@ -47,17 +47,11 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 
 	/** Create compound type AST subnode out of subclass
 	 * @param bodyIndex index of the body collect node within children
-	 * @param bodyChecker checker for the body compound type
-	 * @param bodyResolver resolver for the body */
-	protected CompoundTypeNode(int bodyIndex, Checker bodyChecker, 
-			Resolver bodyResolver)
+	 * @param bodyChecker checker for the body compound type */
+	protected CompoundTypeNode(int bodyIndex, Checker bodyChecker)
 	{
 		this.bodyIndex = bodyIndex;
 		this.bodyChecker = bodyChecker;
-
-		if(bodyResolver != null) {
-			setResolver(bodyIndex, bodyResolver);
-		}
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -66,10 +60,10 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
-		}
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		setResolved(successfullyResolved); // local result
+		
 		return successfullyResolved;
 	}
 

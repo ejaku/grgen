@@ -79,7 +79,10 @@ public abstract class ConstNode extends OpNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		setResolved(successfullyResolved); // local result
+		
 		return successfullyResolved;
 	}
 	

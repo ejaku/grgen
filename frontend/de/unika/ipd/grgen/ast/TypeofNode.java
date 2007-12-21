@@ -64,7 +64,6 @@ public class TypeofNode extends ExprNode
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(entity);
-		setResolver(ENTITY, entityResolver);
 	}
 	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
@@ -73,9 +72,22 @@ public class TypeofNode extends ExprNode
 			return getResolve();
 		}
 		
-		boolean successfullyResolved = resolve();
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		successfullyResolved = resolveEntity() && successfullyResolved;
+		setResolved(successfullyResolved); // local result
+		
 		successfullyResolved = getChild(ENTITY).doResolve() && successfullyResolved;
 		return successfullyResolved;
+	}
+	
+	protected boolean resolveEntity()
+	{
+		if(!entityResolver.resolve(this, ENTITY)) {
+			debug.report(NOTE, "resolve error");
+			return false;
+		}
+		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
