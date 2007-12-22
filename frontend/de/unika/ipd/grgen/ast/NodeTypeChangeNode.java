@@ -140,11 +140,12 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 			res = false;
 		}
 
-		// check if two ambiguous retyping statements for the same node declaration occurs 
+		// check if two ambiguous retyping statements for the same node declaration occurs
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
-			if (p != this && p instanceof NodeTypeChangeNode) {
-				reportError("Two (ambiguous) retyping statements for the same node declaration are forbidden, previous retype statement at "
+			// to be errouneous there must be another NodeTypeChangeNode that is the OLD-child of this node
+			if (p != this && p instanceof NodeTypeChangeNode && (p.getChild(OLD)==old)) {
+				reportError("Two (and hence ambiguous) retype statements for the same node are forbidden, previous retype statement at "
 						+ p.getCoords());
 				res = false;
 			}
