@@ -65,23 +65,18 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveType() && successfullyResolved;
-		successfullyResolved = resolveOld() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, OLD) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	protected boolean resolveOld() {
-		if(!nodeResolver.resolve(this, OLD)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

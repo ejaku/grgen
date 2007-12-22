@@ -64,6 +64,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		new OptionalResolver(
 		new DeclResolver(new Class[] { NodeDeclNode.class })
 	);
+	
+	private static final Resolver edgeResolver = new EdgeResolver();
 
 	private static final Checker nodeChecker =
 		new TypeChecker(NodeTypeNode.class);
@@ -95,42 +97,18 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveLeft() && successfullyResolved;
-		successfullyResolved = resolveEdge() && successfullyResolved;
-		successfullyResolved = resolveRight() && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, LEFT) && successfullyResolved;
+		successfullyResolved = edgeResolver.resolve(this, EDGE) && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, RIGHT) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 
 		successfullyResolved = getChild(LEFT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(EDGE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	protected boolean resolveLeft()
-	{
-		if(!nodeResolver.resolve(this, LEFT)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
-	}
-	
-	protected boolean resolveEdge()
-	{
-		if(!(new EdgeResolver()).resolve(this, EDGE)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
-	}
-
-	protected boolean resolveRight()
-	{
-		if(!nodeResolver.resolve(this, RIGHT)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

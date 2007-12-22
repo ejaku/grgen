@@ -93,21 +93,15 @@ public class CastNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveType() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(EXPR).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveType()
-	{
-		if(!typeResolver.resolve(this, TYPE)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

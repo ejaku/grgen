@@ -93,23 +93,17 @@ public class UnitNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveDecls() && successfullyResolved;
+		successfullyResolved = declResolver.resolve(this, DECLS) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(MODELS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(DECLS).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveDecls()
-	{
-		if(!declResolver.resolve(this, DECLS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

@@ -74,20 +74,14 @@ public class TypeofNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveEntity() && successfullyResolved;
+		successfullyResolved = entityResolver.resolve(this, ENTITY) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(ENTITY).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveEntity()
-	{
-		if(!entityResolver.resolve(this, ENTITY)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

@@ -57,8 +57,11 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveDelete() && successfullyResolved;
+		successfullyResolved = deleteResolver.resolve(this, DELETE) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;

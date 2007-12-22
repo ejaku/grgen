@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.MemberInitResolver;
+import de.unika.ipd.grgen.ast.util.*;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -50,6 +50,9 @@ public class MemberInitNode extends BaseNode
 		"LHS", "RHS"
 	};
 
+	private static final Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
+	//private static final Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
+	
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param member The member to be initialized.
@@ -70,31 +73,16 @@ public class MemberInitNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveLhs() && successfullyResolved;
-		successfullyResolved = resolveRhs() && successfullyResolved;
+		successfullyResolved = lhsResolver.resolve(this, LHS) && successfullyResolved;
+		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(LHS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(RHS).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveLhs()
-	{
-		if(!(new MemberInitResolver(DeclNode.class)).resolve(this, LHS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
-	}
-
-	protected boolean resolveRhs()
-	{
-		//if(!(new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)})).resolve(this, RHS)) {
-		//	debug.report(NOTE, "resolve error");
-		//	return false;
-		//}
-		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

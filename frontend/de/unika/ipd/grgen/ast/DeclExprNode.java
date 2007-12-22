@@ -25,7 +25,9 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
@@ -43,6 +45,9 @@ public class DeclExprNode extends ExprNode
 
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;
+	
+	private static final Resolver memberInitResolver =
+		new MemberInitResolver(MemberDeclNode.class);
 
 	/**
 	 * Make a new declaration expression.
@@ -62,20 +67,14 @@ public class DeclExprNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveDecl() && successfullyResolved;
+		successfullyResolved = memberInitResolver.resolve(this, DECL) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(DECL).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveDecl()
-	{
-		if(!(new MemberInitResolver(MemberDeclNode.class)).resolve(this, DECL)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

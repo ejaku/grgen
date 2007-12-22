@@ -55,6 +55,9 @@ public class DpoNode extends BaseNode
 			successfullyResolved = resolver.resolve(this, i) && successfullyResolved;
 		}
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;

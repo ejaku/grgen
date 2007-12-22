@@ -65,8 +65,11 @@ public class EnumItemNode extends MemberDeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveType() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;

@@ -90,6 +90,9 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			successfullyResolved = false;
 		}
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;

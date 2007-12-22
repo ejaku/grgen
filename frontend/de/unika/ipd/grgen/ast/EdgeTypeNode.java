@@ -80,33 +80,18 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveBody() && successfullyResolved;
-		successfullyResolved = resolveExtends() && successfullyResolved;
-		successfullyResolved = resolveCas() && successfullyResolved;
+		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
+		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
+		successfullyResolved = casResolver.resolve(this, CAS) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(CAS).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveExtends()
-	{
-		if(!extendsResolver.resolve(this, EXTENDS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
-	}
-	
-	protected boolean resolveCas()
-	{
-		if(!casResolver.resolve(this, CAS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

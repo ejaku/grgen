@@ -41,7 +41,7 @@ public class MemberDeclNode extends DeclNode
 		setName(MemberDeclNode.class, "member declaration");
 	}
 
-	private static final Resolver typeResolver =
+	protected static final Resolver typeResolver =
 		new DeclTypeResolver(TypeNode.class);
 
 	private static final Checker typeChecker =
@@ -63,21 +63,15 @@ public class MemberDeclNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveType() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveType()
-	{
-		if(!typeResolver.resolve(this, TYPE)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

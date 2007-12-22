@@ -57,22 +57,16 @@ public class TypeExprSubtypeNode extends TypeExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveOperand() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, OPERAND) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveOperand()
-	{
-		if(!typeResolver.resolve(this, OPERAND)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

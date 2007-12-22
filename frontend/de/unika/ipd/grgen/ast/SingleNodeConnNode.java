@@ -75,20 +75,14 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveNode() && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, NODE) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 
 		successfullyResolved = getChild(NODE).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveNode()
-	{
-		if(!nodeResolver.resolve(this, NODE)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

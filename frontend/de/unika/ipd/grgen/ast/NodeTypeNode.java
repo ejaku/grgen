@@ -66,22 +66,16 @@ public class NodeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveBody() && successfullyResolved;
-		successfullyResolved = resolveExtends() && successfullyResolved;
+		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
+		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	protected boolean resolveExtends()
-	{
-		if(!extendsResolver.resolve(this, EXTENDS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

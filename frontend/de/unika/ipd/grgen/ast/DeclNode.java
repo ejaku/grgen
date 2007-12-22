@@ -60,11 +60,13 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		String[] n = new String[names.length + declChildrenNames.length];
 		int i;
 
-		for(i = 0; i < declChildrenNames.length; i++)
+		for(i = 0; i < declChildrenNames.length; i++) {
 			n[i] = declChildrenNames[i];
+		}
 
-		for(int j = 0; j < names.length; j++, i++)
+		for(int j = 0; j < names.length; j++, i++) {
 			n[i] = names[j];
+		}
 
 		return n;
 	}

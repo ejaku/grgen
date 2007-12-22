@@ -38,17 +38,7 @@ abstract class ConstraintDeclNode extends DeclNode
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
-		if(isResolved()) {
-			return getResolve();
-		}
-		
-		boolean successfullyResolved = resolve();
-		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
-		return successfullyResolved;
-	}
+	protected abstract boolean doResolve();
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {

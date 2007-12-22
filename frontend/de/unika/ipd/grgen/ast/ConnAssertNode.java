@@ -85,33 +85,18 @@ public class ConnAssertNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveSrc() && successfullyResolved;
-		successfullyResolved = resolveTgt() && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, SRC) && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, TGT) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(SRC).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(SRCRANGE).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TGT).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(TGTRANGE).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveSrc()
-	{
-		if(!nodeResolver.resolve(this, SRC)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
-	}
-	
-	protected boolean resolveTgt()
-	{
-		if(!nodeResolver.resolve(this, TGT)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

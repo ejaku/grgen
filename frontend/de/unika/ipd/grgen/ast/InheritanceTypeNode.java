@@ -51,7 +51,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	private static final Checker bodyChecker =
 		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 
-	private static final Resolver bodyResolver =
+	protected static final Resolver bodyResolver =
 		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 
 	/**
@@ -98,21 +98,15 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveBody() && successfullyResolved;
+		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
 		
 		successfullyResolved = getChild(EXTENDS).doResolve() && successfullyResolved;
 		successfullyResolved = getChild(BODY).doResolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveBody()
-	{
-		if(!bodyResolver.resolve(this, BODY)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */

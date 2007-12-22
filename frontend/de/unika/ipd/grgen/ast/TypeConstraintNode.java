@@ -69,22 +69,16 @@ public class TypeConstraintNode extends TypeExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = resolveOperands() && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, OPERANDS) && successfullyResolved;
 		setResolved(successfullyResolved); // local result
-
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
+		
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
 		}
 		return successfullyResolved;
-	}
-
-	protected boolean resolveOperands()
-	{
-		if(!typeResolver.resolve(this, OPERANDS)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
