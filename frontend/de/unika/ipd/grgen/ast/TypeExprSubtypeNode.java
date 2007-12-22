@@ -77,7 +77,8 @@ public class TypeExprSubtypeNode extends TypeExprNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		if(!getResolve()) {
+		assert(isResolved());
+		if(!resolveResult) {
 			return false;
 		}
 		if(isChecked()) {

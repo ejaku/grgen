@@ -58,7 +58,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
 	protected boolean doResolve() {
-		if (isResolved()) {
+		if(isResolved()) {
 			return getResolve();
 		}
 
@@ -80,7 +80,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 	}
 
 	protected boolean resolveOld() {
-		if (!nodeResolver.resolve(this, OLD)) {
+		if(!nodeResolver.resolve(this, OLD)) {
 			debug.report(NOTE, "resolve error");
 			return false;
 		}
@@ -89,15 +89,16 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		if (!getResolve()) {
+		assert(isResolved());
+		if(!resolveResult) {
 			return false;
 		}
-		if (isChecked()) {
+		if(isChecked()) {
 			return getChecked();
 		}
 
 		boolean successfullyChecked = getCheck();
-		if (successfullyChecked) {
+		if(successfullyChecked) {
 			successfullyChecked = getTypeCheck();
 		}
 		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;

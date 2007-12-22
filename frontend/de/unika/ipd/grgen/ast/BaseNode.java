@@ -95,7 +95,7 @@ public abstract class BaseNode extends Base
 	private boolean resolved = false;
 
 	/** The result of the resolution. */
-	private boolean resolveResult = false;
+	protected boolean resolveResult = false;
 
 	/** Has this base node already been checked? */
 	private boolean checked = false;

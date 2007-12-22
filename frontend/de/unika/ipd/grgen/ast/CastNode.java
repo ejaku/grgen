@@ -69,6 +69,21 @@ public class CastNode extends ExprNode
 		addChild(targetType);
 		addChild(expr);
 	}
+	
+	/**
+	 * Make a new cast not with a target type and an expression
+	 * Only to be called by type adjusting, after tree was already resolved
+	 * @param coords The source code coordinates.
+	 * @param targetType The target type.
+	 * @param expr The expression to be casted.
+	 * @param resolveResult Resolution result (should be true)
+	 */
+	public CastNode(Coords coords, TypeNode targetType, BaseNode expr, boolean resolveResult) {
+		this(coords);
+		addChild(targetType);
+		addChild(expr);
+		setResolved(resolveResult); 
+	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
 	protected boolean doResolve() {
@@ -97,7 +112,8 @@ public class CastNode extends ExprNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		if(!getResolve()) {
+		assert(isResolved());
+		if(!resolveResult) {
 			return false;
 		}
 		if(isChecked()) {
