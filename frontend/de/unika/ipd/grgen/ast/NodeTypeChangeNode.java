@@ -37,18 +37,19 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 /**
  *
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
+public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter 
+{
 	static {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
 	private static final int OLD = CONSTRAINTS + 1;
 
-	private static final Resolver nodeResolver = new DeclResolver(
-			new Class[] { NodeDeclNode.class });
+	private static final Resolver nodeResolver = 
+		new DeclResolver(new Class[] { NodeDeclNode.class });
 
-	private static final Checker nodeChecker = new TypeChecker(
-			NodeTypeNode.class);
+	private static final Checker nodeChecker = 
+		new TypeChecker(NodeTypeNode.class);
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
@@ -68,14 +69,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		successfullyResolved = resolveOld() && successfullyResolved;
 		setResolved(successfullyResolved); // local result
 
-		successfullyResolved = getChild(IDENT).doResolve()
-				&& successfullyResolved;
-		successfullyResolved = getChild(TYPE).doResolve()
-				&& successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).doResolve()
-				&& successfullyResolved;
-		successfullyResolved = getChild(OLD).doResolve()
-				&& successfullyResolved;
+		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -103,8 +100,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		}
 		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).doCheck()
-				&& successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(OLD).doCheck() && successfullyChecked;
 
 		return successfullyChecked;
@@ -171,8 +167,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident
-				.getAttributes());
+		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
 
 		Node node = oldNodeDecl.getNode();
 		node.setRetypedNode(res);
