@@ -34,7 +34,7 @@ public interface Attributed {
 
 	/**
 	 * Get the attributes. 
-	 * @return The atttributes.
+	 * @return The attributes.
 	 */
 	Attributes getAttributes();
 	

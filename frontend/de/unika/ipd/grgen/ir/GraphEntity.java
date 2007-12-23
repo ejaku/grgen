@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
 
 import java.util.Collection;
@@ -34,7 +33,7 @@ import java.util.Map;
 /**
  * An instantiation of a type.
  */
-public abstract class GraphEntity extends Entity implements Attributed {
+public abstract class GraphEntity extends Entity {
 
 	/** Type of the entity. */
 	protected final InheritanceType type;
@@ -91,7 +90,7 @@ public abstract class GraphEntity extends Entity implements Attributed {
 	
 	/**
 	 * Get the attributes.
-	 * @return The atttributes.
+	 * @return The attributes.
 	 */
 	public Attributes getAttributes() {
 		return attributes;
