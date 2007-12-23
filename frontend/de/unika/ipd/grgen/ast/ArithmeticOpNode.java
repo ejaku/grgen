@@ -59,8 +59,8 @@ public class ArithmeticOpNode extends OpNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -68,16 +68,16 @@ public class ArithmeticOpNode extends OpNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
 		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
+			successfullyChecked = getChild(i).check() && successfullyChecked;
 		}
 		return successfullyChecked;
 	}
@@ -102,11 +102,11 @@ public class ArithmeticOpNode extends OpNode
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 * All children must be expression nodes, too.
 	 */
-	protected boolean check() {
-		return super.check()
+	protected boolean checkLocal() {
+		return super.checkLocal()
 			&& checkAllChildren(ExprNode.class);
 	}
 }

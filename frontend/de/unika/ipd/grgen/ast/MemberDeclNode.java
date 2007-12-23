@@ -74,8 +74,8 @@ public class MemberDeclNode extends DeclNode
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -83,23 +83,23 @@ public class MemberDeclNode extends DeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(TYPE, typeChecker);
 	}
 

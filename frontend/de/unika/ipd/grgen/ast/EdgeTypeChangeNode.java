@@ -78,8 +78,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -87,18 +87,18 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(OLD).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
+		successfullyChecked = getChild(OLD).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -121,10 +121,10 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	}
   
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseEdge#check()
+	 * @see de.unika.ipd.grgen.ast.BaseEdge#checkLocal()
 	 */
-	protected boolean check() {
-		return super.check() && checkChild(OLD, edgeChecker);
+	protected boolean checkLocal() {
+		return super.checkLocal() && checkChild(OLD, edgeChecker);
 	}
 
 	public Edge getEdge() {

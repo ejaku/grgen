@@ -97,8 +97,8 @@ public class RuleDeclNode extends TestDeclNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -106,22 +106,22 @@ public class RuleDeclNode extends TestDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RET).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(NEG).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(EVAL).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
+		successfullyChecked = getChild(RET).check() && successfullyChecked;
+		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
+		successfullyChecked = getChild(NEG).check() && successfullyChecked;
+		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
+		successfullyChecked = getChild(EVAL).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
@@ -471,11 +471,11 @@ public class RuleDeclNode extends TestDeclNode
 	 * The children of a rule type are
 	 * 1) a pattern for the left side.
 	 * 2) a pattern for the right side.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 
-		boolean leftHandGraphsOk = super.check() && checkChild(RIGHT, GraphNode.class)
+		boolean leftHandGraphsOk = super.checkLocal() && checkChild(RIGHT, GraphNode.class)
 			&& checkChild(EVAL, evalChecker);
 
 		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);

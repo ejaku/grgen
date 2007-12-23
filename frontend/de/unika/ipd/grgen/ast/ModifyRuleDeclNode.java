@@ -84,8 +84,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		return true;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -93,23 +93,23 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RET).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(NEG).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(EVAL).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(DELETE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
+		successfullyChecked = getChild(RET).check() && successfullyChecked;
+		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
+		successfullyChecked = getChild(NEG).check() && successfullyChecked;
+		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
+		successfullyChecked = getChild(EVAL).check() && successfullyChecked;
+		successfullyChecked = getChild(DELETE).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -272,9 +272,9 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	}
 		
 	@Override
-	protected boolean check() {
+	protected boolean checkLocal() {
 		warnElemAppearsInsideAndOutsideDelete();
-		return super.check() && checkChild(DELETE, deleteChecker);
+		return super.checkLocal() && checkChild(DELETE, deleteChecker);
 	}
 	
 	@Override

@@ -67,8 +67,8 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -76,16 +76,16 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
 		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
+			successfullyChecked = getChild(i).check() && successfullyChecked;
 		}
 		return successfullyChecked;
 	}
@@ -124,9 +124,9 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(bodyIndex, bodyChecker);
 	}
 }

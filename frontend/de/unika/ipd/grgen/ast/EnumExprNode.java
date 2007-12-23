@@ -83,8 +83,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -92,23 +92,23 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(OWNER).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(MEMBER).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(OWNER).check() && successfullyChecked;
+		successfullyChecked = getChild(MEMBER).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 		
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(OWNER, EnumTypeNode.class)
 			&& checkChild(MEMBER, EnumItemNode.class);
 	}

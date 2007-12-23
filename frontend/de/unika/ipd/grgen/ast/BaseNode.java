@@ -457,7 +457,7 @@ public abstract class BaseNode extends Base
 		// resolve AST
 		boolean successfullyResolved = node.resolve();		
 		// check AST
-		boolean successfullyChecked = node.doCheck();
+		boolean successfullyChecked = node.check();
 		
 		return successfullyResolved && successfullyChecked;
 	}
@@ -493,7 +493,7 @@ public abstract class BaseNode extends Base
 	/** checks AST subtree beginning with this node, descending to all children
 	 *  returns success of checking the subtree (only true if every check succeeded)
 	 *  replaces BooleanResultVisitor calling getCheck and getTypeCheck during PostWalk of AST */
-	protected abstract boolean doCheck();
+	protected abstract boolean check();
 	
 	/**
 	 * Checks a child of this node to be of a certain type.
@@ -577,7 +577,7 @@ public abstract class BaseNode extends Base
 	 * Subclasses have to implement that the right way.
 	 * @return true, if this node is in a correct state.
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return true;
 	}
 
@@ -586,7 +586,7 @@ public abstract class BaseNode extends Base
 	 * Subclasses have to implement that the right way.
 	 * @return true, if all types are right.
 	 */
-	protected boolean typeCheck() {
+	protected boolean typeCheckLocal() {
 		return true;
 	}
 

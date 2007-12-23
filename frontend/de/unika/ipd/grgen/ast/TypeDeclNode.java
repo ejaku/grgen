@@ -48,10 +48,10 @@ public class TypeDeclNode extends DeclNode
 	/**
 	 * The check succeeds, if the decl node check succeeds and the type
 	 * of this declaration is instance of {@link DeclaredTypeNode}.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
-		return super.check() && checkChild(TYPE, DeclaredTypeNode.class);
+	protected boolean checkLocal() {
+		return super.checkLocal() && checkChild(TYPE, DeclaredTypeNode.class);
 	}
 	
 	/**

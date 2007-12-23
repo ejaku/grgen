@@ -65,8 +65,8 @@ public class DpoNode extends BaseNode
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -74,16 +74,16 @@ public class DpoNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
 		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
+			successfullyChecked = getChild(i).check() && successfullyChecked;
 		}
 		return successfullyChecked;
 	}
@@ -94,7 +94,7 @@ public class DpoNode extends BaseNode
 	 * TODO warn if some statements are redundant.
 	 */
 	@Override
-	protected boolean check() {
+	protected boolean checkLocal() {
 		if (getChildren().isEmpty()) {
 			this.reportError("Dpo statement is empty");
 			return false;

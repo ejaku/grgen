@@ -148,8 +148,8 @@ public class PatternGraphNode extends GraphNode
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -157,21 +157,21 @@ public class PatternGraphNode extends GraphNode
 			return getChecked();
 		}
 
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(CONNECTIONS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RETURN).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONDITIONS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(HOMS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(DPO).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(EXACT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(INDUCED).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
+		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
+		successfullyChecked = getChild(CONDITIONS).check() && successfullyChecked;
+		successfullyChecked = getChild(HOMS).check() && successfullyChecked;
+		successfullyChecked = getChild(DPO).check() && successfullyChecked;
+		successfullyChecked = getChild(EXACT).check() && successfullyChecked;
+		successfullyChecked = getChild(INDUCED).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
@@ -179,8 +179,8 @@ public class PatternGraphNode extends GraphNode
 		return getChild(HOMS).getChildren();
 	}
 
-	protected boolean check() {
-		boolean childs = super.check()
+	protected boolean checkLocal() {
+		boolean childs = super.checkLocal()
 				&& checkChild(CONDITIONS, conditionsChecker)
 				&& checkChild(HOMS, homChecker) 
 				&& checkChild(DPO, dpoChecker)

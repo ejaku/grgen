@@ -70,8 +70,8 @@ public class AssignNode extends BaseNode
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -79,21 +79,21 @@ public class AssignNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(LHS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RHS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(LHS).check() && successfullyChecked;
+		successfullyChecked = getChild(RHS).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
 		boolean lhsOk = checkChild(LHS, QualIdentNode.class);
 		boolean rhsOk = checkChild(RHS, ExprNode.class);
 		
@@ -120,7 +120,7 @@ public class AssignNode extends BaseNode
 	 * to the type of the target. Inserts implicit cast if compatible.
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
-	protected boolean typeCheck() {
+	protected boolean typeCheckLocal() {
 		ExprNode expr = (ExprNode) getChild(RHS);
 		
 		TypeNode targetType = (TypeNode) ((QualIdentNode)getChild(LHS)).getDecl().getDeclType();

@@ -86,8 +86,8 @@ public class GraphNode extends BaseNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -95,25 +95,25 @@ public class GraphNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(CONNECTIONS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RETURN).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
+		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
 	/**
 	 * A pattern node contains just a collect node with connection nodes
 	 * as its children.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		boolean connCheck = checkChild(CONNECTIONS, connectionsChecker);
 
 		boolean edgeUsage = true;
@@ -149,7 +149,7 @@ public class GraphNode extends BaseNode
 
 	/**
 	 * Get a set of all nodes in this pattern.
-	 * Use this function after this node has been checked with {@link #check()}
+	 * Use this function after this node has been checked with {@link #checkLocal()}
 	 * to ensure, that the children have the right type.
 	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.

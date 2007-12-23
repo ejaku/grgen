@@ -109,8 +109,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -118,16 +118,16 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(EXTENDS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(BODY).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
+		successfullyChecked = getChild(BODY).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -152,13 +152,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() 
+	protected boolean checkLocal() 
 	{
 		getAllMembers();
 		getAllSuperTypes();
-		return super.check()
+		return super.checkLocal()
 			&& checkChild(EXTENDS, myInhChecker)
 			&& checkChild(EXTENDS, inhChecker);
 	}

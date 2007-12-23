@@ -40,8 +40,8 @@ abstract class ConstraintDeclNode extends DeclNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected abstract boolean resolve();
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -49,22 +49,22 @@ abstract class ConstraintDeclNode extends DeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
-	protected boolean check() {
-		return super.check() && checkChild(CONSTRAINTS, TypeExprNode.class);
+	protected boolean checkLocal() {
+		return super.checkLocal() && checkChild(CONSTRAINTS, TypeExprNode.class);
 	}
 	
 	protected final TypeExpr getConstraints() {

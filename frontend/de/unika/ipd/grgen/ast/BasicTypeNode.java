@@ -218,9 +218,9 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 	/**
 	 * This node may have no children.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return children() == 0;
 	}
 

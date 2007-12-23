@@ -45,7 +45,7 @@ public abstract class ExprNode extends BaseNode
 		protected boolean resolve() {
 			return true;
 		}
-		protected boolean doCheck() {
+		protected boolean check() {
 			return true;
 		}
 		public TypeNode getType() {

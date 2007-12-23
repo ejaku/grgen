@@ -130,8 +130,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -139,16 +139,16 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -179,7 +179,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#verify()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(IDENT, IdentNode.class)
 			&& checkChild(TYPE, TypeNode.class);
 	}

@@ -104,8 +104,8 @@ public class CastNode extends ExprNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -113,25 +113,25 @@ public class CastNode extends ExprNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(EXPR).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(EXPR).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 * A cast node is valid, if the second child is an expression node
 	 * and the first node is a type node identifier.
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(TYPE, BasicTypeNode.class)
 			&& checkChild(EXPR, ExprNode.class);
 	}
@@ -139,9 +139,9 @@ public class CastNode extends ExprNode
 	/**
 	 * Check the types of this cast.
 	 * Check if the expression can be casted to the given type.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheck()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#typeCheckLocal()
 	 */
-	protected boolean typeCheck()
+	protected boolean typeCheckLocal()
 	{
 		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
 		ExprNode exp = (ExprNode) getChild(EXPR);

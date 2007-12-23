@@ -99,8 +99,8 @@ public class ConnAssertNode extends BaseNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -108,26 +108,26 @@ public class ConnAssertNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(SRC).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(SRCRANGE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TGT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TGTRANGE).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(SRC).check() && successfullyChecked;
+		successfullyChecked = getChild(SRCRANGE).check() && successfullyChecked;
+		successfullyChecked = getChild(TGT).check() && successfullyChecked;
+		successfullyChecked = getChild(TGTRANGE).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
 	/**
 	 * Check, if the AST node is correctly built.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(SRC, 		NodeTypeNode.class)
 			&& checkChild(SRCRANGE,	RangeSpecNode.class)
 			&& checkChild(TGT,		NodeTypeNode.class)

@@ -81,8 +81,8 @@ public class TypeConstraintNode extends TypeExprNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -90,21 +90,21 @@ public class TypeConstraintNode extends TypeExprNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
 		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
+			successfullyChecked = getChild(i).check() && successfullyChecked;
 		}
 		return successfullyChecked;
 	}
 	
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(OPERANDS, typeChecker);
 	}
 

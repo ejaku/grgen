@@ -93,9 +93,9 @@ public abstract class OpNode extends ExprNode {
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		boolean res = true;
 		TypeNode type = getType();
 		int arity = OperatorSignature.getArity(opId);

@@ -79,8 +79,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -88,18 +88,18 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			return getChecked();
 		}
 
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(OLD).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
+		successfullyChecked = getChild(OLD).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
@@ -111,10 +111,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
-		boolean res = super.check() && checkChild(OLD, nodeChecker);
+	protected boolean checkLocal() {
+		boolean res = super.checkLocal() && checkChild(OLD, nodeChecker);
 		if (!res) {
 			return false;
 		}

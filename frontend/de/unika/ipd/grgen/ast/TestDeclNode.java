@@ -112,8 +112,8 @@ public class TestDeclNode extends ActionDeclNode
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -121,20 +121,20 @@ public class TestDeclNode extends ActionDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RET).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(NEG).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
+		successfullyChecked = getChild(RET).check() && successfullyChecked;
+		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
+		successfullyChecked = getChild(NEG).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -204,7 +204,7 @@ public class TestDeclNode extends ActionDeclNode
 	 * @return   a boolean
 	 *
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
 			& checkChild(NEG, negChecker) & checkChild(RET, retDeclarationChecker);
 

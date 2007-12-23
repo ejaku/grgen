@@ -111,8 +111,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		return successfullyResolved;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
-	protected boolean doCheck() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -120,25 +120,25 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = check();
+		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
 			assert(!isTypeChecked());
-			successfullyChecked = typeCheck();
+			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
 		
-		successfullyChecked = getChild(LEFT).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(EDGE).doCheck() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
+		successfullyChecked = getChild(LEFT).check() && successfullyChecked;
+		successfullyChecked = getChild(EDGE).check() && successfullyChecked;
+		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
 	/**
 	 * Check, if the AST node is correctly built.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
-	protected boolean check() {
+	protected boolean checkLocal() {
 		return checkChild(LEFT, nodeChecker)
 			&& checkChild(EDGE, edgeChecker)
 			&& checkChild(RIGHT, nodeChecker);
