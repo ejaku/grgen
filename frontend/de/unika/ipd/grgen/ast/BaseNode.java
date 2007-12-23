@@ -572,8 +572,9 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Check the sanity of this AST node. This ensures, that all the children have
-	 * correct types. subclasses have to implement that the right way.
+	 * Check the sanity of this AST node.
+	 * This ensures, that all the children have correct types.
+	 * Subclasses have to implement that the right way.
 	 * @return true, if this node is in a correct state.
 	 */
 	protected boolean check() {
@@ -582,56 +583,43 @@ public abstract class BaseNode extends Base
 
 	/**
 	 * Check the types of this AST node.
-	 * Subclasses should implement this, if necessary.
-	 * @return true, if all types are right. False, if not.
+	 * Subclasses have to implement that the right way.
+	 * @return true, if all types are right.
 	 */
 	protected boolean typeCheck() {
 		return true;
 	}
 
-	/**
-	 * Check this AST node.
-	 * If the node has been checked before, the result of the former
-	 * check is returned.
-	 * @return true, if the node is ok, false if not.
-	 */
-	public final boolean getCheck() {
-		if(!checked) {
-			checked = true;
-			checkResult = check();
-		}
-
-		return checkResult;
-	}
-
-	/**
-	 * Check, if all types on this AST node are right.
-	 * @return true, if all types were right, false, if not.
-	 */
-	public final boolean getTypeCheck() {
-		if(!typeChecked) {
-			typeChecked = true;
-			typeCheckResult = typeCheck();
-		}
-
-		return typeCheckResult;
+	/** Mark this node as checked and set the result of the check. */
+	protected final void nodeCheckedSetResult(boolean checkResult) {
+		checked = true;
+		this.checkResult = checkResult;
 	}
 	
+	/** Mark this node as type checked and set the result of the type check. */
+	protected final void nodeTypeCheckedSetResult(boolean typeCheckResult) {
+		typeChecked = true;
+		this.typeCheckResult = typeCheckResult;
+	}
+
 	/** Has this node already been checked? */
 	protected final boolean isChecked() {
 		return checked;
 	}
 	
-	/**
-	 * yields result of checking this AST node, type checking included
-	 * ATTENTION: different from getCheck without type checking
-	 */
+	/** Has this node already been type checked? */
+	protected final boolean isTypeChecked() {
+		return typeChecked;
+	}
+	
+	/** yields result of checking this AST node, type checking included */
 	protected final boolean getChecked() {
 		assert(isChecked());
-		if(!getCheck()) {
+		if(!checkResult) {
 			return false;
 		}
-		return getTypeCheck();
+		assert(isTypeChecked());
+		return typeCheckResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

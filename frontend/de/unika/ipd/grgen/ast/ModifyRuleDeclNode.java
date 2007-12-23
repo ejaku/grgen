@@ -86,7 +86,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -94,10 +93,14 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(PARAM).doCheck() && successfullyChecked;
@@ -107,7 +110,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(EVAL).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(DELETE).doCheck() && successfullyChecked;
-	
 		return successfullyChecked;
 	}
 	

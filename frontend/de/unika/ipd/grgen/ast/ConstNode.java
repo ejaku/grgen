@@ -88,7 +88,6 @@ public abstract class ConstNode extends OpNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -96,10 +95,14 @@ public abstract class ConstNode extends OpNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		return successfullyChecked;
 	}
 	

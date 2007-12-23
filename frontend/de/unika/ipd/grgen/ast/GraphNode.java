@@ -88,7 +88,6 @@ public class GraphNode extends BaseNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -96,13 +95,16 @@ public class GraphNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(CONNECTIONS).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(RETURN).doCheck() && successfullyChecked;
-	
 		return successfullyChecked;
 	}
 	

@@ -69,7 +69,6 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -77,10 +76,14 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).doCheck() && successfullyChecked;
 		}

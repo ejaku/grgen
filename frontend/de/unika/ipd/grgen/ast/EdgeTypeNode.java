@@ -96,7 +96,6 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -104,10 +103,14 @@ public class EdgeTypeNode extends InheritanceTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(EXTENDS).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(BODY).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(CAS).doCheck() && successfullyChecked;

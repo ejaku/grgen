@@ -113,7 +113,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -121,10 +120,14 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(LEFT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(EDGE).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(RIGHT).doCheck() && successfullyChecked;

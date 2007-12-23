@@ -85,7 +85,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved()); 
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -93,13 +92,16 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(OWNER).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(MEMBER).doCheck() && successfullyChecked;
-	
 		return successfullyChecked;
 	}
 		

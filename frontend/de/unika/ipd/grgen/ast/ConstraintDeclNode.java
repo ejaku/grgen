@@ -42,7 +42,6 @@ abstract class ConstraintDeclNode extends DeclNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -50,14 +49,17 @@ abstract class ConstraintDeclNode extends DeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(IDENT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(CONSTRAINTS).doCheck() && successfullyChecked;
-	
 		return successfullyChecked;
 	}
 	

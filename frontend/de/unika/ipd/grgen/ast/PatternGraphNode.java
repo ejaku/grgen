@@ -150,7 +150,6 @@ public class PatternGraphNode extends GraphNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
-		assert(isResolved());
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -158,10 +157,14 @@ public class PatternGraphNode extends GraphNode
 			return getChecked();
 		}
 
-		boolean successfullyChecked = getCheck();
+		boolean successfullyChecked = check();
+		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			successfullyChecked = getTypeCheck();
+			assert(!isTypeChecked());
+			successfullyChecked = typeCheck();
+			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		
 		successfullyChecked = getChild(CONNECTIONS).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(RETURN).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(CONDITIONS).doCheck() && successfullyChecked;
@@ -169,7 +172,6 @@ public class PatternGraphNode extends GraphNode
 		successfullyChecked = getChild(DPO).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(EXACT).doCheck() && successfullyChecked;
 		successfullyChecked = getChild(INDUCED).doCheck() && successfullyChecked;
-
 		return successfullyChecked;
 	}
 
