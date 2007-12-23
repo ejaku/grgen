@@ -42,10 +42,10 @@ public class InducedNode extends BaseNode
 		super(coords);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
@@ -54,13 +54,13 @@ public class InducedNode extends BaseNode
 		for(int i=0; i<children(); ++i) {
 			successfullyResolved = resolver.resolve(this, i) && successfullyResolved;
 		}
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
 		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+			successfullyResolved = getChild(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -68,7 +68,7 @@ public class InducedNode extends BaseNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {
@@ -102,23 +102,5 @@ public class InducedNode extends BaseNode
 
 	public Color getNodeColor() {
 		return Color.PINK;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#resolve()
-	 */
-	@Override
-	protected boolean resolve() {
-		boolean resolved = true;
-
-		Resolver resolver = new DeclResolver(new Class[] { NodeDeclNode.class });
-
-		for (int i = 0; i < children(); ++i) {
-			boolean res = resolver.resolve(this, i);
-			if (!res)
-				resolved = false;
-		}
-
-		return resolved;
 	}
 }

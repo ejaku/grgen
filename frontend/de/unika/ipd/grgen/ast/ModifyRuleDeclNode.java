@@ -49,29 +49,29 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		setChildrenNames(childrenNames);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		successfullyResolved = deleteResolver.resolve(this, DELETE) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(PARAM).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(RET).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(PATTERN).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(NEG).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(EVAL).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(DELETE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		successfullyResolved = getChild(PARAM).resolve() && successfullyResolved;
+		successfullyResolved = getChild(RET).resolve() && successfullyResolved;
+		successfullyResolved = getChild(PATTERN).resolve() && successfullyResolved;
+		successfullyResolved = getChild(NEG).resolve() && successfullyResolved;
+		successfullyResolved = getChild(RIGHT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(EVAL).resolve() && successfullyResolved;
+		successfullyResolved = getChild(DELETE).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -87,7 +87,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

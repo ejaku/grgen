@@ -59,7 +59,7 @@ public class CastNode extends ExprNode
 	}
 	
 	/**
-	 * Make a new cast not with a target type and an expression
+	 * Make a new cast node with a target type and an expression
 	 * @param coords The source code coordinates.
 	 * @param targetType The target type.
 	 * @param expr The expression to be casted.
@@ -71,7 +71,7 @@ public class CastNode extends ExprNode
 	}
 	
 	/**
-	 * Make a new cast not with a target type and an expression
+	 * Make a new cast node with a target type and an expression, which is immediately marked as resolved
 	 * Only to be called by type adjusting, after tree was already resolved
 	 * @param coords The source code coordinates.
 	 * @param targetType The target type.
@@ -82,32 +82,32 @@ public class CastNode extends ExprNode
 		this(coords);
 		addChild(targetType);
 		addChild(expr);
-		setResolved(resolveResult); 
+		nodeResolvedSetResult(resolveResult); 
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(EXPR).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		successfullyResolved = getChild(EXPR).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

@@ -51,58 +51,42 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		super(c, owner, member);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
-		/* Resolve the identifier nodes.
-		 * Each AST node can add resolvers to a list administrated by
-		 * {@link BaseNode}. These resolvers replace the identifier node in the
-		 * children of this node by something, that can be produced out of it.
-		 * For example, an identifier representing a declared type is replaced by
-		 * the declared type. The behaviour depends on the {@link Resolver}.
-		 *
-		 * This method first call all resolvers registered in this node
-		 * and descends to the this node's children by invoking
-		 * {@link #getResolve()} on each child.
-		 *
-		 * A base node subclass can overload this method, to apply another
-		 * policy of resolution.
-		 *
-		 * local result is true, if all resolvers finished their job and no error
-		 * occurred, false, if there was some error. */
 		boolean successfullyResolved = false;
 		IdentNode member = (IdentNode) getChild(MEMBER);
 
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
-		successfullyResolved = owner.getResolve();
+		successfullyResolved = owner.resolutionResult();
 		
 		if(owner instanceof EnumTypeNode) {
 			EnumTypeNode enumType = (EnumTypeNode) owner;
 			enumType.fixupDefinition(member);
 			declResolver.resolve(this, MEMBER);
-			successfullyResolved = getChild(MEMBER).getResolve();
+			successfullyResolved = getChild(MEMBER).resolutionResult();
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;
 		}
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(OWNER).resolve() && successfullyResolved;
+		successfullyResolved = getChild(MEMBER).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved()); 
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {
@@ -117,46 +101,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		successfullyChecked = getChild(MEMBER).doCheck() && successfullyChecked;
 	
 		return successfullyChecked;
-	}
-
-	/**
-	 * Resolve the identifier nodes.
-	 * Each AST node can add resolvers to a list administrated by
-	 * {@link BaseNode}. These resolvers replace the identifier node in the
-	 * children of this node by something, that can be produced out of it.
-	 * For example, an identifier representing a declared type is replaced by
-	 * the declared type. The behaviour depends on the {@link Resolver}.
-	 *
-	 * This method first call all resolvers registered in this node
-	 * and descends to the this node's children by invoking
-	 * {@link #getResolve()} on each child.
-	 *
-	 * A base node subclass can overload this method, to apply another
-	 * policy of resolution.
-	 *
-	 * @return true, if all resolvers finished their job and no error
-	 * occurred, false, if there was some error.
-	 */
-	protected boolean resolve() {
-		boolean res = false;
-		IdentNode member = (IdentNode) getChild(MEMBER);
-		
-		ownerResolver.resolve(this, OWNER);
-		BaseNode owner = getChild(OWNER);
-		res = owner.getResolve();
-		
-		if(owner instanceof EnumTypeNode) {
-			EnumTypeNode enumType = (EnumTypeNode) owner;
-			enumType.fixupDefinition(member);
-			declResolver.resolve(this, MEMBER);
-			res = getChild(MEMBER).getResolve();
-		} else {
-			reportError("Left hand side of '::' is not an enum type");
-			res = false;
-		}
-			
-		setResolved(res);
-		return res;
 	}
 		
 	/**

@@ -89,10 +89,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		setChildrenNames(childrenNames);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
@@ -100,21 +100,21 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		successfullyResolved = nodeResolver.resolve(this, LEFT) && successfullyResolved;
 		successfullyResolved = edgeResolver.resolve(this, EDGE) && successfullyResolved;
 		successfullyResolved = nodeResolver.resolve(this, RIGHT) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = getChild(LEFT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(EDGE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(RIGHT).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(LEFT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(EDGE).resolve() && successfullyResolved;
+		successfullyResolved = getChild(RIGHT).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

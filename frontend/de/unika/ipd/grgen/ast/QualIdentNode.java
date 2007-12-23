@@ -68,10 +68,10 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		addChild(member);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		/* This AST node implies another way of name resolution.
@@ -90,7 +90,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
-		successfullyResolved = owner.getResolve();
+		successfullyResolved = owner.resolutionResult();
 		
 		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
@@ -99,7 +99,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 				ScopeOwner o = (ScopeOwner) ownerType;
 				o.fixupDefinition(member);
 				declResolver.resolve(this, MEMBER);
-				successfullyResolved = getChild(MEMBER).getResolve();
+				successfullyResolved = getChild(MEMBER).resolutionResult();
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -108,20 +108,20 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			reportError("Left hand side of '.' is neither a node nor an edge");
 			successfullyResolved = false;
 		}
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(OWNER).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(MEMBER).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(OWNER).resolve() && successfullyResolved;
+		successfullyResolved = getChild(MEMBER).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {
@@ -137,48 +137,6 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	
 		return successfullyChecked;
 	}
-
-	/**
-	 * This AST node implies another way of name resolution.
-	 * First of all, the left hand side (lhs) has to be resolved. It must be
-	 * a declaration and its type must be an instance of {@link ScopeOwner},
-	 * since qualification can only be done, if the lhs owns a scope.
-	 *
-	 * Then the right side (rhs) is tought to search the declarations
-	 * of its identifiers in the scope owned by the lhs. This is done
-	 * via {@link ExprNode#fixupDeclaration(ScopeOwner)}.
-	 *
-	 * Then, the rhs contains the rhs' ident nodes contains the
-	 * right declarations and can be resolved either.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#resolve()
-	 */
-	protected boolean resolve() {
-		boolean res = false;
-		IdentNode member = (IdentNode) getChild(MEMBER);
-		
-		ownerResolver.resolve(this, OWNER);
-		BaseNode owner = getChild(OWNER);
-		res = owner.getResolve();
-		
-		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
-			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
-			
-			if(ownerType instanceof ScopeOwner) {
-				ScopeOwner o = (ScopeOwner) ownerType;
-				o.fixupDefinition(member);
-				declResolver.resolve(this, MEMBER);
-				res = getChild(MEMBER).getResolve();
-			} else {
-				reportError("Left hand side of '.' does not own a scope");
-				res = false;
-			}
-		} else {
-			reportError("Left hand side of '.' is neither a node nor an edge");
-			res = false;
-		}
-		setResolved(res);
-		return res;
-	}
 	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#check()
@@ -192,7 +150,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	 * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
 	 */
 	public DeclNode getDecl() {
-		assertResolved();
+		assert isResolved();
 		BaseNode child = getChild(MEMBER);
 
 		if (child instanceof DeclNode) {
@@ -203,7 +161,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	}
 	
 	protected DeclNode getOwner() {
-		assertResolved();
+		assert isResolved();
 		BaseNode child = getChild(OWNER);
 
 		if (child instanceof DeclNode) {

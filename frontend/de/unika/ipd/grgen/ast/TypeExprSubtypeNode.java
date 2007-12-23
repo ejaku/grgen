@@ -49,22 +49,22 @@ public class TypeExprSubtypeNode extends TypeExprNode
 		addChild(type);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		successfullyResolved = typeResolver.resolve(this, OPERAND) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
 		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).doResolve() && successfullyResolved;
+			successfullyResolved = getChild(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -72,7 +72,7 @@ public class TypeExprSubtypeNode extends TypeExprNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

@@ -41,8 +41,8 @@ public abstract class ExprNode extends BaseNode
 	
 	static private final ExprNode INVALID = new ExprNode(Coords.getInvalid())
 	{
-		/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-		protected boolean doResolve() {
+		/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+		protected boolean resolve() {
 			return true;
 		}
 		protected boolean doCheck() {

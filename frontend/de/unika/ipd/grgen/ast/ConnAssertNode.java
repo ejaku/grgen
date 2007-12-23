@@ -77,32 +77,32 @@ public class ConnAssertNode extends BaseNode
 		setChildrenNames(childrenNames);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		successfullyResolved = nodeResolver.resolve(this, SRC) && successfullyResolved;
 		successfullyResolved = nodeResolver.resolve(this, TGT) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(SRC).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(SRCRANGE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(TGT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(TGTRANGE).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(SRC).resolve() && successfullyResolved;
+		successfullyResolved = getChild(SRCRANGE).resolve() && successfullyResolved;
+		successfullyResolved = getChild(TGT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(TGTRANGE).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

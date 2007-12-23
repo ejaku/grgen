@@ -128,30 +128,30 @@ public class PatternGraphNode extends GraphNode
 		this.modifiers = modifiers;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 
-		successfullyResolved = getChild(CONNECTIONS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(RETURN).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(CONDITIONS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(HOMS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(DPO).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(EXACT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(INDUCED).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(CONNECTIONS).resolve() && successfullyResolved;
+		successfullyResolved = getChild(RETURN).resolve() && successfullyResolved;
+		successfullyResolved = getChild(CONDITIONS).resolve() && successfullyResolved;
+		successfullyResolved = getChild(HOMS).resolve() && successfullyResolved;
+		successfullyResolved = getChild(DPO).resolve() && successfullyResolved;
+		successfullyResolved = getChild(EXACT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(INDUCED).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

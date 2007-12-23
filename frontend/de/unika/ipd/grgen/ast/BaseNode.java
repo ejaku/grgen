@@ -88,14 +88,11 @@ public abstract class BaseNode extends Base
 	private String[] childrenNames = noChildrenNames;
 
 
-	/** The list of resolvers. */
-	private Map<Integer, Resolver> resolvers = new HashMap<Integer, Resolver>();
-
 	/** Has this base node already been resolved? */
 	private boolean resolved = false;
 
 	/** The result of the resolution. */
-	protected boolean resolveResult = false;
+	private boolean resolveResult = false;
 
 	/** Has this base node already been checked? */
 	private boolean checked = false;
@@ -458,113 +455,46 @@ public abstract class BaseNode extends Base
 	 */
 	public static final boolean manifestAST(BaseNode node) {
 		// resolve AST
-		boolean successfullyResolved = node.doResolve();		
+		boolean successfullyResolved = node.resolve();		
 		// check AST
 		boolean successfullyChecked = node.doCheck();
 		
 		return successfullyResolved && successfullyChecked;
 	}
 
-	/** resolves AST subtree beginning with this node, descending to all children
-	 *  returns success of resolution of the subtree (only true if every resolver succeeded)
-	 *  replaces BooleanResultVisitor calling getResolve during PreWalk of AST */
-	protected abstract boolean doResolve();
+	/**
+	 * Resolve the identifier nodes in the AST
+	 * f.ex. replace an identifier AST node representing a declared type by the declared type AST node.
+	 * Resolving is organized as a preorder walk over the AST with the current node calling resolve on it's children
+	 * This must be implemented in the subclasses, first doing local resolution then descending to the children,
+	 * but only if the node was not yet visited during resolution (AST in reality a DAG, so it might happen)
+	 * @return true, if resolution of the AST beginning with this node finished successfully;
+	 * false, if there was some error.
+	 */
+	protected abstract boolean resolve();
+
+	/** Mark this node as resolved and set the result of the resolution. */
+	protected final void nodeResolvedSetResult(boolean resolveResult) {
+		resolved = true;
+		this.resolveResult = resolveResult;
+	}
+
+	/** Returns whether this node has been resolved already. */
+	public final boolean isResolved() {
+		return resolved;
+	}
+
+	/** Returns the result of the resolution (as set by nodeResolvedSetResult earlier on). */
+	public final boolean resolutionResult() {
+		assert isResolved();
+		return resolveResult;
+	}
 
 	/** checks AST subtree beginning with this node, descending to all children
 	 *  returns success of checking the subtree (only true if every check succeeded)
 	 *  replaces BooleanResultVisitor calling getCheck and getTypeCheck during PostWalk of AST */
 	protected abstract boolean doCheck();
-
-	/**
-	 * Resolve the identifier nodes.
-	 * For example, an identifier representing a declared type is replaced by
-	 * the declared type.
-	 *
-	 * This method calls all resolvers registered in this node.
-	 * A subclass can overload this method or change the registered resolvers
-	 * to apply another policy of resolution.
-	 *
-	 * @return true, if all resolvers finished their job and no error
-	 * occurred, false, if there was some error.
-	 */
-	protected boolean resolve() {
-		boolean local = true;
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-
-		for(Iterator<Integer> i = resolvers.keySet().iterator(); i.hasNext();) {
-			Integer pos = i.next();
-			Resolver resolver = resolvers.get(pos);
-
-			if(!resolver.resolve(this, pos.intValue())) {
-				debug.report(NOTE, "resolve error");
-				local = false;
-			}
-		}
-		setResolved(local);
-		return local;
-	}
-
-	/**
-	 * Get the result of the resolution.
-	 * If this node has already been resolved, then return the result of
-	 * that former resolution, if not, resolve it and store the result.
-	 * @return The result of the resolution. true, if everything went right,
-	 * false, if something went wrong.
-	 */
-	public final boolean getResolve() {
-		if(!resolved)
-			resolveResult = resolve();
-
-		return resolveResult;
-	}
-
-	/**
-	 * Mark this node as resolved and give the result of the resolution.
-	 * @param resolveResult The result of the resolution.
-	 */
-	protected final void setResolved(boolean resolveResult) {
-		resolved = true;
-		this.resolveResult = resolveResult;
-	}
-
-	/**
-	 * Check, if this node has been resolved already.
-	 * @return true, if this node has been resolved, false, if not.
-	 */
-	protected final boolean isResolved() {
-		return resolved;
-	}
-
-	/**
-	 * Assert, that the node has been resolved.
-	 * This function can be used in methods of subclasses of this one,
-	 * to mark that a resolution has to take place before the particular
-	 * method takes place.
-	 */
-	protected final void assertResolved() {
-		assert isResolved() : "This node has to be resolved first.";
-	}
-
-	/**
-	 * Set a resolver to this node.
-	 * If a resolver was already entered for a given position, it is
-	 * overwritten. This is sensible, since sub classes may need to
-	 * overwrite resolvers entered by superclasses.
-	 * @see #resolve()
-	 * @param pos Position at which to add the resolver.
-	 * @param r Resolver to add.
-	 */
-	protected final void setResolver(int pos, Resolver r) {
-		resolvers.put(new Integer(pos), r);
-	}
-
-	/**
-	 * Clear all resolvers in this node.
-	 */
-	protected final void clearResolvers() {
-		resolvers.clear();
-	}
-
+	
 	/**
 	 * Checks a child of this node to be of a certain type.
 	 * If it is not, an error is reported via the ErrorFacility.

@@ -56,32 +56,32 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		addChild(oldid);
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected boolean doResolve() {
+  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
 		if(isResolved()) {
-			return getResolve();
+			return resolutionResult();
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
 		successfullyResolved = edgeResolver.resolve(this, OLD) && successfullyResolved;
-		setResolved(successfullyResolved); // local result
+		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).doResolve() && successfullyResolved;
-		successfullyResolved = getChild(OLD).doResolve() && successfullyResolved;
+		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
+		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved()); 
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {

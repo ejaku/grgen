@@ -37,13 +37,13 @@ abstract class ConstraintDeclNode extends DeclNode
 		addChild(constraints);
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#doResolve() */
-	protected abstract boolean doResolve();
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected abstract boolean resolve();
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#doCheck() */
 	protected boolean doCheck() {
 		assert(isResolved());
-		if(!resolveResult) {
+		if(!resolutionResult()) {
 			return false;
 		}
 		if(isChecked()) {
