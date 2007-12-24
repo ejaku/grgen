@@ -6,8 +6,8 @@ rule r {
 		a:TYPE1;
 	}
 	replace {
-		z:TYPE2<x>;
-		y:typeof(x)<a>;
+		y:TYPE2<x>;
+		z:typeof(x)<a>;
 	}
 }
 

@@ -15,14 +15,15 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack, Adam Szalkowski
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
+
+import java.util.Collection;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
@@ -34,74 +35,78 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.RetypedEdge;
 
 /**
- *
+ * 
  */
-public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
-{
+public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	static {
 		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
 
 	private static final int OLD = CONSTRAINTS + 1;
-	
-	private static final Resolver edgeResolver =
-		new DeclResolver(new Class[] { EdgeDeclNode.class});
-	
-	private static final Checker edgeChecker =
-		new TypeChecker(EdgeTypeNode.class);
-		
-	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 
+	private static final Resolver edgeResolver = new DeclResolver(
+			new Class[] { EdgeDeclNode.class });
+
+	private static final Checker edgeChecker = new TypeChecker(
+			EdgeTypeNode.class);
+
+	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
 		addChild(oldid);
+		setChildrenNames(new String[] { "ident", "type", "constraints", "old" });
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
-		if(isResolved()) {
+		if (isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
-		successfullyResolved = edgeResolver.resolve(this, OLD) && successfullyResolved;
+		successfullyResolved = typeResolver.resolve(this, TYPE)
+				&& successfullyResolved;
+		successfullyResolved = edgeResolver.resolve(this, OLD)
+				&& successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
+		if (!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
+
+		successfullyResolved = getChild(IDENT).resolve()
+				&& successfullyResolved;
 		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).resolve()
+				&& successfullyResolved;
 		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
-		if(!resolutionResult()) {
+		if (!resolutionResult()) {
 			return false;
 		}
-		if(isChecked()) {
+		if (isChecked()) {
 			return getChecked();
 		}
-		
+
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
+		if (successfullyChecked) {
+			assert (!isTypeChecked());
 			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
-		
+
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check()
+				&& successfullyChecked;
 		successfullyChecked = getChild(OLD).check() && successfullyChecked;
 		return successfullyChecked;
 	}
-	
+
 	/**
 	 * @return the original edge for this retyped edge
 	 */
@@ -119,12 +124,49 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 
 		return IdentNode.getInvalid();
 	}
-  
+
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseEdge#checkLocal()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return super.checkLocal() && checkChild(OLD, edgeChecker);
+		boolean res = super.checkLocal() && checkChild(OLD, edgeChecker);
+		if (!res) {
+			return false;
+		}
+
+		// ok, since checked above
+		DeclNode old = (DeclNode) getChild(OLD);
+		
+		// check if source edge of retype is declared in replace/modify part
+		BaseNode curr = old;
+		BaseNode prev = null;
+
+		while (!(curr instanceof RuleDeclNode)) {
+			prev = curr;
+			curr = curr.getParents().iterator().next();
+		}
+		if (prev == curr.getChild(RuleDeclNode.RIGHT)) {
+			reportError("Source edge of retype may not be declared in replace/modify part");
+			res = false;
+		}
+
+		// check if two ambiguous retyping statements for the same edge
+		// declaration occurs
+		Collection<BaseNode> parents = old.getParents();
+		for (BaseNode p : parents) {
+			// to be erroneous there must be another EdgeTypeChangeNode with the
+			// same OLD-child
+			// TODO: p.getChild(OLD) == old always true, since p is a parent (of
+			// type EdgeTypeChangeNode) of old?
+			if (p != this && p instanceof EdgeTypeChangeNode
+					&& (p.getChild(OLD) == old)) {
+				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden, previous retype statement at "
+						+ p.getCoords());
+				res = false;
+			}
+		}
+
+		return res;
 	}
 
 	public Edge getEdge() {
@@ -132,7 +174,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.BaseEdge#constructIR()
+	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
 		// This cast must be ok after checking.
@@ -157,5 +199,3 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		return res;
 	}
 }
-
-

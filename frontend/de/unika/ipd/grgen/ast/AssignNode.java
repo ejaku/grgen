@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
@@ -152,6 +153,9 @@ public class AssignNode extends BaseNode
 		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
 		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+		}
+		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
+			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 		}
 		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
 	}

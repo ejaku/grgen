@@ -1,0 +1,18 @@
+using retype_model_002;
+
+// forbidden, because write access to old node's attributes
+
+rule r {
+	pattern {
+		a:Node;
+		b:Node;
+		
+		a -x:TYPE1-> b;
+	}
+	replace {
+		a -z:TYPE2<x>-> b;
+		
+		eval { x.a = z.a; }
+	}
+}
+

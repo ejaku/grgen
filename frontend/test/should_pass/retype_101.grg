@@ -1,0 +1,15 @@
+using retype_model_002;
+
+rule r {
+	pattern {
+		a:Node;
+		b:Node;
+		
+		a -x:TYPE1-> b;
+	}
+	replace {
+		a -y:TYPE2<x>-> b;
+		b -z:typeof(x)-> a;
+	}
+}
+

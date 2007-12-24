@@ -1,0 +1,12 @@
+edge class TYPE1 {
+	a : double;
+}
+
+edge class TYPE2 extends TYPE1 {
+	b: object;
+}
+
+edge class TYPE3 {
+	a : double;
+	b : object;
+}

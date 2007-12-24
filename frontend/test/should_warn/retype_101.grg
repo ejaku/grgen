@@ -1,14 +1,17 @@
-using retype_model_001;
+using retype_model_002;
 
 // warn, because type of y is statically known (so "typeof" is useless)
 
 rule r {
 	pattern {
-		x:TYPE1;
+		a: Node;
+		b: Node;
+		
+		a -x:TYPE1-> b;
 	}
 	replace {
-		y:TYPE2<x>;
-		z:typeof(y);
+		a -y:TYPE2<x>-> b;
+		a -z:typeof(y)-> b;
 	}
 }
 
