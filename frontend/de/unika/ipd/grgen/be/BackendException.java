@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -25,16 +24,19 @@
 package de.unika.ipd.grgen.be;
 
 /**
- * A backend exception. 
+ * A backend exception.
+ * 
+ * NOTE: recalculate the serialVersionUID if you change the class.
  */
 public class BackendException extends Exception {
+	private static final long serialVersionUID = -6636106497424461181L;
 
-
-  /**
-   * @param arg0 The cause for the exception.
-   */
-  public BackendException(String arg0) {
-    super(arg0);
-  }
+	/**
+	 * @param arg0
+	 *            The cause for the exception.
+	 */
+	public BackendException(String arg0) {
+		super(arg0);
+	}
 
 }

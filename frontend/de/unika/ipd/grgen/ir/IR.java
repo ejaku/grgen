@@ -157,7 +157,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
 	 */
 	public Collection<? extends IR> getWalkableChildren() {
-		return Collections.EMPTY_SET;
+		return Collections.emptySet();
 	}
 	
 	/**

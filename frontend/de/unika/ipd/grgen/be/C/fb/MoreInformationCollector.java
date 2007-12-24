@@ -520,7 +520,8 @@ public class MoreInformationCollector extends InformationCollector {
 							involvedNodes.add(node);
 							//and at these Collections to prepared Maps
 							typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
-							typeConditionsInvolvedEdges.put(type_condition, Collections.EMPTY_SET);
+							Collection<Edge> empty = Collections.emptySet();
+							typeConditionsInvolvedEdges.put(type_condition, empty);
 							
 							//..store the negative pattern num the conditions belongs to
 							typeConditionsPatternNum.put(type_condition, new Integer(neg_num+1));
@@ -548,7 +549,8 @@ public class MoreInformationCollector extends InformationCollector {
 							Collection<Edge> involvedEdges = new HashSet<Edge>();
 							involvedEdges.add(edge);
 							//and at these Collections to prepared Maps
-							typeConditionsInvolvedNodes.put(type_condition, Collections.EMPTY_SET);
+							Collection<Node> empty = Collections.emptySet();
+							typeConditionsInvolvedNodes.put(type_condition, empty);
 							typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
 							
 							//..store the negative pattern num the conditions belongs to

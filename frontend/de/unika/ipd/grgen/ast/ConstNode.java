@@ -15,8 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
-
+ */
 
 /**
  * @author Sebastian Hack
@@ -29,35 +28,38 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * Constant expressions.
- * A constant is 0-ary operator.
+ * Constant expressions. A constant is 0-ary operator.
  */
-public abstract class ConstNode extends OpNode
-{
+public abstract class ConstNode extends OpNode {
 	/** The value of the constant. */
 	protected Object value;
-	
+
 	/** A name for the constant. */
 	protected String name;
 
-	private static final ConstNode INVALID = 
-		new ConstNode(Coords.getBuiltin(), "invalid const", "invalid value")
-		{
-			protected boolean isValid() {
-				return false;
-			}
-			
-			protected ConstNode doCastTo(TypeNode type) {
-				return this;
-			}
-			
-			public String toString() {
-				return "invalid const";
-			}
-		};
-		
+	private static final ConstNode INVALID = new InvalidConstNode(Coords.getBuiltin(),
+			"invalid const", "invalid value");
+
 	static {
-		INVALID.setName(INVALID.getClass(), "invalid const");
+		InvalidConstNode.setName(InvalidConstNode.class, "invalid const");
+	}
+
+	private static class InvalidConstNode extends ConstNode {
+		private InvalidConstNode(Coords coords, String name, Object value) {
+			super(coords, name, value);
+		}
+
+		protected boolean isValid() {
+			return false;
+		}
+
+		protected ConstNode doCastTo(TypeNode type) {
+			return this;
+		}
+
+		public String toString() {
+			return "invalid const";
+		}
 	}
 
 	public static final ConstNode getInvalid() {
@@ -65,7 +67,8 @@ public abstract class ConstNode extends OpNode
 	}
 
 	/**
-	 * @param coords The source code coordinates.
+	 * @param coords
+	 *            The source code coordinates.
 	 */
 	public ConstNode(Coords coords, String name, Object value) {
 		super(coords, OperatorSignature.CONST);
@@ -75,39 +78,40 @@ public abstract class ConstNode extends OpNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
-		if(isResolved()) {
+		if (isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		return successfullyResolved;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
-		if(!resolutionResult()) {
+		if (!resolutionResult()) {
 			return false;
 		}
-		if(isChecked()) {
+		if (isChecked()) {
 			return getChecked();
 		}
-		
+
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
+		if (successfullyChecked) {
+			assert (!isTypeChecked());
 			successfullyChecked = typeCheckLocal();
 			nodeTypeCheckedSetResult(successfullyChecked);
 		}
-		
+
 		return successfullyChecked;
 	}
-	
+
 	/**
 	 * Get the value of the constant.
+	 * 
 	 * @return The value.
 	 */
 	public Object getValue() {
@@ -116,6 +120,7 @@ public abstract class ConstNode extends OpNode
 
 	/**
 	 * Include the constants value in its string representation.
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -128,6 +133,7 @@ public abstract class ConstNode extends OpNode
 
 	/**
 	 * Just a convenience function.
+	 * 
 	 * @return The IR object.
 	 */
 	protected Constant getConstant() {
@@ -150,6 +156,7 @@ public abstract class ConstNode extends OpNode
 
 	/**
 	 * Check, if the constant is valid.
+	 * 
 	 * @return true, if the constant is valid.
 	 */
 	protected boolean isValid() {
@@ -165,7 +172,9 @@ public abstract class ConstNode extends OpNode
 
 	/**
 	 * Cast this constant to a new type.
-	 * @param type The new type.
+	 * 
+	 * @param type
+	 *            The new type.
 	 * @return A new constant with the corresponding value and a new type.
 	 */
 	public final ConstNode castTo(TypeNode type) {
@@ -176,15 +185,16 @@ public abstract class ConstNode extends OpNode
 		} else if (getType().isCastableTo(type)) {
 			res = doCastTo(type);
 		}
-		
+
 		return res;
 	}
 
 	/**
-	 * Implement this method to implement casting.
-	 * You don't have to check for types that are not castable to the
-	 * type of this constant.
-	 * @param type The new type.
+	 * Implement this method to implement casting. You don't have to check for
+	 * types that are not castable to the type of this constant.
+	 * 
+	 * @param type
+	 *            The new type.
 	 * @return A constant of the new type.
 	 */
 	protected abstract ConstNode doCastTo(TypeNode type);

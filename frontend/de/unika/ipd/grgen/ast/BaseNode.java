@@ -31,7 +31,6 @@ import de.unika.ipd.grgen.util.*;
 import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
