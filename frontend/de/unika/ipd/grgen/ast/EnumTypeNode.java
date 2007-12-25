@@ -115,11 +115,6 @@ public class EnumTypeNode extends CompoundTypeNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(ELEMENTS).check() && successfullyChecked;
 		return successfullyChecked;
@@ -129,7 +124,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(ELEMENTS, childrenChecker);
+		return childrenChecker.check(getChild(ELEMENTS), error);
 	}
 
 	/**

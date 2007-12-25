@@ -24,6 +24,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
@@ -81,12 +82,10 @@ public class AssignNode extends BaseNode
 		}
 		
 		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			assert(!isTypeChecked());
 			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		nodeCheckedSetResult(successfullyChecked);
 		
 		successfullyChecked = getChild(LHS).check() && successfullyChecked;
 		successfullyChecked = getChild(RHS).check() && successfullyChecked;
@@ -95,8 +94,8 @@ public class AssignNode extends BaseNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		boolean lhsOk = checkChild(LHS, QualIdentNode.class);
-		boolean rhsOk = checkChild(RHS, ExprNode.class);
+		boolean lhsOk = (new SimpleChecker(QualIdentNode.class)).check(getChild(LHS), error);
+		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(getChild(RHS), error);
 		
 		if(lhsOk) {
 			QualIdentNode qual = (QualIdentNode) getChild(LHS);

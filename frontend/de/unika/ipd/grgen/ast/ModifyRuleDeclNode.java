@@ -95,11 +95,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -274,7 +269,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	@Override
 	protected boolean checkLocal() {
 		warnElemAppearsInsideAndOutsideDelete();
-		return super.checkLocal() && checkChild(DELETE, deleteChecker);
+		return super.checkLocal()
+			&& deleteChecker.check(getChild(DELETE), error);
 	}
 	
 	@Override

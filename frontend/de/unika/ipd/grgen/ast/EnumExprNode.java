@@ -29,6 +29,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
@@ -40,12 +41,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	static {
 		setName(EnumExprNode.class, "enum access expression");
 	}
-	
-	private static final Resolver ownerResolver =
-		new DeclTypeResolver(EnumTypeNode.class);
-	
-	private static final Resolver declResolver =
-		new DeclResolver(EnumItemNode.class);
 	
 	public EnumExprNode(Coords c, BaseNode owner, BaseNode member) {
 		super(c, owner, member);
@@ -60,6 +55,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		boolean successfullyResolved = false;
 		IdentNode member = (IdentNode) getChild(MEMBER);
 
+		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
 		ownerResolver.resolve(this, OWNER);
 		BaseNode owner = getChild(OWNER);
 		successfullyResolved = owner.resolutionResult();
@@ -67,6 +63,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		if(owner instanceof EnumTypeNode) {
 			EnumTypeNode enumType = (EnumTypeNode) owner;
 			enumType.fixupDefinition(member);
+			Resolver declResolver = new DeclResolver(EnumItemNode.class);
 			declResolver.resolve(this, MEMBER);
 			successfullyResolved = getChild(MEMBER).resolutionResult();
 		} else {
@@ -94,11 +91,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(OWNER).check() && successfullyChecked;
 		successfullyChecked = getChild(MEMBER).check() && successfullyChecked;
@@ -109,8 +101,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(OWNER, EnumTypeNode.class)
-			&& checkChild(MEMBER, EnumItemNode.class);
+		return (new SimpleChecker(EnumTypeNode.class)).check(getChild(OWNER), error)
+			&& (new SimpleChecker(EnumItemNode.class)).check(getChild(MEMBER), error);
 	}
 	
 	/**

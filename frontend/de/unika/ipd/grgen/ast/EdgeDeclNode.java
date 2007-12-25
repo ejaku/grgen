@@ -26,6 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Edge;
@@ -42,9 +43,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	
 	protected static final Resolver typeResolver =
 		new DeclResolver(new Class[] { EdgeDeclNode.class, TypeDeclNode.class });
-	
-	private static final Checker typeChecker =
-		new TypeChecker(EdgeTypeNode.class);
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
 		super(n, e, constraints);
@@ -86,11 +84,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -99,9 +92,10 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	}
 	
 	protected boolean checkLocal() {
-		return checkChild(IDENT, IdentNode.class)
-			&& checkChild(CONSTRAINTS, TypeExprNode.class)
-			&& checkChild(TYPE, typeChecker);
+		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
+		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error)
+			&& typeChecker.check(getChild(TYPE), error);
 	}
 	
 	/**

@@ -64,13 +64,8 @@ public class NullNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
+		boolean successfullyChecked = true;
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		return successfullyChecked;
 	}

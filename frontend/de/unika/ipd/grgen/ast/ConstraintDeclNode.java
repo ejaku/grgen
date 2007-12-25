@@ -26,6 +26,7 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.TypeExpr;
 
 abstract class ConstraintDeclNode extends DeclNode
@@ -51,11 +52,6 @@ abstract class ConstraintDeclNode extends DeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -64,7 +60,8 @@ abstract class ConstraintDeclNode extends DeclNode
 	}
 	
 	protected boolean checkLocal() {
-		return super.checkLocal() && checkChild(CONSTRAINTS, TypeExprNode.class);
+		return super.checkLocal()
+			&& (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error);
 	}
 	
 	protected final TypeExpr getConstraints() {

@@ -26,8 +26,11 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
+
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -80,11 +83,6 @@ public class HomNode extends BaseNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -102,21 +100,29 @@ public class HomNode extends BaseNode
 			this.reportError("Hom statement is empty");
 			return false;
 		}
-
-		if (!checkAllChildren(DeclNode.class)) {
+		
+		boolean successfullyChecked = true;
+		Checker checker = new SimpleChecker(DeclNode.class);
+		for(BaseNode n : getChildren()) {
+			successfullyChecked = checker.check(n, error) && successfullyChecked;
+		}
+		if(!successfullyChecked) {
 			return false;
 		}
 
 		DeclNode child = (DeclNode) getChild(0);
-		TypeChecker checker;
+		TypeChecker typeChecker;
 
 		if (child.getDeclType() instanceof NodeTypeNode) {
-			checker = new TypeChecker(NodeTypeNode.class);
+			typeChecker = new TypeChecker(NodeTypeNode.class);
 		} else {
-			checker = new TypeChecker(EdgeTypeNode.class);
+			typeChecker = new TypeChecker(EdgeTypeNode.class);
 		}
 
-		return checkAllChildren(checker);
+		for(BaseNode n : getChildren()) {
+			successfullyChecked = typeChecker.check(n, error) && successfullyChecked;
+		}
+		return successfullyChecked;
 	}
 
 	public Color getNodeColor() {

@@ -47,13 +47,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		"node"
 	};
 	
-	private static final Checker nodeChecker =
-		new TypeChecker(NodeTypeNode.class);
-	
-	private static final Resolver nodeResolver =
-		new OptionalResolver(
-				new DeclResolver(new Class[] { NodeDeclNode.class }));
-	
 	static {
 		setName(SingleNodeConnNode.class, "single node");
 	}
@@ -75,6 +68,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver nodeResolver = new OptionalResolver(new DeclResolver(new Class[] { NodeDeclNode.class }));
 		successfullyResolved = nodeResolver.resolve(this, NODE) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -96,11 +90,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(NODE).check() && successfullyChecked;
 		return successfullyChecked;
@@ -126,7 +115,8 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(NODE, nodeChecker);
+		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
+		return nodeChecker.check(getChild(NODE), error);
 	}
 	
 	/**

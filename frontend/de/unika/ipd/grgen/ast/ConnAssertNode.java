@@ -24,10 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
-
-
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -59,11 +58,6 @@ public class ConnAssertNode extends BaseNode
 	/** Index of the target node range. */
 	private static final int TGTRANGE = 3;
 	
-	
-	/** Resolver for the nodes. */
-	private static final Resolver nodeResolver =
-		new DeclTypeResolver(NodeTypeNode.class);
-	
 	/**
 	 * Construct a new connection assertion node.
 	 */
@@ -85,6 +79,7 @@ public class ConnAssertNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver nodeResolver = new DeclTypeResolver(NodeTypeNode.class);
 		successfullyResolved = nodeResolver.resolve(this, SRC) && successfullyResolved;
 		successfullyResolved = nodeResolver.resolve(this, TGT) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -110,11 +105,6 @@ public class ConnAssertNode extends BaseNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(SRC).check() && successfullyChecked;
 		successfullyChecked = getChild(SRCRANGE).check() && successfullyChecked;
@@ -128,10 +118,10 @@ public class ConnAssertNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(SRC, 		NodeTypeNode.class)
-			&& checkChild(SRCRANGE,	RangeSpecNode.class)
-			&& checkChild(TGT,		NodeTypeNode.class)
-			&& checkChild(TGTRANGE,	RangeSpecNode.class);
+		return (new SimpleChecker(NodeTypeNode.class)).check(getChild(SRC), error)
+			&& (new SimpleChecker(RangeSpecNode.class)).check(getChild(SRCRANGE), error)
+			&& (new SimpleChecker(NodeTypeNode.class)).check(getChild(TGT), error)
+			&& (new SimpleChecker(RangeSpecNode.class)).check(getChild(TGTRANGE), error);
 	}
 	
 	protected IR constructIR() {

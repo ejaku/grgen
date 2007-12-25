@@ -44,9 +44,6 @@ public class MemberDeclNode extends DeclNode
 	protected static final Resolver typeResolver =
 		new DeclTypeResolver(TypeNode.class);
 
-	private static final Checker typeChecker =
-		new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
-
 	/**
 	 * @param n Identifier which declared the member.
 	 * @param t Type with which the member was declared.
@@ -85,11 +82,6 @@ public class MemberDeclNode extends DeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -100,7 +92,8 @@ public class MemberDeclNode extends DeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(TYPE, typeChecker);
+		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
+		return typeChecker.check(getChild(TYPE), error);
 	}
 
 	protected IR constructIR() {

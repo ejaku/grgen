@@ -30,7 +30,6 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.util.*;
 import java.util.*;
 
-import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -489,136 +488,32 @@ public abstract class BaseNode extends Base
 		return resolveResult;
 	}
 
-	/** checks AST subtree beginning with this node, descending to all children
-	 *  returns success of checking the subtree (only true if every check succeeded)
-	 *  replaces BooleanResultVisitor calling getCheck and getTypeCheck during PostWalk of AST */
+	/**
+	 * Check the sanity and types of the AST
+	 * TODO: currently preorder walk - change comment or change walk?
+	 * Checking is organized as a postorder walk over the AST with the current node calling check on it's children
+	 * This must be implemented in the subclasses, first descending to the children, then doing local checking
+	 * but only if the node was not yet visited during checking (AST in reality a DAG, so it might happen)
+	 * @return true, if checking of the AST beginning with this node finished successfully;
+	 * false, if there was some error.
+	 */
 	protected abstract boolean check();
 	
-	/**
-	 * Checks a child of this node to be of a certain type.
-	 * If it is not, an error is reported via the ErrorFacility.
-	 * @param childNum The number of the child to check
-	 * @param cls The class the child must be an instance of
-	 * @return true, if the selected child node was of type cls
-	 */
-	public final boolean checkChild(int childNum, Class<?> cls) {
-		boolean res = false;
-
-		BaseNode child = getChild(childNum);
-		if(cls.isInstance(child))
-			res = true;
-		else
-			reportChildError(childNum, cls);
-
-		return res;
-	}
-	
-	/**
-	 * Reports a bad child node.
-	 * @param childNum The number of the bad child
-	 * @param child The bad child node
-	 * @param cls The class the child should have been of
-	 * @return true, if the selected child node was of type cls
-	 */
-	public void reportChildError(int childNum, Class<?> cls) {
-		reportError("Child " + childNum + " \"" + getChild(childNum).getName() +
-				"\"" + " needs to be instance of \"" + shortClassName(cls) + "\"");
-	}
-
-	/**
-	 * Apply a checker to a specific child
-	 * @param childNum The number of the child
-	 * @param checker The checker to apply
-	 * @return The result of the checker applied to the child.
-	 */
-	public final boolean checkChild(int childNum, Checker checker) {
-		return checker.check(getChild(childNum), error);
-	}
-
-	/**
-	 * Checks whether all children of this node are an instance of a
-	 * certain class
-	 * @param cls The class the children should be an instance of
-	 * @return true, if all children of this node were an instance of cls
-	 */
-	public final boolean checkAllChildren(Class<?> cls) {
-		boolean res = true;
-
-		for(BaseNode n :  getChildren())
-			if(!cls.isInstance(n))
-				res = false;
-
-		return res;
-	}
-
-	/**
-	 * Check all children with a checker. The checker is applied to each
-	 * child of this node
-	 * @see Checker
-	 * @param c The checker
-	 * @return true, if the checker returned true for every node, false
-	 * otherwise.
-	 */
-	public final boolean checkAllChildren(Checker c) {
-		boolean res = true;
-
-		for(BaseNode n :  getChildren()) {
-			boolean checkRes = c.check(n, error);
-			res = res && checkRes;
-		}
-
-		return res;
-	}
-
-	/**
-	 * Check the sanity of this AST node.
-	 * This ensures, that all the children have correct types.
-	 * Subclasses have to implement that the right way.
-	 * @return true, if this node is in a correct state.
-	 */
-	protected boolean checkLocal() {
-		return true;
-	}
-
-	/**
-	 * Check the types of this AST node.
-	 * Subclasses have to implement that the right way.
-	 * @return true, if all types are right.
-	 */
-	protected boolean typeCheckLocal() {
-		return true;
-	}
-
 	/** Mark this node as checked and set the result of the check. */
 	protected final void nodeCheckedSetResult(boolean checkResult) {
 		checked = true;
 		this.checkResult = checkResult;
 	}
 	
-	/** Mark this node as type checked and set the result of the type check. */
-	protected final void nodeTypeCheckedSetResult(boolean typeCheckResult) {
-		typeChecked = true;
-		this.typeCheckResult = typeCheckResult;
-	}
-
 	/** Has this node already been checked? */
 	protected final boolean isChecked() {
 		return checked;
 	}
 	
-	/** Has this node already been type checked? */
-	protected final boolean isTypeChecked() {
-		return typeChecked;
-	}
-	
-	/** yields result of checking this AST node, type checking included */
+	/** Yields result of checking this AST node */
 	protected final boolean getChecked() {
-		assert(isChecked());
-		if(!checkResult) {
-			return false;
-		}
-		assert(isTypeChecked());
-		return typeCheckResult;
+		assert isChecked();
+		return checkResult;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

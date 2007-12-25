@@ -48,10 +48,6 @@ public class GraphNode extends BaseNode
 	protected static final int CONNECTIONS = 0;
 	protected static final int RETURN = CONNECTIONS+1;
 
-	/** Connections checker. */
-	private static final Checker connectionsChecker =
-		new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
-
 	static {
 		setName(GraphNode.class, "graph");
 	}
@@ -97,11 +93,6 @@ public class GraphNode extends BaseNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
 		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
@@ -114,7 +105,8 @@ public class GraphNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean connCheck = checkChild(CONNECTIONS, connectionsChecker);
+		Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
+		boolean connCheck = connectionsChecker.check(getChild(CONNECTIONS), error);
 
 		boolean edgeUsage = true;
 

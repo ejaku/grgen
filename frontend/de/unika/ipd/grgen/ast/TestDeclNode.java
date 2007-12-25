@@ -46,35 +46,7 @@ public class TestDeclNode extends ActionDeclNode
 		addChildrenNames(new String[] { "param", "ret", "test", "neg" });
 
 	private static final TypeNode testType = new TypeNode() { };
-
-	private static final Checker condChecker =
-		new CollectChecker(new SimpleChecker(ExprNode.class));
-
-	private static final Checker retDeclarationChecker =
-		new CollectChecker(
-			new Checker() {
-				public boolean check(BaseNode node, ErrorReporter reporter)
-				{
-					boolean res = true;
-
-					if ( ! (node instanceof IdentNode) ) {
-						//this should never be reached
-						node.reportError("Not an identifier");
-						return false;
-					}
-					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
-						res = false;
-						node.reportError("\"" + node + "\" is undeclared");
-					} else {
-						BaseNode type = ((IdentNode)node).getDecl().getDeclType();
-						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
-						if (!res) node.reportError("\"" + node + "\" is neither a node nor an edge type");
-					}
-					return res;
-				}
-			}
-		);
-
+	
 	static {
 		setName(TestDeclNode.class, "test declaration");
 		setName(testType.getClass(), "test type");
@@ -123,11 +95,6 @@ public class TestDeclNode extends ActionDeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -205,8 +172,34 @@ public class TestDeclNode extends ActionDeclNode
 	 *
 	 */
 	protected boolean checkLocal() {
-		boolean childs = checkChild(PATTERN, PatternGraphNode.class)
-			& checkChild(NEG, negChecker) & checkChild(RET, retDeclarationChecker);
+		Checker retDeclarationChecker = new CollectChecker(
+			new Checker() {
+				public boolean check(BaseNode node, ErrorReporter reporter)
+				{
+					boolean res = true;
+
+					if ( ! (node instanceof IdentNode) ) {
+						//this should never be reached
+						node.reportError("Not an identifier");
+						return false;
+					}
+					if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
+						res = false;
+						node.reportError("\"" + node + "\" is undeclared");
+					} else {
+						BaseNode type = ((IdentNode)node).getDecl().getDeclType();
+						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
+						if (!res) node.reportError("\"" + node + "\" is neither a node nor an edge type");
+					}
+					return res;
+				}
+			}
+		);
+
+		Checker negChecker = new CollectChecker(new SimpleChecker(PatternGraphNode.class));
+		boolean childs = (new SimpleChecker(PatternGraphNode.class)).check(getChild(PATTERN), error)
+			& negChecker.check(getChild(NEG), error)
+			& retDeclarationChecker.check(getChild(RET), error);
 
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;

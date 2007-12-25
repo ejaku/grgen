@@ -28,6 +28,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.TypeExprSubtypes;
@@ -40,9 +41,6 @@ public class TypeExprSubtypeNode extends TypeExprNode
 	}
 	
 	private static final int OPERAND = 0;
-	
-	private static final Resolver typeResolver =
-		new DeclTypeResolver(InheritanceTypeNode.class);
 	
 	public TypeExprSubtypeNode(Coords coords, BaseNode type) {
 		super(coords, SUBTYPES);
@@ -57,6 +55,7 @@ public class TypeExprSubtypeNode extends TypeExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver typeResolver = new DeclTypeResolver(InheritanceTypeNode.class);
 		successfullyResolved = typeResolver.resolve(this, OPERAND) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -80,11 +79,6 @@ public class TypeExprSubtypeNode extends TypeExprNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(OPERAND).check() && successfullyChecked;
 		return successfullyChecked;
@@ -99,7 +93,7 @@ public class TypeExprSubtypeNode extends TypeExprNode
 			arityOk = false;
 		}
 
-		return arityOk && checkChild(OPERAND, InheritanceTypeNode.class);
+		return arityOk && (new SimpleChecker(InheritanceTypeNode.class)).check(getChild(OPERAND), error);
 	}
 
 	protected IR constructIR() {

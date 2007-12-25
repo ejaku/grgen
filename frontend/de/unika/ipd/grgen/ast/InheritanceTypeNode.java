@@ -120,11 +120,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
 		successfullyChecked = getChild(BODY).check() && successfullyChecked;
@@ -159,8 +154,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		getAllMembers();
 		getAllSuperTypes();
 		return super.checkLocal()
-			&& checkChild(EXTENDS, myInhChecker)
-			&& checkChild(EXTENDS, inhChecker);
+			&& myInhChecker.check(getChild(EXTENDS), error)
+			&& inhChecker.check(getChild(EXTENDS), error);
 	}
 
 	/**

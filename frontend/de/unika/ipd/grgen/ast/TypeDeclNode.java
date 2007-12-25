@@ -24,6 +24,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 
 /**
@@ -51,7 +52,8 @@ public class TypeDeclNode extends DeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return super.checkLocal() && checkChild(TYPE, DeclaredTypeNode.class);
+		return super.checkLocal()
+			&& (new SimpleChecker(DeclaredTypeNode.class)).check(getChild(TYPE), error);
 	}
 	
 	/**

@@ -55,12 +55,6 @@ public class ModelNode extends DeclNode
 		"ident", "type", "decls"
 	};
 	
-	private static final Checker checker =
-		new CollectChecker(new SimpleChecker(TypeDeclNode.class));
-	
-	private static final Resolver declResolver =
-		new CollectResolver(new DeclResolver(TypeDeclNode.class));
-	
 	public ModelNode(IdentNode id) {
 		super(id, modelType);
 		setChildrenNames(childrenNames);
@@ -74,6 +68,7 @@ public class ModelNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver declResolver = new CollectResolver(new DeclResolver(TypeDeclNode.class));
 		successfullyResolved = declResolver.resolve(this, DECLS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -97,11 +92,6 @@ public class ModelNode extends DeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -118,7 +108,8 @@ public class ModelNode extends DeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(DECLS, checker) && checkInhCycleFree();
+		Checker checker = new CollectChecker(new SimpleChecker(TypeDeclNode.class));
+		return checker.check(getChild(DECLS), error) && checkInhCycleFree();
 	}
 	
 	/**

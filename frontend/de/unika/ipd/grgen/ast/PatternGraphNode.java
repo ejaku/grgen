@@ -72,26 +72,6 @@ public class PatternGraphNode extends GraphNode
 	/** Index of the induced statements collect node. */
 	private static final int INDUCED = CONDITIONS + 4;
 
-	/** Conditions checker. */
-	private static final Checker conditionsChecker = 
-		new CollectChecker(new SimpleChecker(ExprNode.class));
-
-	/** Homomorphic checker. */
-	private static final Checker homChecker = 
-		new CollectChecker(new SimpleChecker(HomNode.class));
-
-	/** DPO checker. */
-	private static final Checker dpoChecker = 
-		new CollectChecker(new SimpleChecker(DpoNode.class));
-
-	/** Exact checker. */
-	private static final Checker exactChecker = 
-		new CollectChecker(new SimpleChecker(ExactNode.class));
-
-	/** Induced checker. */
-	private static final Checker inducedChecker = 
-		new CollectChecker(new SimpleChecker(InducedNode.class));
-
 	/**
 	 * TODO
 	 *  Map to a set of edges -> don't count edges twice
@@ -159,11 +139,6 @@ public class PatternGraphNode extends GraphNode
 
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
 		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
@@ -180,12 +155,18 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	protected boolean checkLocal() {
+		Checker conditionsChecker =  new CollectChecker(new SimpleChecker(ExprNode.class));
+		Checker homChecker = new CollectChecker(new SimpleChecker(HomNode.class));
+		Checker dpoChecker = new CollectChecker(new SimpleChecker(DpoNode.class));
+		Checker exactChecker = new CollectChecker(new SimpleChecker(ExactNode.class));
+		Checker inducedChecker = new CollectChecker(new SimpleChecker(InducedNode.class));
+		
 		boolean childs = super.checkLocal()
-				&& checkChild(CONDITIONS, conditionsChecker)
-				&& checkChild(HOMS, homChecker) 
-				&& checkChild(DPO, dpoChecker)
-				&& checkChild(EXACT, exactChecker)
-				&& checkChild(INDUCED, inducedChecker);
+				&& conditionsChecker.check(getChild(CONDITIONS), error)
+				&& homChecker.check(getChild(HOMS), error)
+				&& dpoChecker.check(getChild(DPO), error)
+				&& exactChecker.check(getChild(EXACT), error)
+				&& inducedChecker.check(getChild(INDUCED), error);
 
 		boolean expr = true;
 		boolean homcheck = true;

@@ -15,7 +15,7 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
 
 /**
  * @author Sebastian Hack, Adam Szalkowski
@@ -37,18 +37,13 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 /**
  * 
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
+public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter 
+{
 	static {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
 	private static final int OLD = CONSTRAINTS + 1;
-
-	private static final Resolver nodeResolver = new DeclResolver(
-			new Class[] { NodeDeclNode.class });
-
-	private static final Checker nodeChecker = new TypeChecker(
-			NodeTypeNode.class);
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
@@ -64,20 +59,17 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE)
-				&& successfullyResolved;
-		successfullyResolved = nodeResolver.resolve(this, OLD)
-				&& successfullyResolved;
+		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class });
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		successfullyResolved = nodeResolver.resolve(this, OLD) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		if (!successfullyResolved) {
+		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = getChild(IDENT).resolve()
-				&& successfullyResolved;
+		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve()
-				&& successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
 		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -93,16 +85,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if (successfullyChecked) {
-			assert (!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
-
+		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).check()
-				&& successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
 		successfullyChecked = getChild(OLD).check() && successfullyChecked;
 		return successfullyChecked;
 	}
@@ -118,7 +104,9 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean res = super.checkLocal() && checkChild(OLD, nodeChecker);
+		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
+		boolean res = super.checkLocal()
+			&& nodeChecker.check(getChild(OLD), error);
 		if (!res) {
 			return false;
 		}
@@ -138,14 +126,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 			res = false;
 		}
 
-		// check if two ambiguous retyping statements for the same node
-		// declaration occurs
+		// check if two ambiguous retyping statements for the same node declaration occurs
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
-			// to be erroneous there must be another EdgeTypeChangeNode with the
-			// same OLD-child
-			// TODO: p.getChild(OLD) == old always true, since p is a parent (of
-			// type NodeTypeChangeNode) of old?
+			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
+			// TODO: p.getChild(OLD) == old always true, since p is a parent (of type NodeTypeChangeNode) of old?
 			if (p != this && p instanceof NodeTypeChangeNode
 					&& (p.getChild(OLD) == old)) {
 				reportError("Two (and hence ambiguous) retype statements for the same node are forbidden, previous retype statement at "
@@ -173,8 +158,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident
-				.getAttributes());
+		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
 
 		Node node = oldNodeDecl.getNode();
 		node.setRetypedNode(res);

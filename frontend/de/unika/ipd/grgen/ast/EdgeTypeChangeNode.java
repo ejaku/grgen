@@ -15,7 +15,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
+
 
 /**
  * @author Sebastian Hack, Adam Szalkowski
@@ -24,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -37,19 +37,14 @@ import de.unika.ipd.grgen.ir.RetypedEdge;
 /**
  * 
  */
-public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
+public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
+{
 	static {
 		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
 
 	private static final int OLD = CONSTRAINTS + 1;
-
-	private static final Resolver edgeResolver = new DeclResolver(
-			new Class[] { EdgeDeclNode.class });
-
-	private static final Checker edgeChecker = new TypeChecker(
-			EdgeTypeNode.class);
-
+		
 	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
 		addChild(oldid);
@@ -64,20 +59,17 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE)
-				&& successfullyResolved;
-		successfullyResolved = edgeResolver.resolve(this, OLD)
-				&& successfullyResolved;
+		Resolver edgeResolver = new DeclResolver(new Class[] { EdgeDeclNode.class});
+		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		successfullyResolved = edgeResolver.resolve(this, OLD) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if (!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-
-		successfullyResolved = getChild(IDENT).resolve()
-				&& successfullyResolved;
+		
+		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
 		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve()
-				&& successfullyResolved;
+		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
 		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -90,19 +82,13 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		if (isChecked()) {
 			return getChecked();
 		}
-
+		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if (successfullyChecked) {
-			assert (!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
-
+		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).check()
-				&& successfullyChecked;
+		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
 		successfullyChecked = getChild(OLD).check() && successfullyChecked;
 		return successfullyChecked;
 	}
@@ -129,7 +115,9 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean res = super.checkLocal() && checkChild(OLD, edgeChecker);
+		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
+		boolean res = super.checkLocal()
+			&& edgeChecker.check(getChild(OLD), error);
 		if (!res) {
 			return false;
 		}

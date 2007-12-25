@@ -25,8 +25,10 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
@@ -45,9 +47,6 @@ public class DeclExprNode extends ExprNode
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;
 	
-	private static final Resolver memberInitResolver =
-		new MemberInitResolver(MemberDeclNode.class);
-
 	/**
 	 * Make a new declaration expression.
 	 * @param coords The source code coordinates.
@@ -66,6 +65,7 @@ public class DeclExprNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver memberInitResolver = new MemberInitResolver(MemberDeclNode.class);
 		successfullyResolved = memberInitResolver.resolve(this, DECL) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -87,11 +87,6 @@ public class DeclExprNode extends ExprNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(DECL).check() && successfullyChecked;
 		return successfullyChecked;
@@ -133,7 +128,7 @@ public class DeclExprNode extends ExprNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(DECL, DeclaredCharacter.class);
+		return (new SimpleChecker(DeclaredCharacter.class)).check(getChild(DECL), error);
 	}
 
 	/**

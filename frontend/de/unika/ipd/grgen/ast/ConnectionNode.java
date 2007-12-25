@@ -59,20 +59,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	/** Index of the target node. */
 	private static final int RIGHT= 2;
 
-	/** Resolver for the nodes. */
-	private static final Resolver nodeResolver =
-		new OptionalResolver(
-		new DeclResolver(new Class[] { NodeDeclNode.class })
-	);
-	
-	private static final Resolver edgeResolver = new EdgeResolver();
-
-	private static final Checker nodeChecker =
-		new TypeChecker(NodeTypeNode.class);
-
-	private static final Checker edgeChecker =
-		new TypeChecker(EdgeTypeNode.class);
-
 
 	/**
 	 * Construct a new connection node.
@@ -97,6 +83,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver nodeResolver = new OptionalResolver(new DeclResolver(new Class[] { NodeDeclNode.class }));		
+		Resolver edgeResolver = new EdgeResolver();
 		successfullyResolved = nodeResolver.resolve(this, LEFT) && successfullyResolved;
 		successfullyResolved = edgeResolver.resolve(this, EDGE) && successfullyResolved;
 		successfullyResolved = nodeResolver.resolve(this, RIGHT) && successfullyResolved;
@@ -122,11 +110,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(LEFT).check() && successfullyChecked;
 		successfullyChecked = getChild(EDGE).check() && successfullyChecked;
@@ -139,9 +122,11 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(LEFT, nodeChecker)
-			&& checkChild(EDGE, edgeChecker)
-			&& checkChild(RIGHT, nodeChecker);
+		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
+		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
+		return nodeChecker.check(getChild(LEFT), error)
+			&& edgeChecker.check(getChild(EDGE), error)
+			&& nodeChecker.check(getChild(RIGHT), error);
 	}
 
 	/**

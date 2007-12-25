@@ -27,8 +27,9 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
@@ -47,9 +48,6 @@ public class CastNode extends ExprNode
 	/** The expression child index. */
 	private final static int EXPR = 1;
 	
-	/** The resolver for the type */
-	static private final Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
-
 	/**
 	 * Make a new cast node.
 	 * @param coords The source code coordinates.
@@ -93,6 +91,7 @@ public class CastNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
 		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -114,12 +113,10 @@ public class CastNode extends ExprNode
 		}
 		
 		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			assert(!isTypeChecked());
 			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		nodeCheckedSetResult(successfullyChecked);
 		
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
 		successfullyChecked = getChild(EXPR).check() && successfullyChecked;
@@ -132,8 +129,8 @@ public class CastNode extends ExprNode
 	 * and the first node is a type node identifier.
 	 */
 	protected boolean checkLocal() {
-		return checkChild(TYPE, BasicTypeNode.class)
-			&& checkChild(EXPR, ExprNode.class);
+		return (new SimpleChecker(BasicTypeNode.class)).check(getChild(TYPE), error)
+			&& (new SimpleChecker(ExprNode.class)).check(getChild(EXPR), error);
 	}
 	
 	/**

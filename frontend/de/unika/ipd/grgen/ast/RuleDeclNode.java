@@ -51,9 +51,6 @@ public class RuleDeclNode extends TestDeclNode
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new TypeNode() { };
 
-	private static final Checker evalChecker =
-		new CollectChecker(new SimpleChecker(AssignNode.class));
-
 	static {
 		setName(RuleDeclNode.class, "rule declaration");
 		setName(ruleType.getClass(), "rule type");
@@ -108,11 +105,6 @@ public class RuleDeclNode extends TestDeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -474,9 +466,10 @@ public class RuleDeclNode extends TestDeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-
-		boolean leftHandGraphsOk = super.checkLocal() && checkChild(RIGHT, GraphNode.class)
-			&& checkChild(EVAL, evalChecker);
+		Checker evalChecker = new CollectChecker(new SimpleChecker(AssignNode.class));
+		boolean leftHandGraphsOk = super.checkLocal()
+			&& (new SimpleChecker(GraphNode.class)).check(getChild(RIGHT), error)
+			&& evalChecker.check(getChild(EVAL), error);
 
 		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
 		GraphNode right = (GraphNode) getChild(RIGHT);

@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.EnumTypeNode;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.BooleanResultVisitor;
@@ -88,11 +89,6 @@ public class EnumItemNode extends MemberDeclNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -105,9 +101,9 @@ public class EnumItemNode extends MemberDeclNode
 	 */
 	protected boolean checkLocal()
 	{
-		return checkChild(IDENT, IdentNode.class)
-			&& checkChild(TYPE, EnumTypeNode.class)
-			&& checkChild(VALUE, ExprNode.class);
+		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& (new SimpleChecker(EnumTypeNode.class)).check(getChild(TYPE), error)
+			&& (new SimpleChecker(ExprNode.class)).check(getChild(VALUE), error);
 	}
 	
 	/**

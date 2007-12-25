@@ -72,13 +72,8 @@ public class CollectNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
+		boolean successfullyChecked = true; 
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -86,16 +81,6 @@ public class CollectNode extends BaseNode
 		return successfullyChecked;
 	}
 	
-	/**
-	 * The collect node is always in a correct state.
-	 * Use #checkAllChildren(Class) to check for the state
-	 * of the children
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkAllChildren(Class)
-	 */
-	protected boolean checkLocal() {
-		return true;
-	}
-
 	public Color getNodeColor() {
 		return Color.GRAY;
 	}

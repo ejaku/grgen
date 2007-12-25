@@ -26,6 +26,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.TypeExpr;
 import de.unika.ipd.grgen.ir.TypeExprSetOperator;
@@ -113,11 +115,6 @@ public class TypeExprNode extends BaseNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -146,8 +143,12 @@ public class TypeExprNode extends BaseNode
 		}
 		
 		// check the child node types
-		boolean typesOk = checkAllChildren(TypeExprNode.class);
-		
+		boolean typesOk = true;
+		Checker checker = new SimpleChecker(TypeExprNode.class);
+		for(BaseNode n : getChildren()) {
+			typesOk = checker.check(n, error) && typesOk;
+		}
+
 		return arityOk && typesOk;
 	}
 

@@ -43,9 +43,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	protected static final Resolver typeResolver =
 		new DeclResolver(new Class[] { NodeDeclNode.class, TypeDeclNode.class });
 	
-	private static final Checker typeChecker =
-		new TypeChecker(NodeTypeNode.class);
-
 	/**
 	 * Make a new node declaration.
 	 * @param id The identifier of the node.
@@ -90,11 +87,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -136,9 +128,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(IDENT, IdentNode.class)
-			&& checkChild(CONSTRAINTS, TypeExprNode.class)
-			&& checkChild(TYPE, typeChecker);
+		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
+		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error)
+			&& typeChecker.check(getChild(TYPE), error);
 	}
 	
 	/**

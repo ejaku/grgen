@@ -45,12 +45,6 @@ public class TypeConstraintNode extends TypeExprNode
 	
 	private static final int OPERANDS = 0;
 	
-	private static final Resolver typeResolver =
-		new CollectResolver(new DeclTypeResolver(InheritanceTypeNode.class));
-	
-	private static final Checker typeChecker =
-		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
-	
 	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
 		addChild(collect);
@@ -69,6 +63,7 @@ public class TypeConstraintNode extends TypeExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver typeResolver = new CollectResolver(new DeclTypeResolver(InheritanceTypeNode.class));
 		successfullyResolved = typeResolver.resolve(this, OPERANDS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -92,11 +87,6 @@ public class TypeConstraintNode extends TypeExprNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -105,7 +95,8 @@ public class TypeConstraintNode extends TypeExprNode
 	}
 	
 	protected boolean checkLocal() {
-		return checkChild(OPERANDS, typeChecker);
+		Checker typeChecker = new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
+		return typeChecker.check(getChild(OPERANDS), error);
 	}
 
 	protected IR constructIR() {

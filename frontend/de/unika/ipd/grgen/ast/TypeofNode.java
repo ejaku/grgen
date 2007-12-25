@@ -50,12 +50,6 @@ public class TypeofNode extends ExprNode
 		"entity"
 	};
 	
-	private static final Resolver entityResolver =
-		new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-	
-	private static final Checker entityChecker =
-		new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-	
 	/**
 	 * Make a new typeof node.
 	 * @param coords The coordinates.
@@ -74,6 +68,7 @@ public class TypeofNode extends ExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver entityResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
 		successfullyResolved = entityResolver.resolve(this, ENTITY) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -95,11 +90,6 @@ public class TypeofNode extends ExprNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(ENTITY).check() && successfullyChecked;
 		return successfullyChecked;
@@ -109,7 +99,8 @@ public class TypeofNode extends ExprNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(ENTITY, entityChecker);
+		Checker entityChecker = new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
+		return entityChecker.check(getChild(ENTITY), error);
 	}
 	
 	protected IR constructIR() {

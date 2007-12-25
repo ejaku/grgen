@@ -77,11 +77,6 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -126,6 +121,6 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(bodyIndex, bodyChecker);
+		return bodyChecker.check(getChild(bodyIndex), error);
 	}
 }

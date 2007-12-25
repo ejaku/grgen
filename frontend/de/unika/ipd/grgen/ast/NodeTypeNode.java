@@ -89,11 +89,6 @@ public class NodeTypeNode extends InheritanceTypeNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
 		successfullyChecked = getChild(BODY).check() && successfullyChecked;

@@ -66,12 +66,22 @@ public class SimpleChecker implements Checker
 		
 		if(!res) {
 			if(validTypes.length==1) {
-				node.reportError("Not of type \"" + validTypes[0].getName() + "\"");
+				node.reportError("AST node " + node.getName() + " must be an instance of type " + shortClassName(validTypes[0]));
 			} else {
-				node.reportError("Unknown type");
+				node.reportError("AST node " + node.getName() + " - Unknown type");
 			}
 		}
 		
 		return res;
+	}
+	
+	/**
+	 * Strip the package name from the class name.
+	 * @param cls The class.
+	 * @return stripped class name.
+	 */
+	protected static String shortClassName(Class<?> cls) {
+		String s = cls.getName();
+		return s.substring(s.lastIndexOf('.') + 1);
 	}
 }

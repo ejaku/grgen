@@ -35,9 +35,6 @@ import de.unika.ipd.grgen.ir.Action;
  */
 public abstract class ActionDeclNode extends DeclNode
 {
-	protected static final Checker negChecker =
-		new CollectChecker(new SimpleChecker(PatternGraphNode.class));
-
 	public ActionDeclNode(IdentNode id, TypeNode type) {
         super(id, type);
     }

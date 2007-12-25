@@ -30,6 +30,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
@@ -141,11 +142,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
 		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
@@ -180,8 +176,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	 * @see de.unika.ipd.grgen.ast.BaseNode#verify()
 	 */
 	protected boolean checkLocal() {
-		return checkChild(IDENT, IdentNode.class)
-			&& checkChild(TYPE, TypeNode.class);
+		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& (new SimpleChecker(TypeNode.class)).check(getChild(TYPE), error);
 	}
 
 	/**

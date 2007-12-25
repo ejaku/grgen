@@ -25,8 +25,10 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -76,11 +78,6 @@ public class DpoNode extends BaseNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -93,14 +90,18 @@ public class DpoNode extends BaseNode
 	 * 
 	 * TODO warn if some statements are redundant.
 	 */
-	@Override
 	protected boolean checkLocal() {
 		if (getChildren().isEmpty()) {
 			this.reportError("Dpo statement is empty");
 			return false;
 		}
 
-		return checkAllChildren(NodeDeclNode.class);
+		boolean successfullyChecked = true;
+		Checker checker = new SimpleChecker(NodeDeclNode.class);
+		for(BaseNode n : getChildren()) {
+			successfullyChecked = checker.check(n, error) && successfullyChecked;
+		}
+		return successfullyChecked;
 	}
 
 	public Color getNodeColor() {

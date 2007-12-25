@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -70,11 +72,6 @@ public class ArithmeticOpNode extends OpNode
 		
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if(successfullyChecked) {
-			assert(!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
 		
 		for(int i=0; i<children(); ++i) {
 			successfullyChecked = getChild(i).check() && successfullyChecked;
@@ -101,12 +98,14 @@ public class ArithmeticOpNode extends OpNode
 		return evaluate() instanceof ConstNode;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 * All children must be expression nodes, too.
-	 */
+	/** All children of this expression node must be expression nodes, too.
+	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return super.checkLocal()
-			&& checkAllChildren(ExprNode.class);
+		boolean successfullyChecked = super.checkLocal();
+		Checker checker = new SimpleChecker(ExprNode.class);
+		for(BaseNode n : getChildren()) {
+			successfullyChecked = checker.check(n, error) && successfullyChecked;
+		}
+		return successfullyChecked;
 	}
 }

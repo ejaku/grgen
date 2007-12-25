@@ -49,9 +49,6 @@ public class MemberInitNode extends BaseNode
 	private static final String[] childrenNames = {
 		"LHS", "RHS"
 	};
-
-	private static final Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
-	//private static final Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -73,6 +70,8 @@ public class MemberInitNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
+		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 		successfullyResolved = lhsResolver.resolve(this, LHS) && successfullyResolved;
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -95,12 +94,10 @@ public class MemberInitNode extends BaseNode
 		}
 		
 		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
 		if(successfullyChecked) {
-			assert(!isTypeChecked());
 			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
 		}
+		nodeCheckedSetResult(successfullyChecked);
 		
 		successfullyChecked = getChild(LHS).check() && successfullyChecked;
 		successfullyChecked = getChild(RHS).check() && successfullyChecked;
@@ -111,8 +108,8 @@ public class MemberInitNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean lhsOk = checkChild(LHS, DeclNode.class);
-		boolean rhsOk = checkChild(RHS, ExprNode.class);
+		boolean lhsOk = (new SimpleChecker(DeclNode.class)).check(getChild(LHS), error);
+		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(getChild(RHS), error);
 
 		return lhsOk && rhsOk;
 	}

@@ -33,7 +33,8 @@ package de.unika.ipd.grgen.ast;
  */
 import de.unika.ipd.grgen.ir.PrimitiveType;
 
-public abstract class DeclaredTypeNode extends TypeNode {
+public abstract class DeclaredTypeNode extends TypeNode
+{
 	private DeclNode decl = null;
 
 	/**

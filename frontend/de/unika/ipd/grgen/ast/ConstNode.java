@@ -15,7 +15,8 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
+
 
 /**
  * @author Sebastian Hack
@@ -28,9 +29,11 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * Constant expressions. A constant is 0-ary operator.
+ * Constant expressions.
+ * A constant is 0-ary operator.
  */
-public abstract class ConstNode extends OpNode {
+public abstract class ConstNode extends OpNode
+{
 	/** The value of the constant. */
 	protected Object value;
 
@@ -67,8 +70,7 @@ public abstract class ConstNode extends OpNode {
 	}
 
 	/**
-	 * @param coords
-	 *            The source code coordinates.
+	 * @param coords The source code coordinates.
 	 */
 	public ConstNode(Coords coords, String name, Object value) {
 		super(coords, OperatorSignature.CONST);
@@ -100,18 +102,12 @@ public abstract class ConstNode extends OpNode {
 
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
-		if (successfullyChecked) {
-			assert (!isTypeChecked());
-			successfullyChecked = typeCheckLocal();
-			nodeTypeCheckedSetResult(successfullyChecked);
-		}
-
+		
 		return successfullyChecked;
 	}
 
 	/**
 	 * Get the value of the constant.
-	 * 
 	 * @return The value.
 	 */
 	public Object getValue() {
@@ -120,7 +116,6 @@ public abstract class ConstNode extends OpNode {
 
 	/**
 	 * Include the constants value in its string representation.
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -133,7 +128,6 @@ public abstract class ConstNode extends OpNode {
 
 	/**
 	 * Just a convenience function.
-	 * 
 	 * @return The IR object.
 	 */
 	protected Constant getConstant() {
@@ -156,7 +150,6 @@ public abstract class ConstNode extends OpNode {
 
 	/**
 	 * Check, if the constant is valid.
-	 * 
 	 * @return true, if the constant is valid.
 	 */
 	protected boolean isValid() {
@@ -172,9 +165,7 @@ public abstract class ConstNode extends OpNode {
 
 	/**
 	 * Cast this constant to a new type.
-	 * 
-	 * @param type
-	 *            The new type.
+	 * @param type The new type.
 	 * @return A new constant with the corresponding value and a new type.
 	 */
 	public final ConstNode castTo(TypeNode type) {
@@ -190,11 +181,10 @@ public abstract class ConstNode extends OpNode {
 	}
 
 	/**
-	 * Implement this method to implement casting. You don't have to check for
-	 * types that are not castable to the type of this constant.
-	 * 
-	 * @param type
-	 *            The new type.
+	 * Implement this method to implement casting.
+	 * You don't have to check for types that are not castable to the
+	 * type of this constant.
+	 * @param type The new type.
 	 * @return A constant of the new type.
 	 */
 	protected abstract ConstNode doCastTo(TypeNode type);
