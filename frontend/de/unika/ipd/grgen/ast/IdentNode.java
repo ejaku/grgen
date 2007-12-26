@@ -221,7 +221,6 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Symbol sym = getSymbol();
 		Symbol.Definition def = getSymDef();
 		return Ident.get(toString(), def, getAttributes());
 	}

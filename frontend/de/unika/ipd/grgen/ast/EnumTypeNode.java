@@ -65,7 +65,6 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public EnumTypeNode(CollectNode body)
 	{
-		super(ELEMENTS, childrenChecker);
 		addChild(body);
 
 		//the castability of the this enum type

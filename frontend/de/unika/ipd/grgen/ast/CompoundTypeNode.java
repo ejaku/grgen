@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -37,53 +36,7 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public abstract class CompoundTypeNode extends DeclaredTypeNode
 	implements ScopeOwner
-{
-	/** Checker for the body of the compound type. */
-	private final Checker bodyChecker;
-
-	/** Index of the body collect node. */
-	private int bodyIndex;
-
-	/** Create compound type AST subnode out of subclass
-	 * @param bodyIndex index of the body collect node within children
-	 * @param bodyChecker checker for the body compound type */
-	protected CompoundTypeNode(int bodyIndex, Checker bodyChecker)
-	{
-		this.bodyIndex = bodyIndex;
-		this.bodyChecker = bodyChecker;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		
-		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).check() && successfullyChecked;
-		}
-		return successfullyChecked;
-	}
-	
+{	
 	public boolean fixupDefinition(IdentNode id) {
 		return fixupDefinition(id, true);
 	}
@@ -115,12 +68,5 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		}
 
 		return res;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	protected boolean checkLocal() {
-		return bodyChecker.check(getChild(bodyIndex), error);
 	}
 }

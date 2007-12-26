@@ -30,7 +30,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
@@ -77,6 +76,16 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 			super(id, BasicTypeNode.getErrorType(id));
 		}
 
+		/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+		protected boolean resolve() {
+			return true;
+		}
+		
+		/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+		protected boolean check() {
+			return true;
+		}
+
 		public String getKindString() {
 			return "undeclared identifier";
 		}
@@ -116,38 +125,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		setChildrenNames(declChildrenNames);
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		return successfullyResolved;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
 	/**
 	 * Get the ident node for this declaration. The ident node represents
 	 * the declared identifier.
@@ -170,14 +147,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	 */
 	public DeclNode getDecl() {
 		return this;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#verify()
-	 */
-	protected boolean checkLocal() {
-		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& (new SimpleChecker(TypeNode.class)).check(getChild(TYPE), error);
 	}
 
 	/**

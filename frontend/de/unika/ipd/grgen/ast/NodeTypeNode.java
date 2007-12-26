@@ -38,12 +38,6 @@ public class NodeTypeNode extends InheritanceTypeNode
 		setName(NodeTypeNode.class, "node type");
 	}
 
-	private static final Checker extendsChecker =
-		new CollectChecker(new SimpleChecker(NodeTypeNode.class));
-
-	private static final Resolver extendsResolver =
-		new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
-
 	/**
 	 * Create a new node type
 	 * @param ext The collect node containing the node types which are extended by this type.
@@ -53,7 +47,8 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 */
 	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers,
 			String externalName) {
-		super(ext, body, extendsChecker);
+		addChild(ext);
+		addChild(body);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
@@ -66,6 +61,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver extendsResolver = new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
 		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
 		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -95,6 +91,14 @@ public class NodeTypeNode extends InheritanceTypeNode
 		return successfullyChecked;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() 
+	{
+		Checker extendsChecker = new CollectChecker(new SimpleChecker(NodeTypeNode.class));
+		return super.checkLocal()
+			&& extendsChecker.check(getChild(EXTENDS), error);
+	}
+	
 	/**
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.

@@ -42,17 +42,8 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		"extends", "body", "cas"
 	};
 
-	private static final Checker extendsChecker =
-		new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
-
 	private static final Checker casChecker = // TODO use this
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
-
-	private static final Resolver extendsResolver =
-		new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
-
-	private static final Resolver casResolver =
-		new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
 
 	/**
 	 * Make a new edge type node.
@@ -63,9 +54,10 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(CollectNode ext, CollectNode cas,  CollectNode body,
+	public EdgeTypeNode(CollectNode ext, CollectNode cas, CollectNode body,
 			int modifiers, String externalName) {
-		super(ext, body, extendsChecker);
+		addChild(ext);
+		addChild(body);
 		addChild(cas);
 		setChildrenNames(childrenNames);
 		setModifiers(modifiers);
@@ -80,6 +72,8 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		Resolver extendsResolver = new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
+		Resolver casResolver = new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
 		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
 		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
 		successfullyResolved = casResolver.resolve(this, CAS) && successfullyResolved;
@@ -112,6 +106,14 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		return successfullyChecked;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() 
+	{
+		Checker extendsChecker = new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
+		return super.checkLocal()
+			&& extendsChecker.check(getChild(EXTENDS), error);
+	}
+	
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.

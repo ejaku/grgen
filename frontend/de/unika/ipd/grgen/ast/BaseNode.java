@@ -98,13 +98,7 @@ public abstract class BaseNode extends Base
 	/** The result of the check, if checked. */
 	private boolean checkResult = false;
 
-	/** Has this base node already been type checked? */
-	private boolean typeChecked = false;
-
-	/** The result of the type checking. */
-	private boolean typeCheckResult = false;
-
-
+	
 	/** The IR object for this node. */
 	private IR irObject = null;
 

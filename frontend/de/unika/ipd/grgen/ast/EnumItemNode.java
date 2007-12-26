@@ -25,6 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.EnumTypeNode;
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
@@ -96,13 +97,12 @@ public class EnumItemNode extends MemberDeclNode
 		return successfullyChecked;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal()
 	{
+		Checker typeChecker = new SimpleChecker(new Class[] { EnumTypeNode.class });
 		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& (new SimpleChecker(EnumTypeNode.class)).check(getChild(TYPE), error)
+			&& typeChecker.check(getChild(TYPE), error)
 			&& (new SimpleChecker(ExprNode.class)).check(getChild(VALUE), error);
 	}
 	

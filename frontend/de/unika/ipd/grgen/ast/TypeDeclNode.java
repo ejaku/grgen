@@ -46,16 +46,44 @@ public class TypeDeclNode extends DeclNode
 		}
 	}
 	
-	/**
-	 * The check succeeds, if the decl node check succeeds and the type
-	 * of this declaration is instance of {@link DeclaredTypeNode}.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	protected boolean checkLocal() {
-		return super.checkLocal()
-			&& (new SimpleChecker(DeclaredTypeNode.class)).check(getChild(TYPE), error);
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
+		if(isResolved()) {
+			return resolutionResult();
+		}
+		
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		nodeResolvedSetResult(successfullyResolved); // local result
+		
+		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
+		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		return successfullyResolved;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
+		if(!resolutionResult()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = checkLocal();
+		nodeCheckedSetResult(successfullyChecked);
+		
+		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
+		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
+		return successfullyChecked;
 	}
 	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& (new SimpleChecker(DeclaredTypeNode.class)).check(getChild(TYPE), error);
+	}
+
 	/**
 	 * A type declaration returns the declared type
 	 * as result.

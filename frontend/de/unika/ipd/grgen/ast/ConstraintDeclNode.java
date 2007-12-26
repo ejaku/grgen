@@ -37,31 +37,9 @@ abstract class ConstraintDeclNode extends DeclNode
 		super(id, type);
 		addChild(constraints);
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected abstract boolean resolve();
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
+			
 	protected boolean checkLocal() {
-		return super.checkLocal()
-			&& (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error);
+		return (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error);
 	}
 	
 	protected final TypeExpr getConstraints() {

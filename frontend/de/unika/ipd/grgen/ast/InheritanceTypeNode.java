@@ -48,9 +48,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		"extends", "body"
 	};
 
-	private static final Checker bodyChecker =
-		new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
-
 	protected static final Resolver bodyResolver =
 		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 
@@ -65,9 +62,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	 */
 	private String externalName = null;
 
-	/** The inheritance checker. */
-	private final Checker inhChecker;
-
 	private static final Checker myInhChecker =
 		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
 
@@ -77,63 +71,17 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** Contains all super types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSuperTypes = null;
 
-	protected InheritanceTypeNode(CollectNode ext,
-								  CollectNode body,
-								  Checker inhChecker) 
+	protected InheritanceTypeNode() 
 	{
-		super(BODY, bodyChecker);
-		this.inhChecker = inhChecker;
-
-		addChild(ext);
-		addChild(body);
-
 		setChildrenNames(childrenNames);
 	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
 		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-		
-		successfullyResolved = getChild(EXTENDS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(BODY).resolve() && successfullyResolved;
-		return successfullyResolved;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
-		successfullyChecked = getChild(BODY).check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
 	public boolean isA(InheritanceTypeNode type) {
 		assert type != null;
 		return this==type || getAllSuperTypes().contains(type);
 	}
 
-	/**
-	 * Returns all super types of this type (not including itself).
-	 */
+	/** Returns all super types of this type (not including itself). */
 	public Collection<InheritanceTypeNode> getAllSuperTypes() {
 		if(allSuperTypes==null) {
 			allSuperTypes = new HashSet<InheritanceTypeNode>();
@@ -146,21 +94,18 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return allSuperTypes;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() 
 	{
 		getAllMembers();
 		getAllSuperTypes();
-		return super.checkLocal()
-			&& myInhChecker.check(getChild(EXTENDS), error)
-			&& inhChecker.check(getChild(EXTENDS), error);
+		Checker bodyChecker =
+			new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+		return bodyChecker.check(getChild(BODY), error)
+			&& myInhChecker.check(getChild(EXTENDS), error);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode)
-	 */
+	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
 	public boolean fixupDefinition(IdentNode id) 
 	{
 		boolean found = super.fixupDefinition(id, false);

@@ -94,6 +94,13 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		return successfullyChecked;
 	}
 	
+	protected boolean checkLocal() {
+		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
+		return super.checkLocal()
+			&& (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
+			&& typeChecker.check(getChild(TYPE), error);
+	}
+	
 	/**
 	 * Yields a dummy <code>NodeDeclNode</code> needed for dangling edges as
 	 * dummy as dummy tgt or src node, respectively.
@@ -120,20 +127,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	public boolean isDummy() {
 		return false;
 	}
-	
-	/**
-	 * The node node is ok if the decl check succeeds and
-	 * the second child is a node type node or a node declaration
-	 * in case the type is dynamically inherited.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	protected boolean checkLocal() {
-		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
-		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error)
-			&& typeChecker.check(getChild(TYPE), error);
-	}
-	
+		
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
