@@ -31,7 +31,7 @@ import java.io.OutputStream;
 
 public class MultiplexOutputStream extends OutputStream {
 	
-	private final OutputStream mux[] = new OutputStream[32];
+	private final OutputStream[] mux = new OutputStream[32];
 	
 	private int fill = 0;
 	

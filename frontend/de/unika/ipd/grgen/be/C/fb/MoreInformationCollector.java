@@ -52,12 +52,12 @@ public class MoreInformationCollector extends InformationCollector {
 	//returns id of corresponding pattern edge id if edge is kept
 	//else -1 if edge is new one
 	//usage: replacementEdgeIsPresevedNode[act_id][replacement_edge_num]
-	protected int replacementEdgeIsPreservedEdge[][];
+	protected int[][] replacementEdgeIsPreservedEdge;
 	
 	//returns id of corresponding replacement edge id if edge is kept
 	//else -1 if edge is to be deleted
 	//usage: patternEdgeIsToBeKept[act_id][pattern_edge_num]
-	protected int patternEdgeIsToBeKept[][];
+	protected int[][] patternEdgeIsToBeKept;
 	
 	private static final int min_subgraph_size = 4;
 	
@@ -210,13 +210,13 @@ public class MoreInformationCollector extends InformationCollector {
 	protected int max_n_negative_nodes = 0;
 	protected int max_n_negative_edges = 0;
 	protected int max_n_negative_patterns = 0;
-	protected int n_negative_patterns[];
+	protected int[] n_negative_patterns;
 	protected Map<Node,Integer>[][] negative_node_num;
 	protected Map<Edge,Integer>[][] negative_edge_num;
 	protected Map<PatternGraph,Integer>[] negMap;
 	
-	protected int patternNodeIsNegativeNode[][][];
-	protected int patternEdgeIsNegativeEdge[][][];
+	protected int[][][] patternNodeIsNegativeNode;
+	protected int[][][] patternEdgeIsNegativeEdge;
 	
 	
 	private void collectNegativeInfo() {

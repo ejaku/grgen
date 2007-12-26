@@ -308,7 +308,7 @@ public class DefaultStatementFactory extends Base
 						res = addExpression(OR, res, addExpression(EQ, colExpr, constant(setMembers[0])));
 						break;
 					default:
-						Term consts[] = new Term[setMembersCount + 1];
+						Term[] consts = new Term[setMembersCount + 1];
 						consts[0] = colExpr;
 						for(int i = 0; i < setMembersCount; i++)
 							consts[i + 1] = constant(setMembers[i]);

@@ -326,7 +326,7 @@ public abstract class CBackend extends IDBase implements Backend {
 		
 		int maxTypeId = typeMap.size();
 		int maxAttrId = attrMap.size();
-		int matrix[][] = new int[maxTypeId][maxAttrId];
+		int[][] matrix = new int[maxTypeId][maxAttrId];
 		
 		for(Iterator<Entity> it = attrMap.keySet().iterator(); it.hasNext();) {
 			Entity ent = it.next();

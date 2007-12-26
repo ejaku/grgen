@@ -54,8 +54,8 @@ public class InformationCollector extends CBackend {
 	protected short[][] edge_is_a_matrix;
 	
 	/* the number of attributes a node/edge type has */
-	protected int n_attr_of_node_type[];
-	protected int n_attr_of_edge_type[];
+	protected int[] n_attr_of_node_type;
+	protected int[] n_attr_of_edge_type;
 	
 	/* information describing node and edge attributes */
 	protected AttrTypeDescriptor[] node_attr_info;
@@ -65,11 +65,11 @@ public class InformationCollector extends CBackend {
 	 be computed, the result is stored in these two arrays:
 	 node_attr_index[nt_id][attr_id] = n  means that for the given
 	 node type and given attr the attr value is stored at pos n*/
-	protected int node_attr_index[][];
-	protected int edge_attr_index[][];
+	protected int[][] node_attr_index;
+	protected int[][] edge_attr_index;
 	
 	/* array of objects describing the rnum types declared in the grg file */
-	protected EnumDescriptor enum_type_descriptors[];
+	protected EnumDescriptor[] enum_type_descriptors;
 	
 	/* the overall number of graph actions */
 	protected int n_graph_actions;
@@ -133,27 +133,27 @@ public class InformationCollector extends CBackend {
 	
 	//tells wether two pattern nodes of a given action are pot hom or not
 	//e.g. : potHomMatrices[act_id][node_1][node_2]
-	protected int potHomNodeMatrices[][][];
+	protected int[][][] potHomNodeMatrices;
 	
 	//Tells wether a pattern node is to be kept. If so, the value indexed by
 	//the pattern node number is the node number of the corresponding replacement
 	//node, and a negative value otherwise
 	//usage: patternNodeIsToBeKept[act_id][node_num]
-	protected int patternNodeIsToBeKept[][];
+	protected int[][] patternNodeIsToBeKept;
 	
 	//Tells wether a replacement nodes is a is a node preserved by the
 	//replacement.  If so, the value indexed by the replacement node number
 	//is the node number of the corresponding pattern node, and a negative
 	//value otherwise
 	//usage: replacementNodeIsPresevedNode[act_id][node_num]
-	protected int replacementNodeIsPreservedNode[][];
+	protected int[][] replacementNodeIsPreservedNode;
 	
 	//Tells wether a replacement nodes is a is a node preserved by the
 	//replacement.  If so, the value indexed by the replacement node number
 	//is the node number of the corresponding pattern node, and a negative
 	//value otherwise
 	//usage: replacementNodeIsPresevedNode[act_id][node_num]
-	protected int replacementNodeChangesTypeTo[][];
+	protected int[][] replacementNodeChangesTypeTo;
 	
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
