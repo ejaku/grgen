@@ -20,7 +20,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 /**
  * AST node class representing invalid declarations.
  */
@@ -37,6 +37,14 @@ public class InvalidDeclNode extends DeclNode
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

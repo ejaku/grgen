@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -49,18 +49,13 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	
 	/** Index of the member node. */
 	protected static final int MEMBER = 1;
-	
-	private static final String[] childrenNames = {
-		"owner", "member"
-	};
-	
+		
 	/**
 	 * Make a new identifier qualify node.
 	 * @param coords The coordinates.
 	 */
 	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member) {
 		super(coords);
-		setChildrenNames(childrenNames);
 		addChild(owner);
 		addChild(member);
 	}
@@ -68,6 +63,14 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("owner");
+		childrenNames.add("member");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

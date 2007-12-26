@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node representing type expressions.
@@ -94,6 +95,13 @@ public class TypeExprNode extends BaseNode
 		return children;
 	}
 	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// nameless children
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

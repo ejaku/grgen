@@ -30,6 +30,7 @@ import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Declaration of a node.
@@ -59,6 +60,15 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("constraints");
+		return childrenNames;
 	}
 	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

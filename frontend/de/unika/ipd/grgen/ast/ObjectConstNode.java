@@ -8,8 +8,8 @@
  */
 
 package de.unika.ipd.grgen.ast;
-import java.util.Collection;
 
+import java.util.Collection;
 import de.unika.ipd.grgen.parser.Coords;
 
 public class ObjectConstNode extends ConstNode
@@ -21,11 +21,6 @@ public class ObjectConstNode extends ConstNode
 		super(coords, "object", ObjectTypeNode.Value.NULL);
 	}
 
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return children;
-	}
-	
 	public TypeNode getType() {
 		return BasicTypeNode.objectType;
 	}

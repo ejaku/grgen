@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -45,9 +44,6 @@ public class TestDeclNode extends ActionDeclNode
 	protected static final int RET = LAST + 2;
 	protected static final int PATTERN = LAST + 3;
 	protected static final int NEG = LAST + 4;
-
-	private static final String[] childrenNames =
-		addChildrenNames(new String[] { "param", "ret", "test", "neg" });
 	
 	private static final TypeNode testType = new TestTypeNode();
 
@@ -57,7 +53,6 @@ public class TestDeclNode extends ActionDeclNode
 		addChild(rets);
 		addChild(pattern);
 		addChild(neg);
-		setChildrenNames(childrenNames);
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
@@ -68,7 +63,19 @@ public class TestDeclNode extends ActionDeclNode
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("param");
+		childrenNames.add("ret");
+		childrenNames.add("pattern");
+		childrenNames.add("neg");
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

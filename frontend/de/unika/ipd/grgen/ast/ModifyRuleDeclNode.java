@@ -2,7 +2,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.HashSet;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -19,14 +19,10 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
 import java.util.Set;
 
+
 public class ModifyRuleDeclNode extends RuleDeclNode
 {
 	private static final int DELETE = LAST + 7;
-
-	private static final String[] childrenNames = {
-		declChildrenNames[0], declChildrenNames[1],
-			"left", "neg", "params", "ret", "right", "eval", "delete"
-	};
 	
 	private static final Resolver deleteResolver =
 		new CollectResolver(
@@ -46,12 +42,26 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
 		addChild(dels);
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("param");
+		childrenNames.add("ret");
+		childrenNames.add("pattern");
+		childrenNames.add("neg");
+		childrenNames.add("right");
+		childrenNames.add("eval");
+		childrenNames.add("delete");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

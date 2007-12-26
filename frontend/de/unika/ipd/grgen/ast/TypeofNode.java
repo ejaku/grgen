@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -47,24 +47,26 @@ public class TypeofNode extends ExprNode
 	
 	/** Index of the entity node. */
 	protected static final int ENTITY = 0;
-	
-	private static final String[] childrenNames = {
-		"entity"
-	};
-	
+		
 	/**
 	 * Make a new typeof node.
 	 * @param coords The coordinates.
 	 */
 	public TypeofNode(Coords coords, BaseNode entity) {
 		super(coords);
-		setChildrenNames(childrenNames);
 		addChild(entity);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("entity");
+		return childrenNames;
 	}
 	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

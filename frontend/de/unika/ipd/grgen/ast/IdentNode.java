@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node that represents an Identifier (name that appears within the specification)
@@ -87,6 +88,14 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// no children
+		return childrenNames;
+	}
+
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {

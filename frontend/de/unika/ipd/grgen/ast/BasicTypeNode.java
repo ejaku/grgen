@@ -29,6 +29,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * A basic type AST node such as string or int
@@ -102,6 +103,13 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// no children
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

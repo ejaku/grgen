@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * AST node that represents a graph pattern
@@ -52,17 +53,12 @@ public class GraphNode extends BaseNode
 	protected static final int CONNECTIONS = 0;
 	protected static final int RETURN = CONNECTIONS+1;
 
-	private static final String[] childrenNames = {
-		"conn", "return"
-	};
-
 	/**
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
 	public GraphNode(Coords coords, CollectNode connections, CollectNode returns) {
 		super(coords);
-		setChildrenNames(childrenNames);
 		addChild(connections);
 		addChild(returns);
 	}
@@ -71,7 +67,15 @@ public class GraphNode extends BaseNode
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("connections"); 
+		childrenNames.add("return");
+		return childrenNames;
+	}
+
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

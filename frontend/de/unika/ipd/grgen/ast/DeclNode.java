@@ -51,25 +51,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 
 	protected static final int LAST = TYPE;
 
-	protected static final String[] declChildrenNames = {
-		"name", "type"
-	};
-
-	protected static final String[] addChildrenNames(String[] names) {
-		String[] n = new String[names.length + declChildrenNames.length];
-		int i;
-
-		for(i = 0; i < declChildrenNames.length; i++) {
-			n[i] = declChildrenNames[i];
-		}
-
-		for(int j = 0; j < names.length; j++, i++) {
-			n[i] = names[j];
-		}
-
-		return n;
-	}
-
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
 
@@ -93,7 +74,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		n.setDecl(this);
 		addChild(n);
 		addChild(t);
-		setChildrenNames(declChildrenNames);
 	}
 
 	/**

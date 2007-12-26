@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -43,10 +44,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 	protected static final int EXTENDS = 0;
 	protected static final int BODY = 1;
-
-	private static final String[] childrenNames = {
-		"extends", "body"
-	};
 
 	protected static final Resolver bodyResolver =
 		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
@@ -71,11 +68,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** Contains all super types of this type (not including this itself) */
 	private Collection<InheritanceTypeNode> allSuperTypes = null;
 
-	protected InheritanceTypeNode() 
-	{
-		setChildrenNames(childrenNames);
-	}
-		
 	public boolean isA(InheritanceTypeNode type) {
 		assert type != null;
 		return this==type || getAllSuperTypes().contains(type);

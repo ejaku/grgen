@@ -27,9 +27,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.*;
-
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.TypeExprConst;
@@ -61,6 +60,13 @@ public class TypeConstraintNode extends TypeExprNode
 		return children;
 	}
 	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// TODO: only OPERANDS or more children
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

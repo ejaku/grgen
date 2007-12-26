@@ -24,9 +24,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.*;
-
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
@@ -94,6 +93,13 @@ public class EnumTypeNode extends CompoundTypeNode
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("elements");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

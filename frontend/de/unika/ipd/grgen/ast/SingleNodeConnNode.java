@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Set;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.OptionalResolver;
@@ -47,23 +47,25 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 
 	/** Index of the node in the children array. */
 	private static final int NODE = 0;
-	
-	private static final String[] childrenNames = {
-		"node"
-	};
-		
+			
 	/**
 	 * @param n The node
 	 */
 	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
 		addChild(n);
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("node");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

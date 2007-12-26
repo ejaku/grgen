@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.*;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -47,11 +46,6 @@ public class RuleDeclNode extends TestDeclNode
 	protected static final int RIGHT = LAST + 5;
 	protected static final int EVAL = LAST + 6;
 
-	private static final String[] childrenNames = {
-		declChildrenNames[0], declChildrenNames[1],
-			"params", "ret", "left", "neg", "right", "eval"
-	};
-
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
 
@@ -69,12 +63,25 @@ public class RuleDeclNode extends TestDeclNode
 		super(id, ruleType, left, neg, params, rets);
 		addChild(right);
 		addChild(eval);
-		setChildrenNames(childrenNames);
 	}
 
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("param");
+		childrenNames.add("ret");
+		childrenNames.add("pattern");
+		childrenNames.add("neg");
+		childrenNames.add("right");
+		childrenNames.add("eval");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

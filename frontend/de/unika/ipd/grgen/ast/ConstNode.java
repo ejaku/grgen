@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -45,18 +45,14 @@ public abstract class ConstNode extends OpNode
 	private static final ConstNode INVALID = new InvalidConstNode(Coords.getBuiltin(),
 			"invalid const", "invalid value");
 
-	static {
-		InvalidConstNode.setName(InvalidConstNode.class, "invalid const");
-	}
-
-	private static class InvalidConstNode extends ConstNode {
-		private InvalidConstNode(Coords coords, String name, Object value) {
-			super(coords, name, value);
+	private static class InvalidConstNode extends ConstNode
+	{
+		static {
+			setName(InvalidConstNode.class, "invalid const");
 		}
 
-		/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-		public Collection<? extends BaseNode> getWalkableChildren() {
-			return children;
+		private InvalidConstNode(Coords coords, String name, Object value) {
+			super(coords, name, value);
 		}
 		
 		protected boolean isValid() {
@@ -85,6 +81,18 @@ public abstract class ConstNode extends OpNode
 		this.name = name;
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// no children
+		return childrenNames;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if (isResolved()) {

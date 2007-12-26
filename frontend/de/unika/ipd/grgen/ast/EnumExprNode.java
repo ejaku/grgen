@@ -27,7 +27,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -51,6 +51,11 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		return super.getChildrenNames();
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -42,12 +42,7 @@ public class ConnAssertNode extends BaseNode
 	static {
 		setName(ConnAssertNode.class, "conn assert");
 	}
-	
-	/** names for the children. */
-	private static final String[] childrenNames = {
-		"src", "src range", "tgt", "tgt range"
-	};
-	
+		
 	/** Index of the source node. */
 	private static final int SRC = 0;
 	
@@ -70,14 +65,23 @@ public class ConnAssertNode extends BaseNode
 		addChild(srcRange);
 		addChild(tgt);
 		addChild(tgtRange);
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("src"); 
+		childrenNames.add("src range");
+		childrenNames.add("tgt");
+		childrenNames.add("tgt range");
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

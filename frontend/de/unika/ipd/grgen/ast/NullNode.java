@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Vector;
 
 /**
  * Dummy AST node, that is used in the case of an error.
@@ -45,6 +46,13 @@ public class NullNode extends BaseNode
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return Collections.emptySet();
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// no children
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

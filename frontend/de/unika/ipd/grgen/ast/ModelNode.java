@@ -27,12 +27,13 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.*;
-
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Vector;
+
 
 public class ModelNode extends DeclNode
 {
@@ -44,22 +45,25 @@ public class ModelNode extends DeclNode
 	
 	/** Index of the decl collect node in the children. */
 	protected static final int DECLS = 2;
-	
-	/** Names of the children */
-	private static String[] childrenNames = {
-		"ident", "type", "decls"
-	};
-	
+		
 	public ModelNode(IdentNode id) {
 		super(id, modelType);
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("decls");
+		return childrenNames;
+	}
+
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

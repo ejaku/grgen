@@ -29,7 +29,6 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.util.*;
 import java.util.*;
-
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -78,12 +77,6 @@ public abstract class BaseNode extends Base
 
 	/** The parent node of this node. */
 	private Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
-
-	/** Default array with the children names of the node */
-	private static final String[] noChildrenNames = { };
-
-	/** array with the children names */
-	private String[] childrenNames = noChildrenNames;
 
 
 	/** Has this base node already been resolved? */
@@ -310,15 +303,11 @@ public abstract class BaseNode extends Base
 // Children, Parents, AST structure handling
 //////////////////////////////////////////////////////////////////////////////////////////
 	
-	/**
-	 * Set the names of the children of this node.
-	 * By default the children names array is empty, so the number of
-	 * the child is used as its name.
-	 * @param names An array containing the names of the children.
-	 */
-	protected void setChildrenNames(String[] names) {
-		childrenNames = names;
-	}
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public abstract Collection<? extends BaseNode> getWalkableChildren();
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public abstract Collection<String> getChildrenNames();
 
 	/**
 	 * Add a child to the children list.
@@ -595,7 +584,18 @@ public abstract class BaseNode extends Base
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
 	 */
 	public String getEdgeLabel(int edge) {
-		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;
+		Collection<String> childrenNames = getChildrenNames();
+		// iterate to corresponding children name
+		int currentEdge = -1;
+		for(Iterator<String> it = childrenNames.iterator(); it.hasNext();)
+		{
+			++currentEdge;
+			String name = it.next();
+			if(currentEdge==edge) {
+				return name;
+			}
+		}
+		return "" + edge;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

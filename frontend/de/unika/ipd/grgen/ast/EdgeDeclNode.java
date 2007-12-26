@@ -32,9 +32,9 @@ import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-
 import java.awt.Color;
 import java.util.Collection;
+import java.util.Vector;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 {
@@ -57,6 +57,15 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("constraints");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

@@ -25,7 +25,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -50,6 +50,13 @@ public class ExactNode extends BaseNode
 		return children;
 	}
 	
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		// nameless children
+		return childrenNames;
+	}
+
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

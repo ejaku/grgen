@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
@@ -48,10 +48,6 @@ public class MemberInitNode extends BaseNode
 
 	private static final int LHS = 0;
 	private static final int RHS = 1;
-
-	private static final String[] childrenNames = {
-		"LHS", "RHS"
-	};
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -62,14 +58,21 @@ public class MemberInitNode extends BaseNode
 		super(coords);
 		addChild(member);
 		addChild(expr);
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("lhs");
+		childrenNames.add("rhs");
+		return childrenNames;
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

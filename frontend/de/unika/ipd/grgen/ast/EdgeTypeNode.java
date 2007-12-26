@@ -25,9 +25,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.*;
-
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -39,10 +38,6 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	}
 
 	private static final int CAS = 2; // connection assertions
-
-	private static final String[] childrenNames = {
-		"extends", "body", "cas"
-	};
 
 	private static final Checker casChecker = // TODO use this
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
@@ -61,7 +56,6 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		addChild(ext);
 		addChild(body);
 		addChild(cas);
-		setChildrenNames(childrenNames);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
@@ -69,6 +63,15 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
+	}
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("extends");
+		childrenNames.add("body");
+		childrenNames.add("cas");
+		return childrenNames;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

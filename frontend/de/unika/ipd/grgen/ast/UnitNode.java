@@ -25,9 +25,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-
+import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.*;
-
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
@@ -50,12 +49,7 @@ public class UnitNode extends DeclNode
 	
 	/** Index of the decl collect node in the children. */
 	private static final int DECLS = 3;
-	
-	/** Names of the children */
-	private static String[] childrenNames = {
-		"ident", "type", "models", "delcs"
-	};
-	
+		
 	/** Contains the classes of all valid types which can be declared */
 	private static Class<?>[] validTypes = {
 		TestDeclNode.class, RuleDeclNode.class
@@ -69,14 +63,23 @@ public class UnitNode extends DeclNode
 	public UnitNode(IdentNode id, String filename) {
 		super(id, mainType);
 		this.filename = filename;
-		setChildrenNames(childrenNames);
 	}
 	
 	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends BaseNode> getWalkableChildren() {
 		return children;
 	}
-	
+
+	/** get names of the walkable children, same order as in getWalkableChildren */
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident"); 
+		childrenNames.add("type");
+		childrenNames.add("models");
+		childrenNames.add("decls");
+		return childrenNames;
+	}
+
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
