@@ -83,12 +83,18 @@ public class NodeTypeNode extends InheritanceTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(EXTENDS).check() && childrenChecked;
+			childrenChecked = getChild(BODY).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
-		successfullyChecked = getChild(BODY).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

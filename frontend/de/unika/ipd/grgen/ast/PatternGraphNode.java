@@ -137,17 +137,23 @@ public class PatternGraphNode extends GraphNode
 			return getChecked();
 		}
 
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(CONNECTIONS).check() && childrenChecked;
+			childrenChecked = getChild(RETURN).check() && childrenChecked;
+			childrenChecked = getChild(CONDITIONS).check() && childrenChecked;
+			childrenChecked = getChild(HOMS).check() && childrenChecked;
+			childrenChecked = getChild(DPO).check() && childrenChecked;
+			childrenChecked = getChild(EXACT).check() && childrenChecked;
+			childrenChecked = getChild(INDUCED).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
-		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
-		successfullyChecked = getChild(CONDITIONS).check() && successfullyChecked;
-		successfullyChecked = getChild(HOMS).check() && successfullyChecked;
-		successfullyChecked = getChild(DPO).check() && successfullyChecked;
-		successfullyChecked = getChild(EXACT).check() && successfullyChecked;
-		successfullyChecked = getChild(INDUCED).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	public Collection<BaseNode> getHoms() {

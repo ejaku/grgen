@@ -108,13 +108,19 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(LEFT).check() && childrenChecked;
+			childrenChecked = getChild(EDGE).check() && childrenChecked;
+			childrenChecked = getChild(RIGHT).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(LEFT).check() && successfullyChecked;
-		successfullyChecked = getChild(EDGE).check() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	/**

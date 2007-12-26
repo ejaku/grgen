@@ -86,13 +86,19 @@ public class ModelNode extends DeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(IDENT).check() && childrenChecked;
+			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = getChild(DECLS).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(DECLS).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	/**

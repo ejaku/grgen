@@ -97,13 +97,19 @@ public class EdgeTypeNode extends InheritanceTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(EXTENDS).check() && childrenChecked;
+			childrenChecked = getChild(BODY).check() && childrenChecked;
+			childrenChecked = getChild(CAS).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(EXTENDS).check() && successfullyChecked;
-		successfullyChecked = getChild(BODY).check() && successfullyChecked;
-		successfullyChecked = getChild(CAS).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

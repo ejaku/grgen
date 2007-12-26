@@ -100,10 +100,10 @@ public abstract class ConstNode extends OpNode
 			return getChecked();
 		}
 
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
 		
-		return successfullyChecked;
+		return locallyChecked;
 	}
 
 	/**

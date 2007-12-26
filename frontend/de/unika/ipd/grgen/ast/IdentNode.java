@@ -104,10 +104,10 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = true;
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = true;
+		nodeCheckedSetResult(locallyChecked);
 		
-		return successfullyChecked;
+		return locallyChecked;
 	}
 	
 	/**

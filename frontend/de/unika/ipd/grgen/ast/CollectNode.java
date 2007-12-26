@@ -72,13 +72,19 @@ public class CollectNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = true; 
-		nodeCheckedSetResult(successfullyChecked);
-		
-		for(int i=0; i<children(); ++i) {
-			successfullyChecked = getChild(i).check() && successfullyChecked;
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			for(int i=0; i<children(); ++i) {
+				childrenChecked = getChild(i).check() && childrenChecked;
+			}
 		}
-		return successfullyChecked;
+		
+		boolean locallyChecked = true; 
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	public Color getNodeColor() {

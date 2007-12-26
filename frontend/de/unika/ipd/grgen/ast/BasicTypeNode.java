@@ -120,10 +120,10 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
 		
-		return successfullyChecked;
+		return locallyChecked;
 	}
 
 	/**

@@ -92,6 +92,9 @@ public abstract class BaseNode extends Base
 	/** The result of the resolution. */
 	private boolean resolveResult = false;
 
+	/** Has this base node already been visited during check walk? */
+	private boolean checkVisited = false;
+	
 	/** Has this base node already been checked? */
 	private boolean checked = false;
 
@@ -484,7 +487,6 @@ public abstract class BaseNode extends Base
 
 	/**
 	 * Check the sanity and types of the AST
-	 * TODO: currently preorder walk - change comment or change walk?
 	 * Checking is organized as a postorder walk over the AST with the current node calling check on it's children
 	 * This must be implemented in the subclasses, first descending to the children, then doing local checking
 	 * but only if the node was not yet visited during checking (AST in reality a DAG, so it might happen)
@@ -508,6 +510,16 @@ public abstract class BaseNode extends Base
 	protected final boolean getChecked() {
 		assert isChecked();
 		return checkResult;
+	}
+	
+	/** Mark this node as visited during check walk. */
+	protected final void setCheckVisited() {
+		checkVisited = true;
+	}
+	
+	/** Has this node already been visited during check? */
+	protected final boolean visitedDuringCheck() {
+		return checkVisited;
 	}
 
 //////////////////////////////////////////////////////////////////////////////////////////

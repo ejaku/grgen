@@ -79,13 +79,19 @@ public class MemberDeclNode extends DeclNode
 		if(isChecked()) {
 			return getChecked();
 		}
+
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(IDENT).check() && childrenChecked;
+			childrenChecked = getChild(TYPE).check() && childrenChecked;
+		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		return successfullyChecked;
+		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

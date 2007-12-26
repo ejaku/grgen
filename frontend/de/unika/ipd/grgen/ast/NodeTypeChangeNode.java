@@ -83,14 +83,20 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			return getChecked();
 		}
 
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(IDENT).check() && childrenChecked;
+			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = getChild(CONSTRAINTS).check() && childrenChecked;
+			childrenChecked = getChild(OLD).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(CONSTRAINTS).check() && successfullyChecked;
-		successfullyChecked = getChild(OLD).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	/**

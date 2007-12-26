@@ -80,16 +80,22 @@ public class AssignNode extends BaseNode
 		if(isChecked()) {
 			return getChecked();
 		}
-		
-		boolean successfullyChecked = checkLocal();
-		if(successfullyChecked) {
-			successfullyChecked = typeCheckLocal();
+
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(LHS).check() && childrenChecked;
+			childrenChecked = getChild(RHS).check() && childrenChecked;
 		}
-		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(LHS).check() && successfullyChecked;
-		successfullyChecked = getChild(RHS).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		if(locallyChecked) {
+			locallyChecked = typeCheckLocal();
+		}
+		nodeCheckedSetResult(locallyChecked );
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

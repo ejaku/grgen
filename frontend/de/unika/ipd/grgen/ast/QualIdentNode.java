@@ -124,12 +124,18 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(OWNER).check() && childrenChecked;
+			childrenChecked = getChild(MEMBER).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(OWNER).check() && successfullyChecked;
-		successfullyChecked = getChild(MEMBER).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	/**

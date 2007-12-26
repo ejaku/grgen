@@ -103,14 +103,20 @@ public class ConnAssertNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(SRC).check() && childrenChecked;
+			childrenChecked = getChild(SRCRANGE).check() && childrenChecked;
+			childrenChecked = getChild(TGT).check() && childrenChecked;
+			childrenChecked = getChild(TGTRANGE).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(SRC).check() && successfullyChecked;
-		successfullyChecked = getChild(SRCRANGE).check() && successfullyChecked;
-		successfullyChecked = getChild(TGT).check() && successfullyChecked;
-		successfullyChecked = getChild(TGTRANGE).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 
 	/**

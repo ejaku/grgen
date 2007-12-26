@@ -64,10 +64,10 @@ public class NullNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = true;
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = true;
+		nodeCheckedSetResult(locallyChecked);
 		
-		return successfullyChecked;
+		return locallyChecked;
 	}
 
 	/*

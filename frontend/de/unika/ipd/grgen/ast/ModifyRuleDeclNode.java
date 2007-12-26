@@ -93,19 +93,25 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(IDENT).check() && childrenChecked;
+			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = getChild(PARAM).check() && childrenChecked;
+			childrenChecked = getChild(RET).check() && childrenChecked;
+			childrenChecked = getChild(PATTERN).check() && childrenChecked;
+			childrenChecked = getChild(NEG).check() && childrenChecked;
+			childrenChecked = getChild(RIGHT).check() && childrenChecked;
+			childrenChecked = getChild(EVAL).check() && childrenChecked;
+			childrenChecked = getChild(DELETE).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
-		successfullyChecked = getChild(RET).check() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
-		successfullyChecked = getChild(NEG).check() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
-		successfullyChecked = getChild(EVAL).check() && successfullyChecked;
-		successfullyChecked = getChild(DELETE).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	protected Set<DeclNode> getDelete()

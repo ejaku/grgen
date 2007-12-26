@@ -88,13 +88,19 @@ public class EnumItemNode extends MemberDeclNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(IDENT).check() && childrenChecked;
+			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = getChild(VALUE).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(VALUE).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

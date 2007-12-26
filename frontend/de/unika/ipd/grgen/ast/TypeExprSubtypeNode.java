@@ -77,11 +77,17 @@ public class TypeExprSubtypeNode extends TypeExprNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
+		boolean childrenChecked = true;
+		if(!visitedDuringCheck()) {
+			setCheckVisited();
+			
+			childrenChecked = getChild(OPERAND).check() && childrenChecked;
+		}
 		
-		successfullyChecked = getChild(OPERAND).check() && successfullyChecked;
-		return successfullyChecked;
+		boolean locallyChecked = checkLocal();
+		nodeCheckedSetResult(locallyChecked);
+		
+		return childrenChecked && locallyChecked;
 	}
 	
 	protected boolean checkLocal() {

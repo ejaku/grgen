@@ -73,10 +73,10 @@ public class RangeSpecNode extends BaseNode
 			return getChecked();
 		}
 		
-		boolean successfullyChecked = true;
-		nodeCheckedSetResult(successfullyChecked);
+		boolean locallyChecked = true;
+		nodeCheckedSetResult(locallyChecked);
 	
-		return successfullyChecked;
+		return locallyChecked;
 	}
 	
 	public String getName() {
