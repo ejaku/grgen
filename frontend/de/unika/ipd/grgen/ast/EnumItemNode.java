@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ast.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;

@@ -29,10 +29,6 @@ import de.unika.ipd.grgen.ir.*;
 
 import java.util.*;
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.ConnectionCharacter;
-import de.unika.ipd.grgen.ast.ExprNode;
-import de.unika.ipd.grgen.ast.GraphNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;

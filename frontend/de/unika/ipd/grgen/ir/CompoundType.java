@@ -26,8 +26,6 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.*;
 
-import de.unika.ipd.grgen.ir.Entity;
-
 /**
  * An class representing a node or an edge.
  */

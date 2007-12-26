@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.Entity;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;

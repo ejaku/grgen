@@ -30,7 +30,6 @@ import de.unika.ipd.grgen.be.sql.meta.DataType;
 import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
 import de.unika.ipd.grgen.be.sql.meta.Op;
 import de.unika.ipd.grgen.be.sql.meta.Term;
-import de.unika.ipd.grgen.be.sql.stmt.DefaultOp;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;

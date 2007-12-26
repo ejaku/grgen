@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;

@@ -29,7 +29,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-import de.unika.ipd.grgen.ast.InvalidDeclNode;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;

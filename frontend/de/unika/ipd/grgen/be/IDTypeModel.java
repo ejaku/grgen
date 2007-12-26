@@ -26,9 +26,6 @@
  */
 package de.unika.ipd.grgen.be;
 
-import de.unika.ipd.grgen.be.TypeID;
-
-
 /**
  * A type model that uses IDs.
  */

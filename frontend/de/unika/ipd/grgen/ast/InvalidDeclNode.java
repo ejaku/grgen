@@ -21,9 +21,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 
-import de.unika.ipd.grgen.ast.DeclNode;
-
-
 /**
  * AST node class representing invalid declarations.
  */

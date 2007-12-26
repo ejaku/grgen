@@ -30,7 +30,6 @@ import java.util.Collection;
 
 import de.unika.ipd.grgen.ast.util.*;
 
-import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.TypeExprConst;

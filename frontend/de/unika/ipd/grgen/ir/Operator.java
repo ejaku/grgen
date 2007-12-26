@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.Expression;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

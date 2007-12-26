@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.*;
-import de.unika.ipd.grgen.ast.DummyNodeDeclNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;

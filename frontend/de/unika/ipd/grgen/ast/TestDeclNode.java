@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
 
-import de.unika.ipd.grgen.ast.TestTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;

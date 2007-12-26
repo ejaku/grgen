@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-import de.unika.ipd.grgen.ast.InvalidExprNode;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.HashSet;
 import java.util.Collection;
