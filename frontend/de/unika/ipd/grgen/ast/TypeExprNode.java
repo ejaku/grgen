@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.TypeExpr;
 import de.unika.ipd.grgen.ir.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
+import java.util.Collection;
 
 /**
  * AST node representing type expressions.
@@ -88,6 +89,11 @@ public class TypeExprNode extends BaseNode
 		this(Coords.getBuiltin(), op);
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

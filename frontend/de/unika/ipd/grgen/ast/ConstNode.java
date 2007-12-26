@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -52,6 +54,11 @@ public abstract class ConstNode extends OpNode
 			super(coords, name, value);
 		}
 
+		/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+		public Collection<? extends BaseNode> getWalkableChildren() {
+			return children;
+		}
+		
 		protected boolean isValid() {
 			return false;
 		}

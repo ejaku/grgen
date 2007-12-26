@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -58,6 +60,11 @@ public class TypeofNode extends ExprNode
 		super(coords);
 		setChildrenNames(childrenNames);
 		addChild(entity);
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

@@ -24,6 +24,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
@@ -55,6 +56,11 @@ public class AssignNode extends BaseNode
 		super(coords);
 		addChild(qual);
 		addChild(expr);
+	}
+
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

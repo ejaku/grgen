@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.IR;
 
@@ -45,6 +47,11 @@ public class TypeConstNode extends ConstNode
 		this.id = id;
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
 	 */

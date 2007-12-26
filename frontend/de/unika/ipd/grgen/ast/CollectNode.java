@@ -27,6 +27,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
+import java.util.Collection;
 
 /**
  * An AST node that represents a collection of other nodes.
@@ -47,6 +48,11 @@ public class CollectNode extends BaseNode
 		super();
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

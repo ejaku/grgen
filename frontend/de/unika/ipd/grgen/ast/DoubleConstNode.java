@@ -23,6 +23,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -36,6 +38,11 @@ public class DoubleConstNode extends ConstNode
 	 */
 	public DoubleConstNode(Coords coords, double v) {
 		super(coords, "double", new Double(v));
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 
 	public TypeNode getType() {

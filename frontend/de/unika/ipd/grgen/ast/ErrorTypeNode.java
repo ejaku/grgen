@@ -19,6 +19,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.VoidType;
@@ -39,6 +41,11 @@ class ErrorType extends TypeNode
 	public ErrorType(IdentNode id) {
 		this.id = id;
 		setCoords(id.getCoords());
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

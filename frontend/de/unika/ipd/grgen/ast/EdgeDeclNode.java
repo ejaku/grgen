@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
 import java.awt.Color;
+import java.util.Collection;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 {
@@ -51,6 +52,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e) {
 		this(n, e, TypeExprNode.getEmpty());
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

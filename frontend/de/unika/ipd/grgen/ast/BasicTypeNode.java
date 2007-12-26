@@ -26,6 +26,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -98,6 +99,11 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 //		addCompatibility(voidType, stringType);
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

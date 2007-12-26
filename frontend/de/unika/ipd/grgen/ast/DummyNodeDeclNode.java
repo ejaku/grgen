@@ -1,6 +1,6 @@
 /*
  GrGen: graph rewrite generator tool.
- Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ Copyright (C) 2007  IPD Goos, Universit"at Karlsruhe, Germany
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -17,51 +17,33 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
+import de.unika.ipd.grgen.ir.Node;
 
-import de.unika.ipd.grgen.ast.ExprNode;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * representing invalid expressions.
- */	
-public class InvalidExprNode extends ExprNode
+ * Dummy node needed for dangling edges
+ */
+public class DummyNodeDeclNode extends NodeDeclNode
 {
 	static {
-		setName(InvalidExprNode.class, "invalid expression");
+		setName(DummyNodeDeclNode.class, "dummy node");
 	}
-
-	public InvalidExprNode() {
-		super(Coords.getInvalid());
+		
+	public DummyNodeDeclNode(IdentNode id, BaseNode type) {
+		super(id, type);
+	}
+			
+	public Node getNode() {
+		return null;
 	}
 	
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return children;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
+	public boolean isDummy() {
 		return true;
 	}
 
-	protected boolean check() {
-		return true;
-	}
-	
-	public TypeNode getType() {
-		return BasicTypeNode.errorType;
-	}
-	
 	public String toString() {
-		return "invalid expression";
-	}
-	
-	public String getKindString() {
-		return "invalid expression";
-	}
+		return "a dummy node";
+	}		
 };
-

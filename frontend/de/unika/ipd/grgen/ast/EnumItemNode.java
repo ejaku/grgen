@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.EnumTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -57,6 +59,11 @@ public class EnumItemNode extends MemberDeclNode
 		super(identifier, type);
 		this.pos = pos;
 		addChild(value);
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

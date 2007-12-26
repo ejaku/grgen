@@ -23,6 +23,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -41,6 +43,11 @@ public class EnumConstNode extends ConstNode
 	public EnumConstNode(Coords coords, IdentNode id, int value) {
 		super(coords, "enum item", new Integer(value));
 		this.id = id;
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/**

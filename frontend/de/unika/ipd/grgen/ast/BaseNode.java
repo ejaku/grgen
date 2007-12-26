@@ -74,7 +74,7 @@ public abstract class BaseNode extends Base
 
 
 	/** Vector of the children of this node */
-	private final Vector<BaseNode> children = new Vector<BaseNode>();
+	protected final Vector<BaseNode> children = new Vector<BaseNode>();
 
 	/** The parent node of this node. */
 	private Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
@@ -309,14 +309,6 @@ public abstract class BaseNode extends Base
 //////////////////////////////////////////////////////////////////////////////////////////
 // Children, Parents, AST structure handling
 //////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The walkable children are the children of this node
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return children;
-	}
 	
 	/**
 	 * Set the names of the children of this node.
@@ -344,15 +336,6 @@ public abstract class BaseNode extends Base
 		oldChild.parents.remove(this);
 		children.set(pos, n);
 		n.parents.add(this);
-	}
-
-	/**
-	 * Add the children of another node to this one.
-	 * @param n The other node
-	 */
-	public final void addChildren(BaseNode n) {
-		for(BaseNode child :  n.getChildren())
-			addChild(child);
 	}
 
 	/**

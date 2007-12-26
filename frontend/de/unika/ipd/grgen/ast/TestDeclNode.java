@@ -26,6 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
+
 import de.unika.ipd.grgen.ast.TestTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -64,6 +65,11 @@ public class TestDeclNode extends ActionDeclNode
 		this(id, testType, pattern, neg, params, rets);
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

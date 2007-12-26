@@ -67,7 +67,6 @@ options {
  */
 text returns [ BaseNode main = env.initNode() ]
 	{
-		CollectNode actions;
 		CollectNode mainChilds = new CollectNode();
 		CollectNode modelChilds = new CollectNode();
 		IdentNode id;
@@ -93,7 +92,7 @@ text returns [ BaseNode main = env.initNode() ]
 	| usingDecl[modelChilds]
 	)?
 
-	( actions=actionDecls EOF { mainChilds.addChildren(actions); } )?
+	( actionDecls[mainChilds] EOF )?
 		{
 			main = new UnitNode(id, getFilename());
 			main.addChild(modelChilds);
@@ -127,10 +126,10 @@ usingDecl [ CollectNode modelChilds ]
 		}
 	;
 
-actionDecls returns [ CollectNode c = new CollectNode() ]
+actionDecls [ CollectNode actionChilds ]
 	{ BaseNode d; }
 
-	: ( d=actionDecl { c.addChild(d); } )+
+	: ( d=actionDecl { actionChilds.addChild(d); } )+
 	;
 
 actionDecl returns [ IdentNode res = env.getDummyIdent() ]

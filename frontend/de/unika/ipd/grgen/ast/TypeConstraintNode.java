@@ -26,6 +26,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ast.InheritanceTypeNode;
@@ -53,6 +55,11 @@ public class TypeConstraintNode extends TypeExprNode
 	public TypeConstraintNode(IdentNode typeIdentUse) {
 		this(typeIdentUse.getCoords(), new CollectNode());
 		getChild(OPERANDS).addChild(typeIdentUse);
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

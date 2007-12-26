@@ -19,6 +19,8 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 
 /**
  * Type of unit node declaration.
@@ -27,6 +29,11 @@ class MainTypeNode extends TypeNode
 {
 	static {
 		setName(MainTypeNode.class, "unit type");
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

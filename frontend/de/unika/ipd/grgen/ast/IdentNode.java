@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
 import de.unika.ipd.grgen.util.EmptyAttributes;
 import java.awt.Color;
+import java.util.Collection;
 
 /**
  * AST node that represents an Identifier (name that appears within the specification)
@@ -82,6 +83,11 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		this.occ = occ;
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

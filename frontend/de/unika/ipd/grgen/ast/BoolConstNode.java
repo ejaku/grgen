@@ -23,6 +23,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -36,6 +38,11 @@ public class BoolConstNode extends ConstNode
 	 */
 	public BoolConstNode(Coords coords, boolean value) {
 		super(coords, "boolean", new Boolean(value));
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	public TypeNode getType() {

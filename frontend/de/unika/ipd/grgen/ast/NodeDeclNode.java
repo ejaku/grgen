@@ -25,11 +25,12 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.*;
-
+import de.unika.ipd.grgen.ast.DummyNodeDeclNode;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import java.awt.Color;
+import java.util.Collection;
 
 /**
  * Declaration of a node.
@@ -56,6 +57,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		this(id, type, TypeExprNode.getEmpty());
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
@@ -108,26 +114,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	}
 	
 	/**
-	 * Yields a dummy <code>NodeDeclNode</code> needed for dangling edges as
-	 * dummy as dummy tgt or src node, respectively.
+	 * Yields a dummy <code>NodeDeclNode</code> needed as
+	 * dummy tgt or src node for dangling edges.
 	 */
 	public static NodeDeclNode getDummy(IdentNode id, BaseNode type) {
-		NodeDeclNode res = new NodeDeclNode(id, type) {
-			public Node getNode() {
-				return null;
-			}
-			
-			public boolean isDummy() {
-				return true;
-			}
-
-			public String toString() {
-				return "a dummy node";
-			}
-		};
-		
-		res.setName("dummy node");
-		return res;
+		return new DummyNodeDeclNode(id, type);
 	}
 	
 	public boolean isDummy() {

@@ -24,6 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ir.IR;
@@ -51,6 +53,11 @@ public class NodeTypeNode extends InheritanceTypeNode
 		addChild(body);
 		setModifiers(modifiers);
 		setExternalName(externalName);
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

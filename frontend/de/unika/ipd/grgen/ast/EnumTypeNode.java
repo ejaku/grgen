@@ -23,6 +23,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+
 import de.unika.ipd.grgen.ast.util.*;
 
 import de.unika.ipd.grgen.ir.EnumType;
@@ -89,6 +91,11 @@ public class EnumTypeNode extends CompoundTypeNode
 	 coll.addAll((Collection) obj);
 	 }*/
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

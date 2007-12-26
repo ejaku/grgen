@@ -26,6 +26,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
+import java.util.Collection;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
@@ -48,6 +49,11 @@ public class HomNode extends BaseNode
 		super(coords);
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

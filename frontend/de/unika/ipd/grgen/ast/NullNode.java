@@ -42,6 +42,11 @@ public class NullNode extends BaseNode
 		super();
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return Collections.emptySet();
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
@@ -105,11 +110,7 @@ public class NullNode extends BaseNode
 	public String getNodeLabel() {
 		return "Error";
 	}
-	
-	public Collection<? extends BaseNode> getWalkableChildren() {
-		return Collections.emptySet();
-	}
-	
+		
 	public boolean isError() {
 		return true;
 	}

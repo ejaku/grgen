@@ -24,6 +24,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
 import java.util.Set;
 
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -58,6 +59,11 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		super(n.getCoords());
 		addChild(n);
 		setChildrenNames(childrenNames);
+	}
+	
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */

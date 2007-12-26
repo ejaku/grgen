@@ -51,6 +51,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		setChildrenNames(new String[] { "ident", "type", "constraints", "old" });
 	}
 
+	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return children;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if (isResolved()) {
