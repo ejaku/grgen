@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -38,11 +37,11 @@ import de.unika.ipd.grgen.ir.MemberExpression;
  */
 public class DeclExprNode extends ExprNode
 {
-	private static final int DECL = 0;
-
 	static {
 		setName(DeclExprNode.class, "decl expression");
 	}
+	
+	private static final int DECL = 0;
 
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;

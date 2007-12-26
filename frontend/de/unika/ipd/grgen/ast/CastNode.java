@@ -42,6 +42,10 @@ import de.unika.ipd.grgen.ir.Cast;
  */
 public class CastNode extends ExprNode
 {
+	static {
+		setName(DeclExprNode.class, "cast expression");
+	}
+	
 	/** The type child index. */
 	private final static int TYPE = 0;
 	

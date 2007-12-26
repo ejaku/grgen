@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-
+import de.unika.ipd.grgen.ast.InvalidExprNode;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.HashSet;
 import java.util.Collection;
@@ -39,29 +39,7 @@ public abstract class ExprNode extends BaseNode
 		setName(ExprNode.class, "expression");
 	}
 	
-	static private final ExprNode INVALID = new ExprNode(Coords.getInvalid())
-	{
-		/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-		protected boolean resolve() {
-			return true;
-		}
-		protected boolean check() {
-			return true;
-		}
-		public TypeNode getType() {
-			return BasicTypeNode.errorType;
-		}
-		public String toString() {
-			return "invalid expression";
-		}
-		public String getKindString() {
-			return "invalid expression";
-		}
-	};
-	
-	static {
-		setName(INVALID.getClass(), "invalid expression");
-	}
+	static private final ExprNode INVALID = new InvalidExprNode();
 	
 	/**
 	 * Make a new expression

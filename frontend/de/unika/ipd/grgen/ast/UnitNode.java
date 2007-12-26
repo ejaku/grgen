@@ -37,16 +37,12 @@ import de.unika.ipd.grgen.ir.Unit;
  */
 public class UnitNode extends DeclNode
 {
-	protected static final TypeNode mainType =
-		new TypeNode()
-		{
-		};
-	
 	static {
 		setName(UnitNode.class, "unit declaration");
-		setName(mainType.getClass(), "unit type");
 	}
-	
+
+	protected static final TypeNode mainType = new MainTypeNode();
+		
 	/** The index of the model child. */
 	protected static final int MODELS = 2;
 	

@@ -40,6 +40,10 @@ import de.unika.ipd.grgen.ir.Rule;
  */
 public class RuleDeclNode extends TestDeclNode
 {
+	static {
+		setName(RuleDeclNode.class, "rule declaration");
+	}
+
 	protected static final int RIGHT = LAST + 5;
 	protected static final int EVAL = LAST + 6;
 
@@ -49,12 +53,7 @@ public class RuleDeclNode extends TestDeclNode
 	};
 
 	/** Type for this declaration. */
-	private static final TypeNode ruleType = new TypeNode() { };
-
-	static {
-		setName(RuleDeclNode.class, "rule declaration");
-		setName(ruleType.getClass(), "rule type");
-	}
+	private static final TypeNode ruleType = new RuleTypeNode();
 
 	/**
 	 * Make a new rule.

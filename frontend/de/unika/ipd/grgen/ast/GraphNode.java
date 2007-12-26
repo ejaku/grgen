@@ -44,13 +44,13 @@ import java.util.Set;
  */
 public class GraphNode extends BaseNode
 {
-	/** Index of the connections collect node. */
-	protected static final int CONNECTIONS = 0;
-	protected static final int RETURN = CONNECTIONS+1;
-
 	static {
 		setName(GraphNode.class, "graph");
 	}
+	
+	/** Index of the connections collect node. */
+	protected static final int CONNECTIONS = 0;
+	protected static final int RETURN = CONNECTIONS+1;
 
 	private static final String[] childrenNames = {
 		"conn", "return"

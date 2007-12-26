@@ -46,6 +46,10 @@ import java.util.Map.Entry;
  */
 public class PatternGraphNode extends GraphNode
 {
+	static {
+		setName(PatternGraphNode.class, "pattern_graph");
+	}
+
 	public static final int MOD_DPO = 1;
 	public static final int MOD_EXACT = 2;
 	public static final int MOD_INDUCED = 4;
@@ -85,10 +89,6 @@ public class PatternGraphNode extends GraphNode
 	 */
 	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap = 
 		new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
-
-	static {
-		setName(PatternGraphNode.class, "pattern_graph");
-	}
 
 	/**
 	 * A new pattern node

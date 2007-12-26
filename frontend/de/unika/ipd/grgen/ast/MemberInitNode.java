@@ -26,7 +26,9 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ast.DeclNode;
-import de.unika.ipd.grgen.ast.util.*;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;

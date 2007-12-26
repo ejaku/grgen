@@ -26,135 +26,27 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * A basic type AST node such as string or int
  */
-public abstract class BasicTypeNode extends DeclaredTypeNode {
-	/**
-	 * The string basic type.
-	 */
-	public static final BasicTypeNode stringType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new StringType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "string";
-		}
-	};
-
-	/**
-	 * The type basic type.
-	 */
-	public static final BasicTypeNode typeType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new TypeType(getIdentNode().getIdent());
-		}
-	};
-
-	/**
-	 * The integer basic type.
-	 */
-	public static final BasicTypeNode intType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new IntType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "int";
-		}
-	};
-
-	/**
-	 * The double precision floating point basic type.
-	 */
-	public static final BasicTypeNode doubleType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new DoubleType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "double";
-		}
-	};
-
-	/**
-	 * The floating point basic type.
-	 */
-	public static final BasicTypeNode floatType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new FloatType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "float";
-		}
-	};
-
-	/**
-	 * The boolean basic type.
-	 */
-	public static final BasicTypeNode booleanType =
-		new BasicTypeNode() {
-		protected IR constructIR() {
-			return new BooleanType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "boolean";
-		}
-	};
-
-	/**
-	 * The object basic type.
-	 */
+public abstract class BasicTypeNode extends DeclaredTypeNode
+{
+	public static final BasicTypeNode stringType = new StringTypeNode();
+	public static final BasicTypeNode typeType = new TypeTypeNode();
+	public static final BasicTypeNode intType = new IntTypeNode();
+	public static final BasicTypeNode doubleType = new DoubleTypeNode();
+	public static final BasicTypeNode floatType = new FloatTypeNode();
+	public static final BasicTypeNode booleanType = new BooleanTypeNode();
 	public static final BasicTypeNode objectType = ObjectTypeNode.OBJECT_TYPE;
-
-	/**
-	 * The enum member type.
-	 */
-	public static final BasicTypeNode enumItemType =
-		new BasicTypeNode() {
-		protected IR constructIR() {
-			return new IntType(getIdentNode().getIdent());
-		}
-	};
-
-	/**
-	 * The void basic type. It is compatible to no other type.
-	 */
-	public static final BasicTypeNode voidType = new BasicTypeNode() {
-		protected IR constructIR() {
-			return new VoidType(getIdentNode().getIdent());
-		}
-		public String toString() {
-			return "void";
-		}
-	};
-
-	/**
-	 * The error basic type. It is compatible to no other type.
-	 */
-	private static class ErrorType extends TypeNode {
-		private IdentNode id;
-
-		public ErrorType(IdentNode id) {
-			this.id = id;
-			setCoords(id.getCoords());
-		}
-		protected IR constructIR() {
-			return new VoidType(id.getIdent());
-		}
-		public String getUseString() {
-			return "error type";
-		}
-		public String toString() {
-			return "error type";
-		}
-	};
+	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
+	public static final BasicTypeNode voidType = new VoidTypeNode();
 
 	public static final TypeNode errorType = new ErrorType(IdentNode.getInvalid());
 
+	
 	public static TypeNode getErrorType(IdentNode id) {
 		return new ErrorType(id);
 	}
@@ -173,16 +65,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 
 	static {
 		setName(BasicTypeNode.class, "basic type");
-		setName(intType.getClass(), "int type");
-		setName(booleanType.getClass(), "boolean type");
-		setName(stringType.getClass(), "string type");
-		setName(enumItemType.getClass(), "enum item type");
-		setName(floatType.getClass(), "float type");
-		setName(doubleType.getClass(), "double type");
-		setName(typeType.getClass(), "type type");
-		setName(voidType.getClass(), "void type");
-		setName(objectType.getClass(), "object type");
-		setName(errorType.getClass(), "error type");
 
 		//no explicit cast required
 		addCompatibility(intType, floatType);
@@ -214,6 +96,34 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
 //		addCompatibility(voidType, stringType);
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	protected boolean resolve() {
+		if(isResolved()) {
+			return resolutionResult();
+		}
+		
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;
+		nodeResolvedSetResult(successfullyResolved); // local result
+		
+		return successfullyResolved;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
+	protected boolean check() {
+		if(!resolutionResult()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
+		
+		boolean successfullyChecked = checkLocal();
+		nodeCheckedSetResult(successfullyChecked);
+		
+		return successfullyChecked;
 	}
 
 	/**

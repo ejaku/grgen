@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.*;
 import java.util.*;
-
+import de.unika.ipd.grgen.ast.TestTypeNode;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -37,6 +37,10 @@ import de.unika.ipd.grgen.util.report.ErrorReporter;
  */
 public class TestDeclNode extends ActionDeclNode
 {
+	static {
+		setName(TestDeclNode.class, "test declaration");
+	}
+
 	protected static final int PARAM = LAST + 1;
 	protected static final int RET = LAST + 2;
 	protected static final int PATTERN = LAST + 3;
@@ -44,13 +48,8 @@ public class TestDeclNode extends ActionDeclNode
 
 	private static final String[] childrenNames =
 		addChildrenNames(new String[] { "param", "ret", "test", "neg" });
-
-	private static final TypeNode testType = new TypeNode() { };
 	
-	static {
-		setName(TestDeclNode.class, "test declaration");
-		setName(testType.getClass(), "test type");
-	}
+	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);

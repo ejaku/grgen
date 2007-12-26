@@ -56,35 +56,7 @@ public abstract class TypeNode extends BaseNode
 	TypeNode() {
 		super();
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
 		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		
-		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = true;
-		nodeCheckedSetResult(successfullyChecked);
-		
-		return successfullyChecked;
-	}
-	
 	public static String getUseStr() {
 		return "type";
 	}

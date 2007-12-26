@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast.util;
 
 
 import de.unika.ipd.grgen.ast.*;
-
 import java.util.Map;
 
 /**
@@ -59,7 +58,7 @@ public class MemberInitResolver extends IdentResolver {
 		//System.out.println("resolveIdent:" + n);
 		//System.out.println("resolveIdent getDecl():" + n.getDecl());
 
-		if(!(n.getDecl() instanceof DeclNode.InvalidDeclNode))
+		if(!(n.getDecl() instanceof InvalidDeclNode))
 			return n.getDecl();
 
 		InheritanceTypeNode typeNode = (InheritanceTypeNode)n.getScope().getIdentNode().getDecl().getDeclType();

@@ -40,17 +40,17 @@ import de.unika.ipd.grgen.ir.Graph;
  */
 public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 {
+	static {
+		setName(SingleNodeConnNode.class, "single node");
+	}
+
 	/** Index of the node in the children array. */
 	private static final int NODE = 0;
 	
 	private static final String[] childrenNames = {
 		"node"
 	};
-	
-	static {
-		setName(SingleNodeConnNode.class, "single node");
-	}
-	
+		
 	/**
 	 * @param n The node
 	 */

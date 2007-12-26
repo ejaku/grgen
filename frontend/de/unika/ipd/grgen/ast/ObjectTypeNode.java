@@ -9,9 +9,12 @@ import de.unika.ipd.grgen.ir.ObjectType;
 import de.unika.ipd.grgen.ir.IR;
 
 
-
 public class ObjectTypeNode extends BasicTypeNode
 {
+	static {
+		setName(ObjectTypeNode.class, "object type");
+	}
+	
 	/**
 	 * Singleton class representing the only constant value 'null' that
 	 * the basic type 'object' has.

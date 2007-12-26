@@ -37,15 +37,11 @@ import java.util.HashSet;
 
 public class ModelNode extends DeclNode
 {
-	protected static final TypeNode modelType = 
-		new TypeNode()
-		{ 
-		};
-	
 	static {
 		setName(ModelNode.class, "model declaration");
-		setName(modelType.getClass(), "model type");
 	}
+	
+	protected static final TypeNode modelType = new ModelTypeNode();
 	
 	/** Index of the decl collect node in the children. */
 	protected static final int DECLS = 2;

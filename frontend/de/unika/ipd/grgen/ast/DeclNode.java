@@ -29,7 +29,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
-
+import de.unika.ipd.grgen.ast.InvalidDeclNode;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
@@ -69,34 +69,6 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		}
 
 		return n;
-	}
-
-	public static class InvalidDeclNode extends DeclNode {
-		private InvalidDeclNode(IdentNode id) {
-			super(id, BasicTypeNode.getErrorType(id));
-		}
-
-		/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-		protected boolean resolve() {
-			return true;
-		}
-		
-		/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-		protected boolean check() {
-			return true;
-		}
-
-		public String getKindString() {
-			return "undeclared identifier";
-		}
-
-		public String getUseString() {
-			return "undeclared identifier";
-		}
-
-		public String toString() {
-			return "undeclared identifier";
-		}
 	}
 
 	/** An invalid declaration. */
