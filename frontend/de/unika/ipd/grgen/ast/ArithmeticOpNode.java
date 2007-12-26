@@ -86,7 +86,7 @@ public class ArithmeticOpNode extends OpNode
 	}
 	
 	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#eval()
+	 * @see de.unika.ipd.grgen.ast.ExprNode#evaluate()
 	 */
 	public ExprNode evaluate() {
 		int n = children();
