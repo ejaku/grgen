@@ -56,7 +56,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 		};
 	}
 	
-	private static abstract class GraphItemComparator implements Comparator {
+	private abstract static class GraphItemComparator implements Comparator {
 		
 		protected int compareTypes(InheritanceType inh1, InheritanceType inh2) {
 			int dist1 = inh1.getMaxDist();

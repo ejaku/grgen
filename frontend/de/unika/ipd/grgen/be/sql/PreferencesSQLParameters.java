@@ -85,7 +85,7 @@ public class PreferencesSQLParameters implements SQLParameters {
 
 	protected final String colEdgeTypeRelIsAId;
 
-	private final static String getOrSet(Preferences prefs, String key,
+	private static final String getOrSet(Preferences prefs, String key,
 																			 String defaultValue) {
 		String res = prefs.get(key, defaultValue);
 		prefs.put(key, res);

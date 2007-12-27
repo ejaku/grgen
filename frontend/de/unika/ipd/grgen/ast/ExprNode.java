@@ -38,7 +38,7 @@ public abstract class ExprNode extends BaseNode
 		setName(ExprNode.class, "expression");
 	}
 	
-	static private final ExprNode INVALID = new InvalidExprNode();
+	private static final ExprNode INVALID = new InvalidExprNode();
 	
 	/**
 	 * Make a new expression

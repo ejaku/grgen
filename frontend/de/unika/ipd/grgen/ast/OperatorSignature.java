@@ -140,7 +140,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Each operator is mapped by its ID to a Map, which maps each result type
 	 * of the specific operator to a its signature.
 	 */
-	final static private Map<Integer, HashSet<OperatorSignature>> operators = new HashMap<Integer, HashSet<OperatorSignature>>();
+	private static final Map<Integer, HashSet<OperatorSignature>> operators = new HashMap<Integer, HashSet<OperatorSignature>>();
 
 	/**
 	 * Makes an entry in the {@link #operators} map.
@@ -165,7 +165,7 @@ public class OperatorSignature extends FunctionSignature {
 	 *            an Evaluator
 	 * 
 	 */
-	public final static void makeOp(int id, TypeNode resType,
+	public static final void makeOp(int id, TypeNode resType,
 			TypeNode[] opTypes, Evaluator eval) {
 
 		Integer oid = new Integer(id);
@@ -184,7 +184,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter a binary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	public final static void makeBinOp(int id, TypeNode res, TypeNode op0,
+	public static final void makeBinOp(int id, TypeNode res, TypeNode op0,
 			TypeNode op1, Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0, op1 }, eval);
 	}
@@ -193,7 +193,7 @@ public class OperatorSignature extends FunctionSignature {
 	 * Enter an unary operator. This is just a convenience function for
 	 * {@link #makeOp(int, TypeNode, TypeNode[])}.
 	 */
-	final static void makeUnOp(int id, TypeNode res, TypeNode op0,
+	public static final void makeUnOp(int id, TypeNode res, TypeNode op0,
 			Evaluator eval) {
 		makeOp(id, res, new TypeNode[] { op0 }, eval);
 	}
@@ -948,7 +948,7 @@ public class OperatorSignature extends FunctionSignature {
 		return true;
 	}
 
-	int getOpId() {
+	public int getOpId() {
 		return id;
 	}
 

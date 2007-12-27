@@ -33,7 +33,7 @@ import java.io.PrintStream;
 
 public class DefaultTerm extends DefaultGraphDumpable implements Term {
 	
-	private final static Term[] NO_OPS = new Term[0];
+	private static final Term[] NO_OPS = new Term[0];
 	private final Term[] operands;
 	private final Op opcode;
 	private int hashCode = 0;

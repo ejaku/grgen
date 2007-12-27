@@ -28,7 +28,7 @@ package de.unika.ipd.grgen.util;
  */
 public class ConstraintWalker extends PostWalker
 {
-	static private class ConstraintVisitor implements Visitor
+	private static class ConstraintVisitor implements Visitor
 	{
 		/** A set containing all classes, that shall be visited */
 		private Class<?>[] classes;

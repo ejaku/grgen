@@ -165,7 +165,7 @@ public class DefaultStatementFactory extends Base
 	
 	protected static class SubqueryOpcode implements Op {
 		final Query query;
-		final static String text = "subquery";
+		static final String text = "subquery";
 		
 		SubqueryOpcode(Query query) {
 			this.query = query;
@@ -703,7 +703,7 @@ public class DefaultStatementFactory extends Base
 		return new AggregateColumn(which, col);
 	}
 	
-	private static abstract class ManipulationStmt extends DefaultDebug
+	private abstract static class ManipulationStmt extends DefaultDebug
 		implements ManipulationStatement {
 		
 		protected final Table table;

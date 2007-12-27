@@ -47,10 +47,10 @@ public class CastNode extends ExprNode
 	}
 	
 	/** The type child index. */
-	private final static int TYPE = 0;
+	private static final int TYPE = 0;
 	
 	/** The expression child index. */
-	private final static int EXPR = 1;
+	private static final int EXPR = 1;
 	
 	/**
 	 * Make a new cast node.

@@ -29,14 +29,14 @@ package de.unika.ipd.grgen.util.report;
  */
 public class ErrorReporter extends Reporter {
 	
-	public final static int ERROR = 1;
-	public final static int WARNING = 2;
-	public final static int NOTE = 4;
+	public static final int ERROR = 1;
+	public static final int WARNING = 2;
+	public static final int NOTE = 4;
 	
 	protected static int errCount = 0;
 	protected static int warnCount = 0;
 	
-	private final static String[] levelNames = {
+	private static final String[] levelNames = {
 		"error", "warning", "note"
 	};
 	

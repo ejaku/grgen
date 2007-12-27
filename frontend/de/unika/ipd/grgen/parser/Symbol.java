@@ -34,7 +34,7 @@ public class Symbol {
 	/**
 	 * An occurrence of a symbol.
 	 */
-	static public class Occurrence {
+	public static class Occurrence {
 		
 		/** The scope in which the symbol occurred. */
 		protected final Scope scope;
@@ -116,7 +116,7 @@ public class Symbol {
 	 * The definition of a symbol.
 	 * Especially, a definition is an occurrence, that defines an identifier.
 	 */
-	static public class Definition extends Occurrence {
+	public static class Definition extends Occurrence {
 		/**
 		 * An AST ident node for this definition.
 		 * This is needed, because other ident nodes representing the same

@@ -34,7 +34,7 @@ import java.util.Set;
 public abstract class Reporter {
 	private int mask = 0;
 
-	final protected Set<Handler> handlers = new HashSet<Handler>();
+	protected final Set<Handler> handlers = new HashSet<Handler>();
 
 
 	/**

@@ -43,7 +43,7 @@ public abstract class TypeExpr extends IR {
 	 */
 	public abstract Collection<InheritanceType> evaluate();
 	
-	public final static TypeExpr EMPTY = new TypeExpr() {
+	public static final TypeExpr EMPTY = new TypeExpr() {
 		public Collection<InheritanceType> evaluate() {
 			return Collections.EMPTY_SET;
 		}
