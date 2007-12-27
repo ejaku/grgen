@@ -26,14 +26,16 @@
  */
 package de.unika.ipd.grgen.be.rewrite;
 
-import de.unika.ipd.grgen.ir.*;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Rule;
 
 /**
  * An abstract rewriter.

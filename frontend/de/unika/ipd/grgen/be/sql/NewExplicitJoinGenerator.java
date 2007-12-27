@@ -25,12 +25,47 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import de.unika.ipd.grgen.be.sql.meta.*;
-import de.unika.ipd.grgen.be.sql.stmt.*;
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.be.sql.meta.Aggregate;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.Join;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
+import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
+import de.unika.ipd.grgen.be.sql.meta.Opcodes;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.Table;
+import de.unika.ipd.grgen.be.sql.meta.Term;
+import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
+import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
+import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
+import de.unika.ipd.grgen.be.sql.stmt.IdTable;
+import de.unika.ipd.grgen.be.sql.stmt.NodeTable;
+import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.util.Attributed;
 import de.unika.ipd.grgen.util.Attributes;
 

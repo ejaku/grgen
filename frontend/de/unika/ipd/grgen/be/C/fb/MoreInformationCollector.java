@@ -27,10 +27,29 @@
  */
 
 package de.unika.ipd.grgen.be.C.fb;
-import de.unika.ipd.grgen.ir.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.PrimitiveType;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.util.Attributes;
 
 public class MoreInformationCollector extends InformationCollector {

@@ -24,18 +24,30 @@
  */
 package de.unika.ipd.grgen.be.C;
 
-import de.unika.ipd.grgen.ir.*;
-
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.be.Backend;
-import de.unika.ipd.grgen.be.IDBase;
-import de.unika.ipd.grgen.util.Util;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.be.Backend;
+import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.ConnAssert;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Unit;
+import de.unika.ipd.grgen.util.Util;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * A backend for the C interface to grgen.

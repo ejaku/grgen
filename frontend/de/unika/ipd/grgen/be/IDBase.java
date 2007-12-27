@@ -27,8 +27,24 @@
 
 package de.unika.ipd.grgen.be;
 
-import java.util.*;
-import de.unika.ipd.grgen.ir.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.CompoundType;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.Base;
 
 

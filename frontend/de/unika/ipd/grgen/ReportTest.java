@@ -23,11 +23,21 @@
  */
 package de.unika.ipd.grgen;
 
-import de.unika.ipd.grgen.util.report.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTree;
+
+import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.grgen.util.report.Reporter;
+import de.unika.ipd.grgen.util.report.StreamHandler;
+import de.unika.ipd.grgen.util.report.TreeHandler;
 
 /**
  *

@@ -27,17 +27,38 @@
 
 package de.unika.ipd.grgen.be.C;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.C.fb.MoreInformationCollector;
-import java.io.File;
-import java.io.PrintStream;
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Unit;
 
 public class SearchPlanBackend extends MoreInformationCollector implements Backend, BackendFactory {
 

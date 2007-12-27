@@ -23,9 +23,19 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.C;
-import de.unika.ipd.grgen.be.sql.meta.*;
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.rewrite.RewriteGenerator;
@@ -35,17 +45,33 @@ import de.unika.ipd.grgen.be.sql.NewExplicitJoinGenerator;
 import de.unika.ipd.grgen.be.sql.PreferencesSQLParameters;
 import de.unika.ipd.grgen.be.sql.SQLGenerator;
 import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.Dialect;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Statement;
+import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.DefaultMetaFactory;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.RetypedNode;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.Util;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
 
 /**
  * A generator to generate SQL statements for a grgen specification.
  */
-public abstract class SQLBackend extends CBackend	implements Dialect {
+public abstract class SQLBackend extends CBackend implements Dialect {
 	
 	private final class PreparedStatements {
 		

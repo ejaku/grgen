@@ -27,15 +27,40 @@
  */
 
 package de.unika.ipd.grgen.be.C.fb;
-import de.unika.ipd.grgen.ir.*;
 
-import java.util.*;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeSet;
 
 import de.unika.ipd.grgen.be.C.CBackend;
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.StringType;
+import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.util.Attributes;
-import java.io.PrintStream;
-
-
 
 public class InformationCollector extends CBackend {
 	
@@ -242,7 +267,7 @@ public class InformationCollector extends CBackend {
 		
 		
 		/* get the overall maximum numbers of nodes and edges of all pattern
-		 and replacement graphs respaectively */
+		 and replacement graphs respectively */
 		max_n_pattern_nodes = 0;
 		max_n_pattern_edges = 0;
 		max_n_replacement_nodes = 0;
@@ -251,7 +276,7 @@ public class InformationCollector extends CBackend {
 			//get the current action
 			Action act = it.next();
 			
-			//check wether its graphs node and edge set sizes are greater
+			//check whether its graphs node and edge set sizes are greater
 			if (act instanceof MatchingAction) {
 				int size;
 				
@@ -1072,7 +1097,7 @@ public class InformationCollector extends CBackend {
 	 *   are allowed to be identified by the matcher */
 	protected void collectPotHomInfo () {
 		
-		//tells wether two pattern nodes of a given action are pot hom or not
+		//tells whether two pattern nodes of a given action are pot hom or not
 		//e.g. : potHomMatrices[act_id][node_1][node_2]
 		//protected int potHomMatrices[][][];
 		potHomNodeMatrices =
