@@ -27,7 +27,6 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;

@@ -28,9 +28,6 @@ package de.unika.ipd.grgen.be.sql.stmt;
 
 import de.unika.ipd.grgen.be.sql.meta.*;
 
-import java.io.PrintStream;
-
-
 /**
  * A table with an ID.
  */

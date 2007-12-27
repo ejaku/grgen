@@ -24,7 +24,6 @@
 package de.unika.ipd.grgen.ast;
 
 
-import java.util.Collection;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
