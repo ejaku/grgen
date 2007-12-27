@@ -113,10 +113,8 @@ public class MemberInitResolver extends IdentResolver {
 		return res;
 	}
 
-
 	protected BaseNode getDefaultResolution() {
 		return DeclNode.getInvalid();
 	}
-
 }
 

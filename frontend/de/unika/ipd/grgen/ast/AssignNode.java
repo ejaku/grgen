@@ -45,8 +45,8 @@ public class AssignNode extends BaseNode
 		setName(AssignNode.class, "Assign");
 	}
 		
-	private static final int LHS = 0;
-	private static final int RHS = 1;
+	BaseNode lhs;
+	BaseNode rhs;
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -55,12 +55,17 @@ public class AssignNode extends BaseNode
 	 */
 	public AssignNode(Coords coords, BaseNode qual, BaseNode expr) {
 		super(coords);
-		addChild(qual);
-		addChild(expr);
+		lhs = qual==null ? NULL : qual;
+		becomeParent(this.lhs);
+		rhs = expr==null ? NULL : expr;
+		becomeParent(this.rhs);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(lhs);
+		children.add(rhs);
 		return children;
 	}
 	
@@ -82,8 +87,8 @@ public class AssignNode extends BaseNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		successfullyResolved = getChild(LHS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RHS).resolve() && successfullyResolved;
+		successfullyResolved = lhs.resolve() && successfullyResolved;
+		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -100,8 +105,8 @@ public class AssignNode extends BaseNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(LHS).check() && childrenChecked;
-			childrenChecked = getChild(RHS).check() && childrenChecked;
+			childrenChecked = lhs.check() && childrenChecked;
+			childrenChecked = rhs.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -115,11 +120,11 @@ public class AssignNode extends BaseNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		boolean lhsOk = (new SimpleChecker(QualIdentNode.class)).check(getChild(LHS), error);
-		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(getChild(RHS), error);
+		boolean lhsOk = (new SimpleChecker(QualIdentNode.class)).check(lhs, error);
+		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
 		
 		if(lhsOk) {
-			QualIdentNode qual = (QualIdentNode) getChild(LHS);
+			QualIdentNode qual = (QualIdentNode) lhs;
 			DeclNode owner = qual.getOwner();
 			BaseNode ty = owner.getDeclType();
 			
@@ -142,14 +147,15 @@ public class AssignNode extends BaseNode
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheckLocal() {
-		ExprNode expr = (ExprNode) getChild(RHS);
+		ExprNode expr = (ExprNode) rhs;
 		
-		TypeNode targetType = (TypeNode) ((QualIdentNode)getChild(LHS)).getDecl().getDeclType();
+		TypeNode targetType = (TypeNode) ((QualIdentNode)lhs).getDecl().getDeclType();
 		TypeNode exprType = (TypeNode) expr.getType();
 		
 		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);
-			replaceChild(RHS, expr);
+			becomeParent(expr);
+			rhs = expr;
 
 			if (expr == ConstNode.getInvalid()) {
 				String msg;
@@ -170,14 +176,34 @@ public class AssignNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Qualification qual = (Qualification) getChild(LHS).checkIR(Qualification.class);
+		Qualification qual = (Qualification) lhs.checkIR(Qualification.class);
 		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
 		}
 		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 		}
-		return new Assignment(qual, (Expression) ((ExprNode)getChild(RHS)).evaluate().checkIR(Expression.class));
+		return new Assignment(qual, (Expression) ((ExprNode)rhs).evaluate().checkIR(Expression.class));
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

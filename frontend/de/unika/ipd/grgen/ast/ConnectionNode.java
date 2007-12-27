@@ -31,7 +31,6 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.EdgeResolver;
-import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
@@ -46,15 +45,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		setName(ConnectionNode.class, "connection");
 	}
 
-	/** Index of the source node. */
-	private static final int LEFT = 0;
-
-	/** Index of the edge node. */
-	private static final int EDGE = 1;
-
-	/** Index of the target node. */
-	private static final int RIGHT= 2;
-
+	BaseNode left;
+	BaseNode edge;
+	BaseNode right;
 
 	/**
 	 * Construct a new connection node.
@@ -65,13 +58,20 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 */
 	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
 		super(edge.getCoords());
-		addChild(n1);
-		addChild(edge);
-		addChild(n2);
+		this.left = n1==null ? NULL : n1;
+		becomeParent(this.left);
+		this.edge = edge==null ? NULL : edge;
+		becomeParent(this.edge);
+		this.right = n2==null ? NULL : n2;
+		becomeParent(this.right);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(left);
+		children.add(edge);
+		children.add(right);
 		return children;
 	}
 	
@@ -92,19 +92,32 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new OptionalResolver(new DeclResolver(new Class[] { NodeDeclNode.class }));		
+		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class }); // optional
 		Resolver edgeResolver = new EdgeResolver();
-		successfullyResolved = nodeResolver.resolve(this, LEFT) && successfullyResolved;
-		successfullyResolved = edgeResolver.resolve(this, EDGE) && successfullyResolved;
-		successfullyResolved = nodeResolver.resolve(this, RIGHT) && successfullyResolved;
+		BaseNode resolved = nodeResolver.resolve(left);
+		if(resolved!=null && resolved!=left) {
+			becomeParent(resolved);
+			left = resolved;
+		}
+		resolved = edgeResolver.resolve(edge);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=edge) {
+			becomeParent(resolved);
+			edge = resolved;
+		}
+		resolved = nodeResolver.resolve(right);
+		if(resolved!=null && resolved!=right) {
+			becomeParent(resolved);
+			right = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = getChild(LEFT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(EDGE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RIGHT).resolve() && successfullyResolved;
+		successfullyResolved = left.resolve() && successfullyResolved;
+		successfullyResolved = edge.resolve() && successfullyResolved;
+		successfullyResolved = right.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -121,9 +134,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(LEFT).check() && childrenChecked;
-			childrenChecked = getChild(EDGE).check() && childrenChecked;
-			childrenChecked = getChild(RIGHT).check() && childrenChecked;
+			childrenChecked = left.check() && childrenChecked;
+			childrenChecked = edge.check() && childrenChecked;
+			childrenChecked = right.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -139,9 +152,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
-		return nodeChecker.check(getChild(LEFT), error)
-			&& edgeChecker.check(getChild(EDGE), error)
-			&& nodeChecker.check(getChild(RIGHT), error);
+		return nodeChecker.check(left, error)
+			&& edgeChecker.check(edge, error)
+			&& nodeChecker.check(right, error);
 	}
 
 	/**
@@ -150,13 +163,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {
-		NodeCharacter left, right;
-		EdgeCharacter edge;
-
 		// After the AST is checked, these casts must succeed.
-		left = (NodeCharacter) getChild(LEFT);
-		right = (NodeCharacter) getChild(RIGHT);
-		edge = (EdgeCharacter) getChild(EDGE);
+		NodeCharacter left = (NodeCharacter) this.left;
+		NodeCharacter right = (NodeCharacter) this.right;
+		EdgeCharacter edge = (EdgeCharacter) this.edge;
 
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
 	}
@@ -165,35 +175,63 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdges(java.util.Set)
 	 */
 	public void addEdge(Set<BaseNode> set) {
-		set.add(getChild(EDGE));
+		set.add(edge);
 	}
 
 	public EdgeCharacter getEdge() {
-		return (EdgeCharacter) getChild(EDGE);
+		return (EdgeCharacter) edge;
 	}
 
 	public NodeCharacter getSrc() {
-		return (NodeCharacter) getChild(LEFT);
+		return (NodeCharacter) left;
 	}
 
 	public void setSrc(NodeCharacter n) {
-		setChild(LEFT, (BaseNode)n);
+		assert(n!=null);
+		BaseNode src = (BaseNode)n;
+		assert(src!=null);
+		switchParenthood(left, src);
+		left = src;
 	}
 
 	public NodeCharacter getTgt() {
-		return (NodeCharacter) getChild(RIGHT);
+		return (NodeCharacter) right;
 	}
 
 	public void setTgt(NodeCharacter n) {
-		setChild(RIGHT, (BaseNode)n);
+		assert(n!=null);
+		BaseNode tgt = (BaseNode)n;
+		assert(tgt!=null);
+		switchParenthood(right, tgt);
+		right = tgt;
 	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
 	 */
 	public void addNodes(Set<BaseNode> set) {
-		set.add(getChild(LEFT));
-		set.add(getChild(RIGHT));
+		set.add(left);
+		set.add(right);
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

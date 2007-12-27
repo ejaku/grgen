@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.ast.CollectNode;
 /**
  * A resolver that resolves a collection node 
  * by applying its subresolver to all children of the collection node
+ * TODO: eliminate that resolver
  */
 public class CollectResolver extends Resolver
 {
@@ -59,5 +60,10 @@ public class CollectResolver extends Resolver
 			}
 		}
 		return res;
+	}
+	
+	public BaseNode resolve(BaseNode node) {
+		assert(false);
+		return null;
 	}
 }

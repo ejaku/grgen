@@ -61,7 +61,7 @@ public abstract class IdentResolver extends Resolver {
 	/**
 	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode, int)
 	 * The function resolves an IdentNode into it's declaration node.
-	 * If <code>n</code> at position <code>pos</code> is not an IdentNode,
+	 * If the node in <code>n</code> at position <code>pos</code> is not an IdentNode,
 	 * the method returns true and the node is considered as resolved.
 	 */
 	public boolean resolve(BaseNode n, int pos) {
@@ -95,6 +95,36 @@ public abstract class IdentResolver extends Resolver {
 						" but a " + expectList + " is expected");
 		n.replaceChild(pos, getDefaultResolution());
 		return false;
+	}
+
+	/**
+	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode)
+	 * The function resolves an IdentNode into it's declaration node.
+	 * If the node <code>node</code> is not an IdentNode, the method returns it.
+	 */
+	public BaseNode resolve(BaseNode node) {
+		debug.report(NOTE, "child is a: " + node.getName() + " (" + node + ")");
+		if(!(node instanceof IdentNode)) {
+			// if the desired node isn't an identifier everything is fine, return true
+			//  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
+			return node;
+		}
+
+		IdentNode identNode = (IdentNode)node;
+		BaseNode get = resolveIdent(identNode);
+		debug.report(NOTE, "resolved to a: " + get.getName());
+
+		// Check, if the class of the resolved node is one of the desired classes.
+		for(int i = 0; i < classes.length; i++) {
+			if(classes[i].isInstance(get)) {
+				debug.report(NOTE, "type of resolved node fits");
+				return get;
+			}
+		}
+
+		reportError(identNode, "\"" + identNode + "\" is a " + get.getUseString() +
+						" but a " + expectList + " is expected");
+		return null;
 	}
 
 	/**

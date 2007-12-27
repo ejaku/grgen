@@ -40,6 +40,16 @@ public abstract class Resolver extends Base {
 	public abstract boolean resolve(BaseNode node, int child);
 
 	/**
+	 * Resolve a node. 
+	 * That means this method returns the resolve node, but doesn't replace the node in the AST,
+	 * in contrast to resolve(BaseNode node, int child), which does replace the node
+	 * @param node The original node to resolve.
+	 * @return The node the original node was resolved to (which might be the original node itself),
+	 *         or null if the resolving failed
+	 */
+	public abstract BaseNode resolve(BaseNode node);
+
+	/**
 	 * Report an error during resolution.
 	 * Some resolvers might want to overwrite this method, so
 	 * {@link BaseNode#reportError(String)} is not used directly.

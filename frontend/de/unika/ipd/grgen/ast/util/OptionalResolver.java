@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 /**
  * A resolver that applies its subresolver but always succeeds, even if the subresolver failed.
  * Thus the resolver makes the passed subresolver optional: fine if it succeeds, if not, too.
+ * TODO: eliminate that resolver
  */
 public class OptionalResolver extends Resolver {
 	private Resolver subResolver;
@@ -46,5 +47,11 @@ public class OptionalResolver extends Resolver {
 	public boolean resolve(BaseNode node, int child) {
 		subResolver.resolve(node, child);
 		return true;
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode) */
+	public BaseNode resolve(BaseNode node) {
+		assert(false);
+		return null;
 	}
 }

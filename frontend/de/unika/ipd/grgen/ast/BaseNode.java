@@ -329,13 +329,13 @@ public abstract class BaseNode extends Base
 	 * Add a child to the children list.
 	 * @param n AST node to add to the children list.
 	 */
-	public final void addChild(BaseNode n) {
+	public void addChild(BaseNode n) {
 		n = n==null ? NULL : n;
 		children.add(n);
 		n.parents.add(this);
 	}
 
-	public final void setChild(int pos, BaseNode n) {
+	public void setChild(int pos, BaseNode n) {
 		n = n==null ? NULL : n;
 		BaseNode oldChild = getChild(pos);
 		oldChild.parents.remove(this);
@@ -343,13 +343,19 @@ public abstract class BaseNode extends Base
 		n.parents.add(this);
 	}
 
+	/** remove ourself as parent of child to throw out, become parent of child to adopt instead */
+	protected void switchParenthood(BaseNode throwOut, BaseNode adopt) {
+		throwOut.parents.remove(this);
+		adopt.parents.add(this);
+	}
+	
 	/**
 	 * Get the child at a given position
 	 * @param i The position to get the child from
 	 * @return The child at position i, or a Error node, if this node contained
 	 * less than i nodes.
 	 */
-	public final BaseNode getChild(int i) {
+	public BaseNode getChild(int i) {
 		return i < children.size() ? children.get(i) : NULL;
 	}
 
@@ -357,7 +363,7 @@ public abstract class BaseNode extends Base
 	 * Get the number of children of this node.
 	 * @return The number of children of this node.
 	 */
-	public final int children() {
+	public int children() {
 		return children.size();
 	}
 
@@ -367,7 +373,7 @@ public abstract class BaseNode extends Base
 	 * @param n The new child to replace the old.
 	 * @return The old one.
 	 */
-	public final BaseNode replaceChild(int i, BaseNode n) {
+	public BaseNode replaceChild(int i, BaseNode n) {
 		n = n==null ? NULL : n;
 		BaseNode res = NULL;
 		if(i < children.size()) {
@@ -379,6 +385,11 @@ public abstract class BaseNode extends Base
 		return res;
 	}
 
+	/** become parent of child to adopt */
+	protected void becomeParent(BaseNode adopt) {
+		adopt.parents.add(this);
+	}
+	
 	/**
 	 * Check whether this AST node is a root node (i.e. it has no predecessors)
 	 * @return true, if it's a root node, false, if not.
@@ -388,32 +399,13 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Get an iterator over the parent nodes of this node.
+	 * Get the parent nodes of this node.
 	 * Mostly only one parent (syntax tree),
 	 * few nodes with multiple parents (syntax DAG),
-	 * root node with immediately exhausting iterator.
-	 * @return Iterator over the parent nodes of this node.
+	 * root node without parents.
 	 */
 	public Collection<BaseNode> getParents() {
 		return Collections.unmodifiableCollection(parents);
-	}
-
-	/**
-	 * Replace this node with another one.
-	 * This AST node gets replaced by another node in all its parents.
-	 * @param n The other node.
-	 * @return This node.
-	 */
-	public final BaseNode replaceWith(BaseNode n) {
-		for(Iterator<BaseNode> it = parents.iterator(); it.hasNext();) {
-			BaseNode parent = it.next();
-			int index = parent.children.indexOf(this);
-			assert index >= 0 : "Node must be in the children array of its parent";
-
-			parent.replaceChild(index, n);
-		}
-
-		return this;
 	}
 	
 //////////////////////////////////////////////////////////////////////////////////////////

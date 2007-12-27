@@ -42,18 +42,11 @@ public class ConnAssertNode extends BaseNode
 	static {
 		setName(ConnAssertNode.class, "conn assert");
 	}
-		
-	/** Index of the source node. */
-	private static final int SRC = 0;
-	
-	/** Index of the source node range. */
-	private static final int SRCRANGE = 1;
-	
-	/** Index of the target node. */
-	private static final int TGT = 2;
-	
-	/** Index of the target node range. */
-	private static final int TGTRANGE = 3;
+
+	BaseNode src;
+	BaseNode srcRange;
+	BaseNode tgt;
+	BaseNode tgtRange;
 	
 	/**
 	 * Construct a new connection assertion node.
@@ -61,21 +54,30 @@ public class ConnAssertNode extends BaseNode
 	public ConnAssertNode(BaseNode src, BaseNode srcRange,
 						  BaseNode tgt, BaseNode tgtRange) {
 		super(src.getCoords());
-		addChild(src);
-		addChild(srcRange);
-		addChild(tgt);
-		addChild(tgtRange);
+		this.src = src==null ? NULL : src;
+		becomeParent(this.src);
+		this.srcRange = srcRange==null ? NULL : srcRange;
+		becomeParent(this.srcRange);
+		this.tgt = tgt==null ? NULL : tgt;
+		becomeParent(this.tgt);
+		this.tgtRange = tgtRange==null ? NULL : tgtRange;
+		becomeParent(this.tgtRange);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(src);
+		children.add(srcRange);
+		children.add(tgt);
+		children.add(tgtRange);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("src"); 
+		childrenNames.add("src");
 		childrenNames.add("src range");
 		childrenNames.add("tgt");
 		childrenNames.add("tgt range");
@@ -91,17 +93,27 @@ public class ConnAssertNode extends BaseNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver nodeResolver = new DeclTypeResolver(NodeTypeNode.class);
-		successfullyResolved = nodeResolver.resolve(this, SRC) && successfullyResolved;
-		successfullyResolved = nodeResolver.resolve(this, TGT) && successfullyResolved;
+		BaseNode resolved = nodeResolver.resolve(src);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=src) {
+			becomeParent(resolved);
+			src = resolved;
+		}
+		resolved = nodeResolver.resolve(tgt);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=tgt) {
+			becomeParent(resolved);
+			tgt = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(SRC).resolve() && successfullyResolved;
-		successfullyResolved = getChild(SRCRANGE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TGT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TGTRANGE).resolve() && successfullyResolved;
+		successfullyResolved = src.resolve() && successfullyResolved;
+		successfullyResolved = srcRange.resolve() && successfullyResolved;
+		successfullyResolved = tgt.resolve() && successfullyResolved;
+		successfullyResolved = tgtRange.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -118,10 +130,10 @@ public class ConnAssertNode extends BaseNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(SRC).check() && childrenChecked;
-			childrenChecked = getChild(SRCRANGE).check() && childrenChecked;
-			childrenChecked = getChild(TGT).check() && childrenChecked;
-			childrenChecked = getChild(TGTRANGE).check() && childrenChecked;
+			childrenChecked = src.check() && childrenChecked;
+			childrenChecked = srcRange.check() && childrenChecked;
+			childrenChecked = tgt.check() && childrenChecked;
+			childrenChecked = tgtRange.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -135,25 +147,45 @@ public class ConnAssertNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(NodeTypeNode.class)).check(getChild(SRC), error)
-			&& (new SimpleChecker(RangeSpecNode.class)).check(getChild(SRCRANGE), error)
-			&& (new SimpleChecker(NodeTypeNode.class)).check(getChild(TGT), error)
-			&& (new SimpleChecker(RangeSpecNode.class)).check(getChild(TGTRANGE), error);
+		return (new SimpleChecker(NodeTypeNode.class)).check(src, error)
+			&& (new SimpleChecker(RangeSpecNode.class)).check(srcRange, error)
+			&& (new SimpleChecker(NodeTypeNode.class)).check(tgt, error)
+			&& (new SimpleChecker(RangeSpecNode.class)).check(tgtRange, error);
 	}
 	
 	protected IR constructIR() {
 		// TODO
-		RangeSpecNode srcRange = (RangeSpecNode)getChild(SRCRANGE);
+		RangeSpecNode srcRange = (RangeSpecNode)this.srcRange;
 		int srcLower = srcRange.getLower();
 		int srcUpper = srcRange.getUpper();
-		NodeType srcType = (NodeType)getChild(SRC).getIR();
+		NodeType srcType = (NodeType)src.getIR();
 		
-		RangeSpecNode tgtRange = (RangeSpecNode)getChild(TGTRANGE);
+		RangeSpecNode tgtRange = (RangeSpecNode)this.tgtRange;
 		int tgtLower = tgtRange.getLower();
 		int tgtUpper = tgtRange.getUpper();
-		NodeType tgtType = (NodeType)getChild(TGT).getIR();
+		NodeType tgtType = (NodeType)tgt.getIR();
 		
 		return new ConnAssert(srcType, srcLower, srcUpper,
 							  tgtType, tgtLower, tgtUpper);
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
