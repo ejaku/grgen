@@ -24,8 +24,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.*;
-
+import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import java.util.Collection;

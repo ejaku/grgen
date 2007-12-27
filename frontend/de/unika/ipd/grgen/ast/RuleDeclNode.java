@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.*;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -33,6 +32,14 @@ import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
+import java.util.Collection;
+import java.util.Vector;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+
 
 /**
  * AST node for a replacement rule.
@@ -65,12 +72,12 @@ public class RuleDeclNode extends TestDeclNode
 		addChild(eval);
 	}
 
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
+	/** returns children of this node */
+	public Collection<BaseNode> getChildren() {
 		return children;
 	}
 	
-	/** get names of the walkable children, same order as in getWalkableChildren */
+	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident"); 

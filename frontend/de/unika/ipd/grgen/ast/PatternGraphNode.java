@@ -25,14 +25,29 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
+import java.util.Collection;
+import java.util.Set;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Vector;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Iterator;
+
 
 /**
  * AST node that represents a graph pattern as it appears within the pattern
@@ -102,12 +117,12 @@ public class PatternGraphNode extends GraphNode
 		this.modifiers = modifiers;
 	}
 
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
+	/** returns children of this node */
+	public Collection<BaseNode> getChildren() {
 		return children;
 	}
 	
-	/** get names of the walkable children, same order as in getWalkableChildren */
+	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections"); 

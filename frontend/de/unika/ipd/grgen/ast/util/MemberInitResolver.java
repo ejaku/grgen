@@ -24,8 +24,11 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-
-import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.ast.DeclNode;
+import de.unika.ipd.grgen.ast.InvalidDeclNode;
+import de.unika.ipd.grgen.ast.InheritanceTypeNode;
 import java.util.Map;
 
 /**

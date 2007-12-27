@@ -47,12 +47,12 @@ public class ArithmeticOpNode extends OpNode
 		super(coords, opId);
 	}
 	
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
+	/** returns children of this node */
+	public Collection<BaseNode> getChildren() {
 		return children;
 	}
 	
-	/** get names of the walkable children, same order as in getWalkableChildren */
+	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// nameless children

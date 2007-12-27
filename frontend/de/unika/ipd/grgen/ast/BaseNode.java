@@ -27,12 +27,22 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.util.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.LinkedHashSet;
+import java.util.Iterator;
+import java.awt.Color;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
-import java.awt.Color;
 
 /**
  * The base class for AST nodes.
@@ -302,12 +312,18 @@ public abstract class BaseNode extends Base
 //////////////////////////////////////////////////////////////////////////////////////////
 // Children, Parents, AST structure handling
 //////////////////////////////////////////////////////////////////////////////////////////
-	
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public abstract Collection<? extends BaseNode> getWalkableChildren();
 
-	/** get names of the walkable children, same order as in getWalkableChildren */
+	/** returns children of this node */
+	public abstract Collection<BaseNode> getChildren();
+
+	/** returns names of the children, same order as in getChildren */
 	public abstract Collection<String> getChildrenNames();
+
+	/** implementation of Walkable by getChildren
+	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<? extends BaseNode> getWalkableChildren() {
+		return getChildren();
+	}
 
 	/**
 	 * Add a child to the children list.
@@ -325,14 +341,6 @@ public abstract class BaseNode extends Base
 		oldChild.parents.remove(this);
 		children.set(pos, n);
 		n.parents.add(this);
-	}
-
-	/**
-	 * Get the children of this node
-	 * @return An collection of all child nodes of this one.
-	 */
-	public final Collection<BaseNode> getChildren() {
-		return children;
 	}
 
 	/**

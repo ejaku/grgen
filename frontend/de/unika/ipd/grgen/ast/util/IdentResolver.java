@@ -24,7 +24,8 @@
  */
 package de.unika.ipd.grgen.ast.util;
 
-import de.unika.ipd.grgen.ast.*;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**

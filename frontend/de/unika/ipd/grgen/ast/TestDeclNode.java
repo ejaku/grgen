@@ -24,12 +24,27 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Vector;
+import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Test;
+import de.unika.ipd.grgen.ir.MatchingAction;
+
 
 /**
  * AST node class representing tests
@@ -59,12 +74,12 @@ public class TestDeclNode extends ActionDeclNode
 		this(id, testType, pattern, neg, params, rets);
 	}
 
-	/** implementation of Walkable @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Collection<? extends BaseNode> getWalkableChildren() {
+	/** returns children of this node */
+	public Collection<BaseNode> getChildren() {
 		return children;
 	}
 
-	/** get names of the walkable children, same order as in getWalkableChildren */
+	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident"); 
