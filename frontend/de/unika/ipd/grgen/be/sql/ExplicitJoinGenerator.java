@@ -25,17 +25,43 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.be.sql;
-import de.unika.ipd.grgen.be.sql.meta.*;
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.Join;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSourceFactory;
+import de.unika.ipd.grgen.be.sql.meta.Opcodes;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.be.sql.stmt.AttributeTable;
 import de.unika.ipd.grgen.be.sql.stmt.EdgeTable;
 import de.unika.ipd.grgen.be.sql.stmt.GraphTableFactory;
 import de.unika.ipd.grgen.be.sql.stmt.NodeTable;
 import de.unika.ipd.grgen.be.sql.stmt.TypeStatementFactory;
-
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.PatternGraph;
 
 /**
  * A match statement generator using explicit joins.
@@ -288,7 +314,7 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	}
 	
 	/**
-	 * An auxillary class to treat conds.
+	 * An auxiliary class to treat conds.
 	 */
 	class CondState {
 		
@@ -463,8 +489,8 @@ public class ExplicitJoinGenerator extends SQLGenerator {
 	}
 	
 	/**
-	 * Make the neccessary joins for an edge.
-	 * This method additionally constructs the joins neccessary for nodes.
+	 * Make the necessary joins for an edge.
+	 * This method additionally constructs the joins necessary for nodes.
 	 * @param edge The edge.
 	 * @param reverse true, if the edge's direction is reversed.
 	 * @param ctx The statement generation context.

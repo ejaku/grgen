@@ -26,7 +26,11 @@
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Model extends Identifiable {
 	

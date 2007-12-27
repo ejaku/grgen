@@ -24,10 +24,15 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.*;
+import java.security.MessageDigest;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import de.unika.ipd.grgen.util.Util;
-import java.security.MessageDigest;
 
 /**
  * A unit with all declared entities

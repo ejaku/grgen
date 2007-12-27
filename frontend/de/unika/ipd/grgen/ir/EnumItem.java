@@ -16,18 +16,15 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-
-
 package de.unika.ipd.grgen.ir;
 
-
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An enumeration value
  */
-import java.util.*;
-
 public class EnumItem extends Identifiable {
 	private final Ident id;
 	

@@ -26,15 +26,6 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import de.unika.ipd.grgen.be.sql.meta.*;
-
-import de.unika.ipd.grgen.be.sql.SQLParameters;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Ident;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.parser.Coords;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,6 +33,24 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.ManipulationStatement;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.Opcodes;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.Table;
+import de.unika.ipd.grgen.be.sql.meta.Term;
+import de.unika.ipd.grgen.be.sql.meta.TypeFactory;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Ident;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * A factory that produces node/edge and node/edge attribute tables.

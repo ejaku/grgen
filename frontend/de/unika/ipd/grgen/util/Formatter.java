@@ -6,12 +6,23 @@
 
 package de.unika.ipd.grgen.util;
 
-import de.unika.ipd.grgen.ir.*;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumExpression;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Typeof;
 
 public class Formatter {
 
 	/* binary operator symbols of the C-language */
-	// ATTENTION: the forst two shift operations are signed shifts
+	// ATTENTION: the first two shift operations are signed shifts
 	// 		the second right shift is signed. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
 	private static String[] opSymbols = {

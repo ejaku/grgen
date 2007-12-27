@@ -25,21 +25,30 @@
  */
 
 package de.unika.ipd.grgen.be.sql.stmt;
-import de.unika.ipd.grgen.be.sql.*;
-import de.unika.ipd.grgen.be.sql.meta.*;
 
+import java.util.List;
+import java.util.Map;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.be.sql.SQLParameters;
+import de.unika.ipd.grgen.be.sql.meta.Aggregate;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.Dialect;
+import de.unika.ipd.grgen.be.sql.meta.Join;
+import de.unika.ipd.grgen.be.sql.meta.ManipulationStatement;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.MetaFactory;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.Table;
+import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.util.List;
-import java.util.Map;
 import de.unika.ipd.grgen.ir.Entity;
-
-
 
 public class DefaultMetaFactory implements MetaFactory {
 	

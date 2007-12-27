@@ -26,7 +26,12 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import de.unika.ipd.grgen.be.sql.meta.*;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.ManipulationStatement;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.StatementFactory;
+import de.unika.ipd.grgen.be.sql.meta.Table;
 
 /**
  * A table with an ID.

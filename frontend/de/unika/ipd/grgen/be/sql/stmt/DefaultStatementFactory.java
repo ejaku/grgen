@@ -26,17 +26,39 @@
  */
 package de.unika.ipd.grgen.be.sql.stmt;
 
-import de.unika.ipd.grgen.be.sql.meta.*;
-import de.unika.ipd.grgen.util.*;
-import java.util.*;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import de.unika.ipd.grgen.be.TypeID;
+import de.unika.ipd.grgen.be.sql.meta.Aggregate;
+import de.unika.ipd.grgen.be.sql.meta.Column;
+import de.unika.ipd.grgen.be.sql.meta.DataType;
+import de.unika.ipd.grgen.be.sql.meta.Dialect;
+import de.unika.ipd.grgen.be.sql.meta.Join;
+import de.unika.ipd.grgen.be.sql.meta.ManipulationStatement;
+import de.unika.ipd.grgen.be.sql.meta.MarkerSource;
+import de.unika.ipd.grgen.be.sql.meta.Op;
+import de.unika.ipd.grgen.be.sql.meta.OpFactory;
+import de.unika.ipd.grgen.be.sql.meta.Opcodes;
+import de.unika.ipd.grgen.be.sql.meta.Query;
+import de.unika.ipd.grgen.be.sql.meta.Relation;
+import de.unika.ipd.grgen.be.sql.meta.Table;
+import de.unika.ipd.grgen.be.sql.meta.Term;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.io.PrintStream;
-
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.GraphDumpVisitor;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.PostWalker;
+import de.unika.ipd.grgen.util.Visitor;
+import de.unika.ipd.grgen.util.Walker;
 
 /**
  * A default implementation for the statement factory.

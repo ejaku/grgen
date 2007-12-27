@@ -26,11 +26,17 @@
 
 package de.unika.ipd.grgen.util;
 
-import java.io.*;
-
-import de.unika.ipd.grgen.util.report.ErrorReporter;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 public class Util
 {
