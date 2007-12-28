@@ -149,7 +149,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res;
 	}
 
-	private static final short[][] floydWarshall(short[][] matrix) {
+	private static short[][] floydWarshall(short[][] matrix) {
 		int n = matrix.length;
 		short[][] curr = matrix;
 		short[][] next = new short[n][n];
@@ -178,7 +178,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return next;
 	}
 
-	private static final int[][] computeSuperTypes(Map<? extends InheritanceType, Integer> typeMap) {
+	private static int[][] computeSuperTypes(Map<? extends InheritanceType, Integer> typeMap) {
 		int[][] res = new int[typeMap.size()][];
 		List<Integer> aux = new LinkedList<Integer>();
 
@@ -198,7 +198,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res;
 	}
 
-	private static final int[][] computeSubTypes(Map<? extends InheritanceType, Integer> typeMap) {
+	private static int[][] computeSubTypes(Map<? extends InheritanceType, Integer> typeMap) {
 		int[][] res = new int[typeMap.size()][];
 		List<Integer> aux = new LinkedList<Integer>();
 
@@ -218,7 +218,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res;
 	}
 
-	private static final String[] makeNames(Map<? extends InheritanceType, Integer> typeMap) {
+	private static String[] makeNames(Map<? extends InheritanceType, Integer> typeMap) {
 		String[] res = new String[typeMap.size()];
 		for(InheritanceType ty : typeMap.keySet()) {
 			int id = typeMap.get(ty).intValue();

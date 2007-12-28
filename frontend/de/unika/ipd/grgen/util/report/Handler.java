@@ -29,6 +29,6 @@ package de.unika.ipd.grgen.util.report;
  */
 public interface Handler {
 
-	public abstract void report(int level, Location loc, String msg);
+	void report(int level, Location loc, String msg);
 
 }

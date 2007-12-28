@@ -35,7 +35,7 @@ import java.util.Map;
  * Expression operators.
  */
 public abstract class OpNode extends ExprNode {
-	private static final Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
+	private static Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
 
 	static {
 		setName(OpNode.class, "operator");
@@ -65,7 +65,7 @@ public abstract class OpNode extends ExprNode {
 		assocOpCode(OperatorSignature.NEG, Operator.NEG);
 	}
 
-	private static final void assocOpCode(int id, int opcode) {
+	private static void assocOpCode(int id, int opcode) {
 		irOpCodeMap.put(new Integer(id), new Integer(opcode));
 	}
 

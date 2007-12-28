@@ -31,11 +31,11 @@ import java.util.Collection;
  * Something you can walk on. This means, that there are children to visit.
  */
 public interface Walkable {
-	
+
 	/**
 	 * Get the children of this object
 	 * Note: BaseNode implements Walkable
 	 * @return The children
 	 */
-	public Collection<? extends BaseNode> getWalkableChildren();
+	Collection<? extends BaseNode> getWalkableChildren();
 }

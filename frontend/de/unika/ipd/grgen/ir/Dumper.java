@@ -56,7 +56,7 @@ public class Dumper {
 		this.interGraphEdges = interGraphEdges;
 	}
 	
-	private final void dump(Graph g, GraphDumper gd) {
+	private void dump(Graph g, GraphDumper gd) {
 		gd.beginSubgraph(g);
 		
 		for(Node n : g.getNodes()) {

@@ -37,5 +37,5 @@ public interface Checker
 	 * @param node The AST node to check
 	 * @return true if the check succeeded, false if not.
 	 */
-	public abstract boolean check(BaseNode node, ErrorReporter reporter);
+	boolean check(BaseNode node, ErrorReporter reporter);
 }

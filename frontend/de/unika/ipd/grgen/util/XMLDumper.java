@@ -131,7 +131,7 @@ public class XMLDumper {
 		ps.println("\"/>");
 	}
 	
-	private final void indent() {
+	private void indent() {
 		for(int i = 0; i < indent; i++)
 			ps.print(indentString);
 	}

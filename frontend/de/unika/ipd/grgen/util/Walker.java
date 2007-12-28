@@ -31,8 +31,8 @@ package de.unika.ipd.grgen.util;
 public interface Walker
 {
 	/** reset state of walk, i.e. forget about already visited children */
-	public abstract void reset();
-	
+	void reset();
+
 	/** start walk on node w */
-	public abstract void walk(Walkable w);
+	void walk(Walkable w);
 }

@@ -30,5 +30,5 @@ package de.unika.ipd.grgen.util;
  */
 public interface Visitor
 {
-	public abstract void visit(Walkable n);
+	void visit(Walkable n);
 }

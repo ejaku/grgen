@@ -38,28 +38,28 @@ public interface ConnectionCharacter {
 	 * Add all nodes of this connection to a set.
 	 * @param set The set.
 	 */
-	public void addNodes(Set<BaseNode> set);
-	
+	void addNodes(Set<BaseNode> set);
+
 	/**
 	 * Add all edges of this connection to a set.
 	 * @param set The set.
 	 */
-	public void addEdge(Set<BaseNode> set);
+	void addEdge(Set<BaseNode> set);
 
-	public EdgeCharacter getEdge();
+	EdgeCharacter getEdge();
 
-	public NodeCharacter getSrc();
-	
-	public void setSrc(NodeCharacter src);
-	
-	public NodeCharacter getTgt();
-	
-	public void setTgt(NodeCharacter tgt);
+	NodeCharacter getSrc();
+
+	void setSrc(NodeCharacter src);
+
+	NodeCharacter getTgt();
+
+	void setTgt(NodeCharacter tgt);
 
 	/**
 	 * Add this connection character to an IR graph.
 	 * @param gr The IR graph.
 	 */
-	public void addToGraph(Graph gr);
-	
+	void addToGraph(Graph gr);
+
 }

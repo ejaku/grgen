@@ -10,6 +10,7 @@ import de.unika.ipd.grgen.ir.Entity;
  * Something that is being retyped during the rewrite
  */
 public interface Retyped {
-	public void setOldEntity(Entity old);
-	public Entity getOldEntity();
+	void setOldEntity(Entity old);
+	
+	Entity getOldEntity();
 }

@@ -167,7 +167,7 @@ public abstract class SQLBackend extends CBackend implements Dialect {
 			return add(name, stmt, types, empty, "");
 		}
 		
-		public final void emit(PrintStream ps) {
+		public void emit(PrintStream ps) {
 			int i = 0;
 			String upPrefix = prefix.toUpperCase();
 			
@@ -195,7 +195,7 @@ public abstract class SQLBackend extends CBackend implements Dialect {
 			ps.println("#define PREP_QUERIES_" + upPrefix + "_PREFIX \"" + prefix + "\"");
 		}
 		
-		public final void writeToFile() {
+		public void writeToFile() {
 			PrintStream ps = openFile("prep_queries_" + prefix + incExtension);
 			emit(ps);
 			closeFile(ps);
@@ -861,7 +861,7 @@ public abstract class SQLBackend extends CBackend implements Dialect {
 		closeFile(ps);
 	}
 	
-	private final void dumpTypes(PrintStream ps) {
+	private void dumpTypes(PrintStream ps) {
 		final DataType[] arr = new DataType[4];
 		
 		arr[DataType.ID] = getIdType();

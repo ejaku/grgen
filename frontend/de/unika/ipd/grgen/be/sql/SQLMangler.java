@@ -38,20 +38,20 @@ public interface SQLMangler {
 
 	/**
 	 * Make an SQL table identifier out of a node.
-	 * @param e The node to mangle.
+	 * @param n The node to mangle.
 	 * @return An identifier usable in SQL statements and unique for each node.
 	 */
-	public String mangleNode(Node n);
+	String mangleNode(Node n);
 
 	/**
 	 * Make an SQL table identifier out of an edge.
 	 * @param e The edge to mangle.
 	 * @return An identifier usable in SQL statements and unique for each edge.
 	 */
-	public String mangleEdge(Edge e);
+	String mangleEdge(Edge e);
 
-	public String mangleEntity(Entity ent); 
-	
+	String mangleEntity(Entity ent);
+
 	/**
 	 * Make a SQL column expression for a node and a given column name.
 	 * @param e The node.
@@ -62,11 +62,11 @@ public interface SQLMangler {
 
 	/**
 	 * Mangle an identifiable object to a valid SQL identifier.
-	 * @param id The identifiable object. 
+	 * @param id The identifiable object.
 	 * @return A valid SQL identifier.
 	 */
 	// public String getEdgeCol(Edge e, String col);
-	
+
 	// public String getEntityCol(Entity e, String col);
-	
+
 }
