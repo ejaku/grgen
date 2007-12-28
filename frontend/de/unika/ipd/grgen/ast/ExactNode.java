@@ -40,9 +40,17 @@ public class ExactNode extends BaseNode
 	static {
 		setName(ExactNode.class, "exact");
 	}
+	
+	Vector<BaseNode> children = new Vector<BaseNode>();
 
 	public ExactNode(Coords coords) {
 		super(coords);
+	}
+
+	public void addChild(BaseNode n) {
+		n = n==null ? NULL : n;
+		becomeParent(n);
+		children.add(n);
 	}
 
 	/** returns children of this node */
@@ -66,16 +74,21 @@ public class ExactNode extends BaseNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver resolver = new DeclResolver(new Class[] { NodeDeclNode.class });
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = resolver.resolve(this, i) && successfullyResolved;
+		for(int i=0; i<children.size(); ++i) {
+			BaseNode resolved = resolver.resolve(children.get(i));
+			successfullyResolved = resolved!=null && successfullyResolved;
+			if(resolved!=null && resolved!=children.get(i)) {
+				becomeParent(resolved);
+				children.set(i, resolved);
+			}
 		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).resolve() && successfullyResolved;
+		for(int i=0; i<children.size(); ++i) {
+			successfullyResolved = children.get(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -93,8 +106,8 @@ public class ExactNode extends BaseNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			for(int i=0; i<children(); ++i) {
-				childrenChecked = getChild(i).check() && childrenChecked;
+			for(int i=0; i<children.size(); ++i) {
+				childrenChecked = children.get(i).check() && childrenChecked;
 			}
 		}
 		
@@ -110,14 +123,14 @@ public class ExactNode extends BaseNode
 	 * TODO warn if some statements are redundant.
 	 */
 	protected boolean checkLocal() {
-		if (getChildren().isEmpty()) {
+		if (children.isEmpty()) {
 			this.reportError("Exact statement is empty");
 			return false;
 		}
 
 		boolean successfullyChecked = true;
 		Checker checker = new SimpleChecker(NodeDeclNode.class);
-		for(BaseNode n : getChildren()) {
+		for(BaseNode n : children) {
 			successfullyChecked = checker.check(n, error) && successfullyChecked;
 		}
 		return successfullyChecked;
@@ -125,5 +138,22 @@ public class ExactNode extends BaseNode
 
 	public Color getNodeColor() {
 		return Color.PINK;
+	}
+
+	// debug guards to protect again accessing wrong elements
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

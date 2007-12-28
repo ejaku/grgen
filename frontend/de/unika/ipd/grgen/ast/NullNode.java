@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.awt.Color;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -45,7 +44,9 @@ public class NullNode extends BaseNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return Collections.emptySet();
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
+		return children;
 	}
 	
 	/** returns names of the children, same order as in getChildren */
@@ -121,5 +122,25 @@ public class NullNode extends BaseNode
 		
 	public boolean isError() {
 		return true;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

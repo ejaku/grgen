@@ -46,8 +46,8 @@ public class MemberInitNode extends BaseNode
 		setName(MemberInitNode.class, "member init");
 	}
 
-	private static final int LHS = 0;
-	private static final int RHS = 1;
+	BaseNode lhs;
+	BaseNode rhs;
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -56,12 +56,17 @@ public class MemberInitNode extends BaseNode
 	 */
 	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
 		super(coords);
-		addChild(member);
-		addChild(expr);
+		this.lhs = member==null ? NULL : member;
+		becomeParent(this.lhs);
+		this.rhs = expr==null ? NULL : expr;
+		becomeParent(this.rhs);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(lhs);
+		children.add(rhs);
 		return children;
 	}
 
@@ -83,15 +88,20 @@ public class MemberInitNode extends BaseNode
 		boolean successfullyResolved = true;
 		Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
-		successfullyResolved = lhsResolver.resolve(this, LHS) && successfullyResolved;
+		BaseNode resolved = lhsResolver.resolve(lhs);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=lhs) {
+			becomeParent(resolved);
+			lhs = resolved;
+		}
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(LHS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RHS).resolve() && successfullyResolved;
+		successfullyResolved = lhs.resolve() && successfullyResolved;
+		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -110,8 +120,8 @@ public class MemberInitNode extends BaseNode
 		}
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(LHS).check() && successfullyChecked;
-		successfullyChecked = getChild(RHS).check() && successfullyChecked;
+		successfullyChecked = lhs.check() && successfullyChecked;
+		successfullyChecked = rhs.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
@@ -119,8 +129,8 @@ public class MemberInitNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean lhsOk = (new SimpleChecker(DeclNode.class)).check(getChild(LHS), error);
-		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(getChild(RHS), error);
+		boolean lhsOk = (new SimpleChecker(DeclNode.class)).check(lhs, error);
+		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
 
 		return lhsOk && rhsOk;
 	}
@@ -131,14 +141,15 @@ public class MemberInitNode extends BaseNode
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheckLocal() {
-		ExprNode expr = (ExprNode) getChild(RHS);
+		ExprNode expr = (ExprNode) rhs;
 
-		TypeNode targetType = (TypeNode) ((DeclNode) getChild(LHS)).getDeclType();
+		TypeNode targetType = (TypeNode) ((DeclNode) lhs).getDeclType();
 		TypeNode exprType = (TypeNode) expr.getType();
 
 		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);
-			replaceChild(RHS, expr);
+			becomeParent(expr);
+			rhs = expr;
 
 			if (expr == ConstNode.getInvalid()) {
 				String msg;
@@ -159,6 +170,26 @@ public class MemberInitNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		return new MemberInit((Entity) getChild(LHS).getIR(), (Expression) getChild(RHS).getIR());
+		return new MemberInit((Entity) lhs.getIR(), (Expression) rhs.getIR());
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

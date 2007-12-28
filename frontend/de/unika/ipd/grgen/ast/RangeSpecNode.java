@@ -55,6 +55,8 @@ public class RangeSpecNode extends BaseNode
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
 		return children;
 	}
 	
@@ -105,17 +107,33 @@ public class RangeSpecNode extends BaseNode
 		return lower != UNBOUND;
 	}
 	
-	/**
-	 * @return the lower bound of the range.
-	 */
+	/** @return the lower bound of the range. */
 	public int getLower() {
 		return lower;
 	}
 	
-	/**
-	 * @return the upper bound of the range.
-	 */
+	/** @return the upper bound of the range. */
 	public int getUpper() {
 		return upper;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

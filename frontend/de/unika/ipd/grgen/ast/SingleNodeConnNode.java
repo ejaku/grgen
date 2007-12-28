@@ -29,7 +29,6 @@ import java.util.Set;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.OptionalResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
@@ -45,19 +44,18 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		setName(SingleNodeConnNode.class, "single node");
 	}
 
-	/** Index of the node in the children array. */
-	private static final int NODE = 0;
+	BaseNode node;
 			
-	/**
-	 * @param n The node
-	 */
 	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
-		addChild(n);
+		this.node = n==null ? NULL : n;
+		becomeParent(this.node);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(node);
 		return children;
 	}
 
@@ -76,14 +74,18 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new OptionalResolver(new DeclResolver(new Class[] { NodeDeclNode.class }));
-		successfullyResolved = nodeResolver.resolve(this, NODE) && successfullyResolved;
+		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class }); // optional
+		BaseNode resolved = nodeResolver.resolve(node);
+		if(resolved!=null && resolved!=node) {
+			becomeParent(resolved);
+			node = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = getChild(NODE).resolve() && successfullyResolved;
+		successfullyResolved = node.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -99,37 +101,29 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(NODE).check() && successfullyChecked;
+		successfullyChecked = node.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
-	/**
-	 * Get the node child of this node.
-	 * @return The node child.
-	 */
+	/** Get the node child of this node.
+	 * @return The node child. */
 	public BaseNode getNode() {
-		return getChild(NODE);
+		return node;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.GraphObjectNode#addToGraph(de.unika.ipd.grgen.ir.Graph)
-	 */
+	/** @see de.unika.ipd.grgen.ast.GraphObjectNode#addToGraph(de.unika.ipd.grgen.ir.Graph) */
 	public void addToGraph(Graph gr) {
-		NodeCharacter n = (NodeCharacter) getChild(NODE);
+		NodeCharacter n = (NodeCharacter) node;
 		gr.addSingleNode(n.getNode());
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
-		return nodeChecker.check(getChild(NODE), error);
+		return nodeChecker.check(node, error);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdge(java.util.Set)
-	 */
+	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addEdge(java.util.Set) */
 	public void addEdge(Set<BaseNode> set) {
 	}
 	
@@ -138,7 +132,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 	}
 	
 	public NodeCharacter getSrc() {
-		return (NodeCharacter) getChild(NODE);
+		return (NodeCharacter) node;
 	}
 	
 	public void setSrc(NodeCharacter src) {
@@ -151,17 +145,33 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 	public void setTgt(NodeCharacter tgt) {
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set)
-	 */
+	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set) */
 	public void addNodes(Set<BaseNode> set) {
-		set.add(getChild(NODE));
+		set.add(node);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated() */
 	public boolean isNegated() {
 		return false;
+	}
+
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
