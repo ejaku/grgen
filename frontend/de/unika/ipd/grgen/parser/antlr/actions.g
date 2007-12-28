@@ -789,7 +789,7 @@ typeAddExpr returns [ TypeExprNode res = null ]
 
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 		(t:PLUS op=typeUnaryExpr
-			{ res = new TypeExprNode(getCoords(t), TypeExprNode.UNION, res, op); }
+			{ res = new TypeBinaryExprNode(getCoords(t), TypeExprNode.UNION, res, op); }
 		)*
 	;
 

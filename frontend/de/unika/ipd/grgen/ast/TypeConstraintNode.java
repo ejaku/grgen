@@ -29,7 +29,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -40,35 +39,41 @@ import de.unika.ipd.grgen.ir.TypeExprConst;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A type expression constant.
+ * A type constraint expression AST node.
+ * TODO: Only one operand, operands-collect node is senseless? - if yes remove it
  */
 public class TypeConstraintNode extends TypeExprNode
 {
 	static {
-		setName(TypeConstraintNode.class, "type expression const");
+		setName(TypeConstraintNode.class, "type expr constraint");
 	}
 	
-	private static final int OPERANDS = 0;
+	BaseNode operands;
 	
 	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
-		addChild(collect);
+		this.operands = collect==null ? NULL : collect;
+		becomeParent(this.operands);
 	}
 	
 	public TypeConstraintNode(IdentNode typeIdentUse) {
-		this(typeIdentUse.getCoords(), new CollectNode());
-		getChild(OPERANDS).addChild(typeIdentUse);
+		super(typeIdentUse.getCoords(), SET);
+		this.operands = new CollectNode();
+		becomeParent(this.operands);
+		operands.addChild(typeIdentUse);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(operands);
 		return children;
 	}
 	
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		// TODO: only OPERANDS or more children
+		childrenNames.add("operands");
 		return childrenNames;
 	}
 
@@ -80,16 +85,14 @@ public class TypeConstraintNode extends TypeExprNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver typeResolver = new CollectResolver(new DeclTypeResolver(InheritanceTypeNode.class));
-		successfullyResolved = typeResolver.resolve(this, OPERANDS) && successfullyResolved;
+		Resolver typeResolver = new DeclTypeResolver(InheritanceTypeNode.class);
+		successfullyResolved = ((CollectNode)operands).resolveChildren(typeResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).resolve() && successfullyResolved;
-		}
+		successfullyResolved = operands.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -106,9 +109,7 @@ public class TypeConstraintNode extends TypeExprNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			for(int i=0; i<children(); ++i) {
-				childrenChecked = getChild(i).check() && childrenChecked;
-			}
+			childrenChecked = operands.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -119,13 +120,13 @@ public class TypeConstraintNode extends TypeExprNode
 	
 	protected boolean checkLocal() {
 		Checker typeChecker = new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
-		return typeChecker.check(getChild(OPERANDS), error);
+		return typeChecker.check(operands, error);
 	}
 
 	protected IR constructIR() {
 		TypeExprConst cnst = new TypeExprConst();
 		
-		for(BaseNode n : getChild(OPERANDS).getChildren()) {
+		for(BaseNode n : operands.getChildren()) {
 			InheritanceType inh = (InheritanceType) n.checkIR(InheritanceType.class);
 			cnst.addOperand(inh);
 		}

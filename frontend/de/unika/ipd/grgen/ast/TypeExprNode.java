@@ -26,25 +26,15 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.TypeExpr;
 import de.unika.ipd.grgen.ir.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node representing type expressions.
  */
-public class TypeExprNode extends BaseNode
-{
-	static {
-		setName(TypeExprNode.class, "type constraint expr");
-	}
-	
+public abstract class TypeExprNode extends BaseNode
+{		
 	public static final int SET = 0;
 	public static final int SUBTYPES = 1;
 	public static final int UNION = 2;
@@ -52,6 +42,7 @@ public class TypeExprNode extends BaseNode
 	public static final int INTERSECT = 4;
 	public static final int LAST = INTERSECT;
 	
+	// TODO: opnames don't fit to the opcodes above - correct it
 	protected static final String[] opName = {
 		"const", "subtypes", "union", "diff", "intersect"
 	};
@@ -62,7 +53,7 @@ public class TypeExprNode extends BaseNode
 	};
 			
 	/** Opcode of the set operation. */
-	private final int op;
+	protected final int op;
 	
 	private static final TypeExprNode EMPTY =
 		new TypeConstraintNode(Coords.getInvalid(), new CollectNode());
@@ -71,80 +62,13 @@ public class TypeExprNode extends BaseNode
 		return EMPTY;
 	}
 	
-	/**
-	 * Make a new expression
-	 */
-	public TypeExprNode(Coords coords, int op) {
+	protected TypeExprNode(Coords coords, int op) {
 		super(coords);
 		this.op = op;
 		assert op >= 0 && op <= LAST : "Illegal type constraint expr opcode";
 	}
-
-	public TypeExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
-		this(coords, op);
-		addChild(op0);
-		addChild(op1);
-	}
-
-	private TypeExprNode(int op) {
-		this(Coords.getBuiltin(), op);
-	}
-
-	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
-		return children;
-	}
 	
-	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		// nameless children
-		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).resolve() && successfullyResolved;
-		}
-		return successfullyResolved;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			for(int i=0; i<children(); ++i) {
-				childrenChecked = getChild(i).check() && childrenChecked;
-			}
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
 	public Color getNodeColor() {
 		return Color.CYAN;
 	}
@@ -153,34 +77,24 @@ public class TypeExprNode extends BaseNode
 		return "type expr " + opName[op];
 	}
 	
-	protected boolean checkLocal() {
-		// Check, if the node has a valid arity.
-		int arity = children();
-		boolean arityOk = arity == 2;
-		
-		if(!arityOk) {
-			reportError("Type constraint expression has wrong arity: " + arity);
-		}
-		
-		// check the child node types
-		boolean typesOk = true;
-		Checker checker = new SimpleChecker(TypeExprNode.class);
-		for(BaseNode n : getChildren()) {
-			typesOk = checker.check(n, error) && typesOk;
-		}
-
-		return arityOk && typesOk;
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
 	}
-
-	protected IR constructIR() {
-		TypeExpr lhs = (TypeExpr) getChild(0).checkIR(TypeExpr.class);
-		TypeExpr rhs = (TypeExpr) getChild(1).checkIR(TypeExpr.class);
-		
-		TypeExprSetOperator expr = new TypeExprSetOperator(irOp[op]);
-		expr.addOperand(lhs);
-		expr.addOperand(rhs);
-		
-		return expr;
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

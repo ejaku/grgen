@@ -26,8 +26,9 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -51,16 +52,21 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 * @param modifiers Type modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeTypeNode(CollectNode ext, CollectNode body, int modifiers,
-			String externalName) {
-		addChild(ext);
-		addChild(body);
+	public NodeTypeNode(CollectNode ext, CollectNode body, 
+			int modifiers, String externalName) {
+		this.extend = ext==null ? NULL : ext;
+		becomeParent(this.extend);
+		this.body = body==null ? NULL : body;
+		becomeParent(this.body);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(extend);
+		children.add(body);
 		return children;
 	}
 
@@ -80,16 +86,17 @@ public class NodeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver extendsResolver = new CollectResolver(new DeclTypeResolver(NodeTypeNode.class));
-		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
-		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
+		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
+		Resolver extendsResolver = new DeclTypeResolver(NodeTypeNode.class);
+		successfullyResolved = ((CollectNode)body).resolveChildren(bodyResolver) && successfullyResolved;
+		successfullyResolved = ((CollectNode)extend).resolveChildren(extendsResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(EXTENDS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(BODY).resolve() && successfullyResolved;
+		successfullyResolved = extend.resolve() && successfullyResolved;
+		successfullyResolved = body.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -106,8 +113,8 @@ public class NodeTypeNode extends InheritanceTypeNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(EXTENDS).check() && childrenChecked;
-			childrenChecked = getChild(BODY).check() && childrenChecked;
+			childrenChecked = extend.check() && childrenChecked;
+			childrenChecked = body.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -121,7 +128,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 	{
 		Checker extendsChecker = new CollectChecker(new SimpleChecker(NodeTypeNode.class));
 		return super.checkLocal()
-			&& extendsChecker.check(getChild(EXTENDS), error);
+			&& extendsChecker.check(extend, error);
 	}
 	
 	/**
@@ -152,6 +159,26 @@ public class NodeTypeNode extends InheritanceTypeNode
 
 	public static String getUseStr() {
 		return "node type";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

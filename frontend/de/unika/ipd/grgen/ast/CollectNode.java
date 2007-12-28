@@ -26,6 +26,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Resolver;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
@@ -69,6 +70,7 @@ public class CollectNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
+		// local resolution done via call to resolveChildren from parent node
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
 		for(int i=0; i<children(); ++i) {
@@ -100,7 +102,21 @@ public class CollectNode extends BaseNode
 		
 		return childrenChecked && locallyChecked;
 	}
-	
+
+	protected boolean resolveChildren(Resolver resolver) {
+		debug.report(NOTE, "resolve children in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = true;		
+		for(int i=0; i<children.size(); ++i) {
+			BaseNode resolved = resolver.resolve(children.get(i));
+			successfullyResolved = resolved!=null && successfullyResolved;
+			if(resolved!=null && resolved!=children.get(i)) {
+				becomeParent(resolved);
+				children.set(i, resolved);
+			}
+		}
+		return successfullyResolved;
+	}
+
 	public Color getNodeColor() {
 		return Color.GRAY;
 	}

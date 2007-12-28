@@ -41,10 +41,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	/**
-	 * Index of the elements' collect node.
-	 */
-	private static final int ELEMENTS = 0;
+	BaseNode elements;
 
 	private static final Checker childrenChecker =
 		new CollectChecker(new SimpleChecker(EnumItemNode.class));
@@ -68,7 +65,8 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public EnumTypeNode(CollectNode body)
 	{
-		addChild(body);
+		this.elements = body==null ? NULL : body;
+		becomeParent(this.elements);
 
 		//the castability of the this enum type
 		addCastability(this, BasicTypeNode.stringType);
@@ -94,6 +92,8 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(elements);
 		return children;
 	}
 	
@@ -114,7 +114,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		successfullyResolved = getChild(ELEMENTS).resolve() && successfullyResolved;
+		successfullyResolved = elements.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -131,7 +131,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(ELEMENTS).check() && childrenChecked;
+			childrenChecked = elements.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -140,27 +140,23 @@ public class EnumTypeNode extends CompoundTypeNode
 		return childrenChecked && locallyChecked;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return childrenChecker.check(getChild(ELEMENTS), error);
+		return childrenChecker.check(elements, error);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR()
 	{
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
-		for (BaseNode n : getChild(ELEMENTS).getChildren()) {
+		for (BaseNode n : elements.getChildren()) {
 			EnumItemNode item = (EnumItemNode) n;
 			ty.addItem(item.getItem());
 		}
 		/*
-		 for(Iterator i = getChild(ELEMENTS).getChildren(); i.hasNext();) {
+		 for(Iterator i = elements.getChildren(); i.hasNext();) {
 		 EnumItemNode item = (EnumItemNode) i.next();
 
 		 ty.addItem(item.getEnumItem()
@@ -170,7 +166,7 @@ public class EnumTypeNode extends CompoundTypeNode
 
 		 Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		 EnumType ty = new EnumType(name);
-		 for(Iterator i = getChild(ELEMENTS).getChildren(); i.hasNext();) {
+		 for(Iterator i = elements.getChildren(); i.hasNext();) {
 		 BaseNode child = (BaseNode) i.next();
 		 Ident id = (Ident) child.checkIR(Ident.class);
 		 ty.addItem(id);
@@ -186,9 +182,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		return t == this;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BasicTypeNode#getValueType()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BasicTypeNode#getValueType() */
 	public Class<Integer> getValueType() {
 		return Integer.class;
 	}
@@ -207,5 +201,25 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public static String getUseStr() {
 		return "enum";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

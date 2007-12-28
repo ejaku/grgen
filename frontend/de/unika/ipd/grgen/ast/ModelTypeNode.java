@@ -34,6 +34,8 @@ class ModelTypeNode extends TypeNode
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
 		return children;
 	}
 	
@@ -52,5 +54,25 @@ class ModelTypeNode extends TypeNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
 		return true;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 };

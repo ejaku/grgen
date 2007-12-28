@@ -55,9 +55,9 @@ public class AssignNode extends BaseNode
 	 */
 	public AssignNode(Coords coords, BaseNode qual, BaseNode expr) {
 		super(coords);
-		lhs = qual==null ? NULL : qual;
+		this.lhs = qual==null ? NULL : qual;
 		becomeParent(this.lhs);
-		rhs = expr==null ? NULL : expr;
+		this.rhs = expr==null ? NULL : expr;
 		becomeParent(this.rhs);
 	}
 

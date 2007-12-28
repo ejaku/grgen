@@ -51,11 +51,6 @@ public abstract class TypeNode extends BaseNode
 	 */
 	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = 
 		new HashMap<TypeNode, HashSet<TypeNode>>();
-
-
-	TypeNode() {
-		super();
-	}
 		
 	public static String getUseStr() {
 		return "type";

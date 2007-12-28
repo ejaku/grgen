@@ -46,11 +46,11 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
 	public static final BasicTypeNode voidType = new VoidTypeNode();
 
-	public static final TypeNode errorType = new ErrorType(IdentNode.getInvalid());
+	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 
 	
 	public static TypeNode getErrorType(IdentNode id) {
-		return new ErrorType(id);
+		return new ErrorTypeNode(id);
 	}
 
 	private static Object invalidValueType = new Object() {
@@ -102,6 +102,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
 		return children;
 	}
 	
@@ -134,42 +136,27 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 			return getChecked();
 		}
 		
-		boolean locallyChecked = checkLocal();
+		boolean locallyChecked = true;
 		nodeCheckedSetResult(locallyChecked);
 		
 		return locallyChecked;
 	}
 
-	/**
-	 * This node may have no children.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
-	protected boolean checkLocal() {
-		return children() == 0;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#isBasic()
-	 */
+	/** @see de.unika.ipd.grgen.ast.TypeNode#isBasic() */
 	public boolean isBasic() {
 		return true;
 	}
 
-	/**
-	 * Return the Java class, that represents a value of a constant in this
-	 * type.
-	 * @return
-	 */
+	/** Return the Java class, that represents a value of a constant in this type. */
 	public Class<?> getValueType() {
-		if(!valueMap.containsKey(this))
+		if(!valueMap.containsKey(this)) {
 			return invalidValueType.getClass();
-		else
+		} else {
 			return valueMap.get(this);
+		}
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.TypeNode#isEqual(de.unika.ipd.grgen.ast.TypeNode)
-	 */
+	/** @see de.unika.ipd.grgen.ast.TypeNode#isEqual(de.unika.ipd.grgen.ast.TypeNode) */
 	public boolean isEqual(TypeNode t) {
 		return t == this;
 	}
@@ -180,6 +167,26 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 
 	public static String getUseStr() {
 		return "basic type";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

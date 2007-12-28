@@ -26,8 +26,9 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -42,7 +43,7 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	private static final int CAS = 2; // connection assertions
+	BaseNode cas; // connection assertions
 
 	private static final Checker casChecker = // TODO use this
 		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
@@ -58,15 +59,22 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	 */
 	public EdgeTypeNode(CollectNode ext, CollectNode cas, CollectNode body,
 			int modifiers, String externalName) {
-		addChild(ext);
-		addChild(body);
-		addChild(cas);
+		this.extend = ext==null ? NULL : ext;
+		becomeParent(this.extend);
+		this.body = body==null ? NULL : body;
+		becomeParent(this.body);
+		this.cas = cas==null ? NULL : cas;
+		becomeParent(this.cas);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(extend);
+		children.add(body);
+		children.add(cas);
 		return children;
 	}
 
@@ -87,19 +95,20 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver extendsResolver = new CollectResolver(new DeclTypeResolver(EdgeTypeNode.class));
-		Resolver casResolver = new CollectResolver(new DeclTypeResolver(ConnAssertNode.class));
-		successfullyResolved = bodyResolver.resolve(this, BODY) && successfullyResolved;
-		successfullyResolved = extendsResolver.resolve(this, EXTENDS) && successfullyResolved;
-		successfullyResolved = casResolver.resolve(this, CAS) && successfullyResolved;
+		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
+		Resolver extendsResolver = new DeclTypeResolver(EdgeTypeNode.class);
+		Resolver casResolver = new DeclTypeResolver(ConnAssertNode.class);
+		successfullyResolved = ((CollectNode)body).resolveChildren(bodyResolver) && successfullyResolved;
+		successfullyResolved = ((CollectNode)extend).resolveChildren(extendsResolver) && successfullyResolved;
+		successfullyResolved = ((CollectNode)cas).resolveChildren(casResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(EXTENDS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(BODY).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CAS).resolve() && successfullyResolved;
+		successfullyResolved = extend.resolve() && successfullyResolved;
+		successfullyResolved = body.resolve() && successfullyResolved;
+		successfullyResolved = cas.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -116,9 +125,9 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(EXTENDS).check() && childrenChecked;
-			childrenChecked = getChild(BODY).check() && childrenChecked;
-			childrenChecked = getChild(CAS).check() && childrenChecked;
+			childrenChecked = extend.check() && childrenChecked;
+			childrenChecked = body.check() && childrenChecked;
+			childrenChecked = cas.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -132,7 +141,7 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	{
 		Checker extendsChecker = new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
 		return super.checkLocal()
-			&& extendsChecker.check(getChild(EXTENDS), error);
+			&& extendsChecker.check(extend, error);
 	}
 	
 	/**
@@ -153,7 +162,7 @@ public class EdgeTypeNode extends InheritanceTypeNode
 
 		constructIR(et);
 
-		for(BaseNode n : getChild(CAS).getChildren()) {
+		for(BaseNode n : cas.getChildren()) {
 			ConnAssertNode can = (ConnAssertNode)n;
 			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
 		}
@@ -167,5 +176,25 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	
 	public static String getUseStr() {
 		return "edge type";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

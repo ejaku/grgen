@@ -299,7 +299,6 @@ enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 		LBRACE enumList[id, c]
 		{
 			TypeNode enumType = new EnumTypeNode(c);
-			enumType.addChild(enumType);
 			id.setDecl(new TypeDeclNode(id, enumType));
 			res = id;
 		}

@@ -24,9 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -45,11 +42,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
 
-	protected static final int EXTENDS = 0;
-	protected static final int BODY = 1;
-
-	protected static final Resolver bodyResolver =
-		new CollectResolver(new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+	BaseNode extend;
+	BaseNode body;
 
 	/**
 	 * The modifiers for this type.
@@ -96,8 +90,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		getAllSuperTypes();
 		Checker bodyChecker =
 			new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
-		return bodyChecker.check(getChild(BODY), error)
-			&& myInhChecker.check(getChild(EXTENDS), error);
+		return bodyChecker.check(body, error)
+			&& myInhChecker.check(extend, error);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
@@ -106,7 +100,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		boolean found = super.fixupDefinition(id, false);
 
 		if(!found) {
-			for(BaseNode n : getChild(EXTENDS).getChildren()) {
+			for(BaseNode n : extend.getChildren()) {
 				InheritanceTypeNode t = (InheritanceTypeNode)n;
 				boolean result = t.fixupDefinition(id);
 
@@ -123,7 +117,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) 
 	{
-		for(BaseNode n : getChild(EXTENDS).getChildren()) {
+		for(BaseNode n : extend.getChildren()) {
 			InheritanceTypeNode inh = (InheritanceTypeNode)n;
 			coll.add(inh);
 			inh.getCompatibleToTypes(coll);
@@ -156,11 +150,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	public Collection<InheritanceTypeNode> getDirectSuperTypes() {
-		return (Collection<InheritanceTypeNode>)(Collection)getChild(EXTENDS).getChildren();
+		return (Collection<InheritanceTypeNode>)(Collection)extend.getChildren();
 	}
 
 	private void getMembers(Map<String, DeclNode> members) {
-		for(BaseNode n : getChild(BODY).getChildren()) {
+		for(BaseNode n : body.getChildren()) {
 			if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
 
@@ -174,9 +168,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		}
 	}
 
-	/**
-	 * Returns all members (including inherited ones) of this type.
-	 */
+	/** Returns all members (including inherited ones) of this type. */
 	public Map<String, DeclNode> getAllMembers() 
 	{
 		if(allMembers==null) {
@@ -195,7 +187,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 	protected void constructIR(InheritanceType inhType) 
 	{
-		for(BaseNode n : getChild(BODY).getChildren()) {
+		for(BaseNode n : body.getChildren()) {
 			if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
 				inhType.addMember(decl.getEntity());
@@ -205,7 +197,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				inhType.addMemberInit((MemberInit)mi.getIR());
 			}
 		}
-		for(BaseNode n : getChild(EXTENDS).getChildren()) {
+		for(BaseNode n : extend.getChildren()) {
 			InheritanceTypeNode x = (InheritanceTypeNode)n;
 			inhType.addDirectSuperType((InheritanceType)x.getType());
 		}
