@@ -70,55 +70,48 @@ public class PatternGraphNode extends GraphNode
 	private static final int INCOMING = 0;
 	private static final int OUTGOING = 1;
 
-	/** Index of the conditions collect node. */
-	private static final int CONDITIONS = RETURN + 1;
-
-	/** Index of the hom statements collect node. */
-	private static final int HOMS = CONDITIONS + 1;
-
-	/** Index of the induced statements collect node. */
-	private static final int DPO = CONDITIONS + 2;
-
-	/** Index of the exact statements collect node. */
-	private static final int EXACT = CONDITIONS + 3;
-
-	/** Index of the induced statements collect node. */
-	private static final int INDUCED = CONDITIONS + 4;
-
-	/**
-	 * TODO
-	 *  Map to a set of edges -> don't count edges twice
-	 */
+	BaseNode conditions;
+	BaseNode homs;
+	BaseNode dpo;
+	BaseNode exact;
+	BaseNode induced;
+	
+	/** TODO Map to a set of edges -> don't count edges twice */
 	private Map<NodeCharacter, Set<ConnectionNode>> singleNodeNegMap = 
 		new LinkedHashMap<NodeCharacter, Set<ConnectionNode>>();
 
-	/**
-	 * TODO
-	 * map each pair of nodes to a pattern graph
-	 */
+	/** TODO map each pair of nodes to a pattern graph */
 	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap = 
 		new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
 
-	/**
-	 * A new pattern node
-	 * @param connections A collection containing connection nodes
-	 * @param conditions A collection of conditions.
-	 */
 	public PatternGraphNode(Coords coords, CollectNode connections,
 			CollectNode conditions, CollectNode returns, CollectNode homs,
 			CollectNode dpo, CollectNode exact, CollectNode induced,
 			int modifiers) {
 		super(coords, connections, returns);
-		addChild(conditions);
-		addChild(homs);
-		addChild(dpo);
-		addChild(exact);
-		addChild(induced);
+		this.conditions = conditions==null ? NULL : conditions;
+		becomeParent(this.conditions);
+		this.homs = homs==null ? NULL : homs;
+		becomeParent(this.homs);
+		this.dpo = dpo==null ? NULL : dpo;
+		becomeParent(this.dpo);
+		this.exact = exact==null ? NULL : exact;
+		becomeParent(this.exact);
+		this.induced = induced==null ? NULL : induced;
+		becomeParent(this.induced);
 		this.modifiers = modifiers;
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(connections);
+		children.add(returns);
+		children.add(conditions);
+		children.add(homs);
+		children.add(dpo);
+		children.add(exact);
+		children.add(induced);
 		return children;
 	}
 	
@@ -145,13 +138,13 @@ public class PatternGraphNode extends GraphNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 
-		successfullyResolved = getChild(CONNECTIONS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RETURN).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONDITIONS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(HOMS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(DPO).resolve() && successfullyResolved;
-		successfullyResolved = getChild(EXACT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(INDUCED).resolve() && successfullyResolved;
+		successfullyResolved = connections.resolve() && successfullyResolved;
+		successfullyResolved = returns.resolve() && successfullyResolved;
+		successfullyResolved = conditions.resolve() && successfullyResolved;
+		successfullyResolved = homs.resolve() && successfullyResolved;
+		successfullyResolved = dpo.resolve() && successfullyResolved;
+		successfullyResolved = exact.resolve() && successfullyResolved;
+		successfullyResolved = induced.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -168,13 +161,13 @@ public class PatternGraphNode extends GraphNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(CONNECTIONS).check() && childrenChecked;
-			childrenChecked = getChild(RETURN).check() && childrenChecked;
-			childrenChecked = getChild(CONDITIONS).check() && childrenChecked;
-			childrenChecked = getChild(HOMS).check() && childrenChecked;
-			childrenChecked = getChild(DPO).check() && childrenChecked;
-			childrenChecked = getChild(EXACT).check() && childrenChecked;
-			childrenChecked = getChild(INDUCED).check() && childrenChecked;
+			childrenChecked = connections.check() && childrenChecked;
+			childrenChecked = returns.check() && childrenChecked;
+			childrenChecked = conditions.check() && childrenChecked;
+			childrenChecked = homs.check() && childrenChecked;
+			childrenChecked = dpo.check() && childrenChecked;
+			childrenChecked = exact.check() && childrenChecked;
+			childrenChecked = induced.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -184,7 +177,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	public Collection<BaseNode> getHoms() {
-		return getChild(HOMS).getChildren();
+		return homs.getChildren();
 	}
 
 	protected boolean checkLocal() {
@@ -195,16 +188,16 @@ public class PatternGraphNode extends GraphNode
 		Checker inducedChecker = new CollectChecker(new SimpleChecker(InducedNode.class));
 		
 		boolean childs = super.checkLocal()
-				&& conditionsChecker.check(getChild(CONDITIONS), error)
-				&& homChecker.check(getChild(HOMS), error)
-				&& dpoChecker.check(getChild(DPO), error)
-				&& exactChecker.check(getChild(EXACT), error)
-				&& inducedChecker.check(getChild(INDUCED), error);
+				&& conditionsChecker.check(conditions, error)
+				&& homChecker.check(homs, error)
+				&& dpoChecker.check(dpo, error)
+				&& exactChecker.check(exact, error)
+				&& inducedChecker.check(induced, error);
 
 		boolean expr = true;
 		boolean homcheck = true;
 		if (childs) {
-			for (BaseNode n : getChild(CONDITIONS).getChildren()) {
+			for (BaseNode n : conditions.getChildren()) {
 				// Must go right, since it is checked 5 lines above.
 				ExprNode exp = (ExprNode) n;
 				if (!exp.getType().isEqual(BasicTypeNode.booleanType)) {
@@ -267,12 +260,12 @@ public class PatternGraphNode extends GraphNode
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph();
 
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for (BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
 			conn.addToGraph(gr);
 		}
 
-		for (BaseNode n : getChild(CONDITIONS).getChildren()) {
+		for (BaseNode n : conditions.getChildren()) {
 			ExprNode expr = (ExprNode) n;
 			expr = expr.evaluate();
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
@@ -331,7 +324,7 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	private void initDoubleNodeNegMap() {
-		Collection<BaseNode> inducedNodes = getChild(INDUCED).getChildren();
+		Collection<BaseNode> inducedNodes = induced.getChildren();
 		if (isInduced()) {
 			addToDoubleNodeMap(getInducedPatternNodes());
 
@@ -343,8 +336,8 @@ public class PatternGraphNode extends GraphNode
 
 		Map<Set<NodeCharacter>, Integer> genInducedSets = new LinkedHashMap<Set<NodeCharacter>, Integer>();
 
-		for (int i = 0; i < getChild(INDUCED).getChildren().size(); i++) {
-			BaseNode inducedNode = getChild(INDUCED).getChild(i);
+		for (int i = 0; i < induced.getChildren().size(); i++) {
+			BaseNode inducedNode = induced.getChild(i);
 			Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
 
 			for (BaseNode inducedChild : inducedNode.getChildren()) {
@@ -362,7 +355,7 @@ public class PatternGraphNode extends GraphNode
 			}
 
 			if (genInducedSets.containsKey(nodes)) {
-				BaseNode oldOcc = getChild(INDUCED).getChild(genInducedSets.get(nodes));
+				BaseNode oldOcc = induced.getChild(genInducedSets.get(nodes));
 				inducedNode.reportWarning("Same induced statement also occurs at " + oldOcc.getCoords());
 			} else {
 				addToDoubleNodeMap(nodes);
@@ -438,10 +431,10 @@ public class PatternGraphNode extends GraphNode
 			if (allMarked) {
 				String witnessesLoc = "";
 				for (Integer index : witnesses) {
-					witnessesLoc += getChild(INDUCED).getChild(index).getCoords() + " ";
+					witnessesLoc += induced.getChild(index).getCoords() + " ";
 				}
 				witnessesLoc = witnessesLoc.trim();
-				getChild(INDUCED).getChild(candidate.getValue()).reportWarning(
+				induced.getChild(candidate.getValue()).reportWarning(
 					"Induced statement is redundant, since covered by statement(s) at "
 							+ witnessesLoc);
 			}
@@ -449,8 +442,8 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	private void initSingleNodeNegMap(RuleDeclNode ruleNode) {
-		Collection<BaseNode> dpoNodes = getChild(DPO).getChildren();
-		Collection<BaseNode> exactNodes = getChild(EXACT).getChildren();
+		Collection<BaseNode> dpoNodes = dpo.getChildren();
+		Collection<BaseNode> exactNodes = exact.getChildren();
 		Set<DeclNode> deletedNodes = ruleNode.getDelete();
 
 		if (isExact()) {
@@ -494,8 +487,8 @@ public class PatternGraphNode extends GraphNode
 
 		Map<NodeCharacter, Integer> genExactNodes = new LinkedHashMap<NodeCharacter, Integer>();
 		// exact Statements
-		for (int i = 0; i < getChild(EXACT).getChildren().size(); i++) {
-			BaseNode exactNode = getChild(EXACT).getChild(i);
+		for (int i = 0; i < exact.getChildren().size(); i++) {
+			BaseNode exactNode = exact.getChild(i);
 			for (BaseNode exactChild : exactNode.getChildren()) {
 				NodeDeclNode nodeDeclNode = (NodeDeclNode) exactChild;
 				// coords of occurrence are not available
@@ -504,7 +497,7 @@ public class PatternGraphNode extends GraphNode
 							+ " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
-							+ getChild(EXACT).getChild(genExactNodes.get(nodeDeclNode)).getCoords());
+							+ exact.getChild(genExactNodes.get(nodeDeclNode)).getCoords());
 				} else {
 					genExactNodes.put(nodeDeclNode, i);
 				}
@@ -513,8 +506,8 @@ public class PatternGraphNode extends GraphNode
 
 		Map<NodeCharacter, Integer> genDpoNodes = new LinkedHashMap<NodeCharacter, Integer>();
 		// dpo Statements
-		for (int i = 0; i < getChild(DPO).getChildren().size(); i++) {
-			BaseNode dpoNode = getChild(DPO).getChild(i);
+		for (int i = 0; i < dpo.getChildren().size(); i++) {
+			BaseNode dpoNode = dpo.getChild(i);
 
 			for (BaseNode dpoChild : dpoNode.getChildren()) {
 				NodeDeclNode nodeDeclNode = (NodeDeclNode) dpoChild;
@@ -524,14 +517,14 @@ public class PatternGraphNode extends GraphNode
 							+ " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in exact statement at "
-							+ getChild(EXACT).getChild(genExactNodes.get(nodeDeclNode)).getCoords());
+							+ exact.getChild(genExactNodes.get(nodeDeclNode)).getCoords());
 				}
 				if (genDpoNodes.containsKey(nodeDeclNode)) {
 					dpoNode.reportWarning(nodeDeclNode.getUseString()
 							+ " "
 							+ nodeDeclNode.getIdentNode().getSymbol().getText()
 							+ " already occurs in dpo statement at "
-							+ getChild(DPO).getChild(genDpoNodes.get(nodeDeclNode)).getCoords());
+							+ dpo.getChild(genDpoNodes.get(nodeDeclNode)).getCoords());
 				} else {
 					genDpoNodes.put(nodeDeclNode, i);
 				}
@@ -548,7 +541,7 @@ public class PatternGraphNode extends GraphNode
 	private Set<NodeCharacter> getExactPatternNodes() {
 
 		Set<NodeCharacter> nodes = new LinkedHashSet<NodeCharacter>();
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for (BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
 
 			NodeCharacter cand = conn.getSrc();
@@ -587,7 +580,7 @@ public class PatternGraphNode extends GraphNode
 
 	private void addSingleNodeNegGraphs(Collection<PatternGraph> ret) {
 		// add existing edges to the corresponding sets
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for (BaseNode n : connections.getChildren()) {
 			Set<NodeCharacter> keySet = singleNodeNegMap.keySet();
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
@@ -689,7 +682,7 @@ public class PatternGraphNode extends GraphNode
 	 */
 	private Set<NodeCharacter> getInducedPatternNodes() {
 		Set<NodeCharacter> nodes = new HashSet<NodeCharacter>();
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for (BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
 
 			NodeCharacter cand = conn.getSrc();
@@ -712,7 +705,7 @@ public class PatternGraphNode extends GraphNode
 	 */
 	private void addDoubleNodeNegGraphs(Collection<PatternGraph> negs) {
 		// add existing edges to the corresponding pattern graph
-		for (BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for (BaseNode n : connections.getChildren()) {
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
 
@@ -786,5 +779,25 @@ public class PatternGraphNode extends GraphNode
 			}
 		}
 		return edgeRoot;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

@@ -49,9 +49,8 @@ public class GraphNode extends BaseNode
 		setName(GraphNode.class, "graph");
 	}
 	
-	/** Index of the connections collect node. */
-	protected static final int CONNECTIONS = 0;
-	protected static final int RETURN = CONNECTIONS+1;
+	BaseNode connections;
+	BaseNode returns;
 
 	/**
 	 * A new pattern node
@@ -59,12 +58,17 @@ public class GraphNode extends BaseNode
 	 */
 	public GraphNode(Coords coords, CollectNode connections, CollectNode returns) {
 		super(coords);
-		addChild(connections);
-		addChild(returns);
+		this.connections = connections==null ? NULL : connections;
+		becomeParent(this.connections);
+		this.returns = returns==null ? NULL : returns;
+		becomeParent(this.returns);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(connections);
+		children.add(returns);
 		return children;
 	}
 
@@ -86,8 +90,8 @@ public class GraphNode extends BaseNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 
-		successfullyResolved = getChild(CONNECTIONS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RETURN).resolve() && successfullyResolved;
+		successfullyResolved = connections.resolve() && successfullyResolved;
+		successfullyResolved = returns.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -103,8 +107,8 @@ public class GraphNode extends BaseNode
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(CONNECTIONS).check() && successfullyChecked;
-		successfullyChecked = getChild(RETURN).check() && successfullyChecked;
+		successfullyChecked = connections.check() && successfullyChecked;
+		successfullyChecked = returns.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -115,13 +119,13 @@ public class GraphNode extends BaseNode
 	 */
 	protected boolean checkLocal() {
 		Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
-		boolean connCheck = connectionsChecker.check(getChild(CONNECTIONS), error);
+		boolean connCheck = connectionsChecker.check(connections, error);
 
 		boolean edgeUsage = true;
 
 		if(connCheck) {
 			//check, that each named edge is only used once in a pattern
-			CollectNode collect = (CollectNode) getChild(CONNECTIONS);
+			CollectNode collect = (CollectNode) connections;
 			HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
 			for (BaseNode n : collect.getChildren()) {
 				ConnectionCharacter cc = (ConnectionCharacter)n;
@@ -145,7 +149,7 @@ public class GraphNode extends BaseNode
 	 * @return The iterator.
 	 */
 	protected Collection<BaseNode> getConnections() {
-		return getChild(CONNECTIONS).getChildren();
+		return connections.getChildren();
 	}
 
 	/**
@@ -158,7 +162,7 @@ public class GraphNode extends BaseNode
 	protected Set<BaseNode> getNodes() {
 		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
 
-		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addNodes(res);
 		}
@@ -169,7 +173,7 @@ public class GraphNode extends BaseNode
 	protected Set<BaseNode> getEdges() {
 		Set<BaseNode> res = new LinkedHashSet<BaseNode>();
 
-		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addEdge(res);
 		}
@@ -178,7 +182,7 @@ public class GraphNode extends BaseNode
 	}
 
 	protected BaseNode getReturn() {
-		return getChild(RETURN);
+		return returns;
 	}
 
 	/**
@@ -198,11 +202,31 @@ public class GraphNode extends BaseNode
 	protected IR constructIR() {
 		Graph gr = new PatternGraph();
 
-		for(BaseNode n : getChild(CONNECTIONS).getChildren()) {
+		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
 
 		return gr;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

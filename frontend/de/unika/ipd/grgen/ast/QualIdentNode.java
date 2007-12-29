@@ -41,14 +41,11 @@ import de.unika.ipd.grgen.parser.Coords;
 public class QualIdentNode extends BaseNode implements DeclaredCharacter
 {
 	static {
-		setName(QualIdentNode.class, "Qual");
+		setName(QualIdentNode.class, "Qualification");
 	}
 	
-	/** Index of the owner node. */
-	protected static final int OWNER = 0;
-	
-	/** Index of the member node. */
-	protected static final int MEMBER = 1;
+	BaseNode owner;
+	BaseNode member;
 		
 	/**
 	 * Make a new identifier qualify node.
@@ -56,12 +53,17 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	 */
 	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member) {
 		super(coords);
-		addChild(owner);
-		addChild(member);
+		this.owner = owner==null ? NULL : owner;
+		becomeParent(this.owner);
+		this.member = member==null ? NULL : member;
+		becomeParent(this.member);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(owner);
+		children.add(member);
 		return children;
 	}
 
@@ -79,34 +81,31 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			return resolutionResult();
 		}
 		
-		/* This AST node implies another way of name resolution.
-		 * First of all, the left hand side (lhs) has to be resolved. It must be
-		 * a declaration and its type must be an instance of {@link ScopeOwner},
-		 * since qualification can only be done, if the lhs owns a scope.
-		 *
-		 * Then the right side (rhs) is tought to search the declarations
-		 * of its identifiers in the scope owned by the lhs. This is done
-		 * via {@link ExprNode#fixupDeclaration(ScopeOwner)}.
-		 *
-		 * Then, the rhs contains the rhs' ident nodes contains the
-		 * right declarations and can be resolved either. */
-		boolean successfullyResolved = false;
-		IdentNode member = (IdentNode) getChild(MEMBER);
-		
+		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
+		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
+		 * 3) resolve now complete/correct right hand side identifier into its declaration */
+		boolean successfullyResolved = true;
 		Resolver ownerResolver = new DeclResolver(DeclNode.class);
-		ownerResolver.resolve(this, OWNER);
-		BaseNode owner = getChild(OWNER);
-		successfullyResolved = owner.resolutionResult();
+		BaseNode resolved = ownerResolver.resolve(owner);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=owner) {
+			becomeParent(resolved);
+			owner = resolved;
+		}
 		
 		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
 			
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
-				o.fixupDefinition(member);
+				o.fixupDefinition((IdentNode)member);
 				Resolver declResolver = new DeclResolver(DeclNode.class);
-				declResolver.resolve(this, MEMBER);
-				successfullyResolved = getChild(MEMBER).resolutionResult();
+				resolved = declResolver.resolve(member);
+				successfullyResolved = resolved!=null && successfullyResolved;
+				if(resolved!=null && resolved!=member) {
+					becomeParent(resolved);
+					member = resolved;
+				}
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -120,8 +119,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(OWNER).resolve() && successfullyResolved;
-		successfullyResolved = getChild(MEMBER).resolve() && successfullyResolved;
+		successfullyResolved = owner.resolve() && successfullyResolved;
+		successfullyResolved = member.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -138,8 +137,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(OWNER).check() && childrenChecked;
-			childrenChecked = getChild(MEMBER).check() && childrenChecked;
+			childrenChecked = owner.check() && childrenChecked;
+			childrenChecked = member.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -148,20 +147,16 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		return childrenChecked && locallyChecked;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclNode.class)).check(getChild(OWNER), error)
-			&& (new SimpleChecker(MemberDeclNode.class)).check(getChild(MEMBER), error);
+		return (new SimpleChecker(DeclNode.class)).check(owner, error)
+			&& (new SimpleChecker(MemberDeclNode.class)).check(member, error);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
-	 */
+	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	public DeclNode getDecl() {
 		assert isResolved();
-		BaseNode child = getChild(MEMBER);
+		BaseNode child = member;
 
 		if (child instanceof DeclNode) {
 			return (DeclNode) child;
@@ -172,7 +167,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	
 	protected DeclNode getOwner() {
 		assert isResolved();
-		BaseNode child = getChild(OWNER);
+		BaseNode child = owner;
 
 		if (child instanceof DeclNode) {
 			return (DeclNode) child;
@@ -182,8 +177,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	}
 	
 	protected IR constructIR() {
-		Entity owner = (Entity) getChild(OWNER).checkIR(Entity.class);
-		Entity member = (Entity) getChild(MEMBER).checkIR(Entity.class);
+		Entity owner = (Entity) this.owner.checkIR(Entity.class);
+		Entity member = (Entity) this.member.checkIR(Entity.class);
 		
 		return new Qualification(owner, member);
 	}
@@ -200,5 +195,25 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 			reportError("Internal error: " + getChild(childNum).getName()
 					+ "has no child with number " + childNum);
 		}
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

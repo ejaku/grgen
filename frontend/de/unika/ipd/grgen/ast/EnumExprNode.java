@@ -49,7 +49,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return children;
+		return super.getChildren();
 	}
 	
 	/** returns names of the children, same order as in getChildren */
@@ -63,20 +63,26 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			return resolutionResult();
 		}
 		
-		boolean successfullyResolved = false;
-		IdentNode member = (IdentNode) getChild(MEMBER);
-
+		boolean successfullyResolved = true;
 		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
-		ownerResolver.resolve(this, OWNER);
-		BaseNode owner = getChild(OWNER);
-		successfullyResolved = owner.resolutionResult();
+		BaseNode resolved = ownerResolver.resolve(owner);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=owner) {
+			becomeParent(resolved);
+			owner = resolved;
+		}
 		
 		if(owner instanceof EnumTypeNode) {
 			EnumTypeNode enumType = (EnumTypeNode) owner;
-			enumType.fixupDefinition(member);
+			enumType.fixupDefinition((IdentNode)member);
+			
 			Resolver declResolver = new DeclResolver(EnumItemNode.class);
-			declResolver.resolve(this, MEMBER);
-			successfullyResolved = getChild(MEMBER).resolutionResult();
+			resolved = declResolver.resolve(member);
+			successfullyResolved = resolved!=null && successfullyResolved;
+			if(resolved!=null && resolved!=member) {
+				becomeParent(resolved);
+				member = resolved;
+			}			
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;
@@ -86,8 +92,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(OWNER).resolve() && successfullyResolved;
-		successfullyResolved = getChild(MEMBER).resolve() && successfullyResolved;
+		successfullyResolved = owner.resolve() && successfullyResolved;
+		successfullyResolved = member.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -104,8 +110,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(OWNER).check() && childrenChecked;
-			childrenChecked = getChild(MEMBER).check() && childrenChecked;
+			childrenChecked = owner.check() && childrenChecked;
+			childrenChecked = member.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -114,12 +120,10 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		return childrenChecked && locallyChecked;
 	}
 		
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(EnumTypeNode.class)).check(getChild(OWNER), error)
-			&& (new SimpleChecker(EnumItemNode.class)).check(getChild(MEMBER), error);
+		return (new SimpleChecker(EnumTypeNode.class)).check(owner, error)
+			&& (new SimpleChecker(EnumItemNode.class)).check(member, error);
 	}
 	
 	/**
@@ -127,8 +131,28 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 	 * @return An enum expression IR object.
 	 */
 	protected IR constructIR() {
-		EnumType et = (EnumType) getChild(OWNER).checkIR(EnumType.class);
-		EnumItem it = (EnumItem) getChild(MEMBER).checkIR(EnumItem.class);
+		EnumType et = (EnumType) owner.checkIR(EnumType.class);
+		EnumItem it = (EnumItem) member.checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
