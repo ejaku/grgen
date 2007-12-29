@@ -67,10 +67,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
 		BaseNode resolved = ownerResolver.resolve(owner);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=owner) {
-			becomeParent(resolved);
-			owner = resolved;
-		}
+		owner = ownedResolutionResult(owner, resolved);
 		
 		if(owner instanceof EnumTypeNode) {
 			EnumTypeNode enumType = (EnumTypeNode) owner;
@@ -79,10 +76,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 			Resolver declResolver = new DeclResolver(EnumItemNode.class);
 			resolved = declResolver.resolve(member);
 			successfullyResolved = resolved!=null && successfullyResolved;
-			if(resolved!=null && resolved!=member) {
-				becomeParent(resolved);
-				member = resolved;
-			}			
+			member = ownedResolutionResult(member, resolved);
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;

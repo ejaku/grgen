@@ -95,16 +95,10 @@ public class ConnAssertNode extends BaseNode
 		Resolver nodeResolver = new DeclTypeResolver(NodeTypeNode.class);
 		BaseNode resolved = nodeResolver.resolve(src);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=src) {
-			becomeParent(resolved);
-			src = resolved;
-		}
+		src = ownedResolutionResult(src, resolved);
 		resolved = nodeResolver.resolve(tgt);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=tgt) {
-			becomeParent(resolved);
-			tgt = resolved;
-		}
+		tgt = ownedResolutionResult(tgt, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

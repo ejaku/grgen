@@ -111,10 +111,7 @@ public class CastNode extends ExprNode
 		Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
 		BaseNode resolved = typeResolver.resolve(type);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=type) {
-			becomeParent(resolved);
-			type = resolved;
-		}
+		type = ownedResolutionResult(type, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

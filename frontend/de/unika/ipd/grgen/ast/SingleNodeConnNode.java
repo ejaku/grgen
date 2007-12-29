@@ -76,10 +76,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		boolean successfullyResolved = true;
 		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class }); // optional
 		BaseNode resolved = nodeResolver.resolve(node);
-		if(resolved!=null && resolved!=node) {
-			becomeParent(resolved);
-			node = resolved;
-		}
+		node = ownedResolutionResult(node, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

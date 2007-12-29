@@ -90,10 +90,7 @@ public class MemberInitNode extends BaseNode
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 		BaseNode resolved = lhsResolver.resolve(lhs);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=lhs) {
-			becomeParent(resolved);
-			lhs = resolved;
-		}
+		lhs = ownedResolutionResult(lhs, resolved);
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {

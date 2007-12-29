@@ -88,10 +88,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		Resolver ownerResolver = new DeclResolver(DeclNode.class);
 		BaseNode resolved = ownerResolver.resolve(owner);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=owner) {
-			becomeParent(resolved);
-			owner = resolved;
-		}
+		owner = ownedResolutionResult(owner, resolved);
 		
 		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
@@ -102,10 +99,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 				Resolver declResolver = new DeclResolver(DeclNode.class);
 				resolved = declResolver.resolve(member);
 				successfullyResolved = resolved!=null && successfullyResolved;
-				if(resolved!=null && resolved!=member) {
-					becomeParent(resolved);
-					member = resolved;
-				}
+				member = ownedResolutionResult(member, resolved);
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;

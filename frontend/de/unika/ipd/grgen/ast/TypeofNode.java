@@ -78,10 +78,7 @@ public class TypeofNode extends ExprNode
 		Resolver entityResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
 		BaseNode resolved = entityResolver.resolve(entity);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=entity) {
-			becomeParent(resolved);
-			entity = resolved;
-		}
+		entity = ownedResolutionResult(entity, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

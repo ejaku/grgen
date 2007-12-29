@@ -82,10 +82,7 @@ public class HomNode extends BaseNode
 		for(int i=0; i<children.size(); ++i) {
 			BaseNode resolved = resolver.resolve(children.get(i));
 			successfullyResolved = resolved!=null && successfullyResolved;
-			if(resolved!=null && resolved!=children.get(i)) {
-				becomeParent(resolved);
-				children.set(i, resolved);
-			}
+			children.set(i, ownedResolutionResult(children.get(i), resolved));
 		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {

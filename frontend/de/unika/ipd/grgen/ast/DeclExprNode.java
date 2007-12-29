@@ -83,10 +83,7 @@ public class DeclExprNode extends ExprNode
 		Resolver memberInitResolver = new MemberInitResolver(MemberDeclNode.class);
 		BaseNode resolved = memberInitResolver.resolve(decl);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=decl) {
-			becomeParent(resolved);
-			decl = resolved;
-		}
+		decl = ownedResolutionResult(decl, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

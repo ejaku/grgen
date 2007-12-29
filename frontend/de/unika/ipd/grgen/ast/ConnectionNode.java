@@ -95,21 +95,12 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class }); // optional
 		Resolver edgeResolver = new EdgeResolver();
 		BaseNode resolved = nodeResolver.resolve(left);
-		if(resolved!=null && resolved!=left) {
-			becomeParent(resolved);
-			left = resolved;
-		}
+		left = ownedResolutionResult(left, resolved);
 		resolved = edgeResolver.resolve(edge);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		if(resolved!=null && resolved!=edge) {
-			becomeParent(resolved);
-			edge = resolved;
-		}
+		edge = ownedResolutionResult(edge, resolved);
 		resolved = nodeResolver.resolve(right);
-		if(resolved!=null && resolved!=right) {
-			becomeParent(resolved);
-			right = resolved;
-		}
+		right = ownedResolutionResult(right, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

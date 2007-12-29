@@ -343,7 +343,7 @@ public abstract class BaseNode extends Base
 		n.parents.add(this);
 	}
 
-	/** remove ourself as parent of child to throw out, become parent of child to adopt instead */
+	/** helper: remove ourself as parent of child to throw out, become parent of child to adopt instead */
 	protected void switchParenthood(BaseNode throwOut, BaseNode adopt) {
 		throwOut.parents.remove(this);
 		adopt.parents.add(this);
@@ -385,9 +385,19 @@ public abstract class BaseNode extends Base
 		return res;
 	}
 
-	/** become parent of child to adopt */
+	/** helper: become parent of child to adopt */
 	protected void becomeParent(BaseNode adopt) {
 		adopt.parents.add(this);
+	}
+	
+	/** helper: if resolution yielded some new node, become parent of it and return it; otherwise just return old node */
+	protected <T extends BaseNode> T ownedResolutionResult(T original, T resolved) {
+		if(resolved!=null && resolved!=original) {
+			becomeParent(resolved);
+			return resolved;
+		} else {
+			return original;
+		}
 	}
 	
 	/**
