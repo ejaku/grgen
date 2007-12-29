@@ -60,7 +60,7 @@ public class TypeConstraintNode extends TypeExprNode
 		super(typeIdentUse.getCoords(), SET);
 		this.operands = new CollectNode();
 		becomeParent(this.operands);
-		operands.addChild(typeIdentUse);
+		((CollectNode)operands).addChild(typeIdentUse);
 	}
 	
 	/** returns children of this node */

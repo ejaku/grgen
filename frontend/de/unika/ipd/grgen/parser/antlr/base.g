@@ -262,10 +262,11 @@ condExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: op0=logOrExpr[inEnumInit] { res=op0; }
 		( t:QUESTION op1=expr[inEnumInit] COLON op2=condExpr[inEnumInit]
 			{
-				res=makeOp(t);
-				res.addChild(op0);
-				res.addChild(op1);
-				res.addChild(op2);
+				OpNode cond=makeOp(t);
+				cond.addChild(op0);
+				cond.addChild(op1);
+				cond.addChild(op2);
+				res=cond;
 			}
 		)?
 	;
@@ -417,8 +418,9 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 		 { res = makeUnOp(n, op); }
 	| m:MINUS op=unaryExpr[inEnumInit]
 		{
-			res = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
-			res.addChild(op);
+			OpNode neg = new ArithmeticOpNode(getCoords(m), OperatorSignature.NEG);
+			neg.addChild(op);
+			res = neg;
 		}
 	| PLUS res=unaryExpr[inEnumInit]
 	|   ( options { generateAmbigWarnings = false; } :

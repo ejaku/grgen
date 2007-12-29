@@ -162,24 +162,4 @@ public class ConnAssertNode extends BaseNode
 		return new ConnAssert(srcType, srcLower, srcUpper,
 							  tgtType, tgtLower, tgtUpper);
 	}
-	
-	// debug guards to protect again accessing wrong elements
-	public void addChild(BaseNode n) {
-		assert(false);
-	}
-	public void setChild(int pos, BaseNode n) {
-		assert(false);
-	}
-	public BaseNode getChild(int i) {
-		assert(false);
-		return null;
-	}
-	public int children() {
-		assert(false);
-		return 0;
-	}
-	public BaseNode replaceChild(int i, BaseNode n) {
-		assert(false);
-		return null;
-	}
 }

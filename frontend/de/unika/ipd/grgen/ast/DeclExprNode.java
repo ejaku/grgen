@@ -157,25 +157,5 @@ public class DeclExprNode extends ExprNode
 			return decl.getIR();
 		}
 	}
-	
-	// debug guards to protect again accessing wrong elements
-	public void addChild(BaseNode n) {
-		assert(false);
-	}
-	public void setChild(int pos, BaseNode n) {
-		assert(false);
-	}
-	public BaseNode getChild(int i) {
-		assert(false);
-		return null;
-	}
-	public int children() {
-		assert(false);
-		return 0;
-	}
-	public BaseNode replaceChild(int i, BaseNode n) {
-		assert(false);
-		return null;
-	}
 }
 

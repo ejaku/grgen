@@ -59,10 +59,8 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		}
 	};
 
-	/**
-	 * This map contains the value types of the basic types.
-	 * (BasicTypeNode -> Class)
-	 */
+	/** This map contains the value types of the basic types.
+	 *  (BasicTypeNode -> Class) */
 	protected static Map<BasicTypeNode, Class<?>> valueMap = new HashMap<BasicTypeNode, Class<?>>();
 
 	static {
@@ -167,26 +165,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 
 	public static String getUseStr() {
 		return "basic type";
-	}
-	
-	// debug guards to protect again accessing wrong elements
-	public void addChild(BaseNode n) {
-		assert(false);
-	}
-	public void setChild(int pos, BaseNode n) {
-		assert(false);
-	}
-	public BaseNode getChild(int i) {
-		assert(false);
-		return null;
-	}
-	public int children() {
-		assert(false);
-		return 0;
-	}
-	public BaseNode replaceChild(int i, BaseNode n) {
-		assert(false);
-		return null;
 	}
 }
 

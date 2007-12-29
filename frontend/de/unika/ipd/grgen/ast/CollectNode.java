@@ -46,10 +46,14 @@ public class CollectNode extends BaseNode
 		setName(CollectNode.class, "collect");
 	}
 
-	public CollectNode() {
-		super();
+	Vector<BaseNode> children = new Vector<BaseNode>();
+	
+	public void addChild(BaseNode n) {
+		n = n==null ? NULL : n;
+		becomeParent(n);
+		children.add(n);
 	}
-
+	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		return children;
@@ -73,8 +77,8 @@ public class CollectNode extends BaseNode
 		// local resolution done via call to resolveChildren from parent node
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).resolve() && successfullyResolved;
+		for(int i=0; i<children.size(); ++i) {
+			successfullyResolved = children.get(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -92,8 +96,8 @@ public class CollectNode extends BaseNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			for(int i=0; i<children(); ++i) {
-				childrenChecked = getChild(i).check() && childrenChecked;
+			for(int i=0; i<children.size(); ++i) {
+				childrenChecked = children.get(i).check() && childrenChecked;
 			}
 		}
 		

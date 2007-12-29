@@ -82,9 +82,6 @@ public abstract class BaseNode extends Base
 	private Scope scope;
 
 
-	/** Vector of the children of this node */
-	protected final Vector<BaseNode> children = new Vector<BaseNode>();
-
 	/** The parent node of this node. */
 	private Set<BaseNode> parents = new LinkedHashSet<BaseNode>();
 
@@ -325,66 +322,12 @@ public abstract class BaseNode extends Base
 		return getChildren();
 	}
 
-	/**
-	 * Add a child to the children list.
-	 * @param n AST node to add to the children list.
-	 */
-	public void addChild(BaseNode n) {
-		n = n==null ? NULL : n;
-		children.add(n);
-		n.parents.add(this);
-	}
-
-	public void setChild(int pos, BaseNode n) {
-		n = n==null ? NULL : n;
-		BaseNode oldChild = getChild(pos);
-		oldChild.parents.remove(this);
-		children.set(pos, n);
-		n.parents.add(this);
-	}
-
 	/** helper: remove ourself as parent of child to throw out, become parent of child to adopt instead */
 	protected void switchParenthood(BaseNode throwOut, BaseNode adopt) {
 		throwOut.parents.remove(this);
 		adopt.parents.add(this);
 	}
 	
-	/**
-	 * Get the child at a given position
-	 * @param i The position to get the child from
-	 * @return The child at position i, or a Error node, if this node contained
-	 * less than i nodes.
-	 */
-	public BaseNode getChild(int i) {
-		return i < children.size() ? children.get(i) : NULL;
-	}
-
-	/**
-	 * Get the number of children of this node.
-	 * @return The number of children of this node.
-	 */
-	public int children() {
-		return children.size();
-	}
-
-	/**
-	 * Replace the child at a given position.
-	 * @param i The position.
-	 * @param n The new child to replace the old.
-	 * @return The old one.
-	 */
-	public BaseNode replaceChild(int i, BaseNode n) {
-		n = n==null ? NULL : n;
-		BaseNode res = NULL;
-		if(i < children.size()) {
-			res = children.get(i);
-			children.set(i, n);
-			n.parents.add(this);
-		}
-
-		return res;
-	}
-
 	/** helper: become parent of child to adopt */
 	protected void becomeParent(BaseNode adopt) {
 		adopt.parents.add(this);
@@ -400,20 +343,14 @@ public abstract class BaseNode extends Base
 		}
 	}
 	
-	/**
-	 * Check whether this AST node is a root node (i.e. it has no predecessors)
-	 * @return true, if it's a root node, false, if not.
-	 */
+	/** Check whether this AST node is a root node (i.e. it has no predecessors)
+	 * @return true, if it's a root node, false, if not. */
 	public boolean isRoot() {
 		return parents.isEmpty();
 	}
 
-	/**
-	 * Get the parent nodes of this node.
-	 * Mostly only one parent (syntax tree),
-	 * few nodes with multiple parents (syntax DAG),
-	 * root node without parents.
-	 */
+	/** Get the parent nodes of this node.
+	 * Mostly only one parent (syntax tree), few nodes with multiple parents (syntax DAG), root node without parents.*/
 	public Collection<BaseNode> getParents() {
 		return Collections.unmodifiableCollection(parents);
 	}

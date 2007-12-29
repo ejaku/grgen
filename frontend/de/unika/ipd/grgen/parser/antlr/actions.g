@@ -307,7 +307,7 @@ patternStmt [ CollectNode conn, CollectNode cond,
 			}
 		RBRACE! popScope!
 			{
-				if(negsInNegs.children() != 0)
+				if(negsInNegs.getChildren().size() != 0)
 					reportError(getCoords(p), "Nesting of negative parts not allowed");
 			}
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer

@@ -325,16 +325,18 @@ enumItemDecl [ IdentNode type, CollectNode coll, BaseNode defInit, int pos ]
 	: id=entIdentDecl
 		( ASSIGN init=expr[true] )? //'true' means that expr initializes an enum item
 			{
-				if(init != null)
+				if(init != null) {
 					value = init;
-				else
+				} else {
 					value = defInit;
+				}
 				MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
 				id.setDecl(memberDecl);
 				coll.addChild(memberDecl);
-				res = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
-				res.addChild(value);
-				res.addChild(env.getOne());
+				OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+				add.addChild(value);
+				add.addChild(env.getOne());
+				res = add;
 			}
 	;
 

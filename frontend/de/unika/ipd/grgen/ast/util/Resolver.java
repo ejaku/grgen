@@ -31,18 +31,7 @@ import de.unika.ipd.grgen.util.Base;
  */
 public abstract class Resolver extends Base {
 	/**
-	 * Resolve a node.
-	 * @param node The parent node of the node to resolve.
-	 * @param child The index of the node to resolve in <code>node</code>'s
-	 * children.
-	 * @return true, if the resolving was successful, false, if not.
-	 */
-	public abstract boolean resolve(BaseNode node, int child);
-
-	/**
-	 * Resolve a node. 
-	 * That means this method returns the resolve node, but doesn't replace the node in the AST,
-	 * in contrast to resolve(BaseNode node, int child), which does replace the node
+	 * Resolves a node to another node. (but doesn't replace the node in the AST)
 	 * @param node The original node to resolve.
 	 * @return The node the original node was resolved to (which might be the original node itself),
 	 *         or null if the resolving failed

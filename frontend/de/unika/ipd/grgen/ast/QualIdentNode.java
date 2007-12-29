@@ -176,38 +176,4 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		
 		return new Qualification(owner, member);
 	}
-
-	public void reportChildError(int childNum, Class<?> cls) {
-		switch (childNum) {
-		case 0:
-			reportError("Node or edge expected before '.'");
-			break;
-		case 1:
-			reportError("Not a member of " + getChild(0));
-			break;
-		default:
-			reportError("Internal error: " + getChild(childNum).getName()
-					+ "has no child with number " + childNum);
-		}
-	}
-	
-	// debug guards to protect again accessing wrong elements
-	public void addChild(BaseNode n) {
-		assert(false);
-	}
-	public void setChild(int pos, BaseNode n) {
-		assert(false);
-	}
-	public BaseNode getChild(int i) {
-		assert(false);
-		return null;
-	}
-	public int children() {
-		assert(false);
-		return 0;
-	}
-	public BaseNode replaceChild(int i, BaseNode n) {
-		assert(false);
-		return null;
-	}
 }

@@ -38,17 +38,13 @@ import java.util.HashMap;
  */
 public abstract class TypeNode extends BaseNode
 {
-	/**
-	 * A map, that maps each basic type to a set of all other basic types,
-	 * that are compatible to the type.
-	 */
+	/** A map, that maps each basic type to a set of all other basic types,
+	 *  that are compatible to the type. */
 	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap =
 		new HashMap<TypeNode, HashSet<TypeNode>>();
 
-	/**
-	 * A map, that maps each type to a set of all other types,
-	 * that are castable to the type.
-	 */
+	/** A map, that maps each type to a set of all other types,
+	 * that are castable to the type. */
 	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = 
 		new HashMap<TypeNode, HashSet<TypeNode>>();
 		

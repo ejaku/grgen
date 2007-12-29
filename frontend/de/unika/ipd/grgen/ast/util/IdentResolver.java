@@ -59,45 +59,6 @@ public abstract class IdentResolver extends Resolver {
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode, int)
-	 * The function resolves an IdentNode into it's declaration node.
-	 * If the node in <code>n</code> at position <code>pos</code> is not an IdentNode,
-	 * the method returns true and the node is considered as resolved.
-	 */
-	public boolean resolve(BaseNode n, int pos) {
-		assert pos < n.children() : "position exceeds children count";
-
-		debug.report(NOTE, "resolving position: " + pos);
-		BaseNode childToResolve = n.getChild(pos);
-		debug.report(NOTE, "child is a: " + childToResolve.getName() + " (" + childToResolve + ")");
-		if(!(childToResolve instanceof IdentNode)) {
-			// if the desired node isn't an identifier everything is fine, return true
-			//  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
-			return true;
-		}
-
-		IdentNode identNode = (IdentNode)childToResolve;
-		BaseNode get = resolveIdent(identNode);
-		debug.report(NOTE, "resolved to a: " + get.getName());
-
-		// Check, if the class of the resolved node is one of the desired classes.
-		// If that's true, replace the desired node with the resolved one.
-		for(int i = 0; i < classes.length; i++) {
-			if(classes[i].isInstance(get)) {
-				n.replaceChild(pos, get);
-				debug.report(NOTE, "child is now a: " + n.getChild(pos));
-				return true;
-			}
-		}
-
-		// If not, replace with error node
-		reportError(identNode, "\"" + identNode + "\" is a " + get.getUseString() +
-						" but a " + expectList + " is expected");
-		n.replaceChild(pos, getDefaultResolution());
-		return false;
-	}
-
-	/**
 	 * @see de.unika.ipd.grgen.ast.util.Resolver#resolve(de.unika.ipd.grgen.ast.BaseNode)
 	 * The function resolves an IdentNode into it's declaration node.
 	 * If the node <code>node</code> is not an IdentNode, the method returns it.

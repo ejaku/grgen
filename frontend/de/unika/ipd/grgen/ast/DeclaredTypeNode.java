@@ -46,18 +46,14 @@ public abstract class DeclaredTypeNode extends TypeNode
 		return decl != null ? decl.getIdentNode() : IdentNode.getInvalid();
 	}
 
-	/**
-	 * Set the declaration of this type.
-	 * @param decl The declaration of this type.
-	 */
+	/** Set the declaration of this type.
+	 *  @param decl The declaration of this type. */
 	protected void setDecl(DeclNode decl) {
 		this.decl = decl;
 	}
 
-	/**
-	 * Get the declaration of this type
-	 * @return The declaration of this type.
-	 */
+	/** Get the declaration of this type
+	 * @return The declaration of this type. */
 	public DeclNode getDecl() {
 		return decl;
 	}
