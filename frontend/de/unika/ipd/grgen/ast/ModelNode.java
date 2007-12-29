@@ -27,7 +27,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -48,15 +47,20 @@ public class ModelNode extends DeclNode
 	
 	protected static final TypeNode modelType = new ModelTypeNode();
 	
-	/** Index of the decl collect node in the children. */
-	protected static final int DECLS = 2;
+	BaseNode decls;
 		
-	public ModelNode(IdentNode id) {
+	public ModelNode(IdentNode id, BaseNode decls) {
 		super(id, modelType);
+		this.decls = decls==null ? NULL : decls;
+		becomeParent(this.decls);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(decls);
 		return children;
 	}
 
@@ -77,16 +81,16 @@ public class ModelNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver declResolver = new CollectResolver(new DeclResolver(TypeDeclNode.class));
-		successfullyResolved = declResolver.resolve(this, DECLS) && successfullyResolved;
+		Resolver declResolver = new DeclResolver(TypeDeclNode.class);
+		successfullyResolved = ((CollectNode)decls).resolveChildren(declResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(DECLS).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = decls.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -103,9 +107,9 @@ public class ModelNode extends DeclNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(DECLS).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = decls.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -124,7 +128,7 @@ public class ModelNode extends DeclNode
 	 */
 	protected boolean checkLocal() {
 		Checker checker = new CollectChecker(new SimpleChecker(TypeDeclNode.class));
-		return checker.check(getChild(DECLS), error) && checkInhCycleFree();
+		return checker.check(decls, error) && checkInhCycleFree();
 	}
 	
 	/**
@@ -142,9 +146,9 @@ public class ModelNode extends DeclNode
 	 */
 	protected IR constructIR()
 	{
-		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
+		Ident id = (Ident) ident.checkIR(Ident.class);
 		Model res = new Model(id);
-		for(BaseNode children : getChild(DECLS).getChildren()) {
+		for(BaseNode children : decls.getChildren()) {
 			TypeDeclNode typeDecl = (TypeDeclNode)children;
 			res.addType(((TypeNode) typeDecl.getDeclType()).getType());
 		}
@@ -192,7 +196,7 @@ public class ModelNode extends DeclNode
 	 */
 	private boolean checkInhCycleFree()
 	{
-		Collection<BaseNode> coll = getChild(DECLS).getChildren();
+		Collection<BaseNode> coll = decls.getChildren();
 		for (BaseNode t : coll) {
 			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
 
@@ -203,8 +207,7 @@ public class ModelNode extends DeclNode
 			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
 			Collection<BaseNode> done = new HashSet<BaseNode>();
 			
-			boolean isCycleFree =
-				checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
+			boolean isCycleFree = checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
 
 			if ( ! isCycleFree ) {
 				return false;
@@ -213,7 +216,26 @@ public class ModelNode extends DeclNode
 		return true;
 	}
 			
-			
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
+	}
+	
 	/*
 	Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
 	TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();

@@ -43,15 +43,21 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
-	private static final int OLD = CONSTRAINTS + 1;
+	BaseNode old;
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
-		addChild(oldid);
+		this.old = oldid==null ? NULL : oldid;
+		becomeParent(this.old);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(constraints);
+		children.add(old);
 		return children;
 	}
 
@@ -74,17 +80,21 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class });
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
-		successfullyResolved = nodeResolver.resolve(this, OLD) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
+		resolved = nodeResolver.resolve(old);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		old = ownedResolutionResult(old, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = constraints.resolve() && successfullyResolved;
+		successfullyResolved = old.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -101,10 +111,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(CONSTRAINTS).check() && childrenChecked;
-			childrenChecked = getChild(OLD).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = constraints.check() && childrenChecked;
+			childrenChecked = old.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -117,7 +127,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	 * @return the original node for this retyped node
 	 */
 	public NodeCharacter getOldNode() {
-		return (NodeCharacter) getChild(OLD);
+		return (NodeCharacter) old;
 	}
 
 	/**
@@ -126,12 +136,12 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal()
-			&& nodeChecker.check(getChild(OLD), error);
+			&& nodeChecker.check(this.old, error);
 		if (!res) {
 			return false;
 		}
 		// ok, since checked above
-		DeclNode old = (DeclNode) getChild(OLD);
+		DeclNode old = (DeclNode) this.old;
 
 		// check if source node of retype is declared in replace/modify part
 		BaseNode curr = old;
@@ -141,7 +151,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			prev = curr;
 			curr = curr.getParents().iterator().next();
 		}
-		if (prev == curr.getChild(RuleDeclNode.RIGHT)) {
+		if (prev == ((RuleDeclNode)curr).right) {
 			reportError("Source node of retype may not be declared in replace/modify part");
 			res = false;
 		}
@@ -150,11 +160,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
 			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
-			// TODO: p.getChild(OLD) == old always true, since p is a parent (of type NodeTypeChangeNode) of old?
-			if (p != this && p instanceof NodeTypeChangeNode
-					&& (p.getChild(OLD) == old)) {
-				reportError("Two (and hence ambiguous) retype statements for the same node are forbidden, previous retype statement at "
-						+ p.getCoords());
+			// TODO: p.old == old always true, since p is a parent (of type NodeTypeChangeNode) of old?
+			if (p != this && p instanceof NodeTypeChangeNode && (((NodeTypeChangeNode)p).old == old)) {
+				reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
+						+ " previous retype statement at " + p.getCoords());
 				res = false;
 			}
 		}
@@ -171,7 +180,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	 */
 	protected IR constructIR() {
 		// This cast must be ok after checking.
-		NodeCharacter oldNodeDecl = (NodeCharacter) getChild(OLD);
+		NodeCharacter oldNodeDecl = (NodeCharacter) old;
 
 		// This cast must be ok after checking.
 		NodeTypeNode tn = (NodeTypeNode) getDeclType();
@@ -185,9 +194,29 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		res.setOldNode(node);
 
 		if (inheritsType()) {
-			res.setTypeof((Node) getChild(TYPE).checkIR(Node.class));
+			res.setTypeof((Node) type.checkIR(Node.class));
 		}
 
 		return res;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

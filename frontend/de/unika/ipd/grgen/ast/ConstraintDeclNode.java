@@ -31,19 +31,20 @@ import de.unika.ipd.grgen.ir.TypeExpr;
 
 abstract class ConstraintDeclNode extends DeclNode
 {
-	protected static final int CONSTRAINTS = LAST + 1;
+	BaseNode constraints;
 	
 	ConstraintDeclNode(IdentNode id, BaseNode type, BaseNode constraints) {
 		super(id, type);
-		addChild(constraints);
+		this.constraints = constraints==null ? NULL : constraints;
+		becomeParent(this.constraints);
 	}
 			
 	protected boolean checkLocal() {
-		return (new SimpleChecker(TypeExprNode.class)).check(getChild(CONSTRAINTS), error);
+		return (new SimpleChecker(TypeExprNode.class)).check(constraints, error);
 	}
 	
 	protected final TypeExpr getConstraints() {
-		return (TypeExpr) getChild(CONSTRAINTS).checkIR(TypeExpr.class);
+		return (TypeExpr) constraints.checkIR(TypeExpr.class);
 	}
 }
 

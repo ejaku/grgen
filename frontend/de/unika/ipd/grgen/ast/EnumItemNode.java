@@ -44,8 +44,7 @@ public class EnumItemNode extends MemberDeclNode
 		setName(EnumItemNode.class, "enum item");
 	}
 	
-	/** Index of the value child. */
-	private static final int VALUE = LAST + 1;
+	BaseNode value;
 	
 	/** Position of this item in the enum. */
 	private final int pos;
@@ -56,12 +55,17 @@ public class EnumItemNode extends MemberDeclNode
 	public EnumItemNode(IdentNode identifier, IdentNode type, BaseNode value, int pos)
 	{
 		super(identifier, type);
+		this.value = value==null ? NULL : value;
+		becomeParent(this.value);
 		this.pos = pos;
-		addChild(value);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(value);
 		return children;
 	}
 
@@ -82,15 +86,17 @@ public class EnumItemNode extends MemberDeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(VALUE).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = value.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -107,9 +113,9 @@ public class EnumItemNode extends MemberDeclNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(VALUE).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = value.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -122,9 +128,9 @@ public class EnumItemNode extends MemberDeclNode
 	protected boolean checkLocal()
 	{
 		Checker typeChecker = new SimpleChecker(new Class[] { EnumTypeNode.class });
-		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& typeChecker.check(getChild(TYPE), error)
-			&& (new SimpleChecker(ExprNode.class)).check(getChild(VALUE), error);
+		return (new SimpleChecker(IdentNode.class)).check(ident, error)
+			&& typeChecker.check(type, error)
+			&& (new SimpleChecker(ExprNode.class)).check(value, error);
 	}
 	
 	/**
@@ -139,43 +145,37 @@ public class EnumItemNode extends MemberDeclNode
 		// This may not be.
 		BooleanResultVisitor v = new BooleanResultVisitor(true)
 		{
-			public void visit(Walkable w)
-			{
-				if(w instanceof EnumItemNode)
-				{
+			public void visit(Walkable w) {
+				if(w instanceof EnumItemNode) {
 					EnumItemNode item = (EnumItemNode) w;
-					if(item.pos <= pos)
-					{
+					if(item.pos <= pos) {
 						thisOne.reportError("Enum item must not be defined with a previous one");
 						setResult(false);
 					}
 				}
-				
 			}
 		};
 		
 		Walker w = new PostWalker(v);
-		w.walk(getChild(VALUE));
+		w.walk(this.value);
 		
-		if(!v.booleanResult())
+		if(!v.booleanResult()) {
 			return false;
+		}
 		
+		ExprNode value = (ExprNode) this.value;
 		
-		ExprNode value = (ExprNode) getChild(VALUE);
-		
-		if(!value.isConst())
-		{
+		if(!value.isConst()) {
 			reportError("Initialization of enum item is not constant");
 			return false;
 		}
 		
 		// Adjust the values type to int, else emit an error.
-		if(value.getType().isCompatibleTo(BasicTypeNode.intType))
-		{
-			replaceChild(VALUE, value.adjustType(BasicTypeNode.intType));
-		}
-		else
-		{
+		if(value.getType().isCompatibleTo(BasicTypeNode.intType)) {
+			ExprNode adjusted = value.adjustType(BasicTypeNode.intType);
+			becomeParent(adjusted);
+			value = adjusted;
+		} else {
 			reportError("The type of the initializator must be integer");
 			return false;
 		}
@@ -185,13 +185,15 @@ public class EnumItemNode extends MemberDeclNode
 	
 	protected ConstNode getValue()
 	{
-		ExprNode expr = (ExprNode) getChild(VALUE);
+		ExprNode expr = (ExprNode) value;
 		// TODO are we allowed to cast to a ConstNode here???
 		ConstNode res = expr.getConst().castTo(BasicTypeNode.intType);
 		debug.report(NOTE, "type: " + res.getType());
 		
 		Object value = res.getValue();
-		if ( ! (value instanceof Integer) ) return ConstNode.getInvalid();
+		if ( ! (value instanceof Integer) ) {
+			return ConstNode.getInvalid();
+		}
 		
 		int v = ((Integer) value).intValue();
 		debug.report(NOTE, "result: " + res);
@@ -209,7 +211,7 @@ public class EnumItemNode extends MemberDeclNode
 	 */
 	protected IR constructIR()
 	{
-		IdentNode id = (IdentNode) getChild(IDENT);
+		IdentNode id = (IdentNode) ident;
 		ConstNode c = getValue();
 		
 		assert ( ! c.equals(ConstNode.getInvalid()) ):
@@ -222,5 +224,25 @@ public class EnumItemNode extends MemberDeclNode
 	public static String getUseStr()
 	{
 		return "enum item";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

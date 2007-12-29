@@ -56,6 +56,9 @@ public class MemberDeclNode extends DeclNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
 		return children;
 	}
 
@@ -75,14 +78,16 @@ public class MemberDeclNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -99,8 +104,8 @@ public class MemberDeclNode extends DeclNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -112,12 +117,32 @@ public class MemberDeclNode extends DeclNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
-		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& typeChecker.check(getChild(TYPE), error);
+		return (new SimpleChecker(IdentNode.class)).check(ident, error)
+			&& typeChecker.check(type, error);
 	}
 
 	protected IR constructIR() {
 		Type type = (Type) getDeclType().checkIR(Type.class);
 		return new Entity("entity", getIdentNode().getIdent(), type);
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

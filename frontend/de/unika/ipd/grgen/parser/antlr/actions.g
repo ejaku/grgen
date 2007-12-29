@@ -94,9 +94,7 @@ text returns [ BaseNode main = env.initNode() ]
 
 	( actionDecls[mainChilds] EOF )?
 		{
-			main = new UnitNode(id, getFilename());
-			main.addChild(modelChilds);
-			main.addChild(mainChilds);
+			main = new UnitNode(id, getFilename(), modelChilds, mainChilds);
 			env.getCurrScope().leaveScope();
 		}
 	;

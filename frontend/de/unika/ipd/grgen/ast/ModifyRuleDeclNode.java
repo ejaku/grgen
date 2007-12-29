@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Resolver;
@@ -22,30 +21,27 @@ import java.util.Set;
 
 public class ModifyRuleDeclNode extends RuleDeclNode
 {
-	private static final int DELETE = LAST + 7;
-	
-	private static final Resolver deleteResolver =
-		new CollectResolver(
-			new DeclResolver(
-				new Class[] { NodeDeclNode.class, EdgeDeclNode.class }
-			)
-		);
-	
-	private static final Checker deleteChecker =
-		new CollectChecker(
-			new SimpleChecker(
-				new Class[] { NodeDeclNode.class, EdgeDeclNode.class }
-			)
-		);
+	BaseNode delete;
 	
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
-		addChild(dels);
+		this.delete = dels==null ? NULL : dels;
+		becomeParent(this.delete);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(param);
+		children.add(ret);
+		children.add(pattern);
+		children.add(neg);
+		children.add(right);
+		children.add(eval);
+		children.add(delete);
 		return children;
 	}
 
@@ -72,31 +68,23 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = deleteResolver.resolve(this, DELETE) && successfullyResolved;
+		Resolver deleteResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class });
+		successfullyResolved = ((CollectNode)delete).resolveChildren(deleteResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PARAM).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RET).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PATTERN).resolve() && successfullyResolved;
-		successfullyResolved = getChild(NEG).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RIGHT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(EVAL).resolve() && successfullyResolved;
-		successfullyResolved = getChild(DELETE).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = param.resolve() && successfullyResolved;
+		successfullyResolved = ret.resolve() && successfullyResolved;
+		successfullyResolved = pattern.resolve() && successfullyResolved;
+		successfullyResolved = neg.resolve() && successfullyResolved;
+		successfullyResolved = right.resolve() && successfullyResolved;
+		successfullyResolved = eval.resolve() && successfullyResolved;
+		successfullyResolved = delete.resolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	protected boolean resolveDelete()
-	{
-		if(!deleteResolver.resolve(this, DELETE)) {
-			debug.report(NOTE, "resolve error");
-			return false;
-		}
-		return true;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
@@ -112,15 +100,15 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(PARAM).check() && childrenChecked;
-			childrenChecked = getChild(RET).check() && childrenChecked;
-			childrenChecked = getChild(PATTERN).check() && childrenChecked;
-			childrenChecked = getChild(NEG).check() && childrenChecked;
-			childrenChecked = getChild(RIGHT).check() && childrenChecked;
-			childrenChecked = getChild(EVAL).check() && childrenChecked;
-			childrenChecked = getChild(DELETE).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = param.check() && childrenChecked;
+			childrenChecked = ret.check() && childrenChecked;
+			childrenChecked = pattern.check() && childrenChecked;
+			childrenChecked = neg.check() && childrenChecked;
+			childrenChecked = right.check() && childrenChecked;
+			childrenChecked = eval.check() && childrenChecked;
+			childrenChecked = delete.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -133,7 +121,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	{
 		Set<DeclNode> res = new HashSet<DeclNode>();
 
-		for (BaseNode x : getChild(DELETE).getChildren()) {
+		for (BaseNode x : delete.getChildren()) {
 			assert (x instanceof DeclNode);
 			assert(!x.isKept());
 			res.add((DeclNode)x);
@@ -145,7 +133,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	{
 		boolean res = true;
 		CollectNode returns = (CollectNode) right.getReturn();
-		CollectNode deletions = (CollectNode) getChild(DELETE);
+		CollectNode deletions = (CollectNode) delete;
 		
 		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
 		for (BaseNode x: deletions.getChildren()) {
@@ -154,31 +142,30 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		}
 				
 		for (BaseNode x : returns.getChildren()) {
-
 			IdentNode ident = (IdentNode) x;
 			DeclNode retElem = ident.getDecl();
 
-			if (
-				((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))
-				&& deletedElems.contains(retElem)
-			) {
+			if (((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))
+				&& deletedElems.contains(retElem))
+			{
 				res = false;
 
 				String nodeOrEdge = "";
-				if (retElem instanceof NodeDeclNode) nodeOrEdge = "node";
-				else if (retElem instanceof NodeDeclNode) nodeOrEdge = "edge";
-				else nodeOrEdge = "element";
+				if (retElem instanceof NodeDeclNode) {
+					nodeOrEdge = "node";
+				} else if (retElem instanceof NodeDeclNode) {
+					nodeOrEdge = "edge";
+				} else {
+					nodeOrEdge = "element";
+				}
 				
-				if (
-					left.getNodes().contains(retElem) ||
-					getChild(PARAM).getChildren().contains(retElem)
-				)
-					((IdentNode)ident).reportError("The deleted " + nodeOrEdge +
-							" \"" + ident + "\" must not be returned");
-				else
+				if (left.getNodes().contains(retElem) || param.getChildren().contains(retElem)) {
+					((IdentNode)ident).reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
+				} else {
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
 						"neither a parameter, nor contained in LHS, nor in " +
 						"RHS, occurs in a return";
+				}
 			}
 		}
 		return res;
@@ -188,13 +175,11 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	{
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode lc : left.getConnections())
-		{
-			for (BaseNode rc : right.getConnections())
-			{
-				
-				if (lc instanceof SingleNodeConnNode ||
-					rc instanceof SingleNodeConnNode ) continue;
+		for (BaseNode lc : left.getConnections()) {
+			for (BaseNode rc : right.getConnections()) {
+				if (lc instanceof SingleNodeConnNode || rc instanceof SingleNodeConnNode ) {
+					continue;
+				}
 				
 				ConnectionNode lConn = (ConnectionNode) lc;
 				ConnectionNode rConn = (ConnectionNode) rc;
@@ -202,10 +187,13 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
 				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
 				
-				if (re instanceof EdgeTypeChangeNode)
+				if (re instanceof EdgeTypeChangeNode) {
 					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+				}
 				
-				if ( ! le.equals(re) ) continue;
+				if ( ! le.equals(re) ) {
+					continue;
+				}
 				
 				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
 				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
@@ -223,11 +211,10 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 					rhsNodes.add(rTgt);
 				}
 				
-				//check, wether reuse of nodes and edges is consistent with the LHS
+				//check, whether reuse of nodes and edges is consistent with the LHS
 				if ( rSrc.isDummy() ) {
 					rConn.setSrc(lSrc);
-				}
-				else if ( ! rSrc.equals(lSrc) ) {
+				} else if ( ! rSrc.equals(lSrc) ) {
 					res = false;
 					rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 					alreadyReported.add(re);
@@ -235,18 +222,15 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 				
 				if ( rTgt.isDummy() ) {
 					rConn.setTgt(lTgt);
-				}
-				else if ( ! rTgt.equals(lTgt) ) {
+				} else if ( ! rTgt.equals(lTgt) ) {
 					res = false;
 					rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 					alreadyReported.add(re);
 				}
 
 				//check, whether RHS "adds" a node to a dangling end of a edge
-				if ( ! alreadyReported.contains(re) )
-				{
-					if ( lSrc.isDummy() && ! rSrc.isDummy() )
-					{
+				if ( ! alreadyReported.contains(re) ) {
+					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
 						res = false;
 						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
 						alreadyReported.add(re);
@@ -265,18 +249,20 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	
 	private void warnElemAppearsInsideAndOutsideDelete() {
 		Set<DeclNode> deletes = getDelete();
-		GraphNode right = (GraphNode) getChild(RIGHT);
+		GraphNode right = (GraphNode) this.right;
 		
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (BaseNode x : right.getConnections()) {
-
 			BaseNode elem = BaseNode.getErrorNode();
-			if (x instanceof SingleNodeConnNode)
+			if (x instanceof SingleNodeConnNode) {
 				elem = ((SingleNodeConnNode)x).getNode();
-			else if (x instanceof ConnectionNode)
+			} else if (x instanceof ConnectionNode) {
 				elem = (BaseNode) ((ConnectionNode)x).getEdge();
-
-			if (alreadyReported.contains(elem)) continue;
+			}
+			
+			if (alreadyReported.contains(elem)) {
+				continue;
+			}
 			
 			for (BaseNode y : deletes) {
 				if (elem.equals(y)) {
@@ -290,61 +276,87 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	@Override
 	protected boolean checkLocal() {
 		warnElemAppearsInsideAndOutsideDelete();
+		Checker deleteChecker = new CollectChecker(new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
 		return super.checkLocal()
-			&& deleteChecker.check(getChild(DELETE), error);
+			&& deleteChecker.check(delete, error);
 	}
 	
 	@Override
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
-		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
+		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
+		Graph right = ((GraphNode) this.right).getGraph();
 		
 		Collection<Entity> deleteSet = new HashSet<Entity>();
-		for(BaseNode n : getChild(DELETE).getChildren()) {
+		for(BaseNode n : delete.getChildren()) {
 			deleteSet.add((Entity)n.checkIR(Entity.class));
 		}
 		
 		for(Node n : left.getNodes()) {
-			if(!deleteSet.contains(n))
+			if(!deleteSet.contains(n)) {
 				right.addSingleNode(n);
+			}
 		}
 		for(Edge e : left.getEdges()) {
-			if(!deleteSet.contains(e) &&
-			   !deleteSet.contains(left.getSource(e)) &&
-			   !deleteSet.contains(left.getTarget(e)))
+			if(!deleteSet.contains(e)
+				&& !deleteSet.contains(left.getSource(e))
+				&& !deleteSet.contains(left.getTarget(e)))
+			{
 				right.addConnection(left.getSource(e), e, left.getTarget(e));
+			}
 		}
 		
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		constructImplicitNegs(rule);
-		constructIRaux(rule, ((GraphNode)getChild(RIGHT)).getReturn());
+		constructIRaux(rule, ((GraphNode)this.right).getReturn());
 		
 		// add Params to the IR
-		for(BaseNode n : getChild(PARAM).getChildren()) {
+		for(BaseNode n : param.getChildren()) {
 			DeclNode param = (DeclNode)n;
-			if(!deleteSet.contains(param.getIR()))
+			if(!deleteSet.contains(param.getIR())) {
 				if(param instanceof NodeCharacter) {
 					right.addSingleNode(((NodeCharacter)param).getNode());
-				}
-				else if (param instanceof EdgeCharacter) {
+				} else if (param instanceof EdgeCharacter) {
 					Edge e = ((EdgeCharacter)param).getEdge();
-					if(!deleteSet.contains(e) &&
-					   !deleteSet.contains(left.getSource(e)) &&
-					   !deleteSet.contains(left.getTarget(e)))
+					if(!deleteSet.contains(e)
+						&& !deleteSet.contains(left.getSource(e))
+						&& !deleteSet.contains(left.getTarget(e)))
+					{
 						right.addSingleEdge(e); //TODO
 						//right.addConnection(left.getSource(e),e, left.getTarget((e)));
-				}
-				else
+					}
+				} else {
 					throw new IllegalArgumentException("unknown Class: " + n);
+				}
+			}
 		}
 		
 		// add Eval statements to the IR
-		for(BaseNode n : getChild(EVAL).getChildren()) {
+		for(BaseNode n : eval.getChildren()) {
 			AssignNode eval = (AssignNode)n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
 		
 		return rule;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

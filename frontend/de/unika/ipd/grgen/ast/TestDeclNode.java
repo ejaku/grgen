@@ -55,19 +55,23 @@ public class TestDeclNode extends ActionDeclNode
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	protected static final int PARAM = LAST + 1;
-	protected static final int RET = LAST + 2;
-	protected static final int PATTERN = LAST + 3;
-	protected static final int NEG = LAST + 4;
+	BaseNode param;
+	BaseNode ret;
+	BaseNode pattern;
+	BaseNode neg;
 	
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);
-		addChild(params);
-		addChild(rets);
-		addChild(pattern);
-		addChild(neg);
+		this.param = params==null ? NULL : params;
+		becomeParent(this.param);
+		this.ret = rets==null ? NULL : rets;
+		becomeParent(this.ret);
+		this.pattern = pattern==null ? NULL : pattern;
+		becomeParent(this.pattern);
+		this.neg = neg==null ? NULL : neg;
+		becomeParent(this.neg);
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
@@ -76,6 +80,13 @@ public class TestDeclNode extends ActionDeclNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(param);
+		children.add(ret);
+		children.add(pattern);
+		children.add(neg);
 		return children;
 	}
 
@@ -101,12 +112,12 @@ public class TestDeclNode extends ActionDeclNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PARAM).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RET).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PATTERN).resolve() && successfullyResolved;
-		successfullyResolved = getChild(NEG).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = param.resolve() && successfullyResolved;
+		successfullyResolved = ret.resolve() && successfullyResolved;
+		successfullyResolved = pattern.resolve() && successfullyResolved;
+		successfullyResolved = neg.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -122,30 +133,32 @@ public class TestDeclNode extends ActionDeclNode
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
-		successfullyChecked = getChild(RET).check() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
-		successfullyChecked = getChild(NEG).check() && successfullyChecked;
+		successfullyChecked = ident.check() && successfullyChecked;
+		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = param.check() && successfullyChecked;
+		successfullyChecked = ret.check() && successfullyChecked;
+		successfullyChecked = pattern.check() && successfullyChecked;
+		successfullyChecked = neg.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		CollectNode negs  = (CollectNode) getChild(NEG);
-		res.add((GraphNode) getChild(PATTERN));
-		for (BaseNode n : negs.getChildren())
+		CollectNode negs  = (CollectNode) neg;
+		res.add((GraphNode) pattern);
+		for (BaseNode n : negs.getChildren()) {
 			res.add((GraphNode)n);
+		}
 		return res;
 	}
 
 	protected Collection<GraphNode> getNegativeGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		CollectNode negs  = (CollectNode) getChild(NEG);
+		CollectNode negs  = (CollectNode) neg;
 
-		for (BaseNode n : negs.getChildren())
+		for (BaseNode n : negs.getChildren()) {
 			res.add((GraphNode)n);
+		}
 
 		return res;
 	}
@@ -166,12 +179,12 @@ public class TestDeclNode extends ActionDeclNode
 		 System.out.println("    actualReturns = " + actualReturns.getChildren());
 		 */
 
-		if(actualReturns.children() != typeReturns.children()) {
+		if(((CollectNode)actualReturns).children.size() != ((CollectNode)typeReturns).children.size()) {
 			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
-							actualReturns.children() + " vs. " + typeReturns.children() +")");
+					((CollectNode)actualReturns).children.size() + " vs. " + ((CollectNode)typeReturns).children.size() +")");
 			returnTypes = false;
 		} else {
-			Iterator<BaseNode> itAR = actualReturns.getChildren().iterator();
+			Iterator<BaseNode> itAR = ((CollectNode)actualReturns).children.iterator();
 
 			for(BaseNode n : typeReturns.getChildren()) {
 				IdentNode       tReturnAST  = (IdentNode)n;
@@ -215,7 +228,9 @@ public class TestDeclNode extends ActionDeclNode
 					} else {
 						BaseNode type = ((IdentNode)node).getDecl().getDeclType();
 						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
-						if (!res) node.reportError("\"" + node + "\" is neither a node nor an edge type");
+						if (!res) {
+							node.reportError("\"" + node + "\" is neither a node nor an edge type");
+						}
 					}
 					return res;
 				}
@@ -223,9 +238,9 @@ public class TestDeclNode extends ActionDeclNode
 		);
 
 		Checker negChecker = new CollectChecker(new SimpleChecker(PatternGraphNode.class));
-		boolean childs = (new SimpleChecker(PatternGraphNode.class)).check(getChild(PATTERN), error)
-			& negChecker.check(getChild(NEG), error)
-			& retDeclarationChecker.check(getChild(RET), error);
+		boolean childs = (new SimpleChecker(PatternGraphNode.class)).check(pattern, error)
+			& negChecker.check(neg, error)
+			& retDeclarationChecker.check(ret, error);
 
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;
@@ -234,23 +249,26 @@ public class TestDeclNode extends ActionDeclNode
 
 			//get the negative graphs and the pattern of this TestDeclNode
 			Collection<GraphNode> leftHandGraphs = getNegativeGraphs();
-			leftHandGraphs.add((GraphNode)getChild(PATTERN));
+			leftHandGraphs.add((GraphNode)pattern);
 
 			GraphNode[] graphs = (GraphNode[]) leftHandGraphs.toArray(new GraphNode[0]);
 			Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 
-			for (int i=0; i<graphs.length; i++)
-				for (int o=i+1; o<graphs.length; o++)
+			for (int i=0; i<graphs.length; i++) {
+				for (int o=i+1; o<graphs.length; o++) {
 					for (BaseNode iBN : graphs[i].getConnections()) {
 						ConnectionCharacter iConn = (ConnectionCharacter)iBN;
-						if (! (iConn instanceof ConnectionNode)) continue;
+						if (! (iConn instanceof ConnectionNode)) {
+							continue;
+						}
 
 						for (BaseNode oBN : graphs[o].getConnections()) {
 							ConnectionCharacter oConn = (ConnectionCharacter)oBN;
-							if (! (oConn instanceof ConnectionNode)) continue;
+							if (! (oConn instanceof ConnectionNode)) {
+								continue;
+							}
 
 							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
-
 								NodeCharacter oSrc, oTgt, iSrc, iTgt;
 								oSrc = oConn.getSrc();
 								oTgt = oConn.getTgt();
@@ -267,10 +285,18 @@ public class TestDeclNode extends ActionDeclNode
 									"no type changes in test actions";
 
 								//check only if there's no dangling edge
-								if ( (iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy() ) continue;
-								if ( (oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy() ) continue;
-								if ( (iTgt instanceof NodeDeclNode)	&& ((NodeDeclNode)iTgt).isDummy() ) continue;
-								if ( (oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy() ) continue;
+								if ( (iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy() ) {
+									continue;
+								}
+								if ( (oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy() ) {
+									continue;
+								}
+								if ( (iTgt instanceof NodeDeclNode)	&& ((NodeDeclNode)iTgt).isDummy() ) {
+									continue;
+								}
+								if ( (oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy() ) {
+									continue;
+								}
 
 								if ( iSrc != oSrc || iTgt != oTgt ) {
 									alreadyReported.add(iConn.getEdge());
@@ -280,11 +306,14 @@ public class TestDeclNode extends ActionDeclNode
 							}
 						}
 					}
+				}
+			}
 		}
 
 		boolean returnParams = true;
-		if(! (this instanceof RuleDeclNode))
-			returnParams = checkReturnParams(getChild(RET), ((GraphNode)getChild(PATTERN)).getReturn());
+		if(! (this instanceof RuleDeclNode)) {
+			returnParams = checkReturnParams(ret, ((GraphNode)pattern).getReturn());
+		}
 
 		return childs && edgeReUse && returnParams;
 	}
@@ -294,7 +323,7 @@ public class TestDeclNode extends ActionDeclNode
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add negative parts to the IR
-		for (BaseNode n : getChild(NEG).getChildren()) {
+		for (BaseNode n : neg.getChildren()) {
 			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
 
 			// add Condition elements only mentioned in Condition to the IR
@@ -321,18 +350,17 @@ public class TestDeclNode extends ActionDeclNode
 		}
 
 		// add Params to the IR
-		for(BaseNode n : getChild(PARAM).getChildren()) {
+		for(BaseNode n : param.getChildren()) {
 			DeclNode param = (DeclNode)n;
 			ma.addParameter((Entity) param.checkIR(Entity.class));
 			if(param instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)param).getNode());
-			}
-			else if (param instanceof EdgeCharacter) {
+			} else if (param instanceof EdgeCharacter) {
 				Edge e = ((EdgeCharacter)param).getEdge();
 				patternGraph.addSingleEdge(e);
-			}
-			else
+			} else {
 				throw new IllegalArgumentException("unknown Class: " + n);
+			}
 		}
 
 		// add Return-Params to the IR
@@ -346,12 +374,32 @@ public class TestDeclNode extends ActionDeclNode
 	}
 
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
+		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
 		Test test = new Test(getIdentNode().getIdent(), left);
 
-		constructIRaux(test, getChild(RET));
+		constructIRaux(test, ret);
 
 		return test;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

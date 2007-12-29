@@ -44,15 +44,21 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		setName(EdgeTypeChangeNode.class, "edge type change decl");
 	}
 
-	private static final int OLD = CONSTRAINTS + 1;
+	BaseNode old;
 		
 	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
-		addChild(oldid);
+		this.old = oldid==null ? NULL : oldid;
+		becomeParent(this.old);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(constraints);
+		children.add(old);
 		return children;
 	}
 
@@ -75,17 +81,21 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver edgeResolver = new DeclResolver(new Class[] { EdgeDeclNode.class});
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
-		successfullyResolved = edgeResolver.resolve(this, OLD) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
+		resolved = edgeResolver.resolve(old);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		old = ownedResolutionResult(old, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if (!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(OLD).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = constraints.resolve() && successfullyResolved;
+		successfullyResolved = old.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -102,10 +112,10 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(CONSTRAINTS).check() && childrenChecked;
-			childrenChecked = getChild(OLD).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = constraints.check() && childrenChecked;
+			childrenChecked = old.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -118,15 +128,15 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	 * @return the original edge for this retyped edge
 	 */
 	public EdgeCharacter getOldEdge() {
-		return (EdgeCharacter) getChild(OLD);
+		return (EdgeCharacter) old;
 	}
 
 	public IdentNode getOldEdgeIdent() {
-		if (getChild(OLD) instanceof IdentNode) {
-			return (IdentNode) getChild(OLD);
+		if (old instanceof IdentNode) {
+			return (IdentNode) old;
 		}
-		if (getChild(OLD) instanceof EdgeDeclNode) {
-			return ((EdgeDeclNode) getChild(OLD)).getIdentNode();
+		if (old instanceof EdgeDeclNode) {
+			return ((EdgeDeclNode) old).getIdentNode();
 		}
 
 		return IdentNode.getInvalid();
@@ -138,13 +148,13 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	protected boolean checkLocal() {
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		boolean res = super.checkLocal()
-			&& edgeChecker.check(getChild(OLD), error);
+			&& edgeChecker.check(this.old, error);
 		if (!res) {
 			return false;
 		}
 
 		// ok, since checked above
-		DeclNode old = (DeclNode) getChild(OLD);
+		DeclNode old = (DeclNode) this.old;
 		
 		// check if source edge of retype is declared in replace/modify part
 		BaseNode curr = old;
@@ -155,7 +165,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 			curr = curr.getParents().iterator().next();
 			// TODO: bei mehreren Eltern wird ein Elter willkürlich gewählt - egal?
 		}
-		if (prev == curr.getChild(RuleDeclNode.RIGHT)) {
+		if (prev == ((RuleDeclNode)curr).right) {
 			reportError("Source edge of retype may not be declared in replace/modify part");
 			res = false;
 		}
@@ -164,14 +174,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		// declaration occurs
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
-			// to be erroneous there must be another EdgeTypeChangeNode with the
-			// same OLD-child
-			// TODO: p.getChild(OLD) == old always true, since p is a parent (of
-			// type EdgeTypeChangeNode) of old?
-			if (p != this && p instanceof EdgeTypeChangeNode
-					&& (p.getChild(OLD) == old)) {
-				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden, previous retype statement at "
-						+ p.getCoords());
+			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
+			// TODO: p.old == old always true, since p is a parent (of type EdgeTypeChangeNode) of old?
+			if (p != this && p instanceof EdgeTypeChangeNode && (((EdgeTypeChangeNode)p).old == old)) {
+				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
+						+ "previous retype statement at " + p.getCoords());
 				res = false;
 			}
 		}
@@ -188,24 +195,43 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 	 */
 	protected IR constructIR() {
 		// This cast must be ok after checking.
-		EdgeCharacter oldEdgeDecl = (EdgeCharacter) getChild(OLD);
+		EdgeCharacter oldEdgeDecl = (EdgeCharacter) old;
 
 		// This cast must be ok after checking.
 		EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
 		EdgeType et = etn.getEdgeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident
-				.getAttributes());
+		RetypedEdge res = new RetypedEdge(ident.getIdent(), et, ident.getAttributes());
 
 		Edge oldEdge = oldEdgeDecl.getEdge();
 		oldEdge.setRetypedEdge(res);
 		res.setOldEdge(oldEdge);
 
 		if (inheritsType()) {
-			res.setTypeof((Edge) getChild(TYPE).checkIR(Edge.class));
+			res.setTypeof((Edge) type.checkIR(Edge.class));
 		}
 
 		return res;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

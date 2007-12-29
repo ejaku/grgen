@@ -43,14 +43,9 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		setName(DeclNode.class, "declaration");
 	}
 
-	/** Index of the identifier in the children array */
-	protected static final int IDENT = 0;
-
-	/** Index of the type in the children array */
-	protected static final int TYPE = 1;
-
-	protected static final int LAST = TYPE;
-
+	BaseNode ident;
+	BaseNode type;
+	
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
 
@@ -72,8 +67,10 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	protected DeclNode(IdentNode n, BaseNode t) {
 		super(n.getCoords());
 		n.setDecl(this);
-		addChild(n);
-		addChild(t);
+		this.ident = n==null ? NULL : n;
+		becomeParent(this.ident);
+		this.type = t==null ? NULL : t;
+		becomeParent(this.type);
 	}
 
 	/**
@@ -82,7 +79,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	 * @return An ident node
 	 */
 	public IdentNode getIdentNode() {
-		return (IdentNode) getChild(IDENT);
+		return (IdentNode) ident;
 	}
 
 	/**
@@ -90,7 +87,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	 * @return The type node for the declaration
 	 */
 	public BaseNode getDeclType() {
-		return getChild(TYPE);
+		return type;
 	}
 
 	/**
@@ -100,9 +97,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		return this;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor()
-	 */
+	/** @see de.unika.ipd.grgen.util.GraphDumpableNode#getNodeColor() */
 	public Color getNodeColor() {
 		return Color.BLUE;
 	}
@@ -121,7 +116,27 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	public String toString() {
-		return getChild(IDENT).toString();
+		return ident.toString();
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

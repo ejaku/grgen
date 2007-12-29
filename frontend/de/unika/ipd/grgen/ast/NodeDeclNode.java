@@ -63,6 +63,10 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(constraints);
 		return children;
 	}
 	
@@ -83,15 +87,17 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -108,9 +114,9 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(CONSTRAINTS).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = constraints.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -122,8 +128,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	protected boolean checkLocal() {
 		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 		return super.checkLocal()
-			&& (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& typeChecker.check(getChild(TYPE), error);
+			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
+			&& typeChecker.check(type, error);
 	}
 	
 	/**
@@ -157,11 +163,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * inherited dynamically via the typeof operator
 	 */
 	public BaseNode getDeclType() {
-		return ((DeclNode)getChild(TYPE)).getDeclType();
+		return ((DeclNode)type).getDeclType();
 	}
 	
 	protected boolean inheritsType() {
-		return (getChild(TYPE) instanceof NodeDeclNode);
+		return (type instanceof NodeDeclNode);
 	}
 	
 	/**
@@ -177,11 +183,12 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		res.setConstraints(getConstraints());
 		
 		if( res.getConstraints().contains(res.getType()) ) {
-			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node ("+ res.getType() + ")");
+			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node "
+					+ "("+ res.getType() + ")");
 		}
 		
 		if(inheritsType()) {
-			res.setTypeof((Node)getChild(TYPE).checkIR(Node.class));
+			res.setTypeof((Node)type.checkIR(Node.class));
 		}
 		
 		return res;
@@ -192,5 +199,25 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	}
 	public static String getUseStr() {
 		return "node";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

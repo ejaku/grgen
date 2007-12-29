@@ -78,8 +78,7 @@ text returns [ BaseNode model = env.initNode() ]
 		)?
 		typeDecls[types] EOF
 			{
-				model = new ModelNode(id);
-				model.addChild(types);
+				model = new ModelNode(id, types);
 			}
 	;
 

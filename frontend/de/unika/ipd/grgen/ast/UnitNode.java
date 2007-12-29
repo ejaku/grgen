@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -49,11 +48,8 @@ public class UnitNode extends DeclNode
 
 	protected static final TypeNode mainType = new MainTypeNode();
 		
-	/** The index of the model child. */
-	protected static final int MODELS = 2;
-	
-	/** Index of the decl collect node in the children. */
-	private static final int DECLS = 3;
+	BaseNode models;
+	BaseNode decls;
 		
 	/** Contains the classes of all valid types which can be declared */
 	private static Class<?>[] validTypes = {
@@ -65,13 +61,22 @@ public class UnitNode extends DeclNode
 	 */
 	private String filename;
 	
-	public UnitNode(IdentNode id, String filename) {
+	public UnitNode(IdentNode id, String filename, BaseNode models, BaseNode decls) {
 		super(id, mainType);
+		this.models = models==null ? NULL : models;
+		becomeParent(this.models);
+		this.decls = decls==null ? NULL : decls;
+		becomeParent(this.decls);
 		this.filename = filename;
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(models);
+		children.add(decls);
 		return children;
 	}
 
@@ -93,17 +98,17 @@ public class UnitNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver declResolver = new CollectResolver(new DeclResolver(validTypes));
-		successfullyResolved = declResolver.resolve(this, DECLS) && successfullyResolved;
+		Resolver declResolver = new DeclResolver(validTypes);
+		successfullyResolved = ((CollectNode)decls).resolveChildren(declResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(MODELS).resolve() && successfullyResolved;
-		successfullyResolved = getChild(DECLS).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = models.resolve() && successfullyResolved;
+		successfullyResolved = decls.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -119,10 +124,10 @@ public class UnitNode extends DeclNode
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(MODELS).check() && successfullyChecked;
-		successfullyChecked = getChild(DECLS).check() && successfullyChecked;
+		successfullyChecked = ident.check() && successfullyChecked;
+		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = models.check() && successfullyChecked;
+		successfullyChecked = decls.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -137,8 +142,8 @@ public class UnitNode extends DeclNode
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		Checker declChecker = new CollectChecker(new SimpleChecker(validTypes));
-		return modelChecker.check(getChild(MODELS), error)
-			&& declChecker.check(getChild(DECLS), error);
+		return modelChecker.check(models, error)
+			&& declChecker.check(decls, error);
 	}
 	
 	/**
@@ -155,19 +160,39 @@ public class UnitNode extends DeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Ident id = (Ident) getChild(IDENT).checkIR(Ident.class);
+		Ident id = (Ident) ident.checkIR(Ident.class);
 		Unit res = new Unit(id, filename);
 		
-		for(BaseNode n : getChild(MODELS).getChildren()) {
+		for(BaseNode n : models.getChildren()) {
 			Model model = ((ModelNode)n).getModel();
 			res.addModel(model);
 		}
 
-		for(BaseNode n : getChild(DECLS).getChildren()) {
+		for(BaseNode n : decls.getChildren()) {
 			Action act = ((ActionDeclNode)n).getAction();
 			res.addAction(act);
 		}
 
 		return res;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

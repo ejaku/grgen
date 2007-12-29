@@ -41,8 +41,7 @@ public class TypeDeclNode extends DeclNode
 	public TypeDeclNode(IdentNode i, BaseNode t) {
 		super(i, t);
 		
-		// Set the declaration of the declared type node to this
-		// node.
+		// Set the declaration of the declared type node to this node.
 		if(t instanceof DeclaredTypeNode) {
 			((DeclaredTypeNode) t).setDecl(this);
 		}
@@ -50,6 +49,9 @@ public class TypeDeclNode extends DeclNode
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
 		return children;
 	}
 	
@@ -71,8 +73,8 @@ public class TypeDeclNode extends DeclNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -89,8 +91,8 @@ public class TypeDeclNode extends DeclNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -101,8 +103,8 @@ public class TypeDeclNode extends DeclNode
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& (new SimpleChecker(DeclaredTypeNode.class)).check(getChild(TYPE), error);
+		return (new SimpleChecker(IdentNode.class)).check(ident, error)
+			&& (new SimpleChecker(DeclaredTypeNode.class)).check(type, error);
 	}
 
 	/**
@@ -121,5 +123,25 @@ public class TypeDeclNode extends DeclNode
 
 	public static String getUseStr() {
 		return "type";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

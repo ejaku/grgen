@@ -102,9 +102,8 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("object");
 		}
 
-		stdModel = new ModelNode(predefine(ENTITIES, "Std"));
 		CollectNode stdModelChilds = new CollectNode();
-		stdModel.addChild(stdModelChilds);
+		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds);
 
 		// The node type root
 		nodeRoot = predefineType("Node",

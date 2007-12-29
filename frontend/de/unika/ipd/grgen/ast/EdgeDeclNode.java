@@ -56,6 +56,10 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(constraints);
 		return children;
 	}
 	
@@ -76,15 +80,17 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		type = ownedResolutionResult(type, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(CONSTRAINTS).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -101,9 +107,9 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(IDENT).check() && childrenChecked;
-			childrenChecked = getChild(TYPE).check() && childrenChecked;
-			childrenChecked = getChild(CONSTRAINTS).check() && childrenChecked;
+			childrenChecked = ident.check() && childrenChecked;
+			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = constraints.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -115,8 +121,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	protected boolean checkLocal() {
 		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 		return super.checkLocal()
-			&& (new SimpleChecker(IdentNode.class)).check(getChild(IDENT), error)
-			&& typeChecker.check(getChild(TYPE), error);
+			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
+			&& typeChecker.check(type, error);
 	}
 	
 	/**
@@ -135,8 +141,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	}
 	
 	/**
-	 * Get the ir object correctly casted.
-	 * @return The edge ir object.
+	 * Get the IR object correctly casted.
+	 * @return The edge IR object.
 	 */
 	public Edge getEdge() {
 		return (Edge) checkIR(Edge.class);
@@ -147,16 +153,14 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 * inherited dynamically via the typeof operator
 	 */
 	public BaseNode getDeclType() {
-		return ((DeclNode)getChild(TYPE)).getDeclType();
+		return ((DeclNode)type).getDeclType();
 	}
 	
 	protected boolean inheritsType() {
-		return (getChild(TYPE) instanceof EdgeDeclNode);
+		return (type instanceof EdgeDeclNode);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		// This must be ok after checking all nodes.
 		TypeNode tn = (TypeNode) getDeclType();
@@ -167,7 +171,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		edge.setConstraints(getConstraints());
 		
 		if(inheritsType()) {
-			edge.setTypeof((Edge)getChild(TYPE).checkIR(Edge.class));
+			edge.setTypeof((Edge)type.checkIR(Edge.class));
 		}
 		
 		return edge;
@@ -179,6 +183,26 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 
 	public static String getUseStr() {
 		return "edge";
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

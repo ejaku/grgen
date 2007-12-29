@@ -50,8 +50,8 @@ public class RuleDeclNode extends TestDeclNode
 		setName(RuleDeclNode.class, "rule declaration");
 	}
 
-	protected static final int RIGHT = LAST + 5;
-	protected static final int EVAL = LAST + 6;
+	BaseNode right;
+	BaseNode eval;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
@@ -65,15 +65,25 @@ public class RuleDeclNode extends TestDeclNode
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode neg,
-						CollectNode eval, CollectNode params, CollectNode rets) {
-
+				CollectNode eval, CollectNode params, CollectNode rets) {
 		super(id, ruleType, left, neg, params, rets);
-		addChild(right);
-		addChild(eval);
+		this.right = right==null ? NULL : right;
+		becomeParent(this.right);
+		this.eval = eval==null ? NULL : eval;
+		becomeParent(this.eval);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(type);
+		children.add(param);
+		children.add(ret);
+		children.add(pattern);
+		children.add(neg);
+		children.add(right);
+		children.add(eval);
 		return children;
 	}
 	
@@ -101,14 +111,14 @@ public class RuleDeclNode extends TestDeclNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		successfullyResolved = getChild(IDENT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PARAM).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RET).resolve() && successfullyResolved;
-		successfullyResolved = getChild(PATTERN).resolve() && successfullyResolved;
-		successfullyResolved = getChild(NEG).resolve() && successfullyResolved;
-		successfullyResolved = getChild(RIGHT).resolve() && successfullyResolved;
-		successfullyResolved = getChild(EVAL).resolve() && successfullyResolved;
+		successfullyResolved = ident.resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = param.resolve() && successfullyResolved;
+		successfullyResolved = ret.resolve() && successfullyResolved;
+		successfullyResolved = pattern.resolve() && successfullyResolved;
+		successfullyResolved = neg.resolve() && successfullyResolved;
+		successfullyResolved = right.resolve() && successfullyResolved;
+		successfullyResolved = eval.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -124,20 +134,20 @@ public class RuleDeclNode extends TestDeclNode
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(IDENT).check() && successfullyChecked;
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(PARAM).check() && successfullyChecked;
-		successfullyChecked = getChild(RET).check() && successfullyChecked;
-		successfullyChecked = getChild(PATTERN).check() && successfullyChecked;
-		successfullyChecked = getChild(NEG).check() && successfullyChecked;
-		successfullyChecked = getChild(RIGHT).check() && successfullyChecked;
-		successfullyChecked = getChild(EVAL).check() && successfullyChecked;
+		successfullyChecked = ident.check() && successfullyChecked;
+		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = param.check() && successfullyChecked;
+		successfullyChecked = ret.check() && successfullyChecked;
+		successfullyChecked = pattern.check() && successfullyChecked;
+		successfullyChecked = neg.check() && successfullyChecked;
+		successfullyChecked = right.check() && successfullyChecked;
+		successfullyChecked = eval.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
-		res.add((GraphNode) getChild(RIGHT));
+		res.add((GraphNode) right);
 		return res;
 	}
 
@@ -145,46 +155,48 @@ public class RuleDeclNode extends TestDeclNode
 	{
 		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
-		GraphNode lhs = (GraphNode) getChild(PATTERN);
-		GraphNode rhs = (GraphNode) getChild(RIGHT);
+		GraphNode lhs = (GraphNode) pattern;
+		GraphNode rhs = (GraphNode) right;
 
 		for (BaseNode x : lhs.getEdges()) {
 			assert (x instanceof DeclNode);
-			if ( ! rhs.getEdges().contains(x) ) res.add((DeclNode)x);
+			if ( ! rhs.getEdges().contains(x) ) {
+				res.add((DeclNode)x);
+			}
 		}
 		for (BaseNode x : lhs.getNodes()) {
 			assert (x instanceof DeclNode);
-			if ( ! rhs.getNodes().contains(x) ) res.add((DeclNode)x);
+			if ( ! rhs.getNodes().contains(x) ) {
+				res.add((DeclNode)x);
+			}
 		}
-		for (BaseNode x : getChild(PARAM).getChildren()) {
+		for (BaseNode x : param.getChildren()) {
 			assert (x instanceof DeclNode);
-			if ( !( rhs.getNodes().contains(x) ||
-					rhs.getEdges().contains(x))
-			) res.add((DeclNode)x);
+			if ( !( rhs.getNodes().contains(x) || rhs.getEdges().contains(x)) ) {
+				res.add((DeclNode)x);
+			}
 		}
 
 		return res;
 	}
 
-	/**
-	 * Check that only graph elements are returned, that are not deleted.
-	 */
+	/** Check that only graph elements are returned, that are not deleted. */
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
 		CollectNode returns = (CollectNode) right.getReturn();
 		for (BaseNode x : returns.getChildren()) {
-
 			IdentNode ident = (IdentNode) x;
 			DeclNode retElem = ident.getDecl();
 			DeclNode oldElem = retElem;
 
 			// get original elem if return elem is a retyped one
-			if (retElem instanceof NodeTypeChangeNode)
+			if (retElem instanceof NodeTypeChangeNode) {
 				oldElem = (NodeDeclNode) ((NodeTypeChangeNode)retElem).getOldNode();
-			else if (retElem instanceof EdgeTypeChangeNode)
+			} else if (retElem instanceof EdgeTypeChangeNode) {
 				oldElem = (EdgeDeclNode) ((EdgeTypeChangeNode)retElem).getOldEdge();
-
+			}
+			
 			// rhsElems contains all elems of the RHS except for the old nodes
 			// and edges (in case of retyping)
 			Collection<BaseNode> rhsElems = right.getNodes();
@@ -192,32 +204,31 @@ public class RuleDeclNode extends TestDeclNode
 
 			// nodeOrEdge is used in error messages
 			String nodeOrEdge = "";
-			if (retElem instanceof NodeDeclNode) nodeOrEdge = "node";
-			else if (retElem instanceof EdgeDeclNode) nodeOrEdge = "edge";
-			else nodeOrEdge = "entity";
-
+			if (retElem instanceof NodeDeclNode) {
+				nodeOrEdge = "node";
+			} else if (retElem instanceof EdgeDeclNode) {
+				nodeOrEdge = "edge";
+			} else {
+				nodeOrEdge = "entity";
+			}
 
 			//TODO:	The job of the following should be done by a resolver resolving
 			//		the childs of the return node from identifiers to instances of
 			//		NodeDeclNode or EdgeDevleNode respectively.
-			 if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
+			if ( ! ((retElem instanceof NodeDeclNode) || (retElem instanceof EdgeDeclNode))) {
 				res = false;
-				ident.reportError(
-					"The element \"" + ident + "\" is neither a node nor an edge");
+				ident.reportError("The element \"" + ident + "\" is neither a node nor an edge");
 			}
 
 			if ( ! rhsElems.contains(retElem) ) {
-
 				res = false;
 
 				//TODO:	The job of the following should be done by a resolver resolving
 				//		the childs of the return nore from identifiers to instances of
 				//		NodeDeclNode or EdgeDevleNode respectively.
-				if ( ! (
-						 left.getNodes().contains(oldElem) ||
-						 left.getEdges().contains(oldElem) ||
-						 getChild(PARAM).getChildren().contains(retElem))
-					 	)
+				if ( ! (left.getNodes().contains(oldElem)
+						|| left.getEdges().contains(oldElem)
+						|| param.getChildren().contains(retElem)))
 				{
 					ident.reportError(
 						"\"" + ident + "\", that is neither a parameter, " +
@@ -233,25 +244,20 @@ public class RuleDeclNode extends TestDeclNode
 		return res;
 	}
 
-	/**
-	 * Check whether the returned elements are valid and
-	 * whether the number of returned elements is right.
-	 */
+	/** Check whether the returned elements are valid and
+	 *  whether the number of returned elements is right. */
 	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
 
-		Vector<BaseNode> retSignature =
-			(Vector<BaseNode>) getChild(RET).getChildren();
+		Vector<BaseNode> retSignature =	(Vector<BaseNode>) ret.getChildren();
 		CollectNode returns = (CollectNode) right.getReturn();
 
 		int declaredNumRets = retSignature.size();
 		int actualNumRets = returns.getChildren().size();
 
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-
-			IdentNode ident =
-				(IdentNode) ((Vector<BaseNode>)returns.getChildren()).get(i);
+			IdentNode ident = (IdentNode) ((Vector<BaseNode>)returns.getChildren()).get(i);
 			DeclNode retElem = ident.getDecl();
 
 			if (retElem.equals(DeclNode.getInvalid())) {
@@ -280,10 +286,8 @@ public class RuleDeclNode extends TestDeclNode
 				continue;
 			}
 
-			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)
-				retDeclType;
-			InheritanceTypeNode actualRetType =
-				(InheritanceTypeNode) retElem.getDeclType();
+			InheritanceTypeNode declaredRetType = (InheritanceTypeNode)	retDeclType;
+			InheritanceTypeNode actualRetType =	(InheritanceTypeNode) retElem.getDeclType();
 
 			if ( ! actualRetType.isA(declaredRetType) ) {
 				res = false;
@@ -295,12 +299,13 @@ public class RuleDeclNode extends TestDeclNode
 		//check the number of returned elements
 		if (actualNumRets != declaredNumRets) {
 			res = false;
-			if (declaredNumRets == 0)
-				returns.reportError("No return values declared for rule \"" + getChild(IDENT) + "\"");
-			else if(actualNumRets == 0)
-				reportError("Missing return statement for rule \"" + getChild(IDENT) + "\"");
-			else
+			if (declaredNumRets == 0) {
+				returns.reportError("No return values declared for rule \"" + ident + "\"");
+			} else if(actualNumRets == 0) {
+				reportError("Missing return statement for rule \"" + ident + "\"");
+			} else {
 				returns.reportError("Return statement has wrong number of parameters");
+			}
 		}
 		return res;
 	}
@@ -312,13 +317,11 @@ public class RuleDeclNode extends TestDeclNode
 	{
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode lc : left.getConnections())
-		{
-			for (BaseNode rc : right.getConnections())
-			{
-
-				if (lc instanceof SingleNodeConnNode ||
-					rc instanceof SingleNodeConnNode ) continue;
+		for (BaseNode lc : left.getConnections()) {
+			for (BaseNode rc : right.getConnections()) {
+				if (lc instanceof SingleNodeConnNode ||	rc instanceof SingleNodeConnNode ) {
+					continue;
+				}
 
 				ConnectionNode lConn = (ConnectionNode) lc;
 				ConnectionNode rConn = (ConnectionNode) rc;
@@ -326,10 +329,13 @@ public class RuleDeclNode extends TestDeclNode
 				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
 				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
 
-				if (re instanceof EdgeTypeChangeNode)
+				if (re instanceof EdgeTypeChangeNode) {
 					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+				}
 
-				if ( ! le.equals(re) ) continue;
+				if ( ! le.equals(re) ) {
+					continue;
+				}
 
 				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
 				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
@@ -347,65 +353,47 @@ public class RuleDeclNode extends TestDeclNode
 					rhsNodes.add(rTgt);
 				}
 
-				if ( ! lSrc.isDummy() )
-				{
-					if ( rSrc.isDummy() )
-					{
-						if ( rhsNodes.contains(lSrc) )
-						{
+				if ( ! lSrc.isDummy() ) {
+					if ( rSrc.isDummy() ) {
+						if ( rhsNodes.contains(lSrc) ) {
 							//replace the dummy src node by the src node of the pattern connection
 							rConn.setSrc(lSrc);
-						}
-						else if ( ! alreadyReported.contains(re) )
-						{
+						} else if ( ! alreadyReported.contains(re) ) {
 							res = false;
 							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
-					}
-					else if (lSrc != rSrc)
-					{
+					} else if (lSrc != rSrc) {
 						res = false;
 						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
 					}
-
 				}
 
-				if ( ! lTgt.isDummy() )
-				{
-					if ( rTgt.isDummy() )
-					{
-						if ( rhsNodes.contains(lTgt) )
-						{
+				if ( ! lTgt.isDummy() ) {
+					if ( rTgt.isDummy() ) {
+						if ( rhsNodes.contains(lTgt) ) {
 							//replace the dummy tgt node by the tgt node of the pattern connection
 							rConn.setTgt(lTgt);
-						}
-						else if ( ! alreadyReported.contains(re) )
-						{
+						} else if ( ! alreadyReported.contains(re) ) {
 							res = false;
 							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
-					}
-					else if ( lTgt != rTgt )
-					{
+					} else if ( lTgt != rTgt ) {
 						res = false;
 						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
 					}
 				}
 
-				if ( ! alreadyReported.contains(re) )
-				{
-					if ( lSrc.isDummy() && ! rSrc.isDummy() )
-					{
+				if ( ! alreadyReported.contains(re) ) {
+					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
 						res = false;
 						rConn.reportError("Reused edge dangles on LHS, but has a source node on RHS");
 						alreadyReported.add(re);
 					}
-					if ( lTgt.isDummy() && ! rTgt.isDummy() )
-					{
+					if ( lTgt.isDummy() && ! rTgt.isDummy() ) {
 						res = false;
 						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
 						alreadyReported.add(re);
@@ -428,19 +416,17 @@ public class RuleDeclNode extends TestDeclNode
 		Set<DeclNode> delSet = getDelete();
 		Set<IdentNode> retSet = new HashSet<IdentNode>();
 
-		Collection<BaseNode> rets =
-			((CollectNode) ((GraphNode) getChild(RIGHT)).getReturn()).getChildren();
+		Collection<BaseNode> rets = ((CollectNode) ((GraphNode) right).getReturn()).getChildren();
 
-		for (BaseNode x : rets)
+		for (BaseNode x : rets) {
 			retSet.add(((IdentNode)x));
+		}
 
-		Map<DeclNode, Set<BaseNode>>
-			elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
+		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();
 
 		// represent homomorphism cliques and map each elem to the clique
 		// it belong to
-		for (BaseNode x : ((PatternGraphNode)getChild(PATTERN)).getHoms()) {
-
+		for (BaseNode x : ((PatternGraphNode)pattern).getHoms()) {
 			HomNode hn = (HomNode) x;
 
 			Set<BaseNode> homSet;
@@ -461,11 +447,14 @@ public class RuleDeclNode extends TestDeclNode
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (DeclNode d : delSet) {
 			for (IdentNode r : retSet) {
-
-				if ( alreadyReported.contains(r) ) continue;
+				if ( alreadyReported.contains(r) ) {
+					continue;
+				}
 
 				Set<BaseNode> homSet = elemToHomElems.get(d);
-				if (homSet == null) continue;
+				if (homSet == null) {
+					continue;
+				}
 
 				if (homSet.contains(r.getDecl())) {
 					alreadyReported.add(r);
@@ -486,14 +475,15 @@ public class RuleDeclNode extends TestDeclNode
 	protected boolean checkLocal() {
 		Checker evalChecker = new CollectChecker(new SimpleChecker(AssignNode.class));
 		boolean leftHandGraphsOk = super.checkLocal()
-			&& (new SimpleChecker(GraphNode.class)).check(getChild(RIGHT), error)
-			&& evalChecker.check(getChild(EVAL), error);
+			&& (new SimpleChecker(GraphNode.class)).check(this.right, error)
+			&& evalChecker.check(this.eval, error);
 
-		PatternGraphNode left = (PatternGraphNode) getChild(PATTERN);
-		GraphNode right = (GraphNode) getChild(RIGHT);
+		PatternGraphNode left = (PatternGraphNode) pattern;
+		GraphNode right = (GraphNode) this.right;
 
 		boolean noReturnInPatternOk = true;
-		if(((GraphNode)getChild(PATTERN)).getReturn().children() > 0) {
+		CollectNode returns = (CollectNode) ((GraphNode) pattern).getReturn();
+		if(returns.children.size() > 0) {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
@@ -509,16 +499,16 @@ public class RuleDeclNode extends TestDeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) getChild(PATTERN)).getPatternGraph();
-		Graph right = ((GraphNode) getChild(RIGHT)).getGraph();
+		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
+		Graph right = ((GraphNode) this.right).getGraph();
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(rule);
-		constructIRaux(rule, ((GraphNode) getChild(RIGHT)).getReturn());
+		constructIRaux(rule, ((GraphNode) this.right).getReturn());
 
 		// add Eval statements to the IR
-		for (BaseNode n : getChild(EVAL).getChildren()) {
+		for (BaseNode n : eval.getChildren()) {
 			AssignNode eval = (AssignNode) n;
 			rule.addEval((Assignment) eval.checkIR(Assignment.class));
 		}
@@ -530,9 +520,29 @@ public class RuleDeclNode extends TestDeclNode
 	 * add NACs for induced- or DPO-semantic
 	 */
 	protected void constructImplicitNegs(Rule rule) {
-		PatternGraphNode leftNode = (PatternGraphNode) getChild(PATTERN);
+		PatternGraphNode leftNode = (PatternGraphNode) pattern;
 		for (PatternGraph neg : leftNode.getImplicitNegGraphs(this)) {
 			rule.addNegGraph(neg);
 		}
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
