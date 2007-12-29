@@ -30,10 +30,6 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class IntConstNode extends ConstNode
 {
-	/**
-	 * @param coords The coordinates.
-	 * @param value The integer value
-	 */
 	public IntConstNode(Coords coords, int v) {
 		super(coords, "integer", new Integer(v));
 	}

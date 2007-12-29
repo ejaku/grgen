@@ -30,10 +30,6 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class FloatConstNode extends ConstNode
 {
-	/**
-	 * @param coords The coordinates.
-	 * @param value The float value
-	 */
 	public FloatConstNode(Coords coords, double v) {
 		super(coords, "float", new Float(v));
 	}

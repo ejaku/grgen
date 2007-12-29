@@ -13,9 +13,6 @@ import de.unika.ipd.grgen.parser.Coords;
 
 public class ObjectConstNode extends ConstNode
 {
-	/**
-	 * @param coords The coordinates.
-	 */
 	public ObjectConstNode(Coords coords) {
 		super(coords, "object", ObjectTypeNode.Value.NULL);
 	}

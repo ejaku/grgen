@@ -26,6 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+import de.unika.ipd.grgen.ast.InvalidConstNode;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -41,33 +42,10 @@ public abstract class ConstNode extends OpNode
 
 	/** A name for the constant. */
 	protected String name;
-
-	private static final ConstNode INVALID = new InvalidConstNode(Coords.getBuiltin(),
-			"invalid const", "invalid value");
-
-	private static class InvalidConstNode extends ConstNode
-	{
-		static {
-			setName(InvalidConstNode.class, "invalid const");
-		}
-
-		private InvalidConstNode(Coords coords, String name, Object value) {
-			super(coords, name, value);
-		}
-		
-		protected boolean isValid() {
-			return false;
-		}
-
-		protected ConstNode doCastTo(TypeNode type) {
-			return this;
-		}
-
-		public String toString() {
-			return "invalid const";
-		}
-	}
-
+	
+	private static final ConstNode INVALID = new InvalidConstNode(
+			Coords.getBuiltin(), "invalid const", "invalid value");
+	
 	public static final ConstNode getInvalid() {
 		return INVALID;
 	}
@@ -83,6 +61,8 @@ public abstract class ConstNode extends OpNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
 		return children;
 	}
 
@@ -134,7 +114,7 @@ public abstract class ConstNode extends OpNode
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return super.toString() + " " + value.toString();
+		return OperatorSignature.getName(getOpId()) + " " + value.toString();
 	}
 
 	public String getNodeLabel() {
@@ -203,4 +183,25 @@ public abstract class ConstNode extends OpNode
 	 * @return A constant of the new type.
 	 */
 	protected abstract ConstNode doCastTo(TypeNode type);
+	
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
+	}
 }

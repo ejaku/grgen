@@ -43,9 +43,7 @@ public class EnumConstNode extends ConstNode
 		this.id = id;
 	}
 		
-	/**
-	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
-	 */
+	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type) {
 		ConstNode res = ConstNode.getInvalid();
 
@@ -58,9 +56,7 @@ public class EnumConstNode extends ConstNode
 		return res;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		return BasicTypeNode.enumItemType;
 	}

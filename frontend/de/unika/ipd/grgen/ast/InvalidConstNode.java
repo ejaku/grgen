@@ -15,34 +15,34 @@
   You should have received a copy of the GNU Lesser General Public
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- */
+*/
 
-/**
- * @author Rubino Geiss
- * @version $Id$
- */
+
 package de.unika.ipd.grgen.ast;
-
 
 import de.unika.ipd.grgen.parser.Coords;
 
-/**
- * The null constant.
- */
-public class NullConstNode extends ConstNode
+
+class InvalidConstNode extends ConstNode
 {
-	public NullConstNode(Coords coords) {
-		super(coords, "null", null);
-	}
-	
-	public TypeNode getType() {
-		return BasicTypeNode.objectType;
+	static {
+		setName(InvalidConstNode.class, "invalid const");
 	}
 
-	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
+	public InvalidConstNode(Coords coords, String name, Object value) {
+		super(coords, name, value);
+	}
+	
+	protected boolean isValid() {
+		return false;
+	}
+
 	protected ConstNode doCastTo(TypeNode type) {
-		// The null value is not castable to any the (besides object)
-		ConstNode res = ConstNode.getInvalid();
-		return res;
+		return this;
+	}
+
+	public String toString() {
+		return "invalid const";
 	}
 }
+

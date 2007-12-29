@@ -46,12 +46,9 @@ public class CastNode extends ExprNode
 		setName(DeclExprNode.class, "cast expression");
 	}
 	
-	/** The type child index. */
-	private static final int TYPE = 0;
-	
-	/** The expression child index. */
-	private static final int EXPR = 1;
-	
+	BaseNode type; // target type of the cast
+	BaseNode expr; // expression to be casted
+		
 	/**
 	 * Make a new cast node.
 	 * @param coords The source code coordinates.
@@ -66,10 +63,12 @@ public class CastNode extends ExprNode
 	 * @param targetType The target type.
 	 * @param expr The expression to be casted.
 	 */
-	public CastNode(Coords coords, TypeNode targetType, BaseNode expr) {
-		this(coords);
-		addChild(targetType);
-		addChild(expr);
+	public CastNode(Coords coords, BaseNode targetType, BaseNode expr) {
+		super(coords);
+		this.type = targetType==null ? NULL : targetType;
+		becomeParent(this.type);
+		this.expr = expr==null ? NULL : expr;
+		becomeParent(this.expr);
 	}
 	
 	/**
@@ -81,21 +80,22 @@ public class CastNode extends ExprNode
 	 * @param resolveResult Resolution result (should be true)
 	 */
 	public CastNode(Coords coords, TypeNode targetType, BaseNode expr, boolean resolveResult) {
-		this(coords);
-		addChild(targetType);
-		addChild(expr);
+		this(coords, targetType, expr);
 		nodeResolvedSetResult(resolveResult); 
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(type);
+		children.add(expr);
 		return children;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("tgttype"); 
+		childrenNames.add("type"); 
 		childrenNames.add("expr");
 		return childrenNames;
 	}
@@ -109,14 +109,20 @@ public class CastNode extends ExprNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
-		successfullyResolved = typeResolver.resolve(this, TYPE) && successfullyResolved;
+		BaseNode resolved = typeResolver.resolve(type);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=type) {
+			becomeParent(resolved);
+			type = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
+			
 		}
 		
-		successfullyResolved = getChild(TYPE).resolve() && successfullyResolved;
-		successfullyResolved = getChild(EXPR).resolve() && successfullyResolved;
+		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = expr.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -135,8 +141,8 @@ public class CastNode extends ExprNode
 		}
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(TYPE).check() && successfullyChecked;
-		successfullyChecked = getChild(EXPR).check() && successfullyChecked;
+		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = expr.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
@@ -146,8 +152,8 @@ public class CastNode extends ExprNode
 	 * and the first node is a type node identifier.
 	 */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(BasicTypeNode.class)).check(getChild(TYPE), error)
-			&& (new SimpleChecker(ExprNode.class)).check(getChild(EXPR), error);
+		return (new SimpleChecker(BasicTypeNode.class)).check(type, error)
+			&& (new SimpleChecker(ExprNode.class)).check(expr, error);
 	}
 	
 	/**
@@ -158,14 +164,14 @@ public class CastNode extends ExprNode
 	protected boolean typeCheckLocal()
 	{
 		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
-		ExprNode exp = (ExprNode) getChild(EXPR);
+		ExprNode exp = (ExprNode) expr;
 		
-		BaseNode n = getChild(TYPE);
+		BaseNode n = type;
 		if( !(n instanceof BasicTypeNode) ) {
 			reportError("Only primitive types are allowed for casts, but got \"" + n + "\"");
 			return false;
 		} else {
-			BasicTypeNode bt = (BasicTypeNode) getChild(TYPE);
+			BasicTypeNode bt = (BasicTypeNode) type;
 			exp.getType().getCastableToTypes(castableToTypes);
 			
 			boolean result = castableToTypes.contains(bt);
@@ -184,8 +190,8 @@ public class CastNode extends ExprNode
 	 */
 	public ExprNode evaluate()
 	{
-		ExprNode expr = (ExprNode) getChild(EXPR);
-		TypeNode type = (TypeNode) getChild(TYPE);
+		ExprNode expr = (ExprNode) this.expr;
+		TypeNode type = (TypeNode) this.type;
 		
 		if(expr.isConst()) {
 			return expr.getConst().castTo(type);
@@ -199,17 +205,36 @@ public class CastNode extends ExprNode
 	 */
 	public TypeNode getType()
 	{
-		TypeNode type = (TypeNode) getChild(TYPE);
+		TypeNode type = (TypeNode) this.type;
 		return type;
 	}
 	
 	protected IR constructIR()
 	{
-		Type type = (Type) getChild(TYPE).checkIR(Type.class);
-		Expression expr = (Expression) getChild(EXPR).checkIR(Expression.class);
+		Type type = (Type) this.type.checkIR(Type.class);
+		Expression expr = (Expression) this.expr.checkIR(Expression.class);
 		
 		return new Cast(type, expr);
 	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
+	}
 }
-
 

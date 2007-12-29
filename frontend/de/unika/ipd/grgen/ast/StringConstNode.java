@@ -31,10 +31,6 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class StringConstNode extends ConstNode
 {
-    /**
-     * @param coords The source code coordinates
-     * @param value The string
-     */
     public StringConstNode(Coords coords, String value) {
         super(coords, "string", value);
     }
@@ -43,9 +39,7 @@ public class StringConstNode extends ConstNode
         return BasicTypeNode.stringType;
     }
     
-    /**
-     * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
-     */
+    /** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
     protected ConstNode doCastTo(TypeNode type) {
         return ConstNode.getInvalid();
     }

@@ -45,9 +45,7 @@ public class TypeConstNode extends ConstNode
 		this.id = id;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode)
-	 */
+	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type)	{
 		ConstNode res = ConstNode.getInvalid();
 		
@@ -58,16 +56,12 @@ public class TypeConstNode extends ConstNode
 		return res;
 	}
 	
-    /**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
+    /** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;
 	}

@@ -25,9 +25,14 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -38,7 +43,37 @@ public class ArithmeticOpNode extends OpNode
 	static {
 		setName(ArithmeticOpNode.class, "arithmetic operator");
 	}
+	
+	/** maps an operator id to IR opcode, filled with code beyond */
+	private static Map<Integer, Integer> irOpCodeMap = new HashMap<Integer, Integer>();
 
+	static {
+		assocOpCode(OperatorSignature.COND, Operator.COND);
+		assocOpCode(OperatorSignature.LOG_OR, Operator.LOG_OR);
+		assocOpCode(OperatorSignature.LOG_AND, Operator.LOG_AND);
+		assocOpCode(OperatorSignature.BIT_OR, Operator.BIT_OR);
+		assocOpCode(OperatorSignature.BIT_XOR, Operator.BIT_XOR);
+		assocOpCode(OperatorSignature.BIT_AND, Operator.BIT_AND);
+		assocOpCode(OperatorSignature.EQ, Operator.EQ);
+		assocOpCode(OperatorSignature.NE, Operator.NE);
+		assocOpCode(OperatorSignature.LT, Operator.LT);
+		assocOpCode(OperatorSignature.LE, Operator.LE);
+		assocOpCode(OperatorSignature.GT, Operator.GT);
+		assocOpCode(OperatorSignature.GE, Operator.GE);
+		assocOpCode(OperatorSignature.SHL, Operator.SHL);
+		assocOpCode(OperatorSignature.SHR, Operator.SHR);
+		assocOpCode(OperatorSignature.BIT_SHR, Operator.BIT_SHR);
+		assocOpCode(OperatorSignature.ADD, Operator.ADD);
+		assocOpCode(OperatorSignature.SUB, Operator.SUB);
+		assocOpCode(OperatorSignature.MUL, Operator.MUL);
+		assocOpCode(OperatorSignature.DIV, Operator.DIV);
+		assocOpCode(OperatorSignature.MOD, Operator.MOD);
+		assocOpCode(OperatorSignature.LOG_NOT, Operator.LOG_NOT);
+		assocOpCode(OperatorSignature.BIT_NOT, Operator.BIT_NOT);
+		assocOpCode(OperatorSignature.NEG, Operator.NEG);
+	}
+
+	
 	/**
 	 * @param coords Source code coordinates.
 	 * @param opId ID of the operator.
@@ -69,8 +104,8 @@ public class ArithmeticOpNode extends OpNode
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
-		for(int i=0; i<children(); ++i) {
-			successfullyResolved = getChild(i).resolve() && successfullyResolved;
+		for(int i=0; i<children.size(); ++i) {
+			successfullyResolved = children.get(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -88,8 +123,8 @@ public class ArithmeticOpNode extends OpNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			for(int i=0; i<children(); ++i) {
-				childrenChecked = getChild(i).check() && childrenChecked;
+			for(int i=0; i<children.size(); ++i) {
+				childrenChecked = children.get(i).check() && childrenChecked;
 			}
 		}
 
@@ -99,15 +134,13 @@ public class ArithmeticOpNode extends OpNode
 		return childrenChecked && locallyChecked;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#evaluate()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	public ExprNode evaluate() {
-		int n = children();
+		int n = children.size();
 		ExprNode[] args = new ExprNode[n];
 		
 		for(int i = 0; i < n; i++) {
-			ExprNode c = (ExprNode) getChild(i);
+			ExprNode c = (ExprNode) children.get(i);
 			args[i] = c.evaluate();
 		}
 		
@@ -123,9 +156,52 @@ public class ArithmeticOpNode extends OpNode
 	protected boolean checkLocal() {
 		boolean successfullyChecked = super.checkLocal();
 		Checker checker = new SimpleChecker(ExprNode.class);
-		for(BaseNode n : getChildren()) {
+		for(BaseNode n : children) {
 			successfullyChecked = checker.check(n, error) && successfullyChecked;
 		}
 		return successfullyChecked;
+	}
+	
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	protected IR constructIR() {
+		DeclaredTypeNode type = (DeclaredTypeNode) getType();
+		Operator op = new Operator(type.getPrimitiveType(), getIROpCode(getOpId()));
+
+		for(BaseNode n : children) {
+			Expression ir = (Expression) n.checkIR(Expression.class);
+			op.addOperand(ir);
+		}
+
+		return op;
+	}
+
+	private static void assocOpCode(int id, int opcode) {
+		irOpCodeMap.put(new Integer(id), new Integer(opcode));
+	}
+	
+	/** Maps an operator ID to an IR opcode. */
+	private static int getIROpCode(int opId) {
+		return irOpCodeMap.get(new Integer(opId)).intValue();
+	}
+	
+	public String toString() {
+		return OperatorSignature.getName(getOpId());
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

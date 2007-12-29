@@ -45,20 +45,18 @@ public class TypeofNode extends ExprNode
 		setName(TypeofNode.class, "typeof");
 	}
 	
-	/** Index of the entity node. */
-	protected static final int ENTITY = 0;
+	BaseNode entity;
 		
-	/**
-	 * Make a new typeof node.
-	 * @param coords The coordinates.
-	 */
 	public TypeofNode(Coords coords, BaseNode entity) {
 		super(coords);
-		addChild(entity);
+		this.entity= entity==null ? NULL : entity;
+		becomeParent(this.entity);
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(entity);
 		return children;
 	}
 	
@@ -78,13 +76,18 @@ public class TypeofNode extends ExprNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver entityResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-		successfullyResolved = entityResolver.resolve(this, ENTITY) && successfullyResolved;
+		BaseNode resolved = entityResolver.resolve(entity);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=entity) {
+			becomeParent(resolved);
+			entity = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(ENTITY).resolve() && successfullyResolved;
+		successfullyResolved = entity.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -101,7 +104,7 @@ public class TypeofNode extends ExprNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			childrenChecked = getChild(ENTITY).check() && childrenChecked;
+			childrenChecked = entity.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -115,20 +118,40 @@ public class TypeofNode extends ExprNode
 	 */
 	protected boolean checkLocal() {
 		Checker entityChecker = new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-		return entityChecker.check(getChild(ENTITY), error);
+		return entityChecker.check(entity, error);
 	}
 	
 	protected IR constructIR() {
-		Entity entity = (Entity) getChild(ENTITY).checkIR(Entity.class);
+		Entity entity = (Entity) this.entity.checkIR(Entity.class);
 		
 		return new Typeof(entity);
 	}
 	
 	public DeclNode getEntity() {
-		return (DeclNode)getChild(ENTITY);
+		return (DeclNode)entity;
 	}
 
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }

@@ -42,7 +42,7 @@ public class DeclExprNode extends ExprNode
 		setName(DeclExprNode.class, "decl expression");
 	}
 	
-	private static final int DECL = 0;
+	BaseNode decl;
 
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;
@@ -54,11 +54,14 @@ public class DeclExprNode extends ExprNode
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
-		addChild(declCharacter);
+		this.decl = declCharacter==null ? NULL : declCharacter;
+		becomeParent(this.decl);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(decl);
 		return children;
 	}
 	
@@ -78,13 +81,18 @@ public class DeclExprNode extends ExprNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver memberInitResolver = new MemberInitResolver(MemberDeclNode.class);
-		successfullyResolved = memberInitResolver.resolve(this, DECL) && successfullyResolved;
+		BaseNode resolved = memberInitResolver.resolve(decl);
+		successfullyResolved = resolved!=null && successfullyResolved;
+		if(resolved!=null && resolved!=decl) {
+			becomeParent(resolved);
+			decl = resolved;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
-		successfullyResolved = getChild(DECL).resolve() && successfullyResolved;
+		successfullyResolved = decl.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -100,15 +108,13 @@ public class DeclExprNode extends ExprNode
 		boolean successfullyChecked = checkLocal();
 		nodeCheckedSetResult(successfullyChecked);
 		
-		successfullyChecked = getChild(DECL).check() && successfullyChecked;
+		successfullyChecked = decl.check() && successfullyChecked;
 		return successfullyChecked;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
-		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+		DeclaredCharacter c = (DeclaredCharacter) decl;
 		BaseNode type = c.getDecl().getDeclType();
 		if ( ! (type instanceof TypeNode) ) {
 
@@ -121,12 +127,10 @@ public class DeclExprNode extends ExprNode
 		return (TypeNode) type;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#evaluate()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	public ExprNode evaluate() {
 		ExprNode res = this;
-		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+		DeclaredCharacter c = (DeclaredCharacter) this.decl;
 		DeclNode decl = c.getDecl();
 
 		if(decl instanceof EnumItemNode) {
@@ -136,30 +140,45 @@ public class DeclExprNode extends ExprNode
 		return res;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclaredCharacter.class)).check(getChild(DECL), error);
+		return (new SimpleChecker(DeclaredCharacter.class)).check(decl, error);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.ExprNode#isConstant()
-	 */
+	/** @see de.unika.ipd.grgen.ast.ExprNode#isConstant() */
 	public boolean isConst() {
-		DeclaredCharacter c = (DeclaredCharacter) getChild(DECL);
+		DeclaredCharacter c = (DeclaredCharacter) decl;
 		return c.getDecl() instanceof EnumItemNode;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
-		BaseNode decl = getChild(DECL);
-		if(decl instanceof MemberDeclNode)
+		BaseNode decl = this.decl;
+		if(decl instanceof MemberDeclNode) {
 			return new MemberExpression((Entity)decl.getIR());
-		else
-			return getChild(DECL).getIR();
+		} else {
+			return decl.getIR();
+		}
+	}
+	
+	// debug guards to protect again accessing wrong elements
+	public void addChild(BaseNode n) {
+		assert(false);
+	}
+	public void setChild(int pos, BaseNode n) {
+		assert(false);
+	}
+	public BaseNode getChild(int i) {
+		assert(false);
+		return null;
+	}
+	public int children() {
+		assert(false);
+		return 0;
+	}
+	public BaseNode replaceChild(int i, BaseNode n) {
+		assert(false);
+		return null;
 	}
 }
 

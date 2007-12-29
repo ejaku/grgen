@@ -425,9 +425,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 			(LPAREN typeIdentUse RPAREN unaryExpr[inEnumInit])
 			=> p:LPAREN id=typeIdentUse RPAREN op=unaryExpr[inEnumInit]
 				{
-					res = new CastNode(getCoords(p));
-					res.addChild(id);
-					res.addChild(op);
+					res = new CastNode(getCoords(p), id, op);
 				}
 		| res=primaryExpr[inEnumInit]
 		)

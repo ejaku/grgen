@@ -30,10 +30,6 @@ import de.unika.ipd.grgen.parser.Coords;
  */
 public class DoubleConstNode extends ConstNode
 {
-	/**
-	 * @param coords The coordinates.
-	 * @param value The double value
-	 */
 	public DoubleConstNode(Coords coords, double v) {
 		super(coords, "double", new Double(v));
 	}
