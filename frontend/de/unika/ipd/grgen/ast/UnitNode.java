@@ -48,8 +48,8 @@ public class UnitNode extends DeclNode
 
 	protected static final TypeNode mainType = new MainTypeNode();
 		
-	BaseNode models;
-	BaseNode decls;
+	CollectNode models;
+	CollectNode decls;
 		
 	/** Contains the classes of all valid types which can be declared */
 	private static Class<?>[] validTypes = {
@@ -61,11 +61,11 @@ public class UnitNode extends DeclNode
 	 */
 	private String filename;
 	
-	public UnitNode(IdentNode id, String filename, BaseNode models, BaseNode decls) {
+	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode decls) {
 		super(id, mainType);
-		this.models = models==null ? NULL : models;
+		this.models = models;
 		becomeParent(this.models);
-		this.decls = decls==null ? NULL : decls;
+		this.decls = decls;
 		becomeParent(this.decls);
 		this.filename = filename;
 	}
@@ -99,7 +99,7 @@ public class UnitNode extends DeclNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver declResolver = new DeclResolver(validTypes);
-		successfullyResolved = ((CollectNode)decls).resolveChildren(declResolver) && successfullyResolved;
+		successfullyResolved = decls.resolveChildren(declResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

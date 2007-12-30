@@ -48,7 +48,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 			
 	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
-		this.node = n==null ? NULL : n;
+		this.node = n;
 		becomeParent(this.node);
 	}
 	

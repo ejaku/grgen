@@ -31,11 +31,11 @@ import de.unika.ipd.grgen.ir.TypeExpr;
 
 abstract class ConstraintDeclNode extends DeclNode
 {
-	BaseNode constraints;
+	TypeExprNode constraints;
 	
-	ConstraintDeclNode(IdentNode id, BaseNode type, BaseNode constraints) {
+	ConstraintDeclNode(IdentNode id, BaseNode type, TypeExprNode constraints) {
 		super(id, type);
-		this.constraints = constraints==null ? NULL : constraints;
+		this.constraints = constraints;
 		becomeParent(this.constraints);
 	}
 			

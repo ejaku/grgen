@@ -49,7 +49,7 @@ public class TypeofNode extends ExprNode
 		
 	public TypeofNode(Coords coords, BaseNode entity) {
 		super(coords);
-		this.entity= entity==null ? NULL : entity;
+		this.entity= entity;
 		becomeParent(this.entity);
 	}
 	

@@ -42,8 +42,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
 
-	BaseNode extend;
-	BaseNode body;
+	CollectNode extend;
+	CollectNode body;
 
 	/**
 	 * The modifiers for this type.

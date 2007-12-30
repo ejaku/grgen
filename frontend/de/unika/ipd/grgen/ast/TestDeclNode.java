@@ -55,22 +55,22 @@ public class TestDeclNode extends ActionDeclNode
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	BaseNode param;
-	BaseNode ret;
-	BaseNode pattern;
-	BaseNode neg;
+	CollectNode param;
+	CollectNode ret;
+	PatternGraphNode pattern;
+	CollectNode neg;
 	
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, BaseNode pattern, BaseNode neg, CollectNode params, CollectNode rets) {
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
 		super(id, type);
-		this.param = params==null ? NULL : params;
+		this.param = params;
 		becomeParent(this.param);
-		this.ret = rets==null ? NULL : rets;
+		this.ret = rets;
 		becomeParent(this.ret);
-		this.pattern = pattern==null ? NULL : pattern;
+		this.pattern = pattern;
 		becomeParent(this.pattern);
-		this.neg = neg==null ? NULL : neg;
+		this.neg = neg;
 		becomeParent(this.neg);
 	}
 
@@ -144,9 +144,8 @@ public class TestDeclNode extends ActionDeclNode
 	
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		CollectNode negs  = (CollectNode) neg;
-		res.add((GraphNode) pattern);
-		for (BaseNode n : negs.getChildren()) {
+		res.add(pattern);
+		for (BaseNode n : neg.getChildren()) {
 			res.add((GraphNode)n);
 		}
 		return res;
@@ -154,12 +153,9 @@ public class TestDeclNode extends ActionDeclNode
 
 	protected Collection<GraphNode> getNegativeGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		CollectNode negs  = (CollectNode) neg;
-
-		for (BaseNode n : negs.getChildren()) {
+		for (BaseNode n : neg.getChildren()) {
 			res.add((GraphNode)n);
 		}
-
 		return res;
 	}
 
@@ -167,7 +163,7 @@ public class TestDeclNode extends ActionDeclNode
 	 * check if actual return entities are conformant
 	 * to the formal return parameters.
 	 */
-	protected boolean checkReturnParams(BaseNode typeReturns, BaseNode actualReturns) {
+	protected boolean checkReturnParams(CollectNode typeReturns, CollectNode actualReturns) {
 		boolean returnTypes = true;
 
 		/*
@@ -179,12 +175,12 @@ public class TestDeclNode extends ActionDeclNode
 		 System.out.println("    actualReturns = " + actualReturns.getChildren());
 		 */
 
-		if(((CollectNode)actualReturns).children.size() != ((CollectNode)typeReturns).children.size()) {
+		if(actualReturns.children.size() != typeReturns.children.size()) {
 			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
-					((CollectNode)actualReturns).children.size() + " vs. " + ((CollectNode)typeReturns).children.size() +")");
+					actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
 			returnTypes = false;
 		} else {
-			Iterator<BaseNode> itAR = ((CollectNode)actualReturns).children.iterator();
+			Iterator<BaseNode> itAR = actualReturns.children.iterator();
 
 			for(BaseNode n : typeReturns.getChildren()) {
 				IdentNode       tReturnAST  = (IdentNode)n;
@@ -249,9 +245,9 @@ public class TestDeclNode extends ActionDeclNode
 
 			//get the negative graphs and the pattern of this TestDeclNode
 			Collection<GraphNode> leftHandGraphs = getNegativeGraphs();
-			leftHandGraphs.add((GraphNode)pattern);
+			leftHandGraphs.add(pattern);
 
-			GraphNode[] graphs = (GraphNode[]) leftHandGraphs.toArray(new GraphNode[0]);
+			GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
 			Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
 
 			for (int i=0; i<graphs.length; i++) {
@@ -312,7 +308,7 @@ public class TestDeclNode extends ActionDeclNode
 
 		boolean returnParams = true;
 		if(! (this instanceof RuleDeclNode)) {
-			returnParams = checkReturnParams(ret, ((GraphNode)pattern).getReturn());
+			returnParams = checkReturnParams(ret, pattern.returns);
 		}
 
 		return childs && edgeReUse && returnParams;
@@ -374,7 +370,7 @@ public class TestDeclNode extends ActionDeclNode
 	}
 
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
+		PatternGraph left = pattern.getPatternGraph();
 		Test test = new Test(getIdentNode().getIdent(), left);
 
 		constructIRaux(test, ret);

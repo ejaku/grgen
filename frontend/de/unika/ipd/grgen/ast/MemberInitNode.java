@@ -47,7 +47,7 @@ public class MemberInitNode extends BaseNode
 	}
 
 	BaseNode lhs;
-	BaseNode rhs;
+	ExprNode rhs;
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -56,9 +56,9 @@ public class MemberInitNode extends BaseNode
 	 */
 	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
 		super(coords);
-		this.lhs = member==null ? NULL : member;
+		this.lhs = member;
 		becomeParent(this.lhs);
-		this.rhs = expr==null ? NULL : expr;
+		this.rhs = expr;
 		becomeParent(this.rhs);
 	}
 	
@@ -138,10 +138,9 @@ public class MemberInitNode extends BaseNode
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheckLocal() {
-		ExprNode expr = (ExprNode) rhs;
-
+		ExprNode expr = rhs;
 		TypeNode targetType = (TypeNode) ((DeclNode) lhs).getDeclType();
-		TypeNode exprType = (TypeNode) expr.getType();
+		TypeNode exprType = expr.getType();
 
 		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);

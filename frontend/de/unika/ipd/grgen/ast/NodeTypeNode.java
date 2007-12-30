@@ -54,9 +54,9 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 */
 	public NodeTypeNode(CollectNode ext, CollectNode body, 
 			int modifiers, String externalName) {
-		this.extend = ext==null ? NULL : ext;
+		this.extend = ext;
 		becomeParent(this.extend);
-		this.body = body==null ? NULL : body;
+		this.body = body;
 		becomeParent(this.body);
 		setModifiers(modifiers);
 		setExternalName(externalName);
@@ -88,8 +88,8 @@ public class NodeTypeNode extends InheritanceTypeNode
 		boolean successfullyResolved = true;
 		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
 		Resolver extendsResolver = new DeclTypeResolver(NodeTypeNode.class);
-		successfullyResolved = ((CollectNode)body).resolveChildren(bodyResolver) && successfullyResolved;
-		successfullyResolved = ((CollectNode)extend).resolveChildren(extendsResolver) && successfullyResolved;
+		successfullyResolved = body.resolveChildren(bodyResolver) && successfullyResolved;
+		successfullyResolved = extend.resolveChildren(extendsResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

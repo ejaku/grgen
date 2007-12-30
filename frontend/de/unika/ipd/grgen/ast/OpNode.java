@@ -51,8 +51,7 @@ public abstract class OpNode extends ExprNode
 		this.opId = opId;
 	}
 
-	public void addChild(BaseNode n) {
-		n = n==null ? NULL : n;
+	public void addChild(ExprNode n) {
 		becomeParent(n);
 		children.add(n);
 	}

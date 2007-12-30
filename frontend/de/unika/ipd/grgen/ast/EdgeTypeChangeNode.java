@@ -48,7 +48,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 		
 	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
-		this.old = oldid==null ? NULL : oldid;
+		this.old = oldid;
 		becomeParent(this.old);
 	}
 

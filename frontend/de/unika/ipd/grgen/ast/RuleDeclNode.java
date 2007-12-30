@@ -50,8 +50,8 @@ public class RuleDeclNode extends TestDeclNode
 		setName(RuleDeclNode.class, "rule declaration");
 	}
 
-	BaseNode right;
-	BaseNode eval;
+	GraphNode right;
+	CollectNode eval;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
@@ -67,9 +67,9 @@ public class RuleDeclNode extends TestDeclNode
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode neg,
 				CollectNode eval, CollectNode params, CollectNode rets) {
 		super(id, ruleType, left, neg, params, rets);
-		this.right = right==null ? NULL : right;
+		this.right = right;
 		becomeParent(this.right);
-		this.eval = eval==null ? NULL : eval;
+		this.eval = eval;
 		becomeParent(this.eval);
 	}
 
@@ -147,7 +147,7 @@ public class RuleDeclNode extends TestDeclNode
 
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = super.getGraphs();
-		res.add((GraphNode) right);
+		res.add(right);
 		return res;
 	}
 
@@ -155,24 +155,21 @@ public class RuleDeclNode extends TestDeclNode
 	{
 		Set<DeclNode> res = new LinkedHashSet<DeclNode>();
 
-		GraphNode lhs = (GraphNode) pattern;
-		GraphNode rhs = (GraphNode) right;
-
-		for (BaseNode x : lhs.getEdges()) {
+		for (BaseNode x : pattern.getEdges()) {
 			assert (x instanceof DeclNode);
-			if ( ! rhs.getEdges().contains(x) ) {
+			if ( ! right.getEdges().contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
-		for (BaseNode x : lhs.getNodes()) {
+		for (BaseNode x : pattern.getNodes()) {
 			assert (x instanceof DeclNode);
-			if ( ! rhs.getNodes().contains(x) ) {
+			if ( ! right.getNodes().contains(x) ) {
 				res.add((DeclNode)x);
 			}
 		}
 		for (BaseNode x : param.getChildren()) {
 			assert (x instanceof DeclNode);
-			if ( !( rhs.getNodes().contains(x) || rhs.getEdges().contains(x)) ) {
+			if ( !( right.getNodes().contains(x) || right.getEdges().contains(x)) ) {
 				res.add((DeclNode)x);
 			}
 		}
@@ -184,8 +181,7 @@ public class RuleDeclNode extends TestDeclNode
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
-		CollectNode returns = (CollectNode) right.getReturn();
-		for (BaseNode x : returns.getChildren()) {
+		for (BaseNode x : right.returns.getChildren()) {
 			IdentNode ident = (IdentNode) x;
 			DeclNode retElem = ident.getDecl();
 			DeclNode oldElem = retElem;
@@ -251,13 +247,12 @@ public class RuleDeclNode extends TestDeclNode
 		boolean res = true;
 
 		Vector<BaseNode> retSignature =	(Vector<BaseNode>) ret.getChildren();
-		CollectNode returns = (CollectNode) right.getReturn();
 
 		int declaredNumRets = retSignature.size();
-		int actualNumRets = returns.getChildren().size();
+		int actualNumRets = right.returns.getChildren().size();
 
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-			IdentNode ident = (IdentNode) ((Vector<BaseNode>)returns.getChildren()).get(i);
+			IdentNode ident = (IdentNode) ((Vector<BaseNode>)right.returns.getChildren()).get(i);
 			DeclNode retElem = ident.getDecl();
 
 			if (retElem.equals(DeclNode.getInvalid())) {
@@ -300,11 +295,11 @@ public class RuleDeclNode extends TestDeclNode
 		if (actualNumRets != declaredNumRets) {
 			res = false;
 			if (declaredNumRets == 0) {
-				returns.reportError("No return values declared for rule \"" + ident + "\"");
+				right.returns.reportError("No return values declared for rule \"" + ident + "\"");
 			} else if(actualNumRets == 0) {
 				reportError("Missing return statement for rule \"" + ident + "\"");
 			} else {
-				returns.reportError("Return statement has wrong number of parameters");
+				right.returns.reportError("Return statement has wrong number of parameters");
 			}
 		}
 		return res;
@@ -416,7 +411,7 @@ public class RuleDeclNode extends TestDeclNode
 		Set<DeclNode> delSet = getDelete();
 		Set<IdentNode> retSet = new HashSet<IdentNode>();
 
-		Collection<BaseNode> rets = ((CollectNode) ((GraphNode) right).getReturn()).getChildren();
+		Collection<BaseNode> rets = right.returns.getChildren();
 
 		for (BaseNode x : rets) {
 			retSet.add(((IdentNode)x));
@@ -426,7 +421,7 @@ public class RuleDeclNode extends TestDeclNode
 
 		// represent homomorphism cliques and map each elem to the clique
 		// it belong to
-		for (BaseNode x : ((PatternGraphNode)pattern).getHoms()) {
+		for (BaseNode x : pattern.getHoms()) {
 			HomNode hn = (HomNode) x;
 
 			Set<BaseNode> homSet;
@@ -478,12 +473,11 @@ public class RuleDeclNode extends TestDeclNode
 			&& (new SimpleChecker(GraphNode.class)).check(this.right, error)
 			&& evalChecker.check(this.eval, error);
 
-		PatternGraphNode left = (PatternGraphNode) pattern;
-		GraphNode right = (GraphNode) this.right;
+		PatternGraphNode left = pattern;
+		GraphNode right = this.right;
 
 		boolean noReturnInPatternOk = true;
-		CollectNode returns = (CollectNode) ((GraphNode) pattern).getReturn();
-		if(returns.children.size() > 0) {
+		if(pattern.returns.children.size() > 0) {
 			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
@@ -499,13 +493,13 @@ public class RuleDeclNode extends TestDeclNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
-		Graph right = ((GraphNode) this.right).getGraph();
+		PatternGraph left = pattern.getPatternGraph();
+		Graph right = this.right.getGraph();
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(rule);
-		constructIRaux(rule, ((GraphNode) this.right).getReturn());
+		constructIRaux(rule, (this.right).returns);
 
 		// add Eval statements to the IR
 		for (BaseNode n : eval.getChildren()) {
@@ -520,7 +514,7 @@ public class RuleDeclNode extends TestDeclNode
 	 * add NACs for induced- or DPO-semantic
 	 */
 	protected void constructImplicitNegs(Rule rule) {
-		PatternGraphNode leftNode = (PatternGraphNode) pattern;
+		PatternGraphNode leftNode = pattern;
 		for (PatternGraph neg : leftNode.getImplicitNegGraphs(this)) {
 			rule.addNegGraph(neg);
 		}

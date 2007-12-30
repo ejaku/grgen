@@ -54,7 +54,7 @@ public class DeclExprNode extends ExprNode
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
-		this.decl = declCharacter==null ? NULL : declCharacter;
+		this.decl = declCharacter;
 		becomeParent(this.decl);
 	}
 

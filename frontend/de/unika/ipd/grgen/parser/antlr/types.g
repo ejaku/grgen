@@ -69,8 +69,8 @@ text returns [ BaseNode model = env.initNode() ]
 //		Util.removeFileSuffix(getFilename(), "gm") );
 
 		id = new IdentNode(
-		env.define(ParserEnvironment.ENTITIES, modelName,
-		new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
+			env.define(ParserEnvironment.ENTITIES, modelName,
+			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
 	:   ( m:MODEL i:IDENT SEMI
@@ -182,7 +182,7 @@ connectAssertions returns [ CollectNode c = new CollectNode() ]
 connectAssertion [ CollectNode c ]
 	{
 		IdentNode src, tgt;
-		BaseNode srcRange, tgtRange;
+		RangeSpecNode srcRange, tgtRange;
 	}
 
 	: src=typeIdentUse srcRange=rangeSpec RARROW
@@ -307,37 +307,36 @@ enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 enumList[ IdentNode enumType, CollectNode collect ]
 	{
 		int pos = 0;
-		BaseNode init;
+		ExprNode init;
 	}
 
 	: init=enumItemDecl[enumType, collect, env.getZero(), pos++]
 		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
 
-enumItemDecl [ IdentNode type, CollectNode coll, BaseNode defInit, int pos ]
-				returns [ BaseNode res = env.initNode() ]
+enumItemDecl [ IdentNode type, CollectNode coll, ExprNode defInit, int pos ]
+				returns [ ExprNode res = env.initExprNode() ]
 	{
 		IdentNode id;
-		BaseNode init = null;
-		BaseNode value;
+		ExprNode init = null;
+		ExprNode value;
 	}
 
-	: id=entIdentDecl
-		( ASSIGN init=expr[true] )? //'true' means that expr initializes an enum item
-			{
-				if(init != null) {
-					value = init;
-				} else {
-					value = defInit;
-				}
-				MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
-				id.setDecl(memberDecl);
-				coll.addChild(memberDecl);
-				OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
-				add.addChild(value);
-				add.addChild(env.getOne());
-				res = add;
+	: id=entIdentDecl	( ASSIGN init=expr[true] )? //'true' means that expr initializes an enum item
+		{
+			if(init != null) {
+				value = init;
+			} else {
+				value = defInit;
 			}
+			MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
+			id.setDecl(memberDecl);
+			coll.addChild(memberDecl);
+			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);
+			add.addChild(value);
+			add.addChild(env.getOne());
+			res = add;
+		}
 	;
 
 basicDecl returns [ MemberDeclNode res = null ]

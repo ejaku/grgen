@@ -307,8 +307,9 @@ patternStmt [ CollectNode conn, CollectNode cond,
 			}
 		RBRACE! popScope!
 			{
-				if(negsInNegs.getChildren().size() != 0)
+				if(negsInNegs.getChildren().size() != 0) {
 					reportError(getCoords(p), "Nesting of negative parts not allowed");
+				}
 			}
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
 	| COND LBRACE
@@ -333,10 +334,11 @@ patConnections [ CollectNode conn ]
 		( n=patNodeContinuation[conn]
 			{
 				/* the edge declared by <code>e</code> dangles on the left */
-				if (forward)
+				if (forward) {
 					conn.addChild(new ConnectionNode(dummyNode, e, n));
-				else
+				} else {
 					conn.addChild(new ConnectionNode(n, e, dummyNode));
+				}
 			}
 		|   /* both target and source of the edge <code>e</code> dangle */
 			{ conn.addChild(new ConnectionNode(dummyNode, e, dummyNode)); }
@@ -361,18 +363,20 @@ patEdgeContinuation [ BaseNode left, CollectNode collect ]
 		)
 		( n=patNodeContinuation[collect]
 			{
-				if (forward)
+				if (forward) {
 					collect.addChild(new ConnectionNode(left, e, n));
-				else
+				} else {
 					collect.addChild(new ConnectionNode(n, e, left));
+				}
 			}
 		|   /* the edge declared by <code>res</code> dangles on the right */
 			{
 				NodeDeclNode dummyNode = env.getDummyNodeDecl();
-				if (forward)
+				if (forward) {
 					collect.addChild(new ConnectionNode(left, e, dummyNode));
-				else
+				} else {
 					collect.addChild(new ConnectionNode(dummyNode, e, left));
+				}
 			}
 		)
 	;
@@ -386,7 +390,7 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
-		BaseNode constr = TypeExprNode.getEmpty();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 		Attributes attrs = env.getEmptyAttributes();
 		boolean hasAttrs = false;
 	}
@@ -404,7 +408,9 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 				)
 					{
 						id = env.defineAnonymousEntity("node", getCoords(c));
-						if (hasAttrs) id.setAttributes(attrs);
+						if (hasAttrs) {
+							id.setAttributes(attrs);
+						}
 						res = new NodeDeclNode(id, type, constr);
 					}
 		)
@@ -418,7 +424,7 @@ patKnownNodeOcc returns [ BaseNode res = env.initNode() ]
 patNodeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
-		BaseNode constr = TypeExprNode.getEmpty();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 	}
 
 	: id=entIdentDecl COLON
@@ -432,7 +438,7 @@ patNodeDecl returns [ BaseNode res = env.initNode() ]
 patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		BaseNode type = env.getEdgeRoot();
-		BaseNode constr = TypeExprNode.getEmpty();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 	}
 
 	: MINUS res=patEdgeDecl RARROW
@@ -447,7 +453,7 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		BaseNode type = env.getEdgeRoot();
-		BaseNode constr = TypeExprNode.getEmpty();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 	}
 
 	: LARROW res=patEdgeDecl MINUS
@@ -463,7 +469,7 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode type = env.getEdgeRoot();
 		IdentNode id = env.getDummyIdent();
-		BaseNode constr = TypeExprNode.getEmpty();
+		TypeExprNode constr = TypeExprNode.getEmpty();
 		Attributes attrs = env.getEmptyAttributes();
 		Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> atCo;
 	}
@@ -586,19 +592,23 @@ replConnections [ CollectNode conn ]
 		)
 			{
 				BaseNode x = e;
-				if (e instanceof DeclNode)
+				if (e instanceof DeclNode) {
 					x = ((DeclNode) e).getIdentNode();
-				if (! x.isKept() ) reportError(e.getCoords(),
+				}
+				if (! x.isKept() ) {
+					reportError(e.getCoords(),
 					"dangling edges in replace/modify part must already " +
 					"occur in the pattern part");
+				}
 			}
 			( n=replNodeContinuation[conn]
 				{
 					/* the edge declared by <code>e</code> dangles on the left */
-					if (forward)
+					if (forward) {
 						conn.addChild(new ConnectionNode(dummyNode, e, n));
-					else
+					} else {
 						conn.addChild(new ConnectionNode(n, e, dummyNode));
+					}
 				}
 			|   /* the edge declared by <code>e</code> dangles on both sides */
 				{ conn.addChild(new ConnectionNode(dummyNode, e, dummyNode)); }
@@ -624,24 +634,29 @@ replEdgeContinuation [ BaseNode left, CollectNode collect ]
 		)
 			( n=replNodeContinuation[collect]
 				{
-					if (forward)
+					if (forward) {
 						collect.addChild(new ConnectionNode(left, e, n));
-					else
+					} else {
 						collect.addChild(new ConnectionNode(n, e, left));
+					}
 				}
 			|   /* the edge declared by <code>res</code> dangles on the right */
 				{
 					NodeDeclNode dummyNode = env.getDummyNodeDecl();
 					BaseNode x = e;
-					if (e instanceof DeclNode)
+					if (e instanceof DeclNode) {
 						x = ((DeclNode) e).getIdentNode();
-					if (! x.isKept() ) reportError(e.getCoords(),
+					}
+					if (! x.isKept() ) {
+						reportError(e.getCoords(),
 						"dangling edges in replace/modify part must already " +
 						"occur in the pattern part");
-					if (forward)
+					}
+					if (forward) {
 						collect.addChild(new ConnectionNode(left, e, dummyNode));
-					else
+					} else {
 						collect.addChild(new ConnectionNode(dummyNode, e, left));
+					}
 				}
 			)
 	;
@@ -758,8 +773,9 @@ replaceReturns[CollectNode res]
 
 	: r:RETURN
 		{
-			if ( multipleReturns )
+			if ( multipleReturns ) {
 				reportError(getCoords(r), "multiple occurence of return statement in one rule");
+			}
 		}
 		LPAREN id=entIdentUse { if ( !multipleReturns ) res.addChild(id); }
 		( COMMA id=entIdentUse { if ( !multipleReturns ) res.addChild(id); } )*

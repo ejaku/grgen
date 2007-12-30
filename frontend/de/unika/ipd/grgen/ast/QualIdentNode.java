@@ -53,9 +53,9 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	 */
 	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member) {
 		super(coords);
-		this.owner = owner==null ? NULL : owner;
+		this.owner = owner;
 		becomeParent(this.owner);
-		this.member = member==null ? NULL : member;
+		this.member = member;
 		becomeParent(this.member);
 	}
 	

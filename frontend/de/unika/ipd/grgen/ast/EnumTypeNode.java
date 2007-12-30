@@ -41,7 +41,7 @@ public class EnumTypeNode extends CompoundTypeNode
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	BaseNode elements;
+	CollectNode elements;
 
 	private static final Checker childrenChecker =
 		new CollectChecker(new SimpleChecker(EnumItemNode.class));
@@ -65,7 +65,7 @@ public class EnumTypeNode extends CompoundTypeNode
 
 	public EnumTypeNode(CollectNode body)
 	{
-		this.elements = body==null ? NULL : body;
+		this.elements = body;
 		becomeParent(this.elements);
 
 		//the castability of the this enum type

@@ -330,7 +330,9 @@ public abstract class BaseNode extends Base
 	
 	/** helper: become parent of child to adopt */
 	protected void becomeParent(BaseNode adopt) {
-		adopt.parents.add(this);
+		if(adopt!=null) {
+			adopt.parents.add(this);
+		}
 	}
 	
 	/** helper: if resolution yielded some new node, become parent of it and return it; otherwise just return old node */
@@ -362,18 +364,20 @@ public abstract class BaseNode extends Base
 	/**
 	 * Finish up the AST.
 	 * This method runs all resolvers, checks the AST and type checks it.
-	 * It should be called after complete AST construction from
-	 * the driver.
+	 * It should be called after complete AST construction from the driver.
 	 * @param node The root node of the AST.
 	 * @return true, if everything went right, false, if not.
 	 */
 	public static final boolean manifestAST(BaseNode node) {
 		// resolve AST
-		boolean successfullyResolved = node.resolve();		
-		// check AST
-		boolean successfullyChecked = node.check();
+		boolean resolved = node.resolve();
 		
-		return successfullyResolved && successfullyChecked;
+		// check AST if successfully resolved
+		if(resolved) {
+			return node.check();
+		} else {
+			return false;
+		}
 	}
 
 	/**

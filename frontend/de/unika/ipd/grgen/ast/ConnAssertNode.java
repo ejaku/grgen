@@ -44,23 +44,23 @@ public class ConnAssertNode extends BaseNode
 	}
 
 	BaseNode src;
-	BaseNode srcRange;
+	RangeSpecNode srcRange;
 	BaseNode tgt;
-	BaseNode tgtRange;
+	RangeSpecNode tgtRange;
 	
 	/**
 	 * Construct a new connection assertion node.
 	 */
-	public ConnAssertNode(BaseNode src, BaseNode srcRange,
-						  BaseNode tgt, BaseNode tgtRange) {
+	public ConnAssertNode(IdentNode src, RangeSpecNode srcRange,
+			IdentNode tgt, RangeSpecNode tgtRange) {
 		super(src.getCoords());
-		this.src = src==null ? NULL : src;
+		this.src = src;
 		becomeParent(this.src);
-		this.srcRange = srcRange==null ? NULL : srcRange;
+		this.srcRange = srcRange;
 		becomeParent(this.srcRange);
-		this.tgt = tgt==null ? NULL : tgt;
+		this.tgt = tgt;
 		becomeParent(this.tgt);
-		this.tgtRange = tgtRange==null ? NULL : tgtRange;
+		this.tgtRange = tgtRange;
 		becomeParent(this.tgtRange);
 	}
 	
@@ -149,12 +149,10 @@ public class ConnAssertNode extends BaseNode
 	
 	protected IR constructIR() {
 		// TODO
-		RangeSpecNode srcRange = (RangeSpecNode)this.srcRange;
 		int srcLower = srcRange.getLower();
 		int srcUpper = srcRange.getUpper();
 		NodeType srcType = (NodeType)src.getIR();
 		
-		RangeSpecNode tgtRange = (RangeSpecNode)this.tgtRange;
 		int tgtLower = tgtRange.getLower();
 		int tgtUpper = tgtRange.getUpper();
 		NodeType tgtType = (NodeType)tgt.getIR();

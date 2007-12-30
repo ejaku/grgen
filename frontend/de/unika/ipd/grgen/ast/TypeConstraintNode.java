@@ -48,11 +48,11 @@ public class TypeConstraintNode extends TypeExprNode
 		setName(TypeConstraintNode.class, "type expr constraint");
 	}
 	
-	BaseNode operands;
+	CollectNode operands;
 	
 	public TypeConstraintNode(Coords coords, CollectNode collect) {
 		super(coords, SET);
-		this.operands = collect==null ? NULL : collect;
+		this.operands = collect;
 		becomeParent(this.operands);
 	}
 	
@@ -60,7 +60,7 @@ public class TypeConstraintNode extends TypeExprNode
 		super(typeIdentUse.getCoords(), SET);
 		this.operands = new CollectNode();
 		becomeParent(this.operands);
-		((CollectNode)operands).addChild(typeIdentUse);
+		operands.addChild(typeIdentUse);
 	}
 	
 	/** returns children of this node */
@@ -86,7 +86,7 @@ public class TypeConstraintNode extends TypeExprNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver typeResolver = new DeclTypeResolver(InheritanceTypeNode.class);
-		successfullyResolved = ((CollectNode)operands).resolveChildren(typeResolver) && successfullyResolved;
+		successfullyResolved = operands.resolveChildren(typeResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

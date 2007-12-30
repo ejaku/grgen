@@ -52,7 +52,6 @@ public class HomNode extends BaseNode
 	}
 
 	public void addChild(BaseNode n) {
-		n = n==null ? NULL : n;
 		becomeParent(n);
 		children.add(n);
 	}

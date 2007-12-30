@@ -21,12 +21,12 @@ import java.util.Set;
 
 public class ModifyRuleDeclNode extends RuleDeclNode
 {
-	BaseNode delete;
+	CollectNode delete;
 	
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
 		super(id, left, right, neg, eval, params, rets);
-		this.delete = dels==null ? NULL : dels;
+		this.delete = dels;
 		becomeParent(this.delete);
 	}
 	
@@ -69,7 +69,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver deleteResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class });
-		successfullyResolved = ((CollectNode)delete).resolveChildren(deleteResolver) && successfullyResolved;
+		successfullyResolved = delete.resolveChildren(deleteResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -132,16 +132,14 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right)
 	{
 		boolean res = true;
-		CollectNode returns = (CollectNode) right.getReturn();
-		CollectNode deletions = (CollectNode) delete;
 		
 		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
-		for (BaseNode x: deletions.getChildren()) {
+		for (BaseNode x: delete.getChildren()) {
 			assert (x instanceof DeclNode): "expected a declared entity";
 			deletedElems.add((DeclNode)x);
 		}
 				
-		for (BaseNode x : returns.getChildren()) {
+		for (BaseNode x : right.returns.getChildren()) {
 			IdentNode ident = (IdentNode) x;
 			DeclNode retElem = ident.getDecl();
 
@@ -160,7 +158,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 				}
 				
 				if (left.getNodes().contains(retElem) || param.getChildren().contains(retElem)) {
-					((IdentNode)ident).reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
+					ident.reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
 				} else {
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
 						"neither a parameter, nor contained in LHS, nor in " +
@@ -249,7 +247,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	
 	private void warnElemAppearsInsideAndOutsideDelete() {
 		Set<DeclNode> deletes = getDelete();
-		GraphNode right = (GraphNode) this.right;
+		GraphNode right = this.right;
 		
 		Set<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for (BaseNode x : right.getConnections()) {
@@ -283,8 +281,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	
 	@Override
 	protected IR constructIR() {
-		PatternGraph left = ((PatternGraphNode) pattern).getPatternGraph();
-		Graph right = ((GraphNode) this.right).getGraph();
+		PatternGraph left = pattern.getPatternGraph();
+		Graph right = this.right.getGraph();
 		
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
@@ -308,7 +306,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
 		constructImplicitNegs(rule);
-		constructIRaux(rule, ((GraphNode)this.right).getReturn());
+		constructIRaux(rule, this.right.returns);
 		
 		// add Params to the IR
 		for(BaseNode n : param.getChildren()) {

@@ -44,7 +44,7 @@ public class EnumItemNode extends MemberDeclNode
 		setName(EnumItemNode.class, "enum item");
 	}
 	
-	BaseNode value;
+	ExprNode value;
 	
 	/** Position of this item in the enum. */
 	private final int pos;
@@ -52,10 +52,10 @@ public class EnumItemNode extends MemberDeclNode
 	/**
 	 * Make a new enum item node.
 	 */
-	public EnumItemNode(IdentNode identifier, IdentNode type, BaseNode value, int pos)
+	public EnumItemNode(IdentNode identifier, IdentNode type, ExprNode value, int pos)
 	{
 		super(identifier, type);
-		this.value = value==null ? NULL : value;
+		this.value = value;
 		becomeParent(this.value);
 		this.pos = pos;
 	}
@@ -163,8 +163,6 @@ public class EnumItemNode extends MemberDeclNode
 			return false;
 		}
 		
-		ExprNode value = (ExprNode) this.value;
-		
 		if(!value.isConst()) {
 			reportError("Initialization of enum item is not constant");
 			return false;
@@ -185,17 +183,16 @@ public class EnumItemNode extends MemberDeclNode
 	
 	protected ConstNode getValue()
 	{
-		ExprNode expr = (ExprNode) value;
 		// TODO are we allowed to cast to a ConstNode here???
-		ConstNode res = expr.getConst().castTo(BasicTypeNode.intType);
+		ConstNode res = value.getConst().castTo(BasicTypeNode.intType);
 		debug.report(NOTE, "type: " + res.getType());
 		
-		Object value = res.getValue();
-		if ( ! (value instanceof Integer) ) {
+		Object obj = res.getValue();
+		if ( ! (obj instanceof Integer) ) {
 			return ConstNode.getInvalid();
 		}
 		
-		int v = ((Integer) value).intValue();
+		int v = ((Integer) obj).intValue();
 		debug.report(NOTE, "result: " + res);
 		
 		return new EnumConstNode(getCoords(), getIdentNode(), v);

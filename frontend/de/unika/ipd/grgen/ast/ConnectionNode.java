@@ -58,11 +58,11 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 */
 	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
 		super(edge.getCoords());
-		this.left = n1==null ? NULL : n1;
+		this.left = n1;
 		becomeParent(this.left);
-		this.edge = edge==null ? NULL : edge;
+		this.edge = edge;
 		becomeParent(this.edge);
-		this.right = n2==null ? NULL : n2;
+		this.right = n2;
 		becomeParent(this.right);
 	}
 

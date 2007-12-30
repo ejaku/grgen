@@ -53,7 +53,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * @param id The identifier of the node.
 	 * @param type The type of the node.
 	 */
-	public NodeDeclNode(IdentNode id, BaseNode type, BaseNode constr) {
+	public NodeDeclNode(IdentNode id, BaseNode type, TypeExprNode constr) {
 		super(id, type, constr);
 	}
 

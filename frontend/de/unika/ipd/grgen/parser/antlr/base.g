@@ -93,14 +93,14 @@ options {
 		return new ArithmeticOpNode(getCoords(t), opId.intValue());
 	}
 
-	private OpNode makeBinOp(antlr.Token t, BaseNode op0, BaseNode op1) {
+	private OpNode makeBinOp(antlr.Token t, ExprNode op0, ExprNode op1) {
 		OpNode res = makeOp(t);
 		res.addChild(op0);
 		res.addChild(op1);
 		return res;
 	}
 
-	private OpNode makeUnOp(antlr.Token t, BaseNode op) {
+	private OpNode makeUnOp(antlr.Token t, ExprNode op) {
 		OpNode res = makeOp(t);
 		res.addChild(op);
 		return res;
@@ -246,7 +246,10 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 ///////////////////////////////////////////////////////////////////////////
 
 assignment returns [ AssignNode res = null ]
-	{ BaseNode q, e; }
+	{
+		BaseNode q;
+		ExprNode e;
+	}
 
 	: q=qualIdent a:ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), q, e); }
@@ -408,8 +411,8 @@ mulExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 
 unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	{
-	  ExprNode op;
-	  BaseNode id;
+		ExprNode op;
+		BaseNode id;
 	}
 
 	: t:TILDE op=unaryExpr[inEnumInit]

@@ -38,14 +38,14 @@ public class TypeBinaryExprNode extends TypeExprNode
 		setName(TypeBinaryExprNode.class, "type binary expr");
 	}
 	
-	BaseNode lhs;
-	BaseNode rhs;
+	TypeExprNode lhs;
+	TypeExprNode rhs;
 
 	public TypeBinaryExprNode(Coords coords, int op, TypeExprNode op0, TypeExprNode op1) {
 		super(coords, op);
-		this.lhs = op0==null ? NULL : op0;
+		this.lhs = op0;
 		becomeParent(this.lhs);
-		this.rhs = op1==null ? NULL : op1;
+		this.rhs = op1;
 		becomeParent(this.rhs);
 	}
 

@@ -46,18 +46,18 @@ public class AssignNode extends BaseNode
 	}
 		
 	BaseNode lhs;
-	BaseNode rhs;
+	ExprNode rhs;
 	
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param qual The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, BaseNode qual, BaseNode expr) {
+	public AssignNode(Coords coords, BaseNode qual, ExprNode expr) {
 		super(coords);
-		this.lhs = qual==null ? NULL : qual;
+		this.lhs = qual;
 		becomeParent(this.lhs);
-		this.rhs = expr==null ? NULL : expr;
+		this.rhs = expr;
 		becomeParent(this.rhs);
 	}
 
@@ -147,10 +147,10 @@ public class AssignNode extends BaseNode
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	protected boolean typeCheckLocal() {
-		ExprNode expr = (ExprNode) rhs;
+		ExprNode expr = rhs;
 		
 		TypeNode targetType = (TypeNode) ((QualIdentNode)lhs).getDecl().getDeclType();
-		TypeNode exprType = (TypeNode) expr.getType();
+		TypeNode exprType = expr.getType();
 		
 		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);
@@ -183,7 +183,7 @@ public class AssignNode extends BaseNode
 		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
 			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 		}
-		return new Assignment(qual, (Expression) ((ExprNode)rhs).evaluate().checkIR(Expression.class));
+		return new Assignment(qual, (Expression) rhs.evaluate().checkIR(Expression.class));
 	}
 }
 

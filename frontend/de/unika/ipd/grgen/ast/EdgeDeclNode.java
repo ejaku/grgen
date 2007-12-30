@@ -45,7 +45,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	protected static final Resolver typeResolver =
 		new DeclResolver(new Class[] { EdgeDeclNode.class, TypeDeclNode.class });
 	
-	public EdgeDeclNode(IdentNode n, BaseNode e, BaseNode constraints) {
+	public EdgeDeclNode(IdentNode n, BaseNode e, TypeExprNode constraints) {
 		super(n, e, constraints);
 		setName("edge");
 	}

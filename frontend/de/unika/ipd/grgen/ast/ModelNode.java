@@ -47,11 +47,11 @@ public class ModelNode extends DeclNode
 	
 	protected static final TypeNode modelType = new ModelTypeNode();
 	
-	BaseNode decls;
+	CollectNode decls;
 		
-	public ModelNode(IdentNode id, BaseNode decls) {
+	public ModelNode(IdentNode id, CollectNode decls) {
 		super(id, modelType);
-		this.decls = decls==null ? NULL : decls;
+		this.decls = decls;
 		becomeParent(this.decls);
 	}
 	
@@ -82,7 +82,7 @@ public class ModelNode extends DeclNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver declResolver = new DeclResolver(TypeDeclNode.class);
-		successfullyResolved = ((CollectNode)decls).resolveChildren(declResolver) && successfullyResolved;
+		successfullyResolved = decls.resolveChildren(declResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

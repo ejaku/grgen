@@ -63,9 +63,9 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("actions")
 	};
 
-	private final ConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
+	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
 
-	private final ConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
+	private final IntConstNode zero = new IntConstNode(Coords.getBuiltin(), 0);
 
 	private final Scope rootScope;
 
@@ -224,11 +224,11 @@ public abstract class ParserEnvironment extends Base {
 		return edgeRoot;
 	}
 
-	public BaseNode getOne() {
+	public IntConstNode getOne() {
 		return one;
 	}
 
-	public BaseNode getZero() {
+	public IntConstNode getZero() {
 		return zero;
 	}
 

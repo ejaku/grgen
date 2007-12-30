@@ -47,7 +47,7 @@ public class CastNode extends ExprNode
 	}
 	
 	BaseNode type; // target type of the cast
-	BaseNode expr; // expression to be casted
+	ExprNode expr; // expression to be casted
 		
 	/**
 	 * Make a new cast node.
@@ -63,11 +63,11 @@ public class CastNode extends ExprNode
 	 * @param targetType The target type.
 	 * @param expr The expression to be casted.
 	 */
-	public CastNode(Coords coords, BaseNode targetType, BaseNode expr) {
+	public CastNode(Coords coords, BaseNode targetType, ExprNode expr) {
 		super(coords);
-		this.type = targetType==null ? NULL : targetType;
+		this.type = targetType;
 		becomeParent(this.type);
-		this.expr = expr==null ? NULL : expr;
+		this.expr = expr;
 		becomeParent(this.expr);
 	}
 	
@@ -79,7 +79,7 @@ public class CastNode extends ExprNode
 	 * @param expr The expression to be casted.
 	 * @param resolveResult Resolution result (should be true)
 	 */
-	public CastNode(Coords coords, TypeNode targetType, BaseNode expr, boolean resolveResult) {
+	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, boolean resolveResult) {
 		this(coords, targetType, expr);
 		nodeResolvedSetResult(resolveResult); 
 	}
@@ -161,7 +161,6 @@ public class CastNode extends ExprNode
 	protected boolean typeCheckLocal()
 	{
 		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
-		ExprNode exp = (ExprNode) expr;
 		
 		BaseNode n = type;
 		if( !(n instanceof BasicTypeNode) ) {
@@ -169,11 +168,11 @@ public class CastNode extends ExprNode
 			return false;
 		} else {
 			BasicTypeNode bt = (BasicTypeNode) type;
-			exp.getType().getCastableToTypes(castableToTypes);
+			expr.getType().getCastableToTypes(castableToTypes);
 			
 			boolean result = castableToTypes.contains(bt);
 			if(!result) {
-				reportError("Illegal cast from \"" + exp.getType() + "\" to \"" + bt + "\"");
+				reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + bt + "\"");
 			}
 			
 			return result;
@@ -187,7 +186,6 @@ public class CastNode extends ExprNode
 	 */
 	public ExprNode evaluate()
 	{
-		ExprNode expr = (ExprNode) this.expr;
 		TypeNode type = (TypeNode) this.type;
 		
 		if(expr.isConst()) {

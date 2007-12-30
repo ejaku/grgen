@@ -49,8 +49,8 @@ public class GraphNode extends BaseNode
 		setName(GraphNode.class, "graph");
 	}
 	
-	BaseNode connections;
-	BaseNode returns;
+	CollectNode connections;
+	CollectNode returns;
 
 	/**
 	 * A new pattern node
@@ -58,9 +58,9 @@ public class GraphNode extends BaseNode
 	 */
 	public GraphNode(Coords coords, CollectNode connections, CollectNode returns) {
 		super(coords);
-		this.connections = connections==null ? NULL : connections;
+		this.connections = connections;
 		becomeParent(this.connections);
-		this.returns = returns==null ? NULL : returns;
+		this.returns = returns;
 		becomeParent(this.returns);
 	}
 
@@ -125,9 +125,8 @@ public class GraphNode extends BaseNode
 
 		if(connCheck) {
 			//check, that each named edge is only used once in a pattern
-			CollectNode collect = (CollectNode) connections;
 			HashSet<EdgeCharacter> edges = new HashSet<EdgeCharacter>();
-			for (BaseNode n : collect.getChildren()) {
+			for (BaseNode n : connections.getChildren()) {
 				ConnectionCharacter cc = (ConnectionCharacter)n;
 				EdgeCharacter ec = cc.getEdge();
 
@@ -179,10 +178,6 @@ public class GraphNode extends BaseNode
 		}
 
 		return res;
-	}
-
-	protected BaseNode getReturn() {
-		return returns;
 	}
 
 	/**

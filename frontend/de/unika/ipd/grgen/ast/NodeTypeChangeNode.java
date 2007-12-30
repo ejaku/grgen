@@ -47,7 +47,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
-		this.old = oldid==null ? NULL : oldid;
+		this.old = oldid;
 		becomeParent(this.old);
 	}
 

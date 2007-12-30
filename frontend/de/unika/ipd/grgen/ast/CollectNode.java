@@ -49,7 +49,6 @@ public class CollectNode extends BaseNode
 	Vector<BaseNode> children = new Vector<BaseNode>();
 	
 	public void addChild(BaseNode n) {
-		n = n==null ? NULL : n;
 		becomeParent(n);
 		children.add(n);
 	}
