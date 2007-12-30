@@ -61,6 +61,12 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		this(id, type, TypeExprNode.getEmpty());
 	}
 
+	/** The TYPE child could be a node in case the type is
+	 *  inherited dynamically via the typeof operator */
+	public BaseNode getDeclType() {
+		return ((DeclNode)type).getDeclType();
+	}
+	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -144,26 +150,14 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		return false;
 	}
 		
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
 	public Color getNodeColor() {
 		return Color.GREEN;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ast.NodeCharacter#getNode()
-	 */
+	/** @see de.unika.ipd.grgen.ast.NodeCharacter#getNode() */
 	public Node getNode() {
 		return (Node) checkIR(Node.class);
-	}
-	
-	/**
-	 * The TYPE child could be a node in case the type is
-	 * inherited dynamically via the typeof operator
-	 */
-	public BaseNode getDeclType() {
-		return ((DeclNode)type).getDeclType();
 	}
 	
 	protected boolean inheritsType() {

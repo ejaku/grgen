@@ -79,7 +79,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class });
+		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class);
 		BaseNode resolved = typeResolver.resolve(type);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		type = ownedResolutionResult(type, resolved);

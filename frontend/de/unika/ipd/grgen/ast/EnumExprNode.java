@@ -43,7 +43,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		setName(EnumExprNode.class, "enum access expression");
 	}
 	
-	public EnumExprNode(Coords c, BaseNode owner, BaseNode member) {
+	public EnumExprNode(Coords c, BaseNode owner, IdentNode member) {
 		super(c, owner, member);
 	}
 	

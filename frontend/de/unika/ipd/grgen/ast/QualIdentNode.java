@@ -46,12 +46,12 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 	
 	BaseNode owner;
 	BaseNode member;
-		
+
 	/**
 	 * Make a new identifier qualify node.
 	 * @param coords The coordinates.
 	 */
-	public QualIdentNode(Coords coords, BaseNode owner, BaseNode member) {
+	public QualIdentNode(Coords coords, BaseNode owner, IdentNode member) {
 		super(coords);
 		this.owner = owner;
 		becomeParent(this.owner);

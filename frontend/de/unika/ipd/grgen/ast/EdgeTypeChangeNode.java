@@ -80,7 +80,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver edgeResolver = new DeclResolver(new Class[] { EdgeDeclNode.class});
+		Resolver edgeResolver = new DeclResolver(EdgeDeclNode.class);
 		BaseNode resolved = typeResolver.resolve(type);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		type = ownedResolutionResult(type, resolved);

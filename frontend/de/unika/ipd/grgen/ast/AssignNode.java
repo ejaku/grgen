@@ -45,7 +45,7 @@ public class AssignNode extends BaseNode
 		setName(AssignNode.class, "Assign");
 	}
 		
-	BaseNode lhs;
+	QualIdentNode lhs;
 	ExprNode rhs;
 	
 	/**
@@ -53,7 +53,7 @@ public class AssignNode extends BaseNode
 	 * @param qual The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, BaseNode qual, ExprNode expr) {
+	public AssignNode(Coords coords, QualIdentNode qual, ExprNode expr) {
 		super(coords);
 		this.lhs = qual;
 		becomeParent(this.lhs);
@@ -124,8 +124,7 @@ public class AssignNode extends BaseNode
 		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
 		
 		if(lhsOk) {
-			QualIdentNode qual = (QualIdentNode) lhs;
-			DeclNode owner = qual.getOwner();
+			DeclNode owner = lhs.getOwner();
 			BaseNode ty = owner.getDeclType();
 			
 			if(ty instanceof InheritanceTypeNode) {
@@ -149,7 +148,7 @@ public class AssignNode extends BaseNode
 	protected boolean typeCheckLocal() {
 		ExprNode expr = rhs;
 		
-		TypeNode targetType = (TypeNode) ((QualIdentNode)lhs).getDecl().getDeclType();
+		TypeNode targetType = (TypeNode) lhs.getDecl().getDeclType();
 		TypeNode exprType = expr.getType();
 		
 		if (! exprType.isEqual(targetType)) {

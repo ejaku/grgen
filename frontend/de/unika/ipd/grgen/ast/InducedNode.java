@@ -72,7 +72,7 @@ public class InducedNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver resolver = new DeclResolver(new Class[] { NodeDeclNode.class });
+		Resolver resolver = new DeclResolver(NodeDeclNode.class);
 		for(int i=0; i<children.size(); ++i) {
 			BaseNode resolved = resolver.resolve(children.get(i));
 			successfullyResolved = resolved!=null && successfullyResolved;

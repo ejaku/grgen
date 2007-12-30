@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.EdgeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
@@ -92,8 +91,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclResolver(new Class[] { NodeDeclNode.class }); // optional
-		Resolver edgeResolver = new EdgeResolver();
+		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class); // optional
+		Resolver edgeResolver = new DeclResolver(EdgeDeclNode.class);
 		BaseNode resolved = nodeResolver.resolve(left);
 		left = ownedResolutionResult(left, resolved);
 		resolved = edgeResolver.resolve(edge);

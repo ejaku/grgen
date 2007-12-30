@@ -247,7 +247,7 @@ identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
 
 assignment returns [ AssignNode res = null ]
 	{
-		BaseNode q;
+		QualIdentNode q;
 		ExprNode e;
 	}
 
@@ -494,32 +494,41 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 		}
 	;
 
-qualIdent returns [ BaseNode res = env.initNode() ]
-	{ BaseNode id; }
+qualIdent returns [ QualIdentNode res = null ]
+	{
+		IdentNode id;
+		BaseNode currentLeft;
+	}
 
-	: res=entIdentUse
+	: currentLeft=entIdentUse
 		(d:DOT id=entIdentUse
-			{ res = new QualIdentNode(getCoords(d), res, id); }
+			{
+				res = new QualIdentNode(getCoords(d), currentLeft, id);
+				currentLeft = res;
+			}
 		)+
 	;
 
-enumItemAcc returns [ BaseNode res = env.initNode() ]
-	{ BaseNode id; }
+enumItemAcc returns [ EnumExprNode res = null ]
+	{
+		IdentNode id;
+		IdentNode tid;
+	}
 
-	: res = typeIdentUse d:DOUBLECOLON id = entIdentUse
-	{ res = new EnumExprNode(getCoords(d), res, id); }
+	: tid = typeIdentUse d:DOUBLECOLON id = entIdentUse
+	{ res = new EnumExprNode(getCoords(d), tid, id); }
 	;
 
 enumItemExpr returns [ ExprNode res = env.initExprNode() ]
-	{ BaseNode n; }
+	{ EnumExprNode n; }
 
 	: n = enumItemAcc { res = new DeclExprNode(n); }
 	;
 
 qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
-	{ BaseNode n; }
+	{ QualIdentNode n; }
 
-	: n=qualIdent { res = new DeclExprNode(n); }
+	: n = qualIdent { res = new DeclExprNode(n); }
 	;
 
 

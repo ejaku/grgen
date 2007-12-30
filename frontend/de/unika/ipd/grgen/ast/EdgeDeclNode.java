@@ -54,6 +54,12 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		this(n, e, TypeExprNode.getEmpty());
 	}
 	
+	/** The TYPE child could be an edge in case the type is
+	 *  inherited dynamically via the typeof operator */
+	public BaseNode getDeclType() {
+		return ((DeclNode)type).getDeclType();
+	}
+	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -146,14 +152,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 */
 	public Edge getEdge() {
 		return (Edge) checkIR(Edge.class);
-	}
-	
-	/**
-	 * The TYPE child could be an edge in case the type is
-	 * inherited dynamically via the typeof operator
-	 */
-	public BaseNode getDeclType() {
-		return ((DeclNode)type).getDeclType();
 	}
 	
 	protected boolean inheritsType() {

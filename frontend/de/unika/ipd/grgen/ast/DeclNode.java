@@ -43,7 +43,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		setName(DeclNode.class, "declaration");
 	}
 
-	BaseNode ident;
+	IdentNode ident;
 	BaseNode type;
 	
 	/** An invalid declaration. */
@@ -73,26 +73,17 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		becomeParent(this.type);
 	}
 
-	/**
-	 * Get the ident node for this declaration. The ident node represents
-	 * the declared identifier.
-	 * @return An ident node
-	 */
+	/** @return The ident node of the declaration */
 	public IdentNode getIdentNode() {
-		return (IdentNode) ident;
+		return ident;
 	}
 
-	/**
-	 * Get the type of the declaration
-	 * @return The type node for the declaration
-	 */
+	/** @return The type node of the declaration */
 	public BaseNode getDeclType() {
 		return type;
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl()
-	 */
+	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	public DeclNode getDecl() {
 		return this;
 	}
