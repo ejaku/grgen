@@ -210,7 +210,7 @@ public class PatternGraphNode extends GraphNode
 			for (BaseNode n : getHoms()) {
 				HomNode hom = (HomNode) n;
 
-				for (BaseNode m : n.getChildren()) {
+				for (BaseNode m : hom.getChildren()) {
 					DeclNode decl = (DeclNode) m;
 
 					if (hom_ents.contains(decl)) {
@@ -219,7 +219,7 @@ public class PatternGraphNode extends GraphNode
 						homcheck = false;
 					}
 				}
-				for (BaseNode m : n.getChildren()) {
+				for (BaseNode m : hom.getChildren()) {
 					DeclNode decl = (DeclNode) m;
 
 					hom_ents.add(decl);
@@ -614,9 +614,9 @@ public class PatternGraphNode extends GraphNode
 
 				ConnectionCharacter conn = null;
 				if (direction == INCOMING) {
-					conn = new ConnectionNode(dummyNode, edge, (NodeDeclNode) entry.getKey());
+					conn = new ConnectionNode(dummyNode, edge, (NodeDeclNode) entry.getKey(), true);
 				} else {
-					conn = new ConnectionNode((NodeDeclNode) entry.getKey(), edge, dummyNode);
+					conn = new ConnectionNode((NodeDeclNode) entry.getKey(), edge, dummyNode, true);
 				}
 				conn.addToGraph(neg);
 
@@ -732,7 +732,7 @@ public class PatternGraphNode extends GraphNode
 
 			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt);
+			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, true);
 
 			conn.addToGraph(entry.getValue());
 		}

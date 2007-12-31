@@ -50,16 +50,15 @@ public interface ConnectionCharacter {
 
 	NodeCharacter getSrc();
 
-	void setSrc(NodeCharacter src);
+	void setSrc(NodeDeclNode src);
 
 	NodeCharacter getTgt();
 
-	void setTgt(NodeCharacter tgt);
+	void setTgt(NodeDeclNode tgt);
 
 	/**
 	 * Add this connection character to an IR graph.
 	 * @param gr The IR graph.
 	 */
 	void addToGraph(Graph gr);
-
 }

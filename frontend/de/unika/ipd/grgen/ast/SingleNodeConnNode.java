@@ -132,14 +132,14 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter
 		return (NodeCharacter) node;
 	}
 	
-	public void setSrc(NodeCharacter src) {
+	public void setSrc(NodeDeclNode src) {
 	}
 	
 	public NodeCharacter getTgt() {
 		return null;
 	}
 
-	public void setTgt(NodeCharacter tgt) {
+	public void setTgt(NodeDeclNode tgt) {
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set) */

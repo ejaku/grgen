@@ -29,8 +29,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
@@ -44,33 +43,57 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		setName(ConnectionNode.class, "connection");
 	}
 
-	BaseNode left;
-	BaseNode edge;
-	BaseNode right;
+	NodeDeclNode left;
+	EdgeDeclNode edge;
+	NodeDeclNode right;
+	
+	BaseNode leftUnresolved;
+	BaseNode edgeUnresolved;
+	BaseNode rightUnresolved;
 
-	/**
-	 * Construct a new connection node.
-	 * A connection node has two node nodes and one edge node
-	 * @param n1 First node
-	 * @param edge Edge that connects n1 with n2
-	 * @param n2 Second node.
-	 */
-	public ConnectionNode(BaseNode n1, BaseNode edge, BaseNode n2) {
-		super(edge.getCoords());
-		this.left = n1;
-		becomeParent(this.left);
-		this.edge = edge;
-		becomeParent(this.edge);
-		this.right = n2;
-		becomeParent(this.right);
+	/** Construct a new connection node.
+	 *  A connection node has two node nodes and one edge node
+	 *  @param n1 First node
+	 *  @param edge Edge that connects n1 with n2
+	 *  @param n2 Second node. */
+	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2) {
+		super(e.getCoords());
+		leftUnresolved = n1;
+		becomeParent(leftUnresolved);
+		edgeUnresolved = e;
+		becomeParent(edgeUnresolved);
+		rightUnresolved = n2;
+		becomeParent(rightUnresolved);
+	}
+	
+	/** Construct a new already resolved and checked connection node.
+	 *  A connection node has two node nodes and one edge node
+	 *  @param n1 First node
+	 *  @param edge Edge that connects n1 with n2
+	 *  @param n2 Second node. */
+	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, boolean resolvedAndChecked) {
+		super(e.getCoords());
+		assert(resolvedAndChecked);
+		left = n1;
+		becomeParent(left);
+		edge = e;
+		becomeParent(edge);
+		right = n2;
+		becomeParent(right);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(left);
-		children.add(edge);
-		children.add(right);
+		if(isResolved()) {
+			children.add(left);
+			children.add(edge);
+			children.add(right);
+		} else {
+			children.add(leftUnresolved);
+			children.add(edgeUnresolved);
+			children.add(rightUnresolved);
+		}
 		return children;
 	}
 	
@@ -90,24 +113,20 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		}
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class); // optional
-		Resolver edgeResolver = new DeclResolver(EdgeDeclNode.class);
-		BaseNode resolved = nodeResolver.resolve(left);
-		left = ownedResolutionResult(left, resolved);
-		resolved = edgeResolver.resolve(edge);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		edge = ownedResolutionResult(edge, resolved);
-		resolved = nodeResolver.resolve(right);
-		right = ownedResolutionResult(right, resolved);
+		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
+		left = nodeResolver.resolve(leftUnresolved, this);
+		edge = edgeResolver.resolve(edgeUnresolved, this);
+		right = nodeResolver.resolve(rightUnresolved, this);
+		boolean successfullyResolved = left!=null && edge!=null && right!=null;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = left.resolve() && successfullyResolved;
-		successfullyResolved = edge.resolve() && successfullyResolved;
-		successfullyResolved = right.resolve() && successfullyResolved;
+		successfullyResolved = (left!=null ? left.resolve() : false) && successfullyResolved;
+		successfullyResolved = (edge!=null ? edge.resolve() : false) && successfullyResolved;
+		successfullyResolved = (right!=null ? right.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -153,11 +172,6 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 * @param gr The IR graph.
 	 */
 	public void addToGraph(Graph gr) {
-		// After the AST is checked, these casts must succeed.
-		NodeCharacter left = (NodeCharacter) this.left;
-		NodeCharacter right = (NodeCharacter) this.right;
-		EdgeCharacter edge = (EdgeCharacter) this.edge;
-
 		gr.addConnection(left.getNode(), edge.getEdge(), right.getNode());
 	}
 
@@ -176,24 +190,20 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		return (NodeCharacter) left;
 	}
 
-	public void setSrc(NodeCharacter n) {
+	public void setSrc(NodeDeclNode n) {
 		assert(n!=null);
-		BaseNode src = (BaseNode)n;
-		assert(src!=null);
-		switchParenthood(left, src);
-		left = src;
+		switchParenthood(left, n);
+		left = n;
 	}
 
 	public NodeCharacter getTgt() {
 		return (NodeCharacter) right;
 	}
 
-	public void setTgt(NodeCharacter n) {
+	public void setTgt(NodeDeclNode n) {
 		assert(n!=null);
-		BaseNode tgt = (BaseNode)n;
-		assert(tgt!=null);
-		switchParenthood(right, tgt);
-		right = tgt;
+		switchParenthood(right, n);
+		right = n;
 	}
 
 	/**

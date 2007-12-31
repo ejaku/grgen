@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
@@ -120,24 +119,19 @@ public class AssignNode extends BaseNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		boolean lhsOk = (new SimpleChecker(QualIdentNode.class)).check(lhs, error);
-		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
+		DeclNode owner = lhs.getOwner();
+		BaseNode ty = owner.getDeclType();
 		
-		if(lhsOk) {
-			DeclNode owner = lhs.getOwner();
-			BaseNode ty = owner.getDeclType();
+		if(ty instanceof InheritanceTypeNode) {
+			InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
 			
-			if(ty instanceof InheritanceTypeNode) {
-				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-				
-				if(inhTy.isConst()) {
-					error.error(getCoords(), "Assignment to a const type object not allowed");
-					return false;
-				}
+			if(inhTy.isConst()) {
+				error.error(getCoords(), "Assignment to a const type object not allowed");
+				return false;
 			}
 		}
 		
-		return lhsOk && rhsOk;
+		return true;
 	}
 
 	/**

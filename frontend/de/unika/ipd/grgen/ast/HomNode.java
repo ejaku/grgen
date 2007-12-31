@@ -28,10 +28,8 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.parser.Coords;
 
@@ -45,20 +43,35 @@ public class HomNode extends BaseNode
 		setName(HomNode.class, "homomorph");
 	}
 
-	Vector<BaseNode> children = new Vector<BaseNode>();
+	Vector<NodeDeclNode> childrenNode = new Vector<NodeDeclNode>();
+	Vector<EdgeDeclNode> childrenEdge = new Vector<EdgeDeclNode>();
+	
+	Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 	
 	public HomNode(Coords coords) {
 		super(coords);
 	}
 
 	public void addChild(BaseNode n) {
+		assert(!isResolved());
 		becomeParent(n);
-		children.add(n);
+		childrenUnresolved.add(n);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return children;
+		if(isResolved()) {
+			Vector<BaseNode> children = new Vector<BaseNode>();
+			for(int i=0; i<childrenNode.size(); ++i) {
+				children.add(this.childrenNode.get(i));
+			}
+			for(int i=0; i<childrenEdge.size(); ++i) {
+				children.add(this.childrenEdge.get(i));
+			}
+			return children;
+		} else {
+			return childrenUnresolved;
+		}
 	}
 	
 	/** returns names of the children, same order as in getChildren */
@@ -76,20 +89,28 @@ public class HomNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver resolver = new DeclResolver(
-				new Class[] { NodeDeclNode.class, EdgeDeclNode.class });
-		for(int i=0; i<children.size(); ++i) {
-			BaseNode resolved = resolver.resolve(children.get(i));
-			successfullyResolved = resolved!=null && successfullyResolved;
-			children.set(i, ownedResolutionResult(children.get(i), resolved));
+		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> resolver = 
+			new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+		for(int i=0; i<childrenUnresolved.size(); ++i) {
+			Pair<NodeDeclNode, EdgeDeclNode> resolved = resolver.resolve(childrenUnresolved.get(i), this);
+			if(resolved.fst!=null) {
+				childrenNode.add(resolved.fst);
+			}
+			if(resolved.snd!=null) {
+				childrenEdge.add(resolved.snd);
+			}
+			successfullyResolved = (resolved.fst!=null || resolved.snd!=null) && successfullyResolved;
 		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = children.get(i).resolve() && successfullyResolved;
+		for(int i=0; i<childrenNode.size(); ++i) {
+			successfullyResolved = (childrenNode.get(i)!=null ? childrenNode.get(i).resolve() : false) && successfullyResolved;
+		}
+		for(int i=0; i<childrenEdge.size(); ++i) {
+			successfullyResolved = (childrenEdge.get(i)!=null ? childrenEdge.get(i).resolve() : false) && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -107,8 +128,11 @@ public class HomNode extends BaseNode
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 			
-			for(int i=0; i<children.size(); ++i) {
-				childrenChecked = children.get(i).check() && childrenChecked;
+			for(int i=0; i<childrenNode.size(); ++i) {
+				childrenChecked = childrenNode.get(i).check() && childrenChecked;
+			}
+			for(int i=0; i<childrenEdge.size(); ++i) {
+				childrenChecked = childrenEdge.get(i).check() && childrenChecked;
 			}
 		}
 		
@@ -124,31 +148,23 @@ public class HomNode extends BaseNode
 	 * statements
 	 */
 	protected boolean checkLocal() {
-		if (children.isEmpty()) {
+		if (childrenNode.isEmpty() && childrenEdge.isEmpty()) {
 			this.reportError("Hom statement is empty");
+			return false;
+		}
+		if (!childrenNode.isEmpty() && !childrenEdge.isEmpty()) {
+			this.reportError("Hom statement may only contain nodes or edges at a time");
 			return false;
 		}
 		
 		boolean successfullyChecked = true;
-		Checker checker = new SimpleChecker(DeclNode.class);
-		for(BaseNode n : children) {
-			successfullyChecked = checker.check(n, error) && successfullyChecked;
+		TypeChecker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
+		for(BaseNode n : childrenNode) {
+			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
 		}
-		if(!successfullyChecked) {
-			return false;
-		}
-
-		DeclNode child = (DeclNode) children.get(0);
-		TypeChecker typeChecker;
-
-		if (child.getDeclType() instanceof NodeTypeNode) {
-			typeChecker = new TypeChecker(NodeTypeNode.class);
-		} else {
-			typeChecker = new TypeChecker(EdgeTypeNode.class);
-		}
-
-		for(BaseNode n : children) {
-			successfullyChecked = typeChecker.check(n, error) && successfullyChecked;
+		TypeChecker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
+		for(BaseNode n : childrenEdge) {
+			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
 		return successfullyChecked;
 	}

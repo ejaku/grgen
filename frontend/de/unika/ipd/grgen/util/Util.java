@@ -219,11 +219,11 @@ public class Util
 		}
 		return res.toString();
 	}
+	
 	/**
 	 * Get a comma separated list of strings characterising the kinds of
 	 * the given class objects. Between the last two entries there is an 'or'.
 	 */
-	
 	public static String getStrListWithOr(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
@@ -249,6 +249,22 @@ public class Util
 		return res.toString();
 	}
 	
+	/** return result string of invoking method m on c */
+	public static String getStr(Class<?> c, Class<?> sc, String m)
+	{
+		try {
+			if(isSubClass(c, sc) && containsMethod(c, m)) {
+				if(c.getMethod(m).getReturnType() == String.class) {
+					return ((String) c.getMethod(m).invoke(null));
+				}
+			}
+			return "<invalid>";
+		}
+		catch(Exception e)
+		{ 
+			return "<invalid>";
+		}
+	}
 	
 	public static String toString(StreamDumpable dumpable) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();

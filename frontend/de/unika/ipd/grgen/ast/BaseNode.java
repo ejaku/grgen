@@ -329,7 +329,7 @@ public abstract class BaseNode extends Base
 	}
 	
 	/** helper: become parent of child to adopt */
-	protected void becomeParent(BaseNode adopt) {
+	public void becomeParent(BaseNode adopt) {
 		if(adopt!=null) {
 			adopt.parents.add(this);
 		}

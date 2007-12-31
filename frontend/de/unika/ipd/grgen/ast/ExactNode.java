@@ -26,10 +26,7 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -41,20 +38,31 @@ public class ExactNode extends BaseNode
 		setName(ExactNode.class, "exact");
 	}
 	
-	Vector<BaseNode> children = new Vector<BaseNode>();
+	Vector<NodeDeclNode> children = new Vector<NodeDeclNode>();
+	
+	Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public ExactNode(Coords coords) {
 		super(coords);
 	}
 
 	public void addChild(BaseNode n) {
+		assert(!isResolved());
 		becomeParent(n);
-		children.add(n);
+		childrenUnresolved.add(n);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return children;
+		if(isResolved()) {
+			Vector<BaseNode> children = new Vector<BaseNode>();
+			for(int i=0; i<children.size(); ++i) {
+				children.add(this.children.get(i));
+			}
+			return children;
+		} else {
+			return childrenUnresolved;
+		}
 	}
 	
 	/** returns names of the children, same order as in getChildren */
@@ -72,11 +80,10 @@ public class ExactNode extends BaseNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver resolver = new DeclResolver(NodeDeclNode.class);
-		for(int i=0; i<children.size(); ++i) {
-			BaseNode resolved = resolver.resolve(children.get(i));
-			successfullyResolved = resolved!=null && successfullyResolved;
-			children.set(i, ownedResolutionResult(children.get(i), resolved));
+		DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+		for(int i=0; i<childrenUnresolved.size(); ++i) {
+			children.add(resolver.resolve(childrenUnresolved.get(i), this));
+			successfullyResolved = children.get(i)!=null && successfullyResolved;
 		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
@@ -84,7 +91,7 @@ public class ExactNode extends BaseNode
 		}
 		
 		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = children.get(i).resolve() && successfullyResolved;
+			successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
@@ -123,13 +130,8 @@ public class ExactNode extends BaseNode
 			this.reportError("Exact statement is empty");
 			return false;
 		}
-
-		boolean successfullyChecked = true;
-		Checker checker = new SimpleChecker(NodeDeclNode.class);
-		for(BaseNode n : children) {
-			successfullyChecked = checker.check(n, error) && successfullyChecked;
-		}
-		return successfullyChecked;
+		
+		return true;
 	}
 
 	public Color getNodeColor() {
