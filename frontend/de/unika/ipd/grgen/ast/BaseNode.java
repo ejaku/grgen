@@ -27,22 +27,22 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Vector;
 import java.util.LinkedHashSet;
 import java.util.Iterator;
-import java.awt.Color;
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.Walkable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.GraphDumpable;
+import java.util.Map;
+import java.util.Set;
+
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.Walkable;
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
 
 /**
  * The base class for AST nodes.

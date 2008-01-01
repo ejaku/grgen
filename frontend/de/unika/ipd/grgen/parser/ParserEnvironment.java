@@ -36,7 +36,6 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
 import de.unika.ipd.grgen.ast.CollectNode;
-import de.unika.ipd.grgen.ast.ConstNode;
 import de.unika.ipd.grgen.ast.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.ExprNode;
 import de.unika.ipd.grgen.ast.IdentNode;
