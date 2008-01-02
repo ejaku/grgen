@@ -33,7 +33,7 @@ edge class E1 {
 }
 
 edge class E2 {
-	i2 : int;
+	i2 : int = 23;
 }
 
 edge class EE extends E1, E2 {
