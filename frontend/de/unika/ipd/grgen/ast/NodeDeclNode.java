@@ -24,8 +24,8 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
@@ -44,9 +44,12 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
+	
+	protected NodeDeclNode typeNodeDecl = null;
+	protected TypeDeclNode typeTypeDecl = null;
 
-	protected static final Resolver typeResolver =
-		new DeclResolver(new Class[] { NodeDeclNode.class, TypeDeclNode.class });
+	protected static final DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
+		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 	
 	/**
 	 * Make a new node declaration.
@@ -64,14 +67,15 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
 	public BaseNode getDeclType() {
-		return ((DeclNode)typeUnresolved).getDeclType();
+		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
+		return curr.getDeclType();
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
 		return children;
 	}
@@ -93,16 +97,22 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(typeUnresolved);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
+		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
+		typeNodeDecl = resolved.fst;
+		typeTypeDecl = resolved.snd;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
+		if(typeNodeDecl != null){
+			successfullyResolved = typeNodeDecl.resolve() && successfullyResolved;
+		}
+		if(typeTypeDecl != null){
+			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
+		}
 		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -121,7 +131,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = typeUnresolved.check() && childrenChecked;
+			childrenChecked = getValidResolvedVersion(typeNodeDecl, typeTypeDecl).check() && childrenChecked;
 			childrenChecked = constraints.check() && childrenChecked;
 		}
 		
@@ -135,7 +145,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 		return super.checkLocal()
 			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(typeUnresolved, error);
+			&& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
 	}
 	
 	/**
@@ -161,7 +171,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	}
 	
 	protected boolean inheritsType() {
-		return (typeUnresolved instanceof NodeDeclNode);
+		return typeNodeDecl != null;
 	}
 	
 	/**
@@ -182,7 +192,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		}
 		
 		if(inheritsType()) {
-			res.setTypeof((Node)typeUnresolved.checkIR(Node.class));
+			res.setTypeof((Node)typeNodeDecl.checkIR(Node.class));
 		}
 		
 		return res;

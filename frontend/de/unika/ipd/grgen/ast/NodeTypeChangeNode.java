@@ -26,8 +26,8 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
@@ -43,21 +43,22 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
 
-	BaseNode old;
+	BaseNode oldUnresolved;
+	NodeDeclNode old = null;
 
 	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
 		super(id, newType, TypeExprNode.getEmpty());
-		this.old = oldid;
-		becomeParent(this.old);
+		this.oldUnresolved = oldid;
+		becomeParent(this.oldUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(old);
+		children.add(getValidVersion(oldUnresolved, old));
 		return children;
 	}
 
@@ -79,22 +80,27 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class);
-		BaseNode resolved = typeResolver.resolve(typeUnresolved);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
-		resolved = nodeResolver.resolve(old);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		old = ownedResolutionResult(old, resolved);
+		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
+		typeNodeDecl = resolved.fst;
+		typeTypeDecl = resolved.snd;
+		old = nodeResolver.resolve(oldUnresolved, this);
+		successfullyResolved = old!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
+		if(typeNodeDecl != null){
+			successfullyResolved = typeNodeDecl.resolve() && successfullyResolved;
+		}
+		if(typeTypeDecl != null){
+			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
+		}
 		successfullyResolved = constraints.resolve() && successfullyResolved;
-		successfullyResolved = old.resolve() && successfullyResolved;
+		successfullyResolved = (old!=null ? old.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -112,7 +118,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = typeUnresolved.check() && childrenChecked;
+			childrenChecked = getValidResolvedVersion(typeNodeDecl, typeTypeDecl).check() && childrenChecked;
 			childrenChecked = constraints.check() && childrenChecked;
 			childrenChecked = old.check() && childrenChecked;
 		}
@@ -127,7 +133,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	 * @return the original node for this retyped node
 	 */
 	public NodeCharacter getOldNode() {
-		return (NodeCharacter) old;
+		assert isResolved();
+		return old;
 	}
 
 	/**
@@ -136,12 +143,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal()
-			&& nodeChecker.check(this.old, error);
+			&& nodeChecker.check(old, error);
 		if (!res) {
 			return false;
 		}
-		// ok, since checked above
-		DeclNode old = (DeclNode) this.old;
 
 		// check if source node of retype is declared in replace/modify part
 		BaseNode curr = old;
@@ -181,21 +186,18 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	 */
 	protected IR constructIR() {
 		// This cast must be ok after checking.
-		NodeCharacter oldNodeDecl = (NodeCharacter) old;
-
-		// This cast must be ok after checking.
 		NodeTypeNode tn = (NodeTypeNode) getDeclType();
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
 		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
 
-		Node node = oldNodeDecl.getNode();
+		Node node = old.getNode();
 		node.setRetypedNode(res);
 		res.setOldNode(node);
 
 		if (inheritsType()) {
-			res.setTypeof((Node) typeUnresolved.checkIR(Node.class));
+			res.setTypeof((Node) typeNodeDecl.checkIR(Node.class));
 		}
 
 		return res;
