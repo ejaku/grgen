@@ -62,7 +62,7 @@ public abstract class BaseNode extends Base
 		new HashMap<Class<? extends BaseNode>, String>();
 
 	/** A dummy AST node used in case of an error */
-	protected static final BaseNode NULL = new NullNode();
+	protected static final BaseNode NULL = new ErrorNode();
 
 	/** Print verbose error messages. */
 	private static boolean verboseErrorMsg = true;
@@ -343,6 +343,40 @@ public abstract class BaseNode extends Base
 		} else {
 			return original;
 		}
+	}
+	
+	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
+	protected <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved) {
+		assert isResolved();
+		if(firstResolved != null){
+			return firstResolved;
+		}
+		if(secondResolved != null){
+			return secondResolved;
+		}
+		assert false;
+		return null;
+	}
+	
+	/** Return the currently valid member. Currently valid depends on variable was already resolved. */
+	protected <T extends BaseNode> T getValidVersion(T unresolved, T resolved) {
+		if(isResolved()){
+			return resolved;
+		}
+		return unresolved;
+	}
+	
+	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
+	protected <T extends BaseNode> T getValidVersion(T unresolved, T firstResolved, T secondResolved) {
+		if(isResolved()){
+			if(firstResolved != null){
+				return firstResolved;
+			}
+			if(secondResolved != null){
+				return secondResolved;
+			}
+		}
+		return unresolved;
 	}
 	
 	/** Check whether this AST node is a root node (i.e. it has no predecessors)

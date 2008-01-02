@@ -19,58 +19,23 @@
 
 
 /**
- * @author shack
+ * @author buchwald
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
 
-/**
- * Dummy AST node, that is used in the case of an error.
- * children: none
- */
 public class NullNode extends BaseNode
 {
-	static {
-		setName(NullNode.class, "error node");
-	}
-	
-	protected NullNode() {
+	public NullNode() {
 		super();
 	}
 
-	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		// no children
-		return children;
-	}
-	
-	/** returns names of the children, same order as in getChildren */
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		// no children
-		return childrenNames;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-		
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		return successfullyResolved;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
+	@Override
+	protected boolean check()
+	{
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -84,43 +49,35 @@ public class NullNode extends BaseNode
 		return locallyChecked;
 	}
 
-	/*
-	 public void addChild(BaseNode n) {
-	 }
-	 
-	 public void addChildren(BaseNode n) {
-	 }
-	 
-	 protected boolean check() {
-	 return false;
-	 }
-	 
-	 public boolean checkChild(int child, Class cls) {
-	 return false;
-	 }
-	 
-	 public int children() {
-	 return 0;
-	 }
-	 
-	 public BaseNode getChild(int i) {
-	 return BaseNode.NULL;
-	 }
-	 
-	 public Iterator getChildren() {
-	 return dummy;
-	 }
-	 */
-	
-	public Color getNodeColor() {
-		return Color.RED;
+	@Override
+	public Collection<BaseNode> getChildren()
+	{
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		// no children
+		return children;
 	}
-	
-	public String getNodeLabel() {
-		return "Error";
+
+	@Override
+	public Collection<String> getChildrenNames()
+	{
+		Vector<String> childrenNames = new Vector<String>();
+		// no children
+		return childrenNames;
 	}
+
+	@Override
+	protected boolean resolve()
+	{
+		if(!resolutionResult()) {
+			return false;
+		}
+		if(isChecked()) {
+			return getChecked();
+		}
 		
-	public boolean isError() {
-		return true;
+		boolean locallyChecked = true;
+		nodeCheckedSetResult(locallyChecked);
+		
+		return locallyChecked;
 	}
 }

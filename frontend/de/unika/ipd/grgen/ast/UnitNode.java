@@ -74,7 +74,7 @@ public class UnitNode extends DeclNode
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		children.add(models);
 		children.add(decls);
 		return children;
@@ -106,7 +106,7 @@ public class UnitNode extends DeclNode
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = models.resolve() && successfullyResolved;
 		successfullyResolved = decls.resolve() && successfullyResolved;
 		return successfullyResolved;
@@ -125,7 +125,7 @@ public class UnitNode extends DeclNode
 		nodeCheckedSetResult(successfullyChecked);
 		
 		successfullyChecked = ident.check() && successfullyChecked;
-		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = typeUnresolved.check() && successfullyChecked;
 		successfullyChecked = models.check() && successfullyChecked;
 		successfullyChecked = decls.check() && successfullyChecked;
 		return successfullyChecked;

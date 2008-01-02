@@ -649,7 +649,7 @@ public class PatternGraphNode extends GraphNode
 	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot) {
 		IdentNode edgeName = new IdentNode(getScope().defineAnonymous("edge",
 			SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot);
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, true);
 		return edge;
 	}
 
@@ -758,6 +758,7 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
+	// TODO Change return-type iff CollectNode support generics
 	private BaseNode getEdgeRootType() {
 		// get root node
 		BaseNode root = this;

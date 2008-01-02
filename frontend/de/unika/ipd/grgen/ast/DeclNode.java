@@ -44,7 +44,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 	}
 
 	IdentNode ident;
-	BaseNode type;
+	BaseNode typeUnresolved;
+	
 	
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
@@ -69,8 +70,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 		n.setDecl(this);
 		this.ident = n;
 		becomeParent(this.ident);
-		this.type = t;
-		becomeParent(this.type);
+		this.typeUnresolved = t;
+		becomeParent(this.typeUnresolved);
 	}
 
 	/** @return The ident node of the declaration */
@@ -80,7 +81,7 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 
 	/** @return The type node of the declaration */
 	public BaseNode getDeclType() {
-		return type;
+		return typeUnresolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */

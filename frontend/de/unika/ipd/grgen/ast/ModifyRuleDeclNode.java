@@ -34,7 +34,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		children.add(param);
 		children.add(ret);
 		children.add(pattern);
@@ -76,7 +76,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = param.resolve() && successfullyResolved;
 		successfullyResolved = ret.resolve() && successfullyResolved;
 		successfullyResolved = pattern.resolve() && successfullyResolved;
@@ -101,7 +101,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = typeUnresolved.check() && childrenChecked;
 			childrenChecked = param.check() && childrenChecked;
 			childrenChecked = ret.check() && childrenChecked;
 			childrenChecked = pattern.check() && childrenChecked;

@@ -64,14 +64,14 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
 	public BaseNode getDeclType() {
-		return ((DeclNode)type).getDeclType();
+		return ((DeclNode)typeUnresolved).getDeclType();
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		children.add(constraints);
 		return children;
 	}
@@ -93,16 +93,16 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(type);
+		BaseNode resolved = typeResolver.resolve(typeUnresolved);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		type = ownedResolutionResult(type, resolved);
+		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -121,7 +121,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = typeUnresolved.check() && childrenChecked;
 			childrenChecked = constraints.check() && childrenChecked;
 		}
 		
@@ -135,7 +135,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 		return super.checkLocal()
 			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(type, error);
+			&& typeChecker.check(typeUnresolved, error);
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	}
 	
 	protected boolean inheritsType() {
-		return (type instanceof NodeDeclNode);
+		return (typeUnresolved instanceof NodeDeclNode);
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		}
 		
 		if(inheritsType()) {
-			res.setTypeof((Node)type.checkIR(Node.class));
+			res.setTypeof((Node)typeUnresolved.checkIR(Node.class));
 		}
 		
 		return res;

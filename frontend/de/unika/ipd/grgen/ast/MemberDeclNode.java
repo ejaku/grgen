@@ -58,7 +58,7 @@ public class MemberDeclNode extends DeclNode
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		return children;
 	}
 
@@ -78,16 +78,16 @@ public class MemberDeclNode extends DeclNode
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(type);
+		BaseNode resolved = typeResolver.resolve(typeUnresolved);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		type = ownedResolutionResult(type, resolved);
+		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -105,7 +105,7 @@ public class MemberDeclNode extends DeclNode
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = typeUnresolved.check() && childrenChecked;
 		}
 		
 		boolean locallyChecked = checkLocal();
@@ -118,7 +118,7 @@ public class MemberDeclNode extends DeclNode
 	protected boolean checkLocal() {
 		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
 		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(type, error);
+			&& typeChecker.check(typeUnresolved, error);
 	}
 
 	protected IR constructIR() {

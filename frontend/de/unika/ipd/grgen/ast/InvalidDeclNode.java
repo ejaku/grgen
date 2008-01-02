@@ -38,7 +38,7 @@ public class InvalidDeclNode extends DeclNode
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		return children;
 	}
 	

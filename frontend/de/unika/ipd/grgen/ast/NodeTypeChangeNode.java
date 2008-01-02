@@ -55,7 +55,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		children.add(constraints);
 		children.add(old);
 		return children;
@@ -80,9 +80,9 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class);
-		BaseNode resolved = typeResolver.resolve(type);
+		BaseNode resolved = typeResolver.resolve(typeUnresolved);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		type = ownedResolutionResult(type, resolved);
+		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
 		resolved = nodeResolver.resolve(old);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		old = ownedResolutionResult(old, resolved);
@@ -92,7 +92,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		}
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = constraints.resolve() && successfullyResolved;
 		successfullyResolved = old.resolve() && successfullyResolved;
 		return successfullyResolved;
@@ -112,7 +112,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = typeUnresolved.check() && childrenChecked;
 			childrenChecked = constraints.check() && childrenChecked;
 			childrenChecked = old.check() && childrenChecked;
 		}
@@ -149,6 +149,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 
 		while (!(curr instanceof RuleDeclNode)) {
 			prev = curr;
+			// doesn't matter which parent you choose, in the end you reach RuleDeclNode
 			curr = curr.getParents().iterator().next();
 		}
 		if (prev == ((RuleDeclNode)curr).right) {
@@ -194,7 +195,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		res.setOldNode(node);
 
 		if (inheritsType()) {
-			res.setTypeof((Node) type.checkIR(Node.class));
+			res.setTypeof((Node) typeUnresolved.checkIR(Node.class));
 		}
 
 		return res;

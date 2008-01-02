@@ -19,50 +19,43 @@
 
 
 /**
- * @author Sebastian Hack
+ * @author shack
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.IR;
 
 /**
- * Declaration of a type.
+ * Dummy AST node, that is used in the case of an error.
+ * children: none
  */
-public class TypeDeclNode extends DeclNode
+public class ErrorNode extends BaseNode
 {
 	static {
-		setName(TypeDeclNode.class, "type declaration");
+		setName(ErrorNode.class, "error node");
 	}
 	
-	public TypeDeclNode(IdentNode i, BaseNode t) {
-		super(i, t);
-		
-		// Set the declaration of the declared type node to this node.
-		if(t instanceof DeclaredTypeNode) {
-			((DeclaredTypeNode) t).setDecl(this);
-		}
+	protected ErrorNode() {
+		super();
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(ident);
-		children.add(typeUnresolved);
+		// no children
 		return children;
 	}
 	
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
-		childrenNames.add("type");
+		// no children
 		return childrenNames;
 	}
-
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
@@ -72,12 +65,10 @@ public class TypeDeclNode extends DeclNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
+
 		return successfullyResolved;
 	}
-
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
 	protected boolean check() {
 		if(!resolutionResult()) {
@@ -87,41 +78,49 @@ public class TypeDeclNode extends DeclNode
 			return getChecked();
 		}
 		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = typeUnresolved.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
+		boolean locallyChecked = true;
 		nodeCheckedSetResult(locallyChecked);
 		
-		return childrenChecked && locallyChecked;
+		return locallyChecked;
+	}
+
+	/*
+	 public void addChild(BaseNode n) {
+	 }
+	 
+	 public void addChildren(BaseNode n) {
+	 }
+	 
+	 protected boolean check() {
+	 return false;
+	 }
+	 
+	 public boolean checkChild(int child, Class cls) {
+	 return false;
+	 }
+	 
+	 public int children() {
+	 return 0;
+	 }
+	 
+	 public BaseNode getChild(int i) {
+	 return BaseNode.NULL;
+	 }
+	 
+	 public Iterator getChildren() {
+	 return dummy;
+	 }
+	 */
+	
+	public Color getNodeColor() {
+		return Color.RED;
 	}
 	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() {
-		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& (new SimpleChecker(DeclaredTypeNode.class)).check(typeUnresolved, error);
+	public String getNodeLabel() {
+		return "Error";
 	}
-
-	/**
-	 * A type declaration returns the declared type
-	 * as result.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	protected IR constructIR() {
-		TypeNode declType = (TypeNode) getDeclType();
-		return declType.getIR();
-	}
-
-	public static String getKindStr() {
-		return "type declaration";
-	}
-
-	public static String getUseStr() {
-		return "type";
+		
+	public boolean isError() {
+		return true;
 	}
 }

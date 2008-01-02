@@ -77,7 +77,7 @@ public class RuleDeclNode extends TestDeclNode
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(typeUnresolved);
 		children.add(param);
 		children.add(ret);
 		children.add(pattern);
@@ -112,7 +112,7 @@ public class RuleDeclNode extends TestDeclNode
 		nodeResolvedSetResult(successfullyResolved); // local result
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = param.resolve() && successfullyResolved;
 		successfullyResolved = ret.resolve() && successfullyResolved;
 		successfullyResolved = pattern.resolve() && successfullyResolved;
@@ -135,7 +135,7 @@ public class RuleDeclNode extends TestDeclNode
 		nodeCheckedSetResult(successfullyChecked);
 		
 		successfullyChecked = ident.check() && successfullyChecked;
-		successfullyChecked = type.check() && successfullyChecked;
+		successfullyChecked = typeUnresolved.check() && successfullyChecked;
 		successfullyChecked = param.check() && successfullyChecked;
 		successfullyChecked = ret.check() && successfullyChecked;
 		successfullyChecked = pattern.check() && successfullyChecked;

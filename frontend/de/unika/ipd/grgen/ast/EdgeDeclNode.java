@@ -25,10 +25,10 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -42,8 +42,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		setName(EdgeDeclNode.class, "edge declaration");
 	}
 	
-	protected static final Resolver typeResolver =
-		new DeclResolver(new Class[] { EdgeDeclNode.class, TypeDeclNode.class });
+	protected EdgeDeclNode typeEdgeDecl = null;
+	protected TypeDeclNode typeTypeDecl = null;
+	
+	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
+			new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 	
 	public EdgeDeclNode(IdentNode n, BaseNode e, TypeExprNode constraints) {
 		super(n, e, constraints);
@@ -54,17 +57,30 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		this(n, e, TypeExprNode.getEmpty());
 	}
 	
+	/**
+	 * Create EdgeDeclNode and immediately resolve and check it.
+	 * NOTE: Use this to create and insert an EdgeDeclNode into the AST after
+	 * the AST is already checked.
+	 * TODO Change type of type iff CollectNode support generics 
+	 */
+	public EdgeDeclNode(IdentNode n, BaseNode type, boolean resolvedAndChecked) {
+		this(n, type, TypeExprNode.getEmpty());
+		resolve();
+		check();
+	}
+	
 	/** The TYPE child could be an edge in case the type is
 	 *  inherited dynamically via the typeof operator */
 	public BaseNode getDeclType() {
-		return ((DeclNode)type).getDeclType();
+		DeclNode curr = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
+		return curr.getDeclType();
 	}
 	
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(type);
+		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
 		return children;
 	}
@@ -86,16 +102,22 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(type);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		type = ownedResolutionResult(type, resolved);
+		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
+		typeEdgeDecl = resolved.fst;
+		typeTypeDecl = resolved.snd;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 		
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = type.resolve() && successfullyResolved;
+		if(typeEdgeDecl != null){
+			successfullyResolved = typeEdgeDecl.resolve() && successfullyResolved;
+		}
+		if(typeTypeDecl != null){
+			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
+		}
 		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -114,7 +136,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 			setCheckVisited();
 			
 			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = type.check() && childrenChecked;
+			childrenChecked = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl).check() && childrenChecked;
 			childrenChecked = constraints.check() && childrenChecked;
 		}
 		
@@ -128,7 +150,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 		return super.checkLocal()
 			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(type, error);
+			&& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 	
 	/**
@@ -155,7 +177,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	}
 	
 	protected boolean inheritsType() {
-		return (type instanceof EdgeDeclNode);
+		return typeEdgeDecl != null;
 	}
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
@@ -169,7 +191,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 		edge.setConstraints(getConstraints());
 		
 		if(inheritsType()) {
-			edge.setTypeof((Edge)type.checkIR(Edge.class));
+			edge.setTypeof((Edge)typeEdgeDecl.checkIR(Edge.class));
 		}
 		
 		return edge;
