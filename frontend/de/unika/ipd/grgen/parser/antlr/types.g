@@ -264,7 +264,14 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 	{ BaseNode b; }
 
 	:   (
-			( b=basicDecl | b=initExpr ) { c.addChild(b); } SEMI!
+			(
+				b=basicDecl { c.addChild(b); }
+				(
+					b=initExprDecl[((DeclNode)b).getIdentNode()] { c.addChild(b); }
+				)?
+			|
+				b=initExpr { c.addChild(b); }
+			) SEMI!
 		)*
 	;
 
