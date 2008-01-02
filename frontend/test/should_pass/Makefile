@@ -21,6 +21,14 @@ CLASSPATH=$(JARGS):$(ANTLR):$(GRGENNET)/grgen.jar
 GMS     = $(wildcard *.gm)
 GRGS    = $(wildcard *.grg)
 
+#
+# the logfiles
+SUCCESSFE   = successFE.log
+FAILEDFE    = failedFE.log
+SUCCESSCSC  = successCSC.log
+FAILEDCSCFE = failedCSC_FE.log
+FAILEDCSC   = failedCSC.log
+
 
 TARGETS_FE= $(GRGS:.grg=_fe)        # The targets for the frontend-only test
 SUCCESSFILES_FE= $(GRGS:.grg=_fe)   # The success files for the frontend-only test
@@ -34,41 +42,41 @@ BE_CSC  = de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
 DIRS_CSI= $(GRGS:.grg=_csi)         # The directory for the C# interpreting backend
 
 all: cleanfelog $(TARGETS_FE)
-	cat failedFE.log
+	cat $(FAILEDFE)
 
 csc: cleancsclog csccontinue ;
 
 csccontinue: $(TARGETS_CSC)
-	@echo -e "-------------\nFailed in frontend of GrGen (from failedCSC_FE.log):\n"
-	@cat failedCSC_FE.log
-	@echo -e "\nFailed in C# part of GrGen (from failedCSC.log):\n"
-	@cat failedCSC.log
+	@echo -e "-------------\nFailed in frontend of GrGen (from $(FAILEDCSCFE)):\n"
+	@cat $(FAILEDCSCFE)
+	@echo -e "\nFailed in C# part of GrGen (from $(FAILEDCSC)):\n"
+	@cat $(FAILEDCSC)
 
 grgenuptodate: $(GRGENDIR)/grgen.jar
 	@touch grgenuptodate
 	cp $(GRGENDIR)/grgen.jar $(GRGENNET)/
 
 %_fe : %.grg $(GMS)
-	@touch successFE.log
-	@touch failedFE.log
+	@touch $(SUCCESSFE)
+	@touch $(FAILEDFE)
 	@test -d $@_out || mkdir $@_out
-	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -t -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> successFE.log && touch $@ || echo "$< failed" >> failedFE.log
+	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -t -b $(BE_CSC) -o $@_out $< && echo "$< succeeded" >> $(SUCCESSFE) && touch $@ || echo "$< failed" >> $(FAILEDFE)
 
 %_csc : %.grg $(GMS) grgenuptodate %_csc_success ;
 
 %_csc_success : %.grg $(GMS)
 	@echo -e "-------------\nTesting $<...\n"
-	@touch successCSC.log
-	@touch failedCSC.log
+	@touch $(SUCCESSCSC)
+	@touch $(FAILEDCSC)
 	@test -d $(@:%_csc_success=%_csc_out) || mkdir $(@:%_csc_success=%_csc_out)
-	-mono $(GRGENNET)/GrGen.exe -keep $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> successCSC.log && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> failedCSC.log || echo "$< frontend failed" >> failedCSC_FE.log)
+	-mono $(GRGENNET)/GrGen.exe -keep $(@:%_csc_success=%_csc_out) -o $(@:%_csc_success=%_csc_out) $< &> $@_tmp.log && cat $@_tmp.log && echo "$< succeeded" >> $(SUCCESSCSC) && touch $@ || (cat $@_tmp.log && grep "done\!" $@_tmp.log > /dev/null && echo "$< failed" >> $(FAILEDCSC) || echo "$< frontend failed" >> $(FAILEDCSCFE))
 	@rm -f $@_tmp.log
 
 clean:
-	@rm -rf $(SUCCESSFILES_FE) $(DIRS_FE) $(SUCCESSFILES_CSC) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log failedCSC_FE.log
+	@rm -rf $(SUCCESSFILES_FE) $(DIRS_FE) $(SUCCESSFILES_CSC) $(DIRS_CSC) $(DIRS_CSI) $(SUCCESSFE) $(FAILEDFE) $(SUCCESSCSC) $(FAILEDCSC) $(FAILEDCSCFE)
 
 cleanfelog:
-	@rm -f failedFE.log
+	@rm -f $(FAILEDFE)
 
 cleancsclog:
-	@rm -f failedCSC.log failedCSC_FE.log
+	@rm -f $(FAILEDCSC) $(FAILEDCSCFE)
