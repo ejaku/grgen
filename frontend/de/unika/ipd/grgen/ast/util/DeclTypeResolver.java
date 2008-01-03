@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ast.TypeNode;
 /**
  * A resolver, that resolves an identifier into it's AST type node.
  */
+@Deprecated
 public class DeclTypeResolver extends IdentResolver
 {
 	/**

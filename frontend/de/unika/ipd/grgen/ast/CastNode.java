@@ -115,7 +115,6 @@ public class CastNode extends ExprNode
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
-			
 		}
 		
 		successfullyResolved = type.resolve() && successfullyResolved;

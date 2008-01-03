@@ -34,6 +34,7 @@ import de.unika.ipd.grgen.util.Util;
  * Searching of the declaration occurs within the subclasses,
  * which must overwrite resolveIdent for that purpose.
  */
+@Deprecated
 public abstract class IdentResolver extends Resolver {
 	/** The set of classes the resolved node must be an instance of */
 	private Class<?>[] classes;

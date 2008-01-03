@@ -34,6 +34,7 @@ import java.util.Map;
 /**
  * A resolver, that resolves a declaration node from an identifier (used in a member init).
  */
+@Deprecated
 public class MemberInitResolver extends IdentResolver {
 
 	/**

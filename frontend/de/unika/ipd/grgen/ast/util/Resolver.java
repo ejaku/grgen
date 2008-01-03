@@ -29,6 +29,7 @@ import de.unika.ipd.grgen.util.Base;
 /**
  * something, that resolves a node to another node.
  */
+@Deprecated
 public abstract class Resolver extends Base {
 	/**
 	 * Resolves a node to another node. (but doesn't replace the node in the AST)

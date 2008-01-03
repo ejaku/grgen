@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ast.DeclNode;
 /**
  * A resolver, that resolves an identifier into it's declaration.
  */
+@Deprecated
 public class DeclResolver extends IdentResolver
 {
 	/**
