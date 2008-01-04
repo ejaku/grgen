@@ -56,7 +56,7 @@ public class DpoNode extends BaseNode
 	public Collection<BaseNode> getChildren() {
 		if(isResolved()) {
 			Vector<BaseNode> children = new Vector<BaseNode>();
-			for(int i=0; i<children.size(); ++i) {
+			for(int i=0; i<this.children.size(); ++i) {
 				children.add(this.children.get(i));
 			}
 			return children;

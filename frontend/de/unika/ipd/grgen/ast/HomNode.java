@@ -63,7 +63,7 @@ public class HomNode extends BaseNode
 		if(isResolved()) {
 			Vector<BaseNode> children = new Vector<BaseNode>();
 			for(int i=0; i<childrenNode.size(); ++i) {
-				children.add(this.childrenNode.get(i));
+				children.add(childrenNode.get(i));
 			}
 			for(int i=0; i<childrenEdge.size(); ++i) {
 				children.add(this.childrenEdge.get(i));
