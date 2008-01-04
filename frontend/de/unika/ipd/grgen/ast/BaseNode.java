@@ -35,6 +35,7 @@ import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -377,6 +378,41 @@ public abstract class BaseNode extends Base
 			}
 		}
 		return unresolved;
+	}
+	
+	/** Return new vector containing elements of the currently valid member vector. Currently valid depends on vector was already resolved. */
+	protected <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, Vector<? extends T> resolved) {
+		Vector<T> result = new Vector<T>();
+		if(isResolved()) {
+			for(int i=0; i<resolved.size(); ++i) {
+				result.add(resolved.get(i));
+			}
+		} else {
+			for(int i=0; i<unresolved.size(); ++i) {
+				result.add(unresolved.get(i));
+			}
+		}
+		return result;
+	}
+	
+	/** Return new vector containing elements of the currently valid member vector. 
+	 *  Currently valid depends on vector was already resolved and resolution result. */
+	protected <T extends BaseNode> Vector<T> getValidVersionVector(Vector<? extends T> unresolved, 
+			Vector<? extends T> firstResolved, Vector<? extends T> secondResolved) {
+		Vector<T> result = new Vector<T>();
+		if(isResolved()) {
+			for(int i=0; i<firstResolved.size(); ++i) {
+				result.add(firstResolved.get(i));
+			}
+			for(int i=0; i<secondResolved.size(); ++i) {
+				result.add(secondResolved.get(i));
+			}
+		} else {
+			for(int i=0; i<unresolved.size(); ++i) {
+				result.add(unresolved.get(i));
+			}
+		}
+		return result;
 	}
 	
 	/** Check whether this AST node is a root node (i.e. it has no predecessors)

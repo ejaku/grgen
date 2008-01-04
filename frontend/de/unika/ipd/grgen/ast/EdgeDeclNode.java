@@ -65,6 +65,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter
 	 */
 	public EdgeDeclNode(IdentNode n, BaseNode type, boolean resolvedAndChecked) {
 		this(n, type, TypeExprNode.getEmpty());
+		assert(resolvedAndChecked);
 		resolve();
 		check();
 	}

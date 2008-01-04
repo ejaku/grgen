@@ -72,28 +72,18 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	 *  @param edge Edge that connects n1 with n2
 	 *  @param n2 Second node. */
 	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, boolean resolvedAndChecked) {
-		super(e.getCoords());
+		this(n1, e, n2);
 		assert(resolvedAndChecked);
-		left = n1;
-		becomeParent(left);
-		edge = e;
-		becomeParent(edge);
-		right = n2;
-		becomeParent(right);
+		resolve();
+		check();
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		if(isResolved()) {
-			children.add(left);
-			children.add(edge);
-			children.add(right);
-		} else {
-			children.add(leftUnresolved);
-			children.add(edgeUnresolved);
-			children.add(rightUnresolved);
-		}
+		children.add(getValidVersion(leftUnresolved, left));
+		children.add(getValidVersion(edgeUnresolved, edge));
+		children.add(getValidVersion(rightUnresolved, right));
 		return children;
 	}
 	

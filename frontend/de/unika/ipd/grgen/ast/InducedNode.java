@@ -54,15 +54,7 @@ public class InducedNode extends BaseNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		if(isResolved()) {
-			Vector<BaseNode> children = new Vector<BaseNode>();
-			for(int i=0; i<this.children.size(); ++i) {
-				children.add(this.children.get(i));
-			}
-			return children;
-		} else {
-			return childrenUnresolved;
-		}
+		return getValidVersionVector(childrenUnresolved, children);
 	}
 
 	/** returns names of the children, same order as in getChildren */

@@ -60,18 +60,7 @@ public class HomNode extends BaseNode
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		if(isResolved()) {
-			Vector<BaseNode> children = new Vector<BaseNode>();
-			for(int i=0; i<childrenNode.size(); ++i) {
-				children.add(childrenNode.get(i));
-			}
-			for(int i=0; i<childrenEdge.size(); ++i) {
-				children.add(this.childrenEdge.get(i));
-			}
-			return children;
-		} else {
-			return childrenUnresolved;
-		}
+		return getValidVersionVector(childrenUnresolved, childrenNode, childrenEdge);
 	}
 	
 	/** returns names of the children, same order as in getChildren */
@@ -107,10 +96,10 @@ public class HomNode extends BaseNode
 		}
 
 		for(int i=0; i<childrenNode.size(); ++i) {
-			successfullyResolved = (childrenNode.get(i)!=null ? childrenNode.get(i).resolve() : false) && successfullyResolved;
+			successfullyResolved = childrenNode.get(i).resolve() && successfullyResolved;
 		}
 		for(int i=0; i<childrenEdge.size(); ++i) {
-			successfullyResolved = (childrenEdge.get(i)!=null ? childrenEdge.get(i).resolve() : false) && successfullyResolved;
+			successfullyResolved = childrenEdge.get(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
