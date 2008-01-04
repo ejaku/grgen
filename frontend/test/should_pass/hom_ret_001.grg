@@ -1,0 +1,11 @@
+dpo rule r:(Node) {
+	pattern {
+		x: Node;
+		y: Node;
+		hom(x, y);
+	}
+	replace {
+		x;
+		return(x);
+	}
+}

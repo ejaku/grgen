@@ -408,6 +408,11 @@ public class RuleDeclNode extends TestDeclNode
 	 * */
 	private void warnHomDeleteReturnConflict()
 	{
+		// No warnings for DPO
+		if (pattern.isDPO()) {
+			return;
+		}
+		
 		Set<DeclNode> delSet = getDelete();
 		Set<IdentNode> retSet = new HashSet<IdentNode>();
 
@@ -515,7 +520,7 @@ public class RuleDeclNode extends TestDeclNode
 	 */
 	protected void constructImplicitNegs(Rule rule) {
 		PatternGraphNode leftNode = pattern;
-		for (PatternGraph neg : leftNode.getImplicitNegGraphs(this)) {
+		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
 			rule.addNegGraph(neg);
 		}
 	}

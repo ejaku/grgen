@@ -230,7 +230,18 @@ public class PatternGraphNode extends GraphNode
 	public PatternGraph getPatternGraph() {
 		return (PatternGraph) checkIR(PatternGraph.class);
 	}
+	
 
+	private RuleDeclNode getRule() {
+		for (BaseNode parent : getParents()) {
+	        if (parent instanceof RuleDeclNode) {
+	        	return (RuleDeclNode)parent;
+	        }
+        }
+		assert false;
+		return null;
+	}
+	
 	/**
 	 * Generates a type condition if the given graph entity inherits its type
 	 * from another element via a typeof expression.
@@ -272,18 +283,55 @@ public class PatternGraphNode extends GraphNode
 
 		for (BaseNode n : getHoms()) {
 			HomNode hom = (HomNode) n;
-			HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
+			if (isDPO()) {
+				splitAndAddHoms(hom.getChildren(), gr);
+			} else {
+				HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
 
-			for (BaseNode m : hom.getChildren()) {
-				DeclNode decl = (DeclNode) m;
-				hom_set.add((GraphEntity) decl.checkIR(GraphEntity.class));
+				for (BaseNode m : hom.getChildren()) {
+					DeclNode decl = (DeclNode) m;
+					hom_set.add((GraphEntity) decl.checkIR(GraphEntity.class));
+				}
+				gr.addHomomorphic(hom_set);
 			}
-
-			gr.addHomomorphic(hom_set);
 		}
 
 		return gr;
 	}
+
+	/**
+	 * Split one hom statement into two parts, so deleted and reuse nodes/edges
+	 * can't be matched homomorphically.
+	 * This behavior is required for DPO-semantic.
+	 * 
+	 * @param homChildren Children of a HomNode
+	 * @param gr Graph
+	 */
+	private void splitAndAddHoms(Collection<BaseNode> homChildren, PatternGraph gr)
+    {
+		assert(isDPO());
+		// homs between deleted entities
+		HashSet<GraphEntity> deleteHoms = new HashSet<GraphEntity>();
+		// homs between reused entities
+		HashSet<GraphEntity> reuseHoms = new HashSet<GraphEntity>();
+		Set<DeclNode> deletedEntities = getRule().getDelete();
+		
+		for (BaseNode m : homChildren) {
+			DeclNode decl = (DeclNode) m;
+			if (deletedEntities.contains(decl)) {
+				deleteHoms.add((GraphEntity) decl.checkIR(GraphEntity.class));
+			} else {
+				reuseHoms.add((GraphEntity) decl.checkIR(GraphEntity.class));
+			}
+		}
+		
+		if (deleteHoms.size() > 1) {
+			gr.addHomomorphic(deleteHoms);
+		}
+		if (reuseHoms.size() > 1) {
+			gr.addHomomorphic(reuseHoms);
+		}
+    }
 
 	public final boolean isInduced() {
 		return (modifiers & MOD_INDUCED) != 0;
@@ -302,13 +350,13 @@ public class PatternGraphNode extends GraphNode
 	 * 
 	 * @return The Collection for the NACs.
 	 */
-	public Collection<PatternGraph> getImplicitNegGraphs(RuleDeclNode ruleNode) {
+	public Collection<PatternGraph> getImplicitNegGraphs() {
 		Collection<PatternGraph> ret = new LinkedList<PatternGraph>();
 
 		initDoubleNodeNegMap();
 		addDoubleNodeNegGraphs(ret);
 
-		initSingleNodeNegMap(ruleNode);
+		initSingleNodeNegMap();
 		addSingleNodeNegGraphs(ret);
 
 		return ret;
@@ -432,9 +480,9 @@ public class PatternGraphNode extends GraphNode
 		}
 	}
 
-	private void initSingleNodeNegMap(RuleDeclNode ruleNode) {
+	private void initSingleNodeNegMap() {
 		Collection<BaseNode> exactNodes = exact.getChildren();
-		Set<DeclNode> deletedNodes = ruleNode.getDelete();
+		Set<DeclNode> deletedNodes = getRule().getDelete();
 
 		if (isExact()) {
 			addToSingleNodeMap(getExactPatternNodes());
