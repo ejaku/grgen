@@ -77,9 +77,9 @@ rule init5
     }
 }
 
-rule deleteRightNode
+dpo rule deleteRightNode
 {
-    dpo pattern
+    pattern
     {
         x:Node;
         y:Node;
@@ -92,9 +92,9 @@ rule deleteRightNode
     }
 }
 
-rule deleteDanglingIncomingEdge
+dpo rule deleteDanglingIncomingEdge
 {
-    dpo pattern
+    pattern
     {
         x:Node;
         
@@ -105,9 +105,9 @@ rule deleteDanglingIncomingEdge
     }
 }
 
-rule deleteDanglingOutgoingEdge
+dpo rule deleteDanglingOutgoingEdge
 {
-    dpo pattern
+    pattern
     {
         x:Node;
         
@@ -118,9 +118,9 @@ rule deleteDanglingOutgoingEdge
     }
 }
 
-rule deleteLeftNode
+dpo rule deleteLeftNode
 {
-    dpo pattern
+    pattern
     {
         x:Node;
         y:Node;

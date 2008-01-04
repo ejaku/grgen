@@ -1,7 +1,5 @@
-rule r {
+dpo dpo rule r {
 	pattern {
-	    x:Node;
-        dpo();
 	}
 	replace {
 	}

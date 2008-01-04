@@ -1,5 +1,5 @@
-rule r {
-	dpo pattern {
+dpo rule r {
+	pattern {
 		x:Node --> y:Node;
 		y --> y;
 		y --> y;

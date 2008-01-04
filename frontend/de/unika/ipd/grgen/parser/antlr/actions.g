@@ -144,7 +144,7 @@ testDecl returns [ IdentNode res = env.getDummyIdent() ]
 	}
 
 	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		pattern=patternPart[negs]
+		pattern=patternPart[negs, 0]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
 				res = id;
@@ -161,10 +161,13 @@ ruleDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode negs = new CollectNode();
 		CollectNode eval = new CollectNode();
 		CollectNode dels = new CollectNode();
+		int ruleMod = 0;
 	}
 
-	: RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		left=patternPart[negs]
+	: (DPO {ruleMod |= PatternGraphNode.MOD_DPO;} )?
+			
+	RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+		left=patternPart[negs, ruleMod]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
@@ -211,11 +214,15 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ CollectNode negs ] returns [ PatternGraphNode res = null ]
-	{ int mod=0; }
+patternPart [ CollectNode negs, int ruleMod ] returns [ PatternGraphNode res = null ]
+	{
+		int patternMod = ruleMod;
+		int mod = 0;
+	}
 
-	: mod=patternModifiers p:PATTERN LBRACE!
-		res=patternBody[getCoords(p), negs, mod]
+	: mod=patternModifiers { patternMod |= mod; }
+	    p:PATTERN LBRACE!
+		res=patternBody[getCoords(p), negs, patternMod]
 		RBRACE!
 	;
 
@@ -249,17 +256,12 @@ patternModifiers returns [ int res = 0 ]
 
 patternModifier [ int mod ] returns [ int res = 0 ]
 	: i:INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
-	              reportWarning(getCoords(i), "pattern already has an \"induced\" modifier");
+	              reportError(getCoords(i), "pattern already has an \"induced\" modifier");
 	              }
 	              res = mod | PatternGraphNode.MOD_INDUCED;
 	            }
-	| d:DPO { if((mod & PatternGraphNode.MOD_DPO)!=0) {
-	            reportWarning(getCoords(d), "pattern already has a \"dpo\" modifier");
-	            }
-	            res = mod | PatternGraphNode.MOD_DPO;
-	        }
 	| e:EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
-	              reportWarning(getCoords(e), "pattern already has an \"exact\" modifier");
+	              reportError(getCoords(e), "pattern already has an \"exact\" modifier");
 	              }
 	              res = mod | PatternGraphNode.MOD_EXACT;
 	          }
@@ -271,25 +273,23 @@ patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphN
 		CollectNode conditions = new CollectNode();
 		CollectNode returnz = new CollectNode();
 		CollectNode homs = new CollectNode();
-		CollectNode dpo = new CollectNode();
 		CollectNode exact = new CollectNode();
 		CollectNode induced = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, dpo, exact, induced, mod);
+		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, exact, induced, mod);
 		int negCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, dpo, exact, induced] )*
+	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, exact, induced] )*
 	;
 
 patternStmt [ CollectNode conn, CollectNode cond,
-	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode dpo, CollectNode exact, CollectNode induced ]
+	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
 		ExprNode e;
 		PatternGraphNode neg;
 		HomNode hom;
-		DpoNode dp;
 		ExactNode exa;
 		InducedNode ind;
 		//nesting of negative Parts is not allowed.
@@ -317,7 +317,6 @@ patternStmt [ CollectNode conn, CollectNode cond,
 		RBRACE
 	| replaceReturns[returnz] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
-	| dp=dpoStatement { dpo.addChild(dp); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
@@ -509,17 +508,6 @@ homStatement returns [ HomNode res = null ]
 	}
 
 	: h:HOM {res = new HomNode(getCoords(h)); }
-		LPAREN id=entIdentUse { res.addChild(id); }
-			(COMMA id=entIdentUse { res.addChild(id); } )*
-		RPAREN
-	;
-
-dpoStatement returns [ DpoNode res = null ]
-	{
-		IdentNode id;
-	}
-	
-	: d:DPO {res = new DpoNode(getCoords(d)); } 
 		LPAREN id=entIdentUse { res.addChild(id); }
 			(COMMA id=entIdentUse { res.addChild(id); } )*
 		RPAREN

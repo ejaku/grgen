@@ -1,7 +1,0 @@
-rule r {
-	dpo dpo pattern {
-	}
-	replace {
-	}
-}
-

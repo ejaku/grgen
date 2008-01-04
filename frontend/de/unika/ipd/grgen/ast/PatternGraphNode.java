@@ -72,7 +72,6 @@ public class PatternGraphNode extends GraphNode
 
 	CollectNode conditions;
 	CollectNode homs;
-	CollectNode dpo;
 	CollectNode exact;
 	CollectNode induced;
 	
@@ -86,15 +85,13 @@ public class PatternGraphNode extends GraphNode
 
 	public PatternGraphNode(Coords coords, CollectNode connections,
 			CollectNode conditions, CollectNode returns, CollectNode homs,
-			CollectNode dpo, CollectNode exact, CollectNode induced,
+			CollectNode exact, CollectNode induced,
 			int modifiers) {
 		super(coords, connections, returns);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
 		becomeParent(this.homs);
-		this.dpo = dpo;
-		becomeParent(this.dpo);
 		this.exact = exact;
 		becomeParent(this.exact);
 		this.induced = induced;
@@ -109,7 +106,6 @@ public class PatternGraphNode extends GraphNode
 		children.add(returns);
 		children.add(conditions);
 		children.add(homs);
-		children.add(dpo);
 		children.add(exact);
 		children.add(induced);
 		return children;
@@ -122,7 +118,6 @@ public class PatternGraphNode extends GraphNode
 		childrenNames.add("return");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
-		childrenNames.add("dpo"); 
 		childrenNames.add("exact");
 		childrenNames.add("induced");
 		return childrenNames;
@@ -142,7 +137,6 @@ public class PatternGraphNode extends GraphNode
 		successfullyResolved = returns.resolve() && successfullyResolved;
 		successfullyResolved = conditions.resolve() && successfullyResolved;
 		successfullyResolved = homs.resolve() && successfullyResolved;
-		successfullyResolved = dpo.resolve() && successfullyResolved;
 		successfullyResolved = exact.resolve() && successfullyResolved;
 		successfullyResolved = induced.resolve() && successfullyResolved;
 		return successfullyResolved;
@@ -165,7 +159,6 @@ public class PatternGraphNode extends GraphNode
 			childrenChecked = returns.check() && childrenChecked;
 			childrenChecked = conditions.check() && childrenChecked;
 			childrenChecked = homs.check() && childrenChecked;
-			childrenChecked = dpo.check() && childrenChecked;
 			childrenChecked = exact.check() && childrenChecked;
 			childrenChecked = induced.check() && childrenChecked;
 		}
@@ -183,14 +176,12 @@ public class PatternGraphNode extends GraphNode
 	protected boolean checkLocal() {
 		Checker conditionsChecker =  new CollectChecker(new SimpleChecker(ExprNode.class));
 		Checker homChecker = new CollectChecker(new SimpleChecker(HomNode.class));
-		Checker dpoChecker = new CollectChecker(new SimpleChecker(DpoNode.class));
 		Checker exactChecker = new CollectChecker(new SimpleChecker(ExactNode.class));
 		Checker inducedChecker = new CollectChecker(new SimpleChecker(InducedNode.class));
 		
 		boolean childs = super.checkLocal()
 				&& conditionsChecker.check(conditions, error)
 				&& homChecker.check(homs, error)
-				&& dpoChecker.check(dpo, error)
 				&& exactChecker.check(exact, error)
 				&& inducedChecker.check(induced, error);
 
@@ -442,7 +433,6 @@ public class PatternGraphNode extends GraphNode
 	}
 
 	private void initSingleNodeNegMap(RuleDeclNode ruleNode) {
-		Collection<BaseNode> dpoNodes = dpo.getChildren();
 		Collection<BaseNode> exactNodes = exact.getChildren();
 		Set<DeclNode> deletedNodes = ruleNode.getDelete();
 
@@ -457,19 +447,11 @@ public class PatternGraphNode extends GraphNode
 				node.reportWarning("Exact statement occurs in exact pattern");
 			}
 
-			for (BaseNode node : dpoNodes) {
-				node.reportWarning("DPO statement occurs in exact pattern");
-			}
-
 			return;
 		}
 
 		if (isDPO()) {
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
-
-			for (BaseNode node : dpoNodes) {
-				node.reportWarning("DPO statement occurs in DPO pattern");
-			}
 
 			for (BaseNode exactNode : exactNodes) {
 				for (BaseNode exactChild : exactNode.getChildren()) {
@@ -503,34 +485,7 @@ public class PatternGraphNode extends GraphNode
 				}
 			}
 		}
-
-		Map<NodeCharacter, Integer> genDpoNodes = new LinkedHashMap<NodeCharacter, Integer>();
-		// dpo Statements
-		for (int i = 0; i < dpo.getChildren().size(); i++) {
-			BaseNode dpoNode = dpo.children.get(i);
-
-			for (BaseNode dpoChild : dpoNode.getChildren()) {
-				NodeDeclNode nodeDeclNode = (NodeDeclNode) dpoChild;
-				// coords of occurrence are not available
-				if (genExactNodes.containsKey(nodeDeclNode)) {
-					dpoNode.reportWarning(nodeDeclNode.getUseString()
-							+ " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
-							+ " already occurs in exact statement at "
-							+ exact.children.get(genExactNodes.get(nodeDeclNode)).getCoords());
-				}
-				if (genDpoNodes.containsKey(nodeDeclNode)) {
-					dpoNode.reportWarning(nodeDeclNode.getUseString()
-							+ " "
-							+ nodeDeclNode.getIdentNode().getSymbol().getText()
-							+ " already occurs in dpo statement at "
-							+ dpo.children.get(genDpoNodes.get(nodeDeclNode)).getCoords());
-				} else {
-					genDpoNodes.put(nodeDeclNode, i);
-				}
-			}
-		}
-		addToSingleNodeMap(genDpoNodes.keySet());
+		
 		addToSingleNodeMap(genExactNodes.keySet());
 	}
 

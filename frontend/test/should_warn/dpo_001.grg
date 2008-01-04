@@ -1,11 +1,9 @@
-rule r {
-	dpo pattern {
+dpo rule r {
+	pattern {
 	    x:Node;
 	    y:Node;
-        dpo(x);
-        dpo(y);
+        exact(x,y);
 	}
 	replace {
 	}
 }
-

@@ -1,9 +1,0 @@
-rule r {
-	pattern {
-	    x:Node;
-        dpo(x);
-	}
-	modify {
-	}
-}
-

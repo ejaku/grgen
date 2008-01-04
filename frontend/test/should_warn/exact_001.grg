@@ -1,5 +1,5 @@
-rule r {
-	exact dpo pattern {
+dpo rule r {
+	exact pattern {
 	    x:Node;
 	}
 	replace {
