@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -37,8 +37,7 @@ import de.unika.ipd.grgen.ir.NodeType;
  * AST node that represents a Connection Assertion
  * children: SRC:IdentNode, SRCRANGE:RangeSpecNode, TGT:IdentNode, TGTRANGE:RangeSpecNode
  */
-public class ConnAssertNode extends BaseNode
-{
+public class ConnAssertNode extends BaseNode {
 	static {
 		setName(ConnAssertNode.class, "conn assert");
 	}
@@ -47,12 +46,12 @@ public class ConnAssertNode extends BaseNode
 	RangeSpecNode srcRange;
 	BaseNode tgt;
 	RangeSpecNode tgtRange;
-	
+
 	/**
 	 * Construct a new connection assertion node.
 	 */
 	public ConnAssertNode(IdentNode src, RangeSpecNode srcRange,
-			IdentNode tgt, RangeSpecNode tgtRange) {
+						  IdentNode tgt, RangeSpecNode tgtRange) {
 		super(src.getCoords());
 		this.src = src;
 		becomeParent(this.src);
@@ -63,7 +62,7 @@ public class ConnAssertNode extends BaseNode
 		this.tgtRange = tgtRange;
 		becomeParent(this.tgtRange);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -89,7 +88,7 @@ public class ConnAssertNode extends BaseNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver nodeResolver = new DeclTypeResolver(NodeTypeNode.class);
@@ -103,37 +102,12 @@ public class ConnAssertNode extends BaseNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = src.resolve() && successfullyResolved;
 		successfullyResolved = srcRange.resolve() && successfullyResolved;
 		successfullyResolved = tgt.resolve() && successfullyResolved;
 		successfullyResolved = tgtRange.resolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = src.check() && childrenChecked;
-			childrenChecked = srcRange.check() && childrenChecked;
-			childrenChecked = tgt.check() && childrenChecked;
-			childrenChecked = tgtRange.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
 	}
 
 	/**
@@ -142,21 +116,21 @@ public class ConnAssertNode extends BaseNode
 	 */
 	protected boolean checkLocal() {
 		return (new SimpleChecker(NodeTypeNode.class)).check(src, error)
-			&& (new SimpleChecker(RangeSpecNode.class)).check(srcRange, error)
-			&& (new SimpleChecker(NodeTypeNode.class)).check(tgt, error)
-			&& (new SimpleChecker(RangeSpecNode.class)).check(tgtRange, error);
+			& (new SimpleChecker(RangeSpecNode.class)).check(srcRange, error)
+			& (new SimpleChecker(NodeTypeNode.class)).check(tgt, error)
+			& (new SimpleChecker(RangeSpecNode.class)).check(tgtRange, error);
 	}
-	
+
 	protected IR constructIR() {
 		// TODO
 		int srcLower = srcRange.getLower();
 		int srcUpper = srcRange.getUpper();
 		NodeType srcType = (NodeType)src.getIR();
-		
+
 		int tgtLower = tgtRange.getLower();
 		int tgtUpper = tgtRange.getUpper();
 		NodeType tgtType = (NodeType)tgt.getIR();
-		
+
 		return new ConnAssert(srcType, srcLower, srcUpper,
 							  tgtType, tgtLower, tgtUpper);
 	}

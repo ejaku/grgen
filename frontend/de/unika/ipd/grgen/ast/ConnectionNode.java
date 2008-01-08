@@ -37,8 +37,7 @@ import de.unika.ipd.grgen.ir.Graph;
  * AST node that represents a Connection (an edge connecting two nodes)
  * children: LEFT:NodeDeclNode, EDGE:EdgeDeclNode, RIGHT:NodeDeclNode
  */
-public class ConnectionNode extends BaseNode implements ConnectionCharacter
-{
+public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	static {
 		setName(ConnectionNode.class, "connection");
 	}
@@ -46,7 +45,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 	NodeDeclNode left;
 	EdgeDeclNode edge;
 	NodeDeclNode right;
-	
+
 	BaseNode leftUnresolved;
 	BaseNode edgeUnresolved;
 	BaseNode rightUnresolved;
@@ -65,7 +64,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		rightUnresolved = n2;
 		becomeParent(rightUnresolved);
 	}
-	
+
 	/** Construct a new already resolved and checked connection node.
 	 *  A connection node has two node nodes and one edge node
 	 *  @param n1 First node
@@ -86,22 +85,22 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		children.add(getValidVersion(rightUnresolved, right));
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("src"); 
+		childrenNames.add("src");
 		childrenNames.add("edge");
 		childrenNames.add("tgt");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
@@ -119,31 +118,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		successfullyResolved = (right!=null ? right.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = left.check() && childrenChecked;
-			childrenChecked = edge.check() && childrenChecked;
-			childrenChecked = right.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
+
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
@@ -152,8 +127,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		return nodeChecker.check(left, error)
-			&& edgeChecker.check(edge, error)
-			&& nodeChecker.check(right, error);
+			& edgeChecker.check(edge, error)
+			& nodeChecker.check(right, error);
 	}
 
 	/**

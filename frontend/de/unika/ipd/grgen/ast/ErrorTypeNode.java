@@ -26,7 +26,7 @@ import de.unika.ipd.grgen.ir.VoidType;
 
 /**
  * The error basic type. It is compatible to no other type.
- * TODO: Why compatible to no other type? The error node within an compiler 
+ * TODO: Why compatible to no other type? The error node within an compiler
  * should be compatible to every other node, to protect against error avalanches
  */
 class ErrorTypeNode extends TypeNode
@@ -41,39 +41,40 @@ class ErrorTypeNode extends TypeNode
 		this.id = id;
 		setCoords(id.getCoords());
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
+		nodeResolvedSetResult(true);
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
 		return true;
 	}
-	
+
 	protected IR constructIR() {
 		return new VoidType(id.getIdent());
 	}
-	
+
 	public String getUseString() {
 		return "error type";
 	}
-	
+
 	public String toString() {
 		return "error type";
 	}

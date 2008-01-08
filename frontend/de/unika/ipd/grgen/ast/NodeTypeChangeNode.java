@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 /**
  * @author Sebastian Hack, Adam Szalkowski
@@ -35,10 +35,9 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.RetypedNode;
 
 /**
- * 
+ *
  */
-public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter 
-{
+public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	static {
 		setName(NodeTypeChangeNode.class, "node type change decl");
 	}
@@ -65,7 +64,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		childrenNames.add("old");
@@ -104,31 +103,6 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if (!resolutionResult()) {
-			return false;
-		}
-		if (isChecked()) {
-			return getChecked();
-		}
-
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = getValidResolvedVersion(typeNodeDecl, typeTypeDecl).check() && childrenChecked;
-			childrenChecked = constraints.check() && childrenChecked;
-			childrenChecked = old.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-
 	/**
 	 * @return the original node for this retyped node
 	 */
@@ -143,7 +117,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
 		boolean res = super.checkLocal()
-			&& nodeChecker.check(old, error);
+			& nodeChecker.check(old, error);
 		if (!res) {
 			return false;
 		}
@@ -169,7 +143,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter
 			// TODO: p.old == old always true, since p is a parent (of type NodeTypeChangeNode) of old?
 			if (p != this && p instanceof NodeTypeChangeNode && (((NodeTypeChangeNode)p).old == old)) {
 				reportError("Two (and hence ambiguous) retype statements for the same node are forbidden,"
-						+ " previous retype statement at " + p.getCoords());
+								+ " previous retype statement at " + p.getCoords());
 				res = false;
 			}
 		}

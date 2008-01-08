@@ -47,20 +47,20 @@ public class UnitNode extends DeclNode
 	}
 
 	protected static final TypeNode mainType = new MainTypeNode();
-		
+
 	CollectNode models;
 	CollectNode decls;
-		
+
 	/** Contains the classes of all valid types which can be declared */
 	private static Class<?>[] validTypes = {
 		TestDeclNode.class, RuleDeclNode.class
 	};
-	
+
 	/**
 	 * The filename for this main node.
 	 */
 	private String filename;
-	
+
 	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode decls) {
 		super(id, mainType);
 		this.models = models;
@@ -69,7 +69,7 @@ public class UnitNode extends DeclNode
 		becomeParent(this.decls);
 		this.filename = filename;
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -83,7 +83,7 @@ public class UnitNode extends DeclNode
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("models");
 		childrenNames.add("decls");
@@ -95,7 +95,7 @@ public class UnitNode extends DeclNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver declResolver = new DeclResolver(validTypes);
@@ -104,33 +104,14 @@ public class UnitNode extends DeclNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = models.resolve() && successfullyResolved;
 		successfullyResolved = decls.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = ident.check() && successfullyChecked;
-		successfullyChecked = typeUnresolved.check() && successfullyChecked;
-		successfullyChecked = models.check() && successfullyChecked;
-		successfullyChecked = decls.check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
+
 	/**
 	 * The main node has an ident node and a collect node with
 	 * - group declarations
@@ -143,9 +124,9 @@ public class UnitNode extends DeclNode
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
 		Checker declChecker = new CollectChecker(new SimpleChecker(validTypes));
 		return modelChecker.check(models, error)
-			&& declChecker.check(decls, error);
+			& declChecker.check(decls, error);
 	}
-	
+
 	/**
 	 * Get the IR unit node for this AST node.
 	 * @return The Unit for this AST node.
@@ -153,7 +134,7 @@ public class UnitNode extends DeclNode
 	public Unit getUnit() {
 		return (Unit) checkIR(Unit.class);
 	}
-	
+
 	/**
 	 * Construct the IR object for this AST node.
 	 * For a main node, this is a unit.
@@ -162,7 +143,7 @@ public class UnitNode extends DeclNode
 	protected IR constructIR() {
 		Ident id = (Ident) ident.checkIR(Ident.class);
 		Unit res = new Unit(id, filename);
-		
+
 		for(BaseNode n : models.getChildren()) {
 			Model model = ((ModelNode)n).getModel();
 			res.addModel(model);

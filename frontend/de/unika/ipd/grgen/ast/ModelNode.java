@@ -39,22 +39,21 @@ import java.util.HashSet;
 import java.util.Vector;
 
 
-public class ModelNode extends DeclNode
-{
+public class ModelNode extends DeclNode {
 	static {
 		setName(ModelNode.class, "model declaration");
 	}
-	
+
 	protected static final TypeNode modelType = new ModelTypeNode();
-	
+
 	CollectNode decls;
-		
+
 	public ModelNode(IdentNode id, CollectNode decls) {
 		super(id, modelType);
 		this.decls = decls;
 		becomeParent(this.decls);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -67,18 +66,18 @@ public class ModelNode extends DeclNode
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("decls");
 		return childrenNames;
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver declResolver = new DeclResolver(TypeDeclNode.class);
@@ -87,37 +86,13 @@ public class ModelNode extends DeclNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = decls.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = typeUnresolved.check() && childrenChecked;
-			childrenChecked = decls.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
+
 	/**
 	 * The main node has an ident node and a collect node with
 	 * - group declarations
@@ -128,9 +103,9 @@ public class ModelNode extends DeclNode
 	 */
 	protected boolean checkLocal() {
 		Checker checker = new CollectChecker(new SimpleChecker(TypeDeclNode.class));
-		return checker.check(decls, error) && checkInhCycleFree();
+		return checker.check(decls, error) & checkInhCycleFree();
 	}
-	
+
 	/**
 	 * Get the IR model node for this AST node.
 	 * @return The model for this AST node.
@@ -138,14 +113,13 @@ public class ModelNode extends DeclNode
 	public Model getModel() {
 		return (Model) checkIR(Model.class);
 	}
-	
+
 	/**
 	 * Construct the IR object for this AST node.
 	 * For a main node, this is a unit.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR()
-	{
+	protected IR constructIR() {
 		Ident id = (Ident) ident.checkIR(Ident.class);
 		Model res = new Model(id);
 		for(BaseNode children : decls.getChildren()) {
@@ -154,11 +128,10 @@ public class ModelNode extends DeclNode
 		}
 		return res;
 	}
-	
+
 	private boolean checkInhCycleFree_rec(InheritanceTypeNode inhType,
 										  Collection<BaseNode> inProgress,
-										  Collection<BaseNode> done)
-	{
+										  Collection<BaseNode> done) {
 		inProgress.add(inhType);
 		for (BaseNode t : inhType.getDirectSuperTypes()) {
 			if ( ! (t instanceof InheritanceTypeNode)) {
@@ -166,16 +139,16 @@ public class ModelNode extends DeclNode
 			}
 
 			assert (
-				((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
+					   ((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
 				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode))
 			): "nodes should extend nodes and edges should extend edges";
 
 			InheritanceTypeNode superType = (InheritanceTypeNode) t;
-			
+
 			if ( inProgress.contains(superType) ) {
 				inhType.getIdentNode().reportError(
 					"\"" + inhType.getIdentNode() + "\" extends \"" + superType.getIdentNode() +
-					"\", which introduces a cycle to the type hierarchy");
+						"\", which introduces a cycle to the type hierarchy");
 				return false;
 			}
 			if ( ! done.contains(superType) ) {
@@ -188,25 +161,24 @@ public class ModelNode extends DeclNode
 		done.add(inhType);
 		return true;
 	}
-	
+
 	/**
 	 * ensure there are no cycles in the inheritance hierarchy
 	 * @return	<code>true</code> if there are no cycles,
 	 * 			<code>false</code> otherwise
 	 */
-	private boolean checkInhCycleFree()
-	{
+	private boolean checkInhCycleFree() {
 		Collection<BaseNode> coll = decls.getChildren();
 		for (BaseNode t : coll) {
 			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
 
-			if ( !(type instanceof InheritanceTypeNode) ) { 
+			if ( !(type instanceof InheritanceTypeNode) ) {
 				continue ;
 			}
 
 			Collection<BaseNode> inProgress = new HashSet<BaseNode>();
 			Collection<BaseNode> done = new HashSet<BaseNode>();
-			
+
 			boolean isCycleFree = checkInhCycleFree_rec( (InheritanceTypeNode)type, inProgress, done);
 
 			if ( ! isCycleFree ) {
@@ -215,27 +187,27 @@ public class ModelNode extends DeclNode
 		}
 		return true;
 	}
-	
+
 	/*
-	Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
-	TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
-	alreadyExtended.add(type);
+	 Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
+	 TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
+	 alreadyExtended.add(type);
 
-	for ( BaseNode tt : alreadyExtended ) {
-		
-		if ( !(tt instanceof InheritanceTypeNode) ) continue ;
+	 for ( BaseNode tt : alreadyExtended ) {
 
-		InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
-		Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
+	 if ( !(tt instanceof InheritanceTypeNode) ) continue ;
 
-		for ( BaseNode s : superTypes ) {
-			if ( alreadyExtended.contains(s) ) {
-				s.reportError("extending \"" + s + "\" causes cyclic inheritance");
-				return false;
-			}
-		}
-		alreadyExtended.addAll(superTypes);
-	}
-	*/
+	 InheritanceTypeNode inhType = (InheritanceTypeNode) tt;
+	 Collection<BaseNode> superTypes = inhType.getDirectSuperTypes();
+
+	 for ( BaseNode s : superTypes ) {
+	 if ( alreadyExtended.contains(s) ) {
+	 s.reportError("extending \"" + s + "\" causes cyclic inheritance");
+	 return false;
+	 }
+	 }
+	 alreadyExtended.addAll(superTypes);
+	 }
+	 */
 }
 

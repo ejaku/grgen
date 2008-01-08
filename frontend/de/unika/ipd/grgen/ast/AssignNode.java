@@ -38,15 +38,14 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node representing an assignment.
  * children: LHS:QualIdentNode, RHS:ExprNode
  */
-public class AssignNode extends BaseNode
-{
+public class AssignNode extends BaseNode {
 	static {
 		setName(AssignNode.class, "Assign");
 	}
-		
+
 	QualIdentNode lhs;
 	ExprNode rhs;
-	
+
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param qual The left hand side.
@@ -67,7 +66,7 @@ public class AssignNode extends BaseNode
 		children.add(rhs);
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
@@ -75,63 +74,37 @@ public class AssignNode extends BaseNode
 		childrenNames.add("rhs");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		successfullyResolved = lhs.resolve() && successfullyResolved;
 		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = lhs.check() && childrenChecked;
-			childrenChecked = rhs.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		if(locallyChecked) {
-			locallyChecked = typeCheckLocal();
-		}
-		nodeCheckedSetResult(locallyChecked );
-		
-		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		DeclNode owner = lhs.getOwner();
 		BaseNode ty = owner.getDeclType();
-		
+
 		if(ty instanceof InheritanceTypeNode) {
 			InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-			
+
 			if(inhTy.isConst()) {
 				error.error(getCoords(), "Assignment to a const type object not allowed");
 				return false;
 			}
 		}
-		
-		return true;
+
+		return typeCheckLocal();
 	}
 
 	/**
@@ -141,10 +114,10 @@ public class AssignNode extends BaseNode
 	 */
 	protected boolean typeCheckLocal() {
 		ExprNode expr = rhs;
-		
+
 		TypeNode targetType = (TypeNode) lhs.getDecl().getDeclType();
 		TypeNode exprType = expr.getType();
-		
+
 		if (! exprType.isEqual(targetType)) {
 			expr = expr.adjustType(targetType);
 			becomeParent(expr);

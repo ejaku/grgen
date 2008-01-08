@@ -48,7 +48,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 
 	public static final TypeNode errorType = new ErrorTypeNode(IdentNode.getInvalid());
 
-	
+
 	public static TypeNode getErrorType(IdentNode id) {
 		return new ErrorTypeNode(id);
 	}
@@ -104,40 +104,30 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		// no children
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean locallyChecked = true;
-		nodeCheckedSetResult(locallyChecked);
-		
-		return locallyChecked;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.TypeNode#isBasic() */

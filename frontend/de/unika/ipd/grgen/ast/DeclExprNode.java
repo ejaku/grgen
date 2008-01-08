@@ -41,12 +41,12 @@ public class DeclExprNode extends ExprNode
 	static {
 		setName(DeclExprNode.class, "decl expression");
 	}
-	
+
 	BaseNode decl;
 
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;
-	
+
 	/**
 	 * Make a new declaration expression.
 	 * @param coords The source code coordinates.
@@ -64,20 +64,20 @@ public class DeclExprNode extends ExprNode
 		children.add(decl);
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("decl"); 
+		childrenNames.add("decl");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver memberInitResolver = new MemberInitResolver(MemberDeclNode.class);
@@ -88,27 +88,11 @@ public class DeclExprNode extends ExprNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = decl.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = decl.check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		DeclaredCharacter c = (DeclaredCharacter) decl;

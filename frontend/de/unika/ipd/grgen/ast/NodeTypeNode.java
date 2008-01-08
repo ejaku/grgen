@@ -39,8 +39,7 @@ import de.unika.ipd.grgen.ir.NodeType;
 /**
  * A class representing a node type
  */
-public class NodeTypeNode extends InheritanceTypeNode
-{
+public class NodeTypeNode extends InheritanceTypeNode {
 	static {
 		setName(NodeTypeNode.class, "node type");
 	}
@@ -52,8 +51,8 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 * @param modifiers Type modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeTypeNode(CollectNode ext, CollectNode body, 
-			int modifiers, String externalName) {
+	public NodeTypeNode(CollectNode ext, CollectNode body,
+						int modifiers, String externalName) {
 		this.extend = ext;
 		becomeParent(this.extend);
 		this.body = body;
@@ -61,7 +60,7 @@ public class NodeTypeNode extends InheritanceTypeNode
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -77,13 +76,13 @@ public class NodeTypeNode extends InheritanceTypeNode
 		childrenNames.add("body");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
@@ -94,43 +93,19 @@ public class NodeTypeNode extends InheritanceTypeNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = extend.resolve() && successfullyResolved;
 		successfullyResolved = body.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = extend.check() && childrenChecked;
-			childrenChecked = body.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() 
-	{
+	protected boolean checkLocal()  {
 		Checker extendsChecker = new CollectChecker(new SimpleChecker(NodeTypeNode.class));
 		return super.checkLocal()
 			&& extendsChecker.check(extend, error);
 	}
-	
+
 	/**
 	 * Get the IR node type for this AST node.
 	 * @return The correctly casted IR node type.
@@ -143,10 +118,9 @@ public class NodeTypeNode extends InheritanceTypeNode
 	 * Construct IR object for this AST node.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR()
-	{
+	protected IR constructIR() {
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(),
-				getIRModifiers(), getExternalName());
+								   getIRModifiers(), getExternalName());
 
 		constructIR(nt);
 

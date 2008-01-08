@@ -40,19 +40,18 @@ import java.util.Vector;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class CollectNode extends BaseNode
-{
+public class CollectNode extends BaseNode {
 	static {
 		setName(CollectNode.class, "collect");
 	}
 
 	Vector<BaseNode> children = new Vector<BaseNode>();
-	
+
 	public void addChild(BaseNode n) {
 		becomeParent(n);
 		children.add(n);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		return children;
@@ -70,51 +69,32 @@ public class CollectNode extends BaseNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		// local resolution done via call to resolveChildren from parent node
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		for(int i=0; i<children.size(); ++i) {
 			successfullyResolved = children.get(i).resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			for(int i=0; i<children.size(); ++i) {
-				childrenChecked = children.get(i).check() && childrenChecked;
-			}
-		}
-		
-		boolean locallyChecked = true; 
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
 
 	protected boolean resolveChildren(Resolver resolver) {
 		debug.report(NOTE, "resolve children in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;		
+		boolean successfullyResolved = true;
 		for(int i=0; i<children.size(); ++i) {
 			BaseNode resolved = resolver.resolve(children.get(i));
 			successfullyResolved = resolved!=null && successfullyResolved;
 			children.set(i, ownedResolutionResult(children.get(i), resolved));
 		}
 		return successfullyResolved;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	public Color getNodeColor() {

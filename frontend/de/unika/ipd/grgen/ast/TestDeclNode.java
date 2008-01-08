@@ -49,8 +49,7 @@ import de.unika.ipd.grgen.ir.MatchingAction;
 /**
  * AST node class representing tests
  */
-public class TestDeclNode extends ActionDeclNode
-{
+public class TestDeclNode extends ActionDeclNode {
 	static {
 		setName(TestDeclNode.class, "test declaration");
 	}
@@ -59,7 +58,7 @@ public class TestDeclNode extends ActionDeclNode
 	CollectNode ret;
 	PatternGraphNode pattern;
 	CollectNode neg;
-	
+
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
@@ -93,7 +92,7 @@ public class TestDeclNode extends ActionDeclNode
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("param");
 		childrenNames.add("ret");
@@ -107,11 +106,11 @@ public class TestDeclNode extends ActionDeclNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = param.resolve() && successfullyResolved;
@@ -120,28 +119,7 @@ public class TestDeclNode extends ActionDeclNode
 		successfullyResolved = neg.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = ident.check() && successfullyChecked;
-		successfullyChecked = typeUnresolved.check() && successfullyChecked;
-		successfullyChecked = param.check() && successfullyChecked;
-		successfullyChecked = ret.check() && successfullyChecked;
-		successfullyChecked = pattern.check() && successfullyChecked;
-		successfullyChecked = neg.check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
+
 	protected Collection<GraphNode> getGraphs() {
 		Collection<GraphNode> res = new LinkedList<GraphNode>();
 		res.add(pattern);
@@ -177,7 +155,7 @@ public class TestDeclNode extends ActionDeclNode
 
 		if(actualReturns.children.size() != typeReturns.children.size()) {
 			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
-					actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
+							actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
 			returnTypes = false;
 		} else {
 			Iterator<BaseNode> itAR = actualReturns.children.iterator();
@@ -209,8 +187,7 @@ public class TestDeclNode extends ActionDeclNode
 	protected boolean checkLocal() {
 		Checker retDeclarationChecker = new CollectChecker(
 			new Checker() {
-				public boolean check(BaseNode node, ErrorReporter reporter)
-				{
+				public boolean check(BaseNode node, ErrorReporter reporter) {
 					boolean res = true;
 
 					if ( ! (node instanceof IdentNode) ) {

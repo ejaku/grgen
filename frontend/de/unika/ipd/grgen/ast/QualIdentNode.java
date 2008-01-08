@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -38,12 +38,11 @@ import de.unika.ipd.grgen.parser.Coords;
  * AST node that represents a qualified identifier
  * i.e. expressions like this one: a.b.c.d
  */
-public class QualIdentNode extends BaseNode implements DeclaredCharacter
-{
+public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	static {
 		setName(QualIdentNode.class, "Qualification");
 	}
-	
+
 	BaseNode owner;
 	BaseNode member;
 
@@ -58,7 +57,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		this.member = member;
 		becomeParent(this.member);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -74,13 +73,13 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		childrenNames.add("member");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
@@ -89,10 +88,10 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		BaseNode resolved = ownerResolver.resolve(owner);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		owner = ownedResolutionResult(owner, resolved);
-		
+
 		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
-			
+
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
 				o.fixupDefinition((IdentNode)member);
@@ -112,41 +111,18 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = owner.resolve() && successfullyResolved;
 		successfullyResolved = member.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = owner.check() && childrenChecked;
-			childrenChecked = member.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		return (new SimpleChecker(DeclNode.class)).check(owner, error)
-			&& (new SimpleChecker(MemberDeclNode.class)).check(member, error);
+			& (new SimpleChecker(MemberDeclNode.class)).check(member, error);
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	public DeclNode getDecl() {
 		assert isResolved();
@@ -158,7 +134,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 
 		return DeclNode.getInvalid();
 	}
-	
+
 	protected DeclNode getOwner() {
 		assert isResolved();
 		BaseNode child = owner;
@@ -169,11 +145,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter
 
 		return DeclNode.getInvalid();
 	}
-	
+
 	protected IR constructIR() {
 		Entity owner = (Entity) this.owner.checkIR(Entity.class);
 		Entity member = (Entity) this.member.checkIR(Entity.class);
-		
+
 		return new Qualification(owner, member);
 	}
 }

@@ -37,8 +37,7 @@ import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 
-public class EdgeTypeNode extends InheritanceTypeNode
-{
+public class EdgeTypeNode extends InheritanceTypeNode {
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
@@ -58,7 +57,7 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
 	public EdgeTypeNode(CollectNode ext, CollectNode cas, CollectNode body,
-			int modifiers, String externalName) {
+						int modifiers, String externalName) {
 		this.extend = ext;
 		becomeParent(this.extend);
 		this.body = body;
@@ -86,13 +85,13 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		childrenNames.add("cas");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
@@ -105,45 +104,20 @@ public class EdgeTypeNode extends InheritanceTypeNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = extend.resolve() && successfullyResolved;
 		successfullyResolved = body.resolve() && successfullyResolved;
 		successfullyResolved = cas.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = extend.check() && childrenChecked;
-			childrenChecked = body.check() && childrenChecked;
-			childrenChecked = cas.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() 
-	{
+	protected boolean checkLocal()  {
 		Checker extendsChecker = new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
 		return super.checkLocal()
 			&& extendsChecker.check(extend, error);
 	}
-	
+
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
@@ -155,10 +129,9 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
-	protected IR constructIR() 
-	{
+	protected IR constructIR()  {
 		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
-				getIRModifiers(), getExternalName());
+								   getIRModifiers(), getExternalName());
 
 		constructIR(et);
 
@@ -173,7 +146,7 @@ public class EdgeTypeNode extends InheritanceTypeNode
 	public static String getKindStr() {
 		return "edge type";
 	}
-	
+
 	public static String getUseStr() {
 		return "edge type";
 	}

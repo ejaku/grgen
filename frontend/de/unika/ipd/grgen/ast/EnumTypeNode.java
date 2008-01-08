@@ -35,8 +35,7 @@ import de.unika.ipd.grgen.ir.Ident;
 /**
  * An enumeration type AST node.
  */
-public class EnumTypeNode extends CompoundTypeNode
-{
+public class EnumTypeNode extends CompoundTypeNode {
 	static {
 		setName(EnumTypeNode.class, "enum type");
 	}
@@ -63,8 +62,7 @@ public class EnumTypeNode extends CompoundTypeNode
 	 };
 	 */
 
-	public EnumTypeNode(CollectNode body)
-	{
+	public EnumTypeNode(CollectNode body) {
 		this.elements = body;
 		becomeParent(this.elements);
 
@@ -96,58 +94,35 @@ public class EnumTypeNode extends CompoundTypeNode
 		children.add(elements);
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("elements");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		successfullyResolved = elements.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = elements.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		return childrenChecker.check(elements, error);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
-	protected IR constructIR()
-	{
+	protected IR constructIR() {
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 

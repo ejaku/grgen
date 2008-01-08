@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -37,42 +37,41 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
-{
+public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	static {
 		setName(EnumExprNode.class, "enum access expression");
 	}
-	
+
 	public EnumExprNode(Coords c, BaseNode owner, IdentNode member) {
 		super(c, owner, member);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		return super.getChildren();
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		return super.getChildrenNames();
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		boolean successfullyResolved = true;
 		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
 		BaseNode resolved = ownerResolver.resolve(owner);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		owner = ownedResolutionResult(owner, resolved);
-		
+
 		if(owner instanceof EnumTypeNode) {
 			EnumTypeNode enumType = (EnumTypeNode) owner;
 			enumType.fixupDefinition((IdentNode)member);
-			
+
 			Resolver declResolver = new DeclResolver(EnumItemNode.class);
 			resolved = declResolver.resolve(member);
 			successfullyResolved = resolved!=null && successfullyResolved;
@@ -85,41 +84,18 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = owner.resolve() && successfullyResolved;
 		successfullyResolved = member.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = owner.check() && childrenChecked;
-			childrenChecked = member.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-		
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		return (new SimpleChecker(EnumTypeNode.class)).check(owner, error)
-			&& (new SimpleChecker(EnumItemNode.class)).check(member, error);
+			& (new SimpleChecker(EnumItemNode.class)).check(member, error);
 	}
-	
+
 	/**
 	 * Build the IR of an enum expression.
 	 * @return An enum expression IR object.

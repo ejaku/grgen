@@ -30,16 +30,16 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * 
+ *
  */
 public class ExactNode extends BaseNode
 {
 	static {
 		setName(ExactNode.class, "exact");
 	}
-	
+
 	Vector<NodeDeclNode> children = new Vector<NodeDeclNode>();
-	
+
 	Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public ExactNode(Coords coords) {
@@ -56,7 +56,7 @@ public class ExactNode extends BaseNode
 	public Collection<BaseNode> getChildren() {
 		return getValidVersionVector(childrenUnresolved, children);
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
@@ -69,7 +69,7 @@ public class ExactNode extends BaseNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
@@ -81,40 +81,16 @@ public class ExactNode extends BaseNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		for(int i=0; i<children.size(); ++i) {
 			successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
 		}
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			for(int i=0; i<children.size(); ++i) {
-				childrenChecked = children.get(i).check() && childrenChecked;
-			}
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
+
 	/**
 	 * Check whether all children are of node type.
-	 * 
+	 *
 	 * TODO warn if some statements are redundant.
 	 */
 	protected boolean checkLocal() {
@@ -122,7 +98,7 @@ public class ExactNode extends BaseNode
 			this.reportError("Exact statement is empty");
 			return false;
 		}
-		
+
 		return true;
 	}
 

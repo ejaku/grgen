@@ -33,20 +33,9 @@ public class NullNode extends BaseNode
 		super();
 	}
 
-	@Override
-	protected boolean check()
-	{
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean locallyChecked = true;
-		nodeCheckedSetResult(locallyChecked);
-		
-		return locallyChecked;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	@Override
@@ -74,10 +63,10 @@ public class NullNode extends BaseNode
 		if(isChecked()) {
 			return getChecked();
 		}
-		
+
 		boolean locallyChecked = true;
 		nodeCheckedSetResult(locallyChecked);
-		
+
 		return locallyChecked;
 	}
 }

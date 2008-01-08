@@ -40,8 +40,7 @@ import java.util.Vector;
  * AST node that represents an Identifier (name that appears within the specification)
  * children: none
  */
-public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
-{
+public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
 	static {
 		setName(IdentNode.class, "identifier");
 	}
@@ -90,7 +89,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		// no children
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
@@ -98,35 +97,25 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		return childrenNames;
 	}
 
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean locallyChecked = true;
-		nodeCheckedSetResult(locallyChecked);
-		
-		return locallyChecked;
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
-	
+
 	/**
 	 * Get the symbol definition of this identifier
 	 * @see Symbol#Definition
@@ -168,7 +157,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 		if(def.isValid()) {
 			if(def.getNode() == this) {
 				return decl;
-			} else { 
+			} else {
 				return def.getNode().getDecl();
 			}
 		} else {

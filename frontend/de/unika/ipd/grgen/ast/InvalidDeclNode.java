@@ -24,8 +24,10 @@ import java.util.Vector;
 /**
  * AST node class representing invalid declarations.
  */
-public class InvalidDeclNode extends DeclNode
-{
+public class InvalidDeclNode extends DeclNode {
+
+
+
 	static {
 		setName(InvalidDeclNode.class, "invalid declaration");
 	}
@@ -41,22 +43,23 @@ public class InvalidDeclNode extends DeclNode
 		children.add(typeUnresolved);
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
+		nodeResolvedSetResult(true);
 		return true;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
 		return true;
 	}
 

@@ -48,7 +48,7 @@ public class GraphNode extends BaseNode
 	static {
 		setName(GraphNode.class, "graph");
 	}
-	
+
 	CollectNode connections;
 	CollectNode returns;
 
@@ -75,7 +75,7 @@ public class GraphNode extends BaseNode
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("connections"); 
+		childrenNames.add("connections");
 		childrenNames.add("return");
 		return childrenNames;
 	}
@@ -85,7 +85,7 @@ public class GraphNode extends BaseNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -94,24 +94,7 @@ public class GraphNode extends BaseNode
 		successfullyResolved = returns.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = connections.check() && successfullyChecked;
-		successfullyChecked = returns.check() && successfullyChecked;
-		return successfullyChecked;
-	}
-	
+
 	/**
 	 * A pattern node contains just a collect node with connection nodes
 	 * as its children.

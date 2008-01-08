@@ -31,14 +31,14 @@ class RuleTypeNode extends TypeNode
 	static {
 		setName(RuleTypeNode.class, "rule type");
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
@@ -48,12 +48,13 @@ class RuleTypeNode extends TypeNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
+		nodeResolvedSetResult(true);
 		return true;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
 		return true;
 	}
 };
-	
+

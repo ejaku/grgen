@@ -44,13 +44,13 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
-	
+
 	protected NodeDeclNode typeNodeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
 
 	protected static final DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
-	
+
 	/**
 	 * Make a new node declaration.
 	 * @param id The identifier of the node.
@@ -70,7 +70,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
 		return curr.getDeclType();
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -79,22 +79,22 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		children.add(constraints);
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("constraints");
 		return childrenNames;
 	}
-	
+
   	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
@@ -105,7 +105,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		if(typeNodeDecl != null){
 			successfullyResolved = typeNodeDecl.resolve() && successfullyResolved;
@@ -116,38 +116,14 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = getValidResolvedVersion(typeNodeDecl, typeTypeDecl).check() && childrenChecked;
-			childrenChecked = constraints.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
-	}
-	
+
 	protected boolean checkLocal() {
 		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 		return super.checkLocal()
-			&& (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
+			& (new SimpleChecker(IdentNode.class)).check(ident, error)
+			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
 	}
-	
+
 	/**
 	 * Yields a dummy <code>NodeDeclNode</code> needed as
 	 * dummy tgt or src node for dangling edges.
@@ -155,25 +131,25 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	public static NodeDeclNode getDummy(IdentNode id, BaseNode type) {
 		return new DummyNodeDeclNode(id, type);
 	}
-	
+
 	public boolean isDummy() {
 		return false;
 	}
-		
+
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
 	public Color getNodeColor() {
 		return Color.GREEN;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.NodeCharacter#getNode() */
 	public Node getNode() {
 		return (Node) checkIR(Node.class);
 	}
-	
+
 	protected boolean inheritsType() {
 		return typeNodeDecl != null;
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -182,22 +158,22 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		NodeTypeNode tn = (NodeTypeNode) getDeclType();
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
-		
+
 		Node res = new Node(ident.getIdent(), nt, ident.getAttributes());
 		res.setConstraints(getConstraints());
-		
+
 		if( res.getConstraints().contains(res.getType()) ) {
 			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node "
 					+ "("+ res.getType() + ")");
 		}
-		
+
 		if(inheritsType()) {
 			res.setTypeof((Node)typeNodeDecl.checkIR(Node.class));
 		}
-		
+
 		return res;
 	}
-	
+
 	public static String getKindStr() {
 		return "node declaration";
 	}

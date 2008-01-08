@@ -37,8 +37,7 @@ import de.unika.ipd.grgen.ir.Type;
 /**
  * A compound type member declaration.
  */
-public class MemberDeclNode extends DeclNode
-{
+public class MemberDeclNode extends DeclNode {
 	static {
 		setName(MemberDeclNode.class, "member declaration");
 	}
@@ -65,17 +64,17 @@ public class MemberDeclNode extends DeclNode
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident"); 
+		childrenNames.add("ident");
 		childrenNames.add("type");
 		return childrenNames;
 	}
-	
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		BaseNode resolved = typeResolver.resolve(typeUnresolved);
@@ -85,40 +84,17 @@ public class MemberDeclNode extends DeclNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-
-		boolean childrenChecked = true;
-		if(!visitedDuringCheck()) {
-			setCheckVisited();
-			
-			childrenChecked = ident.check() && childrenChecked;
-			childrenChecked = typeUnresolved.check() && childrenChecked;
-		}
-		
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return childrenChecked && locallyChecked;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
 		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			&& typeChecker.check(typeUnresolved, error);
+			& typeChecker.check(typeUnresolved, error);
 	}
 
 	protected IR constructIR() {

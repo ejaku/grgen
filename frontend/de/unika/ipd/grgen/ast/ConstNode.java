@@ -42,10 +42,10 @@ public abstract class ConstNode extends OpNode
 
 	/** A name for the constant. */
 	protected String name;
-	
+
 	private static final ConstNode INVALID = new InvalidConstNode(
 			Coords.getBuiltin(), "invalid const", "invalid value");
-	
+
 	public static final ConstNode getInvalid() {
 		return INVALID;
 	}
@@ -72,7 +72,7 @@ public abstract class ConstNode extends OpNode
 		// no children
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if (isResolved()) {
@@ -84,21 +84,6 @@ public abstract class ConstNode extends OpNode
 		nodeResolvedSetResult(successfullyResolved); // local result
 
 		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if (!resolutionResult()) {
-			return false;
-		}
-		if (isChecked()) {
-			return getChecked();
-		}
-
-		boolean locallyChecked = checkLocal();
-		nodeCheckedSetResult(locallyChecked);
-		
-		return locallyChecked;
 	}
 
 	/**

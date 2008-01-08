@@ -29,7 +29,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * AST node representing a range specification (used by ConnAssertNode). 
+ * AST node representing a range specification (used by ConnAssertNode).
  * children: none
  */
 public class RangeSpecNode extends BaseNode
@@ -37,13 +37,13 @@ public class RangeSpecNode extends BaseNode
 	static {
 		setName(RangeSpecNode.class, "range spec");
 	}
-	
+
 	/** Constant, signaling if one bound is bounded. */
 	public static final int UNBOUND = Integer.MAX_VALUE;
-	
+
 	/** The upper and lower bound. */
 	private int lower, upper;
-	
+
 	/**
 	 * @param coords
 	 */
@@ -52,66 +52,56 @@ public class RangeSpecNode extends BaseNode
 		this.lower = lower;
 		this.upper = upper;
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		// no children
 		return children;
 	}
-	
+
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
-		
+
 		return successfullyResolved;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean locallyChecked = true;
-		nodeCheckedSetResult(locallyChecked);
-	
-		return locallyChecked;
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
-	
+
 	public String getName() {
 		return super.getName() + " [" + lower + ":" + upper + "]";
 	}
-	
+
 	public boolean isBoundedUp() {
 		return upper != UNBOUND;
 	}
-	
+
 	public boolean isBoundedLow() {
 		return lower != UNBOUND;
 	}
-	
+
 	/** @return the lower bound of the range. */
 	public int getLower() {
 		return lower;
 	}
-	
+
 	/** @return the upper bound of the range. */
 	public int getUpper() {
 		return upper;

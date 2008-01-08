@@ -26,15 +26,16 @@ import de.unika.ipd.grgen.ir.VoidType;
 /**
  * The void basic type. It is compatible to no other type.
  */
-public class VoidTypeNode extends BasicTypeNode 
+public class VoidTypeNode extends BasicTypeNode
 {
 	static {
 		setName(VoidTypeNode.class, "void type");
 	}
-	
+
 	protected IR constructIR() {
 		return new VoidType(getIdentNode().getIdent());
 	}
+
 	public String toString() {
 		return "void";
 	}

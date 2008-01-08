@@ -48,7 +48,7 @@ public class MemberInitNode extends BaseNode
 
 	BaseNode lhs;
 	ExprNode rhs;
-	
+
 	/**
 	 * @param coords The source code coordinates of = operator.
 	 * @param member The member to be initialized.
@@ -61,7 +61,7 @@ public class MemberInitNode extends BaseNode
 		this.rhs = expr;
 		becomeParent(this.rhs);
 	}
-	
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
@@ -83,7 +83,7 @@ public class MemberInitNode extends BaseNode
 		if(isResolved()) {
 			return resolutionResult();
 		}
-		
+
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
@@ -96,30 +96,10 @@ public class MemberInitNode extends BaseNode
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
-		
+
 		successfullyResolved = lhs.resolve() && successfullyResolved;
 		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#check() */
-	protected boolean check() {
-		if(!resolutionResult()) {
-			return false;
-		}
-		if(isChecked()) {
-			return getChecked();
-		}
-		
-		boolean successfullyChecked = checkLocal();
-		if(successfullyChecked) {
-			successfullyChecked = typeCheckLocal();
-		}
-		nodeCheckedSetResult(successfullyChecked);
-		
-		successfullyChecked = lhs.check() && successfullyChecked;
-		successfullyChecked = rhs.check() && successfullyChecked;
-		return successfullyChecked;
 	}
 
 	/**
@@ -129,7 +109,7 @@ public class MemberInitNode extends BaseNode
 		boolean lhsOk = (new SimpleChecker(DeclNode.class)).check(lhs, error);
 		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
 
-		return lhsOk && rhsOk;
+		return lhsOk && rhsOk & typeCheckLocal();
 	}
 
 	/**
