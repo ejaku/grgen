@@ -5,9 +5,13 @@ rule init1
     }
     replace
     {
+        w:Node;
         x:Node;
+        y:Node;
+        z:Node;
         
-        x --> x;
+        x --> y;
+        x --> z;
     }
 }
 
@@ -18,11 +22,15 @@ rule init2
     }
     replace
     {
+        v:Node;
+        w:Node;
         x:Node;
         y:Node;
+        z:Node;
         
+        x --> w;
         x --> y;
-        x --> y;
+        x --> z;
     }
 }
 
@@ -30,32 +38,15 @@ dpo rule deleteAll
 {
     pattern
     {
+        w:Node;
         x:Node;
         y:Node;
+        z:Node;
         
-        x -e:Edge-> y;
-        x -f:Edge-> y;
+        w -e:Edge-> x;
+        y -f:Edge-> z;
         
-        hom(e,f);
-    }
-    replace
-    {
-    }
-}
-
-dpo rule deleteAllHom
-{
-    pattern
-    {
-        x:Node;
-        y:Node;
-        
-        hom(x,y);
-        
-        x -e:Edge-> y;
-        x -f:Edge-> y;
-        
-        hom(e,f);
+        hom(w,y);
     }
     replace
     {

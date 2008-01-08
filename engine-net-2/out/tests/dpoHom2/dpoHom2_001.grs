@@ -1,0 +1,11 @@
+new graph "lib\lgsp-dpoHom2Model.dll" "DpoHom graph"
+select actions "lib\lgsp-dpoHom2Actions.dll"
+
+show num nodes
+show num edges
+xgrs init1
+show num nodes
+show num edges
+xgrs ?[deleteAllHom]
+
+quit
