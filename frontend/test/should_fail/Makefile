@@ -28,34 +28,28 @@ BE_CSC  =	de.unika.ipd.grgen.be.Csharp.SearchPlanBackend2
 
 DIRS_CSI= $(GRGS:.grg=_csi) # The directory for the C# interperting backend
 
+#
+# the logfiles
+SUCCESSFE   = successFE.log
+FAILEDFE    = failedFE.log
+ABENDFE     = abendFE.log
+
+
 all: cleanfelog $(DIRS_FE)
-	cat successFE.log
-
-csc: cleancsclog csccontinue ;
-
-csccontinue: $(DIRS_CSC)
-	cat successCSC.log
+	cat $(SUCCESSFE)
+	cat $(ABENDFE)
 
 fe: cleanfelog $(DIRS_FE)
-	cat successFE.log
+	cat $(SUCCESSFE)
 
 %_fe : %.grg $(GMS)
-	@touch successFE.log
-	@touch failedFE.log
+	@touch $(SUCCESSFE)
+	@touch $(FAILEDFE)
 	@test -d $@ || mkdir $@
-	-java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@ $< && echo "$< succeeded" >> successFE.log || echo "$< failed" >> failedFE.log
-
-%_csc : %.grg $(GMS)
-	@touch successCSC.log
-	@touch failedCSC.log
-	@test -d $@ || mkdir $@
-	-mono $(GRGENNET)/GrGen.exe -o $@ $< && echo "$< succeeded" >> successCSC.log || echo "$< failed" >> failedCSC.log
+	-(java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@ $< && echo "$< succeeded" >> $(SUCCESSFE) || echo "$< failed" >> $(FAILEDFE)) 2>&1 > /dev/null | grep -q -v ERROR && echo "$< abend" >> $(ABENDFE)
 
 clean:
-	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) successFE.log failedFE.log successCSC.log failedCSC.log
+	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) $(SUCCESSFE) $(FAILEDFE) $(ABENDFE)
 
 cleanfelog:
-	@rm -f successFE.log
-
-cleancsclog:
-	@rm -f successCSC.log
+	@rm -f $(SUCCESSFE)
