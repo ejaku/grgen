@@ -31,9 +31,9 @@ rule init2
     }
 }
 
-rule deleteSrcNode
+exact rule deleteSrcNode
 {
-    exact pattern
+    pattern
     {
         x:Node;
         y:Node;
@@ -46,9 +46,9 @@ rule deleteSrcNode
     }
 }
 
-rule deleteNodeWithDanglingEdge
+exact rule deleteNodeWithDanglingEdge
 {
-    exact pattern
+    pattern
     {
         x:Node;
         

@@ -131,11 +131,34 @@ actionDecls [ CollectNode actionChilds ]
 	;
 
 actionDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: res=testDecl
-	| res=ruleDecl
+	{ int mod = 0; }
+	: mod=patternModifiers
+		( res=testDecl[mod] | res=ruleDecl[mod] )
 	;
 
-testDecl returns [ IdentNode res = env.getDummyIdent() ]
+patternModifiers returns [ int res = 0 ]
+	: ( res = patternModifier[ res ] )*
+	;
+
+patternModifier [ int mod ] returns [ int res = 0 ]
+	: i:INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
+	              reportError(getCoords(i), "pattern already has an \"induced\" modifier");
+	              }
+	              res = mod | PatternGraphNode.MOD_INDUCED;
+	            }
+	| e:EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
+	              reportError(getCoords(e), "pattern already has an \"exact\" modifier");
+	              }
+	              res = mod | PatternGraphNode.MOD_EXACT;
+	          }
+	| d:DPO { if((mod & PatternGraphNode.MOD_DPO)!=0) {
+	              reportError(getCoords(d), "pattern already has an \"dpo\" modifier");
+	              }
+	              res = mod | PatternGraphNode.MOD_DPO;
+	        }
+	;
+
+testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
 		PatternGraphNode pattern;
@@ -144,7 +167,7 @@ testDecl returns [ IdentNode res = env.getDummyIdent() ]
 	}
 
 	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		pattern=patternPart[negs, 0]
+		pattern=patternPart[negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
 				res = id;
@@ -152,7 +175,7 @@ testDecl returns [ IdentNode res = env.getDummyIdent() ]
 		RBRACE! popScope!
 	;
 
-ruleDecl returns [ IdentNode res = env.getDummyIdent() ]
+ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
 		PatternGraphNode left;
@@ -161,13 +184,10 @@ ruleDecl returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode negs = new CollectNode();
 		CollectNode eval = new CollectNode();
 		CollectNode dels = new CollectNode();
-		int ruleMod = 0;
 	}
 
-	: (DPO {ruleMod |= PatternGraphNode.MOD_DPO;} )?
-			
-	RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		left=patternPart[negs, ruleMod]
+	: RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+		left=patternPart[negs, mod]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
@@ -214,15 +234,10 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ CollectNode negs, int ruleMod ] returns [ PatternGraphNode res = null ]
-	{
-		int patternMod = ruleMod;
-		int mod = 0;
-	}
-
-	: mod=patternModifiers { patternMod |= mod; }
+patternPart [ CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
+	: 
 	    p:PATTERN LBRACE!
-		res=patternBody[getCoords(p), negs, patternMod]
+		res=patternBody[getCoords(p), negs, mod]
 		RBRACE!
 	;
 
@@ -248,23 +263,6 @@ evalBody [ CollectNode n  ]
 	{ AssignNode a; }
 
 	: ( a=assignment { n.addChild(a); } SEMI )*
-	;
-
-patternModifiers returns [ int res = 0 ]
-	: ( res = patternModifier[ res ] )*
-	;
-
-patternModifier [ int mod ] returns [ int res = 0 ]
-	: i:INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
-	              reportError(getCoords(i), "pattern already has an \"induced\" modifier");
-	              }
-	              res = mod | PatternGraphNode.MOD_INDUCED;
-	            }
-	| e:EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
-	              reportError(getCoords(e), "pattern already has an \"exact\" modifier");
-	              }
-	              res = mod | PatternGraphNode.MOD_EXACT;
-	          }
 	;
 
 patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]

@@ -1,5 +1,5 @@
-rule r {
-	induced pattern {
+induced rule r {
+	pattern {
 		x:Node --> y:Node;
 		x --> z:Node;
 		y --> y;

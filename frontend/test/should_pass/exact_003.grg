@@ -1,5 +1,5 @@
-rule r {
-	exact pattern {
+exact rule r {
+	pattern {
 		x: Node -:Edge-> x;
 	}
 	replace {

@@ -17,9 +17,9 @@ rule init1
     }
 }
 
-rule makeUndirected
+induced rule makeUndirected
 {
-    induced pattern
+    pattern
     {
         a:Node -e:Edge-> b:Node;
     }

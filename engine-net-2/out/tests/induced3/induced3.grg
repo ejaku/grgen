@@ -29,9 +29,9 @@ rule init2
     }
 }
 
-rule inducedTest1
+induced rule inducedTest1
 {
-    induced pattern
+    pattern
     {
         a:Node;
         
@@ -42,9 +42,9 @@ rule inducedTest1
     }    
 }
 
-rule inducedTest2
+induced rule inducedTest2
 {
-    induced pattern
+    pattern
     {
         a:Node;
         
