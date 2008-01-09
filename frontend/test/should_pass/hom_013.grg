@@ -1,10 +1,9 @@
 using deep_model_001;
 
 rule r {
-	pattern {
-		x:A -e:Edge-> y:Ac -f:Edge-> z:B <-:Edge- zz:AB;
-		hom(x, y, z);
-	}
+	x:A -e:Edge-> y:Ac -f:Edge-> z:B <-:Edge- zz:AB;
+	hom(x, y, z);
+
 	replace {
 		x <-:Edge- y <-- z;
 	}

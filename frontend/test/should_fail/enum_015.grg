@@ -1,6 +1,6 @@
 using enum_model_008;
 
 rule r {
-	pattern {}
+
 	modify {}
 }

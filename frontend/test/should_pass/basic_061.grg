@@ -1,12 +1,11 @@
 using basic_model_002;
 
 rule r {
-	pattern {
-		x : A;
-		y : B;
-		z : C;
-		n : N;
-	}
+	x : A;
+	y : B;
+	z : C;
+	n : N;
+
 	replace {
 		eval {
 			n.in = 42;

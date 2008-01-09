@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -15,9 +13,7 @@ rule init1
 
 rule init2
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -31,12 +27,10 @@ rule init2
 
 induced rule inducedTest1
 {
-    pattern
-    {
-        a:Node;
-        
-        a -->;
-    }
+    a:Node;
+    
+    a -->;
+
     replace
     {
     }    
@@ -44,12 +38,10 @@ induced rule inducedTest1
 
 induced rule inducedTest2
 {
-    pattern
-    {
-        a:Node;
-        
-        --> a;
-    }
+    a:Node;
+    
+    --> a;
+
     replace
     {
     }    

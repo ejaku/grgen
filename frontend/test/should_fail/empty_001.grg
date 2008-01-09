@@ -1,7 +1,6 @@
 rule empty_1 {
-	pattern {
-		;
-	}
+	;
+
 	replace {
 		;
 	}

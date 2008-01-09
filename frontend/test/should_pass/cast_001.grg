@@ -2,13 +2,11 @@
 using attrib_model_001, enum_model_001;
 
 rule r {
-	pattern{
-		k: A;
-		ni: NINT;
-		nf: NFLOAT;
-		nd: NDOUBLE;
-		ns: NSTRING;
-	}
+	k: A;
+	ni: NINT;
+	nf: NFLOAT;
+	nd: NDOUBLE;
+	ns: NSTRING;
 
 	replace {
 		eval {

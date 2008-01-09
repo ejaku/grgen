@@ -1,9 +1,8 @@
 using retype_model_001;
 
 rule r {
-	pattern {
-		x:TYPE1;
-	}
+	x:TYPE1;
+
 	replace {
 		y:TYPE2<x>;
 		z:typeof(x);

@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		ni:NINT -e:Edge-> .;
-	}
+	ni:NINT -e:Edge-> .;
+
 	modify {
 		ni -ei:EINT-> ni;
 		delete(e);

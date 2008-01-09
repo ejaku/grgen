@@ -1,7 +1,6 @@
 rule r : (string)
 {
-    pattern {
-    }
+
     replace {
         x:Node;
         return (x);

@@ -1,6 +1,5 @@
 rule r {
-	pattern {
-		[prio=42];
-	}
+	[prio=42];
+
 	modify {}
 }

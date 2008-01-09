@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		.;
-	}
+	.;
+
 	replace {
 		.;
 	}

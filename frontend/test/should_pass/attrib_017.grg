@@ -1,12 +1,11 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: NOBJECT;
-		xx: NOBJECT;
-		y: NINT;
-		z: NSTRING;
-	}
+	x: NOBJECT;
+	xx: NOBJECT;
+	y: NINT;
+	z: NSTRING;
+
 	modify {
 		eval {
 			x.a = (y.a == 42 ? x.a : xx.a);

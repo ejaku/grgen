@@ -1,8 +1,7 @@
 rule r {
-	pattern {
-	    x:Node;
-        exact();
-	}
+    x:Node;
+    exact();
+
 	replace {
 	}
 }

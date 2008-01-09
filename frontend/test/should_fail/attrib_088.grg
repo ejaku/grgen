@@ -1,6 +1,6 @@
 using attrib_model_002;
 
 rule dummy {
-  pattern {}
+
   replace {}
 }

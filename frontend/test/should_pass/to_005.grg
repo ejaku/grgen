@@ -1,15 +1,14 @@
 using test_model_002;
 
 rule to_5 {
-	pattern {
-		a : A;
+	a : A;
     b : B;		
-		if { 
-			typeof(a) != typeof(b);
-			typeof(a) != AB;
-			typeof(b) < B; 
-		}
+	if { 
+		typeof(a) != typeof(b);
+		typeof(a) != AB;
+		typeof(b) < B; 
 	}
+
 	replace{
 		a --> b; 
 	}

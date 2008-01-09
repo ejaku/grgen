@@ -1,16 +1,15 @@
 using deep_model_001;
 
 rule r {
-	pattern {
-		x:A -e:Edge-> y:Ac;
-		hom(x, y);
-		negative{
-			x <-- y;
-			x --> z1:AB;
-			y --> z2:AB;
-			hom(z1, z2);
-		}
+	x:A -e:Edge-> y:Ac;
+	hom(x, y);
+	negative{
+		x <-- y;
+		x --> z1:AB;
+		y --> z2:AB;
+		hom(z1, z2);
 	}
+
 	replace {
 		x <-:Edge- y;
 	}

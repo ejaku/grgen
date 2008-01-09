@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: NBOOL;
-	}
+	x: NBOOL;
+
 	modify {
 		eval {
 			x.a = a;

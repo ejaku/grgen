@@ -1,11 +1,10 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		a:NINT;
-		b:NINT;
-		a -e:Edge-> b;
-	}
+	a:NINT;
+	b:NINT;
+	a -e:Edge-> b;
+
 	replace {
 		c: NFLOAT<a>;
 		a -e-> c;

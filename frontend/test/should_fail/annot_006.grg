@@ -1,6 +1,5 @@
 rule r {
-	pattern {
-		:Node [prio=42];
-	}
+	:Node [prio=42];
+
 	modify {}
 }

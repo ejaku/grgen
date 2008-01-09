@@ -1,6 +1,5 @@
 dpo dpo rule r {
-	pattern {
-	}
+
 	replace {
 	}
 }

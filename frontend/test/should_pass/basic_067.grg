@@ -1,9 +1,8 @@
 using basic_model_002;
 
 rule r {
-	pattern {
-		x : BC;
-	}
+	x : BC;
+
 	replace {
 		eval {
 			x.ib = 42;

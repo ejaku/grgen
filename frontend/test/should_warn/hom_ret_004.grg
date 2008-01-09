@@ -2,9 +2,8 @@
 // should warn, that there's a hom-delete-return conflict for x and y
 
 rule r (x: Node, y: Node) : (Node) {
-	pattern {
-		hom(x, y);
-	}
+	hom(x, y);
+
 	modify {
 		delete(y);
 		return(x);

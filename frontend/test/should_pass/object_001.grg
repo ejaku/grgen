@@ -1,10 +1,9 @@
 using object_model_001;
 
 rule test1 {
-    pattern {
-        a:A -x:e-> b:A;
-        if { b.obj == x.obj; }
-    }
+    a:A -x:e-> b:A;
+    if { b.obj == x.obj; }
+
     modify {
         eval {
             a.obj = b.obj;

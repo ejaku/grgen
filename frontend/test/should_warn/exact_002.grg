@@ -1,10 +1,9 @@
-rule r {
-	exact pattern {
-	    x:Node;
-	    y:Node;
-        exact(x);
-        exact(y);
-	}
+exact rule r {
+    x:Node;
+    y:Node;
+    exact(x);
+    exact(y);
+
 	replace {
 	}
 }

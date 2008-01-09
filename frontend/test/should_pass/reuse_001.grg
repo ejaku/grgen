@@ -1,11 +1,10 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: Node;
-		y: Node;
-		x-e:Edge->y;
-	}
+	x: Node;
+	y: Node;
+	x-e:Edge->y;
+
 	modify {
 		- e ->;
 	}

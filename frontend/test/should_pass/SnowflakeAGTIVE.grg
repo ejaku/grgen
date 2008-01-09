@@ -1,66 +1,61 @@
 using SnowflakeAGTIVEModel;
 
 rule init : (Gen1Edge, Gen2Edge) {
- pattern {
- }
- replace {
-  a:OuterNode -:Gen1Edge-> b:OuterNode -:Gen1Edge-> c:OuterNode -:Gen1Edge-> a;
 
-  x:Node -gen1:Gen1Edge-> x;
-  x -gen2:Gen2Edge-> x;
+	replace {
+		a:OuterNode -:Gen1Edge-> b:OuterNode -:Gen1Edge-> c:OuterNode -:Gen1Edge-> a;
 
-  return (gen1, gen2);
- }
+		x:Node -gen1:Gen1Edge-> x;
+		x -gen2:Gen2Edge-> x;
+
+		return (gen1, gen2);
+	}
 }
 
 //rule makeFlake(curGenType:Node, othGenType:Node) {
 rule makeFlake(-curGenType:Edge->, -othGenType:Edge->) {
- pattern {
-  a:Node -x:Edge-> b:Node;
-  if{typeof(x) == typeof(curGenType);}
- }
- replace {
-  a -:typeof(othGenType)-> c:Node -:typeof(othGenType)-> d:OuterNode -:typeof(othGenType)-> e:Node -:typeof(othGenType)-> b;
-  c -:SpacerEdge-> e;
- }
+	a:Node -x:Edge-> b:Node;
+	if{typeof(x) == typeof(curGenType);}
+
+	replace {
+		a -:typeof(othGenType)-> c:Node -:typeof(othGenType)-> d:OuterNode -:typeof(othGenType)-> e:Node -:typeof(othGenType)-> b;
+		c -:SpacerEdge-> e;
+	}
 }
 
 rule makeFlake1 {
- pattern {
-  a:Node -:Gen1Edge-> b:Node;
- }
- replace {
-  a -:Gen2Edge-> c:Node -:Gen2Edge-> d:OuterNode -:Gen2Edge-> e:Node -:Gen2Edge-> b;
-  c -:SpacerEdge-> e;
- }
+	a:Node -:Gen1Edge-> b:Node;
+
+	replace {
+		a -:Gen2Edge-> c:Node -:Gen2Edge-> d:OuterNode -:Gen2Edge-> e:Node -:Gen2Edge-> b;
+		c -:SpacerEdge-> e;
+	}
 }
 
 rule makeFlake2 {
- pattern {
-  a:Node -:Gen2Edge-> b:Node;
- }
- replace {
-  a -:Gen1Edge-> c:Node -:Gen1Edge-> d:OuterNode -:Gen1Edge-> e:Node -:Gen1Edge-> b;
-  c -:SpacerEdge-> e;
- }
+	a:Node -:Gen2Edge-> b:Node;
+
+	replace {
+		a -:Gen1Edge-> c:Node -:Gen1Edge-> d:OuterNode -:Gen1Edge-> e:Node -:Gen1Edge-> b;
+		c -:SpacerEdge-> e;
+	}
 }
 
 rule beautify {
- pattern {
-  a:Node --> b:OuterNode --> c:Node;
-  negative {
-    a --> c;
-  }
-  negative {
-    c;
-    b --> x:Node;
-  }
-  negative {
-    a;
-    b <-- y:Node;
-  }
- }
- modify {
-  a -:SpacerEdge-> c;
- }
+	a:Node --> b:OuterNode --> c:Node;
+	negative {
+		a --> c;
+	}
+	negative {
+		c;
+		b --> x:Node;
+	}
+	negative {
+		a;
+		b <-- y:Node;
+	}
+
+	modify {
+		a -:SpacerEdge-> c;
+	}
 }

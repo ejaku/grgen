@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: NINT;
-	}
+	x: NINT;
+
 	modify {
 		y: NBOOL<x>;
 	}

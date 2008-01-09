@@ -3,11 +3,10 @@
 // node x might be a deleted one
 
 rule r:(Node) {
-	pattern {
-		x: Node;
-		y: Node;
-		hom(x, y);
-	}
+	x: Node;
+	y: Node;
+	hom(x, y);
+
 	replace {
 		x;
 		return(x);

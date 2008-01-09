@@ -1,10 +1,9 @@
 dpo rule r {
-	pattern {
-		x:Node --> y:Node;
-		y --> y;
-		y --> y;
-		z:Node;
-	}
+	x:Node --> y:Node;
+	y --> y;
+	y --> y;
+	z:Node;
+
 	replace {
 	}
 }

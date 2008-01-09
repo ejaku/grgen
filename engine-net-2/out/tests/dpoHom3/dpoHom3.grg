@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         w:Node;
@@ -17,9 +15,7 @@ rule init1
 
 rule init2
 {
-    pattern
-    {
-    }
+
     replace
     {
         v:Node;
@@ -36,18 +32,16 @@ rule init2
 
 dpo rule deleteAll
 {
-    pattern
-    {
-        w:Node;
-        x:Node;
-        y:Node;
-        z:Node;
-        
-        w -e:Edge-> x;
-        y -f:Edge-> z;
-        
-        hom(w,y);
-    }
+    w:Node;
+    x:Node;
+    y:Node;
+    z:Node;
+    
+    w -e:Edge-> x;
+    y -f:Edge-> z;
+    
+	hom(w,y);
+
     replace
     {
     }

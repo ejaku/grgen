@@ -1,6 +1,5 @@
 induced rule r {
-	pattern {
-	}
+
 	replace {
 	}
 }

@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -18,19 +16,17 @@ rule init1
 
 rule deleteSingleNode
 {
-    pattern
-    {
-        a:Node;
-        b:Node;
-        c:Node;
-        
-        a --> b;
-        b --> c;
-        c --> a;
-        
-        induced(a,b);
-        induced(b,c);
-    }
+    a:Node;
+    b:Node;
+    c:Node;
+    
+    a --> b;
+    b --> c;
+    c --> a;
+    
+    induced(a,b);
+    induced(b,c);
+
     modify
     {
         delete(b);

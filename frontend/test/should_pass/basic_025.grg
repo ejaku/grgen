@@ -1,6 +1,4 @@
 test t {
-	pattern {
-		if { true; }
-	}
+	if { true; }
 }
 

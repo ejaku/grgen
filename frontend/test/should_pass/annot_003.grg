@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		[prio=10000] : Node;
-	}
+	[prio=10000] : Node;
+	
 	modify {
 	}
 }

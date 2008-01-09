@@ -1,11 +1,10 @@
 using basic_model_001;
 
 rule r {
-	pattern {
-		x : A;
-		y : B;
-		z : C;
-	}
+	x : A;
+	y : B;
+	z : C;
+
 	replace {
 		c : C;
 	}

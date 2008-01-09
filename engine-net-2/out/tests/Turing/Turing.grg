@@ -1,10 +1,9 @@
 actions Turing using TuringModel;
 
 rule readZeroRule {
-	pattern {
-		s:State -:rwhead-> bp:BandPosition -zv:zero-> bp;
-		s -zr:zero-> wv:WriteValue;
-	}
+	s:State -:rwhead-> bp:BandPosition -zv:zero-> bp;
+	s -zr:zero-> wv:WriteValue;
+
 	replace {
 		s -zr-> wv;
 		bp -zv-> bp;
@@ -13,10 +12,9 @@ rule readZeroRule {
 }
 
 rule readOneRule {
-	pattern {
-		s:State -:rwhead-> bp:BandPosition -ov:one-> bp;
-		s -or:one-> wv:WriteValue;
-	}
+	s:State -:rwhead-> bp:BandPosition -ov:one-> bp;
+	s -or:one-> wv:WriteValue;
+
 	replace {
 		s -or-> wv;
 		bp -ov-> bp;
@@ -25,10 +23,9 @@ rule readOneRule {
 }
 
 rule readEmptyRule {
-	pattern {
-		s:State -:rwhead-> bp:BandPosition -ev:empty-> bp;
-		s -er:empty-> wv:WriteValue;
-	}
+	s:State -:rwhead-> bp:BandPosition -ev:empty-> bp;
+	s -er:empty-> wv:WriteValue;
+
 	replace {
 		s -er-> wv;
 		bp -ev-> bp;
@@ -37,40 +34,36 @@ rule readEmptyRule {
 }
 
 rule writeZeroRule {
-	pattern {
-		wv:WriteZero -rw:rwhead-> bp:BandPosition -:value-> bp;
-	}
+	wv:WriteZero -rw:rwhead-> bp:BandPosition -:value-> bp;
+
 	replace {
 		wv -rw-> bp -:zero-> bp;
 	}	
 }
 
 rule writeOneRule {
-	pattern {
-		wv:WriteOne -rw:rwhead-> bp:BandPosition -:value-> bp;
-	}
+	wv:WriteOne -rw:rwhead-> bp:BandPosition -:value-> bp;
+
 	replace {
 		wv -rw-> bp -:one-> bp;
 	}	
 }
 
 rule writeEmptyRule {
-	pattern {
-		wv:WriteEmpty -rw:rwhead-> bp:BandPosition -:value-> bp;
-	}
+	wv:WriteEmpty -rw:rwhead-> bp:BandPosition -:value-> bp;
+
 	replace {
 		wv -rw-> bp -:empty-> bp;
 	}	
 }
 
 rule ensureMoveLeftValidRule {
-	pattern {
-		wv:WriteValue -m:moveLeft-> s:State;
-		wv -rw:rwhead-> bp:BandPosition;
-		negative {
-			bp <-:right- lbp:BandPosition;
-		}
+	wv:WriteValue -m:moveLeft-> s:State;
+	wv -rw:rwhead-> bp:BandPosition;
+	negative {
+		bp <-:right- lbp:BandPosition;
 	}
+
 	replace {
 		wv -m-> s;
 		wv -rw-> bp <-:right- lbp:BandPosition -:empty-> lbp;
@@ -78,13 +71,12 @@ rule ensureMoveLeftValidRule {
 }
 
 rule ensureMoveRightValidRule {
-	pattern {
-		wv:WriteValue -m:moveRight-> s:State;
-		wv -rw:rwhead-> bp:BandPosition;
-		negative {
-			bp -:right-> rbp:BandPosition;
-		}
+	wv:WriteValue -m:moveRight-> s:State;
+	wv -rw:rwhead-> bp:BandPosition;
+	negative {
+		bp -:right-> rbp:BandPosition;
 	}
+	
 	replace {
 		wv -m-> s;
 		wv -rw-> bp -:right-> rbp:BandPosition -:empty-> rbp;
@@ -92,10 +84,9 @@ rule ensureMoveRightValidRule {
 }
 
 rule moveLeftRule {
-	pattern {
-		wv:WriteValue -m:moveLeft-> s:State;
-		wv -:rwhead-> bp:BandPosition <-r:right- lbp:BandPosition;
-	}
+	wv:WriteValue -m:moveLeft-> s:State;
+	wv -:rwhead-> bp:BandPosition <-r:right- lbp:BandPosition;
+
 	replace {
 		wv -m-> s;
 		s -:rwhead-> lbp -r-> bp;
@@ -103,10 +94,9 @@ rule moveLeftRule {
 }
 
 rule moveRightRule {
-	pattern {
-		wv:WriteValue -m:moveRight-> s:State;
-		wv -:rwhead-> bp:BandPosition -r:right-> rbp:BandPosition;
-	}
+	wv:WriteValue -m:moveRight-> s:State;
+	wv -:rwhead-> bp:BandPosition -r:right-> rbp:BandPosition;
+
 	replace {
 		wv -m-> s;
 		s -:rwhead-> rbp <-r- bp;
@@ -114,10 +104,9 @@ rule moveRightRule {
 }
 
 rule dontMoveRule {
-	pattern {
-		wv:WriteValue -m:dontMove-> s:State;
-		wv -:rwhead-> bp:BandPosition;
-	}
+	wv:WriteValue -m:dontMove-> s:State;
+	wv -:rwhead-> bp:BandPosition;
+
 	replace {
 		bp;
 		wv -m-> s;

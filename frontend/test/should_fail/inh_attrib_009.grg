@@ -1,8 +1,7 @@
 using inh_attrib_model_009;
 
 rule r {
-	pattern {
-	}
+
 	replace {
 	}
 }

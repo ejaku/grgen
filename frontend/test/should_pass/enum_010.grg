@@ -1,9 +1,8 @@
 using enum_model_006;
 
 rule switch {
-    pattern {
-        goto:struct -float:Edge-> int:struct;
-    }
+	goto:struct -float:Edge-> int:struct;
+
     modify {
         eval {
             goto.for = bool::FileNotFound;

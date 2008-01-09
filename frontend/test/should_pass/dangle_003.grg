@@ -1,27 +1,26 @@
 rule r {
-	pattern {
-		x: Node;
-		y: Node;
+	x: Node;
+	y: Node;
 
-		a: Node;
-		b: Node;
-		c: Node;
-		d: Node;
-		
-		x -e:Edge-> y;
-		x -ee:Edge-> y;
-		y -f:Edge->;
-		y <-g:Edge-;
-		y <-gg:Edge-;
+	a: Node;
+	b: Node;
+	c: Node;
+	d: Node;
+	
+	x -e:Edge-> y;
+	x -ee:Edge-> y;
+	y -f:Edge->;
+	y <-g:Edge-;
+	y <-gg:Edge-;
 
-		-h:Edge->;
-		<-i:Edge-;
-		-j:Edge->;
-		
-		a -k:Edge->;
-		b -l:Edge->;
-		-m:Edge->;
-	}
+	-h:Edge->;
+	<-i:Edge-;
+	-j:Edge->;
+	
+	a -k:Edge->;
+	b -l:Edge->;
+	-m:Edge->;
+
 	replace{
 		y;
 		x-e->;

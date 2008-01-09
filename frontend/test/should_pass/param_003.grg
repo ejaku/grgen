@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) : (NINT, NINT, NSTRING) {
-	pattern {
-		zi : NINT;
-	}
+	zi : NINT;
+
 	replace {
 		xi : NINT;
 		ns;

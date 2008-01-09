@@ -1,6 +1,5 @@
 rule r {
-	pattern {
-	}
+
 	modify {
 		eval { }
 	}

@@ -3,9 +3,8 @@ using retype_model_001;
 // warn, because type of y is statically known (so "typeof" is useless)
 
 rule r {
-	pattern {
-		x:TYPE1;
-	}
+	x:TYPE1;
+
 	replace {
 		y:TYPE2<x>;
 		z:typeof(y);

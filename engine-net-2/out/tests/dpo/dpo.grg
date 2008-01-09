@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         x:Node;
@@ -16,9 +14,7 @@ rule init1
 
 rule init2
 {
-    pattern
-    {
-    }
+
     replace
     {
         x:Node;
@@ -31,9 +27,7 @@ rule init2
 
 rule init3
 {
-    pattern
-    {
-    }
+
     replace
     {
         x:Node;
@@ -46,9 +40,7 @@ rule init3
 
 rule init4
 {
-    pattern
-    {
-    }
+
     replace
     {
         x:Node;
@@ -62,9 +54,7 @@ rule init4
 
 rule init5
 {
-    pattern
-    {
-    }
+
     replace
     {
         x:Node;
@@ -79,13 +69,11 @@ rule init5
 
 dpo rule deleteRightNode
 {
-    pattern
-    {
-        x:Node;
-        y:Node;
-        
-        x --> y;
-    }
+    x:Node;
+    y:Node;
+    
+    x --> y;
+
     replace
     {
         x;
@@ -94,12 +82,10 @@ dpo rule deleteRightNode
 
 dpo rule deleteDanglingIncomingEdge
 {
-    pattern
-    {
-        x:Node;
-        
-         --> x;
-    }
+    x:Node;
+    
+     --> x;
+
     replace
     {
     }
@@ -107,12 +93,10 @@ dpo rule deleteDanglingIncomingEdge
 
 dpo rule deleteDanglingOutgoingEdge
 {
-    pattern
-    {
-        x:Node;
-        
-        x --> ;
-    }
+    x:Node;
+    
+    x --> ;
+
     replace
     {
     }
@@ -120,13 +104,11 @@ dpo rule deleteDanglingOutgoingEdge
 
 dpo rule deleteLeftNode
 {
-    pattern
-    {
-        x:Node;
-        y:Node;
-        
-        x --> y;
-    }
+    x:Node;
+    y:Node;
+    
+    x --> y;
+
     modify
     {
         delete(x);

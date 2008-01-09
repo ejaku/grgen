@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -14,12 +12,10 @@ rule init1
 
 rule deleteSingleNode
 {
-    pattern
-    {
-        a:Node;
-        
-        induced(a);
-    }
+    a:Node;
+    
+    induced(a);
+
     replace
     {
     }    

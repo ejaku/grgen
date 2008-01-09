@@ -1,10 +1,9 @@
-rule r {
-	induced pattern {
-	    x:Node;
-	    y:Node;
-        induced(x);
-        induced(y);
-	}
+induced rule r {
+    x:Node;
+    y:Node;
+    induced(x);
+    induced(y);
+
 	replace {
 	}
 }

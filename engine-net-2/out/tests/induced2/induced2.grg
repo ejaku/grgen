@@ -1,8 +1,6 @@
 rule init1
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -16,9 +14,7 @@ rule init1
 
 rule init2
 {
-    pattern
-    {
-    }
+
     replace
     {
         a:Node;
@@ -30,15 +26,14 @@ rule init2
 
 induced rule inducedTest1
 {
-    pattern
-    {
-        a:Node;
-        b:Node;
-        
-        a -e:Edge-> b;
-        a -f:Edge-> b;
-        a -g:Edge-> b;
-    }
+
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
+    a -f:Edge-> b;
+    a -g:Edge-> b;
+
     modify
     {
         delete(e);
@@ -47,14 +42,12 @@ induced rule inducedTest1
 
 induced rule inducedTest2
 {
-    pattern
-    {
-        a:Node;
-        b:Node;
-        
-        a -e:Edge-> b;
-        a -f:Edge-> b;
-    }
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
+    a -f:Edge-> b;
+
     modify
     {
         delete(e);
@@ -63,13 +56,11 @@ induced rule inducedTest2
 
 induced rule inducedTest3
 {
-    pattern
-    {
-        a:Node;
-        b:Node;
-        
-        a -e:Edge-> b;
-    }
+    a:Node;
+    b:Node;
+    
+    a -e:Edge-> b;
+
     modify
     {
         delete(e);

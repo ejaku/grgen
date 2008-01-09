@@ -1,7 +1,6 @@
 exact rule r {
-	pattern {
-		x: Node -:Edge-> y:Node;
-	}
+	x: Node -:Edge-> y:Node;
+
 	replace {
 	}
 }

@@ -166,8 +166,8 @@ testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode negs = new CollectNode();
 	}
 
-	: TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		pattern=patternPart[negs, mod]
+	: t:TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+		pattern=patternPart[getCoords(t), negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
 				res = id;
@@ -186,8 +186,8 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode dels = new CollectNode();
 	}
 
-	: RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
-		left=patternPart[negs, mod]
+	: r:RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+		left=patternPart[getCoords(r), negs, mod]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
@@ -234,11 +234,12 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
-	: 
-	    p:PATTERN LBRACE!
+patternPart [ Coords pattern_coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
+	: p:PATTERN LBRACE!
 		res=patternBody[getCoords(p), negs, mod]
 		RBRACE!
+			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
+	| res=patternBody[pattern_coords, negs, mod]
 	;
 
 replacePart [ CollectNode eval ] returns [ GraphNode res = null ]

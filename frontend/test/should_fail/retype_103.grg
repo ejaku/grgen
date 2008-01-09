@@ -3,8 +3,7 @@ using retype_model_002;
 // forbidden, because y is only temporarily existing object
 
 rule r {
-	pattern {
-	}
+
 	replace {
 		a:Node;
 		b:Node;

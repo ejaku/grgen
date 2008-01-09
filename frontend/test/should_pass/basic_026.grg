@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		x:Node -e:Edge-> y:Node;
-	}
+	x:Node -e:Edge-> y:Node;
+
 	modify {
 		x -e-> y;
 	}

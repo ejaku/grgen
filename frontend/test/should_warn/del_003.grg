@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		y: Node;
-	}
+	y: Node;
+
 	modify {
 		delete(x);
 		x:Node;

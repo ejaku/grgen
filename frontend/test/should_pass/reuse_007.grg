@@ -1,9 +1,8 @@
 rule r {
-	pattern {
-		x: Node;
-		y: Node;
-		x-e:Edge->y;
-	}
+	x: Node;
+	y: Node;
+	x-e:Edge->y;
+
 	replace {
 		x; y;
 		x;

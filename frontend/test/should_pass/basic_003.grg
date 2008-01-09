@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		if { true; }
-	}
+	if { true; }
+
 	replace {
 	}
 }

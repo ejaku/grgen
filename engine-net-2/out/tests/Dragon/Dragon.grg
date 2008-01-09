@@ -6,91 +6,82 @@ actions Dragon using DragonModel;
 
 rule init
 {
-  pattern {
-  }
-  replace {
-    :Command --> :F --> :X1 --> :Command;
-  }
+
+	replace {
+		:Command --> :F --> :X1 --> :Command;
+	}
 }
 
 rule replaceX1
 {
-  pattern {
-    pre:Node --> :X1 --> post:Node;
-  }
-  replace {
-    pre --> :X2 --> :L --> :Y2 --> :F --> :L --> post;
-  }
+	pre:Node --> :X1 --> post:Node;
+
+	replace {
+		pre --> :X2 --> :L --> :Y2 --> :F --> :L --> post;
+	}
 }
 
 rule replaceX2
 {
-  pattern {
-    pre:Node --> :X2 --> post:Node;
-  }
-  replace {
-    pre --> :X1 --> :L --> :Y1 --> :F --> :L --> post;
-  }
+	pre:Node --> :X2 --> post:Node;
+
+	replace {
+		pre --> :X1 --> :L --> :Y1 --> :F --> :L --> post;
+	}
 }
 
 rule replaceY1
 {
-  pattern {
-    pre:Node --> :Y1 --> post:Node;
-  }
-  replace {
-    pre --> :R --> :F --> :X2 --> :R --> :Y2 --> post;
-  }
+	pre:Node --> :Y1 --> post:Node;
+
+	replace {
+		pre --> :R --> :F --> :X2 --> :R --> :Y2 --> post;
+	}
 }
 
 rule replaceY2
 {
-  pattern {
-    pre:Node --> :Y2 --> post:Node;
-  }
-  replace {
-    pre --> :R --> :F --> :X1 --> :R --> :Y1 --> post;
-  }
+	pre:Node --> :Y2 --> post:Node;
+
+	replace {
+		pre --> :R --> :F --> :X1 --> :R --> :Y1 --> post;
+	}
 }
 
 rule removeX1
 {
-  pattern {
-   pre:Node --> :X1 --> post:Node;
-  }
-  replace {
-   pre --> post;
-  }
+	pre:Node --> :X1 --> post:Node;
+
+	replace {
+		pre --> post;
+	}
 }
 
 rule removeY1
 {
-  pattern {
-   pre:Node --> :Y1 --> post:Node;
-  }
-  replace {
-   pre --> post;
-  }
+	pre:Node --> :Y1 --> post:Node;
+
+	replace {
+		pre --> post;
+	}
 }
 
 rule removeLR
 {
-  pattern {
-   pre:Node --> :L --> :R --> post:Node;
-  }
-  replace {
-   pre --> post;
-  }
+	pre:Node --> :L --> :R --> post:Node;
+
+	replace {
+		pre --> post;
+	}
 }
 
 rule removeRL
 {
-  pattern {
-   pre:Node --> :R --> :L --> post:Node;
-  }
-  replace {
-   pre --> post;
-  }
+	pre:Node --> :R --> :L --> post:Node;
+
+	replace {
+		pre --> post;
+	}
 }
 
 ////////////////
@@ -99,146 +90,137 @@ rule removeRL
 
 rule initGrid : (GridNode)
 {
-  pattern {
-  }
-  replace {
-    startPoint:GridNode -:GridEdgeRight-> a:GridNode -:GridEdgeLeft-> startPoint;
-    startPoint -:GridEdgeUp-> b:GridNode -:GridEdgeDown-> startPoint;
-    startPoint -:GridEdgeLeft-> c:GridNode -:GridEdgeRight-> startPoint;
-    startPoint -:GridEdgeDown-> d:GridNode -:GridEdgeUp-> startPoint;
-    a -:GridEdgeUp-> e:GridNode -:GridEdgeLeft-> b -:GridEdgeRight-> e -:GridEdgeDown-> a;
-    b -:GridEdgeLeft-> f:GridNode -:GridEdgeDown-> c -:GridEdgeUp-> f -:GridEdgeRight-> b;
-    c -:GridEdgeDown-> g:GridNode -:GridEdgeRight-> d -:GridEdgeLeft-> g -:GridEdgeUp-> c;
-    d -:GridEdgeRight-> h:GridNode -:GridEdgeUp-> a -:GridEdgeDown-> h -:GridEdgeLeft-> d;
-    return (startPoint);
-  }
+
+	replace {
+		startPoint:GridNode -:GridEdgeRight-> a:GridNode -:GridEdgeLeft-> startPoint;
+		startPoint -:GridEdgeUp-> b:GridNode -:GridEdgeDown-> startPoint;
+		startPoint -:GridEdgeLeft-> c:GridNode -:GridEdgeRight-> startPoint;
+		startPoint -:GridEdgeDown-> d:GridNode -:GridEdgeUp-> startPoint;
+		a -:GridEdgeUp-> e:GridNode -:GridEdgeLeft-> b -:GridEdgeRight-> e -:GridEdgeDown-> a;
+		b -:GridEdgeLeft-> f:GridNode -:GridEdgeDown-> c -:GridEdgeUp-> f -:GridEdgeRight-> b;
+		c -:GridEdgeDown-> g:GridNode -:GridEdgeRight-> d -:GridEdgeLeft-> g -:GridEdgeUp-> c;
+		d -:GridEdgeRight-> h:GridNode -:GridEdgeUp-> a -:GridEdgeDown-> h -:GridEdgeLeft-> d;
+		return (startPoint);
+	}
 }
 
 rule initEnlargeSideU : (GridNode)
 {
-  pattern {
-    a:GridNode;
-    negative {
-      a -:GridEdgeLeft-> :GridNode;
-    }
-    negative {
-      a -:GridEdgeUp-> :GridNode;
-    }
-  }
-  replace {
-    a -:GridEdgeUp-> b:GridNode -:GridEdgeDown-> a;
-    return (b);
-  }
+	a:GridNode;
+	negative {
+		a -:GridEdgeLeft-> :GridNode;
+	}
+	negative {
+		a -:GridEdgeUp-> :GridNode;
+	}
+
+	replace {
+		a -:GridEdgeUp-> b:GridNode -:GridEdgeDown-> a;
+		return (b);
+	}
 }
 
 rule enlargeSideU(b:GridNode) : (GridNode)
 {
-  pattern {
-    b -ed:GridEdgeDown-> e:GridNode -er:GridEdgeRight-> f:GridNode;
-    negative {
-      b -:GridEdgeRight-> :GridNode;
-    }
-  }
-  replace {
-    b -ed-> e -er-> f;
-    b -:GridEdgeRight-> c:GridNode -:GridEdgeDown-> f -:GridEdgeUp-> c -:GridEdgeLeft-> b;
-    return (c);
-  }
+	b -ed:GridEdgeDown-> e:GridNode -er:GridEdgeRight-> f:GridNode;
+	negative {
+		b -:GridEdgeRight-> :GridNode;
+	}
+
+	replace {
+		b -ed-> e -er-> f;
+		b -:GridEdgeRight-> c:GridNode -:GridEdgeDown-> f -:GridEdgeUp-> c -:GridEdgeLeft-> b;
+		return (c);
+	}
 }
 
 rule initEnlargeSideL : (GridNode)
 {
-  pattern {
-    a:GridNode;
-    negative {
-      a -:GridEdgeLeft-> :GridNode;
-    }
-    negative {
-      a -:GridEdgeDown-> :GridNode;
-    }
-  }
-  replace {
-    a -:GridEdgeLeft-> b:GridNode -:GridEdgeRight-> a;
-    return (b);
-  }
+	a:GridNode;
+	negative {
+		a -:GridEdgeLeft-> :GridNode;
+	}
+	negative {
+		a -:GridEdgeDown-> :GridNode;
+	}
+
+	replace {
+		a -:GridEdgeLeft-> b:GridNode -:GridEdgeRight-> a;
+		return (b);
+	}
 }
 
 rule enlargeSideL(b:GridNode) : (GridNode)
 {
-  pattern {
-    b -er:GridEdgeRight-> e:GridNode -eu:GridEdgeUp-> f:GridNode;
-    negative {
-      b -:GridEdgeUp-> :GridNode;
-    }
-  }
-  replace {
-    b -er-> e -eu-> f;
-    b -:GridEdgeUp-> c:GridNode -:GridEdgeRight-> f -:GridEdgeLeft-> c -:GridEdgeDown-> b;
-    return (c);
-  }
+	b -er:GridEdgeRight-> e:GridNode -eu:GridEdgeUp-> f:GridNode;
+	negative {
+		b -:GridEdgeUp-> :GridNode;
+	}
+
+	replace {
+		b -er-> e -eu-> f;
+		b -:GridEdgeUp-> c:GridNode -:GridEdgeRight-> f -:GridEdgeLeft-> c -:GridEdgeDown-> b;
+		return (c);
+	}
 }
 
 rule initEnlargeSideD : (GridNode)
 {
-  pattern {
-    a:GridNode;
-    negative {
-      a -:GridEdgeRight-> :GridNode;
-    }
-    negative {
-      a -:GridEdgeDown-> :GridNode;
-    }
-  }
-  replace {
-    a -:GridEdgeDown-> b:GridNode -:GridEdgeUp-> a;
-    return (b);
-  }
+	a:GridNode;
+	negative {
+		a -:GridEdgeRight-> :GridNode;
+	}
+	negative {
+		a -:GridEdgeDown-> :GridNode;
+	}
+
+	replace {
+		a -:GridEdgeDown-> b:GridNode -:GridEdgeUp-> a;
+		return (b);
+	}
 }
 
 rule enlargeSideD(b:GridNode) : (GridNode)
 {
-  pattern {
-    b -eu:GridEdgeUp-> e:GridNode -el:GridEdgeLeft-> f:GridNode;
-    negative {
-      b -:GridEdgeLeft-> :GridNode;
-    }
-  }
-  replace {
-    b -eu-> e -el-> f;
-    b -:GridEdgeLeft-> c:GridNode -:GridEdgeUp-> f -:GridEdgeDown-> c -:GridEdgeRight-> b;
-    return (c);
-  }
+	b -eu:GridEdgeUp-> e:GridNode -el:GridEdgeLeft-> f:GridNode;
+	negative {
+		b -:GridEdgeLeft-> :GridNode;
+	}
+
+	replace {
+		b -eu-> e -el-> f;
+		b -:GridEdgeLeft-> c:GridNode -:GridEdgeUp-> f -:GridEdgeDown-> c -:GridEdgeRight-> b;
+		return (c);
+	}
 }
 
 rule initEnlargeSideR : (GridNode)
 {
-  pattern {
-    a:GridNode;
-    negative {
-      a -:GridEdgeRight-> :GridNode;
-    }
-    negative {
-      a -:GridEdgeUp-> :GridNode;
-    }
-  }
-  replace {
-    a -:GridEdgeRight-> b:GridNode -:GridEdgeLeft-> a;
-    return (b);
-  }
+	a:GridNode;
+	negative {
+		a -:GridEdgeRight-> :GridNode;
+	}
+	negative {
+		a -:GridEdgeUp-> :GridNode;
+	}
+
+	replace {
+		a -:GridEdgeRight-> b:GridNode -:GridEdgeLeft-> a;
+		return (b);
+	}
 }
 
 rule enlargeSideR(b:GridNode) : (GridNode)
 {
-  pattern {
-    b -el:GridEdgeLeft-> e:GridNode -ed:GridEdgeDown-> f:GridNode;
-    negative {
-      b -:GridEdgeDown-> :GridNode;
-    }
-  }
-  modify {
-    b -:GridEdgeDown-> c:GridNode -:GridEdgeLeft-> f -:GridEdgeRight-> c -:GridEdgeUp-> b;
-    return (c);
-  }
+	b -el:GridEdgeLeft-> e:GridNode -ed:GridEdgeDown-> f:GridNode;
+	negative {
+		b -:GridEdgeDown-> :GridNode;
+	}
+
+	modify {
+		b -:GridEdgeDown-> c:GridNode -:GridEdgeLeft-> f -:GridEdgeRight-> c -:GridEdgeUp-> b;
+		return (c);
+	}
 }
 
 /////////////////////////
@@ -247,204 +229,191 @@ rule enlargeSideR(b:GridNode) : (GridNode)
 
 rule initInterpreter(startPoint:GridNode)
 {
-  pattern {
-    start:Command --> realStart:F;
-    negative {
-      :Node --> start;
-    }
-    startPoint -el:GridEdgeLeft-> a:GridNode;
-  }
-  replace {
-    markedStartPoint:MarkedGridNode<startPoint>;
-    markedStartPoint -el-> a;
-    realStart -:CurPos-> markedStartPoint -:CurDir-> a;
-  }
+	start:Command --> realStart:F;
+	negative {
+		:Node --> start;
+	}
+	startPoint -el:GridEdgeLeft-> a:GridNode;
+
+	replace {
+		markedStartPoint:MarkedGridNode<startPoint>;
+		markedStartPoint -el-> a;
+		realStart -:CurPos-> markedStartPoint -:CurDir-> a;
+	}
 }
 
 rule doLeft_Up
 {
-  pattern {
-    l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -up:GridEdgeUp-> b;
-    a -left:GridEdgeLeft-> c:GridNode;
-    l --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -up-> b;
-    a -left-> c;
-    a -:CurDir-> c;
-  }
+	l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -up:GridEdgeUp-> b;
+	a -left:GridEdgeLeft-> c:GridNode;
+	l --> com:Command;
+
+	replace {
+		com -:CurPos-> a -up-> b;
+		a -left-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doLeft_Right
 {
-  pattern {
-    l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -right:GridEdgeRight-> b;
-    a -up:GridEdgeUp-> c:GridNode;
-    l --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -right-> b;
-    a -up-> c;
-    a -:CurDir-> c;
-  }
+	l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -right:GridEdgeRight-> b;
+	a -up:GridEdgeUp-> c:GridNode;
+	l --> com:Command;
+
+	replace {
+		com -:CurPos-> a -right-> b;
+		a -up-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doLeft_Down
 {
-  pattern {
-    l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -down:GridEdgeDown-> b;
-    a -right:GridEdgeRight-> c:GridNode;
-    l --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -down-> b;
-    a -right-> c;
-    a -:CurDir-> c;
-  }
+	l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -down:GridEdgeDown-> b;
+	a -right:GridEdgeRight-> c:GridNode;
+	l --> com:Command;
+
+	replace {
+		com -:CurPos-> a -down-> b;
+		a -right-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doLeft_Left
 {
-  pattern {
-    l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -left:GridEdgeLeft-> b;
-    a -down:GridEdgeDown-> c:GridNode;
-    l --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a;
-    a -left-> b;
-    a -down-> c;
-    a -:CurDir-> c;
-  }
+	l:L -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -left:GridEdgeLeft-> b;
+	a -down:GridEdgeDown-> c:GridNode;
+	l --> com:Command;
+
+	replace {
+		com -:CurPos-> a;
+		a -left-> b;
+		a -down-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doRight_Up
 {
-  pattern {
-    r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -up:GridEdgeUp-> b;
-    a -right:GridEdgeRight-> c:GridNode;
-    r --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -up-> b;
-    a -right-> c;
-    a -:CurDir-> c;
-  }
+	r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -up:GridEdgeUp-> b;
+	a -right:GridEdgeRight-> c:GridNode;
+	r --> com:Command;
+
+	replace {
+		com -:CurPos-> a -up-> b;
+		a -right-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doRight_Right
 {
-  pattern {
-    r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -right:GridEdgeRight-> b;
-    a -down:GridEdgeDown-> c:GridNode;
-    r --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -right-> b;
-    a -down-> c;
-    a -:CurDir-> c;
-  }
+	r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -right:GridEdgeRight-> b;
+	a -down:GridEdgeDown-> c:GridNode;
+	r --> com:Command;
+
+	replace {
+		com -:CurPos-> a -right-> b;
+		a -down-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doRight_Down
 {
-  pattern {
-    r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -down:GridEdgeDown-> b;
-    a -left:GridEdgeLeft-> c:GridNode;
-    r --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a -down-> b;
-    a -left-> c;
-    a -:CurDir-> c;
-  }
+	r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -down:GridEdgeDown-> b;
+	a -left:GridEdgeLeft-> c:GridNode;
+	r --> com:Command;
+
+	replace {
+		com -:CurPos-> a -down-> b;
+		a -left-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doRight_Left
 {
-  pattern {
-    r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
-    a -left:GridEdgeLeft-> b;
-    a -up:GridEdgeUp-> c:GridNode;
-    r --> com:Command;
-  }
-  replace {
-    com -:CurPos-> a;
-    a -left-> b;
-    a -up-> c;
-    a -:CurDir-> c;
-  }
+	r:R -:CurPos-> a:GridNode -:CurDir-> b:GridNode;
+	a -left:GridEdgeLeft-> b;
+	a -up:GridEdgeUp-> c:GridNode;
+	r --> com:Command;
+
+	replace {
+		com -:CurPos-> a;
+		a -left-> b;
+		a -up-> c;
+		a -:CurDir-> c;
+	}
 }
 
 rule doForward_Up
 {
-  pattern {
-    f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeUp-> c:GridNode;
-    a -:GridEdgeUp-> b;
-    f --> com:Command;
-  }
-  replace {
-    com -:CurPos-> b;
-    a -:MarkedGridEdgeUp-> b;
-    markedB:MarkedGridNode<b>;
-    markedB -ge-> c;
-    markedB -:CurDir-> c;
-  }
+	f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeUp-> c:GridNode;
+	a -:GridEdgeUp-> b;
+	f --> com:Command;
+
+	replace {
+		com -:CurPos-> b;
+		a -:MarkedGridEdgeUp-> b;
+		markedB:MarkedGridNode<b>;
+		markedB -ge-> c;
+		markedB -:CurDir-> c;
+	}
 }
 
 rule doForward_Left
 {
-  pattern {
-    f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeLeft-> c:GridNode;
-    a -:GridEdgeLeft-> b;
-    f --> com:Command;
-  }
-  replace {
-    com -:CurPos-> b;
-    a -:MarkedGridEdgeLeft-> b;
-    markedB:MarkedGridNode<b>;
-    markedB -ge-> c;
-    markedB -:CurDir-> c;
-  }
+	f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeLeft-> c:GridNode;
+	a -:GridEdgeLeft-> b;
+	f --> com:Command;
+
+	replace {
+		com -:CurPos-> b;
+		a -:MarkedGridEdgeLeft-> b;
+		markedB:MarkedGridNode<b>;
+		markedB -ge-> c;
+		markedB -:CurDir-> c;
+	}
 }
 
 rule doForward_Right
 {
-  pattern {
-    f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeRight-> c:GridNode;
-    a -:GridEdgeRight-> b;
-    f --> com:Command;
-  }
-  replace {
-    com -:CurPos-> b;
-    a -:MarkedGridEdgeRight-> b;
-    markedB:MarkedGridNode<b>;
-    markedB -ge-> c;
-    markedB -:CurDir-> c;
-  }
+	f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeRight-> c:GridNode;
+	a -:GridEdgeRight-> b;
+	f --> com:Command;
+
+	replace {
+		com -:CurPos-> b;
+		a -:MarkedGridEdgeRight-> b;
+		markedB:MarkedGridNode<b>;
+		markedB -ge-> c;
+		markedB -:CurDir-> c;
+	}
 }
 
 rule doForward_Down
 {
-  pattern {
-    f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeDown-> c:GridNode;
-    a -:GridEdgeDown-> b;
-    f --> com:Command;
-  }
-  replace {
-    com -:CurPos-> b;
-    a -:MarkedGridEdgeDown-> b;
-    markedB:MarkedGridNode<b>;
-    markedB -ge-> c;
-    markedB -:CurDir-> c;
-  }
+	f:F -:CurPos-> a:GridNode -:CurDir-> b:GridNode -ge:GridEdgeDown-> c:GridNode;
+	a -:GridEdgeDown-> b;
+	f --> com:Command;
+
+	replace {
+		com -:CurPos-> b;
+		a -:MarkedGridEdgeDown-> b;
+		markedB:MarkedGridNode<b>;
+		markedB -ge-> c;
+		markedB -:CurDir-> c;
+	}
 }
 
 ////////////
@@ -453,46 +422,42 @@ rule doForward_Down
 
 rule checkCannotDoF_Up
 {
-  pattern {
-    :F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
-    negative {
-      b -:GridEdgeUp-> :GridNode;
-    }
-  }
-  modify {}
+	:F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
+	negative {
+		b -:GridEdgeUp-> :GridNode;
+	}
+
+	modify {}
 }
 
 rule checkCannotDoF_Left
 {
-  pattern {
-    :F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
-    negative {
-      b -:GridEdgeLeft-> :GridNode;
-    }
-  }
-  modify {}
+	:F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
+	negative {
+		b -:GridEdgeLeft-> :GridNode;
+	}
+
+	modify {}
 }
 
 rule checkCannotDoF_Down
 {
-  pattern {
-    :F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
-    negative {
-      b -:GridEdgeDown-> :GridNode;
-    }
-  }
-  modify {}
+	:F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
+	negative {
+		b -:GridEdgeDown-> :GridNode;
+	}
+
+	modify {}
 }
 
 rule checkCannotDoF_Right
 {
-  pattern {
-    :F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
-    negative {
-      b -:GridEdgeRight-> :GridNode;
-    }
-  }
-  modify {}
+	:F -:CurPos-> :GridNode -:CurDir-> b:GridNode;
+	negative {
+		b -:GridEdgeRight-> :GridNode;
+	}
+
+	modify {}
 }
 
 ///////////////////////////////////
@@ -501,49 +466,44 @@ rule checkCannotDoF_Right
 
 rule removeGridLeft
 {
-  pattern {
-    :GridNode -e:GridEdgeLeft\(MarkedGridEdgeLeft)-> :GridNode;
-  }
-  modify {
-    delete(e);
-  }
+	:GridNode -e:GridEdgeLeft\(MarkedGridEdgeLeft)-> :GridNode;
+
+	modify {
+		delete(e);
+	}
 }
 
 rule removeGridUp
 {
-  pattern {
-    :GridNode -e:GridEdgeUp\(MarkedGridEdgeUp)-> :GridNode;
-  }
-  modify {
-    delete(e);
-  }
+	:GridNode -e:GridEdgeUp\(MarkedGridEdgeUp)-> :GridNode;
+
+	modify {
+		delete(e);
+	}
 }
 
 rule removeUnnecRight
 {
-  pattern {
-    a:GridNode -e:GridEdgeRight-> :GridNode -:MarkedGridEdgeLeft-> a;
-  }
-  modify {
-    delete(e);
-  }
+	a:GridNode -e:GridEdgeRight-> :GridNode -:MarkedGridEdgeLeft-> a;
+
+	modify {
+		delete(e);
+	}
 }
 
 rule removeUnnecDown
 {
-  pattern {
-    a:GridNode -e:GridEdgeDown-> :GridNode -:MarkedGridEdgeUp-> a;
-  }
-  modify {
-    delete(e);
-  }
+	a:GridNode -e:GridEdgeDown-> :GridNode -:MarkedGridEdgeUp-> a;
+
+	modify {
+		delete(e);
+	}
 }
 
 rule removeInterpreterRest
 {
-  pattern {
-    :Command;
-    gamme:Node -:CurDir-> lig:Node;
-  }
-  replace { gamme;lig; }
+	:Command;
+	gamme:Node -:CurDir-> lig:Node;
+
+	replace { gamme;lig; }
 }

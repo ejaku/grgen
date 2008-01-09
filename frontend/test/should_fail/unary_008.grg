@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		ni: NINT;
-	}
+	ni: NINT;
+
 	modify {
 		eval {
 			ni.a = --- (float) - ni.a;

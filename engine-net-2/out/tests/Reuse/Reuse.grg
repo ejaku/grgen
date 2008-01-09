@@ -1,178 +1,171 @@
 using ReuseModel;
 
 rule init1:(A) {
-  pattern {}
-  replace {
-    a:A;
-    eval {
-      a.val = 5;
-    }
-    return (a);
-  }
+
+	replace {
+		a:A;
+		eval {
+			a.val = 5;
+		}
+		return (a);
+	}
 }
 
 rule init2:(A,A) {
-  pattern {}
-  replace {
-    a:A;
-    b:A;
-    eval {
-      a.val = 5;
-      b.val = 8;
-    }
-    return (a,b);
-  }
+
+	replace {
+		a:A;
+		b:A;
+		eval {
+			a.val = 5;
+			b.val = 8;
+		}
+		return (a,b);
+	}
 }
 
 rule init3:(A,A,E) {
-  pattern {}
-  replace {
-    a:A -e:E-> b:A;
-    eval {
-      a.val = 5;
-      b.val = 8;
-      e.val = 20;
-    }
-    return (a,b,e);
-  }
+
+	replace {
+		a:A -e:E-> b:A;
+		eval {
+			a.val = 5;
+			b.val = 8;
+			e.val = 20;
+		}
+		return (a,b,e);
+	}
 }
 
 rule init4:(A,E) {
-  pattern {}
-  replace {
-    a:A -e:E-> a;
-    eval {
-      a.val = 5;
-      e.val = 20;
-    }
-    return (a,e);
-  }
+	
+	replace {
+		a:A -e:E-> a;
+		eval {
+			a.val = 5;
+			e.val = 20;
+		}
+		return (a,e);
+	}
 }
 
 rule init5:(A,E,E) {
-  pattern {}
-  replace {
-    a:A -e:E-> a -f:E-> a;
-    eval {
-      a.val = 5;
-      e.val = 20;
-      f.val = 50;
-    }
-    return (a,e,f);
-  }
+	pattern {}
+	replace {
+		a:A -e:E-> a -f:E-> a;
+		eval {
+			a.val = 5;
+			e.val = 20;
+			f.val = 50;
+		}
+		return (a,e,f);
+	}
 }
 
 rule init6:(A,A,E,E) {
-  pattern {}
-  replace {
-    a:A -e:E-> b:A -f:E-> a;
-    eval {
-      a.val = 5;
-      b.val = 8;
-      e.val = 20;
-      f.val = 50;
-    }
-    return (a,b,e,f);
-  }
+	
+	replace {
+		a:A -e:E-> b:A -f:E-> a;
+		eval {
+			a.val = 5;
+			b.val = 8;
+			e.val = 20;
+			f.val = 50;
+		}
+		return (a,b,e,f);
+	}
 }
 
 rule test1:(A) {
-  pattern {
-    a:A;
-    if { a.val == 5; }
-  }
-  replace {
-    x:A;
-    eval {
-      x.val = a.val + 2;
-    }
-    return (x);
-  }
+	a:A;
+	if { a.val == 5; }
+
+	replace {
+		x:A;
+		eval {
+			x.val = a.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test2:(A) {
-  pattern {
-    a:A;
-    b:A;
-    if { a.val == 5; }
-  }
-  replace {
-    b;
-    x:A;
-    eval {
-      x.val = a.val + b.val + 2;
-    }
-    return (x);
-  }
+	a:A;
+	b:A;
+	if { a.val == 5; }
+
+	replace {
+		b;
+		x:A;
+		eval {
+			x.val = a.val + b.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test3:(E) {
-  pattern {
-    a:A -e:E-> a;
-    if { e.val == 20; }
-  }
-  replace {
-    a -x:E -> a;
-    eval {
-      x.val = e.val + 2;
-    }
-    return (x);
-  }
+	a:A -e:E-> a;
+	if { e.val == 20; }
+
+	replace {
+		a -x:E -> a;
+		eval {
+			x.val = e.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test4:(E) {
-  pattern {
-    a:A -e:E-> b:A;
-    if { e.val == 20; }
-  }
-  replace {
-    a -x:E -> a;
-    eval {
-      x.val = e.val + 2;
-    }
-    return (x);
-  }
+	a:A -e:E-> b:A;
+	if { e.val == 20; }
+
+	replace {
+		a -x:E -> a;
+		eval {
+			x.val = e.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test5:(E) {
-  pattern {
-    a:A -e:E-> a -f:E-> a;
-    if { e.val == 50; }
-  }
-  replace {
-    a -x:E -> a;
-    eval {
-      x.val = e.val + 2;
-    }
-    return (x);
-  }
+	a:A -e:E-> a -f:E-> a;
+	if { e.val == 50; }
+
+	replace {
+		a -x:E -> a;
+		eval {
+			x.val = e.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test6:(E) {
-  pattern {
-    a:A -e:E-> b:A -f:E-> a;
-    if { a.val == 5; e.val == 20; }
-  }
-  replace {
-    a -x:E -> a;
-    eval {
-      x.val = e.val + f.val + 2;
-    }
-    return (x);
-  }
+	a:A -e:E-> b:A -f:E-> a;
+	if { a.val == 5; e.val == 20; }
+
+	replace {
+		a -x:E -> a;
+		eval {
+			x.val = e.val + f.val + 2;
+		}
+		return (x);
+	}
 }
 
 rule test7:(E) {
-  pattern {
-    a:A -e:E-> b:A -f:E-> a;
-    if { a.val == 5; e.val == 20; }
-  }
-  replace {
-    b -f->;
-    a -x:E -> a;
-    eval {
-      x.val = e.val + f.val + 2;
-    }
-    return (x);
-  }
+	a:A -e:E-> b:A -f:E-> a;
+	if { a.val == 5; e.val == 20; }
+
+	replace {
+		b -f->;
+		a -x:E -> a;
+		eval {
+			x.val = e.val + f.val + 2;
+		}
+		return (x);
+	}
 }

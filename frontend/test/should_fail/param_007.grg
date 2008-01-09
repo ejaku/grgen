@@ -2,10 +2,9 @@ using attrib_model_001;
 
 rule r(a:string)
 {
-    pattern {
-        b:NSTRING;
-        if { a == b.a; }
-    }
+    b:NSTRING;
+    if { a == b.a; }
+
     replace {
     }
 }

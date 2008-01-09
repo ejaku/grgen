@@ -1,8 +1,7 @@
 rule r {
-	pattern {
-		x:Node -e:Edge-> y:Node --> z:Node;
-		hom(x, y, z);
-	}
+	x:Node -e:Edge-> y:Node --> z:Node;
+	hom(x, y, z);
+
 	replace {
 		x <-:Edge- y <-- z;
 	}

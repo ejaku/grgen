@@ -1,9 +1,8 @@
 using basic_model_002;
 
 rule to_8 {
-	pattern {
-		a : N;
-	}
+	a : N;
+
 	replace{
 		a;
 		eval {

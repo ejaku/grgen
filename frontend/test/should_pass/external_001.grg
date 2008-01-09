@@ -2,9 +2,8 @@ using external_model_001;
 
 rule extTest
 {
-    pattern {
-        a:A --> b:B;
-    }
+	a:A --> b:B;
+
     replace {
         c:B --> a --> b --> d:A;
     }

@@ -1,18 +1,17 @@
 rule r {
-	pattern {
-		-e:Edge->;
-		-ee:Edge->;
-		
-		x:Node -f:Edge->;
-		xx:Node -ff:Edge->;
-		xxx:Node -fff:Edge->;
+	-e:Edge->;
+	-ee:Edge->;
+	
+	x:Node -f:Edge->;
+	xx:Node -ff:Edge->;
+	xxx:Node -fff:Edge->;
 
-		a:Node -g:Edge-> b:Node;
-		aa:Node -gg:Edge-> bb:Node;
-		aaa:Node -ggg:Edge-> bbb:Node;
+	a:Node -g:Edge-> b:Node;
+	aa:Node -gg:Edge-> bb:Node;
+	aaa:Node -ggg:Edge-> bbb:Node;
 
-		<-- q:Node -->;
-	}
+	<-- q:Node -->;
+
 	modify{
 		delete(ee);
 		delete(ff);

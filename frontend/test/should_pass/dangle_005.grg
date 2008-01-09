@@ -1,15 +1,14 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: Node;
-		y: Node;
+	x: Node;
+	y: Node;
 
-		x -e1:EINT-> y;
-		x -e2:EINT-> y;
-		x <-e3:EINT- y;
-		x <-e4:EINT- y;
-	}
+	x -e1:EINT-> y;
+	x -e2:EINT-> y;
+	x <-e3:EINT- y;
+	x <-e4:EINT- y;
+
 	replace {
 		x; y;
 

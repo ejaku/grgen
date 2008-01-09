@@ -1,12 +1,11 @@
 using basic_model_002;
 
 rule r : (A, AB, B, N) {
-	pattern {
-		x : A;
-		y : B;
-		z : C;
-		n : N;
-	}
+	x : A;
+	y : B;
+	z : C;
+	n : N;
+
 	replace {
 		x; y; n; z;
 		return (x, z, y, n);		// z is not compatible to type AB

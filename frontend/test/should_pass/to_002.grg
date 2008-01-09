@@ -1,13 +1,12 @@
 using test_model_002;
 
 rule to_1 {
-	pattern {
-		a : A;
-		b : typeof(a);
-	}
+	a : A;
+	b : typeof(a);
+
 	replace{
 		a --> b;
-    c : typeof(a);
-    d : typeof(b);
+		c : typeof(a);
+		d : typeof(b);
 	}
 }

@@ -1,7 +1,6 @@
 rule r {
-	pattern {
-		x : Node;
-	}
+	x : Node;
+
 	replace {
 		x --> y : Node;
 	}

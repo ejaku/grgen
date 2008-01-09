@@ -1,12 +1,11 @@
 using test_model_002;
 
 rule to_1 {
-	pattern {
-		a : A;
+	a : A;
     b : AB;		
-		c : typeof(a);
+	c : typeof(a);
     d : typeof(b);
-	}
+
 	replace{
 		a --> b <-- c --> d --> :typeof(d);
 	}

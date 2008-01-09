@@ -1,9 +1,8 @@
 using enum_model_001;
 
 rule r {
-	pattern {
-		a:A -b:B-> a;
-	}
+	a:A -b:B-> a;
+
 	modify {
 		eval {
 			a.e = b.e;

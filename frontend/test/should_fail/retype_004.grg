@@ -3,9 +3,8 @@ using retype_model_001;
 // forbidden, because write access to old node's attributes
 
 rule r {
-	pattern {
-		x:TYPE1;
-	}
+	x:TYPE1;
+
 	replace {
 		z:TYPE2<x>;
 		

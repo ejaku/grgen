@@ -1,3 +1,6 @@
 using inh_model_010;
 
-rule bla { pattern{} replace{} }
+rule bla { 
+
+	replace{} 
+}

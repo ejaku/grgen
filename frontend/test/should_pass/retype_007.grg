@@ -1,9 +1,8 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		-e:EINT->;
-	}
+	-e:EINT->;
+
 	modify {
 		- f:EBOOL<e> ->;
 	}

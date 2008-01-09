@@ -1,9 +1,8 @@
 using attrib_model_001, enum_model_001;
 
 rule r {
-	pattern {
-		x: A;
-	}
+	x: A;
+
 	modify {
 		eval {
 			x.e = (NINT) x.e;

@@ -1,6 +1,5 @@
-rule r {
-	exact exact pattern {
-	}
+exact exact rule r {
+
 	replace {
 	}
 }

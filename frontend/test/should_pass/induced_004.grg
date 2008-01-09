@@ -1,9 +1,8 @@
 induced rule r {
-	pattern {
-		x:Node --> y:Node;
-		x --> z:Node;
-		y --> y;
-	}
+	x:Node --> y:Node;
+	x --> z:Node;
+	y --> y;
+
 	replace {
 	}
 }

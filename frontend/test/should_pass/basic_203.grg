@@ -1,9 +1,8 @@
 rule r {
-	pattern {
-		negative {
-			if{ false; }
-		}
+	negative {
+		if{ false; }
 	}
+
 	modify {
 	}
 }

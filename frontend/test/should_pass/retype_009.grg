@@ -1,13 +1,12 @@
 using attrib_model_001;
 
 rule r {
-	pattern {
-		x: Node;
-		y: Node;
-		
-		x -e:EINT-> y;
-		-f:EBOOL->;
-	}
+	x: Node;
+	y: Node;
+	
+	x -e:EINT-> y;
+	-f:EBOOL->;
+
 	modify {
 		x - ee:typeof(f)<e> -> y;
 	}

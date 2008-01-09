@@ -1,13 +1,12 @@
 using object_model_001;
 
 rule test1 {
-    pattern {
-        a:A -x:e-> b:A;
-        if { 
-            b.obj == x.obj; 
-            b.obj == (int)null;
+    a:A -x:e-> b:A;
+    if { 
+        b.obj == x.obj; 
+        b.obj == (int)null;
 	}
-    }
+
     modify {
         eval {
             a.obj = null;

@@ -1,16 +1,15 @@
 using attrib_model_001, enum_model_005;
 
 rule r {
-	pattern {
-		xi: NINT;
-		xd: NDOUBLE;
-		xf: NFLOAT;
-		
-		xd -e:EFLOAT-> xi;
-		xd <-f:ESTRING- xi;
-		
-		u: AA;
-	}
+	xi: NINT;
+	xd: NDOUBLE;
+	xf: NFLOAT;
+	
+	xd -e:EFLOAT-> xi;
+	xd <-f:ESTRING- xi;
+	
+	u: AA;
+
 	modify {
 		eval {
 			xi.a = xi.a << 3;

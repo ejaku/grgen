@@ -1,9 +1,8 @@
 
 rule r : (Node) {
-	pattern {
-		x: Node;
-		y: Node;
-	}
+	x: Node;
+	y: Node;
+
 	modify {
 		return(x);
 		return(y);
