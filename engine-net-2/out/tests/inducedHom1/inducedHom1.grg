@@ -1,0 +1,26 @@
+rule init
+{
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+        x --> y;
+    }
+}
+
+induced rule doNothing
+{
+    x:Node;
+    y:Node;
+    
+    x -e:Edge-> y;
+    x -f:Edge-> y;
+    
+    hom(e,f);
+
+    modify
+    {
+    }
+}

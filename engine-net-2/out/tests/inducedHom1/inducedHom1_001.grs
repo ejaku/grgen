@@ -1,0 +1,11 @@
+new graph "lib\lgsp-inducedHom1Model.dll" "InducedHom graph"
+select actions "lib\lgsp-inducedHom1Actions.dll"
+
+show num nodes
+show num edges
+xgrs init
+show num nodes
+show num edges
+xgrs ?[doNothing]
+
+quit

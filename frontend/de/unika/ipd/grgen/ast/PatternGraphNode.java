@@ -25,6 +25,7 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Operator;
@@ -39,7 +40,6 @@ import de.unika.ipd.grgen.parser.SymbolTable;
 import java.util.Collection;
 import java.util.Set;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.LinkedHashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -90,20 +90,24 @@ public class PatternGraphNode extends GraphNode {
 	private Map<NodeCharacter, Set<NodeCharacter>> nodeHomMap =
 		new LinkedHashMap<NodeCharacter, Set<NodeCharacter>>();
 	
+	/** All nodes which needed a single node NAC */
 	private Set<NodeCharacter> singleNodeNegNodes =
 		new LinkedHashSet<NodeCharacter>();
 	
-	/** 
-	 * Map a homomorphic set to a set of edges (of the NAC).
-	 * 
-	 * Use a set to avoid counting edges twice.
-	 */
+	/** All nodes which needed a single node NAC */
+	private Set<List<NodeCharacter>> doubleNodeNegPairs =
+		new LinkedHashSet<List<NodeCharacter>>();
+	
+	/** Map a homomorphic set to a set of edges (of the NAC). */
 	private Map<Set<NodeCharacter>, Set<ConnectionNode>> singleNodeNegMap = 
 		new LinkedHashMap<Set<NodeCharacter>, Set<ConnectionNode>>();
 
-	/** Map each pair of nodes to a pattern graph */
-	private Map<List<NodeCharacter>, PatternGraph> doubleNodeNegMap =
-		new LinkedHashMap<List<NodeCharacter>, PatternGraph>();
+	/**
+	 * Map each pair of homomorphic sets of nodes to a set of edges (of the
+	 * NAC).
+	 */
+	private Map<List<Set<NodeCharacter>>, Set<ConnectionNode>> doubleNodeNegMap =
+		new LinkedHashMap<List<Set<NodeCharacter>>, Set<ConnectionNode>>();
 
 	public PatternGraphNode(Coords coords, CollectNode connections,
 							CollectNode conditions, CollectNode returns, CollectNode homs,
@@ -608,14 +612,15 @@ public class PatternGraphNode extends GraphNode {
 				// add all homomorphic nodes to NAC and set them homomorphic
 				Set<GraphEntity> nodeHom = new LinkedHashSet<GraphEntity>();
 				for (NodeCharacter node : getCorrespondentHomSet(singleNodeNegNode)) {
-					neg.addSingleNode(singleNodeNegNode.getNode());
-					nodeHom.add(node.getNode());
+					Node nodeIR = node.getNode();
+					neg.addSingleNode(nodeIR);
+					nodeHom.add(nodeIR);
                 }
 				neg.addHomomorphic(nodeHom);
 				
+				// add edges to NAC 
 				for (ConnectionNode conn : edgeSet) {
 					conn.addToGraph(neg);
-					// TODO != null ?
 					allNegEdges.add(conn.getEdge());
 				}
 				
@@ -636,6 +641,7 @@ public class PatternGraphNode extends GraphNode {
 					}
 				}
 
+				// add another edge of type edgeRoot to the NAC
 				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
 				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot);
 
@@ -776,56 +782,107 @@ public class PatternGraphNode extends GraphNode {
 	/**
 	 * @param negs
 	 */
-	private void addDoubleNodeNegGraphs(Collection<PatternGraph> negs) {
+	private void addDoubleNodeNegGraphs(Collection<PatternGraph> ret) {
 		// add existing edges to the corresponding pattern graph
 		for (BaseNode n : connections.getChildren()) {
 			if (n instanceof ConnectionNode) {
 				ConnectionNode conn = (ConnectionNode) n;
 
-				List<NodeCharacter> key = new LinkedList<NodeCharacter>();
-				key.add(conn.getSrc());
-				key.add(conn.getTgt());
+				List<Set<NodeCharacter>> key = new LinkedList<Set<NodeCharacter>>();
+				key.add(getCorrespondentHomSet(conn.getSrc()));
+				key.add(getCorrespondentHomSet(conn.getTgt()));
 
-				PatternGraph neg = doubleNodeNegMap.get(key);
-				// neg == null for dangling edges
-				if (neg != null) {
-					conn.addToGraph(neg);
-					doubleNodeNegMap.put(key, neg);
+				Set<ConnectionNode> edges = doubleNodeNegMap.get(key);
+				// edges == null if conn is a dangling edge or one of the nodes
+				// is not induced
+				if (edges != null) {
+					edges.add(conn);
+					doubleNodeNegMap.put(key, edges);
 				}
 			}
 		}
 		
 		BaseNode edgeRoot = getEdgeRootType();
 
-		// add another Edge of type edgeRoot to each NAC
-		for (Entry<List<NodeCharacter>, PatternGraph> entry : doubleNodeNegMap.entrySet()) {
+		for (List<NodeCharacter> pair : doubleNodeNegPairs) {
 			// TODO check casts
-			NodeDeclNode src = (NodeDeclNode) entry.getKey().get(0);
-			NodeDeclNode tgt = (NodeDeclNode) entry.getKey().get(1);
+			NodeDeclNode src = (NodeDeclNode) pair.get(0);
+			NodeDeclNode tgt = (NodeDeclNode) pair.get(1);
+			
+			List<Set<NodeCharacter>> key = new LinkedList<Set<NodeCharacter>>();
+			key.add(getCorrespondentHomSet(src));
+			key.add(getCorrespondentHomSet(tgt));
+			Set<EdgeCharacter> allNegEdges = new LinkedHashSet<EdgeCharacter>();
+			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 
+			PatternGraph neg = new PatternGraph();
+			
+			// add all homomorphic nodes to NAC and set them homomorphic
+			Set<GraphEntity> srcNodeHom = new LinkedHashSet<GraphEntity>();
+			for (NodeCharacter node : getCorrespondentHomSet(src)) {
+				Node nodeIR = node.getNode();
+				neg.addSingleNode(nodeIR);
+				srcNodeHom.add(nodeIR);
+            }
+			neg.addHomomorphic(srcNodeHom);
+			
+			Set<GraphEntity> tgtNodeHom = new LinkedHashSet<GraphEntity>();
+			for (NodeCharacter node : getCorrespondentHomSet(tgt)) {
+				Node nodeIR = node.getNode();
+				neg.addSingleNode(nodeIR);
+				tgtNodeHom.add(nodeIR);
+            }
+			neg.addHomomorphic(tgtNodeHom);
+			
+			// add edges to the NAC 
+			for (ConnectionNode conn : edgeSet) {
+				conn.addToGraph(neg);
+				allNegEdges.add(conn.getEdge());
+			}
+			
+			// inherit homomorphic edges
+			for (EdgeCharacter edge : allNegEdges) {
+				Set<GraphEntity> homSet = new LinkedHashSet<GraphEntity>();
+				Set<EdgeCharacter> homEdges = getCorrespondentHomSet(edge);
+				// TODO remove homSet from allNegEdges
+
+				for (EdgeCharacter homEdge : homEdges) {
+                    if (allNegEdges.contains(homEdge)) {
+                    	DeclNode decl = (DeclNode) homEdge;
+						homSet.add((GraphEntity) decl.checkIR(GraphEntity.class));
+                    }
+                }
+				if (homSet.size() > 1) {
+					neg.addHomomorphic(homSet);
+				}
+			}
+			
+			// add another edge of type edgeRoot to the NAC
 			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
 
 			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, true);
-
-			conn.addToGraph(entry.getValue());
-		}
-
-		// finally add all pattern graphs
-		for (PatternGraph n : doubleNodeNegMap.values()) {
-			negs.add(n);
+			
+			conn.addToGraph(neg);
+			
+			ret.add(neg);
 		}
 	}
 
 	private void addToDoubleNodeMap(Set<NodeCharacter> nodes) {
 		for (NodeCharacter src : nodes) {
 			for (NodeCharacter tgt : nodes) {
-				List<NodeCharacter> key = new LinkedList<NodeCharacter>();
-				key.add(src);
-				key.add(tgt);
+				List<NodeCharacter> pair = new LinkedList<NodeCharacter>();
+				pair.add(src);
+				pair.add(tgt);
+				doubleNodeNegPairs.add(pair);
+				
+				List<Set<NodeCharacter>> key = new LinkedList<Set<NodeCharacter>>();
+				key.add(getCorrespondentHomSet(src));
+				key.add(getCorrespondentHomSet(tgt));
 
 				if (!doubleNodeNegMap.containsKey(key)) {
-					PatternGraph neg = new PatternGraph();
-					doubleNodeNegMap.put(key, neg);
+					Set<ConnectionNode> edges = new LinkedHashSet<ConnectionNode>();
+					doubleNodeNegMap.put(key, edges);
 				}
 			}
 		}

@@ -1,0 +1,40 @@
+rule init1
+{
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+        x --> y;
+    }
+}
+
+rule init2
+{
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+        x --> y;
+        x --> y;
+    }
+}
+
+induced rule doNothing
+{
+    x:Node;
+    y:Node;
+    z:Node;
+    
+    x -e:Edge-> y;
+    x -f:Edge-> z;
+    
+    hom(y,z);
+
+    modify
+    {
+    }
+}
