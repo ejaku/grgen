@@ -230,7 +230,7 @@ public class PatternGraphNode extends GraphNode {
 		return (PatternGraph) checkIR(PatternGraph.class);
 	}
 
-
+	/** NOTE: Use this only in DPO-Mode,i.e. if the pattern is part of a rule */
 	private RuleDeclNode getRule() {
 		for (BaseNode parent : getParents()) {
 			if (parent instanceof RuleDeclNode) {
@@ -480,7 +480,6 @@ public class PatternGraphNode extends GraphNode {
 
 	private void initSingleNodeNegMap() {
 		Collection<BaseNode> exactNodes = exact.getChildren();
-		Set<DeclNode> deletedNodes = getRule().getDelete();
 
 		if (isExact()) {
 			addToSingleNodeMap(getExactPatternNodes());
@@ -497,6 +496,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 
 		if (isDPO()) {
+			Set<DeclNode> deletedNodes = getRule().getDelete();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
 			for (BaseNode exactNode : exactNodes) {

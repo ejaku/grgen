@@ -142,17 +142,17 @@ patternModifiers returns [ int res = 0 ]
 
 patternModifier [ int mod ] returns [ int res = 0 ]
 	: i:INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
-	              reportError(getCoords(i), "pattern already has an \"induced\" modifier");
+	              reportError(getCoords(i), "\"induced\" modifier already declared");
 	              }
 	              res = mod | PatternGraphNode.MOD_INDUCED;
 	            }
 	| e:EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
-	              reportError(getCoords(e), "pattern already has an \"exact\" modifier");
+	              reportError(getCoords(e), "\"exact\" modifier already declared");
 	              }
 	              res = mod | PatternGraphNode.MOD_EXACT;
 	          }
 	| d:DPO { if((mod & PatternGraphNode.MOD_DPO)!=0) {
-	              reportError(getCoords(d), "pattern already has an \"dpo\" modifier");
+	              reportError(getCoords(d), "\"dpo\" modifier already declared");
 	              }
 	              res = mod | PatternGraphNode.MOD_DPO;
 	        }
@@ -166,7 +166,12 @@ testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode negs = new CollectNode();
 	}
 
-	: t:TEST id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+	: t:TEST { if((mod & PatternGraphNode.MOD_DPO)!=0) {
+				reportError(getCoords(t), "no \"dpo\" modifier allowed");
+			}
+		}
+	
+		id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
 		pattern=patternPart[getCoords(t), negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
