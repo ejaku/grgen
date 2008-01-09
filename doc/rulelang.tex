@@ -261,9 +261,9 @@ A rule set consists of the underlying \indexed{graph model}s and several rewrite
 
 \begin{rail}
   TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: 'rule' ActionSignature lbrace Pattern Replace rbrace ;
-\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
-Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{replacepart}). A \newterm{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
+  RuleDeclaration: 'rule' (() | 'dpo') ActionSignature lbrace Pattern Replace rbrace ;
+\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{dpo}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
+Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{replacepart}). The modifier \texttt{dpo} switches to dpo semantics. See section \ref{sct:patternmodifier} for an explanation of available rule and pattern modifiers. A \newterm{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
 \begin{example}
 We define a test \texttt{SomeCond}
 \begin{grgen}
@@ -350,8 +350,8 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 \section{Pattern Part}\indexmain{pattern}
 \label{patternpart}
 \begin{rail}
-  Pattern: (() | 'dpo' | 'induced' | 'exact') 'pattern' lbrace (()+PatternStatement) rbrace ;
-\end{rail}\ixkeyw{pattern}\ixkeyw{dpo}\ixkeyw{induced}\ixnterm{Pattern}
+  Pattern: (() + ('exact' | 'induced')) 'pattern' lbrace (()+PatternStatement) rbrace ;
+\end{rail}\ixkeyw{pattern}\ixkeyw{induced}\ixnterm{Pattern}
 A \indexed{pattern} consists of zero or more pattern statements. 
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
@@ -399,7 +399,7 @@ See Section~\ref{grsthings} for further information on graph rewrite sequences.
     'negative' lbrace (()+PatternStatement) rbrace |
     'if' lbrace (BooleanExpr ';' +) rbrace |
     'return' '(' (Ident+',') ')' ';' |
-    ('dpo' | 'induced' | 'exact') '(' (Ident+',') ')';
+    ('exact' | 'induced') '(' (Ident+',') ')';
 \end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{negative}\ixkeyw{if}\ixkeyw{return}\ixnterm{PatternStatement}
 The semantics of the various pattern statements are given below:
 \begin{description}
@@ -433,13 +433,9 @@ pattern {
   \end{example}
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Return values] \indexmain{return value}The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See Section~\ref{replacepart}, \emph{Return Values}.
-  \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain an edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{dpo}, \texttt{induced}, and \texttt{exact} modifier. 
+  \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
 \end{description}
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
-
-\subsection{Pattern Modifier}\indexmain{Modifier} 
-\label{sct:patternmodifier}
-\TODO{Explain dpo, induced, and exact}
 
 \section{Replace/Modify Part}\indexmain{replacement graph}
 \label{replacepart}
@@ -612,4 +608,87 @@ modify {
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
 
+\section{Rule and Pattern Modifiers}\indexmain{Modifier} 
+\label{sct:patternmodifier}
+By default \GrG\ performs rewriting according to \indexmain{SPO} semantics as explained in section \ref{rule:morphismr}.
+This behaviour can be changed with \newterm{rule / pattern modifiers}.
+Such modifiers add certain conditions to the applicability of a pattern.
+The idea is to match only parts of the host graph that look more or less exactly like the pattern.
+The level of ``exactness'' depends on the choosen modifier.
+A modifier in front of the \texttt{pattern}-keyword is equivalent to one modifier-statement inside the pattern containing all the specified nodes (including anonymous nodes).
+Table \ref{tbl:rules:modifiers} lists the modifiers with their semantics.
+Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
+\begin{note}
+    Internally all the modifier-annotated rules are resolved into equivalent rules in standard SPO semantics.
+    The semantics of the modifiers is mostly implemented by NACs.
+    In particular you might want to use such modifiers in order to avoid writing a bunch of NACs yourself.
+    The number of internally created NACs is bounded by $\mathcal{O}(n^2)$, where $n$ is the number of specified nodes.
+\end{note} 
+\begin{table}[htbp]
+    \begin{tabularx}{\linewidth}{l|X}
+        \bf Modifier & \bf Meaning \\\hline
+        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, iff all its incident edges in the host graph are specified in the pattern. This modifier superseeds all the other modifiers.\\
+        \texttt{induced} & Switches to the induced-mode, where nodes contained in the same induced statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
+        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. Accordingly nodes going to be deleted due to the rewrite part have to be specified exactly (\texttt{exact} semantics) in order to be matched. Furthermore if you specify two pattern nodes to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern nodes will never actually be matched to the same host graph node. In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
+    \end{tabularx}    
+    \caption{Semantics of rule and pattern modifiers}
+    \label{tbl:rules:modifiers}
+\end{table}
 
+\begin{figure}[htbp]
+\begin{example}
+    \label{ex:rules:modifiers}
+    \begin{center}
+        \begin{tabularx}{\linewidth}{llX}
+            \bf Host Graph & \bf Pattern/Rule & \bf Effect \\\hline 
+            & & \\
+            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
+                \tikzstyle{every node}=[circle]
+                \node[draw] (n1) at (0,0) {};
+                \node[draw] (n2) at (2,0) {};
+    	
+                \draw[-latex] (n1) .. controls +(+1,+0.5) .. (n2) {};
+                \draw[-latex] (n1) .. controls +(+1,-0.5) .. (n2) {};
+            \end{tikzpicture}\end{tabular} & 
+                \begin{tabular}[c]{@{}l}\texttt{\{ .\ --> .; \}}\end{tabular} & 
+                Produces no match for \texttt{exact} nor \texttt{induced}\\
+            & & \\
+            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
+                \tikzstyle{every node}=[circle]
+                \node[draw] (n1) at (0,0) {};
+                \node[draw] (n2) at (2,0) {};
+                \node[draw] (n3) at (1,-1) {};
+    	
+                \draw[-latex] (n1) -- (n2) {};
+                \draw[-latex] (n1) -- (n3) {};
+                \draw[-latex] (n3) -- (n2) {};
+            \end{tikzpicture}\end{tabular} & 
+                \begin{tabular}[c]{@{}l}\texttt{\{ x:node --> y:node; \}}\end{tabular} & 
+                Produces three matches for \texttt{induced(x,y)} but no match for \texttt{exact(x,y)}\\
+            & & \\
+            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
+                \tikzstyle{every node}=[circle]
+                \node[draw] (n1) at (0,0) {};
+    	
+                \draw[-latex] (n1) .. controls +(+1,+0.5) and +(0,-1) .. (n1) {};
+            \end{tikzpicture}\end{tabular} & 
+                \begin{tabular}[c]{@{}l}\texttt{\{ x:node; induced(x); \}}\end{tabular} & 
+                Produces no match\\    
+            & & \\
+            \begin{tabular}[c]{@{}l}\begin{tikzpicture}
+                \tikzstyle{every node}=[circle]
+                \node[draw] (n1) at (0,0) {};
+                \node[draw] (n2) at (1,0) {};
+                \node[draw] (n3) at (2,0) {};
+                \node[draw] (n4) at (1,-1) {};
+    	
+                \draw[-latex] (n1) -- (n2) {};
+                \draw[-latex] (n2) -- (n3) {};
+                \draw[-latex] (n2) -- (n4) {};
+            \end{tikzpicture}\end{tabular} & 
+                \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node -->; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} & 
+                Produces no match in DPO-mode because of the lower node\\    
+        \end{tabularx}
+    \end{center}
+\end{example}
+\end{figure}

@@ -145,8 +145,7 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
-A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions.
-\TODO{The ConnectAssertions of an edge type are connected by a disjunction, i.e. at least one of the assertions must be fulfilled. Improve this....}
+A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions. Multiple connection assertions of the same pair of node types are connected by disjunction, i.e. at least one of the assertions---but not necessarily all of them---must be fulfilled. \TODO{Improve this!}
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[$n$:*]} & The number of edges incident to a node of that type is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 
@@ -160,10 +159,10 @@ A \indexed{connection assertion} is denoted as a pair of node types in conjuncti
 \end{table}
 
 \begin{rail}    
-  AttributeDeclarations: (() | IdentDecl ':' AttributeType ';') + ;
+  AttributeDeclarations: (() | IdentDecl ':' AttributeType (() | '=' Expression) ';') + ;
   AttributeType: PrimitiveType | EnumType ; 
 \end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}
-Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See Section~\ref{builtin} for a list of built-in primitive types.
+Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference.
 
 
 
