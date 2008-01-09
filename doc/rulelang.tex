@@ -419,17 +419,18 @@ The semantics of the various pattern statements are given below:
   In general NACs do not care about bindings within the outer scope. 
   Nevertheless, if you use an identifier that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
   \begin{example}
-    We specify a node \texttt{x} with out-degree of exactly 2:
+    We specify a node \texttt{x} which is not connected to a node of type \texttt{BadType}:
     \begin{grgen}
 pattern {
-  <-- x:Node -->;
+  x:Node;
   negative {
-    <-- x -->;
-    x -->;
+    x --> :BadType;
+  }
+  negative {  
+    x <-- :BadType;
   }
 }
     \end{grgen}
-\TODO{What's this fucked up thing? Maybe also a bad example since we have exact...}
   \end{example}
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Return values] \indexmain{return value}The return statement is only allowed for tests. Otherwise the \texttt{return} statement belongs to the replace part. See Section~\ref{replacepart}, \emph{Return Values}.
