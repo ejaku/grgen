@@ -149,7 +149,7 @@ The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
   PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | Constant;
-  Constant: Number | HexNumber | QuotedText | 'true' | 'false';
+  Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
 \end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
 \begin{description}
   \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.

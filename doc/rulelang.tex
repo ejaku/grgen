@@ -641,7 +641,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
     \label{ex:rules:modifiers}
     \begin{center}
         \begin{tabularx}{\linewidth}{llX}
-            \bf Host Graph & \bf Pattern/Rule & \bf Effect \\\hline 
+            \bf Host Graph & \bf Pattern / Rule & \bf Effect \\\hline 
             & & \\
             \begin{tabular}[c]{@{}l}\begin{tikzpicture}
                 \tikzstyle{every node}=[circle]
@@ -685,10 +685,10 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
     	
                 \draw[-latex] (n1) -- (n2) {};
                 \draw[-latex] (n2) -- (n3) {};
-                \draw[-latex] (n2) -- (n4) {};
+                \draw[-latex] (n2) -- (n4) node[midway,right] {$e$};
             \end{tikzpicture}\end{tabular} & 
                 \begin{tabular}[c]{@{}l}\texttt{pattern\{ --> x:node -->; \}}\\\texttt{modify\{ delete(x); \}}\end{tabular} & 
-                Produces no match in DPO-mode because of the lower node\\    
+                Produces no match in DPO-mode because of edge \texttt{e}\\    
         \end{tabularx}
     \end{center}
 \end{example}
