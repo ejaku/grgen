@@ -282,17 +282,14 @@ public class PatternGraphNode extends GraphNode {
 
 		for (BaseNode n : getHoms()) {
 			HomNode hom = (HomNode) n;
-			if (isDPO()) {
-				splitAndAddHoms(hom.getChildren(), gr);
-			} else {
-				HashSet<GraphEntity> hom_set = new HashSet<GraphEntity>();
-
-				for (BaseNode m : hom.getChildren()) {
-					DeclNode decl = (DeclNode) m;
-					hom_set.add((GraphEntity) decl.checkIR(GraphEntity.class));
-				}
-				gr.addHomomorphic(hom_set);
-			}
+			Set<Set<DeclNode>> homSets= splitHoms(hom.getChildren());
+			for (Set<DeclNode> homSet : homSets) {
+	            HashSet<GraphEntity> homSetIR = new HashSet<GraphEntity>();
+	    		for (DeclNode decl : homSet) {
+	    			homSetIR.add((GraphEntity) decl.checkIR(GraphEntity.class));
+	    		}
+	            gr.addHomomorphic(homSetIR);
+            }
 		}
 
 		return gr;
@@ -302,33 +299,48 @@ public class PatternGraphNode extends GraphNode {
 	 * Split one hom statement into two parts, so deleted and reuse nodes/edges
 	 * can't be matched homomorphically.
 	 * This behavior is required for DPO-semantic.
+	 * If the rule is not DPO only one homomorphic set is returned. 
 	 *
 	 * @param homChildren Children of a HomNode
-	 * @param gr Graph
 	 */
-	private void splitAndAddHoms(Collection<BaseNode> homChildren, PatternGraph gr) {
-		assert(isDPO());
-		// homs between deleted entities
-		HashSet<GraphEntity> deleteHoms = new HashSet<GraphEntity>();
-		// homs between reused entities
-		HashSet<GraphEntity> reuseHoms = new HashSet<GraphEntity>();
-		Set<DeclNode> deletedEntities = getRule().getDelete();
-
+	private Set<Set<DeclNode>> splitHoms(Collection<BaseNode> homChildren) {
+		Set<Set<DeclNode>> ret = new LinkedHashSet<Set<DeclNode>>();
+		if (isDPO()) {
+    		// homs between deleted entities
+    		HashSet<DeclNode> deleteHoms = new HashSet<DeclNode>();
+    		// homs between reused entities
+    		HashSet<DeclNode> reuseHoms = new HashSet<DeclNode>();
+    		
+    		for (BaseNode m : homChildren) {
+    			DeclNode decl = (DeclNode) m;
+    
+    			Set<DeclNode> deletedEntities = getRule().getDelete();
+    			if (deletedEntities.contains(decl)) {
+    				deleteHoms.add(decl);
+    			} else {
+    				reuseHoms.add(decl);
+    			}
+    		}
+    		if (deleteHoms.size() > 1) {
+    			ret.add(deleteHoms);
+    		}
+    		if (reuseHoms.size() > 1) {
+    			ret.add(reuseHoms);
+    		}
+    		return ret;
+		}
+		
+		HashSet<DeclNode> homs = new HashSet<DeclNode>();
+		
 		for (BaseNode m : homChildren) {
 			DeclNode decl = (DeclNode) m;
-			if (deletedEntities.contains(decl)) {
-				deleteHoms.add((GraphEntity) decl.checkIR(GraphEntity.class));
-			} else {
-				reuseHoms.add((GraphEntity) decl.checkIR(GraphEntity.class));
-			}
-		}
 
-		if (deleteHoms.size() > 1) {
-			gr.addHomomorphic(deleteHoms);
+			homs.add(decl);
 		}
-		if (reuseHoms.size() > 1) {
-			gr.addHomomorphic(reuseHoms);
+		if (homs.size() > 1) {
+			ret.add(homs);
 		}
+		return ret;
     }
 
 	public final boolean isInduced() {
@@ -683,8 +695,13 @@ public class PatternGraphNode extends GraphNode {
 		Set<NodeCharacter> ret = new LinkedHashSet<NodeCharacter>();
 		for (BaseNode homNode: homs.getChildren()) {
 	        if (homNode.getChildren().contains(node)) {
-	        	for (BaseNode n : homNode.getChildren()) {
-	                ret.add((NodeCharacter)n);
+	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
+	        	for (Set<DeclNode> homSet : homSets) {
+		        	if (homSet.contains(node)) {
+    	        		for (DeclNode n : homSet) {
+    		                ret.add((NodeCharacter)n);
+    	                }
+	        		}
                 }
 	        	nodeHomMap.put(node, ret);
 	        	return ret;
@@ -705,8 +722,13 @@ public class PatternGraphNode extends GraphNode {
 	    Set<EdgeCharacter> ret = new LinkedHashSet<EdgeCharacter>();
 		for (BaseNode homNode: homs.getChildren()) {
 	        if (homNode.getChildren().contains(edge)) {
-	        	for (BaseNode n : homNode.getChildren()) {
-	                ret.add((EdgeCharacter)n);
+	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
+	        	for (Set<DeclNode> homSet : homSets) {
+		        	if (homSet.contains(edge)) {
+    	        		for (DeclNode n : homSet) {
+    		                ret.add((EdgeCharacter)n);
+    	                }
+		        	}
                 }
 	        	edgeHomMap.put(edge, ret);
 	        	return ret;
