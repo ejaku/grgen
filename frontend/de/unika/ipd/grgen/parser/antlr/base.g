@@ -150,19 +150,19 @@ options {
 	}
 }
 
-pushScope! [IdentNode name] options { defaultErrorHandler = false; }
+pushScope [IdentNode name] options { defaultErrorHandler = false; }
 	{ env.pushScope(name); }
 
 	:
 	;
 
-pushScopeStr! [String str, Coords coords] options { defaultErrorHandler = false; }
+pushScopeStr [String str, Coords coords] options { defaultErrorHandler = false; }
 	{ env.pushScope(new IdentNode(new Symbol.Definition(env.getCurrScope(), coords, new Symbol(str, SymbolTable.getInvalid())))); }
 
 	:
 	;
 
-popScope! options { defaultErrorHandler = false; }
+popScope options { defaultErrorHandler = false; }
 	{ env.popScope(); }
 
 	:

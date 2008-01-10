@@ -171,13 +171,13 @@ testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 			}
 		}
 	
-		id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+		id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE
 		pattern=patternPart[getCoords(t), negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
 				res = id;
 			}
-		RBRACE! popScope!
+		RBRACE popScope
 	;
 
 ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
@@ -191,7 +191,7 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode dels = new CollectNode();
 	}
 
-	: r:RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE!
+	: r:RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), negs, mod]
 		( right=replacePart[eval]
 			{
@@ -204,7 +204,7 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 				res = id;
 			}
 		)
-		RBRACE! popScope!
+		RBRACE popScope
 	;
 
 parameters returns [ CollectNode res = new CollectNode() ]
@@ -239,23 +239,23 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	;
 
 patternPart [ Coords pattern_coords, CollectNode negs, int mod ] returns [ PatternGraphNode res = null ]
-	: p:PATTERN LBRACE!
+	: p:PATTERN LBRACE
 		res=patternBody[getCoords(p), negs, mod]
-		RBRACE!
+		RBRACE
 			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
 	| res=patternBody[pattern_coords, negs, mod]
 	;
 
 replacePart [ CollectNode eval ] returns [ GraphNode res = null ]
-	: r:REPLACE LBRACE!
+	: r:REPLACE LBRACE
 		res=replaceBody[getCoords(r), eval]
-		RBRACE!
+		RBRACE
 	;
 
 modifyPart [ CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]
-	: r:MODIFY LBRACE!
+	: r:MODIFY LBRACE
 		res=modifyBody[getCoords(r), eval, dels]
-		RBRACE!
+		RBRACE
 	;
 
 evalPart [ CollectNode n ]
@@ -302,13 +302,13 @@ patternStmt [ CollectNode conn, CollectNode cond,
 
 	: patConnections[conn] SEMI
 		// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
-	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE!
+	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE
 		neg=patternBody[getCoords(p), negsInNegs, mod]
 			{
 				newNegCount = negCount + 1;
 				negs.addChild(neg);
 			}
-		RBRACE! popScope!
+		RBRACE popScope
 			{
 				if(negsInNegs.getChildren().size() != 0) {
 					reportError(getCoords(p), "Nesting of negative parts not allowed");

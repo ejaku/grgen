@@ -124,7 +124,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	:	EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=edgeExtends[id] cas=connectAssertions pushScope[id]
 		(
-			LBRACE! body=edgeClassBody RBRACE!
+			LBRACE body=edgeClassBody RBRACE
 		|	SEMI
 			{ body = new CollectNode(); }
 		)
@@ -133,10 +133,10 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
 		}
-		popScope!
+		popScope
   ;
 
-nodeClassDecl![int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
+nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
 		CollectNode body = null, ext;
@@ -146,7 +146,7 @@ nodeClassDecl![int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	: 	NODE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
 	  	ext=nodeExtends[id] pushScope[id]
 		(
-			LBRACE! body=nodeClassBody RBRACE!
+			LBRACE body=nodeClassBody RBRACE
 		|	SEMI
 			{ body = new CollectNode(); }
 		)
@@ -155,7 +155,7 @@ nodeClassDecl![int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 			id.setDecl(new TypeDeclNode(id, nt));
 			res = id;
 		}
-		popScope!
+		popScope
 	;
 
 validIdent returns [ String id = "" ]
@@ -208,7 +208,7 @@ edgeExtendsCont [ IdentNode clsId, CollectNode c ]
 			else
 				reportError(e.getCoords(), "A class must not extend itself");
 		}
-	(COMMA! e=typeIdentUse
+	(COMMA e=typeIdentUse
 		{
 			if ( ! ((IdentNode)e).toString().equals(clsId.toString()) )
 				c.addChild(e);
@@ -234,7 +234,7 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 			else
 				reportError(n.getCoords(), "A class must not extend itself");
 		}
-	(COMMA! n=typeIdentUse
+	(COMMA n=typeIdentUse
 		{
 			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
 				c.addChild(n);
@@ -256,7 +256,7 @@ nodeClassBody returns [ CollectNode c = new CollectNode() ]
 				)?
 			|
 				b=initExpr { c.addChild(b); }
-			) SEMI!
+			) SEMI
 		)*
 	;
 
@@ -271,7 +271,7 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 				)?
 			|
 				b=initExpr { c.addChild(b); }
-			) SEMI!
+			) SEMI
 		)*
 	;
 
@@ -353,7 +353,7 @@ basicDecl returns [ MemberDeclNode res = null ]
 		MemberDeclNode decl;
 	}
 
-	: id=entIdentDecl COLON! type=typeIdentUse
+	: id=entIdentDecl COLON type=typeIdentUse
 		{
 			decl = new MemberDeclNode(id, type);
 			id.setDecl(decl);
