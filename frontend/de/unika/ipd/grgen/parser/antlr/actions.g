@@ -53,7 +53,7 @@ header {
 class GRActionsParser extends GRBaseParser;
 
 options {
-	k=3;
+	k=2;
 	codeGenMakeSwitchThreshold = 2;
 	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;
@@ -232,10 +232,9 @@ param returns [ BaseNode res = env.initNode() ]
 returnTypes returns [ CollectNode res = new CollectNode() ]
 	{ BaseNode type; }
 
-	: COLON LPAREN type=typeIdentUse { res.addChild(type); }
-		( COMMA type=typeIdentUse { res.addChild(type); } )*
+	: COLON LPAREN
+		( type=typeIdentUse { res.addChild(type); } ( COMMA type=typeIdentUse { res.addChild(type); } )* )?
 		RPAREN
-	| COLON LPAREN RPAREN
 	|
 	;
 
@@ -326,70 +325,78 @@ patternStmt [ CollectNode conn, CollectNode cond,
 	;
 
 patConnections [ CollectNode conn ]
-	{
-		BaseNode n,e;
-		boolean forward = true;
-		NodeDeclNode dummyNode = env.getDummyNodeDecl();
-	}
-	:   ( e=patForwardEdgeOcc { forward=true; }
-		| e=patBackwardEdgeOcc { forward=false; }
-		)
-		( n=patNodeContinuation[conn]
-			{
-				/* the edge declared by <code>e</code> dangles on the left */
-				if (forward) {
-					conn.addChild(new ConnectionNode(dummyNode, e, n));
-				} else {
-					conn.addChild(new ConnectionNode(n, e, dummyNode));
-				}
-			}
-		|   /* both target and source of the edge <code>e</code> dangle */
-			{ conn.addChild(new ConnectionNode(dummyNode, e, dummyNode)); }
-		)
-	| n=patNodeOcc
-		( patEdgeContinuation[n, conn]
-		|   { conn.addChild(new SingleNodeConnNode(n)); }
-		)
+	: firstEdge[conn] // connection starts with an edge which dangles on the left
+	| firstNode[conn] // connection starts with a node
 	;
 
-patNodeContinuation [ CollectNode collect ] returns [ BaseNode res = env.initNode() ]
-	: res=patNodeOcc ( patEdgeContinuation[res, collect] )?
-	;
-
-patEdgeContinuation [ BaseNode left, CollectNode collect ]
+firstEdge [ CollectNode conn ]
 	{
-		BaseNode n,e;
+		BaseNode e;
 		boolean forward = true;
 	}
-	:   ( e=patForwardEdgeOcc { forward=true; }
+	
+	:   ( e=patForwardEdgeOcc { forward=true; } // get first edge
 		| e=patBackwardEdgeOcc { forward=false; }
 		)
-		( n=patNodeContinuation[collect]
-			{
-				if (forward) {
-					collect.addChild(new ConnectionNode(left, e, n));
-				} else {
-					collect.addChild(new ConnectionNode(n, e, left));
-				}
+			patNodeContinuation[e, env.getDummyNodeDecl(), forward, conn] // and continue looking for node
+	;
+	
+firstNode [ CollectNode conn ]
+	{ BaseNode n; }
+	
+	: n=patNodeOcc // get first node
+		firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+	;
+	
+patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
+	{ BaseNode n2 = env.getDummyNodeDecl(); }
+	
+	: n2=patNodeOcc // node following - get it and build connection with it, then continue with looking for follwing edge 
+		{
+			if (forward) {
+				conn.addChild(new ConnectionNode(n1, e, n2));
+			} else {
+				conn.addChild(new ConnectionNode(n2, e, n1));
 			}
-		|   /* the edge declared by <code>res</code> dangles on the right */
-			{
-				NodeDeclNode dummyNode = env.getDummyNodeDecl();
-				if (forward) {
-					collect.addChild(new ConnectionNode(left, e, dummyNode));
-				} else {
-					collect.addChild(new ConnectionNode(dummyNode, e, left));
-				}
+		}
+		patEdgeContinuation[n2, conn]
+	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
+		{
+			if (forward) {
+				conn.addChild(new ConnectionNode(n1, e, n2));
+			} else {
+				conn.addChild(new ConnectionNode(n2, e, n1));
 			}
+		}
+	;
+
+firstPatEdgeContinuation [ BaseNode n, CollectNode conn ]
+	{
+		BaseNode e;
+		boolean forward = true;
+	}
+	
+	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> single node
+	|   ( e=patForwardEdgeOcc { forward=true; }
+		| e=patBackwardEdgeOcc { forward=false; }
 		)
+			patNodeContinuation[e, n, forward, conn] // continue looking for node
+	;
+	
+patEdgeContinuation [ BaseNode left, CollectNode conn ]
+	{
+		BaseNode e;
+		boolean forward = true;
+	}
+	
+	:   // nothing following? -> that's it   
+	|   ( e=patForwardEdgeOcc { forward=true; }
+		| e=patBackwardEdgeOcc { forward=false; }
+		)
+			patNodeContinuation[e, left, forward, conn] // continue looking for node
 	;
 
 patNodeOcc returns [ BaseNode res = env.initNode() ]
-	: res=patAnonNodeOcc
-	| res=patKnownNodeOcc
-	;
-
-patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
@@ -398,32 +405,33 @@ patAnonNodeOcc returns [ BaseNode res = env.initNode() ]
 		boolean hasAttrs = false;
 	}
 
-	:   ( d:DOT
-			{
-				id = env.defineAnonymousEntity("node", getCoords(d));
-				res = new NodeDeclNode(id, type, constr);
-			}
-			( attrs=attributes { id.setAttributes(attrs); } )?
-		|   ( attrs=attributes { hasAttrs = true; } )?
-			c:COLON
-				( type=typeIdentUse ( constr=typeConstraint )?
-				| TYPEOF LPAREN type=entIdentUse RPAREN
-				)
-					{
-						id = env.defineAnonymousEntity("node", getCoords(c));
-						if (hasAttrs) {
-							id.setAttributes(attrs);
-						}
-						res = new NodeDeclNode(id, type, constr);
+	: d:DOT // anonymous of type node
+		{
+			id = env.defineAnonymousEntity("node", getCoords(d));
+			res = new NodeDeclNode(id, type, constr);
+		}
+		( attrs=attributes { id.setAttributes(attrs); } )?
+	| res = entIdentUse // use of already declared node
+	| ( attrs=attributes { hasAttrs = true; } )?
+		c:COLON // use of anonymous node with following type
+			( type=typeIdentUse ( constr=typeConstraint )?
+			| TYPEOF LPAREN type=entIdentUse RPAREN
+			)
+				{
+					id = env.defineAnonymousEntity("node", getCoords(c));
+					if (hasAttrs) {
+						id.setAttributes(attrs);
 					}
+					res = new NodeDeclNode(id, type, constr);
+				}
+	| id=entIdentDecl COLON // node declaration
+		( type=typeIdentUse
+		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
+		( constr=typeConstraint )?
+			{ res = new NodeDeclNode(id, type, constr); }
 	;
-
-patKnownNodeOcc returns [ BaseNode res = env.initNode() ]
-	: res = entIdentUse
-	| res = patNodeDecl
-	;
-
+	
 patNodeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
@@ -444,8 +452,7 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 		TypeExprNode constr = TypeExprNode.getEmpty();
 	}
 
-	: MINUS res=patEdgeDecl RARROW
-	| MINUS res=entIdentUse RARROW
+	: MINUS ( res=patEdgeDecl | res=entIdentUse) RARROW
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
@@ -459,8 +466,7 @@ patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 		TypeExprNode constr = TypeExprNode.getEmpty();
 	}
 
-	: LARROW res=patEdgeDecl MINUS
-	| LARROW res=entIdentUse MINUS
+	: LARROW ( res=patEdgeDecl | res=entIdentUse ) MINUS
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
@@ -712,8 +718,7 @@ replNodeDecl returns [ BaseNode res = env.initNode() ]
 replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
 
-	: MINUS res=entIdentUse RARROW { res.setKept(true); }
-	| MINUS res=replEdgeDecl RARROW
+	: MINUS ( res=entIdentUse { res.setKept(true); } | res=replEdgeDecl ) RARROW 
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
@@ -724,8 +729,7 @@ replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
 
-	: LARROW res=entIdentUse MINUS { res.setKept(true); }
-	| LARROW res=replEdgeDecl MINUS
+	: LARROW ( res=entIdentUse { res.setKept(true); } | res=replEdgeDecl ) MINUS 
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
