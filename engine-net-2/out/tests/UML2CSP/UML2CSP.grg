@@ -1,7 +1,7 @@
 using UMLModel, CSPModel, HelperModel, GrIO;
 
-#include "ExampleGraph.gri";
-#include "CSPOutput.gri";
+#include "ExampleGraph.gri"
+#include "CSPOutput.gri"
 
 /////////////////////////////////////
 // UML to CSP transformation rules //

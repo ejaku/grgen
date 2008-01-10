@@ -236,7 +236,7 @@ STRING_LITERAL
 	;
 
 INCLUDE
-  : "#include" WS s:STRING_LITERAL ';' {
+  : "#include" WS s:STRING_LITERAL {
   	$setType(Token.SKIP);
 	String file = s.getText();
 	file = file.substring(1,file.length()-1);
