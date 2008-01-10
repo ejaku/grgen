@@ -50,7 +50,7 @@ class GRLexer extends Lexer;
 options {
 	charVocabulary = '\u0000'..'\u00FF';
 	testLiterals=false;    // don't automatically test for literals
-	k=8;                   // four characters of lookahead
+	k=3;
 	codeGenBitsetTestThreshold=20;
 	exportVocab = GRBase;
 }
@@ -236,7 +236,7 @@ STRING_LITERAL
 	;
 
 INCLUDE
-  : "include" WS s:STRING_LITERAL ';' {
+  : "#include" WS s:STRING_LITERAL ';' {
   	$setType(Token.SKIP);
 	String file = s.getText();
 	file = file.substring(1,file.length()-1);
