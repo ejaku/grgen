@@ -330,8 +330,9 @@ namespace de.unika.ipd.grGen.lgsp
             else return "\\" + Convert.ToString(ch, 8);
         }
 
-        private void GetNeededFiles(String grgFilename, List<String> neededFiles, Dictionary<String, object> processedFiles)
-        {
+        private void GetNeededFiles(String basePath, String grgFilename, List<String> neededFiles,
+			Dictionary<String, object> processedFiles)
+		{
             if(processedFiles.ContainsKey(grgFilename))
                 throw new Exception("Circular include detected with file \"" + grgFilename + "\"!");
             processedFiles[grgFilename] = null;
@@ -378,10 +379,11 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         if(MatchStringOrIgnoreOther(charStream, "include"))
                         {
-                            String includedGRG = ReadQuotedString(charStream);
-                            MatchCharOrThrow(charStream, ';');
-                            neededFiles.Add(includedGRG);
-                            GetNeededFiles(includedGRG, neededFiles, processedFiles);
+							String includedGRG = ReadQuotedString(charStream);
+							MatchCharOrThrow(charStream, ';');
+							includedGRG = basePath + FixDirectorySeparators(includedGRG);
+							neededFiles.Add(includedGRG);
+							GetNeededFiles(basePath, includedGRG, neededFiles, processedFiles);
                         }
                     }
                 }
@@ -406,16 +408,21 @@ namespace de.unika.ipd.grGen.lgsp
             return path;
         }
 
-        private String GetDir(String path)
-        {
-            path = FixDirectorySeparators(path);
+		/// <summary>
+		/// Retrieves the directory path from a given file path.
+		/// Any slashes or backslashes are converted to the correct directory
+		/// separator chars for the current platform.
+		/// </summary>
+		/// <param name="path">A path to a file.</param>
+		/// <returns>A path to the directory containing the file.</returns>
+		private String GetDir(String path)
+		{
+			path = FixDirectorySeparators(path);
 
-            int index = path.LastIndexOf(Path.DirectorySeparatorChar);
-            if(index == -1)
-                return "";
-            else
-                return path.Substring(0, index + 1);
-        }
+			int index = path.LastIndexOf(Path.DirectorySeparatorChar);
+			if(index == -1) return "";
+			else return path.Substring(0, index + 1);
+		}
 
         /// <summary>
         /// Constructs the actions name out of the rule specification file name
@@ -428,18 +435,6 @@ namespace de.unika.ipd.grGen.lgsp
             index = actionsname.IndexOf('.');
             if(index != -1) actionsname = actionsname.Substring(0, index);
             return actionsname;
-        }
-
-        /// <summary>
-        /// Retrieves the directory path from a given file path.
-        /// </summary>
-        /// <param name="path">A path to a file.</param>
-        /// <returns>A path to the directory containing the file.</returns>
-        private String GetDirName(String path)
-        {
-            int index = path.LastIndexOfAny(dirSepChars);
-            if(index == -1) return "";
-            else return path.Substring(0, index + 1);
         }
 
         private bool MustGenerate(String grgFilename, String actionsFilename, String modelFilename)
@@ -465,27 +460,18 @@ namespace de.unika.ipd.grGen.lgsp
             if(grgTime > newestOutputTime)
                 return true;
 
-            String specPath = GetDirName(grgFilename);
-
             // Check used file dates
             List<String> neededFilenames = new List<String>();
             Dictionary<String, object> processedFiles = new Dictionary<String,object>();
-            GetNeededFiles(grgFilename, neededFilenames, processedFiles);
+			GetNeededFiles(GetDir(grgFilename), grgFilename, neededFilenames, processedFiles);
 
-            foreach(String neededFilename in neededFilenames)
-            {
-                String neededSpecname = specPath + neededFilename;
-                if(!File.Exists(neededSpecname))
-                {
-                    throw new FileNotFoundException("The specification file \"" + neededSpecname + "\" referenced by \""
-                        + grgFilename + "\" does not exist!");
-                }
-
-                // Specification file newer than libraries?
-                DateTime gmTime = File.GetLastWriteTime(neededSpecname);
-                if(gmTime > newestOutputTime)
-                    return true;
-            }
+			foreach(String neededFilename in neededFilenames)
+			{
+				// Specification file newer than libraries?
+				DateTime gmTime = File.GetLastWriteTime(neededFilename);
+				if(gmTime > newestOutputTime)
+					return true;
+			}
 
             // Libraries are up to date!
             return false;

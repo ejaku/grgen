@@ -1291,17 +1291,19 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.GetDir(System.String)">
+            <summary>
+            Retrieves the directory path from a given file path.
+            Any slashes or backslashes are converted to the correct directory
+            separator chars for the current platform.
+            </summary>
+            <param name="path">A path to a file.</param>
+            <returns>A path to the directory containing the file.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.GetActionsName(System.String)">
             <summary>
             Constructs the actions name out of the rule specification file name
             </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.GetDirName(System.String)">
-            <summary>
-            Retrieves the directory path from a given file path.
-            </summary>
-            <param name="path">A path to a file.</param>
-            <returns>A path to the directory containing the file.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPBackend.CreateFromSpec(System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPGraph@,de.unika.ipd.grGen.lgsp.LGSPActions@)">
             <summary>
