@@ -61,11 +61,11 @@ public class UnitNode extends DeclNode
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode decls) {
+	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode patterns, CollectNode actions) {
 		super(id, mainType);
 		this.models = models;
 		becomeParent(this.models);
-		this.decls = decls;
+		this.decls = actions;
 		becomeParent(this.decls);
 		this.filename = filename;
 	}

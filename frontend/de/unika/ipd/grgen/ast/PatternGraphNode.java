@@ -111,7 +111,7 @@ public class PatternGraphNode extends GraphNode {
 
 	public PatternGraphNode(Coords coords, CollectNode connections,
 							CollectNode conditions, CollectNode returns, CollectNode homs,
-							CollectNode exact, CollectNode induced,
+							CollectNode exact, CollectNode induced, CollectNode subpatterns,
 							int modifiers) {
 		super(coords, connections, returns);
 		this.conditions = conditions;

@@ -67,8 +67,9 @@ options {
  */
 text returns [ BaseNode main = env.initNode() ]
 	{
-		CollectNode mainChilds = new CollectNode();
 		CollectNode modelChilds = new CollectNode();
+		CollectNode patternChilds = new CollectNode();
+		CollectNode actionChilds = new CollectNode();
 		IdentNode id;
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		id = new IdentNode(
@@ -92,9 +93,9 @@ text returns [ BaseNode main = env.initNode() ]
 	| usingDecl[modelChilds]
 	)?
 
-	( actionDecls[mainChilds] EOF )?
+	( patternAndActionDecls[patternChilds, actionChilds] EOF )?
 		{
-			main = new UnitNode(id, getFilename(), modelChilds, mainChilds);
+			main = new UnitNode(id, getFilename(), modelChilds, patternChilds, actionChilds);
 			env.getCurrScope().leaveScope();
 		}
 	;
@@ -124,18 +125,20 @@ usingDecl [ CollectNode modelChilds ]
 		}
 	;
 
-actionDecls [ CollectNode actionChilds ]
-	{ BaseNode d; }
+patternAndActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
+	{
+		IdentNode d;
+		int mod = 0;
+	}
 
-	: ( d=actionDecl { actionChilds.addChild(d); } )+
+	:   (mod=patternModifiers
+			( d=patternDecl[mod]
+			| d=testDecl[mod]
+			| d=ruleDecl[mod]
+			) { patternChilds.addChild(d); } 
+		)+
 	;
-
-actionDecl returns [ IdentNode res = env.getDummyIdent() ]
-	{ int mod = 0; }
-	: mod=patternModifiers
-		( res=testDecl[mod] | res=ruleDecl[mod] )
-	;
-
+	
 patternModifiers returns [ int res = 0 ]
 	: ( res = patternModifier[ res ] )*
 	;
@@ -207,6 +210,33 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		RBRACE popScope
 	;
 
+patternDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
+	{
+		IdentNode id;
+		PatternGraphNode left;
+		GraphNode right;
+		CollectNode params;
+		CollectNode negs = new CollectNode();
+		CollectNode eval = new CollectNode();
+		CollectNode dels = new CollectNode();
+	}
+	: p:PATTERN id=typeIdentDecl pushScope[id] params=parameters LBRACE
+		left=patternPart[getCoords(p), negs, mod]
+		( right=replacePart[eval]
+			{
+				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, null));
+				res = id;
+			}
+		| right=modifyPart[eval,dels]
+			{
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, null, dels));
+				res = id;
+			}
+		)
+		RBRACE popScope
+			{ reportWarning(getCoords(p), "pattern declarations not yet supported"); }
+	;
+	
 parameters returns [ CollectNode res = new CollectNode() ]
 	: LPAREN (paramList[res])? RPAREN
 	|
@@ -219,14 +249,8 @@ paramList [ CollectNode params ]
 	;
 
 param returns [ BaseNode res = env.initNode() ]
-//	{
-//		IdentNode id;
-//		BaseNode type;
-//	}
 	: MINUS res=patEdgeDecl RARROW
 	| res=patNodeDecl
-//	: id=entIdentDecl COLON type=typeIdentUse
-//	  { res = new ParamDeclNode(id, type); }
 	;
 
 returnTypes returns [ CollectNode res = new CollectNode() ]
@@ -278,15 +302,16 @@ patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphN
 		CollectNode homs = new CollectNode();
 		CollectNode exact = new CollectNode();
 		CollectNode induced = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, exact, induced, mod);
+		CollectNode subpatterns = new CollectNode();
+		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, exact, induced, subpatterns, mod);
 		int negCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, exact, induced] )*
+	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, exact, induced, subpatterns] )*
 	;
 
 patternStmt [ CollectNode conn, CollectNode cond,
-	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced ]
+	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced, CollectNode subpatterns ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
@@ -300,7 +325,7 @@ patternStmt [ CollectNode conn, CollectNode cond,
 		newNegCount = negCount;
 	}
 
-	: patConnections[conn] SEMI
+	: patConnectionsOrSubpattern[conn, subpatterns] SEMI
 		// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE
 		neg=patternBody[getCoords(p), negsInNegs, mod]
@@ -324,9 +349,9 @@ patternStmt [ CollectNode conn, CollectNode cond,
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-patConnections [ CollectNode conn ]
+patConnectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 	: patFirstEdge[conn] // connection starts with an edge which dangles on the left
-	| patFirstNode[conn] // connection starts with a node
+	| patFirstNodeOrSubpattern[conn, subpatterns] // there's a subpattern or a connection that starts with a node
 	;
 
 patFirstEdge [ CollectNode conn ]
@@ -341,13 +366,62 @@ patFirstEdge [ CollectNode conn ]
 			patNodeContinuation[e, env.getDummyNodeDecl(), forward, conn] // and continue looking for node
 	;
 	
-patFirstNode [ CollectNode conn ]
-	{ BaseNode n; }
-	
-	: n=patNodeOcc // get first node
+patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
+	{
+		IdentNode id = env.getDummyIdent();
+		IdentNode type = env.getNodeRoot();
+		TypeExprNode constr = TypeExprNode.getEmpty();
+		Annotations annots = env.getEmptyAnnotations();
+		boolean hasAnnots = false;
+		CollectNode subpatternConnections = new CollectNode();
+		BaseNode n = null;
+	}
+
+	: id=entIdentUse firstPatEdgeContinuation[id, conn] // use of already declared node, continue looking for first edge
+	| id=entIdentDecl cc:COLON // node or subpattern declaration
+		( // node declaration
+			type=typeIdentUse
+			( constr=typeConstraint )?
+			{ n = new NodeDeclNode(id, type, constr); }
+			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+		| // node typeof declaration
+			TYPEOF LPAREN type=entIdentUse RPAREN
+			( constr=typeConstraint )?
+			{ n = new NodeDeclNode(id, type, constr); }
+			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+		| // subpattern declaration
+			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
+			{ reportWarning(getCoords(cc), "subpatterns not yet supported"); }
+		)
+	| ( annots=annotations { hasAnnots = true; } )?
+		c:COLON // anonymous node or subpattern declaration
+			( // node declaration
+				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+				type=typeIdentUse
+				( constr=typeConstraint )?
+				{ n = new NodeDeclNode(id, type, constr); }
+				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+			| // node typeof declaration
+				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+				TYPEOF LPAREN type=entIdentUse RPAREN
+				( constr=typeConstraint )?
+				{ n = new NodeDeclNode(id, type, constr); }
+				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+			| // subpattern declaration
+				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
+				type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
+				{ reportWarning(getCoords(c), "subpatterns not yet supported"); }
+			)
+			{ if (hasAnnots) { id.setAnnotations(annots); } }
+	| d:DOT // anonymous node declaration of type node
+		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
+		( annots=annotations { id.setAnnotations(annots); } )?
+		{ n = new NodeDeclNode(id, type, constr); }
 		firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 	;
-	
+
 patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
 	{ BaseNode n2 = env.getDummyNodeDecl(); }
 	
