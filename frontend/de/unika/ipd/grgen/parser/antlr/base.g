@@ -43,7 +43,7 @@ header {
  */
 class GRBaseParser extends Parser;
 options {
-	k=3;
+	k=2;
 	codeGenMakeSwitchThreshold = 2;
 	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;
@@ -192,43 +192,41 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.ACTIONS]
 	;
 
-attributes returns [ DefaultAttributes attrs = new DefaultAttributes() ]
-	: LBRACK keyValuePairs[attrs] RBRACK
+annotations returns [ DefaultAnnotations annots = new DefaultAnnotations() ]
+	: LBRACK keyValuePairs[annots] RBRACK
 	;
 
-attributesWithCoords
+annotationsWithCoords
 	returns [
-		Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> res =
-			new Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords>(
-				new DefaultAttributes(), Coords.getInvalid()
+		Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords> res =
+			new Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords>(
+				new DefaultAnnotations(), Coords.getInvalid()
 			)
 	]
 	: l:LBRACK keyValuePairs[res.first] RBRACK
 		{ res.second = getCoords(l); }
 	;
 
-keyValuePairs [ DefaultAttributes attrs ]
-	: keyValuePair[attrs] (COMMA keyValuePair[attrs])*
+keyValuePairs [ DefaultAnnotations annots ]
+	: keyValuePair[annots] (COMMA keyValuePair[annots])*
 	;
 
-keyValuePair [ DefaultAttributes attrs ]
+keyValuePair [ DefaultAnnotations annots ]
 	{ BaseNode c; }
 
 	: id:IDENT ASSIGN c=constant
-		{ attrs.put(id.getText(), ((ConstNode) c).getValue()); }
+		{ annots.put(id.getText(), ((ConstNode) c).getValue()); }
 	;
 
 /**
  * declaration of an identifier
  */
 identDecl [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
-	{ Attributes attrs; }
+	{ Annotations annots; }
 
 	: i:IDENT
 		{ res = new IdentNode(env.define(symTab, i.getText(), getCoords(i))); }
-	( (attributes) => attrs=attributes
-		{ res.setAttributes(attrs); }
-	)?
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 /**

@@ -50,7 +50,7 @@ import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.PrimitiveType;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotations;
 
 public class MoreInformationCollector extends InformationCollector {
 	
@@ -738,7 +738,7 @@ public class MoreInformationCollector extends InformationCollector {
 					
 					//get the nodes priority
 					int prio = 0;
-					Attributes a = node.getAttributes();
+					Annotations a = node.getAnnotations();
 					if (a != null)
 						if (a.containsKey("prio") && a.isInteger("prio"))
 							prio = ((Integer) a.get("prio")).intValue();

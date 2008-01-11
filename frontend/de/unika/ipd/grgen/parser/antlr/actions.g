@@ -401,20 +401,20 @@ patNodeOcc returns [ BaseNode res = env.initNode() ]
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
-		Attributes attrs = env.getEmptyAttributes();
-		boolean hasAttrs = false;
+		Annotations annots = env.getEmptyAnnotations();
+		boolean hasAnnots = false;
 	}
 
 	: res=entIdentUse // use of already declared node
 	| id=entIdentDecl COLON res=patNodeTypeContinuation[id] // node declaration
-	| ( attrs=attributes { hasAttrs = true; } )?
+	| ( annots=annotations { hasAnnots = true; } )?
 		c:COLON // anonymous node declaration
 			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-			{ if (hasAttrs) { id.setAttributes(attrs); } }
+			{ if (hasAnnots) { id.setAnnotations(annots); } }
 			res=patNodeTypeContinuation[id]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
-		( attrs=attributes { id.setAttributes(attrs); } )?
+		( annots=annotations { id.setAnnotations(annots); } )?
 		{ res = new NodeDeclNode(id, type, constr); }
 	;
 
@@ -475,20 +475,20 @@ patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 patEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
-		Attributes attrs = env.getEmptyAttributes();
-		Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> atCo;
+		Annotations annots = env.getEmptyAnnotations();
+		Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords> atCo;
 	}
 
-	:   ( id=entIdentDecl ( attrs=attributes { id.setAttributes(attrs); } )? COLON
+	:   ( id=entIdentDecl COLON
 			res=patEdgeTypeContinuation[id]
-		| atCo=attributesWithCoords
+		| atCo=annotationsWithCoords
 			( c:COLON
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
 				res=patEdgeTypeContinuation[id]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
 				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), TypeExprNode.getEmpty()); }
 			)
-				{ id.setAttributes(atCo.first); }
+				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
 			res=patEdgeTypeContinuation[id]
@@ -675,20 +675,20 @@ replNodeOcc returns [ BaseNode res = env.initNode() ]
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
-		Attributes attrs = env.getEmptyAttributes();
-		boolean hasAttrs = false;
+		Annotations annots = env.getEmptyAnnotations();
+		boolean hasAnnots = false;
 	}
 
 	: res=entIdentUse // use of already declared node
 	| id=entIdentDecl COLON res=replNodeTypeContinuation[id] // node declaration
-	| ( attrs=attributes { hasAttrs = true; } )?
+	| ( annots=annotations { hasAnnots = true; } )?
 		c:COLON // anonymous node declaration
 			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-			{ if (hasAttrs) { id.setAttributes(attrs); } }
+			{ if (hasAnnots) { id.setAnnotations(annots); } }
 			res=replNodeTypeContinuation[id]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
-		( attrs=attributes { id.setAttributes(attrs); } )?
+		( annots=annotations { id.setAnnotations(annots); } )?
 		{ res = new NodeDeclNode(id, type); }
 	;
 
@@ -755,20 +755,20 @@ replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 replEdgeDecl returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
-		Attributes attrs = env.getEmptyAttributes();
-		Pair<DefaultAttributes, de.unika.ipd.grgen.parser.Coords> atCo;
+		Annotations annots = env.getEmptyAnnotations();
+		Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords> atCo;
 	}
 
-	:   ( id=entIdentDecl ( attrs=attributes { id.setAttributes(attrs); } )? COLON
+	:   ( id=entIdentDecl COLON
 			res=replEdgeTypeContinuation[id]
-		| atCo=attributesWithCoords
+		| atCo=annotationsWithCoords
 			( c:COLON
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
 				res=replEdgeTypeContinuation[id]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
 				{ res = new EdgeDeclNode(id, env.getEdgeRoot()); }
 			)
-				{ id.setAttributes(atCo.first); }
+				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
 			res=replEdgeTypeContinuation[id]

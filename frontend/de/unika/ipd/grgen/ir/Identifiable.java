@@ -23,8 +23,8 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotated;
+import de.unika.ipd.grgen.util.Annotations;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -33,7 +33,7 @@ import java.util.Map;
  * This is a super class for all classes which are associated with
  * an identifier.
  */
-public class Identifiable extends IR implements Attributed, Comparable {
+public class Identifiable extends IR implements Annotated, Comparable {
 	
 	static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
 		public int compare(Identifiable lt, Identifiable rt) {
@@ -96,11 +96,11 @@ public class Identifiable extends IR implements Attributed, Comparable {
 	}
 	
 	/**
-	 * Get the attributes.
-	 * @return The attributes.
+	 * Get the annotations.
+	 * @return The annotations.
 	 */
-	public Attributes getAttributes() {
-		return getIdent().getAttributes();
+	public Annotations getAnnotations() {
+		return getIdent().getAnnotations();
 	}
 	
 }

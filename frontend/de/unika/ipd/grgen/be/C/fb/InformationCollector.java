@@ -60,7 +60,7 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotations;
 
 public class InformationCollector extends CBackend {
 	
@@ -550,7 +550,7 @@ public class InformationCollector extends CBackend {
 				
 				//get the nodes priority
 				int prio = 0;
-				Attributes a = node.getAttributes();
+				Annotations a = node.getAnnotations();
 				if (a != null)
 					if (a.containsKey("prio") && a.isInteger("prio"))
 						prio = ((Integer) a.get("prio")).intValue();

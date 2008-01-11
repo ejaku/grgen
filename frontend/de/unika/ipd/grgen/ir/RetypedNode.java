@@ -1,7 +1,7 @@
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.Annotations;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 import de.unika.ipd.grgen.util.Retyped;
 
 public class RetypedNode extends Node implements Retyped {
@@ -9,12 +9,12 @@ public class RetypedNode extends Node implements Retyped {
 	/**  The original entity if this is a retyped entity */
 	protected Node oldNode = null;
 	
-	public RetypedNode(Ident ident, NodeType type, Attributes attr) {
-		super(ident, type, attr);
+	public RetypedNode(Ident ident, NodeType type, Annotations annots) {
+		super(ident, type, annots);
 	}
 
 	public RetypedNode(Ident ident, NodeType type, Node old) {
-		this(ident, type, EmptyAttributes.get());
+		this(ident, type, EmptyAnnotations.get());
 		this.oldNode = old;
 	}
 

@@ -66,8 +66,8 @@ import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotated;
+import de.unika.ipd.grgen.util.Annotations;
 
 
 /**
@@ -127,8 +127,8 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 		public int compare(Object o1, Object o2) throws ClassCastException {
 			int prio1 = 0;
 			int prio2 = 0;
-			Attributes a1 = ((Attributed) o1).getAttributes();
-			Attributes a2 = ((Attributed) o2).getAttributes();
+			Annotations a1 = ((Annotated) o1).getAnnotations();
+			Annotations a2 = ((Annotated) o2).getAnnotations();
 			
 			if(a1.containsKey(PRIORITY_KEY) && a1.isInteger(PRIORITY_KEY))
 				prio1 = ((Integer) a1.get(PRIORITY_KEY)).intValue();
@@ -1245,11 +1245,11 @@ public class NewExplicitJoinGenerator extends SQLGenerator {
 			}
 			
 			// assert processedTables.size() > 1 : "Small queries not yet supported";
-			Attributes attrs = act.getAttributes();
+			Annotations annots = act.getAnnotations();
 			int limit = StatementFactory.NO_LIMIT;
 			
-			if(attrs.containsKey(KEY_LIMIT))
-				limit = ((Integer) attrs.get(KEY_LIMIT)).intValue();
+			if(annots.containsKey(KEY_LIMIT))
+				limit = ((Integer) annots.get(KEY_LIMIT)).intValue();
 			
 			// Just add group by clauses, if we have a having clause.
 			List<Column> groupBy = having != null ? columns : null;

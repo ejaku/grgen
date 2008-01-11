@@ -29,9 +29,9 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.Annotated;
+import de.unika.ipd.grgen.util.Annotations;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
@@ -40,13 +40,13 @@ import java.util.Vector;
  * AST node that represents an Identifier (name that appears within the specification)
  * children: none
  */
-public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed {
+public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated {
 	static {
 		setName(IdentNode.class, "identifier");
 	}
 
-	/** The attributes. */
-	private Attributes attributes = EmptyAttributes.get();
+	/** The annotations. */
+	private Annotations annotations = EmptyAnnotations.get();
 
 	/** Occurrence of the identifier. */
 	private Symbol.Occurrence occ;
@@ -178,8 +178,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	}
 
 	/**
-	 * The string representation for this node. for an identidfier, this
-	 * is the string of the symbol, the identifier represents.
+	 * The string representation for this node. 
+	 * For an identifier, this is the string of the symbol, the identifier represents.
 	 */
 	public String toString() {
 		return occ.getSymbol().toString();
@@ -228,22 +228,22 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Attributed
 	 */
 	protected IR constructIR() {
 		Symbol.Definition def = getSymDef();
-		return Ident.get(toString(), def, getAttributes());
+		return Ident.get(toString(), def, getAnnotations());
 	}
 
 	/**
-	 * Get the attributes of this identifier.
-	 * @return The attributes of this identifier.
+	 * Get the annotations of this identifier.
+	 * @return The annotations of this identifier.
 	 */
-	public Attributes getAttributes() {
-		return attributes;
+	public Annotations getAnnotations() {
+		return annotations;
 	}
 
 	/**
-	 * Set attributes for this ident node.
-	 * @param attr The attributes.
+	 * Set annotations for this ident node.
+	 * @param annots The annotations.
 	 */
-	public void setAttributes(Attributes attr) {
-		attributes = attr;
+	public void setAnnotations(Annotations annots) {
+		annotations = annots;
 	}
 }

@@ -28,14 +28,14 @@ import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.parser.SymbolTable;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotated;
+import de.unika.ipd.grgen.util.Annotations;
 import java.util.HashMap;
 
 /**
  * A class representing an identifier.
  */
-public class Ident extends IR implements Comparable<Ident>, Attributed {
+public class Ident extends IR implements Comparable<Ident>, Annotated {
 	
 	private static final String defaultScope = "<default>";
 	
@@ -55,8 +55,8 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	/** location of the definition of the identifier */
 	private final Coords def;
 	
-	/** The attributes for the identifier. */
-	private final Attributes attrs;
+	/** The annotations for the identifier. */
+	private final Annotations annots;
 	
 	/** A precomputed hash code. */
 	private final int precomputedHashCode;
@@ -66,18 +66,18 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	 * @param text The text of the identifier.
 	 * @param scope The scope/namespace of the identifier.
 	 * @param def The location of the definition of the identifier.
-	 * @param attrs The attributes of this identifier (Each identifier
-	 * can carry several attributes which serve as meta information
+	 * @param annots The annotations of this identifier (Each identifier
+	 * can carry several annotations which serve as meta information
 	 * usable by backend components).
 	 */
   private Ident(String text, SymbolTable symTab, Scope scope,
-								Coords def, Attributes attrs) {
+								Coords def, Annotations annots) {
 		super("ident");
 		this.text = text;
 		this.scope = scope;
 		this.symTab = symTab;
 		this.def = def;
-		this.attrs = attrs;
+		this.annots = annots;
 		this.precomputedHashCode = (symTab.getName() + ":" + text).hashCode();
   }
 	
@@ -86,8 +86,8 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	 * @param text The text of the identifier.
 	 * @param def The location of the definition of the identifier.
 	 */
-	private Ident(String text, Coords def, Attributes attrs) {
-		this(text, SymbolTable.getInvalid(), Scope.getInvalid(), def, attrs);
+	private Ident(String text, Coords def, Annotations annots) {
+		this(text, SymbolTable.getInvalid(), Scope.getInvalid(), def, annots);
 	}
   
   /**
@@ -126,10 +126,10 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	 * @param text The text of the identifier.
 	 * @param scope The scope/namespace the identifier was defined in.
 	 * @param loc The location of the identifier.
-	 * @param attrs The attributes of this identifier.
+	 * @param annots The annotations of this identifier.
 	 * @return The IR identifier object for the desired identifier.
 	 */
-  public static Ident get(String text, Symbol.Definition def, Attributes attrs) {
+  public static Ident get(String text, Symbol.Definition def, Annotations annots) {
 		Coords loc = def.getCoords();
 		String key = text + "#" + loc.toString();
 		Ident res;
@@ -138,7 +138,7 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 			res = identifiers.get(key);
 		else {
 			res = new Ident(text, def.getSymbol().getSymbolTable(),
-											def.getScope(), loc, attrs);
+											def.getScope(), loc, annots);
 			identifiers.put(key, res);
 		}
 		return res;
@@ -150,17 +150,17 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	 * without a location.
 	 * @param text The text of the identifier.
 	 * @param scope The scope/namespace.
-	 * @param attrs The attributes of this identifier.
+	 * @param annots The annotations of this identifier.
 	 * @return The IR identifier object for the desired identifier.
 	 */
 	/*
-	public static Ident get(String text, Scope scope, Attributes attrs) {
-		return get(text, SymbolTable.getInvalid(), scope, Coords.getInvalid(), attrs);
+	public static Ident get(String text, Scope scope, Annotations annots) {
+		return get(text, SymbolTable.getInvalid(), scope, Coords.getInvalid(), annots);
 	}
 	
 	public static Ident get(String text) {
 		return get(text, SymbolTable.getInvalid(), Scope.getInvalid(),
-							 Coords.getInvalid(), EmptyAttributes.get());
+							 Coords.getInvalid(), EmptyAnnotations.get());
 	}
 	 */
 	
@@ -202,11 +202,11 @@ public class Ident extends IR implements Comparable<Ident>, Attributed {
 	}
 	
 	/**
-	 * Get the attributes.
-	 * @return The attributes.
+	 * Get the annotations.
+	 * @return The annotations.
 	 */
-	public Attributes getAttributes() {
-		return attrs;
+	public Annotations getAnnotations() {
+		return annots;
 	}
 	
 }

@@ -64,8 +64,8 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Unit;
-import de.unika.ipd.grgen.util.Attributed;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotated;
+import de.unika.ipd.grgen.util.Annotations;
 
 public class FrameBasedBackend extends MoreInformationCollector implements Backend, BackendFactory {
 	
@@ -610,7 +610,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					
 					//get the nodes priority
 					int prio = 0;
-					Attributes a = node.getAttributes();
+					Annotations a = node.getAnnotations();
 					if (a != null)
 						if (a.containsKey("prio") && a.isInteger("prio"))
 							prio = ((Integer) a.get("prio")).intValue();
@@ -664,7 +664,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 					
 					//get the nodes priority
 					int prio = 0;
-					Attributes a = node.getAttributes();
+					Annotations a = node.getAnnotations();
 					if (a != null)
 						if (a.containsKey("prio") && a.isInteger("prio"))
 							prio = ((Integer) a.get("prio")).intValue();
@@ -816,7 +816,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 				
 				//get the nodes priority
 				int prio = 0;
-				Attributes a = node.getAttributes();
+				Annotations a = node.getAnnotations();
 				if (a != null)
 					if (a.containsKey("prio") && a.isInteger("prio"))
 						prio = ((Integer) a.get("prio")).intValue();
@@ -1217,7 +1217,7 @@ public class FrameBasedBackend extends MoreInformationCollector implements Backe
 	
 	private int getNodePriority(Node node) {
 		int ret = 0;
-		Attributes a = ((Attributed) node).getAttributes();
+		Annotations a = ((Annotated) node).getAnnotations();
 		if (a != null)
 			if (a.containsKey("prio") && a.isInteger("prio"))
 				ret = ((Integer) a.get("prio")).intValue();

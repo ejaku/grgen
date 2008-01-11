@@ -51,7 +51,7 @@ header {
  */
 class GRTypeParser extends GRBaseParser;
 options {
-	k=3;
+	k=2;
 	codeGenMakeSwitchThreshold = 2;
 	codeGenBitsetTestThreshold = 3;
 	defaultErrorHandler = true;

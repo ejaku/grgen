@@ -27,8 +27,8 @@ package de.unika.ipd.grgen.ir;
 /**
  * An edge in a graph.
  */
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.Annotations;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 
 public class Edge extends GraphEntity {
 
@@ -40,8 +40,8 @@ public class Edge extends GraphEntity {
 	 * @param ident The identifier for the edge.
 	 * @param type The type of the edge.
 	 */
-	public Edge(Ident ident, EdgeType type, Attributes attr) {
-		super("edge", ident, type, attr);
+	public Edge(Ident ident, EdgeType type, Annotations annots) {
+		super("edge", ident, type, annots);
 		this.type = type;
 	}
 	
@@ -51,7 +51,7 @@ public class Edge extends GraphEntity {
 	 * @param type The type of the edge.
 	 */
 	public Edge(Ident ident, EdgeType type) {
-		this(ident, type, EmptyAttributes.get());
+		this(ident, type, EmptyAnnotations.get());
 	}
 	
 	/**

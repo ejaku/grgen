@@ -24,8 +24,8 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributes;
-import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.Annotations;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 
 /**
  * A node in a graph.
@@ -40,8 +40,8 @@ public class Node extends GraphEntity {
 	 * @param ident The identifier for the node.
 	 * @param type The type of the node.
 	 */
-	public Node(Ident ident, NodeType type, Attributes attr) {
-		super("node", ident, type, attr);
+	public Node(Ident ident, NodeType type, Annotations annots) {
+		super("node", ident, type, annots);
 		this.type = type;
 	}
 
@@ -51,7 +51,7 @@ public class Node extends GraphEntity {
 	 * @param type The type of the node.
 	 */
 	public Node(Ident ident, NodeType type) {
-		this(ident, type, EmptyAttributes.get());
+		this(ident, type, EmptyAnnotations.get());
 	}
 	
 	/**

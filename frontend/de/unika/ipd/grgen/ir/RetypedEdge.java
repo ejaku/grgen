@@ -1,6 +1,6 @@
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Retyped;
 
 public class RetypedEdge extends Edge implements Retyped {
@@ -8,8 +8,8 @@ public class RetypedEdge extends Edge implements Retyped {
 	/**  The original edge */
 	protected Edge oldEdge = null;
 	
-	public RetypedEdge(Ident ident, EdgeType type, Attributes attr) {
-		super(ident, type, attr);
+	public RetypedEdge(Ident ident, EdgeType type, Annotations annots) {
+		super(ident, type, annots);
 	}
 
 	public Entity getOldEntity() {

@@ -1030,7 +1030,7 @@ public class ActionsGen extends CSharpBase {
 
 	private double computePriosMax(Collection<? extends Entity> nodesOrEdges, double max) {
 		for(Entity noe : nodesOrEdges) {
-			Object prioO = noe.getAttributes().get("prio");
+			Object prioO = noe.getAnnotations().get("prio");
 
 			if (prioO != null && prioO instanceof Integer) {
 				double val = ((Integer)prioO).doubleValue();
@@ -1045,7 +1045,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genPriosNoE(StringBuffer sb, Collection<? extends Entity> nodesOrEdges, double max) {
 		for(Entity noe : nodesOrEdges) {
-			Object prioO = noe.getAttributes().get("prio");
+			Object prioO = noe.getAnnotations().get("prio");
 
 			double prio;
 			if (prioO != null && prioO instanceof Integer) {

@@ -164,7 +164,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAttributes());
+		RetypedNode res = new RetypedNode(ident.getIdent(), nt, ident.getAnnotations());
 
 		Node node = old.getNode();
 		node.setRetypedNode(res);

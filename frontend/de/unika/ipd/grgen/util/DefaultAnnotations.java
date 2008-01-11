@@ -19,64 +19,63 @@
 
 
 /**
- * Created on May 5, 2004
+ * Created on Apr 5, 2004
  *
  * @author Sebastian Hack
  * @version $Id$
  */
 package de.unika.ipd.grgen.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
- * Empty attributes.
+ * Default annotations implementation.
  */
-public class EmptyAttributes implements Attributes {
+public class DefaultAnnotations implements Annotations {
 
-	private static final Attributes EMPTY = new EmptyAttributes();
-	
-	public static Attributes get() {
-		return EMPTY;
-	}
+	private final Map<String, Object> annots = new HashMap<String, Object>();
 	
 	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#containsKey(java.lang.String)
+	 * @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String)
 	 */
 	public boolean containsKey(String key) {
-		return false;
+		return annots.containsKey(key);
 	}
 
 	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#get(java.lang.String)
+	 * @see de.unika.ipd.grgen.util.Annotations#get(java.lang.String)
 	 */
 	public Object get(String key) {
-		return null;
+		return annots.get(key);
 	}
-
+	
 	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#put(java.lang.String, java.lang.Object)
-	 */
-	public void put(String key, Object value) {
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#isInteger(java.lang.String)
-	 */
-	public boolean isInteger(String key) {
-		return false;
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#isBoolean(java.lang.String)
+	 * @see de.unika.ipd.grgen.util.Annotations#isBoolean(java.lang.String)
 	 */
 	public boolean isBoolean(String key) {
-		return false;
+		return containsKey(key) && get(key) instanceof Boolean;
 	}
-
+	
 	/**
-	 * @see de.unika.ipd.grgen.util.Attributes#isString(java.lang.String)
+	 * @see de.unika.ipd.grgen.util.Annotations#isInteger(java.lang.String)
+	 */
+	public boolean isInteger(String key) {
+		return containsKey(key) && get(key) instanceof Integer;
+	}
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Annotations#isString(java.lang.String)
 	 */
 	public boolean isString(String key) {
-		return false;
+		return containsKey(key) && get(key) instanceof String;
 	}
-
+	
+	/**
+	 * @see de.unika.ipd.grgen.util.Annotations#put(java.lang.String, java.lang.Object)
+	 */
+	public void put(String key, Object value) {
+		annots.put(key, value);
+	}
 }

@@ -24,7 +24,7 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotations;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -38,8 +38,8 @@ public abstract class GraphEntity extends Entity {
 	/** Type of the entity. */
 	protected final InheritanceType type;
 
-	/** The attributes of this entity. */
-	protected final Attributes attributes;
+	/** The annotations of this entity. */
+	protected final Annotations annotations;
 
 	/** The retyped version of this entity if any. */
 	protected GraphEntity retyped = null;
@@ -56,11 +56,11 @@ public abstract class GraphEntity extends Entity {
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
 	 */
-	protected GraphEntity(String name, Ident ident, InheritanceType type, Attributes attr) {
+	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots) {
 		super(name, ident, type);
 		setChildrenNames(childrenNames);
 		this.type = type;
-		this.attributes = attr;
+		this.annotations = annots;
 	}
 	
 	/**
@@ -89,11 +89,11 @@ public abstract class GraphEntity extends Entity {
 	}
 	
 	/**
-	 * Get the attributes.
-	 * @return The attributes.
+	 * Get the annotations.
+	 * @return The annotations.
 	 */
-	public Attributes getAttributes() {
-		return attributes;
+	public Annotations getAnnotations() {
+		return annotations;
 	}
 	
 	public void addFields(Map<String, Object> fields) {

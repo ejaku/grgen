@@ -159,7 +159,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node res = new Node(ident.getIdent(), nt, ident.getAttributes());
+		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations());
 		res.setConstraints(getConstraints());
 
 		if( res.getConstraints().contains(res.getType()) ) {

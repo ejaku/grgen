@@ -19,26 +19,23 @@
 
 
 /**
- * Created on Apr 2, 2004
+ * Created on Apr 5, 2004
  *
  * @author Sebastian Hack
  * @version $Id$
  */
 package de.unika.ipd.grgen.util;
 
+
 /**
- * A collection of attributes.
+ * Something that has annotations.
  */
-public interface Attributes {
+public interface Annotated {
 
-	boolean containsKey(String key);
-
-	Object get(String key);
-
-	boolean isInteger(String key);
-
-	boolean isBoolean(String key);
-
-	boolean isString(String key);
-
+	/**
+	 * Get the annotations. 
+	 * @return The annotations.
+	 */
+	Annotations getAnnotations();
+	
 }

@@ -45,9 +45,9 @@ import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.ast.NodeTypeNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
-import de.unika.ipd.grgen.util.Attributes;
+import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.EmptyAttributes;
+import de.unika.ipd.grgen.util.EmptyAnnotations;
 
 public abstract class ParserEnvironment extends Base {
 	public static final String MODEL_SUFFIX = ".gm";
@@ -270,9 +270,9 @@ public abstract class ParserEnvironment extends Base {
 		return IdentNode.getInvalid();
 	}
 
-	public Attributes getEmptyAttributes()
+	public Annotations getEmptyAnnotations()
 	{
-		return EmptyAttributes.get();
+		return EmptyAnnotations.get();
 	}
 
 	public Coords getInvalidCoords()
