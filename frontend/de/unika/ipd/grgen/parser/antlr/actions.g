@@ -405,30 +405,28 @@ patNodeOcc returns [ BaseNode res = env.initNode() ]
 		boolean hasAttrs = false;
 	}
 
-	: d:DOT // anonymous of type node
-		{
-			id = env.defineAnonymousEntity("node", getCoords(d));
-			res = new NodeDeclNode(id, type, constr);
-		}
-		( attrs=attributes { id.setAttributes(attrs); } )?
-	| res = entIdentUse // use of already declared node
+	: res=entIdentUse // use of already declared node
+	| id=entIdentDecl COLON res=nodeTypeContinuation[id] // node declaration
 	| ( attrs=attributes { hasAttrs = true; } )?
-		c:COLON // use of anonymous node with following type
-			( type=typeIdentUse ( constr=typeConstraint )?
-			| TYPEOF LPAREN type=entIdentUse RPAREN
-			)
-				{
-					id = env.defineAnonymousEntity("node", getCoords(c));
-					if (hasAttrs) {
-						id.setAttributes(attrs);
-					}
-					res = new NodeDeclNode(id, type, constr);
-				}
-	| id=entIdentDecl COLON // node declaration
-		( type=typeIdentUse
+		c:COLON // anonymous node declaration
+			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+			{ if (hasAttrs) { id.setAttributes(attrs); } }
+			res=nodeTypeContinuation[id]
+	| d:DOT // anonymous node declaration of type node
+		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
+		( attrs=attributes { id.setAttributes(attrs); } )?
+		{ res = new NodeDeclNode(id, type, constr); }
+	;
+
+nodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
+	{
+		IdentNode type = env.getNodeRoot();
+		TypeExprNode constr = TypeExprNode.getEmpty();
+	}
+	
+	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
-		)
-		( constr=typeConstraint )?
+		) ( constr=typeConstraint )?
 			{ res = new NodeDeclNode(id, type, constr); }
 	;
 	
