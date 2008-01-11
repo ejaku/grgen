@@ -1,0 +1,23 @@
+enum X {
+	e1,
+	e2 = 42,
+	e3
+}
+
+node class A {
+	attrX : X = X::e1;
+}
+
+node class B extends A {
+}
+
+node class BB extends B {
+	attrX2 : X = X::e3;
+}
+
+node class C extends B, BB;
+
+edge class E1 {
+	attrX : X = X::e1;
+}
+
