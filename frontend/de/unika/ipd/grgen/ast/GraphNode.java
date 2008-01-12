@@ -56,7 +56,7 @@ public class GraphNode extends BaseNode
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, CollectNode connections, CollectNode returns) {
+	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns) {
 		super(coords);
 		this.connections = connections;
 		becomeParent(this.connections);

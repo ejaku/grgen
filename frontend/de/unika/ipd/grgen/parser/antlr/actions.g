@@ -133,9 +133,12 @@ patternAndActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
 
 	:   (mod=patternModifiers
 			( d=patternDecl[mod]
+				{ patternChilds.addChild(d); } 
 			| d=testDecl[mod]
+				{ actionChilds.addChild(d); } 
 			| d=ruleDecl[mod]
-			) { patternChilds.addChild(d); } 
+				{ actionChilds.addChild(d); } 
+			)
 		)+
 	;
 	
@@ -234,7 +237,7 @@ patternDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 			}
 		)
 		RBRACE popScope
-			{ reportWarning(getCoords(p), "pattern declarations not yet supported"); }
+			{ reportError(getCoords(p), "pattern declarations not yet supported"); }
 	;
 	
 parameters returns [ CollectNode res = new CollectNode() ]
@@ -303,15 +306,15 @@ patternBody [ Coords coords, CollectNode negs, int mod ] returns [ PatternGraphN
 		CollectNode exact = new CollectNode();
 		CollectNode induced = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
-		res = new PatternGraphNode(coords, connections, conditions, returnz, homs, exact, induced, subpatterns, mod);
+		res = new PatternGraphNode(coords, connections, subpatterns, conditions, returnz, homs, exact, induced, mod);
 		int negCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, conditions, negs, negCounter, returnz, homs, exact, induced, subpatterns] )*
+	: ( negCounter = patternStmt[connections, subpatterns, conditions, negs, negCounter, returnz, homs, exact, induced] )*
 	;
 
-patternStmt [ CollectNode conn, CollectNode cond,
-	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced, CollectNode subpatterns ]
+patternStmt [ CollectNode conn, CollectNode subpatterns, CollectNode cond,
+	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
@@ -392,7 +395,7 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 		| // subpattern declaration
 			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
 			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
-			{ reportWarning(getCoords(cc), "subpatterns not yet supported"); }
+			{ reportError(getCoords(cc), "subpatterns not yet supported"); }
 		)
 	| ( annots=annotations { hasAnnots = true; } )?
 		c:COLON // anonymous node or subpattern declaration
@@ -412,7 +415,7 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
 				type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
 				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
-				{ reportWarning(getCoords(c), "subpatterns not yet supported"); }
+				{ reportError(getCoords(c), "subpatterns not yet supported"); }
 			)
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
 	| d:DOT // anonymous node declaration of type node
@@ -621,15 +624,16 @@ inducedStatement returns [ InducedNode res = null ]
 replaceBody [ Coords coords, CollectNode eval ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
+		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
-		res = new GraphNode(coords, connections, returnz);
+		res = new GraphNode(coords, connections, subpatterns, returnz);
 	}
 
-	: ( replaceStmt[coords, connections, returnz, eval] )*
+	: ( replaceStmt[coords, connections, subpatterns, returnz, eval] )*
 	;
 
-replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval ]
-	: replConnections[connections] SEMI
+replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval ]
+	: replConnectionsOrSubpattern[connections, subpatterns] SEMI
 	| replaceReturns[returnz] SEMI
 	| evalPart[eval]
 	;
@@ -637,23 +641,24 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode returnz, Colle
 modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
+		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
-		res = new GraphNode(coords, connections, returnz);
+		res = new GraphNode(coords, connections, subpatterns, returnz);
 	}
 
-	: ( modifyStmt[coords, connections, returnz, eval, dels] )*
+	: ( modifyStmt[coords, connections, subpatterns, returnz, eval, dels] )*
 	;
 
-modifyStmt [ Coords coords, CollectNode connections, CollectNode returnz, CollectNode eval, CollectNode dels ]
-	: replConnections[connections] SEMI
+modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval, CollectNode dels ]
+	: replConnectionsOrSubpattern[connections, subpatterns] SEMI
 	| replaceReturns[returnz] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
 	;
 
-replConnections [ CollectNode conn ]
+replConnectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 	: replFirstEdge[conn] // connection starts with an edge which dangles on the left
-	| replFirstNode[conn] // connection starts with a node
+	| replFirstNodeOrSubpattern[conn, subpatterns] // connection starts with a node
 	;
 	
 replFirstEdge [ CollectNode conn ]
@@ -679,13 +684,90 @@ replFirstEdge [ CollectNode conn ]
 			replNodeContinuation[e, env.getDummyNodeDecl(), forward, conn] // and continue looking for node
 	;
 	
-replFirstNode [ CollectNode conn ]
-	{ BaseNode n; }
-	
-	: n=replNodeOcc // get first node
+replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
+	{
+		IdentNode id = env.getDummyIdent();
+		IdentNode type = env.getNodeRoot();
+		IdentNode oldid = null;
+		Annotations annots = env.getEmptyAnnotations();
+		boolean hasAnnots = false;
+		CollectNode subpatternConnections = new CollectNode();
+		CollectNode subpatternReplConnections = new CollectNode();
+		BaseNode n = null;
+	}
+
+	: n=entIdentUse firstReplEdgeContinuation[n, conn] // use of already declared node, continue looking for first edge
+	| id=entIdentUse l:LPAREN (paramList[subpatternReplConnections])? RPAREN // use of already declared subpattern
+		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConnections)); }
+		{ reportError(getCoords(l), "subpatterns not yet supported"); }
+	| id=entIdentDecl cc:COLON // node or subpattern declaration
+		( // node declaration
+			type=typeIdentUse
+			( LT oldid=entIdentUse GT )?
+			{
+				if(oldid==null) {
+					n = new NodeDeclNode(id, type);
+				} else {
+					n = new NodeTypeChangeNode(id, type, oldid);
+				}
+			}
+			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
+		| // node typeof declaration
+			TYPEOF LPAREN type=entIdentUse RPAREN
+			( LT oldid=entIdentUse GT )?
+			{
+				if(oldid==null) {
+					n = new NodeDeclNode(id, type);
+				} else {
+					n = new NodeTypeChangeNode(id, type, oldid);
+				}
+			}
+			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
+		| // subpattern declaration
+			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
+			{ reportError(getCoords(cc), "subpatterns not yet supported"); }
+		)
+	| ( annots=annotations { hasAnnots = true; } )?
+		c:COLON // anonymous node or subpattern declaration
+			( // node declaration
+				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+				type=typeIdentUse
+				( LT oldid=entIdentUse GT )?
+				{
+					if(oldid==null) {
+						n = new NodeDeclNode(id, type);
+					} else {
+						n = new NodeTypeChangeNode(id, type, oldid);
+					}
+				}
+				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
+			| // node typeof declaration
+				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
+				TYPEOF LPAREN type=entIdentUse RPAREN
+				( LT oldid=entIdentUse GT )?
+				{
+					if(oldid==null) {
+						n = new NodeDeclNode(id, type);
+					} else {
+						n = new NodeTypeChangeNode(id, type, oldid);
+					}
+				}
+				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
+			| // subpattern declaration
+				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
+				type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
+				{ reportError(getCoords(c), "subpatterns not yet supported"); }
+			)
+			{ if (hasAnnots) { id.setAnnotations(annots); } }
+	| d:DOT // anonymous node declaration of type node
+		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
+		( annots=annotations { id.setAnnotations(annots); } )?
+		{ n = new NodeDeclNode(id, type); }
 		firstReplEdgeContinuation[n, conn] // and continue looking for first edge
 	;
-
+	
 replNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
 	{ BaseNode n2 = env.getDummyNodeDecl(); }
 	
@@ -748,7 +830,6 @@ replNodeOcc returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
-		TypeExprNode constr = TypeExprNode.getEmpty();
 		Annotations annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
 	}

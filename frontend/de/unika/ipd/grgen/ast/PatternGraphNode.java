@@ -109,11 +109,10 @@ public class PatternGraphNode extends GraphNode {
 	private Map<List<Set<NodeCharacter>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeCharacter>>, Set<ConnectionNode>>();
 
-	public PatternGraphNode(Coords coords, CollectNode connections,
+	public PatternGraphNode(Coords coords, CollectNode connections, CollectNode subpatterns,
 							CollectNode conditions, CollectNode returns, CollectNode homs,
-							CollectNode exact, CollectNode induced, CollectNode subpatterns,
-							int modifiers) {
-		super(coords, connections, returns);
+							CollectNode exact, CollectNode induced, int modifiers) {
+		super(coords, connections, subpatterns, returns);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
