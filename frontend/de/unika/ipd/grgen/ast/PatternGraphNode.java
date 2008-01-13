@@ -744,14 +744,14 @@ public class PatternGraphNode extends GraphNode {
 	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot) {
 		IdentNode nodeName = new IdentNode(getScope().defineAnonymous(
 				"dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot);
+		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, NodeDeclNode.DECL_IN_PATTERN);
 		return dummyNode;
 	}
 
 	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot) {
-		IdentNode edgeName = new IdentNode(getScope().defineAnonymous("edge",
-				SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, true);
+		IdentNode edgeName = new IdentNode(getScope().defineAnonymous(
+				"edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, EdgeDeclNode.DECL_IN_PATTERN, true);
 		return edge;
 	}
 

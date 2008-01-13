@@ -56,12 +56,12 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * @param id The identifier of the node.
 	 * @param type The type of the node.
 	 */
-	public NodeDeclNode(IdentNode id, BaseNode type, TypeExprNode constr) {
-		super(id, type, constr);
+	public NodeDeclNode(IdentNode id, BaseNode type, int declLocation, TypeExprNode constr) {
+		super(id, type, declLocation, constr);
 	}
 
-	public NodeDeclNode(IdentNode id, BaseNode type) {
-		this(id, type, TypeExprNode.getEmpty());
+	public NodeDeclNode(IdentNode id, BaseNode type, int declLocation) {
+		this(id, type, declLocation, TypeExprNode.getEmpty());
 	}
 
 	/** The TYPE child could be a node in case the type is
@@ -128,8 +128,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 	 * Yields a dummy <code>NodeDeclNode</code> needed as
 	 * dummy tgt or src node for dangling edges.
 	 */
-	public static NodeDeclNode getDummy(IdentNode id, BaseNode type) {
-		return new DummyNodeDeclNode(id, type);
+	public static NodeDeclNode getDummy(IdentNode id, BaseNode type, int context) {
+		return new DummyNodeDeclNode(id, type, context);
 	}
 
 	public boolean isDummy() {

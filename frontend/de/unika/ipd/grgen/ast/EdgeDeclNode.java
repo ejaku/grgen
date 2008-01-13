@@ -47,13 +47,13 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
-	public EdgeDeclNode(IdentNode n, BaseNode e, TypeExprNode constraints) {
-		super(n, e, constraints);
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, TypeExprNode constraints) {
+		super(id, type, declLocation, constraints);
 		setName("edge");
 	}
 
-	public EdgeDeclNode(IdentNode n, BaseNode e) {
-		this(n, e, TypeExprNode.getEmpty());
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation) {
+		this(id, type, declLocation, TypeExprNode.getEmpty());
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * the AST is already checked.
 	 * TODO Change type of type iff CollectNode support generics
 	 */
-	public EdgeDeclNode(IdentNode n, BaseNode type, boolean resolvedAndChecked) {
-		this(n, type, TypeExprNode.getEmpty());
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, boolean resolvedAndChecked) {
+		this(id, type, declLocation, TypeExprNode.getEmpty());
 		assert(resolvedAndChecked);
 		resolve();
 		check();

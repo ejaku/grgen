@@ -366,7 +366,7 @@ patFirstEdge [ CollectNode conn ]
 	:   ( e=patForwardEdgeOcc { forward=true; } // get first edge
 		| e=patBackwardEdgeOcc { forward=false; }
 		)
-			patNodeContinuation[e, env.getDummyNodeDecl(), forward, conn] // and continue looking for node
+			patNodeContinuation[e, env.getDummyNodeDecl(NodeDeclNode.DECL_IN_PATTERN), forward, conn] // and continue looking for node
 	;
 	
 patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
@@ -385,12 +385,12 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 		( // node declaration
 			type=typeIdentUse
 			( constr=typeConstraint )?
-			{ n = new NodeDeclNode(id, type, constr); }
+			{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 		| // node typeof declaration
 			TYPEOF LPAREN type=entIdentUse RPAREN
 			( constr=typeConstraint )?
-			{ n = new NodeDeclNode(id, type, constr); }
+			{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 		| // subpattern declaration
 			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
@@ -403,13 +403,13 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				type=typeIdentUse
 				( constr=typeConstraint )?
-				{ n = new NodeDeclNode(id, type, constr); }
+				{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 			| // node typeof declaration
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				TYPEOF LPAREN type=entIdentUse RPAREN
 				( constr=typeConstraint )?
-				{ n = new NodeDeclNode(id, type, constr); }
+				{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
@@ -421,12 +421,12 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ n = new NodeDeclNode(id, type, constr); }
+		{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 		firstPatEdgeContinuation[n, conn] // and continue looking for first edge
 	;
 
 patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
-	{ BaseNode n2 = env.getDummyNodeDecl(); }
+	{ BaseNode n2 = env.getDummyNodeDecl(NodeDeclNode.DECL_IN_PATTERN); }
 	
 	: n2=patNodeOcc // node following - get it and build connection with it, then continue with looking for follwing edge 
 		{
@@ -492,7 +492,7 @@ patNodeOcc returns [ BaseNode res = env.initNode() ]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ res = new NodeDeclNode(id, type, constr); }
+		{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 	;
 
 patNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
@@ -504,7 +504,7 @@ patNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode()
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		) ( constr=typeConstraint )?
-			{ res = new NodeDeclNode(id, type, constr); }
+			{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 	;
 	
 patNodeDecl returns [ BaseNode res = env.initNode() ]
@@ -518,7 +518,7 @@ patNodeDecl returns [ BaseNode res = env.initNode() ]
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-			{ res = new NodeDeclNode(id, type, constr); }
+			{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
 	;
 
 patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
@@ -531,7 +531,7 @@ patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, constr);
+			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr);
 		}
 	;
 
@@ -545,7 +545,7 @@ patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, constr);
+			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr);
 		}
 	;
 
@@ -563,7 +563,7 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
 				res=patEdgeTypeContinuation[id]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), TypeExprNode.getEmpty()); }
+				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), EdgeDeclNode.DECL_IN_PATTERN, TypeExprNode.getEmpty()); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
@@ -581,7 +581,7 @@ patEdgeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode()
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		) ( constr=typeConstraint )?
-			{ res = new EdgeDeclNode(id, type, constr); }
+			{ res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr); }
 	;
 	
 /**
@@ -670,18 +670,7 @@ replFirstEdge [ CollectNode conn ]
 	:   ( e=replForwardEdgeOcc { forward=true; } // get first edge
 		| e=replBackwardEdgeOcc { forward=false; }
 		)
-			{
-				BaseNode x = e;
-				if (e instanceof DeclNode) {
-					x = ((DeclNode) e).getIdentNode();
-				}
-				if (! x.isKept() ) {
-					reportError(e.getCoords(),
-					"dangling edges in replace/modify part must already " +
-					"occur in the pattern part");
-				}
-			}
-			replNodeContinuation[e, env.getDummyNodeDecl(), forward, conn] // and continue looking for node
+			replNodeContinuation[e, env.getDummyNodeDecl(NodeDeclNode.DECL_IN_REPLACEMENT), forward, conn] // and continue looking for node
 	;
 	
 replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
@@ -706,9 +695,9 @@ replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 			( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					n = new NodeDeclNode(id, type);
+					n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 				} else {
-					n = new NodeTypeChangeNode(id, type, oldid);
+					n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 				}
 			}
 			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
@@ -717,9 +706,9 @@ replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 			( LT oldid=entIdentUse GT )?
 			{
 				if(oldid==null) {
-					n = new NodeDeclNode(id, type);
+					n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 				} else {
-					n = new NodeTypeChangeNode(id, type, oldid);
+					n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 				}
 			}
 			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
@@ -736,9 +725,9 @@ replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 				( LT oldid=entIdentUse GT )?
 				{
 					if(oldid==null) {
-						n = new NodeDeclNode(id, type);
+						n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 					} else {
-						n = new NodeTypeChangeNode(id, type, oldid);
+						n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 					}
 				}
 				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
@@ -748,9 +737,9 @@ replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 				( LT oldid=entIdentUse GT )?
 				{
 					if(oldid==null) {
-						n = new NodeDeclNode(id, type);
+						n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 					} else {
-						n = new NodeTypeChangeNode(id, type, oldid);
+						n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 					}
 				}
 				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
@@ -764,12 +753,12 @@ replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ n = new NodeDeclNode(id, type); }
+		{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT); }
 		firstReplEdgeContinuation[n, conn] // and continue looking for first edge
 	;
 	
 replNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
-	{ BaseNode n2 = env.getDummyNodeDecl(); }
+	{ BaseNode n2 = env.getDummyNodeDecl(NodeDeclNode.DECL_IN_REPLACEMENT); }
 	
 	: n2=replNodeOcc // node following - get it and build connection with it, then continue with looking for follwing edge 
 		{
@@ -782,16 +771,6 @@ replNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode con
 		replEdgeContinuation[n2, conn]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
-			BaseNode x = e;
-			if (e instanceof DeclNode) {
-				x = ((DeclNode) e).getIdentNode();
-			}
-			if (! x.isKept() ) {
-				reportError(e.getCoords(),
-				"dangling edges in replace/modify part must already " +
-				"occur in the pattern part");
-			}
-
 			if (forward) {
 				conn.addChild(new ConnectionNode(n1, e, n2));
 			} else {
@@ -844,7 +823,7 @@ replNodeOcc returns [ BaseNode res = env.initNode() ]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ res = new NodeDeclNode(id, type); }
+		{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT); }
 	;
 
 replNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
@@ -858,9 +837,9 @@ replNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode(
 		) ( LT oldid=entIdentUse GT )?
 			{ 
 				if(oldid==null) {
-					res = new NodeDeclNode(id, type);
+					res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 				} else {
-					res = new NodeTypeChangeNode(id, type, oldid);
+					res = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 				}
 			}
 	;
@@ -878,9 +857,9 @@ replNodeDecl returns [ BaseNode res = env.initNode() ]
 		( LT oldid=entIdentUse GT )?
 			{ 
 				if(oldid==null) {
-					res = new NodeDeclNode(id, type);
+					res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
 				} else {
-					res = new NodeTypeChangeNode(id, type, oldid);
+					res = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
 				}
 			}
 	;
@@ -888,22 +867,22 @@ replNodeDecl returns [ BaseNode res = env.initNode() ]
 replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
 
-	: MINUS ( res=entIdentUse { res.setKept(true); } | res=replEdgeDecl ) RARROW 
+	: MINUS ( res=entIdentUse | res=replEdgeDecl ) RARROW 
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type);
+			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
 		}
   ;
 
 replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
 	{ IdentNode type = env.getEdgeRoot(); }
 
-	: LARROW ( res=entIdentUse { res.setKept(true); } | res=replEdgeDecl ) MINUS 
+	: LARROW ( res=entIdentUse | res=replEdgeDecl ) MINUS 
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type);
+			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
 		}
 	;
 
@@ -921,7 +900,7 @@ replEdgeDecl returns [ BaseNode res = env.initNode() ]
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
 				res=replEdgeTypeContinuation[id]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getEdgeRoot()); }
+				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), EdgeDeclNode.DECL_IN_REPLACEMENT); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
@@ -938,12 +917,12 @@ replEdgeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode(
 	
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
-		) ( LT oldid=entIdentUse GT {id.setKept(true);} )?
+		) ( LT oldid=entIdentUse GT )?
 			{
 				if( oldid == null ) {
-					res = new EdgeDeclNode(id, type);
+					res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
 				} else {
-					res = new EdgeTypeChangeNode(id, type, oldid);
+					res = new EdgeTypeChangeNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT, oldid);
 				}
 			}
 	;

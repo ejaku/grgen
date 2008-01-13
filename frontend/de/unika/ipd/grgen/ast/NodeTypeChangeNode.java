@@ -45,8 +45,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	BaseNode oldUnresolved;
 	NodeDeclNode old = null;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, BaseNode oldid) {
-		super(id, newType, TypeExprNode.getEmpty());
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int declLocation, BaseNode oldid) {
+		super(id, newType, declLocation, TypeExprNode.getEmpty());
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 	}

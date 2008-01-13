@@ -33,10 +33,15 @@ abstract class ConstraintDeclNode extends DeclNode
 {
 	TypeExprNode constraints;
 	
-	ConstraintDeclNode(IdentNode id, BaseNode type, TypeExprNode constraints) {
+	int declLocation; // one of the values below
+	public static final int DECL_IN_PATTERN = 0;
+	public static final int DECL_IN_REPLACEMENT = 1;
+	
+	ConstraintDeclNode(IdentNode id, BaseNode type, int declLocation, TypeExprNode constraints) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
+		this.declLocation = declLocation;
 	}
 			
 	protected boolean checkLocal() {

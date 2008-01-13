@@ -91,7 +91,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 		for (BaseNode x : delete.getChildren()) {
 			assert (x instanceof DeclNode);
-			assert(!x.isKept());
 			res.add((DeclNode)x);
 		}
 		return res;

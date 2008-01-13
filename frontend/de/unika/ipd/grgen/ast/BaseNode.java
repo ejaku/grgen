@@ -639,24 +639,4 @@ public abstract class BaseNode extends Base
 		}
 		return "" + edge;
 	}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-	// misplaced stuff
-//////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * tells whether the node or edge of the pattern part, that is represented
-	 * by a base node, occurs in the replace/modify part again
-	 */
-	public final boolean isKept() {
-		return kept;
-	}
-
-	/**
-	 * set whether the node or edge of the pattern part, that is represented
-	 * by a base node, occurs in the replace/modify part again
-	 */
-	public final void setKept(boolean x) {
-		kept = x;
-	}
 }

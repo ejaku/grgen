@@ -128,9 +128,41 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		return nodeChecker.check(left, error)
 			& edgeChecker.check(edge, error)
-			& nodeChecker.check(right, error);
+			& nodeChecker.check(right, error)
+			& areDanglingEdgesInReplacementDeclaredInPattern();
 	}
 
+	protected boolean areDanglingEdgesInReplacementDeclaredInPattern() {
+		if(!(left instanceof DummyNodeDeclNode)
+			&& !(right instanceof DummyNodeDeclNode))
+		{
+			return true; // edge not dangling
+		}
+		
+		// edge dangling
+		if(left instanceof DummyNodeDeclNode) {
+			if(left.declLocation==NodeDeclNode.DECL_IN_PATTERN) {
+				return true; // we're within the pattern, not the replacement
+			}
+		}
+		if(right instanceof DummyNodeDeclNode) {
+			if(right.declLocation==NodeDeclNode.DECL_IN_PATTERN) {
+				return true; // we're within the pattern, not the replacement
+			}
+		}
+		
+		// edge dangling and located within the replacement
+		if(edge.declLocation==EdgeDeclNode.DECL_IN_PATTERN) {
+			return true; // edge was declared in the pattern
+		}
+		if(edge instanceof EdgeTypeChangeNode) {
+			return true; // edge is a type change edge of an edge declared within the pattern
+		}
+		
+		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part"); 
+		return false;
+	 }
+	
 	/**
 	 * This adds the connection to an IR graph.
 	 * This method should only be used by {@link PatternGraphNode#constructIR()}.

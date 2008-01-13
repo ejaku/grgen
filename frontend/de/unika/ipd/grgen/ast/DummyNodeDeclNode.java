@@ -31,8 +31,8 @@ public class DummyNodeDeclNode extends NodeDeclNode
 		setName(DummyNodeDeclNode.class, "dummy node");
 	}
 		
-	public DummyNodeDeclNode(IdentNode id, BaseNode type) {
-		super(id, type);
+	public DummyNodeDeclNode(IdentNode id, BaseNode type, int declLocation) {
+		super(id, type, declLocation);
 	}
 			
 	public Node getNode() {

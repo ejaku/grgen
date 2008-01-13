@@ -247,18 +247,30 @@ public abstract class ParserEnvironment extends Base {
 		return ExprNode.getInvalid();
 	}
 
-	private	NodeDeclNode dummyNodeDeclNode = null;
+	private	NodeDeclNode dummyNodeDeclNodePat = null;
+	private	NodeDeclNode dummyNodeDeclNodeRepl = null;
 
-	public NodeDeclNode getDummyNodeDecl()
+	public NodeDeclNode getDummyNodeDecl(int declLocation)
 	{
-		if ( dummyNodeDeclNode == null ) {
-			dummyNodeDeclNode = NodeDeclNode.getDummy(
-				defineAnonymousEntity("dummy_node", new Coords()),
-				this.getNodeRoot()
-			);
+		assert(declLocation==NodeDeclNode.DECL_IN_PATTERN || declLocation==NodeDeclNode.DECL_IN_REPLACEMENT);
+		if(declLocation==NodeDeclNode.DECL_IN_PATTERN) {
+			if ( dummyNodeDeclNodePat == null ) {
+				dummyNodeDeclNodePat = NodeDeclNode.getDummy(
+						defineAnonymousEntity("dummy_node", new Coords()),
+						this.getNodeRoot(), NodeDeclNode.DECL_IN_PATTERN);
+			}
+			
+			return dummyNodeDeclNodePat;
 		}
-
-		return dummyNodeDeclNode;
+		else {
+			if ( dummyNodeDeclNodeRepl == null ) {
+				dummyNodeDeclNodeRepl = NodeDeclNode.getDummy(
+						defineAnonymousEntity("dummy_node", new Coords()),
+						this.getNodeRoot(), NodeDeclNode.DECL_IN_REPLACEMENT);
+			}
+			
+			return dummyNodeDeclNodeRepl;
+		}
 	}
 
 	/**
