@@ -146,9 +146,18 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			}
 		}
 
-		return res;
+		return res & onlyReplacementEdgesAreAllowedToChangeType();
 	}
 
+	protected boolean onlyReplacementEdgesAreAllowedToChangeType() {
+		if(declLocation==DECL_IN_REPLACEMENT) {
+			return true;
+		}
+		
+		constraints.reportError("pattern edges are not allowed to change type, only replacement edges are"); 
+		return false;
+	}
+	
 	public Edge getEdge() {
 		return (Edge) checkIR(Edge.class);
 	}

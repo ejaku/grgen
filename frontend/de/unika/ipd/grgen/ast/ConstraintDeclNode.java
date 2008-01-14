@@ -29,7 +29,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.TypeExpr;
 
-abstract class ConstraintDeclNode extends DeclNode
+public abstract class ConstraintDeclNode extends DeclNode
 {
 	TypeExprNode constraints;
 	
@@ -45,7 +45,18 @@ abstract class ConstraintDeclNode extends DeclNode
 	}
 			
 	protected boolean checkLocal() {
-		return (new SimpleChecker(TypeExprNode.class)).check(constraints, error);
+		return (new SimpleChecker(TypeExprNode.class)).check(constraints, error)
+			& onlyPatternElementsAreAllowedToBeConstrained();
+	}
+	
+	protected boolean onlyPatternElementsAreAllowedToBeConstrained() {
+		if(constraints!=TypeExprNode.getEmpty()) {
+			if(declLocation!=DECL_IN_PATTERN) {
+				constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are"); 
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	protected final TypeExpr getConstraints() {

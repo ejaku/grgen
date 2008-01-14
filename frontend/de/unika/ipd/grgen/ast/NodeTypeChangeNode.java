@@ -148,7 +148,16 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			}
 		}
 
-		return res;
+		return res & onlyReplacementNodesAreAllowedToChangeType();
+	}
+
+	protected boolean onlyReplacementNodesAreAllowedToChangeType() {
+		if(declLocation==DECL_IN_REPLACEMENT) {
+			return true;
+		}
+		
+		constraints.reportError("pattern nodes are not allowed to change type, only replacement nodes are"); 
+		return false;
 	}
 
 	public Node getNode() {

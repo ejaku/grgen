@@ -1,0 +1,23 @@
+node class N1 {
+	a : double;
+}
+
+node class N2 {
+	b : object;
+}
+
+node class N3 extends N2 {
+	c : object;
+}
+
+edge class E1 {
+	a : double;
+}
+
+edge class E2 {
+	b : object;
+}
+
+edge class E3 extends E2 {
+	c : object;
+}

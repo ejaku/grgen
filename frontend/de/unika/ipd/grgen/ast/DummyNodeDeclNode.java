@@ -32,7 +32,7 @@ public class DummyNodeDeclNode extends NodeDeclNode
 	}
 		
 	public DummyNodeDeclNode(IdentNode id, BaseNode type, int declLocation) {
-		super(id, type, declLocation);
+		super(id, type, declLocation, TypeExprNode.getEmpty());
 	}
 			
 	public Node getNode() {

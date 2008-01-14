@@ -1,0 +1,14 @@
+using retype_n_constraint_model;
+
+// forbidden, because of constraint in replacement
+
+rule r {
+	x:N1-e:E1->y:N2;
+	
+	replace {
+		a:N3\N2;
+		b:N2;
+		a-c:E3\E2->b;
+	}
+}
+

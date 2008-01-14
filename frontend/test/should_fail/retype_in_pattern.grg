@@ -1,0 +1,13 @@
+using retype_n_constraint_model;
+
+// forbidden, because of retype in pattern
+
+rule r {
+	x:N1-e:E1->y:N2;
+	z:N2<x>;
+	x<-e2:E2<e>-y;
+	
+	replace {
+	}
+}
+

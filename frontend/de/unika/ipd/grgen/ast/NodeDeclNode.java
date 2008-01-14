@@ -60,10 +60,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		super(id, type, declLocation, constr);
 	}
 
-	public NodeDeclNode(IdentNode id, BaseNode type, int declLocation) {
-		this(id, type, declLocation, TypeExprNode.getEmpty());
-	}
-
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof operator */
 	public BaseNode getDeclType() {

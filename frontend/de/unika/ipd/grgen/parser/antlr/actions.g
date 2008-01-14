@@ -177,7 +177,7 @@ testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 			}
 		}
 	
-		id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE
+		id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
 		pattern=patternPart[getCoords(t), negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
@@ -197,7 +197,7 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode dels = new CollectNode();
 	}
 
-	: r:RULE id=actionIdentDecl pushScope[id] params=parameters ret=returnTypes LBRACE
+	: r:RULE id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), negs, mod]
 		( right=replacePart[eval]
 			{
@@ -223,7 +223,7 @@ patternDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode eval = new CollectNode();
 		CollectNode dels = new CollectNode();
 	}
-	: p:PATTERN id=typeIdentDecl pushScope[id] params=parameters LBRACE
+	: p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] LBRACE
 		left=patternPart[getCoords(p), negs, mod]
 		( right=replacePart[eval]
 			{
@@ -240,20 +240,20 @@ patternDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 			{ reportError(getCoords(p), "pattern declarations not yet supported"); }
 	;
 	
-parameters returns [ CollectNode res = new CollectNode() ]
-	: LPAREN (paramList[res])? RPAREN
+parameters [ int declLocation ] returns [ CollectNode res = new CollectNode() ]
+	: LPAREN (paramList[res, declLocation])? RPAREN
 	|
 	;
 
-paramList [ CollectNode params ]
+paramList [ CollectNode params, int declLocation ]
 	{ BaseNode p; }
 
-	: p=param { params.addChild(p); } ( COMMA p=param { params.addChild(p); } )*
+	: p=param[declLocation] { params.addChild(p); } ( COMMA p=param[declLocation] { params.addChild(p); } )*
 	;
 
-param returns [ BaseNode res = env.initNode() ]
-	: MINUS res=patEdgeDecl RARROW
-	| res=patNodeDecl
+param [ int declLocation ] returns [ BaseNode res = env.initNode() ]
+	: MINUS res=edgeDecl[declLocation] RARROW
+	| res=nodeDecl[declLocation]
 	;
 
 returnTypes returns [ CollectNode res = new CollectNode() ]
@@ -328,7 +328,7 @@ patternStmt [ CollectNode conn, CollectNode subpatterns, CollectNode cond,
 		newNegCount = negCount;
 	}
 
-	: patConnectionsOrSubpattern[conn, subpatterns] SEMI
+	: connectionsOrSubpattern[conn, subpatterns, ConstraintDeclNode.DECL_IN_PATTERN] SEMI
 		// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE
 		neg=patternBody[getCoords(p), negsInNegs, mod]
@@ -352,48 +352,67 @@ patternStmt [ CollectNode conn, CollectNode subpatterns, CollectNode cond,
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-patConnectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
-	: patFirstEdge[conn] // connection starts with an edge which dangles on the left
-	| patFirstNodeOrSubpattern[conn, subpatterns] // there's a subpattern or a connection that starts with a node
+connectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns, int declLocation ]
+	: firstEdge[conn, declLocation] // connection starts with an edge which dangles on the left
+	| firstNodeOrSubpattern[conn, subpatterns, declLocation] // there's a subpattern or a connection that starts with a node
 	;
 
-patFirstEdge [ CollectNode conn ]
+firstEdge [ CollectNode conn, int declLocation ]
 	{
 		BaseNode e;
 		boolean forward = true;
 	}
 	
-	:   ( e=patForwardEdgeOcc { forward=true; } // get first edge
-		| e=patBackwardEdgeOcc { forward=false; }
+	:   ( e=forwardEdgeOcc[declLocation] { forward=true; } // get first edge
+		| e=backwardEdgeOcc[declLocation] { forward=false; }
 		)
-			patNodeContinuation[e, env.getDummyNodeDecl(NodeDeclNode.DECL_IN_PATTERN), forward, conn] // and continue looking for node
+			nodeContinuation[e, env.getDummyNodeDecl(declLocation), forward, conn, declLocation] // and continue looking for node
 	;
 	
-patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
+firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int declLocation ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
+		IdentNode oldid = null;
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		Annotations annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
 		CollectNode subpatternConnections = new CollectNode();
+		CollectNode subpatternReplConnections = new CollectNode();
 		BaseNode n = null;
 	}
 
-	: id=entIdentUse firstPatEdgeContinuation[id, conn] // use of already declared node, continue looking for first edge
+	: id=entIdentUse firstEdgeContinuation[id, conn, declLocation] // use of already declared node, continue looking for first edge
+	| id=entIdentUse l:LPAREN (paramList[subpatternReplConnections, declLocation])? RPAREN // use of already declared subpattern
+		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConnections)); }
+		{ reportError(getCoords(l), "subpatterns not yet supported"); }
 	| id=entIdentDecl cc:COLON // node or subpattern declaration
 		( // node declaration
 			type=typeIdentUse
 			( constr=typeConstraint )?
-			{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
-			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+			( LT oldid=entIdentUse GT )?
+			{
+				if(oldid==null) {
+					n = new NodeDeclNode(id, type, declLocation, constr);
+				} else {
+					n = new NodeTypeChangeNode(id, type, declLocation, oldid);
+				}
+			}
+			firstEdgeContinuation[n, conn, declLocation] // and continue looking for first edge
 		| // node typeof declaration
 			TYPEOF LPAREN type=entIdentUse RPAREN
 			( constr=typeConstraint )?
-			{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
-			firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+			( LT oldid=entIdentUse GT )?
+			{
+				if(oldid==null) {
+					n = new NodeDeclNode(id, type, declLocation, constr);
+				} else {
+					n = new NodeTypeChangeNode(id, type, declLocation, oldid);
+				}
+			}
+			firstEdgeContinuation[n, conn, declLocation] // and continue looking for first edge
 		| // subpattern declaration
-			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+			type=typeIdentUse LPAREN (paramList[subpatternConnections, declLocation])? RPAREN
 			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
 			{ reportError(getCoords(cc), "subpatterns not yet supported"); }
 		)
@@ -403,17 +422,31 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				type=typeIdentUse
 				( constr=typeConstraint )?
-				{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
-				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+				( LT oldid=entIdentUse GT )?
+				{
+					if(oldid==null) {
+						n = new NodeDeclNode(id, type, declLocation, constr);
+					} else {
+						n = new NodeTypeChangeNode(id, type, declLocation, oldid);
+					}
+				}
+				firstEdgeContinuation[n, conn, declLocation] // and continue looking for first edge
 			| // node typeof declaration
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				TYPEOF LPAREN type=entIdentUse RPAREN
 				( constr=typeConstraint )?
-				{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
-				firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+				( LT oldid=entIdentUse GT )?
+				{
+					if(oldid==null) {
+						n = new NodeDeclNode(id, type, declLocation, constr);
+					} else {
+						n = new NodeTypeChangeNode(id, type, declLocation, oldid);
+					}
+				}
+				firstEdgeContinuation[n, conn, declLocation] // and continue looking for first edge
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
-				type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
+				type=typeIdentUse LPAREN (paramList[subpatternConnections, declLocation])? RPAREN
 				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
 				{ reportError(getCoords(c), "subpatterns not yet supported"); }
 			)
@@ -421,14 +454,14 @@ patFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
-		firstPatEdgeContinuation[n, conn] // and continue looking for first edge
+		{ n = new NodeDeclNode(id, type, declLocation, constr); }
+		firstEdgeContinuation[n, conn, declLocation] // and continue looking for first edge
 	;
 
-patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
-	{ BaseNode n2 = env.getDummyNodeDecl(NodeDeclNode.DECL_IN_PATTERN); }
+nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn, int declLocation ]
+	{ BaseNode n2 = env.getDummyNodeDecl(declLocation); }
 	
-	: n2=patNodeOcc // node following - get it and build connection with it, then continue with looking for follwing edge 
+	: n2=nodeOcc[declLocation] // node following - get it and build connection with it, then continue with looking for follwing edge 
 		{
 			if (forward) {
 				conn.addChild(new ConnectionNode(n1, e, n2));
@@ -436,7 +469,7 @@ patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn
 				conn.addChild(new ConnectionNode(n2, e, n1));
 			}
 		}
-		patEdgeContinuation[n2, conn]
+		edgeContinuation[n2, conn, declLocation]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
 			if (forward) {
@@ -447,70 +480,78 @@ patNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn
 		}
 	;
 
-firstPatEdgeContinuation [ BaseNode n, CollectNode conn ]
+firstEdgeContinuation [ BaseNode n, CollectNode conn, int declLocation ]
 	{
 		BaseNode e;
 		boolean forward = true;
 	}
 	
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
-	|   ( e=patForwardEdgeOcc { forward=true; }
-		| e=patBackwardEdgeOcc { forward=false; }
+	|   ( e=forwardEdgeOcc[declLocation] { forward=true; }
+		| e=backwardEdgeOcc[declLocation] { forward=false; }
 		)
-			patNodeContinuation[e, n, forward, conn] // continue looking for node
+			nodeContinuation[e, n, forward, conn, declLocation] // continue looking for node
 	;
 	
-patEdgeContinuation [ BaseNode left, CollectNode conn ]
+edgeContinuation [ BaseNode left, CollectNode conn, int declLocation ]
 	{
 		BaseNode e;
 		boolean forward = true;
 	}
 	
 	:   // nothing following? -> connection end reached
-	|   ( e=patForwardEdgeOcc { forward=true; }
-		| e=patBackwardEdgeOcc { forward=false; }
+	|   ( e=forwardEdgeOcc[declLocation] { forward=true; }
+		| e=backwardEdgeOcc[declLocation] { forward=false; }
 		)
-			patNodeContinuation[e, left, forward, conn] // continue looking for node
+			nodeContinuation[e, left, forward, conn, declLocation] // continue looking for node
 	;
 
-patNodeOcc returns [ BaseNode res = env.initNode() ]
+nodeOcc [ int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
-		IdentNode type = env.getNodeRoot();
-		TypeExprNode constr = TypeExprNode.getEmpty();
 		Annotations annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
 	}
 
 	: res=entIdentUse // use of already declared node
-	| id=entIdentDecl COLON res=patNodeTypeContinuation[id] // node declaration
+	| id=entIdentDecl COLON res=nodeTypeContinuation[id, declLocation] // node declaration
 	| ( annots=annotations { hasAnnots = true; } )?
 		c:COLON // anonymous node declaration
 			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
-			res=patNodeTypeContinuation[id]
+			res=nodeTypeContinuation[id, declLocation]
 	| d:DOT // anonymous node declaration of type node
 		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
 		( annots=annotations { id.setAnnotations(annots); } )?
-		{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
+		{ res = new NodeDeclNode(id, env.getNodeRoot(), declLocation, TypeExprNode.getEmpty()); }
 	;
 
-patNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
+nodeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
+		IdentNode oldid = null;
 	}
 	
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
-		) ( constr=typeConstraint )?
-			{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
+		)
+		( constr=typeConstraint )?
+		( LT oldid=entIdentUse GT )?
+			{ 
+				if(oldid==null) {
+					res = new NodeDeclNode(id, type, declLocation, constr);
+				} else {
+					res = new NodeTypeChangeNode(id, type, declLocation, oldid);
+				}
+			}
 	;
 	
-patNodeDecl returns [ BaseNode res = env.initNode() ]
+nodeDecl [ int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
 		TypeExprNode constr = TypeExprNode.getEmpty();
+		IdentNode oldid = null;
 	}
 
 	: id=entIdentDecl COLON
@@ -518,38 +559,35 @@ patNodeDecl returns [ BaseNode res = env.initNode() ]
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-			{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_PATTERN, constr); }
+		( LT oldid=entIdentUse GT )?
+			{ 
+				if(oldid==null) {
+					res = new NodeDeclNode(id, type, declLocation, constr);
+				} else {
+					res = new NodeTypeChangeNode(id, type, declLocation, oldid);
+				}
+			}
 	;
 
-patForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
-	{
-		BaseNode type = env.getEdgeRoot();
-		TypeExprNode constr = TypeExprNode.getEmpty();
-	}
-
-	: MINUS ( res=patEdgeDecl | res=entIdentUse) RARROW
+forwardEdgeOcc [ int declLocation ] returns [ BaseNode res = env.initNode() ]
+	: MINUS ( res=edgeDecl[declLocation] | res=entIdentUse) RARROW
 	| mm:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr);
+			res = new EdgeDeclNode(id, env.getEdgeRoot(), declLocation, TypeExprNode.getEmpty());
 		}
 	;
 
-patBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
-	{
-		BaseNode type = env.getEdgeRoot();
-		TypeExprNode constr = TypeExprNode.getEmpty();
-	}
-
-	: LARROW ( res=patEdgeDecl | res=entIdentUse ) MINUS
+backwardEdgeOcc [ int declLocation ] returns [ BaseNode res = env.initNode() ]
+	: LARROW ( res=edgeDecl[declLocation] | res=entIdentUse ) MINUS
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr);
+			res = new EdgeDeclNode(id, env.getEdgeRoot(), declLocation, TypeExprNode.getEmpty());
 		}
 	;
 
-patEdgeDecl returns [ BaseNode res = env.initNode() ]
+edgeDecl [ int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id = env.getDummyIdent();
 		Annotations annots = env.getEmptyAnnotations();
@@ -557,31 +595,40 @@ patEdgeDecl returns [ BaseNode res = env.initNode() ]
 	}
 
 	:   ( id=entIdentDecl COLON
-			res=patEdgeTypeContinuation[id]
+			res=edgeTypeContinuation[id, declLocation]
 		| atCo=annotationsWithCoords
 			( c:COLON
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
-				res=patEdgeTypeContinuation[id]
+				res=edgeTypeContinuation[id, declLocation]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), EdgeDeclNode.DECL_IN_PATTERN, TypeExprNode.getEmpty()); }
+				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), declLocation, TypeExprNode.getEmpty()); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
-			res=patEdgeTypeContinuation[id]
+			res=edgeTypeContinuation[id, declLocation]
 		)
 	;
 
-patEdgeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
+edgeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
+		IdentNode oldid = null;
 	}
 	
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
-		) ( constr=typeConstraint )?
-			{ res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_PATTERN, constr); }
+		)
+		( constr=typeConstraint )?
+		( LT oldid=entIdentUse GT )?
+			{
+				if( oldid == null ) {
+					res = new EdgeDeclNode(id, type, declLocation, constr);
+				} else {
+					res = new EdgeTypeChangeNode(id, type, declLocation, oldid);
+				}
+			}
 	;
 	
 /**
@@ -633,7 +680,7 @@ replaceBody [ Coords coords, CollectNode eval ] returns [ GraphNode res = null ]
 	;
 
 replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval ]
-	: replConnectionsOrSubpattern[connections, subpatterns] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, ConstraintDeclNode.DECL_IN_REPLACEMENT] SEMI
 	| replaceReturns[returnz] SEMI
 	| evalPart[eval]
 	;
@@ -650,281 +697,10 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ Graph
 	;
 
 modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval, CollectNode dels ]
-	: replConnectionsOrSubpattern[connections, subpatterns] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, ConstraintDeclNode.DECL_IN_REPLACEMENT] SEMI
 	| replaceReturns[returnz] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
-	;
-
-replConnectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
-	: replFirstEdge[conn] // connection starts with an edge which dangles on the left
-	| replFirstNodeOrSubpattern[conn, subpatterns] // connection starts with a node
-	;
-	
-replFirstEdge [ CollectNode conn ]
-	{
-		BaseNode e;
-		boolean forward = true;
-	}
-	
-	:   ( e=replForwardEdgeOcc { forward=true; } // get first edge
-		| e=replBackwardEdgeOcc { forward=false; }
-		)
-			replNodeContinuation[e, env.getDummyNodeDecl(NodeDeclNode.DECL_IN_REPLACEMENT), forward, conn] // and continue looking for node
-	;
-	
-replFirstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns ]
-	{
-		IdentNode id = env.getDummyIdent();
-		IdentNode type = env.getNodeRoot();
-		IdentNode oldid = null;
-		Annotations annots = env.getEmptyAnnotations();
-		boolean hasAnnots = false;
-		CollectNode subpatternConnections = new CollectNode();
-		CollectNode subpatternReplConnections = new CollectNode();
-		BaseNode n = null;
-	}
-
-	: n=entIdentUse firstReplEdgeContinuation[n, conn] // use of already declared node, continue looking for first edge
-	| id=entIdentUse l:LPAREN (paramList[subpatternReplConnections])? RPAREN // use of already declared subpattern
-		{ subpatterns.addChild(new SubpatternReplNode(id, subpatternReplConnections)); }
-		{ reportError(getCoords(l), "subpatterns not yet supported"); }
-	| id=entIdentDecl cc:COLON // node or subpattern declaration
-		( // node declaration
-			type=typeIdentUse
-			( LT oldid=entIdentUse GT )?
-			{
-				if(oldid==null) {
-					n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-				} else {
-					n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-				}
-			}
-			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
-		| // node typeof declaration
-			TYPEOF LPAREN type=entIdentUse RPAREN
-			( LT oldid=entIdentUse GT )?
-			{
-				if(oldid==null) {
-					n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-				} else {
-					n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-				}
-			}
-			firstReplEdgeContinuation[n, conn] // and continue looking for first edge
-		| // subpattern declaration
-			type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
-			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
-			{ reportError(getCoords(cc), "subpatterns not yet supported"); }
-		)
-	| ( annots=annotations { hasAnnots = true; } )?
-		c:COLON // anonymous node or subpattern declaration
-			( // node declaration
-				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-				type=typeIdentUse
-				( LT oldid=entIdentUse GT )?
-				{
-					if(oldid==null) {
-						n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-					} else {
-						n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-					}
-				}
-				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
-			| // node typeof declaration
-				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-				TYPEOF LPAREN type=entIdentUse RPAREN
-				( LT oldid=entIdentUse GT )?
-				{
-					if(oldid==null) {
-						n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-					} else {
-						n = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-					}
-				}
-				firstReplEdgeContinuation[n, conn] // and continue looking for first edge
-			| // subpattern declaration
-				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
-				type=typeIdentUse LPAREN (paramList[subpatternConnections])? RPAREN
-				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
-				{ reportError(getCoords(c), "subpatterns not yet supported"); }
-			)
-			{ if (hasAnnots) { id.setAnnotations(annots); } }
-	| d:DOT // anonymous node declaration of type node
-		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
-		( annots=annotations { id.setAnnotations(annots); } )?
-		{ n = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT); }
-		firstReplEdgeContinuation[n, conn] // and continue looking for first edge
-	;
-	
-replNodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn ]
-	{ BaseNode n2 = env.getDummyNodeDecl(NodeDeclNode.DECL_IN_REPLACEMENT); }
-	
-	: n2=replNodeOcc // node following - get it and build connection with it, then continue with looking for follwing edge 
-		{
-			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2));
-			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1));
-			}
-		}
-		replEdgeContinuation[n2, conn]
-	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
-		{
-			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2));
-			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1));
-			}
-		}
-	;
-
-firstReplEdgeContinuation [ BaseNode n, CollectNode conn ]
-	{
-		BaseNode e;
-		boolean forward = true;
-	}
-	
-	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
-	|   ( e=replForwardEdgeOcc { forward=true; }
-		| e=replBackwardEdgeOcc { forward=false; }
-		)
-			replNodeContinuation[e, n, forward, conn] // continue looking for node
-	;
-	
-replEdgeContinuation [ BaseNode left, CollectNode conn ]
-	{
-		BaseNode e;
-		boolean forward = true;
-	}
-	
-	:   // nothing following? -> connection end reached
-	|   ( e=replForwardEdgeOcc { forward=true; }
-		| e=replBackwardEdgeOcc { forward=false; }
-		)
-			replNodeContinuation[e, left, forward, conn] // continue looking for node
-	;
-	
-replNodeOcc returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode id = env.getDummyIdent();
-		IdentNode type = env.getNodeRoot();
-		Annotations annots = env.getEmptyAnnotations();
-		boolean hasAnnots = false;
-	}
-
-	: res=entIdentUse // use of already declared node
-	| id=entIdentDecl COLON res=replNodeTypeContinuation[id] // node declaration
-	| ( annots=annotations { hasAnnots = true; } )?
-		c:COLON // anonymous node declaration
-			{ id = env.defineAnonymousEntity("node", getCoords(c)); }
-			{ if (hasAnnots) { id.setAnnotations(annots); } }
-			res=replNodeTypeContinuation[id]
-	| d:DOT // anonymous node declaration of type node
-		{ id = env.defineAnonymousEntity("node", getCoords(d)); }
-		( annots=annotations { id.setAnnotations(annots); } )?
-		{ res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT); }
-	;
-
-replNodeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode type = env.getNodeRoot();
-		IdentNode oldid = null;
-	}
-	
-	:	( type=typeIdentUse
-		| TYPEOF LPAREN type=entIdentUse RPAREN
-		) ( LT oldid=entIdentUse GT )?
-			{ 
-				if(oldid==null) {
-					res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-				} else {
-					res = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-				}
-			}
-	;
-	
-replNodeDecl returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode id, type;
-		IdentNode oldid = null;
-	}
-
-	: id=entIdentDecl COLON
-		( type=typeIdentUse
-		| TYPEOF LPAREN type=entIdentUse RPAREN
-		)
-		( LT oldid=entIdentUse GT )?
-			{ 
-				if(oldid==null) {
-					res = new NodeDeclNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT);
-				} else {
-					res = new NodeTypeChangeNode(id, type, NodeDeclNode.DECL_IN_REPLACEMENT, oldid);
-				}
-			}
-	;
-	
-replForwardEdgeOcc returns [ BaseNode res = env.initNode() ]
-	{ IdentNode type = env.getEdgeRoot(); }
-
-	: MINUS ( res=entIdentUse | res=replEdgeDecl ) RARROW 
-	| mm:DOUBLE_RARROW
-		{
-			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
-		}
-  ;
-
-replBackwardEdgeOcc returns [ BaseNode res = env.initNode() ]
-	{ IdentNode type = env.getEdgeRoot(); }
-
-	: LARROW ( res=entIdentUse | res=replEdgeDecl ) MINUS 
-	| mm:DOUBLE_LARROW
-		{
-			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
-		}
-	;
-
-replEdgeDecl returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode id = env.getDummyIdent();
-		Annotations annots = env.getEmptyAnnotations();
-		Pair<DefaultAnnotations, de.unika.ipd.grgen.parser.Coords> atCo;
-	}
-
-	:   ( id=entIdentDecl COLON
-			res=replEdgeTypeContinuation[id]
-		| atCo=annotationsWithCoords
-			( c:COLON
-				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
-				res=replEdgeTypeContinuation[id]
-			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), EdgeDeclNode.DECL_IN_REPLACEMENT); }
-			)
-				{ id.setAnnotations(atCo.first); }
-		| cc:COLON
-			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
-			res=replEdgeTypeContinuation[id]
-		)
-	;
-
-replEdgeTypeContinuation [ IdentNode id ] returns [ BaseNode res = env.initNode() ]
-	{
-		IdentNode type = env.getNodeRoot();
-		IdentNode oldid = null;
-	}
-	
-	:	( type=typeIdentUse
-		| TYPEOF LPAREN type=entIdentUse RPAREN
-		) ( LT oldid=entIdentUse GT )?
-			{
-				if( oldid == null ) {
-					res = new EdgeDeclNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT);
-				} else {
-					res = new EdgeTypeChangeNode(id, type, EdgeDeclNode.DECL_IN_REPLACEMENT, oldid);
-				}
-			}
 	;
 	
 replaceReturns[CollectNode res]
