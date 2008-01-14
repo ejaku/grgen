@@ -179,12 +179,12 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		set.add(edge);
 	}
 
-	public EdgeCharacter getEdge() {
-		return (EdgeCharacter) edge;
+	public EdgeDeclNode getEdge() {
+		return edge;
 	}
 
-	public NodeCharacter getSrc() {
-		return (NodeCharacter) left;
+	public NodeDeclNode getSrc() {
+		return left;
 	}
 
 	public void setSrc(NodeDeclNode n) {
@@ -193,12 +193,12 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		left = n;
 	}
 
-	public NodeCharacter getTgt() {
-		return (NodeCharacter) right;
+	public NodeDeclNode getTgt() {
+		return right;
 	}
 
 	public void setTgt(NodeDeclNode n) {
-		assert(n!=null);
+		assert(n != null);
 		switchParenthood(right, n);
 		right = n;
 	}
