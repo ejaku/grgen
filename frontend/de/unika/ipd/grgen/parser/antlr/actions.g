@@ -93,7 +93,7 @@ text returns [ BaseNode main = env.initNode() ]
 	| usingDecl[modelChilds]
 	)?
 
-	( patternAndActionDecls[patternChilds, actionChilds] EOF )?
+	( patternOrActionDecls[patternChilds, actionChilds] EOF )?
 		{
 			main = new UnitNode(id, getFilename(), modelChilds, patternChilds, actionChilds);
 			env.getCurrScope().leaveScope();
@@ -125,21 +125,10 @@ usingDecl [ CollectNode modelChilds ]
 		}
 	;
 
-patternAndActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
-	{
-		IdentNode d;
-		int mod = 0;
-	}
+patternOrActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
+	{ int mod = 0; }
 
-	:   (mod=patternModifiers
-			( d=patternDecl[mod]
-				{ patternChilds.addChild(d); } 
-			| d=testDecl[mod]
-				{ actionChilds.addChild(d); } 
-			| d=ruleDecl[mod]
-				{ actionChilds.addChild(d); } 
-			)
-		)+
+	: ( mod=patternModifiers patternOrActionDecl[patternChilds, actionChilds, mod] )+
 	;
 	
 patternModifiers returns [ int res = 0 ]
@@ -164,29 +153,7 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	        }
 	;
 
-testDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
-	{
-		IdentNode id;
-		PatternGraphNode pattern;
-		CollectNode params, ret;
-		CollectNode negs = new CollectNode();
-	}
-
-	: t:TEST { if((mod & PatternGraphNode.MOD_DPO)!=0) {
-				reportError(getCoords(t), "no \"dpo\" modifier allowed");
-			}
-		}
-	
-		id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
-		pattern=patternPart[getCoords(t), negs, mod]
-			{
-				id.setDecl(new TestDeclNode(id, pattern, negs, params, ret));
-				res = id;
-			}
-		RBRACE popScope
-	;
-
-ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
+patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int mod ]
 	{
 		IdentNode id;
 		PatternGraphNode left;
@@ -197,47 +164,46 @@ ruleDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode dels = new CollectNode();
 	}
 
-	: r:RULE id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
+	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
+		left=patternPart[getCoords(t), negs, mod]
+			{
+				id.setDecl(new TestDeclNode(id, left, negs, params, ret));
+				{ actionChilds.addChild(id); } 
+			}
+		RBRACE popScope
+		{ if((mod & PatternGraphNode.MOD_DPO)!=0) {
+			  reportError(getCoords(t), "no \"dpo\" modifier allowed");
+		  }
+		}
+	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), negs, mod]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
-				res = id;
+				{ actionChilds.addChild(id); } 
 			}
 		| right=modifyPart[eval,dels]
 			{
 				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
-				res = id;
+				{ actionChilds.addChild(id); } 
 			}
 		)
 		RBRACE popScope
-	;
-
-patternDecl [int mod] returns [ IdentNode res = env.getDummyIdent() ]
-	{
-		IdentNode id;
-		PatternGraphNode left;
-		GraphNode right;
-		CollectNode params;
-		CollectNode negs = new CollectNode();
-		CollectNode eval = new CollectNode();
-		CollectNode dels = new CollectNode();
-	}
-	: p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] LBRACE
+	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[ConstraintDeclNode.DECL_IN_PATTERN] LBRACE
 		left=patternPart[getCoords(p), negs, mod]
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, null));
-				res = id;
+				{ patternChilds.addChild(id); } 
 			}
 		| right=modifyPart[eval,dels]
 			{
 				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, null, dels));
-				res = id;
+				{ patternChilds.addChild(id); } 
 			}
 		)
 		RBRACE popScope
-			{ reportError(getCoords(p), "pattern declarations not yet supported"); }
+		{ reportError(getCoords(p), "pattern declarations not yet supported"); }
 	;
 	
 parameters [ int declLocation ] returns [ CollectNode res = new CollectNode() ]
