@@ -28,35 +28,23 @@ import java.util.LinkedList;
 
 public class Evaluation extends IR {
 	/**
-	 * The evaluations constituing a Evaluation of Rule.
-	 * They are orgnized in a list, since their order is vital.
+	 * The evaluations constituting an Evaluation of a rule.
+	 * They are organized in a list, since their order is vital.
 	 * Applying them in a random order will lead to different results.
 	 */
 	private LinkedList<IR> evaluations = new LinkedList<IR>();
 	
-	/**
-	 * Constructor
-	 *
-	 */
 	Evaluation() {
 		super("eval");
 	}
 	
-	/**
-	 * Method add adds an element to the list of evaluations.
-	 *
-	 * @param    aeval               an IR
-	 */
+	/** Adds an element to the list of evaluations. */
 	public void add(IR aeval) {
 		evaluations.add(aeval);
 	}
 	
-	/**
-	 * Method iterator returns a Iterator of its elements.
-	 *
-	 * @return   an Iterator
-	 */
-	public Collection<?extends IR> getWalkableChildren() {
+	/** @return the list of evaluations as collection */
+	public Collection<? extends IR> getWalkableChildren() {
 		return evaluations;
 	}
 }

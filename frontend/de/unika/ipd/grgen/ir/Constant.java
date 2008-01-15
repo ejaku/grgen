@@ -24,11 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-
-
-/**
- * Abstract base class for all constants.
- */
 import java.util.Set;
 
 public class Constant extends Expression {
@@ -45,26 +40,16 @@ public class Constant extends Expression {
 		this.value = value;
 	}
 	
-	/**
-	 * Get the value of the constant.
-	 * @return The value.
-	 */
+	/** @return The value of the constant. */
 	public Object getValue() {
 		return value;
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
 	public String getNodeLabel() {
 		return getName() + " " + value;
 	}
 	
-	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
-	 */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {}
 }

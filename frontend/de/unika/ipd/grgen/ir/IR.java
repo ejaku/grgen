@@ -39,57 +39,43 @@ import java.util.Map;
 public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	
 	private static final IR bad = new Bad();
-	
-	private static final String[] noChildrenNames = { };
-	
-	private boolean canonicalValid = false;
-	
-	/** Names of the children of this node */
-	private String[] childrenNames;
-	
+
 	/** The name of this IR object */
 	private String name;
+
+	/** Names of the children of this node */
+	private String[] childrenNames;
+
+	/** children name object for children without names */
+	private static final String[] noChildrenNames = { };
+
+	private boolean canonicalValid = false;
 	
-	/**
-	 * Make a new IR object with a name.
-	 * @param name The name.
-	 */
+	
+	/** Make a new IR object and name it. */
 	protected IR(String name) {
 		this.name = name;
 		childrenNames = noChildrenNames;
 	}
 	
-	/**
-	 * Is this ir object bad.
-	 * @return true, if the ir object is bad, false otherwise.
-	 */
+	/** @return true, if this ir object is bad, false otherwise. */
 	public boolean isBad() {
 		return false;
 	}
 	
-	/**
-	 * Get a bad ir object.
-	 * @return A bad ir object.
-	 */
+	/** @return A bad ir object. */
 	public static IR getBad() {
 		return bad;
 	}
 	
-	/**
-	 * Get the name of this IR object.
-	 * That is (group, node, edge, test, ...)
-	 * @return The name of this IR object.
-	 */
+	/** @return The name of this IR object (that is group, node, edge, test, ...). */
 	public String getName() {
 		return name;
 	}
 	
-	/**
-	 * Re-set the name of an IR object.
-	 * @param s The new name.
-	 */
-	protected void setName(String s) {
-		name = s;
+	/** Set the name of this IR object. */
+	protected void setName(String newName) {
+		name = newName;
 	}
 	
 	/**
@@ -109,87 +95,9 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 		this.childrenNames = names;
 	}
 	
-	/**
-	 * By default this object has the number of the edge as edge label.
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
-	 */
-	public String getEdgeLabel(int edge) {
-		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
-	 */
-	public Color getNodeColor() {
-		return Color.WHITE;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
-	 */
-	public String getNodeId() {
-		return getId();
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-	public String getNodeInfo() {
-		return "ID: " + getId();
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-	public String getNodeLabel() {
-		return name;
-	}
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape()
-	 */
-	public int getNodeShape() {
-		return GraphDumper.DEFAULT;
-	}
-	
-	
-	/**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
+	/** @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends IR> getWalkableChildren() {
 		return Collections.emptySet();
-	}
-	
-	/**
-	 * Get the name of the tag.
-	 * @return The tag string.
-	 */
-	public String getTagName() {
-		return getName().replace(' ', '_');
-	}
-	
-	/**
-	 * Name of the tag that expression a reference to
-	 * this object.
-	 * @return The ref tag name.
-	 */
-	public String getRefTagName() {
-		return getName().replace(' ', '_') + "_ref";
-	}
-	
-	/**
-	 * Get a unique ID for this object.
-	 * @return A unique ID.
-	 */
-	public String getXMLId() {
-		return getId();
-	}
-	
-	/**
-	 * Add the XML fields to a map.
-	 * @param fields The map to add the fields to.
-	 */
-	public void addFields(Map<String, Object> fields) {
 	}
 	
 	/**
@@ -210,9 +118,70 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 		canonicalValid = false;
 	}
 	
-	/**
-	 * Add this type to the digest.
-	 */
+	/** Add this type to the digest. */
 	void addToDigest(StringBuffer sb) {
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////
+	// XML dumping
+//////////////////////////////////////////////////////////////////////////////////////////
+
+	/** @return Name of the tag as string. */
+	public String getTagName() {
+		return getName().replace(' ', '_');
+	}
+	
+	/** @return Name of the tag that expresses a reference to this object. */
+	public String getRefTagName() {
+		return getName().replace(' ', '_') + "_ref";
+	}
+
+	/**
+	 * Add the XML fields to a map.
+	 * @param fields The map to add the fields to.
+	 */
+	public void addFields(Map<String, Object> fields) {
+	}
+	
+	/** @return A unique ID for this object. */
+	public String getXMLId() {
+		return getId();
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+	// graph dumping
+//////////////////////////////////////////////////////////////////////////////////////////
+	
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
+	public String getNodeId() {
+		return getId();
+	}
+	
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
+	public Color getNodeColor() {
+		return Color.WHITE;
+	}
+
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeShape() */
+	public int getNodeShape() {
+		return GraphDumper.DEFAULT;
+	}
+
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	public String getNodeLabel() {
+		return name;
+	}
+	
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
+	public String getNodeInfo() {
+		return "ID: " + getId();
+	}
+
+	/**
+	 * By default this object has the number of the edge as edge label.
+	 * @see de.unika.ipd.grgen.util.GraphDumpable#getEdgeLabel(int)
+	 */
+	public String getEdgeLabel(int edge) {
+		return edge < childrenNames.length ? childrenNames[edge] : "" + edge;
 	}
 }

@@ -46,30 +46,18 @@ public class PatternGraph extends Graph {
 	/** A list of all potentially homomorphic sets. */
 	private final List<Collection<GraphEntity>> homs = new LinkedList<Collection<GraphEntity>>();
 	
-	/**
-	 * A list of all pattern nodes, which may be homomorphically matched
-	 * to any other pattern nodes.
-	 **/
+	/** A set of all pattern nodes, which may be homomorphically matched to any other pattern nodes. */
 	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
 
-    /**
-	 * A list of all pattern edges, which may be homomorphically matched
-	 * to any other pattern edges.
-	 **/
+    /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
-	/**
-	 * Add a condition to the graph.
-	 * @param expr The condition's expression.
-	 */
+	/** Add a condition given by it's expression expr to the graph. */
 	public void addCondition(Expression expr) {
 		conds.add(expr);
 	}
 
-	/**
-	 * Add a potentially homomorphic set to the graph.
-	 * @param expr The condition's expression.
-	 */
+	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphic(Collection<GraphEntity> hom) {
 		homs.add(hom);
 	}
@@ -82,18 +70,12 @@ public class PatternGraph extends Graph {
 		homToAllEdges.add(edge);
 	}
 	
-	/**
-	 * Get all conditions in this graph.
-	 * @return A collection containing all conditions in this graph.
-	 */
+	/** Get a collection with all conditions in this graph. */
 	public Collection<Expression> getConditions() {
 		return Collections.unmodifiableCollection(conds);
 	}
 
-	/**
-	 * Get all potentially homomorphic sets.
-	 * @return A collection containing all conditions in this graph.
-	 */
+	/** Get all potentially homomorphic sets in this graph. */
 	public Collection<Collection<GraphEntity>> getHomomorphic() {
 		return Collections.unmodifiableCollection(homs);
 	}

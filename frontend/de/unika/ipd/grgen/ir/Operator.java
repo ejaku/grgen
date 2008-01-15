@@ -72,26 +72,18 @@ public class Operator extends Expression {
 	
 	
 	
-	/**
-	 * @param type The type of the operator.
-	 */
+	/** @param type The type of the operator. */
 	public Operator(PrimitiveType type, int opCode) {
 		super("operator", type);
 		this.opCode = opCode;
 	}
 	
-	/**
-	 * Get the opcode of this operator.
-	 * @return The opcode.
-	 */
+	/** @return The opcode of this operator. */
 	public int getOpCode() {
 		return opCode;
 	}
 	
-	/**
-	 * Get the number of operands.
-	 * @return The number of operands.
-	 */
+	/** @return The number of operands. */
 	public int arity() {
 		return operands.size();
 	}
@@ -105,10 +97,7 @@ public class Operator extends Expression {
 		return index >= 0 || index < operands.size() ? operands.get(index) : null;
 	}
 	
-	/**
-	 * Add an operand to the expression.
-	 * @param e An operand.
-	 */
+	/** Adds an operand e to the expression. */
 	public void addOperand(Expression e) {
 		operands.add(e);
 	}
@@ -127,12 +116,7 @@ public class Operator extends Expression {
 		return operands;
 	}
 	
-	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
-	 */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
 		for(Expression child : getWalkableChildren())
 			child.collectNodesnEdges(nodes, edges);

@@ -38,10 +38,6 @@ public class ConnAssert extends IR {
 	private final NodeType srcType;
 	private final NodeType tgtType;
 	
-	/**
-	 * Make a new edge type.
-	 * @param ident The identifier declaring this type.
-	 */
 	public ConnAssert(NodeType srcType, int srcLower, int srcUpper,
 										NodeType tgtType, int tgtLower, int tgtUpper) {
 		super("conn assert");

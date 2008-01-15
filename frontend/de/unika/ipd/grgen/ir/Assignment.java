@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ir;
 
 
 /**
- * Abstract base class for all constants.
+ * Represents an assignment statement in the IR.
  */
 public class Assignment extends IR {
 	

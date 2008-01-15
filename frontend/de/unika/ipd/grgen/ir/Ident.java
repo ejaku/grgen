@@ -61,7 +61,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 	/** A precomputed hash code. */
 	private final int precomputedHashCode;
 	
-  /**
+	/**
 	 * New Identifier.
 	 * @param text The text of the identifier.
 	 * @param scope The scope/namespace of the identifier.
@@ -70,7 +70,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 	 * can carry several annotations which serve as meta information
 	 * usable by backend components).
 	 */
-  private Ident(String text, SymbolTable symTab, Scope scope,
+	private Ident(String text, SymbolTable symTab, Scope scope,
 								Coords def, Annotations annots) {
 		super("ident");
 		this.text = text;
@@ -79,9 +79,9 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 		this.def = def;
 		this.annots = annots;
 		this.precomputedHashCode = (symTab.getName() + ":" + text).hashCode();
-  }
+	}
 	
-  /**
+	/**
 	 * New Identifier.
 	 * @param text The text of the identifier.
 	 * @param def The location of the definition of the identifier.
@@ -90,37 +90,31 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 		this(text, SymbolTable.getInvalid(), Scope.getInvalid(), def, annots);
 	}
   
-  /**
-	 * The string of an identifier is its text.
-	 * @see java.lang.Object#toString()
-	 */
-  public String toString() {
+	/** The string of an identifier is its text.
+	 *  @see java.lang.Object#toString() */
+	public String toString() {
 		return text;
-  }
+	}
 	
-	/**
-	 * Get the location, where the identifier was defined.
-	 * @return The location of the identifier's definition.
-	 */
+	/** @return The location where the identifier was defined. */
 	public Coords getCoords() {
 		return def;
 	}
   
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
-	 * Two identifiers are equal, if they have the same names and
-	 * the same location of definition.
+	 * Two identifiers are equal, if they have the same names and the same location of definition.
 	 */
-  public boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		boolean res = false;
 		if(obj instanceof Ident) {
 			Ident id = (Ident) obj;
 			res = text.equals(id.text) && scope.equals(id.scope);
 		}
 		return res;
-  }
+	}
   
-  /**
+	/**
 	 * Identifier factory.
 	 * Use this to get a new Identifier using a string and a location
 	 * @param text The text of the identifier.
@@ -129,7 +123,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 	 * @param annots The annotations of this identifier.
 	 * @return The IR identifier object for the desired identifier.
 	 */
-  public static Ident get(String text, Symbol.Definition def, Annotations annots) {
+	public static Ident get(String text, Symbol.Definition def, Annotations annots) {
 		Coords loc = def.getCoords();
 		String key = text + "#" + loc.toString();
 		Ident res;
@@ -142,43 +136,18 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 			identifiers.put(key, res);
 		}
 		return res;
-  }
-	
-	/**
-	 * Identifier factory.
-	 * Use this function to achieve the same as {@link #get(String, Location)}
-	 * without a location.
-	 * @param text The text of the identifier.
-	 * @param scope The scope/namespace.
-	 * @param annots The annotations of this identifier.
-	 * @return The IR identifier object for the desired identifier.
-	 */
-	/*
-	public static Ident get(String text, Scope scope, Annotations annots) {
-		return get(text, SymbolTable.getInvalid(), scope, Coords.getInvalid(), annots);
 	}
 	
-	public static Ident get(String text) {
-		return get(text, SymbolTable.getInvalid(), Scope.getInvalid(),
-							 Coords.getInvalid(), EmptyAnnotations.get());
-	}
-	 */
-	
-	
-  /**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo()
-	 */
-  public String getNodeInfo() {
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
+	public String getNodeInfo() {
 		return super.getNodeInfo() + "\nCoords: " + def
 			+ "\nScope: " + scope.getPath();
-  }
+	}
 	
-  /**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-  public String getNodeLabel() {
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	public String getNodeLabel() {
 		return getName() + " " + text;
-  }
+	}
 	
 	/**
 	 * Compare an identifier to another.
@@ -201,12 +170,8 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 		return symTab;
 	}
 	
-	/**
-	 * Get the annotations.
-	 * @return The annotations.
-	 */
+	/** @return The annotations. */
 	public Annotations getAnnotations() {
 		return annots;
 	}
-	
 }

@@ -44,12 +44,7 @@ public class Typeof extends Expression {
 		return "typeof<" + entity + ">";
 	}
 
-	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
-	 */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
 		if(entity instanceof Node)
 			nodes.add((Node)entity);

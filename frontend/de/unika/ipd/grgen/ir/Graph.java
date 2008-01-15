@@ -50,8 +50,7 @@ import de.unika.ipd.grgen.util.Walkable;
  * declared nodes.
  */
 public class Graph extends IR {
-	protected abstract class GraphObject extends GraphDumpableProxy implements
-			Walkable {
+	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
 		public GraphObject(GraphDumpable gd) {
 			super(gd);
 		}
@@ -71,9 +70,7 @@ public class Graph extends IR {
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 		}
 
-		/**
-		 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
-		 */
+		/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
 		public String getNodeId() {
 			return nodeId;
 		}
@@ -115,6 +112,12 @@ public class Graph extends IR {
 	/** Map that maps an edge to an internal edge. */
 	private final Map<Edge, Graph.GraphEdge> edges = new LinkedHashMap<Edge, Graph.GraphEdge>();
 
+	
+	/** Make a new graph. */
+	public Graph() {
+		super("graph");
+	}
+	
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
 		if (n == null) return null;
@@ -160,13 +163,6 @@ public class Graph extends IR {
 	private GraphEdge checkEdge(Edge e) {
 		assert edges.containsKey(e) : "Edge must be in graph: " + e;
 		return edges.get(e);
-	}
-
-	/**
-	 * Make a new graph.
-	 */
-	public Graph() {
-		super("graph");
 	}
 
 	/**

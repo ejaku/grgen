@@ -37,20 +37,12 @@ public class MemberExpression extends Expression {
 		this.member = member;
 	}
 
-	/**
-	 * Returns the member entity of this member expression.
-	 */
+	/** Returns the member entity of this member expression. */
 	public Entity getMember() {
 		return member;
 	}
 
-	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression,
-	 * i.e. none.
-	 * @param    nodes               a  Set to contain the nodes of cond
-	 * @param    edges               a  Set to contain the edges of cond
-	 * @param    cond                an Expression
-	 */
+	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
 	}
 }
