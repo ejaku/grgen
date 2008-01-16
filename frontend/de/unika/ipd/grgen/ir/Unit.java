@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.SubpatternNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**
@@ -40,6 +41,8 @@ import de.unika.ipd.grgen.util.Util;
 public class Unit extends Identifiable {
 
 	private final List<Action> actions = new LinkedList<Action>();
+
+	private final List<Action> subpatterns = new LinkedList<Action>();
 	
 	private final List<Model> models = new LinkedList<Model>();
 	
@@ -55,7 +58,7 @@ public class Unit extends Identifiable {
 		this.filename = filename;
 	}
 	
-	/** Add an actions to the unit. */
+	/** Add an action to the unit. */
 	public void addAction(Action action) {
 		actions.add(action);
 	}
@@ -63,7 +66,17 @@ public class Unit extends Identifiable {
 	public Collection<Action> getActions() {
 		return Collections.unmodifiableCollection(actions);
 	}
+	
+	/** Add a subpattern to the unit. */
+	public void addSubpattern(Action action) {
+		subpatterns.add(action);
+	}
+	
+	public Collection<Action> getSubpatterns() {
+		return Collections.unmodifiableCollection(subpatterns);
+	}
 
+	/** Add a model to the unit. */
 	public void addModel(Model model) {
 		models.add(model);
 		digestValid = false;
@@ -87,6 +100,7 @@ public class Unit extends Identifiable {
 	protected void canonicalizeLocal() {
 		Collections.sort(models, Identifiable.COMPARATOR);
 		Collections.sort(actions, Identifiable.COMPARATOR);
+		Collections.sort(subpatterns, Identifiable.COMPARATOR);
 		
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();

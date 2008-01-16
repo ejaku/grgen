@@ -49,7 +49,8 @@ public class UnitNode extends DeclNode
 	protected static final TypeNode mainType = new MainTypeNode();
 
 	CollectNode models;
-	CollectNode decls;
+	CollectNode subpatterns;
+	CollectNode actions;
 
 	/** Contains the classes of all valid types which can be declared */
 	private static Class<?>[] validTypes = {
@@ -61,12 +62,14 @@ public class UnitNode extends DeclNode
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode patterns, CollectNode actions) {
+	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode subpatterns, CollectNode actions) {
 		super(id, mainType);
 		this.models = models;
 		becomeParent(this.models);
-		this.decls = actions;
-		becomeParent(this.decls);
+		this.subpatterns = subpatterns;
+		becomeParent(this.subpatterns);
+		this.actions = actions;
+		becomeParent(this.actions);
 		this.filename = filename;
 	}
 
@@ -76,7 +79,8 @@ public class UnitNode extends DeclNode
 		children.add(ident);
 		children.add(typeUnresolved);
 		children.add(models);
-		children.add(decls);
+		children.add(subpatterns);
+		children.add(actions);
 		return children;
 	}
 
@@ -86,7 +90,8 @@ public class UnitNode extends DeclNode
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("models");
-		childrenNames.add("decls");
+		childrenNames.add("subpatterns");
+		childrenNames.add("actions");
 		return childrenNames;
 	}
 
@@ -99,7 +104,8 @@ public class UnitNode extends DeclNode
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver declResolver = new DeclResolver(validTypes);
-		successfullyResolved = decls.resolveChildren(declResolver) && successfullyResolved;
+		successfullyResolved = actions.resolveChildren(declResolver) && successfullyResolved;
+		successfullyResolved = subpatterns.resolveChildren(declResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -108,23 +114,19 @@ public class UnitNode extends DeclNode
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = models.resolve() && successfullyResolved;
-		successfullyResolved = decls.resolve() && successfullyResolved;
+		successfullyResolved = subpatterns.resolve() && successfullyResolved;
+		successfullyResolved = actions.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
-	/**
-	 * The main node has an ident node and a collect node with
-	 * - group declarations
-	 * - edge class declarations
-	 * - node class declarations
-	 * as child.
-	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
-	 */
+	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
+	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
-		Checker declChecker = new CollectChecker(new SimpleChecker(validTypes));
+		Checker actionChecker = new CollectChecker(new SimpleChecker(validTypes));
 		return modelChecker.check(models, error)
-			& declChecker.check(decls, error);
+			& actionChecker.check(subpatterns, error)
+			& actionChecker.check(actions, error);
 	}
 
 	/**
@@ -148,8 +150,13 @@ public class UnitNode extends DeclNode
 			Model model = ((ModelNode)n).getModel();
 			res.addModel(model);
 		}
-
-		for(BaseNode n : decls.getChildren()) {
+		
+		for(BaseNode n : subpatterns.getChildren()) {
+			Action act = ((ActionDeclNode)n).getAction();
+			res.addSubpattern(act);
+		}
+		
+		for(BaseNode n : actions.getChildren()) {
 			Action act = ((ActionDeclNode)n).getAction();
 			res.addAction(act);
 		}
