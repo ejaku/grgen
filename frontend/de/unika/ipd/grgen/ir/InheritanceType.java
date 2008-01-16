@@ -56,18 +56,14 @@ public abstract class InheritanceType extends CompoundType {
 	/** The list of member initializers */
 	private List<MemberInit> memberInitializers = new LinkedList<MemberInit>();
 
-	/**
-	 * Collection containing all members defined in that type and in its supertype.
-	 * This field is used for caching.
-	 */
+	/** Collection containing all members defined in that type and in its supertype.
+	 *  This field is used for caching. */
 	private Map<String, Entity> allMembers = null;
 
 	/** The type modifiers. */
 	private final int modifiers;
 
-	/**
-	 * The name of the external implementation of this type or null.
-	 */
+	/** The name of the external implementation of this type or null. */
 	private String externalName = null;
 
 
@@ -85,10 +81,7 @@ public abstract class InheritanceType extends CompoundType {
 		inheritanceTypesByID.add(this);
 	}
 
-	/***
-	 * (Used in SearchPlanBackend2.java)
-	 * @return a unique type identifier starting with zero.
-	 */
+	/** @return a unique type identifier starting with zero. (Used in SearchPlanBackend2.java) */
 	public int getTypeID() {
 		return typeID;
 	}
@@ -97,34 +90,23 @@ public abstract class InheritanceType extends CompoundType {
 		return inheritanceTypesByID.get(typeID);
 	}
 
-	/**
-	 * Is this inheritance type the root of an inheritance hierarchy.
-	 * @return true, if this type does not inherit from some other type.
-	 */
+	/** @return true, if this type does not inherit from some other types, being the root of an inheritance hierarchy. */
 	public boolean isRoot() {
 		return directSuperTypes.isEmpty();
 	}
 
-	/**
-	 * Add a type, this type inherits from.
-	 * @param t The supertype.
-	 */
+	/** Adds a supertype, this type should inherit from. */
 	public void addDirectSuperType(InheritanceType t) {
 		directSuperTypes.add(t);
 		t.directSubTypes.add(this);
 	}
 
-	/**
-	 * Get an iterator over all types, this type directly inherits from.
-	 * @return The iterator.
-	 */
+	/** @return Collection of all types, this type directly inherits from. */
 	public Collection<InheritanceType> getDirectSuperTypes() {
 		return Collections.unmodifiableCollection(directSuperTypes);
 	}
 
-	/**
-	 * Returns all super types of this type (not including itself).
-	 */
+	/** @return Collection of all super types this type inherits from (not including itself). */
 	public Collection<InheritanceType> getAllSuperTypes() {
 		if(allSuperTypes==null) {
 			allSuperTypes = new LinkedHashSet<InheritanceType>();
@@ -137,14 +119,10 @@ public abstract class InheritanceType extends CompoundType {
 		return Collections.unmodifiableCollection(allSuperTypes);
 	}
 
-	/**
-	 * Get all subtypes of this type.
-	 * @return An iterator iterating over all sub types of this one.
-	 */
+	/** Get all subtypes of this type. */
 	public Collection<InheritanceType> getDirectSubTypes() {
 		return Collections.unmodifiableCollection(directSubTypes);
 	}
-
 
 	/**
 	 * Method getAllMembers computes the transitive closure of the members (attributes) of a type.
@@ -171,22 +149,15 @@ public abstract class InheritanceType extends CompoundType {
 		return allMembers.values();
 	}
 
-	/**
-	 * Adds a member initializer to this type.
-	 * @param init The member initializer to add.
-	 */
+	/** Adds the given member initializer to this type. */
 	public void addMemberInit(MemberInit init) {
 		memberInitializers.add(init);
 	}
 
-	/**
-	 * Get all member initializers of this type.
-	 * @return An collection containing all member initializers of this type.
-	 */
+	/** @return A collection containing all member initializers of this type. */
 	public Collection<MemberInit> getMemberInits() {
 		return memberInitializers;
 	}
-
 
 	/**
 	 * Check, if this type is a direct sub type of another type.

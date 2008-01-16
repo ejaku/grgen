@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An edge type.
+ * IR class that represents edge types.
  */
 public class EdgeType extends InheritanceType {
 	/** The connection assertions. */
@@ -50,11 +50,9 @@ public class EdgeType extends InheritanceType {
 	}
 
 	/**
-	 * Sorts the Connection assertion of this edge type, such that the
-	 * computed graph model digest is stable according to semantically
-	 * equivalent connection assertions. The order of the sorting is given
-	 * by the <code>compareTo</code> method.
-	 *
+	 * Sorts the Connection assertion of this edge type, 
+	 * so that the computed graph model digest is stable according to semantically equivalent connection assertions. 
+	 * The order of the sorting is given by the <code>compareTo</code> method.
 	 */
 	public void canonicalizeConnectionAsserts() {
 		Collections.sort(connectionAsserts, new Comparator<ConnAssert>() {
@@ -64,18 +62,12 @@ public class EdgeType extends InheritanceType {
 				});
 	}
 
-	/**
-	 * Add a connection assertion to this edge type.
-	 * @param ca The connection assertion.
-	 */
+	/** Add the given connection assertion to this edge type. */
 	public void addConnAssert(ConnAssert ca) {
 		connectionAsserts.add(ca);
 	}
 
-	/**
-	 * Get all connection assertions.
-	 * @return An iterator iterating over all connection assertions.
-	 */
+	/** Get all connection assertions. */
 	public Collection<ConnAssert> getConnAsserts() {
 		return Collections.unmodifiableCollection(connectionAsserts);
 	}

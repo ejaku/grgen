@@ -38,8 +38,7 @@ public abstract class TypeExpr extends IR {
 	/**
 	 * Evaluate this type expression by returning a set
 	 * of all types that are represented by the expression.
-	 * @return A collection of types that correspond to the
-	 * expression.
+	 * @return A collection of types that correspond to the expression.
 	 */
 	public abstract Collection<InheritanceType> evaluate();
 	

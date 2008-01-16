@@ -26,21 +26,12 @@ public class RetypedNode extends Node implements Retyped {
 		this.oldNode = (Node)old;
 	}
 
-	/**
-	 * If this is a retyped node then this will return
-	 * the original node in the graph.
-	 *
-	 * @return The retyped node
-	 */
+	/** returns the original node in the graph. */
 	public Node getOldNode() {
 		return oldNode;
 	}
 	
-	/**
-	 * Set the node being retyped to this one
-	 *
-	 * @param old The node being retyped to this one
-	 */
+	/** Set the old node being retyped to this one */
 	public void setOldNode(Node old) {
 		this.oldNode = old;
 	}

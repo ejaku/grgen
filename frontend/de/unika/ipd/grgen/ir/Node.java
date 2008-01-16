@@ -54,17 +54,12 @@ public class Node extends GraphEntity {
 		this(ident, type, EmptyAnnotations.get());
 	}
 	
-	/**
-	 * Get the type of the node.
-	 * @return The type of the node.
-	 */
+	/** @return The type of the node. */
 	public NodeType getNodeType() {
 		return type;
 	}
 
-	/**
-	 * Get the node from which this node inherits its dynamic type
-	 */
+	/** Get the node from which this node inherits its dynamic type */
 	public Node getTypeof() {
 		return (Node)typeof;
 	}

@@ -29,15 +29,12 @@ package de.unika.ipd.grgen.ir;
  */
 public class FloatType extends PrimitiveType {
 
-  public FloatType(Ident ident) {
-    super("float type", ident);
-  }
+	public FloatType(Ident ident) {
+		super("float type", ident);
+	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_FLOAT;
 	}
-
 }

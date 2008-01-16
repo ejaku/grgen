@@ -40,14 +40,12 @@ import de.unika.ipd.grgen.util.Walkable;
 /**
  * A graph pattern.
  * This is used for tests and the left and right sides and the NAC part of a rule.
- * These graphs have own classes for the nodes and edges as proxy objects
- * to the actual Node and Edge objects. The reason for this is:
- * The nodes and edges in a rule   that are common to the left and the right
- * side exist only once as a object (that's due to the fact, that these
- * objects are created from the AST declaration, which exist only once per
- * defined object). But we want to discriminate between the nodes on the
- * left and right hand side of a rule, even, if they represent the same
- * declared nodes.
+ * These graphs have own classes for the nodes and edges as proxy objects to the actual Node and Edge objects.
+ * The reason for this is: The nodes and edges in a rule that are common to the left and the right side 
+ * exist only once as a object (that's due to the fact, that these objects are created from the AST declaration,
+ * which exist only once per defined object). 
+ * But we want to discriminate between the nodes on the left and right hand side of a rule,
+ * even, if they represent the same declared nodes.
  */
 public class Graph extends IR {
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
@@ -175,20 +173,12 @@ public class Graph extends IR {
 		setName("graph " + s);
 	}
 
-	/**
-	 * Check if a node is contained in the graph.
-	 * @param node The node
-	 * @return true, if the node is contained the graph, false, if not.
-	 */
+	/** @return true, if the given node is contained the graph, false, if not. */
 	public boolean hasNode(Node node) {
 		return nodes.containsKey(node);
 	}
 
-	/**
-	 * Check if an edge is contained in the graph.
-	 * @param edge The edge
-	 * @return true, if the edge is contained the graph, false, if not.
-	 */
+	/** @return true, if the given edge is contained the graph, false, if not. */
 	public boolean hasEdge(Edge edge) {
 		return edges.containsKey(edge);
 	}
@@ -231,31 +221,19 @@ public class Graph extends IR {
 		return c;
 	}
 
-	/**
-	 * Get the number of ingoing edges.
-	 * @param node The node.
-	 * @return The number of ingoing edges;
-	 */
+	/** @return The number of ingoing edges of the given node */
 	public int getInDegree(Node node) {
 		GraphNode gn = checkNode(node);
 		return gn.incoming.size();
 	}
 
-	/**
-	 * Get the number of outgoing edges.
-	 * @param node The node.
-	 * @return The number of outgoing edges;
-	 */
+	/** @return The number of outgoing edges of the given node */
 	public int getOutDegree(Node node) {
 		GraphNode gn = checkNode(node);
 		return gn.outgoing.size();
 	}
 
-	/**
-	 * Get the set of all incoming edges for a node.
-	 * @param n The node.
-	 * @param c A set where the edges are put to.
-	 */
+	/** Get the set of all incoming edges for a given node, they are put into the given collection (which gets returned)*/
 	public Collection<Edge> getIncoming(Node n, Collection<Edge> c) {
 		GraphNode gn = checkNode(n);
 		for (Iterator<Graph.GraphEdge> it = gn.incoming.iterator(); it
@@ -266,21 +244,13 @@ public class Graph extends IR {
 		return c;
 	}
 
-	/**
-	 * Get an iterator iterating over all incoming edges of a node.
-	 * @param n The node
-	 * @return The iterator.
-	 */
+	/** Get the set of all incoming edges for a given node */
 	public Collection<? extends Edge> getIncoming(Node n) {
 		return Collections.unmodifiableCollection(getIncoming(n,
 				new LinkedList<Edge>()));
 	}
 
-	/**
-	 * Get the set of outgoing edges for a node.
-	 * @param n The node.
-	 * @param c A set where the edges are put to.
-	 */
+	/** Get the set of all outgoing edges for a given node, they are put into the given collection (which gets returned)*/
 	public Collection<Edge> getOutgoing(Node n, Collection<Edge> c) {
 		GraphNode gn = checkNode(n);
 		for (GraphEdge e : gn.outgoing) {
@@ -289,31 +259,19 @@ public class Graph extends IR {
 		return c;
 	}
 
-	/**
-	 * Get an iterator iterating over all outgoing edges of a node.
-	 * @param n The node
-	 * @return The iterator.
-	 */
+	/** Get the set of all outgoing edges for a given node */
 	public Collection<Edge> getOutgoing(Node n) {
 		return Collections.unmodifiableCollection(getOutgoing(n,
 				new LinkedList<Edge>()));
 	}
 
-	/**
-	 * Get the source node of an edge.
-	 * @param e The edge.
-	 * @return The node, the edge leaves, or null in case of a single edge.
-	 */
+	/** @return The source node, the edge leaves from, or null in case of a single edge. */
 	public Node getSource(Edge e) {
 		GraphEdge ge = checkEdge(e);
 		return ge.source != null ? ge.source.node : null;
 	}
 
-	/**
-	 * Get the target node of an edge.
-	 * @param e The edge
-	 * @return The node that the edge points to, or null in case of a single edge.
-	 */
+	/** @return The target node, the edge points to, or null in case of a single edge. */
 	public Node getTarget(Edge e) {
 		GraphEdge ge = checkEdge(e);
 		return ge.target != null ? ge.target.node : null;
@@ -322,10 +280,9 @@ public class Graph extends IR {
 	/**
 	 * Get an "end" of an edge.
 	 * @param e The edge.
-	 * @param source The end.
-	 * @return If <code>source</code> was true, this method returns the
-	 * source node of the edge, if <code>source</code> was false, it
-	 * returns the target node.
+	 * @param source Specifies which end to return.
+	 * @return If <code>source</code> is true, this method returns the source node of the edge, 
+	 * if <code>source</code> is false, it returns the target node.
 	 */
 	public Node getEnd(Edge e, boolean source) {
 		return source ? getSource(e) : getTarget(e);
@@ -352,40 +309,25 @@ public class Graph extends IR {
 		e.target = r;
 	}
 
-	/**
-	 * Add a single node (without an edge) to the graph.
-	 * @param node The node.
-	 */
+	/** Add a single node (i.e. no incident edges) to the graph. */
 	public void addSingleNode(Node node) {
 		getOrSetNode(node);
 	}
 
-    /**
-	 * Add a single node (without an edge) to the graph.
-	 * @param node The node.
-	 */
+    /** Add a single edge (i.e. dangling) to the graph. */
 	public void addSingleEdge(Edge edge) {
 		GraphEdge e = getOrSetEdge(edge);
 		e.source = null;
 		e.target = null;
 	}
 
-	/**
-	 * Check, if a node is a single node.
-	 * A node is <i>single</i>, if it has no incident edges.
-	 * @param node The node.
-	 * @return true, if the node is single, false if not.
-	 */
+	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
 	public boolean isSingle(Node node) {
 		GraphNode gn = checkNode(node);
 		return gn.incoming.isEmpty() && gn.outgoing.isEmpty();
 	}
 
-	/**
-	 * Get a graph dumpable thing for a node that is local in this graph.
-	 * @param node The node.
-	 * @return A graph dumpable thing representing this node local in this graph.
-	 */
+	/** @return A graph dumpable thing representing the given node local in this graph. */
 	public GraphDumpable getLocalDumpable(Node node) {
 		if (node == null)
 			return null;
@@ -393,9 +335,7 @@ public class Graph extends IR {
 			return checkNode(node);
 	}
 
-	/**
-	 * @see #getLocalDumpable(Node)
-	 */
+	/** @see #getLocalDumpable(Node) */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
 	}
@@ -403,12 +343,10 @@ public class Graph extends IR {
 	/**
 	 * Check, if this graph is a subgraph of another one.
 	 * @param g The other graph.
-	 * @return true, if all nodes and edges of this graph are
-	 * also contained in g.
+	 * @return true, if all nodes and edges of this graph are also contained in g.
 	 */
 	public boolean isSubOf(Graph g) {
 		return g.getNodes().containsAll(nodes.keySet())
 				&& g.getEdges().containsAll(edges.keySet());
 	}
-
 }

@@ -29,9 +29,8 @@ import java.util.Comparator;
 import java.util.Map;
 
 /**
- * Identifier with an identifier.
- * This is a super class for all classes which are associated with
- * an identifier.
+ * Identifiable with an identifier.
+ * This is a super class for all classes which are associated with an identifier.
  */
 public class Identifiable extends IR implements Annotated, Comparable {
 	
@@ -44,36 +43,27 @@ public class Identifiable extends IR implements Annotated, Comparable {
 	/** The identifier */
 	private Ident ident;
 	
-  /**
-	 * @param name The name of the IR class
-	 * @param ident The identifier associated with this IR object.
-	 */
-  public Identifiable(String name, Ident ident) {
+	/** @param name The name of the IR class
+	 *  @param ident The identifier associated with this IR object */
+	public Identifiable(String name, Ident ident) {
 		super(name);
 		this.ident = ident;
-  }
+	}
 	
-  /**
-	 * @return The identifier that identifies this IR structure.
-	 */
-  public Ident getIdent() {
+	/** @return The identifier that identifies this IR structure. */
+	public Ident getIdent() {
 		return ident;
-  }
+	}
 	
-  /**
-	 * Set the identifier for this object.
-	 * @param ident The identifier.
-	 */
-  public void setIdent(Ident ident) {
+	/** Set the identifier for this object. */
+	public void setIdent(Ident ident) {
 		this.ident = ident;
-  }
+	}
 	
-  /**
-	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel()
-	 */
-  public String getNodeLabel() {
+	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
+	public String getNodeLabel() {
 		return toString();
-  }
+	}
 	
 	public String getNodeInfo() {
 		return ident.getNodeInfo();
@@ -95,12 +85,8 @@ public class Identifiable extends IR implements Annotated, Comparable {
 		return COMPARATOR.compare(this,(Identifiable) obj);
 	}
 	
-	/**
-	 * Get the annotations.
-	 * @return The annotations.
-	 */
+	/** @return The annotations. */
 	public Annotations getAnnotations() {
 		return getIdent().getAnnotations();
 	}
-	
 }

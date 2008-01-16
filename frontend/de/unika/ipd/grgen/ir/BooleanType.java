@@ -25,22 +25,17 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * 
+ * A boolean type
  */
 public class BooleanType extends PrimitiveType {
 
-  /**
-   * @param ident The name of the boolean type. 
-   */
-  public BooleanType(Ident ident) {
-    super("boolean type", ident);
-  }
+	/** @param ident The name of the boolean type. */
+	public BooleanType(Ident ident) {
+		super("boolean type", ident);
+	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_BOOLEAN;
 	}
-
 }

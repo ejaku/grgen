@@ -32,7 +32,6 @@ public class EnumItem extends Identifiable {
 	
 	/**
 	 * Make a new enumeration value.
-	 *
 	 * @param id The enumeration item identifier.
 	 * @param value The associated value.
 	 */
@@ -42,39 +41,27 @@ public class EnumItem extends Identifiable {
 		this.value = value;
 	}
 	
-	/**
-	 * Returns the enum items identifier.
-	 * @return The identifier of the enum item.
-	 */
+	/** @return The identifier of the enum item. */
 	public Ident getIdent() {
 		return id;
 	}
 	
-	/**
-	 * The string of an enum item is its identifier's text.
-	 * @see java.lang.Object#toString()
-	 */
+	/** The string of an enum item is its identifier's text.
+	 * @see java.lang.Object#toString() */
 	public String toString() {
 		return id.toString();
 	}
 	
-	/**
-	 * Get the value of the enum item.
-	 * @return The value.
-	 */
+	/** @return The value of the enum item. */
 	public Constant getValue() {
 		return value;
 	}
 	
-	
-  /**
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
-  public Collection<IR> getWalkableChildren() {
+	/** @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Collection<IR> getWalkableChildren() {
 		Set<IR> res = new HashSet<IR>();
 		res.add(id);
 		res.add(value);
 		return res;
-  }
-	
+	}
 }

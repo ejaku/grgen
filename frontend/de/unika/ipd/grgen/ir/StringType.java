@@ -29,18 +29,13 @@ package de.unika.ipd.grgen.ir;
  */
 public class StringType extends PrimitiveType {
 
-  /**
-   * @param ident The name of the string type.
-   */
-  public StringType(Ident ident) {
-    super("string type", ident);
-  }
+	/** @param ident The name of the string type. */
+	public StringType(Ident ident) {
+		super("string type", ident);
+	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_STRING;
 	}
-
 }

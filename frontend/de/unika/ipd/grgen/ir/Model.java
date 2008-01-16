@@ -44,26 +44,18 @@ public class Model extends Identifiable {
 		super("model", ident);
 	}
 	
-	/**
-	 * Add a type to the type model.
-	 * @param type The type to add to the model.
-	 */
+	/** Add the given type to the type model. */
 	public void addType(Type type) {
 		types.add(type);
 		digestValid = false;
 	}
 	
-	/**
-	 * Get the types in the type model.
-	 * @return The types in the type model.
-	 */
+	/** @return The types in the type model. */
 	public Collection<Type> getTypes() {
 		return Collections.unmodifiableCollection(types);
 	}
 	
-	/**
-	 * Canonicalize the type model.
-	 */
+	/** Canonicalize the type model. */
 	protected void canonicalizeLocal() {
 		// Collections.sort(types, Identifiable.COMPARATOR);
 		Collections.sort(types);
@@ -90,9 +82,5 @@ public class Model extends Identifiable {
 		super.addFields(fields);
 		fields.put("types", types.iterator());
 	}
-	
-	
-	
-	
 }
 

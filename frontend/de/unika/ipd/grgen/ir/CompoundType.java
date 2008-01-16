@@ -36,9 +36,7 @@ import java.util.Map;
  */
 public abstract class CompoundType extends Type {
 	
-	/**
-	 * Collection containing all members defined in that type.
-	 */
+	/** Collection containing all members defined in that type. */
 	private List<Entity> members = new LinkedList<Entity>();
 	
 	/**
@@ -50,18 +48,12 @@ public abstract class CompoundType extends Type {
 		super(name, ident);
 	}
 	
-	/**
-	 * Get all members of this compund type.
-	 * @return An iterator with all members.
-	 */
+	/** Get all members of this compound type. */
 	public Collection<Entity> getMembers() {
 		return Collections.unmodifiableCollection(members);
 	}
 	
-	/**
-	 * Add a member to the compound type.
-	 * @param member The entity to add.
-	 */
+	/** Add a member entity to the compound type. */
 	public void addMember(Entity member) {
 		members.add(member);
 		member.setOwner(this);
@@ -90,5 +82,4 @@ public abstract class CompoundType extends Type {
 		
 		sb.append(']');
 	}
-	
 }

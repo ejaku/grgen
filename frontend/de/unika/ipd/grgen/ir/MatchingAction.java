@@ -52,7 +52,6 @@ public abstract class MatchingAction extends Action {
 	private final List<Entity> returns = new LinkedList<Entity>();
 
 	
-	
 	/**
 	 * @param name The name of this action.
 	 * @param ident The identifier that identifies this object.
@@ -65,10 +64,7 @@ public abstract class MatchingAction extends Action {
 		setChildrenNames(childrenNames);
 	}
 	
-	/**
-	 * Get the graph pattern.
-	 * @return The graph pattern.
-	 */
+	/** @return The graph pattern. */
 	public PatternGraph getPattern() {
 		return pattern;
 	}
@@ -80,52 +76,35 @@ public abstract class MatchingAction extends Action {
 		//}
 	}
 	
-	/**
-	 * Get the NAC part.
-	 * @return The NAC graph of the rule.
-	 */
+	/** @return The NAC graphs of the rule. */
 	public Collection<PatternGraph> getNegs() {
 		return Collections.unmodifiableCollection(negs);
 	}
 	
-	/**
-	 * Add a parameter to the graph.
-	 * @param expr The parameter.
-	 */
-	public void addParameter(Entity expr) {
-		params.add(expr);
+	/** Add a parameter to the graph. */
+	public void addParameter(Entity id) {
+		params.add(id);
 	}
 	
-	
-	/**
-	 * Get all Parameters of this graph.
-	 */
+	/** Get all Parameters of this graph. */
 	public List<Entity> getParameters() {
 		return Collections.unmodifiableList(params);
 	}
 	
-	
-	/**
-	 * Add a return-value (named node or edge) to the graph.
-	 * @param expr The parameter.
-	 */
+	/** Add a return-value (named node or edge) to the graph. */
 	public void addReturn(Entity id) {
 		returns.add(id);
 	}
 	
-	/**
-	 * Get all Returns of this graph.
-	 */
+	/** Get all Returns of this graph. */
 	public List<Entity> getReturns() {
 		return Collections.unmodifiableList(returns);
 	}
 	
 	/**
-	 * Get all graphs that are involved in this rule besides
-	 * the pattern part.
+	 * Get all graphs that are involved in this rule besides the pattern part.
 	 * For an ordinary matching actions, these are the negative ones.
-	 * @return A collection holding all additional graphs in this
-	 * matching action.
+	 * @return A collection holding all additional graphs in this matching action.
 	 */
 	public Collection<? extends Graph> getAdditionalGraphs() {
 		return negs;

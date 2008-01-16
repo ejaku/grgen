@@ -41,6 +41,7 @@ public class Entity extends Identifiable {
 	/** The entity's owner. */
 	protected Type owner = null;
 	
+	
 	/**
 	 * Make a new entity of a given type
 	 * @param name The name of the entity.
@@ -53,26 +54,18 @@ public class Entity extends Identifiable {
 		this.type = type;
 	}
 
-	/**
-	 * Get the type of the entity.
-	 * @return The entity's type.
-	 */
+	/** @return The entity's type. */
 	public Type getType() {
 		return type;
 	}
 	
-	/**
-	 * Only walkable child here is the type
-	 * @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren()
-	 */
+	/** The only walkable child here is the type
+	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Set<? extends IR> getWalkableChildren() {
 		return Collections.singleton(type);
 	}
 	
-	/**
-	 * Get the owner of the entity.
-	 * @return The entity's owner.
-	 */
+	/** @return The entity's owner. */
 	public Type getOwner() {
 		return owner;
 	}
@@ -86,10 +79,7 @@ public class Entity extends Identifiable {
 		owner = type;
 	}
 	
-	/**
-	 * Check if the entity has an owner.
-	 * @return true, if the entity has an owner, else false.
-	 */
+	/** @return true, if the entity has an owner, else false */
 	public boolean hasOwner() {
 		return owner != null;
 	}
@@ -100,13 +90,8 @@ public class Entity extends Identifiable {
 		fields.put("owner", Collections.singleton(owner));
 	}
 	
-	/**
-	 * Check, whether this is a retyped entity.
-	 * @return true, if this is a retyped entity
-	 */
+	/** @return true, if this is a retyped entity, else false */
 	public boolean isRetyped() {
 		return false;
 	}
-	
-
 }

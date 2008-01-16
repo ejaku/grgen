@@ -41,6 +41,5 @@ public class TypeExprConst extends TypeExpr {
 	public Collection<InheritanceType> evaluate() {
 		return Collections.unmodifiableCollection(types);
 	}
-	
 }
 

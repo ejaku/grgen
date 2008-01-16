@@ -29,9 +29,6 @@ package de.unika.ipd.grgen.ir;
  */
 public abstract class Action extends Identifiable {
 	
-	/**
-	 * @param name
-	 */
 	public Action(String name, Ident ident) {
 		super(name, ident);
 	}

@@ -29,9 +29,9 @@ package de.unika.ipd.grgen.ir;
  */
 public class VoidType extends PrimitiveType {
 
-  public VoidType(Ident ident) {
-    super("void type", ident);
-  }
+	public VoidType(Ident ident) {
+		super("void type", ident);
+	}
 
 	public boolean isVoid() {
 		return true;
@@ -40,5 +40,4 @@ public class VoidType extends PrimitiveType {
 	public boolean isEqual(Type t) {
 		return t.isVoid();
 	}
-
 }

@@ -20,21 +20,12 @@ public class RetypedEdge extends Edge implements Retyped {
 		this.oldEdge = (Edge)old;
 	}
 
-	/**
-	 * If this is a retyped edge then this will return
-	 * the original edge in the graph.
-	 *
-	 * @return The retyped edge
-	 */
+	/** returns the original edge in the graph. */
 	public Edge getOldEdge() {
 		return oldEdge;
 	}
 	
-	/**
-	 * Set the edge being retyped to this one
-	 *
-	 * @param old The edge being retyped to this one
-	 */
+	/** Set the old edge being retyped to this one */
 	public void setOldEdge(Edge old) {
 		this.oldEdge = old;
 	}

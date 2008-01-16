@@ -60,37 +60,24 @@ public class Rule extends MatchingAction {
 	}
 	
 
-	/**
-	 * Get the eval assignments of this rule.
-	 * @return A collection containing all eval assignments.
-	 */
+	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<Assignment> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
 	
-	/**
-	 * Add an assignment to the list of evaluations.
-	 * @param a The assignment.
-	 */
+	/** Add an assignment to the list of evaluations. */
 	public void addEval(Assignment a) {
 		evals.add(a);
 	}
 	
-	/**
-	 * Get the set of nodes the left and right side have in common.
-	 * @return A set with nodes, that occur on the left and on the right side
-	 * of the rule.
-	 */
+	/** @return A set with nodes, that occur on the left _and_ on the right side of the rule. */
 	public Collection<Node> getCommonNodes() {
 		Collection<Node> common = new HashSet<Node>(pattern.getNodes());
 		common.retainAll(right.getNodes());
 		return common;
 	}
 	
-	/**
-	 * Get the set of edges that are common to both sides of the rule.
-	 * @return The set containing all common edges.
-	 */
+	/** @return A set with edges, that occur on the left _and_ on the right side of the rule. */
 	public Collection<Edge> getCommonEdges() {
 		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
@@ -98,11 +85,9 @@ public class Rule extends MatchingAction {
 	}
 	
 	/**
-	 * Get all graphs that are involved in this rule besides
-	 * the pattern part.
+	 * Get all graphs that are involved in this rule besides the pattern part.
 	 * For an ordinary matching actions, these are the negative ones.
-	 * @return A collection holding all additional graphs in this
-	 * matching action.
+	 * @return A collection holding all additional graphs in this matching action.
 	 */
 	public Collection<Graph> getAdditionalGraphs() {
 		Collection<Graph> res = new LinkedList<Graph>(super.getAdditionalGraphs());
@@ -111,18 +96,12 @@ public class Rule extends MatchingAction {
 	}
 	
 	
-	/**
-	 * Get the left hand side.
-	 * @return The left hand side graph.
-	 */
+	/** @return The left hand side graph. */
 	public PatternGraph getLeft() {
 		return pattern;
 	}
 	
-	/**
-	 * Get the right hand side.
-	 * @return The right hand side graph.
-	 */
+	/** @return The right hand side graph. */
 	public Graph getRight() {
 		return right;
 	}

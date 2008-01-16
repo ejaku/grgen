@@ -54,17 +54,12 @@ public class Edge extends GraphEntity {
 		this(ident, type, EmptyAnnotations.get());
 	}
 	
-	/**
-	 * Get the edge type.
-	 * @return The type of the edge.
-	 */
+	/** @return The type of the edge. */
 	public EdgeType getEdgeType() {
 		return type;
 	}
 
-	/**
-	 * Get the edge from which this edge inherits its dynamic type
-	 */
+	/** Get the edge from which this edge inherits its dynamic type */
 	public Edge getTypeof() {
 		return (Edge)typeof;
 	}

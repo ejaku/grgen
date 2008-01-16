@@ -31,7 +31,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * An instantiation of a type.
+ * Abstract base class for entities occurring in graphs
  */
 public abstract class GraphEntity extends Entity {
 
@@ -63,35 +63,21 @@ public abstract class GraphEntity extends Entity {
 		this.annotations = annots;
 	}
 	
-	/**
-	 * Method getInheritanceType
-	 *
-	 * @return   an InheritanceType
-	 */
 	public InheritanceType getInheritanceType() {
 		return type;
 	}
 
-	/**
-	 * Sets the entity this one inherits its dynamic type from
-	 * @param typeof The entity this one inherits its dynamic type from
-	 */
+	/** Sets the entity this one inherits its dynamic type from */
 	public void setTypeof(GraphEntity typeof) {
 		this.typeof = typeof;
 	}
 	
-	/**
-	 * Sets the type constraints for this entity
-	 * @param  expr The type constraints for this entity
-	 */
+	/** Sets the type constraints for this entity */
 	public void setConstraints(TypeExpr expr) {
 		this.constraints = expr.evaluate();
 	}
 	
-	/**
-	 * Get the annotations.
-	 * @return The annotations.
-	 */
+	/** @return The annotations. */
 	public Annotations getAnnotations() {
 		return annotations;
 	}
@@ -103,18 +89,12 @@ public abstract class GraphEntity extends Entity {
 		fields.put("typeof", Collections.singleton(typeof));
 	}
 	
-	/**
-	 * Check, whether this is a retyped entity.
-	 * @return true, if this is a retyped entity
-	 */
+	/** @return true, if this is a retyped entity */
 	public boolean isRetyped() {
 		return false;
 	}
 	
-	/**
-	 * Check, whether this entity changes its type during rewrite.
-	 * @return true, if this entity changes its type
-	 */
+	/** @return true, if this entity changes its type */
 	public boolean changesType() {
 		return retyped != null;
 	}
@@ -135,17 +115,12 @@ public abstract class GraphEntity extends Entity {
 		return this.retyped;
 	}
 	
-	/**
-	 * Get the edge from which this entity inherits its dynamic type
-	 */
+	/** Get the entity from which this entity inherits its dynamic type */
 	public GraphEntity getTypeof() {
 		return typeof;
 	}
 	
-	/**
-	 * Checks whether this entity inherits its type from some other entity
-	 * @return true, if this entity inherits its type
-	 */
+	/** @return true, if this entity inherits its type from some other entitiy */
 	public boolean inheritsType() {
 		return typeof != null;
 	}

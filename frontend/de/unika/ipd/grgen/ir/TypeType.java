@@ -30,15 +30,12 @@ package de.unika.ipd.grgen.ir;
  */
 public class TypeType extends PrimitiveType {
 
-  public TypeType(Ident ident) {
-    super("type type", ident);
-  }
+	public TypeType(Ident ident) {
+		super("type type", ident);
+	}
 
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_TYPE;
 	}
-
 }

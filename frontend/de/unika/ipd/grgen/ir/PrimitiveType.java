@@ -36,5 +36,4 @@ public class PrimitiveType extends Type {
   public PrimitiveType(String name, Ident ident) {
     super(name, ident);
   }
-
 }

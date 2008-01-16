@@ -73,6 +73,5 @@ public class TypeExprSetOperator extends TypeExpr {
 		
 		return res;
 	}
-	
 }
 

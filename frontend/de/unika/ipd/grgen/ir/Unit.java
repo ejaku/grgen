@@ -55,12 +55,7 @@ public class Unit extends Identifiable {
 		this.filename = filename;
 	}
 	
-	/**
-	 * Add entity to the unit.
-	 * An entity as a declrared object which has a type,
-	 * such as a group, a test, etc.
-	 * @param ent The entitiy to add
-	 */
+	/** Add an actions to the unit. */
 	public void addAction(Action action) {
 		actions.add(action);
 	}
@@ -74,21 +69,15 @@ public class Unit extends Identifiable {
 		digestValid = false;
 	}
 	
-	/**
-	 * Get the type model of this unit.
-	 * @return The type model.
-	 */
+	/** @return The type model of this unit. */
 	public Collection<Model> getModels() {
 		return Collections.unmodifiableCollection(models);
 	}
 
-  /**
-   * Get the source filename corresponding to this unit.
-   * @return The source filename.
-   */
-  public String getFilename() {
-    return filename;
-  }
+	/** @return The source filename corresponding to this unit. */
+	public String getFilename() {
+		return filename;
+	}
 	
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
@@ -112,9 +101,7 @@ public class Unit extends Identifiable {
 		}
 	}
 	
-	/**
-	 * Build the digest string of this type model.
-	 */
+	/** Build the digest string of this type model. */
 	private void buildDigest() {
 		StringBuffer sb = new StringBuffer();
 
@@ -132,15 +119,11 @@ public class Unit extends Identifiable {
 		digestValid = true;
 	}
 	
-	/**
-	 * Get the digest of all type models. model's digest.
-	 * @return The deigest of this model.
-	 */
+	/** Get the digest of thia type model. */
 	public final String getTypeDigest() {
 		if(!digestValid)
 			buildDigest();
 		
 		return digest;
 	}
-
 }

@@ -60,5 +60,4 @@ public class TypeExprSubtypes extends TypeExpr {
 		}
 		return result;
 	}
-	
 }

@@ -36,33 +36,23 @@ public class EnumType extends PrimitiveType {
 	
 	private final List<EnumItem> items = new LinkedList<EnumItem>();
 	
-	/**
-	 * Make a new enum type.
-	 * @param ident The identifier of this enumeration.
-	 */
+	/** Make a new enum type.
+	 *  @param ident The identifier of this enumeration. */
 	public EnumType(Ident ident) {
 		super("enum type", ident);
 	}
 	
-	/**
-	 * Add an item to a this enum type and autoenumerate it.
-	 * @param name The identifier of the enum item.
-	 */
+	/** Add teh given item to a this enum type and autoenumerate it. */
 	public void addItem(EnumItem item) {
 		items.add(item);
 	}
 	
-	/**
-	 * Return iterator of all identifiers in the enum type.
-	 * @return An iterator with idents.
-	 */
+	/** @return A list with the identifiers in the enum type. */
 	public List<EnumItem> getItems() {
 		return Collections.unmodifiableList(items);
 	}
 	
-	/**
-	 * @see de.unika.ipd.grgen.ir.Type#classify()
-	 */
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
 	public int classify() {
 		return IS_INTEGER;
 	}
@@ -85,5 +75,4 @@ public class EnumType extends PrimitiveType {
 		
 		sb.append(']');
 	}
-	
 }
