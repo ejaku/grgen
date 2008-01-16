@@ -33,10 +33,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A pattern graph is a graph as it occurs in left hand rule
- * sides and negative parts. Additionally it can have
- * conditions referring to its items that restrict the set
- * of possible matchings.
+ * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.
+ * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
 public class PatternGraph extends Graph {
 	

@@ -33,7 +33,7 @@ import java.util.Map;
  * This is a super class for all classes which are associated with an identifier.
  */
 public class Identifiable extends IR implements Annotated, Comparable {
-	
+	/** helper class for comparing objects of type Identifiable, used in compareTo */
 	static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
 		public int compare(Identifiable lt, Identifiable rt) {
 			return lt.getIdent().compareTo(rt.getIdent());

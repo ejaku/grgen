@@ -59,12 +59,6 @@ public class Entity extends Identifiable {
 		return type;
 	}
 	
-	/** The only walkable child here is the type
-	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
-	public Set<? extends IR> getWalkableChildren() {
-		return Collections.singleton(type);
-	}
-	
 	/** @return The entity's owner. */
 	public Type getOwner() {
 		return owner;
@@ -93,5 +87,11 @@ public class Entity extends Identifiable {
 	/** @return true, if this is a retyped entity, else false */
 	public boolean isRetyped() {
 		return false;
+	}
+	
+	/** The only walkable child here is the type
+	 *  @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
+	public Set<? extends IR> getWalkableChildren() {
+		return Collections.singleton(type);
 	}
 }

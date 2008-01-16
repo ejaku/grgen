@@ -44,6 +44,5 @@ public class EnumExpression extends Constant {
 	public String getNodeLabel() {
 		return item + " " + getValue();
 	}
-	
 }
 

@@ -102,7 +102,6 @@ public class Operator extends Expression {
 		operands.add(e);
 	}
 	
-	
 	public String getEdgeLabel(int edge) {
 		return "op " + edge;
 	}

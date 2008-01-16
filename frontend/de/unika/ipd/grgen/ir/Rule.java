@@ -59,7 +59,6 @@ public class Rule extends MatchingAction {
 		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
 	
-
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<Assignment> getEvals() {
 		return Collections.unmodifiableCollection(evals);
@@ -94,7 +93,6 @@ public class Rule extends MatchingAction {
 		res.add(right);
 		return res;
 	}
-	
 	
 	/** @return The left hand side graph. */
 	public PatternGraph getLeft() {

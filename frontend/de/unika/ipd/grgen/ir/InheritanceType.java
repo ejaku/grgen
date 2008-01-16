@@ -37,7 +37,7 @@ import java.util.Set;
 import de.unika.ipd.grgen.util.Base;
 
 /**
- * A IR class that represents types that inherit from other types.
+ * Abstract base class for types that inherit from other types.
  */
 public abstract class InheritanceType extends CompoundType {
 	public static final int ABSTRACT = 1;
@@ -139,11 +139,12 @@ public abstract class InheritanceType extends CompoundType {
 			// add the members of the supertype
 			for(InheritanceType superType : getAllSuperTypes())
 				for(Entity member : superType.getMembers())
-					if(allMembers.containsKey(member.getIdent().toString()))
+					if(allMembers.containsKey(member.getIdent().toString())) {
 						Base.error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
 											 "It is also declared in " + allMembers.get(member.getIdent().toString()).getOwner() + ".");
-					else
+					} else {
 						allMembers.put(member.getIdent().toString(), member);
+					}
 		}
 
 		return allMembers.values();

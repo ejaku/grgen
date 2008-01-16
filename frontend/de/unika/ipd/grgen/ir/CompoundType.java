@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An class representing a node or an edge.
+ * Abstract base class for compound types containing members.
  */
 public abstract class CompoundType extends Type {
 	

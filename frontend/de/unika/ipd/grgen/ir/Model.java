@@ -34,10 +34,6 @@ import java.util.Map;
 
 public class Model extends Identifiable {
 	
-	private boolean digestValid = false;
-	
-	private String digest = "";
-	
 	private List<Type> types = new LinkedList<Type>();
 	
 	public Model(Ident ident) {
@@ -47,7 +43,6 @@ public class Model extends Identifiable {
 	/** Add the given type to the type model. */
 	public void addType(Type type) {
 		types.add(type);
-		digestValid = false;
 	}
 	
 	/** @return The types in the type model. */

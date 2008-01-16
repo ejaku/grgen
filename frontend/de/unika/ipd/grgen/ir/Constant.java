@@ -51,5 +51,6 @@ public class Constant extends Expression {
 	}
 	
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
-	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {}
+	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
+	}
 }

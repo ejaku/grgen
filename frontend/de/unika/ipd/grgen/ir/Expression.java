@@ -27,7 +27,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.Set;
 
 /**
- * An expression node.
+ * Abstract base class for expression nodes
  */
 public abstract class Expression extends IR
 {
@@ -48,7 +48,7 @@ public abstract class Expression extends IR
 	}
 	
 	/**
-	 * Method collectNodesnEdges extracts the nodes and edges occuring in this Expression.
+	 * Method collectNodesnEdges extracts the nodes and edges occurring in this Expression.
 	 * @param nodes A set to receive the nodes
 	 * @param edges A set to receive the edges
 	 */

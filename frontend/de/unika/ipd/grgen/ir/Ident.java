@@ -37,8 +37,6 @@ import java.util.HashMap;
  */
 public class Ident extends IR implements Comparable<Ident>, Annotated {
 	
-	private static final String defaultScope = "<default>";
-	
 	/** Symbol table recording all identifiers. */
 	private static HashMap<String, Ident> identifiers = new HashMap<String, Ident>();
 	
@@ -66,12 +64,10 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 	 * @param text The text of the identifier.
 	 * @param scope The scope/namespace of the identifier.
 	 * @param def The location of the definition of the identifier.
-	 * @param annots The annotations of this identifier (Each identifier
-	 * can carry several annotations which serve as meta information
-	 * usable by backend components).
+	 * @param annots The annotations of this identifier 
+	 * (Each identifier can carry several annotations which serve as meta information usable by backend components).
 	 */
-	private Ident(String text, SymbolTable symTab, Scope scope,
-								Coords def, Annotations annots) {
+	private Ident(String text, SymbolTable symTab, Scope scope, Coords def, Annotations annots) {
 		super("ident");
 		this.text = text;
 		this.scope = scope;
@@ -128,11 +124,10 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 		String key = text + "#" + loc.toString();
 		Ident res;
 		
-		if(identifiers.containsKey(key))
+		if(identifiers.containsKey(key)) {
 			res = identifiers.get(key);
-		else {
-			res = new Ident(text, def.getSymbol().getSymbolTable(),
-											def.getScope(), loc, annots);
+		} else {
+			res = new Ident(text, def.getSymbol().getSymbolTable(), def.getScope(), loc, annots);
 			identifiers.put(key, res);
 		}
 		return res;
@@ -140,8 +135,7 @@ public class Ident extends IR implements Comparable<Ident>, Annotated {
 	
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
 	public String getNodeInfo() {
-		return super.getNodeInfo() + "\nCoords: " + def
-			+ "\nScope: " + scope.getPath();
+		return super.getNodeInfo() + "\nCoords: " + def + "\nScope: " + scope.getPath();
 	}
 	
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */

@@ -45,7 +45,7 @@ import de.unika.ipd.grgen.util.Walkable;
  * exist only once as a object (that's due to the fact, that these objects are created from the AST declaration,
  * which exist only once per defined object). 
  * But we want to discriminate between the nodes on the left and right hand side of a rule,
- * even, if they represent the same declared nodes.
+ * even if they represent the same declared nodes.
  */
 public class Graph extends IR {
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
@@ -129,26 +129,27 @@ public class Graph extends IR {
 		if (!nodes.containsKey(n)) {
 			res = new GraphNode(n);
 			nodes.put(n, res);
-		} else
+		} else {
 			res = nodes.get(n);
+		}
 
 		return res;
 	}
 
 	private GraphEdge getOrSetEdge(Edge e) {
 		GraphEdge res;
-		Map<Edge, Graph.GraphEdge> map = edges;
 
-		// TODO Batz included this because an analogoues invocation can be found
-		// in the method right above, dont exactly whether this makes sense
+		// TODO Batz included this because an analogous invocation can be found
+		// in the method right above, don't exactly whether this makes sense
 		if (e.isRetyped())
 			e = ((RetypedEdge) e).getOldEdge();
 
-		if (!map.containsKey(e)) {
+		if (!edges.containsKey(e)) {
 			res = new GraphEdge(e);
-			map.put(e, res);
-		} else
-			res = map.get(e);
+			edges.put(e, res);
+		} else {
+			res = edges.get(e);
+		}
 
 		return res;
 	}
@@ -165,8 +166,7 @@ public class Graph extends IR {
 
 	/**
 	 * Allows another class to append a suffix to the graph's name.
-	 * This is useful for rules, that can add "left" or "right" to the
-	 * graph's name.
+	 * This is useful for rules, that can add "left" or "right" to the graph's name.
 	 * @param s A suffix for the graph's name.
 	 */
 	public void setNameSuffix(String s) {
@@ -221,7 +221,7 @@ public class Graph extends IR {
 		return c;
 	}
 
-	/** @return The number of ingoing edges of the given node */
+	/** @return The number of incoming edges of the given node */
 	public int getInDegree(Node node) {
 		GraphNode gn = checkNode(node);
 		return gn.incoming.size();
@@ -236,8 +236,7 @@ public class Graph extends IR {
 	/** Get the set of all incoming edges for a given node, they are put into the given collection (which gets returned)*/
 	public Collection<Edge> getIncoming(Node n, Collection<Edge> c) {
 		GraphNode gn = checkNode(n);
-		for (Iterator<Graph.GraphEdge> it = gn.incoming.iterator(); it
-				.hasNext();) {
+		for (Iterator<Graph.GraphEdge> it = gn.incoming.iterator(); it.hasNext();) {
 			GraphEdge e = it.next();
 			c.add(e.edge);
 		}
@@ -246,8 +245,7 @@ public class Graph extends IR {
 
 	/** Get the set of all incoming edges for a given node */
 	public Collection<? extends Edge> getIncoming(Node n) {
-		return Collections.unmodifiableCollection(getIncoming(n,
-				new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getIncoming(n, new LinkedList<Edge>()));
 	}
 
 	/** Get the set of all outgoing edges for a given node, they are put into the given collection (which gets returned)*/
@@ -261,8 +259,7 @@ public class Graph extends IR {
 
 	/** Get the set of all outgoing edges for a given node */
 	public Collection<Edge> getOutgoing(Node n) {
-		return Collections.unmodifiableCollection(getOutgoing(n,
-				new LinkedList<Edge>()));
+		return Collections.unmodifiableCollection(getOutgoing(n, new LinkedList<Edge>()));
 	}
 
 	/** @return The source node, the edge leaves from, or null in case of a single edge. */
@@ -275,17 +272,6 @@ public class Graph extends IR {
 	public Node getTarget(Edge e) {
 		GraphEdge ge = checkEdge(e);
 		return ge.target != null ? ge.target.node : null;
-	}
-
-	/**
-	 * Get an "end" of an edge.
-	 * @param e The edge.
-	 * @param source Specifies which end to return.
-	 * @return If <code>source</code> is true, this method returns the source node of the edge, 
-	 * if <code>source</code> is false, it returns the target node.
-	 */
-	public Node getEnd(Edge e, boolean source) {
-		return source ? getSource(e) : getTarget(e);
 	}
 
 	/**

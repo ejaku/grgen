@@ -28,7 +28,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.Set;
 
 public class Typeof extends Expression {
-	/** The entitiy whose type we want to know. */
+	/** The entity whose type we want to know. */
 	private final Entity entity;
 
 	public Typeof(Entity entity) {

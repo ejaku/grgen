@@ -28,11 +28,31 @@ import java.util.Comparator;
 
 
 /**
- * A node representing a type.
- * Subclasses are primitive type (string, int, boolean, ...) and compound types
+ * Abstract base class for types.
+ * Subclasses distinguished into primitive (string, int, boolean, ...) and compound
  */
-public abstract class Type extends Identifiable implements Comparable {
+public abstract class Type extends Identifiable {
+	/** helper class for comparing objects of type Type, used in compareTo, overwriting comparteTo of Identifiable */
+	private static final Comparator<Type> COMPARATOR = new Comparator<Type>() {
 
+		public int compare(Type t1, Type t2) {
+			if(t1.isEqual(t2))
+				return 0;
+
+			if((t1 instanceof InheritanceType) && (t2 instanceof InheritanceType)) {
+				int distT1 = ((InheritanceType) t1).getMaxDist();
+				int distT2 = ((InheritanceType) t2).getMaxDist();
+
+				if(distT1 < distT2)
+					return -1;
+				else if(distT1 > distT2)
+					return 1;
+			}
+			
+			return t1.getIdent().compareTo(t2.getIdent());
+		}
+	};
+	
 	public static final int IS_UNKNOWN = 0;
 	public static final int IS_INTEGER = 1;
 	public static final int IS_FLOAT = 2;
@@ -41,10 +61,8 @@ public abstract class Type extends Identifiable implements Comparable {
 	public static final int IS_STRING  = 5;
 	public static final int IS_TYPE  = 6;
 	public static final int IS_OBJECT = 7;
-	
-	/** The identifier used to declare this type */
-	private Ident ident;
 
+	
 	/**
 	 * Make a new type.
 	 * @param name The name of the type (test, group, ...).
@@ -92,26 +110,6 @@ public abstract class Type extends Identifiable implements Comparable {
 	public int classify() {
 		return IS_UNKNOWN;
 	}
-  
-	private static final Comparator<Type> COMPARATOR = new Comparator<Type>() {
-
-		public int compare(Type t1, Type t2) {
-			if(t1.isEqual(t2))
-				return 0;
-
-			if((t1 instanceof InheritanceType) && (t2 instanceof InheritanceType)) {
-				int distT1 = ((InheritanceType) t1).getMaxDist();
-				int distT2 = ((InheritanceType) t2).getMaxDist();
-
-				if(distT1 < distT2)
-					return -1;
-				else if(distT1 > distT2)
-					return 1;
-			}
-			
-			return t1.getIdent().compareTo(t2.getIdent());
-		}
-	};
 	
 	static final Comparator<Type> getComparator() {
 		return COMPARATOR;
