@@ -1887,12 +1887,15 @@ namespace de.unika.ipd.grGen.grShell
                 NamedGraph graph = curShellGraph.Graph;
                 sw.WriteLine("# Graph \"{0}\" saved by grShell", graph.Name);
                 sw.WriteLine();
-                sw.Write("select backend " + StringToTextToken(curShellGraph.BackendFilename));
-                foreach(String param in curShellGraph.BackendParameters)
-                {
-                    sw.Write(" " + StringToTextToken(param));
-                }
-                sw.WriteLine();
+				if(curShellGraph.BackendFilename != null)
+				{
+					sw.Write("select backend " + StringToTextToken(curShellGraph.BackendFilename));
+					foreach(String param in curShellGraph.BackendParameters)
+					{
+						sw.Write(" " + StringToTextToken(param));
+					}
+					sw.WriteLine();
+				}
 
                 sw.WriteLine("new graph " + StringToTextToken(curShellGraph.ModelFilename) + " " + StringToTextToken(graph.Name));
 
