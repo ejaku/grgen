@@ -14,9 +14,15 @@ ANTLR=$(GRGENDIR)/jars/antlr.jar
 # where GrGen.NET is located
 GRGENNET?=$(GRGENDIR)/../engine-net-2/out/bin/
 
+ifeq ($(shell uname -o), Cygwin)
+  SEP := ";"
+else
+  SEP := ":"
+endif
+
 #
 # full classpath for executing grgen
-CLASSPATH=$(JARGS):$(ANTLR):$(GRGENNET)/grgen.jar
+CLASSPATH := $(JARGS)$(SEP)$(ANTLR)$(SEP)$(GRGENNET)/grgen.jar
 
 GMS     = $(wildcard *.gm)
 GRGS    = $(wildcard *.grg)
@@ -34,22 +40,22 @@ SUCCESSFE   = successFE.log
 FAILEDFE    = failedFE.log
 ABENDFE     = abendFE.log
 
-
 all: cleanfelog $(DIRS_FE)
-	cat $(SUCCESSFE)
-	cat $(ABENDFE)
+	@[ -e $(SUCCESSFE) ] && cat $(SUCCESSFE)
+	@[ -e $(ABENDFE)   ] && cat $(ABENDFE)
 
 fe: cleanfelog $(DIRS_FE)
-	cat $(SUCCESSFE)
+	@[ -e $(SUCCESSFE) ] && cat $(SUCCESSFE)
 
 %_fe : %.grg $(GMS)
-	@touch $(SUCCESSFE)
-	@touch $(FAILEDFE)
+	@echo -n "===> TEST $@"
 	@test -d $@ || mkdir $@
-	-(java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@ $< && echo "$< succeeded" >> $(SUCCESSFE) || echo "$< failed" >> $(FAILEDFE)) 2>&1 > /dev/null | grep -q -v ERROR && echo "$< abend" >> $(ABENDFE)
+	@(java -Xmx256M -cp $(CLASSPATH) -ea de.unika.ipd.grgen.Main -n -b $(BE_CSC) -o $@ $< && echo "$< succeeded" >> $(SUCCESSFE) || echo "$< failed" >> $(FAILEDFE)) 2>&1 > /dev/null | grep -q -v ERROR && echo "$< abend" >> $(ABENDFE) && echo -n " ... ABEND" || echo -n " ... FAILED"
+	@echo
 
 clean:
-	rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) $(SUCCESSFE) $(FAILEDFE) $(ABENDFE)
+	@echo "===> CLEAN"
+	@rm -rf $(DIRS_FE) $(DIRS_CSC) $(DIRS_CSI) $(SUCCESSFE) $(FAILEDFE) $(ABENDFE)
 
 cleanfelog:
 	@rm -f $(SUCCESSFE)
