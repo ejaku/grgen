@@ -1,0 +1,712 @@
+abstract edge class association;
+abstract edge class attribute;
+
+//An integer is a primitive type representing integer values.
+node class Integer {
+	
+	value : int;
+
+}
+
+//A Boolean type is used for logical expression, consisting of the predefined values true and false.
+node class Boolean {
+	
+	value : boolean;
+
+}
+
+//A string is a sequence of characters in some suitable character set used to display information about the model. Character sets may include non-Roman alphabets and characters.
+node class String {
+	
+	value : string;
+
+}
+
+//An unlimited natural is a primitive type representing unlimited natural values.
+node class UnlimitedNatural {
+	
+	value : int;
+
+}
+
+//VisibilityKind is an enumeration type that defines literals to determine the visibility of elements in a model.
+enum VisibilityKind {
+	
+	//A public element is visible to all elements that can access the contents of the namespace that owns it.
+	public, 
+	//A private element is only visible inside the namespace that owns it.
+	private, 
+	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
+	protected, 
+	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
+	package
+	
+}
+
+node class VisibilityKind_Value {
+	
+	value : VisibilityKind;
+	
+}
+
+//Parameter direction kind is an enumeration type that defines literals used to specify direction of parameters.
+enum ParameterDirectionKind {
+	
+	//Indicates that parameter values are passed into the behavioral element by the caller.
+	in, 
+	//Indicates that parameter values are passed into a behavioral element by the caller and then back out to the caller from the behavioral element.
+	inout, 
+	//Indicates that parameter values are passed from a behavioral element out to the caller.
+	out, 
+	//Indicates that parameter values are passed as return values from a behavioral element back to the caller.
+	return_
+	
+}
+
+node class ParameterDirectionKind_Value {
+	
+	value : ParameterDirectionKind;
+	
+}
+
+//VisibilityKind is an enumeration type that defines literals to determine the visibility of elements in a model.
+enum VisibilityKind {
+	
+	//A public element is visible to all elements that can access the contents of the namespace that owns it.
+	public, 
+	//A private element is only visible inside the namespace that owns it.
+	private, 
+	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
+	protected, 
+	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
+	package
+	
+}
+
+node class VisibilityKind_Value {
+	
+	value : VisibilityKind;
+	
+}
+
+//An element is a constituent of a model. As such, it has the capability of owning other elements.
+abstract node class Element;
+edge class Core_Abstractions_Ownerships_Element_ownedElement extends association
+	 connect Element[*] -> Core_Abstractions_Ownerships_Element[0:*];
+edge class Core_Abstractions_Ownerships_Element_owner extends association
+	 connect Element[*] -> Core_Abstractions_Ownerships_Element[0:1];
+edge class Core_Abstractions_Ownerships_Element_ownedComment extends association
+	 connect Element[*] -> Core_Abstractions_Comments_Comment[0:*];
+
+//A named element is an element in a model that may have a name.
+abstract node class NamedElement extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_Namespaces_NamedElement_name extends attribute
+	 connect NamedElement[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Abstractions_Namespaces_NamedElement_qualifiedName extends attribute
+	 connect NamedElement[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Abstractions_Namespaces_NamedElement_namespace extends association
+	 connect NamedElement[*] -> Core_Abstractions_Namespaces_Namespace[0:1];
+
+//A namespace is an element in a model that contains a set of named elements that can be identified by name.
+abstract node class Namespace extends Core_Abstractions_Namespaces_NamedElement;
+edge class Core_Abstractions_Namespaces_Namespace_ownedMember extends association
+	 connect Namespace[*] -> Core_Abstractions_Namespaces_NamedElement[0:*];
+edge class Core_Abstractions_Namespaces_Namespace_member extends association
+	 connect Namespace[*] -> Core_Abstractions_Namespaces_NamedElement[0:*];
+
+//A classifier is a classification of instances - it describes a set of instances that have features in common.
+abstract node class Classifier extends Core_Abstractions_Namespaces_Namespace;
+edge class Core_Abstractions_Classifiers_Classifier_feature extends association
+	 connect Classifier[*] -> Core_Abstractions_Classifiers_Feature[0:*];
+
+//A feature declares a behavioral or structural characteristic of instances of classifiers.
+abstract node class Feature extends Core_Abstractions_Namespaces_NamedElement;
+edge class Core_Abstractions_Classifiers_Feature_featuringClassifier extends association
+	 connect Feature[*] -> Core_Abstractions_Classifiers_Classifier[0:*];
+
+//An opaque expression is an uninterpreted textual statement that denotes a (possibly empty) set of values when evaluated in a context.
+node class OpaqueExpression extends Core_Abstractions_Expressions_ValueSpecification;
+edge class Core_Abstractions_Expressions_OpaqueExpression_body extends attribute
+	 connect OpaqueExpression[*] -> Core_PrimitiveTypes_String[0:*];
+edge class Core_Abstractions_Expressions_OpaqueExpression_language extends attribute
+	 connect OpaqueExpression[*] -> Core_PrimitiveTypes_String[0:*];
+
+//A value specification is the specification of a (possibly empty) set of instances, including both objects and data values.
+abstract node class ValueSpecification extends Core_Abstractions_Ownerships_Element;
+
+//An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
+node class Expression extends Core_Abstractions_Expressions_ValueSpecification;
+edge class Core_Abstractions_Expressions_Expression_symbol extends attribute
+	 connect Expression[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Abstractions_Expressions_Expression_operand extends association
+	 connect Expression[*] -> Core_Abstractions_Expressions_ValueSpecification[0:*];
+
+//MultiplicityElement supports the use of value specifications to define each bound of the multiplicity.
+abstract node class MultiplicityElement extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_MultiplicityExpressions_MultiplicityElement_lower extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_Integer[0:1];
+edge class Core_Abstractions_MultiplicityExpressions_MultiplicityElement_upper extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_UnlimitedNatural[0:1];
+edge class Core_Abstractions_MultiplicityExpressions_MultiplicityElement_upperValue extends association
+	 connect MultiplicityElement[*] -> Core_Abstractions_Expressions_ValueSpecification[0:1];
+edge class Core_Abstractions_MultiplicityExpressions_MultiplicityElement_lowerValue extends association
+	 connect MultiplicityElement[*] -> Core_Abstractions_Expressions_ValueSpecification[0:1];
+
+//A behavioral feature is a feature of a classifier that specifies an aspect of the behavior of its instances.
+abstract node class BehavioralFeature extends Core_Abstractions_Classifiers_Feature, Core_Abstractions_Namespaces_Namespace;
+edge class Core_Abstractions_BehavioralFeatures_BehavioralFeature_parameter extends association
+	 connect BehavioralFeature[*] -> Core_Abstractions_BehavioralFeatures_Parameter[0:*];
+
+//A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
+abstract node class Parameter extends Core_Abstractions_Namespaces_NamedElement, Core_Abstractions_TypedElements_TypedElement;
+
+//An instance specification is a model element that represents an instance in a modeled system.
+node class InstanceSpecification extends Core_Abstractions_Namespaces_NamedElement;
+edge class Core_Abstractions_Instances_InstanceSpecification_slot extends association
+	 connect InstanceSpecification[*] -> Core_Abstractions_Instances_Slot[0:*];
+edge class Core_Abstractions_Instances_InstanceSpecification_classifier extends association
+	 connect InstanceSpecification[*] -> Core_Abstractions_Classifiers_Classifier[0:*];
+edge class Core_Abstractions_Instances_InstanceSpecification_specification extends association
+	 connect InstanceSpecification[*] -> Core_Abstractions_Expressions_ValueSpecification[0:1];
+
+//A slot specifies that an entity modeled by an instance specification has a value or values for a specific structural feature.
+node class Slot extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_Instances_Slot_owningInstance extends association
+	 connect Slot[*] -> Core_Abstractions_Instances_InstanceSpecification[1:1];
+edge class Core_Abstractions_Instances_Slot_value extends association
+	 connect Slot[*] -> Core_Abstractions_Expressions_ValueSpecification[0:*];
+edge class Core_Abstractions_Instances_Slot_definingFeature extends association
+	 connect Slot[*] -> Core_Abstractions_StructuralFeatures_StructuralFeature[1:1];
+
+//An instance value is a value specification that identifies an instance.
+node class InstanceValue extends Core_Abstractions_Expressions_ValueSpecification;
+edge class Core_Abstractions_Instances_InstanceValue_instance extends association
+	 connect InstanceValue[*] -> Core_Abstractions_Instances_InstanceSpecification[1:1];
+
+//A redefinable element is an element that, when defined in the context of a classifier, can be redefined more specifically or differently in the context of another classifier that specializes (directly or indirectly) the context classifier.
+abstract node class RedefinableElement extends Core_Abstractions_Namespaces_NamedElement;
+edge class Core_Abstractions_Redefinitions_RedefinableElement_redefinedElement extends association
+	 connect RedefinableElement[*] -> Core_Abstractions_Redefinitions_RedefinableElement[0:*];
+edge class Core_Abstractions_Redefinitions_RedefinableElement_redefinitionContext extends association
+	 connect RedefinableElement[*] -> Core_Abstractions_Super_Classifier[0:*];
+
+//A generalization is a taxonomic relationship between a more general classifier and a more specific classifier. Each instance of the specific classifier is also an instance of the general classifier. Thus, the specific classifier indirectly has features of the more general classifier.
+node class Generalization extends Core_Abstractions_Relationships_DirectedRelationship;
+edge class Core_Abstractions_Generalizations_Generalization_specific extends association
+	 connect Generalization[*] -> Core_Abstractions_Generalizations_Classifier[1:1];
+edge class Core_Abstractions_Generalizations_Generalization_general extends association
+	 connect Generalization[*] -> Core_Abstractions_Generalizations_Classifier[1:1];
+
+//A classifier is a type and can own generalizations, thereby making it possible to define generalization relationships to other classifiers.
+abstract node class Classifier extends Core_Abstractions_TypedElements_Type;
+edge class Core_Abstractions_Generalizations_Classifier_generalization extends association
+	 connect Classifier[*] -> Core_Abstractions_Generalizations_Generalization[0:*];
+edge class Core_Abstractions_Generalizations_Classifier_general extends association
+	 connect Classifier[*] -> Core_Abstractions_Generalizations_Classifier[0:*];
+
+//A comment is a textual annotation that can be attached to a set of elements.
+node class Comment extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_Comments_Comment_body extends attribute
+	 connect Comment[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Abstractions_Comments_Comment_annotatedElement extends association
+	 connect Comment[*] -> Core_Abstractions_Ownerships_Element[0:*];
+
+//A directed relationship represents a relationship between a collection of source model elements and a collection of target model elements.
+abstract node class DirectedRelationship extends Core_Abstractions_Relationships_Relationship;
+edge class Core_Abstractions_Relationships_DirectedRelationship_source extends association
+	 connect DirectedRelationship[*] -> Core_Abstractions_Ownerships_Element[1:*];
+edge class Core_Abstractions_Relationships_DirectedRelationship_target extends association
+	 connect DirectedRelationship[*] -> Core_Abstractions_Ownerships_Element[1:*];
+
+//Relationship is an abstract concept that specifies some kind of relationship between elements.
+abstract node class Relationship extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_Relationships_Relationship_relatedElement extends association
+	 connect Relationship[*] -> Core_Abstractions_Ownerships_Element[1:*];
+
+//StructuralFeature has an attribute that determines whether a client may modify its value.
+abstract node class StructuralFeature;
+
+//A structural feature is a typed feature of a classifier that specifies the structure of instances of the classifier.
+abstract node class StructuralFeature extends Core_Abstractions_Classifiers_Feature, Core_Abstractions_TypedElements_TypedElement;
+
+//A constraint is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an element.
+node class Constraint extends Core_Abstractions_Constraints_NamedElement;
+edge class Core_Abstractions_Constraints_Constraint_context extends association
+	 connect Constraint[*] -> Core_Abstractions_Constraints_Namespace[0:1];
+edge class Core_Abstractions_Constraints_Constraint_specification extends association
+	 connect Constraint[*] -> Core_Abstractions_Expressions_ValueSpecification[1:1];
+edge class Core_Abstractions_Constraints_Constraint_constrainedElement extends association
+	 connect Constraint[*] -> Core_Abstractions_Ownerships_Element[0:*];
+
+//A namespace can own constraints. A constraint associated with a namespace may either apply to the namespace itself, or it may apply to elements in the namespace.
+abstract node class Namespace extends Core_Abstractions_Constraints_NamedElement;
+edge class Core_Abstractions_Constraints_Namespace_ownedRule extends association
+	 connect Namespace[*] -> Core_Abstractions_Constraints_Constraint[0:*];
+edge class Core_Abstractions_Constraints_Namespace_ownedMember extends association
+	 connect Namespace[*] -> Core_Abstractions_Constraints_NamedElement[0:*];
+edge class Core_Abstractions_Constraints_Namespace_member extends association
+	 connect Namespace[*] -> Core_Abstractions_Constraints_NamedElement[0:*];
+
+//A named element is an element in a model that may have a name.
+abstract node class NamedElement extends Core_Abstractions_Ownerships_Element;
+edge class Core_Abstractions_Constraints_NamedElement_namespace extends association
+	 connect NamedElement[*] -> Core_Abstractions_Constraints_Namespace[0:1];
+
+//NamedElement has a visibility attribute.
+abstract node class NamedElement;
+edge class Core_Abstractions_Visibilities_NamedElement_visibility extends attribute
+	 connect NamedElement[*] -> Core_Abstractions_Visibilities_VisibilityKind[0:1];
+
+//A classifier can specify a generalization hierarchy by referencing its general classifiers.
+abstract node class Classifier extends Core_Abstractions_Namespaces_Namespace;
+edge class Core_Abstractions_Super_Classifier_inheritedMember extends association
+	 connect Classifier[*] -> Core_Abstractions_Namespaces_NamedElement[0:*];
+edge class Core_Abstractions_Super_Classifier_general extends association
+	 connect Classifier[*] -> Core_Abstractions_Super_Classifier[0:*];
+
+//A literal Boolean is a specification of a Boolean value.
+node class LiteralBoolean extends Core_Abstractions_Literals_LiteralSpecification;
+
+//A literal string is a specification of a string value.
+node class LiteralString extends Core_Abstractions_Literals_LiteralSpecification;
+edge class Core_Abstractions_Literals_LiteralString_value extends attribute
+	 connect LiteralString[*] -> Core_PrimitiveTypes_String[0:1];
+
+//A literal specification identifies a literal constant being modeled.
+abstract node class LiteralSpecification extends Core_Abstractions_Expressions_ValueSpecification;
+
+//A literal null specifies the lack of a value.
+node class LiteralNull extends Core_Abstractions_Literals_LiteralSpecification;
+
+//A literal integer is a specification of an integer value.
+node class LiteralInteger extends Core_Abstractions_Literals_LiteralSpecification;
+
+//A literal unlimited natural is a specification of an unlimited natural number.
+node class LiteralUnlimitedNatural extends Core_Abstractions_Literals_LiteralSpecification;
+
+//A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
+abstract node class MultiplicityElement extends Core_Abstractions_Elements_Element;
+edge class Core_Abstractions_Multiplicities_MultiplicityElement_lower extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_Integer[0:1];
+edge class Core_Abstractions_Multiplicities_MultiplicityElement_upper extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_UnlimitedNatural[0:1];
+
+//An element is a constituent of a model.
+abstract node class Element;
+
+//A type constrains the values represented by a typed element.
+abstract node class Type extends Core_Abstractions_Namespaces_NamedElement;
+
+//A typed element has a type.
+abstract node class TypedElement extends Core_Abstractions_Namespaces_NamedElement;
+edge class Core_Abstractions_TypedElements_TypedElement_type extends association
+	 connect TypedElement[*] -> Core_Abstractions_TypedElements_Type[0:1];
+
+//A class is a type that has objects as its instances.
+node class Class extends Core_Basic_Type;
+edge class Core_Basic_Class_ownedAttribute extends association
+	 connect Class[*] -> Core_Basic_Property[0:*];
+edge class Core_Basic_Class_ownedOperation extends association
+	 connect Class[*] -> Core_Basic_Operation[0:*];
+edge class Core_Basic_Class_superClass extends association
+	 connect Class[*] -> Core_Basic_Class[0:*];
+
+//An operation is owned by a class and may be invoked in the context of objects that are instances of that class. It is a typed element and a multiplicity element.
+node class Operation extends Core_Basic_TypedElement, Core_Basic_MultiplicityElement;
+edge class Core_Basic_Operation_raisedException extends association
+	 connect Operation[*] -> Core_Basic_Type[0:*];
+edge class Core_Basic_Operation_ownedParameter extends association
+	 connect Operation[*] -> Core_Basic_Parameter[0:*];
+edge class Core_Basic_Operation_class extends association
+	 connect Operation[*] -> Core_Basic_Class[0:1];
+
+//A parameter is a typed element that represents a parameter of an operation.
+node class Parameter extends Core_Basic_TypedElement, Core_Basic_MultiplicityElement;
+edge class Core_Basic_Parameter_operation extends association
+	 connect Parameter[*] -> Core_Basic_Operation[0:1];
+
+//A property is a typed element that represents an attribute of a class.
+node class Property extends Core_Basic_TypedElement, Core_Basic_MultiplicityElement;
+edge class Core_Basic_Property_default extends attribute
+	 connect Property[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Basic_Property_class extends association
+	 connect Property[*] -> Core_Basic_Class[0:1];
+edge class Core_Basic_Property_opposite extends association
+	 connect Property[*] -> Core_Basic_Property[0:1];
+
+//A type is a named element that is used as the type for a typed element. A type can be contained in a package.
+abstract node class Type extends Core_Basic_NamedElement;
+edge class Core_Basic_Type_package extends association
+	 connect Type[*] -> Core_Basic_Package[0:1];
+
+//A named element represents an element with a name.
+abstract node class NamedElement extends Core_Basic_Element;
+edge class Core_Basic_NamedElement_name extends attribute
+	 connect NamedElement[*] -> Core_PrimitiveTypes_String[0:1];
+
+//A typed element is a kind of named element that represents an element with a type.
+abstract node class TypedElement extends Core_Basic_NamedElement;
+edge class Core_Basic_TypedElement_type extends association
+	 connect TypedElement[*] -> Core_Basic_Type[0:1];
+
+//An enumeration defines a set of literals that can be used as its values.
+node class Enumeration extends Core_Basic_DataType;
+edge class Core_Basic_Enumeration_ownedLiteral extends association
+	 connect Enumeration[*] -> Core_Basic_EnumerationLiteral[0:*];
+
+//An enumeration literal is a value of an enumeration.
+node class EnumerationLiteral extends Core_Basic_NamedElement;
+edge class Core_Basic_EnumerationLiteral_enumeration extends association
+	 connect EnumerationLiteral[*] -> Core_Basic_Enumeration[0:1];
+
+//A primitive type is a data type implemented by the underlying infrastructure and made available for modeling.
+node class PrimitiveType extends Core_Basic_DataType;
+
+//A package is a container for types and other packages.
+node class Package extends Core_Basic_NamedElement;
+edge class Core_Basic_Package_nestedPackage extends association
+	 connect Package[*] -> Core_Basic_Package[0:*];
+edge class Core_Basic_Package_nestingPackage extends association
+	 connect Package[*] -> Core_Basic_Package[0:1];
+edge class Core_Basic_Package_ownedType extends association
+	 connect Package[*] -> Core_Basic_Type[0:*];
+
+//DataType is an abstract class that acts as a common superclass for different kinds of data types.
+abstract node class DataType extends Core_Basic_Type;
+
+//A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
+abstract node class MultiplicityElement extends Core_Basic_Element;
+edge class Core_Basic_MultiplicityElement_lower extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_Integer[0:1];
+edge class Core_Basic_MultiplicityElement_upper extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_UnlimitedNatural[0:1];
+
+//An element is a constituent of a model.
+abstract node class Element;
+edge class Core_Basic_Element_ownedComment extends association
+	 connect Element[*] -> Core_Basic_Comment[0:*];
+
+//A comment is a textual annotation that can be attached to a set of elements.
+node class Comment extends Core_Basic_Element;
+edge class Core_Basic_Comment_body extends attribute
+	 connect Comment[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Basic_Comment_annotatedElement extends association
+	 connect Comment[*] -> Core_Basic_Element[0:*];
+
+//A classifier is a classification of instances - it describes a set of instances that have features in common. A classifier can specify a generalization hierarchy by referencing its general classifiers.
+abstract node class Classifier extends Core_Constructs_Namespace, Core_Constructs_Type;
+edge class Core_Constructs_Classifier_attribute extends association
+	 connect Classifier[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_Classifier_feature extends association
+	 connect Classifier[*] -> Core_Constructs_Feature[0:*];
+edge class Core_Constructs_Classifier_general extends association
+	 connect Classifier[*] -> Core_Constructs_Classifier[0:*];
+edge class Core_Constructs_Classifier_inheritedMember extends association
+	 connect Classifier[*] -> Core_Constructs_NamedElement[0:*];
+
+//A directed relationship represents a relationship between a collection of source model elements and a collection of target model elements.
+abstract node class DirectedRelationship extends Core_Constructs_Relationship;
+edge class Core_Constructs_DirectedRelationship_source extends association
+	 connect DirectedRelationship[*] -> Core_Constructs_Element[1:*];
+edge class Core_Constructs_DirectedRelationship_target extends association
+	 connect DirectedRelationship[*] -> Core_Constructs_Element[1:*];
+
+//An element is a constituent of a model. As such, it has the capability of owning other elements.
+abstract node class Element;
+edge class Core_Constructs_Element_ownedElement extends association
+	 connect Element[*] -> Core_Constructs_Element[0:*];
+edge class Core_Constructs_Element_owner extends association
+	 connect Element[*] -> Core_Constructs_Element[0:1];
+edge class Core_Constructs_Element_ownedComment extends association
+	 connect Element[*] -> Core_Constructs_Comment[0:*];
+
+//A feature declares a behavioral or structural characteristic of instances of classifiers.
+abstract node class Feature extends Core_Constructs_RedefinableElement;
+edge class Core_Constructs_Feature_featuringClassifier extends association
+	 connect Feature[*] -> Core_Constructs_Classifier[0:*];
+
+//A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
+abstract node class MultiplicityElement extends Core_Constructs_Element;
+edge class Core_Constructs_MultiplicityElement_lower extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_Integer[0:1];
+edge class Core_Constructs_MultiplicityElement_upper extends attribute
+	 connect MultiplicityElement[*] -> Core_PrimitiveTypes_UnlimitedNatural[0:1];
+
+//A namespace is an element in a model that contains a set of named elements that can be identified by name.
+abstract node class Namespace extends Core_Constructs_NamedElement;
+edge class Core_Constructs_Namespace_importedMember extends association
+	 connect Namespace[*] -> Core_Constructs_PackageableElement[0:*];
+edge class Core_Constructs_Namespace_elementImport extends association
+	 connect Namespace[*] -> Core_Constructs_ElementImport[0:*];
+edge class Core_Constructs_Namespace_packageImport extends association
+	 connect Namespace[*] -> Core_Constructs_PackageImport[0:*];
+edge class Core_Constructs_Namespace_ownedMember extends association
+	 connect Namespace[*] -> Core_Constructs_NamedElement[0:*];
+edge class Core_Constructs_Namespace_member extends association
+	 connect Namespace[*] -> Core_Constructs_NamedElement[0:*];
+edge class Core_Constructs_Namespace_ownedRule extends association
+	 connect Namespace[*] -> Core_Constructs_Constraint[0:*];
+
+//A packageable element indicates a named element that may be owned directly by a package.
+abstract node class PackageableElement extends Core_Constructs_NamedElement;
+
+//A redefinable element is an element that, when defined in the context of a classifier, can be redefined more specifically or differently in the context of another classifier that specializes (directly or indirectly) the context classifier.
+abstract node class RedefinableElement extends Core_Constructs_NamedElement;
+edge class Core_Constructs_RedefinableElement_redefinitionContext extends association
+	 connect RedefinableElement[*] -> Core_Constructs_Classifier[0:*];
+edge class Core_Constructs_RedefinableElement_redefinedElement extends association
+	 connect RedefinableElement[*] -> Core_Constructs_RedefinableElement[0:*];
+
+//Relationship is an abstract concept that specifies some kind of relationship between elements.
+abstract node class Relationship extends Core_Constructs_Element;
+edge class Core_Constructs_Relationship_relatedElement extends association
+	 connect Relationship[*] -> Core_Constructs_Element[1:*];
+
+//A structural feature is a typed feature of a classifier that specifies the structure of instances of the classifier.
+abstract node class StructuralFeature extends Core_Constructs_Feature, Core_Constructs_TypedElement, Core_Constructs_MultiplicityElement;
+
+//A typed element is a kind of named element that represents an element with a type.
+abstract node class TypedElement extends Core_Constructs_NamedElement;
+edge class Core_Constructs_TypedElement_type extends association
+	 connect TypedElement[*] -> Core_Constructs_Type[0:1];
+
+//A value specification is the specification of a (possibly empty) set of instances, including both objects and data values.
+abstract node class ValueSpecification extends Core_Constructs_TypedElement, Core_Constructs_PackageableElement;
+
+//An association describes a set of tuples whose values refer to typed instances. An instance of an association is called a link.
+node class Association extends Core_Constructs_Classifier, Core_Constructs_Relationship;
+edge class Core_Constructs_Association_ownedEnd extends association
+	 connect Association[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_Association_endType extends association
+	 connect Association[*] -> Core_Constructs_Type[1:*];
+edge class Core_Constructs_Association_memberEnd extends association
+	 connect Association[*] -> Core_Constructs_Property[2:*];
+edge class Core_Constructs_Association_navigableOwnedEnd extends association
+	 connect Association[*] -> Core_Constructs_Property[0:*];
+
+//A class describes a set of objects that share the same specifications of features, constraints, and semantics.
+node class Class extends Core_Constructs_Classifier;
+edge class Core_Constructs_Class_ownedAttribute extends association
+	 connect Class[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_Class_ownedOperation extends association
+	 connect Class[*] -> Core_Constructs_Operation[0:*];
+edge class Core_Constructs_Class_superClass extends association
+	 connect Class[*] -> Core_Constructs_Class[0:*];
+
+//A property is a structural feature of a classifier that characterizes instances of the classifier. A property related by ownedAttribute to a classifier (other than an association) represents an attribute and might also represent an association end. It relates an instance of the class to a value or set of values of the type of the attribute. A property related by memberEnd or its specializations to an association represents an end of the association. The type of the property is the type of the end of the association.
+node class Property extends Core_Constructs_StructuralFeature;
+edge class Core_Constructs_Property_default extends attribute
+	 connect Property[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Constructs_Property_class extends association
+	 connect Property[*] -> Core_Constructs_Class[0:1];
+edge class Core_Constructs_Property_owningAssociation extends association
+	 connect Property[*] -> Core_Constructs_Association[0:1];
+edge class Core_Constructs_Property_redefinedProperty extends association
+	 connect Property[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_Property_subsettedProperty extends association
+	 connect Property[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_Property_opposite extends association
+	 connect Property[*] -> Core_Constructs_Property[0:1];
+edge class Core_Constructs_Property_datatype extends association
+	 connect Property[*] -> Core_Constructs_DataType[0:1];
+edge class Core_Constructs_Property_association extends association
+	 connect Property[*] -> Core_Constructs_Association[0:1];
+
+//A data type is a type whose instances are identified only by their value. A data type may contain attributes to support the modeling of structured data types.
+node class DataType extends Core_Constructs_Classifier;
+edge class Core_Constructs_DataType_ownedAttribute extends association
+	 connect DataType[*] -> Core_Constructs_Property[0:*];
+edge class Core_Constructs_DataType_ownedOperation extends association
+	 connect DataType[*] -> Core_Constructs_Operation[0:*];
+
+//An enumeration is a data type whose values are enumerated in the model as enumeration literals.
+node class Enumeration extends Core_Constructs_DataType;
+edge class Core_Constructs_Enumeration_ownedLiteral extends association
+	 connect Enumeration[*] -> Core_Constructs_EnumerationLiteral[0:*];
+
+//An enumeration literal is a user-defined data value for an enumeration.
+node class EnumerationLiteral extends Core_Constructs_NamedElement;
+edge class Core_Constructs_EnumerationLiteral_enumeration extends association
+	 connect EnumerationLiteral[*] -> Core_Constructs_Enumeration[0:1];
+
+//A primitive type defines a predefined data type, without any relevant substructure (i.e., it has no parts in the context of UML). A primitive datatype may have an algebra and operations defined outside of UML, for example, mathematically.
+node class PrimitiveType extends Core_Constructs_DataType;
+
+//A constraint is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an element.
+node class Constraint extends Core_Constructs_PackageableElement;
+edge class Core_Constructs_Constraint_constrainedElement extends association
+	 connect Constraint[*] -> Core_Constructs_Element[0:*];
+edge class Core_Constructs_Constraint_specification extends association
+	 connect Constraint[*] -> Core_Constructs_ValueSpecification[1:1];
+edge class Core_Constructs_Constraint_context extends association
+	 connect Constraint[*] -> Core_Constructs_Namespace[0:1];
+
+//An opaque expression is an uninterpreted textual statement that denotes a (possibly empty) set of values when evaluated in a context.
+node class OpaqueExpression extends Core_Constructs_ValueSpecification;
+edge class Core_Constructs_OpaqueExpression_body extends attribute
+	 connect OpaqueExpression[*] -> Core_PrimitiveTypes_String[0:*];
+edge class Core_Constructs_OpaqueExpression_language extends attribute
+	 connect OpaqueExpression[*] -> Core_PrimitiveTypes_String[0:*];
+
+//An operation is a behavioral feature of a classifier that specifies the name, type, parameters, and constraints for invoking an associated behavior.
+node class Operation extends Core_Constructs_BehavioralFeature;
+edge class Core_Constructs_Operation_lower extends attribute
+	 connect Operation[*] -> Core_PrimitiveTypes_Integer[0:1];
+edge class Core_Constructs_Operation_upper extends attribute
+	 connect Operation[*] -> Core_PrimitiveTypes_UnlimitedNatural[0:1];
+edge class Core_Constructs_Operation_class extends association
+	 connect Operation[*] -> Core_Constructs_Class[0:1];
+edge class Core_Constructs_Operation_datatype extends association
+	 connect Operation[*] -> Core_Constructs_DataType[0:1];
+edge class Core_Constructs_Operation_raisedException extends association
+	 connect Operation[*] -> Core_Constructs_Type[0:*];
+edge class Core_Constructs_Operation_redefinedOperation extends association
+	 connect Operation[*] -> Core_Constructs_Operation[0:*];
+edge class Core_Constructs_Operation_type extends association
+	 connect Operation[*] -> Core_Constructs_Type[0:1];
+edge class Core_Constructs_Operation_ownedParameter extends association
+	 connect Operation[*] -> Core_Constructs_Parameter[0:*];
+edge class Core_Constructs_Operation_precondition extends association
+	 connect Operation[*] -> Core_Constructs_Constraint[0:*];
+edge class Core_Constructs_Operation_postcondition extends association
+	 connect Operation[*] -> Core_Constructs_Constraint[0:*];
+edge class Core_Constructs_Operation_bodyCondition extends association
+	 connect Operation[*] -> Core_Constructs_Constraint[0:1];
+
+//A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
+node class Parameter extends Core_Constructs_TypedElement, Core_Constructs_MultiplicityElement;
+edge class Core_Constructs_Parameter_default extends attribute
+	 connect Parameter[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Constructs_Parameter_operation extends association
+	 connect Parameter[*] -> Core_Constructs_Operation[0:1];
+
+//A behavioral feature is a feature of a classifier that specifies an aspect of the behavior of its instances.
+abstract node class BehavioralFeature extends Core_Constructs_Feature, Core_Constructs_Namespace;
+edge class Core_Constructs_BehavioralFeature_ownedParameter extends association
+	 connect BehavioralFeature[*] -> Core_Constructs_Parameter[0:*];
+edge class Core_Constructs_BehavioralFeature_raisedException extends association
+	 connect BehavioralFeature[*] -> Core_Constructs_Type[0:*];
+
+//An element import identifies an element in another package, and allows the element to be referenced using its name without a qualifier.
+node class ElementImport extends Core_Constructs_DirectedRelationship;
+edge class Core_Constructs_ElementImport_alias extends attribute
+	 connect ElementImport[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Constructs_ElementImport_importedElement extends association
+	 connect ElementImport[*] -> Core_Constructs_PackageableElement[1:1];
+edge class Core_Constructs_ElementImport_importingNamespace extends association
+	 connect ElementImport[*] -> Core_Constructs_Namespace[1:1];
+
+//A package is used to group elements, and provides a namespace for the grouped elements.
+node class Package extends Core_Constructs_PackageableElement, Core_Constructs_Namespace;
+edge class Core_Constructs_Package_packagedElement extends association
+	 connect Package[*] -> Core_Constructs_PackageableElement[0:*];
+edge class Core_Constructs_Package_ownedType extends association
+	 connect Package[*] -> Core_Constructs_Type[0:*];
+edge class Core_Constructs_Package_nestedPackage extends association
+	 connect Package[*] -> Core_Constructs_Package[0:*];
+edge class Core_Constructs_Package_nestingPackage extends association
+	 connect Package[*] -> Core_Constructs_Package[0:1];
+edge class Core_Constructs_Package_packageMerge extends association
+	 connect Package[*] -> Core_Constructs_PackageMerge[0:*];
+
+//A package import is a relationship that allows the use of unqualified names to refer to package members from other namespaces.
+node class PackageImport extends Core_Constructs_DirectedRelationship;
+edge class Core_Constructs_PackageImport_importedPackage extends association
+	 connect PackageImport[*] -> Core_Constructs_Package[1:1];
+edge class Core_Constructs_PackageImport_importingNamespace extends association
+	 connect PackageImport[*] -> Core_Constructs_Namespace[1:1];
+
+//A package merge defines how the contents of one package are extended by the contents of another package.
+node class PackageMerge extends Core_Constructs_DirectedRelationship;
+edge class Core_Constructs_PackageMerge_receivingPackage extends association
+	 connect PackageMerge[*] -> Core_Constructs_Package[1:1];
+edge class Core_Constructs_PackageMerge_mergedPackage extends association
+	 connect PackageMerge[*] -> Core_Constructs_Package[1:1];
+
+//A type is a named element that is used as the type for a typed element. A type can be contained in a package.
+abstract node class Type extends Core_Constructs_NamedElement, Core_Constructs_PackageableElement;
+edge class Core_Constructs_Type_package extends association
+	 connect Type[*] -> Core_Constructs_Package[0:1];
+
+//A named element is an element in a model that may have a name.
+abstract node class NamedElement extends Core_Constructs_Element;
+edge class Core_Constructs_NamedElement_name extends attribute
+	 connect NamedElement[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Constructs_NamedElement_visibility extends attribute
+	 connect NamedElement[*] -> Core_Constructs_VisibilityKind[0:1];
+edge class Core_Constructs_NamedElement_namespace extends association
+	 connect NamedElement[*] -> Core_Constructs_Namespace[0:1];
+edge class Core_Constructs_NamedElement_qualifiedName extends attribute
+	 connect NamedElement[*] -> Core_PrimitiveTypes_String[0:1];
+
+//An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
+node class Expression extends Core_Constructs_ValueSpecification;
+edge class Core_Constructs_Expression_operand extends association
+	 connect Expression[*] -> Core_Constructs_ValueSpecification[0:*];
+
+//A comment is a textual annotation that can be attached to a set of elements.
+node class Comment extends Core_Constructs_Element;
+edge class Core_Constructs_Comment_body extends attribute
+	 connect Comment[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Core_Constructs_Comment_annotatedElement extends association
+	 connect Comment[*] -> Core_Constructs_Element[0:*];
+
+//A stereotype defines how an existing metaclass may be extended, and enables the use of platform or domain specific terminology or notation in place of, or in addition to, the ones used for the extended metaclass.
+node class Stereotype extends Profiles_Class;
+edge class Profiles_Stereotype_icon extends association
+	 connect Stereotype[*] -> Profiles_Image[0:*];
+
+//A profile defines limited extensions to a reference metamodel with the purpose of adapting the metamodel to a specific platform or domain.
+node class Profile extends Core_Constructs_Package;
+edge class Profiles_Profile_ownedStereotype extends association
+	 connect Profile[*] -> Profiles_Stereotype[0:*];
+edge class Profiles_Profile_metaclassReference extends association
+	 connect Profile[*] -> Core_Constructs_ElementImport[0:*];
+edge class Profiles_Profile_metamodelReference extends association
+	 connect Profile[*] -> Core_Constructs_PackageImport[0:*];
+
+//A package can have one or more profile applications to indicate which profiles have been applied. Because a profile is a package, it is possible to apply a profile not only to packages, but also to profiles.
+node class Package extends Core_Constructs_Namespace;
+edge class Profiles_Package_profileApplication extends association
+	 connect Package[*] -> Profiles_ProfileApplication[0:*];
+
+//Class has derived association that indicates how it may be extended through one or more stereotypes. Stereotype is the only kind of metaclass that cannot be extended by stereotypes.
+node class Class;
+edge class Profiles_Class_extension extends association
+	 connect Class[*] -> Profiles_Extension[0:*];
+
+//A profile application is used to show which profiles have been applied to a package.
+node class ProfileApplication extends Core_Constructs_DirectedRelationship;
+edge class Profiles_ProfileApplication_appliedProfile extends association
+	 connect ProfileApplication[*] -> Profiles_Profile[1:1];
+edge class Profiles_ProfileApplication_applyingPackage extends association
+	 connect ProfileApplication[*] -> Profiles_Package[1:1];
+
+//An extension is used to indicate that the properties of a metaclass are extended through a stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
+node class Extension extends Core_Constructs_Association;
+edge class Profiles_Extension_metaclass extends association
+	 connect Extension[*] -> Profiles_Class[1:1];
+edge class Profiles_Extension_ownedEnd extends association
+	 connect Extension[*] -> Profiles_ExtensionEnd[1:1];
+
+//An extension end is used to tie an extension to a stereotype when extending a metaclass.
+node class ExtensionEnd extends Core_Constructs_Property;
+edge class Profiles_ExtensionEnd_type extends association
+	 connect ExtensionEnd[*] -> Profiles_Stereotype[1:1];
+edge class Profiles_ExtensionEnd_lower extends attribute
+	 connect ExtensionEnd[*] -> Core_PrimitiveTypes_Integer[0:1];
+
+//Physical definition of a graphical image.
+node class Image extends Profiles_Element;
+edge class Profiles_Image_content extends attribute
+	 connect Image[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Profiles_Image_location extends attribute
+	 connect Image[*] -> Core_PrimitiveTypes_String[0:1];
+edge class Profiles_Image_format extends attribute
+	 connect Image[*] -> Core_PrimitiveTypes_String[0:1];
+
+//
+abstract node class Element;
+
+//
+abstract node class NamedElement;

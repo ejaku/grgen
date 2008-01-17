@@ -1,0 +1,125 @@
+abstract edge class association;
+abstract edge class attribute;
+
+//An integer is a primitive type representing integer values.
+node class Integer {
+	
+	value : int;
+
+}
+
+//A Boolean type is used for logical expression, consisting of the predefined values true and false.
+node class Boolean {
+	
+	value : boolean;
+
+}
+
+//A string is a sequence of characters in some suitable character set used to display information about the model. Character sets may include non-Roman alphabets and characters.
+node class String {
+	
+	value : string;
+
+}
+
+//An unlimited natural is a primitive type representing unlimited natural values.
+node class UnlimitedNatural {
+	
+	value : int;
+
+}
+
+//A class is a type that has objects as its instances.
+node class Class extends Type {
+	
+	isAbstract : boolean = false;
+	
+}
+edge class Class_ownedAttribute extends association
+	 connect Class[*] -> Property[0:*];
+edge class Class_ownedOperation extends association
+	 connect Class[*] -> Operation[0:*];
+edge class Class_superClass extends association
+	 connect Class[*] -> Class[0:*];
+
+//An operation is owned by a class and may be invoked in the context of objects that are instances of that class. It is a typed element and a multiplicity element.
+node class Operation extends TypedElement, MultiplicityElement;
+edge class Operation_raisedException extends association
+	 connect Operation[*] -> Type[0:*];
+edge class Operation_ownedParameter extends association
+	 connect Operation[*] -> Parameter[0:*];
+edge class Operation_class extends association
+	 connect Operation[*] -> Class[0:1];
+
+//A parameter is a typed element that represents a parameter of an operation.
+node class Parameter extends TypedElement, MultiplicityElement;
+edge class Parameter_operation extends association
+	 connect Parameter[*] -> Operation[0:1];
+
+//A property is a typed element that represents an attribute of a class.
+node class Property extends TypedElement, MultiplicityElement;
+edge class Property_default extends attribute
+	 connect Property[*] -> String[0:1];
+edge class Property_class extends association
+	 connect Property[*] -> Class[0:1];
+edge class Property_opposite extends association
+	 connect Property[*] -> Property[0:1];
+
+//A type is a named element that is used as the type for a typed element. A type can be contained in a package.
+abstract node class Type extends NamedElement;
+edge class Type_package extends association
+	 connect Type[*] -> Package[0:1];
+
+//A named element represents an element with a name.
+abstract node class NamedElement extends Element;
+edge class NamedElement_name extends attribute
+	 connect NamedElement[*] -> String[0:1];
+
+//A typed element is a kind of named element that represents an element with a type.
+abstract node class TypedElement extends NamedElement;
+edge class TypedElement_type extends association
+	 connect TypedElement[*] -> Type[0:1];
+
+//An enumeration defines a set of literals that can be used as its values.
+node class Enumeration extends DataType;
+edge class Enumeration_ownedLiteral extends association
+	 connect Enumeration[*] -> EnumerationLiteral[0:*];
+
+//An enumeration literal is a value of an enumeration.
+node class EnumerationLiteral extends NamedElement;
+edge class EnumerationLiteral_enumeration extends association
+	 connect EnumerationLiteral[*] -> Enumeration[0:1];
+
+//A primitive type is a data type implemented by the underlying infrastructure and made available for modeling.
+node class PrimitiveType extends DataType;
+
+//A package is a container for types and other packages.
+node class Package extends NamedElement;
+edge class Package_nestedPackage extends association
+	 connect Package[*] -> Package[0:*];
+edge class Package_nestingPackage extends association
+	 connect Package[*] -> Package[0:1];
+edge class Package_ownedType extends association
+	 connect Package[*] -> Type[0:*];
+
+//DataType is an abstract class that acts as a common superclass for different kinds of data types.
+abstract node class DataType extends Type;
+
+//A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
+abstract node class MultiplicityElement extends Element;
+edge class MultiplicityElement_lower extends attribute
+	 connect MultiplicityElement[*] -> Integer[0:1];
+edge class MultiplicityElement_upper extends attribute
+	 connect MultiplicityElement[*] -> UnlimitedNatural[0:1];
+
+//An element is a constituent of a model.
+abstract node class Element;
+edge class Element_ownedComment extends association
+	 connect Element[*] -> Comment[0:*];
+
+//A comment is a textual annotation that can be attached to a set of elements.
+node class Comment extends Element;
+edge class Comment_body extends attribute
+	 connect Comment[*] -> String[0:1];
+edge class Comment_annotatedElement extends association
+	 connect Comment[*] -> Element[0:*];

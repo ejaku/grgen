@@ -1,0 +1,45 @@
+using L3;
+
+rule init {
+  pattern { }
+  replace {
+    // the machine and its region
+    sm:StateMachine -:StateMachine_region-> reg:Region -:Region_stateMachine-> sm;
+
+    qs:Pseudostate;
+    qf:FinalState;
+    q1:State;
+    q2:State;
+
+    // embed states to region
+    reg -:Region_subvertex-> qs -:Vertex_container-> reg;
+    reg -:Region_subvertex-> qf -:Vertex_container-> reg;
+    reg -:Region_subvertex-> q1 -:Vertex_container-> reg;
+    reg -:Region_subvertex-> q2 -:Vertex_container-> reg;
+
+    // make initial state
+    // qs --> q FIXME
+
+    // create the transitions in region
+    t1:Transition -:Transition_container-> reg -:Region_transition-> t1;
+    t2:Transition -:Transition_container-> reg -:Region_transition-> t2;
+    t3:Transition -:Transition_container-> reg -:Region_transition-> t3;
+    t4:Transition -:Transition_container-> reg -:Region_transition-> t4;
+    t5:Transition -:Transition_container-> reg -:Region_transition-> t5;
+    t6:Transition -:Transition_container-> reg -:Region_transition-> t6;
+
+    // the triggers
+    t1 -:Transition_trigger-> :Trigger -:Trigger_event-> :CallEvent;
+    t2 -:Transition_trigger-> :Trigger -:Trigger_event-> :CallEvent;
+    t3 -:Transition_trigger-> :Trigger -:Trigger_event-> :CallEvent;
+
+    // the connections
+    qs -:Transition_source-> t1 -:Transition_target-> q1 
+       -:Transition_source-> t2 -:Transition_target-> q2
+       -:Transition_source-> t3 -:Transition_target-> qf;
+
+    qs -:Transition_source-> t4 -:Transition_target-> q2;
+    q1 -:Transition_source-> t5 -:Transition_target-> qf;
+    qs -:Transition_source-> t6 -:Transition_target-> qf;
+  }
+}

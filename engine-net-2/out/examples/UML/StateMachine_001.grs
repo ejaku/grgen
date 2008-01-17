@@ -1,0 +1,7 @@
+new graph StateMachine_001
+
+dump set node Vertex color red
+dump set node Transitions color blue
+
+xgrs init
+validate strict
