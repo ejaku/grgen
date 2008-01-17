@@ -639,17 +639,19 @@ replaceBody [ Coords coords, CollectNode eval ] returns [ GraphNode res = null ]
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
+		EmitNode es = null;
 		res = new GraphNode(coords, connections, subpatterns, returnz);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, returnz, eval] )*
+	: ( es=replaceStmt[coords, connections, subpatterns, returnz, eval] {if(es!=null) res.addEmit(es);} )*
 	;
 
 replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval ]
+	returns [ EmitNode es = null ]
 	: connectionsOrSubpattern[connections, subpatterns, ConstraintDeclNode.DECL_IN_REPLACEMENT] SEMI
 	| replaceReturns[returnz] SEMI
 	| evalPart[eval]
-	| emitStmt SEMI
+	| es=emitStmt SEMI
 	;
 
 modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]

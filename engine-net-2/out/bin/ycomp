@@ -1,2 +1,4 @@
 #! /bin/sh
-java -jar "<GrGenNETPath>/bin/yComp.jar" $*
+YCOMP=`readlink -f "$0"`
+YCOMP_HOME=`dirname "$YCOMP"`
+java -jar "$YCOMP_HOME/yComp.jar" $*

@@ -1623,11 +1623,3 @@ public class SearchPlanBackend extends IDBase implements Backend, BackendFactory
 	}
 }
 
-
-
-
-
-
-
-
-
