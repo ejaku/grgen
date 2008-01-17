@@ -1,0 +1,17 @@
+
+rule r1 {
+  x:Node;
+  negative { x <-- ; }
+  modify{
+//    emit("0", r1 & r2(x) || (x, y) = r3 && (r1 ^ r2(a, b,c, y)), x.a, r2(x), x.b);
+    emit("0", r2(x));
+  }
+}
+
+rule r2(x:Node) {
+  x --> y:Node;
+  modify {
+    delete(x);
+    emit("-->O", r2(y));
+  }
+}

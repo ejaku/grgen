@@ -275,26 +275,6 @@ edgeClassBody returns [ CollectNode c = new CollectNode() ]
 		)*
 	;
 
-rangeSpec returns [ RangeSpecNode res = null ]
-	{
-		int lower = 0, upper = RangeSpecNode.UNBOUND;
-		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
-		// TODO fix range to allow only [*], [+], [c:*], [c], [c:d]
-	}
-
-	:   ( l:LBRACK { coords = getCoords(l); }
-			( ( STAR | PLUS { lower=1; } )
-			| lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
-			) RBRACK
-		)?
-			{ res = new RangeSpecNode(coords, lower, upper); }
-	;
-
-integerConst returns [ int value = 0 ]
-	: i:NUM_INTEGER
-		{ value = Integer.parseInt(i.getText()); }
-	;
-
 enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;

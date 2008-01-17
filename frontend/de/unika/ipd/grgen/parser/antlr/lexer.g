@@ -65,6 +65,8 @@ tokens {
   DELETE = "delete";
   DPO = "dpo";
   EDGE = "edge";
+  EMIT = "emit";
+  EMITF = "emitf";
   ENUM = "enum";
   EVAL = "eval";
   EXACT = "exact";
@@ -149,6 +151,7 @@ SEMI			:	';'		;
 BACKSLASH		:	'\\'	;
 PLUSPLUS		:	"++"	;
 MINUSMINUS		:	"--"	;
+DOLLAR          :   '$'     ;
 
 /*
 MINUSMINUS

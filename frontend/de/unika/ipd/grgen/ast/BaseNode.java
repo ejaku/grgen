@@ -343,14 +343,14 @@ public abstract class BaseNode extends Base
 
 	/** Return the currently valid member. Currently valid depends on variable was already resolved and resolution result. */
 	protected <T extends BaseNode> T getValidResolvedVersion(T firstResolved, T secondResolved) {
-		assert isResolved();
+		assert isResolved() : this;
 		if(firstResolved != null){
 			return firstResolved;
 		}
 		if(secondResolved != null){
 			return secondResolved;
 		}
-		assert false;
+		assert false : this;
 		return null;
 	}
 
@@ -469,7 +469,7 @@ public abstract class BaseNode extends Base
 
 	/** Returns the result of the resolution (as set by nodeResolvedSetResult earlier on). */
 	public final boolean resolutionResult() {
-		assert isResolved();
+		assert isResolved() : this;
 		return resolveResult;
 	}
 
@@ -523,7 +523,7 @@ public abstract class BaseNode extends Base
 
 	/** Yields result of checking this AST node */
 	protected final boolean getChecked() {
-		assert isChecked();
+		assert isChecked(): this;
 		return checkResult;
 	}
 

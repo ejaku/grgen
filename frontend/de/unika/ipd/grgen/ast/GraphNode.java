@@ -43,14 +43,14 @@ import java.util.Vector;
  * or to be used as base class for PatternGraphNode
  * representing the graph pattern of the pattern part of some rule
  */
-public class GraphNode extends BaseNode
-{
+public class GraphNode extends BaseNode {
 	static {
 		setName(GraphNode.class, "graph");
 	}
 
 	CollectNode connections;
 	CollectNode returns;
+	Vector emits = new Vector();
 
 	/**
 	 * A new pattern node
@@ -64,11 +64,17 @@ public class GraphNode extends BaseNode
 		becomeParent(this.returns);
 	}
 
+	/** adds a emit statement to the graph */
+	public void addEmit(EmitNode emit) {
+		emits.add(emit);
+	}
+
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(connections);
 		children.add(returns);
+		children.addAll(emits);
 		return children;
 	}
 
@@ -80,7 +86,7 @@ public class GraphNode extends BaseNode
 		return childrenNames;
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();

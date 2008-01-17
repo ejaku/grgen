@@ -47,8 +47,8 @@ header {
 
 /**
  * GRGen grammar
- * @version 0.1
- * @author Sebastian Hack
+ * @version 1.5
+ * @author Sebastian Hack, Rubino Geiss, Veit Batz, Edgar Jakumeit, Sebastian Buchwald
  */
 class GRActionsParser extends GRBaseParser;
 
@@ -130,7 +130,7 @@ patternOrActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
 
 	: ( mod=patternModifiers patternOrActionDecl[patternChilds, actionChilds, mod] )+
 	;
-	
+
 patternModifiers returns [ int res = 0 ]
 	: ( res = patternModifier[ res ] )*
 	;
@@ -168,7 +168,7 @@ patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int m
 		left=patternPart[getCoords(t), negs, mod]
 			{
 				id.setDecl(new TestDeclNode(id, left, negs, params, ret));
-				{ actionChilds.addChild(id); } 
+				{ actionChilds.addChild(id); }
 			}
 		RBRACE popScope
 		{ if((mod & PatternGraphNode.MOD_DPO)!=0) {
@@ -180,12 +180,12 @@ patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int m
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
-				{ actionChilds.addChild(id); } 
+				{ actionChilds.addChild(id); }
 			}
 		| right=modifyPart[eval,dels]
 			{
 				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
-				{ actionChilds.addChild(id); } 
+				{ actionChilds.addChild(id); }
 			}
 		)
 		RBRACE popScope
@@ -194,18 +194,18 @@ patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int m
 		( right=replacePart[eval]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, null));
-				{ patternChilds.addChild(id); } 
+				{ patternChilds.addChild(id); }
 			}
 		| right=modifyPart[eval,dels]
 			{
 				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, null, dels));
-				{ patternChilds.addChild(id); } 
+				{ patternChilds.addChild(id); }
 			}
 		)
 		RBRACE popScope
 		{ reportError(getCoords(p), "pattern declarations not yet supported"); }
 	;
-	
+
 parameters [ int declLocation ] returns [ CollectNode res = new CollectNode() ]
 	: LPAREN (paramList[res, declLocation])? RPAREN
 	|
@@ -328,13 +328,13 @@ firstEdge [ CollectNode conn, int declLocation ]
 		BaseNode e;
 		boolean forward = true;
 	}
-	
+
 	:   ( e=forwardEdgeOcc[declLocation] { forward=true; } // get first edge
 		| e=backwardEdgeOcc[declLocation] { forward=false; }
 		)
 			nodeContinuation[e, env.getDummyNodeDecl(declLocation), forward, conn, declLocation] // and continue looking for node
 	;
-	
+
 firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int declLocation ]
 	{
 		IdentNode id = env.getDummyIdent();
@@ -426,8 +426,8 @@ firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int declLocat
 
 nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn, int declLocation ]
 	{ BaseNode n2 = env.getDummyNodeDecl(declLocation); }
-	
-	: n2=nodeOcc[declLocation] // node following - get it and build connection with it, then continue with looking for follwing edge 
+
+	: n2=nodeOcc[declLocation] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
 			if (forward) {
 				conn.addChild(new ConnectionNode(n1, e, n2));
@@ -451,20 +451,20 @@ firstEdgeContinuation [ BaseNode n, CollectNode conn, int declLocation ]
 		BaseNode e;
 		boolean forward = true;
 	}
-	
+
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
 	|   ( e=forwardEdgeOcc[declLocation] { forward=true; }
 		| e=backwardEdgeOcc[declLocation] { forward=false; }
 		)
 			nodeContinuation[e, n, forward, conn, declLocation] // continue looking for node
 	;
-	
+
 edgeContinuation [ BaseNode left, CollectNode conn, int declLocation ]
 	{
 		BaseNode e;
 		boolean forward = true;
 	}
-	
+
 	:   // nothing following? -> connection end reached
 	|   ( e=forwardEdgeOcc[declLocation] { forward=true; }
 		| e=backwardEdgeOcc[declLocation] { forward=false; }
@@ -498,13 +498,13 @@ nodeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res =
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		IdentNode oldid = null;
 	}
-	
+
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
 		( LT oldid=entIdentUse GT )?
-			{ 
+			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, declLocation, constr);
 				} else {
@@ -512,7 +512,7 @@ nodeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res =
 				}
 			}
 	;
-	
+
 nodeDecl [ int declLocation ] returns [ BaseNode res = env.initNode() ]
 	{
 		IdentNode id, type;
@@ -526,7 +526,7 @@ nodeDecl [ int declLocation ] returns [ BaseNode res = env.initNode() ]
 		)
 		( constr=typeConstraint )?
 		( LT oldid=entIdentUse GT )?
-			{ 
+			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, declLocation, constr);
 				} else {
@@ -582,7 +582,7 @@ edgeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res =
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		IdentNode oldid = null;
 	}
-	
+
 	:	( type=typeIdentUse
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
@@ -596,7 +596,7 @@ edgeTypeContinuation [ IdentNode id, int declLocation ] returns [ BaseNode res =
 				}
 			}
 	;
-	
+
 /**
  * A statement defining some nodes/edges to be matched potentially
  * homomorphically
@@ -616,8 +616,8 @@ exactStatement returns [ ExactNode res = null ]
 	{
 		IdentNode id;
 	}
-	
-	: e:EXACT {res = new ExactNode(getCoords(e)); } 
+
+	: e:EXACT {res = new ExactNode(getCoords(e)); }
 		LPAREN id=entIdentUse { res.addChild(id); }
 			(COMMA id=entIdentUse { res.addChild(id); } )*
 		RPAREN
@@ -627,10 +627,10 @@ inducedStatement returns [ InducedNode res = null ]
 	{
 		IdentNode id;
 	}
-	
-	: i:INDUCED {res = new InducedNode(getCoords(i)); } 
+
+	: i:INDUCED {res = new InducedNode(getCoords(i)); }
 		LPAREN id=entIdentUse { res.addChild(id); }
-			(COMMA id=entIdentUse { res.addChild(id); } )* 
+			(COMMA id=entIdentUse { res.addChild(id); } )*
 		RPAREN
 	;
 
@@ -649,6 +649,7 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, C
 	: connectionsOrSubpattern[connections, subpatterns, ConstraintDeclNode.DECL_IN_REPLACEMENT] SEMI
 	| replaceReturns[returnz] SEMI
 	| evalPart[eval]
+	| emitStmt SEMI
 	;
 
 modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ GraphNode res = null ]
@@ -656,19 +657,22 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels ] returns [ Graph
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
+		EmitNode es = null;
 		res = new GraphNode(coords, connections, subpatterns, returnz);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, returnz, eval, dels] )*
+	: ( es=modifyStmt[coords, connections, subpatterns, returnz, eval, dels] {if(es!=null) res.addEmit(es);} )*
 	;
 
 modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval, CollectNode dels ]
+	returns [ EmitNode es = null ]
 	: connectionsOrSubpattern[connections, subpatterns, ConstraintDeclNode.DECL_IN_REPLACEMENT] SEMI
 	| replaceReturns[returnz] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
+	| es=emitStmt SEMI
 	;
-	
+
 replaceReturns[CollectNode res]
 	{
 		IdentNode id;
@@ -692,10 +696,124 @@ deleteStmt[CollectNode res]
 		IdentNode id;
 	}
 
-	: DELETE
-		LPAREN id=entIdentUse { res.addChild(id); }
-		( COMMA id=entIdentUse { res.addChild(id); } )*
+	: DELETE LPAREN paramListOfEntIdentUse[res] RPAREN
+	;
+
+paramListOfEntIdentUse[CollectNode res]
+	{
+		IdentNode id;
+	}
+	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
+	;
+
+emitStmt returns [ EmitNode res = null ]
+	{
+		QualIdentNode qid = null;
+		XGRSNode xgrsn = null;
+	}
+	: e:EMIT { res = new EmitNode(getCoords(e)); }
+		LPAREN
+			( s:STRING_LITERAL
+				{
+					String buff = s.getText();
+					// Strip the " from the string
+					buff = buff.substring(1, buff.length() - 1);
+					res.addChild(new StringConstNode(getCoords(s), buff));
+				}
+			| qid=qualIdent {res.addChild(qid);} | {xgrsn = new XGRSNode(getCoords(e));} xgrs[xgrsn] {res.addChild(xgrsn);} )
+			( c:COMMA ( s2:STRING_LITERAL
+				{
+					String buff = s2.getText();
+					// Strip the " from the string
+					buff = buff.substring(1, buff.length() - 1);
+					res.addChild(new StringConstNode(getCoords(s2), buff));
+				}
+			| qid=qualIdent {res.addChild(qid );} | {xgrsn = new XGRSNode(getCoords(c));} xgrs[xgrsn] {res.addChild(xgrsn);} ) )*
 		RPAREN
+	;
+
+// Due to a bug in ANTLR it is not possible to use the obvious "xgrs3 ( (DOLLAR)? LAND xgrs2 )?"
+xgrs[XGRSNode xg]
+	: xgrs6[xg] (	DOLLAR (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
+	        		|      (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
+	        		|
+	            )
+	;
+
+/*
+xgrs2
+	: xgrs3 ( DOLLAR LAND xgrs2 | LAND xgrs2 | )
+	;
+
+xgrs3
+	: xgrs4 ( DOLLAR BOR  xgrs3 | BOR  xgrs3 | )
+	;
+
+xgrs4
+	: xgrs5 ( DOLLAR BXOR  xgrs4 | BXOR  xgrs4 | )
+	;
+
+xgrs5
+	: xgrs6 ( DOLLAR BAND  xgrs5 | BAND  xgrs5 | )
+	;
+*/
+
+xgrs6[XGRSNode xg]
+	: NOT {xg.append("!");} xgrs6[xg]
+	| iterSequence[xg]
+	;
+
+iterSequence[XGRSNode xg]
+	{
+		RangeSpecNode rsn = null;
+	}
+	: simpleSequence[xg] rsn=rangeSpec { xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]"); }
+	;
+
+simpleSequence[XGRSNode xg]
+	{
+		CollectNode results = new CollectNode();
+	}
+	: LPAREN {xg.append("(");}
+		(
+			(entIdentUse COMMA|entIdentUse RPAREN "=") =>
+				paramListOfEntIdentUse[results]
+					{
+						for(Iterator i =results.getChildren().iterator(); i.hasNext();) {
+								xg.append(i.next());
+								if(i.hasNext()) xg.append(",");
+							}
+					}
+				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg]
+			| xgrs[xg] RPAREN {xg.append(")");}
+		)
+	| parallelCallRule[xg]
+	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
+	;
+
+parallelCallRule[XGRSNode xg]
+	: LBRACK {xg.append("[");} callRule[xg] RBRACK {xg.append("]");}
+	| callRule[xg]
+	;
+
+callRule[XGRSNode xg]
+	{
+		CollectNode params = new CollectNode();
+		IdentNode id;
+	}
+	: id=entIdentUse {xg.append(id);}
+		(LPAREN paramListOfEntIdentUse[params]
+			{
+				xg.append("(");
+				for(Iterator<BaseNode> i =params.getChildren().iterator(); i.hasNext();) {
+					BaseNode p = i.next();
+					xg.addParameter(p);
+					xg.append(p);
+					if(i.hasNext()) xg.append(",");
+				}
+				xg.append(")");
+			}
+		RPAREN)?
 	;
 
 typeConstraint returns [ TypeExprNode constr = null ]
