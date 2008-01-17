@@ -19,14 +19,18 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id: ExactNode.java 17220 2008-01-08 16:23:55Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -37,7 +41,7 @@ public class EmitNode extends BaseNode {
 		setName(EmitNode.class, "emit");
 	}
 
-	private Vector<BaseNode> children = new Vector<BaseNode>();
+	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
 	public EmitNode(Coords coords) {
 		super(coords);
@@ -46,12 +50,12 @@ public class EmitNode extends BaseNode {
 	public void addChild(BaseNode n) {
 		assert(!isResolved());
 		becomeParent(n);
-		children.add(n);
+		childrenUnresolved.add(n);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return getValidVersionVector(children, children);
+		return childrenUnresolved;
 	}
 
 	/** returns names of the children, same order as in getChildren */
@@ -69,20 +73,17 @@ public class EmitNode extends BaseNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-
 		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
+
+		for(int i=0; i<childrenUnresolved.size(); ++i) {
+			successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
 		}
 
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
-		}
 		return successfullyResolved;
 	}
 
 	protected boolean checkLocal() {
-		if (children.isEmpty()) {
+		if (childrenUnresolved.isEmpty()) {
 			this.reportError("Emit statement is empty");
 			return false;
 		}
@@ -92,5 +93,13 @@ public class EmitNode extends BaseNode {
 
 	public Color getNodeColor() {
 		return Color.PINK;
+	}
+
+	protected IR constructIR() {
+		List<IR> arguments = new ArrayList<IR>();
+		for(BaseNode child : getChildren())
+			arguments.add(child.getIR());
+		Emit res= new Emit(arguments);
+		return res;
 	}
 }

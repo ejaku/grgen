@@ -19,15 +19,19 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id: ExactNode.java 17220 2008-01-08 16:23:55Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
 
 
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.XGRS;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -39,8 +43,6 @@ public class XGRSNode extends BaseNode {
 	}
 
 	private StringBuilder sb = new StringBuilder();
-
-	private Vector<IdentNode> children = new Vector<IdentNode>();
 
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 
@@ -65,7 +67,7 @@ public class XGRSNode extends BaseNode {
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return getValidVersionVector(childrenUnresolved, children);
+		return childrenUnresolved;
 	}
 
 	/** returns names of the children, same order as in getChildren */
@@ -83,23 +85,9 @@ public class XGRSNode extends BaseNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		/*
-		 boolean successfullyResolved = true;
-		 DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-		 for(int i=0; i<childrenUnresolved.size(); ++i) {
-		 children.add(resolver.resolve(childrenUnresolved.get(i), this));
-		 successfullyResolved = children.get(i)!=null && successfullyResolved;
-		 }
-		 nodeResolvedSetResult(successfullyResolved); // local result
-		 if(!successfullyResolved) {
-		 debug.report(NOTE, "resolve error");
-		 }
+		nodeResolvedSetResult(successfullyResolved);
 
-		 for(int i=0; i<children.size(); ++i) {
-		 successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
-		 }*/
-
-		for(int i=0; i<children.size(); ++i)
+		for(int i=0; i<childrenUnresolved.size(); ++i)
 			successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
 
 		return successfullyResolved;
@@ -111,5 +99,13 @@ public class XGRSNode extends BaseNode {
 
 	public Color getNodeColor() {
 		return Color.PINK;
+	}
+
+	protected IR constructIR() {
+		List<IR> parameters = new ArrayList<IR>();
+		for(BaseNode child : getChildren())
+			parameters.add(child.getIR());
+		XGRS res= new XGRS(getXGRSString(), parameters);
+		return res;
 	}
 }

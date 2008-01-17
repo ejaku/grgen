@@ -50,7 +50,7 @@ public class GraphNode extends BaseNode {
 
 	CollectNode connections;
 	CollectNode returns;
-	Vector emits = new Vector();
+	Vector<EmitNode> emits = new Vector();
 
 	/**
 	 * A new pattern node
@@ -98,6 +98,8 @@ public class GraphNode extends BaseNode {
 
 		successfullyResolved = connections.resolve() && successfullyResolved;
 		successfullyResolved = returns.resolve() && successfullyResolved;
+		for(EmitNode emit : emits)
+			successfullyResolved = emit.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -191,6 +193,10 @@ public class GraphNode extends BaseNode {
 			conn.addToGraph(gr);
 		}
 
+		for(EmitNode emit : emits)
+			emit.constructIR();
+
 		return gr;
 	}
 }
+
