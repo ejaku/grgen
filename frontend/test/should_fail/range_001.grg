@@ -1,0 +1,7 @@
+using range_001;
+
+rule r {
+	replace {
+	}
+}
+

@@ -28,36 +28,8 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import de.unika.ipd.grgen.ir.BooleanType;
-import de.unika.ipd.grgen.ir.ConnAssert;
-import de.unika.ipd.grgen.ir.DoubleType;
-import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumItem;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.FloatType;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.IntType;
-import de.unika.ipd.grgen.ir.MemberInit;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.NodeType;
-import de.unika.ipd.grgen.ir.ObjectType;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.StringType;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 public class ModelGen extends CSharpBase {
 	public ModelGen(SearchPlanBackend2 backend) {
@@ -972,10 +944,10 @@ public class ModelGen extends CSharpBase {
 				sb.append(formatTypeClass(edgeType) + ".typeVar, ");
 				sb.append(formatTypeClass(ca.getSrcType()) + ".typeVar, ");
 				sb.append(formatTypeClass(ca.getTgtType()) + ".typeVar, ");
-				sb.append(formatInt(ca.getSrcLower()) + ", ");
-				sb.append(formatInt(ca.getSrcUpper()) + ", ");
-				sb.append(formatInt(ca.getTgtLower()) + ", ");
-				sb.append(formatInt(ca.getTgtUpper()));
+				sb.append(formatLong(ca.getSrcLower()) + ", ");
+				sb.append(formatLong(ca.getSrcUpper()) + ", ");
+				sb.append(formatLong(ca.getTgtLower()) + ", ");
+				sb.append(formatLong(ca.getTgtUpper()));
 				sb.append("),\n");
 			}
 		}

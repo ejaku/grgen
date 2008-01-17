@@ -70,7 +70,7 @@ public abstract class CSharpBase {
 	}
 
 	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
-			PatternGraph outer, int negCount) {
+							 PatternGraph outer, int negCount) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
@@ -173,6 +173,10 @@ public abstract class CSharpBase {
 
 	public String formatInt(int i) {
 		return (i == Integer.MAX_VALUE) ? "int.MaxValue" : new Integer(i).toString();
+	}
+
+	public String formatLong(long l) {
+		return (l == Long.MAX_VALUE) ? "long.MaxValue" : new Long(l).toString();
 	}
 
 	public strictfp void genExpression(StringBuffer sb, Expression expr) {
@@ -280,8 +284,8 @@ public abstract class CSharpBase {
 					default:
 						throw new UnsupportedOperationException(
 							"This is either a forbidden cast, which should have been " +
-							"rejected on building the IR, or an allowed cast, which " +
-							"should have been processed by the above code.");
+								"rejected on building the IR, or an allowed cast, which " +
+								"should have been processed by the above code.");
 				}
 
 				sb.append("((" + typeName  + ") ");

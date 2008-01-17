@@ -31,15 +31,15 @@ import java.util.Collections;
 import java.util.Map;
 
 public class ConnAssert extends IR {
-	private final int srcLower;
-	private final int srcUpper;
-	private final int tgtLower;
-	private final int tgtUpper;
+	private final long srcLower;
+	private final long srcUpper;
+	private final long tgtLower;
+	private final long tgtUpper;
 	private final NodeType srcType;
 	private final NodeType tgtType;
-	
-	public ConnAssert(NodeType srcType, int srcLower, int srcUpper,
-										NodeType tgtType, int tgtLower, int tgtUpper) {
+
+	public ConnAssert(NodeType srcType, long srcLower, long srcUpper,
+										NodeType tgtType, long tgtLower, long tgtUpper) {
 		super("conn assert");
 		this.srcType = srcType;
 		this.srcLower = srcLower;
@@ -48,37 +48,37 @@ public class ConnAssert extends IR {
 		this.tgtLower = tgtLower;
 		this.tgtUpper = tgtUpper;
 	}
-	
+
 	public NodeType getSrcType() {
 		return srcType;
 	}
-	
+
 	public NodeType getTgtType() {
 		return tgtType;
 	}
-	
-	public int getSrcLower() {
+
+	public long getSrcLower() {
 		return srcLower;
 	}
-	
-	public int getSrcUpper() {
+
+	public long getSrcUpper() {
 		return srcUpper;
 	}
-	
-	public int getTgtLower() {
+
+	public long getTgtLower() {
 		return tgtLower;
 	}
-	
-	public int getTgtUpper() {
+
+	public long getTgtUpper() {
 		return tgtUpper;
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
-		fields.put("src_lower", Integer.toString(srcLower));
-		fields.put("src_upper", Integer.toString(srcUpper));
-		fields.put("tgt_lower", Integer.toString(tgtLower));
-		fields.put("tgt_upper", Integer.toString(tgtUpper));
+		fields.put("src_lower", Long.toString(srcLower));
+		fields.put("src_upper", Long.toString(srcUpper));
+		fields.put("tgt_lower", Long.toString(tgtLower));
+		fields.put("tgt_upper", Long.toString(tgtUpper));
 		fields.put("src_type", Collections.singleton(getSrcType()));
 		fields.put("tgt_type", Collections.singleton(getTgtType()));
 	}
@@ -92,7 +92,7 @@ public class ConnAssert extends IR {
 			getSrcType() == ca.getSrcType() &&
 			getTgtType() == ca.getTgtType();
 	}
-	
+
 	/**
 	 * Compares a given connection assert with <code>this</code> one.
 	 * @return a negative integer, zero, or a positive integer as the
@@ -108,7 +108,7 @@ public class ConnAssert extends IR {
 						return -1;
 		return 1;
 	}
-	
+
 	public String toString() {
 		return
 			getName() +

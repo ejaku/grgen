@@ -122,13 +122,12 @@ public class ConnAssertNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
-		// TODO
-		int srcLower = srcRange.getLower();
-		int srcUpper = srcRange.getUpper();
+		long srcLower = srcRange.getLower();
+		long srcUpper = srcRange.getUpper();
 		NodeType srcType = (NodeType)src.getIR();
 
-		int tgtLower = tgtRange.getLower();
-		int tgtUpper = tgtRange.getUpper();
+		long tgtLower = tgtRange.getLower();
+		long tgtUpper = tgtRange.getUpper();
 		NodeType tgtType = (NodeType)tgt.getIR();
 
 		return new ConnAssert(srcType, srcLower, srcUpper,

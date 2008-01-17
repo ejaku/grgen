@@ -535,20 +535,28 @@ qualIdentExpr returns [ ExprNode res = env.initExprNode() ]
 
 rangeSpec returns [ RangeSpecNode res = null ]
 	{
-		int lower = 0, upper = RangeSpecNode.UNBOUND;
+		long lower = 1, upper = 1;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
-		// TODO fix range to allow only [*], [+], [c:*], [c], [c:d]
+		// range allows [*], [+], [c:*], [c], [c:d]
 	}
 
-	:   ( l:LBRACK { coords = getCoords(l); }
-			( ( STAR | PLUS { lower=1; } )
-			| lower=integerConst ( COLON ( STAR | upper=integerConst ) )?
-			) RBRACK
+	:
+		(
+			l:LBRACK { coords = getCoords(l); }
+			(
+				STAR { lower=0; upper=RangeSpecNode.UNBOUND; }
+			|
+				PLUS { lower=1; upper=RangeSpecNode.UNBOUND; }
+			|
+				lower=integerConst ( COLON ( STAR { upper=RangeSpecNode.UNBOUND; } | upper=integerConst ) )?
+			)
+			RBRACK
 		)?
-			{ res = new RangeSpecNode(coords, lower, upper); }
+		{ res = new RangeSpecNode(coords, lower, upper); }
 	;
 
 integerConst returns [ int value = 0 ]
 	: i:NUM_INTEGER
 		{ value = Integer.parseInt(i.getText()); }
 	;
+
