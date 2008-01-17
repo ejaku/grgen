@@ -6,9 +6,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Pretty printing helper class for source code generation
     /// </summary>
-    class SourceBuilder
+    public class SourceBuilder
     {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder;
         String indentation = "";
 
         /// <summary>
@@ -16,9 +16,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool CommentSourceCode;
 
+		public SourceBuilder(String initialStr)
+		{
+			builder = new StringBuilder(initialStr);
+		}
+
         public SourceBuilder(bool commentSourceCode)
         {
             CommentSourceCode = commentSourceCode;
+			builder = new StringBuilder();
         }
 
         public SourceBuilder Append(String str)

@@ -21,12 +21,17 @@ namespace de.unika.ipd.grGen.libGr
         /// A common random number generator for all sequence objects.
         /// It uses a time-dependent seed.
         /// </summary>
-        protected static Random randomGenerator = new Random();
+        public static Random randomGenerator = new Random();
 
         /// <summary>
         /// The type of the sequence (e.g. LazyOr or Transaction)
         /// </summary>
         public SequenceType SequenceType;
+
+		public Sequence(SequenceType seqType)
+		{
+			SequenceType = seqType;
+		}
 
         /// <summary>
         /// Applies this sequence
@@ -83,20 +88,37 @@ namespace de.unika.ipd.grGen.libGr
         /// Initializes a new instance of the SequenceSpecial class.
         /// </summary>
         /// <param name="special">The initial value for the "Special" flag.</param>
-        public SequenceSpecial(bool special) { Special = special; }
+		public SequenceSpecial(bool special, SequenceType seqType)
+			: base(seqType)
+		{
+			Special = special;
+		}
     }
 
-    public class SequenceLazyOr : Sequence
-    {
+	public abstract class SequenceBinary : Sequence
+	{
         public Sequence Left, Right;
         public bool Randomize;
 
-        public SequenceLazyOr(Sequence left, Sequence right, bool random)
+        public SequenceBinary(Sequence left, Sequence right, bool random, SequenceType seqType)
+			: base(seqType)
         {
             Left = left;
             Right = right;
             Randomize = random;
-            SequenceType = SequenceType.LazyOr;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield return Left; yield return Right; }
+        }
+	}
+
+    public class SequenceLazyOr : SequenceBinary
+    {
+        public SequenceLazyOr(Sequence left, Sequence right, bool random)
+			: base(left, right, random, SequenceType.LazyOr)
+        {
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -107,26 +129,15 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(actions) || Right.Apply(actions);
         }
 
-        public override IEnumerable<Sequence> Children
-        {
-            get { yield return Left; yield return Right; }
-        }
-
         public override int Precedence { get { return 0; } }
         public override string Symbol { get { return "||"; } }
     }
 
-    public class SequenceLazyAnd : Sequence
+    public class SequenceLazyAnd : SequenceBinary
     {
-        public Sequence Left, Right;
-        public bool Randomize;
-
         public SequenceLazyAnd(Sequence left, Sequence right, bool random)
-        {
-            Left = left;
-            Right = right;
-            Randomize = random;
-            SequenceType = SequenceType.LazyAnd;
+			: base(left, right, random, SequenceType.LazyAnd)
+		{
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -137,26 +148,15 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(actions) && Right.Apply(actions);
         }
 
-        public override IEnumerable<Sequence> Children
-        {
-            get { yield return Left; yield return Right; }
-        }
-
         public override int Precedence { get { return 1; } }
         public override string Symbol { get { return "&&"; } }
     }
 
-    public class SequenceStrictOr : Sequence
+    public class SequenceStrictOr : SequenceBinary
     {
-        public Sequence Left, Right;
-        public bool Randomize;
-
         public SequenceStrictOr(Sequence left, Sequence right, bool random)
-        {
-            Left = left;
-            Right = right;
-            Randomize = random;
-            SequenceType = SequenceType.StrictOr;
+			: base(left, right, random, SequenceType.StrictOr)
+		{
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -167,26 +167,15 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(actions) | Right.Apply(actions);
         }
 
-        public override IEnumerable<Sequence> Children
-        {
-            get { yield return Left; yield return Right; }
-        }
-
         public override int Precedence { get { return 2; } }
         public override string Symbol { get { return "|"; } }
     }
 
-    public class SequenceXor : Sequence
+    public class SequenceXor : SequenceBinary
     {
-        public Sequence Left, Right;
-        public bool Randomize;
-
         public SequenceXor(Sequence left, Sequence right, bool random)
-        {
-            Left = left;
-            Right = right;
-            Randomize = random;
-            SequenceType = SequenceType.Xor;
+			: base(left, right, random, SequenceType.Xor)
+		{
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -197,26 +186,15 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(actions) ^ Right.Apply(actions);
         }
 
-        public override IEnumerable<Sequence> Children
-        {
-            get { yield return Left; yield return Right; }
-        }
-
         public override int Precedence { get { return 3; } }
         public override string Symbol { get { return "^"; } }
     }
 
-    public class SequenceStrictAnd : Sequence
+    public class SequenceStrictAnd : SequenceBinary
     {
-        public Sequence Left, Right;
-        public bool Randomize;
-
         public SequenceStrictAnd(Sequence left, Sequence right, bool random)
-        {
-            Left = left;
-            Right = right;
-            Randomize = random;
-            SequenceType = SequenceType.StrictAnd;
+			: base(left, right, random, SequenceType.StrictAnd)
+		{
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -225,11 +203,6 @@ namespace de.unika.ipd.grGen.libGr
                 return Right.Apply(actions) & Left.Apply(actions);
             else
                 return Left.Apply(actions) & Right.Apply(actions);
-        }
-
-        public override IEnumerable<Sequence> Children
-        {
-            get { yield return Left; yield return Right; }
         }
 
         public override int Precedence { get { return 4; } }
@@ -241,9 +214,9 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
 
         public SequenceNot(Sequence seq)
+			: base(SequenceType.Not)
         {
             Seq = seq;
-            SequenceType = SequenceType.Not;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -262,10 +235,10 @@ namespace de.unika.ipd.grGen.libGr
         public int Min;
 
         public SequenceMin(Sequence seq, int min)
+			: base(SequenceType.Min)
         {
             Seq = seq;
             Min = min;
-            SequenceType = SequenceType.Min;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -287,11 +260,11 @@ namespace de.unika.ipd.grGen.libGr
         public int Min, Max;
 
         public SequenceMinMax(Sequence seq, int min, int max)
-        {
+			: base(SequenceType.MinMax)
+		{
             Seq = seq;
             Min = min;
             Max = max;
-            SequenceType = SequenceType.MinMax;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -314,11 +287,11 @@ namespace de.unika.ipd.grGen.libGr
         public RuleObject RuleObj;
         public bool Test;
 
-        public SequenceRule(RuleObject ruleObj, bool special, bool test) : base(special)
+		public SequenceRule(RuleObject ruleObj, bool special, bool test)
+			: base(special, SequenceType.Rule)
         {
             RuleObj = ruleObj;
             Test = test;
-            SequenceType = SequenceType.Rule;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -397,9 +370,9 @@ namespace de.unika.ipd.grGen.libGr
         public String[] DefVars;
 
         public SequenceDef(String[] defVars)
-        {
+			: base(SequenceType.Def)
+		{
             DefVars = defVars;
-            SequenceType = SequenceType.Def;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -418,9 +391,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceTrue : SequenceSpecial
     {
-        public SequenceTrue(bool special) : base(special)
+		public SequenceTrue(bool special)
+			: base(special, SequenceType.True)
         {
-            SequenceType = SequenceType.True;
         }
 
         protected override bool ApplyImpl(BaseActions actions) { return true; }
@@ -431,9 +404,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceFalse : SequenceSpecial
     {
-        public SequenceFalse(bool special) : base(special)
+		public SequenceFalse(bool special)
+			: base(special, SequenceType.False)
         {
-            SequenceType = SequenceType.False;
         }
 
         protected override bool ApplyImpl(BaseActions actions) { return false; }
@@ -448,10 +421,10 @@ namespace de.unika.ipd.grGen.libGr
         public String SourceVar;
 
         public SequenceAssignVarToVar(String destVar, String sourceVar)
-        {
+			: base(SequenceType.AssignVarToVar)
+		{
             DestVar = destVar;
             SourceVar = sourceVar;
-            SequenceType = SequenceType.AssignVarToVar;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -471,10 +444,10 @@ namespace de.unika.ipd.grGen.libGr
         public IGraphElement Element;
 
         public SequenceAssignElemToVar(String destVar, IGraphElement elem)
-        {
+			: base(SequenceType.AssignElemToVar)
+		{
             DestVar = destVar;
             Element = elem;
-            SequenceType = SequenceType.AssignElemToVar;
         }
 
         protected override bool ApplyImpl(BaseActions actions)
@@ -493,7 +466,8 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
 
         public SequenceTransaction(Sequence seq)
-        {
+			: base(SequenceType.Transaction)
+		{
             Seq = seq;
             SequenceType = SequenceType.Transaction;
         }

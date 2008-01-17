@@ -261,20 +261,20 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Tries to apply this rule to the given graph once.
-        /// The rule may not require any parameters.
+        /// The rule must not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>True, if the rule was applied.</returns>
-        public bool Apply(LGSPGraph graph)
+        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+        public IGraphElement[] Apply(LGSPGraph graph)
         {
             LGSPMatches matches = DynamicMatch(graph, 1, null);
-            if(matches.Count <= 0) return false;
+            if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                rulePattern.Modify(graph, matches.matches.First);
+                return rulePattern.Modify(graph, matches.matches.First);
             else
-                rulePattern.ModifyNoReuse(graph, matches.matches.First);
-            return true;
+                return rulePattern.ModifyNoReuse(graph, matches.matches.First);
         }
 
         /// <summary>
@@ -284,16 +284,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>True, if the rule was applied.</returns>
-        public bool Apply(LGSPGraph graph, params IGraphElement[] parameters)
+		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+		public IGraphElement[] Apply(LGSPGraph graph, params IGraphElement[] parameters)
         {
             LGSPMatches matches = DynamicMatch(graph, 1, parameters);
-            if(matches.Count <= 0) return false;
+            if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                rulePattern.Modify(graph, matches.matches.First);
+                return rulePattern.Modify(graph, matches.matches.First);
             else
-                rulePattern.ModifyNoReuse(graph, matches.matches.First);
-            return true;
+                return rulePattern.ModifyNoReuse(graph, matches.matches.First);
         }
 
         #region IAction Members
@@ -333,16 +333,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>True, if the rule was applied.</returns>
-        bool IAction.Apply(IGraph graph)
+		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+		IGraphElement[] IAction.Apply(IGraph graph)
         {
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, null);
-            if(matches.Count <= 0) return false;
+            if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
             else
-                rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
-            return true;
+                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
         }
 
         /// <summary>
@@ -352,16 +352,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>True, if the rule was applied.</returns>
-        bool IAction.Apply(IGraph graph, params IGraphElement[] parameters)
+		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+		IGraphElement[] IAction.Apply(IGraph graph, params IGraphElement[] parameters)
         {
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, parameters);
-            if(matches.Count <= 0) return false;
+            if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
             else
-                rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
-            return true;
+                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
         }
 
         #endregion

@@ -2128,7 +2128,7 @@
             to dump matches when in normal mode.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceSpecial.#ctor(System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceSpecial.#ctor(System.Boolean,de.unika.ipd.grGen.libGr.SequenceType)">
             <summary>
             Initializes a new instance of the SequenceSpecial class.
             </summary>
@@ -2840,7 +2840,8 @@
             No Matched/Finished events are triggered by this function.
             </summary>
             <param name="graph">Host graph for this rule</param>
-            <returns>True, if the rule was applied.</returns>
+            <returns>A possibly empty array of IGraphElement instances returned by the rule,
+            or null, if no match was found.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IAction.Apply(de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IGraphElement[])">
             <summary>
@@ -2850,7 +2851,8 @@
             <param name="graph">Host graph for this rule</param>
             <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
             The array must contain at least RulePattern.Inputs.Length elements.</param>
-            <returns>True, if the rule was applied.</returns>
+            <returns>A possibly empty array of IGraphElement instances returned by the rule,
+            or null, if no match was found.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IAction.ApplyStar(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>

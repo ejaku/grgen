@@ -87,8 +87,9 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-        /// <returns>True, if the rule was applied.</returns>
-        bool Apply(IGraph graph);
+		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+		IGraphElement[] Apply(IGraph graph);
 
         /// <summary>
         /// Tries to apply this rule to the given graph once.
@@ -97,8 +98,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-        /// <returns>True, if the rule was applied.</returns>
-        bool Apply(IGraph graph, params IGraphElement[] parameters);
+		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+		/// or null, if no match was found.</returns>
+		IGraphElement[] Apply(IGraph graph, params IGraphElement[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph as often as possible.
