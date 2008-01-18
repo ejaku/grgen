@@ -19,7 +19,7 @@ header {
 */
 
 /**
- * @author Sebastian Hack, Daniel Grund, Rubino Geiss
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
  * @version $Id$
  */
 	package de.unika.ipd.grgen.parser.antlr;
@@ -88,6 +88,7 @@ tokens {
   TRUE = "true";
   TYPEOF = "typeof";
   USING = "using";
+  XGRS = "xgrs";
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;

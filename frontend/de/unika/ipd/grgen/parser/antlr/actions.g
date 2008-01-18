@@ -710,29 +710,18 @@ paramListOfEntIdentUse[CollectNode res]
 
 emitStmt returns [ EmitNode res = null ]
 	{
-		QualIdentNode qid = null;
+		ExprNode exp = null;
 		XGRSNode xgrsn = null;
 	}
 	: e:EMIT { res = new EmitNode(getCoords(e)); }
 		LPAREN
-			( s:STRING_LITERAL
-				{
-					String buff = s.getText();
-					// Strip the " from the string
-					buff = buff.substring(1, buff.length() - 1);
-					res.addChild(new StringConstNode(getCoords(s), buff));
-				}
-			| qid=qualIdent {res.addChild(qid);}
-			| {xgrsn = new XGRSNode(getCoords(e));} xgrs[xgrsn] {res.addChild(xgrsn);} )
-			( c:COMMA ( s2:STRING_LITERAL
-				{
-					String buff = s2.getText();
-					// Strip the " from the string
-					buff = buff.substring(1, buff.length() - 1);
-					res.addChild(new StringConstNode(getCoords(s2), buff));
-				}
-			| qid=qualIdent {res.addChild(qid );}
-			| {xgrsn = new XGRSNode(getCoords(c));} xgrs[xgrsn] {res.addChild(xgrsn);} ) )*
+			( XGRS {xgrsn = new XGRSNode(getCoords(e));} xgrs[xgrsn] {res.addChild(xgrsn);}
+			| exp=expr[false] {res.addChild(exp);} )
+			( c:COMMA
+				( exp=expr[false] {res.addChild(exp);}
+				| XGRS {xgrsn = new XGRSNode(getCoords(c));} xgrs[xgrsn] {res.addChild(xgrsn);}
+				)
+			)*
 		RPAREN
 	;
 
@@ -838,6 +827,7 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 
 
 

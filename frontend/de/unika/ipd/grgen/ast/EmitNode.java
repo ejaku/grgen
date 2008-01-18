@@ -24,6 +24,7 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -42,6 +43,7 @@ public class EmitNode extends BaseNode {
 	}
 
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private Vector<BaseNode> children = new Vector<BaseNode>();
 
 	public EmitNode(Coords coords) {
 		super(coords);
@@ -55,7 +57,7 @@ public class EmitNode extends BaseNode {
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return childrenUnresolved;
+		return getValidVersionVector(childrenUnresolved, children);
 	}
 
 	/** returns names of the children, same order as in getChildren */
@@ -74,9 +76,24 @@ public class EmitNode extends BaseNode {
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved); // local result
+		/*
+		 for(int i=0; i<childrenUnresolved.size(); ++i) {
+		 successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
+		 }
+		 */
 
+		DeclarationResolver<ExprNode> resolver
+			= new DeclarationResolver<ExprNode>(ExprNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
-			successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
+			if(childrenUnresolved.get(i) instanceof ExprNode) {
+				ExprNode decl = resolver.resolve(childrenUnresolved.get(i), this);
+				if(decl != null) children.add(decl);
+				successfullyResolved = decl != null && successfullyResolved;
+			}
+			else{
+				successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
+				children.set(i, childrenUnresolved.get(i));
+			}
 		}
 
 		return successfullyResolved;

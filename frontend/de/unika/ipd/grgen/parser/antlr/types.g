@@ -19,7 +19,7 @@ header {
 */
 
 /**
- * @author Sebastian Hack, Daniel Grund, Rubino Geiss
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
  * @version $Id$
  */
 	package de.unika.ipd.grgen.parser.antlr;
