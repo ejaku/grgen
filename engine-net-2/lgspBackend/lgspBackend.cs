@@ -195,7 +195,8 @@ namespace de.unika.ipd.grGen.lgsp
                     continue;
                 }
             }
-            while(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_'));
+            while(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z'
+					|| curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#'));
             charStream.Backup(1);
         }
 
@@ -208,7 +209,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 curChar = charStream.ReadChar();
             }
-            while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_');
+            while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z'
+					|| curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#');
             charStream.Backup(1);
         }
 
@@ -219,7 +221,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="curChar">The last character read. Set to '\0' to ignore.</param>
         private void IgnoreRest(SimpleCharStream charStream, char curChar)
         {
-            while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_')
+            while(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z'
+					|| curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#')
             {
                 curChar = charStream.ReadChar();
             }
@@ -235,7 +238,8 @@ namespace de.unika.ipd.grGen.lgsp
             while(true)
             {
                 curChar = charStream.ReadChar();
-                if(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z' || curChar >= '0' && curChar <= '9' || curChar == '_'))
+                if(!(curChar >= 'A' && curChar <= 'Z' || curChar >= 'a' && curChar <= 'z'
+						|| curChar >= '0' && curChar <= '9' || curChar == '_' || curChar == '#'))
                     break;
                 sb.Append(curChar);
             }
@@ -294,7 +298,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Tries to match a string at the current position of a SimpleCharStream.
         /// If the string at the current position does not match, it is skipped.
-        /// Here all characters other than A-Z, a-z, 0-9, and _ are skipped.
+        /// Here all characters other than A-Z, a-z, 0-9, _, and # are skipped.
         /// </summary>
         /// <param name="charStream">The char stream.</param>
         /// <param name="str">The string to be matched.</param>
@@ -377,10 +381,9 @@ namespace de.unika.ipd.grGen.lgsp
                     // search the rest of the file for include tokens
                     while(true)
                     {
-                        if(MatchStringOrIgnoreOther(charStream, "include"))
+                        if(MatchStringOrIgnoreOther(charStream, "#include"))
                         {
                             String includedGRG = ReadQuotedString(charStream);
-                            MatchCharOrThrow(charStream, ';');
 							includedGRG = basePath + FixDirectorySeparators(includedGRG);
                             neededFiles.Add(includedGRG);
                             GetNeededFiles(basePath, includedGRG, neededFiles, processedFiles);
