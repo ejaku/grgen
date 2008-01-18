@@ -303,6 +303,9 @@ Sequence SimpleSequence():
     |
         "@" "(" fromName=Text() ")"
         {
+            if(actions == null)
+                throw new ParseException("The @-operator is not allowed without an BaseActions instance!");
+
 //            namedGraph = actions.Graph as NamedGraph;         // CSharpCC does not know "as" yet...
             
             if(!(actions.Graph is NamedGraph))
@@ -356,7 +359,8 @@ Sequence SimpleSequence():
 RuleObject Rule():
 {
 	String str;
-	IAction action;
+	IAction action = null;
+	RuleObject ruleObj;
 	bool retSpecified = false;
 	ArrayList paramVars = new ArrayList();
 	ArrayList returnVars = new ArrayList();
@@ -364,13 +368,19 @@ RuleObject Rule():
 {
 	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" Parameters(paramVars) ")")?
 	{
-		action = actions.GetAction(str);
-		if(action == null || action.RulePattern.Inputs.Length != paramVars.Count || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
-			throw new SequenceParserRuleException(str, action, paramVars.Count, returnVars.Count);
-		if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-		{
-			returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
-		}
-		return new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)), (String[]) returnVars.ToArray(typeof(String)));
+	    if(actions != null)
+	    {
+		    action = actions.GetAction(str);
+		    if(action == null || action.RulePattern.Inputs.Length != paramVars.Count || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
+			    throw new SequenceParserRuleException(str, action, paramVars.Count, returnVars.Count);
+		    if(!retSpecified && action.RulePattern.Outputs.Length > 0)
+		    {
+    			returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
+	    	}
+	    }
+   		ruleObj = new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)), (String[]) returnVars.ToArray(typeof(String)));
+   		if(actions == null)
+   		    ruleObj.RuleName = str;
+   		return ruleObj;
 	}
 }

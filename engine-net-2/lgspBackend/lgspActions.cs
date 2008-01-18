@@ -525,6 +525,7 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPActions(LGSPGraph lgspgraph)
         {
             graph = lgspgraph;
+			graph.curActions = this;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);
 
             modelAssemblyName = Assembly.GetAssembly(graph.Model.GetType()).Location;
@@ -538,7 +539,8 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
         {
             graph = lgspgraph;
-            dumperFactory = dumperfactory;
+			graph.curActions = this;
+			dumperFactory = dumperfactory;
             modelAssemblyName = modelAsmName;
             actionsAssemblyName = actionsAsmName;
             matcherGenerator = new LGSPMatcherGenerator(graph.Model);

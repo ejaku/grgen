@@ -16,6 +16,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public bool CommentSourceCode;
 
+		public SourceBuilder()
+		{
+			builder = new StringBuilder();
+		}
+
 		public SourceBuilder(String initialStr)
 		{
 			builder = new StringBuilder(initialStr);

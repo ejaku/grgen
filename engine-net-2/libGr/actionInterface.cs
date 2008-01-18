@@ -19,6 +19,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public IAction Action;
 
+		/// <summary>
+		/// The name of the rule. Used for generation, where the IAction objects do not exist yet.
+		/// </summary>
+		public String RuleName;
+
         /// <summary>
         /// An array of variable names used for the parameters
         /// </summary>
@@ -43,6 +48,8 @@ namespace de.unika.ipd.grGen.libGr
         public RuleObject(IAction action, String[] paramVars, String[] returnVars)
         {
             Action = action;
+			if(action != null) RuleName = action.Name;
+			else RuleName = "<Unknown rule>";
             ParamVars = paramVars;
             ReturnVars = returnVars;
             Parameters = new IGraphElement[paramVars.Length];

@@ -290,6 +290,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         private LGSPTransactionManager transactionManager;
 
+		public LGSPActions curActions = null;
+
         private bool reuseOptimization = true;
 
         /// <summary>

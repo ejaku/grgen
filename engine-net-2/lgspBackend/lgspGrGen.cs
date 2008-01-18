@@ -25,6 +25,18 @@ namespace de.unika.ipd.grGen.lgsp
         public float[][] NegNodeCost;
         public float[][] NegEdgeCost;
     }
+
+	public class LGSPXGRSInfo
+	{
+		public LGSPXGRSInfo(String[] parameters, String xgrs)
+		{
+			Parameters = parameters;
+			XGRS = xgrs;
+		}
+
+		public String[] Parameters;
+		public String XGRS;
+	}
     
     public class LGSPGrGen
     {
@@ -326,13 +338,13 @@ namespace de.unika.ipd.grGen.lgsp
 				case SequenceType.RuleAll:
 				{
 					SequenceRule seqRule = (SequenceRule) seq;
-					String ruleName = seqRule.RuleObj.Action.Name;
+					String ruleName = seqRule.RuleObj.RuleName;
 					if(!xgrsRules.ContainsKey(ruleName))
 					{
 						xgrsRules.Add(ruleName, null);
 						source.AppendFront("LGSPAction rule_");
 						source.Append(ruleName);
-						source.Append(" = actions.GetAction(" + ruleName + ");\n");
+						source.Append(" = actions.GetAction(\"" + ruleName + "\");\n");
 						foreach(String varName in seqRule.RuleObj.ParamVars)
 							EmitElementVarIfNew(varName, source);
 						foreach(String varName in seqRule.RuleObj.ReturnVars)
@@ -372,7 +384,7 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceRule seqRule = (SequenceRule) seq;
 					RuleObject ruleObj = seqRule.RuleObj;
-					source.AppendFront("IGraphElement[] ret_" + seqID + " = rule_" + ruleObj.Action.Name
+					source.AppendFront("IGraphElement[] ret_" + seqID + " = rule_" + ruleObj.RuleName
 						+ ".Apply(graph");
 					foreach(String paramName in ruleObj.ParamVars)
 						source.Append(", var_" + paramName);
@@ -546,11 +558,10 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public void GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames,
-			BaseActions actions, SourceBuilder source)
+		public void GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames, SourceBuilder source)
 		{
-			Sequence seq = SequenceParser.ParseSequence(xgrsStr, actions);
-			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph, LGSPActions actions, ");
+			Sequence seq = SequenceParser.ParseSequence(xgrsStr, null);
+			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph, ");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
 				if(i != 0) source.Append(", ");
@@ -561,9 +572,12 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("{\n");
 			source.Indent();
 
+			source.AppendFront("LGSPActions actions = graph.curActions;\n");
+
 			xgrsVars.Clear();
 			xgrsNextSequenceID = 0;
 			xgrsSequenceIDs.Clear();
+			xgrsRules.Clear();
 
 			foreach(String param in paramNames)
 				xgrsVars.Add(param, null);
@@ -692,13 +706,70 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Assembly initialAssembly = compResultsWarmup.CompiledAssembly;
 
-                String actionsSource;
-                using(StreamReader sr = new StreamReader(actionsFilename))
-                    actionsSource = sr.ReadToEnd();
-                actionsSource = actionsSource.Substring(0, actionsSource.LastIndexOf('}'));     // remove namespace closing bracket
-                SourceBuilder source = new SourceBuilder(actionsSource);
-                source.Append("\n");
-                source.Indent();
+				Dictionary<String, Type> actionTypes = new Dictionary<string,Type>();
+
+                foreach(Type type in initialAssembly.GetTypes())
+                {
+                    if(!type.IsClass || type.IsNotPublic) continue;
+                    if(type.BaseType == typeof(LGSPRulePattern))
+                    {
+						Console.WriteLine("type.Name = " + type.Name);
+						actionTypes.Add(type.Name, type);
+                    }
+                }
+
+
+				SourceBuilder source = new SourceBuilder(false);
+				source.Indent();
+				source.Indent();
+				bool actionPointFound = false;
+				using(StreamReader sr = new StreamReader(actionsFilename))
+				{
+					String line;
+					while(!actionPointFound && (line = sr.ReadLine()) != null)
+					{
+						if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen emit statement section"))
+						{
+							int lastSpace = line.LastIndexOf(' ');
+							String ruleName = line.Substring(lastSpace + 1);
+							Console.WriteLine("ruleName = \"" + ruleName + "\"");
+							Type ruleType = actionTypes[ruleName];
+							int xgrsID = 0;
+							while(true)
+							{
+								FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
+								if(fieldInfo == null) break;
+								LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
+								GenerateXGRSCode(xgrsID.ToString(), xgrsInfo.XGRS, xgrsInfo.Parameters, source);
+								xgrsID++;
+							}
+							while((line = sr.ReadLine()) != null)
+							{
+								if(line.StartsWith("#"))
+									break;
+							}
+						}
+						else if(line.Length > 0 && line[0] == '/' && line.StartsWith("// GrGen insert Actions here"))
+						{
+							actionPointFound = true;
+							break;
+						}
+						else
+						{
+							source.Append(line);
+							source.Append("\n");
+						}
+					}
+				}
+
+				if(!actionPointFound)
+				{
+					Console.Error.WriteLine("Illegal actions C# input source code: Actions insertion point not found!");
+					return ErrorType.GrGenJavaError;
+				}
+
+				source.Unindent();
+				source.Append("\n");
 
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if(keepGeneratedFiles) matcherGen.CommentSourceCode = true;
