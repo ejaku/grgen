@@ -6,7 +6,7 @@ rule init {
     // the machine and its region
     sm:StateMachine -:region-> reg:Region -:stateMachine-> sm;
 
-    qs:Pseudostate;
+    qs:Pseudostate; // muss ohne irgenwas angebunden sein: kein trigger etc erlaubt
     qf:FinalState;
     q1:State;
     q2:State;
@@ -31,7 +31,7 @@ rule init {
     t5:Transition -:container-> reg -:transition-> t5;
     t6:Transition -:container-> reg -:transition-> t6;
 
-    // the triggers
+    // the triggers (transitions without a trigger are epsilon transitions)
     t1 -:trigger-> :Trigger -:event-> :CallEvent;
     t2 -:trigger-> :Trigger -:event-> :CallEvent;
     t3 -:trigger-> :Trigger -:event-> :CallEvent;
@@ -45,4 +45,51 @@ rule init {
     q1 -:source-> t5 -:target-> qf;
     qs -:source-> t6 -:target-> qf;
   }
+}
+
+rule ForwardTransition {
+    pattern {
+        x:State -:source-> xy:Transition -:target-> y:State -:source-> yz:Transition -:target-> z:State;
+        yz -:trigger-> trig:Trigger;
+        hom(x,y,z);
+        negative {
+            negative { xy -:trigger-> ; }                // xy is an epsilon transition
+            x -:source-> xz:Transition -:target-> z;     // no transition xz with
+            xz -:trigger-> trig;                         // the same trigger as yz
+
+        }
+    }
+    modify {
+        x -:source-> xz:Transition -:target-> z;
+        xz -:trigger-> trig;
+    }    
+}
+
+rule AddStartFinalState {
+    pattern {
+        x:State  -:source-> t:Transition -:target-> :FinalState;
+        x -:kind-> kv:PseudostateKind_Value;
+        if { kv.value == PseudostateKind::entryPoint; }
+        negative { t -:trigger-> ; }
+    }
+    modify {
+        //y:StartFinalState<x>;        
+    }
+}
+
+rule AddFinalState {
+    pattern {
+        //x:State -:EpsilonTransition-> :FinalState;
+        //if { typeof(x) < SpecialState; }
+    }
+    modify {
+        //y:FinalState<x>;
+    }
+}
+
+rule RemoveEpsilonTransition {
+    pattern {
+        //-:EpsilonTransition->;
+    }
+    replace {}   
 }

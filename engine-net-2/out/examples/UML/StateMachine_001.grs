@@ -1,12 +1,21 @@
-new graph StateMachine_001
+new graph StateMachine_001 "Graph of UML State Machine"
 
 dump set node Vertex color red
 dump set node Transition color blue
 
 xgrs init
 
-show graph ycomp
+#show graph ycomp
 
 validate
-
 validate strict
+show num nodes
+show num edges
+
+debug xgrs ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*
+
+validate
+validate strict
+show num nodes
+show num edges
+
