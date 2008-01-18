@@ -771,7 +771,7 @@ iterSequence[XGRSNode xg]
 	{
 		RangeSpecNode rsn = null;
 	}
-	: simpleSequence[xg] rsn=rangeSpec { xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]"); }
+	: simpleSequence[xg] rsn=rangeSpec { if(rsn != null) xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]"); }
 	;
 
 simpleSequence[XGRSNode xg]
@@ -780,7 +780,7 @@ simpleSequence[XGRSNode xg]
 	}
 	: LPAREN {xg.append("(");}
 		(
-			(entIdentUse COMMA|entIdentUse RPAREN "=") =>
+			(entIdentUse COMMA|entIdentUse RPAREN ASSIGN) =>
 				paramListOfEntIdentUse[results]
 					{
 						for(Iterator i =results.getChildren().iterator(); i.hasNext();) {
@@ -838,5 +838,6 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 
 
