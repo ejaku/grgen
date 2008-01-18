@@ -25,7 +25,9 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumItem;
@@ -63,8 +65,9 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		}
 
 		boolean successfullyResolved = true;
-		DeclarationResolver<EnumTypeNode> ownerResolver = new DeclarationResolver<EnumTypeNode>(EnumTypeNode.class);
-		resolvedOwner = ownerResolver.resolve(owner);
+		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
+		resolvedOwner = (EnumTypeNode)ownerResolver.resolve(owner);
+		System.err.println("***" + resolvedOwner);
 		successfullyResolved = resolvedOwner!=null && successfullyResolved;
 		ownedResolutionResult(owner, resolvedOwner);
 
@@ -105,3 +108,4 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		return new EnumExpression(et, it);
 	}
 }
+
