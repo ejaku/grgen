@@ -1,0 +1,9 @@
+using attrib_model_001;
+
+rule dummy {
+
+  replace {
+    i:NINT;
+    eval { i.a = 2*i.notthere; }
+  }
+}
