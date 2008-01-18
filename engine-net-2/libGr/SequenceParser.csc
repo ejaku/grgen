@@ -91,14 +91,17 @@ String Text():
 	}
 }
 
-int Number():
+long Number():
 {
 	Token t;
+	long val;
 }
 {
 	t=<NUM>
 	{
-		return Convert.ToInt32(t.image);
+	    if(!long.TryParse(t.image, out val))
+	        throw new ParseException("64-bit integer expected but found: \"" + t.image + "\"");
+	    return val;
 	}
 }
 
@@ -230,7 +233,7 @@ Sequence RewriteSequence6():
 Sequence SingleSequence():
 {
 	Sequence seq;
-	int minnum = -1, maxnum, temp;
+	long minnum = -1, maxnum, temp;
 	bool maxspecified = false;
 	bool maxstar = false;
 }

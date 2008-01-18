@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
         public long Min;
 
-        public SequenceMin(Sequence seq, int min)
+		public SequenceMin(Sequence seq, long min)
 			: base(SequenceType.Min)
         {
             Seq = seq;
@@ -259,7 +259,7 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
         public long Min, Max;
 
-        public SequenceMinMax(Sequence seq, int min, int max)
+		public SequenceMinMax(Sequence seq, long min, long max)
 			: base(SequenceType.MinMax)
 		{
             Seq = seq;
