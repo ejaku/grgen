@@ -265,7 +265,7 @@ namespace de.unika.ipd.grGen.grGen
             }
             catch(Exception ex)
             {
-                Console.Error.WriteLine(ex.Message);
+				Console.Error.WriteLine(compileWithDebug ? ex.ToString() : ex.Message);
                 ret = 1;
             }
 
