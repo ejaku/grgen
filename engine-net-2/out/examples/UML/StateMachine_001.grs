@@ -1,7 +1,12 @@
 new graph StateMachine_001
 
 dump set node Vertex color red
-dump set node Transitions color blue
+dump set node Transition color blue
 
 xgrs init
+
+show graph ycomp
+
+validate
+
 validate strict

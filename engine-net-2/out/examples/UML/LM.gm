@@ -70,81 +70,113 @@ node class VisibilityKind_Value {
 }
 
 //A classifier is a classification of instances - it describes a set of instances that have features in common. A classifier can specify a generalization hierarchy by referencing its general classifiers.
-abstract node class Classifier extends Namespace, Type;
-edge class Classifier_attribute extends association
-	 connect Classifier[*] -> Property[0:*];
-edge class Classifier_feature extends association
-	 connect Classifier[*] -> Feature[0:*];
-edge class Classifier_general extends association
-	 connect Classifier[*] -> Classifier[0:*];
-edge class Classifier_inheritedMember extends association
-	 connect Classifier[*] -> NamedElement[0:*];
+abstract node class Classifier extends Namespace, Type {
+	
+	
+}
+edge class attribute_ extends attribute connect 
+		Classifier[0:*] -> Property[*];
+edge class feature extends attribute connect 
+		Classifier[0:*] -> Feature[*];
+edge class general extends attribute connect 
+		Classifier[0:*] -> Classifier[*];
+edge class inheritedMember extends attribute connect 
+		Classifier[0:*] -> NamedElement[*];
 
 //A directed relationship represents a relationship between a collection of source model elements and a collection of target model elements.
-abstract node class DirectedRelationship extends Relationship;
-edge class DirectedRelationship_source extends association
-	 connect DirectedRelationship[*] -> Element[1:*];
-edge class DirectedRelationship_target extends association
-	 connect DirectedRelationship[*] -> Element[1:*];
+abstract node class DirectedRelationship extends Relationship {
+	
+	
+}
+edge class source extends attribute connect 
+		DirectedRelationship[1:*] -> Element[*];
+edge class target extends attribute connect 
+		DirectedRelationship[1:*] -> Element[*];
 
 //An element is a constituent of a model. As such, it has the capability of owning other elements.
-abstract node class Element;
-edge class Element_ownedElement extends association
-	 connect Element[*] -> Element[0:*];
-edge class Element_owner extends association
-	 connect Element[*] -> Element[0:1];
-edge class Element_ownedComment extends association
-	 connect Element[*] -> Comment[0:*];
+abstract node class Element {
+	
+	
+}
+edge class ownedElement extends attribute connect 
+		Element[0:*] -> Element[*];
+edge class owner extends attribute connect 
+		Element[0:1] -> Element[*];
+edge class ownedComment extends attribute connect 
+		Element[0:*] -> Comment[*];
 
 //A feature declares a behavioral or structural characteristic of instances of classifiers.
-abstract node class Feature extends RedefinableElement;
-edge class Feature_featuringClassifier extends association
-	 connect Feature[*] -> Classifier[0:*];
+abstract node class Feature extends RedefinableElement {
+	
+	
+}
+edge class featuringClassifier extends attribute connect 
+		Feature[0:*] -> Classifier[*];
 
 //A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
-abstract node class MultiplicityElement extends Element;
-edge class MultiplicityElement_lower extends attribute
-	 connect MultiplicityElement[*] -> Integer[0:1];
-edge class MultiplicityElement_upper extends attribute
-	 connect MultiplicityElement[*] -> UnlimitedNatural[0:1];
+abstract node class MultiplicityElement extends Element {
+	
+	isOrdered : boolean = false;
+	isUnique : boolean = true;
+	
+}
+edge class lower extends association connect 
+		MultiplicityElement[0:1] -> Integer[*],
+		Operation[0:1] -> Integer[*];
+edge class upper extends association connect 
+		MultiplicityElement[0:1] -> UnlimitedNatural[*],
+		Operation[0:1] -> UnlimitedNatural[*];
 
 //A namespace is an element in a model that contains a set of named elements that can be identified by name.
-abstract node class Namespace extends NamedElement;
-edge class Namespace_importedMember extends association
-	 connect Namespace[*] -> PackageableElement[0:*];
-edge class Namespace_elementImport extends association
-	 connect Namespace[*] -> ElementImport[0:*];
-edge class Namespace_packageImport extends association
-	 connect Namespace[*] -> PackageImport[0:*];
-edge class Namespace_ownedMember extends association
-	 connect Namespace[*] -> NamedElement[0:*];
-edge class Namespace_member extends association
-	 connect Namespace[*] -> NamedElement[0:*];
-edge class Namespace_ownedRule extends association
-	 connect Namespace[*] -> Constraint[0:*];
+abstract node class Namespace extends NamedElement {
+	
+	
+}
+edge class importedMember extends attribute connect 
+		Namespace[0:*] -> PackageableElement[*];
+edge class elementImport extends attribute connect 
+		Namespace[0:*] -> ElementImport[*];
+edge class packageImport extends attribute connect 
+		Namespace[0:*] -> PackageImport[*];
+edge class ownedMember extends attribute connect 
+		Namespace[0:*] -> NamedElement[*];
+edge class member extends attribute connect 
+		Namespace[0:*] -> NamedElement[*];
+edge class ownedRule extends attribute connect 
+		Namespace[0:*] -> Constraint[*];
 
 //A packageable element indicates a named element that may be owned directly by a package.
 abstract node class PackageableElement extends NamedElement;
 
 //A redefinable element is an element that, when defined in the context of a classifier, can be redefined more specifically or differently in the context of another classifier that specializes (directly or indirectly) the context classifier.
-abstract node class RedefinableElement extends NamedElement;
-edge class RedefinableElement_redefinitionContext extends association
-	 connect RedefinableElement[*] -> Classifier[0:*];
-edge class RedefinableElement_redefinedElement extends association
-	 connect RedefinableElement[*] -> RedefinableElement[0:*];
+abstract node class RedefinableElement extends NamedElement {
+	
+	
+}
+edge class redefinitionContext extends attribute connect 
+		RedefinableElement[0:*] -> Classifier[*];
+edge class redefinedElement extends attribute connect 
+		RedefinableElement[0:*] -> RedefinableElement[*];
 
 //Relationship is an abstract concept that specifies some kind of relationship between elements.
-abstract node class Relationship extends Element;
-edge class Relationship_relatedElement extends association
-	 connect Relationship[*] -> Element[1:*];
+abstract node class Relationship extends Element {
+	
+	
+}
+edge class relatedElement extends attribute connect 
+		Relationship[1:*] -> Element[*];
 
 //A structural feature is a typed feature of a classifier that specifies the structure of instances of the classifier.
 abstract node class StructuralFeature extends Feature, TypedElement, MultiplicityElement;
 
 //A typed element is a kind of named element that represents an element with a type.
-abstract node class TypedElement extends NamedElement;
-edge class TypedElement_type extends association
-	 connect TypedElement[*] -> Type[0:1];
+abstract node class TypedElement extends NamedElement {
+	
+	
+}
+edge class type extends attribute connect 
+		TypedElement[0:1] -> Type[*],
+		Operation[0:1] -> Type[*];
 
 //A value specification is the specification of a (possibly empty) set of instances, including both objects and data values.
 abstract node class ValueSpecification extends TypedElement, PackageableElement;
@@ -155,14 +187,14 @@ node class Association extends Classifier, Relationship {
 	isDerived : boolean = false;
 	
 }
-edge class Association_ownedEnd extends association
-	 connect Association[*] -> Property[0:*];
-edge class Association_endType extends association
-	 connect Association[*] -> Type[1:*];
-edge class Association_memberEnd extends association
-	 connect Association[*] -> Property[2:*];
-edge class Association_navigableOwnedEnd extends association
-	 connect Association[*] -> Property[0:*];
+edge class ownedEnd extends attribute connect 
+		Association[0:*] -> Property[*];
+edge class endType extends attribute connect 
+		Association[1:*] -> Type[*];
+edge class memberEnd extends attribute connect 
+		Association[2:*] -> Property[*];
+edge class navigableOwnedEnd extends attribute connect 
+		Association[0:*] -> Property[*];
 
 //A class describes a set of objects that share the same specifications of features, constraints, and semantics.
 node class Class extends Classifier {
@@ -170,167 +202,211 @@ node class Class extends Classifier {
 	isAbstract : boolean = false;
 	
 }
-edge class Class_ownedAttribute extends association
-	 connect Class[*] -> Property[0:*];
-edge class Class_ownedOperation extends association
-	 connect Class[*] -> Operation[0:*];
-edge class Class_superClass extends association
-	 connect Class[*] -> Class[0:*];
+edge class ownedAttribute extends attribute connect 
+		Class[0:*] -> Property[*],
+		DataType[0:*] -> Property[*];
+edge class ownedOperation extends attribute connect 
+		Class[0:*] -> Operation[*],
+		DataType[0:*] -> Operation[*];
+edge class superClass extends attribute connect 
+		Class[0:*] -> Class[*];
 
 //A property is a structural feature of a classifier that characterizes instances of the classifier. A property related by ownedAttribute to a classifier (other than an association) represents an attribute and might also represent an association end. It relates an instance of the class to a value or set of values of the type of the attribute. A property related by memberEnd or its specializations to an association represents an end of the association. The type of the property is the type of the end of the association.
-node class Property extends StructuralFeature;
-edge class Property_default extends attribute
-	 connect Property[*] -> String[0:1];
-edge class Property_class extends association
-	 connect Property[*] -> Class[0:1];
-edge class Property_owningAssociation extends association
-	 connect Property[*] -> Association[0:1];
-edge class Property_redefinedProperty extends association
-	 connect Property[*] -> Property[0:*];
-edge class Property_subsettedProperty extends association
-	 connect Property[*] -> Property[0:*];
-edge class Property_opposite extends association
-	 connect Property[*] -> Property[0:1];
-edge class Property_datatype extends association
-	 connect Property[*] -> DataType[0:1];
-edge class Property_association extends association
-	 connect Property[*] -> Association[0:1];
+node class Property extends StructuralFeature {
+	
+	isReadOnly : boolean = false;
+	isComposite : boolean = false;
+	isDerived : boolean = false;
+	isDerivedUnion : boolean = false;
+	
+}
+edge class default extends association connect 
+		Property[0:1] -> String[*],
+		Parameter[0:1] -> String[*];
+edge class class_ extends attribute connect 
+		Property[0:1] -> Class[*],
+		Operation[0:1] -> Class[*];
+edge class owningAssociation extends attribute connect 
+		Property[0:1] -> Association[*];
+edge class redefinedProperty extends attribute connect 
+		Property[0:*] -> Property[*];
+edge class subsettedProperty extends attribute connect 
+		Property[0:*] -> Property[*];
+edge class opposite extends attribute connect 
+		Property[0:1] -> Property[*];
+edge class datatype extends attribute connect 
+		Property[0:1] -> DataType[*],
+		Operation[0:1] -> DataType[*];
+edge class association_ extends attribute connect 
+		Property[0:1] -> Association[*];
 
 //A data type is a type whose instances are identified only by their value. A data type may contain attributes to support the modeling of structured data types.
-node class DataType extends Classifier;
-edge class DataType_ownedAttribute extends association
-	 connect DataType[*] -> Property[0:*];
-edge class DataType_ownedOperation extends association
-	 connect DataType[*] -> Operation[0:*];
+node class DataType extends Classifier {
+	
+	
+}
 
 //An enumeration is a data type whose values are enumerated in the model as enumeration literals.
-node class Enumeration extends DataType;
-edge class Enumeration_ownedLiteral extends association
-	 connect Enumeration[*] -> EnumerationLiteral[0:*];
+node class Enumeration extends DataType {
+	
+	
+}
+edge class ownedLiteral extends attribute connect 
+		Enumeration[0:*] -> EnumerationLiteral[*];
 
 //An enumeration literal is a user-defined data value for an enumeration.
-node class EnumerationLiteral extends NamedElement;
-edge class EnumerationLiteral_enumeration extends association
-	 connect EnumerationLiteral[*] -> Enumeration[0:1];
+node class EnumerationLiteral extends NamedElement {
+	
+	
+}
+edge class enumeration extends attribute connect 
+		EnumerationLiteral[0:1] -> Enumeration[*];
 
 //A primitive type defines a predefined data type, without any relevant substructure (i.e., it has no parts in the context of UML). A primitive datatype may have an algebra and operations defined outside of UML, for example, mathematically.
 node class PrimitiveType extends DataType;
 
 //A constraint is a condition or restriction expressed in natural language text or in a machine readable language for the purpose of declaring some of the semantics of an element.
-node class Constraint extends PackageableElement;
-edge class Constraint_constrainedElement extends association
-	 connect Constraint[*] -> Element[0:*];
-edge class Constraint_specification extends association
-	 connect Constraint[*] -> ValueSpecification[1:1];
-edge class Constraint_context extends association
-	 connect Constraint[*] -> Namespace[0:1];
+node class Constraint extends PackageableElement {
+	
+	
+}
+edge class constrainedElement extends attribute connect 
+		Constraint[0:*] -> Element[*];
+edge class specification extends attribute connect 
+		Constraint[1:1] -> ValueSpecification[*];
+edge class context extends attribute connect 
+		Constraint[0:1] -> Namespace[*];
 
 //An opaque expression is an uninterpreted textual statement that denotes a (possibly empty) set of values when evaluated in a context.
-node class OpaqueExpression extends ValueSpecification;
-edge class OpaqueExpression_body extends attribute
-	 connect OpaqueExpression[*] -> String[0:*];
-edge class OpaqueExpression_language extends attribute
-	 connect OpaqueExpression[*] -> String[0:*];
+node class OpaqueExpression extends ValueSpecification {
+	
+	
+}
+edge class body_ extends association connect 
+		OpaqueExpression[0:*] -> String[*],
+		Comment[0:1] -> String[*];
+edge class language extends association connect 
+		OpaqueExpression[0:*] -> String[*];
 
 //An operation is a behavioral feature of a classifier that specifies the name, type, parameters, and constraints for invoking an associated behavior.
-node class Operation extends BehavioralFeature;
-edge class Operation_lower extends attribute
-	 connect Operation[*] -> Integer[0:1];
-edge class Operation_upper extends attribute
-	 connect Operation[*] -> UnlimitedNatural[0:1];
-edge class Operation_class extends association
-	 connect Operation[*] -> Class[0:1];
-edge class Operation_datatype extends association
-	 connect Operation[*] -> DataType[0:1];
-edge class Operation_raisedException extends association
-	 connect Operation[*] -> Type[0:*];
-edge class Operation_redefinedOperation extends association
-	 connect Operation[*] -> Operation[0:*];
-edge class Operation_type extends association
-	 connect Operation[*] -> Type[0:1];
-edge class Operation_ownedParameter extends association
-	 connect Operation[*] -> Parameter[0:*];
-edge class Operation_precondition extends association
-	 connect Operation[*] -> Constraint[0:*];
-edge class Operation_postcondition extends association
-	 connect Operation[*] -> Constraint[0:*];
-edge class Operation_bodyCondition extends association
-	 connect Operation[*] -> Constraint[0:1];
+node class Operation extends BehavioralFeature {
+	
+	isQuery : boolean = false;
+	isOrdered : boolean = false;
+	isUnique : boolean = true;
+	
+}
+edge class raisedException extends attribute connect 
+		Operation[0:*] -> Type[*],
+		BehavioralFeature[0:*] -> Type[*];
+edge class redefinedOperation extends attribute connect 
+		Operation[0:*] -> Operation[*];
+edge class ownedParameter extends attribute connect 
+		Operation[0:*] -> Parameter[*],
+		BehavioralFeature[0:*] -> Parameter[*];
+edge class precondition extends attribute connect 
+		Operation[0:*] -> Constraint[*];
+edge class postcondition extends attribute connect 
+		Operation[0:*] -> Constraint[*];
+edge class bodyCondition extends attribute connect 
+		Operation[0:1] -> Constraint[*];
 
 //A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
-node class Parameter extends TypedElement, MultiplicityElement;
-edge class Parameter_default extends attribute
-	 connect Parameter[*] -> String[0:1];
-edge class Parameter_operation extends association
-	 connect Parameter[*] -> Operation[0:1];
+node class Parameter extends TypedElement, MultiplicityElement {
+	
+	direction : ParameterDirectionKind = ParameterDirectionKind::in;
+	
+}
+edge class operation extends attribute connect 
+		Parameter[0:1] -> Operation[*];
 
 //A behavioral feature is a feature of a classifier that specifies an aspect of the behavior of its instances.
-abstract node class BehavioralFeature extends Feature, Namespace;
-edge class BehavioralFeature_ownedParameter extends association
-	 connect BehavioralFeature[*] -> Parameter[0:*];
-edge class BehavioralFeature_raisedException extends association
-	 connect BehavioralFeature[*] -> Type[0:*];
+abstract node class BehavioralFeature extends Feature, Namespace {
+	
+	
+}
 
 //An element import identifies an element in another package, and allows the element to be referenced using its name without a qualifier.
-node class ElementImport extends DirectedRelationship;
-edge class ElementImport_alias extends attribute
-	 connect ElementImport[*] -> String[0:1];
-edge class ElementImport_importedElement extends association
-	 connect ElementImport[*] -> PackageableElement[1:1];
-edge class ElementImport_importingNamespace extends association
-	 connect ElementImport[*] -> Namespace[1:1];
+node class ElementImport extends DirectedRelationship {
+	
+	visibility : VisibilityKind = VisibilityKind::public;
+	
+}
+edge class alias extends association connect 
+		ElementImport[0:1] -> String[*];
+edge class importedElement extends attribute connect 
+		ElementImport[1:1] -> PackageableElement[*];
+edge class importingNamespace extends attribute connect 
+		ElementImport[1:1] -> Namespace[*],
+		PackageImport[1:1] -> Namespace[*];
 
 //A package is used to group elements, and provides a namespace for the grouped elements.
-node class Package extends PackageableElement, Namespace;
-edge class Package_packagedElement extends association
-	 connect Package[*] -> PackageableElement[0:*];
-edge class Package_ownedType extends association
-	 connect Package[*] -> Type[0:*];
-edge class Package_nestedPackage extends association
-	 connect Package[*] -> Package[0:*];
-edge class Package_nestingPackage extends association
-	 connect Package[*] -> Package[0:1];
-edge class Package_packageMerge extends association
-	 connect Package[*] -> PackageMerge[0:*];
+node class Package extends PackageableElement, Namespace {
+	
+	
+}
+edge class packagedElement extends attribute connect 
+		Package[0:*] -> PackageableElement[*];
+edge class ownedType extends attribute connect 
+		Package[0:*] -> Type[*];
+edge class nestedPackage extends attribute connect 
+		Package[0:*] -> Package[*];
+edge class nestingPackage extends attribute connect 
+		Package[0:1] -> Package[*];
+edge class packageMerge extends attribute connect 
+		Package[0:*] -> PackageMerge[*];
 
 //A package import is a relationship that allows the use of unqualified names to refer to package members from other namespaces.
-node class PackageImport extends DirectedRelationship;
-edge class PackageImport_importedPackage extends association
-	 connect PackageImport[*] -> Package[1:1];
-edge class PackageImport_importingNamespace extends association
-	 connect PackageImport[*] -> Namespace[1:1];
+node class PackageImport extends DirectedRelationship {
+	
+	visibility : VisibilityKind = VisibilityKind::public;
+	
+}
+edge class importedPackage extends attribute connect 
+		PackageImport[1:1] -> Package[*];
 
 //A package merge defines how the contents of one package are extended by the contents of another package.
-node class PackageMerge extends DirectedRelationship;
-edge class PackageMerge_receivingPackage extends association
-	 connect PackageMerge[*] -> Package[1:1];
-edge class PackageMerge_mergedPackage extends association
-	 connect PackageMerge[*] -> Package[1:1];
+node class PackageMerge extends DirectedRelationship {
+	
+	
+}
+edge class receivingPackage extends attribute connect 
+		PackageMerge[1:1] -> Package[*];
+edge class mergedPackage extends attribute connect 
+		PackageMerge[1:1] -> Package[*];
 
 //A type is a named element that is used as the type for a typed element. A type can be contained in a package.
-abstract node class Type extends PackageableElement;
-edge class Type_package extends association
-	 connect Type[*] -> Package[0:1];
+abstract node class Type extends PackageableElement {
+	
+	
+}
+edge class package extends attribute connect 
+		Type[0:1] -> Package[*];
 
 //A named element is an element in a model that may have a name.
-abstract node class NamedElement extends Element;
-edge class NamedElement_name extends attribute
-	 connect NamedElement[*] -> String[0:1];
-edge class NamedElement_visibility extends attribute
-	 connect NamedElement[*] -> VisibilityKind_Value[0:1];
-edge class NamedElement_namespace extends association
-	 connect NamedElement[*] -> Namespace[0:1];
-edge class NamedElement_qualifiedName extends attribute
-	 connect NamedElement[*] -> String[0:1];
+abstract node class NamedElement extends Element {
+	
+	
+}
+edge class name extends association connect 
+		NamedElement[0:1] -> String[*];
+edge class namespace extends attribute connect 
+		NamedElement[0:1] -> Namespace[*];
+edge class qualifiedName extends association connect 
+		NamedElement[0:1] -> String[*];
 
 //An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
-node class Expression extends ValueSpecification;
-edge class Expression_operand extends association
-	 connect Expression[*] -> ValueSpecification[0:*];
+node class Expression extends ValueSpecification {
+	
+	
+}
+edge class operand extends attribute connect 
+		Expression[0:*] -> ValueSpecification[*];
 
 //A comment is a textual annotation that can be attached to a set of elements.
-node class Comment extends Element;
-edge class Comment_body extends attribute
-	 connect Comment[*] -> String[0:1];
-edge class Comment_annotatedElement extends association
-	 connect Comment[*] -> Element[0:*];
+node class Comment extends Element {
+	
+	
+}
+edge class annotatedElement extends attribute connect 
+		Comment[0:*] -> Element[*];
