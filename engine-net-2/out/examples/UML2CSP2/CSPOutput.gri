@@ -1,0 +1,171 @@
+//
+// Initialize file output and create helper nodes
+//
+
+rule InitOutput
+{
+  pattern {
+    :CspContainer -:processAssignments-> curPa:ProcessAssignment;
+    lastPa:ProcessAssignment;
+    negative { lastPa -:processAssignments->; }
+  }
+  modify {
+    counter:Counter;
+    lastPa -:processAssignments-> dummyPa:ProcessAssignment;
+    
+    emit(xgrs ((curPa)=PAWriteProcess(curPa)[+]
+        | (curPa)=PAWritePrefix(curPa)[+]
+        | (curPa)=PAWriteConditionStart(curPa)
+        | (curPa)=PAWriteConcurrencyStart(curPa)
+        )[*] | FinishOutput(dummyPa));
+  }
+}
+
+//
+// Process
+//
+
+rule PAWriteProcess(curPa:ProcessAssignment) : (ProcessAssignment)
+{
+  pattern {
+    procID:Process <-:processIdentifier- curPa -:process-> proc:Process;
+    curPa -:processAssignments-> nextPa:ProcessAssignment;
+  }
+  modify {
+    emit(procID.name, " = ", proc.name, "\n");
+    return (nextPa);
+  }
+}
+
+//
+// Prefix
+//
+
+rule PAWritePrefix(curPa:ProcessAssignment) : (ProcessAssignment)
+{
+  pattern {
+    procID:Process <-:processIdentifier- curPa -:process-> pre:Prefix;
+    pre -:targetProcess-> tgt:Process;
+    pre -:event-> ev:Event;
+    curPa -:processAssignments-> nextPa:ProcessAssignment;
+  }
+  modify {
+    emit(procID.name, " = ", ev.name, " -> ", tgt.name, "\n");
+    return (nextPa);
+  }
+}
+
+//
+// Condition
+//
+
+rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
+{
+  pattern {
+    procID:Process <-:processIdentifier- curPa -:process-> cond:Condition;
+    curPa -:processAssignments-> nextPa:ProcessAssignment;
+  }
+  modify {
+    emit(procID.name, " = ", xgrs (PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*], "\n");
+    return (nextPa);
+  }
+}
+
+rule PAWriteConditionNext(curCond:Condition)
+{
+  pattern {
+    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> nextCond:Condition;
+    counter:Counter;
+  }
+  modify {
+    tempLine:grIO_File_Line;
+    eval {
+      tempLine.content = (counter.value > 0 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> ";
+      counter.value = counter.value + 1;
+    }
+    emit(tempLine.content, xgrs PAWriteConditionNext(nextCond) || PAWriteConditionLast(nextCond));
+    delete(tempLine);
+  }
+}
+
+rule PAWriteConditionLast(curCond:Condition)
+{
+  pattern {
+    thenProc:Process <-:leftHandSide- curCond -:rightHandSide-> elseProc:Process;
+    counter:Counter;
+  }
+  modify {
+    tempLine:grIO_File_Line;
+    eval {
+      tempLine.content = (counter.value > 0 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> " + elseProc.name;
+    }
+    emit(tempLine.content);
+    delete(tempLine);
+  }
+}
+
+rule PAWriteConditionEnd
+{
+  pattern {
+    counter:Counter;
+    if { counter.value > 0; }
+  }
+  modify {
+    eval {
+      counter.value = counter.value - 1;
+    }
+    emit(")");
+  }
+}
+
+//
+// Concurrency
+//
+
+rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
+{
+  pattern {
+    procID:Process <-:processIdentifier- curPa -:process-> conc:Concurrency
+      -:leftHandSide-> forkProc:Process;
+    curPa -:processAssignments-> nextPa:ProcessAssignment;
+  }
+  modify {
+    emit(procID.name, " = ", forkProc.name, xgrs PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc), "\n");
+    return (nextPa);
+  }
+}
+
+rule PAWriteConcurrencyNext(curConc:Concurrency)
+{
+  pattern {
+    curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
+  }
+  modify {
+    emit(" || ", forkProc.name, xgrs PAWriteConcurrencyNext(nextConc) || PAWriteConcurrencyLast(nextConc));
+  }
+}
+
+rule PAWriteConcurrencyLast(curConc:Concurrency)
+{
+  pattern {
+    curConc -:rightHandSide-> forkProc:Process;
+  }
+  modify {
+    emit(" || ", forkProc.name);
+  }
+}
+
+//
+// Remove helper nodes
+//
+
+rule FinishOutput(dummyPa:ProcessAssignment)
+{
+  pattern {
+    counter:Counter;
+  }
+  modify {
+    delete(dummyPa);
+    delete(counter);
+  }
+}

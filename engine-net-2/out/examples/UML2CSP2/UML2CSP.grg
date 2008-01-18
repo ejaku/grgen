@@ -1,0 +1,301 @@
+using UMLModel, CSPModel, HelperModel, GrIO;
+
+#include "ExampleGraph.gri"
+#include "CSPOutput.gri"
+
+/////////////////////////////////////
+// UML to CSP transformation rules //
+/////////////////////////////////////
+
+//
+// Initialize CSP graph
+//
+
+rule TFInitial : (ProcessAssignment, Process)
+{
+  pattern {
+    :InitialNode -a:ActivityEdge-> tgt:Node;
+  }
+  replace {
+    :CspContainer -:processAssignments-> pa:ProcessAssignment
+      -:processIdentifier-> proc:Process;
+    pa -:tempProcess-> tgt;
+    skip:Process;
+    eval {
+      proc.name = a.name;
+      skip.name = "SKIP";
+    }
+    return (pa, skip);
+  }
+}
+
+//
+// Deletes a given node, if it is not referenced by any edge
+//
+
+rule TFDelUnused(unused:Node)
+{
+  pattern {
+    negative { unused <--; }
+  }
+  modify {
+    delete(unused);
+  }
+}
+
+//
+// Action
+//
+
+rule TFAction(lastPa:ProcessAssignment) : (ProcessAssignment)
+{
+  pattern {
+    hom(lastPa, pa);
+    pa:ProcessAssignment -tmp:tempProcess-> action:Action;
+      
+    action -b:ActivityEdge-> tgt:Node;
+  }
+  modify {
+    delete(tmp);
+    delete(action);
+    
+    pa -:process-> pre:Prefix;
+    pre -:event-> ev:Event;
+    pre -:targetProcess-> newProc:Process;
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> newProc;
+    newPa -:tempProcess-> tgt;
+    
+    eval {
+      ev.name = action.name;
+      newProc.name = b.name;
+    }
+    return (newPa);
+  }
+}
+
+//
+// DecisionNode
+//
+
+rule TFDecisionFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Condition, DecisionNode)
+{
+  pattern {
+    hom(lastPa, pa);
+    pa:ProcessAssignment -tmp:tempProcess-> dn:DecisionNode;
+    
+    dn -then:ActivityEdge-> tgtThen:Node;
+    if { then.guard != "else"; }
+  }
+  modify {
+    delete(tmp);
+    delete(then);
+    
+    pa -:process-> cond:Condition;
+    cond -:leftHandSide-> thenProc:Process;
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> thenProc;
+    newPa -:tempProcess-> tgtThen;
+    
+    eval {
+      thenProc.name = then.name;
+      cond.expression = then.guard;
+    }
+    
+    return (newPa, cond, dn);
+  }  
+}
+
+rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
+    : (ProcessAssignment, Condition, DecisionNode)
+{
+  pattern {
+    dn -then:ActivityEdge-> tgtThen:Node;
+    negative { if { then.guard == "else"; } }
+  }
+  modify {
+    delete(then);
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> thenProc:Process <-:leftHandSide- newCond:Condition;
+    newPa -:tempProcess-> tgtThen;
+    
+    lastCond -:rightHandSide-> newCond;
+  
+    eval {
+      thenProc.name = then.name;
+      newCond.expression = then.guard;
+    }
+    
+    return (newPa, newCond, dn);
+  }  
+}
+
+rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
+    : (ProcessAssignment)
+{
+  pattern {
+    dn -else:ActivityEdge-> tgtElse:Node;
+    if { else.guard == "else"; }
+  }
+  modify {
+    delete(else);
+    delete(dn);
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> elseProc:Process <-:rightHandSide- lastCond;
+    newPa -:tempProcess-> tgtElse;
+  
+    eval {
+      elseProc.name = else.name;
+    }
+    return (newPa);
+  }  
+}
+
+//
+// MergeNode
+//
+
+rule TFMergeInit(lastPa:ProcessAssignment)
+    : (ProcessAssignment, MergeNode, Process)
+{
+  pattern {
+    mn:MergeNode -a:ActivityEdge-> tgt:Node;
+    negative { mn <-:ActivityEdge-; }
+  }
+  modify {
+    newProc:Process <-:processIdentifier-
+        newPa:ProcessAssignment -:tempProcess-> tgt;
+    eval { newProc.name = a.name; }
+    lastPa -:processAssignments-> newPa;
+    return (newPa, mn, newProc);
+  }
+}
+
+rule TFMergeNext(mn:MergeNode, tgtProc:Process)
+{
+  pattern {
+    pa:ProcessAssignment -tmp:tempProcess-> mn;
+  }
+  modify {
+    delete(tmp);
+    pa -:process-> tgtProc;
+  }
+}
+
+//
+// ForkNode
+//
+
+rule TFForkFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Concurrency, ForkNode)
+{
+  pattern {
+    hom(lastPa, pa);
+    pa:ProcessAssignment -tmp:tempProcess-> fn:ForkNode;
+    
+    fn -fork:ActivityEdge-> tgt:Node;
+  }
+  modify {
+    delete(tmp);
+    delete(fork);
+    
+    pa -:process-> conc:Concurrency;
+    conc -:leftHandSide-> forkProc:Process;
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> forkProc;
+    newPa -:tempProcess-> tgt;
+    
+    eval {
+      forkProc.name = fork.name;
+    }
+    
+    return (newPa, conc, fn);
+  }  
+}
+
+rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
+    : (ProcessAssignment, Concurrency, ForkNode)
+{
+  pattern {
+    fn -fork:ActivityEdge-> tgt:Node;
+  }
+  modify {
+    delete(fork);
+    
+    lastPa -:processAssignments-> newPa:ProcessAssignment;
+    newPa -:processIdentifier-> forcProc:Process <-:leftHandSide- newConc:Concurrency;
+    newPa -:tempProcess-> tgt;
+    
+    lastConc -:rightHandSide-> newConc;
+  
+    eval {
+      forcProc.name = fork.name;
+    }
+    
+    return (newPa, newConc, fn);
+  }  
+}
+
+//
+// JoinNode
+//
+
+rule TFJoinFirst(lastPa:ProcessAssignment) : (ProcessAssignment, JoinNode, Process, Event)
+{
+  pattern {
+    hom(lastPa, pa);
+    pa:ProcessAssignment -tmp:tempProcess-> jn:JoinNode -a:ActivityEdge-> tgt:Node;
+    negative { jn <-:ActivityEdge-; }
+  }
+  modify {
+    delete(tmp);
+    
+    pa -:process-> pre:Prefix;
+    pre -:event-> joinEv:Event;
+    pre -:targetProcess-> newProc:Process;
+   
+    newProc <-:processIdentifier- newPa:ProcessAssignment -:tempProcess-> tgt;
+    
+    lastPa -:processAssignments-> newPa;
+    
+    eval {
+      newProc.name = a.name;
+      joinEv.name = "processJoin";
+    }
+    
+    return (newPa, jn, newProc, joinEv);
+  }
+}
+
+rule TFJoinNext(jn:JoinNode, skip:Process, joinEv:Event)
+{
+  pattern {
+    pa:ProcessAssignment -tmp:tempProcess-> jn;
+  }
+  modify {
+    delete(tmp);
+    
+    pa -:process-> pre:Prefix;
+    pre -:event-> joinEv;
+    pre -:targetProcess-> skip;
+  }
+}
+
+//
+// FinalNode
+//
+
+rule TFFinal(skip:Process)
+{
+  pattern {
+    pa:ProcessAssignment -tmp:tempProcess-> fn:FinalNode;
+  }
+  modify {
+    delete(fn);
+    pa -:process-> skip;
+  }
+}

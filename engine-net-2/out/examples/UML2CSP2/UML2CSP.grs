@@ -1,0 +1,36 @@
+new graph UML2CSP
+
+dump set node Node color White
+dump set node Node bordercolor black
+dump set edge Edge color black
+dump set node InitialNode shape Circle
+dump set node DecisionNode shape Rhomb
+dump set node FinalNode shape Circle
+dump add node Action infotag name
+dump add edge ActivityEdge infotag name
+dump add edge ActivityEdge infotag guard
+dump add node Process infotag name
+dump add node Condition infotag expression
+dump add node Event infotag name
+debug set layout Compilergraph
+
+xgrs InitExample
+
+xgrs (lpa, skip)=TFInitial &&                         \
+  ( (lpa)=TFAction(lpa)                               \
+  | (  (lpa, cond, dn)=TFDecisionFirst(lpa)           \
+    && (lpa, cond, dn)=TFDecisionNext(lpa, cond, dn)* \
+    && (lpa)=TFDecisionLast(lpa, cond, dn))           \
+  | (  (lpa, mn, tgt)=TFMergeInit(lpa)                \
+    && TFMergeNext(mn, tgt)+                          \
+    && TFDelUnused(mn))                               \
+  | (  (lpa, conc, fn)=TFForkFirst(lpa)               \
+    && (lpa, conc, fn)=TFForkNext(lpa, conc, fn)+     \
+    && TFDelUnused(fn))                               \
+  | (  (lpa, jn, tgt, ev)=TFJoinFirst(lpa)            \
+    && TFJoinNext(jn, skip, ev)+                      \
+    && TFDelUnused(jn))                               \
+  | TFFinal(skip)                                     \
+  )+
+
+xgrs InitOutput
