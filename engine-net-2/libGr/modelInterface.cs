@@ -93,13 +93,13 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly NodeType TargetType;
 
-        public readonly int SourceLower;
-        public readonly int SourceUpper;
-        public readonly int TargetLower;
-        public readonly int TargetUpper;
+        public readonly long SourceLower;
+        public readonly long SourceUpper;
+        public readonly long TargetLower;
+        public readonly long TargetUpper;
 
         public ValidateInfo(EdgeType edgeType, NodeType sourceType, NodeType targetType,
-            int sourceLower, int sourceUpper, int targetLower, int targetUpper)
+			long sourceLower, long sourceUpper, long targetLower, long targetUpper)
         {
             EdgeType = edgeType;
             SourceType = sourceType;
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The number of edges found in the graph, if CAEType != CAEType.EdgeNotSpecified.
         /// </summary>
-        public int FoundEdges;
+        public long FoundEdges;
 
         /// <summary>
         /// The corresponding ValidatedInfo object, if CAEType != CAEType.EdgeNotSpecified.
@@ -175,7 +175,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="elem">The graph element, where the error was found.</param>
         /// <param name="found">The number of edges found in the graph, if CAEType != CAEType.EdgeNotSpecified.</param>
         /// <param name="valInfo">The corresponding ValidatedInfo object, if CAEType != CAEType.EdgeNotSpecified, otherwise null.</param>
-        public ConnectionAssertionError(CAEType caeType, IGraphElement elem, int found, ValidateInfo valInfo)
+        public ConnectionAssertionError(CAEType caeType, IGraphElement elem, long found, ValidateInfo valInfo)
         {
             CAEType = caeType; Elem = elem; FoundEdges = found;  ValidateInfo = valInfo;
         }

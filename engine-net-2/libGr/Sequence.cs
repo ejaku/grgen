@@ -232,7 +232,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMin : Sequence
     {
         public Sequence Seq;
-        public int Min;
+        public long Min;
 
         public SequenceMin(Sequence seq, int min)
 			: base(SequenceType.Min)
@@ -243,7 +243,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(BaseActions actions)
         {
-            int i = 0;
+            long i = 0;
             while(Seq.Apply(actions))
                 i++;
             return i >= Min;
@@ -257,7 +257,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceMinMax : Sequence
     {
         public Sequence Seq;
-        public int Min, Max;
+        public long Min, Max;
 
         public SequenceMinMax(Sequence seq, int min, int max)
 			: base(SequenceType.MinMax)
@@ -269,7 +269,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(BaseActions actions)
         {
-            int i;
+            long i;
             for(i = 0; i < Max; i++)
             {
                 if(!Seq.Apply(actions)) break;

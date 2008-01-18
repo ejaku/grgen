@@ -611,7 +611,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(!checkedOutNodes.ContainsKey(edge.Source))   // don't check the same node more then once for the same valInfo
                     {
                         // Check outgoing edges
-                        int num = 0;
+                        long num = 0;
                         foreach(IEdge outEdge in edge.Source.GetExactOutgoing(valInfo.EdgeType))
                         {
                             if(!outEdge.Target.Type.IsA(valInfo.TargetType)) continue;
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(!checkedInNodes.ContainsKey(edge.Target))   // don't check the same node more then once for the same valInfo
                     {
                         // Check incoming edges
-                        int num = 0;
+                        long num = 0;
                         foreach(IEdge inEdge in edge.Target.GetExactIncoming(valInfo.EdgeType))
                         {
                             if(!inEdge.Source.Type.IsA(valInfo.SourceType)) continue;
