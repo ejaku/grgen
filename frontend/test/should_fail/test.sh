@@ -1,7 +1,5 @@
 #! /bin/sh
 
-trap "exit 1" INT QUIT TERM HUP
-
 GRGENDIR="../.."
 JARGS="$GRGENDIR/jars/jargs.jar"
 ANTLR="$GRGENDIR/jars/antlr.jar"
@@ -19,17 +17,16 @@ VERBOSE=""
 
 while [ "$1" ]; do
 	case "$1" in
-		--) shift;                  break;;
-		-a) shift; APPEND="TRUE";   break;;
-		-c) rm -rf *_fe;            exit 0;;
-		-n) shift; ONLY_NEW="TRUE"; break;;
-		-v) shift; VERBOSE="TRUE";  break;;
-		* )                         break;;
+		--) shift; break;;
+		-a) shift; APPEND="TRUE";;
+		-n) shift; ONLY_NEW="TRUE";;
+		-v) shift; VERBOSE="TRUE";;
+		* ) break;;
 	esac
 done
 
 if [ ! "$VERBOSE" ]; then
-	[ ! "$APPEND" ] || rm -f "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
+	[ "$APPEND" ] || rm -f "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
 	touch "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
 fi
 
@@ -50,23 +47,28 @@ do_test()
 	rm -fr -- "$DIR"
 	mkdir  -- "$DIR"
 	echo -n "===> TEST $FILE"
-	if [ "$VERBOSE" ]; then
+	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
 		echo
-		java $JAVA_ARGS -o "$DIR" "$FILE"
+		echo "$FILE" >> "$SUCCESSFE"
+	elif grep -q -v "ERROR\|WARNING" < "$DIR/log"; then
+		echo " ... ABEND"
+		echo "$FILE" >> "$ABENDFE"
 	else
-		(java $JAVA_ARGS -o "$DIR" "$FILE" && echo "$FILE succeeded" >> "$SUCCESSFE" || echo "$FILE failed" >> "$FAILEDFE") 2>&1 > /dev/null | grep -q -v "ERROR" && echo "$FILE abend" >> "$ABENDFE" && echo -n " ... ABEND" || echo -n " ... FAILED"
-		echo
+		echo " ... FAILED"
+		echo "$FILE" >> "$FAILEDFE"
 	fi
+	if [ "$VERBOSE" ]; then cat "$DIR/log"; fi
 }
 
 if [ "$1" ]; then
-	for i in "$@";  do
-		if echo "$i" | grep -q -v '\.grg$'; then
-			echo "$i is not a .grg"
-			continue
-		fi
-		do_test "$i"
-	done
+	for i in "$@";  do do_test "$i"; done
 else
 	for i in *.grg; do do_test "$i"; done
 fi
+
+echo SUCCESS
+cat "$SUCCESSFE"
+echo FAILED
+cat "$FAILEDFE"
+echo ABEND
+cat "$ABENDFE"
