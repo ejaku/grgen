@@ -91,7 +91,8 @@ public class XGRSNode extends BaseNode {
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved);
 
-		DeclarationResolver<DeclNode> resolver = new DeclarationResolver<DeclNode>(DeclNode.class);
+		DeclarationResolver<ConstraintDeclNode> resolver
+			= new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i)
 		{
 			DeclNode decl = resolver.resolve(childrenUnresolved.get(i), this);
@@ -118,3 +119,4 @@ public class XGRSNode extends BaseNode {
 		return res;
 	}
 }
+

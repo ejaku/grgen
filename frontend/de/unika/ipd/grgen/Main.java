@@ -454,24 +454,28 @@ public class Main extends Base implements Sys {
 			System.err.println("no rights to create backend class: " + backend);
 		} catch(InstantiationException e) {
 			System.err.println("cannot create backend class: " + backend);
-		}	catch(BackendException e) {
+		} catch(BackendException e) {
 			System.err.println("backend factory error: " + e.getMessage());
+		} catch(Throwable e) {
+			System.err.println("unexpected exception occurred:");
+			e.printStackTrace();
 		}
+
 
 		if (ErrorReporter.getErrorCount() > 0) {
 
 			if (ErrorReporter.getErrorCount() == 1)
-				System.err.println("There was " + ErrorReporter.getErrorCount() + " error(s)");
+				System.err.println("There was " + ErrorReporter.getErrorCount() + " error");
 			else
-				System.err.println("There were " + ErrorReporter.getErrorCount() + " error(s)");
+				System.err.println("There were " + ErrorReporter.getErrorCount() + " errors");
 
 			System.exit(-1);
 		}
 		else if (ErrorReporter.getWarnCount() > 0){
 			if (ErrorReporter.getWarnCount() == 1)
-				System.err.println("There was " + ErrorReporter.getWarnCount() + " warning(s)");
+				System.err.println("There was " + ErrorReporter.getWarnCount() + " warning");
 			else
-				System.err.println("There were " + ErrorReporter.getWarnCount() + " warning(s)");
+				System.err.println("There were " + ErrorReporter.getWarnCount() + " warnings");
 		}
 	}
 

@@ -113,9 +113,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = (left!=null ? left.resolve() : false) && successfullyResolved;
-		successfullyResolved = (edge!=null ? edge.resolve() : false) && successfullyResolved;
-		successfullyResolved = (right!=null ? right.resolve() : false) && successfullyResolved;
+		successfullyResolved = left!=null && left.resolve() && successfullyResolved;
+		successfullyResolved = edge!=null && edge.resolve() && successfullyResolved;
+		successfullyResolved = right!=null && right.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -138,7 +138,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		{
 			return true; // edge not dangling
 		}
-		
+
 		// edge dangling
 		if(left instanceof DummyNodeDeclNode) {
 			if(left.declLocation==NodeDeclNode.DECL_IN_PATTERN) {
@@ -150,7 +150,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 				return true; // we're within the pattern, not the replacement
 			}
 		}
-		
+
 		// edge dangling and located within the replacement
 		if(edge.declLocation==EdgeDeclNode.DECL_IN_PATTERN) {
 			return true; // edge was declared in the pattern
@@ -158,11 +158,11 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		if(edge instanceof EdgeTypeChangeNode) {
 			return true; // edge is a type change edge of an edge declared within the pattern
 		}
-		
-		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part"); 
+
+		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part");
 		return false;
 	 }
-	
+
 	/**
 	 * This adds the connection to an IR graph.
 	 * This method should only be used by {@link PatternGraphNode#constructIR()}.
