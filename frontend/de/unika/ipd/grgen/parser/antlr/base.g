@@ -495,16 +495,15 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 qualIdent returns [ QualIdentNode res = null ]
 	{
 		IdentNode id;
-		BaseNode currentLeft;
+		IdentNode currentLeft;
 	}
 
 	: currentLeft=entIdentUse
 		(d:DOT id=entIdentUse
 			{
 				res = new QualIdentNode(getCoords(d), currentLeft, id);
-				currentLeft = res;
 			}
-		)+
+		)
 	;
 
 enumItemAcc returns [ EnumExprNode res = null ]
@@ -559,4 +558,5 @@ integerConst returns [ int value = 0 ]
 	: i:NUM_INTEGER
 		{ value = Integer.parseInt(i.getText()); }
 	;
+
 

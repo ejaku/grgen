@@ -24,15 +24,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node that represents a qualified identifier
@@ -43,14 +42,17 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		setName(QualIdentNode.class, "Qualification");
 	}
 
-	BaseNode owner;
-	BaseNode member;
+	protected IdentNode owner;
+	private DeclNode resolvedOwner;
+
+	protected IdentNode member;
+	private MemberDeclNode resolvedMember;
 
 	/**
 	 * Make a new identifier qualify node.
 	 * @param coords The coordinates.
 	 */
-	public QualIdentNode(Coords coords, BaseNode owner, IdentNode member) {
+	public QualIdentNode(Coords coords, IdentNode owner, IdentNode member) {
 		super(coords);
 		this.owner = owner;
 		becomeParent(this.owner);
@@ -61,8 +63,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(owner);
-		children.add(member);
+		children.add(getValidVersion(owner, resolvedOwner));
+		children.add(getValidVersion(member, resolvedMember));
 		return children;
 	}
 
@@ -84,21 +86,21 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
 		boolean successfullyResolved = true;
-		Resolver ownerResolver = new DeclResolver(DeclNode.class);
-		BaseNode resolved = ownerResolver.resolve(owner);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		owner = ownedResolutionResult(owner, resolved);
+		DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
+		resolvedOwner = ownerResolver.resolve(owner);
+		successfullyResolved = resolvedOwner!=null && successfullyResolved;
+		ownedResolutionResult(owner, resolvedOwner);
 
-		if (owner instanceof DeclNode && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
-			TypeNode ownerType = (TypeNode) ((DeclNode) owner).getDeclType();
+		if (resolvedOwner != null && (resolvedOwner instanceof NodeCharacter || resolvedOwner instanceof EdgeCharacter)) {
+			TypeNode ownerType = (TypeNode)resolvedOwner.getDeclType();
 
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
-				o.fixupDefinition((IdentNode)member);
-				Resolver declResolver = new DeclResolver(DeclNode.class);
-				resolved = declResolver.resolve(member);
-				successfullyResolved = resolved!=null && successfullyResolved;
-				member = ownedResolutionResult(member, resolved);
+				o.fixupDefinition(member);
+				DeclarationResolver<MemberDeclNode> memberResolver = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+				resolvedMember = memberResolver.resolve(member);
+				successfullyResolved = resolvedMember!=null && successfullyResolved;
+				ownedResolutionResult(member, resolvedMember);
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -119,36 +121,26 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclNode.class)).check(owner, error)
-			& (new SimpleChecker(MemberDeclNode.class)).check(member, error);
+		return (new SimpleChecker(DeclNode.class)).check(getValidVersion(owner, resolvedOwner), error)
+			& (new SimpleChecker(MemberDeclNode.class)).check(getValidVersion(member, resolvedMember), error);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	public DeclNode getDecl() {
 		assert isResolved();
-		BaseNode child = member;
 
-		if (child instanceof DeclNode) {
-			return (DeclNode) child;
-		}
-
-		return DeclNode.getInvalid();
+		return resolvedMember;
 	}
 
 	protected DeclNode getOwner() {
 		assert isResolved();
-		BaseNode child = owner;
 
-		if (child instanceof DeclNode) {
-			return (DeclNode) child;
-		}
-
-		return DeclNode.getInvalid();
+		return resolvedOwner;
 	}
 
 	protected IR constructIR() {
-		Entity owner = (Entity) this.owner.checkIR(Entity.class);
-		Entity member = (Entity) this.member.checkIR(Entity.class);
+		Entity owner = (Entity) getValidVersion(this.owner, resolvedOwner).checkIR(Entity.class);
+		Entity member = (Entity) getValidVersion(this.member, resolvedMember).checkIR(Entity.class);
 
 		return new Qualification(owner, member);
 	}
