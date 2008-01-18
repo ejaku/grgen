@@ -28,36 +28,8 @@
 
 package de.unika.ipd.grgen.be.Csharp;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import de.unika.ipd.grgen.ir.Action;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.EnumType;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.MatchingAction;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Operator;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Qualification;
-import de.unika.ipd.grgen.ir.RetypedEdge;
-import de.unika.ipd.grgen.ir.RetypedNode;
-import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.ir.Test;
-import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
 
 public class ActionsGen extends CSharpBase {
 	public ActionsGen(SearchPlanBackend2 backend) {
@@ -89,6 +61,7 @@ public class ActionsGen extends CSharpBase {
 			else
 				throw new IllegalArgumentException("Unknown Action: " + action);
 
+		sb.append("// GrGen insert Actions here\n");
 		sb.append("}\n");
 
 		writeFile(be.path, filename, sb);
@@ -112,14 +85,38 @@ public class ActionsGen extends CSharpBase {
 		genActionConditions(sb, action);
 		sb.append("\n");
 		if(action instanceof Rule) {
+			Rule rule = (Rule) action;
 			inRewriteModify = true;
-			genRuleModify(sb, (Rule)action, true);
+			genRuleModify(sb, rule, true);
 			sb.append("\n");
-			genRuleModify(sb, (Rule)action, false);
+			genRuleModify(sb, rule, false);
 			inRewriteModify = false;
 
 			genAddedGraphElementsArray(sb, true, newNodes);
 			genAddedGraphElementsArray(sb, false, newEdges);
+
+			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Rule_" + actionName + "\n");
+			int xgrsID = 0;
+			for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
+				for(IR arg : emit.getArguments()) {
+					if(!(arg instanceof XGRS)) continue;
+					XGRS xgrs = (XGRS) arg;
+					sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
+					for(GraphEntity param : xgrs.getArguments()) {
+						sb.append("\"" + param.getIdent() + "\", ");
+					}
+					sb.append("},\n");
+					sb.append("\t\t\t\"" + xgrs.getXGRSString() + "\");\n");
+					sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
+					boolean isFirst = true;
+					for(GraphEntity param : xgrs.getArguments()) {
+						sb.append(", IGraphElement var_");
+						sb.append(param.getIdent());
+					}
+					sb.append(") {}\n");
+				}
+			}
+			sb.append("#endif\n");
 		}
 		else if(action instanceof Test) {
 			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
@@ -538,6 +535,39 @@ public class ActionsGen extends CSharpBase {
 			collectNeededAttributes(ass.getExpression());
 		}
 
+		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
+			for(IR arg : emit.getArguments()) {
+				if(arg instanceof XGRS) {
+					XGRS xgrs = (XGRS) arg;
+					for(GraphEntity param : xgrs.getArguments()) {
+						if(param instanceof Node)
+							nodesNeededAsElements.add((Node) param);
+						else if(param instanceof Edge)
+							edgesNeededAsElements.add((Edge) param);
+						else
+							assert false : "XGRS argument of unknown type: " + param.getClass();
+					}
+				}
+				else if(arg instanceof Qualification) {
+					Qualification qual = (Qualification) arg;
+					GraphEntity entity = (GraphEntity) qual.getOwner();
+					HashSet<Entity> neededAttrs = neededAttributes.get(entity);
+					if(neededAttrs == null) {
+						neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
+					}
+					neededAttrs.add(qual.getMember());
+
+					/*					if(entity instanceof Node)
+						nodesNeededAsAttributes.add((Node) entity);
+					else if(entity instanceof Edge)
+					 edgesNeededAsAttributes.add((Edge) entity);*/
+
+					forceAttributesToVars.add(entity);
+				}
+			}
+		}
+
+
 		// new nodes
 		genRewriteNewNodes(sb2, reuseNodeAndEdges);
 
@@ -598,6 +628,34 @@ public class ActionsGen extends CSharpBase {
 			nodesNeededAsElements.add(node);
 			sb3.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
 			sb3.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
+		}
+
+		// emits
+		int xgrsID = 0;
+		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
+			for(IR arg : emit.getArguments()) {
+				if(arg instanceof Constant) {
+					Constant constant = (Constant) arg;
+					sb3.append("\t\t\tConsole.Write(\"" + constant.getValue() + "\");\n");
+				}
+				else if(arg instanceof Qualification) {
+					Qualification qual = (Qualification) arg;
+					sb3.append("\t\t\tConsole.Write(");
+					genQualAccess(sb3, qual);
+					sb3.append(");\n");
+				}
+				else if(arg instanceof XGRS) {
+					XGRS xgrs = (XGRS) arg;
+					sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
+					boolean isFirst = true;
+					for(GraphEntity param : xgrs.getArguments()) {
+						sb3.append(", ");
+						sb3.append(formatEntity(param));
+					}
+					sb3.append(");\n");
+				}
+				else assert false : "Invalid emit argument";
+			}
 		}
 
 		// return parameter (output)
@@ -670,7 +728,8 @@ public class ActionsGen extends CSharpBase {
 
 		// create variables for used attributes of reused elements
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributes.entrySet()) {
-			if(!reusedElements.contains(entry.getKey())) continue;
+			if(!reusedElements.contains(entry.getKey())
+				&& !forceAttributesToVars.contains(entry.getKey())) continue;
 
 			String grEntName = formatEntity(entry.getKey());
 			for(Entity entity : entry.getValue()) {
@@ -1063,38 +1122,39 @@ public class ActionsGen extends CSharpBase {
 	// Expression stuff //
 	//////////////////////
 
-	protected void genQualAccess(StringBuffer sb, Entity entity, Qualification qual) {
+	protected void genQualAccess(StringBuffer sb, Qualification qual) {
+		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
 		if(inRewriteModify) {
-			if(accessViaVariable((GraphEntity) entity, member)) {
-				if(entity instanceof Node)
-					nodesNeededAsAttributes.add((Node) entity);
-				else if(entity instanceof Edge)
-					edgesNeededAsAttributes.add((Edge) entity);
+			if(accessViaVariable((GraphEntity) owner, member)) {
+				if(owner instanceof Node)
+					nodesNeededAsAttributes.add((Node) owner);
+				else if(owner instanceof Edge)
+					edgesNeededAsAttributes.add((Edge) owner);
 
-				sb.append("var_" + formatEntity(entity) + "_" + formatIdentifiable(member));
+				sb.append("var_" + formatEntity(owner) + "_" + formatIdentifiable(member));
 			}
 			else {
-				if(entity instanceof Node) {
-					nodesNeededAsAttributes.add((Node) entity);
-					if(!newOrRetypedNodes.contains(entity))		// element extracted from match?
+				if(owner instanceof Node) {
+					nodesNeededAsAttributes.add((Node) owner);
+					if(!newOrRetypedNodes.contains(owner))		// element extracted from match?
 						sb.append("i");							// yes, attributes only accessible via interface
 				}
-				else if(entity instanceof Edge) {
-					edgesNeededAsAttributes.add((Edge) entity);
-					if(!newOrRetypedEdges.contains(entity))		// element extracted from match?
+				else if(owner instanceof Edge) {
+					edgesNeededAsAttributes.add((Edge) owner);
+					if(!newOrRetypedEdges.contains(owner))		// element extracted from match?
 						sb.append("i");							// yes, attributes only accessible via interface
 				}
 				else
-					throw new UnsupportedOperationException("Unsupported Entity (" + entity + ")");
+					throw new UnsupportedOperationException("Unsupported Entity (" + owner + ")");
 
-				sb.append(formatEntity(entity) + ".@" + formatIdentifiable(member));
+				sb.append(formatEntity(owner) + ".@" + formatIdentifiable(member));
 			}
 		}
 		else {
-			sb.append("((I" + (entity instanceof Node ? "Node" : "Edge") + "_" +
-					formatIdentifiable(entity.getType()) + ") ");
-			sb.append(formatEntity(entity) + ").@" + formatIdentifiable(qual.getMember()));
+			sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
+					formatIdentifiable(owner.getType()) + ") ");
+			sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
 		}
 	}
 
@@ -1103,7 +1163,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
-		if(!reusedElements.contains(elem)) return false;
+		if(!reusedElements.contains(elem) && !forceAttributesToVars.contains(elem)) return false;
 		HashSet<Entity> neededAttrs = neededAttributes.get(elem);
 		return neededAttrs != null && neededAttrs.contains(attr);
 	}
@@ -1134,5 +1194,7 @@ public class ActionsGen extends CSharpBase {
 	private HashSet<Edge> edgesNeededAsAttributes = new LinkedHashSet<Edge>();
 	private HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
 	private HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
+
+	private HashSet<GraphEntity> forceAttributesToVars = new LinkedHashSet<GraphEntity>();
 }
 

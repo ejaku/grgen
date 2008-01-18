@@ -24,23 +24,22 @@
  */
 package de.unika.ipd.grgen.ir;
 
-
-
 import de.unika.ipd.grgen.ir.IR;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A XGRS in an emit statement.
  */
 public class XGRS extends IR {
 
-	private List<IR> parameters = new ArrayList<IR>();
+	private Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
 
 	private String xgrsString;
 
-	public XGRS(String xgrsString, List<IR> parameters) {
+	public XGRS(String xgrsString, Set<GraphEntity> parameters) {
 		super("xgrs");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
@@ -57,7 +56,7 @@ public class XGRS extends IR {
 	/**
 	 * Returns Parameters
 	 */
-	public List<IR> getArguments() {
-		return Collections.unmodifiableList(parameters);
+	public Set<GraphEntity> getArguments() {
+		return Collections.unmodifiableSet(parameters);
 	}
 }

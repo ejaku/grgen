@@ -26,29 +26,35 @@
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.
  * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
 public class PatternGraph extends Graph {
-	
+
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
-	
+
 	/** A list of all potentially homomorphic sets. */
 	private final List<Collection<GraphEntity>> homs = new LinkedList<Collection<GraphEntity>>();
-	
+
 	/** A set of all pattern nodes, which may be homomorphically matched to any other pattern nodes. */
 	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
 
     /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
+
+	private List<Emit> emits = new ArrayList<Emit>();
+
+	public void addEmit(Emit emit) {
+		emits.add(emit);
+	}
+
+	public List<Emit> getEmits() {
+		return emits;
+	}
 
 	/** Add a condition given by it's expression expr to the graph. */
 	public void addCondition(Expression expr) {
@@ -59,7 +65,7 @@ public class PatternGraph extends Graph {
 	public void addHomomorphic(Collection<GraphEntity> hom) {
 		homs.add(hom);
 	}
-	
+
 	public void addHomToAll(Node node) {
 		homToAllNodes.add(node);
 	}
@@ -67,7 +73,7 @@ public class PatternGraph extends Graph {
 	public void addHomToAll(Edge edge) {
 		homToAllEdges.add(edge);
 	}
-	
+
 	/** Get a collection with all conditions in this graph. */
 	public Collection<Expression> getConditions() {
 		return Collections.unmodifiableCollection(conds);
@@ -77,7 +83,7 @@ public class PatternGraph extends Graph {
 	public Collection<Collection<GraphEntity>> getHomomorphic() {
 		return Collections.unmodifiableCollection(homs);
 	}
-	
+
 	public Collection<Node> getHomomorphic(Node n) {
 		for(Collection<? extends GraphEntity> c : homs) {
 			if (c.contains(n)) {
@@ -96,12 +102,12 @@ public class PatternGraph extends Graph {
 				return (Collection<Edge>)c;
 			}
 		}
-		
+
 		Collection<Edge> c = new LinkedList<Edge>();
 		c.add(e);
 		return c;
 	}
-	
+
 	public Collection<Node> getElemsHomToAllNodes() {
 		return homToAllNodes;
 	}
@@ -109,7 +115,7 @@ public class PatternGraph extends Graph {
 	public Collection<Edge> getElemsHomToAllEdges() {
 		return homToAllEdges;
 	}
-	
+
 	public boolean isHomomorphic(Node n1, Node n2) {
 		return getHomomorphic(n1).contains(n2);
 	}
@@ -125,7 +131,7 @@ public class PatternGraph extends Graph {
 	public boolean isHomToAll(Edge edge) {
 		return homToAllEdges.contains(edge);
 	}
-	
+
 	public boolean isIsoToAll(Node node) {
 		for(Collection<? extends GraphEntity> c : homs) {
 			if (c.contains(node)) {
@@ -134,7 +140,7 @@ public class PatternGraph extends Graph {
 		}
 		return true;
 	}
-	
+
 	public boolean isIsoToAll(Edge edge) {
 		for(Collection<? extends GraphEntity> c : homs) {
 			if (c.contains(edge)) {

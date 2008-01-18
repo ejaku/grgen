@@ -214,8 +214,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
-			Entity entity = qual.getOwner();
-			genQualAccess(sb, entity, qual);
+			genQualAccess(sb, qual);
 		}
 		else if(expr instanceof MemberExpression) {
 			MemberExpression memberExp = (MemberExpression) expr;
@@ -296,7 +295,7 @@ public abstract class CSharpBase {
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
 
-	protected abstract void genQualAccess(StringBuffer sb, Entity entity, Qualification qual);
+	protected abstract void genQualAccess(StringBuffer sb, Qualification qual);
 	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
 
 	///////////////////////

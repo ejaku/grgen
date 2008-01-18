@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -186,7 +187,7 @@ public class GraphNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		Graph gr = new PatternGraph();
+		PatternGraph gr = new PatternGraph();
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
@@ -194,7 +195,7 @@ public class GraphNode extends BaseNode {
 		}
 
 		for(EmitNode emit : emits)
-			emit.constructIR();
+			gr.addEmit((Emit) emit.getIR());
 
 		return gr;
 	}

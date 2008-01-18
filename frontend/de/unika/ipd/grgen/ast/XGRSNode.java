@@ -25,13 +25,16 @@ package de.unika.ipd.grgen.ast;
 
 
 
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.XGRS;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -45,6 +48,7 @@ public class XGRSNode extends BaseNode {
 	private StringBuilder sb = new StringBuilder();
 
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private Vector<DeclNode> children = new Vector<DeclNode>();
 
 	public XGRSNode(Coords coords) {
 		super(coords);
@@ -67,7 +71,7 @@ public class XGRSNode extends BaseNode {
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
-		return childrenUnresolved;
+		return getValidVersionVector(childrenUnresolved, children);
 	}
 
 	/** returns names of the children, same order as in getChildren */
@@ -87,8 +91,13 @@ public class XGRSNode extends BaseNode {
 		boolean successfullyResolved = true;
 		nodeResolvedSetResult(successfullyResolved);
 
+		DeclarationResolver<DeclNode> resolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i)
-			successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
+		{
+			DeclNode decl = resolver.resolve(childrenUnresolved.get(i), this);
+			if(decl != null) children.add(decl);
+			successfullyResolved = decl != null && successfullyResolved;
+		}
 
 		return successfullyResolved;
 	}
@@ -102,9 +111,9 @@ public class XGRSNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
-		List<IR> parameters = new ArrayList<IR>();
+		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
 		for(BaseNode child : getChildren())
-			parameters.add(child.getIR());
+			parameters.add((GraphEntity) child.getIR());
 		XGRS res= new XGRS(getXGRSString(), parameters);
 		return res;
 	}
