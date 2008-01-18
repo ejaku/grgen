@@ -67,7 +67,6 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		boolean successfullyResolved = true;
 		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
 		resolvedOwner = (EnumTypeNode)ownerResolver.resolve(owner);
-		System.err.println("***" + resolvedOwner);
 		successfullyResolved = resolvedOwner!=null && successfullyResolved;
 		ownedResolutionResult(owner, resolvedOwner);
 
