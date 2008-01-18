@@ -369,7 +369,7 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("{\n");
 			source.Indent();
 			EmitSequence(right, source);
-			source.AppendFront("res_" + seqID + " = res_ " + xgrsSequenceIDs[right] + ";\n");
+			source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[right] + ";\n");
 			source.Unindent();
 			source.AppendFront("}\n");
 		}
@@ -389,8 +389,16 @@ namespace de.unika.ipd.grGen.lgsp
 					foreach(String paramName in ruleObj.ParamVars)
 						source.Append(", var_" + paramName);
 					source.Append(");\n");
-					for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
-						source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
+					if(ruleObj.ReturnVars.Length != 0)
+					{
+						source.AppendFront("if(ret_" + seqID + " != null)\n");
+						source.AppendFront("{\n");
+						source.Indent();
+						for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
+							source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
+						source.Unindent();
+						source.AppendFront("}\n");
+					}
 					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
 					break;
 				}
@@ -429,18 +437,18 @@ namespace de.unika.ipd.grGen.lgsp
 						source.AppendFront("if(Sequence.randomGenerator.Next(2) == 1)\n");
 						source.AppendFront("{\n");
 						source.Indent();
-						EmitLazyOp(seqBin.Right, seqBin.Left, false, seqID, source);
+						EmitLazyOp(seqBin.Right, seqBin.Left, isOr, seqID, source);
 						source.Unindent();
 						source.AppendFront("}\n");
 						source.AppendFront("else\n");
 						source.AppendFront("{\n");
-						EmitLazyOp(seqBin.Left, seqBin.Right, false, seqID, source);
+						EmitLazyOp(seqBin.Left, seqBin.Right, isOr, seqID, source);
 						source.Unindent();
 						source.AppendFront("}\n");
 					}
 					else
 					{
-						EmitLazyOp(seqBin.Left, seqBin.Right, false, seqID, source);
+						EmitLazyOp(seqBin.Left, seqBin.Right, isOr, seqID, source);
 					}
 					break;
 				}
@@ -482,7 +490,6 @@ namespace de.unika.ipd.grGen.lgsp
 					}
 					source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqBin.Left] + " "
 						+ op + " res_" + xgrsSequenceIDs[seqBin.Right] + ";\n");
-					source.AppendFront("}\n");
 					break;
 				}
 
@@ -490,7 +497,7 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceMin seqMin = (SequenceMin) seq;
 					int seqMinSubID = xgrsSequenceIDs[seqMin.Seq];
-					source.AppendFront("int i_" + seqID + " = 0;\n");
+					source.AppendFront("long i_" + seqID + " = 0;\n");
 					source.AppendFront("while(true)\n");
 					source.AppendFront("{\n");
 					source.Indent();
@@ -507,7 +514,7 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceMinMax seqMinMax = (SequenceMinMax) seq;
 					int seqMinMaxSubID = xgrsSequenceIDs[seqMinMax.Seq];
-					source.AppendFront("int i_" + seqID + " = 0;\n");
+					source.AppendFront("long i_" + seqID + " = 0;\n");
 					source.AppendFront("for(; i_" + seqID + " < " + seqMinMax.Max + "; i_" + seqID + "++)\n");
 					source.AppendFront("{\n");
 					source.Indent();
@@ -712,10 +719,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
                     if(type.BaseType == typeof(LGSPRulePattern))
-                    {
-						Console.WriteLine("type.Name = " + type.Name);
 						actionTypes.Add(type.Name, type);
-                    }
                 }
 
 
@@ -732,7 +736,6 @@ namespace de.unika.ipd.grGen.lgsp
 						{
 							int lastSpace = line.LastIndexOf(' ');
 							String ruleName = line.Substring(lastSpace + 1);
-							Console.WriteLine("ruleName = \"" + ruleName + "\"");
 							Type ruleType = actionTypes[ruleName];
 							int xgrsID = 0;
 							while(true)
