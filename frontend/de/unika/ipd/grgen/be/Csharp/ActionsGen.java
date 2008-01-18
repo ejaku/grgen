@@ -499,18 +499,39 @@ public class ActionsGen extends CSharpBase {
 				+ "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 
+		// Generates code in the following order:
+		//  - Extract nodes from match as LGSPNode instances
+		//  - Extract nodes from match or from already extracted nodes as interface instances
+		//  - Extract edges from match as LGSPEdge instances
+		//  - Extract edges from match or from already extracted edges as interface instances
+		//  - Extract node types
+		//  - Extract edge types
+		//  - Create variables for used attributes of reusee
+		//  - Create new nodes or reuse nodes
+		//  - Create new edges or reuse edges
+		//  - Retype nodes
+		//  - Retype edges
+		//  - Create variables for used attributes of non-reusees needed for emits
+		//  - Attribute reevaluation
+		//  - Remove edges
+		//  - Remove nodes
+		//  - Emit
+		//  - Return
+
 		newNodes = new HashSet<Node>(rule.getRight().getNodes());
 		newEdges = new HashSet<Edge>(rule.getRight().getEdges());
 		delNodes = new HashSet<Node>(rule.getLeft().getNodes());
 		delEdges = new HashSet<Edge>(rule.getLeft().getEdges());
 		reusedElements.clear();
 		neededAttributes.clear();
+		neededAttributesForEmit.clear();
 		nodesNeededAsElements.clear();
 		edgesNeededAsElements.clear();
 		nodesNeededAsTypes.clear();
 		edgesNeededAsTypes.clear();
 		nodesNeededAsAttributes.clear();
 		edgesNeededAsAttributes.clear();
+		forceAttributeToVar.clear();
 
 		commonNodes = rule.getCommonNodes();
 		commonEdges = rule.getCommonEdges();
@@ -557,12 +578,11 @@ public class ActionsGen extends CSharpBase {
 					}
 					neededAttrs.add(qual.getMember());
 
-					/*					if(entity instanceof Node)
-						nodesNeededAsAttributes.add((Node) entity);
-					else if(entity instanceof Edge)
-					 edgesNeededAsAttributes.add((Edge) entity);*/
-
-					forceAttributesToVars.add(entity);
+					neededAttrs = neededAttributesForEmit.get(entity);
+					if(neededAttrs == null) {
+						neededAttributesForEmit.put(entity, neededAttrs = new LinkedHashSet<Entity>());
+					}
+					neededAttrs.add(qual.getMember());
 				}
 			}
 		}
@@ -728,43 +748,37 @@ public class ActionsGen extends CSharpBase {
 
 		// create variables for used attributes of reused elements
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributes.entrySet()) {
-			if(!reusedElements.contains(entry.getKey())
-				&& !forceAttributesToVars.contains(entry.getKey())) continue;
+			if(!reusedElements.contains(entry.getKey())) continue;
 
 			String grEntName = formatEntity(entry.getKey());
 			for(Entity entity : entry.getValue()) {
-				String varTypeName;
 				String attrName = formatIdentifiable(entity);
-				switch(entity.getType().classify()) {
-					case Type.IS_BOOLEAN:
-						varTypeName = "bool";
-						break;
-					case Type.IS_INTEGER:
-						varTypeName = "int";
-						break;
-					case Type.IS_FLOAT:
-						varTypeName = "float";
-						break;
-					case Type.IS_DOUBLE:
-						varTypeName = "double";
-						break;
-					case Type.IS_STRING:
-						varTypeName = "String";
-						break;
-					case Type.IS_OBJECT:
-						varTypeName = "Object";
-						break;
-					default:
-						throw new IllegalArgumentException();
-				}
-
-				sb.append("\t\t\t" + varTypeName + " var_" + grEntName + "_" + attrName
-						+ " = i" + grEntName + ".@" + attrName + ";\n");
+				genVariable(sb, grEntName, entity);
+				sb.append(" = i" + grEntName + ".@" + attrName + ";\n");
 			}
 		}
 
 		// new nodes/edges (re-use) and retype nodes/edges
 		sb.append(sb2);
+
+		// create variables for used attributes of non-reusees needed for emits
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributesForEmit.entrySet()) {
+			GraphEntity owner = entry.getKey();
+			if(reusedElements.contains(owner)) continue;
+
+			String grEntName = formatEntity(owner);
+			for(Entity entity : entry.getValue()) {
+				genVariable(sb, grEntName, entity);
+				sb.append(" = ");
+				genQualAccess(sb, owner, entity);
+				sb.append(";\n");
+
+				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
+				if(forcedAttrs == null)
+					forceAttributeToVar.put(owner, forcedAttrs = new HashSet<Entity>());
+				forcedAttrs.add(entity);
+			}
+		}
 
 		// attribute re-calc, remove, return
 		sb.append(sb3);
@@ -1125,6 +1139,10 @@ public class ActionsGen extends CSharpBase {
 	protected void genQualAccess(StringBuffer sb, Qualification qual) {
 		Entity owner = qual.getOwner();
 		Entity member = qual.getMember();
+		genQualAccess(sb, owner, member);
+	}
+
+	protected void genQualAccess(StringBuffer sb, Entity owner, Entity member) {
 		if(inRewriteModify) {
 			if(accessViaVariable((GraphEntity) owner, member)) {
 				if(owner instanceof Node)
@@ -1154,7 +1172,7 @@ public class ActionsGen extends CSharpBase {
 		else {
 			sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
 					formatIdentifiable(owner.getType()) + ") ");
-			sb.append(formatEntity(owner) + ").@" + formatIdentifiable(qual.getMember()));
+			sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 		}
 	}
 
@@ -1163,9 +1181,42 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
-		if(!reusedElements.contains(elem) && !forceAttributesToVars.contains(elem)) return false;
+		if(!reusedElements.contains(elem))
+		{
+			HashSet<Entity> forcedAttrs = forceAttributeToVar.get(elem);
+			return forcedAttrs != null && forcedAttrs.contains(attr);
+		}
 		HashSet<Entity> neededAttrs = neededAttributes.get(elem);
 		return neededAttrs != null && neededAttrs.contains(attr);
+	}
+
+	private void genVariable(StringBuffer sb, String ownerName, Entity entity) {
+		String varTypeName;
+		String attrName = formatIdentifiable(entity);
+		switch(entity.getType().classify()) {
+			case Type.IS_BOOLEAN:
+				varTypeName = "bool";
+				break;
+			case Type.IS_INTEGER:
+				varTypeName = "int";
+				break;
+			case Type.IS_FLOAT:
+				varTypeName = "float";
+				break;
+			case Type.IS_DOUBLE:
+				varTypeName = "double";
+				break;
+			case Type.IS_STRING:
+				varTypeName = "String";
+				break;
+			case Type.IS_OBJECT:
+				varTypeName = "Object";
+				break;
+			default:
+				throw new IllegalArgumentException();
+		}
+
+		sb.append("\t\t\t" + varTypeName + " var_" + ownerName + "_" + attrName);
 	}
 
 	///////////////////////
@@ -1187,6 +1238,7 @@ public class ActionsGen extends CSharpBase {
 	private HashSet<GraphEntity> reusedElements = new HashSet<GraphEntity>();
 
 	private HashMap<GraphEntity, HashSet<Entity>> neededAttributes = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
+	private HashMap<GraphEntity, HashSet<Entity>> neededAttributesForEmit = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 
 	private HashSet<Node> nodesNeededAsElements = new LinkedHashSet<Node>();
 	private HashSet<Edge> edgesNeededAsElements = new LinkedHashSet<Edge>();
@@ -1195,6 +1247,7 @@ public class ActionsGen extends CSharpBase {
 	private HashSet<Node> nodesNeededAsTypes = new LinkedHashSet<Node>();
 	private HashSet<Edge> edgesNeededAsTypes = new LinkedHashSet<Edge>();
 
-	private HashSet<GraphEntity> forceAttributesToVars = new LinkedHashSet<GraphEntity>();
+	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
+
 
