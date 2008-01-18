@@ -98,6 +98,19 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 			& (new SimpleChecker(EnumItemNode.class)).check(getValidVersion(member, resolvedMember), error);
 	}
 
+	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
+	public DeclNode getDecl() {
+		assert isResolved();
+
+		return resolvedMember;
+	}
+
+	public DeclNode getOwner() {
+		assert isResolved();
+
+		return DeclNode.getInvalid();
+	}
+
 	/**
 	 * Build the IR of an enum expression.
 	 * @return An enum expression IR object.

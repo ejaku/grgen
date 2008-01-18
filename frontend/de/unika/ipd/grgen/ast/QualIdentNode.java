@@ -132,7 +132,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return resolvedMember;
 	}
 
-	protected DeclNode getOwner() {
+	public DeclNode getOwner() {
 		assert isResolved();
 
 		return resolvedOwner;

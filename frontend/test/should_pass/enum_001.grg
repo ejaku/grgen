@@ -5,10 +5,10 @@ rule r {
 
 	modify {
 		eval {
-			a.e = b.e;
+//			a.e = b.e;
 			b.e = te::a;
-			b.e = te::c;
-			b.e = te::b;
+//			b.e = te::c;
+//			b.e = te::b;
 		}
 	}
 }
