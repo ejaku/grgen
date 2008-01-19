@@ -78,13 +78,11 @@ rule PAWriteConditionNext(curCond:Condition)
     counter:Counter;
   }
   modify {
-    tempLine:grIO_File_Line;
     eval {
-      tempLine.content = (counter.value > 0 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> ";
       counter.value = counter.value + 1;
     }
-    emit(tempLine.content, xgrs PAWriteConditionNext(nextCond) || PAWriteConditionLast(nextCond));
-    delete(tempLine);
+    emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> ",
+		xgrs PAWriteConditionNext(nextCond) || PAWriteConditionLast(nextCond));
   }
 }
 
@@ -95,12 +93,7 @@ rule PAWriteConditionLast(curCond:Condition)
     counter:Counter;
   }
   modify {
-    tempLine:grIO_File_Line;
-    eval {
-      tempLine.content = (counter.value > 0 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> " + elseProc.name;
-    }
-    emit(tempLine.content);
-    delete(tempLine);
+    emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> " + elseProc.name);
   }
 }
 
