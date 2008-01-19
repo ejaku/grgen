@@ -568,11 +568,10 @@ namespace de.unika.ipd.grGen.lgsp
 		public void GenerateXGRSCode(String xgrsName, String xgrsStr, String[] paramNames, SourceBuilder source)
 		{
 			Sequence seq = SequenceParser.ParseSequence(xgrsStr, null);
-			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph, ");
+			source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
-				if(i != 0) source.Append(", ");
-				source.Append("IGraphElement var_");
+				source.Append(", IGraphElement var_");
 				source.Append(paramNames[i]);
 			}
 			source.Append(")\n");
