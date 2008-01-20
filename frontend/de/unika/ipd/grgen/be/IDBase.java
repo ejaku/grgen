@@ -70,6 +70,9 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	/** action map. (Action -> Integer) */
 	public final Map<Action, Integer> actionMap = new LinkedHashMap<Action, Integer>();
 
+	/** pattern map. (Subpattern action -> Integer) */
+	public final Map<Action, Integer> patternMap = new LinkedHashMap<Action, Integer>();
+
 	private short[][] nodeTypeIsAMatrix;
 
 	private short[][] edgeTypeIsAMatrix;
@@ -229,6 +232,18 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	}
 
 	/**
+	 * Make subpattern IDs.
+	 * @param patternMap The map to put the IDs to.
+	 */
+	private void makeSubpatternIds(Unit unit) {
+		int id = 0;
+		for(Iterator<Action> it = unit.getSubpatterns().iterator(); it.hasNext();) {
+			Action act = it.next();
+			patternMap.put(act, new Integer(id++));
+		}
+	}
+	
+	/**
 	 * Make action IDs.
 	 * @param actionMap The map to put the IDs to.
 	 */
@@ -251,16 +266,10 @@ public abstract class IDBase extends Base implements IDTypeModel {
 		return res.intValue();
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.TypeID#getId(de.unika.ipd.grgen.ir.EdgeType)
-	 */
 	public final int getId(EdgeType et) {
 		return getTypeId(edgeTypeMap, et);
 	}
 
-	/**
-	 * @see de.unika.ipd.grgen.be.sql.TypeID#getId(de.unika.ipd.grgen.ir.NodeType)
-	 */
 	public final int getId(NodeType nt) {
 		return getTypeId(nodeTypeMap, nt);
 	}
@@ -309,6 +318,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 	 */
 	protected final void makeTypes(Unit unit) {
 		makeTypeIds(unit);
+		makeSubpatternIds(unit);
 		makeActionIds(unit);
 
 		nodeTypeIsAMatrix = computeIsA(nodeTypeMap);
