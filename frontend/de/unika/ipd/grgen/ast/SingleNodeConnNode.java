@@ -28,8 +28,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
 
@@ -43,18 +42,19 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		setName(SingleNodeConnNode.class, "single node");
 	}
 
-	BaseNode node;
+	NodeDeclNode node;
+	BaseNode nodeUnresolved;
 
 	public SingleNodeConnNode(BaseNode n) {
 		super(n.getCoords());
-		this.node = n;
-		becomeParent(this.node);
+		this.nodeUnresolved = n;
+		becomeParent(this.nodeUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(node);
+		children.add(getValidVersion(nodeUnresolved, node));
 		return children;
 	}
 
@@ -73,28 +73,31 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclResolver(NodeDeclNode.class); // optional
-		BaseNode resolved = nodeResolver.resolve(node);
-		node = ownedResolutionResult(node, resolved);
+		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
+		node = nodeResolver.resolve(nodeUnresolved, this);
+		successfullyResolved = (node != null) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = node.resolve() && successfullyResolved;
+		successfullyResolved = (node!=null ? node.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** Get the node child of this node.
 	 * @return The node child. */
-	public BaseNode getNode() {
+	public NodeDeclNode getNode() {
+		assert isResolved();
+
 		return node;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.GraphObjectNode#addToGraph(de.unika.ipd.grgen.ir.Graph) */
 	public void addToGraph(Graph gr) {
-		NodeCharacter n = (NodeCharacter) node;
-		gr.addSingleNode(n.getNode());
+		assert isResolved();
+
+		gr.addSingleNode(node.getNode());
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -112,7 +115,9 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	}
 
 	public NodeCharacter getSrc() {
-		return (NodeCharacter) node;
+		assert isResolved();
+		
+		return node;
 	}
 
 	public void setSrc(NodeDeclNode src) {
@@ -127,7 +132,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addNodes(java.util.Set) */
 	public void addNodes(Set<BaseNode> set) {
-		set.add(node);
+		set.add(getValidVersion(nodeUnresolved, node));
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#isNegated() */
