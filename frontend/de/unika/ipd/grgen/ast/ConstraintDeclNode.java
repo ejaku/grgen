@@ -33,15 +33,14 @@ public abstract class ConstraintDeclNode extends DeclNode
 {
 	TypeExprNode constraints;
 	
-	int declLocation; // one of the values below
-	public static final int DECL_IN_PATTERN = 0;
-	public static final int DECL_IN_REPLACEMENT = 1;
+	int context; // context of declaration, contains CONTEXT_LHS if declaration is located on left hand side,
+				 // or CONTEXT_RHS if declaration is located on right hand side 
 	
-	ConstraintDeclNode(IdentNode id, BaseNode type, int declLocation, TypeExprNode constraints) {
+	ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
-		this.declLocation = declLocation;
+		this.context = context;
 	}
 			
 	protected boolean checkLocal() {
@@ -51,7 +50,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	
 	protected boolean onlyPatternElementsAreAllowedToBeConstrained() {
 		if(constraints!=TypeExprNode.getEmpty()) {
-			if(declLocation!=DECL_IN_PATTERN) {
+			if((context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
 				constraints.reportError("replacement elements are not allowed to be type constrained, only pattern elements are"); 
 				return false;
 			}

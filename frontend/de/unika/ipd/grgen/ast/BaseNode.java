@@ -52,7 +52,15 @@ import de.unika.ipd.grgen.util.GraphDumper;
  * AST root node is UnitNode.
  */
 public abstract class BaseNode extends Base
-	implements GraphDumpable, Walkable {
+	implements GraphDumpable, Walkable
+{
+	public static final int CONTEXT_LHS_OR_RHS = 1;
+	public static final int CONTEXT_LHS = 0;
+	public static final int CONTEXT_RHS = 1;
+	public static final int CONTEXT_ACTION_OR_PATTERN = 1<<1;
+	public static final int CONTEXT_ACTION = 0<<1;
+	public static final int CONTEXT_PATTERN = 1<<1;
+	
 	/**
 	 * AST global name map, that maps from Class to String.
 	 * Needed as in some situations only the class object itself is available
@@ -105,10 +113,6 @@ public abstract class BaseNode extends Base
 	/** The IR object for this node. */
 	private IR irObject = null;
 
-
-	/** Reappears a pattern node or edge represented by this base node
-	 * in the replace/modify part? */
-	private boolean kept = false;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////

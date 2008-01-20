@@ -141,18 +141,18 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 		// edge dangling
 		if(left instanceof DummyNodeDeclNode) {
-			if(left.declLocation==NodeDeclNode.DECL_IN_PATTERN) {
+			if((left.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				return true; // we're within the pattern, not the replacement
 			}
 		}
 		if(right instanceof DummyNodeDeclNode) {
-			if(right.declLocation==NodeDeclNode.DECL_IN_PATTERN) {
+			if((right.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 				return true; // we're within the pattern, not the replacement
 			}
 		}
 
 		// edge dangling and located within the replacement
-		if(edge.declLocation==EdgeDeclNode.DECL_IN_PATTERN) {
+		if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
 			return true; // edge was declared in the pattern
 		}
 		if(edge instanceof EdgeTypeChangeNode) {

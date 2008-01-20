@@ -45,8 +45,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	BaseNode oldUnresolved;
 	NodeDeclNode old = null;
 
-	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int declLocation, BaseNode oldid) {
-		super(id, newType, declLocation, TypeExprNode.getEmpty());
+	public NodeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid) {
+		super(id, newType, context, TypeExprNode.getEmpty());
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 	}
@@ -152,7 +152,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	}
 
 	protected boolean onlyReplacementNodesAreAllowedToChangeType() {
-		if(declLocation==DECL_IN_REPLACEMENT) {
+		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			return true;
 		}
 		

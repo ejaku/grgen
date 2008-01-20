@@ -247,30 +247,9 @@ public abstract class ParserEnvironment extends Base {
 		return ExprNode.getInvalid();
 	}
 
-	private	NodeDeclNode dummyNodeDeclNodePat = null;
-	private	NodeDeclNode dummyNodeDeclNodeRepl = null;
-
-	public NodeDeclNode getDummyNodeDecl(int declLocation)
+	public NodeDeclNode getDummyNodeDecl(int context)
 	{
-		assert(declLocation==NodeDeclNode.DECL_IN_PATTERN || declLocation==NodeDeclNode.DECL_IN_REPLACEMENT);
-		if(declLocation==NodeDeclNode.DECL_IN_PATTERN) {
-			if ( dummyNodeDeclNodePat == null ) {
-				dummyNodeDeclNodePat = NodeDeclNode.getDummy(
-						defineAnonymousEntity("dummy_node", new Coords()),
-						this.getNodeRoot(), NodeDeclNode.DECL_IN_PATTERN);
-			}
-			
-			return dummyNodeDeclNodePat;
-		}
-		else {
-			if ( dummyNodeDeclNodeRepl == null ) {
-				dummyNodeDeclNodeRepl = NodeDeclNode.getDummy(
-						defineAnonymousEntity("dummy_node", new Coords()),
-						this.getNodeRoot(), NodeDeclNode.DECL_IN_REPLACEMENT);
-			}
-			
-			return dummyNodeDeclNodeRepl;
-		}
+		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node", new Coords()), this.getNodeRoot(), context);
 	}
 
 	/**

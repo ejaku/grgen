@@ -62,11 +62,7 @@ public class PatternGraphNode extends GraphNode {
 	public static final int MOD_EXACT = 2;
 	public static final int MOD_INDUCED = 4;
 
-	/**
-	 * The modifiers for this type.
-	 *
-	 * An ORed combination of the constants above.
-	 */
+	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
 
 	/** used to add a dangling edge to a NAC. */
@@ -116,8 +112,8 @@ public class PatternGraphNode extends GraphNode {
 	public PatternGraphNode(Coords coords, CollectNode connections,
 			CollectNode subpatterns, CollectNode conditions,
 			CollectNode returns, CollectNode homs, CollectNode exact,
-			CollectNode induced, int modifiers) {
-		super(coords, connections, subpatterns, returns);
+			CollectNode induced, int modifiers, int context) {
+		super(coords, connections, subpatterns, returns, context);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
@@ -643,8 +639,8 @@ public class PatternGraphNode extends GraphNode {
 				addInheritedHomSet(neg, allNegEdges, allNegNodes);
 
 				// add another edge of type edgeRoot to the NAC
-				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
-				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot);
+				EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
+				NodeDeclNode dummyNode = getAnonymousDummyNode(nodeRoot, context);
 
 				ConnectionCharacter conn = null;
 				if (direction == INCOMING) {
@@ -731,17 +727,17 @@ public class PatternGraphNode extends GraphNode {
 		return ret;
     }
 
-	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot) {
+	private NodeDeclNode getAnonymousDummyNode(BaseNode nodeRoot, int context) {
 		IdentNode nodeName = new IdentNode(getScope().defineAnonymous(
 				"dummy_node", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, NodeDeclNode.DECL_IN_PATTERN);
+		NodeDeclNode dummyNode = NodeDeclNode.getDummy(nodeName, nodeRoot, context);
 		return dummyNode;
 	}
 
-	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot) {
+	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context) {
 		IdentNode edgeName = new IdentNode(getScope().defineAnonymous(
 				"edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, EdgeDeclNode.DECL_IN_PATTERN, true);
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, true);
 		return edge;
 	}
 
@@ -818,7 +814,7 @@ public class PatternGraphNode extends GraphNode {
 			addInheritedHomSet(neg, allNegEdges, allNegNodes);
 
 			// add another edge of type edgeRoot to the NAC
-			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot);
+			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
 
 			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, true);
 

@@ -47,8 +47,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, TypeExprNode constraints) {
-		super(id, type, declLocation, constraints);
+	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints) {
+		super(id, type, context, constraints);
 		setName("edge");
 	}
 

@@ -51,18 +51,22 @@ public class GraphNode extends BaseNode {
 
 	CollectNode connections;
 	CollectNode returns;
-	Vector<EmitNode> emits = new Vector();
+	Vector<EmitNode> emits = new Vector<EmitNode>();
 
+	/** context(action or pattern, lhs not rhs) in which this node occurs*/
+	int context = 0;
+	
 	/**
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns) {
+	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, int context) {
 		super(coords);
 		this.connections = connections;
 		becomeParent(this.connections);
 		this.returns = returns;
 		becomeParent(this.returns);
+		this.context = context;
 	}
 
 	/** adds a emit statement to the graph */
