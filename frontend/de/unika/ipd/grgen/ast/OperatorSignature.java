@@ -144,7 +144,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Makes an entry in the {@link #operators} map.
-	 * 
+	 *
 	 * @param id
 	 *            The ID of the operator.
 	 * @param resType
@@ -154,7 +154,7 @@ public class OperatorSignature extends FunctionSignature {
 	 */
 	/**
 	 * Method makeOp
-	 * 
+	 *
 	 * @param id
 	 *            an int
 	 * @param resType
@@ -163,7 +163,7 @@ public class OperatorSignature extends FunctionSignature {
 	 *            a TypeNode[]
 	 * @param eval
 	 *            an Evaluator
-	 * 
+	 *
 	 */
 	public static final void makeOp(int id, TypeNode resType,
 			TypeNode[] opTypes, Evaluator eval) {
@@ -630,17 +630,17 @@ public class OperatorSignature extends FunctionSignature {
 
 	/*
 	 * public static final Evaluator enumEvaluator = new Evaluator() {
-	 * 
+	 *
 	 * public ExprNode evaluate(ExprNode expr, OperatorSignature op, ExprNode[]
 	 * args) { Coords coords = expr.getCoords();
-	 * 
+	 *
 	 * if ( ! expr.isInEnumInit() ) if ( op.isAllowedOnlyInEnumInit() ) return
 	 * expr; if (args.length != op.getArity()) return expr;
-	 * 
+	 *
 	 * int a0 = 0, a1 = 0; try { a0 = getValue(args[0]); a1 = getValue(args[1]); }
 	 * catch (ValueException e) { debug.report(NOTE,"expression not evaluatable
 	 * at " + coords); }
-	 * 
+	 *
 	 * switch(op.getOpId()) { case EQ: return new BoolConstNode(coords, a0 ==
 	 * a1); case NE: return new BoolConstNode(coords, a0 != a1); case LT: return
 	 * new BoolConstNode(coords, a0 < a1); case LE: return new
@@ -649,13 +649,13 @@ public class OperatorSignature extends FunctionSignature {
 	 * a0 >= a1); case ADD: return new IntConstNode(coords, a0 + a1); case SUB:
 	 * return new IntConstNode(coords, a0 - a1); case MUL: return new
 	 * IntConstNode(coords, a0 * a1);
-	 * 
+	 *
 	 * case DIV: if (a1 != 0) return new IntConstNode(coords, a0 / a1); else
 	 * expr.reportError("division by zero"); return expr;
-	 * 
+	 *
 	 * case MOD: if (a1 != 0) return new IntConstNode(coords, a0 % a1); else
 	 * expr.reportError("modulo zero"); return expr;
-	 * 
+	 *
 	 * case SHL: return new IntConstNode(coords, a0 << a1); case SHR: return
 	 * new IntConstNode(coords, a0 >> a1); case BIT_SHR: return new
 	 * IntConstNode(coords, a0 >>> a1); case BIT_OR: return new
@@ -665,20 +665,20 @@ public class OperatorSignature extends FunctionSignature {
 	 * -a0); case BIT_NOT: return new IntConstNode(coords, ~a0); default:
 	 * debug.report(NOTE,"expression not evaluatable at " + coords); } return
 	 * expr; }
-	 * 
+	 *
 	 * private int getValue(ExprNode x) throws ValueException { if (x instanceof
 	 * ConstNode) {
-	 * 
+	 *
 	 * Object value = ((ConstNode) x).getValue();
-	 * 
+	 *
 	 * if ( ! (value instanceof Integer) ) { debug.report(NOTE,"expression not
 	 * evaluatable at " + x.getCoords()); throw new
 	 * ValueException(x.getCoords()); } return (Integer) value; } else if (x
 	 * instanceof DeclExprNode) {
-	 * 
+	 *
 	 * ExprNode expr = ((DeclExprNode) x).evaluate(); if ( ! (expr instanceof
 	 * ConstNode) ) throw new ValueException(x.getCoords());
-	 * 
+	 *
 	 * Object value = ((ConstNode) expr).getValue(); if (value instanceof
 	 * Integer) return (Integer) value; else throw new
 	 * ValueException(x.getCoords()); } else throw new
@@ -807,7 +807,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Get the arity of an operator.
-	 * 
+	 *
 	 * @param id
 	 *            The ID of the operator.
 	 * @return The arity of the operator.
@@ -818,7 +818,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Get the name of an operator.
-	 * 
+	 *
 	 * @param id
 	 *            ID of the operator.
 	 * @return The name of the operator.
@@ -829,7 +829,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Check, if the given ID is a valid operator ID.
-	 * 
+	 *
 	 * @param id
 	 *            An operator ID.
 	 * @return true, if the ID is a valid operator ID, false if not.
@@ -842,23 +842,12 @@ public class OperatorSignature extends FunctionSignature {
 	 * Get the "nearest" operator for a given set of operand types. This method
 	 * selects the operator that will provoke the least implicit type casts when
 	 * used.
-	 * 
+	 *
 	 * @param id
 	 *            The operator id.
 	 * @param opTypes
 	 *            The operands.
 	 * @return The "nearest" operator.
-	 */
-	/**
-	 * Method getNearest
-	 * 
-	 * @param id
-	 *            an int
-	 * @param opTypes
-	 *            a TypeNode[]
-	 * 
-	 * @return an OperatorSignature
-	 * 
 	 */
 	protected static OperatorSignature getNearest(int id, TypeNode[] opTypes) {
 		Integer oid = new Integer(id);
@@ -905,7 +894,7 @@ public class OperatorSignature extends FunctionSignature {
 	/**
 	 * Make a new operator. This is used exclusively in this class, so it's
 	 * private.
-	 * 
+	 *
 	 * @param id
 	 *            The operator id.
 	 * @param resType
@@ -927,7 +916,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Evaluate an expression using this operator signature.
-	 * 
+	 *
 	 * @param expr
 	 *            The default result if the evaluation fails
 	 * @param args
@@ -941,7 +930,7 @@ public class OperatorSignature extends FunctionSignature {
 
 	/**
 	 * Check, if this signature is ok, not bad.
-	 * 
+	 *
 	 * @return true, if the signature is ok, false, if not.
 	 */
 	protected boolean isValid() {

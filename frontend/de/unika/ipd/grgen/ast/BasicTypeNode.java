@@ -67,23 +67,27 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		setName(BasicTypeNode.class, "basic type");
 
 		//no explicit cast required
+		addCompatibility(enumItemType, intType);
+		addCompatibility(enumItemType, floatType);
+		addCompatibility(enumItemType, doubleType);
+		addCompatibility(enumItemType, stringType);
+
+		addCompatibility(booleanType, stringType);
+
 		addCompatibility(intType, floatType);
 		addCompatibility(intType, doubleType);
+		addCompatibility(intType, stringType);
+
 		addCompatibility(floatType, doubleType);
-		addCompatibility(enumItemType, intType);
+		addCompatibility(floatType, stringType);
+
+		addCompatibility(doubleType, stringType);
 
 		//require explicit cast
-		addCastability(booleanType, stringType);
-		addCastability(intType, stringType);
 		addCastability(floatType, intType);
-		addCastability(floatType, stringType);
+
 		addCastability(doubleType, intType);
 		addCastability(doubleType, floatType);
-		addCastability(doubleType, stringType);
-
-		addCastability(enumItemType, stringType);
-		addCastability(enumItemType, floatType);
-		addCastability(enumItemType, doubleType);
 
 		valueMap.put(intType, Integer.class);
 		valueMap.put(floatType, Float.class);
