@@ -4,7 +4,7 @@ rule r1 {
   x:NINT;
   negative { x <-- ; }
   modify{
-    emit("(", x.a, ")", exec(r2(x) || r2(x))); // OR is only a test
+    emit("(", 2 * x.a, ")", exec(r2(x)));
   }
 }
 
@@ -12,6 +12,6 @@ rule r2(x:Node) {
   x -e:ESTRING-> y:NINT;
   modify {
     delete(x);
-    emit(" -", e.a, "-> (", y.a, ")", exec(r2(y)));
+    emit(" -", (y.a>42)?45:4.2, (y.a>42)?4.5:42, "-> (", y.a, ")", exec(r2(y)), e.a);
   }
 }

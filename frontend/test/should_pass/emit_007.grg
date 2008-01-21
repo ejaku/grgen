@@ -1,0 +1,23 @@
+using enum_model_001;
+
+rule r1 {
+  x:A;
+  modify{
+    emit("enum value" + x.e,           // enum implicit to string (the enum name)
+	x.e,                           // enum implicit to string (the enum name)
+        (int)x.e,                      // enum explicit to int, result implicit to string
+        (float)x.e,                    // enum explicit to float, result implicit to string
+        (double)x.e,                   // enum explicit to double, result implicit to string
+	(string)x.e,                   // enum explicit to string (the enum name)
+	"enum value" + (int)x.e,
+	"enum value" + (float)x.e,
+	"enum value" + (double)x.e,
+	"enum value" + (string)x.e,
+	2 * x.e,                       // enum explicit to int, result of 2 * x.e implicit to string
+        2.2 * x.e,
+        2.2f * x.e,
+        2.2d * x.e
+	);
+  }
+}
+

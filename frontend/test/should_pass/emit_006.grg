@@ -1,0 +1,32 @@
+using attrib_model_001;
+
+rule r1 {
+  x:NINT;
+  negative { x <-- ; }
+  modify{
+    emit(exec(r2));
+  }
+}
+
+rule r2 : (Node) {
+  x:Node -e:ESTRING-> y:NINT;
+  modify {
+    delete(x);
+    return(y);
+    emit(exec((x)=r1 && r2), exec(r2));
+  }
+}
+
+rule r3(x:Node) {
+  x -e:ESTRING-> y:NINT;
+  modify {
+    delete(x);
+    emit(exec(r3(x)),
+	exec(r3(y)),
+	exec((x)=r1 && r2 && r3(x)),
+	exec((h)=r1 && r2 && r3(x)),
+	exec((h)=r1 && r2 && r3(h)),
+	exec(r2));
+  }
+}
+
