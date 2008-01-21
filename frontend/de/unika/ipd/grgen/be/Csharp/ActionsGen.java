@@ -60,7 +60,7 @@ public class ActionsGen extends CSharpBase {
 				genPattern(sb, (MatchingAction) action);
 			else
 				throw new IllegalArgumentException("Unknown Subpattern: " + action);
-		
+
 		for(Action action : be.actionMap.keySet())
 			if(action instanceof MatchingAction)
 				genRule(sb, (MatchingAction) action);
@@ -288,7 +288,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\tprivate Pattern_" + formatIdentifiable(action) + "()\n");
 			sb.append("\t\t{\n");
 		}
-		
+
 		PatternGraph pattern = action.getPattern();
 		List<Entity> parameters = action.getParameters();
 		int condCnt = genPatternGraph(sb, null, pattern, "patternGraph", 0, -1, parameters);
@@ -477,7 +477,7 @@ public class ActionsGen extends CSharpBase {
 		if(isRule) {
 			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Rule_" + actionName + "\n");
 		} else {
-			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Pattern_" + actionName + "\n");			
+			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Pattern_" + actionName + "\n");
 		}
 		int xgrsID = 0;
 		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
@@ -717,6 +717,25 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 
+		// create variables for used attributes of non-reusees needed for emits
+		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributesForEmit.entrySet()) {
+			GraphEntity owner = entry.getKey();
+			if(reusedElements.contains(owner)) continue;
+
+			String grEntName = formatEntity(owner);
+			for(Entity entity : entry.getValue()) {
+				genVariable(sb2, grEntName, entity);
+				sb2.append(" = ");
+				genQualAccess(sb2, owner, entity);
+				sb2.append(";\n");
+
+				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
+				if(forcedAttrs == null)
+					forceAttributeToVar.put(owner, forcedAttrs = new HashSet<Entity>());
+				forcedAttrs.add(entity);
+			}
+		}
+
 		// remove edges
 		for(Edge edge : delEdges) {
 			edgesNeededAsElements.add(edge);
@@ -747,7 +766,6 @@ public class ActionsGen extends CSharpBase {
 				else if(arg instanceof XGRS) {
 					XGRS xgrs = (XGRS) arg;
 					sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-					boolean isFirst = true;
 					for(GraphEntity param : xgrs.getArguments()) {
 						sb3.append(", ");
 						sb3.append(formatEntity(param));
@@ -780,7 +798,16 @@ public class ActionsGen extends CSharpBase {
 			sb3.append("};\n");
 		}
 
-		sb3.append("\t\t}\n");
+		 sb3.append("\t\t}\n");
+
+		for(Entity ent : rule.getReturns()) {
+			if(ent instanceof Node)
+				nodesNeededAsElements.add((Node)ent);
+			else if(ent instanceof Edge)
+				edgesNeededAsElements.add((Edge)ent);
+			else
+				throw new IllegalArgumentException("unknown Entity: " + ent);
+		}
 
 		// nodes/edges needed from match, but not the new nodes
 		nodesNeededAsElements.removeAll(newNodes);
@@ -843,29 +870,10 @@ public class ActionsGen extends CSharpBase {
 			}
 		}
 
-		// new nodes/edges (re-use) and retype nodes/edges
+		// new nodes/edges (re-use) and retype nodes/edges, emit part vars
 		sb.append(sb2);
 
-		// create variables for used attributes of non-reusees needed for emits
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : neededAttributesForEmit.entrySet()) {
-			GraphEntity owner = entry.getKey();
-			if(reusedElements.contains(owner)) continue;
-
-			String grEntName = formatEntity(owner);
-			for(Entity entity : entry.getValue()) {
-				genVariable(sb, grEntName, entity);
-				sb.append(" = ");
-				genQualAccess(sb, owner, entity);
-				sb.append(";\n");
-
-				HashSet<Entity> forcedAttrs = forceAttributeToVar.get(owner);
-				if(forcedAttrs == null)
-					forceAttributeToVar.put(owner, forcedAttrs = new HashSet<Entity>());
-				forcedAttrs.add(entity);
-			}
-		}
-
-		// attribute re-calc, remove, return
+		// attribute re-calc, remove, emit, return
 		sb.append(sb3);
 	}
 
@@ -1278,27 +1286,33 @@ public class ActionsGen extends CSharpBase {
 	private void genVariable(StringBuffer sb, String ownerName, Entity entity) {
 		String varTypeName;
 		String attrName = formatIdentifiable(entity);
-		switch(entity.getType().classify()) {
-			case Type.IS_BOOLEAN:
-				varTypeName = "bool";
-				break;
-			case Type.IS_INTEGER:
-				varTypeName = "int";
-				break;
-			case Type.IS_FLOAT:
-				varTypeName = "float";
-				break;
-			case Type.IS_DOUBLE:
-				varTypeName = "double";
-				break;
-			case Type.IS_STRING:
-				varTypeName = "String";
-				break;
-			case Type.IS_OBJECT:
-				varTypeName = "Object";
-				break;
-			default:
-				throw new IllegalArgumentException();
+		Type type = entity.getType();
+		if(type instanceof EnumType)
+			varTypeName = "ENUM_" + formatIdentifiable(type);
+		else
+		{
+			switch(type.classify()) {
+				case Type.IS_BOOLEAN:
+					varTypeName = "bool";
+					break;
+				case Type.IS_INTEGER:
+					varTypeName = "int";
+					break;
+				case Type.IS_FLOAT:
+					varTypeName = "float";
+					break;
+				case Type.IS_DOUBLE:
+					varTypeName = "double";
+					break;
+				case Type.IS_STRING:
+					varTypeName = "String";
+					break;
+				case Type.IS_OBJECT:
+					varTypeName = "Object";
+					break;
+				default:
+					throw new IllegalArgumentException();
+			}
 		}
 
 		sb.append("\t\t\t" + varTypeName + " var_" + ownerName + "_" + attrName);
@@ -1334,6 +1348,4 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
-
-
 
