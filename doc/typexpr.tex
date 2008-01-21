@@ -35,11 +35,13 @@ Thus, enum values can only be assigned to attributes having the same enum type.
     \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & \\
     \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & \\
     \texttt{double} &  implicit & & implicit & implicit & $=$ & \\
-    \texttt{string} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & \texttt{(string)} & $=$ \\ \hline
+    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ \\ \hline
   \end{tabular}
   \caption{\GrG\ type casts}
   \label{tabcasts}
 \end{table}
+
+\TODO{now, implicit cast to string is allowed for all types (what is with object?, missing in table). Please change examples. (int)enum it int value, (string)enum is string of the name of the enum value}
 
 \begin{example}
   \begin{itemize}
