@@ -27,9 +27,9 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Entity;
@@ -45,18 +45,20 @@ public class TypeofNode extends ExprNode
 		setName(TypeofNode.class, "typeof");
 	}
 
-	BaseNode entity;
+	BaseNode entityUnresolved;
+	EdgeDeclNode entityEdgeDecl = null;
+	NodeDeclNode entityNodeDecl = null;
 
 	public TypeofNode(Coords coords, BaseNode entity) {
 		super(coords);
-		this.entity= entity;
-		becomeParent(this.entity);
+		this.entityUnresolved= entity;
+		becomeParent(this.entityUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(entity);
+		children.add(getValidVersion(entityUnresolved, entityEdgeDecl, entityNodeDecl));
 		return children;
 	}
 
@@ -75,16 +77,26 @@ public class TypeofNode extends ExprNode
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver entityResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-		BaseNode resolved = entityResolver.resolve(entity);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		entity = ownedResolutionResult(entity, resolved);
+		
+		DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver = 
+			new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
+		
+		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
+		successfullyResolved = (resolved.fst!=null || resolved.snd!=null) && successfullyResolved;
+		entityEdgeDecl = resolved.fst;
+		entityNodeDecl = resolved.snd;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = entity.resolve() && successfullyResolved;
+		if (entityEdgeDecl != null) {
+			successfullyResolved = entityEdgeDecl.resolve() && successfullyResolved;
+		}
+		if (entityNodeDecl != null) {
+			successfullyResolved = entityNodeDecl.resolve() && successfullyResolved;
+		}
+		
 		return successfullyResolved;
 	}
 
@@ -93,17 +105,19 @@ public class TypeofNode extends ExprNode
 	 */
 	protected boolean checkLocal() {
 		Checker entityChecker = new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-		return entityChecker.check(entity, error);
+		return entityChecker.check(getValidResolvedVersion(entityEdgeDecl, entityNodeDecl), error);
 	}
 
 	protected IR constructIR() {
-		Entity entity = (Entity) this.entity.checkIR(Entity.class);
+		Entity entity = (Entity) getValidResolvedVersion(entityEdgeDecl, entityNodeDecl).checkIR(Entity.class);
 
 		return new Typeof(entity);
 	}
 
 	public DeclNode getEntity() {
-		return (DeclNode)entity;
+		assert isResolved();
+		
+		return getValidResolvedVersion(entityEdgeDecl, entityNodeDecl);
 	}
 
 	public TypeNode getType() {
