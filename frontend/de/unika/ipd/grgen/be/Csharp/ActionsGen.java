@@ -103,6 +103,22 @@ public class ActionsGen extends CSharpBase {
 
 			genEmit(sb, rule, false);
 		}
+		else if(action instanceof Test) {
+			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // currently empty\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			sb.append("\t\t}\n");
+
+			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // currently empty\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			sb.append("\t\t}\n");
+
+			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
+			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
+		}
 		else
 			throw new IllegalArgumentException("Unknown action type: " + action);
 
@@ -511,8 +527,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tActionName = \"" + actionName + "\";\n");
 		if(isRule) {
 			sb.append("\t\t\tthis.RulePattern = Rule_" + actionName + ".Instance;\n");
+			sb.append("\t\t\tisRule = true;\n");
 		} else {
 			sb.append("\t\t\tthis.RulePattern = Pattern_" + actionName + ".Instance;\n");
+			sb.append("\t\t\tisRule = false;\n");
 		}
 		genPrios(action, sb);
 		sb.append("\t\t}\n");

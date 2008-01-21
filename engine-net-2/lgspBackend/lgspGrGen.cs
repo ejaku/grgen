@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public String ActionName;
         public LGSPRulePattern RulePattern;
+        public bool isRule;
 
         // Indices according to the pattern element enums
         public float[] NodeCost;
@@ -265,6 +266,39 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return new PlanGraph(root, nodes, edges.ToArray(), patternGraph);
+        }
+
+        void GeneratePattern(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
+        {
+            source.Append("    public class PatternAction_" + schedule.ActionName + " : LGSPAction\n    {\n"
+                + "        private static PatternAction_" + schedule.ActionName + " instance = new PatternAction_" + schedule.ActionName + "();\n\n"
+                + "        public PatternAction_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name
+                + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
+                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;}\n\n"
+
+                + "        public override string Name { get { return \"" + schedule.ActionName + "\"; } }\n"
+                + "        public static LGSPAction Instance { get { return instance; } }\n"
+                + "        private LGSPMatches matches;\n"
+                + "        private LGSPMatchesList matchesList;\n");
+
+            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph,
+                schedule.NodeCost, schedule.EdgeCost, false);
+            matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
+            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
+
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[schedule.RulePattern.NegativePatternGraphs.Length];
+            for (int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; i++)
+            {
+                PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.NegativePatternGraphs[i],
+                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true);
+                matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
+                negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
+            }
+
+            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
+
+            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
+            source.Append(matcherGen.GenerateMatcherSourceCode(scheduledSearchPlan, schedule.ActionName, schedule.RulePattern));
         }
 
         void GenerateAction(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
@@ -807,8 +841,15 @@ namespace de.unika.ipd.grGen.lgsp
                     if(type.BaseType == typeof(LGSPStaticScheduleInfo))
                     {
                         LGSPStaticScheduleInfo schedule = (LGSPStaticScheduleInfo) initialAssembly.CreateInstance(type.FullName);
-                        GenerateAction(schedule, model, source, matcherGen);
-                        endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
+                        if (schedule.isRule)
+                        {
+                            GenerateAction(schedule, model, source, matcherGen);
+                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
+                        }
+                        else
+                        {
+                            GeneratePattern(schedule, model, source, matcherGen);
+                        }
                     }
                 }
                 endSource.Unindent();

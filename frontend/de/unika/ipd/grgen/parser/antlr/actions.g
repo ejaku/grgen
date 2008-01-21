@@ -168,42 +168,50 @@ patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int m
 		left=patternPart[getCoords(t), negs, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS]
 			{
 				id.setDecl(new TestDeclNode(id, left, negs, params, ret));
-				{ actionChilds.addChild(id); }
+				actionChilds.addChild(id);
 			}
 		RBRACE popScope
-		{ if((mod & PatternGraphNode.MOD_DPO)!=0) {
-			  reportError(getCoords(t), "no \"dpo\" modifier allowed");
-		  }
+		{
+			if((mod & PatternGraphNode.MOD_DPO)!=0) {
+				reportError(getCoords(t), "no \"dpo\" modifier allowed");
+			}
 		}
 	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), negs, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS]
 		( right=replacePart[eval, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS]
 			{
 				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
-				{ actionChilds.addChild(id); }
+				actionChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS]
 			{
 				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
-				{ actionChilds.addChild(id); }
+				actionChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
 	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
 		left=patternPart[getCoords(p), negs, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS]
-		( right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS]
+		( 
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, null));
-				{ patternChilds.addChild(id); }
+				id.setDecl(new TestDeclNode(id, left, negs, params, new CollectNode()));
+				patternChilds.addChild(id);
+				if((mod & PatternGraphNode.MOD_DPO)!=0) {
+					reportError(getCoords(t), "no \"dpo\" modifier allowed");
+				}
+			}
+		| right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS]
+			{
+				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, new CollectNode()));
+				patternChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, null, dels));
-				{ patternChilds.addChild(id); }
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, new CollectNode(), dels));
+				patternChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
-		{ reportError(getCoords(p), "pattern declarations not yet supported"); }
 	;
 
 parameters [ int context ] returns [ CollectNode res = new CollectNode() ]

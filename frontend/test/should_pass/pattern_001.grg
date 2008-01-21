@@ -1,0 +1,15 @@
+pattern P {
+	x:Node;
+	x -e:Edge-> y:Node;
+}
+
+pattern Q {
+	x:Node <-e:Edge- y;
+	y:Node;
+}
+
+test t {
+	x:Node;
+	y:Node;
+	x -e:Edge-> y;
+}
