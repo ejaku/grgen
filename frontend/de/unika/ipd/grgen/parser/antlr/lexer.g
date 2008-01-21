@@ -88,7 +88,7 @@ tokens {
   TRUE = "true";
   TYPEOF = "typeof";
   USING = "using";
-  XGRS = "xgrs";
+  EXEC = "exec";
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;

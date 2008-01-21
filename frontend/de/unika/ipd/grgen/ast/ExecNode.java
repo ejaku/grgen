@@ -40,9 +40,9 @@ import java.util.Vector;
 /**
  *
  */
-public class XGRSNode extends BaseNode {
+public class ExecNode extends BaseNode {
 	static {
-		setName(XGRSNode.class, "xgrs");
+		setName(ExecNode.class, "exec");
 	}
 
 	private StringBuilder sb = new StringBuilder();
@@ -50,7 +50,7 @@ public class XGRSNode extends BaseNode {
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
 	private Vector<DeclNode> children = new Vector<DeclNode>();
 
-	public XGRSNode(Coords coords) {
+	public ExecNode(Coords coords) {
 		super(coords);
 	}
 
@@ -119,4 +119,5 @@ public class XGRSNode extends BaseNode {
 		return res;
 	}
 }
+
 

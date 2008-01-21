@@ -706,22 +706,22 @@ paramListOfEntIdentUse[CollectNode res]
 emitStmt returns [ EmitNode res = null ]
 	{
 		ExprNode exp = null;
-		XGRSNode xgrsn = null;
+		ExecNode exec = null;
 	}
 	: e:EMIT { res = new EmitNode(getCoords(e)); }
 		LPAREN
-			( XGRS {xgrsn = new XGRSNode(getCoords(e));} xgrs[xgrsn] {res.addChild(xgrsn);}
+			( EXEC LPAREN  {exec = new ExecNode(getCoords(e));} xgrs[exec] {res.addChild(exec);} RPAREN
 			| exp=expr[false] {res.addChild(exp);} )
 			( c:COMMA
 				( exp=expr[false] {res.addChild(exp);}
-				| XGRS {xgrsn = new XGRSNode(getCoords(c));} xgrs[xgrsn] {res.addChild(xgrsn);}
+				| EXEC LPAREN {exec = new ExecNode(getCoords(c));} xgrs[exec] {res.addChild(exec);} RPAREN
 				)
 			)*
 		RPAREN
 	;
 
 // Due to a bug in ANTLR it is not possible to use the obvious "xgrs3 ( (DOLLAR)? LAND xgrs2 )?"
-xgrs[XGRSNode xg]
+xgrs[ExecNode xg]
 	: xgrs6[xg] (	DOLLAR (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
 	        		|      (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
 	        		|
@@ -746,19 +746,19 @@ xgrs5
 	;
 */
 
-xgrs6[XGRSNode xg]
+xgrs6[ExecNode xg]
 	: NOT {xg.append("!");} xgrs6[xg]
 	| iterSequence[xg]
 	;
 
-iterSequence[XGRSNode xg]
+iterSequence[ExecNode xg]
 	{
 		RangeSpecNode rsn = null;
 	}
 	: simpleSequence[xg] rsn=rangeSpec { if(rsn != null) xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]"); }
 	;
 
-simpleSequence[XGRSNode xg]
+simpleSequence[ExecNode xg]
 	{
 		CollectNode results = new CollectNode();
 	}
@@ -779,12 +779,12 @@ simpleSequence[XGRSNode xg]
 	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
 	;
 
-parallelCallRule[XGRSNode xg]
+parallelCallRule[ExecNode xg]
 	: LBRACK {xg.append("[");} callRule[xg] RBRACK {xg.append("]");}
 	| callRule[xg]
 	;
 
-callRule[XGRSNode xg]
+callRule[ExecNode xg]
 	{
 		CollectNode params = new CollectNode();
 		IdentNode id;
