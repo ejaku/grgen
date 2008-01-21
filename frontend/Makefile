@@ -20,8 +20,23 @@ grgen: .grammar
 	  fi; \
 	fi
 
+fast: .grammar
+	@if [ ! -e .generator_build -o ! -f grgen.jar ]; then \
+	  $(MAKE) .generator_build; \
+	else \
+	  if [ "`find . -type f -name "*.java" -cnewer .generator_build`" != "" ]; then \
+	    $(MAKE) .generator_build_fast; \
+	  fi; \
+	fi
+
 .generator_build: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
 	find de -type f -name "*.java" | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR) -source 1.5
+	jar -cf grgen.jar -C build/ .
+	cp grgen.jar $(GRGENNET)
+	@touch .generator_build
+
+.generator_build_fast: dir .grammar $(ANTLR_JAR) $(JARGS_JAR)
+	find de -type f -name "*.java" -cnewer .generator_build | xargs javac -d build -classpath $(ANTLR_JAR):$(JARGS_JAR):build -source 1.5
 	jar -cf grgen.jar -C build/ .
 	cp grgen.jar $(GRGENNET)
 	@touch .generator_build
