@@ -505,7 +505,7 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t\t{\n");
 			for(Entity e : type.getAllMembers()) {
 				String name = formatIdentifiable(e);
-				sb.append("\t\t\t\tcase \"" + name + "\": return @" + name + ";\n");
+				sb.append("\t\t\t\tcase \"" + name + "\": return this.@" + name + ";\n");
 			}
 			sb.append("\t\t\t}\n");
 		}
@@ -522,7 +522,7 @@ public class ModelGen extends CSharpBase {
 			sb.append("\t\t\t{\n");
 			for(Entity e : type.getAllMembers()) {
 				String name = formatIdentifiable(e);
-				sb.append("\t\t\t\tcase \"" + name + "\": @" + name + " = ("
+				sb.append("\t\t\t\tcase \"" + name + "\": this.@" + name + " = ("
 						+ formatAttributeType(e) + ") value; return;\n");
 			}
 			sb.append("\t\t\t}\n");
