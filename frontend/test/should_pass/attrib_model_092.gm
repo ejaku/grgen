@@ -1,0 +1,8 @@
+enum EEE {
+	EEE
+}
+
+node class AAA {
+  EEE:EEE;
+}
+

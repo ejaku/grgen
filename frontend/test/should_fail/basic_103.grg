@@ -1,0 +1,7 @@
+using basic_model_002;
+
+rule dummy {
+  if { NOTTHERE1<=NOTTHERE2; }
+  replace {
+  }
+}

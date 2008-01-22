@@ -1,0 +1,8 @@
+using attrib_model_091;
+
+rule dummy {
+  replace {
+    a:AAA;
+    eval { a.value = AAA::e1; }
+  }
+}

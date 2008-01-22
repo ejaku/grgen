@@ -1,0 +1,8 @@
+using attrib_model_092;
+
+rule dummy {
+  replace {
+    EEE:AAA;
+    eval { EEE.EEE = EEE::EEE; }
+  }
+}
