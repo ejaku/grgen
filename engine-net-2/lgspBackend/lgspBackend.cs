@@ -360,6 +360,15 @@ namespace de.unika.ipd.grGen.lgsp
                         needSemicolon = true;
                         IgnoreString(charStream);                                       // ignore actions name
                     }
+
+					if(MatchString(charStream, "#include"))
+					{
+						String includedGRG = ReadQuotedString(charStream);
+						includedGRG = basePath + FixDirectorySeparators(includedGRG);
+						neededFiles.Add(includedGRG);
+						GetNeededFiles(basePath, includedGRG, neededFiles, processedFiles);
+					}
+
                     if(MatchString(charStream, "using"))
                     {
                         while(true)
@@ -381,13 +390,25 @@ namespace de.unika.ipd.grGen.lgsp
                     // search the rest of the file for include tokens
                     while(true)
                     {
-                        if(MatchStringOrIgnoreOther(charStream, "#include"))
-                        {
-                            String includedGRG = ReadQuotedString(charStream);
+						curChar = charStream.ReadChar();
+						if(curChar == '#' && MatchString(charStream, "include"))
+						{
+							String includedGRG = ReadQuotedString(charStream);
 							includedGRG = basePath + FixDirectorySeparators(includedGRG);
-                            neededFiles.Add(includedGRG);
-                            GetNeededFiles(basePath, includedGRG, neededFiles, processedFiles);
-                        }
+							neededFiles.Add(includedGRG);
+							GetNeededFiles(basePath, includedGRG, neededFiles, processedFiles);
+						}
+						else if(curChar == '\\') charStream.ReadChar();			// skip escape sequences
+						else if(curChar == '/') IgnoreComment(charStream);
+						else if(curChar == '"')
+						{
+							while(true)
+							{
+								curChar = charStream.ReadChar();
+								if(curChar == '"') break;
+								else if(curChar == '\\') charStream.ReadChar();		// skip escape sequence
+							}
+						}
                     }
                 }
                 catch(IOException)
@@ -470,6 +491,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(String neededFilename in neededFilenames)
             {
+				if(!File.Exists(neededFilename))
+				{
+					Console.Error.WriteLine("Cannot find used file: \"" + neededFilename + "\"");
+					return true;
+				}
                 // Specification file newer than libraries?
 				DateTime gmTime = File.GetLastWriteTime(neededFilename);
                 if(gmTime > newestOutputTime)
