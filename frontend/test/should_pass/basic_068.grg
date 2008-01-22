@@ -1,0 +1,10 @@
+using basic_model_068;
+
+rule A {
+	a : A;
+	replace {
+		exec(A);
+		emit(typeof(a)!=A);
+	}
+}
+
