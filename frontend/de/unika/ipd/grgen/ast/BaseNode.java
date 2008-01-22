@@ -60,7 +60,7 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_ACTION_OR_PATTERN = 1<<1;
 	public static final int CONTEXT_ACTION = 0<<1;
 	public static final int CONTEXT_PATTERN = 1<<1;
-	
+
 	/**
 	 * AST global name map, that maps from Class to String.
 	 * Needed as in some situations only the class object itself is available
@@ -311,7 +311,7 @@ public abstract class BaseNode extends Base
 //////////////////////////////////////////////////////////////////////////////////////////
 
 	/** returns children of this node */
-	public abstract Collection<BaseNode> getChildren();
+	public abstract Collection<? extends BaseNode> getChildren();
 
 	/** returns names of the children, same order as in getChildren */
 	public abstract Collection<String> getChildrenNames();

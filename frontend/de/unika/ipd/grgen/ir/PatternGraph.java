@@ -46,14 +46,14 @@ public class PatternGraph extends Graph {
     /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
-	private List<Emit> emits = new ArrayList<Emit>();
+	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
-	public void addEmit(Emit emit) {
-		emits.add(emit);
+	public void addImperativeStmt(ImperativeStmt emit) {
+		imperativeStmts.add(emit);
 	}
 
-	public List<Emit> getEmits() {
-		return emits;
+	public List<ImperativeStmt> getImperativeStmts() {
+		return imperativeStmts;
 	}
 
 	/** Add a condition given by it's expression expr to the graph. */

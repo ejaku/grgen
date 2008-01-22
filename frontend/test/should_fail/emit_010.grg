@@ -1,0 +1,9 @@
+using enum_model_001;
+
+rule r1(x:A) {
+  y:Node;
+  modify{
+    exec(r1(x, y));
+  }
+}
+

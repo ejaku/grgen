@@ -32,11 +32,11 @@ import java.util.List;
 /**
  * An emit statement.
  */
-public class Emit extends IR {
+public class Emit extends IR  implements ImperativeStmt {
 
-	private List<IR> arguments;
+	private List<Expression> arguments;
 
-	public Emit(List<IR> arguments) {
+	public Emit(List<Expression> arguments) {
 		super("emit");
 		this.arguments = arguments;
 	}
@@ -49,7 +49,7 @@ public class Emit extends IR {
 	/**
 	 * Returns Arguments
 	 */
-	public List<IR> getArguments() {
+	public List<Expression> getArguments() {
 		return Collections.unmodifiableList(arguments);
 	}
 }

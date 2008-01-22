@@ -1,0 +1,8 @@
+using enum_model_001;
+
+rule r1(x:A) {
+  modify{
+    exec(r2(x));
+  }
+}
+

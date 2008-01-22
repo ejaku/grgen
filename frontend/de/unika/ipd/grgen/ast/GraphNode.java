@@ -27,9 +27,9 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
@@ -51,27 +51,24 @@ public class GraphNode extends BaseNode {
 
 	CollectNode connections;
 	CollectNode returns;
-	Vector<EmitNode> emits = new Vector<EmitNode>();
+	CollectNode imperativeStmts;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
-	
+
 	/**
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, int context) {
+	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, CollectNode imperativeStmts, int context) {
 		super(coords);
 		this.connections = connections;
 		becomeParent(this.connections);
 		this.returns = returns;
 		becomeParent(this.returns);
+		this.imperativeStmts = imperativeStmts;
+		becomeParent(imperativeStmts);
 		this.context = context;
-	}
-
-	/** adds a emit statement to the graph */
-	public void addEmit(EmitNode emit) {
-		emits.add(emit);
 	}
 
 	/** returns children of this node */
@@ -79,7 +76,7 @@ public class GraphNode extends BaseNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(connections);
 		children.add(returns);
-		children.addAll(emits);
+		children.add(imperativeStmts);
 		return children;
 	}
 
@@ -103,8 +100,7 @@ public class GraphNode extends BaseNode {
 
 		successfullyResolved = connections.resolve() && successfullyResolved;
 		successfullyResolved = returns.resolve() && successfullyResolved;
-		for(EmitNode emit : emits)
-			successfullyResolved = emit.resolve() && successfullyResolved;
+		successfullyResolved = imperativeStmts.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -198,8 +194,9 @@ public class GraphNode extends BaseNode {
 			conn.addToGraph(gr);
 		}
 
-		for(EmitNode emit : emits)
-			gr.addEmit((Emit) emit.getIR());
+		// TODO imperativeStmts
+		for(BaseNode imp : imperativeStmts.getChildren())
+			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 
 		return gr;
 	}

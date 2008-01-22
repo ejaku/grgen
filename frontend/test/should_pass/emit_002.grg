@@ -4,7 +4,8 @@ rule r1 {
   x:NINT;
   negative { x <-- ; }
   modify{
-    emit("(", x.a, ")", exec(r2(x) || r2(x))); // OR is only a test
+    emit("(", x.a, ")");
+    exec(r2(x) || r2(x)); // OR is only a test
   }
 }
 
@@ -12,6 +13,7 @@ rule r2(x:Node) {
   x -e:ESTRING-> y:NINT;
   modify {
     delete(x);
-    emit(" -", e.a, "-> (", y.a, ")", exec(r2(y)));
+    emit(" -", e.a, "-> (", y.a, ")");
+    exec(r2(y));
   }
 }

@@ -113,7 +113,7 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode subpatterns, CollectNode conditions,
 			CollectNode returns, CollectNode homs, CollectNode exact,
 			CollectNode induced, int modifiers, int context) {
-		super(coords, connections, subpatterns, returns, context);
+		super(coords, connections, subpatterns, returns, null, context);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
@@ -305,7 +305,7 @@ public class PatternGraphNode extends GraphNode {
 	 *
 	 * @param homChildren Children of a HomNode
 	 */
-	private Set<Set<DeclNode>> splitHoms(Collection<BaseNode> homChildren) {
+	private Set<Set<DeclNode>> splitHoms(Collection<? extends BaseNode> homChildren) {
 		Set<Set<DeclNode>> ret = new LinkedHashSet<Set<DeclNode>>();
 		if (isDPO()) {
     		// homs between deleted entities

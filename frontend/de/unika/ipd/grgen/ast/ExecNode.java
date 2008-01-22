@@ -29,7 +29,7 @@ import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.XGRS;
+import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
@@ -115,9 +115,10 @@ public class ExecNode extends BaseNode {
 		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
 		for(BaseNode child : getChildren())
 			parameters.add((GraphEntity) child.getIR());
-		XGRS res= new XGRS(getXGRSString(), parameters);
+		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
 	}
 }
+
 
 

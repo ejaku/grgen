@@ -33,14 +33,14 @@ import java.util.Set;
 /**
  * A XGRS in an emit statement.
  */
-public class XGRS extends IR {
+public class Exec extends IR implements ImperativeStmt {
 
 	private Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
 
 	private String xgrsString;
 
-	public XGRS(String xgrsString, Set<GraphEntity> parameters) {
-		super("xgrs");
+	public Exec(String xgrsString, Set<GraphEntity> parameters) {
+		super("exec");
 		this.xgrsString = xgrsString;
 		this.parameters = parameters;
 	}

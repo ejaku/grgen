@@ -643,19 +643,21 @@ replaceBody [ Coords coords, CollectNode eval, int context ] returns [ GraphNode
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
-		EmitNode es = null;
-		res = new GraphNode(coords, connections, subpatterns, returnz, context);
+		CollectNode imperativeStmts = new CollectNode();
+
+		res = new GraphNode(coords, connections, subpatterns, returnz, imperativeStmts, context);
 	}
 
-	: ( es=replaceStmt[coords, connections, subpatterns, returnz, eval, context] {if(es!=null) res.addEmit(es);} )*
+	: ( replaceStmt[coords, connections, subpatterns, returnz, eval, imperativeStmts, context] )*
 	;
 
-replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval, int context ]
-	returns [ EmitNode es = null ]
+replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
+		CollectNode eval, CollectNode imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| evalPart[eval]
-	| es=emitStmt SEMI
+	| execStmt[imperativeStmts] SEMI
+	| emitStmt[imperativeStmts] SEMI
 	;
 
 modifyBody [ Coords coords, CollectNode eval, CollectNode dels, int context ] returns [ GraphNode res = null ]
@@ -663,20 +665,23 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode dels, int context ] re
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
 		CollectNode returnz = new CollectNode();
+		CollectNode imperativeStmts = new CollectNode();
+
 		EmitNode es = null;
-		res = new GraphNode(coords, connections, subpatterns, returnz, context);
+		res = new GraphNode(coords, connections, subpatterns, returnz, imperativeStmts, context);
 	}
 
-	: ( es=modifyStmt[coords, connections, subpatterns, returnz, eval, dels, context] {if(es!=null) res.addEmit(es);} )*
+	: ( modifyStmt[coords, connections, subpatterns, returnz, eval, dels, imperativeStmts, context] )*
 	;
 
-modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz, CollectNode eval, CollectNode dels, int context ]
-	returns [ EmitNode es = null ]
+modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
+		CollectNode eval, CollectNode dels, CollectNode imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
-	| es=emitStmt SEMI
+	| execStmt[imperativeStmts] SEMI
+	| emitStmt[imperativeStmts] SEMI
 	;
 
 rets[CollectNode res, int context]
@@ -711,21 +716,24 @@ paramListOfEntIdentUse[CollectNode res]
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
 	;
 
-emitStmt returns [ EmitNode res = null ]
+execStmt[CollectNode imperativeStmts]
+    {
+    	ExecNode exec = null;
+    }
+	: e:EXEC { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN { imperativeStmts.addChild(exec); }
+	;
+
+emitStmt[CollectNode imperativeStmts]
 	{
+		EmitNode emit = null;
 		ExprNode exp = null;
-		ExecNode exec = null;
 	}
-	: e:EMIT { res = new EmitNode(getCoords(e)); }
+	: e:EMIT { emit = new EmitNode(getCoords(e)); }
 		LPAREN
-			( EXEC LPAREN  {exec = new ExecNode(getCoords(e));} xgrs[exec] {res.addChild(exec);} RPAREN
-			| exp=expr[false] {res.addChild(exp);} )
-			( c:COMMA
-				( exp=expr[false] {res.addChild(exp);}
-				| EXEC LPAREN {exec = new ExecNode(getCoords(c));} xgrs[exec] {res.addChild(exec);} RPAREN
-				)
-			)*
+			exp=expr[false] { emit.addChild(exp); }
+			( c:COMMA exp=expr[false] { emit.addChild(exp); } )*
 		RPAREN
+		{ imperativeStmts.addChild(emit); }
 	;
 
 // Due to a bug in ANTLR it is not possible to use the obvious "xgrs3 ( (DOLLAR)? LAND xgrs2 )?"
@@ -830,6 +838,7 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 
 
 

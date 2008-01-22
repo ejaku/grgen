@@ -330,7 +330,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private int genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name,
-			int condCntInit, int negCount, List<Entity> parameters) {
+								int condCntInit, int negCount, List<Entity> parameters) {
 		boolean isNeg = outer != null;
 		String additional_parameters = isNeg?"PatternElementType.NegElement":"PatternElementType.Normal";
 
@@ -485,7 +485,7 @@ public class ActionsGen extends CSharpBase {
 		genSet(sb, set, "\"", "\"", true);
 		sb.append(";\n");
 		sb.append("\t\tpublic override String[] Added" + NodesOrEdges
-				+ "Names { get { return added" + NodesOrEdges + "Names; } }\n");
+					  + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
 	private void genEmit(StringBuffer sb, Rule rule, boolean isRule) {
@@ -496,23 +496,25 @@ public class ActionsGen extends CSharpBase {
 			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Pattern_" + actionName + "\n");
 		}
 		int xgrsID = 0;
-		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
-			for(IR arg : emit.getArguments()) {
-				if(!(arg instanceof XGRS)) continue;
-				XGRS xgrs = (XGRS) arg;
+		for(ImperativeStmt istmt : ((PatternGraph) rule.getRight()).getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit = (Emit)istmt;
+				// nothing to do
+			} else if (istmt instanceof Exec) {
+				Exec exec = (Exec) istmt;
 				sb.append("\t\tpublic static LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new LGSPXGRSInfo(new String[] {");
-				for(GraphEntity param : xgrs.getArguments()) {
+				for(GraphEntity param : exec.getArguments()) {
 					sb.append("\"" + param.getIdent() + "\", ");
 				}
 				sb.append("},\n");
-				sb.append("\t\t\t\"" + xgrs.getXGRSString() + "\");\n");
+				sb.append("\t\t\t\"" + exec.getXGRSString() + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(LGSPGraph graph");
-				for(GraphEntity param : xgrs.getArguments()) {
+				for(GraphEntity param : exec.getArguments()) {
 					sb.append(", IGraphElement var_");
 					sb.append(param.getIdent());
 				}
 				sb.append(") {}\n");
-			}
+			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
 		}
 		sb.append("#endif\n");
 	}
@@ -580,8 +582,8 @@ public class ActionsGen extends CSharpBase {
 		StringBuffer sb3 = new StringBuffer();
 
 		sb.append("\t\tpublic override IGraphElement[] "
-				+ (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
-				+ "(LGSPGraph graph, LGSPMatch match)\n");
+					  + (reuseNodeAndEdges ? "Modify" : "ModifyNoReuse")
+					  + "(LGSPGraph graph, LGSPMatch match)\n");
 		sb.append("\t\t{\n");
 
 		// Generates code in the following order:
@@ -637,38 +639,39 @@ public class ActionsGen extends CSharpBase {
 				newOrRetypedEdges.add(edge.getRetypedEdge());
 		}
 
-		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
-			for(IR arg : emit.getArguments()) {
-				if(arg instanceof XGRS) {
-					XGRS xgrs = (XGRS) arg;
-					for(GraphEntity param : xgrs.getArguments()) {
-						if(param instanceof Node)
-							nodesNeededAsElements.add((Node) param);
-						else if(param instanceof Edge)
-							edgesNeededAsElements.add((Edge) param);
-						else
-							assert false : "XGRS argument of unknown type: " + param.getClass();
-					}
-				}
-				else if(arg instanceof Qualification) {
-					Qualification qual = (Qualification) arg;
-					GraphEntity entity = (GraphEntity) qual.getOwner();
-					HashSet<Entity> neededAttrs = neededAttributes.get(entity);
-					if(neededAttrs == null) {
-						neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
-					}
-					neededAttrs.add(qual.getMember());
+		for(ImperativeStmt istmt : ((PatternGraph) rule.getRight()).getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit =(Emit)istmt;
+				for(Expression arg : emit.getArguments()) {
+					/*
+					 else if(arg instanceof Qualification) {
+					 Qualification qual = (Qualification) arg;
+					 GraphEntity entity = (GraphEntity) qual.getOwner();
+					 HashSet<Entity> neededAttrs = neededAttributes.get(entity);
+					 if(neededAttrs == null) {
+					 neededAttributes.put(entity, neededAttrs = new LinkedHashSet<Entity>());
+					 }
+					 neededAttrs.add(qual.getMember());
 
-					neededAttrs = neededAttributesForEmit.get(entity);
-					if(neededAttrs == null) {
-						neededAttributesForEmit.put(entity, neededAttrs = new LinkedHashSet<Entity>());
-					}
-					neededAttrs.add(qual.getMember());
+					 neededAttrs = neededAttributesForEmit.get(entity);
+					 if(neededAttrs == null) {
+					 neededAttributesForEmit.put(entity, neededAttrs = new LinkedHashSet<Entity>());
+					 }
+					 neededAttrs.add(qual.getMember());
+					 }*/
+					collectNeededAttributes(arg);
 				}
-				else if(arg instanceof Expression) {
-					collectNeededAttributes((Expression) arg);
+			} else if (istmt instanceof Exec) {
+				Exec exec =(Exec)istmt;
+				for(GraphEntity param : exec.getArguments()) {
+					if(param instanceof Node)
+						nodesNeededAsElements.add((Node) param);
+					else if(param instanceof Edge)
+						edgesNeededAsElements.add((Edge) param);
+					else
+						assert false : "XGRS argument of unknown type: " + param.getClass();
 				}
-			}
+			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
 		}
 
 		// Copy all entries generated by collectNeededAttributes for emit stuff
@@ -711,7 +714,7 @@ public class ActionsGen extends CSharpBase {
 
 				nodesNeededAsElements.add(node);
 				sb2.append("\t\t\t" + formatNodeAssign(rnode, nodesNeededAsAttributes)
-						+ "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
+							   + "graph.Retype(" + formatEntity(node) + ", " + new_type + ");\n");
 			}
 		}
 
@@ -731,7 +734,7 @@ public class ActionsGen extends CSharpBase {
 
 				edgesNeededAsElements.add(edge);
 				sb2.append("\t\t\t" + formatEdgeAssign(redge, edgesNeededAsAttributes)
-						+ "graph.Retype(" + formatEntity(edge) + ", " + new_type + ");\n");
+							   + "graph.Retype(" + formatEntity(edge) + ", " + new_type + ");\n");
 			}
 		}
 
@@ -769,34 +772,44 @@ public class ActionsGen extends CSharpBase {
 
 		// emits
 		int xgrsID = 0;
-		for(Emit emit : ((PatternGraph) rule.getRight()).getEmits()) {
-			for(IR arg : emit.getArguments()) {
-				if(arg instanceof Constant) {
-					Constant constant = (Constant) arg;
-					sb3.append("\t\t\tConsole.Write(\"" + constant.getValue() + "\");\n");
-				}
-				else if(arg instanceof Qualification) {
-					Qualification qual = (Qualification) arg;
+		for(ImperativeStmt istmt : ((PatternGraph) rule.getRight()).getImperativeStmts()) {
+			if(istmt instanceof Emit) {
+				Emit emit =(Emit)istmt;
+				for(Expression arg : emit.getArguments()) {
+					/*
+					 if(arg instanceof Constant) {
+					 Constant constant = (Constant) arg;
+					 sb3.append("\t\t\tConsole.Write(\"" + constant.getValue() + "\");\n");
+					 }
+					 else if(arg instanceof Qualification) {
+					 Qualification qual = (Qualification) arg;
+					 sb3.append("\t\t\tConsole.Write(");
+					 genQualAccess(sb3, qual);
+					 sb3.append(");\n");
+					 }
+					 else if(arg instanceof Exec) {
+					 Exec xgrs = (Exec) arg;
+					 sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
+					 for(GraphEntity param : xgrs.getArguments()) {
+					 sb3.append(", ");
+					 sb3.append(formatEntity(param));
+					 }
+					 sb3.append(");\n");
+					 }
+					 else */
 					sb3.append("\t\t\tConsole.Write(");
-					genQualAccess(sb3, qual);
+					genExpression(sb3, arg);
 					sb3.append(");\n");
 				}
-				else if(arg instanceof XGRS) {
-					XGRS xgrs = (XGRS) arg;
-					sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-					for(GraphEntity param : xgrs.getArguments()) {
-						sb3.append(", ");
-						sb3.append(formatEntity(param));
-					}
-					sb3.append(");\n");
+			} else if (istmt instanceof Exec) {
+				Exec exec = (Exec) istmt;
+				sb3.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
+				for(GraphEntity param : exec.getArguments()) {
+					sb3.append(", ");
+					sb3.append(formatEntity(param));
 				}
-				else if(arg instanceof Expression) {
-					sb3.append("\t\t\tConsole.Write(");
-					genExpression(sb3, (Expression) arg);
-					sb3.append(");\n");
-				}
-				else assert false : "Invalid emit argument";
-			}
+				sb3.append(");\n");
+			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
 		}
 
 		// return parameter (output)
@@ -816,7 +829,7 @@ public class ActionsGen extends CSharpBase {
 			sb3.append("};\n");
 		}
 
-		 sb3.append("\t\t}\n");
+		sb3.append("\t\t}\n");
 
 		for(Entity ent : rule.getReturns()) {
 			if(ent instanceof Node)
@@ -837,8 +850,8 @@ public class ActionsGen extends CSharpBase {
 		for(Node node : nodesNeededAsElements) {
 			if(!node.isRetyped()) {
 				sb.append("\t\t\tLGSPNode " + formatEntity(node)
-						+ " = match.Nodes[ (int) NodeNums.@"
-						+ formatIdentifiable(node) + " - 1 ];\n");
+							  + " = match.Nodes[ (int) NodeNums.@"
+							  + formatIdentifiable(node) + " - 1 ];\n");
 			}
 		}
 		for(Node node : nodesNeededAsAttributes) {
@@ -853,8 +866,8 @@ public class ActionsGen extends CSharpBase {
 		for(Edge edge : edgesNeededAsElements) {
 			if(!edge.isRetyped()) {
 				sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-						+ " = match.Edges[ (int) EdgeNums.@"
-						+ formatIdentifiable(edge) + " - 1 ];\n");
+							  + " = match.Edges[ (int) EdgeNums.@"
+							  + formatIdentifiable(edge) + " - 1 ];\n");
 			}
 		}
 		for(Edge edge : edgesNeededAsAttributes) {
@@ -929,9 +942,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	////////////////////////////
+////////////////////////////
 	// New element generation //
-	////////////////////////////
+////////////////////////////
 
 	private void genRewriteNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges) {
 		reuseNodeAndEdges = false;							// TODO: reimplement this!!
@@ -1057,12 +1070,12 @@ public class ActionsGen extends CSharpBase {
 					String tgt = formatEntity(tgt_node);
 
 					sb2.append("\t\t\t" + etype + " " + newEdgeName + ";\n"
-							+ "\t\t\tif(" + reusedEdgeName + ".type == "
-							+ formatTypeClass(edge.getType()) + ".typeVar)\n"
-							+ "\t\t\t{\n"
-							+ "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
-							+ "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
-							+ "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
+								   + "\t\t\tif(" + reusedEdgeName + ".type == "
+								   + formatTypeClass(edge.getType()) + ".typeVar)\n"
+								   + "\t\t\t{\n"
+								   + "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
+								   + "\t\t\t\t" + newEdgeName + " = (" + etype + ") " + reusedEdgeName + ";\n"
+								   + "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
 
 					if(leftSide.getSource(bestDelEdge) != src_node)
 						sb2.append(src + ", ");
@@ -1075,11 +1088,11 @@ public class ActionsGen extends CSharpBase {
 						sb2.append("null");
 
 					sb2.append(");\n"
-							+ "\t\t\t}\n"
-							+ "\t\t\telse\n"
-							+ "\t\t\t\t" + formatEntity(edge) + " = " + etype
-							+ ".CreateEdge(graph, " + formatEntity(src_node)
-							+ ", " + formatEntity(tgt_node) + ");\n");
+								   + "\t\t\t}\n"
+								   + "\t\t\telse\n"
+								   + "\t\t\t\t" + formatEntity(edge) + " = " + etype
+								   + ".CreateEdge(graph, " + formatEntity(src_node)
+								   + ", " + formatEntity(tgt_node) + ");\n");
 
 					delEdges.remove(bestDelEdge); // Do not delete the edge (it is reused)
 					edgesNeededAsElements.add(bestDelEdge);
@@ -1090,14 +1103,14 @@ public class ActionsGen extends CSharpBase {
 
 			// Create the edge
 			sb2.append("\t\t\t" + etype + " " + formatEntity(edge) + " = " + etype
-					+ ".CreateEdge(graph, " + formatEntity(src_node)
-					+ ", " + formatEntity(tgt_node) + ");\n");
+						   + ".CreateEdge(graph, " + formatEntity(src_node)
+						   + ", " + formatEntity(tgt_node) + ");\n");
 		}
 	}
 
-	//////////////////////////
+//////////////////////////
 	// Eval part generation //
-	//////////////////////////
+//////////////////////////
 
 	private void genEvals(StringBuffer sb, Rule rule) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
@@ -1150,16 +1163,16 @@ public class ActionsGen extends CSharpBase {
 				Node node = (Node) entity;
 				nodesNeededAsElements.add(node);
 				sb.append("\t\t\tgraph.ChangingNodeAttribute(" + formatEntity(node) +
-						", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+							  ", NodeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genExpression(sb, ass.getTarget());
 				sb.append(", " + varName + ");\n");
 			} else if(entity instanceof Edge) {
 				Edge edge = (Edge) entity;
 				edgesNeededAsElements.add(edge);
 				sb.append("\t\t\tgraph.ChangingEdgeAttribute(" + formatEntity(edge) +
-						", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
-						".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
+							  ", EdgeType_" + formatIdentifiable(ass.getTarget().getMember().getOwner()) +
+							  ".AttributeType_" + formatIdentifiable(ass.getTarget().getMember()) + ", ");
 				genExpression(sb, ass.getTarget());
 				sb.append(", " + varName + ");\n");
 			}
@@ -1173,9 +1186,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	///////////////////////////////////////
+///////////////////////////////////////
 	// Static searchplan cost generation //
-	///////////////////////////////////////
+///////////////////////////////////////
 
 	private void genPrios(MatchingAction action, StringBuffer sb) {
 		double max;
@@ -1243,9 +1256,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	//////////////////////
+//////////////////////
 	// Expression stuff //
-	//////////////////////
+//////////////////////
 
 	protected void genQualAccess(StringBuffer sb, Qualification qual) {
 		Entity owner = qual.getOwner();
@@ -1282,7 +1295,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		else {
 			sb.append("((I" + (owner instanceof Node ? "Node" : "Edge") + "_" +
-					formatIdentifiable(owner.getType()) + ") ");
+						  formatIdentifiable(owner.getType()) + ") ");
 			sb.append(formatEntity(owner) + ").@" + formatIdentifiable(member));
 		}
 	}
@@ -1292,8 +1305,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	private boolean accessViaVariable(GraphEntity elem, Entity attr) {
-		if(!reusedElements.contains(elem))
-		{
+		if(!reusedElements.contains(elem)) {
 			HashSet<Entity> forcedAttrs = forceAttributeToVar.get(elem);
 			return forcedAttrs != null && forcedAttrs.contains(attr);
 		}
@@ -1307,8 +1319,7 @@ public class ActionsGen extends CSharpBase {
 		Type type = entity.getType();
 		if(type instanceof EnumType)
 			varTypeName = "ENUM_" + formatIdentifiable(type);
-		else
-		{
+		else {
 			switch(type.classify()) {
 				case Type.IS_BOOLEAN:
 					varTypeName = "bool";
@@ -1336,9 +1347,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + varTypeName + " var_" + ownerName + "_" + attrName);
 	}
 
-	///////////////////////
+///////////////////////
 	// Private variables //
-	///////////////////////
+///////////////////////
 
 	private SearchPlanBackend2 be;
 
@@ -1366,4 +1377,5 @@ public class ActionsGen extends CSharpBase {
 
 	private HashMap<GraphEntity, HashSet<Entity>> forceAttributeToVar = new LinkedHashMap<GraphEntity, HashSet<Entity>>();
 }
+
 

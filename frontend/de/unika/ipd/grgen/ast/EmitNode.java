@@ -25,6 +25,7 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
@@ -41,20 +42,20 @@ public class EmitNode extends BaseNode {
 		setName(EmitNode.class, "emit");
 	}
 
-	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
+	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
 
 	public EmitNode(Coords coords) {
 		super(coords);
 	}
 
-	public void addChild(BaseNode n) {
+	public void addChild(ExprNode n) {
 		assert(!isResolved());
 		becomeParent(n);
 		childrenUnresolved.add(n);
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<? extends BaseNode> getChildren() {
 		return childrenUnresolved;
 	}
 
@@ -84,10 +85,9 @@ public class EmitNode extends BaseNode {
 
 	protected boolean checkLocal() {
 		if (childrenUnresolved.isEmpty()) {
-			this.reportError("Emit statement is empty");
+			reportError("Emit statement is empty");
 			return false;
 		}
-
 		return true;
 	}
 
@@ -96,9 +96,9 @@ public class EmitNode extends BaseNode {
 	}
 
 	protected IR constructIR() {
-		List<IR> arguments = new ArrayList<IR>();
+		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
-			arguments.add(child.getIR());
+			arguments.add((Expression)child.getIR());
 		Emit res= new Emit(arguments);
 		return res;
 	}

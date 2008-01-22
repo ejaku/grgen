@@ -4,7 +4,8 @@ rule r1 {
   negative { x <-- ; }
   modify{
 //    emit("0", r1 & r2(x) || (x, y) = r3 && (r1 ^ r2(a, b,c, y)), x.a, r2(x), x.b);
-    emit("0", exec(r2(x)));
+    emit("0");
+    exec(r2(x));
   }
 }
 
@@ -12,6 +13,7 @@ rule r2(x:Node) {
   x --> y:Node;
   modify {
     delete(x);
-    emit("-->O", exec(r2(y)));
+    emit("-->O");
+    exec(r2(y));
   }
 }
