@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ast.SubpatternNode;
+import de.unika.ipd.grgen.ast.SubpatternUsageNode;
 import de.unika.ipd.grgen.util.Util;
 
 /**

@@ -31,6 +31,7 @@ import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.HashSet;
@@ -50,6 +51,7 @@ public class GraphNode extends BaseNode {
 	}
 
 	CollectNode connections;
+	CollectNode subpatterns;
 	CollectNode returns;
 	CollectNode imperativeStmts;
 
@@ -64,6 +66,8 @@ public class GraphNode extends BaseNode {
 		super(coords);
 		this.connections = connections;
 		becomeParent(this.connections);
+		this.subpatterns = subpatterns;
+		becomeParent(this.subpatterns);
 		this.returns = returns;
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
@@ -75,6 +79,7 @@ public class GraphNode extends BaseNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(connections);
+		children.add(subpatterns);
 		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
@@ -84,7 +89,9 @@ public class GraphNode extends BaseNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
-		childrenNames.add("return");
+		childrenNames.add("subpatterns");
+		childrenNames.add("returns");
+		childrenNames.add("imperativeStmts");
 		return childrenNames;
 	}
 
@@ -99,14 +106,14 @@ public class GraphNode extends BaseNode {
 		nodeResolvedSetResult(successfullyResolved); // local result
 
 		successfullyResolved = connections.resolve() && successfullyResolved;
+		successfullyResolved = subpatterns.resolve() && successfullyResolved;
 		successfullyResolved = returns.resolve() && successfullyResolved;
 		successfullyResolved = imperativeStmts.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/**
-	 * A pattern node contains just a collect node with connection nodes
-	 * as its children.
+	 * A pattern node contains just a collect node with connection nodes as its children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
@@ -134,8 +141,7 @@ public class GraphNode extends BaseNode {
 	}
 
 	/**
-	 * Get an iterator iterating over all connections characters
-	 * in this pattern.
+	 * Get an iterator iterating over all connections characters in this pattern.
 	 * These are the children of the collect node at position 0.
 	 * @return The iterator.
 	 */
@@ -182,8 +188,7 @@ public class GraphNode extends BaseNode {
 
 	/**
 	 * Construct the IR object.
-	 * It is a Graph and all the connections (children of the pattern AST node)
-	 * are put into it.
+	 * It is a Graph and all the connections (children of the pattern AST node) are put into it.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
@@ -193,11 +198,16 @@ public class GraphNode extends BaseNode {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
+		
+		for(BaseNode n : subpatterns.getChildren()) {
+			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
+		}
 
 		// TODO imperativeStmts
-		for(BaseNode imp : imperativeStmts.getChildren())
+		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
-
+		}
+		
 		return gr;
 	}
 }

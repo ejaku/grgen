@@ -6,7 +6,7 @@ import java.util.Vector;
 public class SubpatternReplNode extends BaseNode
 {
 	static {
-		setName(SubpatternNode.class, "subpattern node");
+		setName(SubpatternReplNode.class, "subpattern repl node");
 	}
 	
 	IdentNode subpattern;

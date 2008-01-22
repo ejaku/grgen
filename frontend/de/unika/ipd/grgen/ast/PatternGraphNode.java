@@ -44,6 +44,7 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
@@ -266,6 +267,10 @@ public class PatternGraphNode extends GraphNode {
 			conn.addToGraph(gr);
 		}
 
+		for(BaseNode n : subpatterns.getChildren()) {
+			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
+		}
+		
 		for (BaseNode n : conditions.getChildren()) {
 			ExprNode expr = (ExprNode) n;
 			expr = expr.evaluate();

@@ -47,7 +47,8 @@ import de.unika.ipd.grgen.util.Walkable;
  * But we want to discriminate between the nodes on the left and right hand side of a rule,
  * even if they represent the same declared nodes.
  */
-public class Graph extends IR {
+/// TODO: this class is never instantiated, only PatternGraphs are used -- ...?
+public abstract class Graph extends IR {
 	protected abstract class GraphObject extends GraphDumpableProxy implements Walkable {
 		public GraphObject(GraphDumpable gd) {
 			super(gd);
@@ -110,6 +111,7 @@ public class Graph extends IR {
 	/** Map that maps an edge to an internal edge. */
 	private final Map<Edge, Graph.GraphEdge> edges = new LinkedHashMap<Edge, Graph.GraphEdge>();
 
+	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 	
 	/** Make a new graph. */
 	public Graph() {
@@ -306,7 +308,12 @@ public class Graph extends IR {
 		e.source = null;
 		e.target = null;
 	}
-
+    
+	/** Add a subpattern usage to the graph. */
+	public void addSubpatternUsage(SubpatternUsage subpatternUsage) {
+		subpatternUsages.add(subpatternUsage);
+	}
+	
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
 	public boolean isSingle(Node node) {
 		GraphNode gn = checkNode(node);
@@ -324,15 +331,5 @@ public class Graph extends IR {
 	/** @see #getLocalDumpable(Node) */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
-	}
-
-	/**
-	 * Check, if this graph is a subgraph of another one.
-	 * @param g The other graph.
-	 * @return true, if all nodes and edges of this graph are also contained in g.
-	 */
-	public boolean isSubOf(Graph g) {
-		return g.getNodes().containsAll(nodes.keySet())
-				&& g.getEdges().containsAll(edges.keySet());
 	}
 }

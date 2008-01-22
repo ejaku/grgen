@@ -387,8 +387,7 @@ firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
 			firstEdgeContinuation[n, conn, context] // and continue looking for first edge
 		| // subpattern declaration
 			type=typeIdentUse LPAREN (paramList[subpatternConnections, context])? RPAREN
-			{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
-			{ reportError(getCoords(cc), "subpatterns not yet supported"); }
+			{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConnections)); }
 		)
 	| ( annots=annotations { hasAnnots = true; } )?
 		c:COLON // anonymous node or subpattern declaration
@@ -421,7 +420,7 @@ firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
 				type=typeIdentUse LPAREN (paramList[subpatternConnections, context])? RPAREN
-				{ subpatterns.addChild(new SubpatternNode(id, type, subpatternConnections)); }
+				{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConnections)); }
 				{ reportError(getCoords(c), "subpatterns not yet supported"); }
 			)
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
