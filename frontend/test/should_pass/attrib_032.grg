@@ -1,0 +1,18 @@
+using attrib_model_001;
+
+rule r {
+	ns:NSTRING -e:ESTRING-> ns2:NSTRING;
+
+	modify {
+		ns -es:ESTRING-> ns;
+		delete(e);
+
+		eval{
+            e.a = null;
+			es.a = e.a + es.a;
+            ns.a = ns.a + null;
+            ns.a = null;
+		}
+	}
+}
+
