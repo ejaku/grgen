@@ -1,0 +1,5 @@
+test r : (Node) {
+  n : Node;
+  return(n);
+}
+
