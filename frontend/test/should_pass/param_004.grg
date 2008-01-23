@@ -1,0 +1,22 @@
+rule init {
+  modify{
+    a <-- a:Node;
+    :Node --> :Node;
+    :Node --> :Node;
+    a --> :Node;
+  }
+}
+
+rule r : (Edge) {
+  x:Node --> x -e:Edge-> :Node;
+  modify {
+    return(e);
+  }
+}
+
+rule r2(-e:Edge->) {
+  -e->x:Node;
+  modify {
+    delete(x);
+  }
+}

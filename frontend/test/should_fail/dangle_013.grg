@@ -1,0 +1,4 @@
+test r {
+    y -a:Edge-> x:Node;
+    y:Node -a-> x;
+}

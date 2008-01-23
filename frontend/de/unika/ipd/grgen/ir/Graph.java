@@ -41,9 +41,9 @@ import de.unika.ipd.grgen.util.Walkable;
  * A graph pattern.
  * This is used for tests and the left and right sides and the NAC part of a rule.
  * These graphs have own classes for the nodes and edges as proxy objects to the actual Node and Edge objects.
- * The reason for this is: The nodes and edges in a rule that are common to the left and the right side 
+ * The reason for this is: The nodes and edges in a rule that are common to the left and the right side
  * exist only once as a object (that's due to the fact, that these objects are created from the AST declaration,
- * which exist only once per defined object). 
+ * which exist only once per defined object).
  * But we want to discriminate between the nodes on the left and right hand side of a rule,
  * even if they represent the same declared nodes.
  */
@@ -112,12 +112,12 @@ public abstract class Graph extends IR {
 	private final Map<Edge, Graph.GraphEdge> edges = new LinkedHashMap<Edge, Graph.GraphEdge>();
 
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
-	
+
 	/** Make a new graph. */
 	public Graph() {
 		super("graph");
 	}
-	
+
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
 		if (n == null) return null;
@@ -189,7 +189,7 @@ public abstract class Graph extends IR {
 	public boolean hasSubpatternUsage(SubpatternUsage sub) {
 		return subpatternUsages.contains(sub);
 	}
-	
+
 	/**
 	 * Get a read-only collection containing all nodes in this graph.
 	 * @return A collection containing all nodes in this graph.
@@ -216,7 +216,7 @@ public abstract class Graph extends IR {
 	public Collection<SubpatternUsage> getSubpatternUsages() {
 		return Collections.unmodifiableCollection(subpatternUsages);
 	}
-	
+
 	/**
 	 * Put all nodes in this graph into a collection.
 	 * @param c The collection to put them into.
@@ -319,15 +319,13 @@ public abstract class Graph extends IR {
     /** Add a single edge (i.e. dangling) to the graph. */
 	public void addSingleEdge(Edge edge) {
 		GraphEdge e = getOrSetEdge(edge);
-		e.source = null;
-		e.target = null;
 	}
-    
+
 	/** Add a subpattern usage to the graph. */
 	public void addSubpatternUsage(SubpatternUsage subpatternUsage) {
 		subpatternUsages.add(subpatternUsage);
 	}
-	
+
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */
 	public boolean isSingle(Node node) {
 		GraphNode gn = checkNode(node);

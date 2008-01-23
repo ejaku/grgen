@@ -314,7 +314,7 @@ public class TestDeclNode extends ActionDeclNode {
 			}
 			for(Edge neededEdge : neededEdges) {
 				if(!neg.hasEdge(neededEdge)) {
-					neg.addSingleEdge(neededEdge);
+					neg.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
 					neg.addHomToAll(neededEdge);
 				}
 			}
