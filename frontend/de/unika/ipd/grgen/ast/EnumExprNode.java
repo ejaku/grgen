@@ -25,10 +25,8 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
@@ -46,15 +44,15 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		super(coords, owner, member);
 	}
 
-	private EnumTypeNode resolvedOwner;
+	private EnumTypeNode owner;
 
-	private EnumItemNode resolvedMember;
+	private EnumItemNode member;
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(ownerUnresolved, resolvedOwner));
-		children.add(getValidVersion(memberUnresolved, resolvedMember));
+		children.add(getValidVersion(ownerUnresolved, owner));
+		children.add(getValidVersion(memberUnresolved, member));
 		return children;
 	}
 
@@ -65,18 +63,17 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		}
 
 		boolean successfullyResolved = true;
-		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
-		resolvedOwner = (EnumTypeNode)ownerResolver.resolve(ownerUnresolved);
-		successfullyResolved = resolvedOwner!=null && successfullyResolved;
-		ownedResolutionResult(ownerUnresolved, resolvedOwner);
+		DeclarationTypeResolver<EnumTypeNode> ownerResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+		owner = ownerResolver.resolve(ownerUnresolved, this);
+		successfullyResolved = owner!=null && successfullyResolved;
 
-		if(resolvedOwner != null) {
-			resolvedOwner.fixupDefinition(memberUnresolved);
+		if(owner != null) {
+			owner.fixupDefinition(memberUnresolved);
 
 			DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
-			resolvedMember = memberResolver.resolve(memberUnresolved);
-			successfullyResolved = resolvedMember!=null && successfullyResolved;
-			ownedResolutionResult(memberUnresolved, resolvedMember);
+			member = memberResolver.resolve(memberUnresolved, this);
+			successfullyResolved = member!=null && successfullyResolved;
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;
@@ -86,22 +83,21 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = ownerUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = memberUnresolved.resolve() && successfullyResolved;
+		successfullyResolved = (owner!=null ? owner.resolve() : false) && successfullyResolved;
+		successfullyResolved = (member!=null ? member.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(EnumTypeNode.class)).check(getValidVersion(ownerUnresolved, resolvedOwner), error)
-			& (new SimpleChecker(EnumItemNode.class)).check(getValidVersion(memberUnresolved, resolvedMember), error);
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
-	public DeclNode getDecl() {
+	public EnumItemNode getDecl() {
 		assert isResolved();
 
-		return resolvedMember;
+		return member;
 	}
 
 	public DeclNode getOwner() {
@@ -115,8 +111,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * @return An enum expression IR object.
 	 */
 	protected IR constructIR() {
-		EnumType et = (EnumType) getValidVersion(ownerUnresolved, resolvedOwner).checkIR(EnumType.class);
-		EnumItem it = (EnumItem) getValidVersion(memberUnresolved, resolvedMember).checkIR(EnumItem.class);
+		EnumType et = (EnumType) owner.checkIR(EnumType.class);
+		EnumItem it = (EnumItem) member.checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
 	}
 }
