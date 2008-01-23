@@ -40,7 +40,7 @@ rule forwardTransition(sm:StateMachine) {
   }
 }
 
-rule forwardTransition1(sm:StateMachine) {
+rule forwardTransitionNoXZ(sm:StateMachine) {
   sm -:region-> reg:Region;
   reg -:subvertex-> x:State;
   reg -:subvertex-> y:State;
@@ -50,10 +50,12 @@ rule forwardTransition1(sm:StateMachine) {
 
   hom(x,y,z);
   x -:source-> xy -:target-> y -:source-> yz -:target-> z;
-  yz -:trigger-> trig:Trigger;
 
   negative {
     xy -:trigger->;
+  }
+  negative {
+    yz -:trigger->;
   }
   negative {
     reg -:transition-> xz:Transition;
@@ -61,13 +63,40 @@ rule forwardTransition1(sm:StateMachine) {
   }
 
   modify {
-    reg -:transition-> xz:Transition;
-    x -:source-> xz -:target-> z;
-    xz -:trigger-> trig;
+    reg -:transition-> nxz:Transition;
+    x -:source-> nxz -:target-> z;
   }
 }
 
-rule forwardTransition2(sm:StateMachine) {
+rule forwardTransitionNoEpsXZ(sm:StateMachine) {
+  sm -:region-> reg:Region;
+  reg -:subvertex-> x:State;
+  reg -:subvertex-> y:State;
+  reg -:subvertex-> z:State;
+  reg -:transition-> xy:Transition;
+  reg -:transition-> yz:Transition;
+  reg -:transition-> xz:Transition;
+
+  hom(x,y,z);
+  x -:source-> xy -:target-> y -:source-> yz -:target-> z;
+  x -:source-> xz -:target-> z;
+  xz -:trigger-> ;
+
+  negative {
+    xy -:trigger->;
+  }
+  negative {
+    yz -:trigger->;
+  }
+
+  modify {
+    reg -:transition-> nxz:Transition;
+    x -:source-> nxz -:target-> z;
+  }
+}
+
+
+rule forwardTransition3(sm:StateMachine) {
   sm -:region-> reg:Region;
   reg -:subvertex-> x:State;
   reg -:subvertex-> y:State;
@@ -80,11 +109,14 @@ rule forwardTransition2(sm:StateMachine) {
   x -:source-> xy -:target-> y -:source-> yz -:target-> z;
   yz -:trigger-> trig:Trigger;
   
-  x -:source-> xz -:target-> z;
-  xz -:trigger->;
- 
   negative {
     xy -:trigger->;
+  }
+
+  negative {
+    reg -:transition-> xz:Transition;
+    x -:source-> xz -:target-> z;
+    xz -:trigger-> trig;
   }
 
   modify {
@@ -94,10 +126,31 @@ rule forwardTransition2(sm:StateMachine) {
   }
 }
 
+rule propagateFinalState(sm:StateMachine) {
+  sm -:region-> reg:Region;
+  reg -:subvertex-> x:State\FinalState;
+  reg -:subvertex-> f:FinalState;
+  reg -:transition-> xf:Transition;
+
+  x -:source-> xf -:target-> f;
+
+  negative {
+    xf -:trigger->;
+  }
+
+  modify { 
+    :FinalState<x>;
+  }
+}
 
 rule removeEpsilonTransition(sm:StateMachine) {
   sm -:region-> reg:Region;
   reg -:transition-> xy:Transition;
+
+  negative {
+    reg -:subvertex-> x:Pseudostate;
+    x -:source-> xy;
+  }
 
   negative {
     xy -:trigger->;
