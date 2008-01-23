@@ -280,20 +280,35 @@ public class ActionsGen extends CSharpBase {
 	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isRule) {
 		int i = 0;
 		sb.append("\t\tpublic enum NodeNums { ");
-		for(Node node : action.getPattern().getNodes())
-			if(i++ == 0)
+		for(Node node : action.getPattern().getNodes()) {
+			if(i == 0)
 				sb.append("@" + formatIdentifiable(node) + "  = 1, ");
 			else
 				sb.append("@" + formatIdentifiable(node) + ", ");
+			++i;
+		}
 		sb.append("};\n");
 
 		i = 0;
 		sb.append("\t\tpublic enum EdgeNums { ");
-		for(Edge edge : action.getPattern().getEdges())
-			if(i++ == 0)
+		for(Edge edge : action.getPattern().getEdges()) {
+			if(i == 0)
 				sb.append("@" + formatIdentifiable(edge) + " = 1, ");
 			else
 				sb.append("@" + formatIdentifiable(edge) + ", ");
+			++i;
+		}
+		sb.append("};\n");
+		
+		i = 0;
+		sb.append("\t\tpublic enum PatternNums { ");
+		for(SubpatternUsage sub : action.getPattern().getSubpatternUsages()) {
+			if(i == 0)
+				sb.append("@" + formatIdentifiable(sub) + " = 1, ");
+			else
+				sb.append("@" + formatIdentifiable(sub) + ", ");
+			++i;
+		}
 		sb.append("};\n");
 		sb.append("\n");
 
@@ -312,16 +327,18 @@ public class ActionsGen extends CSharpBase {
 
 		i = 0;
 		for(PatternGraph neg : action.getNegs()) {
-			String negName = "negPattern_" + i++;
+			String negName = "negPattern_" + i;
 			sb.append("\t\t\tPatternGraph " + negName + ";\n");
 			sb.append("\t\t\t{\n");
-			condCnt = genPatternGraph(sb, pattern, neg, negName, condCnt, i-1, parameters);
+			condCnt = genPatternGraph(sb, pattern, neg, negName, condCnt, i, parameters);
 			sb.append("\t\t\t}\n\n");
+			++i;
 		}
 
 		sb.append("\t\t\tnegativePatternGraphs = new PatternGraph[] {");
-		for(i = 0; i < action.getNegs().size(); i++)
+		for(i = 0; i < action.getNegs().size(); i++) {
 			sb.append("negPattern_" + i + ", ");
+		}
 		sb.append("};\n");
 
 		genRuleParamResult(sb, action);
@@ -332,30 +349,41 @@ public class ActionsGen extends CSharpBase {
 	private int genPatternGraph(StringBuffer sb, PatternGraph outer, PatternGraph pattern, String pattern_name,
 								int condCntInit, int negCount, List<Entity> parameters) {
 		boolean isNeg = outer != null;
-		String additional_parameters = isNeg?"PatternElementType.NegElement":"PatternElementType.Normal";
+		String additional_parameters = isNeg ? "PatternElementType.NegElement" : "PatternElementType.Normal";
 
 		for(Node node : pattern.getNodes()) {
-			if(outer != null && outer.hasNode(node))
+			if(outer != null && outer.hasNode(node)) {
 				continue;
+			}
 			sb.append("\t\t\tPatternNode " + formatEntity(node, outer, negCount) + " = new PatternNode(");
 			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatEntity(node, outer, negCount) + "\"");
 			sb.append(", " + formatEntity(node, outer, negCount) + "_AllowedTypes, ");
 			sb.append(formatEntity(node, outer, negCount) + "_IsAllowedType, ");
-			sb.append(parameters.contains(node)?"PatternElementType.Preset":additional_parameters);
+			sb.append(parameters.contains(node) ? "PatternElementType.Preset" : additional_parameters);
 			sb.append(", " + parameters.indexOf(node) + ");\n");
 		}
+		
 		for(Edge edge : pattern.getEdges()) {
-			if(outer != null && outer.hasEdge(edge))
+			if(outer != null && outer.hasEdge(edge)) {
 				continue;
+			}
 			sb.append("\t\t\tPatternEdge " + formatEntity(edge, outer, negCount) + " = new PatternEdge(");
-			sb.append(pattern.getSource(edge)!=null?formatEntity(pattern.getSource(edge), outer, negCount):"null");
+			sb.append(pattern.getSource(edge)!=null ? formatEntity(pattern.getSource(edge), outer, negCount) : "null");
 			sb.append(", ");
-			sb.append(pattern.getTarget(edge)!=null?formatEntity(pattern.getTarget(edge), outer, negCount):"null");
+			sb.append(pattern.getTarget(edge)!=null ? formatEntity(pattern.getTarget(edge), outer, negCount) : "null");
 			sb.append(", (int) EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatEntity(edge, outer, negCount) + "\"");
 			sb.append(", " + formatEntity(edge, outer, negCount) + "_AllowedTypes, ");
 			sb.append(formatEntity(edge, outer, negCount) + "_IsAllowedType, ");
-			sb.append(parameters.contains(edge)?"PatternElementType.Preset":additional_parameters);
+			sb.append(parameters.contains(edge) ? "PatternElementType.Preset" : additional_parameters);
 			sb.append(", " + parameters.indexOf(edge) + ");\n");
+		}
+		
+		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			if(outer != null && outer.hasSubpatternUsage(sub)) {
+				continue;
+			}
+			sb.append("\t\t\tPatternGraphEmbedding " + sub.getIdent().toString() 
+					+ "= new PatternGraphEmbedding(" + sub.getIdent().toString() + ");\n");
 		}
 
 		int condCnt = condCntInit;
@@ -380,6 +408,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew PatternEdge[] ");
 		genEntitySet(sb, pattern.getEdges(), "", "", true, outer, negCount);
 		sb.append(", \n");
+		
+		sb.append("\t\t\t\tnew PatternGraphEmbedding[] ");
+		genSubpatternUsageSet(sb, pattern.getSubpatternUsages(), "", "", true, outer, negCount);
+		sb.append(", \n");
 
 		sb.append("\t\t\t\tnew Condition[] { ");
 		condCnt = condCntInit;
@@ -393,11 +425,12 @@ public class ActionsGen extends CSharpBase {
 			sb.append("{\n");
 			for(Node node1 : pattern.getNodes()) {
 				sb.append("\t\t\t\t\t{ ");
-				for(Node node2 : pattern.getNodes())
+				for(Node node2 : pattern.getNodes()) {
 					if(pattern.isHomomorphic(node1,node2))
 						sb.append("true, ");
 					else
 						sb.append("false, ");
+				}
 				sb.append("},\n");
 			}
 			sb.append("\t\t\t\t}");
@@ -409,11 +442,12 @@ public class ActionsGen extends CSharpBase {
 			sb.append("{\n");
 			for(Edge edge1 : pattern.getEdges()) {
 				sb.append("\t\t\t\t\t{ ");
-				for(Edge edge2 : pattern.getEdges())
+				for(Edge edge2 : pattern.getEdges()) {
 					if(pattern.isHomomorphic(edge1,edge2))
 						sb.append("true, ");
 					else
 						sb.append("false, ");
+				}
 				sb.append("},\n");
 			}
 			sb.append("\t\t\t\t}");

@@ -104,6 +104,11 @@ namespace de.unika.ipd.grGen.libGr
     public interface IPatternGraphEmbedding // niy
     {
         /// <summary>
+        /// The name of the usage of the subgraph.
+        /// </summary>
+        String Name { get; }
+
+        /// <summary>
         /// Not yet implemented...
         /// </summary>
         IPatternGraph EmbeddedGraph { get; }

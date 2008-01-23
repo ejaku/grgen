@@ -37,6 +37,7 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.StringType;
+import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.util.Base;
@@ -76,6 +77,20 @@ public abstract class CSharpBase {
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
 			Entity id = iter.next();
 			sb.append(pre + formatEntity(id, outer, negCount) + post);
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		if (brackets)
+			sb.append(" }");
+	}
+	
+	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post, boolean brackets,
+			 PatternGraph outer, int negCount) {
+		if (brackets)
+			sb.append("{ ");
+		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
+			SubpatternUsage spu = iter.next();
+			sb.append(pre + spu.getIdent().toString() + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}

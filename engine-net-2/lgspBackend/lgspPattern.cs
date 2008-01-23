@@ -220,30 +220,39 @@ namespace de.unika.ipd.grGen.lgsp
 
         public Condition[] Conditions;
 
-        public PatternGraph(PatternNode[] nodes, PatternEdge[] edges, Condition[] conditions,
+        public PatternGraph(PatternNode[] nodes, PatternEdge[] edges,
+            PatternGraphEmbedding[] embeddedGraphs, Condition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[] homToAllNodes, bool[] homToAllEdges,
             bool[] isoToAllNodes, bool[] isoToAllEdges)
         {
             this.nodes = nodes;
             this.edges = edges;
+            this.embeddedGraphs = embeddedGraphs;
+            this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
             this.homToAllNodes = homToAllNodes;
             this.homToAllEdges = homToAllEdges;
             this.isoToAllNodes = isoToAllNodes;
             this.isoToAllEdges = isoToAllEdges;
-            Conditions = conditions;
         }
     }
 
     public class PatternGraphEmbedding : IPatternGraphEmbedding
     {
+        public String Name { get { return name; } }
         public IPatternGraph EmbeddedGraph { get { return embeddedGraph; } }
         public IPatternElement[] Connections { get { return connections; } }
 
+        public String name;
         public IPatternGraph embeddedGraph;
         public PatternElement[] connections;
+
+        public PatternGraphEmbedding(String name)
+        {
+            this.name = name;
+        }
     }
 
     public abstract class LGSPRulePattern : IRulePattern

@@ -175,16 +175,21 @@ public abstract class Graph extends IR {
 		setName("graph " + s);
 	}
 
-	/** @return true, if the given node is contained the graph, false, if not. */
+	/** @return true, if the given node is contained in the graph, false, if not. */
 	public boolean hasNode(Node node) {
 		return nodes.containsKey(node);
 	}
 
-	/** @return true, if the given edge is contained the graph, false, if not. */
+	/** @return true, if the given edge is contained in the graph, false, if not. */
 	public boolean hasEdge(Edge edge) {
 		return edges.containsKey(edge);
 	}
 
+	/** @return true, if the given subpattern usage is contained in the graph, false, if not. */
+	public boolean hasSubpatternUsage(SubpatternUsage sub) {
+		return subpatternUsages.contains(sub);
+	}
+	
 	/**
 	 * Get a read-only collection containing all nodes in this graph.
 	 * @return A collection containing all nodes in this graph.
@@ -203,6 +208,15 @@ public abstract class Graph extends IR {
 		return Collections.unmodifiableCollection(edges.keySet());
 	}
 
+	/**
+	 * Get a read-only collection containing all subpattern usages in this graph.
+	 * @return A collection containing all subpattern usages in this graph.
+	 * @note The collection is read-only and may not be modified.
+	 */
+	public Collection<SubpatternUsage> getSubpatternUsages() {
+		return Collections.unmodifiableCollection(subpatternUsages);
+	}
+	
 	/**
 	 * Put all nodes in this graph into a collection.
 	 * @param c The collection to put them into.
