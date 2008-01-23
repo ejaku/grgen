@@ -14,4 +14,7 @@ test t {
 	a:Node;
 	b:Node;
 	a <-f:Edge- b;
+	p1:P(x);
+	p2:P(x);
+	q:Q(f);
 }

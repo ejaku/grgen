@@ -12,4 +12,7 @@ test t {
 	x:Node;
 	y:Node;
 	x -e:Edge-> y;
+	p1:P();
+	p2:P();
+	q:Q();
 }

@@ -48,6 +48,11 @@ public class PatternGraph extends Graph {
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
+	/** Make a new pattern graph. */
+	public PatternGraph(String nameOfGraph) {
+		super(nameOfGraph);
+	}
+	
 	public void addImperativeStmt(ImperativeStmt emit) {
 		imperativeStmts.add(emit);
 	}

@@ -382,8 +382,12 @@ public class ActionsGen extends CSharpBase {
 			if(outer != null && outer.hasSubpatternUsage(sub)) {
 				continue;
 			}
-			sb.append("\t\t\tPatternGraphEmbedding " + sub.getIdent().toString() 
-					+ "= new PatternGraphEmbedding(" + sub.getIdent().toString() + ");\n");
+			sb.append("\t\t\tPatternGraphEmbedding " + sub.getIdent().toString() + " = new PatternGraphEmbedding(");
+			sb.append("\"" + sub.getIdent().toString() + "\", ");
+			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance.patternGraph, ");
+			sb.append("new PatternElement[] ");
+			genEntitySet(sb, sub.getSubpatternConnections(), "", "", true, outer, negCount);
+			sb.append(");\n");
 		}
 
 		int condCnt = condCntInit;
@@ -400,7 +404,8 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		sb.append("\t\t\t" + pattern_name + " = new PatternGraph(\n");
-
+		sb.append("\t\t\t\t\"" + pattern.getNameOfGraph() + "\",\n");
+		
 		sb.append("\t\t\t\tnew PatternNode[] ");
 		genEntitySet(sb, pattern.getNodes(), "", "", true, outer, negCount);
 		sb.append(", \n");

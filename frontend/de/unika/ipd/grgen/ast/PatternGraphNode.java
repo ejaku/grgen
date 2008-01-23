@@ -110,11 +110,11 @@ public class PatternGraphNode extends GraphNode {
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
 
-	public PatternGraphNode(Coords coords, CollectNode connections,
+	public PatternGraphNode(String nameOfGraph, Coords coords, CollectNode connections,
 			CollectNode subpatterns, CollectNode conditions,
 			CollectNode returns, CollectNode homs, CollectNode exact,
 			CollectNode induced, int modifiers, int context) {
-		super(coords, connections, subpatterns, returns, null, context);
+		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
@@ -130,6 +130,7 @@ public class PatternGraphNode extends GraphNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(connections);
+		children.add(subpatterns);
 		children.add(returns);
 		children.add(conditions);
 		children.add(homs);
@@ -142,6 +143,7 @@ public class PatternGraphNode extends GraphNode {
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
+		childrenNames.add("subpatterns");
 		childrenNames.add("return");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
@@ -161,6 +163,7 @@ public class PatternGraphNode extends GraphNode {
 		nodeResolvedSetResult(successfullyResolved); // local result
 
 		successfullyResolved = connections.resolve() && successfullyResolved;
+		successfullyResolved = subpatterns.resolve() && successfullyResolved;
 		successfullyResolved = returns.resolve() && successfullyResolved;
 		successfullyResolved = conditions.resolve() && successfullyResolved;
 		successfullyResolved = homs.resolve() && successfullyResolved;
@@ -260,7 +263,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph();
+		PatternGraph gr = new PatternGraph(nameOfGraph);
 
 		for (BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) n;
@@ -630,7 +633,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph();
+				PatternGraph neg = new PatternGraph(nameOfGraph+".implicit negative");
 
 				// add edges to NAC
 				for (ConnectionNode conn : edgeSet) {
@@ -805,7 +808,7 @@ public class PatternGraphNode extends GraphNode {
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 
-			PatternGraph neg = new PatternGraph();
+			PatternGraph neg = new PatternGraph(nameOfGraph+".implicit negative");
 
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {

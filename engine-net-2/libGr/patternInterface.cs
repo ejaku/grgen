@@ -48,9 +48,9 @@ namespace de.unika.ipd.grGen.libGr
     public interface IPatternGraph
     {
         /// <summary>
-        /// Not yet implemented...
+        /// The name of the pattern graph
         /// </summary>
-        String Name { get; } // niy
+        String Name { get; }
 
         /// <summary>
         /// An array of all pattern nodes.

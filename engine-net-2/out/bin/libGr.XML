@@ -103,7 +103,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Name">
             <summary>
-            Not yet implemented...
+            The name of the pattern graph
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Nodes">
@@ -154,6 +154,11 @@
         <member name="T:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding">
             <summary>
             Not yet implemented...
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.Name">
+            <summary>
+            The name of the usage of the subgraph.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.EmbeddedGraph">

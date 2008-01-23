@@ -58,12 +58,15 @@ public class GraphNode extends BaseNode {
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
 
+	protected String nameOfGraph;
+	
 	/**
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, CollectNode imperativeStmts, int context) {
+	public GraphNode(String nameOfGraph, Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, CollectNode imperativeStmts, int context) {
 		super(coords);
+		this.nameOfGraph = nameOfGraph; 
 		this.connections = connections;
 		becomeParent(this.connections);
 		this.subpatterns = subpatterns;
@@ -192,7 +195,7 @@ public class GraphNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		PatternGraph gr = new PatternGraph();
+		PatternGraph gr = new PatternGraph(nameOfGraph);
 
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
