@@ -53,8 +53,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(owner, resolvedOwner));
-		children.add(getValidVersion(member, resolvedMember));
+		children.add(getValidVersion(ownerUnresolved, resolvedOwner));
+		children.add(getValidVersion(memberUnresolved, resolvedMember));
 		return children;
 	}
 
@@ -66,17 +66,17 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 
 		boolean successfullyResolved = true;
 		Resolver ownerResolver = new DeclTypeResolver(EnumTypeNode.class);
-		resolvedOwner = (EnumTypeNode)ownerResolver.resolve(owner);
+		resolvedOwner = (EnumTypeNode)ownerResolver.resolve(ownerUnresolved);
 		successfullyResolved = resolvedOwner!=null && successfullyResolved;
-		ownedResolutionResult(owner, resolvedOwner);
+		ownedResolutionResult(ownerUnresolved, resolvedOwner);
 
 		if(resolvedOwner != null) {
-			resolvedOwner.fixupDefinition(member);
+			resolvedOwner.fixupDefinition(memberUnresolved);
 
 			DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
-			resolvedMember = memberResolver.resolve(member);
+			resolvedMember = memberResolver.resolve(memberUnresolved);
 			successfullyResolved = resolvedMember!=null && successfullyResolved;
-			ownedResolutionResult(member, resolvedMember);
+			ownedResolutionResult(memberUnresolved, resolvedMember);
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;
@@ -86,15 +86,15 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = owner.resolve() && successfullyResolved;
-		successfullyResolved = member.resolve() && successfullyResolved;
+		successfullyResolved = ownerUnresolved.resolve() && successfullyResolved;
+		successfullyResolved = memberUnresolved.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(EnumTypeNode.class)).check(getValidVersion(owner, resolvedOwner), error)
-			& (new SimpleChecker(EnumItemNode.class)).check(getValidVersion(member, resolvedMember), error);
+		return (new SimpleChecker(EnumTypeNode.class)).check(getValidVersion(ownerUnresolved, resolvedOwner), error)
+			& (new SimpleChecker(EnumItemNode.class)).check(getValidVersion(memberUnresolved, resolvedMember), error);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
@@ -115,8 +115,8 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	 * @return An enum expression IR object.
 	 */
 	protected IR constructIR() {
-		EnumType et = (EnumType) getValidVersion(owner, resolvedOwner).checkIR(EnumType.class);
-		EnumItem it = (EnumItem) getValidVersion(member, resolvedMember).checkIR(EnumItem.class);
+		EnumType et = (EnumType) getValidVersion(ownerUnresolved, resolvedOwner).checkIR(EnumType.class);
+		EnumItem it = (EnumItem) getValidVersion(memberUnresolved, resolvedMember).checkIR(EnumItem.class);
 		return new EnumExpression(et, it);
 	}
 }

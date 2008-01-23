@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -42,11 +41,11 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		setName(QualIdentNode.class, "Qualification");
 	}
 
-	protected IdentNode owner;
-	private DeclNode resolvedOwner;
+	protected IdentNode ownerUnresolved;
+	private DeclNode owner;
 
-	protected IdentNode member;
-	private MemberDeclNode resolvedMember;
+	protected IdentNode memberUnresolved;
+	private MemberDeclNode member;
 
 	/**
 	 * Make a new identifier qualify node.
@@ -54,17 +53,17 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 	 */
 	public QualIdentNode(Coords coords, IdentNode owner, IdentNode member) {
 		super(coords);
-		this.owner = owner;
-		becomeParent(this.owner);
-		this.member = member;
-		becomeParent(this.member);
+		this.ownerUnresolved = owner;
+		becomeParent(this.ownerUnresolved);
+		this.memberUnresolved = member;
+		becomeParent(this.memberUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(owner, resolvedOwner));
-		children.add(getValidVersion(member, resolvedMember));
+		children.add(getValidVersion(ownerUnresolved, owner));
+		children.add(getValidVersion(memberUnresolved, member));
 		return children;
 	}
 
@@ -87,20 +86,18 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
 		boolean successfullyResolved = true;
 		DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
-		resolvedOwner = ownerResolver.resolve(owner);
-		successfullyResolved = resolvedOwner!=null && successfullyResolved;
-		ownedResolutionResult(owner, resolvedOwner);
+		owner = ownerResolver.resolve(ownerUnresolved, this);
+		successfullyResolved = owner!=null && successfullyResolved;
 
-		if (resolvedOwner != null && (resolvedOwner instanceof NodeCharacter || resolvedOwner instanceof EdgeCharacter)) {
-			TypeNode ownerType = (TypeNode)resolvedOwner.getDeclType();
+		if (owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
+			TypeNode ownerType = (TypeNode)owner.getDeclType();
 
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
-				o.fixupDefinition(member);
+				o.fixupDefinition(memberUnresolved);
 				DeclarationResolver<MemberDeclNode> memberResolver = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
-				resolvedMember = memberResolver.resolve(member);
-				successfullyResolved = resolvedMember!=null && successfullyResolved;
-				ownedResolutionResult(member, resolvedMember);
+				member = memberResolver.resolve(memberUnresolved, this);
+				successfullyResolved = member!=null && successfullyResolved;
 			} else {
 				reportError("Left hand side of '.' does not own a scope");
 				successfullyResolved = false;
@@ -114,34 +111,33 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = owner.resolve() && successfullyResolved;
-		successfullyResolved = member.resolve() && successfullyResolved;
+		successfullyResolved = (owner!=null ? owner.resolve() : false) && successfullyResolved;
+		successfullyResolved = (member!=null ? member.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclNode.class)).check(getValidVersion(owner, resolvedOwner), error)
-			& (new SimpleChecker(MemberDeclNode.class)).check(getValidVersion(member, resolvedMember), error);
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.DeclaredCharacter#getDecl() */
 	public DeclNode getDecl() {
 		assert isResolved();
 
-		return resolvedMember;
+		return member;
 	}
 
 	public DeclNode getOwner() {
 		assert isResolved();
 
-		return resolvedOwner;
+		return owner;
 	}
 
 	protected IR constructIR() {
-		Entity owner = (Entity) getValidVersion(this.owner, resolvedOwner).checkIR(Entity.class);
-		Entity member = (Entity) getValidVersion(this.member, resolvedMember).checkIR(Entity.class);
+		Entity ownerIR = (Entity) owner.checkIR(Entity.class);
+		Entity memberIR = (Entity) member.checkIR(Entity.class);
 
-		return new Qualification(owner, member);
+		return new Qualification(ownerIR, memberIR);
 	}
 }
