@@ -5,12 +5,3 @@ new graph test_L1
 new graph test_L2
 new graph test_L3
 new graph test_LM
-
-new graph StateMachine_001
-
-dump set node Vertex color red
-dump set node Transitions color blue
-
-
-xgrs init
-validate strict

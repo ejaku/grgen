@@ -1,0 +1,64 @@
+#include "g2x.grg"
+
+rule {
+}
+
+rule createGraph {
+  replace {
+    rootpack:Package -:name-> rootpackname:String;
+    eval { rootpackname.value = "Root"; }
+    
+    rootpack -:packagedElement-> cv:Package -:name-> cvname:String;
+    eval { cvname.value = "Component View"; }
+    
+    cv -: packagedElement -> sm:StateMachine -:name-> smname:String;
+    eval { smname.value = "EpsilonMachine"; }
+ 
+    // the machine and its region
+    sm -:region-> reg:Region -:stateMachine-> sm;
+
+    qs:Pseudostate; // muss ohne irgenwas angebunden sein: kein trigger etc erlaubt
+    qf:FinalState;
+    q0:State;
+    q1:State;
+    q2:State;
+
+    // embed states to region
+    reg -:subvertex-> qs -:container-> reg;
+    reg -:subvertex-> qf -:container-> reg;
+    reg -:subvertex-> q0 -:container-> reg;
+    reg -:subvertex-> q1 -:container-> reg;
+    reg -:subvertex-> q2 -:container-> reg;
+
+    // make initial state
+    qs -:kind-> qs_kind:PseudostateKind;
+    eval {
+      qs_kind.value = ENUM_PseudostateKind::entryPoint;
+    }
+
+    // create the transitions in region
+    t0:Transition -:container-> reg -:transition-> t0;
+    t1:Transition -:container-> reg -:transition-> t1;
+    t2:Transition -:container-> reg -:transition-> t2;
+    t3:Transition -:container-> reg -:transition-> t3;
+    t4:Transition -:container-> reg -:transition-> t4;
+    t5:Transition -:container-> reg -:transition-> t5;
+    t6:Transition -:container-> reg -:transition-> t6;
+
+    // the triggers
+    t1 -:trigger-> :Trigger -:event-> :CallEvent;
+    t2 -:trigger-> :Trigger -:event-> :CallEvent;
+    t3 -:trigger-> :Trigger -:event-> :CallEvent;
+
+    // the connections
+    qs -:source-> t0 -:target-> q0
+       -:source-> t1 -:target-> q1
+       -:source-> t2 -:target-> q2
+       -:source-> t3 -:target-> qf;
+
+    q0 -:source-> t4 -:target-> q2;
+    q1 -:source-> t5 -:target-> qf;
+    q0 -:source-> t6 -:target-> qf;
+  }
+}
+

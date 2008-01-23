@@ -1,0 +1,7 @@
+abstract node class AUX_Node;
+node class AUX_Counter extends AUX_Node {
+	value : int = 0;
+}
+node class AUX_Indention extends AUX_Node {
+	value : string = "";
+}

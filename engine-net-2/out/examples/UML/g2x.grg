@@ -1,0 +1,152 @@
+using L3, auxtypes;
+
+rule createAUX_Counter : (AUX_Counter) {
+	modify {
+		cntr:AUX_Counter;
+		eval { cntr.value = 0; }
+		return (cntr);
+	}
+}
+
+rule uniquifyIDs(cntr:AUX_Counter) {
+	x:CMOF_NODE;
+	modify {
+		eval { 
+			x.id = cntr.value; 
+			cntr.value = cntr.value + 1;
+		}
+	}
+}
+
+rule deleteAUX_Counter(cntr:AUX_Counter) {
+	replace { }
+}
+
+rule toXMI {
+	rootpack:Package -:name-> rootpackname:String;
+  	if { rootpackname.value == "Root"; }
+	modify {
+		/* 
+		TODO: RuleAll not implemented yet
+		// Calculate the unique ids for the CMOF_NODEs;
+		cntr:AUX_Counter;
+		exec([uniquifyIDs(cntr)]); // simultaneous match operator "[...]"
+		delete(cntr);
+		*/
+		
+		// Emit the XMI
+		emit (
+			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
+			"<xmi:XMI xmlns:xmi=\"http://schema.omg.org/spec/XMI/2.1\" xmlns:uml=\"http://schema.omg.org/spec/UML/2.1.1\" xmi:version=\"2.1\">\n",
+			"<xmi:Documentation contact=\"www.grgen.net\" exporter=\"GrGen2XMI\" exporterVersion=\"0.1\"/>\n",
+			"<uml:Package xmi:id=\"U00000001-7510-11d9-86f2-000476a22f44\">\n"
+		);
+		exec(writeAllChildren(rootpack)[*]);
+		emit(
+			"</uml:Package>\n",
+			"</xmi:XMI>\n"
+		);
+	}
+}
+
+rule writeAllChildren(ctx:CMOF_NODE) {
+	ctx -prop:CMOFProperty-> my_child:CMOF_NODE;
+	modify {
+		exec(writeEMOFElement(ctx, my_child));
+	}	
+}
+
+rule writeEMOFElement(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	modify {
+		exec(writePackage(parent,ctx)||writePropertyPrim(parent,ctx)||writePropertyNonPrimNonComp(parent,ctx)||writePropertyNonPrimComp(parent,ctx)||writeClass(parent,ctx));
+	}
+}
+
+rule writePackage(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	if { typeof(ctx)>=Package; }
+	modify {
+		exec(writeXMIObjectElement(parent, ctx));
+	}
+}
+
+rule writeClass(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	if { typeof(ctx)>=CMOFClass; }
+	modify {
+		exec(writeXMIObjectElement(parent, ctx));
+	}
+}
+
+rule writePropertyPrim(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	if { typeof(ctx)>=CMOFValueType; }
+	modify {
+		exec(writeXMIValueElement(parent, ctx));
+	}
+}
+
+rule writePropertyNonPrimNonComp(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent -prop:CMOFProperty-> ctx;
+	if { !(typeof(ctx)>=CMOFValueType); prop.isComposite==false; }
+	modify {
+		exec(writeXMIReferenceElement(parent, ctx));
+	}
+}
+
+rule writePropertyNonPrimComp(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent -prop:CMOFProperty-> ctx;
+	if { !(typeof(ctx)>=CMOFValueType); prop.isComposite==true; }
+	modify {
+		exec(deleteRedundantEdge(parent, ctx) | writeXMIObjectElement(parent, ctx));
+	}
+}
+
+rule deleteRedundantEdge(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent <-oppProp:CMOFProperty- ctx;
+	modify {
+		delete(oppProp);
+	}
+}
+
+rule writeXMIObjectElement(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent -prop:CMOFProperty-> ctx;
+	modify {
+		emit("<", prop.umlname, " xmi:id=\"G", ctx.id, "\" xmi:type=\"uml:", ctx.umlname, "\" >\n");
+		exec(writeAllChildren(ctx)[*]);
+		emit("</", prop.umlname, ">\n");
+		delete(prop);
+	}
+}
+
+rule writeXMIValueElement(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent -prop:CMOFProperty-> ctx;
+	modify {
+		emit("<", prop.umlname, ">");
+		exec(writeString(ctx)||writeInt(ctx)||writeBool(ctx)||writeUnlim(ctx));
+		emit("</", prop.umlname, ">\n");
+		delete(prop);
+	}
+}
+
+rule writeXMIReferenceElement(parent:CMOF_NODE, ctx:CMOF_NODE) {
+	parent -prop:CMOFProperty-> ctx;
+	modify {
+		emit("<", prop.umlname, " xmi:idref=\"G", ctx.id, "\" />\n");
+		delete(prop);
+	}
+}
+
+rule writeString(ctx:String) {
+	modify { emit( ctx.value ); }
+}
+
+rule writeInt(ctx:Integer) {
+	modify { emit( ctx.value ); }
+}
+
+rule writeBool(ctx:Boolean) {
+	modify { emit( ctx.value ); }
+}
+
+rule writeUnlim(ctx:UnlimitedNatural) {
+	modify { emit( ctx.value ); }
+}
+
