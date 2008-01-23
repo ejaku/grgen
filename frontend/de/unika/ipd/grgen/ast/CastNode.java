@@ -27,14 +27,14 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
+
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.parser.Coords;
 
 
 /**
@@ -45,8 +45,11 @@ public class CastNode extends ExprNode {
 		setName(DeclExprNode.class, "cast expression");
 	}
 
-	BaseNode type; // target type of the cast
-	ExprNode expr; // expression to be casted
+	// target type of the cast
+	BasicTypeNode type; 
+	BaseNode typeUnresolved;
+    // expression to be casted
+	ExprNode expr;
 
 	/**
 	 * Make a new cast node.
@@ -64,8 +67,8 @@ public class CastNode extends ExprNode {
 	 */
 	public CastNode(Coords coords, BaseNode targetType, ExprNode expr) {
 		super(coords);
-		this.type = targetType;
-		becomeParent(this.type);
+		this.typeUnresolved = targetType;
+		becomeParent(this.typeUnresolved);
 		this.expr = expr;
 		becomeParent(this.expr);
 	}
@@ -78,15 +81,17 @@ public class CastNode extends ExprNode {
 	 * @param expr The expression to be casted.
 	 * @param resolveResult Resolution result (should be true)
 	 */
-	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, boolean resolveResult) {
+	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, boolean resolvedAndChecked) {
 		this(coords, targetType, expr);
-		nodeResolvedSetResult(resolveResult);
+		assert resolvedAndChecked;
+		resolve();
+		check();
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(type);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(expr);
 		return children;
 	}
@@ -107,16 +112,15 @@ public class CastNode extends ExprNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver typeResolver = new DeclTypeResolver(BasicTypeNode.class);
-		BaseNode resolved = typeResolver.resolve(type);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		type = ownedResolutionResult(type, resolved);
+		DeclarationTypeResolver<BasicTypeNode> typeResolver = new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = type!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = type.resolve() && successfullyResolved;
+		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
 		successfullyResolved = expr.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -127,8 +131,7 @@ public class CastNode extends ExprNode {
 	 * and the first node is a type node identifier.
 	 */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(BasicTypeNode.class)).check(type, error)
-			& (new SimpleChecker(ExprNode.class)).check(expr, error)
+		return (new SimpleChecker(ExprNode.class)).check(expr, error)
 			& typeCheckLocal();
 	}
 
@@ -140,21 +143,14 @@ public class CastNode extends ExprNode {
 	protected boolean typeCheckLocal() {
 		Collection<TypeNode> castableToTypes = new HashSet<TypeNode>();
 
-		BaseNode n = type;
-		if( !(n instanceof BasicTypeNode) ) {
-			reportError("Only primitive types are allowed for casts, but got \"" + n + "\"");
-			return false;
-		} else {
-			BasicTypeNode bt = (BasicTypeNode) type;
-			expr.getType().getCastableToTypes(castableToTypes);
+		expr.getType().getCastableToTypes(castableToTypes);
 
-			boolean result = castableToTypes.contains(bt);
-			if(!result) {
-				reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + bt + "\"");
-			}
-
-			return result;
+		boolean result = castableToTypes.contains(type);
+		if(!result) {
+			reportError("Illegal cast from \"" + expr.getType() + "\" to \"" + type + "\"");
 		}
+
+		return result;
 	}
 
 	/**
@@ -163,8 +159,8 @@ public class CastNode extends ExprNode {
 	 * @return The value of the expression.
 	 */
 	public ExprNode evaluate() {
-		TypeNode type = (TypeNode) this.type;
-
+		assert isResolved();
+		
 		if(expr.isConst()) {
 			return expr.getConst().castTo(type);
 		} else {
@@ -176,7 +172,8 @@ public class CastNode extends ExprNode {
 	 * @see de.unika.ipd.grgen.ast.ExprNode#getType()
 	 */
 	public TypeNode getType() {
-		TypeNode type = (TypeNode) this.type;
+		assert isResolved();
+		
 		return type;
 	}
 
