@@ -15,6 +15,7 @@ rule forwardTransition(sm:StateMachine) {
   reg -:transition-> xy:Transition;
   reg -:transition-> yz:Transition;
 
+  hom(x,y,z);
   x -:source-> xy -:target-> y -:source-> yz -:target-> z;
   yz -:trigger-> trig:Trigger;            // yz is not an epsilon Transition
 
@@ -29,12 +30,85 @@ rule forwardTransition(sm:StateMachine) {
     }
     */
   }
+
   modify {
     reg -:transition-> xz:Transition;
     x -:source-> xz -:target-> z;
     yz -:trigger-> trig;                  // same Trigger as for yz
   }
 }
+
+rule forwardTransition1(sm:StateMachine) {
+  sm -:region-> reg:Region;
+  reg -:subvertex-> x:State;
+  reg -:subvertex-> y:State;
+  reg -:subvertex-> z:State;
+  reg -:transition-> xy:Transition;
+  reg -:transition-> yz:Transition;
+
+  hom(x,y,z);
+  x -:source-> xy -:target-> y -:source-> yz -:target-> z;
+  yz -:trigger-> trig:Trigger;
+
+  negative {
+    xy -:trigger->;
+
+    reg -:transition-> xz:Transition;
+    x -:source-> xz -:target-> z;
+  }
+
+  modify {
+    reg -:transition-> xz:Transition;
+    x -:source-> xz -:target-> z;
+    xz -:trigger-> trig;
+  }
+}
+
+rule forwardTransition2(sm:StateMachine) {
+  sm -:region-> reg:Region;
+  reg -:subvertex-> x:State;
+  reg -:subvertex-> y:State;
+  reg -:subvertex-> z:State;
+  reg -:transition-> xy:Transition;
+  reg -:transition-> yz:Transition;
+  reg -:transition-> xz:Transition;
+
+  hom(x,y,z);
+  x -:source-> xy -:target-> y -:source-> yz -:target-> z;
+  yz -:trigger-> trig:Trigger;
+  
+  x -:source-> xz -:target-> z;
+  xz -:trigger->;
+ 
+  negative {
+    xy -:trigger->;
+  }
+
+  modify {
+    reg -:transition-> nxz:Transition;
+    x -:source-> nxz -:target-> z;
+    nxz -:trigger-> trig;
+  }
+}
+
+
+rule removeEpsilonTransition(sm:StateMachine) {
+  sm -:region-> reg:Region;
+  reg -:transition-> xy:Transition;
+
+  negative {
+    xy -:trigger->;
+  }
+
+  modify { 
+    delete(xy);
+  }
+}
+
+
+//============================
+// Create Host Graph 
+//============================
 
 rule createGraph {
   replace {

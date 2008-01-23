@@ -2,7 +2,7 @@ new graph demo_sm
 
 xgrs createGraph
 
-debug xgrs (sm)=findStateMachine && forwardTransition(sm)*
+debug xgrs (sm)=findStateMachine && (forwardTransition1(sm)*|forwardTransition2(sm)*)*
 
 #echo "\n\n===========\nEmit graph.\n===========\n\n"
 
