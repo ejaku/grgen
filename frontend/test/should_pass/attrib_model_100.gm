@@ -1,0 +1,20 @@
+node class A {
+  abstract value;
+}
+
+node class AINT extends A {
+  value : int;
+}
+
+node class ASTR extends A {
+  value : string;
+}
+
+abstract node class AaBOOL extends A {
+  somethingdifferent : boolean;
+}
+
+node class AcINT_BOOL extends AaBOOL {
+  value : int;
+}
+
