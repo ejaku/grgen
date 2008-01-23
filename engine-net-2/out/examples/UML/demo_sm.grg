@@ -21,15 +21,17 @@ rule forwardTransition(sm:StateMachine) {
 
   negative {
     xy -:trigger->;                       // xy is an epsilon Transition
+  }
 
-    /*                                       FIXME nested negative required
+  /*                                       FIXME nested negative required
+  negative {
     reg -:transition-> xz:Transition;
     x -:source-> xz -:target-> z;         // there is no xz Transition that is an epsilon Transition
     negative {
       xz -:trigger->;
     }
-    */
   }
+  */
 
   modify {
     reg -:transition-> xz:Transition;
@@ -52,7 +54,8 @@ rule forwardTransition1(sm:StateMachine) {
 
   negative {
     xy -:trigger->;
-
+  }
+  negative {
     reg -:transition-> xz:Transition;
     x -:source-> xz -:target-> z;
   }
