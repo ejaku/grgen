@@ -26,8 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
@@ -42,9 +41,11 @@ public class ConnAssertNode extends BaseNode {
 		setName(ConnAssertNode.class, "conn assert");
 	}
 
-	BaseNode src;
+	NodeTypeNode src;
+	BaseNode srcUnresolved;
 	RangeSpecNode srcRange;
-	BaseNode tgt;
+	NodeTypeNode tgt;
+	BaseNode tgtUnresolved;
 	RangeSpecNode tgtRange;
 
 	/**
@@ -53,12 +54,12 @@ public class ConnAssertNode extends BaseNode {
 	public ConnAssertNode(IdentNode src, RangeSpecNode srcRange,
 						  IdentNode tgt, RangeSpecNode tgtRange) {
 		super(src.getCoords());
-		this.src = src;
-		becomeParent(this.src);
+		this.srcUnresolved = src;
+		becomeParent(this.srcUnresolved);
 		this.srcRange = srcRange;
 		becomeParent(this.srcRange);
-		this.tgt = tgt;
-		becomeParent(this.tgt);
+		this.tgtUnresolved = tgt;
+		becomeParent(this.tgtUnresolved);
 		this.tgtRange = tgtRange;
 		becomeParent(this.tgtRange);
 	}
@@ -66,9 +67,9 @@ public class ConnAssertNode extends BaseNode {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(src);
+		children.add(getValidVersion(srcUnresolved, src));
 		children.add(srcRange);
-		children.add(tgt);
+		children.add(getValidVersion(tgtUnresolved, tgt));
 		children.add(tgtRange);
 		return children;
 	}
@@ -91,21 +92,20 @@ public class ConnAssertNode extends BaseNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver nodeResolver = new DeclTypeResolver(NodeTypeNode.class);
-		BaseNode resolved = nodeResolver.resolve(src);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		src = ownedResolutionResult(src, resolved);
-		resolved = nodeResolver.resolve(tgt);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		tgt = ownedResolutionResult(tgt, resolved);
+		DeclarationTypeResolver<NodeTypeNode> nodeResolver = 
+			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+		src = nodeResolver.resolve(srcUnresolved, this);
+		successfullyResolved = src!=null && successfullyResolved;
+		tgt = nodeResolver.resolve(tgtUnresolved, this);
+		successfullyResolved = tgt!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = src.resolve() && successfullyResolved;
+		successfullyResolved = (src!=null ? src.resolve() : false) && successfullyResolved;
 		successfullyResolved = srcRange.resolve() && successfullyResolved;
-		successfullyResolved = tgt.resolve() && successfullyResolved;
+		successfullyResolved = (tgt!=null ? tgt.resolve() : false) && successfullyResolved;
 		successfullyResolved = tgtRange.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
