@@ -21,7 +21,7 @@ grgen: .grammar
 	fi
 
 .generator_build: dir .grammar
-	find de -type f -name "*.java" | xargs javac -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR)" -source 1.5
+	find de -type f -name "*.java" | xargs javac -d build -classpath "$(ANTLR_JAR);$(JARGS_JAR)" -source 1.5 -target 1.5
 	jar -cf grgen.jar -C build .
 	cp grgen.jar $(GRGENNET)
 	@touch .generator_build
