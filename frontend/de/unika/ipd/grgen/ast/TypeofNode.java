@@ -82,9 +82,11 @@ public class TypeofNode extends ExprNode
 			new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 		
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		successfullyResolved = (resolved.fst!=null || resolved.snd!=null) && successfullyResolved;
-		entityEdgeDecl = resolved.fst;
-		entityNodeDecl = resolved.snd;
+		successfullyResolved = (resolved != null) && successfullyResolved;
+		if (resolved != null) {
+			entityEdgeDecl = resolved.fst;
+			entityNodeDecl = resolved.snd;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -104,8 +106,7 @@ public class TypeofNode extends ExprNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		Checker entityChecker = new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class});
-		return entityChecker.check(getValidResolvedVersion(entityEdgeDecl, entityNodeDecl), error);
+		return true;
 	}
 
 	protected IR constructIR() {

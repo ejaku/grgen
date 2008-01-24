@@ -81,9 +81,11 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
-		typeNodeDecl = resolved.fst;
-		typeTypeDecl = resolved.snd;
+		successfullyResolved = (resolved != null) && successfullyResolved;
+		if (resolved != null) {
+			typeNodeDecl = resolved.fst;
+			typeTypeDecl = resolved.snd;
+		}
 		old = nodeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result

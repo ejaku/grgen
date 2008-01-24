@@ -94,9 +94,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
-		typeNodeDecl = resolved.fst;
-		typeTypeDecl = resolved.snd;
+		successfullyResolved = (resolved != null) && successfullyResolved;
+		if (resolved != null) {
+			typeNodeDecl = resolved.fst;
+			typeTypeDecl = resolved.snd;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

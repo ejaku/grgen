@@ -46,9 +46,13 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode>
 	public Pair<R,S> resolve(BaseNode n, BaseNode parent) {
 		if(n instanceof IdentNode) {
 			Pair<R,S> pair = resolve((IdentNode)n);
-			assert(pair.fst==null || pair.snd==null);
-			parent.becomeParent(pair.fst);
-			parent.becomeParent(pair.snd);
+			if (pair != null) {
+				// TODO: crash if R is a S -> remove it?
+				assert(pair.fst==null || pair.snd==null);
+				
+				parent.becomeParent(pair.fst);
+				parent.becomeParent(pair.snd);
+			}
 			return pair;
 		}
 		
@@ -70,7 +74,7 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode>
 	
 	/** resolves n to node of type R or S, via declaration 
 	 *  returns null if n's declaration can't be cast to R/S */
-	public Pair<R,S> resolve(IdentNode n) {
+	private Pair<R,S> resolve(IdentNode n) {
 		Pair<R,S> pair = new Pair<R,S>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {
@@ -85,6 +89,6 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode>
 		
 		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
 				" but a " + Util.getStrListWithOr(classes, BaseNode.class, "getUseStr") + " is expected");
-		return pair;
+		return null;
 	}
 }

@@ -81,13 +81,15 @@ public class HomNode extends BaseNode {
 			new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
 			Pair<NodeDeclNode, EdgeDeclNode> resolved = resolver.resolve(childrenUnresolved.get(i), this);
-			if(resolved.fst!=null) {
-				childrenNode.add(resolved.fst);
+			successfullyResolved = (resolved != null) && successfullyResolved;
+			if (resolved != null) {
+				if(resolved.fst!=null) {
+					childrenNode.add(resolved.fst);
+				}
+				if(resolved.snd!=null) {
+					childrenEdge.add(resolved.snd);
+				}
 			}
-			if(resolved.snd!=null) {
-				childrenEdge.add(resolved.snd);
-			}
-			successfullyResolved = (resolved.fst!=null || resolved.snd!=null) && successfullyResolved;
 		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {

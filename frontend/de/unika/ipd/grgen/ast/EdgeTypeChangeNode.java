@@ -82,9 +82,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		boolean successfullyResolved = true;
 		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved.fst != null || resolved.snd != null) && successfullyResolved;
-		typeEdgeDecl = resolved.fst;
-		typeTypeDecl = resolved.snd;
+		successfullyResolved = (resolved != null) && successfullyResolved;
+		if (resolved != null) {
+			typeEdgeDecl = resolved.fst;
+			typeTypeDecl = resolved.snd;
+		}
 		old = edgeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old != null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
