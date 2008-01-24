@@ -24,9 +24,6 @@ For Linux:
 
       tar -xjf GrGenNET.tar.bz2
 
-  - Edit the <GrGenNETPath>/bin/ycomp script by replacing "<GrGenNETPath>" by
-    your chosen path.
-
 For Windows:
   - Unpack GrGenNET.tar.bz2 to a folder of your choice (referred to as
     <GrGenNETPath> in the following)
@@ -41,9 +38,6 @@ For Windows:
     ATTENTION: Do NOT add ""s around any part of the path, even if it
       contains spaces! Otherwise yComp, a graph visualisation tool, will not
       run out of GrShell!
-
-  - Edit <GrGenNETPath>\bin\yComp.bat by replacing "<GrGenNETPath>" by
-    your chosen path.
 
 
 RUN
