@@ -373,7 +373,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         while(true)
                         {
-                            neededFiles.Add(ReadString(charStream) + ".gm");
+                            neededFiles.Add(basePath + ReadString(charStream) + ".gm");
                             IgnoreSpace(charStream);
                             curChar = charStream.ReadChar();
                             if(curChar == ';') break;

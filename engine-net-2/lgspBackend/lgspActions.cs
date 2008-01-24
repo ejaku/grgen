@@ -290,6 +290,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPMatches matches = DynamicMatch(graph, 1, parameters);
             if(matches.Count <= 0) return null;
+
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
                 return rulePattern.Modify(graph, matches.matches.First);
             else
