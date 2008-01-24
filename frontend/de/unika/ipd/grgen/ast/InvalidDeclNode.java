@@ -26,8 +26,6 @@ import java.util.Vector;
  */
 public class InvalidDeclNode extends DeclNode {
 
-
-
 	static {
 		setName(InvalidDeclNode.class, "invalid declaration");
 	}
@@ -73,5 +71,11 @@ public class InvalidDeclNode extends DeclNode {
 
 	public String toString() {
 		return "undeclared identifier";
+	}
+
+	@Override
+	public BaseNode getDeclType()
+	{
+		return typeUnresolved;
 	}
 }

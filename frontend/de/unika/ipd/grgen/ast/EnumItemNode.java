@@ -26,7 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
@@ -44,6 +44,7 @@ public class EnumItemNode extends MemberDeclNode {
 	}
 
 	ExprNode value;
+	private EnumTypeNode type;
 
 	/** Position of this item in the enum. */
 	private final int pos;
@@ -62,7 +63,7 @@ public class EnumItemNode extends MemberDeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(value);
 		return children;
 	}
@@ -84,25 +85,24 @@ public class EnumItemNode extends MemberDeclNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(typeUnresolved);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
+		DeclarationTypeResolver<EnumTypeNode> typeResolver =
+			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = type!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
+		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
 		successfullyResolved = value.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		Checker typeChecker = new SimpleChecker(new Class[] { EnumTypeNode.class });
 		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			& typeChecker.check(typeUnresolved, error)
 			& (new SimpleChecker(ExprNode.class)).check(value, error);
 	}
 
@@ -150,6 +150,12 @@ public class EnumItemNode extends MemberDeclNode {
 		}
 
 		return true;
+	}
+
+	/** @return The type node of the declaration */
+	@Override
+	public BaseNode getDeclType() {
+		return getValidVersion(typeUnresolved, type);
 	}
 
 	protected ConstNode getValue() {

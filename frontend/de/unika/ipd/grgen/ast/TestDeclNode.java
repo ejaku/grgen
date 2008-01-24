@@ -354,5 +354,11 @@ public class TestDeclNode extends ActionDeclNode {
 
 		return test;
 	}
+
+	@Override
+	public BaseNode getDeclType()
+	{
+		return typeUnresolved;
+	}
 }
 

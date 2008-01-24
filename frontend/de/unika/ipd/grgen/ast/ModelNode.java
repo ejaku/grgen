@@ -188,6 +188,12 @@ public class ModelNode extends DeclNode {
 		return true;
 	}
 
+	@Override
+	public BaseNode getDeclType()
+	{
+		return typeUnresolved;
+	}
+
 	/*
 	 Collection<BaseNode> alreadyExtended = new HashSet<BaseNode>();
 	 TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();

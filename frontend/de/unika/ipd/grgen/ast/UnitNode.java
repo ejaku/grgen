@@ -163,4 +163,10 @@ public class UnitNode extends DeclNode
 
 		return res;
 	}
+
+	@Override
+	public BaseNode getDeclType()
+	{
+		return typeUnresolved;
+	}
 }

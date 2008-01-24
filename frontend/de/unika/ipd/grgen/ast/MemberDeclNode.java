@@ -27,8 +27,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
@@ -41,9 +40,8 @@ public class MemberDeclNode extends DeclNode {
 	static {
 		setName(MemberDeclNode.class, "member declaration");
 	}
-
-	protected static final Resolver typeResolver =
-		new DeclTypeResolver(TypeNode.class);
+	
+	TypeNode type;
 
 	/**
 	 * @param n Identifier which declared the member.
@@ -57,7 +55,7 @@ public class MemberDeclNode extends DeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		return children;
 	}
 
@@ -77,24 +75,31 @@ public class MemberDeclNode extends DeclNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		BaseNode resolved = typeResolver.resolve(typeUnresolved);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		typeUnresolved = ownedResolutionResult(typeUnresolved, resolved);
+		DeclarationTypeResolver<TypeNode> typeResolver =
+			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = type!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
+		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
+	}
+
+	/** @return The type node of the declaration */
+	@Override
+	public BaseNode getDeclType() {
+		return getValidVersion(typeUnresolved, type);
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
 		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			& typeChecker.check(typeUnresolved, error);
+			& typeChecker.check(type, error);
 	}
 
 	protected IR constructIR() {

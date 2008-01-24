@@ -100,4 +100,10 @@ public class TypeDeclNode extends DeclNode {
 	public static String getUseStr() {
 		return "type";
 	}
+
+	@Override
+	public BaseNode getDeclType()
+	{
+		return typeUnresolved;
+	}
 }
