@@ -47,9 +47,6 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode>
 		if(n instanceof IdentNode) {
 			Pair<R,S> pair = resolve((IdentNode)n);
 			if (pair != null) {
-				// TODO: crash if R is a S -> remove it?
-				assert(pair.fst==null || pair.snd==null);
-				
 				parent.becomeParent(pair.fst);
 				parent.becomeParent(pair.snd);
 			}
