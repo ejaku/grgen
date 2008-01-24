@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a1": return @a1;
+				case "a1": return this.@a1;
 			}
 			throw new NullReferenceException(
 				"The node type \"A1\" does not have the attribute \" + attrName + \"\"!");
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a1": @a1 = (int) value; return;
+				case "a1": this.@a1 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"A1\" does not have the attribute \" + attrName + \"\"!");
@@ -330,7 +330,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a2": return @a2;
+				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
 				"The node type \"A2\" does not have the attribute \" + attrName + \"\"!");
@@ -339,7 +339,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a2": @a2 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"A2\" does not have the attribute \" + attrName + \"\"!");
@@ -480,7 +480,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a3": return @a3;
+				case "a3": return this.@a3;
 			}
 			throw new NullReferenceException(
 				"The node type \"A3\" does not have the attribute \" + attrName + \"\"!");
@@ -489,7 +489,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a3": @a3 = (int) value; return;
+				case "a3": this.@a3 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"A3\" does not have the attribute \" + attrName + \"\"!");
@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": return @a4;
+				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
 				"The node type \"A4\" does not have the attribute \" + attrName + \"\"!");
@@ -632,7 +632,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": @a4 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"A4\" does not have the attribute \" + attrName + \"\"!");
@@ -774,7 +774,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a5": return @a5;
+				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
 				"The node type \"A5\" does not have the attribute \" + attrName + \"\"!");
@@ -783,7 +783,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a5": @a5 = (int) value; return;
+				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"A5\" does not have the attribute \" + attrName + \"\"!");
@@ -928,8 +928,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b21": return @b21;
-				case "a2": return @a2;
+				case "b21": return this.@b21;
+				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
 				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
@@ -938,8 +938,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b21": @b21 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
+				case "b21": this.@b21 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
@@ -1100,8 +1100,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b22": return @b22;
-				case "a2": return @a2;
+				case "b22": return this.@b22;
+				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
 				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
@@ -1110,8 +1110,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b22": @b22 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
@@ -1272,8 +1272,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b23": return @b23;
-				case "a2": return @a2;
+				case "b23": return this.@b23;
+				case "a2": return this.@a2;
 			}
 			throw new NullReferenceException(
 				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
@@ -1282,8 +1282,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b23": @b23 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
+				case "b23": this.@b23 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
@@ -1444,8 +1444,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b41": return @b41;
-				case "a4": return @a4;
+				case "b41": return this.@b41;
+				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
 				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
@@ -1454,8 +1454,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b41": @b41 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
@@ -1617,8 +1617,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b42": return @b42;
-				case "a4": return @a4;
+				case "b42": return this.@b42;
+				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
 				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
@@ -1627,8 +1627,8 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b42": @b42 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
+				case "b42": this.@b42 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
@@ -1779,7 +1779,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": return @a4;
+				case "a4": return this.@a4;
 			}
 			throw new NullReferenceException(
 				"The node type \"B43\" does not have the attribute \" + attrName + \"\"!");
@@ -1788,7 +1788,7 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": @a4 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B43\" does not have the attribute \" + attrName + \"\"!");
@@ -1954,9 +1954,9 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c221": return @c221;
-				case "a2": return @a2;
-				case "b22": return @b22;
+				case "c221": return this.@c221;
+				case "a2": return this.@a2;
+				case "b22": return this.@b22;
 			}
 			throw new NullReferenceException(
 				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
@@ -1965,9 +1965,9 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c221": @c221 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
-				case "b22": @b22 = (int) value; return;
+				case "c221": this.@c221 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
@@ -2169,11 +2169,11 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c222_411": return @c222_411;
-				case "a2": return @a2;
-				case "b22": return @b22;
-				case "a4": return @a4;
-				case "b41": return @b41;
+				case "c222_411": return this.@c222_411;
+				case "a2": return this.@a2;
+				case "b22": return this.@b22;
+				case "a4": return this.@a4;
+				case "b41": return this.@b41;
 			}
 			throw new NullReferenceException(
 				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
@@ -2182,11 +2182,11 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c222_411": @c222_411 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
-				case "b22": @b22 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
-				case "b41": @b41 = (int) value; return;
+				case "c222_411": this.@c222_411 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
@@ -2416,10 +2416,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": return @a4;
-				case "b41": return @b41;
-				case "b42": return @b42;
-				case "a5": return @a5;
+				case "a4": return this.@a4;
+				case "b41": return this.@b41;
+				case "b42": return this.@b42;
+				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
 				"The node type \"C412_421_431_51\" does not have the attribute \" + attrName + \"\"!");
@@ -2428,10 +2428,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "a4": @a4 = (int) value; return;
-				case "b41": @b41 = (int) value; return;
-				case "b42": @b42 = (int) value; return;
-				case "a5": @a5 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
+				case "b42": this.@b42 = (int) value; return;
+				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C412_421_431_51\" does not have the attribute \" + attrName + \"\"!");
@@ -2645,9 +2645,9 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c432_422": return @c432_422;
-				case "a4": return @a4;
-				case "b42": return @b42;
+				case "c432_422": return this.@c432_422;
+				case "a4": return this.@a4;
+				case "b42": return this.@b42;
 			}
 			throw new NullReferenceException(
 				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
@@ -2656,9 +2656,9 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c432_422": @c432_422 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
-				case "b42": @b42 = (int) value; return;
+				case "c432_422": this.@c432_422 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b42": this.@b42 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
@@ -2896,13 +2896,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d11_2221": return @d11_2221;
-				case "a1": return @a1;
-				case "a2": return @a2;
-				case "b22": return @b22;
-				case "a4": return @a4;
-				case "b41": return @b41;
-				case "c222_411": return @c222_411;
+				case "d11_2221": return this.@d11_2221;
+				case "a1": return this.@a1;
+				case "a2": return this.@a2;
+				case "b22": return this.@b22;
+				case "a4": return this.@a4;
+				case "b41": return this.@b41;
+				case "c222_411": return this.@c222_411;
 			}
 			throw new NullReferenceException(
 				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
@@ -2911,13 +2911,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d11_2221": @d11_2221 = (int) value; return;
-				case "a1": @a1 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
-				case "b22": @b22 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
-				case "b41": @b41 = (int) value; return;
-				case "c222_411": @c222_411 = (int) value; return;
+				case "d11_2221": this.@d11_2221 = (int) value; return;
+				case "a1": this.@a1 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
+				case "c222_411": this.@c222_411 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
@@ -3213,14 +3213,14 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d2211_2222_31": return @d2211_2222_31;
-				case "a2": return @a2;
-				case "b22": return @b22;
-				case "c221": return @c221;
-				case "a4": return @a4;
-				case "b41": return @b41;
-				case "c222_411": return @c222_411;
-				case "a3": return @a3;
+				case "d2211_2222_31": return this.@d2211_2222_31;
+				case "a2": return this.@a2;
+				case "b22": return this.@b22;
+				case "c221": return this.@c221;
+				case "a4": return this.@a4;
+				case "b41": return this.@b41;
+				case "c222_411": return this.@c222_411;
+				case "a3": return this.@a3;
 			}
 			throw new NullReferenceException(
 				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
@@ -3229,14 +3229,14 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d2211_2222_31": @d2211_2222_31 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
-				case "b22": @b22 = (int) value; return;
-				case "c221": @c221 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
-				case "b41": @b41 = (int) value; return;
-				case "c222_411": @c222_411 = (int) value; return;
-				case "a3": @a3 = (int) value; return;
+				case "d2211_2222_31": this.@d2211_2222_31 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
+				case "c221": this.@c221 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
+				case "c222_411": this.@c222_411 = (int) value; return;
+				case "a3": this.@a3 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
@@ -3480,13 +3480,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d231_4121": return @d231_4121;
-				case "a2": return @a2;
-				case "b23": return @b23;
-				case "a4": return @a4;
-				case "b41": return @b41;
-				case "b42": return @b42;
-				case "a5": return @a5;
+				case "d231_4121": return this.@d231_4121;
+				case "a2": return this.@a2;
+				case "b23": return this.@b23;
+				case "a4": return this.@a4;
+				case "b41": return this.@b41;
+				case "b42": return this.@b42;
+				case "a5": return this.@a5;
 			}
 			throw new NullReferenceException(
 				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");
@@ -3495,13 +3495,13 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d231_4121": @d231_4121 = (int) value; return;
-				case "a2": @a2 = (int) value; return;
-				case "b23": @b23 = (int) value; return;
-				case "a4": @a4 = (int) value; return;
-				case "b41": @b41 = (int) value; return;
-				case "b42": @b42 = (int) value; return;
-				case "a5": @a5 = (int) value; return;
+				case "d231_4121": this.@d231_4121 = (int) value; return;
+				case "a2": this.@a2 = (int) value; return;
+				case "b23": this.@b23 = (int) value; return;
+				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
+				case "b42": this.@b42 = (int) value; return;
+				case "a5": this.@a5 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");

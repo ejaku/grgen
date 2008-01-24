@@ -12,30 +12,33 @@ namespace de.unika.ipd.grGen.actions.test
 		private static Rule_testRule instance = null;
 		public static Rule_testRule Instance { get { if (instance==null) instance = new Rule_testRule(); return instance; } }
 
+		public static NodeType[] node_a_AllowedTypes = null;
 		public static NodeType[] node_f_AllowedTypes = null;
 		public static NodeType[] node_m_AllowedTypes = null;
-		public static NodeType[] node_a_AllowedTypes = null;
+		public static bool[] node_a_IsAllowedType = null;
 		public static bool[] node_f_IsAllowedType = null;
 		public static bool[] node_m_IsAllowedType = null;
-		public static bool[] node_a_IsAllowedType = null;
-		public static EdgeType[] edge__edge1_AllowedTypes = null;
 		public static EdgeType[] edge__edge0_AllowedTypes = null;
-		public static bool[] edge__edge1_IsAllowedType = null;
+		public static EdgeType[] edge__edge1_AllowedTypes = null;
 		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge__edge1_IsAllowedType = null;
 
-		public enum NodeNums { @f  = 1, @m, @a, };
-		public enum EdgeNums { @_edge1 = 1, @_edge0, };
+		public enum NodeNums { @a  = 1, @f, @m, };
+		public enum EdgeNums { @_edge0 = 1, @_edge1, };
+		public enum PatternNums { };
 
 		private Rule_testRule()
 		{
+			PatternNode node_a = new PatternNode((int) NodeTypes.@D231_4121, "node_a", node_a_AllowedTypes, node_a_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_f = new PatternNode((int) NodeTypes.@B21, "node_f", node_f_AllowedTypes, node_f_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_m = new PatternNode((int) NodeTypes.@D2211_2222_31, "node_m", node_m_AllowedTypes, node_m_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_a = new PatternNode((int) NodeTypes.@D231_4121, "node_a", node_a_AllowedTypes, node_a_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_f, node_m, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge0 = new PatternEdge(node_a, node_f, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_f, node_m, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_f, node_m, node_a }, 
-				new PatternEdge[] { edge__edge1, edge__edge0 }, 
+				"rule testRule.pattern",
+				new PatternNode[] { node_a, node_f, node_m }, 
+				new PatternEdge[] { edge__edge0, edge__edge1 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -114,6 +117,7 @@ namespace de.unika.ipd.grGen.actions.test
 		{
 			ActionName = "testRule";
 			this.RulePattern = Rule_testRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -173,11 +177,11 @@ namespace de.unika.ipd.grGen.actions.test
                             continue;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
-                        match.Nodes[0] = node_cur_node_f;
-                        match.Nodes[1] = node_cur_node_m;
-                        match.Nodes[2] = node_cur_node_a;
-                        match.Edges[0] = edge_cur_edge__edge1;
-                        match.Edges[1] = edge_cur_edge__edge0;
+                        match.Nodes[0] = node_cur_node_a;
+                        match.Nodes[1] = node_cur_node_f;
+                        match.Nodes[2] = node_cur_node_m;
+                        match.Edges[0] = edge_cur_edge__edge0;
+                        match.Edges[1] = edge_cur_edge__edge1;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {

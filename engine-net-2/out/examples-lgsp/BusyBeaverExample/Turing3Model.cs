@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(attrName)
 			{
-				case "value": return @value;
+				case "value": return this.@value;
 			}
 			throw new NullReferenceException(
 				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
@@ -196,7 +196,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(attrName)
 			{
-				case "value": @value = (int) value; return;
+				case "value": this.@value = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"BandPosition\" does not have the attribute \" + attrName + \"\"!");
@@ -426,7 +426,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(attrName)
 			{
-				case "value": return @value;
+				case "value": return this.@value;
 			}
 			throw new NullReferenceException(
 				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");
@@ -435,7 +435,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			switch(attrName)
 			{
-				case "value": @value = (int) value; return;
+				case "value": this.@value = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"WriteValue\" does not have the attribute \" + attrName + \"\"!");

@@ -27,6 +27,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @wv  = 1, @_node0, @bp, };
 		public enum EdgeNums { @_edge0 = 1, };
+		public enum PatternNums { };
 
 		private Rule_ensureMoveLeftValidRule()
 		{
@@ -35,8 +36,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
 			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule ensureMoveLeftValidRule.pattern",
 				new PatternNode[] { node_wv, node__node0, node_bp }, 
 				new PatternEdge[] { edge__edge0 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -61,8 +64,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node__node0, node_bp, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule ensureMoveLeftValidRule.pattern.negative.pattern",
 				new PatternNode[] { neg_0_node__node0, node_bp }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -116,6 +121,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "ensureMoveLeftValidRule";
 			this.RulePattern = Rule_ensureMoveLeftValidRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -144,6 +150,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @wv  = 1, @_node0, @bp, };
 		public enum EdgeNums { @_edge0 = 1, };
+		public enum PatternNums { };
 
 		private Rule_ensureMoveRightValidRule()
 		{
@@ -152,8 +159,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
 			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule ensureMoveRightValidRule.pattern",
 				new PatternNode[] { node_wv, node__node0, node_bp }, 
 				new PatternEdge[] { edge__edge0 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -178,8 +187,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_0_edge__edge0 = new PatternEdge(node_bp, neg_0_node__node0, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule ensureMoveRightValidRule.pattern.negative.pattern",
 				new PatternNode[] { node_bp, neg_0_node__node0 }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -233,6 +244,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "ensureMoveRightValidRule";
 			this.RulePattern = Rule_ensureMoveRightValidRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -261,6 +273,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @wv  = 1, @s, @lbp, @bp, };
 		public enum EdgeNums { @_edge0 = 1, @_edge1, };
+		public enum PatternNums { };
 
 		private Rule_moveLeftRule()
 		{
@@ -271,8 +284,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge1 = new PatternEdge(node_lbp, node_bp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule moveLeftRule.pattern",
 				new PatternNode[] { node_wv, node_s, node_lbp, node_bp }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -326,6 +341,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "moveLeftRule";
 			this.RulePattern = Rule_moveLeftRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -354,6 +370,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @wv  = 1, @s, @bp, @rbp, };
 		public enum EdgeNums { @_edge0 = 1, @_edge1, };
+		public enum PatternNums { };
 
 		private Rule_moveRightRule()
 		{
@@ -364,8 +381,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge1 = new PatternEdge(node_bp, node_rbp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule moveRightRule.pattern",
 				new PatternNode[] { node_wv, node_s, node_bp, node_rbp }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -419,6 +438,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "moveRightRule";
 			this.RulePattern = Rule_moveRightRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -443,6 +463,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @s  = 1, @wv, @bp, };
 		public enum EdgeNums { @rv = 1, };
+		public enum PatternNums { };
 
 		private Rule_readOneRule()
 		{
@@ -452,8 +473,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readOne, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, PatternElementType.Normal, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
+				"rule readOneRule.pattern",
 				new PatternNode[] { node_s, node_wv, node_bp }, 
 				new PatternEdge[] { edge_rv }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { cond_0, },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -519,6 +542,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "readOneRule";
 			this.RulePattern = Rule_readOneRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -543,6 +567,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 
 		public enum NodeNums { @bp  = 1, @s, @wv, };
 		public enum EdgeNums { @rv = 1, };
+		public enum PatternNums { };
 
 		private Rule_readZeroRule()
 		{
@@ -552,8 +577,10 @@ namespace de.unika.ipd.grGen.actions.Turing3
 			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readZero, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, PatternElementType.Normal, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
+				"rule readZeroRule.pattern",
 				new PatternNode[] { node_bp, node_s, node_wv }, 
 				new PatternEdge[] { edge_rv }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { cond_0, },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -619,6 +646,7 @@ namespace de.unika.ipd.grGen.actions.Turing3
 		{
 			ActionName = "readZeroRule";
 			this.RulePattern = Rule_readZeroRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { };

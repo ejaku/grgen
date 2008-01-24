@@ -1222,18 +1222,18 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		private MutexPimpedNodeModel nodeModel = new MutexPimpedNodeModel();
 		private MutexPimpedEdgeModel edgeModel = new MutexPimpedEdgeModel();
 		private ValidateInfo[] validateInfos = {
-			new ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, int.MaxValue, 0, int.MaxValue),
-			new ValidateInfo(EdgeType_held_by.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, int.MaxValue, 0, int.MaxValue),
+			new ValidateInfo(EdgeType_blocked.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_held_by.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
 			new ValidateInfo(EdgeType_next.typeVar, NodeType_Process.typeVar, NodeType_Process.typeVar, 0, 1, 0, 1),
-			new ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, int.MaxValue, 0, int.MaxValue),
-			new ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, int.MaxValue, 0, int.MaxValue),
-			new ValidateInfo(EdgeType_token.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, int.MaxValue, 0, int.MaxValue),
+			new ValidateInfo(EdgeType_release.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_request.typeVar, NodeType_Process.typeVar, NodeType_Resource.typeVar, 0, long.MaxValue, 0, long.MaxValue),
+			new ValidateInfo(EdgeType_token.typeVar, NodeType_Resource.typeVar, NodeType_Process.typeVar, 1, 1, 0, long.MaxValue),
 		};
 
 		public String Name { get { return "MutexPimped"; } }
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "0ecfadd9bae7c1bee09ddc57f323923f"; } }
+		public String MD5Hash { get { return "44f82b79c60b768ffa0a3f9a5c7dee64"; } }
 	}
 }

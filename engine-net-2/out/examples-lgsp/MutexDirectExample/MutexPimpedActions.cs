@@ -21,13 +21,16 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @p  = 1, };
 		public enum EdgeNums { };
+		public enum PatternNums { };
 
 		private Rule_aux_attachResource()
 		{
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule aux_attachResource.pattern",
 				new PatternNode[] { node_p }, 
 				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[1, 1] {
 					{ true, },
@@ -46,8 +49,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_r", neg_0_node_r_AllowedTypes, neg_0_node_r_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule aux_attachResource.pattern.negative.pattern",
 				new PatternNode[] { neg_0_node_r, node_p }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -101,6 +106,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "aux_attachResource";
 			this.RulePattern = Rule_aux_attachResource.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F,  };
 			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -115,29 +121,32 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		public static Rule_blockedRule Instance { get { if (instance==null) instance = new Rule_blockedRule(); return instance; } }
 
 		public static NodeType[] node_r_AllowedTypes = null;
-		public static NodeType[] node_p2_AllowedTypes = null;
 		public static NodeType[] node_p1_AllowedTypes = null;
+		public static NodeType[] node_p2_AllowedTypes = null;
 		public static bool[] node_r_IsAllowedType = null;
-		public static bool[] node_p2_IsAllowedType = null;
 		public static bool[] node_p1_IsAllowedType = null;
-		public static EdgeType[] edge_hb_AllowedTypes = null;
+		public static bool[] node_p2_IsAllowedType = null;
 		public static EdgeType[] edge_req_AllowedTypes = null;
-		public static bool[] edge_hb_IsAllowedType = null;
+		public static EdgeType[] edge_hb_AllowedTypes = null;
 		public static bool[] edge_req_IsAllowedType = null;
+		public static bool[] edge_hb_IsAllowedType = null;
 
-		public enum NodeNums { @r  = 1, @p2, @p1, };
-		public enum EdgeNums { @hb = 1, @req, };
+		public enum NodeNums { @r  = 1, @p1, @p2, };
+		public enum EdgeNums { @req = 1, @hb, };
+		public enum PatternNums { };
 
 		private Rule_blockedRule()
 		{
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_r, node_p2, node_p1 }, 
-				new PatternEdge[] { edge_hb, edge_req }, 
+				"rule blockedRule.pattern",
+				new PatternNode[] { node_r, node_p1, node_p2 }, 
+				new PatternEdge[] { edge_req, edge_hb }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -192,6 +201,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "blockedRule";
 			this.RulePattern = Rule_blockedRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -205,30 +215,33 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		private static Rule_giveRule instance = null;
 		public static Rule_giveRule Instance { get { if (instance==null) instance = new Rule_giveRule(); return instance; } }
 
+		public static NodeType[] node_r_AllowedTypes = null;
 		public static NodeType[] node_p1_AllowedTypes = null;
 		public static NodeType[] node_p2_AllowedTypes = null;
-		public static NodeType[] node_r_AllowedTypes = null;
+		public static bool[] node_r_IsAllowedType = null;
 		public static bool[] node_p1_IsAllowedType = null;
 		public static bool[] node_p2_IsAllowedType = null;
-		public static bool[] node_r_IsAllowedType = null;
-		public static EdgeType[] edge_n_AllowedTypes = null;
 		public static EdgeType[] edge_rel_AllowedTypes = null;
-		public static bool[] edge_n_IsAllowedType = null;
+		public static EdgeType[] edge_n_AllowedTypes = null;
 		public static bool[] edge_rel_IsAllowedType = null;
+		public static bool[] edge_n_IsAllowedType = null;
 
-		public enum NodeNums { @p1  = 1, @p2, @r, };
-		public enum EdgeNums { @n = 1, @rel, };
+		public enum NodeNums { @r  = 1, @p1, @p2, };
+		public enum EdgeNums { @rel = 1, @n, };
+		public enum PatternNums { };
 
 		private Rule_giveRule()
 		{
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_rel = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@release, "edge_rel", edge_rel_AllowedTypes, edge_rel_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_p1, node_p2, node_r }, 
-				new PatternEdge[] { edge_n, edge_rel }, 
+				"rule giveRule.pattern",
+				new PatternNode[] { node_r, node_p1, node_p2 }, 
+				new PatternEdge[] { edge_rel, edge_n }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -287,8 +300,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "giveRule";
 			this.RulePattern = Rule_giveRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 1.0F,  };
+			EdgeCost = new float[] { 1.0F, 5.5F,  };
 			NegNodeCost = new float[][] { };
 			NegEdgeCost = new float[][] { };
 		}
@@ -313,6 +327,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @r  = 1, @p, };
 		public enum EdgeNums { @b = 1, };
+		public enum PatternNums { };
 
 		private Rule_ignoreRule()
 		{
@@ -320,8 +335,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule ignoreRule.pattern",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_b }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -345,8 +362,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_0_edge_hb = new PatternEdge(neg_0_node_m, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule ignoreRule.pattern.negative.pattern",
 				new PatternNode[] { neg_0_node_m, node_p }, 
 				new PatternEdge[] { neg_0_edge_hb }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -398,6 +417,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "ignoreRule";
 			this.RulePattern = Rule_ignoreRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -411,30 +431,33 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		private static Rule_killRule instance = null;
 		public static Rule_killRule Instance { get { if (instance==null) instance = new Rule_killRule(); return instance; } }
 
+		public static NodeType[] node_p1_AllowedTypes = null;
 		public static NodeType[] node_p_AllowedTypes = null;
 		public static NodeType[] node_p2_AllowedTypes = null;
-		public static NodeType[] node_p1_AllowedTypes = null;
+		public static bool[] node_p1_IsAllowedType = null;
 		public static bool[] node_p_IsAllowedType = null;
 		public static bool[] node_p2_IsAllowedType = null;
-		public static bool[] node_p1_IsAllowedType = null;
-		public static EdgeType[] edge_n2_AllowedTypes = null;
 		public static EdgeType[] edge_n1_AllowedTypes = null;
-		public static bool[] edge_n2_IsAllowedType = null;
+		public static EdgeType[] edge_n2_AllowedTypes = null;
 		public static bool[] edge_n1_IsAllowedType = null;
+		public static bool[] edge_n2_IsAllowedType = null;
 
-		public enum NodeNums { @p  = 1, @p2, @p1, };
-		public enum EdgeNums { @n2 = 1, @n1, };
+		public enum NodeNums { @p1  = 1, @p, @p2, };
+		public enum EdgeNums { @n1 = 1, @n2, };
+		public enum PatternNums { };
 
 		private Rule_killRule()
 		{
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_n1 = new PatternEdge(node_p1, node_p, (int) EdgeTypes.@next, "edge_n1", edge_n1_AllowedTypes, edge_n1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_p, node_p2, node_p1 }, 
-				new PatternEdge[] { edge_n2, edge_n1 }, 
+				"rule killRule.pattern",
+				new PatternNode[] { node_p1, node_p, node_p2 }, 
+				new PatternEdge[] { edge_n1, edge_n2 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -510,6 +533,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "killRule";
 			this.RulePattern = Rule_killRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -528,13 +552,16 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @p  = 1, };
 		public enum EdgeNums { };
+		public enum PatternNums { };
 
 		private Rule_mountRule()
 		{
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule mountRule.pattern",
 				new PatternNode[] { node_p }, 
 				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[1, 1] {
 					{ true, },
@@ -582,6 +609,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "mountRule";
 			this.RulePattern = Rule_mountRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F,  };
 			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { };
@@ -604,6 +632,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @p1  = 1, @p2, };
 		public enum EdgeNums { @n = 1, };
+		public enum PatternNums { };
 
 		private Rule_newRule()
 		{
@@ -611,8 +640,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule newRule.pattern",
 				new PatternNode[] { node_p1, node_p2 }, 
 				new PatternEdge[] { edge_n }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -680,6 +711,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "newRule";
 			this.RulePattern = Rule_newRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 1.0F,  };
 			NegNodeCost = new float[][] { };
@@ -699,26 +731,29 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		public static bool[] node_r_IsAllowedType = null;
 		public static bool[] node_p1_IsAllowedType = null;
 		public static bool[] node_p2_IsAllowedType = null;
-		public static EdgeType[] edge_n_AllowedTypes = null;
 		public static EdgeType[] edge__edge0_AllowedTypes = null;
-		public static bool[] edge_n_IsAllowedType = null;
+		public static EdgeType[] edge_n_AllowedTypes = null;
 		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge_n_IsAllowedType = null;
 		public static EdgeType[] neg_0_edge_req_AllowedTypes = null;
 		public static bool[] neg_0_edge_req_IsAllowedType = null;
 
 		public enum NodeNums { @r  = 1, @p1, @p2, };
-		public enum EdgeNums { @n = 1, @_edge0, };
+		public enum EdgeNums { @_edge0 = 1, @n, };
+		public enum PatternNums { };
 
 		private Rule_passRule()
 		{
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge0 = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@token, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule passRule.pattern",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
-				new PatternEdge[] { edge_n, edge__edge0 }, 
+				new PatternEdge[] { edge__edge0, edge_n }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -743,8 +778,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			{
 			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule passRule.pattern.negative.pattern",
 				new PatternNode[] { node_p1, node_r }, 
 				new PatternEdge[] { neg_0_edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -809,6 +846,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "passRule";
 			this.RulePattern = Rule_passRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 1.0F, }, };
@@ -835,6 +873,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @r  = 1, @p, };
 		public enum EdgeNums { @hb = 1, };
+		public enum PatternNums { };
 
 		private Rule_releaseRule()
 		{
@@ -842,8 +881,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule releaseRule.pattern",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_hb }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -867,8 +908,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_0_edge_req = new PatternEdge(node_p, neg_0_node_m, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule releaseRule.pattern.negative.pattern",
 				new PatternNode[] { node_p, neg_0_node_m }, 
 				new PatternEdge[] { neg_0_edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -926,6 +969,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "releaseRule";
 			this.RulePattern = Rule_releaseRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 1.0F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -939,36 +983,39 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		private static Rule_releaseStarRule instance = null;
 		public static Rule_releaseStarRule Instance { get { if (instance==null) instance = new Rule_releaseStarRule(); return instance; } }
 
-		public static NodeType[] node_r2_AllowedTypes = null;
-		public static NodeType[] node_p2_AllowedTypes = null;
-		public static NodeType[] node_r1_AllowedTypes = null;
 		public static NodeType[] node_p1_AllowedTypes = null;
-		public static bool[] node_r2_IsAllowedType = null;
-		public static bool[] node_p2_IsAllowedType = null;
-		public static bool[] node_r1_IsAllowedType = null;
+		public static NodeType[] node_r1_AllowedTypes = null;
+		public static NodeType[] node_p2_AllowedTypes = null;
+		public static NodeType[] node_r2_AllowedTypes = null;
 		public static bool[] node_p1_IsAllowedType = null;
-		public static EdgeType[] edge_h2_AllowedTypes = null;
-		public static EdgeType[] edge_h1_AllowedTypes = null;
+		public static bool[] node_r1_IsAllowedType = null;
+		public static bool[] node_p2_IsAllowedType = null;
+		public static bool[] node_r2_IsAllowedType = null;
 		public static EdgeType[] edge_rq_AllowedTypes = null;
-		public static bool[] edge_h2_IsAllowedType = null;
-		public static bool[] edge_h1_IsAllowedType = null;
+		public static EdgeType[] edge_h1_AllowedTypes = null;
+		public static EdgeType[] edge_h2_AllowedTypes = null;
 		public static bool[] edge_rq_IsAllowedType = null;
+		public static bool[] edge_h1_IsAllowedType = null;
+		public static bool[] edge_h2_IsAllowedType = null;
 
-		public enum NodeNums { @r2  = 1, @p2, @r1, @p1, };
-		public enum EdgeNums { @h2 = 1, @h1, @rq, };
+		public enum NodeNums { @p1  = 1, @r1, @p2, @r2, };
+		public enum EdgeNums { @rq = 1, @h1, @h2, };
+		public enum PatternNums { };
 
 		private Rule_releaseStarRule()
 		{
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_rq = new PatternEdge(node_p1, node_r1, (int) EdgeTypes.@request, "edge_rq", edge_rq_AllowedTypes, edge_rq_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_r2, node_p2, node_r1, node_p1 }, 
-				new PatternEdge[] { edge_h2, edge_h1, edge_rq }, 
+				"rule releaseStarRule.pattern",
+				new PatternNode[] { node_p1, node_r1, node_p2, node_r2 }, 
+				new PatternEdge[] { edge_rq, edge_h1, edge_h2 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -1029,6 +1076,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "releaseStarRule";
 			this.RulePattern = Rule_releaseStarRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -1055,14 +1103,17 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @p  = 1, @r, };
 		public enum EdgeNums { };
+		public enum PatternNums { };
 
 		private Rule_requestRule()
 		{
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule requestRule.pattern",
 				new PatternNode[] { node_p, node_r }, 
 				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1081,8 +1132,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			{
 			PatternEdge neg_0_edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule requestRule.pattern.negative.pattern",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { neg_0_edge_hb }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1107,8 +1160,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_1_node_m", neg_1_node_m_AllowedTypes, neg_1_node_m_IsAllowedType, PatternElementType.NegElement, -1);
 			PatternEdge neg_1_edge_req = new PatternEdge(node_p, neg_1_node_m, (int) EdgeTypes.@request, "neg_1_edge_req", neg_1_edge_req_AllowedTypes, neg_1_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_1 = new PatternGraph(
+				"rule requestRule.pattern.negative.pattern",
 				new PatternNode[] { node_p, neg_1_node_m }, 
 				new PatternEdge[] { neg_1_edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1162,6 +1217,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "requestRule";
 			this.RulePattern = Rule_requestRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 1.0F,  };
 			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { new float[] { 1.0F, 5.5F, }, new float[] { 5.5F, 5.5F, }, };
@@ -1186,6 +1242,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @r  = 1, @p, };
 		public enum EdgeNums { @t = 1, };
+		public enum PatternNums { };
 
 		private Rule_requestSimpleRule()
 		{
@@ -1193,8 +1250,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule requestSimpleRule.pattern",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_t }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1217,8 +1276,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			{
 			PatternEdge neg_0_edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule requestSimpleRule.pattern.negative.pattern",
 				new PatternNode[] { node_p, node_r }, 
 				new PatternEdge[] { neg_0_edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1272,6 +1333,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "requestSimpleRule";
 			this.RulePattern = Rule_requestSimpleRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 1.0F, }, };
@@ -1285,38 +1347,41 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		private static Rule_requestStarRule instance = null;
 		public static Rule_requestStarRule Instance { get { if (instance==null) instance = new Rule_requestStarRule(); return instance; } }
 
-		public static NodeType[] node_r2_AllowedTypes = null;
-		public static NodeType[] node_p2_AllowedTypes = null;
-		public static NodeType[] node_p1_AllowedTypes = null;
 		public static NodeType[] node_r1_AllowedTypes = null;
-		public static bool[] node_r2_IsAllowedType = null;
-		public static bool[] node_p2_IsAllowedType = null;
-		public static bool[] node_p1_IsAllowedType = null;
+		public static NodeType[] node_p1_AllowedTypes = null;
+		public static NodeType[] node_p2_AllowedTypes = null;
+		public static NodeType[] node_r2_AllowedTypes = null;
 		public static bool[] node_r1_IsAllowedType = null;
-		public static EdgeType[] edge_h2_AllowedTypes = null;
-		public static EdgeType[] edge_n_AllowedTypes = null;
+		public static bool[] node_p1_IsAllowedType = null;
+		public static bool[] node_p2_IsAllowedType = null;
+		public static bool[] node_r2_IsAllowedType = null;
 		public static EdgeType[] edge_h1_AllowedTypes = null;
-		public static bool[] edge_h2_IsAllowedType = null;
-		public static bool[] edge_n_IsAllowedType = null;
+		public static EdgeType[] edge_n_AllowedTypes = null;
+		public static EdgeType[] edge_h2_AllowedTypes = null;
 		public static bool[] edge_h1_IsAllowedType = null;
+		public static bool[] edge_n_IsAllowedType = null;
+		public static bool[] edge_h2_IsAllowedType = null;
 		public static EdgeType[] neg_0_edge_req_AllowedTypes = null;
 		public static bool[] neg_0_edge_req_IsAllowedType = null;
 
-		public enum NodeNums { @r2  = 1, @p2, @p1, @r1, };
-		public enum EdgeNums { @h2 = 1, @n, @h1, };
+		public enum NodeNums { @r1  = 1, @p1, @p2, @r2, };
+		public enum EdgeNums { @h1 = 1, @n, @h2, };
+		public enum PatternNums { };
 
 		private Rule_requestStarRule()
 		{
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_r2, node_p2, node_p1, node_r1 }, 
-				new PatternEdge[] { edge_h2, edge_n, edge_h1 }, 
+				"rule requestStarRule.pattern",
+				new PatternNode[] { node_r1, node_p1, node_p2, node_r2 }, 
+				new PatternEdge[] { edge_h1, edge_n, edge_h2 }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -1343,8 +1408,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			{
 			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r2, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
 			negPattern_0 = new PatternGraph(
+				"rule requestStarRule.pattern.negative.pattern",
 				new PatternNode[] { node_p1, node_r2 }, 
 				new PatternEdge[] { neg_0_edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1398,6 +1465,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "requestStarRule";
 			this.RulePattern = Rule_requestStarRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
@@ -1411,27 +1479,30 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		private static Rule_takeRule instance = null;
 		public static Rule_takeRule Instance { get { if (instance==null) instance = new Rule_takeRule(); return instance; } }
 
-		public static NodeType[] node_p_AllowedTypes = null;
 		public static NodeType[] node_r_AllowedTypes = null;
-		public static bool[] node_p_IsAllowedType = null;
+		public static NodeType[] node_p_AllowedTypes = null;
 		public static bool[] node_r_IsAllowedType = null;
-		public static EdgeType[] edge_req_AllowedTypes = null;
+		public static bool[] node_p_IsAllowedType = null;
 		public static EdgeType[] edge_t_AllowedTypes = null;
-		public static bool[] edge_req_IsAllowedType = null;
+		public static EdgeType[] edge_req_AllowedTypes = null;
 		public static bool[] edge_t_IsAllowedType = null;
+		public static bool[] edge_req_IsAllowedType = null;
 
-		public enum NodeNums { @p  = 1, @r, };
-		public enum EdgeNums { @req = 1, @t, };
+		public enum NodeNums { @r  = 1, @p, };
+		public enum EdgeNums { @t = 1, @req, };
+		public enum PatternNums { };
 
 		private Rule_takeRule()
 		{
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_p, node_r }, 
-				new PatternEdge[] { edge_req, edge_t }, 
+				"rule takeRule.pattern",
+				new PatternNode[] { node_r, node_p }, 
+				new PatternEdge[] { edge_t, edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1493,8 +1564,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "takeRule";
 			this.RulePattern = Rule_takeRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 1.0F,  };
+			EdgeCost = new float[] { 1.0F, 5.5F,  };
 			NegNodeCost = new float[][] { };
 			NegEdgeCost = new float[][] { };
 		}
@@ -1510,23 +1582,26 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		public static NodeType[] node_p_AllowedTypes = null;
 		public static bool[] node_r_IsAllowedType = null;
 		public static bool[] node_p_IsAllowedType = null;
-		public static EdgeType[] edge_hb_AllowedTypes = null;
 		public static EdgeType[] edge_b_AllowedTypes = null;
-		public static bool[] edge_hb_IsAllowedType = null;
+		public static EdgeType[] edge_hb_AllowedTypes = null;
 		public static bool[] edge_b_IsAllowedType = null;
+		public static bool[] edge_hb_IsAllowedType = null;
 
 		public enum NodeNums { @r  = 1, @p, };
-		public enum EdgeNums { @hb = 1, @b, };
+		public enum EdgeNums { @b = 1, @hb, };
+		public enum PatternNums { };
 
 		private Rule_unlockRule()
 		{
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule unlockRule.pattern",
 				new PatternNode[] { node_r, node_p }, 
-				new PatternEdge[] { edge_hb, edge_b }, 
+				new PatternEdge[] { edge_b, edge_hb }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1588,6 +1663,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "unlockRule";
 			this.RulePattern = Rule_unlockRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -1610,6 +1686,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 		public enum NodeNums { @r  = 1, @p, };
 		public enum EdgeNums { @t = 1, };
+		public enum PatternNums { };
 
 		private Rule_unmountRule()
 		{
@@ -1617,8 +1694,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
+				"rule unmountRule.pattern",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_t }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[2, 2] {
 					{ true, false, },
@@ -1675,6 +1754,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "unmountRule";
 			this.RulePattern = Rule_unmountRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -1689,38 +1769,41 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		public static Rule_waitingRule Instance { get { if (instance==null) instance = new Rule_waitingRule(); return instance; } }
 
 		public static NodeType[] node_r_AllowedTypes = null;
-		public static NodeType[] node_p2_AllowedTypes = null;
-		public static NodeType[] node_r1_AllowedTypes = null;
-		public static NodeType[] node_p1_AllowedTypes = null;
 		public static NodeType[] node_r2_AllowedTypes = null;
+		public static NodeType[] node_p1_AllowedTypes = null;
+		public static NodeType[] node_r1_AllowedTypes = null;
+		public static NodeType[] node_p2_AllowedTypes = null;
 		public static bool[] node_r_IsAllowedType = null;
-		public static bool[] node_p2_IsAllowedType = null;
-		public static bool[] node_r1_IsAllowedType = null;
-		public static bool[] node_p1_IsAllowedType = null;
 		public static bool[] node_r2_IsAllowedType = null;
-		public static EdgeType[] edge_req_AllowedTypes = null;
-		public static EdgeType[] edge_hb_AllowedTypes = null;
+		public static bool[] node_p1_IsAllowedType = null;
+		public static bool[] node_r1_IsAllowedType = null;
+		public static bool[] node_p2_IsAllowedType = null;
 		public static EdgeType[] edge_b_AllowedTypes = null;
-		public static bool[] edge_req_IsAllowedType = null;
-		public static bool[] edge_hb_IsAllowedType = null;
+		public static EdgeType[] edge_hb_AllowedTypes = null;
+		public static EdgeType[] edge_req_AllowedTypes = null;
 		public static bool[] edge_b_IsAllowedType = null;
+		public static bool[] edge_hb_IsAllowedType = null;
+		public static bool[] edge_req_IsAllowedType = null;
 
-		public enum NodeNums { @r  = 1, @p2, @r1, @p1, @r2, };
-		public enum EdgeNums { @req = 1, @hb, @b, };
+		public enum NodeNums { @r  = 1, @r2, @p1, @r1, @p2, };
+		public enum EdgeNums { @b = 1, @hb, @req, };
+		public enum PatternNums { };
 
 		private Rule_waitingRule()
 		{
 			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge_b = new PatternEdge(node_r2, node_p1, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				new PatternNode[] { node_r, node_p2, node_r1, node_p1, node_r2 }, 
-				new PatternEdge[] { edge_req, edge_hb, edge_b }, 
+				"rule waitingRule.pattern",
+				new PatternNode[] { node_r, node_r2, node_p1, node_r1, node_p2 }, 
+				new PatternEdge[] { edge_b, edge_hb, edge_req }, 
+				new PatternGraphEmbedding[] {  }, 
 				new Condition[] { },
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
@@ -1795,6 +1878,7 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			ActionName = "waitingRule";
 			this.RulePattern = Rule_waitingRule.Instance;
+			isRule = true;
 			NodeCost = new float[] { 1.0F, 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -1908,10 +1992,10 @@ label0: ;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.Nodes[0] = node_cur_node_r;
-                        match.Nodes[1] = node_cur_node_p2;
-                        match.Nodes[2] = node_cur_node_p1;
-                        match.Edges[0] = edge_cur_edge_hb;
-                        match.Edges[1] = edge_cur_edge_req;
+                        match.Nodes[1] = node_cur_node_p1;
+                        match.Nodes[2] = node_cur_node_p2;
+                        match.Edges[0] = edge_cur_edge_req;
+                        match.Edges[1] = edge_cur_edge_hb;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
@@ -1981,11 +2065,11 @@ label0: ;
                             continue;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
-                        match.Nodes[0] = node_cur_node_p1;
-                        match.Nodes[1] = node_cur_node_p2;
-                        match.Nodes[2] = node_cur_node_r;
-                        match.Edges[0] = edge_cur_edge_n;
-                        match.Edges[1] = edge_cur_edge_rel;
+                        match.Nodes[0] = node_cur_node_r;
+                        match.Nodes[1] = node_cur_node_p1;
+                        match.Nodes[2] = node_cur_node_p2;
+                        match.Edges[0] = edge_cur_edge_rel;
+                        match.Edges[1] = edge_cur_edge_n;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
@@ -2140,11 +2224,11 @@ label1: ;
                             continue;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
-                        match.Nodes[0] = node_cur_node_p;
-                        match.Nodes[1] = node_cur_node_p2;
-                        match.Nodes[2] = node_cur_node_p1;
-                        match.Edges[0] = edge_cur_edge_n2;
-                        match.Edges[1] = edge_cur_edge_n1;
+                        match.Nodes[0] = node_cur_node_p1;
+                        match.Nodes[1] = node_cur_node_p;
+                        match.Nodes[2] = node_cur_node_p2;
+                        match.Edges[0] = edge_cur_edge_n1;
+                        match.Edges[1] = edge_cur_edge_n2;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
@@ -2323,8 +2407,8 @@ label1: ;
                         match.Nodes[0] = node_cur_node_r;
                         match.Nodes[1] = node_cur_node_p1;
                         match.Nodes[2] = node_cur_node_p2;
-                        match.Edges[0] = edge_cur_edge_n;
-                        match.Edges[1] = edge_cur_edge__edge0;
+                        match.Edges[0] = edge_cur_edge__edge0;
+                        match.Edges[1] = edge_cur_edge_n;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
@@ -2419,105 +2503,105 @@ label3: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup edge_h2 
-            int edge_type_id_edge_h2 = 1;
-            for(LGSPEdge edge_head_edge_h2 = graph.edgesByTypeHeads[edge_type_id_edge_h2], edge_cur_edge_h2 = edge_head_edge_h2.typeNext; edge_cur_edge_h2 != edge_head_edge_h2; edge_cur_edge_h2 = edge_cur_edge_h2.typeNext)
+            // Lookup edge_h1 
+            int edge_type_id_edge_h1 = 1;
+            for(LGSPEdge edge_head_edge_h1 = graph.edgesByTypeHeads[edge_type_id_edge_h1], edge_cur_edge_h1 = edge_head_edge_h1.typeNext; edge_cur_edge_h1 != edge_head_edge_h1; edge_cur_edge_h1 = edge_cur_edge_h1.typeNext)
             {
-                bool edge_cur_edge_h2_prevIsMatched = edge_cur_edge_h2.isMatched;
-                edge_cur_edge_h2.isMatched = true;
-                // Implicit source node_r2 from edge_h2 
-                LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
-                if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
-                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                bool edge_cur_edge_h1_prevIsMatched = edge_cur_edge_h1.isMatched;
+                edge_cur_edge_h1.isMatched = true;
+                // Implicit source node_r1 from edge_h1 
+                LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
+                if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                     continue;
                 }
-                bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
-                node_cur_node_r2.isMatched = true;
-                // Implicit target node_p2 from edge_h2 
-                LGSPNode node_cur_node_p2 = edge_cur_edge_h2.target;
+                bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
+                node_cur_node_r1.isMatched = true;
+                // Implicit target node_p2 from edge_h1 
+                LGSPNode node_cur_node_p2 = edge_cur_edge_h1.target;
                 if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
-                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                     continue;
                 }
                 bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
                 node_cur_node_p2.isMatched = true;
-                // Extend incoming edge_h1 from node_p2 
-                LGSPEdge edge_head_edge_h1 = node_cur_node_p2.inhead;
-                if(edge_head_edge_h1 != null)
+                // Extend incoming edge_rq from node_r1 
+                LGSPEdge edge_head_edge_rq = node_cur_node_r1.inhead;
+                if(edge_head_edge_rq != null)
                 {
-                    LGSPEdge edge_cur_edge_h1 = edge_head_edge_h1;
+                    LGSPEdge edge_cur_edge_rq = edge_head_edge_rq;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h1.type.TypeID]) {
+                        if(!EdgeType_request.isMyType[edge_cur_edge_rq.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_edge_h1.isMatched
-                            && edge_cur_edge_h1==edge_cur_edge_h2
+                        // Implicit source node_p1 from edge_rq 
+                        LGSPNode node_cur_node_p1 = edge_cur_edge_rq.source;
+                        if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                            continue;
+                        }
+                        if(node_cur_node_p1.isMatched
+                            && node_cur_node_p1==node_cur_node_p2
                             )
                         {
                             continue;
                         }
-                        // Implicit source node_r1 from edge_h1 
-                        LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
-                            continue;
-                        }
-                        if(node_cur_node_r1.isMatched
-                            && node_cur_node_r1==node_cur_node_r2
-                            )
+                        // Extend incoming edge_h2 from node_p2 
+                        LGSPEdge edge_head_edge_h2 = node_cur_node_p2.inhead;
+                        if(edge_head_edge_h2 != null)
                         {
-                            continue;
-                        }
-                        // Extend incoming edge_rq from node_r1 
-                        LGSPEdge edge_head_edge_rq = node_cur_node_r1.inhead;
-                        if(edge_head_edge_rq != null)
-                        {
-                            LGSPEdge edge_cur_edge_rq = edge_head_edge_rq;
+                            LGSPEdge edge_cur_edge_h2 = edge_head_edge_h2;
                             do
                             {
-                                if(!EdgeType_request.isMyType[edge_cur_edge_rq.type.TypeID]) {
+                                if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) {
                                     continue;
                                 }
-                                // Implicit source node_p1 from edge_rq 
-                                LGSPNode node_cur_node_p1 = edge_cur_edge_rq.source;
-                                if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
+                                if(edge_cur_edge_h2.isMatched
+                                    && edge_cur_edge_h2==edge_cur_edge_h1
+                                    )
+                                {
                                     continue;
                                 }
-                                if(node_cur_node_p1.isMatched
-                                    && node_cur_node_p1==node_cur_node_p2
+                                // Implicit source node_r2 from edge_h2 
+                                LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
+                                if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
+                                    continue;
+                                }
+                                if(node_cur_node_r2.isMatched
+                                    && node_cur_node_r2==node_cur_node_r1
                                     )
                                 {
                                     continue;
                                 }
                                 LGSPMatch match = matchesList.GetNewMatch();
-                                match.Nodes[0] = node_cur_node_r2;
-                                match.Nodes[1] = node_cur_node_p2;
-                                match.Nodes[2] = node_cur_node_r1;
-                                match.Nodes[3] = node_cur_node_p1;
-                                match.Edges[0] = edge_cur_edge_h2;
+                                match.Nodes[0] = node_cur_node_p1;
+                                match.Nodes[1] = node_cur_node_r1;
+                                match.Nodes[2] = node_cur_node_p2;
+                                match.Nodes[3] = node_cur_node_r2;
+                                match.Edges[0] = edge_cur_edge_rq;
                                 match.Edges[1] = edge_cur_edge_h1;
-                                match.Edges[2] = edge_cur_edge_rq;
+                                match.Edges[2] = edge_cur_edge_h2;
                                 matchesList.CommitMatch();
                                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                 {
+                                    node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
                                     node_cur_node_r1.MoveInHeadAfter(edge_cur_edge_rq);
-                                    node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h1);
-                                    graph.MoveHeadAfter(edge_cur_edge_h2);
+                                    graph.MoveHeadAfter(edge_cur_edge_h1);
                                     node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
-                                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                                     return matches;
                                 }
                             }
-                            while( (edge_cur_edge_rq = edge_cur_edge_rq.inNext) != edge_head_edge_rq );
+                            while( (edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2 );
                         }
                     }
-                    while( (edge_cur_edge_h1 = edge_cur_edge_h1.inNext) != edge_head_edge_h1 );
+                    while( (edge_cur_edge_rq = edge_cur_edge_rq.inNext) != edge_head_edge_rq );
                 }
                 node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
-                node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
             }
             return matches;
         }
@@ -2677,128 +2761,126 @@ label6: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup edge_n 
-            int edge_type_id_edge_n = 2;
-            for(LGSPEdge edge_head_edge_n = graph.edgesByTypeHeads[edge_type_id_edge_n], edge_cur_edge_n = edge_head_edge_n.typeNext; edge_cur_edge_n != edge_head_edge_n; edge_cur_edge_n = edge_cur_edge_n.typeNext)
+            // Lookup edge_h1 
+            int edge_type_id_edge_h1 = 1;
+            for(LGSPEdge edge_head_edge_h1 = graph.edgesByTypeHeads[edge_type_id_edge_h1], edge_cur_edge_h1 = edge_head_edge_h1.typeNext; edge_cur_edge_h1 != edge_head_edge_h1; edge_cur_edge_h1 = edge_cur_edge_h1.typeNext)
             {
-                // Implicit source node_p2 from edge_n 
-                LGSPNode node_cur_node_p2 = edge_cur_edge_n.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                bool edge_cur_edge_h1_prevIsMatched = edge_cur_edge_h1.isMatched;
+                edge_cur_edge_h1.isMatched = true;
+                // Implicit source node_r1 from edge_h1 
+                LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
+                if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                     continue;
                 }
-                bool node_cur_node_p2_prevIsMatched = node_cur_node_p2.isMatched;
-                node_cur_node_p2.isMatched = true;
-                // Implicit target node_p1 from edge_n 
-                LGSPNode node_cur_node_p1 = edge_cur_edge_n.target;
+                bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
+                node_cur_node_r1.isMatched = true;
+                // Implicit target node_p1 from edge_h1 
+                LGSPNode node_cur_node_p1 = edge_cur_edge_h1.target;
                 if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
-                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                     continue;
                 }
-                if(node_cur_node_p1.isMatched
-                    && node_cur_node_p1==node_cur_node_p2
-                    )
+                bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
+                node_cur_node_p1.isMatched = true;
+                // Extend incoming edge_n from node_p1 
+                LGSPEdge edge_head_edge_n = node_cur_node_p1.inhead;
+                if(edge_head_edge_n != null)
                 {
-                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
-                    continue;
-                }
-                // Extend incoming edge_h2 from node_p2 
-                LGSPEdge edge_head_edge_h2 = node_cur_node_p2.inhead;
-                if(edge_head_edge_h2 != null)
-                {
-                    LGSPEdge edge_cur_edge_h2 = edge_head_edge_h2;
+                    LGSPEdge edge_cur_edge_n = edge_head_edge_n;
                     do
                     {
-                        if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) {
+                        if(!EdgeType_next.isMyType[edge_cur_edge_n.type.TypeID]) {
                             continue;
                         }
-                        bool edge_cur_edge_h2_prevIsMatched = edge_cur_edge_h2.isMatched;
-                        edge_cur_edge_h2.isMatched = true;
-                        // Implicit source node_r2 from edge_h2 
-                        LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
-                        if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
-                            edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
+                        // Implicit source node_p2 from edge_n 
+                        LGSPNode node_cur_node_p2 = edge_cur_edge_n.source;
+                        if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
                             continue;
                         }
-                        bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
-                        node_cur_node_r2.isMatched = true;
-                        // NegativePattern 
+                        if(node_cur_node_p2.isMatched
+                            && node_cur_node_p2==node_cur_node_p1
+                            )
                         {
-                            // Extend outgoing neg_0_edge_req from node_p1 
-                            LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
-                            if(edge_head_neg_0_edge_req != null)
-                            {
-                                LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
-                                do
-                                {
-                                    if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
-                                        continue;
-                                    }
-                                    if(edge_cur_neg_0_edge_req.target != node_cur_node_r2) {
-                                        continue;
-                                    }
-                                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
-                                    goto label7;
-                                }
-                                while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
-                            }
+                            continue;
                         }
-                        // Extend incoming edge_h1 from node_p1 
-                        LGSPEdge edge_head_edge_h1 = node_cur_node_p1.inhead;
-                        if(edge_head_edge_h1 != null)
+                        // Extend incoming edge_h2 from node_p2 
+                        LGSPEdge edge_head_edge_h2 = node_cur_node_p2.inhead;
+                        if(edge_head_edge_h2 != null)
                         {
-                            LGSPEdge edge_cur_edge_h1 = edge_head_edge_h1;
+                            LGSPEdge edge_cur_edge_h2 = edge_head_edge_h2;
                             do
                             {
-                                if(!EdgeType_held_by.isMyType[edge_cur_edge_h1.type.TypeID]) {
+                                if(!EdgeType_held_by.isMyType[edge_cur_edge_h2.type.TypeID]) {
                                     continue;
                                 }
-                                if(edge_cur_edge_h1.isMatched
-                                    && edge_cur_edge_h1==edge_cur_edge_h2
+                                if(edge_cur_edge_h2.isMatched
+                                    && edge_cur_edge_h2==edge_cur_edge_h1
                                     )
                                 {
                                     continue;
                                 }
-                                // Implicit source node_r1 from edge_h1 
-                                LGSPNode node_cur_node_r1 = edge_cur_edge_h1.source;
-                                if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                                // Implicit source node_r2 from edge_h2 
+                                LGSPNode node_cur_node_r2 = edge_cur_edge_h2.source;
+                                if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
                                     continue;
                                 }
-                                if(node_cur_node_r1.isMatched
-                                    && node_cur_node_r1==node_cur_node_r2
+                                if(node_cur_node_r2.isMatched
+                                    && node_cur_node_r2==node_cur_node_r1
                                     )
                                 {
                                     continue;
+                                }
+                                // NegativePattern 
+                                {
+                                    // Extend outgoing neg_0_edge_req from node_p1 
+                                    LGSPEdge edge_head_neg_0_edge_req = node_cur_node_p1.outhead;
+                                    if(edge_head_neg_0_edge_req != null)
+                                    {
+                                        LGSPEdge edge_cur_neg_0_edge_req = edge_head_neg_0_edge_req;
+                                        do
+                                        {
+                                            if(!EdgeType_request.isMyType[edge_cur_neg_0_edge_req.type.TypeID]) {
+                                                continue;
+                                            }
+                                            if(edge_cur_neg_0_edge_req.target != node_cur_node_r2) {
+                                                continue;
+                                            }
+                                            goto label7;
+                                        }
+                                        while( (edge_cur_neg_0_edge_req = edge_cur_neg_0_edge_req.outNext) != edge_head_neg_0_edge_req );
+                                    }
                                 }
                                 LGSPMatch match = matchesList.GetNewMatch();
-                                match.Nodes[0] = node_cur_node_r2;
-                                match.Nodes[1] = node_cur_node_p2;
-                                match.Nodes[2] = node_cur_node_p1;
-                                match.Nodes[3] = node_cur_node_r1;
-                                match.Edges[0] = edge_cur_edge_h2;
+                                match.Nodes[0] = node_cur_node_r1;
+                                match.Nodes[1] = node_cur_node_p1;
+                                match.Nodes[2] = node_cur_node_p2;
+                                match.Nodes[3] = node_cur_node_r2;
+                                match.Edges[0] = edge_cur_edge_h1;
                                 match.Edges[1] = edge_cur_edge_n;
-                                match.Edges[2] = edge_cur_edge_h1;
+                                match.Edges[2] = edge_cur_edge_h2;
                                 matchesList.CommitMatch();
                                 if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                 {
-                                    node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_h1);
                                     node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
-                                    graph.MoveHeadAfter(edge_cur_edge_n);
-                                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                                    edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
-                                    node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                                    node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_n);
+                                    graph.MoveHeadAfter(edge_cur_edge_h1);
+                                    node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                    edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
                                     return matches;
                                 }
-                            }
-                            while( (edge_cur_edge_h1 = edge_cur_edge_h1.inNext) != edge_head_edge_h1 );
-                        }
-                        node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
-                        edge_cur_edge_h2.isMatched = edge_cur_edge_h2_prevIsMatched;
 label7: ;
+                            }
+                            while( (edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2 );
+                        }
                     }
-                    while( (edge_cur_edge_h2 = edge_cur_edge_h2.inNext) != edge_head_edge_h2 );
+                    while( (edge_cur_edge_n = edge_cur_edge_n.inNext) != edge_head_edge_n );
                 }
-                node_cur_node_p2.isMatched = node_cur_node_p2_prevIsMatched;
+                node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
+                node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                edge_cur_edge_h1.isMatched = edge_cur_edge_h1_prevIsMatched;
             }
             return matches;
         }
@@ -2820,11 +2902,6 @@ label7: ;
             int edge_type_id_edge_req = 4;
             for(LGSPEdge edge_head_edge_req = graph.edgesByTypeHeads[edge_type_id_edge_req], edge_cur_edge_req = edge_head_edge_req.typeNext; edge_cur_edge_req != edge_head_edge_req; edge_cur_edge_req = edge_cur_edge_req.typeNext)
             {
-                // Implicit source node_p from edge_req 
-                LGSPNode node_cur_node_p = edge_cur_edge_req.source;
-                if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
-                    continue;
-                }
                 // Implicit target node_r from edge_req 
                 LGSPNode node_cur_node_r = edge_cur_edge_req.target;
                 if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
@@ -2840,14 +2917,19 @@ label7: ;
                         if(!EdgeType_token.isMyType[edge_cur_edge_t.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_edge_t.target != node_cur_node_p) {
+                        // Implicit target node_p from edge_t 
+                        LGSPNode node_cur_node_p = edge_cur_edge_t.target;
+                        if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge_req.source != node_cur_node_p) {
                             continue;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
-                        match.Nodes[0] = node_cur_node_p;
-                        match.Nodes[1] = node_cur_node_r;
-                        match.Edges[0] = edge_cur_edge_req;
-                        match.Edges[1] = edge_cur_edge_t;
+                        match.Nodes[0] = node_cur_node_r;
+                        match.Nodes[1] = node_cur_node_p;
+                        match.Edges[0] = edge_cur_edge_t;
+                        match.Edges[1] = edge_cur_edge_req;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
@@ -2875,47 +2957,47 @@ label7: ;
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matches.Clear();
-            // Lookup edge_hb 
-            int edge_type_id_edge_hb = 1;
-            for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[edge_type_id_edge_hb], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
+            // Lookup edge_b 
+            int edge_type_id_edge_b = 0;
+            for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[edge_type_id_edge_b], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
             {
-                // Implicit source node_r from edge_hb 
-                LGSPNode node_cur_node_r = edge_cur_edge_hb.source;
+                // Implicit source node_r from edge_b 
+                LGSPNode node_cur_node_r = edge_cur_edge_b.source;
                 if(!NodeType_Resource.isMyType[node_cur_node_r.type.TypeID]) {
                     continue;
                 }
-                // Implicit target node_p from edge_hb 
-                LGSPNode node_cur_node_p = edge_cur_edge_hb.target;
+                // Implicit target node_p from edge_b 
+                LGSPNode node_cur_node_p = edge_cur_edge_b.target;
                 if(!NodeType_Process.isMyType[node_cur_node_p.type.TypeID]) {
                     continue;
                 }
-                // Extend outgoing edge_b from node_r 
-                LGSPEdge edge_head_edge_b = node_cur_node_r.outhead;
-                if(edge_head_edge_b != null)
+                // Extend outgoing edge_hb from node_r 
+                LGSPEdge edge_head_edge_hb = node_cur_node_r.outhead;
+                if(edge_head_edge_hb != null)
                 {
-                    LGSPEdge edge_cur_edge_b = edge_head_edge_b;
+                    LGSPEdge edge_cur_edge_hb = edge_head_edge_hb;
                     do
                     {
-                        if(!EdgeType_blocked.isMyType[edge_cur_edge_b.type.TypeID]) {
+                        if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) {
                             continue;
                         }
-                        if(edge_cur_edge_b.target != node_cur_node_p) {
+                        if(edge_cur_edge_hb.target != node_cur_node_p) {
                             continue;
                         }
                         LGSPMatch match = matchesList.GetNewMatch();
                         match.Nodes[0] = node_cur_node_r;
                         match.Nodes[1] = node_cur_node_p;
-                        match.Edges[0] = edge_cur_edge_hb;
-                        match.Edges[1] = edge_cur_edge_b;
+                        match.Edges[0] = edge_cur_edge_b;
+                        match.Edges[1] = edge_cur_edge_hb;
                         matchesList.CommitMatch();
                         if(maxMatches > 0 && matchesList.Count >= maxMatches)
                         {
-                            node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_b);
-                            graph.MoveHeadAfter(edge_cur_edge_hb);
+                            node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_hb);
+                            graph.MoveHeadAfter(edge_cur_edge_b);
                             return matches;
                         }
                     }
-                    while( (edge_cur_edge_b = edge_cur_edge_b.outNext) != edge_head_edge_b );
+                    while( (edge_cur_edge_hb = edge_cur_edge_hb.outNext) != edge_head_edge_hb );
                 }
             }
             return matches;
@@ -2981,104 +3063,104 @@ label7: ;
             {
                 bool node_cur_node_r_prevIsMatched = node_cur_node_r.isMatched;
                 node_cur_node_r.isMatched = true;
-                // Lookup edge_hb 
-                int edge_type_id_edge_hb = 1;
-                for(LGSPEdge edge_head_edge_hb = graph.edgesByTypeHeads[edge_type_id_edge_hb], edge_cur_edge_hb = edge_head_edge_hb.typeNext; edge_cur_edge_hb != edge_head_edge_hb; edge_cur_edge_hb = edge_cur_edge_hb.typeNext)
+                // Lookup edge_b 
+                int edge_type_id_edge_b = 0;
+                for(LGSPEdge edge_head_edge_b = graph.edgesByTypeHeads[edge_type_id_edge_b], edge_cur_edge_b = edge_head_edge_b.typeNext; edge_cur_edge_b != edge_head_edge_b; edge_cur_edge_b = edge_cur_edge_b.typeNext)
                 {
-                    // Implicit source node_r1 from edge_hb 
-                    LGSPNode node_cur_node_r1 = edge_cur_edge_hb.source;
-                    if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
+                    // Implicit source node_r2 from edge_b 
+                    LGSPNode node_cur_node_r2 = edge_cur_edge_b.source;
+                    if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
                         continue;
                     }
-                    if(node_cur_node_r1.isMatched
-                        && node_cur_node_r1==node_cur_node_r
+                    if(node_cur_node_r2.isMatched
+                        && node_cur_node_r2==node_cur_node_r
                         )
                     {
                         continue;
                     }
-                    bool node_cur_node_r1_prevIsMatched = node_cur_node_r1.isMatched;
-                    node_cur_node_r1.isMatched = true;
-                    // Implicit target node_p1 from edge_hb 
-                    LGSPNode node_cur_node_p1 = edge_cur_edge_hb.target;
+                    bool node_cur_node_r2_prevIsMatched = node_cur_node_r2.isMatched;
+                    node_cur_node_r2.isMatched = true;
+                    // Implicit target node_p1 from edge_b 
+                    LGSPNode node_cur_node_p1 = edge_cur_edge_b.target;
                     if(!NodeType_Process.isMyType[node_cur_node_p1.type.TypeID]) {
-                        node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                        node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
                         continue;
                     }
                     bool node_cur_node_p1_prevIsMatched = node_cur_node_p1.isMatched;
                     node_cur_node_p1.isMatched = true;
-                    // Extend incoming edge_req from node_r1 
-                    LGSPEdge edge_head_edge_req = node_cur_node_r1.inhead;
-                    if(edge_head_edge_req != null)
+                    // Extend incoming edge_hb from node_p1 
+                    LGSPEdge edge_head_edge_hb = node_cur_node_p1.inhead;
+                    if(edge_head_edge_hb != null)
                     {
-                        LGSPEdge edge_cur_edge_req = edge_head_edge_req;
+                        LGSPEdge edge_cur_edge_hb = edge_head_edge_hb;
                         do
                         {
-                            if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) {
+                            if(!EdgeType_held_by.isMyType[edge_cur_edge_hb.type.TypeID]) {
                                 continue;
                             }
-                            // Implicit source node_p2 from edge_req 
-                            LGSPNode node_cur_node_p2 = edge_cur_edge_req.source;
-                            if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
+                            // Implicit source node_r1 from edge_hb 
+                            LGSPNode node_cur_node_r1 = edge_cur_edge_hb.source;
+                            if(!NodeType_Resource.isMyType[node_cur_node_r1.type.TypeID]) {
                                 continue;
                             }
-                            if(node_cur_node_p2.isMatched
-                                && node_cur_node_p2==node_cur_node_p1
+                            if(node_cur_node_r1.isMatched
+                                && (node_cur_node_r1==node_cur_node_r
+                                    || node_cur_node_r1==node_cur_node_r2
+                                    )
                                 )
                             {
                                 continue;
                             }
-                            // Extend incoming edge_b from node_p1 
-                            LGSPEdge edge_head_edge_b = node_cur_node_p1.inhead;
-                            if(edge_head_edge_b != null)
+                            // Extend incoming edge_req from node_r1 
+                            LGSPEdge edge_head_edge_req = node_cur_node_r1.inhead;
+                            if(edge_head_edge_req != null)
                             {
-                                LGSPEdge edge_cur_edge_b = edge_head_edge_b;
+                                LGSPEdge edge_cur_edge_req = edge_head_edge_req;
                                 do
                                 {
-                                    if(!EdgeType_blocked.isMyType[edge_cur_edge_b.type.TypeID]) {
+                                    if(!EdgeType_request.isMyType[edge_cur_edge_req.type.TypeID]) {
                                         continue;
                                     }
-                                    // Implicit source node_r2 from edge_b 
-                                    LGSPNode node_cur_node_r2 = edge_cur_edge_b.source;
-                                    if(!NodeType_Resource.isMyType[node_cur_node_r2.type.TypeID]) {
+                                    // Implicit source node_p2 from edge_req 
+                                    LGSPNode node_cur_node_p2 = edge_cur_edge_req.source;
+                                    if(!NodeType_Process.isMyType[node_cur_node_p2.type.TypeID]) {
                                         continue;
                                     }
-                                    if(node_cur_node_r2.isMatched
-                                        && (node_cur_node_r2==node_cur_node_r
-                                            || node_cur_node_r2==node_cur_node_r1
-                                            )
+                                    if(node_cur_node_p2.isMatched
+                                        && node_cur_node_p2==node_cur_node_p1
                                         )
                                     {
                                         continue;
                                     }
                                     LGSPMatch match = matchesList.GetNewMatch();
                                     match.Nodes[0] = node_cur_node_r;
-                                    match.Nodes[1] = node_cur_node_p2;
-                                    match.Nodes[2] = node_cur_node_r1;
-                                    match.Nodes[3] = node_cur_node_p1;
-                                    match.Nodes[4] = node_cur_node_r2;
-                                    match.Edges[0] = edge_cur_edge_req;
+                                    match.Nodes[1] = node_cur_node_r2;
+                                    match.Nodes[2] = node_cur_node_p1;
+                                    match.Nodes[3] = node_cur_node_r1;
+                                    match.Nodes[4] = node_cur_node_p2;
+                                    match.Edges[0] = edge_cur_edge_b;
                                     match.Edges[1] = edge_cur_edge_hb;
-                                    match.Edges[2] = edge_cur_edge_b;
+                                    match.Edges[2] = edge_cur_edge_req;
                                     matchesList.CommitMatch();
                                     if(maxMatches > 0 && matchesList.Count >= maxMatches)
                                     {
-                                        node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_b);
                                         node_cur_node_r1.MoveInHeadAfter(edge_cur_edge_req);
-                                        graph.MoveHeadAfter(edge_cur_edge_hb);
+                                        node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_hb);
+                                        graph.MoveHeadAfter(edge_cur_edge_b);
                                         graph.MoveHeadAfter(node_cur_node_r);
                                         node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
-                                        node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                                        node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
                                         node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
                                         return matches;
                                     }
                                 }
-                                while( (edge_cur_edge_b = edge_cur_edge_b.inNext) != edge_head_edge_b );
+                                while( (edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req );
                             }
                         }
-                        while( (edge_cur_edge_req = edge_cur_edge_req.inNext) != edge_head_edge_req );
+                        while( (edge_cur_edge_hb = edge_cur_edge_hb.inNext) != edge_head_edge_hb );
                     }
                     node_cur_node_p1.isMatched = node_cur_node_p1_prevIsMatched;
-                    node_cur_node_r1.isMatched = node_cur_node_r1_prevIsMatched;
+                    node_cur_node_r2.isMatched = node_cur_node_r2_prevIsMatched;
                 }
                 node_cur_node_r.isMatched = node_cur_node_r_prevIsMatched;
             }
@@ -3122,6 +3204,6 @@ label7: ;
         }
 
         public override String Name { get { return "MutexPimpedActions"; } }
-        public override String ModelMD5Hash { get { return "0ecfadd9bae7c1bee09ddc57f323923f"; } }
+        public override String ModelMD5Hash { get { return "44f82b79c60b768ffa0a3f9a5c7dee64"; } }
     }
 }
