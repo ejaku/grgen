@@ -58,12 +58,16 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Builds a plan graph out of a given pattern graph.
+        /// Generate plan graph for given pattern graph with costs from the analyzed host graph 
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
-        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
+        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph, bool isRule)
         {
+            /// 
+            /// If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
+            /// 
+
             PlanNode[] nodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
             List<PlanEdge> edges = new List<PlanEdge>(patternGraph.Nodes.Length + 5 * patternGraph.Edges.Length);
@@ -264,6 +268,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 nodesIndex++;
             }
+
             return new PlanGraph(root, nodes, edges.ToArray(), patternGraph);
         }
 
@@ -1042,7 +1047,7 @@ exitSecondLoop: ;
         /// </summary>
         /// <param name="action">Needed for the rule pattern and the name</param>
         /// <param name="sourceOutputFilename">null if no output file needed</param>
-        public LGSPAction GenerateMatcher(ScheduledSearchPlan scheduledSearchPlan, LGSPAction action,
+        public LGSPAction GenerateActions(ScheduledSearchPlan scheduledSearchPlan, LGSPAction action,
             String modelAssemblyLocation, String actionAssemblyLocation, String sourceOutputFilename)
         {
             // set up compiler
@@ -1066,7 +1071,11 @@ exitSecondLoop: ;
             // generate class setup
             sourceCode.Append("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
                 + "using " + model.GetType().Namespace + ";\nusing " + action.RulePattern.GetType().Namespace + ";\n\n"
-                + "namespace de.unika.ipd.grGen.lgspActions\n{\n    public class DynAction_" + action.Name + " : LGSPAction\n    {\n"
+                + "namespace de.unika.ipd.grGen.lgspActions\n{\n");
+
+            // TODO: insert dependent subpattern action generation here
+
+            sourceCode.Append("    public class DynAction_" + action.Name + " : LGSPAction\n    {\n"
                 + "        public DynAction_" + action.Name + "() { rulePattern = " + action.RulePattern.GetType().Name
                 + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, " + action.RulePattern.PatternGraph.Nodes.Length
                 + ", " + action.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches; }\n"
@@ -1107,7 +1116,7 @@ exitSecondLoop: ;
             return (LGSPAction) obj;
         }
 
-        public LGSPAction[] GenerateSearchPlans(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
+        public LGSPAction[] GenerateActions(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
             params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
@@ -1117,16 +1126,18 @@ exitSecondLoop: ;
                 + "using " + model.GetType().Namespace + ";\nusing " + actions[0].RulePattern.GetType().Namespace + ";\n\n"
                 + "namespace de.unika.ipd.grGen.lgspActions\n{\n");
 
+            // TODO: insert dependent subpattern action generation here
+
             foreach(LGSPAction action in actions)
             {
-                PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false);
+                PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false, true);
                 MarkMinimumSpanningArborescence(planGraph, action.Name);
                 SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
 
                 SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[action.RulePattern.NegativePatternGraphs.Length];
                 for(int i = 0; i < action.RulePattern.NegativePatternGraphs.Length; i++)
                 {
-                    PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.NegativePatternGraphs[i], true);
+                    PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.NegativePatternGraphs[i], true, true);
                     MarkMinimumSpanningArborescence(negPlanGraph, action.Name + "_neg_" + (i + 1));
                     negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
                 }
@@ -1190,9 +1201,9 @@ exitSecondLoop: ;
             return newActions;
         }
 
-        public LGSPAction GenerateSearchPlan(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, LGSPAction action)
+        public LGSPAction GenerateAction(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, LGSPAction action)
         {
-            return GenerateSearchPlans(graph, modelAssemblyName, actionsAssemblyName, action)[0];
+            return GenerateActions(graph, modelAssemblyName, actionsAssemblyName, action)[0];
         }
     }
 }

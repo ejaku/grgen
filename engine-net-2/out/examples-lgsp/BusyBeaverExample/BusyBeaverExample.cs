@@ -84,7 +84,7 @@ namespace BusyBeaver
 
             // Calculate search plans to optimize performance
             graph.AnalyzeGraph();
-            actions.GenerateSearchPlans("readOneRule", "readZeroRule",
+            actions.GenerateActions("readOneRule", "readZeroRule",
                 "ensureMoveLeftValidRule", "ensureMoveRightValidRule", "moveLeftRule", "moveRightRule");
 
             // Go, beaver, go!

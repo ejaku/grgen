@@ -11,6 +11,11 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Single[],System.Single[],System.Boolean,System.Boolean)">
+            <summary>
+            Generate plan graph for given pattern graph with costs from initial static schedule handed in as cost parameters
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.UseExistingKind,System.Boolean,System.Boolean)">
             <summary>
             Processes the given rule specification file and generates a model and actions library.
@@ -969,6 +974,11 @@
             A delegate pointing to the current matcher program for this rule.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPAction.subpatterns">
+            <summary>
+            If the pattern of this action contains subpatterns, here's the list of the subpattern matching actions
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPAction.Match(de.unika.ipd.grGen.lgsp.LGSPGraph,System.Int32,de.unika.ipd.grGen.libGr.IGraphElement[])">
             <summary>
             Searches for a graph pattern as specified by RulePattern.
@@ -1763,9 +1773,9 @@
             </summary>
             <param name="model">The model for which the matcher functions shall be generated.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
-            Builds a plan graph out of a given pattern graph.
+            Generate plan graph for given pattern graph with costs from the analyzed host graph 
             </summary>
             <param name="graph">The host graph to optimize the matcher program for, 
             providing statistical information about its structure </param>
@@ -1811,7 +1821,7 @@
             new version building first abstract search program then search program code
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcher(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.LGSPAction,System.String,System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActions(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.LGSPAction,System.String,System.String,System.String)">
             <summary>
             Generates an LGSPAction object for the given scheduled search plan.
             </summary>

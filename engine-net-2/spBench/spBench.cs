@@ -153,7 +153,7 @@ namespace spBench
             Actions = actions;
             MatchGen = new LGSPMatcherGenerator(graph.Model);
             Action = action;
-            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false),
+            SearchPlanGraph = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false, true),
                 action.RulePattern.PatternGraph.HomomorphicNodes);
 
             DumpSearchPlanGraph(GenerateSearchPlanGraphNewCost(graph, (PatternGraph) action.RulePattern.PatternGraph, false), action.Name, "initial");
@@ -168,14 +168,14 @@ namespace spBench
 
         private ScheduledSearchPlan GenerateLibGrSearchPlan()
         {
-            PlanGraph planGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.PatternGraph, false);
+            PlanGraph planGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.PatternGraph, false, true);
             MatchGen.MarkMinimumSpanningArborescence(planGraph, Action.Name);
             SearchPlanGraph searchPlanGraph = MatchGen.GenerateSearchPlanGraph(planGraph);
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[Action.RulePattern.NegativePatternGraphs.Length];
             for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
             {
-                PlanGraph negPlanGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true);
+                PlanGraph negPlanGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true, true);
                 MatchGen.MarkMinimumSpanningArborescence(negPlanGraph, Action.Name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = MatchGen.GenerateSearchPlanGraph(negPlanGraph);
             }
@@ -464,7 +464,7 @@ namespace spBench
             NegEdges = new SearchPlanEdge[Action.RulePattern.NegativePatternGraphs.Length];
             for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
             {
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true),
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true, true),
                     Action.RulePattern.NegativePatternGraphs[i].HomomorphicNodes);
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
@@ -903,7 +903,7 @@ namespace spBench
                 String outputName = null;
 #endif
 
-                LGSPAction newAction = ctx.MatchGen.GenerateMatcher(ssp, ctx.Action, Assembly.GetAssembly(ctx.Graph.Model.GetType()).Location,
+                LGSPAction newAction = ctx.MatchGen.GenerateActions(ssp, ctx.Action, Assembly.GetAssembly(ctx.Graph.Model.GetType()).Location,
                     Assembly.GetAssembly(ctx.Actions.GetType()).Location, outputName);
 
                 ctx.Actions.ReplaceAction(ctx.Action.Name, newAction);
@@ -1490,7 +1490,7 @@ namespace spBench
 
             graph.AnalyzeGraph();
             if(ruleNamesForGenSP.Count != 0)
-                actions.GenerateSearchPlans(ruleNamesForGenSP.ToArray());
+                actions.GenerateActions(ruleNamesForGenSP.ToArray());
 
             LGSPAction action = (LGSPAction) actions.GetAction(testActionName);
             if(action == null)

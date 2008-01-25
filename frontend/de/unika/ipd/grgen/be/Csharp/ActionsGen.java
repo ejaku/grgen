@@ -319,6 +319,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\tprivate Pattern_" + formatIdentifiable(action) + "()\n");
 			sb.append("\t\t{\n");
 		}
+		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
 
 		PatternGraph pattern = action.getPattern();
 		List<Entity> parameters = action.getParameters();
@@ -384,7 +385,7 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append("\t\t\tPatternGraphEmbedding " + sub.getIdent().toString() + " = new PatternGraphEmbedding(");
 			sb.append("\"" + sub.getIdent().toString() + "\", ");
-			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance.patternGraph, ");
+			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance, ");
 			sb.append("new PatternElement[] ");
 			genEntitySet(sb, sub.getSubpatternConnections(), "", "", true, outer, negCount);
 			sb.append(");\n");

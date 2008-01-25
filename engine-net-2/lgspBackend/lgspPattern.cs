@@ -243,17 +243,17 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternGraphEmbedding : IPatternGraphEmbedding
     {
         public String Name { get { return name; } }
-        public IPatternGraph EmbeddedGraph { get { return embeddedGraph; } }
+        public IPatternGraph EmbeddedGraph { get { return ruleOfEmbeddedGraph.patternGraph; } }
         public IPatternElement[] Connections { get { return connections; } }
 
         public String name;
-        public PatternGraph embeddedGraph;
+        public LGSPRulePattern ruleOfEmbeddedGraph;
         public PatternElement[] connections;
 
-        public PatternGraphEmbedding(String name, PatternGraph embeddedGraph, PatternElement[] connections)
+        public PatternGraphEmbedding(String name, LGSPRulePattern ruleOfEmbeddedGraph, PatternElement[] connections)
         {
             this.name = name;
-            this.embeddedGraph = embeddedGraph;
+            this.ruleOfEmbeddedGraph = ruleOfEmbeddedGraph;
             this.connections = connections;
         }
     }
@@ -286,5 +286,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public GrGenType[] inputs; // information already given by the PatternElements within PatternGraph
         public GrGenType[] outputs;
+
+        public String name;
     }
 }

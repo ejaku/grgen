@@ -235,6 +235,12 @@ namespace de.unika.ipd.grGen.lgsp
         public MatchInvoker DynamicMatch;
 
         /// <summary>
+        /// If the pattern of this action contains subpatterns, here's the list of the subpattern matching actions
+        /// </summary>
+        protected List<LGSPAction> subpatterns = new List<LGSPAction>();
+
+
+        /// <summary>
         /// Searches for a graph pattern as specified by RulePattern.
         /// </summary>
         /// <param name="graph">The host graph.</param>
@@ -521,7 +527,8 @@ namespace de.unika.ipd.grGen.lgsp
         private String modelAssemblyName, actionsAssemblyName;
         int maxMatches = 0;
 
-        protected Dictionary<String, LGSPAction> actions = new Dictionary<String,LGSPAction>();
+        protected Dictionary<String, LGSPAction> actions = new Dictionary<String, LGSPAction>();
+
 
         public LGSPActions(LGSPGraph lgspgraph)
         {
@@ -586,25 +593,25 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override IGraph Graph { get { return graph; } set { graph = (LGSPGraph) value; } }
 
-        public LGSPAction GenerateSearchPlan(LGSPAction action)
+        public LGSPAction GenerateAction(LGSPAction action)
         {
             LGSPAction newAction;
-            newAction = matcherGenerator.GenerateSearchPlan(graph, modelAssemblyName, actionsAssemblyName, (LGSPAction) action);
+            newAction = matcherGenerator.GenerateAction(graph, modelAssemblyName, actionsAssemblyName, (LGSPAction) action);
             actions[action.Name] = newAction;
             return newAction;
         }
 
-        public LGSPAction GenerateSearchPlan(String actionName)
+        public LGSPAction GenerateAction(String actionName)
         {
             LGSPAction action = (LGSPAction) GetAction(actionName);
             if(action == null)
                 throw new ArgumentException("\"" + actionName + "\" is not the name of an action!\n");
-            return GenerateSearchPlan(action);
+            return GenerateAction(action);
         }
 
-        public LGSPAction[] GenerateSearchPlans(params LGSPAction[] oldActions)
+        public LGSPAction[] GenerateActions(params LGSPAction[] oldActions)
         {
-            LGSPAction[] newActions = matcherGenerator.GenerateSearchPlans(graph, modelAssemblyName,
+            LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                 actionsAssemblyName, oldActions);
             for(int i = 0; i < oldActions.Length; i++)
                 actions[oldActions[i].Name] = newActions[i];
@@ -612,7 +619,7 @@ namespace de.unika.ipd.grGen.lgsp
             return newActions;
         }
 
-        public LGSPAction[] GenerateSearchPlans(params String[] actionName)
+        public LGSPAction[] GenerateActions(params String[] actionName)
         {
             LGSPAction[] oldActions = new LGSPAction[actionName.Length];
             for(int i = 0; i < oldActions.Length; i++)
@@ -621,7 +628,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(oldActions[i] == null)
                     throw new ArgumentException("\"" + (String) actionName[i] + "\"' is not the name of an action!");
             }
-            return GenerateSearchPlans(oldActions);
+            return GenerateActions(oldActions);
         }
 
         public void ReplaceAction(String actionName, LGSPAction newAction)
@@ -660,7 +667,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 + "Please use 'show actions' to get a list of the available names.");
                     }
                     int startticks = Environment.TickCount;
-                    LGSPAction[] newActions = matcherGenerator.GenerateSearchPlans(graph, modelAssemblyName,
+                    LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                         actionsAssemblyName, oldActions);
                     int stopticks = Environment.TickCount;
                     Console.Write("Searchplans for actions ");

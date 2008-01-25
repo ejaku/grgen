@@ -153,13 +153,21 @@ namespace de.unika.ipd.grGen.lgsp
             return (IGraphModel) modelAssembly.CreateInstance(modelType.FullName);
         }
 
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, float[] nodeCost, float[] edgeCost, bool negPatternGraph)
+        /// <summary>
+        /// Generate plan graph for given pattern graph with costs from initial static schedule handed in as cost parameters
+        /// </summary>
+        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, float[] nodeCost, float[] edgeCost, bool negPatternGraph, bool isRule)
         {
+            ///
+            /// If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
+            ///
+ 
             PlanNode[] nodes = new PlanNode[patternGraph.nodes.Length + patternGraph.edges.Length];
             List<PlanEdge> edges = new List<PlanEdge>(patternGraph.nodes.Length + 5 * patternGraph.edges.Length);   // upper bound for num of edges
 
             int nodesIndex = 0;
 
+            // create plan nodes and lookup plan edges for all pattern graph nodes
             PlanNode root = new PlanNode("root");
             for(int i = 0; i < patternGraph.nodes.Length; i++)
             {
@@ -194,6 +202,7 @@ namespace de.unika.ipd.grGen.lgsp
                 nodesIndex++;
             }
 
+            // create plan nodes and necessary plan edges for all pattern graph edges
             for(int i = 0; i < patternGraph.edges.Length; i++)
             {
                 PatternEdge edge = patternGraph.edges[i];
@@ -232,13 +241,14 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 #endif
 
-
+                // only add implicit source operation if edge source is needed and the edge source is not a preset node
                 if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
                 {
                     PlanEdge implSrcEdge = new PlanEdge(SearchOperationType.ImplicitSource, nodes[nodesIndex], edge.source.TempPlanMapping, 0);
                     edges.Add(implSrcEdge);
                     edge.source.TempPlanMapping.IncomingEdges.Add(implSrcEdge);
                 }
+                // only add implicit target operation if edge target is needed and the edge target is not a preset node
                 if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
                 {
                     PlanEdge implTgtEdge = new PlanEdge(SearchOperationType.ImplicitTarget, nodes[nodesIndex], edge.target.TempPlanMapping, 0);
@@ -246,6 +256,7 @@ namespace de.unika.ipd.grGen.lgsp
                     edge.target.TempPlanMapping.IncomingEdges.Add(implTgtEdge);
                 }
 
+                // edge must only be reachable from other nodes if it's not a preset
                 if(!isPreset)
                 {
                     if(edge.source != null)
@@ -270,27 +281,32 @@ namespace de.unika.ipd.grGen.lgsp
 
         void GeneratePattern(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
         {
+            PatternGraph patternGraph = (PatternGraph)schedule.RulePattern.PatternGraph;
+
             source.Append("    public class PatternAction_" + schedule.ActionName + " : LGSPAction\n    {\n"
                 + "        private static PatternAction_" + schedule.ActionName + " instance = new PatternAction_" + schedule.ActionName + "();\n\n"
-                + "        public PatternAction_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name
-                + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
-                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;}\n\n"
-
+                + "        public PatternAction_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name + ".Instance;\n"
+                + "            DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
+                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;\n");
+            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            {
+                source.Append("            subpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
+            }
+            source.Append("        }\n\n"
                 + "        public override string Name { get { return \"" + schedule.ActionName + "\"; } }\n"
                 + "        public static LGSPAction Instance { get { return instance; } }\n"
                 + "        private LGSPMatches matches;\n"
-                + "        private LGSPMatchesList matchesList;\n");
+                + "        private LGSPMatchesList matchesList;\n\n");
 
-            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph,
-                schedule.NodeCost, schedule.EdgeCost, false);
+            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, schedule.NodeCost, schedule.EdgeCost, false, false);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[schedule.RulePattern.NegativePatternGraphs.Length];
-            for (int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; i++)
+            for (int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; ++i)
             {
                 PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.NegativePatternGraphs[i],
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true);
+                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, false);
                 matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
             }
@@ -303,27 +319,32 @@ namespace de.unika.ipd.grGen.lgsp
 
         void GenerateAction(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
         {
+            PatternGraph patternGraph = (PatternGraph)schedule.RulePattern.PatternGraph;
+
             source.Append("    public class Action_" + schedule.ActionName + " : LGSPAction\n    {\n"
                 + "        private static Action_" + schedule.ActionName + " instance = new Action_" + schedule.ActionName + "();\n\n"
-                + "        public Action_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name
-                + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
-                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;}\n\n"
-
+                + "        public Action_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name + ".Instance;\n"
+                + "            DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
+                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;\n");
+            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            {
+                source.Append("            subpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
+            }
+            source.Append("        }\n\n"
                 + "        public override string Name { get { return \"" + schedule.ActionName + "\"; } }\n"
                 + "        public static LGSPAction Instance { get { return instance; } }\n"
                 + "        private LGSPMatches matches;\n"
-                + "        private LGSPMatchesList matchesList;\n");
+                + "        private LGSPMatchesList matchesList;\n\n");
 
-            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph) schedule.RulePattern.PatternGraph,
-                schedule.NodeCost, schedule.EdgeCost, false);
+            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, schedule.NodeCost, schedule.EdgeCost, false, true);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[schedule.RulePattern.NegativePatternGraphs.Length];
-            for(int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; i++)
+            for(int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; ++i)
             {
                 PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph) schedule.RulePattern.NegativePatternGraphs[i],
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true);
+                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, true);
                 matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
             }
