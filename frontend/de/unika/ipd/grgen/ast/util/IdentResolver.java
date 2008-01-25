@@ -66,15 +66,18 @@ public abstract class IdentResolver extends Resolver {
 	 */
 	public BaseNode resolve(BaseNode node) {
 		debug.report(NOTE, "child is a: " + node.getName() + " (" + node + ")");
-		if(!(node instanceof IdentNode)) {
+		/*if(!(node instanceof IdentNode)) {
 			// if the desired node isn't an identifier everything is fine, return true
-			//  reportError(n, "Expected an identifier, not a \"" + c.getName() + "\"");
+			// reportError(node, "Expected an identifier, not a \"" + node.getName() + "\"");
 			return node;
+		}*/
+		
+		BaseNode get = node;
+		if (node instanceof IdentNode) {
+    		IdentNode identNode = (IdentNode)node;
+    		get = resolveIdent(identNode);
+    		debug.report(NOTE, "resolved to a: " + get.getName());
 		}
-
-		IdentNode identNode = (IdentNode)node;
-		BaseNode get = resolveIdent(identNode);
-		debug.report(NOTE, "resolved to a: " + get.getName());
 
 		// Check, if the class of the resolved node is one of the desired classes.
 		for(int i = 0; i < classes.length; i++) {
@@ -84,7 +87,7 @@ public abstract class IdentResolver extends Resolver {
 			}
 		}
 
-		reportError(identNode, "\"" + identNode + "\" is a " + get.getUseString() +
+		reportError(node, "\"" + node + "\" is a " + get.getUseString() +
 						" but a " + expectList + " is expected");
 		return null;
 	}

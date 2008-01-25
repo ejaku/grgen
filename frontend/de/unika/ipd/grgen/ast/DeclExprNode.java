@@ -80,7 +80,8 @@ public class DeclExprNode extends ExprNode
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver memberInitResolver = new MemberInitResolver(MemberDeclNode.class);
+		// TODO use a pair resolver: MemberDeclNode, QualIdentNode 
+		Resolver memberInitResolver = new MemberInitResolver(DeclaredCharacter.class);
 		BaseNode resolved = memberInitResolver.resolve(decl);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		decl = ownedResolutionResult(decl, resolved);
