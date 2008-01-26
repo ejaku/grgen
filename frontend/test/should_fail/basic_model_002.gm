@@ -42,3 +42,7 @@ abstract node class CX extends C;
 
 const node class CZ extends C;
 
+
+
+
+abstract edge class AbsE;
