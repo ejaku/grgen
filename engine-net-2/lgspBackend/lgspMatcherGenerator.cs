@@ -1091,20 +1091,20 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates ScheduledSearchPlan needed for matcher code generation for action compilation
-        /// out of old, already compiled action (giving access to rule pattern) and graph with analyze information
+        /// Generates ScheduledSearchPlan needed for matcher code generation for action/subpattern-action compilation
+        /// out of rule pattern and graph with analyze information
         /// </summary>
-        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPAction action, LGSPGraph graph)
+        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern, LGSPGraph graph, bool isRule)
         {
-            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)action.RulePattern.PatternGraph, false, true);
-            MarkMinimumSpanningArborescence(planGraph, action.Name);
+            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.PatternGraph, false, isRule);
+            MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[action.RulePattern.NegativePatternGraphs.Length];
-            for (int i = 0; i < action.RulePattern.NegativePatternGraphs.Length; ++i)
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[rulePattern.NegativePatternGraphs.Length];
+            for (int i = 0; i < rulePattern.NegativePatternGraphs.Length; ++i)
             {
-                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)action.RulePattern.NegativePatternGraphs[i], true, true);
-                MarkMinimumSpanningArborescence(negPlanGraph, action.Name + "_neg_" + (i + 1));
+                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.NegativePatternGraphs[i], true, isRule);
+                MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
             }
 
@@ -1146,7 +1146,8 @@ exitSecondLoop: ;
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, action.RulePattern.GetType().Namespace);
 
-            // TODO: insert dependent subpattern action generation here
+            // can't generate new subpattern matchers due to missing scheduled search plans for them / missing graph analyze data
+            Debug.Assert(action.rulePattern.patternGraph.embeddedGraphs.Length == 0);
 
             String matcherSourceCode = GenerateMatcherSourceCode(
                 scheduledSearchPlan, action.Name, action.rulePattern);
@@ -1190,6 +1191,50 @@ exitSecondLoop: ;
         }
 
         /// <summary>
+        /// Computes all, by the given actions directly or indirectly used subpatterns.
+        /// returned in set with rulepatterns of the subpatterns, implemented by abused dictionary as .net lacks a set datatype - argggh
+        /// </summary>
+        protected Dictionary<LGSPRulePattern, LGSPRulePattern> SubpatternsUsedByTheActions(LGSPAction[] actions)
+        {
+            // todo: use more efficient worklist algorithm
+            Dictionary<LGSPRulePattern, LGSPRulePattern> subpatternRules = new Dictionary<LGSPRulePattern, LGSPRulePattern>();
+
+            // all directly used subpatterns
+            foreach (LGSPAction action in actions)
+            {
+                PatternGraphEmbedding[] embeddedGraphs = ((PatternGraphEmbedding[])
+                    action.RulePattern.PatternGraph.EmbeddedGraphs);
+                for (int i = 0; i < embeddedGraphs.Length; ++i)
+                {
+                    subpatternRules.Add(embeddedGraphs[i].ruleOfEmbeddedGraph, null);
+                }
+            }
+
+            // transitive closure
+            bool setChanged = subpatternRules.Count != 0;
+            while (setChanged)
+            {
+                setChanged = false;
+                foreach (KeyValuePair<LGSPRulePattern, LGSPRulePattern> subpatternRule in subpatternRules)
+                {
+                    PatternGraphEmbedding[] embedded = (PatternGraphEmbedding[])subpatternRule.Key.PatternGraph.EmbeddedGraphs;
+                    for (int i = 0; i < embedded.Length; ++i)
+                    {
+                        if (!subpatternRules.ContainsKey(embedded[i].ruleOfEmbeddedGraph))
+                        {
+                            subpatternRules.Add(embedded[i].ruleOfEmbeddedGraph, null);
+                            setChanged = true;
+                        }
+                    }
+
+                    if (setChanged) break;
+                }
+            }
+
+            return subpatternRules;
+        }
+
+        /// <summary>
         /// Generate new actions for the given actions, doing the same work, 
         /// but hopefully faster by taking graph analysis information into account
         /// </summary>
@@ -1201,17 +1246,36 @@ exitSecondLoop: ;
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].RulePattern.GetType().Namespace);
 
-            // TODO: insert dependent subpattern action generation here
-         
-            foreach(LGSPAction action in actions)
+            // use domain of dictionary as set with rulepatterns of the subpatterns of the actions
+            Dictionary<LGSPRulePattern, LGSPRulePattern> subpatternRules;
+            subpatternRules = SubpatternsUsedByTheActions(actions);
+
+            // generate code for subpatterns
+            foreach (KeyValuePair<LGSPRulePattern, LGSPRulePattern> subpatternRule in subpatternRules)
             {
-                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(action, graph);
+                LGSPRulePattern rulePattern = subpatternRule.Key;
+
+                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
+                    rulePattern, graph, false);
 
                 String matcherSourceCode = GenerateMatcherSourceCode(
-                    scheduledSearchPlan, action.Name, action.rulePattern);
+                    scheduledSearchPlan, rulePattern.name, rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    action.Name, action.rulePattern, true, false);
+                    rulePattern.name, rulePattern, false, false);
+            }
+
+            // generate code for actions
+            foreach(LGSPAction action in actions)
+            {
+                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
+                    action.rulePattern, graph, true);
+
+                String matcherSourceCode = GenerateMatcherSourceCode(
+                    scheduledSearchPlan, action.rulePattern.name, action.rulePattern);
+
+                GenerateMatcherClass(sourceCode, matcherSourceCode,
+                    action.rulePattern.name, action.rulePattern, true, false);
             }
 
             // close namespace
