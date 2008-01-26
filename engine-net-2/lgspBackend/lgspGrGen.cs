@@ -279,26 +279,15 @@ namespace de.unika.ipd.grGen.lgsp
             return new PlanGraph(root, nodes, edges.ToArray(), patternGraph);
         }
 
-        void GeneratePattern(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
+        /// <summary>
+        /// Generates ScheduledSearchPlan needed for matcher code generation for action compilation
+        /// out of static schedule information (giving access to rule pattern) and graph model
+        /// utilizing code of the lgsp matcher generator
+        /// </summary>
+        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPStaticScheduleInfo schedule, IGraphModel model, LGSPMatcherGenerator matcherGen)
         {
-            PatternGraph patternGraph = (PatternGraph)schedule.RulePattern.PatternGraph;
-
-            source.Append("    public class PatternAction_" + schedule.ActionName + " : LGSPAction\n    {\n"
-                + "        private static PatternAction_" + schedule.ActionName + " instance = new PatternAction_" + schedule.ActionName + "();\n\n"
-                + "        public PatternAction_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name + ".Instance;\n"
-                + "            DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
-                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;\n");
-            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
-            {
-                source.Append("            subpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
-            }
-            source.Append("        }\n\n"
-                + "        public override string Name { get { return \"" + schedule.ActionName + "\"; } }\n"
-                + "        public static LGSPAction Instance { get { return instance; } }\n"
-                + "        private LGSPMatches matches;\n"
-                + "        private LGSPMatchesList matchesList;\n\n");
-
-            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, schedule.NodeCost, schedule.EdgeCost, false, false);
+            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph, 
+                schedule.NodeCost, schedule.EdgeCost, false, false);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
@@ -312,47 +301,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-
             matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
-            source.Append(matcherGen.GenerateMatcherSourceCode(scheduledSearchPlan, schedule.ActionName, schedule.RulePattern));
-        }
 
-        void GenerateAction(LGSPStaticScheduleInfo schedule, IGraphModel model, SourceBuilder source, LGSPMatcherGenerator matcherGen)
-        {
-            PatternGraph patternGraph = (PatternGraph)schedule.RulePattern.PatternGraph;
-
-            source.Append("    public class Action_" + schedule.ActionName + " : LGSPAction\n    {\n"
-                + "        private static Action_" + schedule.ActionName + " instance = new Action_" + schedule.ActionName + "();\n\n"
-                + "        public Action_" + schedule.ActionName + "() { rulePattern = " + schedule.RulePattern.GetType().Name + ".Instance;\n"
-                + "            DynamicMatch = myMatch; matches = new LGSPMatches(this, " + schedule.RulePattern.PatternGraph.Nodes.Length
-                + ", " + schedule.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches;\n");
-            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
-            {
-                source.Append("            subpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
-            }
-            source.Append("        }\n\n"
-                + "        public override string Name { get { return \"" + schedule.ActionName + "\"; } }\n"
-                + "        public static LGSPAction Instance { get { return instance; } }\n"
-                + "        private LGSPMatches matches;\n"
-                + "        private LGSPMatchesList matchesList;\n\n");
-
-            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, schedule.NodeCost, schedule.EdgeCost, false, true);
-            matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
-            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[schedule.RulePattern.NegativePatternGraphs.Length];
-            for(int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; ++i)
-            {
-                PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph) schedule.RulePattern.NegativePatternGraphs[i],
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, true);
-                matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
-                negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
-            }
-
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-
-            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
-            source.Append(matcherGen.GenerateMatcherSourceCode(scheduledSearchPlan, schedule.ActionName, schedule.RulePattern));
+            return scheduledSearchPlan;
         }
 
 		int xgrsNextSequenceID = 0;
@@ -657,6 +608,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Console.WriteLine("Building libraries...");
 
+            ///////////////////////////////////////////////
+            // use java frontend to build the model and intermediate action source files
+            ///////////////////////////////////////////////
+
             String binPath = FixDirectorySeparators(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)) + Path.DirectorySeparatorChar;
 
             if(useExisting == UseExistingKind.None)
@@ -721,6 +676,11 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
+            ///////////////////////////////////////////////
+            // compile the model and intermediate action files generated by the java frontend
+            // to gain access via reflection to their content needed for matcher code generation
+            ///////////////////////////////////////////////
+
             Assembly modelAssembly;
             String modelAssemblyName;
             if(!ProcessModel(modelFilename, modelStubFilename, destDir, compileWithDebug, out modelAssembly, out modelAssemblyName)) return ErrorType.GrGenNetError;
@@ -776,6 +736,9 @@ namespace de.unika.ipd.grGen.lgsp
 						actionTypes.Add(type.Name, type);
                 }
 
+                ///////////////////////////////////////////////
+                // take action intermediate file until action insertion point as base for action file 
+                ///////////////////////////////////////////////
 
 				SourceBuilder source = new SourceBuilder(false);
 				source.Indent();
@@ -828,6 +791,11 @@ namespace de.unika.ipd.grGen.lgsp
 				source.Unindent();
 				source.Append("\n");
 
+                ///////////////////////////////////////////////
+                // generate and insert the matcher source code into the action file
+                // already filled with the content of the action intermediate file until the action insertion point
+                ///////////////////////////////////////////////
+
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if(keepGeneratedFiles) matcherGen.CommentSourceCode = true;
 
@@ -862,14 +830,19 @@ namespace de.unika.ipd.grGen.lgsp
                     if(type.BaseType == typeof(LGSPStaticScheduleInfo))
                     {
                         LGSPStaticScheduleInfo schedule = (LGSPStaticScheduleInfo) initialAssembly.CreateInstance(type.FullName);
+                        
+                        ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
+                            schedule, model, matcherGen);
+                        
+                        String matcherSourceCode = matcherGen.GenerateMatcherSourceCode(
+                            scheduledSearchPlan, schedule.ActionName, schedule.RulePattern);
+                        
+                        matcherGen.GenerateMatcherClass(source, matcherSourceCode,
+                            schedule.ActionName, schedule.RulePattern, schedule.isRule, true);
+                        
                         if (schedule.isRule)
                         {
-                            GenerateAction(schedule, model, source, matcherGen);
                             endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
-                        }
-                        else
-                        {
-                            GeneratePattern(schedule, model, source, matcherGen);
                         }
                     }
                 }
@@ -904,6 +877,16 @@ namespace de.unika.ipd.grGen.lgsp
                     return ErrorType.GrGenNetError;
                 }
             }
+
+            ///////////////////////////////////////////////
+            // finally compile the action source file into action assembly
+            ///////////////////////////////////////////////
+            // action source file was built this way:
+            // the rule pattern code was copied from the action intermediate file, 
+            // action code was appended by matcher generation,
+            // which needed access to the rule pattern objects, 
+            // given via reflection of the compiled action intermediate file)
+            ///////////////////////////////////////////////
 
             compParams.GenerateInMemory = false;
             compParams.CompilerOptions = compileWithDebug ? "/debug" : "/optimize";

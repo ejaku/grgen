@@ -1043,15 +1043,82 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates an LGSPAction object for the given scheduled search plan.
+        /// Generates file header for actions file into given source builer
         /// </summary>
-        /// <param name="action">Needed for the rule pattern and the name</param>
-        /// <param name="sourceOutputFilename">null if no output file needed</param>
-        public LGSPAction GenerateActions(ScheduledSearchPlan scheduledSearchPlan, LGSPAction action,
-            String modelAssemblyLocation, String actionAssemblyLocation, String sourceOutputFilename)
+        public void GenerateFileHeaderForActionsFile(SourceBuilder sb,
+                String namespaceOfModel, String namespaceOfRulePatterns)
         {
-            // set up compiler
-            CSharpCodeProvider compiler = new CSharpCodeProvider();
+            sb.Append("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
+                + "using " + namespaceOfModel + ";\n"
+                + "using " + namespaceOfRulePatterns + ";\n\n");
+            sb.Append("namespace de.unika.ipd.grGen.lgspActions\n{\n");
+        }
+
+        /// <summary>
+        /// Generates source code for matcher class into given source builder,
+        /// class is generated here, the matcher method(s) itself must be handed in within matcherSourceCode.
+        /// name is the prefix-less name of the rule pattern to generate the action for.
+        /// isRule says whether code for a rule/test or a subpattern is to be generated.
+        /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+        /// </summary>
+        public void GenerateMatcherClass(SourceBuilder sb, String matcherSourceCode,
+                String name, LGSPRulePattern rulePattern, bool isRule, bool isInitialStatic)
+        {
+            PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+
+            String namePrefix = isRule ? "Action_" : "PatternAction_";
+            namePrefix = (isInitialStatic ? "" : "Dyn") + namePrefix;
+            String className = namePrefix + name;
+  
+            sb.Append("\tpublic class " + className + " : LGSPAction\n    {\n"
+                + "\t\tpublic " + className + "() { rulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
+                + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " + patternGraph.Nodes.Length + ", " + patternGraph.Edges.Length + "); matchesList = matches.matches;\n");
+            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            {
+                sb.Append("\t\t\tsubpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
+            }
+            sb.Append("\t\t}\n\n"
+                + "\t\tpublic override string Name { get { return \"" + name + "\"; } }\n"
+                + "\t\tprivate LGSPMatches matches;\n"
+                + "\t\tprivate LGSPMatchesList matchesList;\n\n");
+            if(isInitialStatic)
+            {
+                sb.Append("\t\tpublic static LGSPAction Instance { get { return instance; } }\n"
+                + "\t\tprivate static " + className + " instance = new " + className + "();\n\n");
+            }
+            sb.Append(matcherSourceCode);
+            // TODO: GenerateMatcherSourceCode should not close class
+        }
+
+        /// <summary>
+        /// Generates ScheduledSearchPlan needed for matcher code generation for action compilation
+        /// out of old, already compiled action (giving access to rule pattern) and graph with analyze information
+        /// </summary>
+        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPAction action, LGSPGraph graph)
+        {
+            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)action.RulePattern.PatternGraph, false, true);
+            MarkMinimumSpanningArborescence(planGraph, action.Name);
+            SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
+
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[action.RulePattern.NegativePatternGraphs.Length];
+            for (int i = 0; i < action.RulePattern.NegativePatternGraphs.Length; ++i)
+            {
+                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)action.RulePattern.NegativePatternGraphs[i], true, true);
+                MarkMinimumSpanningArborescence(negPlanGraph, action.Name + "_neg_" + (i + 1));
+                negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
+            }
+
+            ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
+            AppendHomomorphyInformation(scheduledSearchPlan);
+
+            return scheduledSearchPlan;
+        }
+
+        /// <summary>
+        /// Setup of compiler parameters for recompilation of actions at runtime taking care of analyze information
+        /// </summary>
+        public CompilerParameters GetDynCompilerSetup(String modelAssemblyLocation, String actionAssemblyLocation)
+        {
             CompilerParameters compParams = new CompilerParameters();
             compParams.ReferencedAssemblies.Add("System.dll");
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(BaseGraph)).Location);
@@ -1065,28 +1132,29 @@ exitSecondLoop: ;
 #else
             compParams.CompilerOptions = "/optimize";
 #endif
+            return compParams;
+        }
 
+        /// <summary>
+        /// Generates an LGSPAction object for the given scheduled search plan.
+        /// </summary>
+        /// <param name="action">Needed for the rule pattern and the name</param>
+        /// <param name="sourceOutputFilename">null if no output file needed</param>
+        public LGSPAction GenerateAction(ScheduledSearchPlan scheduledSearchPlan, LGSPAction action,
+            String modelAssemblyLocation, String actionAssemblyLocation, String sourceOutputFilename)
+        {
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
-
-            // generate class setup
-            sourceCode.Append("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
-                + "using " + model.GetType().Namespace + ";\nusing " + action.RulePattern.GetType().Namespace + ";\n\n"
-                + "namespace de.unika.ipd.grGen.lgspActions\n{\n");
+            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, action.RulePattern.GetType().Namespace);
 
             // TODO: insert dependent subpattern action generation here
 
-            sourceCode.Append("    public class DynAction_" + action.Name + " : LGSPAction\n    {\n"
-                + "        public DynAction_" + action.Name + "() { rulePattern = " + action.RulePattern.GetType().Name
-                + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, " + action.RulePattern.PatternGraph.Nodes.Length
-                + ", " + action.RulePattern.PatternGraph.Edges.Length + "); matchesList = matches.matches; }\n"
-                + "        public override string Name { get { return \"" + action.Name + "\"; } }\n"
-                + "        private LGSPMatches matches;\n"
-                + "        private LGSPMatchesList matchesList;\n");
+            String matcherSourceCode = GenerateMatcherSourceCode(
+                scheduledSearchPlan, action.Name, action.rulePattern);
 
-            // generate the matching function
-            sourceCode.Append(GenerateMatcherSourceCode(scheduledSearchPlan, action.Name, action.rulePattern));
+            GenerateMatcherClass(sourceCode, matcherSourceCode,
+                action.Name, action.rulePattern, true, false);
 
-            // close namespace   TODO: GenerateMatcherSourceCode should not close class
+            // close namespace
             sourceCode.Append("}");
 
             // write generated source to file if requested
@@ -1096,6 +1164,11 @@ exitSecondLoop: ;
                 writer.Write(sourceCode.ToString());
                 writer.Close();
             }
+
+            // set up compiler
+            CSharpCodeProvider compiler = new CSharpCodeProvider();
+            CompilerParameters compParams = GetDynCompilerSetup(modelAssemblyLocation, actionAssemblyLocation);
+
 //            Stopwatch compilerWatch = Stopwatch.StartNew();
 
             // compile generated code
@@ -1116,47 +1189,32 @@ exitSecondLoop: ;
             return (LGSPAction) obj;
         }
 
+        /// <summary>
+        /// Generate new actions for the given actions, doing the same work, 
+        /// but hopefully faster by taking graph analysis information into account
+        /// </summary>
         public LGSPAction[] GenerateActions(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
             params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
 
             SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
-            sourceCode.Append("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
-                + "using " + model.GetType().Namespace + ";\nusing " + actions[0].RulePattern.GetType().Namespace + ";\n\n"
-                + "namespace de.unika.ipd.grGen.lgspActions\n{\n");
+            GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].RulePattern.GetType().Namespace);
 
             // TODO: insert dependent subpattern action generation here
-
+         
             foreach(LGSPAction action in actions)
             {
-                PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.PatternGraph, false, true);
-                MarkMinimumSpanningArborescence(planGraph, action.Name);
-                SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
+                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(action, graph);
 
-                SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[action.RulePattern.NegativePatternGraphs.Length];
-                for(int i = 0; i < action.RulePattern.NegativePatternGraphs.Length; i++)
-                {
-                    PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph) action.RulePattern.NegativePatternGraphs[i], true, true);
-                    MarkMinimumSpanningArborescence(negPlanGraph, action.Name + "_neg_" + (i + 1));
-                    negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
-                }
+                String matcherSourceCode = GenerateMatcherSourceCode(
+                    scheduledSearchPlan, action.Name, action.rulePattern);
 
-                ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-
-                AppendHomomorphyInformation(scheduledSearchPlan);
-
-                sourceCode.Append("    public class DynAction_" + action.Name + " : LGSPAction\n    {\n"
-                    + "        public DynAction_" + action.Name + "() { rulePattern = "
-                    + action.RulePattern.GetType().Name + ".Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, "
-                    + action.RulePattern.PatternGraph.Nodes.Length + ", " + action.RulePattern.PatternGraph.Edges.Length + "); "
-                    + "matchesList = matches.matches; }\n"
-                    + "        public override string Name { get { return \"" + action.Name + "\"; } }\n"
-                    + "        private LGSPMatches matches;\n"
-                    + "        private LGSPMatchesList matchesList;\n");
-
-                sourceCode.Append(GenerateMatcherSourceCode(scheduledSearchPlan, action.Name, action.rulePattern));
+                GenerateMatcherClass(sourceCode, matcherSourceCode,
+                    action.Name, action.rulePattern, true, false);
             }
+
+            // close namespace
             sourceCode.Append("}");
 
             if(DumpDynSourceCode)
@@ -1165,21 +1223,11 @@ exitSecondLoop: ;
                     writer.Write(sourceCode.ToString());
             }
 
+            // set up compiler
             CSharpCodeProvider compiler = new CSharpCodeProvider();
-            CompilerParameters compParams = new CompilerParameters();
-            compParams.ReferencedAssemblies.Add("System.dll");
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(BaseGraph)).Location);
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPAction)).Location);
-            compParams.ReferencedAssemblies.Add(modelAssemblyName);
-            compParams.ReferencedAssemblies.Add(actionsAssemblyName);
-
-            compParams.GenerateInMemory = true;
-#if PRODUCE_UNSAFE_MATCHERS
-            compParams.CompilerOptions = "/optimize /unsafe";
-#else
-            compParams.CompilerOptions = "/optimize";
-#endif
-
+            CompilerParameters compParams = GetDynCompilerSetup(modelAssemblyName, actionsAssemblyName);
+ 
+            // compile generated code
             CompilerResults compResults = compiler.CompileAssemblyFromSource(compParams, sourceCode.ToString());
             if(compResults.Errors.HasErrors)
             {
@@ -1189,6 +1237,7 @@ exitSecondLoop: ;
                 throw new ArgumentException("Internal error: Illegal dynamic C# source code produced: " + errorMsg);
             }
 
+            // create action instances
             LGSPAction[] newActions = new LGSPAction[actions.Length];
             for(int i = 0; i < actions.Length; i++)
             {
@@ -1201,6 +1250,10 @@ exitSecondLoop: ;
             return newActions;
         }
 
+        /// <summary>
+        /// Generate a new action for the given action, doing the same work, 
+        /// but hopefully faster by taking graph analysis information into account
+        /// </summary>
         public LGSPAction GenerateAction(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, LGSPAction action)
         {
             return GenerateActions(graph, modelAssemblyName, actionsAssemblyName, action)[0];

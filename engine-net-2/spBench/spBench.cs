@@ -903,7 +903,7 @@ namespace spBench
                 String outputName = null;
 #endif
 
-                LGSPAction newAction = ctx.MatchGen.GenerateActions(ssp, ctx.Action, Assembly.GetAssembly(ctx.Graph.Model.GetType()).Location,
+                LGSPAction newAction = ctx.MatchGen.GenerateAction(ssp, ctx.Action, Assembly.GetAssembly(ctx.Graph.Model.GetType()).Location,
                     Assembly.GetAssembly(ctx.Actions.GetType()).Location, outputName);
 
                 ctx.Actions.ReplaceAction(ctx.Action.Name, newAction);
