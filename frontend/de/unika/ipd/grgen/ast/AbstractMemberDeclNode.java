@@ -19,43 +19,32 @@
 
 
 /**
- * @author Rubino Geiss
- * @version $Id$
+ * @author Sebastian Hack
+ * @version $Id: MemberDeclNode.java 17529 2008-01-24 08:08:02Z buchwald $
  */
-package de.unika.ipd.grgen.ir;
+package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+import de.unika.ipd.grgen.ast.util.Checker;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import de.unika.ipd.grgen.ir.Type;
 
 /**
- * A XGRS in an emit statement.
+ * A compound type member declaration that is abstract, i.e. has no type defined yet, but just a member name.
  */
-public class Exec extends IR implements ImperativeStmt {
-
-	private Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
-
-	private String xgrsString;
-
-	public Exec(String xgrsString, Set<GraphEntity> parameters) {
-		super("exec");
-		this.xgrsString = xgrsString;
-		this.parameters = parameters;
-	}
-
-
-	/**
-	 * Returns XGRS as an String
-	 */
-	public String getXGRSString() {
-		return xgrsString;
+public class AbstractMemberDeclNode extends MemberDeclNode {
+	static {
+		setName(AbstractMemberDeclNode.class, "abstract member declaration");
 	}
 
 	/**
-	 * Returns Parameters
+	 * @param n Identifier which declared the member.
+	 * @param t Type with which the member was declared.
 	 */
-	public Set<GraphEntity> getArguments() {
-		return Collections.unmodifiableSet(parameters);
+	public AbstractMemberDeclNode(IdentNode n, boolean isConst) {
+		super(n, BasicTypeNode.voidType, isConst);
 	}
 }

@@ -18,10 +18,6 @@ header {
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-/**
- * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
- * @version $Id$
- */
 	package de.unika.ipd.grgen.parser.antlr;
 
 	import java.util.Iterator;
@@ -46,8 +42,8 @@ header {
 
 /**
  * GrGen types grammar
- * @version 0.1
- * @author Sebastian Hack
+ * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski
+ * @version $Id$
  */
 class GRTypeParser extends GRBaseParser;
 options {
@@ -96,13 +92,13 @@ typeDecl returns [ IdentNode res = env.getDummyIdent() ]
 classDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{ int mods = 0; }
 
-	: mods=typeModifiers (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
+	: (mods=typeModifiers)? (res=edgeClassDecl[mods] | res=nodeClassDecl[mods])
 	;
 
 typeModifiers returns [ int res = 0; ]
 	{ int mod = 0; }
 
-	: (mod=typeModifier { res |= mod; })*
+	: (mod=typeModifier { res |= mod; })+
 	;
 
 typeModifier returns [ int res = 0; ]
@@ -246,9 +242,11 @@ nodeExtendsCont [IdentNode clsId, CollectNode c ]
 	;
 
 nodeClassBody returns [ CollectNode c = new CollectNode() ]
-	{ BaseNode b;}
+	{
+		BaseNode b;
+	}
 
-	:   (
+	:	(
 			(
 				b=basicDecl { c.addChild(b); }
 				(
@@ -261,9 +259,11 @@ nodeClassBody returns [ CollectNode c = new CollectNode() ]
 	;
 
 edgeClassBody returns [ CollectNode c = new CollectNode() ]
-	{ BaseNode b; }
+	{
+		BaseNode b;
+	}
 
-	:   (
+	:	(
 			(
 				b=basicDecl { c.addChild(b); }
 				(
@@ -328,17 +328,25 @@ enumItemDecl [ IdentNode type, CollectNode coll, ExprNode defInit, int pos ]
 
 basicDecl returns [ MemberDeclNode res = null ]
 	{
-		IdentNode id;
+		IdentNode id = env.getDummyIdent();
 		IdentNode type;
 		MemberDeclNode decl;
+		boolean isConst = false;
 	}
 
-	: id=entIdentDecl COLON type=typeIdentUse
-		{
-			decl = new MemberDeclNode(id, type);
-			id.setDecl(decl);
-			res = decl;
-		}
+	:	(
+			ABSTRACT ( CONST { isConst = true; } )? id=entIdentDecl
+			{
+				res = new AbstractMemberDeclNode(id, isConst);
+			}
+		|
+			( CONST { isConst = true; } )? id=entIdentDecl COLON type=typeIdentUse
+			{
+				decl = new MemberDeclNode(id, type, isConst);
+				id.setDecl(decl);
+				res = decl;
+			}
+		)
 	;
 
 initExpr returns [ MemberInitNode res = null ]

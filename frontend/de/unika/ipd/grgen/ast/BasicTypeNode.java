@@ -99,7 +99,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
-//		addCompatibility(voidType, stringType);
+		addCompatibility(voidType, stringType);
 	}
 
 	/** returns children of this node */

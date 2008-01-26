@@ -34,8 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.unika.ipd.grgen.util.Base;
-
 /**
  * Abstract base class for types that inherit from other types.
  */
@@ -136,11 +134,12 @@ public abstract class InheritanceType extends CompoundType {
 			for(Entity member : getMembers())
 				allMembers.put(member.getIdent().toString(), member);
 
-			// add the members of the supertype
+			// add the members of the super type
 			for(InheritanceType superType : getAllSuperTypes())
 				for(Entity member : superType.getMembers())
 					if(allMembers.containsKey(member.getIdent().toString())) {
-						Base.error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
+						if(!member.getType().isVoid()) // we have an abstract member, it's OK to overwrite it
+						error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
 											 "It is also declared in " + allMembers.get(member.getIdent().toString()).getOwner() + ".");
 					} else {
 						allMembers.put(member.getIdent().toString(), member);

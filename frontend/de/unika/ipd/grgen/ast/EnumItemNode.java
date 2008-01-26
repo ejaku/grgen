@@ -53,7 +53,7 @@ public class EnumItemNode extends MemberDeclNode {
 	 * Make a new enum item node.
 	 */
 	public EnumItemNode(IdentNode identifier, IdentNode type, ExprNode value, int pos) {
-		super(identifier, type);
+		super(identifier, type, true);
 		this.value = value;
 		becomeParent(this.value);
 		this.pos = pos;

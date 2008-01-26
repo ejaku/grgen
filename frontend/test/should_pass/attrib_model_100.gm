@@ -1,4 +1,4 @@
-node class A {
+abstract node class A {
   abstract value;
 }
 
@@ -18,3 +18,20 @@ node class AcINT_BOOL extends AaBOOL {
   value : int;
 }
 
+enum E { e, f }
+
+node class AENUM extends A {
+  value : E;
+}
+
+abstract edge class F {
+  abstract x;
+}
+
+edge class FINT extends F {
+  x : string;
+}
+
+node class String {
+  s : string;
+}

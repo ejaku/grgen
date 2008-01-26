@@ -100,4 +100,8 @@ public class CollectNode extends BaseNode {
 	public Color getNodeColor() {
 		return Color.GRAY;
 	}
+	
+	public String toString() {
+		return children.toString();
+	}
 }

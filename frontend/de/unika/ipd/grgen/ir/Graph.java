@@ -325,7 +325,7 @@ public abstract class Graph extends IR {
 
     /** Add a single edge (i.e. dangling) to the graph. */
 	public void addSingleEdge(Edge edge) {
-		GraphEdge e = getOrSetEdge(edge);
+		getOrSetEdge(edge);
 	}
 
 	/** Add a subpattern usage to the graph. */

@@ -26,6 +26,7 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -42,13 +43,15 @@ public class MemberDeclNode extends DeclNode {
 	}
 	
 	TypeNode type;
+	private boolean isConst;
 
 	/**
 	 * @param n Identifier which declared the member.
 	 * @param t Type with which the member was declared.
 	 */
-	public MemberDeclNode(IdentNode n, BaseNode t) {
+	public MemberDeclNode(IdentNode n, BaseNode t, boolean isConst ) {
 		super(n, t);
+		this.isConst = isConst;
 	}
 
 	/** returns children of this node */

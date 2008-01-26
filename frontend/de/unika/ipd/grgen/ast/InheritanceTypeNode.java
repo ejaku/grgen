@@ -86,10 +86,17 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() 
 	{
-		getAllMembers();
-		getAllSuperTypes();
 		Checker bodyChecker =
 			new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
+		getAllSuperTypes();
+		
+		
+		for(DeclNode member : getAllMembers().values())
+			if(member instanceof AbstractMemberDeclNode && !isAbstract())
+				error.error(getIdentNode().getCoords(),
+						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" + 
+						member + "\" is abstract.");
+		
 		return bodyChecker.check(body, error)
 			&& myInhChecker.check(extend, error);
 	}
@@ -105,7 +112,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				boolean result = t.fixupDefinition(id);
 
 				if(found && result) {
-					reportError("Identifier " + id + " is ambiguous");
+					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
 				}
 				
 				found = found || result;
@@ -159,10 +166,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				DeclNode decl = (DeclNode)n;
 
 				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
-				if(old!=null) {
-					error.error(decl.getCoords(), decl.toString() +" of " + getUseString() + " " + getIdentNode() + " already defined. " +
-									"It is also declared in " + old.getParents() + "." // TODO improve error message
-							   );
+				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
+					error.error(decl.getCoords(), "member " + decl.toString() +" of " + 
+							getUseString() + " " + getIdentNode() + 
+							" already defined in " + old.getParents() + "." // TODO improve error message
+						);
 				}
 			}
 		}
@@ -180,7 +188,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 			getMembers(allMembers);
 		}
-		//System.out.println("+++++++ getAllSuperTypes: " + getAllSuperTypes());
 
 		return allMembers;
 	}
