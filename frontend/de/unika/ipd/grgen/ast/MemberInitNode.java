@@ -27,9 +27,9 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.MemberInitResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -46,7 +46,8 @@ public class MemberInitNode extends BaseNode
 		setName(MemberInitNode.class, "member init");
 	}
 
-	BaseNode lhs;
+	BaseNode lhsUnresolved;
+	DeclNode lhs;
 	ExprNode rhs;
 
 	/**
@@ -56,8 +57,8 @@ public class MemberInitNode extends BaseNode
 	 */
 	public MemberInitNode(Coords coords, IdentNode member, ExprNode expr) {
 		super(coords);
-		this.lhs = member;
-		becomeParent(this.lhs);
+		this.lhsUnresolved = member;
+		becomeParent(this.lhsUnresolved);
 		this.rhs = expr;
 		becomeParent(this.rhs);
 	}
@@ -65,7 +66,7 @@ public class MemberInitNode extends BaseNode
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(lhs);
+		children.add(getValidVersion(lhsUnresolved, lhs));
 		children.add(rhs);
 		return children;
 	}
@@ -86,18 +87,17 @@ public class MemberInitNode extends BaseNode
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver lhsResolver = new MemberInitResolver(DeclNode.class);
+		MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>(DeclNode.class);
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
-		BaseNode resolved = lhsResolver.resolve(lhs);
-		successfullyResolved = resolved!=null && successfullyResolved;
-		lhs = ownedResolutionResult(lhs, resolved);
+		lhs = lhsResolver.resolve(lhsUnresolved, this);
+		successfullyResolved = lhs!=null && successfullyResolved;
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = lhs.resolve() && successfullyResolved;
+		successfullyResolved = (lhs!=null ? lhs.resolve() : false) && successfullyResolved;
 		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -119,7 +119,7 @@ public class MemberInitNode extends BaseNode
 	 */
 	protected boolean typeCheckLocal() {
 		ExprNode expr = rhs;
-		TypeNode targetType = (TypeNode) ((DeclNode) lhs).getDeclType();
+		TypeNode targetType = (TypeNode) lhs.getDeclType();
 		TypeNode exprType = expr.getType();
 
 		if (! exprType.isEqual(targetType)) {
