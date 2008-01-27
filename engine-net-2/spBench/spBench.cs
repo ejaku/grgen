@@ -287,7 +287,9 @@ namespace spBench
                     searchOperationType = SearchOperationType.NegPreset;
                 }
                 else isPreset = false;
-                nodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset);
+                nodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
+                    edge.source!=null ? edge.source.TempPlanMapping : null,
+                    edge.target!=null ? edge.target.TempPlanMapping : null);
                 if(isPreset)
                 {
                     PlanEdge rootToNodeEdge = new PlanEdge(searchOperationType, root, nodes[nodesIndex], 0);

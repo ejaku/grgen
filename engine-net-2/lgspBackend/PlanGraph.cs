@@ -89,15 +89,16 @@ namespace de.unika.ipd.grGen.lgsp
     public class PlanNode : PlanPseudoNode
     {
         public PlanNodeType NodeType;
-        // MSA needs incoming edges, scheduling needs outgoing edges
         public List<PlanEdge> IncomingEdges = new List<PlanEdge>();
         public int ElementID;
         public bool IsPreset;
 
-        public PatternElement PatternElement;
+        public PatternElement PatternElement; // the pattern element(node or edge) this plan node represents
 
         /// <summary>
-        /// Only valid if representing pattern edge
+        /// Only valid if this plan node is representing a pattern edge, 
+        /// then PatternEdgeSource gives us the plan node made out of the source node of the edge
+        /// then PatternEdgeTarget gives us the plan node made out of the target node of the edge
         /// </summary>
         public PlanNode PatternEdgeSource, PatternEdgeTarget;
 
@@ -132,7 +133,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="patEdge">The pattern edge for this plan node.</param>
         /// <param name="elemID">The element ID for this plan node.</param>
         /// <param name="isPreset">True, if this element is a known element.</param>
-        public PlanNode(PatternEdge patEdge, int elemID, bool isPreset)
+        /// <param name="patternEdgeSource">The plan node corresponding to the source of the pattern edge.</param>
+        /// <param name="patternEdgeTarget">The plan node corresponding to the target of the pattern edge.</param>
+        public PlanNode(PatternEdge patEdge, int elemID, bool isPreset,
+            PlanNode patternEdgeSource, PlanNode patternEdgeTarget)
         {
             NodeType = PlanNodeType.Edge;
             ElementID = elemID;
@@ -140,8 +144,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             PatternElement = patEdge;
 
-            PatternEdgeSource = patEdge.source != null ? patEdge.source.TempPlanMapping : null;
-            PatternEdgeTarget = patEdge.target != null ? patEdge.target.TempPlanMapping : null;
+            PatternEdgeSource = patternEdgeSource;
+            PatternEdgeTarget = patternEdgeTarget;
         }
 
         /// <summary>

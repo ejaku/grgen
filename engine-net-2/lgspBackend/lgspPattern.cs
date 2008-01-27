@@ -49,6 +49,9 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("PatternNode ({name}:{TypeID})")]
     public class PatternNode : PatternElement, IPatternNode
     {
+        /// <summary>
+        /// plan graph node corresponding to this pattern node, used in plan graph generation, just hacked into this place
+        /// </summary>
         public PlanNode TempPlanMapping;
 
         /// <summary>

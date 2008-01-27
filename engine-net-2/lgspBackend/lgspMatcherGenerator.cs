@@ -58,7 +58,10 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Generate plan graph for given pattern graph with costs from the analyzed host graph 
+        /// Generate plan graph for given pattern graph with costs from the analyzed host graph.
+        /// Plan graph contains nodes representing the pattern elements (nodes and edges)
+        /// and edges representing the matching operations to get the elements by.
+        /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
@@ -66,20 +69,35 @@ namespace de.unika.ipd.grGen.lgsp
         {
             /// 
             /// If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
+            /// look there for version without ifdef junk
+            /// todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
             /// 
 
-            PlanNode[] nodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
+            /// Create root node
+            /// Create plan graph nodes for all pattern graph nodes and all pattern graph edges
+            /// Create "lookup" plan graph edge from root node to each plan graph node
+            /// Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
+            ///     to the plan graph node created by the source node of the pattern graph edge
+            /// Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
+            ///     to the plan graph node created by the target node of the pattern graph edge
+            /// Create "incoming" plan graph edge from each plan graph node originating with a pattern node
+            ///     to a plan graph node created by one of the incoming edges of the pattern node
+            /// Create "outgoing" plan graph edge from each plan graph node originating with a pattern node
+            ///     to a plan graph node created by one of the outgoing edges of the pattern node
+
+            PlanNode[] planNodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
-            List<PlanEdge> edges = new List<PlanEdge>(patternGraph.Nodes.Length + 5 * patternGraph.Edges.Length);
+            List<PlanEdge> planEdges = new List<PlanEdge>(patternGraph.Nodes.Length + 5 * patternGraph.Edges.Length);
 
             int nodesIndex = 0;
 
-            PlanNode root = new PlanNode("root");
+            PlanNode planRoot = new PlanNode("root");
 
             // create plan nodes and lookup plan edges for all pattern graph nodes
             for(int i = 0; i < patternGraph.Nodes.Length; i++)
             {
                 PatternNode node = patternGraph.nodes[i];
+
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
@@ -91,7 +109,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = SearchOperationType.MaybePreset;
+                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
                 }
                 else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
@@ -113,16 +131,18 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
-                nodes[nodesIndex] = new PlanNode(node, i + 1, isPreset);
-                PlanEdge rootToNodeEdge = new PlanEdge(searchOperationType, root, nodes[nodesIndex], cost);
-                edges.Add(rootToNodeEdge);
-                nodes[nodesIndex].IncomingEdges.Add(rootToNodeEdge);
-                node.TempPlanMapping = nodes[nodesIndex];
-                nodesIndex++;
+                planNodes[nodesIndex] = new PlanNode(node, i + 1, isPreset);
+                PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
+                planEdges.Add(rootToNodePlanEdge);
+                planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+
+                node.TempPlanMapping = planNodes[nodesIndex];
+
+                ++nodesIndex;
             }
 
             // create plan nodes and necessary plan edges for all pattern graph edges
-            for(int i = 0; i < patternGraph.Edges.Length; i++)
+            for(int i = 0; i < patternGraph.Edges.Length; ++i)
             {
                 PatternEdge edge = patternGraph.edges[i];
 
@@ -139,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                     isPreset = true;
-                    searchOperationType = SearchOperationType.MaybePreset;
+                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -176,52 +196,60 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
-                nodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset);
-                PlanEdge rootToNodeEdge = new PlanEdge(searchOperationType, root, nodes[nodesIndex], cost);
-                edges.Add(rootToNodeEdge);
-                nodes[nodesIndex].IncomingEdges.Add(rootToNodeEdge);
+                planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
+                    edge.source!=null ? edge.source.TempPlanMapping : null,
+                    edge.target!=null ? edge.target.TempPlanMapping : null);
+
+                PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
+                planEdges.Add(rootToNodePlanEdge);
+                planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
 #else
-                SearchOperationType searchOperationType = SearchOperationType.Lookup;       // lookup as dummy
+                SearchOperationType searchOperationType = SearchOperationType.Lookup; // lookup as dummy
                 if(edge.PatternElementType == PatternElementType.Preset)
                 {
                     isPreset = true;
-                    searchOperationType = SearchOperationType.MaybePreset;
+                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
                     isPreset = true;
                     searchOperationType = SearchOperationType.NegPreset;
                 }
-                else isPreset = false;
-                nodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset);
+                else 
+                {
+                    isPreset = false;
+                }
+                planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
+                    edge.source!=null ? edge.source.TempPlanMapping : null,
+                    edge.target!=null ? edge.target.TempPlanMapping : null);
                 if(isPreset)
                 {
-                    PlanEdge rootToNodeEdge = new PlanEdge(searchOperationType, root, nodes[nodesIndex], 0);
-                    edges.Add(rootToNodeEdge);
-                    nodes[nodesIndex].IncomingEdges.Add(rootToNodeEdge);
+                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], 0);
+                    planEdges.Add(rootToNodePlanEdge);
+                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
                 }
 #endif
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
                 if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
                 {
 #if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implSrcEdge = new PlanEdge(SearchOperationType.ImplicitSource, nodes[nodesIndex], edge.source.TempPlanMapping, 0);
+                    PlanEdge implSrcPlanEdge = new PlanEdge(SearchOperationType.ImplicitSource, planNodes[nodesIndex], edge.source.TempPlanMapping, 0);
 #else
-                    PlanEdge implSrcEdge = new PlanEdge(SearchOperationType.ImplicitSource, nodes[nodesIndex], edge.source.TempPlanMapping, 1);
+                    PlanEdge implSrcPlanEdge = new PlanEdge(SearchOperationType.ImplicitSource, planNodes[nodesIndex], edge.source.TempPlanMapping, 1);
 #endif
-                    edges.Add(implSrcEdge);
-                    edge.source.TempPlanMapping.IncomingEdges.Add(implSrcEdge);
+                    planEdges.Add(implSrcPlanEdge);
+                    edge.source.TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
                 if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
                 {
 #if OPCOST_WITH_GEO_MEAN 
-                    PlanEdge implTgtEdge = new PlanEdge(SearchOperationType.ImplicitTarget, nodes[nodesIndex], edge.target.TempPlanMapping, 0);
+                    PlanEdge implTgtPlanEdge = new PlanEdge(SearchOperationType.ImplicitTarget, planNodes[nodesIndex], edge.target.TempPlanMapping, 0);
 #else
-                    PlanEdge implTgtEdge = new PlanEdge(SearchOperationType.ImplicitTarget, nodes[nodesIndex], edge.target.TempPlanMapping, 1);
+                    PlanEdge implTgtPlanEdge = new PlanEdge(SearchOperationType.ImplicitTarget, planNodes[nodesIndex], edge.target.TempPlanMapping, 1);
 #endif
-                    edges.Add(implTgtEdge);
-                    edge.target.TempPlanMapping.IncomingEdges.Add(implTgtEdge);
+                    planEdges.Add(implTgtPlanEdge);
+                    edge.target.TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
                 // edge must only be reachable from other nodes if it's not a preset
@@ -241,9 +269,9 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
                         if(graph.nodeCounts[edge.source.TypeID] != 0)
                             normCost /= graph.nodeCounts[edge.source.TypeID];
-                        PlanEdge outEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, nodes[nodesIndex], normCost);
-                        edges.Add(outEdge);
-                        nodes[nodesIndex].IncomingEdges.Add(outEdge);
+                        PlanEdge outPlanEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, planNodes[nodesIndex], normCost);
+                        planEdges.Add(outPlanEdge);
+                        planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
 
                     // no incoming if no target
@@ -260,16 +288,16 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
                         if(graph.nodeCounts[edge.target.TypeID] != 0)
                             revCost /= graph.nodeCounts[edge.target.TypeID];
-                        PlanEdge inEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, nodes[nodesIndex], revCost);
-                        edges.Add(inEdge);
-                        nodes[nodesIndex].IncomingEdges.Add(inEdge);
+                        PlanEdge inPlanEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, planNodes[nodesIndex], revCost);
+                        planEdges.Add(inPlanEdge);
+                        planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
                     }
                 }
 
-                nodesIndex++;
+                ++nodesIndex;
             }
 
-            return new PlanGraph(root, nodes, edges.ToArray(), patternGraph);
+            return new PlanGraph(planRoot, planNodes, planEdges.ToArray(), patternGraph);
         }
 
         /// <summary>
@@ -356,7 +384,7 @@ exitSecondLoop: ;
                 DumpFinalPlanGraph(planGraph, dumpName);
         }
 
-        #region Dump functions
+#region Dump functions
         private String GetDumpName(PlanNode node)
         {
             if(node.NodeType == PlanNodeType.Root) return "root";
@@ -408,6 +436,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
+                case SearchOperationType.PatPreset: typeStr = "pp"; break;
             }
 
             sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00} ({4:0.00}) \"{5}}}",
@@ -521,6 +550,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
+                case SearchOperationType.PatPreset: typeStr = "pp"; break;
             }
 
             sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00}\"{4}}}",
@@ -541,6 +571,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
                 case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
                 case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
+                case SearchOperationType.PatPreset: typeStr = "pp"; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((Condition) op.Element).NeededNodes) + ")("
                         + String.Join(",", ((Condition) op.Element).NeededEdges) + ")";
@@ -613,60 +644,71 @@ exitSecondLoop: ;
                 }
             }*/
         }
-        #endregion Dump functions
+#endregion Dump functions
 
         /// <summary>
-        /// Generate search plan graph out of the plan graph, i.e. construct a new graph with outgoing
-        /// edges for nodes and only tree edges
+        /// Generate search plan graph out of the plan graph,
+        /// search plan graph only contains edges chosen by the MSA algorithm.
+        /// Edges in search plan graph are given in the nodes by outgoing list, as needed for scheduling,
+        /// in contrast to incoming list in plan graph, as needed for MSA computation.
         /// </summary>
         /// <param name="planGraph">The source plan graph</param>
         /// <returns>A new search plan graph</returns>
         public SearchPlanGraph GenerateSearchPlanGraph(PlanGraph planGraph)
         {
-            SearchPlanNode root = new SearchPlanNode("search plan root");
-            SearchPlanNode[] nodes = new SearchPlanNode[planGraph.Nodes.Length];
-            SearchPlanEdge[] edges = new SearchPlanEdge[planGraph.Nodes.Length - 1 + 1];    // +1 for root
-            // for generating edges
-            Dictionary<PlanNode, SearchPlanNode> planMap = new Dictionary<PlanNode, SearchPlanNode>(planGraph.Nodes.Length);
-            planMap.Add(planGraph.Root, root);
+            SearchPlanNode searchPlanRoot = new SearchPlanNode("search plan root");
+            SearchPlanNode[] searchPlanNodes = new SearchPlanNode[planGraph.Nodes.Length];
+            SearchPlanEdge[] searchPlanEdges = new SearchPlanEdge[planGraph.Nodes.Length - 1 + 1]; // +1 for root
+            Dictionary<PlanNode, SearchPlanNode> planToSearchPlanNode = // for generating edges
+                new Dictionary<PlanNode, SearchPlanNode>(planGraph.Nodes.Length);
+            planToSearchPlanNode.Add(planGraph.Root, searchPlanRoot);
 
-            // generate the search plan graph nodes
+            // generate the search plan graph nodes, same as plan graph nodes,
+            // representing pattern graph nodes and edges
             int i = 0;
-            foreach(PlanNode node in planGraph.Nodes)
+            foreach(PlanNode planNode in planGraph.Nodes)
             {
-                if(node.NodeType == PlanNodeType.Edge)
-                    nodes[i] = new SearchPlanEdgeNode(node, null, null);
+                if(planNode.NodeType == PlanNodeType.Edge)
+                    searchPlanNodes[i] = new SearchPlanEdgeNode(planNode, null, null);
                 else
-                    nodes[i] = new SearchPlanNodeNode(node);
-                planMap.Add(node, nodes[i]);
-                i++;
+                    searchPlanNodes[i] = new SearchPlanNodeNode(planNode);
+                planToSearchPlanNode.Add(planNode, searchPlanNodes[i]);
+
+                ++i;
             }
 
-            // generate the search plan graph edges
+            // generate the search plan graph edges, 
+            // that are the plan graph edges chosen by the MSA algorithm, in reversed direction
+            // and add references to originating pattern elements
             i = 0;
-            foreach(PlanNode node in planGraph.Nodes)
+            foreach(PlanNode planNode in planGraph.Nodes)
             {
-                PlanEdge edge = node.IncomingMSAEdge;
-                edges[i] = new SearchPlanEdge(edge.Type, planMap[edge.Source], planMap[edge.Target], edge.Cost);
-                planMap[edge.Source].OutgoingEdges.Add(edges[i]);
-                if(node.NodeType == PlanNodeType.Edge)
+                PlanEdge planEdge = planNode.IncomingMSAEdge;
+                searchPlanEdges[i] = new SearchPlanEdge(planEdge.Type, planToSearchPlanNode[planEdge.Source], planToSearchPlanNode[planEdge.Target], planEdge.Cost);
+                planToSearchPlanNode[planEdge.Source].OutgoingEdges.Add(searchPlanEdges[i]);
+
+                if(planNode.NodeType == PlanNodeType.Edge)
                 {
-                    SearchPlanEdgeNode spedgenode = (SearchPlanEdgeNode) planMap[node];
-                    SearchPlanNode patelem;
-                    if(edge.Target.PatternEdgeSource != null && planMap.TryGetValue(edge.Target.PatternEdgeSource, out patelem))
+                    SearchPlanEdgeNode searchPlanEdgeNode = (SearchPlanEdgeNode) planToSearchPlanNode[planNode];
+                    SearchPlanNode patElem;
+                    if(planEdge.Target.PatternEdgeSource != null 
+                        && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeSource, out patElem))
                     {
-                        spedgenode.PatternEdgeSource = (SearchPlanNodeNode) patelem;
-                        spedgenode.PatternEdgeSource.OutgoingPatternEdges.AddLast(spedgenode);
+                        searchPlanEdgeNode.PatternEdgeSource = (SearchPlanNodeNode) patElem;
+                        searchPlanEdgeNode.PatternEdgeSource.OutgoingPatternEdges.AddLast(searchPlanEdgeNode);
                     }
-                    if(edge.Target.PatternEdgeTarget != null && planMap.TryGetValue(edge.Target.PatternEdgeTarget, out patelem))
+                    if(planEdge.Target.PatternEdgeTarget != null 
+                        && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeTarget, out patElem))
                     {
-                        spedgenode.PatternEdgeTarget = (SearchPlanNodeNode) patelem;
-                        spedgenode.PatternEdgeTarget.IncomingPatternEdges.AddLast(spedgenode);
+                        searchPlanEdgeNode.PatternEdgeTarget = (SearchPlanNodeNode) patElem;
+                        searchPlanEdgeNode.PatternEdgeTarget.IncomingPatternEdges.AddLast(searchPlanEdgeNode);
                     }
                 }
-                i++;
+
+                ++i;
             }
-            return new SearchPlanGraph(root, nodes, edges, planGraph.PatternGraph);
+
+            return new SearchPlanGraph(searchPlanRoot, searchPlanNodes, searchPlanEdges, planGraph.PatternGraph);
         }
 
         /// <summary>

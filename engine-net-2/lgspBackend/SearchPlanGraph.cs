@@ -11,7 +11,6 @@ namespace de.unika.ipd.grGen.lgsp
     public class SearchPlanNode
     {
         public PlanNodeType NodeType;
-        // scheduling needs outgoing edges, MSA needs incoming edges
         public List<SearchPlanEdge> OutgoingEdges = new List<SearchPlanEdge>();
         public int ElementID;
         public bool IsPreset;
@@ -39,6 +38,7 @@ namespace de.unika.ipd.grGen.lgsp
             NodeType = nodeType;
             ElementID = elemID;
             IsPreset = isPreset;
+
             PatternElement = patternElem;
         }
 
@@ -53,7 +53,13 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>>
     public class SearchPlanNodeNode : SearchPlanNode
     {
+        /// <summary>
+        /// IncomingPatternEdges are the search plan nodes which originate from the incoming pattern edges of the pattern node this node represents
+        /// </summary>
         public LinkedList<SearchPlanEdgeNode> IncomingPatternEdges = new LinkedList<SearchPlanEdgeNode>();
+        /// <summary>
+        /// OutgoingPatternEdges are the search plan nodes which originate from the outgoing pattern edges of the pattern node this node represents
+        /// </summary>
         public LinkedList<SearchPlanEdgeNode> OutgoingPatternEdges = new LinkedList<SearchPlanEdgeNode>();
 
         public SearchPlanNodeNode(PlanNode planNode) : base(planNode) { }
@@ -67,6 +73,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>>
     public class SearchPlanEdgeNode : SearchPlanNode
     {
+        /// <summary>
+        /// PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
+        /// PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
+        /// </summary>
         public SearchPlanNodeNode PatternEdgeSource, PatternEdgeTarget;
 
         public SearchPlanEdgeNode(PlanNode planNode, SearchPlanNodeNode patEdgeSrc, SearchPlanNodeNode patEdgeTgt)

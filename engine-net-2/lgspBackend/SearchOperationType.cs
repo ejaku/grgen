@@ -5,6 +5,7 @@ namespace de.unika.ipd.grGen.lgsp
         Void, // void operation; retype to void to delete operation from ssp quickly
         MaybePreset,
         NegPreset,
+        PatPreset,
         Lookup,
         Outgoing,
         Incoming,
