@@ -26,17 +26,18 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
 
 
 public class ModelNode extends DeclNode {

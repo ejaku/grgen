@@ -70,6 +70,10 @@ public class MemberDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
+	public boolean isConst() {
+		return isConst;
+	}
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
 	protected boolean resolve() {
 		if(isResolved()) {

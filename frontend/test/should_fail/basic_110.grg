@@ -1,0 +1,13 @@
+using basic_model_002;
+
+rule dummy {
+  x : Nconstx;
+  if{ x.x == 42; }
+  replace {
+    . -e:Econstx-> .;
+    eval {
+      x.x = 23;
+      e.x = "this is wrong";
+    }
+  }
+}

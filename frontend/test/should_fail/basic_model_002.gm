@@ -14,6 +14,14 @@ node class N {
 	in : int;
 }
 
+node class Nconstx {
+	const x : int;
+}
+
+edge class Econstx {
+	const x : string;
+}
+
 node class AA extends A;
 
 node class BB extends B;

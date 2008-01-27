@@ -26,14 +26,13 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
+
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * A node representing the current type of a

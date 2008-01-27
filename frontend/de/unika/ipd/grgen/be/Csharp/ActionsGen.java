@@ -538,7 +538,6 @@ public class ActionsGen extends CSharpBase {
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : ((PatternGraph) rule.getRight()).getImperativeStmts()) {
 			if(istmt instanceof Emit) {
-				Emit emit = (Emit)istmt;
 				// nothing to do
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;

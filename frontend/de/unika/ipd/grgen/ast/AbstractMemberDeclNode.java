@@ -20,17 +20,10 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id: MemberDeclNode.java 17529 2008-01-24 08:08:02Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
 
 /**
  * A compound type member declaration that is abstract, i.e. has no type defined yet, but just a member name.
