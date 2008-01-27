@@ -26,9 +26,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.MemberInitResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.MemberPairResolver;
+import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
@@ -42,7 +41,9 @@ public class DeclExprNode extends ExprNode
 		setName(DeclExprNode.class, "decl expression");
 	}
 
-	BaseNode decl;
+	BaseNode declUnresolved;
+	MemberDeclNode declMember;
+	QualIdentNode declQualIdent;
 
 	/** whether an error has been reported for this enum item */
 	private boolean typeAlreadyReported = false;
@@ -54,14 +55,14 @@ public class DeclExprNode extends ExprNode
 	 */
 	public DeclExprNode(BaseNode declCharacter) {
 		super(declCharacter.getCoords());
-		this.decl = declCharacter;
-		becomeParent(this.decl);
+		this.declUnresolved = declCharacter;
+		becomeParent(this.declUnresolved);
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(decl);
+		children.add(getValidVersion(declUnresolved, declMember, declQualIdent));
 		return children;
 	}
 
@@ -80,23 +81,31 @@ public class DeclExprNode extends ExprNode
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		// TODO use a pair resolver: MemberDeclNode, QualIdentNode 
-		Resolver memberInitResolver = new MemberInitResolver(DeclaredCharacter.class);
-		BaseNode resolved = memberInitResolver.resolve(decl);
+		MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver = new MemberPairResolver<MemberDeclNode, QualIdentNode>(
+		        MemberDeclNode.class, QualIdentNode.class);
+		Pair<MemberDeclNode, QualIdentNode> resolved = memberInitResolver.resolve(declUnresolved, this);
 		successfullyResolved = resolved!=null && successfullyResolved;
-		decl = ownedResolutionResult(decl, resolved);
+		if (resolved != null) {
+			declMember = resolved.fst;
+			declQualIdent = resolved.snd;
+		}
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = decl.resolve() && successfullyResolved;
+		if (declMember != null) {
+			successfullyResolved = declMember.resolve() && successfullyResolved;
+		}
+		if (declQualIdent != null) {
+			successfullyResolved = declQualIdent.resolve() && successfullyResolved;
+		}
 		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
-		DeclaredCharacter c = (DeclaredCharacter) decl;
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
 		BaseNode type = c.getDecl().getDeclType();
 		if ( ! (type instanceof TypeNode) ) {
 
@@ -112,7 +121,7 @@ public class DeclExprNode extends ExprNode
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */
 	public ExprNode evaluate() {
 		ExprNode res = this;
-		DeclaredCharacter c = (DeclaredCharacter) this.decl;
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
 		DeclNode decl = c.getDecl();
 
 		if(decl instanceof EnumItemNode) {
@@ -124,18 +133,18 @@ public class DeclExprNode extends ExprNode
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclaredCharacter.class)).check(decl, error);
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#isConstant() */
 	public boolean isConst() {
-		DeclaredCharacter c = (DeclaredCharacter) decl;
+		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
 		return c.getDecl() instanceof EnumItemNode;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
-		BaseNode decl = this.decl;
+		BaseNode decl = getValidResolvedVersion(declMember, declQualIdent);
 		if(decl instanceof MemberDeclNode) {
 			return new MemberExpression((Entity)decl.getIR());
 		} else {

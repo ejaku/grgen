@@ -106,10 +106,9 @@ public class MemberInitNode extends BaseNode
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean lhsOk = (new SimpleChecker(DeclNode.class)).check(lhs, error);
 		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
 
-		return lhsOk && rhsOk & typeCheckLocal();
+		return rhsOk & typeCheckLocal();
 	}
 
 	/**
