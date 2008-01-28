@@ -759,12 +759,12 @@ public class PatternGraphNode extends GraphNode {
 		// find an edgeRoot-type and nodeRoot
 		BaseNode nodeRoot = null;
 		BaseNode model = ((UnitNode) root).models.children.firstElement();
-		Collection<BaseNode> types = ((ModelNode) model).decls.children;
+		assert model.isResolved();
+		Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
 
-		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
-			BaseNode candidate = it.next();
-			IdentNode ident = (IdentNode) ((DeclNode) candidate).ident;
-			String name = ident.getSymbol().getText();
+		for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
+			TypeDeclNode candidate = it.next();
+			String name = candidate.ident.getSymbol().getText();
 			if (name.equals("Node")) {
 				nodeRoot = candidate;
 			}
@@ -903,12 +903,12 @@ public class PatternGraphNode extends GraphNode {
 		// find an edgeRoot-type
 		BaseNode edgeRoot = null;
 		BaseNode model = ((UnitNode) root).models.children.firstElement();
-		Collection<BaseNode> types = ((ModelNode) model).decls.children;
+		assert model.isResolved();
+		Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
 
-		for (Iterator<BaseNode> it = types.iterator(); it.hasNext();) {
-			BaseNode candidate = it.next();
-			IdentNode ident = (IdentNode) ((DeclNode) candidate).ident;
-			String name = ident.getSymbol().getText();
+		for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
+			TypeDeclNode candidate = it.next();
+			String name = candidate.ident.getSymbol().getText();
 			if (name.equals("Edge")) {
 				edgeRoot = candidate;
 			}

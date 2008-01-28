@@ -26,11 +26,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Resolver;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.util.GenResolver;
 
 /**
  * An AST node that represents a collection of other nodes.
@@ -41,26 +40,20 @@ import de.unika.ipd.grgen.ast.util.GenResolver;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class ResolverCollectNode<S extends BaseNode, T extends S> extends BaseNode {
+public class GenCollectNode<T extends BaseNode> extends BaseNode {
 	static {
-		setName(ResolverCollectNode.class, "collect");
+		setName(GenCollectNode.class, "collect");
 	}
 
 	Vector<T> children = new Vector<T>();
-	Vector<S> childrenUnresolved = new Vector<S>();
 
-	public void addChild(S n) {
+	public void addChild(T n) {
 		becomeParent(n);
-		childrenUnresolved.add(n);
+		children.add(n);
 	}
 
 	/** returns children of this node */
-	public Collection<? extends S> getChildren() {
-		return getValidVersionVector();
-	}
-	
-	/** returns children of this node */
-	public Collection<T> getResolvedChildren() {
+	public Collection<T> getChildren() {
 		return children;
 	}
 
@@ -88,21 +81,6 @@ public class ResolverCollectNode<S extends BaseNode, T extends S> extends BaseNo
 		return successfullyResolved;
 	}
 
-	protected boolean resolveChildren(GenResolver<T> resolver) {
-		debug.report(NOTE, "resolve children in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		for(int i=0; i<childrenUnresolved.size(); ++i) {
-			T resolved = resolver.resolve(childrenUnresolved.get(i), this);
-			successfullyResolved = resolved!=null && successfullyResolved;
-			
-			// don't know if Vector support null values
-			if (resolved != null) {
-				children.add(resolved);
-			}
-		}
-		return successfullyResolved;
-	}
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		return true;
@@ -113,21 +91,6 @@ public class ResolverCollectNode<S extends BaseNode, T extends S> extends BaseNo
 	}
 	
 	public String toString() {
-		Vector<? extends S> tmp = getValidVersionVector();
-		return tmp.toString();
-	}
-	
-	/**
-	 * Return new vector containing elements of the currently valid member vector.
-	 * Currently valid depends on vector was already resolved.
-	 * 
-	 * NOTE: {@link BaseNode#getValidVersionVector(Vector, Vector)} don't work
-	 *       with Java 1.5.
-	 */
-	private  Vector<? extends S> getValidVersionVector() {
-		if(isResolved()){
-			return children;
-		}
-		return childrenUnresolved;
+		return children.toString();
 	}
 }

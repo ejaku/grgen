@@ -58,7 +58,7 @@ options {
 
 text returns [ BaseNode model = env.initNode() ]
 	{
-		CollectNode types = new CollectNode();
+		GenCollectNode<IdentNode> types = new GenCollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removePathPrefix(getFilename());
@@ -78,7 +78,7 @@ text returns [ BaseNode model = env.initNode() ]
 			}
 	;
 
-typeDecls [ CollectNode types ]
+typeDecls [ GenCollectNode<IdentNode> types ]
 	{ IdentNode type; }
 
 	: (type=typeDecl { types.addChild(type); } )*
@@ -114,7 +114,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
 		CollectNode body = null, ext;
-		GenCollectNode<ConnAssertNode, ConnAssertNode> cas;
+		GenCollectNode<ConnAssertNode> cas;
 		String externalName = null;
 	}
 
@@ -170,13 +170,13 @@ fullQualIdent returns [ String id = "", id2 = "" ]
 	 	(DOT id2=validIdent { id += "." + id2; })*
 	;
 
-connectAssertions returns [ GenCollectNode<ConnAssertNode, ConnAssertNode> c = new GenCollectNode<ConnAssertNode, ConnAssertNode>() ]
+connectAssertions returns [ GenCollectNode<ConnAssertNode> c = new GenCollectNode<ConnAssertNode>() ]
 	: CONNECT connectAssertion[c]
 		( COMMA connectAssertion[c] )*
 	|
 	;
 
-connectAssertion [ GenCollectNode<ConnAssertNode, ConnAssertNode> c ]
+connectAssertion [ GenCollectNode<ConnAssertNode> c ]
 	{
 		IdentNode src, tgt;
 		RangeSpecNode srcRange, tgtRange;

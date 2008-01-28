@@ -30,11 +30,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
@@ -47,12 +44,13 @@ public class ModelNode extends DeclNode {
 
 	protected static final TypeNode modelType = new ModelTypeNode();
 
-	CollectNode decls;
+	GenCollectNode<TypeDeclNode> decls;
+	GenCollectNode<IdentNode> declsUnresolved;
 
-	public ModelNode(IdentNode id, CollectNode decls) {
+	public ModelNode(IdentNode id, GenCollectNode<IdentNode> decls) {
 		super(id, modelType);
-		this.decls = decls;
-		becomeParent(this.decls);
+		this.declsUnresolved = decls;
+		becomeParent(this.declsUnresolved);
 	}
 
 	/** returns children of this node */
@@ -60,7 +58,7 @@ public class ModelNode extends DeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(typeUnresolved);
-		children.add(decls);
+		children.add(getValidVersion(declsUnresolved, decls));
 		return children;
 	}
 
@@ -81,8 +79,12 @@ public class ModelNode extends DeclNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver declResolver = new DeclResolver(TypeDeclNode.class);
-		successfullyResolved = decls.resolveChildren(declResolver) && successfullyResolved;
+		DeclarationResolver<TypeDeclNode> declResolver =
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
+		CollectResolver<TypeDeclNode> declsResolver =
+			new CollectResolver<TypeDeclNode>(declResolver);
+		decls = declsResolver.resolve(declsUnresolved);
+		successfullyResolved = decls!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -90,7 +92,7 @@ public class ModelNode extends DeclNode {
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = decls.resolve() && successfullyResolved;
+		successfullyResolved = (decls!=null ? decls.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -103,8 +105,7 @@ public class ModelNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		Checker checker = new CollectChecker(new SimpleChecker(TypeDeclNode.class));
-		return checker.check(decls, error) & checkInhCycleFree();
+		return checkInhCycleFree();
 	}
 
 	/**
@@ -123,8 +124,7 @@ public class ModelNode extends DeclNode {
 	protected IR constructIR() {
 		Ident id = (Ident) ident.checkIR(Ident.class);
 		Model res = new Model(id);
-		for(BaseNode children : decls.getChildren()) {
-			TypeDeclNode typeDecl = (TypeDeclNode)children;
+		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(((TypeNode) typeDecl.getDeclType()).getType());
 		}
 		return res;
@@ -169,9 +169,9 @@ public class ModelNode extends DeclNode {
 	 * 			<code>false</code> otherwise
 	 */
 	private boolean checkInhCycleFree() {
-		Collection<BaseNode> coll = decls.getChildren();
-		for (BaseNode t : coll) {
-			TypeNode type = (TypeNode) ((TypeDeclNode)t).getDeclType();
+		Collection<TypeDeclNode> coll = decls.getChildren();
+		for (TypeDeclNode t : coll) {
+			TypeNode type = (TypeNode) t.getDeclType();
 
 			if ( !(type instanceof InheritanceTypeNode) ) {
 				continue ;
