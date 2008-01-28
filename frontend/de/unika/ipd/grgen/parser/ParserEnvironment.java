@@ -36,8 +36,10 @@ import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
 import de.unika.ipd.grgen.ast.CollectNode;
+import de.unika.ipd.grgen.ast.ConnAssertNode;
 import de.unika.ipd.grgen.ast.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.ExprNode;
+import de.unika.ipd.grgen.ast.ResolverCollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.IntConstNode;
 import de.unika.ipd.grgen.ast.ModelNode;
@@ -110,7 +112,7 @@ public abstract class ParserEnvironment extends Base {
 
 		// The edge type root
 		edgeRoot = predefineType("Edge",
-				new EdgeTypeNode(new CollectNode(), new CollectNode(), new CollectNode(), 0, null));
+				new EdgeTypeNode(new CollectNode(), new ResolverCollectNode<ConnAssertNode, ConnAssertNode>(), new CollectNode(), 0, null));
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(edgeRoot);

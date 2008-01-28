@@ -42,10 +42,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	CollectNode cas; // connection assertions
-
-	private static final Checker casChecker = // TODO use this
-		new CollectChecker(new SimpleChecker(ConnAssertNode.class));
+	// TODO use a simple CollectNode
+	ResolverCollectNode<ConnAssertNode, ConnAssertNode> cas; // connection assertions
 
 	/**
 	 * Make a new edge type node.
@@ -56,7 +54,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(CollectNode ext, CollectNode cas, CollectNode body,
+	public EdgeTypeNode(CollectNode ext, ResolverCollectNode<ConnAssertNode, ConnAssertNode> cas, CollectNode body,
 						int modifiers, String externalName) {
 		this.extend = ext;
 		becomeParent(this.extend);
@@ -96,10 +94,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		boolean successfullyResolved = true;
 		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
 		Resolver extendsResolver = new DeclTypeResolver(EdgeTypeNode.class);
-		Resolver casResolver = new DeclTypeResolver(ConnAssertNode.class);
 		successfullyResolved = body.resolveChildren(bodyResolver) && successfullyResolved;
 		successfullyResolved = extend.resolveChildren(extendsResolver) && successfullyResolved;
-		successfullyResolved = cas.resolveChildren(casResolver) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");

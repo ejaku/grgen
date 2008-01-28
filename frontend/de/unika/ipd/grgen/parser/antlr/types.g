@@ -113,7 +113,8 @@ typeModifier returns [ int res = 0; ]
 edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body = null, ext, cas;
+		CollectNode body = null, ext;
+		GenCollectNode<ConnAssertNode, ConnAssertNode> cas;
 		String externalName = null;
 	}
 
@@ -169,13 +170,13 @@ fullQualIdent returns [ String id = "", id2 = "" ]
 	 	(DOT id2=validIdent { id += "." + id2; })*
 	;
 
-connectAssertions returns [ CollectNode c = new CollectNode() ]
+connectAssertions returns [ GenCollectNode<ConnAssertNode, ConnAssertNode> c = new GenCollectNode<ConnAssertNode, ConnAssertNode>() ]
 	: CONNECT connectAssertion[c]
 		( COMMA connectAssertion[c] )*
 	|
 	;
 
-connectAssertion [ CollectNode c ]
+connectAssertion [ GenCollectNode<ConnAssertNode, ConnAssertNode> c ]
 	{
 		IdentNode src, tgt;
 		RangeSpecNode srcRange, tgtRange;
