@@ -7,6 +7,12 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    /// <summary>
+    /// Preset is for elements which are handed in to the pattern/action and don't need to be matched
+    /// Normal is for elements of the pattern which have to be matched
+    /// NegElement is for elements of negative patterns which have to be matched
+    /// Elements which are handed in to the negative pattern are Normal if matched in the pattern or Preset if handed in to the pattern
+    /// </summary>
     public enum PatternElementType { Normal, Preset, NegElement };
 
     [DebuggerDisplay("PatternElement ({name}:{TypeID})")]
