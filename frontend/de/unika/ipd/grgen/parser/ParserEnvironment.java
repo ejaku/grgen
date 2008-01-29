@@ -108,11 +108,11 @@ public abstract class ParserEnvironment extends Base {
 
 		// The node type root
 		nodeRoot = predefineType("Node",
-				new NodeTypeNode(new CollectNode(), new CollectNode(), 0, null));
+				new NodeTypeNode(new GenCollectNode<IdentNode>(), new CollectNode(), 0, null));
 
 		// The edge type root
 		edgeRoot = predefineType("Edge",
-				new EdgeTypeNode(new CollectNode(), new GenCollectNode<ConnAssertNode>(), new CollectNode(), 0, null));
+				new EdgeTypeNode(new GenCollectNode<IdentNode>(), new GenCollectNode<ConnAssertNode>(), new CollectNode(), 0, null));
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(edgeRoot);

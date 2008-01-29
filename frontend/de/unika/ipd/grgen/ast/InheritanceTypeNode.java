@@ -33,7 +33,6 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.MemberInit;
 
 /**
  * Base class for compound types, that allow inheritance.
@@ -43,8 +42,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
 
-	CollectNode extend;
-	CollectNode body;
+	protected GenCollectNode<IdentNode> extendUnresolved;
+	protected CollectNode body;
 
 	/**
 	 * The modifiers for this type.
@@ -56,9 +55,6 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	 * The name of the external implementation of this type or null.
 	 */
 	private String externalName = null;
-
-	private static final Checker myInhChecker =
-		new CollectChecker(new SimpleChecker(InheritanceTypeNode.class));
 
 	/** Maps all member (attribute) names to their declarations. */
 	private Map<String, DeclNode> allMembers = null;
@@ -98,38 +94,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" + 
 						member + "\" is abstract.");
 		
-		return bodyChecker.check(body, error)
-			&& myInhChecker.check(extend, error);
-	}
-
-	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
-	public boolean fixupDefinition(IdentNode id) 
-	{
-		boolean found = super.fixupDefinition(id, false);
-
-		if(!found) {
-			for(BaseNode n : extend.getChildren()) {
-				InheritanceTypeNode t = (InheritanceTypeNode)n;
-				boolean result = t.fixupDefinition(id);
-
-				if(found && result) {
-					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
-				}
-				
-				found = found || result;
-			}
-		}
-
-		return found;
-	}
-
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) 
-	{
-		for(BaseNode n : extend.getChildren()) {
-			InheritanceTypeNode inh = (InheritanceTypeNode)n;
-			coll.add(inh);
-			inh.getCompatibleToTypes(coll);
-		}
+		return bodyChecker.check(body, error);
 	}
 
 	public void setModifiers(int modifiers) {
@@ -157,9 +122,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		return externalName;
 	}
 
-	public Collection<InheritanceTypeNode> getDirectSuperTypes() {
-		return (Collection<InheritanceTypeNode>)(Collection)extend.getChildren();
-	}
+	public abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
 
 	private void getMembers(Map<String, DeclNode> members) {
 		for(BaseNode n : body.getChildren()) {
@@ -191,26 +154,5 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		}
 
 		return allMembers;
-	}
-
-	protected void constructIR(InheritanceType inhType) 
-	{
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-				inhType.addMember(decl.getEntity());
-			}
-			else if(n instanceof MemberInitNode) {
-				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit((MemberInit)mi.getIR());
-			}
-		}
-		for(BaseNode n : extend.getChildren()) {
-			InheritanceTypeNode x = (InheritanceTypeNode)n;
-			inhType.addDirectSuperType((InheritanceType)x.getType());
-		}
-
-		// to check overwriting of attributes
-		inhType.getAllMembers();
 	}
 }

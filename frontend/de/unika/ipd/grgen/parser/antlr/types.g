@@ -113,7 +113,8 @@ typeModifier returns [ int res = 0; ]
 edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body = null, ext;
+		CollectNode body = null;
+		GenCollectNode<IdentNode> ext;
 		GenCollectNode<ConnAssertNode> cas;
 		String externalName = null;
 	}
@@ -136,7 +137,8 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body = null, ext;
+		CollectNode body = null;
+		GenCollectNode<IdentNode> ext;
 		String externalName = null;
 	}
 
@@ -187,12 +189,12 @@ connectAssertion [ GenCollectNode<ConnAssertNode> c ]
 			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
-edgeExtends [IdentNode clsId] returns [ CollectNode c = new CollectNode() ]
+edgeExtends [IdentNode clsId] returns [ GenCollectNode<IdentNode> c = new GenCollectNode<IdentNode>() ]
 	: EXTENDS edgeExtendsCont[clsId, c]
 	|	{ c.addChild(env.getEdgeRoot()); }
 	;
 
-edgeExtendsCont [ IdentNode clsId, CollectNode c ]
+edgeExtendsCont [ IdentNode clsId, GenCollectNode<IdentNode> c ]
 	{
 		IdentNode e;
 		int extCount = 0;
@@ -216,12 +218,12 @@ edgeExtendsCont [ IdentNode clsId, CollectNode c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
 
-nodeExtends [ IdentNode clsId ] returns [ CollectNode c = new CollectNode() ]
+nodeExtends [ IdentNode clsId ] returns [ GenCollectNode<IdentNode> c = new GenCollectNode<IdentNode>() ]
 	: EXTENDS nodeExtendsCont[clsId, c]
 	|	{ c.addChild(env.getNodeRoot()); }
 	;
 
-nodeExtendsCont [IdentNode clsId, CollectNode c ]
+nodeExtendsCont [IdentNode clsId, GenCollectNode<IdentNode> c ]
 	{ IdentNode n; }
 
 	: n=typeIdentUse

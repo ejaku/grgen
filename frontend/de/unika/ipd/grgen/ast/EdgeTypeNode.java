@@ -27,23 +27,23 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.Resolver;
-import de.unika.ipd.grgen.ast.util.DeclTypeResolver;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MemberInit;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	// TODO use a simple CollectNode
 	GenCollectNode<ConnAssertNode> cas; // connection assertions
+	GenCollectNode<EdgeTypeNode> extend;
 
 	/**
 	 * Make a new edge type node.
@@ -54,10 +54,10 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(CollectNode ext, GenCollectNode<ConnAssertNode> cas, CollectNode body,
+	public EdgeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<ConnAssertNode> cas, CollectNode body,
 						int modifiers, String externalName) {
-		this.extend = ext;
-		becomeParent(this.extend);
+		this.extendUnresolved = ext;
+		becomeParent(this.extendUnresolved);
 		this.body = body;
 		becomeParent(this.body);
 		this.cas = cas;
@@ -69,7 +69,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(extend);
+		children.add(getValidVersion(extendUnresolved, extend));
 		children.add(body);
 		children.add(cas);
 		return children;
@@ -93,15 +93,19 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
 		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
-		Resolver extendsResolver = new DeclTypeResolver(EdgeTypeNode.class);
+		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
+			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
+		CollectResolver<EdgeTypeNode> extendResolver =
+			new CollectResolver<EdgeTypeNode>(typeResolver);
 		successfullyResolved = body.resolveChildren(bodyResolver) && successfullyResolved;
-		successfullyResolved = extend.resolveChildren(extendsResolver) && successfullyResolved;
+		extend = extendResolver.resolve(extendUnresolved);
+		successfullyResolved = (extend!=null) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
 		}
 
-		successfullyResolved = extend.resolve() && successfullyResolved;
+		successfullyResolved = (extend!=null ? extend.resolve() : false) && successfullyResolved;
 		successfullyResolved = body.resolve() && successfullyResolved;
 		successfullyResolved = cas.resolve() && successfullyResolved;
 		return successfullyResolved;
@@ -109,9 +113,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal()  {
-		Checker extendsChecker = new CollectChecker(new SimpleChecker(EdgeTypeNode.class));
-		return super.checkLocal()
-			&& extendsChecker.check(extend, error);
+		return super.checkLocal();
 	}
 
 	/**
@@ -139,6 +141,58 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		return et;
 	}
 
+	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
+    public boolean fixupDefinition(IdentNode id)
+    {
+    	assert isResolved();
+    	
+    	boolean found = super.fixupDefinition(id, false);
+    
+    	if(!found) {
+    		for(InheritanceTypeNode inh : extend.getChildren()) {
+    			boolean result = inh.fixupDefinition(id);
+    
+    			if(found && result) {
+    				error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
+    			}
+    			
+    			found = found || result;
+    		}
+    	}
+    
+    	return found;
+    }
+
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll)
+    {
+    	assert isResolved();
+		
+		for(InheritanceTypeNode inh : extend.getChildren()) {
+    		coll.add(inh);
+    		inh.getCompatibleToTypes(coll);
+    	}
+    }
+
+	protected void constructIR(InheritanceType inhType)
+    {
+    	for(BaseNode n : body.getChildren()) {
+    		if(n instanceof DeclNode) {
+    			DeclNode decl = (DeclNode)n;
+    			inhType.addMember(decl.getEntity());
+    		}
+    		else if(n instanceof MemberInitNode) {
+    			MemberInitNode mi = (MemberInitNode)n;
+    			inhType.addMemberInit((MemberInit)mi.getIR());
+    		}
+    	}
+    	for(InheritanceTypeNode inh : extend.getChildren()) {
+    		inhType.addDirectSuperType((InheritanceType)inh.getType());
+    	}
+    
+    	// to check overwriting of attributes
+    	inhType.getAllMembers();
+    }
+
 	public static String getKindStr() {
 		return "edge type";
 	}
@@ -146,4 +200,12 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	public static String getUseStr() {
 		return "edge type";
 	}
+
+	@Override
+    public Collection<EdgeTypeNode> getDirectSuperTypes()
+    {
+		assert isResolved();
+		
+	    return extend.getChildren();
+    }
 }
