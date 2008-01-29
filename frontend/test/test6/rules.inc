@@ -1,1 +1,0 @@
-apply params_init_param0

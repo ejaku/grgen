@@ -1,6 +1,0 @@
-apply meth_set_meth_entity
-apply params_init_param0
-apply params_init_param1
-apply params_init_param2
-apply params_reduce_g2s_r128_int_4_param
-
