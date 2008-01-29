@@ -56,7 +56,7 @@ public abstract class TypeExprNode extends BaseNode
 	protected final int op;
 	
 	private static final TypeExprNode EMPTY =
-		new TypeConstraintNode(Coords.getInvalid(), new CollectNode());
+		new TypeConstraintNode(Coords.getInvalid(), new GenCollectNode<IdentNode>());
 	
 	public static final TypeExprNode getEmpty() {
 		return EMPTY;
