@@ -1,5 +1,7 @@
 #! /bin/sh
 
+trap "echo; exit 1" INT QUIT HUP TERM
+
 GRGENDIR="../.."
 JARGS="$GRGENDIR/jars/jargs.jar"
 ANTLR="$GRGENDIR/jars/antlr.jar"
@@ -19,16 +21,15 @@ while [ "$1" ]; do
 	case "$1" in
 		--) shift; break;;
 		-a) shift; APPEND="TRUE";;
+		-c) shift; rm -fr *_fe; exit 0;;
 		-n) shift; ONLY_NEW="TRUE";;
 		-v) shift; VERBOSE="TRUE";;
 		* ) break;;
 	esac
 done
 
-if [ ! "$VERBOSE" ]; then
-	[ "$APPEND" ] || rm -f "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
-	touch "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
-fi
+[ "$APPEND" ] || rm -f "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
+touch "$SUCCESSFE" "$FAILEDFE" "$ABENDFE"
 
 if uname -s | grep -iq "cygwin"; then
 	SEP=";"
@@ -48,7 +49,7 @@ do_test()
 	mkdir  -- "$DIR"
 	echo -n "===> TEST $FILE"
 	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
-		echo
+		echo " ... OK"
 		echo "$FILE" >> "$SUCCESSFE"
 	elif grep -q -v "ERROR\|WARNING" < "$DIR/log"; then
 		echo " ... ABEND"
