@@ -40,6 +40,7 @@ import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.ir.VoidType;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.Util;
 
@@ -160,7 +161,7 @@ public abstract class CSharpBase {
 			return "String";
 		else if (t instanceof EnumType)
 			return "ENUM_" + formatIdentifiable(e.getType());
-		else if (t instanceof ObjectType)
+		else if (t instanceof ObjectType || t instanceof VoidType)
 			return "Object"; //TODO maybe we need another output type
 		else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 	}

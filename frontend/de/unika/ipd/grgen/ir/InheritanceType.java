@@ -57,6 +57,9 @@ public abstract class InheritanceType extends CompoundType {
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
 	private Map<String, Entity> allMembers = null;
+	
+	/** Map between overriding and overridden members */
+	private Map<Entity, Entity> overridingMembers = null;
 
 	/** The type modifiers. */
 	private final int modifiers;
@@ -129,24 +132,40 @@ public abstract class InheritanceType extends CompoundType {
 	public Collection<Entity> getAllMembers() {
 		if( allMembers == null ) {
 			allMembers = new LinkedHashMap<String, Entity>();
+			overridingMembers = new LinkedHashMap<Entity, Entity>();
 
 			// add members of the current type
 			for(Entity member : getMembers())
 				allMembers.put(member.getIdent().toString(), member);
 
 			// add the members of the super type
-			for(InheritanceType superType : getAllSuperTypes())
-				for(Entity member : superType.getMembers())
-					if(allMembers.containsKey(member.getIdent().toString())) {
-						if(!member.getType().isVoid()) // we have an abstract member, it's OK to overwrite it
-						error.error(member.toString() + " of " + member.getOwner() + " already defined. " +
-											 "It is also declared in " + allMembers.get(member.getIdent().toString()).getOwner() + ".");
-					} else {
-						allMembers.put(member.getIdent().toString(), member);
-					}
+			for(InheritanceType superType : getAllSuperTypes()) {
+				for(Entity member : superType.getMembers()) {
+					String memberName = member.getIdent().toString();
+					if(allMembers.containsKey(memberName)) {
+						if(member.getType().isVoid())
+							// we have an abstract member, it's OK to overwrite it
+							overridingMembers.put(allMembers.get(memberName), member);
+						else
+							error.error(member.toString() + " of " + member.getOwner()
+									+ " already defined. It is also declared in "
+									+ allMembers.get(memberName).getOwner() + ".");
+					} else
+						allMembers.put(memberName, member);
+				}
+			}
 		}
 
 		return allMembers.values();
+	}
+	
+	/**
+	 * Gets the overridden member for a given member, if one exists.
+	 * @param overridingMember The member, which eventually overrides another member.
+	 * @return The overridden member, or null, if no such exists.
+	 */
+	public Entity getOverriddenMember(Entity overridingMember) {
+		return overridingMembers.get(overridingMember);
 	}
 
 	/** Adds the given member initializer to this type. */

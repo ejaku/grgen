@@ -1376,6 +1376,7 @@ public class ActionsGen extends CSharpBase {
 					varTypeName = "String";
 					break;
 				case Type.IS_OBJECT:
+				case Type.IS_UNKNOWN:
 					varTypeName = "Object";
 					break;
 				default:

@@ -177,7 +177,7 @@ public class ModelGen extends CSharpBase {
 		genDirectSuperTypeList(type);
 		sb.append("\n");
 		sb.append("\t{\n");
-		genAttributeAccess(type.getMembers(), "");
+		genAttributeAccess(type, type.getMembers(), "");
 		sb.append("\t}\n");
 	}
 
@@ -200,13 +200,18 @@ public class ModelGen extends CSharpBase {
 
 	/**
 	 * Generate the attribute accessor declarations of the given members.
+	 * @param type The type for which the accessors are to be generated.
 	 * @param members A collection of member entities.
 	 * @param modifiers A string which may contain modifiers to be applied to the accessors.
 	 * 		It must either end with a space or be empty.
 	 */
-	private void genAttributeAccess(Collection<Entity> members, String modifiers) {
+	private void genAttributeAccess(InheritanceType type, Collection<Entity> members,
+			String modifiers) {
 		for(Entity e : members) {
-			sb.append("\t\t" + modifiers + formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
+			sb.append("\t\t" + modifiers);
+			if(type.getOverriddenMember(e) != null)
+				sb.append("new ");
+			sb.append(formatAttributeType(e) + " @" + formatIdentifiable(e) + " { get; set; }\n");
 		}
 	}
 
@@ -432,9 +437,10 @@ public class ModelGen extends CSharpBase {
 					sb.append("0f;\n");
 				else if(t instanceof BooleanType)
 					sb.append("false;\n");
-				else if(t instanceof StringType || t instanceof ObjectType)
+				else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType)
 					sb.append("null;\n");
-				else throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
+				else 
+					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
 			}
 		}
 
@@ -480,7 +486,7 @@ public class ModelGen extends CSharpBase {
 			routedSB = getStubBuffer();
 			extModifier = "override ";
 
-			genAttributeAccess(type.getAllMembers(), "public abstract ");
+			genAttributeAccess(type, type.getAllMembers(), "public abstract ");
 		}
 
 		// Create the implementation of the attributes.
@@ -496,6 +502,17 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\tget { return _" + attrName + "; }\n"
 					+ "\t\t\tset { _" + attrName + " = value; }\n"
 					+ "\t\t}\n");
+			
+			Entity overriddenMember = type.getOverriddenMember(e);
+			if(overriddenMember != null) {
+				routedSB.append("\n\t\tobject I"
+						+ formatElementClass((InheritanceType) overriddenMember.getOwner())
+						+ ".@" + attrName + "\n"
+						+ "\t\t{\n"
+						+ "\t\t\tget { return _" + attrName + "; }\n"
+						+ "\t\t\tset { _" + attrName + " = (" + attrType + ") value; }\n"
+						+ "\t\t}\n");
+			}
 		}
 
 		sb.append("\t\tpublic override object GetAttribute(string attrName)\n");
@@ -636,7 +653,7 @@ public class ModelGen extends CSharpBase {
 				sb.append("StringAttr, null");
 			else if (t instanceof EnumType)
 				sb.append("EnumAttr, Enums.@" + formatIdentifiable(t));
-			else if (t instanceof ObjectType)
+			else if (t instanceof ObjectType || t instanceof VoidType)
 				sb.append("ObjectAttr, null");
 			else throw new IllegalArgumentException("Unknown Entity: " + e + "(" + t + ")");
 
