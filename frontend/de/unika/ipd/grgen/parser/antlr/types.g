@@ -113,7 +113,7 @@ typeModifier returns [ int res = 0; ]
 edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body = null;
+		GenCollectNode<BaseNode> body = null;
 		GenCollectNode<IdentNode> ext;
 		GenCollectNode<ConnAssertNode> cas;
 		String externalName = null;
@@ -124,7 +124,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		(
 			LBRACE body=edgeClassBody RBRACE
 		|	SEMI
-			{ body = new CollectNode(); }
+			{ body = new GenCollectNode<BaseNode>(); }
 		)
 		{
 			EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers, externalName);
@@ -137,7 +137,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode body = null;
+		GenCollectNode<BaseNode> body = null;
 		GenCollectNode<IdentNode> ext;
 		String externalName = null;
 	}
@@ -147,7 +147,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		(
 			LBRACE body=nodeClassBody RBRACE
 		|	SEMI
-			{ body = new CollectNode(); }
+			{ body = new GenCollectNode<BaseNode>(); }
 		)
 		{
 			NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers, externalName);
@@ -244,7 +244,7 @@ nodeExtendsCont [IdentNode clsId, GenCollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
-nodeClassBody returns [ CollectNode c = new CollectNode() ]
+nodeClassBody returns [ GenCollectNode<BaseNode> c = new GenCollectNode<BaseNode>() ]
 	{
 		BaseNode b;
 	}
@@ -261,7 +261,7 @@ nodeClassBody returns [ CollectNode c = new CollectNode() ]
 		)*
 	;
 
-edgeClassBody returns [ CollectNode c = new CollectNode() ]
+edgeClassBody returns [ GenCollectNode<BaseNode> c = new GenCollectNode<BaseNode>() ]
 	{
 		BaseNode b;
 	}

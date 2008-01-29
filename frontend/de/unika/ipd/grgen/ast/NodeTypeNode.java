@@ -25,12 +25,13 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
@@ -44,6 +45,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		setName(NodeTypeNode.class, "node type");
 	}
 	
+	GenCollectNode<BaseNode> body;
 	GenCollectNode<NodeTypeNode> extend;
 
 	/**
@@ -53,12 +55,12 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers Type modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeTypeNode(GenCollectNode<IdentNode> ext, CollectNode body,
+	public NodeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<BaseNode> body,
 						int modifiers, String externalName) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
-		this.body = body;
-		becomeParent(this.body);
+		this.bodyUnresolved = body;
+		becomeParent(this.bodyUnresolved);
 		setModifiers(modifiers);
 		setExternalName(externalName);
 	}
@@ -67,7 +69,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
-		children.add(body);
+		children.add(getValidVersion(bodyUnresolved, body));
 		return children;
 	}
 
@@ -87,12 +89,16 @@ public class NodeTypeNode extends InheritanceTypeNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
 		DeclarationTypeResolver<NodeTypeNode> typeResolver =
 			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 		CollectResolver<NodeTypeNode> extendResolver =
 			new CollectResolver<NodeTypeNode>(typeResolver);
-		successfullyResolved = body.resolveChildren(bodyResolver) && successfullyResolved;
+		DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
+			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
+		CollectPairResolver<BaseNode> bodyResolver =
+			new CollectPairResolver<BaseNode>(bodyPairResolver);
+		body = bodyResolver.resolve(bodyUnresolved);
+		successfullyResolved = body!=null && successfullyResolved;
 		extend = extendResolver.resolve(extendUnresolved);
 		successfullyResolved = extend!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -101,7 +107,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		}
 
 		successfullyResolved = (extend!=null ? extend.resolve() : false) && successfullyResolved;
-		successfullyResolved = body.resolve() && successfullyResolved;
+		successfullyResolved = (body!=null ? body.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -198,5 +204,25 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		
 	    return extend.getChildren();
     }
+
+	@Override
+	protected void getMembers(Map<String, DeclNode> members)
+	{
+		assert isResolved();
+		
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+	
+				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
+				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
+					error.error(decl.getCoords(), "member " + decl.toString() +" of " + 
+							getUseString() + " " + getIdentNode() + 
+							" already defined in " + old.getParents() + "." // TODO improve error message
+						);
+				}
+			}
+		}
+	}
 }
 

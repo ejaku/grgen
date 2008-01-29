@@ -29,9 +29,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.InheritanceType;
 
 /**
@@ -43,7 +40,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	public static final int MOD_ABSTRACT = 2;
 
 	protected GenCollectNode<IdentNode> extendUnresolved;
-	protected CollectNode body;
+	protected GenCollectNode<BaseNode> bodyUnresolved;
 
 	/**
 	 * The modifiers for this type.
@@ -83,10 +80,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() 
 	{
-		Checker bodyChecker =
-			new CollectChecker(new SimpleChecker(new Class[] {MemberDeclNode.class, MemberInitNode.class}));
 		getAllSuperTypes();
-		
 		
 		for(DeclNode member : getAllMembers().values())
 			if(member instanceof AbstractMemberDeclNode && !isAbstract())
@@ -94,7 +88,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" + 
 						member + "\" is abstract.");
 		
-		return bodyChecker.check(body, error);
+		return true;
 	}
 
 	public void setModifiers(int modifiers) {
@@ -123,22 +117,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	public abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
-
-	private void getMembers(Map<String, DeclNode> members) {
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-
-				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
-				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
-					error.error(decl.getCoords(), "member " + decl.toString() +" of " + 
-							getUseString() + " " + getIdentNode() + 
-							" already defined in " + old.getParents() + "." // TODO improve error message
-						);
-				}
-			}
-		}
-	}
+	
+	protected abstract void getMembers(Map<String, DeclNode> members);
 
 	/** Returns all members (including inherited ones) of this type. */
 	public Map<String, DeclNode> getAllMembers() 

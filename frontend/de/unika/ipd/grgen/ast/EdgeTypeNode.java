@@ -25,12 +25,13 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -42,6 +43,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
+	GenCollectNode<BaseNode> body;
 	GenCollectNode<ConnAssertNode> cas; // connection assertions
 	GenCollectNode<EdgeTypeNode> extend;
 
@@ -54,12 +56,12 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<ConnAssertNode> cas, CollectNode body,
+	public EdgeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<ConnAssertNode> cas, GenCollectNode<BaseNode> body,
 						int modifiers, String externalName) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
-		this.body = body;
-		becomeParent(this.body);
+		this.bodyUnresolved = body;
+		becomeParent(this.bodyUnresolved);
 		this.cas = cas;
 		becomeParent(this.cas);
 		setModifiers(modifiers);
@@ -70,7 +72,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(extendUnresolved, extend));
-		children.add(body);
+		children.add(getValidVersion(bodyUnresolved, body));
 		children.add(cas);
 		return children;
 	}
@@ -92,12 +94,16 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver bodyResolver = new DeclResolver(new Class[] {MemberDeclNode.class, MemberInitNode.class});
+		DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
+			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
+		CollectPairResolver<BaseNode> bodyResolver =
+			new CollectPairResolver<BaseNode>(bodyPairResolver);
 		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
 			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
 		CollectResolver<EdgeTypeNode> extendResolver =
 			new CollectResolver<EdgeTypeNode>(typeResolver);
-		successfullyResolved = body.resolveChildren(bodyResolver) && successfullyResolved;
+		body = bodyResolver.resolve(bodyUnresolved);
+		successfullyResolved = body!=null && successfullyResolved;
 		extend = extendResolver.resolve(extendUnresolved);
 		successfullyResolved = (extend!=null) && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
@@ -106,7 +112,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		}
 
 		successfullyResolved = (extend!=null ? extend.resolve() : false) && successfullyResolved;
-		successfullyResolved = body.resolve() && successfullyResolved;
+		successfullyResolved = (body!=null ? body.resolve() : false) && successfullyResolved;
 		successfullyResolved = cas.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
@@ -208,4 +214,24 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		
 	    return extend.getChildren();
     }
+
+	@Override
+	protected void getMembers(Map<String, DeclNode> members)
+	{
+		assert isResolved();
+		
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+	
+				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
+				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
+					error.error(decl.getCoords(), "member " + decl.toString() +" of " + 
+							getUseString() + " " + getIdentNode() + 
+							" already defined in " + old.getParents() + "." // TODO improve error message
+						);
+				}
+			}
+		}
+	}
 }

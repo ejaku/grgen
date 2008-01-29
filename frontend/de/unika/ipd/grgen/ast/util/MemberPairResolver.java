@@ -36,6 +36,7 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 		if(n instanceof IdentNode) {
 			Pair<S,T> pair = resolve((IdentNode)n);
 			if (pair != null) {
+				assert pair.fst==null || pair.snd==null;
 				parent.becomeParent(pair.fst);
 				parent.becomeParent(pair.snd);
 			}
@@ -50,6 +51,7 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 			pair.snd = (T) n;
 		}
 		if(pair.fst!=null || pair.snd!=null) {
+			assert pair.fst==null || pair.snd==null;
 			return pair;
 		}
 		

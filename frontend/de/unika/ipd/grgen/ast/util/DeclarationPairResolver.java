@@ -47,6 +47,7 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 		if(n instanceof IdentNode) {
 			Pair<R,S> pair = resolve((IdentNode)n);
 			if (pair != null) {
+				assert pair.fst==null || pair.snd==null;
 				parent.becomeParent(pair.fst);
 				parent.becomeParent(pair.snd);
 			}
@@ -61,6 +62,7 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 			pair.snd = (S) n;
 		}		
 		if(pair.fst!=null || pair.snd!=null) {
+			assert pair.fst==null || pair.snd==null;
 			return pair;
 		}
 		
