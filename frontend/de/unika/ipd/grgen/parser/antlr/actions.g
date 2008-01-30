@@ -351,8 +351,8 @@ firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		Annotations annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
-		CollectNode subpatternConn = new CollectNode();
-		CollectNode subpatternReplConn = new CollectNode();
+		GenCollectNode<IdentNode> subpatternConn = new GenCollectNode<IdentNode>();
+		GenCollectNode<IdentNode> subpatternReplConn = new GenCollectNode<IdentNode>();
 		BaseNode n = null;
 	}
 
@@ -603,7 +603,7 @@ edgeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.
 			}
 	;
 
-subpatternConnections[CollectNode subpatternConn]
+subpatternConnections[GenCollectNode<IdentNode> subpatternConn]
 	{ IdentNode id; }
 
 	: ( id=entIdentUse { subpatternConn.addChild(id); } (COMMA id=entIdentUse { subpatternConn.addChild(id); } )* )?

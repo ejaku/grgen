@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.DeclResolver;
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
@@ -19,15 +19,16 @@ public class SubpatternUsageNode extends DeclNode
 		setName(SubpatternUsageNode.class, "subpattern node");
 	}
 	
-	CollectNode connections;
+	GenCollectNode<ConstraintDeclNode> connections;
+	GenCollectNode<IdentNode> connectionsUnresolved;
 	
 	protected ActionDeclNode type = null;	
 	
 	
-	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode c) {
+	public SubpatternUsageNode(IdentNode n, BaseNode t, GenCollectNode<IdentNode> c) {
 		super(n, t);
-		this.connections = c;
-		becomeParent(this.connections);
+		this.connectionsUnresolved = c;
+		becomeParent(this.connectionsUnresolved);
 	}
 	
 	@Override
@@ -40,7 +41,7 @@ public class SubpatternUsageNode extends DeclNode
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(connections);
+		children.add(getValidVersion(connectionsUnresolved, connections));
 		return children;
 	}
 
@@ -64,8 +65,12 @@ public class SubpatternUsageNode extends DeclNode
 		DeclarationResolver<ActionDeclNode> actionResolver = new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
 		type = actionResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type != null && successfullyResolved;
-		Resolver connectionsResolver = new DeclResolver(new Class[] {NodeDeclNode.class, EdgeDeclNode.class});
-		successfullyResolved = connections.resolveChildren(connectionsResolver) && successfullyResolved;
+		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> connectionResolver =
+			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+		CollectPairResolver<ConstraintDeclNode> connectionsResolver =
+			new CollectPairResolver<ConstraintDeclNode>(connectionResolver);
+		connections = connectionsResolver.resolve(connectionsUnresolved);
+		successfullyResolved = connections!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if (!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -73,7 +78,7 @@ public class SubpatternUsageNode extends DeclNode
 
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
-		successfullyResolved = connections.resolve() && successfullyResolved;
+		successfullyResolved = (connections!=null ? connections.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 	
@@ -85,7 +90,7 @@ public class SubpatternUsageNode extends DeclNode
 	@Override
 	protected IR constructIR() {
 		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
-		for (BaseNode c : connections.getChildren()) {
+		for (ConstraintDeclNode c : connections.getChildren()) {
 			subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));
 		}
 		return new SubpatternUsage("subpattern", getIdentNode().getIdent(), (MatchingAction)type.getIR(), subpatternConnections);
