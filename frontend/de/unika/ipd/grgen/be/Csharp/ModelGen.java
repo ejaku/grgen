@@ -160,7 +160,8 @@ public class ModelGen extends CSharpBase {
 		sb.append("\n");
 
 		genElementInterface(type);
-		genElementImplementation(type);
+		if(!type.isAbstract())
+			genElementImplementation(type);
 		genTypeImplementation(types, type);
 	}
 
@@ -439,7 +440,7 @@ public class ModelGen extends CSharpBase {
 					sb.append("false;\n");
 				else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType)
 					sb.append("null;\n");
-				else 
+				else
 					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
 			}
 		}
@@ -502,7 +503,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\tget { return _" + attrName + "; }\n"
 					+ "\t\t\tset { _" + attrName + " = value; }\n"
 					+ "\t\t}\n");
-			
+
 			Entity overriddenMember = type.getOverriddenMember(e);
 			if(overriddenMember != null) {
 				routedSB.append("\n\t\tobject I"
@@ -586,13 +587,24 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t\tpublic override String Name { get { return \"" + typeName + "\"; } }\n");
 
 		if(isNode) {
-			sb.append("\t\tpublic override INode CreateNode() { return new " + allocName + "(); }\n");
+			sb.append("\t\tpublic override INode CreateNode()\n"
+					+ "\t\t{\n");
+			if(type.isAbstract())
+				sb.append("\t\t\tthrow new Exception(\"The abstract node type "
+						+ typeName + " cannot be instantiated!\");\n");
+			else
+				sb.append("\t\t\treturn new " + allocName + "();\n");
+			sb.append("\t\t}\n");
 		}
 		else {
 			sb.append("\t\tpublic override IEdge CreateEdge(INode source, INode target)\n"
-					+ "\t\t{\n"
-					+ "\t\t\treturn new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n"
-					+ "\t\t}\n");
+					+ "\t\t{\n");
+			if(type.isAbstract())
+				sb.append("\t\t\tthrow new Exception(\"The abstract edge type "
+						+ typeName + " cannot be instantiated!\");\n");
+			else
+				sb.append("\t\t\treturn new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n");
+			sb.append("\t\t}\n");
 		}
 
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
@@ -726,15 +738,18 @@ public class ModelGen extends CSharpBase {
 
 		if(isNode) {
 			sb.append("\t\tpublic override INode CreateNodeWithCopyCommons(INode oldINode)\n"
-					+ "\t\t{\n"
-					+ "\t\t\tLGSPNode oldNode = (LGSPNode) oldINode;\n"
-					+ "\t\t\t" + cname + " newNode = new " + allocName + "();\n");
+					+ "\t\t{\n");
 		}
 		else {
 			sb.append("\t\tpublic override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)\n"
-					+ "\t\t{\n"
-					+ "\t\t\tLGSPEdge oldEdge = (LGSPEdge) oldIEdge;\n"
-					+ "\t\t\t" + cname + " newEdge = new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n");
+					+ "\t\t{\n");
+		}
+
+		if(type.isAbstract()) {
+			sb.append("\t\t\tthrow new Exception(\"Cannot retype to the abstract type "
+					+ formatIdentifiable(type) + "!\");\n"
+					+ "\t\t}\n");
+			return;
 		}
 
 		Map<BitSet, LinkedList<InheritanceType>> commonGroups = new LinkedHashMap<BitSet, LinkedList<InheritanceType>>();
@@ -764,11 +779,17 @@ public class ModelGen extends CSharpBase {
 			}
 
 			boolean mustCopyAttribs = false;
-			for(InheritanceType commonType : firstCommonAncestors) {
-				if(commonType.getAllMembers().size() != 0) {
+commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
+				for(Entity member : commonType.getAllMembers()) {
+					if(member.getType().isVoid() || commonType.getOverriddenMember(member) != null)
+						continue;	// is an abstract member or overrides an abstract member
+					mustCopyAttribs = true;
+					break commonLoop;
+				}
+				/*				if(commonType.getAllMembers().size() != 0) {
 					mustCopyAttribs = true;
 					break;
-				}
+				 }*/
 			}
 
 			if(!mustCopyAttribs) continue;
@@ -786,6 +807,12 @@ public class ModelGen extends CSharpBase {
 		}
 
 		if(commonGroups.size() != 0) {
+			if(isNode)
+				sb.append("\t\t\tLGSPNode oldNode = (LGSPNode) oldINode;\n"
+						+ "\t\t\t" + cname + " newNode = new " + allocName + "();\n");
+			else
+				sb.append("\t\t\tLGSPEdge oldEdge = (LGSPEdge) oldIEdge;\n"
+						+ "\t\t\t" + cname + " newEdge = new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n");
 			sb.append("\t\t\tswitch(old" + kindName + ".Type.TypeID)\n"
 					+ "\t\t\t{\n");
 			for(Map.Entry<BitSet, LinkedList<InheritanceType>> entry : commonGroups.entrySet()) {
@@ -824,11 +851,13 @@ public class ModelGen extends CSharpBase {
 				}
 				sb.append("\t\t\t\t\tbreak;\n");
 			}
-			sb.append("\t\t\t}\n");
+			sb.append("\t\t\t}\n"
+					+ "\t\t\treturn new" + kindName + ";\n"
+					+ "\t\t}\n\n");
 		}
-
-		sb.append("\t\t\treturn new" + kindName + ";\n"
-				+ "\t\t}\n\n");
+		else
+			sb.append("\t\t\treturn new " + allocName + "();\n"
+					+ "\t\t}\n\n");
 	}
 
 	////////////////////////////

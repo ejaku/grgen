@@ -458,19 +458,19 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		warnHomDeleteReturnConflict();
-		
-		boolean abstr = true; 
+
+		boolean abstr = true;
 		for(BaseNode n : right.getNodes())
 			if(((InheritanceTypeNode)((NodeDeclNode)n).getDeclType()).isAbstract()) {
-				error.error(getCoords(), "Instances of abstract nodes are not allowed");
+				error.error(n.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
-		for(BaseNode n : right.getEdges())
-			if(((InheritanceTypeNode)((EdgeDeclNode)n).getDeclType()).isAbstract()) {
-				error.error(getCoords(), "Instances of abstract edges are not allowed");
+		for(BaseNode e : right.getEdges())
+			if(((InheritanceTypeNode)((EdgeDeclNode)e).getDeclType()).isAbstract()) {
+				error.error(e.getCoords(), "Instances of abstract edges are not allowed");
 				abstr = false;
 			}
-		
+
 		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, right)
 			& checkRetSignatureAdhered(left, right);
