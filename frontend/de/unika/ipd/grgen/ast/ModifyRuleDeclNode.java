@@ -3,11 +3,8 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
@@ -20,13 +17,15 @@ import java.util.Set;
 
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
-	CollectNode delete;
+	GenCollectNode<IdentNode> deleteUnresolved;
+	GenCollectNode<ConstraintDeclNode> delete;
+	
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
-							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode dels) {
+							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, GenCollectNode<IdentNode> dels) {
 		super(id, left, right, neg, eval, params, rets);
-		this.delete = dels;
-		becomeParent(this.delete);
+		this.deleteUnresolved = dels;
+		becomeParent(this.deleteUnresolved);
 	}
 
 	/** returns children of this node */
@@ -40,7 +39,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		children.add(neg);
 		children.add(right);
 		children.add(eval);
-		children.add(delete);
+		children.add(getValidVersion(deleteUnresolved, delete));
 		return children;
 	}
 
@@ -67,8 +66,12 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver deleteResolver = new DeclResolver(new Class[] { NodeDeclNode.class, EdgeDeclNode.class });
-		successfullyResolved = delete.resolveChildren(deleteResolver) && successfullyResolved;
+		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> deleteResolver = new
+			DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+		CollectPairResolver<ConstraintDeclNode> collectResolver =
+			new CollectPairResolver<ConstraintDeclNode>(deleteResolver);
+		delete = collectResolver.resolve(deleteUnresolved);
+		successfullyResolved = delete!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -82,27 +85,29 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		successfullyResolved = neg.resolve() && successfullyResolved;
 		successfullyResolved = right.resolve() && successfullyResolved;
 		successfullyResolved = eval.resolve() && successfullyResolved;
-		successfullyResolved = delete.resolve() && successfullyResolved;
+		successfullyResolved = (delete!=null ? delete.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	protected Set<DeclNode> getDelete() {
+		assert isResolved();
+		
 		Set<DeclNode> res = new HashSet<DeclNode>();
 
-		for (BaseNode x : delete.getChildren()) {
-			assert (x instanceof DeclNode);
-			res.add((DeclNode)x);
+		for (ConstraintDeclNode x : delete.getChildren()) {
+			res.add(x);
 		}
 		return res;
 	}
 
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right) {
+		assert isResolved();
+		
 		boolean res = true;
 
 		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();
-		for (BaseNode x: delete.getChildren()) {
-			assert (x instanceof DeclNode): "expected a declared entity";
-			deletedElems.add((DeclNode)x);
+		for (ConstraintDeclNode x: delete.getChildren()) {
+			deletedElems.add(x);
 		}
 
 		for (BaseNode x : right.returns.getChildren()) {
@@ -237,9 +242,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	@Override
 		protected boolean checkLocal() {
 		warnElemAppearsInsideAndOutsideDelete();
-		Checker deleteChecker = new CollectChecker(new SimpleChecker(new Class[] { NodeDeclNode.class, EdgeDeclNode.class }));
-		return super.checkLocal()
-			& deleteChecker.check(delete, error);
+		return super.checkLocal();
 	}
 
 	@Override

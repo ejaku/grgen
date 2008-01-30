@@ -26,7 +26,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Resolver;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
