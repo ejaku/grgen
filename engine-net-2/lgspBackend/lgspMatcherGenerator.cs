@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
-        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph, bool isRule)
+        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph, bool isSubpattern)
         {
             /// 
             /// If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                     isPreset = true;
-                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.PatternElementType == PatternElementType.Preset)
                 {
                     isPreset = true;
-                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -1073,13 +1073,14 @@ exitSecondLoop: ;
 
             // build additional: create extra search subprogram per MaybePreset operation
             // will be called when preset element is not available
-            searchProgramBuilder.BuildAddionalSearchSubprograms(scheduledSearchPlan,
-                searchProgram, rulePattern);
+            if (!rulePattern.isSubpattern)
+                searchProgramBuilder.BuildAddionalSearchSubprograms(
+                    scheduledSearchPlan, searchProgram, rulePattern);
 
             // complete pass: complete check operations in all search programs
             SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
             searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
-
+            
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
             builder = new SourceBuilder(CommentSourceCode);
@@ -1111,15 +1112,15 @@ exitSecondLoop: ;
         /// Generates source code for matcher class into given source builder,
         /// class is generated here, the matcher method(s) itself must be handed in within matcherSourceCode.
         /// name is the prefix-less name of the rule pattern to generate the action for.
-        /// isRule says whether code for a rule/test or a subpattern is to be generated.
+        /// isSubpattern says whether code for a rule/test or a subpattern is to be generated.
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
         public void GenerateMatcherClass(SourceBuilder sb, String matcherSourceCode,
-                String name, LGSPRulePattern rulePattern, bool isRule, bool isInitialStatic)
+                String name, LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
 
-            String namePrefix = isRule ? "Action_" : "PatternAction_";
+            String namePrefix = rulePattern.isSubpattern ? "PatternAction_" : "Action_";
             namePrefix = (isInitialStatic ? "" : "Dyn") + namePrefix;
             String className = namePrefix + name;
   
@@ -1147,16 +1148,16 @@ exitSecondLoop: ;
         /// Generates ScheduledSearchPlan needed for matcher code generation for action/subpattern-action compilation
         /// out of rule pattern and graph with analyze information
         /// </summary>
-        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern, LGSPGraph graph, bool isRule)
+        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern, LGSPGraph graph, bool isSubpattern)
         {
-            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.PatternGraph, false, isRule);
+            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.PatternGraph, false, isSubpattern);
             MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[rulePattern.NegativePatternGraphs.Length];
             for (int i = 0; i < rulePattern.NegativePatternGraphs.Length; ++i)
             {
-                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.NegativePatternGraphs[i], true, isRule);
+                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.NegativePatternGraphs[i], true, isSubpattern);
                 MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
             }
@@ -1206,7 +1207,7 @@ exitSecondLoop: ;
                 scheduledSearchPlan, action.Name, action.rulePattern);
 
             GenerateMatcherClass(sourceCode, matcherSourceCode,
-                action.Name, action.rulePattern, true, false);
+                action.Name, action.rulePattern, false);
 
             // close namespace
             sourceCode.Append("}");
@@ -1309,26 +1310,26 @@ exitSecondLoop: ;
                 LGSPRulePattern rulePattern = subpatternRule.Key;
 
                 ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                    rulePattern, graph, false);
+                    rulePattern, graph, true);
 
                 String matcherSourceCode = GenerateMatcherSourceCode(
                     scheduledSearchPlan, rulePattern.name, rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    rulePattern.name, rulePattern, false, false);
+                    rulePattern.name, rulePattern, false);
             }
 
             // generate code for actions
             foreach(LGSPAction action in actions)
             {
                 ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                    action.rulePattern, graph, true);
+                    action.rulePattern, graph, false);
 
                 String matcherSourceCode = GenerateMatcherSourceCode(
                     scheduledSearchPlan, action.rulePattern.name, action.rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    action.rulePattern.name, action.rulePattern, true, false);
+                    action.rulePattern.name, action.rulePattern, false);
             }
 
             // close namespace

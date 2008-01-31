@@ -215,6 +215,12 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
 
+                case SearchOperationType.PatPreset:
+                    return buildPatPreset(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.Isomorphy);
+
                 case SearchOperationType.Lookup:
                     return buildLookup(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
@@ -380,6 +386,46 @@ namespace de.unika.ipd.grGen.lgsp
                         isNode);
                 insertionPoint = insertionPoint.Append(removeIsomorphy);
             }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// PatPreset search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildPatPreset(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            bool positive = enclosingPositiveOperation == null;
+            Debug.Assert(positive, "Positive subpattern preset in negative search plan");
+
+            // get candidate from inputs
+            GetCandidateByDrawing fromInputs =
+                new GetCandidateByDrawing(
+                    GetCandidateByDrawingType.FromInputs,
+                    target.PatternElement.Name,
+                    target.PatternElement.ParameterIndex.ToString(),
+                    isNode);
+            insertionPoint = insertionPoint.Append(fromInputs);
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
 
             return insertionPoint;
         }

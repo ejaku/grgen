@@ -17,7 +17,6 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public String ActionName;
         public LGSPRulePattern RulePattern;
-        public bool isRule;
 
         // Indices according to the pattern element enums
         public float[] NodeCost;
@@ -159,7 +158,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, float[] nodeCost, float[] edgeCost, bool negPatternGraph, bool isRule)
+        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, float[] nodeCost, float[] edgeCost, bool negPatternGraph, bool isSubpattern)
         {
             ///
             /// If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
@@ -196,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negPatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
@@ -232,7 +231,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isRule ? SearchOperationType.MaybePreset : SearchOperationType.PatPreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negPatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -309,8 +308,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPStaticScheduleInfo schedule, IGraphModel model, LGSPMatcherGenerator matcherGen)
         {
-            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph, 
-                schedule.NodeCost, schedule.EdgeCost, false, schedule.isRule);
+            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph,
+                schedule.NodeCost, schedule.EdgeCost, false, schedule.RulePattern.isSubpattern);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
@@ -318,7 +317,7 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; ++i)
             {
                 PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.NegativePatternGraphs[i],
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, schedule.isRule);
+                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, schedule.RulePattern.isSubpattern);
                 matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
             }
@@ -861,9 +860,9 @@ namespace de.unika.ipd.grGen.lgsp
                             scheduledSearchPlan, schedule.ActionName, schedule.RulePattern);
                         
                         matcherGen.GenerateMatcherClass(source, matcherSourceCode,
-                            schedule.ActionName, schedule.RulePattern, schedule.isRule, true);
+                            schedule.ActionName, schedule.RulePattern, true);
                         
-                        if (schedule.isRule)
+                        if (!schedule.RulePattern.isSubpattern) // normal rule
                         {
                             endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
                         }

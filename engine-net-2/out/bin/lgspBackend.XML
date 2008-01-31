@@ -13,7 +13,17 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Single[],System.Single[],System.Boolean,System.Boolean)">
             <summary>
-            Generate plan graph for given pattern graph with costs from initial static schedule handed in as cost parameters
+            Generate plan graph for given pattern graph with costs from initial static schedule handed in as cost parameters.
+            Plan graph contains nodes representing the pattern elements (nodes and edges)
+            and edges representing the matching operations to get the elements by.
+            Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateScheduledSearchPlan(de.unika.ipd.grGen.lgsp.LGSPStaticScheduleInfo,de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator)">
+            <summary>
+            Generates ScheduledSearchPlan needed for matcher code generation for action compilation
+            out of static schedule information (giving access to rule pattern) and graph model
+            utilizing code of the lgsp matcher generator
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.ProcessSpecification(System.String,System.String,System.String,de.unika.ipd.grGen.libGr.UseExistingKind,System.Boolean,System.Boolean)">
@@ -1193,6 +1203,13 @@
             are created and inserted into search program
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPatPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PatPreset search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
@@ -1282,10 +1299,32 @@
             Element of the search plan graph representing a node within the pattern graph.
             </summary>>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanNodeNode.IncomingPatternEdges">
+            <summary>
+            IncomingPatternEdges are the search plan nodes which originate from the incoming pattern edges of the pattern node this node represents
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanNodeNode.OutgoingPatternEdges">
+            <summary>
+            OutgoingPatternEdges are the search plan nodes which originate from the outgoing pattern edges of the pattern node this node represents
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode">
             <summary>
             Element of the search plan graph representing an edge within the pattern graph.
             </summary>>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.PatternEdgeSource">
+            <summary>
+            PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
+            PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode.PatternEdgeTarget">
+            <summary>
+            PatternEdgeSource gives us the search plan node which originated from the source of the pattern edge this node represents
+            PatternEdgeTarget gives us the search plan node which originated from the target of the pattern edge this node represents
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchPlanEdge">
             <summary>
@@ -1618,6 +1657,14 @@
             Returns the GrGenType of the edge.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.PatternElementType">
+            <summary>
+            Preset is for elements which are handed in to the pattern/action and don't need to be matched
+            Normal is for elements of the pattern which have to be matched
+            NegElement is for elements of negative patterns which have to be matched
+            Elements which are handed in to the negative pattern are Normal if matched in the pattern or Preset if handed in to the pattern
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],de.unika.ipd.grGen.lgsp.PatternElementType,System.Int32)">
             <summary>
             Instantiates a new PatternElement object
@@ -1632,6 +1679,11 @@
                 It should be null if allowedTypes is null or empty or has only one element.</param>
             <param name="patternElementType">Specifies what kind of pattern element this is.</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternNode.TempPlanMapping">
+            <summary>
+            plan graph node corresponding to this pattern node, used in plan graph generation, just hacked into this place
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[])">
             <summary>
@@ -1775,7 +1827,10 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GeneratePlanGraph(de.unika.ipd.grGen.lgsp.LGSPGraph,de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
             <summary>
-            Generate plan graph for given pattern graph with costs from the analyzed host graph 
+            Generate plan graph for given pattern graph with costs from the analyzed host graph.
+            Plan graph contains nodes representing the pattern elements (nodes and edges)
+            and edges representing the matching operations to get the elements by.
+            Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
             </summary>
             <param name="graph">The host graph to optimize the matcher program for, 
             providing statistical information about its structure </param>
@@ -1790,11 +1845,35 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchPlanGraph(de.unika.ipd.grGen.lgsp.PlanGraph)">
             <summary>
-            Generate search plan graph out of the plan graph, i.e. construct a new graph with outgoing
-            edges for nodes and only tree edges
+            Generate search plan graph out of the plan graph,
+            search plan graph only contains edges chosen by the MSA algorithm.
+            Edges in search plan graph are given in the nodes by outgoing list, as needed for scheduling,
+            in contrast to incoming list in plan graph, as needed for MSA computation.
             </summary>
             <param name="planGraph">The source plan graph</param>
             <returns>A new search plan graph</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GetNeededElements(de.unika.ipd.grGen.lgsp.Condition)">
+            <summary>
+            Returns the elements the given condition needs in order to be evaluated
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.CalculateNeededElements(de.unika.ipd.grGen.lgsp.SearchPlanGraph)">
+            <summary>
+            Calculates the elements the given search plan graph doesn't compute locally
+            but expects to be preset from outwards  (non-recursive)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertNegativesIntoSchedule(de.unika.ipd.grGen.lgsp.SearchPlanGraph[],System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.SearchOperation})">
+            <summary>
+            First schedules the negative search plan graphs given,
+            then inserts them into the schedule given by the operations list at their best position 
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertConditionsIntoSchedule(de.unika.ipd.grGen.lgsp.Condition[],System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.SearchOperation})">
+            <summary>
+            Inserts conditions into the schedule given by the operations list at their earliest possible position
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.ScheduleSearchPlan(de.unika.ipd.grGen.lgsp.SearchPlanGraph,de.unika.ipd.grGen.lgsp.SearchPlanGraph[])">
             <summary>
@@ -1821,12 +1900,55 @@
             new version building first abstract search program then search program code
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActions(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.LGSPAction,System.String,System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateFileHeaderForActionsFile(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.String)">
+            <summary>
+            Generates file header for actions file into given source builer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateMatcherClass(de.unika.ipd.grGen.lgsp.SourceBuilder,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Boolean)">
+            <summary>
+            Generates source code for matcher class into given source builder,
+            class is generated here, the matcher method(s) itself must be handed in within matcherSourceCode.
+            name is the prefix-less name of the rule pattern to generate the action for.
+            isSubpattern says whether code for a rule/test or a subpattern is to be generated.
+            isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateScheduledSearchPlan(de.unika.ipd.grGen.lgsp.LGSPRulePattern,de.unika.ipd.grGen.lgsp.LGSPGraph,System.Boolean)">
+            <summary>
+            Generates ScheduledSearchPlan needed for matcher code generation for action/subpattern-action compilation
+            out of rule pattern and graph with analyze information
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GetDynCompilerSetup(System.String,System.String)">
+            <summary>
+            Setup of compiler parameters for recompilation of actions at runtime taking care of analyze information
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateAction(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.LGSPAction,System.String,System.String,System.String)">
             <summary>
             Generates an LGSPAction object for the given scheduled search plan.
             </summary>
             <param name="action">Needed for the rule pattern and the name</param>
             <param name="sourceOutputFilename">null if no output file needed</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.SubpatternsUsedByTheActions(de.unika.ipd.grGen.lgsp.LGSPAction[])">
+            <summary>
+            Computes all, by the given actions directly or indirectly used subpatterns.
+            returned in set with rulepatterns of the subpatterns, implemented by abused dictionary as .net lacks a set datatype - argggh
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActions(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPAction[])">
+            <summary>
+            Generate new actions for the given actions, doing the same work, 
+            but hopefully faster by taking graph analysis information into account
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateAction(de.unika.ipd.grGen.lgsp.LGSPGraph,System.String,System.String,de.unika.ipd.grGen.lgsp.LGSPAction)">
+            <summary>
+            Generate a new action for the given action, doing the same work, 
+            but hopefully faster by taking graph analysis information into account
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PlanPseudoNode">
             <summary>
@@ -1868,12 +1990,16 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PlanNode.PatternEdgeSource">
             <summary>
-            Only valid if representing pattern edge
+            Only valid if this plan node is representing a pattern edge, 
+            then PatternEdgeSource gives us the plan node made out of the source node of the edge
+            then PatternEdgeTarget gives us the plan node made out of the target node of the edge
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PlanNode.PatternEdgeTarget">
             <summary>
-            Only valid if representing pattern edge
+            Only valid if this plan node is representing a pattern edge, 
+            then PatternEdgeSource gives us the plan node made out of the source node of the edge
+            then PatternEdgeTarget gives us the plan node made out of the target node of the edge
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PlanNode.#ctor(System.String)">
@@ -1890,13 +2016,15 @@
             <param name="elemID">The element ID for this plan node.</param>
             <param name="isPreset">True, if this element is a known element.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PlanNode.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,System.Int32,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PlanNode.#ctor(de.unika.ipd.grGen.lgsp.PatternEdge,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PlanNode,de.unika.ipd.grGen.lgsp.PlanNode)">
             <summary>
             Instantiates an edge plan node.
             </summary>
             <param name="patEdge">The pattern edge for this plan node.</param>
             <param name="elemID">The element ID for this plan node.</param>
             <param name="isPreset">True, if this element is a known element.</param>
+            <param name="patternEdgeSource">The plan node corresponding to the source of the pattern edge.</param>
+            <param name="patternEdgeTarget">The plan node corresponding to the target of the pattern edge.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PlanNode.GetCheapestIncoming(de.unika.ipd.grGen.lgsp.PlanPseudoNode,System.Single@)">
             <summary>

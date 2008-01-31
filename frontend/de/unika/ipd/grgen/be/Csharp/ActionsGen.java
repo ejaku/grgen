@@ -86,61 +86,6 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 		genTypeCondition(sb, action);
 		sb.append("\n");
-		genRuleOrSubpatternInit(sb, action, false);
-		sb.append("\n");
-		genActionConditions(sb, action);
-		sb.append("\n");
-		if(action instanceof Rule) {
-			Rule rule = (Rule) action;
-			inRewriteModify = true;
-			genRuleModify(sb, rule, true);
-			sb.append("\n");
-			genRuleModify(sb, rule, false);
-			inRewriteModify = false;
-
-			genAddedGraphElementsArray(sb, true, newNodes);
-			genAddedGraphElementsArray(sb, false, newEdges);
-
-			genEmit(sb, rule, false);
-		}
-		else if(action instanceof Test) {
-			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // currently empty\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
-			sb.append("\t\t}\n");
-
-			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
-			sb.append("\t\t{  // currently empty\n");
-			sb.append("\t\t\treturn EmptyReturnElements;\n");
-			sb.append("\t\t}\n");
-
-			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
-			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
-			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
-			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
-		}
-		else
-			throw new IllegalArgumentException("Unknown action type: " + action);
-
-		sb.append("\t}\n");
-		sb.append("\n");
-
-		genSchedule(sb, action, false);
-	}
-
-	/**
-	 * Generates the actions sourcecode for the given matching-action
-	 */
-	private void genRule(StringBuffer sb, MatchingAction action) {
-		String actionName = formatIdentifiable(action);
-
-		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
-		sb.append("\t{\n");
-		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
-		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) instance = new Rule_" + actionName + "(); return instance; } }\n");
-		sb.append("\n");
-		genTypeCondition(sb, action);
-		sb.append("\n");
 		genRuleOrSubpatternInit(sb, action, true);
 		sb.append("\n");
 		genActionConditions(sb, action);
@@ -160,6 +105,61 @@ public class ActionsGen extends CSharpBase {
 		}
 		else if(action instanceof Test) {
 			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // currently empty\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			sb.append("\t\t}\n");
+
+			sb.append("\t\tpublic override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)\n");
+			sb.append("\t\t{  // currently empty\n");
+			sb.append("\t\t\treturn EmptyReturnElements;\n");
+			sb.append("\t\t}\n");
+
+			sb.append("\t\tprivate static String[] addedNodeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedNodeNames { get { return addedNodeNames; } }\n");
+			sb.append("\t\tprivate static String[] addedEdgeNames = new String[] {};\n");
+			sb.append("\t\tpublic override String[] AddedEdgeNames { get { return addedEdgeNames; } }\n");
+		}
+		else
+			throw new IllegalArgumentException("Unknown action type: " + action);
+
+		sb.append("\t}\n");
+		sb.append("\n");
+
+		genSchedule(sb, action, true);
+	}
+
+	/**
+	 * Generates the actions sourcecode for the given matching-action
+	 */
+	private void genRule(StringBuffer sb, MatchingAction action) {
+		String actionName = formatIdentifiable(action);
+
+		sb.append("\tpublic class Rule_" + actionName + " : LGSPRulePattern\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static Rule_" + actionName + " instance = null;\n"); //new Rule_" + actionName + "();\n");
+		sb.append("\t\tpublic static Rule_" + actionName + " Instance { get { if (instance==null) instance = new Rule_" + actionName + "(); return instance; } }\n");
+		sb.append("\n");
+		genTypeCondition(sb, action);
+		sb.append("\n");
+		genRuleOrSubpatternInit(sb, action, false);
+		sb.append("\n");
+		genActionConditions(sb, action);
+		sb.append("\n");
+		if(action instanceof Rule) {
+			Rule rule = (Rule) action;
+			inRewriteModify = true;
+			genRuleModify(sb, rule, true);
+			sb.append("\n");
+			genRuleModify(sb, rule, false);
+			inRewriteModify = false;
+
+			genAddedGraphElementsArray(sb, true, newNodes);
+			genAddedGraphElementsArray(sb, false, newEdges);
+
+			genEmit(sb, rule, false);
+		}
+		else if(action instanceof Test) {
+			sb.append("\t\tpublic override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)\n");
 			sb.append("\t\t{  // test does not have modifications\n");
 			sb.append("\t\t\treturn EmptyReturnElements;\n");
 			sb.append("\t\t}\n");
@@ -180,7 +180,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t}\n");
 		sb.append("\n");
 
-		genSchedule(sb, action, true);
+		genSchedule(sb, action, false);
 	}
 
 	////////////////////////////////
@@ -277,7 +277,7 @@ public class ActionsGen extends CSharpBase {
 	// Rule/Subpattern metadata generation //
 	//////////////////////////////
 
-	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isRule) {
+	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		int i = 0;
 		sb.append("\t\tpublic enum NodeNums { ");
 		for(Node node : action.getPattern().getNodes()) {
@@ -312,14 +312,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 		sb.append("\n");
 
-		if(isRule) {
-			sb.append("\t\tprivate Rule_" + formatIdentifiable(action) + "()\n");
-			sb.append("\t\t{\n");
-		} else {
-			sb.append("\t\tprivate Pattern_" + formatIdentifiable(action) + "()\n");
-			sb.append("\t\t{\n");
-		}
+		sb.append("\t\tprivate " + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action) + "()\n");
+		sb.append("\t\t{\n");
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
+		sb.append("\t\t\tisSubpattern = " + (isSubpattern ? "true" : "false") + ";\n");
 
 		PatternGraph pattern = action.getPattern();
 		List<Entity> parameters = action.getParameters();
@@ -528,13 +524,9 @@ public class ActionsGen extends CSharpBase {
 					  + "Names { get { return added" + NodesOrEdges + "Names; } }\n");
 	}
 
-	private void genEmit(StringBuffer sb, Rule rule, boolean isRule) {
+	private void genEmit(StringBuffer sb, Rule rule, boolean isSubpattern) {
 		String actionName = formatIdentifiable(rule);
-		if(isRule) {
-			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Rule_" + actionName + "\n");
-		} else {
-			sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: Pattern_" + actionName + "\n");
-		}
+		sb.append("#if INITIAL_WARMUP\t\t// GrGen emit statement section: " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "\n");
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : ((PatternGraph) rule.getRight()).getImperativeStmts()) {
 			if(istmt instanceof Emit) {
@@ -558,7 +550,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("#endif\n");
 	}
 
-	private void genSchedule(StringBuffer sb, MatchingAction action, boolean isRule) {
+	private void genSchedule(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		String actionName = formatIdentifiable(action);
 		sb.append("#if INITIAL_WARMUP\n");
 		sb.append("\tpublic class Schedule_" + actionName + " : LGSPStaticScheduleInfo\n");
@@ -566,13 +558,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic Schedule_" + actionName + "()\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tActionName = \"" + actionName + "\";\n");
-		if(isRule) {
-			sb.append("\t\t\tthis.RulePattern = Rule_" + actionName + ".Instance;\n");
-			sb.append("\t\t\tisRule = true;\n");
-		} else {
-			sb.append("\t\t\tthis.RulePattern = Pattern_" + actionName + ".Instance;\n");
-			sb.append("\t\t\tisRule = false;\n");
-		}
+		sb.append("\t\t\tthis.RulePattern = " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + ".Instance;\n");
 		genPrios(action, sb);
 		sb.append("\t\t}\n");
 		sb.append("\t}\n");

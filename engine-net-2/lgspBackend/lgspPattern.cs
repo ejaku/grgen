@@ -297,5 +297,6 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] outputs;
 
         public String name;
+        public bool isSubpattern; // are we a rule or a subpattern?
     }
 }
