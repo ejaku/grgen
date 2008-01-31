@@ -170,7 +170,7 @@ public class Main extends Base implements Sys {
 	private void printUsage() {
 		System.out.println("usage: grgen [options] filename");
 		System.out.println("Options are:");
-		System.out.println("  -n, --new-technology              enable immature features");
+		//System.out.println("  -n, --new-technology              enable immature features");
 		System.out.println("  -t, --timing                      print some timing stats");
 		System.out.println("  -d, --debug                       enable debugging");
 		System.out.println("  -a, --dump-ast                    dump the AST");
@@ -351,7 +351,8 @@ public class Main extends Base implements Sys {
 			dumpRules = parser.getOptionValue(ruleDumpOpt) != null;
 			enableDebug = parser.getOptionValue(debugOpt) != null;
 			graphic = parser.getOptionValue(graphicOpt) != null;
-			// enableNT = parser.getOptionValue(ntOpt) != null;
+			if(parser.getOptionValue(ntOpt) != null)
+				System.err.println("-n is an obsolete switch, please do not use any more.");
 			printTiming = parser.getOptionValue(timeOpt) != null;
 			backendEmitDebugFiles = parser.getOptionValue(backendDebugOpt) != null;
 
