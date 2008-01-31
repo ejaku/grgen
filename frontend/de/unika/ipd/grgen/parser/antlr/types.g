@@ -281,7 +281,7 @@ edgeClassBody returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		CollectNode c = new CollectNode();
+		CollectNode<EnumItemNode> c = new CollectNode<EnumItemNode>();
 	}
 
 	: ENUM id=typeIdentDecl pushScope[id]
@@ -294,7 +294,7 @@ enumDecl returns [ IdentNode res = env.getDummyIdent() ]
 		RBRACE popScope
 	;
 
-enumList[ IdentNode enumType, CollectNode collect ]
+enumList[ IdentNode enumType, CollectNode<EnumItemNode> collect ]
 	{
 		int pos = 0;
 		ExprNode init;
@@ -304,7 +304,7 @@ enumList[ IdentNode enumType, CollectNode collect ]
 		( COMMA init=enumItemDecl[enumType, collect, init, pos++] )*
 	;
 
-enumItemDecl [ IdentNode type, CollectNode coll, ExprNode defInit, int pos ]
+enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit, int pos ]
 				returns [ ExprNode res = env.initExprNode() ]
 	{
 		IdentNode id;
@@ -319,7 +319,7 @@ enumItemDecl [ IdentNode type, CollectNode coll, ExprNode defInit, int pos ]
 			} else {
 				value = defInit;
 			}
-			MemberDeclNode memberDecl = new EnumItemNode(id, type, value, pos);
+			EnumItemNode memberDecl = new EnumItemNode(id, type, value, pos);
 			id.setDecl(memberDecl);
 			coll.addChild(memberDecl);
 			OpNode add = new ArithmeticOpNode(id.getCoords(), OperatorSignature.ADD);

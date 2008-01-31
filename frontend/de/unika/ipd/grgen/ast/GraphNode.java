@@ -53,8 +53,7 @@ public class GraphNode extends BaseNode {
 	CollectNode<BaseNode> connections;
 	CollectNode<BaseNode> subpatterns;
 	CollectNode<IdentNode> returns;
-	// TODO: check types
-	CollectNode<?> imperativeStmts;
+	CollectNode<BaseNode> imperativeStmts;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;
@@ -65,7 +64,7 @@ public class GraphNode extends BaseNode {
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
-	public GraphNode(String nameOfGraph, Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returns, CollectNode imperativeStmts, int context) {
+	public GraphNode(String nameOfGraph, Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returns, CollectNode<BaseNode> imperativeStmts, int context) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
 		this.connections = connections;

@@ -24,14 +24,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.Assignment;
-import de.unika.ipd.grgen.ir.Graph;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Rule;
+
 import java.util.Collection;
 import java.util.Vector;
 import java.util.Set;
@@ -39,6 +32,12 @@ import java.util.Map;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Rule;
 
 
 /**
@@ -50,8 +49,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	GraphNode right;
-	// TODO: check types
-	CollectNode<BaseNode> eval;
+	CollectNode<AssignNode> eval;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
@@ -65,7 +63,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode neg,
-						CollectNode eval, CollectNode params, CollectNode rets) {
+						CollectNode<AssignNode> eval, CollectNode params, CollectNode rets) {
 		super(id, ruleType, left, neg, params, rets);
 		this.right = right;
 		becomeParent(this.right);
@@ -203,7 +201,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 
-		Vector<BaseNode> retSignature =	(Vector<BaseNode>) ret.getChildren();
+		Vector<BaseNode> retSignature =	ret.children;
 
 		int declaredNumRets = retSignature.size();
 		int actualNumRets = right.returns.getChildren().size();
@@ -428,10 +426,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		Checker evalChecker = new CollectChecker(new SimpleChecker(AssignNode.class));
-		boolean leftHandGraphsOk = super.checkLocal()
-			& (new SimpleChecker(GraphNode.class)).check(this.right, error)
-			& evalChecker.check(this.eval, error);
+		boolean leftHandGraphsOk = super.checkLocal();
 
 		PatternGraphNode left = pattern;
 		GraphNode right = this.right;
@@ -474,9 +469,8 @@ public class RuleDeclNode extends TestDeclNode {
 		constructIRaux(rule, (this.right).returns);
 
 		// add Eval statements to the IR
-		for (BaseNode n : eval.getChildren()) {
-			AssignNode eval = (AssignNode) n;
-			rule.addEval((Assignment) eval.checkIR(Assignment.class));
+		for (AssignNode n : eval.getChildren()) {
+			rule.addEval((Assignment) n.checkIR(Assignment.class));
 		}
 
 		return rule;

@@ -23,14 +23,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * An enumeration type AST node.
@@ -40,11 +38,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	// TODO: check types
-	CollectNode<BaseNode> elements;
-
-	private static final Checker childrenChecker =
-		new CollectChecker(new SimpleChecker(EnumItemNode.class));
+	CollectNode<EnumItemNode> elements;
 
 	/*
 	 private static final OperatorSignature.Evaluator enumEvaluator =
@@ -63,7 +57,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 	 };
 	 */
 
-	public EnumTypeNode(CollectNode body) {
+	public EnumTypeNode(CollectNode<EnumItemNode> body) {
 		this.elements = body;
 		becomeParent(this.elements);
 
@@ -105,7 +99,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return childrenChecker.check(elements, error);
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
@@ -113,8 +107,7 @@ public class EnumTypeNode extends CompoundTypeNode {
 		Ident name = (Ident) getIdentNode().checkIR(Ident.class);
 		EnumType ty = new EnumType(name);
 
-		for (BaseNode n : elements.getChildren()) {
-			EnumItemNode item = (EnumItemNode) n;
+		for (EnumItemNode item : elements.getChildren()) {
 			ty.addItem(item.getItem());
 		}
 		/*

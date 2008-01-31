@@ -160,7 +160,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		GraphNode right;
 		CollectNode params, ret;
 		CollectNode negs = new CollectNode();
-		CollectNode eval = new CollectNode();
+		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
 		CollectNode dels = new CollectNode();
 	}
 
@@ -247,7 +247,7 @@ patternPart [ Coords pattern_coords, CollectNode negs, int mod, int context, Str
 	| res=patternBody[pattern_coords, negs, mod, context, nameOfGraph]
 	;
 
-replacePart [ CollectNode eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+replacePart [ CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	: r:REPLACE LBRACE
 		res=replaceBody[getCoords(r), eval, context, nameOfGraph]
 		RBRACE
@@ -259,13 +259,13 @@ modifyPart [ CollectNode eval, CollectNode<IdentNode> dels, int context, String 
 		RBRACE
 	;
 
-evalPart [ CollectNode n ]
+evalPart [ CollectNode<AssignNode> n ]
 	: EVAL LBRACE
 		evalBody[n]
 		RBRACE
 	;
 
-evalBody [ CollectNode n  ]
+evalBody [ CollectNode<AssignNode> n  ]
 	{ AssignNode a; }
 
 	: ( a=assignment { n.addChild(a); } SEMI )*
@@ -642,7 +642,7 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
@@ -656,7 +656,7 @@ replaceBody [ Coords coords, CollectNode eval, int context, String nameOfGraph ]
 	;
 
 replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
-		CollectNode eval, CollectNode imperativeStmts, int context ]
+		CollectNode<AssignNode> eval, CollectNode imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| evalPart[eval]
