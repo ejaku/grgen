@@ -77,7 +77,7 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(ident);
 		children.add(typeUnresolved);
 		children.add(param);
-		children.add(ret);
+		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(neg);
 		children.add(right);
@@ -201,7 +201,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 
-		Vector<BaseNode> retSignature =	ret.children;
+		Vector<BaseNode> retSignature =	returnFormalParameters.children;
 
 		int declaredNumRets = retSignature.size();
 		int actualNumRets = right.returns.getChildren().size();
@@ -466,7 +466,7 @@ public class RuleDeclNode extends TestDeclNode {
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
 		constructImplicitNegs(rule);
-		constructIRaux(rule, (this.right).returns);
+		constructIRaux(rule, this.right.returns);
 
 		// add Eval statements to the IR
 		for (AssignNode n : eval.getChildren()) {
@@ -486,3 +486,4 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 	}
 }
+

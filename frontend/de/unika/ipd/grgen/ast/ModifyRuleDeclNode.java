@@ -51,7 +51,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		children.add(ident);
 		children.add(typeUnresolved);
 		children.add(param);
-		children.add(ret);
+		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(neg);
 		children.add(right);
@@ -299,3 +299,4 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return rule;
 	}
 }
+

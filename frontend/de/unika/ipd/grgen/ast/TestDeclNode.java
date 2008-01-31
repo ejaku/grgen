@@ -43,7 +43,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 	// TODO: check types
 	CollectNode<BaseNode> param;
-	CollectNode ret;
+	CollectNode returnFormalParameters;
 	PatternGraphNode pattern;
 	CollectNode<BaseNode> neg;
 
@@ -53,8 +53,8 @@ public class TestDeclNode extends ActionDeclNode {
 		super(id, type);
 		this.param = params;
 		becomeParent(this.param);
-		this.ret = rets;
-		becomeParent(this.ret);
+		this.returnFormalParameters = rets;
+		becomeParent(this.returnFormalParameters);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
 		this.neg = neg;
@@ -71,7 +71,7 @@ public class TestDeclNode extends ActionDeclNode {
 		children.add(ident);
 		children.add(typeUnresolved);
 		children.add(param);
-		children.add(ret);
+		children.add(returnFormalParameters);
 		children.add(pattern);
 		children.add(neg);
 		return children;
@@ -188,7 +188,7 @@ public class TestDeclNode extends ActionDeclNode {
 		Checker negChecker = new CollectChecker(new SimpleChecker(PatternGraphNode.class));
 		boolean childs = (new SimpleChecker(PatternGraphNode.class)).check(pattern, error)
 			& negChecker.check(neg, error)
-			& retDeclarationChecker.check(ret, error);
+			& retDeclarationChecker.check(returnFormalParameters, error);
 
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;
@@ -260,14 +260,14 @@ public class TestDeclNode extends ActionDeclNode {
 
 		boolean returnParams = true;
 		if(! (this instanceof RuleDeclNode)) {
-			returnParams = checkReturnParams(ret, pattern.returns);
+			returnParams = checkReturnParams(returnFormalParameters, pattern.returns);
 		}
 
 		return childs && edgeReUse && returnParams;
 	}
 
 
-	protected void constructIRaux(MatchingAction ma, BaseNode aReturns) {
+	protected void constructIRaux(MatchingAction ma, CollectNode<IdentNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add negative parts to the IR
@@ -293,7 +293,6 @@ public class TestDeclNode extends ActionDeclNode {
 					neg.addHomToAll(neededEdge);
 				}
 			}
-
 			ma.addNegGraph(neg);
 		}
 
@@ -312,10 +311,8 @@ public class TestDeclNode extends ActionDeclNode {
 		}
 
 		// add Return-Params to the IR
-		for(BaseNode n : aReturns.getChildren()) {
-			IdentNode aReturnAST = (IdentNode)n;
+		for(IdentNode aReturnAST : aReturns.getChildren()) {
 			Entity aReturn = (Entity)aReturnAST.getDecl().checkIR(Entity.class);
-
 			// actual return-parameter
 			ma.addReturn(aReturn);
 		}
@@ -325,7 +322,7 @@ public class TestDeclNode extends ActionDeclNode {
 		PatternGraph left = pattern.getPatternGraph();
 		Test test = new Test(getIdentNode().getIdent(), left);
 
-		constructIRaux(test, ret);
+		constructIRaux(test, pattern.returns);
 
 		return test;
 	}
@@ -335,4 +332,5 @@ public class TestDeclNode extends ActionDeclNode {
 		return typeUnresolved;
 	}
 }
+
 
