@@ -67,7 +67,7 @@ options {
  */
 text returns [ BaseNode main = env.initNode() ]
 	{
-		CollectNode modelChilds = new CollectNode();
+		CollectNode<BaseNode> modelChilds = new CollectNode<BaseNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		IdentNode id;
@@ -105,7 +105,7 @@ identList [ Collection<String> strings ]
 		( COMMA sid:IDENT { strings.add(sid.getText()); } )*
 	;
 
-usingDecl [ CollectNode modelChilds ]
+usingDecl [ CollectNode<BaseNode> modelChilds ]
 	{ Collection<String> modelNames = new LinkedList<String>(); }
 
 	: u:USING identList[modelNames] SEMI
@@ -158,10 +158,11 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		IdentNode id;
 		PatternGraphNode left;
 		GraphNode right;
-		CollectNode params, ret;
-		CollectNode negs = new CollectNode();
+		CollectNode<ConstraintDeclNode> params;
+		CollectNode<IdentNode> ret;
+		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
-		CollectNode dels = new CollectNode();
+		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
@@ -194,7 +195,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		left=patternPart[getCoords(p), negs, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, "pattern "+id.toString()]
 		( 
 			{
-				id.setDecl(new TestDeclNode(id, left, negs, params, new CollectNode()));
+				id.setDecl(new TestDeclNode(id, left, negs, params, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
 				if((mod & PatternGraphNode.MOD_DPO)!=0) {
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
@@ -202,36 +203,36 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		| right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, "pattern "+id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, new CollectNode()));
+				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, "pattern "+id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, new CollectNode(), dels));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, new CollectNode<IdentNode>(), dels));
 				patternChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
 	;
 
-parameters [ int context ] returns [ CollectNode res = new CollectNode() ]
+parameters [ int context ] returns [ CollectNode<ConstraintDeclNode> res = new CollectNode<ConstraintDeclNode>() ]
 	: LPAREN (paramList[res, context])? RPAREN
 	|
 	;
 
-paramList [ CollectNode params, int context ]
-	{ BaseNode p; }
+paramList [ CollectNode<ConstraintDeclNode> params, int context ]
+	{ ConstraintDeclNode p; }
 
 	: p=param[context] { params.addChild(p); } ( COMMA p=param[context] { params.addChild(p); } )*
 	;
 
-param [ int context ] returns [ BaseNode res = env.initNode() ]
+param [ int context ] returns [ ConstraintDeclNode res = null ]
 	: MINUS res=edgeDecl[context] RARROW
 	| res=nodeDecl[context]
 	;
 
-returnTypes returns [ CollectNode res = new CollectNode() ]
-	{ BaseNode type; }
+returnTypes returns [ CollectNode<IdentNode> res = new CollectNode<IdentNode>() ]
+	{ IdentNode type; }
 
 	: COLON LPAREN
 		( type=typeIdentUse { res.addChild(type); } ( COMMA type=typeIdentUse { res.addChild(type); } )* )?
@@ -239,7 +240,7 @@ returnTypes returns [ CollectNode res = new CollectNode() ]
 	|
 	;
 
-patternPart [ Coords pattern_coords, CollectNode negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternPart [ Coords pattern_coords, CollectNode<PatternGraphNode> negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	: p:PATTERN LBRACE
 		res=patternBody[getCoords(p), negs, mod, context, nameOfGraph]
 		RBRACE
@@ -253,7 +254,7 @@ replacePart [ CollectNode<AssignNode> eval, int context, String nameOfGraph ] re
 		RBRACE
 	;
 
-modifyPart [ CollectNode eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyPart [ CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	: r:MODIFY LBRACE
 		res=modifyBody[getCoords(r), eval, dels, context, nameOfGraph]
 		RBRACE
@@ -271,7 +272,7 @@ evalBody [ CollectNode<AssignNode> n  ]
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
 
-patternBody [ Coords coords, CollectNode negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternBody [ Coords coords, CollectNode<PatternGraphNode> negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
@@ -288,7 +289,7 @@ patternBody [ Coords coords, CollectNode negs, int mod, int context, String name
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond,
-	CollectNode negs, int negCount, CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced, int context, String nameOfGraph ]
+	CollectNode<PatternGraphNode> negs, int negCount, CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced, int context, String nameOfGraph ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
@@ -298,7 +299,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 		ExactNode exa;
 		InducedNode ind;
 		//nesting of negative Parts is not allowed.
-		CollectNode negsInNegs = new CollectNode();
+		CollectNode<PatternGraphNode> negsInNegs = new CollectNode<PatternGraphNode>();
 		newNegCount = negCount;
 	}
 
@@ -430,7 +431,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpat
 		firstEdgeContinuation[n, conn, context] // and continue looking for first edge
 	;
 
-nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn, int context ]
+nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode<BaseNode> conn, int context ]
 	{ BaseNode n2 = env.getDummyNodeDecl(context); }
 
 	: n2=nodeOcc[context] // node following - get it and build connection with it, then continue with looking for follwing edge
@@ -452,7 +453,7 @@ nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode conn, i
 		}
 	;
 
-firstEdgeContinuation [ BaseNode n, CollectNode conn, int context ]
+firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
@@ -465,7 +466,7 @@ firstEdgeContinuation [ BaseNode n, CollectNode conn, int context ]
 			nodeContinuation[e, n, forward, conn, context] // continue looking for node
 	;
 
-edgeContinuation [ BaseNode left, CollectNode conn, int context ]
+edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
@@ -519,7 +520,7 @@ nodeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.
 			}
 	;
 
-nodeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
+nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 	{
 		IdentNode id, type;
 		TypeExprNode constr = TypeExprNode.getEmpty();
@@ -559,7 +560,7 @@ backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
 		}
 	;
 
-edgeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
+edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode id = env.getDummyIdent();
 		Annotations annots = env.getEmptyAnnotations();
@@ -582,7 +583,7 @@ edgeDecl [ int context ] returns [ BaseNode res = env.initNode() ]
 		)
 	;
 
-edgeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.initNode() ]
+edgeTypeContinuation [ IdentNode id, int context ] returns [ EdgeDeclNode res = null ]
 	{
 		IdentNode type = env.getNodeRoot();
 		TypeExprNode constr = TypeExprNode.getEmpty();
@@ -644,10 +645,10 @@ inducedStatement returns [ InducedNode res = null ]
 
 replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
-		CollectNode connections = new CollectNode();
-		CollectNode subpatterns = new CollectNode();
-		CollectNode returnz = new CollectNode();
-		CollectNode imperativeStmts = new CollectNode();
+		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
 		res = new GraphNode(nameOfGraph+".replace", coords, connections, subpatterns, returnz, imperativeStmts, context);
 	}
@@ -655,8 +656,8 @@ replaceBody [ Coords coords, CollectNode<AssignNode> eval, int context, String n
 	: ( replaceStmt[coords, connections, subpatterns, returnz, eval, imperativeStmts, context] )*
 	;
 
-replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
-		CollectNode<AssignNode> eval, CollectNode imperativeStmts, int context ]
+replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returnz,
+		CollectNode<AssignNode> eval, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| evalPart[eval]
@@ -664,12 +665,12 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, C
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-modifyBody [ Coords coords, CollectNode eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyBody [ Coords coords, CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
-		CollectNode connections = new CollectNode();
-		CollectNode subpatterns = new CollectNode();
-		CollectNode returnz = new CollectNode();
-		CollectNode imperativeStmts = new CollectNode();
+		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
 
 		EmitNode es = null;
 		res = new GraphNode(nameOfGraph+".modify", coords, connections, subpatterns, returnz, imperativeStmts, context);
@@ -678,8 +679,8 @@ modifyBody [ Coords coords, CollectNode eval, CollectNode<IdentNode> dels, int c
 	: ( modifyStmt[coords, connections, subpatterns, returnz, eval, dels, imperativeStmts, context] )*
 	;
 
-modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
-		CollectNode eval, CollectNode<IdentNode> dels, CollectNode imperativeStmts, int context ]
+modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns, CollectNode<IdentNode> returnz,
+		CollectNode<AssignNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| deleteStmt[dels] SEMI
@@ -720,14 +721,14 @@ paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
 	;
 
-execStmt[CollectNode imperativeStmts]
+execStmt[CollectNode<BaseNode> imperativeStmts]
     {
     	ExecNode exec = null;
     }
 	: e:EXEC { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN { imperativeStmts.addChild(exec); }
 	;
 
-emitStmt[CollectNode imperativeStmts]
+emitStmt[CollectNode<BaseNode> imperativeStmts]
 	{
 		EmitNode emit = null;
 		ExprNode exp = null;

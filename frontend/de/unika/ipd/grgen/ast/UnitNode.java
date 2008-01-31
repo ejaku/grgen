@@ -47,7 +47,6 @@ public class UnitNode extends DeclNode {
 
 	protected static final TypeNode mainType = new MainTypeNode();
 
-	// TODO: check types
 	CollectNode<BaseNode> models;
 
 	// of type TestDeclNode or RuleDeclNode
@@ -63,7 +62,7 @@ public class UnitNode extends DeclNode {
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
+	public UnitNode(IdentNode id, String filename, CollectNode<BaseNode> models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
 		super(id, mainType);
 		this.models = models;
 		becomeParent(this.models);

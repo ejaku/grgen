@@ -29,7 +29,6 @@ import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
@@ -41,15 +40,14 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	// TODO: check types
-	CollectNode<BaseNode> param;
-	CollectNode returnFormalParameters;
+	CollectNode<ConstraintDeclNode> param;
+	CollectNode<IdentNode> returnFormalParameters;
 	PatternGraphNode pattern;
-	CollectNode<BaseNode> neg;
+	CollectNode<PatternGraphNode> neg;
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode<PatternGraphNode> neg, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
 		super(id, type);
 		this.param = params;
 		becomeParent(this.param);
@@ -61,7 +59,7 @@ public class TestDeclNode extends ActionDeclNode {
 		becomeParent(this.neg);
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode neg, CollectNode params, CollectNode rets) {
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode<PatternGraphNode> neg, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
 		this(id, testType, pattern, neg, params, rets);
 	}
 
@@ -116,7 +114,7 @@ public class TestDeclNode extends ActionDeclNode {
 	 * to the formal return parameters.
 	 */
 	// TODO: check types
-	protected boolean checkReturnParams(CollectNode<BaseNode> typeReturns, CollectNode actualReturns) {
+	protected boolean checkReturnParams(CollectNode<IdentNode> typeReturns, CollectNode<IdentNode> actualReturns) {
 		boolean returnTypes = true;
 
 		/*
@@ -133,13 +131,13 @@ public class TestDeclNode extends ActionDeclNode {
 							actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
 			returnTypes = false;
 		} else {
-			Iterator<BaseNode> itAR = actualReturns.children.iterator();
+			Iterator<IdentNode> itAR = actualReturns.children.iterator();
 
 			for(BaseNode n : typeReturns.getChildren()) {
 				IdentNode       tReturnAST  = (IdentNode)n;
 				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 
-				IdentNode       aReturnAST  = (IdentNode)itAR.next();
+				IdentNode       aReturnAST  = itAR.next();
 				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
 
 				if(!aReturnType.isCastableTo(tReturn)) {
@@ -185,10 +183,7 @@ public class TestDeclNode extends ActionDeclNode {
 			}
 		);
 
-		Checker negChecker = new CollectChecker(new SimpleChecker(PatternGraphNode.class));
-		boolean childs = (new SimpleChecker(PatternGraphNode.class)).check(pattern, error)
-			& negChecker.check(neg, error)
-			& retDeclarationChecker.check(returnFormalParameters, error);
+		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
 		//Check if reused names of edges connect the same nodes in the same direction for each usage
 		boolean edgeReUse = false;

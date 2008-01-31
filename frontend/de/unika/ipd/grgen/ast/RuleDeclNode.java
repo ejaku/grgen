@@ -62,8 +62,8 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode neg,
-						CollectNode<AssignNode> eval, CollectNode params, CollectNode rets) {
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<PatternGraphNode> neg,
+						CollectNode<AssignNode> eval, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
 		super(id, ruleType, left, neg, params, rets);
 		this.right = right;
 		becomeParent(this.right);
@@ -201,7 +201,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean checkRetSignatureAdhered(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 
-		Vector<BaseNode> retSignature =	returnFormalParameters.children;
+		Vector<IdentNode> retSignature = returnFormalParameters.children;
 
 		int declaredNumRets = retSignature.size();
 		int actualNumRets = right.returns.getChildren().size();

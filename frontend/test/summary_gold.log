@@ -161,7 +161,7 @@ OK     should_pass/param_001.grg
 OK     should_pass/param_002.grg
 OK     should_pass/param_003.grg
 OK     should_pass/param_004.grg
-ABEND  should_pass/param_005.grg
+OK     should_pass/param_005.grg
 OK     should_pass/param_006.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg

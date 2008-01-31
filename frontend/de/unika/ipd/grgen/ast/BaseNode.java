@@ -29,7 +29,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.*;
 
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
