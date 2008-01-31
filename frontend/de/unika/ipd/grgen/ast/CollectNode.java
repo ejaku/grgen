@@ -22,11 +22,10 @@
  * @file CollectNode.java
  * @author shack
  * @date Jul 21, 2003
- * @version $Id$
+ * @version $Id: CollectNode.java 17542 2008-01-26 02:26:59Z rubino $
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Resolver;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
@@ -40,20 +39,20 @@ import java.util.Vector;
  * This node collects a statically unknown number of children AST nodes,
  * originating in unbounded list constructs in the parsing syntax.
  */
-public class CollectNode extends BaseNode {
+public class CollectNode<T extends BaseNode> extends BaseNode {
 	static {
 		setName(CollectNode.class, "collect");
 	}
 
-	Vector<BaseNode> children = new Vector<BaseNode>();
+	Vector<T> children = new Vector<T>();
 
-	public void addChild(BaseNode n) {
+	public void addChild(T n) {
 		becomeParent(n);
 		children.add(n);
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<T> getChildren() {
 		return children;
 	}
 
@@ -77,17 +76,6 @@ public class CollectNode extends BaseNode {
 
 		for(int i=0; i<children.size(); ++i) {
 			successfullyResolved = children.get(i).resolve() && successfullyResolved;
-		}
-		return successfullyResolved;
-	}
-
-	protected boolean resolveChildren(Resolver resolver) {
-		debug.report(NOTE, "resolve children in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		for(int i=0; i<children.size(); ++i) {
-			BaseNode resolved = resolver.resolve(children.get(i));
-			successfullyResolved = resolved!=null && successfullyResolved;
-			children.set(i, ownedResolutionResult(children.get(i), resolved));
 		}
 		return successfullyResolved;
 	}

@@ -54,10 +54,11 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	CollectNode param;
+	// TODO: check types
+	CollectNode<BaseNode> param;
 	CollectNode ret;
 	PatternGraphNode pattern;
-	CollectNode neg;
+	CollectNode<BaseNode> neg;
 
 	private static final TypeNode testType = new TestTypeNode();
 
@@ -141,7 +142,8 @@ public class TestDeclNode extends ActionDeclNode {
 	 * check if actual return entities are conformant
 	 * to the formal return parameters.
 	 */
-	protected boolean checkReturnParams(CollectNode typeReturns, CollectNode actualReturns) {
+	// TODO: check types
+	protected boolean checkReturnParams(CollectNode<BaseNode> typeReturns, CollectNode actualReturns) {
 		boolean returnTypes = true;
 
 		/*

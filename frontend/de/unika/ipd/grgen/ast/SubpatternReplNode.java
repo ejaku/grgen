@@ -10,9 +10,9 @@ public class SubpatternReplNode extends BaseNode
 	}
 	
 	IdentNode subpattern;
-	GenCollectNode<IdentNode> replConnections;
+	CollectNode<IdentNode> replConnections;
 	
-	public SubpatternReplNode(IdentNode n, GenCollectNode<IdentNode> c) {
+	public SubpatternReplNode(IdentNode n, CollectNode<IdentNode> c) {
 		this.subpattern = n;
 		becomeParent(this.subpattern);
 		this.replConnections = c;

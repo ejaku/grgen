@@ -43,9 +43,9 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		setName(EdgeTypeNode.class, "edge type");
 	}
 
-	GenCollectNode<BaseNode> body;
-	GenCollectNode<ConnAssertNode> cas; // connection assertions
-	GenCollectNode<EdgeTypeNode> extend;
+	CollectNode<BaseNode> body;
+	CollectNode<ConnAssertNode> cas; // connection assertions
+	CollectNode<EdgeTypeNode> extend;
 
 	/**
 	 * Make a new edge type node.
@@ -56,7 +56,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<ConnAssertNode> cas, GenCollectNode<BaseNode> body,
+	public EdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
 						int modifiers, String externalName) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);

@@ -7,7 +7,7 @@ import de.unika.ipd.grgen.util.Util;
 /**
  * A resolver, that resolves an identifier into it's AST type node.
  */
-public class DeclarationTypeResolver<T extends BaseNode> extends GenResolver<T>
+public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 {
 	private Class<T> cls;
 	

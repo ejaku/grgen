@@ -19,7 +19,7 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id$
+ * @version $Id: Resolver.java 17148 2008-01-03 16:30:41Z buchwald $
  */
 package de.unika.ipd.grgen.ast.util;
 
@@ -29,25 +29,14 @@ import de.unika.ipd.grgen.util.Base;
 /**
  * something, that resolves a node to another node.
  */
-@Deprecated
-public abstract class Resolver extends Base {
+public abstract class Resolver<T> extends Base {
 	/**
 	 * Resolves a node to another node. (but doesn't replace the node in the AST)
 	 * @param node The original node to resolve.
+	 * @param node The new parent of the resolved node.
 	 * @return The node the original node was resolved to (which might be the original node itself),
 	 *         or null if the resolving failed
 	 */
-	public abstract BaseNode resolve(BaseNode node);
-
-	/**
-	 * Report an error during resolution.
-	 * Some resolvers might want to overwrite this method, so
-	 * {@link BaseNode#reportError(String)} is not used directly.
-	 * @param node The node that caused the error.
-	 * @param msg The error message to be printed.
-	 */
-	protected void reportError(BaseNode node, String msg) {
-		node.reportError(msg);
-	}
+	public abstract T resolve(BaseNode node, BaseNode parent);
 }
 

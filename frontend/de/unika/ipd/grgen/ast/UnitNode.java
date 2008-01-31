@@ -49,22 +49,23 @@ public class UnitNode extends DeclNode
 
 	protected static final TypeNode mainType = new MainTypeNode();
 
-	CollectNode models;
+	// TODO: check types
+	CollectNode<BaseNode> models;
 	
 	// of type TestDeclNode or RuleDeclNode
-	GenCollectNode<TestDeclNode> subpatterns;
-	GenCollectNode<IdentNode> subpatternsUnresolved;
+	CollectNode<TestDeclNode> subpatterns;
+	CollectNode<IdentNode> subpatternsUnresolved;
 
 	// of type TestDeclNode or RuleDeclNode
-	GenCollectNode<TestDeclNode> actions;
-	GenCollectNode<IdentNode> actionsUnresolved;
+	CollectNode<TestDeclNode> actions;
+	CollectNode<IdentNode> actionsUnresolved;
 
 	/**
 	 * The filename for this main node.
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode models, GenCollectNode<IdentNode> subpatterns, GenCollectNode<IdentNode> actions) {
+	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
 		super(id, mainType);
 		this.models = models;
 		becomeParent(this.models);

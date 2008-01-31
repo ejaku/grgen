@@ -40,7 +40,8 @@ public class EnumTypeNode extends CompoundTypeNode {
 		setName(EnumTypeNode.class, "enum type");
 	}
 
-	CollectNode elements;
+	// TODO: check types
+	CollectNode<BaseNode> elements;
 
 	private static final Checker childrenChecker =
 		new CollectChecker(new SimpleChecker(EnumItemNode.class));

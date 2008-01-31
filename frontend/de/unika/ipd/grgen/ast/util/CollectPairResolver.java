@@ -21,7 +21,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.GenCollectNode;
+import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
  * A resolver, that resolves a source AST CollectNode into a target AST CollectNode of type T,
@@ -29,16 +29,16 @@ import de.unika.ipd.grgen.ast.GenCollectNode;
  */
 public class CollectPairResolver<T extends BaseNode>
 {
-	private GenResolver<? extends Pair<? extends T, ? extends T>> resolver;
+	private Resolver<? extends Pair<? extends T, ? extends T>> resolver;
 	
-	public CollectPairResolver(GenResolver<? extends Pair<? extends T, ? extends T>> resolver) {
+	public CollectPairResolver(Resolver<? extends Pair<? extends T, ? extends T>> resolver) {
 		this.resolver = resolver;
 	}
 	
 	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise 
 	 *  returns null if n's declaration or n can't be cast to R */
-	public GenCollectNode<T> resolve(GenCollectNode<?> collect) {
-		GenCollectNode<T> res = new GenCollectNode<T>();
+	public CollectNode<T> resolve(CollectNode<?> collect) {
+		CollectNode<T> res = new CollectNode<T>();
 		for (BaseNode elem : collect.getChildren()) {
 	        Pair<? extends T, ? extends T> pair = resolver.resolve(elem, collect);
 	        if (pair == null) {

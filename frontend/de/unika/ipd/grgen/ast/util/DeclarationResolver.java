@@ -30,7 +30,7 @@ import de.unika.ipd.grgen.util.Util;
  * by drawing the declaration node out of the source node if it is an identifier node,
  * or by simply casting source to R otherwise 
  */
-public class DeclarationResolver<R extends BaseNode> extends GenResolver<R>
+public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 {
 	private Class<R> cls;
 	

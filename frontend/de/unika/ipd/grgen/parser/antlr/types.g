@@ -58,7 +58,7 @@ options {
 
 text returns [ BaseNode model = env.initNode() ]
 	{
-		GenCollectNode<IdentNode> types = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removePathPrefix(getFilename());
@@ -78,7 +78,7 @@ text returns [ BaseNode model = env.initNode() ]
 			}
 	;
 
-typeDecls [ GenCollectNode<IdentNode> types ]
+typeDecls [ CollectNode<IdentNode> types ]
 	{ IdentNode type; }
 
 	: (type=typeDecl { types.addChild(type); } )*
@@ -113,9 +113,9 @@ typeModifier returns [ int res = 0; ]
 edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		GenCollectNode<BaseNode> body = null;
-		GenCollectNode<IdentNode> ext;
-		GenCollectNode<ConnAssertNode> cas;
+		CollectNode<BaseNode> body = null;
+		CollectNode<IdentNode> ext;
+		CollectNode<ConnAssertNode> cas;
 		String externalName = null;
 	}
 
@@ -124,7 +124,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		(
 			LBRACE body=edgeClassBody RBRACE
 		|	SEMI
-			{ body = new GenCollectNode<BaseNode>(); }
+			{ body = new CollectNode<BaseNode>(); }
 		)
 		{
 			EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers, externalName);
@@ -137,8 +137,8 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 	{
 		IdentNode id;
-		GenCollectNode<BaseNode> body = null;
-		GenCollectNode<IdentNode> ext;
+		CollectNode<BaseNode> body = null;
+		CollectNode<IdentNode> ext;
 		String externalName = null;
 	}
 
@@ -147,7 +147,7 @@ nodeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		(
 			LBRACE body=nodeClassBody RBRACE
 		|	SEMI
-			{ body = new GenCollectNode<BaseNode>(); }
+			{ body = new CollectNode<BaseNode>(); }
 		)
 		{
 			NodeTypeNode nt = new NodeTypeNode(ext, body, modifiers, externalName);
@@ -172,13 +172,13 @@ fullQualIdent returns [ String id = "", id2 = "" ]
 	 	(DOT id2=validIdent { id += "." + id2; })*
 	;
 
-connectAssertions returns [ GenCollectNode<ConnAssertNode> c = new GenCollectNode<ConnAssertNode>() ]
+connectAssertions returns [ CollectNode<ConnAssertNode> c = new CollectNode<ConnAssertNode>() ]
 	: CONNECT connectAssertion[c]
 		( COMMA connectAssertion[c] )*
 	|
 	;
 
-connectAssertion [ GenCollectNode<ConnAssertNode> c ]
+connectAssertion [ CollectNode<ConnAssertNode> c ]
 	{
 		IdentNode src, tgt;
 		RangeSpecNode srcRange, tgtRange;
@@ -189,12 +189,12 @@ connectAssertion [ GenCollectNode<ConnAssertNode> c ]
 			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
-edgeExtends [IdentNode clsId] returns [ GenCollectNode<IdentNode> c = new GenCollectNode<IdentNode>() ]
+edgeExtends [IdentNode clsId] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
 	: EXTENDS edgeExtendsCont[clsId, c]
 	|	{ c.addChild(env.getEdgeRoot()); }
 	;
 
-edgeExtendsCont [ IdentNode clsId, GenCollectNode<IdentNode> c ]
+edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 	{
 		IdentNode e;
 		int extCount = 0;
@@ -218,12 +218,12 @@ edgeExtendsCont [ IdentNode clsId, GenCollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
 	;
 
-nodeExtends [ IdentNode clsId ] returns [ GenCollectNode<IdentNode> c = new GenCollectNode<IdentNode>() ]
+nodeExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
 	: EXTENDS nodeExtendsCont[clsId, c]
 	|	{ c.addChild(env.getNodeRoot()); }
 	;
 
-nodeExtendsCont [IdentNode clsId, GenCollectNode<IdentNode> c ]
+nodeExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 	{ IdentNode n; }
 
 	: n=typeIdentUse
@@ -244,7 +244,7 @@ nodeExtendsCont [IdentNode clsId, GenCollectNode<IdentNode> c ]
 		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getNodeRoot()); }
 	;
 
-nodeClassBody returns [ GenCollectNode<BaseNode> c = new GenCollectNode<BaseNode>() ]
+nodeClassBody returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	{
 		BaseNode b;
 	}
@@ -261,7 +261,7 @@ nodeClassBody returns [ GenCollectNode<BaseNode> c = new GenCollectNode<BaseNode
 		)*
 	;
 
-edgeClassBody returns [ GenCollectNode<BaseNode> c = new GenCollectNode<BaseNode>() ]
+edgeClassBody returns [ CollectNode<BaseNode> c = new CollectNode<BaseNode>() ]
 	{
 		BaseNode b;
 	}

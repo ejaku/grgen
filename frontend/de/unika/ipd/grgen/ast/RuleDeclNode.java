@@ -50,7 +50,8 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	GraphNode right;
-	CollectNode eval;
+	// TODO: check types
+	CollectNode<BaseNode> eval;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();

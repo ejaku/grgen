@@ -19,13 +19,13 @@ public class SubpatternUsageNode extends DeclNode
 		setName(SubpatternUsageNode.class, "subpattern node");
 	}
 	
-	GenCollectNode<ConstraintDeclNode> connections;
-	GenCollectNode<IdentNode> connectionsUnresolved;
+	CollectNode<ConstraintDeclNode> connections;
+	CollectNode<IdentNode> connectionsUnresolved;
 	
 	protected ActionDeclNode type = null;	
 	
 	
-	public SubpatternUsageNode(IdentNode n, BaseNode t, GenCollectNode<IdentNode> c) {
+	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<IdentNode> c) {
 		super(n, t);
 		this.connectionsUnresolved = c;
 		becomeParent(this.connectionsUnresolved);

@@ -70,10 +70,11 @@ public class PatternGraphNode extends GraphNode {
 	private static final int INCOMING = 0;
 	private static final int OUTGOING = 1;
 
-	CollectNode conditions;
-	CollectNode homs;
-	CollectNode exact;
-	CollectNode induced;
+	// TODO: check types
+	CollectNode<BaseNode> conditions;
+	CollectNode<BaseNode> homs;
+	CollectNode<BaseNode> exact;
+	CollectNode<BaseNode> induced;
 
 	/**
 	 *  Map an edge to his homomorphic set.

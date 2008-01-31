@@ -68,8 +68,8 @@ options {
 text returns [ BaseNode main = env.initNode() ]
 	{
 		CollectNode modelChilds = new CollectNode();
-		GenCollectNode<IdentNode> patternChilds = new GenCollectNode<IdentNode>();
-		GenCollectNode<IdentNode> actionChilds = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		IdentNode id;
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		id = new IdentNode(
@@ -125,7 +125,7 @@ usingDecl [ CollectNode modelChilds ]
 		}
 	;
 
-patternOrActionDecls[ GenCollectNode<IdentNode> patternChilds, GenCollectNode<IdentNode> actionChilds ]
+patternOrActionDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds ]
 	{ int mod = 0; }
 
 	: ( mod=patternModifiers patternOrActionDecl[patternChilds, actionChilds, mod] )+
@@ -153,7 +153,7 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	        }
 	;
 
-patternOrActionDecl [ GenCollectNode<IdentNode> patternChilds, GenCollectNode<IdentNode> actionChilds, int mod ]
+patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
 	{
 		IdentNode id;
 		PatternGraphNode left;
@@ -161,7 +161,7 @@ patternOrActionDecl [ GenCollectNode<IdentNode> patternChilds, GenCollectNode<Id
 		CollectNode params, ret;
 		CollectNode negs = new CollectNode();
 		CollectNode eval = new CollectNode();
-		GenCollectNode dels = new GenCollectNode();
+		CollectNode dels = new CollectNode();
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
@@ -253,7 +253,7 @@ replacePart [ CollectNode eval, int context, String nameOfGraph ] returns [ Grap
 		RBRACE
 	;
 
-modifyPart [ CollectNode eval, GenCollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyPart [ CollectNode eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	: r:MODIFY LBRACE
 		res=modifyBody[getCoords(r), eval, dels, context, nameOfGraph]
 		RBRACE
@@ -351,8 +351,8 @@ firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
 		TypeExprNode constr = TypeExprNode.getEmpty();
 		Annotations annots = env.getEmptyAnnotations();
 		boolean hasAnnots = false;
-		GenCollectNode<IdentNode> subpatternConn = new GenCollectNode<IdentNode>();
-		GenCollectNode<IdentNode> subpatternReplConn = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> subpatternConn = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> subpatternReplConn = new CollectNode<IdentNode>();
 		BaseNode n = null;
 	}
 
@@ -603,7 +603,7 @@ edgeTypeContinuation [ IdentNode id, int context ] returns [ BaseNode res = env.
 			}
 	;
 
-subpatternConnections[GenCollectNode<IdentNode> subpatternConn]
+subpatternConnections[CollectNode<IdentNode> subpatternConn]
 	{ IdentNode id; }
 
 	: ( id=entIdentUse { subpatternConn.addChild(id); } (COMMA id=entIdentUse { subpatternConn.addChild(id); } )* )?
@@ -664,7 +664,7 @@ replaceStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, C
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-modifyBody [ Coords coords, CollectNode eval, GenCollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
+modifyBody [ Coords coords, CollectNode eval, CollectNode<IdentNode> dels, int context, String nameOfGraph ] returns [ GraphNode res = null ]
 	{
 		CollectNode connections = new CollectNode();
 		CollectNode subpatterns = new CollectNode();
@@ -679,7 +679,7 @@ modifyBody [ Coords coords, CollectNode eval, GenCollectNode<IdentNode> dels, in
 	;
 
 modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returnz,
-		CollectNode eval, GenCollectNode<IdentNode> dels, CollectNode imperativeStmts, int context ]
+		CollectNode eval, CollectNode<IdentNode> dels, CollectNode imperativeStmts, int context ]
 	: connectionsOrSubpattern[connections, subpatterns, context] SEMI
 	| rets[returnz, context] SEMI
 	| deleteStmt[dels] SEMI
@@ -709,13 +709,13 @@ rets[CollectNode res, int context]
 			{ res.setCoords(getCoords(r)); }
 	;
 
-deleteStmt[GenCollectNode<IdentNode> res]
+deleteStmt[CollectNode<IdentNode> res]
 	{ IdentNode id; }
 
 	: DELETE LPAREN paramListOfEntIdentUse[res] RPAREN
 	;
 
-paramListOfEntIdentUse[GenCollectNode<IdentNode> res]
+paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	{ IdentNode id; }
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
 	;
@@ -780,7 +780,7 @@ iterSequence[ExecNode xg]
 
 simpleSequence[ExecNode xg]
 	{
-		GenCollectNode<IdentNode> results = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> results = new CollectNode<IdentNode>();
 	}
 	: LPAREN {xg.append("(");}
 		(
@@ -806,7 +806,7 @@ parallelCallRule[ExecNode xg]
 
 callRule[ExecNode xg]
 	{
-		GenCollectNode<IdentNode> params = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
 		IdentNode id;
 	}
 	: id=entIdentUse {xg.append(id);}

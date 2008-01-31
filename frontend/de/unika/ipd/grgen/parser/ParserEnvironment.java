@@ -39,7 +39,7 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.ConnAssertNode;
 import de.unika.ipd.grgen.ast.EdgeTypeNode;
 import de.unika.ipd.grgen.ast.ExprNode;
-import de.unika.ipd.grgen.ast.GenCollectNode;
+import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.IntConstNode;
 import de.unika.ipd.grgen.ast.ModelNode;
@@ -103,16 +103,16 @@ public abstract class ParserEnvironment extends Base {
 			symTabs[i].enterKeyword("object");
 		}
 
-		GenCollectNode<IdentNode> stdModelChilds = new GenCollectNode<IdentNode>();
+		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
 		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds);
 
 		// The node type root
 		nodeRoot = predefineType("Node",
-				new NodeTypeNode(new GenCollectNode<IdentNode>(), new GenCollectNode<BaseNode>(), 0, null));
+				new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null));
 
 		// The edge type root
 		edgeRoot = predefineType("Edge",
-				new EdgeTypeNode(new GenCollectNode<IdentNode>(), new GenCollectNode<ConnAssertNode>(), new GenCollectNode<BaseNode>(), 0, null));
+				new EdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(edgeRoot);

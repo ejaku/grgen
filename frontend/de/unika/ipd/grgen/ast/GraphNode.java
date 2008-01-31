@@ -50,10 +50,11 @@ public class GraphNode extends BaseNode {
 		setName(GraphNode.class, "graph");
 	}
 
-	CollectNode connections;
-	CollectNode subpatterns;
-	CollectNode returns;
-	CollectNode imperativeStmts;
+	// TODO: check types
+	CollectNode<BaseNode> connections;
+	CollectNode<?> subpatterns;
+	CollectNode<BaseNode> returns;
+	CollectNode<?> imperativeStmts;
 
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	int context = 0;

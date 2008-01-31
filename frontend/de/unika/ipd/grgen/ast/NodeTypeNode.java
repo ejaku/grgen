@@ -45,8 +45,8 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		setName(NodeTypeNode.class, "node type");
 	}
 	
-	GenCollectNode<BaseNode> body;
-	GenCollectNode<NodeTypeNode> extend;
+	CollectNode<BaseNode> body;
+	CollectNode<NodeTypeNode> extend;
 
 	/**
 	 * Create a new node type
@@ -55,7 +55,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers Type modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public NodeTypeNode(GenCollectNode<IdentNode> ext, GenCollectNode<BaseNode> body,
+	public NodeTypeNode(CollectNode<IdentNode> ext, CollectNode<BaseNode> body,
 						int modifiers, String externalName) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);

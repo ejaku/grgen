@@ -12,7 +12,7 @@ import de.unika.ipd.grgen.util.Util;
 /**
  * A resolver, that resolves a declaration node from an identifier (used in a member init).
  */
-public class MemberResolver<T extends BaseNode> extends GenResolver<T>
+public class MemberResolver<T extends BaseNode> extends Resolver<T>
 {
 	private Class<T> cls;
 	

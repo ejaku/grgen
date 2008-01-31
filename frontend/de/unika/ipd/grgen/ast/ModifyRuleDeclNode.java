@@ -17,12 +17,12 @@ import java.util.Set;
 
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
-	GenCollectNode<IdentNode> deleteUnresolved;
-	GenCollectNode<ConstraintDeclNode> delete;
+	CollectNode<IdentNode> deleteUnresolved;
+	CollectNode<ConstraintDeclNode> delete;
 	
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
-							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, GenCollectNode<IdentNode> dels) {
+							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode<IdentNode> dels) {
 		super(id, left, right, neg, eval, params, rets);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);

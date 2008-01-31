@@ -45,10 +45,10 @@ public class TypeConstraintNode extends TypeExprNode {
 		setName(TypeConstraintNode.class, "type expr constraint");
 	}
 
-	GenCollectNode<InheritanceTypeNode> operands;
-	GenCollectNode<IdentNode> operandsUnresolved;
+	CollectNode<InheritanceTypeNode> operands;
+	CollectNode<IdentNode> operandsUnresolved;
 
-	public TypeConstraintNode(Coords coords, GenCollectNode<IdentNode> collect) {
+	public TypeConstraintNode(Coords coords, CollectNode<IdentNode> collect) {
 		super(coords, SET);
 		this.operandsUnresolved = collect;
 		becomeParent(this.operandsUnresolved);
@@ -56,7 +56,7 @@ public class TypeConstraintNode extends TypeExprNode {
 
 	public TypeConstraintNode(IdentNode typeIdentUse) {
 		super(typeIdentUse.getCoords(), SET);
-		this.operandsUnresolved = new GenCollectNode<IdentNode>();
+		this.operandsUnresolved = new CollectNode<IdentNode>();
 		becomeParent(this.operandsUnresolved);
 		operandsUnresolved.addChild(typeIdentUse);
 	}

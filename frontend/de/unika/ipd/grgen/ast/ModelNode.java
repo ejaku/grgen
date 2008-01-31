@@ -44,10 +44,10 @@ public class ModelNode extends DeclNode {
 
 	protected static final TypeNode modelType = new ModelTypeNode();
 
-	GenCollectNode<TypeDeclNode> decls;
-	GenCollectNode<IdentNode> declsUnresolved;
+	CollectNode<TypeDeclNode> decls;
+	CollectNode<IdentNode> declsUnresolved;
 
-	public ModelNode(IdentNode id, GenCollectNode<IdentNode> decls) {
+	public ModelNode(IdentNode id, CollectNode<IdentNode> decls) {
 		super(id, modelType);
 		this.declsUnresolved = decls;
 		becomeParent(this.declsUnresolved);
