@@ -60,14 +60,14 @@ public class GraphNode extends BaseNode {
 	int context = 0;
 
 	protected String nameOfGraph;
-	
+
 	/**
 	 * A new pattern node
 	 * @param connections A collection containing connection nodes
 	 */
 	public GraphNode(String nameOfGraph, Coords coords, CollectNode connections, CollectNode subpatterns, CollectNode returns, CollectNode imperativeStmts, int context) {
 		super(coords);
-		this.nameOfGraph = nameOfGraph; 
+		this.nameOfGraph = nameOfGraph;
 		this.connections = connections;
 		becomeParent(this.connections);
 		this.subpatterns = subpatterns;
@@ -99,21 +99,9 @@ public class GraphNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		successfullyResolved = connections.resolve() && successfullyResolved;
-		successfullyResolved = subpatterns.resolve() && successfullyResolved;
-		successfullyResolved = returns.resolve() && successfullyResolved;
-		successfullyResolved = imperativeStmts.resolve() && successfullyResolved;
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	/**
@@ -202,7 +190,7 @@ public class GraphNode extends BaseNode {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
-		
+
 		for(BaseNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
 		}
@@ -211,7 +199,7 @@ public class GraphNode extends BaseNode {
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
-		
+
 		return gr;
 	}
 }

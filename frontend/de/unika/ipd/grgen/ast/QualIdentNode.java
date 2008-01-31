@@ -75,12 +75,8 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
@@ -106,13 +102,6 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			reportError("Left hand side of '.' is neither a node nor an edge");
 			successfullyResolved = false;
 		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (owner!=null ? owner.resolve() : false) && successfullyResolved;
-		successfullyResolved = (member!=null ? member.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 

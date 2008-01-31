@@ -24,19 +24,18 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.MemberPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * An expression that results from a declared identifier.
  */
-public class DeclExprNode extends ExprNode
-{
+public class DeclExprNode extends ExprNode {
 	static {
 		setName(DeclExprNode.class, "decl expression");
 	}
@@ -73,32 +72,17 @@ public class DeclExprNode extends ExprNode
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver =
+		new MemberPairResolver<MemberDeclNode, QualIdentNode>(MemberDeclNode.class, QualIdentNode.class);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver = new MemberPairResolver<MemberDeclNode, QualIdentNode>(
-		        MemberDeclNode.class, QualIdentNode.class);
 		Pair<MemberDeclNode, QualIdentNode> resolved = memberInitResolver.resolve(declUnresolved, this);
 		successfullyResolved = resolved!=null && successfullyResolved;
 		if (resolved != null) {
 			declMember = resolved.fst;
 			declQualIdent = resolved.snd;
-		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		if (declMember != null) {
-			successfullyResolved = declMember.resolve() && successfullyResolved;
-		}
-		if (declQualIdent != null) {
-			successfullyResolved = declQualIdent.resolve() && successfullyResolved;
 		}
 		return successfullyResolved;
 	}

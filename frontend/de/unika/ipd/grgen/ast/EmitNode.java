@@ -66,21 +66,9 @@ public class EmitNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		for(int i=0; i<childrenUnresolved.size(); ++i) {
-			successfullyResolved = (childrenUnresolved.get(i)!=null ? childrenUnresolved.get(i).resolve() : false) && successfullyResolved;
-		}
-
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	protected boolean checkLocal() {

@@ -93,20 +93,9 @@ public class ArithmeticOpNode extends OpNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = children.get(i).resolve() && successfullyResolved;
-		}
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 

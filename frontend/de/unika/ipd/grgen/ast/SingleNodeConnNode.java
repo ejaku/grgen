@@ -65,25 +65,15 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class); // optional
 		node = nodeResolver.resolve(nodeUnresolved, this);
 		successfullyResolved = (node != null) && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (node!=null ? node.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
+
 
 	/** Get the node child of this node.
 	 * @return The node child. */
@@ -116,7 +106,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 
 	public NodeCharacter getSrc() {
 		assert isResolved();
-		
+
 		return node;
 	}
 

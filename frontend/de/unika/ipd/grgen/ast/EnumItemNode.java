@@ -24,8 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;
@@ -34,6 +32,8 @@ import de.unika.ipd.grgen.util.BooleanResultVisitor;
 import de.unika.ipd.grgen.util.PostWalker;
 import de.unika.ipd.grgen.util.Walkable;
 import de.unika.ipd.grgen.util.Walker;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * A class for enum items.
@@ -77,26 +77,13 @@ public class EnumItemNode extends MemberDeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationTypeResolver<EnumTypeNode> typeResolver =
 			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
-		successfullyResolved = value.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -154,7 +141,7 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** @return The type node of the declaration */
 	@Override
-	public BaseNode getDeclType() {
+		public BaseNode getDeclType() {
 		return getValidVersion(typeUnresolved, type);
 	}
 

@@ -20,9 +20,9 @@
 
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * representing invalid expressions.
@@ -50,9 +50,8 @@ public class InvalidExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		nodeResolvedSetResult(true);
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		return true;
 	}
 

@@ -44,15 +44,4 @@ class TestTypeNode extends TypeNode {
 		// no children
 		return childrenNames;
 	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		nodeResolvedSetResult(true);
-		return true;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() {
-		return true;
-	}
 };

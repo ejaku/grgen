@@ -24,9 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
@@ -39,8 +39,7 @@ import java.util.Vector;
 /**
  * Declaration of a node.
  */
-public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
-{
+public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	static {
 		setName(NodeDeclNode.class, "node");
 	}
@@ -85,13 +84,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 		return childrenNames;
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = (resolved != null) && successfullyResolved;
@@ -99,19 +93,6 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 			typeNodeDecl = resolved.fst;
 			typeTypeDecl = resolved.snd;
 		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		if(typeNodeDecl != null){
-			successfullyResolved = typeNodeDecl.resolve() && successfullyResolved;
-		}
-		if(typeTypeDecl != null){
-			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
-		}
-		successfullyResolved = constraints.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -162,7 +143,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter
 
 		if( res.getConstraints().contains(res.getType()) ) {
 			error.error(getCoords(), "Self NodeType may not be contained in TypeCondition of Node "
-					+ "("+ res.getType() + ")");
+							+ "("+ res.getType() + ")");
 		}
 
 		if(inheritsType()) {

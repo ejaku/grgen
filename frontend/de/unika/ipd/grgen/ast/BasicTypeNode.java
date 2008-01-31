@@ -34,8 +34,7 @@ import java.util.Vector;
 /**
  * A basic type AST node such as string or int
  */
-public abstract class BasicTypeNode extends DeclaredTypeNode
-{
+public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode stringType = new StringTypeNode();
 	public static final BasicTypeNode typeType = new TypeTypeNode();
 	public static final BasicTypeNode intType = new IntTypeNode();
@@ -114,24 +113,6 @@ public abstract class BasicTypeNode extends DeclaredTypeNode
 		Vector<String> childrenNames = new Vector<String>();
 		// no children
 		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		return successfullyResolved;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() {
-		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.TypeNode#isBasic() */

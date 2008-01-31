@@ -71,13 +71,8 @@ public class ModelNode extends DeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<TypeDeclNode> declResolver =
 			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
@@ -85,14 +80,6 @@ public class ModelNode extends DeclNode {
 			new CollectResolver<TypeDeclNode>(declResolver);
 		decls = declsResolver.resolve(declsUnresolved);
 		successfullyResolved = decls!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = (decls!=null ? decls.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -190,8 +177,7 @@ public class ModelNode extends DeclNode {
 	}
 
 	@Override
-	public BaseNode getDeclType()
-	{
+		public BaseNode getDeclType() {
 		return typeUnresolved;
 	}
 

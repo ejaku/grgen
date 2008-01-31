@@ -71,13 +71,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if (isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
@@ -88,20 +83,6 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		}
 		old = nodeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		if(typeNodeDecl != null){
-			successfullyResolved = typeNodeDecl.resolve() && successfullyResolved;
-		}
-		if(typeTypeDecl != null){
-			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
-		}
-		successfullyResolved = constraints.resolve() && successfullyResolved;
-		successfullyResolved = (old!=null ? old.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -157,8 +138,8 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			return true;
 		}
-		
-		constraints.reportError("pattern nodes are not allowed to change type, only replacement nodes are"); 
+
+		constraints.reportError("pattern nodes are not allowed to change type, only replacement nodes are");
 		return false;
 	}
 

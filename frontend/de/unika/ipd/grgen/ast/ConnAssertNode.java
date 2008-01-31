@@ -24,13 +24,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node that represents a Connection Assertion
@@ -84,29 +84,15 @@ public class ConnAssertNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static DeclarationTypeResolver<NodeTypeNode> nodeResolver =	new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationTypeResolver<NodeTypeNode> nodeResolver = 
-			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 		src = nodeResolver.resolve(srcUnresolved, this);
 		successfullyResolved = src!=null && successfullyResolved;
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
 		successfullyResolved = tgt!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (src!=null ? src.resolve() : false) && successfullyResolved;
-		successfullyResolved = srcRange.resolve() && successfullyResolved;
-		successfullyResolved = (tgt!=null ? tgt.resolve() : false) && successfullyResolved;
-		successfullyResolved = tgtRange.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 

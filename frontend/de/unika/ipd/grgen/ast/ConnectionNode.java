@@ -25,13 +25,13 @@
 package de.unika.ipd.grgen.ast;
 
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
+import java.util.Collection;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * AST node that represents a Connection (an edge connecting two nodes)
@@ -95,27 +95,15 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+	private static DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		DeclarationResolver<NodeDeclNode> nodeResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		left = nodeResolver.resolve(leftUnresolved, this);
 		edge = edgeResolver.resolve(edgeUnresolved, this);
 		right = nodeResolver.resolve(rightUnresolved, this);
 		boolean successfullyResolved = left!=null && edge!=null && right!=null;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = left!=null && left.resolve() && successfullyResolved;
-		successfullyResolved = edge!=null && edge.resolve() && successfullyResolved;
-		successfullyResolved = right!=null && right.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -134,8 +122,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	protected boolean areDanglingEdgesInReplacementDeclaredInPattern() {
 		if(!(left instanceof DummyNodeDeclNode)
-			&& !(right instanceof DummyNodeDeclNode))
-		{
+		   && !(right instanceof DummyNodeDeclNode)) {
 			return true; // edge not dangling
 		}
 
@@ -161,7 +148,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part");
 		return false;
-	 }
+	}
 
 	/**
 	 * This adds the connection to an IR graph.

@@ -23,11 +23,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
@@ -63,26 +63,13 @@ public class InducedNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
 			children.add(resolver.resolve(childrenUnresolved.get(i), this));
 			successfullyResolved = children.get(i)!=null && successfullyResolved;
-		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
 		}
 		return successfullyResolved;
 	}

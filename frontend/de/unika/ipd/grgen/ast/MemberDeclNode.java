@@ -24,15 +24,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * A compound type member declaration.
@@ -41,7 +40,7 @@ public class MemberDeclNode extends DeclNode {
 	static {
 		setName(MemberDeclNode.class, "member declaration");
 	}
-	
+
 	TypeNode type;
 	private boolean isConst;
 
@@ -73,32 +72,20 @@ public class MemberDeclNode extends DeclNode {
 	public boolean isConst() {
 		return isConst;
 	}
-	
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationTypeResolver<TypeNode> typeResolver =
 			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	/** @return The type node of the declaration */
 	@Override
-	public BaseNode getDeclType() {
+		public BaseNode getDeclType() {
 		return getValidVersion(typeUnresolved, type);
 	}
 

@@ -23,14 +23,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * An enumeration type AST node.
@@ -101,20 +101,6 @@ public class EnumTypeNode extends CompoundTypeNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("elements");
 		return childrenNames;
-	}
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		successfullyResolved = elements.resolve() && successfullyResolved;
-		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

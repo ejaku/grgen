@@ -153,28 +153,13 @@ public class PatternGraphNode extends GraphNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if (isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		successfullyResolved = connections.resolve() && successfullyResolved;
-		successfullyResolved = subpatterns.resolve() && successfullyResolved;
-		successfullyResolved = returns.resolve() && successfullyResolved;
-		successfullyResolved = conditions.resolve() && successfullyResolved;
-		successfullyResolved = homs.resolve() && successfullyResolved;
-		successfullyResolved = exact.resolve() && successfullyResolved;
-		successfullyResolved = induced.resolve() && successfullyResolved;
-		return successfullyResolved;
-	}
-
 	public Collection<BaseNode> getHoms() {
 		return homs.getChildren();
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	protected boolean checkLocal() {
@@ -274,7 +259,7 @@ public class PatternGraphNode extends GraphNode {
 		for(BaseNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
 		}
-		
+
 		for (BaseNode n : conditions.getChildren()) {
 			ExprNode expr = (ExprNode) n;
 			expr = expr.evaluate();

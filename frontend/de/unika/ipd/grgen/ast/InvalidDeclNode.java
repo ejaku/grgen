@@ -50,9 +50,8 @@ public class InvalidDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		nodeResolvedSetResult(true);
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		return true;
 	}
 

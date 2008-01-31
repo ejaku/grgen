@@ -24,10 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -37,6 +33,9 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Vector;
 
 public class EdgeTypeNode extends InheritanceTypeNode {
 	static {
@@ -86,13 +85,8 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
 			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
@@ -106,14 +100,6 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 		successfullyResolved = body!=null && successfullyResolved;
 		extend = extendResolver.resolve(extendUnresolved);
 		successfullyResolved = (extend!=null) && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (extend!=null ? extend.resolve() : false) && successfullyResolved;
-		successfullyResolved = (body!=null ? body.resolve() : false) && successfullyResolved;
-		successfullyResolved = cas.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -148,55 +134,52 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
-    public boolean fixupDefinition(IdentNode id)
-    {
-    	assert isResolved();
-    	
-    	boolean found = super.fixupDefinition(id, false);
-    
-    	if(!found) {
-    		for(InheritanceTypeNode inh : extend.getChildren()) {
-    			boolean result = inh.fixupDefinition(id);
-    
-    			if(found && result) {
-    				error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
-    			}
-    			
-    			found = found || result;
-    		}
-    	}
-    
-    	return found;
+    public boolean fixupDefinition(IdentNode id) {
+		assert isResolved();
+
+		boolean found = super.fixupDefinition(id, false);
+
+		if(!found) {
+			for(InheritanceTypeNode inh : extend.getChildren()) {
+				boolean result = inh.fixupDefinition(id);
+
+				if(found && result) {
+					error.error(getIdentNode().getCoords(), "Identifier " + id + " is ambiguous");
+				}
+
+				found = found || result;
+			}
+		}
+
+		return found;
     }
 
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll)
-    {
-    	assert isResolved();
-		
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
+		assert isResolved();
+
 		for(InheritanceTypeNode inh : extend.getChildren()) {
-    		coll.add(inh);
-    		inh.getCompatibleToTypes(coll);
-    	}
+			coll.add(inh);
+			inh.getCompatibleToTypes(coll);
+		}
     }
 
-	protected void constructIR(InheritanceType inhType)
-    {
-    	for(BaseNode n : body.getChildren()) {
-    		if(n instanceof DeclNode) {
-    			DeclNode decl = (DeclNode)n;
-    			inhType.addMember(decl.getEntity());
-    		}
-    		else if(n instanceof MemberInitNode) {
-    			MemberInitNode mi = (MemberInitNode)n;
-    			inhType.addMemberInit((MemberInit)mi.getIR());
-    		}
-    	}
-    	for(InheritanceTypeNode inh : extend.getChildren()) {
-    		inhType.addDirectSuperType((InheritanceType)inh.getType());
-    	}
-    
-    	// to check overwriting of attributes
-    	inhType.getAllMembers();
+	protected void constructIR(InheritanceType inhType) {
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof DeclNode) {
+				DeclNode decl = (DeclNode)n;
+				inhType.addMember(decl.getEntity());
+			}
+			else if(n instanceof MemberInitNode) {
+				MemberInitNode mi = (MemberInitNode)n;
+				inhType.addMemberInit((MemberInit)mi.getIR());
+			}
+		}
+		for(InheritanceTypeNode inh : extend.getChildren()) {
+			inhType.addDirectSuperType((InheritanceType)inh.getType());
+		}
+
+		// to check overwriting of attributes
+		inhType.getAllMembers();
     }
 
 	public static String getKindStr() {
@@ -208,28 +191,26 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-    public Collection<EdgeTypeNode> getDirectSuperTypes()
-    {
+		public Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
-		
+
 	    return extend.getChildren();
     }
 
 	@Override
-	protected void getMembers(Map<String, DeclNode> members)
-	{
+		protected void getMembers(Map<String, DeclNode> members) {
 		assert isResolved();
-		
+
 		for(BaseNode n : body.getChildren()) {
 			if(n instanceof DeclNode) {
 				DeclNode decl = (DeclNode)n;
-	
+
 				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
 				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
-					error.error(decl.getCoords(), "member " + decl.toString() +" of " + 
-							getUseString() + " " + getIdentNode() + 
-							" already defined in " + old.getParents() + "." // TODO improve error message
-						);
+					error.error(decl.getCoords(), "member " + decl.toString() +" of " +
+									getUseString() + " " + getIdentNode() +
+									" already defined in " + old.getParents() + "." // TODO improve error message
+							   );
 				}
 			}
 		}

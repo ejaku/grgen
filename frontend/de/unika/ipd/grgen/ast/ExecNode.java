@@ -27,9 +27,9 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
@@ -48,7 +48,7 @@ public class ExecNode extends BaseNode {
 	private StringBuilder sb = new StringBuilder();
 
 	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
-	private Vector<DeclNode> children = new Vector<DeclNode>();
+	private Vector<ConstraintDeclNode> children = new Vector<ConstraintDeclNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -81,25 +81,18 @@ public class ExecNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static DeclarationResolver<ConstraintDeclNode> resolver = new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved);
-
-		DeclarationResolver<ConstraintDeclNode> resolver
-			= new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class);
-		for(int i=0; i<childrenUnresolved.size(); ++i)
-		{
-			DeclNode decl = resolver.resolve(childrenUnresolved.get(i), this);
-			if(decl != null) children.add(decl);
-			successfullyResolved = decl != null && successfullyResolved;
+		for(BaseNode uc : childrenUnresolved) {
+			final ConstraintDeclNode resolved = resolver.resolve(uc, this);
+			if (resolved != null)
+				children.add(resolved);
+			else
+				successfullyResolved = false;
 		}
-
 		return successfullyResolved;
 	}
 

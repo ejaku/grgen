@@ -1,10 +1,5 @@
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
@@ -12,32 +7,35 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Vector;
 
-public class SubpatternUsageNode extends DeclNode
-{
+public class SubpatternUsageNode extends DeclNode {
 	static {
 		setName(SubpatternUsageNode.class, "subpattern node");
 	}
-	
+
 	CollectNode<ConstraintDeclNode> connections;
 	CollectNode<IdentNode> connectionsUnresolved;
-	
-	protected ActionDeclNode type = null;	
-	
-	
+
+	protected ActionDeclNode type = null;
+
+
 	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<IdentNode> c) {
 		super(n, t);
 		this.connectionsUnresolved = c;
 		becomeParent(this.connectionsUnresolved);
 	}
-	
+
 	@Override
-	public BaseNode getDeclType() {
+		public BaseNode getDeclType() {
 		return type.getDeclType();
 	}
-	
+
 	@Override
-	public Collection<BaseNode> getChildren() {
+		public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
@@ -46,7 +44,7 @@ public class SubpatternUsageNode extends DeclNode
 	}
 
 	@Override
-	public Collection<String> getChildrenNames() {
+		public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
@@ -54,41 +52,24 @@ public class SubpatternUsageNode extends DeclNode
 		return childrenNames;
 	}
 
-	@Override
-	protected boolean resolve() {
-		if (isResolved()) {
-			return resolutionResult();
-		}
+	private static final DeclarationResolver<ActionDeclNode> actionResolver = new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
+	private static final CollectPairResolver<ConstraintDeclNode> connectionsResolver =
+		new CollectPairResolver<ConstraintDeclNode>(new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		DeclarationResolver<ActionDeclNode> actionResolver = new DeclarationResolver<ActionDeclNode>(ActionDeclNode.class);
-		type = actionResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type != null && successfullyResolved;
-		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> connectionResolver =
-			new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
-		CollectPairResolver<ConstraintDeclNode> connectionsResolver =
-			new CollectPairResolver<ConstraintDeclNode>(connectionResolver);
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		type        = actionResolver.resolve(typeUnresolved, this);
 		connections = connectionsResolver.resolve(connectionsUnresolved);
-		successfullyResolved = connections!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if (!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
-		successfullyResolved = (connections!=null ? connections.resolve() : false) && successfullyResolved;
-		return successfullyResolved;
+		return type != null && connections != null;
 	}
-	
+
 	@Override
-	protected boolean checkLocal() {
+		protected boolean checkLocal() {
 		return true;
 	}
-	
+
 	@Override
-	protected IR constructIR() {
+		protected IR constructIR() {
 		List<GraphEntity> subpatternConnections = new LinkedList<GraphEntity>();
 		for (ConstraintDeclNode c : connections.getChildren()) {
 			subpatternConnections.add((GraphEntity) c.checkIR(GraphEntity.class));

@@ -1,20 +1,20 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 /**
@@ -23,17 +23,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
  */
-public class ExactNode extends BaseNode
-{
+public class ExactNode extends BaseNode {
 	static {
 		setName(ExactNode.class, "exact");
 	}
@@ -64,26 +63,13 @@ public class ExactNode extends BaseNode
 		return childrenNames;
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
 			children.add(resolver.resolve(childrenUnresolved.get(i), this));
 			successfullyResolved = children.get(i)!=null && successfullyResolved;
-		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = (children.get(i)!=null ? children.get(i).resolve() : false) && successfullyResolved;
 		}
 		return successfullyResolved;
 	}

@@ -97,18 +97,9 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 		return childrenNames;
 	}
 
-
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -178,7 +169,7 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	}
 
 	/**
-	 * The string representation for this node. 
+	 * The string representation for this node.
 	 * For an identifier, this is the string of the symbol, the identifier represents.
 	 */
 	public String toString() {

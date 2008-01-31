@@ -27,23 +27,17 @@
 
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import java.util.*;
 
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.Walkable;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.Walkable;
+import java.awt.Color;
 
 /**
  * The base class for AST nodes.
@@ -52,8 +46,7 @@ import de.unika.ipd.grgen.util.GraphDumper;
  * AST root node is UnitNode.
  */
 public abstract class BaseNode extends Base
-	implements GraphDumpable, Walkable
-{
+	implements GraphDumpable, Walkable {
 	public static final int CONTEXT_LHS_OR_RHS = 1;
 	public static final int CONTEXT_LHS = 0;
 	public static final int CONTEXT_RHS = 1;
@@ -452,16 +445,40 @@ public abstract class BaseNode extends Base
 	/**
 	 * Resolve the identifier nodes in the AST
 	 * f.ex. replace an identifier AST node representing a declared type by the declared type AST node.
-	 * Resolving is organized as a preorder walk over the AST with the current node calling resolve on it's children
+	 * Resolving is organized as a preorder walk over the AST with the current node calling resolve on its children.
+	 * @return true, if resolution of the AST beginning with this node finished successfully;
+	 * false, if there was some error.
+	 */
+	protected final boolean resolve() {
+		if(isResolved()) {
+			return resolutionResult();
+		}
+
+		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		boolean successfullyResolved = resolveLocal();
+		nodeResolvedSetResult(successfullyResolved); // local result
+		if(!successfullyResolved) {
+			debug.report(NOTE, "resolve error");
+		}
+
+		for(BaseNode c : getChildren())
+			successfullyResolved &= (c!=null) && c.resolve();
+
+		return successfullyResolved;
+	}
+
+
+	/**
+	 * Resolve the identifier nodes in the AST
 	 * This must be implemented in the subclasses, first doing local resolution then descending to the children,
 	 * but only if the node was not yet visited during resolution (AST in reality a DAG, so it might happen)
 	 * @return true, if resolution of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
-	protected abstract boolean resolve();
+	protected abstract boolean resolveLocal();
 
 	/** Mark this node as resolved and set the result of the resolution. */
-	protected final void nodeResolvedSetResult(boolean resolveResult) {
+	private void nodeResolvedSetResult(boolean resolveResult) {
 		resolved = true;
 		this.resolveResult = resolveResult;
 	}

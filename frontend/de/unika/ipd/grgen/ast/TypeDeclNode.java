@@ -62,19 +62,9 @@ public class TypeDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

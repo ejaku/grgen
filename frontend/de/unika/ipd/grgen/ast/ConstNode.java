@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -24,19 +24,18 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.InvalidConstNode;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Constant expressions.
  * A constant is 0-ary operator.
  */
-public abstract class ConstNode extends OpNode
-{
+public abstract class ConstNode extends OpNode {
 	/** The value of the constant. */
 	protected Object value;
 
@@ -44,7 +43,7 @@ public abstract class ConstNode extends OpNode
 	protected String name;
 
 	private static final ConstNode INVALID = new InvalidConstNode(
-			Coords.getBuiltin(), "invalid const", "invalid value");
+		Coords.getBuiltin(), "invalid const", "invalid value");
 
 	public static final ConstNode getInvalid() {
 		return INVALID;
@@ -73,17 +72,9 @@ public abstract class ConstNode extends OpNode
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if (isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	/**

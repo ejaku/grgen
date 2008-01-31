@@ -25,13 +25,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.parser.Coords;
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node that represents a set of potentially homomorph nodes
@@ -69,13 +69,8 @@ public class HomNode extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> resolver =
 			new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
@@ -91,19 +86,9 @@ public class HomNode extends BaseNode {
 				}
 			}
 		}
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		for(int i=0; i<childrenNode.size(); ++i) {
-			successfullyResolved = childrenNode.get(i).resolve() && successfullyResolved;
-		}
-		for(int i=0; i<childrenEdge.size(); ++i) {
-			successfullyResolved = childrenEdge.get(i).resolve() && successfullyResolved;
-		}
 		return successfullyResolved;
 	}
+
 
 	/**
 	 * Check whether all children are of same type (node or edge)

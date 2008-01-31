@@ -19,7 +19,7 @@ import java.util.Set;
 public class ModifyRuleDeclNode extends RuleDeclNode {
 	CollectNode<IdentNode> deleteUnresolved;
 	CollectNode<ConstraintDeclNode> delete;
-	
+
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
 							  CollectNode neg, CollectNode eval, CollectNode params, CollectNode rets, CollectNode<IdentNode> dels) {
@@ -58,13 +58,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> deleteResolver = new
 			DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
@@ -72,26 +67,12 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 			new CollectPairResolver<ConstraintDeclNode>(deleteResolver);
 		delete = collectResolver.resolve(deleteUnresolved);
 		successfullyResolved = delete!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = param.resolve() && successfullyResolved;
-		successfullyResolved = ret.resolve() && successfullyResolved;
-		successfullyResolved = pattern.resolve() && successfullyResolved;
-		successfullyResolved = neg.resolve() && successfullyResolved;
-		successfullyResolved = right.resolve() && successfullyResolved;
-		successfullyResolved = eval.resolve() && successfullyResolved;
-		successfullyResolved = (delete!=null ? delete.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
 	protected Set<DeclNode> getDelete() {
 		assert isResolved();
-		
+
 		Set<DeclNode> res = new HashSet<DeclNode>();
 
 		for (ConstraintDeclNode x : delete.getChildren()) {
@@ -102,7 +83,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, GraphNode right) {
 		assert isResolved();
-		
+
 		boolean res = true;
 
 		Collection<DeclNode> deletedElems = new HashSet<DeclNode>();

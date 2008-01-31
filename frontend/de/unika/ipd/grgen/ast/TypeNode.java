@@ -28,16 +28,15 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for all AST nodes representing types.
  */
-public abstract class TypeNode extends BaseNode
-{
+public abstract class TypeNode extends BaseNode {
 	/** A map, that maps each basic type to a set of all other basic types,
 	 *  that are compatible to the type. */
 	protected static final Map<TypeNode, HashSet<TypeNode>> compatibleMap =
@@ -45,11 +44,22 @@ public abstract class TypeNode extends BaseNode
 
 	/** A map, that maps each type to a set of all other types,
 	 * that are castable to the type. */
-	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap = 
+	protected static final Map<TypeNode, HashSet<TypeNode>> castableMap =
 		new HashMap<TypeNode, HashSet<TypeNode>>();
-		
+
 	public static String getUseStr() {
 		return "type";
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
+	}
+
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
+	protected boolean checkLocal() {
+		return true;
 	}
 
 	/**
@@ -64,8 +74,7 @@ public abstract class TypeNode extends BaseNode
 	 * @return		the compatibility distance or -1 if no compatibility could
 	 * 				be found
 	 */
-	public int compatibilityDist(TypeNode type)
-	{
+	public int compatibilityDist(TypeNode type) {
 		if ( this.isEqual(type) ) {
 			return 0;
 		}
@@ -81,7 +90,7 @@ public abstract class TypeNode extends BaseNode
 				return 2;
 			}
 		}
-		
+
 		return -1;
 	}
 
@@ -90,8 +99,7 @@ public abstract class TypeNode extends BaseNode
 	 * @param t A type.
 	 * @return true, if this type is compatible or equal to <code>t</code>
 	 */
-	public boolean isCompatibleTo(TypeNode t)
-	{
+	public boolean isCompatibleTo(TypeNode t) {
 		Set<TypeNode> compat = new HashSet<TypeNode>();
 		getCompatibleToTypes(compat);
 		return (this.isEqual(t)) || compat.contains(t);
@@ -143,19 +151,17 @@ public abstract class TypeNode extends BaseNode
 	 * Put all compatible types which are compatible to this one in a collection
 	 * @param coll The collection to put the compatible types to.
 	 */
-	public final void getCompatibleToTypes(Collection<TypeNode> coll)
-	{
+	public final void getCompatibleToTypes(Collection<TypeNode> coll) {
 		coll.add(this);
 		doGetCompatibleToTypes(coll);
 	}
 
-	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map, 
-			TypeNode index, TypeNode target) 
-	{
+	protected static void addTypeToMap(Map<TypeNode, HashSet<TypeNode>> map,
+									   TypeNode index, TypeNode target) {
 		if(!map.containsKey(index)) {
 			map.put(index, new HashSet<TypeNode>());
 		}
-		
+
 		Set<TypeNode> s = map.get(index);
 		s.add(target);
 	}
@@ -175,8 +181,7 @@ public abstract class TypeNode extends BaseNode
 	 * @param b The second type.
 	 * @return true, if the two types are compatible.
 	 */
-	protected static boolean isCompatible(TypeNode a, TypeNode b) 
-	{
+	protected static boolean isCompatible(TypeNode a, TypeNode b) {
 		boolean res = false;
 
 		if(compatibleMap.containsKey(a)) {
@@ -194,8 +199,7 @@ public abstract class TypeNode extends BaseNode
 	/**
 	 * @see de.unika.ipd.grgen.ast.TypeNode#getCompatibleTypes(java.util.Collection)
 	 */
-	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) 
-	{
+	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		debug.report(NOTE, "compatible types to " + getName() + ":");
 
 		Collection<TypeNode> compat = compatibleMap.get(this);
@@ -214,14 +218,12 @@ public abstract class TypeNode extends BaseNode
 	 * into a collection.
 	 * @param coll A collection they are put into.
 	 */
-	public final void getCastableToTypes(Collection<TypeNode> coll) 
-	{
+	public final void getCastableToTypes(Collection<TypeNode> coll) {
 		doGetCastableToTypes(coll);
 		getCompatibleToTypes(coll);
 	}
 
-	private void doGetCastableToTypes(Collection<TypeNode> coll) 
-	{
+	private void doGetCastableToTypes(Collection<TypeNode> coll) {
 		Collection<TypeNode> castable = castableMap.get(this);
 		if(castable != null) {
 			coll.addAll(castable);
@@ -234,8 +236,7 @@ public abstract class TypeNode extends BaseNode
 	 * @return A new constant, that represents <code>constant</code> in a new
 	 * type.
 	 */
-	protected final ConstNode cast(TypeNode newType, ConstNode constant)
-	{
+	protected final ConstNode cast(TypeNode newType, ConstNode constant) {
 		TypeNode constType = constant.getType();
 		ConstNode res = ConstNode.getInvalid();
 

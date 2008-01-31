@@ -24,17 +24,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ast.util.SimpleChecker;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
-
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Type;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.Cast;
-import de.unika.ipd.grgen.parser.Coords;
 
 
 /**
@@ -46,7 +45,7 @@ public class CastNode extends ExprNode {
 	}
 
 	// target type of the cast
-	BasicTypeNode type; 
+	BasicTypeNode type;
 	BaseNode typeUnresolved;
     // expression to be casted
 	ExprNode expr;
@@ -104,24 +103,13 @@ public class CastNode extends ExprNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static DeclarationTypeResolver<BasicTypeNode> typeResolver = new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationTypeResolver<BasicTypeNode> typeResolver = new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = type!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (type!=null ? type.resolve() : false) && successfullyResolved;
-		successfullyResolved = expr.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -160,7 +148,7 @@ public class CastNode extends ExprNode {
 	 */
 	public ExprNode evaluate() {
 		assert isResolved();
-		
+
 		if(expr.isConst()) {
 			return expr.getConst().castTo(type);
 		} else {
@@ -173,7 +161,7 @@ public class CastNode extends ExprNode {
 	 */
 	public TypeNode getType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 

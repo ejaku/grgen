@@ -1,21 +1,21 @@
 /*
-  GrGen: graph rewrite generator tool.
-  Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
+ GrGen: graph rewrite generator tool.
+ Copyright (C) 2005  IPD Goos, Universit"at Karlsruhe, Germany
 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
 
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 
 /**
@@ -23,9 +23,6 @@
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
-
-import java.util.Collection;
-import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
@@ -37,12 +34,13 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * The main node of the text. It is the root of the AST.
  */
-public class UnitNode extends DeclNode
-{
+public class UnitNode extends DeclNode {
 	static {
 		setName(UnitNode.class, "unit declaration");
 	}
@@ -51,7 +49,7 @@ public class UnitNode extends DeclNode
 
 	// TODO: check types
 	CollectNode<BaseNode> models;
-	
+
 	// of type TestDeclNode or RuleDeclNode
 	CollectNode<TestDeclNode> subpatterns;
 	CollectNode<IdentNode> subpatternsUnresolved;
@@ -98,33 +96,14 @@ public class UnitNode extends DeclNode
 		return childrenNames;
 	}
 
-  	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
+	private static final DeclarationResolver<TestDeclNode> declResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+	private static final CollectResolver<TestDeclNode> declsResolver = new CollectResolver<TestDeclNode>(declResolver);
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		DeclarationResolver<TestDeclNode> declResolver =
-			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
-		CollectResolver<TestDeclNode> declsResolver =
-			new CollectResolver<TestDeclNode>(declResolver);
-		actions = declsResolver.resolve(actionsUnresolved);
-		successfullyResolved = actions!=null && successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		actions     = declsResolver.resolve(actionsUnresolved);
 		subpatterns = declsResolver.resolve(subpatternsUnresolved);
-		successfullyResolved = subpatterns!=null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = models.resolve() && successfullyResolved;
-		successfullyResolved = (subpatterns!=null ? subpatterns.resolve() : false) && successfullyResolved;
-		successfullyResolved = (actions!=null ? actions.resolve() : false) && successfullyResolved;
-		return successfullyResolved;
+		return actions != null && subpatterns != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -155,12 +134,12 @@ public class UnitNode extends DeclNode
 			Model model = ((ModelNode)n).getModel();
 			res.addModel(model);
 		}
-		
+
 		for(TestDeclNode n : subpatterns.getChildren()) {
 			Action act = n.getAction();
 			res.addSubpattern(act);
 		}
-		
+
 		for(TestDeclNode n : actions.getChildren()) {
 			Action act = n.getAction();
 			res.addAction(act);
@@ -170,8 +149,7 @@ public class UnitNode extends DeclNode
 	}
 
 	@Override
-	public BaseNode getDeclType()
-	{
+		public BaseNode getDeclType() {
 		return typeUnresolved;
 	}
 }

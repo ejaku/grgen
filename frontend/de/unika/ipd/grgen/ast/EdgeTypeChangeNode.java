@@ -24,16 +24,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.RetypedEdge;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  *
@@ -72,13 +72,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if (isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
@@ -89,20 +84,6 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		}
 		old = edgeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old != null && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if (!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		if(typeEdgeDecl != null){
-			successfullyResolved = typeEdgeDecl.resolve() && successfullyResolved;
-		}
-		if(typeTypeDecl != null){
-			successfullyResolved = typeTypeDecl.resolve() && successfullyResolved;
-		}
-		successfullyResolved = constraints.resolve() && successfullyResolved;
-		successfullyResolved = (old!=null ? old.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -155,11 +136,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			return true;
 		}
-		
-		constraints.reportError("pattern edges are not allowed to change type, only replacement edges are"); 
+
+		constraints.reportError("pattern edges are not allowed to change type, only replacement edges are");
 		return false;
 	}
-	
+
 	public Edge getEdge() {
 		return (Edge) checkIR(Edge.class);
 	}

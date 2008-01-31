@@ -24,26 +24,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
-import java.util.LinkedList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
+import de.unika.ipd.grgen.ir.*;
+import java.util.*;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.InheritanceType;
-import de.unika.ipd.grgen.ir.Entity;
-import de.unika.ipd.grgen.ir.Node;
-import de.unika.ipd.grgen.ir.Edge;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.Test;
-import de.unika.ipd.grgen.ir.MatchingAction;
 
 
 /**
@@ -102,23 +89,9 @@ public class TestDeclNode extends ActionDeclNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		successfullyResolved = ident.resolve() && successfullyResolved;
-		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
-		successfullyResolved = param.resolve() && successfullyResolved;
-		successfullyResolved = ret.resolve() && successfullyResolved;
-		successfullyResolved = pattern.resolve() && successfullyResolved;
-		successfullyResolved = neg.resolve() && successfullyResolved;
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
 	}
 
 	protected Collection<GraphNode> getGraphs() {
@@ -358,8 +331,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	@Override
-	public BaseNode getDeclType()
-	{
+		public BaseNode getDeclType() {
 		return typeUnresolved;
 	}
 }

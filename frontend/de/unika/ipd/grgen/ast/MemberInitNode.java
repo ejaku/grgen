@@ -25,9 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 
-import java.util.Collection;
-import java.util.Vector;
-
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
@@ -35,13 +32,14 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.parser.Coords;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * AST node representing a member initialization.
  * children: LHS:IdentNode, RHS:ExprNode
  */
-public class MemberInitNode extends BaseNode
-{
+public class MemberInitNode extends BaseNode {
 	static {
 		setName(MemberInitNode.class, "member init");
 	}
@@ -79,26 +77,14 @@ public class MemberInitNode extends BaseNode
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>(DeclNode.class);
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
 		lhs = lhsResolver.resolve(lhsUnresolved, this);
 		successfullyResolved = lhs!=null && successfullyResolved;
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
-		nodeResolvedSetResult(successfullyResolved); // local result
-		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
-		}
-
-		successfullyResolved = (lhs!=null ? lhs.resolve() : false) && successfullyResolved;
-		successfullyResolved = rhs.resolve() && successfullyResolved;
 		return successfullyResolved;
 	}
 

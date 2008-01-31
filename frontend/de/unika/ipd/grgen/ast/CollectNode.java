@@ -63,21 +63,9 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 		return childrenNames;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#resolve() */
-	protected boolean resolve() {
-		if(isResolved()) {
-			return resolutionResult();
-		}
-
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
-		boolean successfullyResolved = true;
-		// local resolution done via call to resolveChildren from parent node
-		nodeResolvedSetResult(successfullyResolved); // local result
-
-		for(int i=0; i<children.size(); ++i) {
-			successfullyResolved = children.get(i).resolve() && successfullyResolved;
-		}
-		return successfullyResolved;
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true; // local resolution done via call to resolveChildren from parent node
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -88,7 +76,7 @@ public class CollectNode<T extends BaseNode> extends BaseNode {
 	public Color getNodeColor() {
 		return Color.GRAY;
 	}
-	
+
 	public String toString() {
 		return children.toString();
 	}

@@ -24,46 +24,50 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import java.awt.Color;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.HashSet;
+import java.awt.Color;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Base class for all AST nodes representing expressions.
  */
-public abstract class ExprNode extends BaseNode
-{
+public abstract class ExprNode extends BaseNode {
 	static {
 		setName(ExprNode.class, "expression");
 	}
-	
+
 	private static final ExprNode INVALID = new InvalidExprNode();
-	
+
 	/**
 	 * Make a new expression
 	 */
 	public ExprNode(Coords coords) {
 		super(coords);
 	}
-	
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
+	protected boolean resolveLocal() {
+		return true;
+	}
+
 	public static ExprNode getInvalid() {
 		return INVALID;
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor()
 	 */
 	public Color getNodeColor()	{
 		return Color.PINK;
 	}
-	
+
 	/**
 	 * Get the type of the expression.
 	 * @return The type of this expression node.
 	 */
 	public abstract TypeNode getType();
-	
+
 	/**
 	 * Adjust the type of the expression.
 	 * The type can be adjusted by inserting an implicit cast.
@@ -75,11 +79,11 @@ public abstract class ExprNode extends BaseNode
 	 */
 	protected ExprNode adjustType(TypeNode tgt)	{
 		TypeNode src = getType();
-		
+
 		if(src.isEqual(tgt)) {
 			return this;
 		}
-			
+
 		if( src.isCompatibleTo(tgt) ) {
 			return new CastNode(getCoords(), tgt, this, true);
 		}
@@ -95,10 +99,10 @@ public abstract class ExprNode extends BaseNode
 				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, true), true);
 			}
 		}
-		
+
 		return ConstNode.getInvalid();
 	}
-	
+
 	/**
 	 * Check, if the expression is constant.
 	 * @return True, if the expression can be evaluated to a constant.
@@ -106,7 +110,7 @@ public abstract class ExprNode extends BaseNode
 	public boolean isConst() {
 		return false;
 	}
-	
+
 	/**
 	 * Try to evaluate and return a constant version
 	 * of this expression
@@ -119,7 +123,7 @@ public abstract class ExprNode extends BaseNode
 			return ConstNode.getInvalid();
 		}
 	}
-	
+
 	/**
 	 * This method is only called, if the expression is constant, so you don't
 	 * have to check for it.
