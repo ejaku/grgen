@@ -68,8 +68,8 @@ options {
 text returns [ BaseNode main = env.initNode() ]
 	{
 		CollectNode modelChilds = new CollectNode();
-		CollectNode patternChilds = new CollectNode();
-		CollectNode actionChilds = new CollectNode();
+		GenCollectNode<IdentNode> patternChilds = new GenCollectNode<IdentNode>();
+		GenCollectNode<IdentNode> actionChilds = new GenCollectNode<IdentNode>();
 		IdentNode id;
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 		id = new IdentNode(
@@ -125,7 +125,7 @@ usingDecl [ CollectNode modelChilds ]
 		}
 	;
 
-patternOrActionDecls[ CollectNode patternChilds, CollectNode actionChilds ]
+patternOrActionDecls[ GenCollectNode<IdentNode> patternChilds, GenCollectNode<IdentNode> actionChilds ]
 	{ int mod = 0; }
 
 	: ( mod=patternModifiers patternOrActionDecl[patternChilds, actionChilds, mod] )+
@@ -153,7 +153,7 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 	        }
 	;
 
-patternOrActionDecl [ CollectNode patternChilds, CollectNode actionChilds, int mod ]
+patternOrActionDecl [ GenCollectNode<IdentNode> patternChilds, GenCollectNode<IdentNode> actionChilds, int mod ]
 	{
 		IdentNode id;
 		PatternGraphNode left;

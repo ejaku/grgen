@@ -29,8 +29,8 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.DeclResolver;
-import de.unika.ipd.grgen.ast.util.Resolver;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.IR;
@@ -50,27 +50,28 @@ public class UnitNode extends DeclNode
 	protected static final TypeNode mainType = new MainTypeNode();
 
 	CollectNode models;
-	CollectNode subpatterns;
-	CollectNode actions;
+	
+	// of type TestDeclNode or RuleDeclNode
+	GenCollectNode<TestDeclNode> subpatterns;
+	GenCollectNode<IdentNode> subpatternsUnresolved;
 
-	/** Contains the classes of all valid types which can be declared */
-	private static Class<?>[] validTypes = {
-		TestDeclNode.class, RuleDeclNode.class
-	};
+	// of type TestDeclNode or RuleDeclNode
+	GenCollectNode<TestDeclNode> actions;
+	GenCollectNode<IdentNode> actionsUnresolved;
 
 	/**
 	 * The filename for this main node.
 	 */
 	private String filename;
 
-	public UnitNode(IdentNode id, String filename, CollectNode models, CollectNode subpatterns, CollectNode actions) {
+	public UnitNode(IdentNode id, String filename, CollectNode models, GenCollectNode<IdentNode> subpatterns, GenCollectNode<IdentNode> actions) {
 		super(id, mainType);
 		this.models = models;
 		becomeParent(this.models);
-		this.subpatterns = subpatterns;
-		becomeParent(this.subpatterns);
-		this.actions = actions;
-		becomeParent(this.actions);
+		this.subpatternsUnresolved = subpatterns;
+		becomeParent(this.subpatternsUnresolved);
+		this.actionsUnresolved = actions;
+		becomeParent(this.actionsUnresolved);
 		this.filename = filename;
 	}
 
@@ -80,8 +81,8 @@ public class UnitNode extends DeclNode
 		children.add(ident);
 		children.add(typeUnresolved);
 		children.add(models);
-		children.add(subpatterns);
-		children.add(actions);
+		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
+		children.add(getValidVersion(actionsUnresolved, actions));
 		return children;
 	}
 
@@ -104,9 +105,14 @@ public class UnitNode extends DeclNode
 
 		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = true;
-		Resolver declResolver = new DeclResolver(validTypes);
-		successfullyResolved = actions.resolveChildren(declResolver) && successfullyResolved;
-		successfullyResolved = subpatterns.resolveChildren(declResolver) && successfullyResolved;
+		DeclarationResolver<TestDeclNode> declResolver =
+			new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+		CollectResolver<TestDeclNode> declsResolver =
+			new CollectResolver<TestDeclNode>(declResolver);
+		actions = declsResolver.resolve(actionsUnresolved);
+		successfullyResolved = actions!=null && successfullyResolved;
+		subpatterns = declsResolver.resolve(subpatternsUnresolved);
+		successfullyResolved = subpatterns!=null && successfullyResolved;
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
 			debug.report(NOTE, "resolve error");
@@ -115,8 +121,8 @@ public class UnitNode extends DeclNode
 		successfullyResolved = ident.resolve() && successfullyResolved;
 		successfullyResolved = typeUnresolved.resolve() && successfullyResolved;
 		successfullyResolved = models.resolve() && successfullyResolved;
-		successfullyResolved = subpatterns.resolve() && successfullyResolved;
-		successfullyResolved = actions.resolve() && successfullyResolved;
+		successfullyResolved = (subpatterns!=null ? subpatterns.resolve() : false) && successfullyResolved;
+		successfullyResolved = (actions!=null ? actions.resolve() : false) && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -124,10 +130,7 @@ public class UnitNode extends DeclNode
 	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker modelChecker = new CollectChecker(new SimpleChecker(ModelNode.class));
-		Checker actionChecker = new CollectChecker(new SimpleChecker(validTypes));
-		return modelChecker.check(models, error)
-			& actionChecker.check(subpatterns, error)
-			& actionChecker.check(actions, error);
+		return modelChecker.check(models, error);
 	}
 
 	/**
@@ -152,13 +155,13 @@ public class UnitNode extends DeclNode
 			res.addModel(model);
 		}
 		
-		for(BaseNode n : subpatterns.getChildren()) {
-			Action act = ((ActionDeclNode)n).getAction();
+		for(TestDeclNode n : subpatterns.getChildren()) {
+			Action act = n.getAction();
 			res.addSubpattern(act);
 		}
 		
-		for(BaseNode n : actions.getChildren()) {
-			Action act = ((ActionDeclNode)n).getAction();
+		for(TestDeclNode n : actions.getChildren()) {
+			Action act = n.getAction();
 			res.addAction(act);
 		}
 
