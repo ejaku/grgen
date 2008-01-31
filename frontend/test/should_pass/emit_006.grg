@@ -1,10 +1,11 @@
 using attrib_model_001;
 
-rule r1 {
+rule r1 : (NINT) {
   x:NINT;
   negative { x <-- ; }
   modify{
     exec(r2);
+    return (x);
   }
 }
 
