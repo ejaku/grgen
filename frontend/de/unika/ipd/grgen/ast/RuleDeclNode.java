@@ -209,7 +209,7 @@ public class RuleDeclNode extends TestDeclNode {
 		int actualNumRets = right.returns.getChildren().size();
 
 		for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
-			IdentNode ident = (IdentNode) ((Vector<BaseNode>)right.returns.getChildren()).get(i);
+			IdentNode ident = right.returns.children.get(i);
 			DeclNode retElem = ident.getDecl();
 
 			if (retElem.equals(DeclNode.getInvalid())) {
@@ -371,10 +371,10 @@ public class RuleDeclNode extends TestDeclNode {
 		Set<DeclNode> delSet = getDelete();
 		Set<IdentNode> retSet = new HashSet<IdentNode>();
 
-		Collection<BaseNode> rets = right.returns.getChildren();
+		Collection<IdentNode> rets = right.returns.getChildren();
 
-		for (BaseNode x : rets) {
-			retSet.add(((IdentNode)x));
+		for (IdentNode x : rets) {
+			retSet.add(x);
 		}
 
 		Map<DeclNode, Set<BaseNode>> elemToHomElems = new HashMap<DeclNode, Set<BaseNode>>();

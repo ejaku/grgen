@@ -273,13 +273,13 @@ evalBody [ CollectNode n  ]
 
 patternBody [ Coords coords, CollectNode negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	{
-		CollectNode connections = new CollectNode();
-		CollectNode conditions = new CollectNode();
-		CollectNode returnz = new CollectNode();
-		CollectNode homs = new CollectNode();
-		CollectNode exact = new CollectNode();
-		CollectNode induced = new CollectNode();
-		CollectNode subpatterns = new CollectNode();
+		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
+		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
+		CollectNode<HomNode> homs = new CollectNode<HomNode>();
+		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
+		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
+		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
 		res = new PatternGraphNode(nameOfGraph+".pattern", coords, connections, subpatterns, conditions, returnz, homs, exact, induced, mod, context);
 		int negCounter = 0;
 	}
@@ -287,8 +287,8 @@ patternBody [ Coords coords, CollectNode negs, int mod, int context, String name
 	: ( negCounter = patternStmt[connections, subpatterns, conditions, negs, negCounter, returnz, homs, exact, induced, context, nameOfGraph+".pattern"] )*
 	;
 
-patternStmt [ CollectNode conn, CollectNode subpatterns, CollectNode cond,
-	CollectNode negs, int negCount, CollectNode returnz, CollectNode homs, CollectNode exact, CollectNode induced, int context, String nameOfGraph ]
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond,
+	CollectNode negs, int negCount, CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced, int context, String nameOfGraph ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
@@ -326,12 +326,12 @@ patternStmt [ CollectNode conn, CollectNode subpatterns, CollectNode cond,
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
 	: firstEdge[conn, context] // connection starts with an edge which dangles on the left
 	| firstNodeOrSubpattern[conn, subpatterns, context] // there's a subpattern or a connection that starts with a node
 	;
 
-firstEdge [ CollectNode conn, int context ]
+firstEdge [ CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
@@ -343,7 +343,7 @@ firstEdge [ CollectNode conn, int context ]
 			nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode conn, CollectNode subpatterns, int context ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
 	{
 		IdentNode id = env.getDummyIdent();
 		IdentNode type = env.getNodeRoot();
@@ -688,7 +688,7 @@ modifyStmt [ Coords coords, CollectNode connections, CollectNode subpatterns, Co
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-rets[CollectNode res, int context]
+rets[CollectNode<IdentNode> res, int context]
 	{
 		IdentNode id;
 		boolean multipleReturns = ! res.getChildren().isEmpty();

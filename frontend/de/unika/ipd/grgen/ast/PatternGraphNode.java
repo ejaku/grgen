@@ -36,9 +36,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
@@ -70,11 +67,10 @@ public class PatternGraphNode extends GraphNode {
 	private static final int INCOMING = 0;
 	private static final int OUTGOING = 1;
 
-	// TODO: check types
-	CollectNode<BaseNode> conditions;
-	CollectNode<BaseNode> homs;
-	CollectNode<BaseNode> exact;
-	CollectNode<BaseNode> induced;
+	CollectNode<ExprNode> conditions;
+	CollectNode<HomNode> homs;
+	CollectNode<ExactNode> exact;
+	CollectNode<InducedNode> induced;
 
 	/**
 	 *  Map an edge to his homomorphic set.
@@ -111,10 +107,10 @@ public class PatternGraphNode extends GraphNode {
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
 
-	public PatternGraphNode(String nameOfGraph, Coords coords, CollectNode connections,
-			CollectNode subpatterns, CollectNode conditions,
-			CollectNode returns, CollectNode homs, CollectNode exact,
-			CollectNode induced, int modifiers, int context) {
+	public PatternGraphNode(String nameOfGraph, Coords coords, CollectNode<BaseNode> connections,
+			CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> conditions,
+			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
+			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
@@ -153,7 +149,7 @@ public class PatternGraphNode extends GraphNode {
 		return childrenNames;
 	}
 
-	public Collection<BaseNode> getHoms() {
+	public Collection<HomNode> getHoms() {
 		return homs.getChildren();
 	}
 
@@ -163,23 +159,12 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	protected boolean checkLocal() {
-		Checker conditionsChecker =  new CollectChecker(new SimpleChecker(ExprNode.class));
-		Checker homChecker = new CollectChecker(new SimpleChecker(HomNode.class));
-		Checker exactChecker = new CollectChecker(new SimpleChecker(ExactNode.class));
-		Checker inducedChecker = new CollectChecker(new SimpleChecker(InducedNode.class));
-
-		boolean childs = super.checkLocal()
-			& conditionsChecker.check(conditions, error)
-			& homChecker.check(homs, error)
-			& exactChecker.check(exact, error)
-			& inducedChecker.check(induced, error);
+		boolean childs = super.checkLocal();
 
 		boolean expr = true;
 		boolean homcheck = true;
 		if (childs) {
-			for (BaseNode n : conditions.getChildren()) {
-				// Must go right, since it is checked 5 lines above.
-				ExprNode exp = (ExprNode) n;
+			for (ExprNode exp : conditions.getChildren()) {
 				if (!exp.getType().isEqual(BasicTypeNode.booleanType)) {
 					exp.reportError("Expression must be of type boolean");
 					expr = false;
@@ -187,9 +172,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 
 			HashSet<DeclNode> homEnts = new HashSet<DeclNode>();
-			for (BaseNode n : getHoms()) {
-				HomNode hom = (HomNode) n;
-
+			for (HomNode hom : getHoms()) {
 				for (BaseNode m : hom.getChildren()) {
 					DeclNode decl = (DeclNode) m;
 
@@ -260,8 +243,7 @@ public class PatternGraphNode extends GraphNode {
 			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
 		}
 
-		for (BaseNode n : conditions.getChildren()) {
-			ExprNode expr = (ExprNode) n;
+		for (ExprNode expr : conditions.getChildren()) {
 			expr = expr.evaluate();
 			gr.addCondition((Expression) expr.checkIR(Expression.class));
 		}
@@ -369,7 +351,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private void initDoubleNodeNegMap() {
-		Collection<BaseNode> inducedNodes = induced.getChildren();
+		Collection<InducedNode> inducedNodes = induced.getChildren();
 		if (isInduced()) {
 			addToDoubleNodeMap(getAllPatternNodes());
 
@@ -489,7 +471,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private void initSingleNodeNegMap() {
-		Collection<BaseNode> exactNodes = exact.getChildren();
+		Collection<ExactNode> exactNodes = exact.getChildren();
 
 		if (isExact()) {
 			addToSingleNodeMap(getAllPatternNodes());
@@ -498,7 +480,7 @@ public class PatternGraphNode extends GraphNode {
 				reportWarning("The keyword \"dpo\" is redundant for exact patterns");
 			}
 
-			for (BaseNode node : exactNodes) {
+			for (ExactNode node : exactNodes) {
 				node.reportWarning("Exact statement occurs in exact pattern");
 			}
 
@@ -672,7 +654,7 @@ public class PatternGraphNode extends GraphNode {
 	    	return nodeHomMap.get(node);
 	    }
 		Set<NodeDeclNode> ret = new LinkedHashSet<NodeDeclNode>();
-		for (BaseNode homNode : homs.getChildren()) {
+		for (HomNode homNode : homs.getChildren()) {
 	        if (homNode.getChildren().contains(node)) {
 	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
 	        	for (Set<DeclNode> homSet : homSets) {
@@ -700,7 +682,7 @@ public class PatternGraphNode extends GraphNode {
 			return edgeHomMap.get(edge);
 		}
 	    Set<EdgeDeclNode> ret = new LinkedHashSet<EdgeDeclNode>();
-		for (BaseNode homNode : homs.getChildren()) {
+		for (HomNode homNode : homs.getChildren()) {
 	        if (homNode.getChildren().contains(edge)) {
 	        	Set<Set<DeclNode>> homSets = splitHoms(homNode.getChildren());
 	        	for (Set<DeclNode> homSet : homSets) {
