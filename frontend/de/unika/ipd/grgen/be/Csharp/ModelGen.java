@@ -855,9 +855,15 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 					+ "\t\t\treturn new" + kindName + ";\n"
 					+ "\t\t}\n\n");
 		}
-		else
-			sb.append("\t\t\treturn new " + allocName + "();\n"
+		else {
+			if(isNode) {
+				sb.append("\t\t\treturn new " + allocName + "();\n"
 					+ "\t\t}\n\n");
+			} else {
+				sb.append("\t\t\treturn new " + allocName + "((LGSPNode) source, (LGSPNode) target);\n"
+					+ "\t\t}\n\n");
+			}
+		}
 	}
 
 	////////////////////////////
