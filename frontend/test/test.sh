@@ -41,8 +41,10 @@ touch $LOG
 
 if uname -s | grep -iq "cygwin"; then
 	SEP=";"
+	MONO=
 else
 	SEP=":"
+	MONO="mono"
 fi
 CLASSPATH=$JARGS$SEP$ANTLR$SEP$GRGENNET/grgen.jar
 
@@ -58,7 +60,7 @@ do_test()
 	echo -n "===> TEST $FILE"
 	if java $JAVA_ARGS -o "$DIR" "$FILE" > "$DIR/log" 2>&1; then
 		echo -n " ... OK"
-		if mono "$GRGENNET/GrGen.exe" -keep -use "$DIR" -o "$DIR" "$FILE" >> "$DIR/log" 2>&1; then
+		if $MONO "$GRGENNET/GrGen.exe" -keep -use "$DIR" -o "$DIR" "$FILE" >> "$DIR/log" 2>&1; then
 			if grep -q "WARNING" < "$DIR/log"; then
 				echo " ... WARNED"
 				echo "WARNED $FILE" >> "$LOG"
