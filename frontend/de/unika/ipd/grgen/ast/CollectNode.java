@@ -22,7 +22,7 @@
  * @file CollectNode.java
  * @author shack
  * @date Jul 21, 2003
- * @version $Id: CollectNode.java 17542 2008-01-26 02:26:59Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 

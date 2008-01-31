@@ -19,7 +19,7 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id: Resolver.java 17148 2008-01-03 16:30:41Z buchwald $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast.util;
 
