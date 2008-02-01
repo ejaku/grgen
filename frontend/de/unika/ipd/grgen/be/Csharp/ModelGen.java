@@ -758,6 +758,8 @@ public class ModelGen extends CSharpBase {
 			isNode ? (Collection<? extends InheritanceType>) be.nodeTypeMap.keySet()
 			: (Collection<? extends InheritanceType>) be.edgeTypeMap.keySet();
 		for(InheritanceType itype : typeSet) {
+			if(itype.isAbstract()) continue;
+
 			Set<InheritanceType> firstCommonAncestors = new LinkedHashSet<InheritanceType>();
 			getFirstCommonAncestors(itype, type, firstCommonAncestors);
 
@@ -781,15 +783,11 @@ public class ModelGen extends CSharpBase {
 			boolean mustCopyAttribs = false;
 commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				for(Entity member : commonType.getAllMembers()) {
-					if(member.getType().isVoid() || commonType.getOverriddenMember(member) != null)
-						continue;	// is an abstract member or overrides an abstract member
+					if(member.getType().isVoid())   // is it an abstract member?
+						continue;
 					mustCopyAttribs = true;
 					break commonLoop;
 				}
-				/*				if(commonType.getAllMembers().size() != 0) {
-					mustCopyAttribs = true;
-					break;
-				 }*/
 			}
 
 			if(!mustCopyAttribs) continue;
@@ -830,6 +828,10 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 								+ formatIdentifiable(commonType) + "\n");
 						boolean alreadyCasted = false;
 						for(Entity member : members) {
+							if(member.getType().isVoid()) {
+								sb.append("\t\t\t\t\t\t// is abstract: " + formatIdentifiable(member) + "\n");
+								continue;
+							}
 							if(copiedAttribs.contains(member)) {
 								sb.append("\t\t\t\t\t\t// already copied: " + formatIdentifiable(member) + "\n");
 								continue;
@@ -842,8 +844,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 							}
 							copiedAttribs.add(member);
 							String memberName = formatIdentifiable(member);
-							sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
-									+ " = old.@" + memberName + ";\n");
+							if(type.getOverriddenMember(member) != null)
+								// Workaround for Mono Bug 357287
+								// "Access to hiding properties of interfaces resolves wrong member"
+								// https://bugzilla.novell.com/show_bug.cgi?id=357287
+								sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
+										+ " = (" + formatAttributeType(member) + ") old.@" + memberName
+										+ ";   // Mono workaround (bug #357287)\n");
+							else
+								sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
+										+ " = old.@" + memberName + ";\n");
 						}
 						if(alreadyCasted)
 							sb.append("\t\t\t\t\t}\n");
@@ -1018,4 +1028,5 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String curMemberOwner = null;
 	private String nsIndent = "\t";
 }
+
 

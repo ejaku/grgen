@@ -273,9 +273,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append(aux);
 	}
 
-	//////////////////////////////
+	/////////////////////////////////////////
 	// Rule/Subpattern metadata generation //
-	//////////////////////////////
+	/////////////////////////////////////////
 
 	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		int i = 0;
@@ -299,7 +299,7 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 		sb.append("};\n");
-		
+
 		i = 0;
 		sb.append("\t\tpublic enum PatternNums { ");
 		for(SubpatternUsage sub : action.getPattern().getSubpatternUsages()) {
@@ -359,7 +359,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.contains(node) ? "PatternElementType.Preset" : additional_parameters);
 			sb.append(", " + parameters.indexOf(node) + ");\n");
 		}
-		
+
 		for(Edge edge : pattern.getEdges()) {
 			if(outer != null && outer.hasEdge(edge)) {
 				continue;
@@ -374,7 +374,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(parameters.contains(edge) ? "PatternElementType.Preset" : additional_parameters);
 			sb.append(", " + parameters.indexOf(edge) + ");\n");
 		}
-		
+
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			if(outer != null && outer.hasSubpatternUsage(sub)) {
 				continue;
@@ -402,7 +402,7 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t" + pattern_name + " = new PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + pattern.getNameOfGraph() + "\",\n");
-		
+
 		sb.append("\t\t\t\tnew PatternNode[] ");
 		genEntitySet(sb, pattern.getNodes(), "", "", true, outer, negCount);
 		sb.append(", \n");
@@ -410,7 +410,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\tnew PatternEdge[] ");
 		genEntitySet(sb, pattern.getEdges(), "", "", true, outer, negCount);
 		sb.append(", \n");
-		
+
 		sb.append("\t\t\t\tnew PatternGraphEmbedding[] ");
 		genSubpatternUsageSet(sb, pattern.getSubpatternUsages(), "", "", true, outer, negCount);
 		sb.append(", \n");
@@ -967,9 +967,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-////////////////////////////
+	////////////////////////////
 	// New element generation //
-////////////////////////////
+	////////////////////////////
 
 	private void genRewriteNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges) {
 		reuseNodeAndEdges = false;							// TODO: reimplement this!!
@@ -1133,9 +1133,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-//////////////////////////
+	//////////////////////////
 	// Eval part generation //
-//////////////////////////
+	//////////////////////////
 
 	private void genEvals(StringBuffer sb, Rule rule) {
 		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
@@ -1211,9 +1211,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-///////////////////////////////////////
+	///////////////////////////////////////
 	// Static searchplan cost generation //
-///////////////////////////////////////
+	///////////////////////////////////////
 
 	private void genPrios(MatchingAction action, StringBuffer sb) {
 		double max;
@@ -1281,9 +1281,9 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-//////////////////////
+	//////////////////////
 	// Expression stuff //
-//////////////////////
+	//////////////////////
 
 	protected void genQualAccess(StringBuffer sb, Qualification qual) {
 		Entity owner = qual.getOwner();
@@ -1373,9 +1373,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + varTypeName + " var_" + ownerName + "_" + attrName);
 	}
 
-///////////////////////
+	///////////////////////
 	// Private variables //
-///////////////////////
+	///////////////////////
 
 	private SearchPlanBackend2 be;
 

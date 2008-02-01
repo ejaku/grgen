@@ -6,6 +6,25 @@ node class AINT extends A {
   value : int;
 }
 
+node class AINTINT extends AINT {
+  foo : int;
+}
+
+abstract node class AINTINTA extends AINTINT {
+  abstract value2;
+  bar : int;
+}
+
+abstract node class AINTINTAA extends AINTINTA;
+
+node class AINTINTAAINT extends AINTINTAA {
+  value2 : int;
+}
+
+node class AINTINTAAINT2 extends AINTINTAA {
+  value2 : int;
+}
+
 node class ASTR extends A {
   value : string;
 }
