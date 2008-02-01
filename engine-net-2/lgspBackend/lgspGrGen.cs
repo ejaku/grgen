@@ -458,7 +458,7 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceNot seqNot = (SequenceNot) seq;
 					EmitSequence(seqNot.Seq, source);
-					source.AppendFront("res_" + seqID + " = !res_" + xgrsSequenceIDs[seqNot] + ";\n");
+					source.AppendFront("res_" + seqID + " = !res_" + xgrsSequenceIDs[seqNot.Seq] + ";\n");
 					break;
 				}
 
@@ -596,11 +596,11 @@ namespace de.unika.ipd.grGen.lgsp
 				{
 					SequenceTransaction seqTrans = (SequenceTransaction) seq;
 					int seqTransSubID = xgrsSequenceIDs[seqTrans.Seq];
-					source.AppendFormat("int transID_" + seqID + " = graph.TransactionManager.StartTransaction();\n");
+                    source.AppendFront("int transID_" + seqID + " = graph.TransactionManager.StartTransaction();\n");
 					EmitSequence(seqTrans.Seq, source);
-					source.AppendFormat("if(res_" + seqTransSubID + ") graph.TransactionManager.Commit(transID_" + seqID + ");\n");
-					source.AppendFormat("else graph.TransactionManager.Rollback(transID_" + seqID + ");\n");
-					source.AppendFormat("res_" + seqID + " = " + seqTransSubID + ";\n");
+                    source.AppendFront("if(res_" + seqTransSubID + ") graph.TransactionManager.Commit(transID_" + seqID + ");\n");
+                    source.AppendFront("else graph.TransactionManager.Rollback(transID_" + seqID + ");\n");
+                    source.AppendFront("res_" + seqID + " = res_" + seqTransSubID + ";\n");
 					break;
 				}
 
