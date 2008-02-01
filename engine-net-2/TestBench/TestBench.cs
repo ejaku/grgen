@@ -10,20 +10,32 @@ namespace de.unika.ipd.grGen.testBench
 	{
 		static void ShowDiff()
 		{
-			Dictionary<String, object> oldResults = new Dictionary<string, object>();
+            Dictionary<String, String> fileToStatus = new Dictionary<String, String>();
 			using(StreamReader reader = new StreamReader("summary_gold.log"))
 			{
 				String line;
-				while((line = reader.ReadLine()) != null)
-					oldResults[line] = null;
+                while((line = reader.ReadLine()) != null)
+                {
+                    String status = line.Substring(0, 6);
+                    String file = line.Substring(7);
+                    fileToStatus[file] = status;
+                }
 			}
 			using(StreamReader reader = new StreamReader("summary.log"))
 			{
 				String line;
 				while((line = reader.ReadLine()) != null)
-					if(!oldResults.ContainsKey(line))
-						Console.WriteLine("+" + line);
-			}
+                {
+                    String status = line.Substring(0, 6);
+                    String file = line.Substring(7);
+                    String oldStatus;
+                    if(!fileToStatus.TryGetValue(file, out oldStatus))
+                        oldStatus = "      ";
+
+                    if(status != oldStatus)
+                        Console.WriteLine(oldStatus + " -> " + status + ": " + file);
+                }
+            }
 		}
 
 		static void Main(string[] args)
@@ -101,6 +113,7 @@ namespace de.unika.ipd.grGen.testBench
 					}
 
 					String outDir = file.Replace(".grg", "_out");
+                    String fileForLog = file.Replace('\\', '/');
 
 					if(Directory.Exists(outDir))
 					{
@@ -111,7 +124,7 @@ namespace de.unika.ipd.grGen.testBench
 
 					TextWriter oldOut = Console.Out;
 
-					Console.Write("===> TEST " + file);
+                    Console.Write("===> TEST " + fileForLog);
 					StringWriter log = new StringWriter();
 					Console.SetError(log);
 					Console.SetOut(log);
@@ -133,22 +146,22 @@ namespace de.unika.ipd.grGen.testBench
 					if(logStr.Contains("Exception in thread"))
 					{
 						Console.WriteLine(" ... ABEND");
-						logFile.WriteLine("ABEND  " + file);
+                        logFile.WriteLine("ABEND  " + fileForLog);
 					}
 					else if(logStr.Contains("ERROR"))
 					{	
 						Console.WriteLine(" ... ERROR");
-						logFile.WriteLine("ERROR  " + file);
+                        logFile.WriteLine("ERROR  " + fileForLog);
 					}
 					else if(logStr.Contains("Illegal model") || logStr.Contains("Illegal actions"))
 					{
 						Console.WriteLine(" ... FAILED");
-						logFile.WriteLine("FAILED " + file);
+                        logFile.WriteLine("FAILED " + fileForLog);
 					}
 					else if(logStr.Contains("WARNING"))
 					{
 						Console.WriteLine(" ... WARNED");
-						logFile.WriteLine("WARNED " + file);
+                        logFile.WriteLine("WARNED " + fileForLog);
 					}
 					else if(!failed)
 					{
@@ -159,25 +172,25 @@ namespace de.unika.ipd.grGen.testBench
 							if(javaOutput.Contains("WARNING"))
 							{
 								Console.WriteLine(" ... WARNED");
-								logFile.WriteLine("WARNED " + file);
+                                logFile.WriteLine("WARNED " + fileForLog);
 							}
 							else
 							{
 								javaOutput = null;
 								Console.WriteLine(" ... OK");
-								logFile.WriteLine("OK     " + file);
+                                logFile.WriteLine("OK     " + fileForLog);
 							}
 						}
 						else
 						{
 							Console.WriteLine(" ... OK");
-							logFile.WriteLine("OK     " + file);
+                            logFile.WriteLine("OK     " + fileForLog);
 						}
 					}
 					else
 					{
 						Console.WriteLine(" ... ABEND");
-						logFile.WriteLine("ABEND  " + file);
+                        logFile.WriteLine("ABEND  " + fileForLog);
 					}
 
 					if(verbose)
