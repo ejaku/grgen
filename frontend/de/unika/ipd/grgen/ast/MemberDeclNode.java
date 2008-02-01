@@ -92,8 +92,7 @@ public class MemberDeclNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		Checker typeChecker = new SimpleChecker(new Class[] { BasicTypeNode.class, EnumTypeNode.class });
-		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			& typeChecker.check(type, error);
+		return typeChecker.check(type, error);
 	}
 
 	protected IR constructIR() {

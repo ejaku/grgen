@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.util.BooleanResultVisitor;
@@ -89,8 +88,7 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			& (new SimpleChecker(ExprNode.class)).check(value, error);
+		return true;
 	}
 
 	/**

@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -119,8 +118,7 @@ public class CastNode extends ExprNode {
 	 * and the first node is a type node identifier.
 	 */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(ExprNode.class)).check(expr, error)
-			& typeCheckLocal();
+		return typeCheckLocal();
 	}
 
 	/**

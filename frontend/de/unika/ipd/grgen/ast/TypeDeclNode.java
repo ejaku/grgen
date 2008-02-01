@@ -69,8 +69,7 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(IdentNode.class)).check(ident, error)
-			& (new SimpleChecker(DeclaredTypeNode.class)).check(typeUnresolved, error);
+		return (new SimpleChecker(DeclaredTypeNode.class)).check(typeUnresolved, error);
 	}
 
 	/**

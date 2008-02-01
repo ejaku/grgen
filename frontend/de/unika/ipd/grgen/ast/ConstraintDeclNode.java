@@ -26,7 +26,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.TypeExpr;
 
 public abstract class ConstraintDeclNode extends DeclNode
@@ -44,8 +43,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 	}
 
 	protected boolean checkLocal() {
-		return (new SimpleChecker(TypeExprNode.class)).check(constraints, error)
-			& onlyPatternElementsAreAllowedToBeConstrained();
+		return onlyPatternElementsAreAllowedToBeConstrained();
 	}
 
 	protected boolean onlyPatternElementsAreAllowedToBeConstrained() {

@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ast.util.MemberResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -92,9 +91,7 @@ public class MemberInitNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		boolean rhsOk = (new SimpleChecker(ExprNode.class)).check(rhs, error);
-
-		return rhsOk & typeCheckLocal();
+		return typeCheckLocal();
 	}
 
 	/**

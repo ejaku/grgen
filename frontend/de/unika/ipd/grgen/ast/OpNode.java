@@ -38,7 +38,7 @@ public abstract class OpNode extends ExprNode
 	/** The corresponding operator. */
 	private OperatorSignature operator;
 	
-	Vector<BaseNode> children = new Vector<BaseNode>();
+	Vector<ExprNode> children = new Vector<ExprNode>();
 	
 	/**
 	 * Make a new operator node.

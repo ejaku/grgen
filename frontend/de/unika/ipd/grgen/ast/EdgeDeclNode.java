@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -109,7 +108,6 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected boolean checkLocal() {
 		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 		return super.checkLocal()
-			& (new SimpleChecker(IdentNode.class)).check(ident, error)
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
 

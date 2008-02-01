@@ -25,7 +25,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
@@ -101,10 +100,7 @@ public class ConnAssertNode extends BaseNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(NodeTypeNode.class)).check(src, error)
-			& (new SimpleChecker(RangeSpecNode.class)).check(srcRange, error)
-			& (new SimpleChecker(NodeTypeNode.class)).check(tgt, error)
-			& (new SimpleChecker(RangeSpecNode.class)).check(tgtRange, error);
+		return true;
 	}
 
 	protected IR constructIR() {

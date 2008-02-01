@@ -28,8 +28,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Operator;
@@ -82,7 +80,7 @@ public class ArithmeticOpNode extends OpNode {
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
+	public Collection<ExprNode> getChildren() {
 		return children;
 	}
 
@@ -119,12 +117,7 @@ public class ArithmeticOpNode extends OpNode {
 	/** All children of this expression node must be expression nodes, too.
 	 *  @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		boolean successfullyChecked = super.checkLocal();
-		Checker checker = new SimpleChecker(ExprNode.class);
-		for(BaseNode n : children) {
-			successfullyChecked = checker.check(n, error) && successfullyChecked;
-		}
-		return successfullyChecked;
+		return super.checkLocal();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */

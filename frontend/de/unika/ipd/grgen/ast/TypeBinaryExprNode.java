@@ -20,8 +20,6 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.TypeExpr;
 import de.unika.ipd.grgen.ir.TypeExprSetOperator;
@@ -70,12 +68,7 @@ public class TypeBinaryExprNode extends TypeExprNode {
 	}
 
 	protected boolean checkLocal() {
-		// check the child node types
-		boolean typesOk = true;
-		Checker checker = new SimpleChecker(TypeExprNode.class);
-		typesOk = checker.check(lhs, error) && typesOk;
-		typesOk = checker.check(rhs, error) && typesOk;
-		return typesOk;
+		return true;
 	}
 
 	protected IR constructIR() {
