@@ -38,6 +38,23 @@ namespace de.unika.ipd.grGen.testBench
             }
 		}
 
+        static void Usage()
+        {
+            Console.WriteLine(
+                  "Usage: TestBench [OPTIONS] [<grg-files>]\n\n"
+                + "Default for <grg-files> is:\n"
+                + "  should_pass" + Path.DirectorySeparatorChar + "*.grg should_warn"
+                + Path.DirectorySeparatorChar + "*.grg should_fail" + Path.DirectorySeparatorChar + "*.grg\n\n"
+                + "Options:\n"
+                + "  -a     Append the new results to summary.log\n"
+                + "  -c     Clean, by removing all subsubdirectories ending on \"_out\"\n"
+                + "  -d     Shows the current differences between summary_gold.log and summary.log\n"
+                + "  -n     Only test, when .grg file is newer than according output folder\n"
+                + "         or the output folder does not exist yet\n"
+                + "  -v     Write the output of GrGen to the console\n"
+                + "  --help Output this usage");
+        }
+
 		static void Main(string[] args)
 		{
 			bool verbose = false, onlyNew = false, append = false;
@@ -69,8 +86,15 @@ namespace de.unika.ipd.grGen.testBench
 							case "-n": onlyNew = true; break;
 							case "-v": verbose = true; break;
 
+                            case "--help":
+                            case "-?":
+                            case "/?":
+                                Usage();
+                                return;
+
 							default:
-								Console.WriteLine("Unknown option: " + args[i]);
+								Console.WriteLine("Unknown option: " + args[i] + "\n");
+                                Usage();
 								return;
 						}
 					}
