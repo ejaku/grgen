@@ -5,6 +5,8 @@ using System.Diagnostics;
 
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
+using System.Reflection;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -30,9 +32,9 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<IEdge, bool> markedEdges = new Dictionary<IEdge, bool>();
 
         LinkedList<Sequence> loopList = new LinkedList<Sequence>();
-        LinkedList<INode> addedNodes = new LinkedList<INode>();
+        Dictionary<INode, bool> addedNodes = new Dictionary<INode, bool>();
         LinkedList<String> deletedNodes = new LinkedList<String>();
-        LinkedList<IEdge> addedEdges = new LinkedList<IEdge>();
+        Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
         LinkedList<String> deletedEdges = new LinkedList<String>();
 
         public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal") {}
@@ -49,7 +51,8 @@ namespace de.unika.ipd.grGen.grShell
             }
             try
             {
-                viewerProcess = Process.Start("ycomp", "-p " + ycompPort);
+                viewerProcess = Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
+                    + Path.DirectorySeparatorChar + "ycomp", "-p " + ycompPort);
             }
             catch(Exception e)
             {
@@ -501,12 +504,18 @@ namespace de.unika.ipd.grGen.grShell
             curRulePattern = matches.Producer.RulePattern;
         }
 
+        void DebugNextMatch()
+        {
+            nextAddedNodeIndex = 0;
+            nextAddedEdgeIndex = 0;
+        }
+
         void DebugNodeAdded(INode node)
         {
             ycompClient.AddNode(node);
             if(recordMode)
             {
-                addedNodes.AddLast(node);
+                addedNodes[node] = true;
                 ycompClient.AnnotateElement(node, curRulePattern.AddedNodeNames[nextAddedNodeIndex++]);
             }
             else if(alwaysShow) ycompClient.UpdateDisplay();
@@ -517,7 +526,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.AddEdge(edge);
             if(recordMode)
             {
-                addedEdges.AddLast(edge);
+                addedEdges[edge] = true;
                 ycompClient.AnnotateElement(edge, curRulePattern.AddedEdgeNames[nextAddedEdgeIndex++]);
             }
             else if(alwaysShow) ycompClient.UpdateDisplay();
@@ -588,12 +597,12 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Press any key to continue...");
             ReadKeyWithCancel();
 
-            foreach(INode node in addedNodes)
+            foreach(INode node in addedNodes.Keys)
             {
                 ycompClient.ChangeNode(node, null);
                 ycompClient.AnnotateElement(node, null);
             }
-            foreach(IEdge edge in addedEdges)
+            foreach(IEdge edge in addedEdges.Keys)
             {
                 ycompClient.ChangeEdge(edge, null);
                 ycompClient.AnnotateElement(edge, null);
@@ -651,6 +660,7 @@ namespace de.unika.ipd.grGen.grShell
                 shellGraph.Actions.OnEntereringSequence += new EnterSequenceHandler(DebugEntereringSequence);
                 shellGraph.Actions.OnExitingSequence += new ExitSequenceHandler(DebugExitingSequence);
                 shellGraph.Actions.OnMatched += new AfterMatchHandler(DebugMatched);
+                shellGraph.Actions.OnRewritingNextMatch += new RewriteNextMatchHandler(DebugNextMatch);
                 shellGraph.Actions.OnFinished += new AfterFinishHandler(DebugFinished);
             }
         }
@@ -675,6 +685,7 @@ namespace de.unika.ipd.grGen.grShell
                 shellGraph.Actions.OnEntereringSequence -= new EnterSequenceHandler(DebugEntereringSequence);
                 shellGraph.Actions.OnExitingSequence -= new ExitSequenceHandler(DebugExitingSequence);
                 shellGraph.Actions.OnMatched -= new AfterMatchHandler(DebugMatched);
+                shellGraph.Actions.OnRewritingNextMatch -= new RewriteNextMatchHandler(DebugNextMatch);
                 shellGraph.Actions.OnFinished -= new AfterFinishHandler(DebugFinished);
             }
         }

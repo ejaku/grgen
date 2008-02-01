@@ -28,6 +28,7 @@ namespace de.unika.ipd.grGen.libGr
     #region ActionDelegates
     public delegate void AfterMatchHandler(IMatches matches, bool special);
     public delegate void BeforeFinishHandler(IMatches matches, bool special);
+    public delegate void RewriteNextMatchHandler();
     public delegate void AfterFinishHandler(IMatches matches, bool special);
     public delegate void EnterSequenceHandler(Sequence seq);
     public delegate void ExitSequenceHandler(Sequence seq);
@@ -58,6 +59,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public abstract void Custom(params object[] args);
 
+        /// <summary>
+        /// The maximum number of matches to be returned for a RuleAll sequence element.
+        /// If it is zero or less, the number of matches is unlimited.
+        /// </summary>
         public abstract int MaxMatches { get; set; }
 
         /// <summary>
@@ -85,8 +90,11 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
+                bool first = true;
                 foreach(IMatch match in matches)
                 {
+                    if(first) first = false;
+                    else if(OnRewritingNextMatch != null) OnRewritingNextMatch();
                     retElems = matches.Producer.Modify(Graph, match);
                     if(perfInfo != null) perfInfo.RewritesPerformed++;
                 }
@@ -243,6 +251,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before the rewrite step of a rule, when at least one match has been found.
         /// </summary>
         public event BeforeFinishHandler OnFinishing;
+
+        /// <summary>
+        /// Fired before the next match is rewritten. It is not fired before rewriting the first match.
+        /// </summary>
+        public event RewriteNextMatchHandler OnRewritingNextMatch;
 
         /// <summary>
         /// Fired after the rewrite step of a rule.
