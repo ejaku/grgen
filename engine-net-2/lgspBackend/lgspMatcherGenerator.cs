@@ -712,140 +712,6 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Returns the elements the given condition needs in order to be evaluated
-        /// </summary>
-        Dictionary<String, bool> GetNeededElements(Condition cond)
-        {
-            Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
-
-            foreach (String neededNode in cond.NeededNodes)
-                neededElements[neededNode] = true;
-            foreach (String neededEdge in cond.NeededEdges)
-                neededElements[neededEdge] = true;
-
-            return neededElements;
-        }
-
-        /// <summary>
-        /// Calculates the elements the given search plan graph doesn't compute locally
-        /// but expects to be preset from outwards  (non-recursive)
-        /// </summary>
-        Dictionary<String, bool> CalculateNeededElements(SearchPlanGraph spGraph)
-        {
-            Dictionary<String, bool> neededElements = new Dictionary<string,bool>();
-
-            foreach (Condition cond in spGraph.PatternGraph.Conditions)
-            {
-                foreach (String neededNode in cond.NeededNodes)
-                    neededElements[neededNode] = true;
-                foreach (String neededEdge in cond.NeededEdges)
-                    neededElements[neededEdge] = true;
-            }
-
-            foreach (SearchPlanNode node in spGraph.Nodes)
-            {
-                if (node.IsPreset)
-                    neededElements[node.PatternElement.Name] = true;
-            }
-
-            return neededElements;
-        }
-
-        /// <summary>
-        /// First schedules the negative search plan graphs given,
-        /// then inserts them into the schedule given by the operations list at their best position 
-        /// </summary>
-        public void InsertNegativesIntoSchedule(SearchPlanGraph[] negSpGraphs, List<SearchOperation> operations)
-        {
-            // todo: erst implicit node, dann negative, auch wenn negative mit erstem implicit moeglich wird
-            if (negSpGraphs == null)
-            {
-                return;
-            }
-
-            // schedule each negative search plan
-            ScheduledSearchPlan[] negScheduledSPs = new ScheduledSearchPlan[negSpGraphs.Length];
-            for (int i = 0; i < negSpGraphs.Length; ++i)
-                negScheduledSPs[i] = ScheduleSearchPlan(negSpGraphs[i], null);
-
-            // calculate needed elements of each negative search plan / search plan graph
-            // (elements from the positive graph needed in order to execute the nac)
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[negSpGraphs.Length];
-            for (int i = 0; i < negSpGraphs.Length; ++i)
-                neededElements[i] = CalculateNeededElements(negSpGraphs[i]);
-
-            // iterate over all negative scheduled search plans (TODO: order?)
-            for (int i = 0; i < negSpGraphs.Length; ++i)
-            {
-                int bestFitIndex = operations.Count;
-                float bestFitCostToEnd = 0;
-
-                // find best place in scheduled search plan for current negative pattern 
-                // during search from end of schedule forward until the first element the negative pattern is dependent on is found
-                for (int j = operations.Count - 1; j >= 0; --j)
-                {
-                    SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.Condition) continue;
-
-                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
-                        break;
-
-                    if (negScheduledSPs[i].Cost <= op.CostToEnd)
-                    {
-                        // best fit as CostToEnd is monotonously growing towards operation[0]
-                        bestFitIndex = j;
-                        bestFitCostToEnd = op.CostToEnd;
-                    }
-                }
-
-                // insert pattern at best position
-                operations.Insert(bestFitIndex, new SearchOperation(SearchOperationType.NegativePattern,
-                    negScheduledSPs[i], null, bestFitCostToEnd + negScheduledSPs[i].Cost));
-
-                // update costs of operations before best position
-                for (int j = 0; j < bestFitIndex; ++j)
-                    operations[j].CostToEnd += negScheduledSPs[i].Cost;
-            }
-        }
-
-        /// <summary>
-        /// Inserts conditions into the schedule given by the operations list at their earliest possible position
-        /// </summary>
-        public void InsertConditionsIntoSchedule(Condition[] conditions, List<SearchOperation> operations)
-        {
-            // get needed (in order to evaluate it) elements of each condition 
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
-            for (int i = 0; i < conditions.Length; ++i)
-                neededElements[i] = GetNeededElements(conditions[i]);
-
-            // iterate over all conditions
-            for (int i = 0; i < conditions.Length; ++i)
-            {
-                int j;
-                float costToEnd = 0;
-
-                // find leftmost place in scheduled search plan for current condition
-                // by search from end of schedule forward until the first element the condition is dependent on is found
-                for (j = operations.Count - 1; j >= 0; --j)
-                {
-                    SearchOperation op = operations[j];
-                    if (op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.Condition) continue;
-
-                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
-                    {
-                        costToEnd = op.CostToEnd;
-                        break;
-                    }
-                }
-
-                operations.Insert(j + 1, new SearchOperation(SearchOperationType.Condition,
-                    conditions[i], null, costToEnd));
-            }
-        }
-
-        /// <summary>
         /// Generates a scheduled search plan for a given search plan graph and optional negative search plan graphs
         /// </summary>
         /// <param name="negSpGraphs">a list - possibly empty - if a positive search plan graph is given,
@@ -859,17 +725,17 @@ exitSecondLoop: ;
             PriorityQueue<SearchPlanEdge> activeEdges = new PriorityQueue<SearchPlanEdge>();
 
             // first schedule all preset elements
-            foreach(SearchPlanNode node in spGraph.Nodes)
+            foreach (SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
             {
-                if (node.IsPreset)
+                if (edge.Target.IsPreset)
                 {
-                    foreach (SearchPlanEdge edge in node.OutgoingEdges)
-                        activeEdges.Add(edge);
+                    foreach (SearchPlanEdge edgeOutgoingFromPresetElement in edge.Target.OutgoingEdges)
+                        activeEdges.Add(edgeOutgoingFromPresetElement);
 
                     // note: here a normal preset is converted into a neg preset operation if in negative pattern
                     SearchOperation newOp = new SearchOperation(
-                        negSpGraphs == null ? SearchOperationType.NegPreset : SearchOperationType.MaybePreset,
-                        node, spGraph.Root, 0);
+                        negSpGraphs == null ? SearchOperationType.NegPreset : edge.Type,
+                        edge.Target, spGraph.Root, 0);
 
                     operations.Add(newOp);
                 }
@@ -1046,6 +912,140 @@ exitSecondLoop: ;
             {
                 // order operation to check whether the is-matched-bit is set
                 ssp.Operations[j].Isomorphy.CheckIsMatchedBit = true;
+            }
+        }
+
+        /// <summary>
+        /// Returns the elements the given condition needs in order to be evaluated
+        /// </summary>
+        Dictionary<String, bool> GetNeededElements(Condition cond)
+        {
+            Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
+
+            foreach (String neededNode in cond.NeededNodes)
+                neededElements[neededNode] = true;
+            foreach (String neededEdge in cond.NeededEdges)
+                neededElements[neededEdge] = true;
+
+            return neededElements;
+        }
+
+        /// <summary>
+        /// Calculates the elements the given search plan graph doesn't compute locally
+        /// but expects to be preset from outwards  (non-recursive)
+        /// </summary>
+        Dictionary<String, bool> CalculateNeededElements(SearchPlanGraph spGraph)
+        {
+            Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
+
+            foreach (Condition cond in spGraph.PatternGraph.Conditions)
+            {
+                foreach (String neededNode in cond.NeededNodes)
+                    neededElements[neededNode] = true;
+                foreach (String neededEdge in cond.NeededEdges)
+                    neededElements[neededEdge] = true;
+            }
+
+            foreach (SearchPlanNode node in spGraph.Nodes)
+            {
+                if (node.IsPreset)
+                    neededElements[node.PatternElement.Name] = true;
+            }
+
+            return neededElements;
+        }
+
+        /// <summary>
+        /// First schedules the negative search plan graphs given,
+        /// then inserts them into the schedule given by the operations list at their best position 
+        /// </summary>
+        public void InsertNegativesIntoSchedule(SearchPlanGraph[] negSpGraphs, List<SearchOperation> operations)
+        {
+            // todo: erst implicit node, dann negative, auch wenn negative mit erstem implicit moeglich wird
+            if (negSpGraphs == null)
+            {
+                return;
+            }
+
+            // schedule each negative search plan
+            ScheduledSearchPlan[] negScheduledSPs = new ScheduledSearchPlan[negSpGraphs.Length];
+            for (int i = 0; i < negSpGraphs.Length; ++i)
+                negScheduledSPs[i] = ScheduleSearchPlan(negSpGraphs[i], null);
+
+            // calculate needed elements of each negative search plan / search plan graph
+            // (elements from the positive graph needed in order to execute the nac)
+            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[negSpGraphs.Length];
+            for (int i = 0; i < negSpGraphs.Length; ++i)
+                neededElements[i] = CalculateNeededElements(negSpGraphs[i]);
+
+            // iterate over all negative scheduled search plans (TODO: order?)
+            for (int i = 0; i < negSpGraphs.Length; ++i)
+            {
+                int bestFitIndex = operations.Count;
+                float bestFitCostToEnd = 0;
+
+                // find best place in scheduled search plan for current negative pattern 
+                // during search from end of schedule forward until the first element the negative pattern is dependent on is found
+                for (int j = operations.Count - 1; j >= 0; --j)
+                {
+                    SearchOperation op = operations[j];
+                    if (op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.Condition) continue;
+
+                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                        break;
+
+                    if (negScheduledSPs[i].Cost <= op.CostToEnd)
+                    {
+                        // best fit as CostToEnd is monotonously growing towards operation[0]
+                        bestFitIndex = j;
+                        bestFitCostToEnd = op.CostToEnd;
+                    }
+                }
+
+                // insert pattern at best position
+                operations.Insert(bestFitIndex, new SearchOperation(SearchOperationType.NegativePattern,
+                    negScheduledSPs[i], null, bestFitCostToEnd + negScheduledSPs[i].Cost));
+
+                // update costs of operations before best position
+                for (int j = 0; j < bestFitIndex; ++j)
+                    operations[j].CostToEnd += negScheduledSPs[i].Cost;
+            }
+        }
+
+        /// <summary>
+        /// Inserts conditions into the schedule given by the operations list at their earliest possible position
+        /// </summary>
+        public void InsertConditionsIntoSchedule(Condition[] conditions, List<SearchOperation> operations)
+        {
+            // get needed (in order to evaluate it) elements of each condition 
+            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
+            for (int i = 0; i < conditions.Length; ++i)
+                neededElements[i] = GetNeededElements(conditions[i]);
+
+            // iterate over all conditions
+            for (int i = 0; i < conditions.Length; ++i)
+            {
+                int j;
+                float costToEnd = 0;
+
+                // find leftmost place in scheduled search plan for current condition
+                // by search from end of schedule forward until the first element the condition is dependent on is found
+                for (j = operations.Count - 1; j >= 0; --j)
+                {
+                    SearchOperation op = operations[j];
+                    if (op.Type == SearchOperationType.NegativePattern
+                        || op.Type == SearchOperationType.Condition) continue;
+
+                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
+                    {
+                        costToEnd = op.CostToEnd;
+                        break;
+                    }
+                }
+
+                operations.Insert(j + 1, new SearchOperation(SearchOperationType.Condition,
+                    conditions[i], null, costToEnd));
             }
         }
      
