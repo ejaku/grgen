@@ -19,10 +19,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public IAction Action;
 
-		/// <summary>
-		/// The name of the rule. Used for generation, where the IAction objects do not exist yet.
-		/// </summary>
-		public String RuleName;
+        /// <summary>
+        /// The name of the rule. Used for generation, where the IAction objects do not exist yet.
+        /// </summary>
+        public String RuleName;
 
         /// <summary>
         /// An array of variable names used for the parameters
@@ -48,8 +48,8 @@ namespace de.unika.ipd.grGen.libGr
         public RuleObject(IAction action, String[] paramVars, String[] returnVars)
         {
             Action = action;
-			if(action != null) RuleName = action.Name;
-			else RuleName = "<Unknown rule>";
+            if(action != null) RuleName = action.Name;
+            else RuleName = "<Unknown rule>";
             ParamVars = paramVars;
             ReturnVars = returnVars;
             Parameters = new IGraphElement[paramVars.Length];
@@ -94,9 +94,9 @@ namespace de.unika.ipd.grGen.libGr
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
         /// <param name="graph">Host graph for this rule</param>
-		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
-		/// or null, if no match was found.</returns>
-		IGraphElement[] Apply(IGraph graph);
+        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// or null, if no match was found.</returns>
+        IGraphElement[] Apply(IGraph graph);
 
         /// <summary>
         /// Tries to apply this rule to the given graph once.
@@ -105,9 +105,32 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">Host graph for this rule</param>
         /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
         /// The array must contain at least RulePattern.Inputs.Length elements.</param>
-		/// <returns>A possibly empty array of IGraphElement instances returned by the rule,
-		/// or null, if no match was found.</returns>
-		IGraphElement[] Apply(IGraph graph, params IGraphElement[] parameters);
+        /// <returns>A possibly empty array of IGraphElement instances returned by the rule,
+        /// or null, if no match was found.</returns>
+        IGraphElement[] Apply(IGraph graph, params IGraphElement[] parameters);
+
+        /// <summary>
+        /// Tries to apply this rule to all occurrences in the given graph "at once".
+        /// The rule may not require any parameters.
+        /// No Matched/Finished events are triggered by this function.
+        /// </summary>
+        /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
+        /// <param name="graph">Host graph for this rule</param>
+        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// or null, if no match was found.</returns>
+        IGraphElement[] ApplyAll(int maxMatches, IGraph graph);
+
+        /// <summary>
+        /// Tries to apply this rule to all occurrences in the given graph "at once".
+        /// No Matched/Finished events are triggered by this function.
+        /// </summary>
+        /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
+        /// <param name="graph">Host graph for this rule</param>
+        /// <param name="parameters">An array of graph elements (nodes and/or edges) of the types specified by RulePattern.Inputs.
+        /// The array must contain at least RulePattern.Inputs.Length elements.</param>
+        /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
+        /// or null, if no match was found.</returns>
+        IGraphElement[] ApplyAll(int maxMatches, IGraph graph, params IGraphElement[] parameters);
 
         /// <summary>
         /// Applies this rule to the given graph as often as possible.
