@@ -6,7 +6,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Base class for all search program operations, containing concatenation fields,
     /// so that search program operations can form a linked search program list
-    /// double linked list; next points to the following list element or null
+    /// - double linked list; next points to the following list element or null;
     /// previous points to the preceding list element 
     /// or the enclosing search program operation within the list anchor element
     /// </summary>
@@ -85,17 +85,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public SearchProgramOperation GetEnclosingOperation()
         {
-            SearchProgramOperation nestedOperation = this;
+            SearchProgramOperation potentiallyNestingOperation = this;
+            SearchProgramOperation nestedOperation;
 
             // iterate list leftwards, leftmost list element is list anchor element,
             // which contains uplink to enclosing operation in it's previous member
+            // step over nesting operations we're not nested in
             do
             {
-                nestedOperation = nestedOperation.Previous;
+                nestedOperation = potentiallyNestingOperation;
+                potentiallyNestingOperation = nestedOperation.Previous;
             }
-            while (!nestedOperation.IsNestingOperation());
+            while (!potentiallyNestingOperation.IsNestingOperation() 
+                || potentiallyNestingOperation.GetNestedOperationsList()!=nestedOperation);
 
-            return nestedOperation;
+            return potentiallyNestingOperation;
         }
     }
 
@@ -276,6 +280,8 @@ namespace de.unika.ipd.grGen.lgsp
                 //            // [0] Matches matches = new Matches(this);
                 //            sourceCode.AppendFront("LGSPMatches matches = new LGSPMatches(this);\n");
                 sourceCode.AppendFront("matches.matches.Clear();\n");
+                //sourceCode.AppendFront("Stack<LGSPTask> openTasks = new Stack<LGSPTask>();\n");
+                //sourceCode.AppendFront("List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();\n");
 
                 OperationsList.Emit(sourceCode);
 
