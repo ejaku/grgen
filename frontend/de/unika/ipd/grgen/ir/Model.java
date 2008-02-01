@@ -33,46 +33,46 @@ import java.util.List;
 import java.util.Map;
 
 public class Model extends Identifiable {
-	
+
 	private List<Type> types = new LinkedList<Type>();
-	
+
 	public Model(Ident ident) {
 		super("model", ident);
 	}
-	
+
 	/** Add the given type to the type model. */
 	public void addType(Type type) {
 		types.add(type);
 	}
-	
+
 	/** @return The types in the type model. */
 	public Collection<Type> getTypes() {
 		return Collections.unmodifiableCollection(types);
 	}
-	
+
 	/** Canonicalize the type model. */
 	protected void canonicalizeLocal() {
-		// Collections.sort(types, Identifiable.COMPARATOR);
-		Collections.sort(types);
-		
+		//Collections.sort(types, Identifiable.COMPARATOR);
+		//Collections.sort(types);
+
 		for(Type ty : types) {
 			ty.canonicalize();
 			if (ty instanceof EdgeType)
 					((EdgeType)ty).canonicalizeConnectionAsserts();
 		}
 	}
-	
+
 	void addToDigest(StringBuffer sb) {
 		sb.append(this);
 		sb.append('[');
-		
+
 		for(Type ty : types) {
 			ty.addToDigest(sb);
 		}
-		
+
 		sb.append(']');
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("types", types.iterator());

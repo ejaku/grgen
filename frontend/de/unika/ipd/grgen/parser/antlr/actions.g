@@ -193,7 +193,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		RBRACE popScope
 	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
 		left=patternPart[getCoords(p), negs, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, "pattern "+id.toString()]
-		( 
+		(
 			{
 				id.setDecl(new TestDeclNode(id, left, negs, params, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
@@ -609,7 +609,7 @@ subpatternConnections[CollectNode<IdentNode> subpatternConn]
 
 	: ( id=entIdentUse { subpatternConn.addChild(id); } (COMMA id=entIdentUse { subpatternConn.addChild(id); } )* )?
 	;
-	
+
 homStatement returns [ HomNode res = null ]
 	{
 		IdentNode id;
@@ -776,7 +776,18 @@ iterSequence[ExecNode xg]
 	{
 		RangeSpecNode rsn = null;
 	}
-	: simpleSequence[xg] rsn=rangeSpec { if(rsn != null) xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]"); }
+	: simpleSequence[xg] rsn=rangeSpec
+		{
+			if(rsn != null)
+			{
+				if(rsn.getLower() == rsn.getUpper())
+				{
+					if(rsn.getLower() != 1)
+						xg.append("[" + rsn.getLower() + "]");
+				}
+				else xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]");
+			}
+		}
 	;
 
 simpleSequence[ExecNode xg]
@@ -797,6 +808,8 @@ simpleSequence[ExecNode xg]
 			| xgrs[xg] RPAREN {xg.append(")");}
 		)
 	| parallelCallRule[xg]
+	| TRUE { xg.append("true"); }
+	| FALSE { xg.append("false"); }
 	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
 	;
 
