@@ -118,7 +118,7 @@ namespace de.unika.ipd.grGen.testBench
 					bool failed = false;
 					try
 					{
-						backend.ProcessSpecification(file, outDir, outDir, de.unika.ipd.grGen.libGr.UseExistingKind.None, true, false);
+						backend.ProcessSpecification(file, outDir + Path.DirectorySeparatorChar, outDir, de.unika.ipd.grGen.libGr.UseExistingKind.None, true, false);
 					}
 					catch(Exception ex)
 					{
