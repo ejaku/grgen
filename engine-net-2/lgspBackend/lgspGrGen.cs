@@ -433,18 +433,25 @@ namespace de.unika.ipd.grGen.lgsp
 
 				case SequenceType.RuleAll:
 				{
-/*					SequenceRule seqRule = (SequenceRule) seq;
+					SequenceRule seqRule = (SequenceRule) seq;
 					RuleObject ruleObj = seqRule.RuleObj;
-					source.AppendFront("IMatches matches_" + seqID + " = rule_" + ruleObj.Action.Name
-						+ ".Match(graph");
+					source.AppendFront("IGraphElement[] ret_" + seqID + " = rule_" + ruleObj.RuleName
+						+ ".ApplyAll(0, graph");						// TODO: maxMatches is always set to zero!
 					foreach(String paramName in ruleObj.ParamVars)
 						source.Append(", var_" + paramName);
 					source.Append(");\n");
-					for(int i = 0; i < ruleObj.ReturnVars; i++)
-						source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
-					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null\n");
-					break;*/
-					throw new Exception("RuleAll not implemented yet");
+					if(ruleObj.ReturnVars.Length != 0)
+					{
+						source.AppendFront("if(ret_" + seqID + " != null)\n");
+						source.AppendFront("{\n");
+						source.Indent();
+						for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
+							source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
+						source.Unindent();
+						source.AppendFront("}\n");
+					}
+					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
+					break;
 				}
 
 				case SequenceType.Not:
@@ -586,7 +593,16 @@ namespace de.unika.ipd.grGen.lgsp
 					throw new Exception("AssignElemToVar not supported, yet");
 
 				case SequenceType.Transaction:
-					throw new Exception("Transaction not supported, yet");
+				{
+					SequenceTransaction seqTrans = (SequenceTransaction) seq;
+					int seqTransSubID = xgrsSequenceIDs[seqTrans.Seq];
+					source.AppendFormat("int transID_" + seqID + " = graph.TransactionManager.StartTransaction();\n");
+					EmitSequence(seqTrans.Seq, source);
+					source.AppendFormat("if(res_" + seqTransSubID + ") graph.TransactionManager.Commit(transID_" + seqID + ");\n");
+					source.AppendFormat("else graph.TransactionManager.Rollback(transID_" + seqID + ");\n");
+					source.AppendFormat("res_" + seqID + " = " + seqTransSubID + ";\n");
+					break;
+				}
 
 				default:
 					throw new Exception("Unknown sequence type: " + seq.SequenceType);
