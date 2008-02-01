@@ -1116,13 +1116,13 @@ exitSecondLoop: ;
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
         public void GenerateMatcherClass(SourceBuilder sb, String matcherSourceCode,
-                String name, LGSPRulePattern rulePattern, bool isInitialStatic)
+                LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
 
             String namePrefix = rulePattern.isSubpattern ? "PatternAction_" : "Action_";
             namePrefix = (isInitialStatic ? "" : "Dyn") + namePrefix;
-            String className = namePrefix + name;
+            String className = namePrefix + rulePattern.name;
   
             sb.Append("\tpublic class " + className + " : LGSPAction\n    {\n"
                 + "\t\tpublic " + className + "() { rulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
@@ -1132,7 +1132,7 @@ exitSecondLoop: ;
                 sb.Append("\t\t\tsubpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
             }
             sb.Append("\t\t}\n\n"
-                + "\t\tpublic override string Name { get { return \"" + name + "\"; } }\n"
+                + "\t\tpublic override string Name { get { return \"" + rulePattern.name + "\"; } }\n"
                 + "\t\tprivate LGSPMatches matches;\n"
                 + "\t\tprivate LGSPMatchesList matchesList;\n\n");
             if(isInitialStatic)
@@ -1142,6 +1142,17 @@ exitSecondLoop: ;
             }
             sb.Append(matcherSourceCode);
             // TODO: GenerateMatcherSourceCode should not close class
+        }
+
+        /// <summary>
+        /// Generates LGSPMatchingTask object source code for subpattern given in rulePattern into given source builder
+        /// </summary>
+        public void GenerateMatchingTask(SourceBuilder sb, LGSPRulePattern rulePattern)
+        {
+            // generate matching task object inhertigin from LGSPMatchingTask for rule pattern representing a subpattern
+            // must contain connections as class members (not on array to save new)
+            // must implement execute by calling matcher function with connections
+            // order of connections same as in pattern graph embedding of the pattern graph of the rule pattern
         }
 
         /// <summary>
@@ -1207,7 +1218,7 @@ exitSecondLoop: ;
                 scheduledSearchPlan, action.Name, action.rulePattern);
 
             GenerateMatcherClass(sourceCode, matcherSourceCode,
-                action.Name, action.rulePattern, false);
+                action.rulePattern, false);
 
             // close namespace
             sourceCode.Append("}");
@@ -1316,7 +1327,9 @@ exitSecondLoop: ;
                     scheduledSearchPlan, rulePattern.name, rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    rulePattern.name, rulePattern, false);
+                    rulePattern, false);
+
+                GenerateMatchingTask(sourceCode, rulePattern);
             }
 
             // generate code for actions
@@ -1329,7 +1342,7 @@ exitSecondLoop: ;
                     scheduledSearchPlan, action.rulePattern.name, action.rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    action.rulePattern.name, action.rulePattern, false);
+                    action.rulePattern, false);
             }
 
             // close namespace

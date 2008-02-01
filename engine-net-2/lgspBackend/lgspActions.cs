@@ -808,4 +808,15 @@ invalidCommand:
             return GetAction(name);
         }
     }
+
+     /// <summary>
+    /// A task to carry out by the matching engine.
+    /// </summary>
+    public abstract class LGSPMatchingTask
+    {
+        /// <summary>
+        /// executes the task
+        /// </summary>
+        public abstract void execute();
+    }
 }

@@ -876,9 +876,13 @@ namespace de.unika.ipd.grGen.lgsp
                             scheduledSearchPlan, schedule.ActionName, schedule.RulePattern);
                         
                         matcherGen.GenerateMatcherClass(source, matcherSourceCode,
-                            schedule.ActionName, schedule.RulePattern, true);
-                        
-                        if (!schedule.RulePattern.isSubpattern) // normal rule
+                            schedule.RulePattern, true);
+
+                        if (schedule.RulePattern.isSubpattern)
+                        {
+                            matcherGen.GenerateMatchingTask(source, schedule.RulePattern);
+                        }
+                        else // normal rule
                         {
                             endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
                         }

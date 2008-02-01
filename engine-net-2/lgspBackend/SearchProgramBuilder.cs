@@ -41,6 +41,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
+            // todo: distinguish between subpattern/rule with/without embedded subgraphs
             SearchProgram searchProgram = new SearchProgram(
                 nameOfSearchProgram, parameters, parameterIsNode);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
@@ -135,6 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // after ssp creation and/or the buildup pass
                     case SearchOperationType.Void:
                     case SearchOperationType.NegPreset:
+                    case SearchOperationType.PatPreset:
                     default:
                         Debug.Assert(false, "At this pass/position not allowed search operation");
                         break;
