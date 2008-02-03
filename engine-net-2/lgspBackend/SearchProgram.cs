@@ -170,7 +170,9 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchProgram(string name, 
             string[] parameters, 
-            bool[] parameterIsNode)
+            bool[] parameterIsNode,
+            bool setupSubpatternMatching,
+            bool isSubpattern)
         {
             Name = name;
 
@@ -178,6 +180,13 @@ namespace de.unika.ipd.grGen.lgsp
             ParameterIsNode = parameterIsNode;
 
             IsSubprogram = parameters!=null;
+            SetupSubpatternMatching = setupSubpatternMatching;
+            IsSubpattern = isSubpattern;
+
+            // check constraints regarding kind of search program
+            Debug.Assert(IsSubprogram ? !SetupSubpatternMatching && !IsSubpattern : true);
+            Debug.Assert(SetupSubpatternMatching ? !IsSubpattern && !IsSubprogram : true);
+            Debug.Assert(IsSubpattern ? !SetupSubpatternMatching && !IsSubprogram : true);
         }
 
         /// <summary>
@@ -186,8 +195,9 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("Search {0}program {1}",
-                IsSubprogram ? "sub" : "", Name);
+            builder.AppendFrontFormat("{0}Search {1}program {2}{3}",
+                IsSubpattern ? "Subpattern " : "", IsSubprogram ? "sub" : "",
+                Name, SetupSubpatternMatching ? " with subpattern matching setup" : "");
             // parameters
             if (Parameters != null)
             {
@@ -238,7 +248,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if PRODUCE_UNSAFE_MATCHERS
                 sourceCode.AppendFront("unsafe ");
 #endif
-                sourceCode.AppendFrontFormat("public void {0}(LGSPGraph graph, int maxMatches, IGraphElement[] parameters", Name);
+                sourceCode.AppendFront("public void " + Name + "(LGSPGraph graph, int maxMatches, IGraphElement[] parameters");
                 for (int i = 0; i < Parameters.Length; ++i)
                 {
                     string typeOfParameterVariableContainingCandidate =
@@ -266,7 +276,7 @@ namespace de.unika.ipd.grGen.lgsp
                     Next.Emit(sourceCode);
                 }
             }
-            else // !IsSubprogram
+            else if (IsSubpattern)
             {
                 sourceCode.Indent(); // we're within some namespace
                 sourceCode.Indent(); // we're within some class
@@ -274,14 +284,36 @@ namespace de.unika.ipd.grGen.lgsp
 #if PRODUCE_UNSAFE_MATCHERS
                 soureCode.AppendFront("unsafe ");
 #endif
-                sourceCode.AppendFrontFormat("public LGSPMatches {0}(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)\n", Name);
+                sourceCode.AppendFront("public override void " + Name + "()\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                OperationsList.Emit(sourceCode);
+
+                sourceCode.AppendFront("return;\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            else // !IsSubprogram && !IsSubpattern
+            {
+                sourceCode.Indent(); // we're within some namespace
+                sourceCode.Indent(); // we're within some class
+
+#if PRODUCE_UNSAFE_MATCHERS
+                soureCode.AppendFront("unsafe ");
+#endif
+                sourceCode.AppendFront("public LGSPMatches " + Name + "(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
                 //            // [0] Matches matches = new Matches(this);
                 //            sourceCode.AppendFront("LGSPMatches matches = new LGSPMatches(this);\n");
                 sourceCode.AppendFront("matches.matches.Clear();\n");
-                //sourceCode.AppendFront("Stack<LGSPTask> openTasks = new Stack<LGSPTask>();\n");
-                //sourceCode.AppendFront("List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();\n");
+                
+                if (SetupSubpatternMatching)
+                {
+                    sourceCode.AppendFront("Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();\n");
+                    sourceCode.AppendFront("List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();\n");
+                }
 
                 OperationsList.Emit(sourceCode);
 
@@ -296,10 +328,6 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     Next.Emit(sourceCode);
                 }
-
-                // ugly close class not opened here
-                sourceCode.Unindent();
-                sourceCode.AppendFront("}\n");
             }
         }
 
@@ -315,6 +343,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string Name;
         public bool IsSubprogram;
+        public bool SetupSubpatternMatching;
+        public bool IsSubpattern;
 
         public string[] Parameters;
         public bool[] ParameterIsNode;
@@ -729,7 +759,8 @@ namespace de.unika.ipd.grGen.lgsp
     enum GetCandidateByDrawingType
     {
         NodeFromEdge, // draw node from given edge
-        FromInputs // draw element from inputs
+        FromInputs, // draw element from action inputs
+        FromSubpatternConnections // draw element from subpattern connections
     }
 
     /// <summary>
@@ -766,6 +797,17 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
         }
 
+        public GetCandidateByDrawing(
+            GetCandidateByDrawingType type,
+            string patternElementName,
+            bool isNode)
+        {
+            Debug.Assert(type == GetCandidateByDrawingType.FromSubpatternConnections);
+            Type = type;
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+        }
+
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("GetCandidate ByDrawing ");
@@ -774,10 +816,14 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFormat("on {0} of {1} from {2} source:{3}\n",
                     PatternElementName, PatternElementTypeName, 
                     StartingPointEdgeName, GetSource);
-            } else { // Type==GetCandidateByDrawingType.FromInputs
+            } else if(Type==GetCandidateByDrawingType.FromInputs) {
                 builder.Append("FromInputs ");
                 builder.AppendFormat("on {0} index:{1} node:{2}\n",
                     PatternElementName, InputIndex, IsNode);
+            } else { // Type==GetCandidateByDrawingType.FromSubpatternConnections
+                builder.Append("FromSubpatternConnections ");
+                builder.AppendFormat("on {0} node:{1}\n",
+                    PatternElementName, IsNode);
             }
         }
 
@@ -807,7 +853,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFormat(" = {0}.{1};\n",
                     variableContainingStartingPointEdge, whichImplicitNode);
             }
-            else //Type==GetCandidateByDrawingType.FromInputs
+            else if(Type==GetCandidateByDrawingType.FromInputs)
             {
                 if(sourceCode.CommentSourceCode)
                     sourceCode.AppendFrontFormat("// Preset {0} \n", PatternElementName);
@@ -822,6 +868,20 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit initialization with element from input parameters array
                 sourceCode.AppendFormat(" = ({0}) parameters[{1}];\n",
                     typeOfVariableContainingCandidate, InputIndex);
+            }
+            else //Type==GetCandidateByDrawingType.FromSubpatternConnections
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// PatPreset {0} \n", PatternElementName);
+
+                // emit declaration of variable containing candidate node
+                // and initialization with element from subpattern connections
+                string typeOfVariableContainingCandidate =
+                    IsNode ? "LGSPNode" : "LGSPEdge";
+                string variableContainingCandidate = NamesOfEntities.CandidateVariable(
+                    PatternElementName, IsNode);
+                sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate, PatternElementName);
             }
         }
 
@@ -1598,12 +1658,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("LGSPMatch match = matchesList.GetNewMatch();\n");
+            sourceCode.AppendFront("LGSPMatch match = matches.matches.GetNewMatch();\n");
 
             // emit match building operations
             MatchBuildingOperations.Emit(sourceCode);
 
-            sourceCode.AppendFront("matchesList.CommitMatch();\n");
+            sourceCode.AppendFront("matches.matches.CommitMatch();\n");
         }
 
         public override bool IsNestingOperation()
@@ -1847,7 +1907,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("if(maxMatches > 0 && matchesList.Count >= maxMatches)\n");
+            sourceCode.AppendFront("if(maxMatches > 0 && matches.matches.Count >= maxMatches)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 

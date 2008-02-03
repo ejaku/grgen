@@ -41,9 +41,10 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // todo: distinguish between subpattern/rule with/without embedded subgraphs
             SearchProgram searchProgram = new SearchProgram(
-                nameOfSearchProgram, parameters, parameterIsNode);
+                nameOfSearchProgram, parameters, parameterIsNode,
+                rulePattern_.patternGraph.embeddedGraphs.Length>0 && !rulePattern_.isSubpattern,
+                rulePattern_.isSubpattern);
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
 
             scheduledSearchPlan = scheduledSearchPlan_;
@@ -410,9 +411,8 @@ namespace de.unika.ipd.grGen.lgsp
             // get candidate from inputs
             GetCandidateByDrawing fromInputs =
                 new GetCandidateByDrawing(
-                    GetCandidateByDrawingType.FromInputs,
+                    GetCandidateByDrawingType.FromSubpatternConnections,
                     target.PatternElement.Name,
-                    target.PatternElement.ParameterIndex.ToString(),
                     isNode);
             insertionPoint = insertionPoint.Append(fromInputs);
 
@@ -881,7 +881,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if NO_ADJUST_LIST_HEADS
                     new CheckContinueMatchingMaximumMatchesReached(false);
 #else
- new CheckContinueMatchingMaximumMatchesReached(true);
+                    new CheckContinueMatchingMaximumMatchesReached(true);
 #endif
                 insertionPoint = continuationPoint.Append(checkMaximumMatches);
 
@@ -889,7 +889,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                // build the match complete operation signaling negative patter was found
+                // build the match complete operation signaling negative pattern was found
                 PartialMatchCompleteNegative matchComplete =
                     new PartialMatchCompleteNegative();
                 insertionPoint = insertionPoint.Append(matchComplete);

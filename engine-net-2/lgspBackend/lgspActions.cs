@@ -215,7 +215,7 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class LGSPAction : IAction
     {
         /// <summary>
-        /// The name of the rule
+        /// The name of the action (without prefixes)
         /// </summary>
         public abstract string Name { get; }
 
@@ -233,12 +233,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// A delegate pointing to the current matcher program for this rule.
         /// </summary>
         public MatchInvoker DynamicMatch;
-
-        /// <summary>
-        /// If the pattern of this action contains subpatterns, here's the list of the subpattern matching actions
-        /// </summary>
-        protected List<LGSPAction> subpatterns = new List<LGSPAction>();
-
 
         /// <summary>
         /// Searches for a graph pattern as specified by RulePattern.
@@ -809,14 +803,43 @@ invalidCommand:
         }
     }
 
-     /// <summary>
-    /// A task to carry out by the matching engine.
+    /// <summary>
+    /// Abstract base class for generated subpattern matching actions
+    /// each object of an inheriting class represents a single subpattern matching tasks
+    /// which might be stored on the open tasks stack and executed later on
     /// </summary>
-    public abstract class LGSPMatchingTask
+    public abstract class LGSPSubpatternAction
     {
         /// <summary>
-        /// executes the task
+        /// The LGSPRulePattern object from which this object has been created.
         /// </summary>
-        public abstract void execute();
+        protected LGSPRulePattern rulePattern;
+
+        /// <summary>
+        /// The host graph in which to search for matches
+        /// </summary>
+        protected LGSPGraph graph;
+
+        /// <summary>
+        /// The maximum number of matches to search for (zero = find all matches)
+        /// </summary>
+        protected int maxMatches;
+
+        /// <summary>
+        /// The subpattern actions which have to be executed until a full match is found
+        /// The inheriting class contains the preset subpattern connection elements
+        /// </summary>
+        protected Stack<LGSPSubpatternAction> openTasks;
+
+        /// <summary>
+        /// The already found matches, get completed step by step on leaving called actions
+        /// </summary>
+        protected List<Stack<LGSPMatch>> foundPartialMatches;
+        
+        /// <summary>
+        /// Searches for the subpattern as specified by RulePattern.
+        /// Takes care of search state as given by open tasks and found partial matches.
+        /// </summary>
+        public abstract void myMatch();
     }
 }

@@ -1109,50 +1109,69 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates source code for matcher class into given source builder,
+        /// Generates matcher class source code for subpattern given in rulePattern into given source builder,
         /// class is generated here, the matcher method(s) itself must be handed in within matcherSourceCode.
         /// name is the prefix-less name of the rule pattern to generate the action for.
-        /// isSubpattern says whether code for a rule/test or a subpattern is to be generated.
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
         public void GenerateMatcherClass(SourceBuilder sb, String matcherSourceCode,
                 LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+                
+            if (rulePattern.isSubpattern)
+            {
+                String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
+                String className = namePrefix + rulePattern.name;
 
-            String namePrefix = rulePattern.isSubpattern ? "PatternAction_" : "Action_";
-            namePrefix = (isInitialStatic ? "" : "Dyn") + namePrefix;
-            String className = namePrefix + rulePattern.name;
-  
-            sb.Append("\tpublic class " + className + " : LGSPAction\n    {\n"
-                + "\t\tpublic " + className + "() { rulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
-                + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " + patternGraph.Nodes.Length + ", " + patternGraph.Edges.Length + "); matchesList = matches.matches;\n");
-            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
-            {
-                sb.Append("\t\t\tsubpatterns.Add(PatternAction_" + patternGraph.embeddedGraphs[i].ruleOfEmbeddedGraph.name + ".Instance);\n");
+                sb.Append("\tpublic class " + className + " : LGSPSubpatternAction\n\t{\n");
+                sb.Append("\t\tpublic " + className + "(LGSPGraph graph_, int maxMatches_, "
+                    + "Stack<LGSPSubpatternAction> openTasks_, List<Stack<LGSPMatch>> foundPartialMatches_) {\n"
+                    + "\t\t\tgraph = graph_; maxMatches = maxMatches_;\n"
+                    + "\t\t\topenTasks = openTasks_; foundPartialMatches = foundPartialMatches_;\n"
+                    + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
+                sb.Append("\t\t}\n\n");
+
+                for (int i = 0; i < patternGraph.nodes.Length; ++i)
+                {
+                    PatternNode node = patternGraph.nodes[i];
+                    if (node.PatternElementType == PatternElementType.Preset)
+                    {
+                        sb.Append("\t\tLGSPNode " + node.name + ";\n");
+                    }
+                }
+                for (int i = 0; i < patternGraph.edges.Length; ++i)
+                {
+                    PatternEdge edge = patternGraph.edges[i];
+                    if (edge.PatternElementType == PatternElementType.Preset)
+                    {
+                        sb.Append("\t\tLGSPEdge " + edge.name + ";\n");
+                    }
+                }
+                sb.Append("\n");
             }
-            sb.Append("\t\t}\n\n"
-                + "\t\tpublic override string Name { get { return \"" + rulePattern.name + "\"; } }\n"
-                + "\t\tprivate LGSPMatches matches;\n"
-                + "\t\tprivate LGSPMatchesList matchesList;\n\n");
-            if(isInitialStatic)
+            else
             {
-                sb.Append("\t\tpublic static LGSPAction Instance { get { return instance; } }\n"
-                + "\t\tprivate static " + className + " instance = new " + className + "();\n\n");
+                String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
+                String className = namePrefix + rulePattern.name;
+
+                sb.Append("\tpublic class " + className + " : LGSPAction\n\t{\n");
+                sb.Append("\t\tpublic " + className + "() {\n"
+                    + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
+                    + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " + patternGraph.Nodes.Length + ", " + patternGraph.Edges.Length + ");\n");
+                sb.Append("\t\t}\n\n");
+                sb.Append("\t\tpublic override string Name { get { return \"" + rulePattern.name + "\"; } }\n"
+                    + "\t\tprivate LGSPMatches matches;\n\n");
+                if (isInitialStatic)
+                {
+                    sb.Append("\t\tpublic static LGSPAction Instance { get { return instance; } }\n"
+                    + "\t\tprivate static " + className + " instance = new " + className + "();\n\n");
+                }
             }
+
             sb.Append(matcherSourceCode);
-            // TODO: GenerateMatcherSourceCode should not close class
-        }
 
-        /// <summary>
-        /// Generates LGSPMatchingTask object source code for subpattern given in rulePattern into given source builder
-        /// </summary>
-        public void GenerateMatchingTask(SourceBuilder sb, LGSPRulePattern rulePattern)
-        {
-            // generate matching task object inhertigin from LGSPMatchingTask for rule pattern representing a subpattern
-            // must contain connections as class members (not on array to save new)
-            // must implement execute by calling matcher function with connections
-            // order of connections same as in pattern graph embedding of the pattern graph of the rule pattern
+            sb.Append("\t}\n");
         }
 
         /// <summary>
@@ -1328,8 +1347,6 @@ exitSecondLoop: ;
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
                     rulePattern, false);
-
-                GenerateMatchingTask(sourceCode, rulePattern);
             }
 
             // generate code for actions
