@@ -1822,13 +1822,21 @@ namespace de.unika.ipd.grGen.grShell
         public void AddDumpExcludeNodeType(NodeType nodeType, bool only)
         {
             if(nodeType == null) return;
-            curShellGraph.DumpInfo.ExcludeNodeType(nodeType);
+            if(only)
+                curShellGraph.DumpInfo.ExcludeNodeType(nodeType);
+            else
+                foreach(NodeType subType in nodeType.SubOrSameTypes)
+                    curShellGraph.DumpInfo.ExcludeNodeType(subType);
         }
 
         public void AddDumpExcludeEdgeType(EdgeType edgeType, bool only)
         {
             if(edgeType == null) return;
-            curShellGraph.DumpInfo.ExcludeEdgeType(edgeType);
+            if(only)
+                curShellGraph.DumpInfo.ExcludeEdgeType(edgeType);
+            else
+                foreach(EdgeType subType in edgeType.SubOrSameTypes)
+                    curShellGraph.DumpInfo.ExcludeEdgeType(subType);
         }
 
         public void AddDumpGroupNodes(NodeType nodeType)
