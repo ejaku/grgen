@@ -32,6 +32,10 @@ escapeinside={/*@}{@*/},
     {\lstset{language=[Sharp]C, basicstyle=\ttfamily, keywordstyle=\itshape,
         basewidth=1.1ex, numbers=none, tabsize=3, #1}}
     {}
+\lstnewenvironment{bash}[1][]
+    {\lstset{language=bash, basicstyle=\ttfamily\small, keywordstyle=\itshape,
+        basewidth=1.1ex, numbers=none, tabsize=3, frame=single #1}}
+    {}
 
 
 \lstdefinelanguage{LANGgrshell}
@@ -273,6 +277,9 @@ Thank you for using \GrG.\\[6ex]
 \include{grshell}
 
 \include{examples}
+
+\appendix
+\include{xsyntax}
 
 
 \bibliographystyle{alpha}

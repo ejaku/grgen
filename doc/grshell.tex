@@ -366,43 +366,7 @@ Specifies whether edge \indexed{label}s will be displayed or not (defaults to ``
 \end{rail}\ixkeyw{dump}\ixkeyw{reset}
 Reset all style options (\texttt{dump set}\dots) to their default values.
 
-
-\makeatletter
-\begin{table}[htbp]
-\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
-\begin{tabularx}{\linewidth}{|lX|}
-\hline
-\texttt{s ; t}		& \textbf{Concatenation.} First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s ; t} is \emph{successfully} executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s | t}		& \textbf{XOR.} First execute \texttt{s}. Only if \texttt{s} fails (i.e. can not be executed successfully) then execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s \& t}	& \textbf{Transactional AND.} First execute \texttt{s}, afterwards execute \texttt{t}. If \texttt{s} or \texttt{t} fails, the action will be terminated and a rollback to the state before \texttt{s \& t} is performed.\\
-\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). But the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
-\texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
-\texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
-\texttt{!}		& Dump found matches into VCG formatted files (for a VCG definition see~\cite{vcg}). Every match produces three files within the current directory:
-\begin{enumerate}
-  \item The complete graph that has the matched graph elements marked
-  \item The complete graph with additional information about matching details
-  \item A subgraph containing only the matched graph elements
-\end{enumerate}\\
-\texttt{\emph{Rule}} & Rewrite the first found pattern match produced by the action \emph{Rule}.\\
-\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
-\texttt{v = w}	& Assign the variable \texttt{w} to \texttt{v}. If \texttt{w} is undefined, \texttt{v} will be undefined, too.\\
-\texttt{v = @(x)}	& Assign the graph element identified by \texttt{x} to the variable \texttt{v}. If \texttt{x} is not defined, \texttt{v} will be undefined, too.\\
-\texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
-\texttt{true}	& A constant acting as a successful match.\\
-\texttt{false}	& A constant acting as a failed match.\\ \hline
-\end{tabularx}\indexmain{\texttt{;}}\indexmain{\texttt{\&\&}@\texttt{"|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
-\ixkeyw{def}
-\end{minipage}\\
-\\ 
-{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
-\caption{Graph rewrite expressions}
-\label{ruletab}
-\end{table}
-\makeatother
-
-\subsection{Action Commands (GRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
+\subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
 \label{grsthings}
 An \emph{action} denotes a graph rewrite rule.
 
@@ -426,27 +390,19 @@ Executes an action specific to the current \indexed{backend}. If \emph{SpacedPar
   GraphRewriteSequence: (() | 'debug') 'grs' SimpleRewriteSequence ;
 \end{rail}\ixkeyw{debug}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
-\begin{rail}
-  SimpleRewriteSequence: (SimpleTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) (';' | '|' | ampersand));
-  SimpleTerm: (() | '!') ('[' Rule ']' | Rule) |
-    Text '=' (Text | '@' '(' Text ')') |
-    'def' '(' Parameters ')' |
-    'true' |
-    'false' |
-    '(' SimpleRewriteSequence ')' ;
-  Rule: (() | '(' Parameters ')' '=') Action (() | '(' Parameters ')') ;
-\end{rail}\ixnterm{SimpleRewriteSequence}\ixnterm{SimpleTerm}
-\makeatother
-\mbox{\quad}\\
-Table~\ref{ruletab} lists graph rewrite expressions at a glance. The operators hold the following \indexed{order of precedence}, starting with the lowest priority: 
-\[ \text{\texttt{;}} \;\;\;\;\;\;\; \text{\texttt{|}} \;\;\;\;\;\;\;  \text{\texttt{\&}}\] 
+See section \ref{sct:xgrs} for graph rewrite sequences.
 
 Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
 The desired variable identifiers have to be listed in \emph{Parameters}. 
 Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
-Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process step-by-step. During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. The debugger can be controlled by \GrShell. The debug commands are shown in Table~\ref{tabdebug}.\\
+\section{Graphical Debugger}
+The \GrShell\ together with \yComp\ build \GrG's graphical debugger
+Use the \texttt{debug grs}\indexmain{debugger} option to trace the rewriting process step-by-step. 
+During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. 
+The debugger can be controlled by \GrShell. 
+The debug commands are shown in Table~\ref{tabdebug}.\\
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Execute the next rewrite rule (match and rewrite)\\
@@ -470,7 +426,7 @@ Use the \texttt{debug}\indexmain{debugger} option to trace the rewriting process
 \begin{example}\label{ex:debug}  
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
-debug grs (makeFlake1* ; (beautify ; doNothing)* ; makeFlake2* ; beautify*){1}
+debug xgrs (makeFlake1* && (beautify && doNothing)* && makeFlake2* && beautify*){1}
 \end{grshell}
 \yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
 \begin{center}

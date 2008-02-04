@@ -145,7 +145,17 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
-A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions. Multiple connection assertions of the same pair of node types are connected by disjunction, i.e. at least one of the assertions---but not necessarily all of them---must be fulfilled. \TODO{Improve this!, Vererbung von connect etc.}
+A \indexed{connection assertion} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. \emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. Table~\ref{multiplicities} describes the multiplicity definitions. Multiple connection assertions are connected by conjunction, i.e.\ all of them must be fulfilled.
+\begin{note}
+	Connection assertions must be consistent according to the type hierarchy.
+	That means---roughly spoken---the assertions for subtypes must get monotonously more restrictive or monotonously less restrictive.
+	For instance, the following connection assertions are illegal for node types \texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} with \texttt{A} inherits from \texttt{B} and \texttt{C} inherits from \texttt{B}:
+	\begin{grgen}
+connect A[*] -> D, B[0:5] -> D, C[*] -> D
+	\end{grgen}
+	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
+\end{note}
+
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
 	\texttt{[$n$:*]} & The number of edges incident to a node of that type is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 

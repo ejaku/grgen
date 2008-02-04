@@ -2,11 +2,40 @@
 
 \TODO{The most impressive features in five pages.}
 
+In this chapter we'll build a \GrG\ system from scratch. 
+We use it to construct non-deterministic state machines.
+We further show the actual graph rewriting by removing $\varepsilon$-transitions from our state machines.
+This is not too much about details but rather about the \GrG\ look and feel.
+
 \section{Downloading \& Installing}
+If you are reading this document, you probably did already download the \GrG\ software from our website (\url{http://www.grgen.net}).
+Download the graph viewer \yComp\ as well.
+Make sure you have the following system requirements installed
+\begin{itemize}
+	\item Java 1.5 or above
+	\item Mono 1.2.3 on Unix-like platforms / .NET 2.0 or above on Microsoft Windows 
+\end{itemize}
+Unpack the packages to directories of your choice, for example into \texttt{/opt/grgen} and \texttt{/opt/ycomp}:
+\begin{bash}
+mkdir /opt/grgen /opt/ycomp
+tar xvfj GrGenNET-V1_3_1-2007-12-06.tar.bz2
+tar xvfj ycomp-1_3_4.tar.bz2
+mv GrGenNET-V1_3_1-2007-12-06/* /opt/grgen/
+mv ycomp-1_3_4/* /opt/ycomp/
+rmdir GrGenNET-V1_3_1-2007-12-06 
+rmdir ycomp-1_3_4
+\end{bash}
+
+evt. script in path
+
+ycomp-connection
 
 \section{Creating a Graph Model}
+/home/grgen
+graph model types for nodes, edges
 
 \section{Creating some Graphs}
+grshell
 
 \section{The Rewrite Rules}
 

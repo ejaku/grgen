@@ -8,22 +8,20 @@ The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero
 using SomeModel;
 
 rule SomeRule {
-  pattern {
-    n1 : NodeTypeA;
-    n2 : NodeTypeA;
-    hom(n1, n2);
-    n1 --> n2; /*@\label{ex:somerule:graphlet}@*/
-    n3: NodeTypeB;
-    negative {
-      n3 -e1:EdgeTypeA-> n1;
-      if {n3.a1 == 42*n2.a1;}
-    }
-    negative { /*@\label{ex:somerule:secondnac:begin}@*/
-      n4: Node \ (NodeTypeB);
-      n3 -e1:EdgeTypeB-> n4;
-      if {typeof(e1) >= EdgeTypeA;}
-    } /*@\label{ex:somerule:secondnac:end}@*/
+  n1 : NodeTypeA;
+  n2 : NodeTypeA;
+  hom(n1, n2);
+  n1 --> n2; /*@\label{ex:somerule:graphlet}@*/
+  n3: NodeTypeB;
+  negative {
+    n3 -e1:EdgeTypeA-> n1;
+    if {n3.a1 == 42*n2.a1;}
   }
+  negative { /*@\label{ex:somerule:secondnac:begin}@*/
+    n4: Node \ (NodeTypeB);
+    n3 -e1:EdgeTypeB-> n4;
+    if {typeof(e1) >= EdgeTypeA;}
+  } /*@\label{ex:somerule:secondnac:end}@*/
   replace {
     n5: NodeTypeC<n1>;
     n3 -e1:EdgeTypeB-> n5;
@@ -268,9 +266,7 @@ Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. It consists 
 We define a test \texttt{SomeCond}
 \begin{grgen}
 test SomeCond {
-  pattern {
-    n: SeldomNodeType;
-  }
+  n: SeldomNodeType;
 }
 \end{grgen}
 and execute in \GrShell:
@@ -294,28 +290,24 @@ Within a rule, parameters are treated as (predefined) graph elements of the patt
 Assume the following \indexed{test} that checks whether the edge \texttt{e} is not \indexed{incident} to \texttt{x}:
 \begin{grgen}
 test r(-e:Edge->, x:Node) {
-  pattern {
-    negative {
-      -e-> x;
-    }
-    negative {
-      x -e->;
-    }
+  negative {
+    -e-> x;
+  }
+  negative {
+    x -e->;
   }
 }
 \end{grgen}
 If \texttt{x} and \texttt{e} are undefined, test \texttt{r} is equivalent to test \texttt{s}:
 \begin{grgen}
 test s {
-  pattern {
-    x:Node;
-    -e:Edge->;
-    negative {
-      -e-> x;
-    }
-    negative {
-      x -e->;
-    }
+  x:Node;
+  -e:Edge->;
+  negative {
+    -e-> x;
+  }
+  negative {
+    x -e->;
   }
 }
 \end{grgen}
@@ -332,10 +324,9 @@ The return types specify edge and node types of graph elements that are returned
 We extend \texttt{SomeRule} (Example~\ref{ex:rule:SomeRule}) with a user defined node to match and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
 \begin{grgen}
   rule SomeRuleExt(varnode: Node): (Node, EdgeTypeB) {
-    pattern {
-      n1: NodeTypeA;
-      ...
-    }
+    n1: NodeTypeA;
+    ...
+    
     replace {
       varnode;
       ...  
@@ -349,9 +340,12 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 
 \section{Pattern Part}\indexmain{pattern}
 \label{patternpart}
+%\begin{rail}
+%  Pattern: (() + ('exact' | 'induced')) 'pattern' lbrace (()+PatternStatement) rbrace ;
+%\end{rail}\ixkeyw{pattern}\ixkeyw{induced}\ixnterm{Pattern}
 \begin{rail}
-  Pattern: (() + ('exact' | 'induced')) 'pattern' lbrace (()+PatternStatement) rbrace ;
-\end{rail}\ixkeyw{pattern}\ixkeyw{induced}\ixnterm{Pattern}
+  Pattern: (()+PatternStatement);
+\end{rail}
 A \indexed{pattern} consists of zero or more pattern statements. 
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
@@ -421,7 +415,6 @@ The semantics of the various pattern statements are given below:
   \begin{example}
     We specify a node \texttt{x} which is not connected to a node of type \texttt{BadType}:
     \begin{grgen}
-pattern {
   x:Node;
   negative {
     x --> :BadType;
@@ -429,7 +422,6 @@ pattern {
   negative {  
     x <-- :BadType;
   }
-}
     \end{grgen}
   \end{example}
   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
@@ -514,11 +506,9 @@ The node \texttt{varnode} should be kept and does not need to appear in the modi
 So we have
 \begin{grgen}
 rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
-  pattern {
-    ...
-    n1 -e0:Edge-> n2;
-    ...
-  }
+  ...
+  n1 -e0:Edge-> n2;
+  ...
   modify {
     n5 : NodeTypeC<n1>;
     n3 -e1:EdgeTypeB-> n5;
@@ -533,7 +523,8 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
 \subsection{Syntax}
 
 \begin{rail}
-  Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace ;
+  Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) (()+ExecStatement) \\ 
+  	(() | ReturnStatement) rbrace ;
 \end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Replace}
 Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
 
@@ -541,14 +532,12 @@ Selects whether the replace mode or the modify mode is used. Several replace sta
   ReplaceStatement: Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
     'eval' lbrace (Assignment ';' +) rbrace |
-    'return' '(' (Ident+',') ')' ';' ;
-\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixkeyw{return}\ixnterm{ReplaceStatement}
-The semantics of the various pattern statements are given below:
+\end{rail}\ixkeyw{delete}\ixkeyw{eval}
+The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
   \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements.
-  \item[Return Values] \indexmain{return value}Graph elements of the replace/modify part can be returned according to the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}). The \texttt{return} statement must not occur multiple times. The graph element names have to be in the same order as the corresponding return types in the signature. The named elements must be compatible to the declared type.
   \item[Retyping] \indexmain{retyping}Retyping enables us to keep all adjacent nodes and all attributes stemming from common super types of a graph element while changing its type (table~\ref{rule:retyping_graphlets} shows how retyping can be expressed both for nodes and edges).
   Retyping differs from a \indexedsee{type cast}{retyping}: During replacement both of the graph elements are alive.
   Specifically both of them are available for evaluation, a respective evaluation could, e.g., look like this:
@@ -576,15 +565,6 @@ eval {
 \label{rule:retyping_graphlets}
 \end{table}
 
-
-
-
-
-
-
-
-
-
 \begin{rail}    
    Assignment: Ident '.' Ident '=' Expression ;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
@@ -608,6 +588,27 @@ modify {
 \end{grgen}
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
+
+\begin{rail}  
+  ExecStatement: 'emit' '(' StringExpr ')' ';' |
+    'exec' lbrace (RewriteSequence+';') rbrace ';' 
+\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
+The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
+That means, these statements are executed in the order as they appear within the rule.
+The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
+However, \emph{attribute} values of deleted graph elements are still available for reading.
+The \texttt{eval} are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
+\begin{description}
+  \item[Text Output] The \texttt{emit} statement prints a string to \texttt{stdout}. See section \ref{expressions} for a description of string expressions.
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for  a description of graph rewrite sequences.
+\end{description}
+
+\begin{rail}
+  ReturnStatement: 'return' '(' (Ident+',') ')' ';' ;
+\end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
+\indexmain{return value}Graph elements of the replace/modify part can be returned according to the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}). 
+The graph element names have to be in the same order as the corresponding return types in the signature. 
+The named elements must be compatible to the declared type.
 
 \section{Rule and Pattern Modifiers}\indexmain{Modifier} 
 \label{sct:patternmodifier}
@@ -693,3 +694,58 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
     \end{center}
 \end{example}
 \end{figure}
+
+\section{Extended Graph Rewrite Sequences (XGRS)}
+\label{sct:xgrs}
+
+Graph rewrite sequences are an imperative enhancement to the rule set language.
+Graph rewrite seuences are syntactically expressed as expressions similar to boolean expressions.
+Composing single graph rewrite rules to an expression not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
+Graph rewrite sequences have a boolean return value; 
+For a single rule, \texttt{true} means the rule could successfully applied to the host graph.
+A \texttt{false} return value means that the pattern was not found in the host graph.
+Graph rewrite sequences are transactional.
+If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+
+\makeatletter
+\begin{rail}
+  RewriteSequence: (RewriteTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand));
+  RewriteTerm: (() | '!') ('[' Rule ']' | Rule) |
+    Text '=' (Text | '@' '(' Text ')') |
+    'def' '(' Parameters ')' |
+    'true' |
+    'false' |
+    '(' RewriteSequence ')' ;
+\end{rail}\ixnterm{RewriteSequence}\ixnterm{RewriteTerm}
+\makeatother
+\mbox{\quad}\\
+Table~\ref{ruletab} lists graph rewrite expressions at a glance. Unless you use the \texttt{\$} modifier, operands will evaluated from left to right. 
+
+\makeatletter
+\begin{table}[htbp]
+\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
+\begin{tabularx}{\linewidth}{|lX|}
+\hline
+\texttt{s || t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s || t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s | t}		& The same as \texttt{s || t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
+\texttt{s \&\& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \&\& t} is successfully executed iff \texttt{s} and \texttt{t} is successful.\\
+\texttt{s \& t}	& The same as \texttt{s \&\& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
+\texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
+\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
+\texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
+\texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
+\texttt{\emph{Rule}} & Rewrite the first found pattern match produced by the action \emph{Rule}.\\
+\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}. \textbf{Note:} This operator is mainly added for benchmark purposes. Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular one needs to avoid deleting a graph element that is bound by another match. \\
+\texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
+\texttt{true}	& A constant acting as a successful match.\\
+\texttt{false}	& A constant acting as a failed match.\\ \hline
+\end{tabularx}\indexmain{\texttt{;}}\indexmain{\texttt{\&\&}@\texttt{"|}}
+\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
+\ixkeyw{def}
+\end{minipage}\\
+\\ 
+{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{x} an identifier of a graph element, \texttt{<op>} $\in \{\texttt{;}, \texttt{|}, \texttt{\&}\}$ and \texttt{n} $\in \N_0$.}
+\caption{XGRS expressions}
+\label{ruletab}
+\end{table}
+\makeatother

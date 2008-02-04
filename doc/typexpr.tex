@@ -20,28 +20,28 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 \label{builtintypes}
 \end{table}
 Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
-Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself, except for \TODO{WTF?}
+Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
 
 According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
 This is because the range of an enum type is very sparse in general.
 For the same reason implicit and explicit casts between enum types are also forbidden.
 Thus, enum values can only be assigned to attributes having the same enum type.
+A cast to a string value of an enum value will return the declared name of the enum value.
 \begin{table}[htbp]
   \centering
-  \begin{tabular}[c]{|c|cccccc|} \hline
-    \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string}\\ \hline
-    \texttt{enum} & $=$/--- & & & & & \\ 
-    \texttt{boolean} & & $=$ & & & & \\
-    \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & \\
-    \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & \\
-    \texttt{double} &  implicit & & implicit & implicit & $=$ & \\
-    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ \\ \hline
+  \begin{tabular}[c]{|c|ccccccc|} \hline
+    \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string} & \texttt{object} \\ \hline
+    \texttt{enum} & $=$/--- & & & & & & \\ 
+    \texttt{boolean} & & $=$ & & & & & \\
+    \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & & \\
+    \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & & \\
+    \texttt{double} &  implicit & & implicit & implicit & $=$ & & \\
+    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ & \\
+    \texttt{object} & &  & & & & & $=$/--- \\\hline
   \end{tabular}
   \caption{\GrG\ type casts}
   \label{tabcasts}
 \end{table}
-
-\TODO{now, implicit cast to string is allowed for all types (what is with object?, missing in table). Please change examples. (int)enum it int value, (string)enum is string of the name of the enum value}
 
 \begin{example}
   \begin{itemize}
@@ -74,7 +74,7 @@ The \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 These operators are supported by \texttt{int} types and \texttt{float}/\texttt{double} types (but by implicit casting they can also by used with all enum types).
-\texttt{String} types and \texttt{boolean} types support only the \texttt{==} and the \texttt{!=} operators.
+\texttt{String} types, \texttt{boolean} types, and \textttt{object} types support only the \texttt{==} and the \texttt{!=} operators.
 Table~\ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.
 \begin{table}[htbp]
   \centering
@@ -150,7 +150,7 @@ The \texttt{\%} operator on float values works analogous to the integer modulo o
 The operator \texttt{+} concatenates two strings.
 
 \begin{rail} 
-  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | Constant;
+  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant;
   Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
 \end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
 \begin{description}
@@ -172,12 +172,10 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 The following rule will add a reverse edge to a one-way street.
 \begin{grgen}
 rule oneway {
-    pattern {
-        a:Node -x:street-> y:Node;
-        negative {
-            y -:typeof(x)-> a;
-        }
-    } 
+    a:Node -x:street-> y:Node;
+    negative {
+        y -:typeof(x)-> a;
+    }
     replace {
         a -x-> y;
         y -:typeof(x)-> a;
