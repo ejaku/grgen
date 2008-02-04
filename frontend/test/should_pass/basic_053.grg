@@ -1,12 +1,44 @@
 using basic_model_001;
 
 rule r {
-	x : A;
-	y : B;
-	z : C;
+	a : A;
+	b : B;
+	c : C;
+	n : N;
+	aa : AA;
+	bb : BB;
+	cc : CC;
+	ab : AB;
+	ac : AC;
+	bc : BC;
+	nx : NX;
+	nz : NZ;
+	ax : AX;
+	az : AZ;
+	bx : BX;
+	bz : BZ;
+	cx : CX;
+	cz : CZ;
 
 	replace {
-		c : C;
+		rhs_a : A;
+		// abstract rhs_b : B;
+		// abstract rhs_c : C;
+		rhs_n : N;
+		rhs_aa : AA;
+		rhs_bb : BB;
+		rhs_cc : CC;
+		rhs_ab : AB;
+		rhs_ac : AC;
+		rhs_bc : BC;
+		// abstract rhs_nx : NX;
+		rhs_nz : NZ;
+		// abstract rhs_ax : AX;
+		rhs_az : AZ;
+		// abstract rhs_bx : BX;
+		rhs_bz : BZ;
+		// abstract rhs_cx : CX;
+		rhs_cz : CZ;
 	}
 }
 

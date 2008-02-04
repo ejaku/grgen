@@ -61,8 +61,8 @@ OK     should_pass/basic_026.grg
 OK     should_pass/basic_027.grg
 OK     should_pass/basic_050.grg
 OK     should_pass/basic_051.grg
-ERROR  should_pass/basic_052.grg
-ERROR  should_pass/basic_053.grg
+OK     should_pass/basic_052.grg
+OK     should_pass/basic_053.grg
 OK     should_pass/basic_054.grg
 OK     should_pass/basic_055.grg
 OK     should_pass/basic_060.grg
