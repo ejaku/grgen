@@ -1,0 +1,44 @@
+using basic_model_001;
+
+rule r {
+	a : A;
+	b : B;
+	c : C;
+	n : N;
+	aa : AA;
+	bb : BB;
+	cc : CC;
+	ab : AB;
+	ac : AC;
+	bc : BC;
+	nx : NX;
+	nz : NZ;
+	ax : AX;
+	az : AZ;
+	bx : BX;
+	bz : BZ;
+	cx : CX;
+	cz : CZ;
+
+	replace {
+		a;
+		b;
+		c;
+		n;
+		aa;
+		bb;
+		cc;
+		ab;
+		ac;
+		bc;
+		nx;
+		nz;
+		ax;
+		az;
+		bx;
+		bz;
+		cx;
+		cz;
+	}
+}
+

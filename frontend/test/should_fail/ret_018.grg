@@ -1,0 +1,9 @@
+using basic_model_002;
+
+test r : (A, AB, B, N) {
+	x : A;
+	y : AB;
+	n : N;
+	z : B;
+}
+

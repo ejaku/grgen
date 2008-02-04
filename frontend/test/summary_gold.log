@@ -65,6 +65,7 @@ OK     should_pass/basic_052.grg
 OK     should_pass/basic_053.grg
 OK     should_pass/basic_054.grg
 OK     should_pass/basic_055.grg
+OK     should_pass/basic_056.grg
 OK     should_pass/basic_060.grg
 OK     should_pass/basic_061.grg
 OK     should_pass/basic_062.grg
@@ -166,9 +167,10 @@ OK     should_pass/param_006.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg
 OK     should_pass/ret_001.grg
-ERROR  should_pass/ret_002.grg
+OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
 OK     should_pass/ret_004.grg
+OK     should_pass/ret_005.grg
 OK     should_pass/retype_001.grg
 OK     should_pass/retype_002.grg
 OK     should_pass/retype_003.grg
@@ -446,6 +448,8 @@ ERROR  should_fail/ret_014.grg
 ERROR  should_fail/ret_015.grg
 ERROR  should_fail/ret_016.grg
 ERROR  should_fail/ret_017.grg
+ERROR  should_fail/ret_018.grg
+ERROR  should_fail/ret_019.grg
 ERROR  should_fail/retype_001.grg
 ERROR  should_fail/retype_002.grg
 ERROR  should_fail/retype_003.grg

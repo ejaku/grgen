@@ -8,10 +8,10 @@ rule r {
 		delete(e);
 
 		eval{
-            e.a = null;
+			e.a = null;
 			es.a = e.a + es.a;
-            ns.a = ns.a + null;
-            ns.a = null;
+			ns.a = ns.a + null;
+			ns.a = null;
 		}
 	}
 }

@@ -441,12 +441,12 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean abstr = true;
 		for(BaseNode n : right.getNodes())
-			if(((InheritanceTypeNode)((NodeDeclNode)n).getDeclType()).isAbstract()) {
+			if(((InheritanceTypeNode)((NodeDeclNode)n).getDeclType()).isAbstract() && !left.getNodes().contains(n)) {
 				error.error(n.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
 		for(BaseNode e : right.getEdges())
-			if(((InheritanceTypeNode)((EdgeDeclNode)e).getDeclType()).isAbstract()) {
+			if(((InheritanceTypeNode)((EdgeDeclNode)e).getDeclType()).isAbstract() && !left.getEdges().contains(e)) {
 				error.error(e.getCoords(), "Instances of abstract edges are not allowed");
 				abstr = false;
 			}
