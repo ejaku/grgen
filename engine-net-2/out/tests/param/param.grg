@@ -1,0 +1,142 @@
+rule init1 : (Node, Node)
+{
+    modify {
+        a:Node;
+        b:Node;
+        :Node;
+        :Node;
+        return(a,b);
+    }
+}
+
+test test1Param1(a : Node)
+{
+    b:Node;
+}
+
+test test1Param2(a : Node)
+{
+    b:Node;
+    c:Node;
+}
+
+test test1Param3(a : Node)
+{
+    hom(a,b);
+    b:Node;
+    c:Node;
+}
+
+test test1Param4(a : Node)
+{
+    hom(b,c);
+    b:Node;
+    c:Node;
+}
+
+test test1Param5(a : Node)
+{
+    hom(a,b,c);
+    b:Node;
+    c:Node;
+}
+
+test test1Param6(a : Node, b : Node)
+{
+    c:Node;
+}
+
+test test1Param7(a : Node, b : Node)
+{
+    hom(a,b);
+    c:Node;
+}
+
+test test1Param8(a : Node, b : Node)
+{
+    hom(a,c);
+    c:Node;
+}
+
+test test1Param9(a : Node, b : Node)
+{
+    hom(a,b,c);
+    c:Node;
+}
+
+rule init2 : (Edge, Edge, Edge)
+{
+    a:Node;
+    b:Node;
+    c:Node;
+    d:Node;
+
+    modify {
+        a -e:Edge-> b;
+        a --> b;
+        b -f:Edge-> c;
+        c <-- d;
+        b --> d;
+        d --> a;
+        d --> a;
+        d -r:Edge-> d;
+        
+        return(e,f,r);
+    }
+}
+
+test test2Param1(-a : Edge->)
+{
+    -b:Edge->;
+}
+
+test test2Param2(-a : Edge->)
+{
+    -b:Edge->;
+    -c:Edge->;
+}
+
+test test2Param3(-a : Edge->)
+{
+    hom(a,b);
+    -b:Edge->;
+    -c:Edge->;
+}
+
+test test2Param4(-a : Edge->)
+{
+    hom(b,c);
+    -b:Edge->;
+    -c:Edge->;
+}
+
+test test2Param5(-a : Edge->)
+{
+    hom(a,b,c);
+    -b:Edge->;
+    -c:Edge->;
+}
+
+test test2Param6(-a : Edge->, -b : Edge->)
+{
+    -c:Edge->;
+}
+
+test test2Param7(-a : Edge->, -b : Edge->)
+{
+    hom(a,b);
+    -c:Edge->;
+}
+
+test test2Param8(-a : Edge->, -b : Edge->)
+{
+    hom(a,c);
+    -c:Edge->;
+}
+
+test test2Param9(-a : Edge->, -b : Edge->)
+{
+    hom(a,b,c);
+    -c:Edge->;
+}
+

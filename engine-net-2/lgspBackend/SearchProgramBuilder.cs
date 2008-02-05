@@ -312,6 +312,29 @@ namespace de.unika.ipd.grGen.lgsp
             // check type of candidate
             insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
 
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        positive,
+                        isNode);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate and write candidate isomorphy (until withdrawn)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
+                    new AcceptIntoPartialMatchWriteIsomorphy(
+                        target.PatternElement.Name,
+                        positive,
+                        isNode);
+                insertionPoint = insertionPoint.Append(writeIsomorphy);
+            }
+
             // mark element as visited
             target.Visited = true;
 
@@ -324,6 +347,17 @@ namespace de.unika.ipd.grGen.lgsp
 
             // unmark element for possibly following run
             target.Visited = false;
+
+            // withdraw candidate and remove candidate isomorphy
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
+                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                        target.PatternElement.Name,
+                        positive,
+                        isNode);
+                insertionPoint = insertionPoint.Append(removeIsomorphy);
+            }
 
             return insertionPoint;
         }
