@@ -1,0 +1,91 @@
+using Firm;
+
+#include "Sad.grg"
+
+rule InitDiamond
+{
+    modify {
+        a:Block -:df-> :Jmp -:df-> b:Block -:df-> :Jmp -:df-> d:Block;
+        a -:df-> :Jmp -:df-> c:Block -:df-> :Jmp -:df-> d;
+        a <-:df- :End;
+    }
+}
+
+rule CreateEndBlock
+{
+    b:Block <-:df- :End;
+    modify {
+        :EndBlock<b>;
+    }    
+}
+
+rule InitPDom
+{
+    hom(a,b);
+    a:Block;
+    b:Block\(EndBlock);
+    negative {
+        hom(a,b);
+        b <-:pdom- a;
+    }
+    modify {
+        b <-:pdom- a;
+    }
+}
+
+rule InitPDomEnd
+{
+    a:EndBlock;
+    modify {
+        a -:pdom-> a;
+    }
+}
+
+rule CalcPDom
+{ 
+    a:Block -:df-> :IR_node -:df-> b:Block <-p:pdom- c:Block;
+    negative {
+        a <-:pdom- c;
+    }
+    modify {
+        delete(p);
+    }
+}
+
+rule KillReflexivePDom
+{
+    a:Block -p:pdom-> a;
+    modify {
+        delete(p);
+    }
+}
+
+rule ReducePDom
+{
+    a:Block <-:pdom- b:Block <-:pdom- c:Block;
+    a <-p:pdom- c;
+    negative {
+        c <-:pdom- :Block -:pdom-> a;
+    }
+    modify {
+        delete(p);
+    }
+}
+
+rule WalkBlocks
+{
+    cur:Block -:df-> :IR_node -:df-> top:Block <-p:pdom- bottom:Block;
+    modify {
+        cur -:cdep-> top;
+        exec((cur)=BuildCDep(cur,top,bottom)[*]);
+    }
+}
+
+rule BuildCDep(cur:Block, top:Block, bottom:Block) : (Block)
+{
+    cur <-:pdom- next:Block;
+    modify {
+        next -:cf-> top;
+        return(next);
+    }
+}

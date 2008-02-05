@@ -1,0 +1,22 @@
+new graph IFConv
+
+dump add node Block group
+dump add node Mode exclude
+
+xgrs sad_variant0
+#xgrs InitDiamond
+
+xgrs CreateEndBlock && InitPDom*
+
+#debug enable
+#
+#debug set layout Compilergraph
+#debug set layout option CREATE_LOOP_TREE false
+dump set edge pdom color blue
+dump set edge cdep color green
+
+xgrs InitPDomEnd && CalcPDom*
+xgrs KillReflexivePDom* && ReducePDom*
+xgrs [WalkBlocks]
+
+show graph ycomp
