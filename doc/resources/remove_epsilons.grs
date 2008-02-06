@@ -1,0 +1,15 @@
+new graph remove_epsilons.grg "StateMachineGraph"
+#select actions lgsp-remove_epsilonsActions.dll
+
+new :StartState($=S, id=0)
+new :FinalState($=F, id=3)
+new :State($="1", id=1)
+new :State($="2", id=2)
+new @(S)-:Transition(Trigger="a")-> @("1")
+new @("1")-:Transition(Trigger="b")-> @("2")
+new @("2")-:Transition(Trigger="c")-> @(F)
+new @(S)-:EpsilonTransition-> @("2")
+new @("1")-:EpsilonTransition-> @(F)
+new @(S)-:EpsilonTransition-> @(F)
+
+debug xgrs CheckStartState && !CheckDoublettes && (ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*)

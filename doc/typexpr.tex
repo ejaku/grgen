@@ -1,6 +1,5 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
-\TODO{Objects, types and operators}
 In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}). \emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
 \section{Built-In Types}
@@ -26,7 +25,9 @@ According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt 
 This is because the range of an enum type is very sparse in general.
 For the same reason implicit and explicit casts between enum types are also forbidden.
 Thus, enum values can only be assigned to attributes having the same enum type.
-A cast to a string value of an enum value will return the declared name of the enum value.
+A cast of an enum value to a string value will return the declared name of the enum value.
+A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
+Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
 \begin{table}[htbp]
   \centering
   \begin{tabular}[c]{|c|ccccccc|} \hline
@@ -36,8 +37,8 @@ A cast to a string value of an enum value will return the declared name of the e
     \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & & \\
     \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & & \\
     \texttt{double} &  implicit & & implicit & implicit & $=$ & & \\
-    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ & \\
-    \texttt{object} & &  & & & & & $=$/--- \\\hline
+    \texttt{string} & implicit & implicit & implicit & implicit & implicit & $=$ & implicit\\
+    \texttt{object} & &  & & & & & $=$ \\\hline
   \end{tabular}
   \caption{\GrG\ type casts}
   \label{tabcasts}
@@ -74,7 +75,7 @@ The \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 These operators are supported by \texttt{int} types and \texttt{float}/\texttt{double} types (but by implicit casting they can also by used with all enum types).
-\texttt{String} types, \texttt{boolean} types, and \textttt{object} types support only the \texttt{==} and the \texttt{!=} operators.
+\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators.
 Table~\ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.
 \begin{table}[htbp]
   \centering

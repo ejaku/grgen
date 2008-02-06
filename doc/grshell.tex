@@ -1,6 +1,5 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
-\TODO{Explain the debugger in its own subsection, XGRS, new syntax}
 \GrShell\ is a \indexedsee{shell}{GrShell} application of \LibGr\indexmain{libGr}. 
 It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and debugging graph rewriting.
 The \GrShell\ provides a line oriented scripting language. 
@@ -143,7 +142,10 @@ On a Linux machine you might execute
 \begin{rail}
   'new' 'graph' Filename Text 
 \end{rail}\ixkeyw{new}\ixkeyw{graph}
-Creates a new graph with the model specified in \emph{Filename}\indexmain{graph model}. Its name is set to \emph{Text}. The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
+Creates a new graph with the model specified in \emph{Filename}\indexmain{graph model}. Its name is set to \emph{Text}. 
+The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
+It's also possible to specify a rule set file as \emph{Filename}. 
+In this case the necessary assemblies will be created on the fly.
 
 \begin{rail}
   'open' 'graph' Filename Text
@@ -391,6 +393,7 @@ Executes an action specific to the current \indexed{backend}. If \emph{SpacedPar
 \end{rail}\ixkeyw{debug}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 See section \ref{sct:xgrs} for graph rewrite sequences.
+Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistant names} to parameters via  \texttt{Variable = \@(Text)}.
 
 Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
 The desired variable identifiers have to be listed in \emph{Parameters}. 
@@ -398,10 +401,12 @@ Graph elements required by rules must be provided using \texttt{Action (Para\-me
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
 \section{Graphical Debugger}
-The \GrShell\ together with \yComp\ build \GrG's graphical debugger
+\label{sct:debugger}
+The \GrShell\ together with \yComp\ build \GrG's graphical debugger.
 Use the \texttt{debug grs}\indexmain{debugger} option to trace the rewriting process step-by-step. 
 During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp} will display every single step. 
 The debugger can be controlled by \GrShell. 
+Remember that the \texttt{\%} modifier before a rule works as break point in a graph rewrite sequence.
 The debug commands are shown in Table~\ref{tabdebug}.\\
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
@@ -426,7 +431,7 @@ The debug commands are shown in Table~\ref{tabdebug}.\\
 \begin{example}\label{ex:debug}  
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
-debug xgrs (makeFlake1* && (beautify && doNothing)* && makeFlake2* && beautify*){1}
+debug xgrs (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*){1}
 \end{grshell}
 \yComp\ will be opened with an initial graph (resulting from \texttt{grs init}):
 \begin{center}
