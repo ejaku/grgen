@@ -28,11 +28,7 @@ header {
 
 	import de.unika.ipd.grgen.parser.*;
 	import de.unika.ipd.grgen.ast.*;
-	import de.unika.ipd.grgen.util.report.*;
 	import de.unika.ipd.grgen.util.*;
-	import de.unika.ipd.grgen.Main;
-
-	import antlr.*;
 }
 
 
@@ -126,7 +122,7 @@ options {
 	}
 
 	public void reportError(RecognitionException e) {
-		reportError(new Coords(e), e.getErrorMessage());
+		reportError(new Coords(e), e.getMessage());
 	}
 
 	public void reportError(RecognitionException e, String s) {

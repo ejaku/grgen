@@ -24,25 +24,7 @@ header {
  */
 	package de.unika.ipd.grgen.parser.antlr;
 
-	import java.util.Iterator;
-	import java.util.List;
-	import java.util.LinkedList;
-	import java.util.Map;
-	import java.util.HashMap;
-	import java.util.Collection;
-	import java.io.DataInputStream;
-	import java.io.FileInputStream;
-	import java.io.FileNotFoundException;
 	import java.io.File;
-
-	import de.unika.ipd.grgen.parser.*;
-	import de.unika.ipd.grgen.ast.*;
-	import de.unika.ipd.grgen.util.report.*;
-	import de.unika.ipd.grgen.util.*;
-	import de.unika.ipd.grgen.Main;
-
-	import antlr.*;
-
 }
 
 class GRLexer extends Lexer;
