@@ -109,7 +109,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(edge.PatternElementType == PatternElementType.Preset)
                 {
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
@@ -436,7 +436,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
-                case SearchOperationType.PatPreset: typeStr = "pp"; break;
+                case SearchOperationType.SubPreset: typeStr = "sp"; break;
             }
 
             sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00} ({4:0.00}) \"{5}}}",
@@ -550,7 +550,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
                 case SearchOperationType.MaybePreset: typeStr = " p"; break;
                 case SearchOperationType.NegPreset: typeStr = "np"; break;
-                case SearchOperationType.PatPreset: typeStr = "pp"; break;
+                case SearchOperationType.SubPreset: typeStr = "sp"; break;
             }
 
             sw.WriteLine("edge:{{sourcename:\"{0}\" targetname:\"{1}\" label:\"{2} / {3:0.00}\"{4}}}",
@@ -571,7 +571,7 @@ exitSecondLoop: ;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
                 case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
                 case SearchOperationType.NegPreset: typeStr = "np" + tgt.PatternElement.Name; break;
-                case SearchOperationType.PatPreset: typeStr = "pp"; break;
+                case SearchOperationType.SubPreset: typeStr = "sp"; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((Condition) op.Element).NeededNodes) + ")("
                         + String.Join(",", ((Condition) op.Element).NeededEdges) + ")";

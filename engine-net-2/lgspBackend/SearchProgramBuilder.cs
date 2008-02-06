@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // after ssp creation and/or the buildup pass
                     case SearchOperationType.Void:
                     case SearchOperationType.NegPreset:
-                    case SearchOperationType.PatPreset:
+                    case SearchOperationType.SubPreset:
                     default:
                         Debug.Assert(false, "At this pass/position not allowed search operation");
                         break;
@@ -218,8 +218,8 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
 
-                case SearchOperationType.PatPreset:
-                    return buildPatPreset(insertionPointWithinSearchProgram,
+                case SearchOperationType.SubPreset:
+                    return buildSubPreset(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
@@ -324,15 +324,15 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // accept candidate and write candidate isomorphy (until withdrawn)
+            // accept candidate (write isomorphy information)
             if(isomorphy.SetIsMatchedBit)
             {
-                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                    new AcceptIntoPartialMatchWriteIsomorphy(
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(writeIsomorphy);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
             // mark element as visited
@@ -348,15 +348,15 @@ namespace de.unika.ipd.grGen.lgsp
             // unmark element for possibly following run
             target.Visited = false;
 
-            // withdraw candidate and remove candidate isomorphy
+            // abandon candidate (restore isomorphy information)
             if(isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
-                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(removeIsomorphy);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
             return insertionPoint;
@@ -389,15 +389,15 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // accept candidate and write candidate isomorphy (until withdrawn)
+            // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
-                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                    new AcceptIntoPartialMatchWriteIsomorphy(
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(writeIsomorphy);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
             // mark element as visited
@@ -413,15 +413,15 @@ namespace de.unika.ipd.grGen.lgsp
             // unmark element for possibly following run
             target.Visited = false;
 
-            // withdraw candidate and remove candidate isomorphy
+            // abandon candidate (restore isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
-                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(removeIsomorphy);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
             return insertionPoint;
@@ -429,10 +429,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Search program operations implementing the
-        /// PatPreset search plan operation
+        /// SubPreset search plan operation
         /// are created and inserted into search program
         /// </summary>
-        private SearchProgramOperation buildPatPreset(
+        private SearchProgramOperation buildSubPreset(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode target,
@@ -534,15 +534,15 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // accept candidate and write candidate isomorphy (until withdrawn)
+            // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
-                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                    new AcceptIntoPartialMatchWriteIsomorphy(
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(writeIsomorphy);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
             // mark element as visited
@@ -558,15 +558,15 @@ namespace de.unika.ipd.grGen.lgsp
             // unmark element for possibly following run
             target.Visited = false;
 
-            // withdraw candidate and remove candidate isomorphy
+            // abandon candidate (restore isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
-                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
                         target.PatternElement.Name,
                         positive,
                         isNode);
-                insertionPoint = insertionPoint.Append(removeIsomorphy);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
             // everything nested within candidate iteration built by now -
@@ -631,15 +631,15 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // accept candidate and write candidate isomorphy (until withdrawn)
+            // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
-                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                    new AcceptIntoPartialMatchWriteIsomorphy(
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
                         target.PatternElement.Name,
                         positive,
                         true);
-                insertionPoint = insertionPoint.Append(writeIsomorphy);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
             // mark element as visited
@@ -655,15 +655,15 @@ namespace de.unika.ipd.grGen.lgsp
             // unmark element for possibly following run
             target.Visited = false;
 
-            // withdraw candidate and remove candidate isomorphy
+            // abandon candidate (restore isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
-                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
                         target.PatternElement.Name,
                         positive,
                         true);
-                insertionPoint = insertionPoint.Append(removeIsomorphy);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
             return insertionPoint;
@@ -726,15 +726,15 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // accept candidate and write candidate isomorphy (until withdrawn)
+            // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
-                AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                    new AcceptIntoPartialMatchWriteIsomorphy(
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
                         target.PatternElement.Name,
                         positive,
                         false);
-                insertionPoint = insertionPoint.Append(writeIsomorphy);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
             }
 
             // mark element as visited
@@ -750,15 +750,15 @@ namespace de.unika.ipd.grGen.lgsp
             // unmark element for possibly following run
             target.Visited = false;
 
-            // withdraw candidate and remove candidate isomorphy
+            // abandon candidate (restore isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             { // only if isomorphy information was previously written
-                WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                    new WithdrawFromPartialMatchRemoveIsomorphy(
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
                         target.PatternElement.Name,
                         positive,
                         false);
-                insertionPoint = insertionPoint.Append(removeIsomorphy);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
             }
 
             // everything nested within incident iteration built by now -
@@ -878,22 +878,22 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (positive)
             {
-                // build the match complete operation signaling pattern was found
-                PartialMatchCompletePositive matchComplete =
-                    new PartialMatchCompletePositive();
+                // build the pattern was matched operation
+                PositivePatternMatched patternMatched =
+                    new PositivePatternMatched();
                 SearchProgramOperation continuationPoint =
-                    insertionPoint.Append(matchComplete);
-                matchComplete.MatchBuildingOperations =
-                    new SearchProgramList(matchComplete);
-                insertionPoint = matchComplete.MatchBuildingOperations;
+                    insertionPoint.Append(patternMatched);
+                patternMatched.MatchBuildingOperations =
+                    new SearchProgramList(patternMatched);
+                insertionPoint = patternMatched.MatchBuildingOperations;
 
                 // fill the match object with the candidates 
                 // which have passed all the checks for being a match
                 PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 for (int i = 0; i < patternGraph.nodes.Length; i++)
                 {
-                    PartialMatchCompleteBuildMatchObject buildMatch =
-                        new PartialMatchCompleteBuildMatchObject(
+                    BuildMatchObject buildMatch =
+                        new BuildMatchObject(
                             patternGraph.nodes[i].Name,
                             i.ToString(),
                             true);
@@ -901,15 +901,15 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 for (int i = 0; i < patternGraph.edges.Length; i++)
                 {
-                    PartialMatchCompleteBuildMatchObject buildMatch =
-                        new PartialMatchCompleteBuildMatchObject(
+                    BuildMatchObject buildMatch =
+                        new BuildMatchObject(
                             patternGraph.edges[i].Name,
                             i.ToString(),
                             false);
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
 
-                // check wheter to continue the matching process
+                // check whether to continue the matching process
                 // or abort because the maximum desired number of maches was reached
                 CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
@@ -923,10 +923,10 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else
             {
-                // build the match complete operation signaling negative pattern was found
-                PartialMatchCompleteNegative matchComplete =
-                    new PartialMatchCompleteNegative();
-                insertionPoint = insertionPoint.Append(matchComplete);
+                // build the negative pattern was matched operation
+                NegativePatternMatched patternMatched =
+                    new NegativePatternMatched();
+                insertionPoint = insertionPoint.Append(patternMatched);
 
                 // abort the matching process
                 CheckContinueMatchingFailed abortMatching =

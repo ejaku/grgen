@@ -23,25 +23,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// Preset handed in to subpattern, never null
         /// (might occur in enclosed negative pattern, too, but replaced by neg preset in schedule).
         /// </summary>
-        PatPreset,
+        SubPreset,
         /// <summary>
         /// Draw element from graph.
         /// </summary>
         Lookup,
         /// <summary>
-        /// Follow outgoing edge.
+        /// Follow outgoing edges of given node.
         /// </summary>
         Outgoing,
         /// <summary>
-        /// Follow incoming edge.
+        /// Follow incoming edges of given node.
         /// </summary>
         Incoming,
         /// <summary>
-        /// Get source from edge.
+        /// Get source node from given edge.
         /// </summary>
         ImplicitSource,
         /// <summary>
-        /// Get target from edge.
+        /// Get target node from given edge.
         /// </summary>
         ImplicitTarget,
         /// <summary>

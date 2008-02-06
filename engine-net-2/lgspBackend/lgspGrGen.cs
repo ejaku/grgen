@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negPatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.PatPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
                 else if(negPatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {

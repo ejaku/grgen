@@ -231,7 +231,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// move outwards from check operation until operation to continue at is found
-        /// appending remove isomorphy for isomorphy written on the way
+        /// appending restore isomorphy for isomorphy written on the way
         /// and final jump to operation to continue
         /// </summary>
         private void MoveOutwardsAppendingRemoveIsomorphyAndJump(
@@ -255,18 +255,18 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 op = op.Previous;
 
-                // insert code to clean up isomorphy information 
-                // written in between the operation to continue and the check operation
-                if (op is AcceptIntoPartialMatchWriteIsomorphy)
+                // insert code to clean up isomorphy information written by candidate acceptance
+                // in between the operation to continue and the check operation
+                if (op is AcceptCandidate)
                 {
-                    AcceptIntoPartialMatchWriteIsomorphy writeIsomorphy =
-                        op as AcceptIntoPartialMatchWriteIsomorphy;
-                    WithdrawFromPartialMatchRemoveIsomorphy removeIsomorphy =
-                        new WithdrawFromPartialMatchRemoveIsomorphy(
+                    AcceptCandidate writeIsomorphy =
+                        op as AcceptCandidate;
+                    AbandonCandidate restoreIsomorphy =
+                        new AbandonCandidate(
                             writeIsomorphy.PatternElementName,
                             writeIsomorphy.Positive,
                             writeIsomorphy.IsNode);
-                    insertionPoint = insertionPoint.Append(removeIsomorphy);
+                    insertionPoint = insertionPoint.Append(restoreIsomorphy);
                 }
 
                 // determine operation to continue at

@@ -872,7 +872,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //Type==GetCandidateByDrawingType.FromSubpatternConnections
             {
                 if(sourceCode.CommentSourceCode)
-                    sourceCode.AppendFrontFormat("// PatPreset {0} \n", PatternElementName);
+                    sourceCode.AppendFrontFormat("// SubPreset {0} \n", PatternElementName);
 
                 // emit declaration of variable containing candidate node
                 // and initialization with element from subpattern connections
@@ -1498,21 +1498,13 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Base class for search program operations 
-    /// to execute upon candidate checking succeded
-    /// (of the pattern part under construction)
+    /// Class representing operations to execute upon candidate checking succeded;
+    /// (currently only) writing isomorphy information to graph, for isomorphy checking later on
+    /// (mapping graph element to pattern element)
     /// </summary>
-    abstract class AcceptIntoPartialMatch : SearchProgramOperation
+    class AcceptCandidate : SearchProgramOperation
     {
-    }
-
-    /// <summary>
-    /// Class representing "write information to graph, to what pattern element 
-    ///   is graph element mapped to, for isomorphy checking later on" operation
-    /// </summary>
-    class AcceptIntoPartialMatchWriteIsomorphy : AcceptIntoPartialMatch
-    {
-        public AcceptIntoPartialMatchWriteIsomorphy(
+        public AcceptCandidate(
             string patternElementName,
             bool positive,
             bool isNode)
@@ -1524,13 +1516,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("AcceptIntoPartialMatch WriteIsomorphy ");
+            builder.AppendFront("AcceptCandidate ");
             builder.AppendFormat("on {0} positive:{1} node:{2}\n",
                 PatternElementName, Positive, IsNode);
         }
 
         /// <summary>
-        /// Emits code for accept into partial match write isomorphy search program operation
+        /// Emits code for accept candidate search program operation, writes isomorphy information
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
@@ -1561,22 +1553,14 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Base class for search program operations
-    /// undoing effects of candidate acceptance 
-    /// when performing the backtracking step
-    /// (of the pattern part under construction)
+    /// Class representing operations undoing effects of candidate acceptance 
+    /// when performing the backtracking step;
+    /// (currently only) restoring isomorphy information in graph, as not needed any more
+    /// (mapping graph element to pattern element)
     /// </summary>
-    abstract class WithdrawFromPartialMatch : SearchProgramOperation
+    class AbandonCandidate : SearchProgramOperation
     {
-    }
-
-    /// <summary>
-    /// Class representing "remove information from graph, to what pattern element
-    ///   is graph element mapped to, as not needed any more" operation
-    /// </summary>
-    class WithdrawFromPartialMatchRemoveIsomorphy : WithdrawFromPartialMatch
-    {
-        public WithdrawFromPartialMatchRemoveIsomorphy(
+        public AbandonCandidate(
             string patternElementName,
             bool positive,
             bool isNode)
@@ -1588,13 +1572,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("WithdrawFromPartialMatch RemoveIsomorphy ");
+            builder.AppendFront("AbandonCandidate ");
             builder.AppendFormat("on {0} positive:{1} node:{2}\n",
                 PatternElementName, Positive, IsNode);
         }
 
         /// <summary>
-        /// Emits code for withdraw from partial match remove isomorphy search program operation
+        /// Emits code for abandon candidate search program operation, restores isomorphy information
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
@@ -1623,27 +1607,18 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Base class for search program operations
-    /// to be executed when a partial match becomes a complete match
-    /// (of the pattern part under construction)
-    /// </summary>
-    abstract class PartialMatchComplete : SearchProgramOperation
-    {
-    }
-
-    /// <summary>
     /// Class yielding operations to be executed 
-    /// when a partial positive match becomes a complete match
+    /// when a positive pattern was matched
     /// </summary>
-    class PartialMatchCompletePositive : PartialMatchComplete
+    class PositivePatternMatched : SearchProgramOperation
     {
-        public PartialMatchCompletePositive()
+        public PositivePatternMatched()
         {
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("PartialMatchComplete Positive \n");
+            builder.AppendFront("PositivePatternMatched \n");
 
             if (MatchBuildingOperations != null)
             {
@@ -1654,7 +1629,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Emits code for partial match of positive pattern complete search program operation
+        /// Emits code for positive pattern was matched search program operation
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
@@ -1681,21 +1656,21 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class yielding operations to be executed 
-    /// when a partial negative match becomes a complete match
+    /// when a negative pattern was matched
     /// </summary>
-    class PartialMatchCompleteNegative : PartialMatchComplete
+    class NegativePatternMatched : SearchProgramOperation
     {
-        public PartialMatchCompleteNegative()
+        public NegativePatternMatched()
         {
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("PartialMatchComplete Negative \n");
+            builder.AppendFront("NegativePatternMatched \n");
         }
 
         /// <summary>
-        /// Emits code for partial match of negative pattern complete search program operation
+        /// Emits code for negative pattern was matched operation
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
@@ -1714,11 +1689,11 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "partial match is complete, now build match object" operation
+    /// Class representing "pattern was matched, now build match object" operation
     /// </summary>
-    class PartialMatchCompleteBuildMatchObject : PartialMatchComplete
+    class BuildMatchObject : SearchProgramOperation
     {
-        public PartialMatchCompleteBuildMatchObject(
+        public BuildMatchObject(
             string patternElementName,
             string matchIndex,
             bool isNode)
@@ -1730,13 +1705,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("PartialMatchComplete BuildMatchObject ");
+            builder.AppendFront("BuildMatchObject ");
             builder.AppendFormat("on {0} index:{1} node:{2}\n", 
                 PatternElementName, MatchIndex, IsNode);
         }
 
         /// <summary>
-        /// Emits code for partial match complete build match object search program operation
+        /// Emits code for build match object search program operation
         /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
