@@ -811,7 +811,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SearchProgramList(checkNegative);
             insertionPoint = checkNegative.NestedOperationsList;
 
-            enclosingPositiveOperation = checkNegative.GetEnclosingOperation();
+            enclosingPositiveOperation = checkNegative.GetEnclosingSearchOperation();
             ScheduledSearchPlan positiveScheduledSearchPlan = scheduledSearchPlan;
             scheduledSearchPlan = negativeScheduledSearchPlan;
 
@@ -879,8 +879,8 @@ namespace de.unika.ipd.grGen.lgsp
             if (positive)
             {
                 // build the pattern was matched operation
-                PositivePatternMatched patternMatched =
-                    new PositivePatternMatched();
+                PositivePatternWithoutSubpatternsMatched patternMatched =
+                    new PositivePatternWithoutSubpatternsMatched();
                 SearchProgramOperation continuationPoint =
                     insertionPoint.Append(patternMatched);
                 patternMatched.MatchBuildingOperations =
@@ -1200,7 +1200,7 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 CompleteCallsToMissingPresetHandlingMethod(
-                    searchProgram.GetNestedOperationsList(),
+                    searchProgram.GetNestedSearchOperationsList(),
                     nameOfMissingPresetHandlingMethod,
                     arguments,
                     argumentIsNode);
@@ -1233,10 +1233,10 @@ namespace de.unika.ipd.grGen.lgsp
                         checkPreset.CompleteWithArguments(arguments, argumentIsNode);
                     }
                 }
-                else if (searchProgramOperation.IsNestingOperation())
+                else if (searchProgramOperation.IsSearchNestingOperation())
                 { // depth first
                     CompleteCallsToMissingPresetHandlingMethod(
-                        searchProgramOperation.GetNestedOperationsList(),
+                        searchProgramOperation.GetNestedSearchOperationsList(),
                         nameOfMissingPresetHandlingMethod,
                         arguments,
                         argumentIsNode);

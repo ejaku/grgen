@@ -63,41 +63,36 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// returns whether operation is a nesting operation 
+        /// returns whether operation is a search nesting operation 
         /// containing other elements within some list inside
-        /// which might be nesting operations themselves -> yes
-        /// or is an elementary search program operation 
-        /// or an operation which can only contain elementary operations -> no
-        /// (check preset returns false, too, despite further check is nested within,
-        /// more general: check failed operations are not to be regarded as nested, 
-        /// only search iteration operations)
+        /// bearing the search nesting/iteration structure
         /// </summary>
-        public abstract bool IsNestingOperation();
+        public abstract bool IsSearchNestingOperation();
 
         /// <summary>
-        /// returns the nested list anchor
-        /// null if list not created or IsNestingOperation == false
+        /// returns the nested search operations list anchor
+        /// null if list not created or IsSearchNestingOperation == false
         /// </summary>
-        public abstract SearchProgramOperation GetNestedOperationsList();
+        public abstract SearchProgramOperation GetNestedSearchOperationsList();
 
         /// <summary>
         /// returns operation enclosing this operation
         /// </summary>
-        public SearchProgramOperation GetEnclosingOperation()
+        public SearchProgramOperation GetEnclosingSearchOperation()
         {
             SearchProgramOperation potentiallyNestingOperation = this;
             SearchProgramOperation nestedOperation;
 
             // iterate list leftwards, leftmost list element is list anchor element,
-            // which contains uplink to enclosing operation in it's previous member
-            // step over nesting operations we're not nested in
+            // which contains uplink to enclosing search operation in it's previous member
+            // step over search nesting operations we're not nested in 
             do
             {
                 nestedOperation = potentiallyNestingOperation;
                 potentiallyNestingOperation = nestedOperation.Previous;
             }
-            while (!potentiallyNestingOperation.IsNestingOperation() 
-                || potentiallyNestingOperation.GetNestedOperationsList()!=nestedOperation);
+            while (!potentiallyNestingOperation.IsSearchNestingOperation() 
+                || potentiallyNestingOperation.GetNestedSearchOperationsList()!=nestedOperation);
 
             return potentiallyNestingOperation;
         }
@@ -145,12 +140,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false; // starts list, but doesn't contain one
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -331,12 +326,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return true; // contains complete nested search program
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return OperationsList;
         }
@@ -358,12 +353,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class CheckOperation : SearchProgramOperation
     {
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -480,12 +475,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return true;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return NestedOperationsList;
         }
@@ -538,12 +533,12 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingTypeIDForCandidate, TypeID);
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -733,12 +728,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return true;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return NestedOperationsList;
         }
@@ -885,12 +880,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1107,6 +1102,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Class representing "check whether candidate is not already mapped 
     ///   to some other pattern element, to ensure required isomorphy" operation
+    /// required graph element to pattern element mapping is written by AcceptCandidate
     /// </summary>
     class CheckCandidateForIsomorphy : CheckCandidate
     {
@@ -1382,12 +1378,12 @@ namespace de.unika.ipd.grGen.lgsp
             //    sourceCode.AppendFront("// NegativePattern end\n");
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return true;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return NestedOperationsList;
         }
@@ -1498,6 +1494,49 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing "check whether the subpatterns of the pattern were found" operation
+    /// </summary>
+    class CheckPartialMatchForSubpatternsFound : CheckPartialMatch
+    {
+        public CheckPartialMatchForSubpatternsFound()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckPartialMatch ForSubpatternsFound\n");
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+
+        }
+
+        /// <summary>
+        /// Emits code for check partial match for subpatterns found search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("// Check whether subpatterns were found \n");
+
+            // emit decision
+            sourceCode.AppendFront("if(newMatchesList.Count>0) ");
+
+            // emit check failed code
+            sourceCode.Append("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+    }
+
+    /// <summary>
     /// Class representing operations to execute upon candidate checking succeded;
     /// (currently only) writing isomorphy information to graph, for isomorphy checking later on
     /// (mapping graph element to pattern element)
@@ -1537,12 +1576,12 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedBit);
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1591,12 +1630,12 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfIsMatchedBit);
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1608,11 +1647,11 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class yielding operations to be executed 
-    /// when a positive pattern was matched
+    /// when a positive pattern without contained subpatterns was matched
     /// </summary>
-    class PositivePatternMatched : SearchProgramOperation
+    class PositivePatternWithoutSubpatternsMatched : SearchProgramOperation
     {
-        public PositivePatternMatched()
+        public PositivePatternWithoutSubpatternsMatched()
         {
         }
 
@@ -1641,12 +1680,112 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("matches.matches.CommitMatch();\n");
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return null;
+        }
+
+        public SearchProgramList MatchBuildingOperations;
+    }
+
+    /// <summary>
+    /// Class yielding operations to be executed 
+    /// when a subpattern without contained subpatterns was matched (as the last element of the search)
+    /// </summary>
+    class LeafSubpatternMatched : SearchProgramOperation
+    {
+        public LeafSubpatternMatched()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("LeafSubpatternMatched \n");
+
+            if (MatchBuildingOperations != null)
+            {
+                builder.Indent();
+                MatchBuildingOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        /// <summary>
+        /// Emits code for positive pattern was matched search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("foundPartialMatches.push(new Stack<LGSPMatch>());\n");
+            sourceCode.AppendFront("Stack<LGSPMatch> currentFoundPartialMatch = foundPartialMatches.Peek();\n");
+
+            sourceCode.AppendFront("LGSPMatch match = new LGSPMatch();\n");
+            MatchBuildingOperations.Emit(sourceCode); // emit match building operations
+            sourceCode.AppendFront("currentFoundPartialMatch.Push(match)\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return false;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return null;
+        }
+
+        public SearchProgramList MatchBuildingOperations;
+    }
+
+    /// <summary>
+    /// Class yielding operations to be executed 
+    /// when a positive pattern was matched and all of it's subpatterns were matched at least once
+    /// </summary>
+    class PatternAndSubpatternsMatched : SearchProgramOperation
+    {
+        public PatternAndSubpatternsMatched()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("PatternAndSubpatternsMatched \n");
+
+            if (MatchBuildingOperations != null)
+            {
+                builder.Indent();
+                MatchBuildingOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        /// <summary>
+        /// Emits code for positive pattern was matched search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("foreach(Stack<LGSPMatch> currentFoundPartialMatch in foundPartialMatches)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            sourceCode.AppendFront("LGSPMatch match = new LGSPMatch();\n");
+            MatchBuildingOperations.Emit(sourceCode); // emit match building operations
+            sourceCode.AppendFront("currentFoundPartialMatch.Push(match)\n");
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return false;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1677,12 +1816,12 @@ namespace de.unika.ipd.grGen.lgsp
             // nothing to emit
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1724,12 +1863,12 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate);
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1818,12 +1957,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -1845,6 +1984,45 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     abstract class CheckContinueMatching : CheckOperation
     {
+    }
+
+    /// <summary>
+    /// Class representing "check if matching process is to be aborted because
+    /// there are no tasks to execute left" operation
+    /// </summary>
+    class CheckContinueMatchingTasksLeft : CheckContinueMatching
+    {
+        public CheckContinueMatchingTasksLeft()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckContinueMatching TasksLeft\n");
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        /// <summary>
+        /// Emits code for check whether to continue matching for are tasks left search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("if(openTasks.Count==0)\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            CheckFailedOperations.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
     }
 
     /// <summary>
@@ -2006,12 +2184,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -2048,12 +2226,12 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFormat("{0}: ;\n", LabelName);
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }
@@ -2226,12 +2404,12 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsNestingOperation()
+        public override bool IsSearchNestingOperation()
         {
             return false;
         }
 
-        public override SearchProgramOperation GetNestedOperationsList()
+        public override SearchProgramOperation GetNestedSearchOperationsList()
         {
             return null;
         }

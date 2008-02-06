@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 CompleteCheckOperations(
-                    searchProgram.GetNestedOperationsList(),
+                    searchProgram.GetNestedSearchOperationsList(),
                     searchProgram,
                     null);
                 searchProgram = searchProgram.Next as SearchProgram;
@@ -167,12 +167,12 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 //////////////////////////////////////////////////////////
-                else if (currentOperation.IsNestingOperation())
+                else if (currentOperation.IsSearchNestingOperation())
                 //////////////////////////////////////////////////////////
                 {
                     // depth first
                     CompleteCheckOperations(
-                        currentOperation.GetNestedOperationsList(),
+                        currentOperation.GetNestedSearchOperationsList(),
                         enclosingSearchProgram,
                         enclosingCheckNegative);
                 }
@@ -326,7 +326,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 op = op.Previous;
             }
-            while (!op.IsNestingOperation());
+            while (!op.IsSearchNestingOperation());
             SearchProgramOperation directlyEnclosingOperation = op;
             if (continuationPoint == directlyEnclosingOperation
                 // (check negative is enclosing, but not a loop, thus continue wouldn't work)
