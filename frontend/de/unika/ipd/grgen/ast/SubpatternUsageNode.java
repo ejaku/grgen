@@ -54,7 +54,9 @@ public class SubpatternUsageNode extends DeclNode {
 	}
 
 	@Override
-		public BaseNode getDeclType() {
+	public TypeNode getDeclType() {
+		assert isResolved();
+		
 		return type.getDeclType();
 	}
 

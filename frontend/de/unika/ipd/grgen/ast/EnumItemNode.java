@@ -139,8 +139,10 @@ public class EnumItemNode extends MemberDeclNode {
 
 	/** @return The type node of the declaration */
 	@Override
-		public BaseNode getDeclType() {
-		return getValidVersion(typeUnresolved, type);
+	public TypeNode getDeclType() {
+		assert isResolved();
+
+		return type;
 	}
 
 	protected ConstNode getValue() {

@@ -32,6 +32,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
@@ -46,6 +47,7 @@ public class ModelNode extends DeclNode {
 
 	CollectNode<TypeDeclNode> decls;
 	CollectNode<IdentNode> declsUnresolved;
+	ModelTypeNode type;
 
 	public ModelNode(IdentNode id, CollectNode<IdentNode> decls) {
 		super(id, modelType);
@@ -57,7 +59,7 @@ public class ModelNode extends DeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(declsUnresolved, decls));
 		return children;
 	}
@@ -80,6 +82,10 @@ public class ModelNode extends DeclNode {
 			new CollectResolver<TypeDeclNode>(declResolver);
 		decls = declsResolver.resolve(declsUnresolved);
 		successfullyResolved = decls!=null && successfullyResolved;
+		DeclarationTypeResolver<ModelTypeNode> typeResolver = 
+			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = type!=null && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -177,8 +183,10 @@ public class ModelNode extends DeclNode {
 	}
 
 	@Override
-		public BaseNode getDeclType() {
-		return typeUnresolved;
+	public ModelTypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 
 	/*

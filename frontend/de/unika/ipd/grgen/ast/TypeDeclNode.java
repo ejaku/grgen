@@ -26,7 +26,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
-import de.unika.ipd.grgen.ast.util.SimpleChecker;
+
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 
 /**
@@ -37,6 +38,8 @@ public class TypeDeclNode extends DeclNode {
 		setName(TypeDeclNode.class, "type declaration");
 	}
 
+	DeclaredTypeNode type;
+	
 	public TypeDeclNode(IdentNode i, BaseNode t) {
 		super(i, t);
 
@@ -50,7 +53,7 @@ public class TypeDeclNode extends DeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		return children;
 	}
 
@@ -64,12 +67,15 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		DeclarationTypeResolver<DeclaredTypeNode> typeResolver =
+			new DeclarationTypeResolver<DeclaredTypeNode>(DeclaredTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this); 
+		return type != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return (new SimpleChecker(DeclaredTypeNode.class)).check(typeUnresolved, error);
+		return true;
 	}
 
 	/**
@@ -91,8 +97,10 @@ public class TypeDeclNode extends DeclNode {
 	}
 
 	@Override
-	public BaseNode getDeclType()
+	public DeclaredTypeNode getDeclType()
 	{
-		return typeUnresolved;
+		assert isResolved();
+		
+		return type;
 	}
 }

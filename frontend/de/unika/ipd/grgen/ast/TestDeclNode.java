@@ -29,6 +29,7 @@ import java.util.*;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
@@ -44,6 +45,7 @@ public class TestDeclNode extends ActionDeclNode {
 	CollectNode<IdentNode> returnFormalParameters;
 	PatternGraphNode pattern;
 	CollectNode<PatternGraphNode> neg;
+	TestTypeNode type;
 
 	private static final TypeNode testType = new TestTypeNode();
 
@@ -67,7 +69,7 @@ public class TestDeclNode extends ActionDeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
@@ -89,7 +91,10 @@ public class TestDeclNode extends ActionDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		DeclarationTypeResolver<TestTypeNode> typeResolver =
+			new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		return type != null;
 	}
 
 	protected Collection<GraphNode> getGraphs() {
@@ -323,8 +328,10 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	@Override
-		public BaseNode getDeclType() {
-		return typeUnresolved;
+		public TypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 }
 

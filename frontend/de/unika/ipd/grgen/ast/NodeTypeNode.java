@@ -27,6 +27,7 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
@@ -82,7 +83,6 @@ public class NodeTypeNode extends InheritanceTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
 		DeclarationTypeResolver<NodeTypeNode> typeResolver =
 			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
 		CollectResolver<NodeTypeNode> extendResolver =
@@ -92,10 +92,19 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		CollectPairResolver<BaseNode> bodyResolver =
 			new CollectPairResolver<BaseNode>(bodyPairResolver);
 		body = bodyResolver.resolve(bodyUnresolved);
-		successfullyResolved = body!=null && successfullyResolved;
+
+		// ensure that all supertypes are resolved
+		DeclarationResolver<TypeDeclNode> declResolver =
+			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
+		CollectResolver<TypeDeclNode> declsResolver =
+			new CollectResolver<TypeDeclNode>(declResolver);
+		CollectNode<TypeDeclNode> decls = declsResolver.resolve(extendUnresolved);
+		if (decls != null) {
+			decls.resolve();
+		}
+		
 		extend = extendResolver.resolve(extendUnresolved);
-		successfullyResolved = extend!=null && successfullyResolved;
-		return successfullyResolved;
+		return body != null && extend != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

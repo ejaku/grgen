@@ -85,8 +85,10 @@ public class MemberDeclNode extends DeclNode {
 
 	/** @return The type node of the declaration */
 	@Override
-		public BaseNode getDeclType() {
-		return getValidVersion(typeUnresolved, type);
+	public TypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

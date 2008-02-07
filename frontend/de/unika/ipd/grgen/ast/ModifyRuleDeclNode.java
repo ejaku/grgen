@@ -27,6 +27,8 @@ import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +38,7 @@ import java.util.Vector;
 public class ModifyRuleDeclNode extends RuleDeclNode {
 	CollectNode<IdentNode> deleteUnresolved;
 	CollectNode<ConstraintDeclNode> delete;
+	RuleTypeNode type;
 
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
@@ -49,7 +52,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
@@ -84,6 +87,10 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 			new CollectPairResolver<ConstraintDeclNode>(deleteResolver);
 		delete = collectResolver.resolve(deleteUnresolved);
 		successfullyResolved = delete!=null && successfullyResolved;
+		DeclarationTypeResolver<RuleTypeNode> typeResolver =
+			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		successfullyResolved = type!=null && successfullyResolved;
 		return successfullyResolved;
 	}
 
@@ -160,10 +167,10 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					continue;
 				}
 
-				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
-				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
-				NodeDeclNode rSrc = (NodeDeclNode) rConn.getSrc();
-				NodeDeclNode rTgt = (NodeDeclNode) rConn.getTgt();
+				NodeDeclNode lSrc = lConn.getSrc();
+				NodeDeclNode lTgt = lConn.getTgt();
+				NodeDeclNode rSrc = rConn.getSrc();
+				NodeDeclNode rTgt = rConn.getTgt();
 
 				Collection<BaseNode> rhsNodes = right.getNodes();
 
@@ -297,6 +304,13 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		}
 
 		return rule;
+	}
+
+	@Override
+		public RuleTypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 }
 

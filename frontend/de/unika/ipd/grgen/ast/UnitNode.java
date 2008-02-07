@@ -28,6 +28,7 @@ import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Action;
 import de.unika.ipd.grgen.ir.IR;
@@ -48,6 +49,7 @@ public class UnitNode extends DeclNode {
 	protected static final TypeNode mainType = new MainTypeNode();
 
 	CollectNode<BaseNode> models;
+	MainTypeNode type;
 
 	// of type TestDeclNode or RuleDeclNode
 	CollectNode<TestDeclNode> subpatterns;
@@ -77,7 +79,7 @@ public class UnitNode extends DeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(models);
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
@@ -100,9 +102,12 @@ public class UnitNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
+		DeclarationTypeResolver<MainTypeNode> typeResolver =
+			new DeclarationTypeResolver<MainTypeNode>(MainTypeNode.class);
+		type        = typeResolver.resolve(typeUnresolved, this);
 		actions     = declsResolver.resolve(actionsUnresolved);
 		subpatterns = declsResolver.resolve(subpatternsUnresolved);
-		return actions != null && subpatterns != null;
+		return type != null && actions != null && subpatterns != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -148,7 +153,9 @@ public class UnitNode extends DeclNode {
 	}
 
 	@Override
-		public BaseNode getDeclType() {
-		return typeUnresolved;
+	public MainTypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 }

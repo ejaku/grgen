@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.Graph;
 import de.unika.ipd.grgen.ir.IR;
@@ -50,6 +51,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 	GraphNode right;
 	CollectNode<AssignNode> eval;
+	RuleTypeNode type;
 
 	/** Type for this declaration. */
 	private static final TypeNode ruleType = new RuleTypeNode();
@@ -75,7 +77,7 @@ public class RuleDeclNode extends TestDeclNode {
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
@@ -101,7 +103,10 @@ public class RuleDeclNode extends TestDeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		DeclarationTypeResolver<RuleTypeNode> typeResolver =
+			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		return type != null;
 	}
 
 	protected Collection<GraphNode> getGraphs() {
@@ -484,6 +489,13 @@ public class RuleDeclNode extends TestDeclNode {
 		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
 			rule.addNegGraph(neg);
 		}
+	}
+
+	@Override
+		public RuleTypeNode getDeclType() {
+		assert isResolved();
+		
+		return type;
 	}
 }
 

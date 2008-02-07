@@ -21,6 +21,8 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 /**
  * AST node class representing invalid declarations.
  */
@@ -29,16 +31,23 @@ public class InvalidDeclNode extends DeclNode {
 	static {
 		setName(InvalidDeclNode.class, "invalid declaration");
 	}
+	
+	ErrorTypeNode type;
 
+	/**
+	 * Create a resolved and checked invalid DeclNode.
+	 */
 	public InvalidDeclNode(IdentNode id) {
 		super(id, BasicTypeNode.getErrorType(id));
+		resolve();
+		check();
 	}
 
 	/** returns children of this node */
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
-		children.add(typeUnresolved);
+		children.add(getValidVersion(typeUnresolved, type));
 		return children;
 	}
 
@@ -52,7 +61,10 @@ public class InvalidDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		return true;
+		DeclarationResolver<ErrorTypeNode> typeResolver =
+			new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
+		type = typeResolver.resolve(typeUnresolved, this);
+		return type != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -73,8 +85,10 @@ public class InvalidDeclNode extends DeclNode {
 	}
 
 	@Override
-	public BaseNode getDeclType()
+	public TypeNode getDeclType()
 	{
-		return typeUnresolved;
+		assert isResolved();
+		
+		return type;
 	}
 }
