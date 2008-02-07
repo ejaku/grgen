@@ -29,22 +29,17 @@ import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Vector;
 
-public class DirectedEdgeTypeNode extends InheritanceTypeNode {
+public class DirectedEdgeTypeNode extends EdgeTypeNode {
 	static {
 		setName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
 
-	CollectNode<BaseNode> body;
-	CollectNode<ConnAssertNode> cas; // connection assertions
 	CollectNode<DirectedEdgeTypeNode> extend;
 
 	/**
@@ -112,34 +107,12 @@ public class DirectedEdgeTypeNode extends InheritanceTypeNode {
 		return body != null && extend != null;
 	}
 
-	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal()  {
-		return super.checkLocal();
-	}
-
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
 	 */
 	public EdgeType getEdgeType() {
 		return (EdgeType) checkIR(EdgeType.class);
-	}
-
-	/**
-	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
-	 */
-	protected IR constructIR()  {
-		EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
-								   getIRModifiers(), getExternalName());
-
-		constructIR(et);
-
-		for(BaseNode n : cas.getChildren()) {
-			ConnAssertNode can = (ConnAssertNode)n;
-			et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
-		}
-
-		return et;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ScopeOwner#fixupDefinition(de.unika.ipd.grgen.ast.IdentNode) */
@@ -166,7 +139,7 @@ public class DirectedEdgeTypeNode extends InheritanceTypeNode {
 	protected void doGetCompatibleToTypes(Collection<TypeNode> coll) {
 		assert isResolved();
 
-		for(InheritanceTypeNode inh : extend.getChildren()) {
+		for(EdgeTypeNode inh : extend.getChildren()) {
 			coll.add(inh);
 			inh.getCompatibleToTypes(coll);
 		}
@@ -200,28 +173,9 @@ public class DirectedEdgeTypeNode extends InheritanceTypeNode {
 	}
 
 	@Override
-		public Collection<DirectedEdgeTypeNode> getDirectSuperTypes() {
+	public Collection<DirectedEdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();
     }
-
-	@Override
-		protected void getMembers(Map<String, DeclNode> members) {
-		assert isResolved();
-
-		for(BaseNode n : body.getChildren()) {
-			if(n instanceof DeclNode) {
-				DeclNode decl = (DeclNode)n;
-
-				DeclNode old=members.put(decl.getIdentNode().toString(), decl);
-				if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
-					error.error(decl.getCoords(), "member " + decl.toString() +" of " +
-									getUseString() + " " + getIdentNode() +
-									" already defined in " + old.getParents() + "." // TODO improve error message
-							   );
-				}
-			}
-		}
-	}
 }
