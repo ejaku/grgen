@@ -70,6 +70,23 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return CandidateVariable(patternElementName, isNode) + "_prev" + (isPositive ? "IsMatched" : "IsMatchedNeg");
         }
+
+        /// <summary>
+        /// Returns name of the task variable which will be created within the seach program
+        /// holding the task object whose connections need to be filled before being pushed on the open tasks stack
+        /// </summary>
+        public static string TaskVariable(string subpatternElementName)
+        {
+            return "taskFor_" + subpatternElementName;
+        }
+
+        /// <summary>
+        /// Returns name of the type of the task variable
+        /// </summary>
+        public static string TypeOfTaskVariable(string subpatternName)
+        {
+            return "PatternAction_" + subpatternName;
+        }
     }
 }
 

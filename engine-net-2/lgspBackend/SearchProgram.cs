@@ -66,14 +66,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// returns whether operation is a search nesting operation 
         /// containing other elements within some list inside
         /// bearing the search nesting/iteration structure
+        /// default: false (cause only few operations are search nesting operations)
         /// </summary>
-        public abstract bool IsSearchNestingOperation();
+        public virtual bool IsSearchNestingOperation()
+        {
+            return false;
+        }
 
         /// <summary>
         /// returns the nested search operations list anchor
         /// null if list not created or IsSearchNestingOperation == false
+        /// default: null (cause only few search operations are nesting operations)
         /// </summary>
-        public abstract SearchProgramOperation GetNestedSearchOperationsList();
+        public virtual SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return null;
+        }
 
         /// <summary>
         /// returns operation enclosing this operation
@@ -103,6 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// containing first list element within inherited Next member
     /// Inherited to be able to access the first element via Next
     /// Previous points to enclosing search program operation
+    /// (starts list, but doesn't contain one)
     /// </summary>
     class SearchProgramList : SearchProgramOperation
     {
@@ -138,16 +147,6 @@ namespace de.unika.ipd.grGen.lgsp
                 currentOperation.Emit(sourceCode);
                 currentOperation = currentOperation.Next;
             }
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false; // starts list, but doesn't contain one
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
     }
 
@@ -350,19 +349,10 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Base class for search program check operations
     /// contains list anchor for operations to execute when check failed
+    /// (check is not a search operation, thus the check failed operations are not search nested operations)
     /// </summary>
     abstract class CheckOperation : SearchProgramOperation
     {
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         // (nested) operations to execute when check failed
         public SearchProgramList CheckFailedOperations;
     }
@@ -531,16 +521,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, IsNode);
             sourceCode.AppendFrontFormat("int {0} = {1};\n",
                 variableContainingTypeIDForCandidate, TypeID);
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public string PatternElementName;
@@ -878,16 +858,6 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, PatternElementName);
             }
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public GetCandidateByDrawingType Type;
@@ -1576,16 +1546,6 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedBit);
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public string PatternElementName;
         public bool Positive; // positive|negative
         public bool IsNode; // node|edge
@@ -1630,16 +1590,6 @@ namespace de.unika.ipd.grGen.lgsp
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfIsMatchedBit);
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public string PatternElementName;
         public bool Positive; // positive|negative
         public bool IsNode; // node|edge
@@ -1680,16 +1630,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("matches.matches.CommitMatch();\n");
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public SearchProgramList MatchBuildingOperations;
     }
 
@@ -1726,16 +1666,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("LGSPMatch match = new LGSPMatch();\n");
             MatchBuildingOperations.Emit(sourceCode); // emit match building operations
             sourceCode.AppendFront("currentFoundPartialMatch.Push(match)\n");
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public SearchProgramList MatchBuildingOperations;
@@ -1780,16 +1710,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public SearchProgramList MatchBuildingOperations;
     }
 
@@ -1814,16 +1734,6 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             // nothing to emit
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
     }
 
@@ -1861,16 +1771,6 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("match.{0}[{1}] = {2};\n",
                 matchObjectElementMember, MatchIndex,
                 variableContainingCandidate);
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public string PatternElementName;
@@ -1955,16 +1855,6 @@ namespace de.unika.ipd.grGen.lgsp
                         NamesOfEntities.CandidateVariable(PatternElementName, false));
                 }
             }
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public AdjustListHeadsTypes Type;
@@ -2184,16 +2074,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public ContinueOperationType Type;
 
         public bool ReturnMatches; // only valid if ByReturn
@@ -2224,16 +2104,6 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFormat("{0}: ;\n", LabelName);
-        }
-
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
         }
 
         public string LabelName;
@@ -2404,16 +2274,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public override bool IsSearchNestingOperation()
-        {
-            return false;
-        }
-
-        public override SearchProgramOperation GetNestedSearchOperationsList()
-        {
-            return null;
-        }
-
         public RandomizeListHeadsTypes Type;
 
         public string PatternElementName;
@@ -2422,5 +2282,148 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string StartingPointNodeName; // only valid if IncidentEdges
         public bool IsIncoming; // only valid if IncidentEdges
+    }
+
+    /// <summary>
+    /// Class representing "push a subpattern tasks to the open tasks stack" operation
+    /// </summary>
+    class PushSubpatternTask : SearchProgramOperation
+    {
+        public PushSubpatternTask(
+            string subpatternName,
+            string subpatternElementName,
+            List<string> connectionName,
+            List<string> patternElementBoundToConnectionName,
+            List<bool> patternElementBoundToConnectionIsNode)
+        {
+            Debug.Assert(connectionName.Count == patternElementBoundToConnectionName.Count
+                && patternElementBoundToConnectionName.Count == patternElementBoundToConnectionIsNode.Count);
+            SubpatternName = subpatternName;
+            SubpatternElementName = subpatternElementName;
+
+            ConnectionName = new string[connectionName.Count];
+            PatternElementBoundToConnectionName = new string[patternElementBoundToConnectionName.Count];
+            PatternElementBoundToConnectionIsNode = new bool[patternElementBoundToConnectionIsNode.Count];
+            int i = 0;
+            foreach (string cn in connectionName)
+            {
+                ConnectionName[i] = cn;
+                ++i;
+            }
+            i = 0;
+            foreach (string pen in patternElementBoundToConnectionName)
+            {
+                PatternElementBoundToConnectionName[i] = pen;
+                ++i;
+            }
+            i = 0;
+            foreach (bool pein in patternElementBoundToConnectionIsNode)
+            {
+                PatternElementBoundToConnectionIsNode[i] = pein;
+                ++i;
+            }
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("PushSubpatternTask {0} of {1} ",
+                SubpatternElementName, SubpatternName);
+            builder.Append("with ");
+            for (int i = 0; i < ConnectionName.Length; ++i)
+            {
+                builder.AppendFormat("{0} <- {1} isNode:{2} ",
+                    ConnectionName[i], PatternElementBoundToConnectionName[i], 
+                    PatternElementBoundToConnectionIsNode[i]);
+            }
+        }
+
+        /// <summary>
+        /// Emits code for continue search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("//Push subpattern matching task for {0}\n", SubpatternElementName);
+
+            // create matching task for subpattern
+            string variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName);
+            string typeOfVariableContainingTask = NamesOfEntities.TaskVariable(SubpatternName);
+            sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, maxMatches, openTasks, foundPartialMatches);\n", 
+                typeOfVariableContainingTask, variableContainingTask);
+
+            // fill in connections
+            for (int i = 0; i < ConnectionName.Length; ++i)
+            {
+                string variableContainingPatternElementToBeBound = NamesOfEntities.CandidateVariable(
+                    PatternElementBoundToConnectionName[i],
+                    PatternElementBoundToConnectionIsNode[i]);
+                sourceCode.AppendFrontFormat("{0}.{1} = {2};\n",
+                    variableContainingTask, ConnectionName[i], variableContainingPatternElementToBeBound);
+            }
+
+            // push matching task to open tasks stack
+            sourceCode.AppendFrontFormat("openTasks.Push({0});\n", variableContainingTask);
+        }
+
+        public string SubpatternName;
+        public string SubpatternElementName;
+        public string[] ConnectionName;
+        public string[] PatternElementBoundToConnectionName;
+        public bool[] PatternElementBoundToConnectionIsNode;
+    }
+
+    /// <summary>
+    /// Class representing "pop a subpattern tasks from the open tasks stack" operation
+    /// </summary>
+    class PopSubpatternTask : SearchProgramOperation
+    {
+        public PopSubpatternTask(string subpatternElementName)
+        {
+            SubpatternElementName = subpatternElementName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("PopSubpatternTask {0}", SubpatternElementName);
+        }
+
+        /// <summary>
+        /// Emits code for continue search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("//Pop subpattern matching task for {0}\n", SubpatternElementName);
+
+            sourceCode.AppendFront("openTasks.Pop();\n");
+        }
+
+        public string SubpatternElementName;
+    }
+
+    /// <summary>
+    /// Class representing "execute open subpattern matching tasks" operation
+    /// </summary>
+    class MatchSubpatterns : SearchProgramOperation
+    {
+        public MatchSubpatterns()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("MatchSubpatterns ");
+        }
+
+        /// <summary>
+        /// Emits code for continue search program operation
+        /// </summary>
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("//Match subpatterns\n");
+
+            sourceCode.AppendFront("openTasks.Peek().myMatch();\n");
+        }
     }
 }
