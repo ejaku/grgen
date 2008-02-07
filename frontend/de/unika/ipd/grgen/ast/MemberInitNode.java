@@ -101,7 +101,7 @@ public class MemberInitNode extends BaseNode {
 	 */
 	protected boolean typeCheckLocal() {
 		ExprNode expr = rhs;
-		TypeNode targetType = (TypeNode) lhs.getDeclType();
+		TypeNode targetType = lhs.getDeclType();
 		TypeNode exprType = expr.getType();
 
 		if (! exprType.isEqual(targetType)) {

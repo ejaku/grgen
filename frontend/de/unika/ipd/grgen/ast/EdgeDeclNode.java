@@ -143,7 +143,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		// This must be ok after checking all nodes.
-		TypeNode tn = (TypeNode) getDeclType();
+		TypeNode tn = getDeclType();
 		EdgeType et = (EdgeType) tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 

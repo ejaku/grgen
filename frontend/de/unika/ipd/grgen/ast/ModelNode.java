@@ -118,7 +118,7 @@ public class ModelNode extends DeclNode {
 		Ident id = (Ident) ident.checkIR(Ident.class);
 		Model res = new Model(id);
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
-			res.addType(((TypeNode) typeDecl.getDeclType()).getType());
+			res.addType(typeDecl.getDeclType().getType());
 		}
 		return res;
 	}
@@ -164,7 +164,7 @@ public class ModelNode extends DeclNode {
 	private boolean checkInhCycleFree() {
 		Collection<TypeDeclNode> coll = decls.getChildren();
 		for (TypeDeclNode t : coll) {
-			TypeNode type = (TypeNode) t.getDeclType();
+			TypeNode type = t.getDeclType();
 
 			if ( !(type instanceof InheritanceTypeNode) ) {
 				continue ;

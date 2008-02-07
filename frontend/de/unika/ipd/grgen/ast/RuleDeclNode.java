@@ -234,7 +234,7 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 
 			IdentNode retIdent = (IdentNode) retSignature.get(i);
-			BaseNode retDeclType = retIdent.getDecl().getDeclType();
+			TypeNode retDeclType = retIdent.getDecl().getDeclType();
 			if(!(retDeclType instanceof InheritanceTypeNode)) {
 				res = false;
 				retIdent.reportError("\"" + retIdent + "\" is neither a node nor an edge type");

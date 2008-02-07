@@ -44,9 +44,6 @@ public class DeclExprNode extends ExprNode {
 	MemberDeclNode declMember;
 	QualIdentNode declQualIdent;
 
-	/** whether an error has been reported for this enum item */
-	private boolean typeAlreadyReported = false;
-
 	/**
 	 * Make a new declaration expression.
 	 * @param coords The source code coordinates.
@@ -90,16 +87,8 @@ public class DeclExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		DeclaredCharacter c = (DeclaredCharacter) getValidVersion(declUnresolved, declMember, declQualIdent);
-		BaseNode type = c.getDecl().getDeclType();
-		if ( ! (type instanceof TypeNode) ) {
-
-			if (!typeAlreadyReported)
-				reportError("Undefined entity \"" + c + "\"");
-
-			typeAlreadyReported = true;
-			type = BasicTypeNode.errorType;
-		}
-		return (TypeNode) type;
+		TypeNode type = c.getDecl().getDeclType();
+		return type;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#evaluate() */

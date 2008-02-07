@@ -79,7 +79,7 @@ public class AssignNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		DeclNode owner = lhs.getOwner();
-		BaseNode ty = owner.getDeclType();
+		TypeNode ty = owner.getDeclType();
 
 		if(lhs.getDecl().isConst())
 			error.error(getCoords(), "assignment to a const member is not allowed");
@@ -104,7 +104,7 @@ public class AssignNode extends BaseNode {
 	protected boolean typeCheckLocal() {
 		ExprNode expr = rhs;
 
-		TypeNode targetType = (TypeNode) lhs.getDecl().getDeclType();
+		TypeNode targetType = lhs.getDecl().getDeclType();
 		TypeNode exprType = expr.getType();
 
 		if (! exprType.isEqual(targetType)) {

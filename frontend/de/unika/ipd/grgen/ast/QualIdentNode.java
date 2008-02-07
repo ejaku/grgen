@@ -86,7 +86,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		successfullyResolved = owner!=null && successfullyResolved;
 
 		if (owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
-			TypeNode ownerType = (TypeNode)owner.getDeclType();
+			TypeNode ownerType = owner.getDeclType();
 
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;

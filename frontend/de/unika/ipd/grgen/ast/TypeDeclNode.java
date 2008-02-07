@@ -84,8 +84,7 @@ public class TypeDeclNode extends DeclNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	protected IR constructIR() {
-		TypeNode declType = (TypeNode) getDeclType();
-		return declType.getIR();
+		return getDeclType().getIR();
 	}
 
 	public static String getKindStr() {
