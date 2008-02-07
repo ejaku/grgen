@@ -38,17 +38,17 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Vector;
 
-public class EdgeTypeNode extends InheritanceTypeNode {
+public class DirectedEdgeTypeNode extends InheritanceTypeNode {
 	static {
-		setName(EdgeTypeNode.class, "edge type");
+		setName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
 
 	CollectNode<BaseNode> body;
 	CollectNode<ConnAssertNode> cas; // connection assertions
-	CollectNode<EdgeTypeNode> extend;
+	CollectNode<DirectedEdgeTypeNode> extend;
 
 	/**
-	 * Make a new edge type node.
+	 * Make a new directed edge type node.
 	 * @param ext The collect node with all edge classes that this one extends.
 	 * @param cas The collect node with all connection assertion of this type.
 	 * @param body The body of the type declaration. It consists of basic
@@ -56,7 +56,7 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public EdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
+	public DirectedEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
 						int modifiers, String externalName) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
@@ -92,10 +92,10 @@ public class EdgeTypeNode extends InheritanceTypeNode {
 			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
 		CollectPairResolver<BaseNode> bodyResolver =
 			new CollectPairResolver<BaseNode>(bodyPairResolver);
-		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
-			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-		CollectResolver<EdgeTypeNode> extendResolver =
-			new CollectResolver<EdgeTypeNode>(typeResolver);
+		DeclarationTypeResolver<DirectedEdgeTypeNode> typeResolver =
+			new DeclarationTypeResolver<DirectedEdgeTypeNode>(DirectedEdgeTypeNode.class);
+		CollectResolver<DirectedEdgeTypeNode> extendResolver =
+			new CollectResolver<DirectedEdgeTypeNode>(typeResolver);
 		body = bodyResolver.resolve(bodyUnresolved);
 		
 		// ensure that all supertypes are resolved
@@ -192,15 +192,15 @@ public class EdgeTypeNode extends InheritanceTypeNode {
     }
 
 	public static String getKindStr() {
-		return "edge type";
+		return "directed edge type";
 	}
 
 	public static String getUseStr() {
-		return "edge type";
+		return "directed edge type";
 	}
 
 	@Override
-		public Collection<EdgeTypeNode> getDirectSuperTypes() {
+		public Collection<DirectedEdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();

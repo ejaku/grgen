@@ -115,7 +115,7 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 			{ body = new CollectNode<BaseNode>(); }
 		)
 		{
-			EdgeTypeNode et = new EdgeTypeNode(ext, cas, body, modifiers, externalName);
+			DirectedEdgeTypeNode et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
 		}

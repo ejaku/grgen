@@ -95,7 +95,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
+		Checker edgeChecker = new TypeChecker(DirectedEdgeTypeNode.class);
 		boolean res = super.checkLocal()
 			& edgeChecker.check(old, error);
 		if (!res) {
@@ -150,7 +150,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	 */
 	protected IR constructIR() {
 		// This cast must be ok after checking.
-		EdgeTypeNode etn = (EdgeTypeNode) getDeclType();
+		DirectedEdgeTypeNode etn = (DirectedEdgeTypeNode) getDeclType();
 		EdgeType et = etn.getEdgeType();
 		IdentNode ident = getIdentNode();
 
