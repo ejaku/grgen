@@ -13,7 +13,7 @@ rule InitOutput
     counter:Counter;
     lastPa -:processAssignments-> dummyPa:ProcessAssignment;
     
-    emit(xgrs ((curPa)=PAWriteProcess(curPa)[+]
+    exec(((curPa)=PAWriteProcess(curPa)[+]
         | (curPa)=PAWritePrefix(curPa)[+]
         | (curPa)=PAWriteConditionStart(curPa)
         | (curPa)=PAWriteConcurrencyStart(curPa)
@@ -66,7 +66,9 @@ rule PAWriteConditionStart(curPa:ProcessAssignment) : (ProcessAssignment)
     curPa -:processAssignments-> nextPa:ProcessAssignment;
   }
   modify {
-    emit(procID.name, " = ", xgrs (PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*], "\n");
+    emit(procID.name, " = ");
+    exec((PAWriteConditionNext(cond) || PAWriteConditionLast(cond)) | PAWriteConditionEnd[*]);
+    emit("\n");
     return (nextPa);
   }
 }
@@ -81,8 +83,8 @@ rule PAWriteConditionNext(curCond:Condition)
     eval {
       counter.value = counter.value + 1;
     }
-    emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> ",
-		xgrs PAWriteConditionNext(nextCond) || PAWriteConditionLast(nextCond));
+    emit((counter.value > 1 ? "(" : "") + thenProc.name + " <| " + curCond.expression + " |> ");
+    exec(PAWriteConditionNext(nextCond) || PAWriteConditionLast(nextCond));
   }
 }
 
@@ -123,7 +125,9 @@ rule PAWriteConcurrencyStart(curPa:ProcessAssignment) : (ProcessAssignment)
     curPa -:processAssignments-> nextPa:ProcessAssignment;
   }
   modify {
-    emit(procID.name, " = ", forkProc.name, xgrs PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc), "\n");
+    emit(procID.name, " = ", forkProc.name);
+    exec(PAWriteConcurrencyNext(conc) || PAWriteConcurrencyLast(conc));
+    emit("\n");
     return (nextPa);
   }
 }
@@ -134,7 +138,8 @@ rule PAWriteConcurrencyNext(curConc:Concurrency)
     curConc -:rightHandSide-> nextConc:Concurrency -:leftHandSide-> forkProc:Process;
   }
   modify {
-    emit(" || ", forkProc.name, xgrs PAWriteConcurrencyNext(nextConc) || PAWriteConcurrencyLast(nextConc));
+    emit(" || ", forkProc.name);
+    exec(PAWriteConcurrencyNext(nextConc) || PAWriteConcurrencyLast(nextConc));
   }
 }
 

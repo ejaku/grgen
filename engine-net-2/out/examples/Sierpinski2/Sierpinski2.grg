@@ -10,7 +10,6 @@ rule init {
 
 rule gen0 {
  pattern {
-  hom(a,b,c);
   a:Node -:ab0-> b:Node -:bc0-> c:Node -:ca0-> a;
  }
  replace {
@@ -21,7 +20,6 @@ rule gen0 {
 
 rule gen1 {
  pattern {
-  hom(a,b,c);
   a:Node -:ab1-> b:Node -:bc1-> c:Node -:ca1-> a;
  }
  replace {

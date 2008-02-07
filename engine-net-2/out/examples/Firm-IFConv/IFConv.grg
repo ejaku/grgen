@@ -5,8 +5,8 @@ using Firm;
 rule InitDiamond
 {
     modify {
-        a:Block -:df-> :Jmp -:df-> b:Block -:df-> :Jmp -:df-> d:Block;
-        a -:df-> :Jmp -:df-> c:Block -:df-> :Jmp -:df-> d;
+        a:Block -:df-> :Jmp -:df-> b:Block -:df-> :Proj -:df-> d:Block;
+        a       -:df-> :Jmp -:df-> c:Block -:df-> :Proj -:df-> d;
         a <-:df- :End;
     }
 }
@@ -89,3 +89,68 @@ rule BuildCDep(cur:Block, top:Block, bottom:Block) : (Block)
         return(next);
     }
 }
+
+rule IFConv
+{
+    bottom:Block -l:df-> :Jmp -:df-> lb:Block -:cdep-> top      ;
+    bottom       -r:df-> :Jmp -:df-> rb:Block -:cdep-> top:Block;
+    modify {
+        exec(ICCheckLeftEnd(lb, top, lb, rb, bottom));
+    }
+}
+
+rule ICCheckLeftEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block)
+{
+    cur -:df-> :Proj -:df-> top;
+    modify {
+        exec(ICCheckRightEnd(right, top, left, right, bottom));
+    }
+}
+
+rule ICCheckRightEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block)
+{
+    cur -:df-> :Proj -:df-> top;
+    modify {
+        exec(MoveToBlock(left, top)[*] | MoveToBlock(right, top)[*]);
+    }
+}
+
+rule MoveToBlock(from:Block, to:Block)
+{
+    n:IR_node\(Jmp) -d:df-> from;
+    modify {
+        delete(d);
+        n -:df-> to;
+    }
+}
+
+
+/*rule IFConv
+{
+    b:Block -l:df-> n:Jmp -:df-> prev:Block;
+    modify {
+        exec((top)=IFConvLeftEnd(prev,b,l));
+    }
+}
+
+rule IFConvLeftEnd(cur:Block, bottom:Block, -left:df->) : (Block)
+{
+    cur -:df-> :Proj -:df-> top:Block;
+    modify {
+        exec(IFConvRightStart(bottom, top, left));
+        return(top);
+    }
+}
+
+rule IFConvRightStart(bottom:Block, top:Block, -left:df->)
+{
+    bottom -:df-> :Jmp -:df-> prev:Block -:cdep-> top;
+    modify {
+        exec(IFConvRightEnd(prev, 
+    }    
+}
+
+test IFConvRightEnd(cur:Block, top:Block)
+{
+    cur -:df-> :Proj -:df-> top;
+}*/

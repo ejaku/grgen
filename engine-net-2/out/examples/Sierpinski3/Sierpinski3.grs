@@ -14,4 +14,4 @@ dump set node CA color pink
 dump set edge Edge color gold
 
 # Replace [2] by [4] to get 2 more iterations
-xgrs [gen][9]
+debug xgrs [gen][2]

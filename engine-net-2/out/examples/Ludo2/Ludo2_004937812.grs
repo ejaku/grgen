@@ -1,0 +1,37 @@
+new graph Ludo2
+
+debug set layout Organic
+
+dump add edge nextPlayer exclude
+dump add edge nextFigure exclude
+dump add edge only red exclude
+dump add edge only blue exclude
+dump add edge only yellow exclude
+dump add edge only green exclude
+dump add edge only current exclude
+dump add edge only last exclude
+
+dump add node Dice infotag dots
+dump add node Dice infotag rolls
+dump set node Dice color lightpurple
+dump set node RedFigure color red
+dump set node BlueFigure color blue
+dump set node YellowFigure color yellow
+dump set node GreenFigure color green
+
+dump set edge red color red
+dump set edge blue color blue
+dump set edge yellow color gold
+dump set edge green color green
+dump set edge anyPath color black
+dump set edge invisible color white
+dump set edge invisible textcolor white
+dump set edge holds color lightpurple
+
+xgrs init && (dice)=getDice
+
+dice.rand = 4937812
+
+xgrs (((nextRandom && !trimRandom)* | (!(((put || move1 || move2 || move3 || move4 || move5 || move6) && ((knockout || noKnockout) && (removeOldOccupies || true) && removeIntends || !removeIntends) && resetFigureChoice) || !(chooseNextFigure || !resetFigureChoice)))* | nextPlayer) & !won)*
+
+dice.rolls

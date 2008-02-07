@@ -45,6 +45,9 @@ xgrs init && (dice)=getDice
 
 dice.rand = 98754321
 
+debug enable
+debug set layout option INITIAL_PLACEMENT AS_IS
+
 debug xgrs                                                                \
   (                                                                       \
     (                                                                     \
