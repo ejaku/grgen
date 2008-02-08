@@ -24,8 +24,6 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
@@ -90,20 +88,6 @@ public class ConnAssertNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		
-		// ensure that the used types are resolved
-		DeclarationResolver<TypeDeclNode> declResolver =
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
-
-		TypeDeclNode srcDecl = declResolver.resolve(srcUnresolved, this);
-		if (srcDecl != null) {
-			srcDecl.resolve();
-		}
-		TypeDeclNode tgtDecl = declResolver.resolve(tgtUnresolved, this);
-		if (tgtDecl != null) {
-			tgtDecl.resolve();
-		}
-		
 		src = nodeResolver.resolve(srcUnresolved, this);
 		successfullyResolved = src!=null && successfullyResolved;
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
