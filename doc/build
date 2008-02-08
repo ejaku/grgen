@@ -43,10 +43,10 @@ for F in $@ ; do
       echo pdfLaTeX [6]...
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
       
-	  echo Optimizing...
-	  mv "$F".pdf "$F".pdf.unopt
-      pdfopt "$F".pdf.unopt "$F".pdf
-      rm "$F".pdf.unopt
+#	  echo Optimizing...
+#	  mv "$F".pdf "$F".pdf.unopt
+#      pdfopt "$F".pdf.unopt "$F".pdf
+#      rm "$F".pdf.unopt
   
       if [ $OSTYPE = darwin8.0 ] ; then
         open "$F".pdf
