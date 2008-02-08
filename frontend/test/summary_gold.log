@@ -1,4 +1,3 @@
-OK     should_pass/SnowflakeAGTIVE.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
@@ -195,6 +194,7 @@ OK     should_pass/reuse_005.grg
 OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
+OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/to_001.grg
 OK     should_pass/to_002.grg
 OK     should_pass/to_003.grg

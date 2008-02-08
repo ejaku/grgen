@@ -1,4 +1,4 @@
-using SnowflakeAGTIVEModel;
+using snowflakeAGTIVEModel;
 
 rule init : (Gen1Edge, Gen2Edge) {
 
