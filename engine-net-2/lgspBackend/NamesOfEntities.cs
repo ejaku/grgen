@@ -87,6 +87,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             return "PatternAction_" + subpatternName;
         }
+
+        /// <summary>
+        /// Returns name of the rule pattern class
+        /// </summary>
+        public static string RulePatternClassName(string rulePatternName, bool isSubpattern)
+        {
+            return (isSubpattern ? "Pattern_" : "Rule_") + rulePatternName;
+        }
     }
 }
 

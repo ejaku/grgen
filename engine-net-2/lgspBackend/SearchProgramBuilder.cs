@@ -48,7 +48,6 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
 
             scheduledSearchPlan = scheduledSearchPlan_;
-            nameOfRulePatternType = rulePattern_.GetType().Name;
             enclosingPositiveOperation = null;
             rulePattern = rulePattern_;
             model = model_;
@@ -152,11 +151,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// the scheduled search plan to build
         /// </summary>
         private ScheduledSearchPlan scheduledSearchPlan;
-
-        /// <summary>
-        /// name of the rule pattern type of the rule pattern that is built
-        /// </summary>
-        private string nameOfRulePatternType;
 
         /// <summary>
         /// the innermost enclosing positive candidate iteration operation 
@@ -851,7 +845,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check condition with current partial match
             CheckPartialMatchByCondition checkCondition =
                 new CheckPartialMatchByCondition(condition.ID.ToString(),
-                    nameOfRulePatternType,
+                    NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern),
                     condition.NeededNodes,
                     condition.NeededEdges);
             insertionPoint = insertionPoint.Append(checkCondition);
@@ -895,8 +889,10 @@ namespace de.unika.ipd.grGen.lgsp
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Node,
+                            patternGraph.nodes[i].UnprefixedName(),
                             patternGraph.nodes[i].Name,
-                            i.ToString()
+                            rulePattern.name,
+                            rulePattern.isSubpattern
                         );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
@@ -905,8 +901,10 @@ namespace de.unika.ipd.grGen.lgsp
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
                             BuildMatchObjectType.Edge,
+                            patternGraph.edges[i].UnprefixedName(),
                             patternGraph.edges[i].Name,
-                            i.ToString()
+                            rulePattern.name,
+                            rulePattern.isSubpattern
                         );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
@@ -988,7 +986,7 @@ namespace de.unika.ipd.grGen.lgsp
                         new GetTypeByIteration(
                             GetTypeByIterationType.ExplicitelyGiven,
                             target.PatternElement.Name,
-                            nameOfRulePatternType,
+                            NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern),
                             isNode);
                     continuationPoint = insertionPoint.Append(typeIteration);
 
@@ -1027,7 +1025,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new CheckCandidateForType(
                         CheckCandidateForTypeType.ByIsAllowedType,
                         target.PatternElement.Name,
-                        nameOfRulePatternType,
+                        NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern),
                         isNode);
                 insertionPoint = insertionPoint.Append(checkType);
 

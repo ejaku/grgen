@@ -106,6 +106,11 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType,
             PatternElementType patternElementType, int parameterIndex)
             : base(typeID, name, allowedTypes, isAllowedType, patternElementType, parameterIndex) { }
+
+        public string UnprefixedName()
+        {
+            return name.Substring("node_".Length);
+        }
     }
 
     [DebuggerDisplay("PatternEdge ({ToString()})")]
@@ -186,6 +191,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return source.Name + " -" + Name + ":" + TypeID + "-> " + target.Name;
+        }
+
+        public string UnprefixedName()
+        {
+            return name.Substring("edge_".Length);
         }
     }
 

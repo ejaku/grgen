@@ -278,36 +278,21 @@ public class ActionsGen extends CSharpBase {
 	/////////////////////////////////////////
 
 	private void genRuleOrSubpatternInit(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
-		int i = 0;
 		sb.append("\t\tpublic enum NodeNums { ");
 		for(Node node : action.getPattern().getNodes()) {
-			if(i == 0)
-				sb.append("@" + formatIdentifiable(node) + "  = 1, ");
-			else
-				sb.append("@" + formatIdentifiable(node) + ", ");
-			++i;
+			sb.append("@" + formatIdentifiable(node) + ", ");
 		}
 		sb.append("};\n");
 
-		i = 0;
 		sb.append("\t\tpublic enum EdgeNums { ");
 		for(Edge edge : action.getPattern().getEdges()) {
-			if(i == 0)
-				sb.append("@" + formatIdentifiable(edge) + " = 1, ");
-			else
-				sb.append("@" + formatIdentifiable(edge) + ", ");
-			++i;
+			sb.append("@" + formatIdentifiable(edge) + ", ");
 		}
 		sb.append("};\n");
 
-		i = 0;
 		sb.append("\t\tpublic enum PatternNums { ");
 		for(SubpatternUsage sub : action.getPattern().getSubpatternUsages()) {
-			if(i == 0)
-				sb.append("@" + formatIdentifiable(sub) + " = 1, ");
-			else
-				sb.append("@" + formatIdentifiable(sub) + ", ");
-			++i;
+			sb.append("@" + formatIdentifiable(sub) + ", ");
 		}
 		sb.append("};\n");
 		sb.append("\n");
@@ -322,7 +307,7 @@ public class ActionsGen extends CSharpBase {
 		int condCnt = genPatternGraph(sb, null, pattern, "patternGraph", 0, -1, parameters);
 		sb.append("\n");
 
-		i = 0;
+		int i = 0;
 		for(PatternGraph neg : action.getNegs()) {
 			String negName = "negPattern_" + i;
 			sb.append("\t\t\tPatternGraph " + negName + ";\n");
@@ -875,8 +860,7 @@ public class ActionsGen extends CSharpBase {
 		for(Node node : nodesNeededAsElements) {
 			if(!node.isRetyped()) {
 				sb.append("\t\t\tLGSPNode " + formatEntity(node)
-							  + " = match.Nodes[ (int) NodeNums.@"
-							  + formatIdentifiable(node) + " - 1 ];\n");
+							  + " = match.Nodes[ (int) NodeNums.@" + formatIdentifiable(node) + "];\n");
 			}
 		}
 		for(Node node : nodesNeededAsAttributes) {
@@ -885,14 +869,13 @@ public class ActionsGen extends CSharpBase {
 				if(nodesNeededAsElements.contains(node))
 					sb.append(formatEntity(node) + ";\n");
 				else
-					sb.append("match.Nodes[ (int) NodeNums.@" + formatIdentifiable(node) + " - 1 ];\n");
+					sb.append("match.Nodes[ (int) NodeNums.@" + formatIdentifiable(node) + "];\n");
 			}
 		}
 		for(Edge edge : edgesNeededAsElements) {
 			if(!edge.isRetyped()) {
 				sb.append("\t\t\tLGSPEdge " + formatEntity(edge)
-							  + " = match.Edges[ (int) EdgeNums.@"
-							  + formatIdentifiable(edge) + " - 1 ];\n");
+							  + " = match.Edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + "];\n");
 			}
 		}
 		for(Edge edge : edgesNeededAsAttributes) {
@@ -901,7 +884,7 @@ public class ActionsGen extends CSharpBase {
 				if(edgesNeededAsElements.contains(edge))
 					sb.append(formatEntity(edge) + ";\n");
 				else
-					sb.append("match.Edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + " - 1 ];\n");
+					sb.append("match.Edges[ (int) EdgeNums.@" + formatIdentifiable(edge) + "];\n");
 			}
 		}
 

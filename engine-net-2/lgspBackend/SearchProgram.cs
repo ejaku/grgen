@@ -1769,22 +1769,26 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public BuildMatchObject(
             BuildMatchObjectType type,
+            string patternElementUnprefixedName,
             string patternElementName,
-            string matchIndex)
+            string rulePatternName,
+            bool isSubpattern)
         {
             Type = type;
+            PatternElementUnprefixedName = patternElementUnprefixedName;
             PatternElementName = patternElementName;
-            MatchIndex = matchIndex;
+            RulePatternName = rulePatternName;
+            IsSubpattern = isSubpattern;
         }
 
         public override void Dump(SourceBuilder builder)
         {
+            string rulePatternClassName = NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
             builder.AppendFront("BuildMatchObject ");
             if (Type == BuildMatchObjectType.Node) builder.Append("Node ");
             if (Type == BuildMatchObjectType.Edge) builder.Append("Edge ");
             if (Type == BuildMatchObjectType.Subpattern) builder.Append("Subpattern ");
-            builder.AppendFormat("on {0} index:{1} \n", 
-                PatternElementName, MatchIndex);
+            builder.AppendFormat("with {0} within {1}\n", PatternElementName, rulePatternClassName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1795,20 +1799,28 @@ namespace de.unika.ipd.grGen.lgsp
                     PatternElementName, Type == BuildMatchObjectType.Node);
                 string matchObjectElementMember =
                     Type==BuildMatchObjectType.Node ? "Nodes" : "Edges";
-                sourceCode.AppendFrontFormat("match.{0}[{1}] = {2};\n",
-                    matchObjectElementMember, MatchIndex,
+                string nameToIndexEnum =
+                    Type==BuildMatchObjectType.Node ? "NodeNums" : "EdgeNums";
+                string rulePatternClassName =
+                    NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
+                sourceCode.AppendFrontFormat("match.{0}[(int){1}.{2}.@{3}] = {4};\n",
+                    matchObjectElementMember, rulePatternClassName, nameToIndexEnum, PatternElementUnprefixedName,
                     variableContainingCandidate);
             }
             else
             {
-                sourceCode.AppendFrontFormat("match.EmbeddedGraphs[{0}] = currentFoundPartialMatch.Pop();\n",
-                    MatchIndex);
+                string rulePatternClassName = NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
+                sourceCode.AppendFrontFormat("match.EmbeddedGraphs[(int){0}.PatternNums.@{1}]",
+                    rulePatternClassName, PatternElementUnprefixedName);
+                sourceCode.Append(" = currentFoundPartialMatch.Pop();\n");
             }
         }
 
-        public string PatternElementName;
-        public string MatchIndex;
         public BuildMatchObjectType Type;
+        public string PatternElementUnprefixedName;
+        public string PatternElementName;
+        public string RulePatternName;
+        public bool IsSubpattern;
     }
 
     /// <summary>
