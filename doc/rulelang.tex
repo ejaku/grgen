@@ -223,9 +223,9 @@ Some graphlets:
       \node (n4) at (3,0) {};
     	
       \draw[-latex] (n2) -- (n1) {};
-      \draw[-latex] (n2) -- (n3) node[midway,above] {$e$};
-      \draw[-latex] (n4) -- (n3) {};
-    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{-e:Edge->} \\ \texttt{<-- .\ -e-> .\ <--\ ;} \end{tabular}
+      \draw[-latex] (n3) -- (n2) node[midway,above] {$e$};
+      \draw[-latex] (n3) -- (n4) {};
+    \end{tikzpicture}\end{tabular} & \begin{tabular}[c]{l} \texttt{-e:Edge->} \\ \texttt{<-- .\ <-e- .\ -->\ ;} \end{tabular}
 \end{tabular}\\
 \end{center}
 \mbox{ }\\
@@ -259,11 +259,16 @@ The structure of a \indexed{rule set} file is as follows:
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules. In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
-  TestDeclaration: 'test' ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: 'rule' (() | 'dpo') ActionSignature lbrace Pattern Replace rbrace ;
-\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{dpo}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
-Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{replacepart}). The modifier \texttt{dpo} switches to dpo semantics. See section \ref{sct:patternmodifier} for an explanation of available rule and pattern modifiers. A \newterm{test} has no rewrite specification. It's intended to check whether (and maybe how many times) a pattern occurs.
+  TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
+  RuleDeclaration: 'rule' (() | 'exact' | 'induced' | 'dpo') ActionSignature lbrace Pattern Replace rbrace ;
+\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
+Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. 
+It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{replacepart}). 
+A \newterm{test} has no rewrite specification. 
+It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
+For an explanation of the \texttt{exact}, \texttt{induced}, and \texttt{dpo} pattern modifiers see section \ref{sct:patternmodifier}. 
 \begin{example}
+\label{ex:rulelang:testrule}
 We define a test \texttt{SomeCond}
 \begin{grgen}
 test SomeCond {
@@ -714,14 +719,14 @@ A parameter is alive from its first assignment until the end of the enclosing \t
 
 \makeatletter
 \begin{rail}
-  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand));
+  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
   RewriteTerm: (() | '(' (Parameter+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule) |
     'def' '(' (Parameter+',') ')' |
     'true' |
     'false' |
-    Parameter '=' (NodeOrEdge | Parameter) |
+    Parameter '=' Ident |
     '(' RewriteSequence ')' ;
-  Rule: RuleIdent (() | '(' ((NodeOrEdge | Parameter)+',') ')');
+  Rule: RuleIdent (() | '(' (Ident+',') ')');
 \end{rail}\ixnterm{RewriteSequence}\ixnterm{RewriteTerm}\ixnterm{Rule}\ixnterm{Parameter}
 \makeatother
 \mbox{\quad}\\
@@ -732,10 +737,11 @@ Table~\ref{ruletab} lists graph rewrite expressions at a glance. Unless you use 
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{s | t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s || t}		& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
+\texttt{s | t}		& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
 \texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed iff \texttt{s} and \texttt{t} is successful.\\
 \texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
+\texttt{s \^ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^ t} is successfully executed iff \texttt{s} is successful or \texttt{t} successfully but not both; so this an XOR sequence.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
 \texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
@@ -747,7 +753,7 @@ Table~\ref{ruletab} lists graph rewrite expressions at a glance. Unless you use 
 \texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
-\end{tabularx}\indexmain{\texttt{;}}\indexmain{\texttt{\&\&}@\texttt{"|}}
+\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
 \ixkeyw{def}
 \end{minipage}\\

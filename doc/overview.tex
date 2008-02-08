@@ -7,11 +7,12 @@
 
 {\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting.
 For the potentially expensive matching problem, {\scshape GrGen} applies several novel heuristic optimizations.
-According to \indexed{Varr\'o's benchmark}, it is at least one order of magnitude faster than any other tool known to us.
+According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
 
 In order to accelerate the matching step, we internally introduce \newterm{search plans} to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
 For the rewrite step, our tool implements the well-founded \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}).
+We also support the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoapproach}).
 
 For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
 In contrast to systems like \indexed{Fujaba}~\cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
@@ -29,6 +30,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item The graph model (meta-model) supports:
   \begin{itemize}
     \item Directed graphs
+    \item Undirected and arbitrarily directed edges (will be implemented in version 2.0)
     \item Typed nodes and edges, with multiple inheritance on types
     \item Node and edge types can be equipped with typed attributes (like structs)
     \item Multigraphs (including multiple edges of the same type)
@@ -39,10 +41,11 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \begin{itemize}
     \item Plain isomorphic subgraph matching (injective mapping)
     \item Homomorphic matching for a selectable set of nodes/edges, so that the matching is not injective
+    \item Three modes for the semantics of a rule application additional to SPO: matching of exact patterns only, matching of induced subgraphs only, and DPO semantics
     \item Attribute conditions (including arithmetic operations on the attributes)
     \item Type conditions (including powerful instanceof-like type expressions)
     \item Parameter passing to rules
-    \item \indexed{Dynamic patterns} with iterative or recursive paths and graphs (yet to be implemented)
+    \item Dynamic patterns\indexmain{dynamic patterns} with iterative or recursive paths and graphs (to be implemented in version 2.0)
   \end{itemize}
   
   \item The rewrite language supports:
@@ -52,15 +55,15 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
     \item Creation of new nodes/edges of statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
-	  \item Copying (duplicating) of elements form the match---comparable with \indexed{sesqui-pushout} rewriting~\cite{CHHK:06} (yet to be implemented)
+    \item Copying (duplicating) of elements form the match---comparable with \indexed{sesqui-pushout} rewriting~\cite{CHHK:06} (to be implemented in version 2.0)
+    \item Composing several rules with logical and iterative sequence control (called graph rewrite sequences, GRS), including support for nested transactions\indexmain{transaction, nested}
+    \item Emitting user-defined text to \texttt{stdout} during the rewrite steps
   \end{itemize}
   
   \item The rule application language (\GrShell) supports:
   \begin{itemize}
-    \item Composing several rules with logical and iterative sequence control (called graph rewrite sequences, GRS)
     \item Various methods for creation/deletion/input/output of graphs/nodes/edges 
     \item Stepwise and graphic debugging of rule application
-    \item Graph rewrite sequences that can contain nested transactions\indexmain{transaction, nested}
   \end{itemize}
   
   \item Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. In this way you can build your own algorithmic rule applications in a .NET language of your choice. 
@@ -431,7 +434,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
       \texttt{-debug} & Compile the assemblies with debug information.\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
     \end{tabularx}
-  \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above). Java Runtime Environment 1.5 (or above).
+  \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above). Java Runtime Environment 1.5 (or above).
 \end{description}
 
 \subsection{\texttt{\indexed{GrShell.exe}}}
@@ -444,12 +447,12 @@ The \GrShell\indexmain{GrShell} is a shell application of the \LibGr. \GrShell\ 
     \begin{tabularx}{\linewidth}{lX}
       \texttt{-C} & Execute the quoted \GrShell\ commands immediately (before the first script file). Instead of a line break use a double semicolon \texttt{;;} to separate commands.
     \end{tabularx}
-  \item[Requires] .NET 2.0 (or above) or Mono 1.2.2 (or above).
+  \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
 \end{description}
 
 \subsection{\texttt{\indexed{LibGr.dll}}}
 \label{sct:API}
-The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions at \url{http://www.info.uni-karlsruhe.de/software/grgen/doc/libGr/}. 
+The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}. See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/libGr/}. 
 
 \subsection{\texttt{\indexed{yComp.jar}}}
 \label{tools:ycomp}

@@ -170,10 +170,18 @@ connect A[*] -> D, B[0:5] -> D, C[*] -> D
 \end{table}
 
 \begin{rail}    
-  AttributeDeclarations: (() | IdentDecl ':' AttributeType (() | '=' Expression) ';') + ;
+  AttributeDeclarations: (() | IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite) + ;
   AttributeType: PrimitiveType | EnumType ; 
-\end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}
-Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference.
+  AttributeOverwrite: Ident '=' Expression
+\end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}
+Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference. The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes. The initialization values are evaluated in the order as they appear in the rule set file.
+\begin{example}
+	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
+	\begin{grgen}
+x: int = y;
+y: int = 42;	
+	\end{grgen}
+\end{example}
 
 
 
