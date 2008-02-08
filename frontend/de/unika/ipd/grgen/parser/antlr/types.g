@@ -179,7 +179,7 @@ connectAssertion [ CollectNode<ConnAssertNode> c ]
 
 edgeExtends [IdentNode clsId] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
 	: EXTENDS edgeExtendsCont[clsId, c]
-	|	{ c.addChild(env.getEdgeRoot()); }
+	|	{ c.addChild(env.getDirectedEdgeRoot()); }
 	;
 
 edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
@@ -203,7 +203,7 @@ edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 				reportError(e.getCoords(), "A class must not extend itself");
 		}
 	)*
-		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getEdgeRoot()); }
+		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getDirectedEdgeRoot()); }
 	;
 
 nodeExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]

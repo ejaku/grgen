@@ -330,7 +330,7 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 		boolean forward = true;
 	}
 
-	:   ( e=forwardEdgeOcc[context] { forward=true; } // get first edge
+	:   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; } // get first edge
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
@@ -452,7 +452,7 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	}
 
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
-	|   ( e=forwardEdgeOcc[context] { forward=true; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; }
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, n, forward, conn, context] // continue looking for node
@@ -465,7 +465,7 @@ edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 	}
 
 	:   // nothing following? -> connection end reached
-	|   ( e=forwardEdgeOcc[context] { forward=true; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; }
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, left, forward, conn, context] // continue looking for node
@@ -534,13 +534,23 @@ nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 			}
 	;
 
-forwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
-	: MINUS ( res=edgeDecl[context] | res=entIdentUse) RARROW
-	| mm:DOUBLE_RARROW
+forwardOrUndirectedEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
+	: MINUS ( res=edgeDecl[context] | res=entIdentUse) forwardOrUndirectedEdgeOccContinuation
+	| da:DOUBLE_RARROW
+		{
+			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+		}
+	| mm:MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 		}
+	;
+
+forwardOrUndirectedEdgeOccContinuation
+	: MINUS
+	| RARROW
 	;
 
 backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
@@ -548,7 +558,16 @@ backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
 	| mm:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+		}
+	;
+
+undirectedEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
+	: MINUS ( res=edgeDecl[context] | res=entIdentUse ) MINUS
+	| mm:MINUSMINUS
+		{ // TODO
+			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 		}
 	;
 
@@ -566,7 +585,7 @@ edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
 				res=edgeTypeContinuation[id, context]
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
-				{ res = new EdgeDeclNode(id, env.getEdgeRoot(), context, TypeExprNode.getEmpty()); }
+				{ res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty()); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc:COLON
