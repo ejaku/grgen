@@ -1,0 +1,16 @@
+using attrib_model_001;
+
+rule r1 {
+  x:NINT;
+  modify {
+    emit(x.a, " => ");
+    exec([r2(x)]);
+  }
+}
+
+rule r2(x:Node) {
+  x --> y:NINT;
+  modify {
+    emit(y.a + ", ");
+  }
+}

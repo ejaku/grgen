@@ -1,0 +1,26 @@
+using attrib_model_001;
+
+rule r1 {
+  x:NINT;
+  modify {
+    emit(x.a, " => ");
+    exec(<([r2(x)] || true) && !r3>);
+  }
+}
+
+rule r2(x:Node) {
+  x --> y:NINT;
+  modify {
+    y --> z:NINT;
+    eval { z.a = y.a + 1; y.a = z.a + 1;}
+    emit(y.a + ", ");
+  }
+}
+
+rule r3 {
+  x:NINT;
+  if { x.a == 7; }
+  modify {
+    emit("\nFound 7!");
+  }
+}
