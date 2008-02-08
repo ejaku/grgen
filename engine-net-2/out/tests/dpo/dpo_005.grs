@@ -6,10 +6,10 @@ show num edges
 xgrs init5
 show num nodes
 show num edges
-xgrs ?[deleteDanglingIncomingEdge]
+xgrs [?deleteDanglingIncomingEdge]
 show num nodes
 show num edges
-xgrs ?[deleteDanglingOutgoingEdge]
+xgrs [?deleteDanglingOutgoingEdge]
 show num nodes
 show num edges
 

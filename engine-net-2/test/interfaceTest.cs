@@ -12,6 +12,8 @@ interface IAI : IA
 
 #if TEST_FIRST
 
+// This succeeds
+
 class AI : IAI
 {
 	public int val { get { return 42; } set {} }
@@ -39,6 +41,8 @@ class AI : IAI
 }
 
 #else
+
+// This fails to compile in stuff2
 
 interface IAI2 : IAI { }
 

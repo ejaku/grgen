@@ -2,6 +2,6 @@ new graph "lib\lgsp-induced2Model.dll" "Nice Graph"
 select actions "lib\lgsp-induced2Actions.dll"
 
 xgrs init2
-xgrs ?[inducedTest3]
+xgrs [?inducedTest3]
 
 quit

@@ -6,6 +6,6 @@ show num edges
 xgrs init2
 show num nodes
 show num edges
-xgrs ?[deleteAll]
+xgrs [?deleteAll]
 
 quit

@@ -2,34 +2,34 @@ new graph NegAndHom/NegAndHom
 
 new :intNode($="3",val=3)
 
-xgrs %[testRule]
-xgrs %[testRuleWithNAC]
-xgrs %[testRuleWithNAC2]
-xgrs %[testRuleWithNAC3]
-xgrs %[testRuleWithNAC4]
+xgrs [%testRule]
+xgrs [%testRuleWithNAC]
+xgrs [%testRuleWithNAC2]
+xgrs [%testRuleWithNAC3]
+xgrs [%testRuleWithNAC4]
 
 new :intNode($="4",val=4)
 
-xgrs %[testRule]
-xgrs %[testRuleWithNAC]
-xgrs %[testRuleWithNAC2]
-xgrs %[testRuleWithNAC3]
-xgrs %[testRuleWithNAC4]
+xgrs [%testRule]
+xgrs [%testRuleWithNAC]
+xgrs [%testRuleWithNAC2]
+xgrs [%testRuleWithNAC3]
+xgrs [%testRuleWithNAC4]
 
 new :intNode($="4_",val=4)
 
-xgrs %[testRule]
-xgrs %[testRuleWithNAC]
-xgrs %[testRuleWithNAC2]
-xgrs %[testRuleWithNAC3]
-xgrs %[testRuleWithNAC4]
+xgrs [%testRule]
+xgrs [%testRuleWithNAC]
+xgrs [%testRuleWithNAC2]
+xgrs [%testRuleWithNAC3]
+xgrs [%testRuleWithNAC4]
 
 new :intNode($="3_",val=3)
 
-xgrs %[testRule]
-xgrs %[testRuleWithNAC]
-xgrs %[testRuleWithNAC2]
-xgrs %[testRuleWithNAC3]
-xgrs %[testRuleWithNAC4]
+xgrs [%testRule]
+xgrs [%testRuleWithNAC]
+xgrs [%testRuleWithNAC2]
+xgrs [%testRuleWithNAC3]
+xgrs [%testRuleWithNAC4]
 
 quit

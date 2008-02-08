@@ -1,7 +1,41 @@
-v2.0alpha
+TODO: exec debugging
+
+v1.4 (2008-02-08)
  Features:
-  - "dpo", "induced", "exact" are keywords, now.
-  - "null" is keyword, now. It represents the default object value.
+  - Introduced imperative statements "emit" and "exec" in RHS
+  - Introduced abstract members in element types
+   (these members do not have a type, yet)
+  - Introduced "dpo", "induced" and "exact" modifiers for rules
+  - Introduced "induced" and "exact" statements in rule patterns
+  - "null" is keyword, now. It represents the default object value
+  - Member initializers in model specification
+  - Added support for external implementations of element types
+  - Updated implicit and explicit casts (see user manual section 5.1)
+  - Several API improvements like direct access to element attributes
+ 
+ Fixes:
+  - Enums are now allowed as values in '?:'-operators
+  - Fixed dependency calculation for includes in grg-files
+  - GrShell "save graph" command
+  - GrShell debugging of sequences containing "[SomeRule]"
+  - GrShell "dump (node|edge) only <nodeType> exclude" command
+  - Problems with edge parameters
+  - Handling of abstract element classes
+
+ Examples:
+  - Added Sierpinksi3 (with parallel rewrite semantics)
+  - Added UML example
+  - Added FiniteStateMachine example
+  - Added UML2CSP2 example using the new emit statement
+ 
+ Other changes:
+  - "pattern" part is now directly embedded in rules and tests
+  - Added XML documentation files for Intellisense help in IDEs
+  - Replaced 'include "<grg-file>";' by '#include "<grg-file>'
+  - ycomp.bat does not need to be edited anymore
+  - Changed syntax for rule application in xgrs:
+    e.g. "%?[(a,b)=R(a,c)]" to "(a,b)=[?%R(a,c)]"
+
 
 v1.3.1 (2007-12-07)
  Features:
@@ -126,6 +160,7 @@ v1.2 (2007-07-19)
   - Fixed casts to strings
   - Fixed conditions containing casts
   - Fixed float constants
+
 
 v1.1 (2007-07-02)
  - Base of change log

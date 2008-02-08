@@ -3,5 +3,5 @@ select actions "lib/lgsp-PatternHomNegActions.dll"
 
 new n1:N
 show num nodes
-xgrs ?[test1]
+xgrs [?test1]
 quit

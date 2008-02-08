@@ -7,10 +7,10 @@ show num edges
 xgrs init2
 show num nodes
 show num edges
-xgrs ?[inducedTest1]
+xgrs [?inducedTest1]
 show num nodes
 show num edges
-xgrs ?[inducedTest2]
+xgrs [?inducedTest2]
 show num nodes
 show num edges
 

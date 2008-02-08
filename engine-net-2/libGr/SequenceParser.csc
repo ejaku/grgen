@@ -277,27 +277,15 @@ Sequence SingleSequence():
 
 Sequence SimpleSequence():
 {
-	bool special = false, test = false;
+    bool special = false;
 	Sequence seq;
-	RuleObject ruleObject;
 	ArrayList defParamVars = new ArrayList();
 	String toVarName, fromName;
 	NamedGraph namedGraph;
 	IGraphElement elem;
 }
 {
-	LOOKAHEAD(3)
-	("%" { special = true; } | "?" { test = true; })* "[" ruleObject=Rule() "]"
-	{
-		if(ruleObject == null)
-		{
-			return null;
-		}
-		return new SequenceRuleAll(ruleObject, special, test);
-	}
-|
-	LOOKAHEAD(2)
-    toVarName=Text() "="
+	LOOKAHEAD(2) toVarName=Text() "="
     (
         fromName=Text()
         {
@@ -322,14 +310,9 @@ Sequence SimpleSequence():
     )
 |
     // 4 tokens lookahead: "(" <TEXT> ")" ("=" => next is Rule() | (<NL> | operator) => parentheses around RewriteSequence)
-	LOOKAHEAD(4)        
-	("%" { special = true; } | "?" { test = true; })* ruleObject=Rule()
+	LOOKAHEAD(4) seq=Rule()
 	{
-		if(ruleObject == null)
-		{
-			return null;
-		}
-		return new SequenceRule(ruleObject, special, test);
+		return seq;
 	}
 |
 	"def" "(" Parameters(defParamVars) ")"
@@ -359,31 +342,47 @@ Sequence SimpleSequence():
 }
 
 
-RuleObject Rule():
+Sequence Rule():
 {
+	bool special = false, test = false;
 	String str;
 	IAction action = null;
-	RuleObject ruleObj;
 	bool retSpecified = false;
 	ArrayList paramVars = new ArrayList();
 	ArrayList returnVars = new ArrayList();
 }
 {
-	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" Parameters(paramVars) ")")?
-	{
-	    if(actions != null)
+	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? 
+	(
+	    "[" ("%" { special = true; } | "?" { test = true; })* str=Text() ("(" Parameters(paramVars) ")")? "]"
 	    {
-		    action = actions.GetAction(str);
-		    if(action == null || action.RulePattern.Inputs.Length != paramVars.Count || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
-			    throw new SequenceParserRuleException(str, action, paramVars.Count, returnVars.Count);
-		    if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-		    {
-    			returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
-	    	}
+   		    return new SequenceRuleAll(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
 	    }
-   		ruleObj = new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)), (String[]) returnVars.ToArray(typeof(String)));
-   		if(actions == null)
-   		    ruleObj.RuleName = str;
-   		return ruleObj;
-	}
+	|
+	    ("%" { special = true; } | "?" { test = true; })* str=Text() ("(" Parameters(paramVars) ")")?
+	    {
+   		    return new SequenceRule(CreateRuleObject(str, paramVars, returnVars, retSpecified), special, test);
+	    }
+	)
+}
+
+CSHARPCODE
+RuleObject CreateRuleObject(String ruleName, ArrayList paramVars, ArrayList returnVars, bool retSpecified)
+{
+    IAction action = null;
+    if(actions != null)
+    {
+        action = actions.GetAction(ruleName);
+        if(action == null || action.RulePattern.Inputs.Length != paramVars.Count
+                          || retSpecified && action.RulePattern.Outputs.Length != returnVars.Count)
+	        throw new SequenceParserRuleException(ruleName, action, paramVars.Count, returnVars.Count);
+        if(!retSpecified && action.RulePattern.Outputs.Length > 0)
+		    returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
+    }
+    RuleObject ruleObj = new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)),
+                                                (String[]) returnVars.ToArray(typeof(String)));
+    if(actions == null)
+        ruleObj.RuleName = ruleName;
+        
+    return ruleObj;
 }

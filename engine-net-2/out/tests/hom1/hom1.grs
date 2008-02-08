@@ -3,9 +3,9 @@ new a
 new b
 show num nodes
 show num edges
-xgrs ?[homtest1]
-xgrs ?[homtest2]
-xgrs ?[homtest3]
+xgrs [?homtest1]
+xgrs [?homtest2]
+xgrs [?homtest3]
 show num nodes
 show num edges
 quit

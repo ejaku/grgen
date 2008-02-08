@@ -7,12 +7,12 @@ show num edges
 xgrs init1
 show num nodes
 show num edges
-xgrs ?[twoOfThreeExact]
-xgrs ?[oneOfTwoExact]
+xgrs [?twoOfThreeExact]
+xgrs [?oneOfTwoExact]
 xgrs oneOfTwoExact
 show num nodes
 show num edges
-xgrs ?[twoOfThreeExact]
-xgrs ?[oneOfTwoExact]
+xgrs [?twoOfThreeExact]
+xgrs [?oneOfTwoExact]
 
 quit

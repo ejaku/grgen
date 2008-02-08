@@ -21,5 +21,5 @@ new n1-e1:E->n2
 e1.a = 1
 show num nodes
 show num edges
-xgrs ?[test1]
+xgrs [?test1]
 quit
