@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.lgsp
                         checkPreset.CheckFailedOperations =
                             new SearchProgramList(checkPreset);
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(false);
+                            new CheckContinueMatchingMaximumMatchesReached(false, false);
                         checkPreset.CheckFailedOperations.Append(checkMaximumMatches);
 
                         string[] neededElementsForCheckOperation = new string[1];

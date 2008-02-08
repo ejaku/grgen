@@ -17,11 +17,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// dumps search program operation (as string) into source builder
+        /// to be implemented by concrete subclasses
         /// </summary>
         public abstract void Dump(SourceBuilder builder);
 
         /// <summary>
         /// emits c# code implementing search program operation into source builder
+        /// to be implemented by concrete subclasses
         /// </summary>
         public abstract void Emit(SourceBuilder sourceCode);
 
@@ -133,9 +135,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for search program list
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             SearchProgramOperation currentOperation = Next;
@@ -418,9 +417,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for get type by iteration search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if(sourceCode.CommentSourceCode)
@@ -509,9 +505,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, TypeID, IsNode);
         }
 
-        /// <summary>
-        /// Emits code for get type by drawing search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if(sourceCode.CommentSourceCode)
@@ -598,9 +591,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for get candidate by iteration search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (Type == GetCandidateByIterationType.GraphElements)
@@ -802,9 +792,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for get candidate by drawing search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if(Type==GetCandidateByDrawingType.NodeFromEdge)
@@ -939,9 +926,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check candidate for type search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // emit check decision
@@ -1001,9 +985,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check candidate failed search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // emit check failed code
@@ -1045,9 +1026,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check candidate for connectedness search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // emit check decision for is candidate connected to already found partial match
@@ -1111,9 +1089,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check candidate for isomorphy search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // open decision whether to fail
@@ -1246,9 +1221,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check candidate for preset search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // emit check whether candidate was preset (not null)
@@ -1326,9 +1298,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check partial match by negative pattern search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if(sourceCode.CommentSourceCode)
@@ -1416,9 +1385,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         }
 
-        /// <summary>
-        /// Emits code for check partial match by condition search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if(sourceCode.CommentSourceCode)
@@ -1486,9 +1452,6 @@ namespace de.unika.ipd.grGen.lgsp
 
         }
 
-        /// <summary>
-        /// Emits code for check partial match for subpatterns found search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
@@ -1530,9 +1493,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, Positive, IsNode);
         }
 
-        /// <summary>
-        /// Emits code for accept candidate search program operation, writes isomorphy information
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingCandidate = 
@@ -1548,6 +1508,39 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string PatternElementName;
         public bool Positive; // positive|negative
+        public bool IsNode; // node|edge
+    }
+
+    /// <summary>
+    /// Class representing operations to execute upon candidate gets accepted 
+    /// into a complete match of its subpattern, locking candidate for other subpatterns
+    /// </summary>
+    class AcceptCandidateGlobal : SearchProgramOperation
+    {
+        public AcceptCandidateGlobal(
+            string patternElementName,
+             bool isNode)
+        {
+            PatternElementName = patternElementName;
+             IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AcceptCandidateGlobal ");
+            builder.AppendFormat("on {0} node:{1}\n",
+                PatternElementName, IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string variableContainingCandidate =
+                NamesOfEntities.CandidateVariable(PatternElementName, IsNode);
+            sourceCode.AppendFrontFormat("{0}.isMatchedByEnclosingPattern = true;\n",
+                variableContainingCandidate);
+        }
+
+        public string PatternElementName;
         public bool IsNode; // node|edge
     }
 
@@ -1576,9 +1569,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternElementName, Positive, IsNode);
         }
 
-        /// <summary>
-        /// Emits code for abandon candidate search program operation, restores isomorphy information
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             string variableContainingCandidate = 
@@ -1592,6 +1582,39 @@ namespace de.unika.ipd.grGen.lgsp
 
         public string PatternElementName;
         public bool Positive; // positive|negative
+        public bool IsNode; // node|edge
+    }
+
+    /// <summary>
+    /// Class representing operations undoing effects of candidate acceptance 
+    /// into complete match of it's subpattern when performing the backtracking step (unlocks candidate)
+    /// </summary>
+    class AbandonCandidateGlobal : SearchProgramOperation
+    {
+        public AbandonCandidateGlobal(
+            string patternElementName,
+            bool isNode)
+        {
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("AbandonCandidateGlobal ");
+            builder.AppendFormat("on {0} node:{1}\n",
+                PatternElementName, IsNode);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string variableContainingCandidate =
+                NamesOfEntities.CandidateVariable(PatternElementName, IsNode);
+            sourceCode.AppendFrontFormat("{0}.isMatchedByEnclosingPattern = false;\n",
+                variableContainingCandidate);
+        }
+
+        public string PatternElementName;
         public bool IsNode; // node|edge
     }
 
@@ -1617,9 +1640,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for positive pattern was matched search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("LGSPMatch match = matches.matches.GetNewMatch();\n");
@@ -1655,9 +1675,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for positive pattern was matched search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("foundPartialMatches.push(new Stack<LGSPMatch>());\n");
@@ -1677,8 +1694,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class PatternAndSubpatternsMatched : SearchProgramOperation
     {
-        public PatternAndSubpatternsMatched()
+        public PatternAndSubpatternsMatched(int numberOfSubpatterns)
         {
+            NumberOfSubpatterns = numberOfSubpatterns;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -1693,22 +1711,22 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for positive pattern was matched search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("foreach(Stack<LGSPMatch> currentFoundPartialMatch in foundPartialMatches)\n");
+            sourceCode.AppendFront("foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
             sourceCode.AppendFront("LGSPMatch match = new LGSPMatch();\n");
+            sourceCode.AppendFrontFormat("match.EmbeddedGraphs = new LGSPMatch[{0}];\n", NumberOfSubpatterns);
             MatchBuildingOperations.Emit(sourceCode); // emit match building operations
             sourceCode.AppendFront("currentFoundPartialMatch.Push(match)\n");
 
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
         }
+
+        int NumberOfSubpatterns;
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -1728,13 +1746,20 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("NegativePatternMatched \n");
         }
 
-        /// <summary>
-        /// Emits code for negative pattern was matched operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // nothing to emit
         }
+    }
+
+    /// <summary>
+    /// Available types of BuildMatchObject operations
+    /// </summary>
+    enum BuildMatchObjectType
+    {
+        Node, // build match object with match for node 
+        Edge, // build match object with match for edge
+        Subpattern // build match object with match for subpattern
     }
 
     /// <summary>
@@ -1743,39 +1768,47 @@ namespace de.unika.ipd.grGen.lgsp
     class BuildMatchObject : SearchProgramOperation
     {
         public BuildMatchObject(
+            BuildMatchObjectType type,
             string patternElementName,
-            string matchIndex,
-            bool isNode)
+            string matchIndex)
         {
+            Type = type;
             PatternElementName = patternElementName;
             MatchIndex = matchIndex;
-            IsNode = isNode;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("BuildMatchObject ");
-            builder.AppendFormat("on {0} index:{1} node:{2}\n", 
-                PatternElementName, MatchIndex, IsNode);
+            if (Type == BuildMatchObjectType.Node) builder.Append("Node ");
+            if (Type == BuildMatchObjectType.Edge) builder.Append("Edge ");
+            if (Type == BuildMatchObjectType.Subpattern) builder.Append("Subpattern ");
+            builder.AppendFormat("on {0} index:{1} \n", 
+                PatternElementName, MatchIndex);
         }
 
-        /// <summary>
-        /// Emits code for build match object search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            string variableContainingCandidate = NamesOfEntities.CandidateVariable(
-                PatternElementName, IsNode);
-            string matchObjectElementMember =
-                IsNode ? "Nodes" : "Edges";
-            sourceCode.AppendFrontFormat("match.{0}[{1}] = {2};\n",
-                matchObjectElementMember, MatchIndex,
-                variableContainingCandidate);
+            if (Type != BuildMatchObjectType.Subpattern)
+            {
+                string variableContainingCandidate = NamesOfEntities.CandidateVariable(
+                    PatternElementName, Type == BuildMatchObjectType.Node);
+                string matchObjectElementMember =
+                    Type==BuildMatchObjectType.Node ? "Nodes" : "Edges";
+                sourceCode.AppendFrontFormat("match.{0}[{1}] = {2};\n",
+                    matchObjectElementMember, MatchIndex,
+                    variableContainingCandidate);
+            }
+            else
+            {
+                sourceCode.AppendFrontFormat("match.EmbeddedGraphs[{0}] = currentFoundPartialMatch.Pop();\n",
+                    MatchIndex);
+            }
         }
 
         public string PatternElementName;
         public string MatchIndex;
-        public bool IsNode; // node|edge
+        public BuildMatchObjectType Type;
     }
 
     /// <summary>
@@ -1830,9 +1863,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for adjust list heads search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (Type == AdjustListHeadsTypes.GraphElements)
@@ -1899,9 +1929,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check whether to continue matching for are tasks left search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFront("if(openTasks.Count==0)\n");
@@ -1922,8 +1949,9 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckContinueMatchingMaximumMatchesReached : CheckContinueMatching
     {
-        public CheckContinueMatchingMaximumMatchesReached(bool listHeadAdjustment)
+        public CheckContinueMatchingMaximumMatchesReached(bool subpatternLevel, bool listHeadAdjustment)
         {
+            SubpatternLevel = subpatternLevel;
             ListHeadAdjustment = listHeadAdjustment;
         }
 
@@ -1931,11 +1959,10 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // first dump check
             builder.AppendFront("CheckContinueMatching MaximumMatchesReached ");
-            if (ListHeadAdjustment) {
-                builder.Append("ListHeadAdjustment\n");
-            } else {
-                builder.Append("\n");
-            }
+            if (ListHeadAdjustment) builder.Append("ListHeadAdjustment ");
+            if (SubpatternLevel) builder.Append("SubpatternLevel ");
+            builder.Append("\n");
+
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -1945,12 +1972,13 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check whether to continue matching for are maximum matches reached search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("if(maxMatches > 0 && matches.matches.Count >= maxMatches)\n");
+            if (SubpatternLevel)
+                sourceCode.AppendFront("if(maxMatches > 0 && partialMatchesFound.Count >= maxMatches)\n");
+            else
+                sourceCode.AppendFront("if(maxMatches > 0 && matches.matches.Count >= maxMatches)\n");
+                
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -1960,6 +1988,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("}\n");
         }
 
+        public bool SubpatternLevel;
         public bool ListHeadAdjustment;
     }
 
@@ -1987,9 +2016,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for check whether to continue matching failed search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // nothing locally, just emit check failed code
@@ -2048,9 +2074,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for continue search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (Type == ContinueOperationType.ByReturn)
@@ -2098,9 +2121,6 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFormat("{0}\n", LabelName);
         }
 
-        /// <summary>
-        /// Emits code for goto label search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.AppendFormat("{0}: ;\n", LabelName);
@@ -2166,9 +2186,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for randomize list heads search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             // --- move list head from current position to random position ---
@@ -2337,9 +2354,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        /// <summary>
-        /// Emits code for continue search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
@@ -2348,7 +2362,7 @@ namespace de.unika.ipd.grGen.lgsp
             // create matching task for subpattern
             string variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName);
             string typeOfVariableContainingTask = NamesOfEntities.TaskVariable(SubpatternName);
-            sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, maxMatches, openTasks, foundPartialMatches);\n", 
+            sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, maxMatches, openTasks, matchesList);\n", 
                 typeOfVariableContainingTask, variableContainingTask);
 
             // fill in connections
@@ -2387,9 +2401,6 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFrontFormat("PopSubpatternTask {0}", SubpatternElementName);
         }
 
-        /// <summary>
-        /// Emits code for continue search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
@@ -2415,15 +2426,86 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("MatchSubpatterns ");
         }
 
-        /// <summary>
-        /// Emits code for continue search program operation
-        /// </summary>
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("//Match subpatterns\n");
 
             sourceCode.AppendFront("openTasks.Peek().myMatch();\n");
+        }
+    }
+
+    /// <summary>
+    /// Class representing "create new matches list for following matches" operation
+    /// </summary>
+    class NewMatchesListForFollowingMatches : SearchProgramOperation
+    {
+        public NewMatchesListForFollowingMatches()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("NewMatchesListForFollowingMatches ");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFront("if(matchesList==ownTask.foundPartialMatches) {\n");
+            sourceCode.AppendFront("    matchesList = new List<Stack<LGSPMatch>>();\n");
+            sourceCode.AppendFront("} else {\n");
+            sourceCode.AppendFront("    foreach(Stack<LGSPMatch> match in matchesList)\n");
+            sourceCode.AppendFront("    {\n");
+            sourceCode.AppendFront("        ownTask.foundPartialMatches.Add(match);\n");
+            sourceCode.AppendFront("    }\n");
+            sourceCode.AppendFront("    matchesList.Clear();\n");
+            sourceCode.AppendFront("}\n");
+        }
+    }
+
+    /// <summary>
+    /// Class representing "initialize subpattern matching" operation
+    /// </summary>
+    class InitalizeSubpatternMatching : SearchProgramOperation
+    {
+        public InitalizeSubpatternMatching(string subpatternName)
+        {
+            SubpatternName = subpatternName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("InitalizeSubpatternMatching ");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0} ownTask = openTasks.Pop()\n",
+                NamesOfEntities.TypeOfTaskVariable(SubpatternName));
+            sourceCode.AppendFront("List<Stack<LGSPMatch>> matchesList = foundPartialMatches;\n");
+            sourceCode.AppendFront("Debug.Assert(matchesList.Count==0);\n");
+        }
+
+        string SubpatternName;
+    }
+
+    /// <summary>
+    /// Class representing "finalize subpattern matching" operation
+    /// </summary>
+    class FinalizeSubpatternMatching : SearchProgramOperation
+    {
+        public FinalizeSubpatternMatching()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("FinalizeSubpatternMatching ");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("openTasks.Push(ownTask);\n");
         }
     }
 }

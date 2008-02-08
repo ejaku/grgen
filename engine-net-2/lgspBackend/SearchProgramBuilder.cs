@@ -894,18 +894,20 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
+                            BuildMatchObjectType.Node,
                             patternGraph.nodes[i].Name,
-                            i.ToString(),
-                            true);
+                            i.ToString()
+                        );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
                 for (int i = 0; i < patternGraph.edges.Length; i++)
                 {
                     BuildMatchObject buildMatch =
                         new BuildMatchObject(
+                            BuildMatchObjectType.Edge,
                             patternGraph.edges[i].Name,
-                            i.ToString(),
-                            false);
+                            i.ToString()
+                        );
                     insertionPoint = insertionPoint.Append(buildMatch);
                 }
 
@@ -913,9 +915,9 @@ namespace de.unika.ipd.grGen.lgsp
                 // or abort because the maximum desired number of maches was reached
                 CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-                    new CheckContinueMatchingMaximumMatchesReached(false);
+                    new CheckContinueMatchingMaximumMatchesReached(false, false);
 #else
-                    new CheckContinueMatchingMaximumMatchesReached(true);
+                    new CheckContinueMatchingMaximumMatchesReached(false, true);
 #endif
                 insertionPoint = continuationPoint.Append(checkMaximumMatches);
 
