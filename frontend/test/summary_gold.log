@@ -363,11 +363,11 @@ ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
 ERROR  should_fail/dpo_001.grg
-OK     should_fail/emit_008.grg
-OK     should_fail/emit_009.grg
-OK     should_fail/emit_010.grg
-OK     should_fail/emit_011.grg
-OK     should_fail/emit_012.grg
+OK     should_fail/exec_001.grg
+OK     should_fail/exec_002.grg
+OK     should_fail/exec_003.grg
+OK     should_fail/exec_004.grg
+OK     should_fail/exec_005.grg
 ERROR  should_fail/empty_001.grg
 ERROR  should_fail/enum_001.grg
 ERROR  should_fail/enum_002.grg
