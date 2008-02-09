@@ -84,6 +84,7 @@ OK     should_pass/basic_300.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
+OK     should_pass/conn_001.grg
 OK     should_pass/dangle_001.grg
 OK     should_pass/dangle_002.grg
 OK     should_pass/dangle_003.grg
@@ -109,6 +110,8 @@ ERROR  should_pass/emit_006.grg
 OK     should_pass/emit_007.grg
 OK     should_pass/emit_008.grg
 OK     should_pass/emit_009.grg
+OK     should_pass/emit_010.grg
+OK     should_pass/emit_011.grg
 OK     should_pass/empty_001.grg
 OK     should_pass/enum_001.grg
 OK     should_pass/enum_002.grg
@@ -363,11 +366,6 @@ ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
 ERROR  should_fail/dpo_001.grg
-OK     should_fail/exec_001.grg
-OK     should_fail/exec_002.grg
-OK     should_fail/exec_003.grg
-OK     should_fail/exec_004.grg
-OK     should_fail/exec_005.grg
 ERROR  should_fail/empty_001.grg
 ERROR  should_fail/enum_001.grg
 ERROR  should_fail/enum_002.grg
@@ -385,6 +383,11 @@ ERROR  should_fail/enum_016.grg
 ABEND  should_fail/enum_017.grg
 ERROR  should_fail/exact_001.grg
 ERROR  should_fail/exact_002.grg
+OK     should_fail/exec_001.grg
+OK     should_fail/exec_002.grg
+OK     should_fail/exec_003.grg
+OK     should_fail/exec_004.grg
+OK     should_fail/exec_005.grg
 ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
