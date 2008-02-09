@@ -58,10 +58,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="nodes">The nodes of the match.</param>
         /// <param name="edges">The edges of the match.</param>
-        public LGSPMatch(LGSPNode[] nodes, LGSPEdge[] edges)
+        /// <param name="embeddedGraphs">The embedded graphs of the match.</param>
+        public LGSPMatch(LGSPNode[] nodes, LGSPEdge[] edges, LGSPMatch[] embeddedGraphs)
         {
             this.Nodes = nodes;
-            this.Edges = edges; 
+            this.Edges = edges;
+            this.EmbeddedGraphs = embeddedGraphs;
         }
 
         #region IMatch Members
@@ -89,38 +91,79 @@ namespace de.unika.ipd.grGen.lgsp
         #endregion
     }
 
+    /// <summary>
+    /// Every generated Action contains a LGSPMatches-object, which contains a LGSPMatchesList.
+    /// A matches list stores the matches found by the last application of the action,
+    /// the matches objects within the list are recycled by the next application of the action,
+    /// only their content gets updated.
+    /// The purpose of this list is to act as a memory manager 
+    /// to save new/garbage collection cycles and improve cache footprint.
+    /// </summary>
     public class LGSPMatchesList : IEnumerable<IMatch>
     {
-        private int numNodes, numEdges;
+        /// <summary>
+        /// number of nodes, edges and subpatterns each match object contains
+        /// that knowledge allows us to create the match objects here
+        /// </summary>
+        private int numNodes, numEdges, numSubpats;
+
+        /// <summary>
+        /// number of found matches in the list
+        /// </summary>
         private int count;
+
+        /// <summary>
+        /// head of list
+        /// </summary>
         private LGSPMatch root;
+
+        /// <summary>
+        /// logically last element of list, not necessarily physically the last element 
+        /// as previously generated matches are kept and recycled 
+        /// denotes the next point of logical insertion i.e. physical update
+        /// </summary>
         private LGSPMatch last;
 
-        public LGSPMatchesList(int numNodes, int numEdges)
+
+        public LGSPMatchesList(int numNodes, int numEdges, int numSubpats)
         {
             this.numNodes = numNodes;
             this.numEdges = numEdges;
-            last = root = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges]);
+            this.numSubpats = numSubpats;
+            last = root = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new LGSPMatch[numSubpats]);
         }
 
         public int Count { get { return count; } }
         public LGSPMatch First { get { return count > 0 ? root : null; } }
 
+        /// <summary>
+        /// remove all filled and committed elements from the list
+        /// </summary>
         public void Clear()
         {
             count = 0;
             last = root;
         }
 
-        public LGSPMatch GetNewMatch()
+        /// <summary>
+        /// returns an empty match object from the matches list 
+        /// to be filled by the matching action with the found nodes, edges and subpatterns.
+        /// unless EmptyMatchWasFilledCommitIt is called you always get the same element
+        /// </summary>
+        public LGSPMatch GetEmptyMatchFromList()
         {
             return last;    
         }
 
-        public void CommitMatch()
+        /// <summary>
+        /// the element returned by GetEmptyMatchFromList was filled,
+        /// now fix it within the list, so that the next call to GetEmptyMatchFromList returns a new element
+        /// </summary>
+        public void EmptyMatchWasFilledFixIt()
         {
             count++;
-            if (last.nextMatch == null) last.nextMatch = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges]);
+            if (last.nextMatch == null)
+                last.nextMatch = new LGSPMatch(new LGSPNode[numNodes], new LGSPEdge[numEdges], new LGSPMatch[numSubpats]);
             last = last.nextMatch;
         }
 
@@ -165,18 +208,19 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The matches list containing all matches.
         /// </summary>
-        public LGSPMatchesList matches;
+        public LGSPMatchesList matchesList;
 
         /// <summary>
         /// Constructs a new LGSPMatches instance.
         /// </summary>
         /// <param name="producer">The action object used to generate this LGSPMatches object</param>
-        /// <param name="numNodes">The number of nodes matched by the given action.</param>
-        /// <param name="numEdges">The number of edges matched by the given action.</param>
-        public LGSPMatches(LGSPAction producer, int numNodes, int numEdges)
+        /// <param name="numNodes">The number of nodes which will be matched by the given action.</param>
+        /// <param name="numEdges">The number of edges which will be matched by the given action.</param>
+        /// <param name="numEdges">The number of subpatterns which will be matched by the given action.</param>
+        public LGSPMatches(LGSPAction producer, int numNodes, int numEdges, int numSubpats)
         {
             this.producer = producer;
-            matches = new LGSPMatchesList(numNodes, numEdges);
+            matchesList = new LGSPMatchesList(numNodes, numEdges, numSubpats);
         }
 
         /// <summary>
@@ -187,25 +231,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The number of matches found by Producer
         /// </summary>
-        public int Count { get { return matches.Count; } }
+        public int Count { get { return matchesList.Count; } }
 
         /// <summary>
         /// Returns the match with the given index. Invalid indices cause an IndexOutOfRangeException.
         /// This may be slow. If you want to iterate over the elements the Matches IEnumerable should be used.
         /// </summary>
-        public IMatch GetMatch(int index) { return matches[index]; }
+        public IMatch GetMatch(int index) { return matchesList[index]; }
 
         /// <summary>
         /// Returns an enumerator over all found matches.
         /// </summary>
         public IEnumerator<IMatch> GetEnumerator()
         {
-            return matches.GetEnumerator();
+            return matchesList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return matches.GetEnumerator();
+            return matchesList.GetEnumerator();
         }
     }
 
@@ -272,9 +316,9 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPMatches matches = DynamicMatch(graph, 1, null);
             if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify(graph, matches.matches.First);
+                return rulePattern.Modify(graph, matches.matchesList.First);
             else
-                return rulePattern.ModifyNoReuse(graph, matches.matches.First);
+                return rulePattern.ModifyNoReuse(graph, matches.matchesList.First);
         }
 
         /// <summary>
@@ -292,9 +336,9 @@ namespace de.unika.ipd.grGen.lgsp
             if(matches.Count <= 0) return null;
 
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify(graph, matches.matches.First);
+                return rulePattern.Modify(graph, matches.matchesList.First);
             else
-                return rulePattern.ModifyNoReuse(graph, matches.matches.First);
+                return rulePattern.ModifyNoReuse(graph, matches.matchesList.First);
         }
 
         /// <summary>
@@ -395,9 +439,9 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, null);
             if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.Modify((LGSPGraph) graph, matches.matchesList.First);
             else
-                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matchesList.First);
         }
 
         /// <summary>
@@ -414,9 +458,9 @@ namespace de.unika.ipd.grGen.lgsp
             LGSPMatches matches = DynamicMatch((LGSPGraph) graph, 1, parameters);
             if(matches.Count <= 0) return null;
             if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                return rulePattern.Modify((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.Modify((LGSPGraph) graph, matches.matchesList.First);
             else
-                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matches.First);
+                return rulePattern.ModifyNoReuse((LGSPGraph) graph, matches.matchesList.First);
         }
 
         /// <summary>
@@ -464,9 +508,9 @@ namespace de.unika.ipd.grGen.lgsp
                 matches = DynamicMatch(lgraph, 1, null);
                 if(matches.Count <= 0) return true;
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
             }
         }
 
@@ -487,9 +531,9 @@ namespace de.unika.ipd.grGen.lgsp
                 matches = DynamicMatch(lgraph, 1, parameters);
                 if(matches.Count <= 0) return true;
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
             }
         }
 
@@ -508,9 +552,9 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
                 matches = DynamicMatch(lgraph, 1, null);
             }
             while(matches.Count > 0);
@@ -533,9 +577,9 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
                 matches = DynamicMatch(lgraph, 1, parameters);
             }
             while(matches.Count > 0);
@@ -560,9 +604,9 @@ namespace de.unika.ipd.grGen.lgsp
                 matches = DynamicMatch(lgraph, 1, null);
                 if(matches.Count <= 0) return i >= min;
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
             }
             return true;
         }
@@ -586,9 +630,9 @@ namespace de.unika.ipd.grGen.lgsp
                 matches = DynamicMatch(lgraph, 1, parameters);
                 if(matches.Count <= 0) return i >= min;
                 if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
-                    rulePattern.Modify(lgraph, matches.matches.First);
+                    rulePattern.Modify(lgraph, matches.matchesList.First);
                 else
-                    rulePattern.ModifyNoReuse(lgraph, matches.matches.First);
+                    rulePattern.ModifyNoReuse(lgraph, matches.matchesList.First);
             }
             return true;
         }

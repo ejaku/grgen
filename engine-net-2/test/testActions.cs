@@ -23,12 +23,14 @@ namespace de.unika.ipd.grGen.actions.test
 		public static bool[] edge__edge0_IsAllowedType = null;
 		public static bool[] edge__edge1_IsAllowedType = null;
 
-		public enum NodeNums { @a  = 1, @f, @m, };
-		public enum EdgeNums { @_edge0 = 1, @_edge1, };
+		public enum NodeNums { @a, @f, @m, };
+		public enum EdgeNums { @_edge0, @_edge1, };
 		public enum PatternNums { };
 
 		private Rule_testRule()
 		{
+			name = "testRule";
+			isSubpattern = false;
 			PatternNode node_a = new PatternNode((int) NodeTypes.@D231_4121, "node_a", node_a_AllowedTypes, node_a_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_f = new PatternNode((int) NodeTypes.@B21, "node_f", node_f_AllowedTypes, node_f_IsAllowedType, PatternElementType.Normal, -1);
 			PatternNode node_m = new PatternNode((int) NodeTypes.@D2211_2222_31, "node_m", node_m_AllowedTypes, node_m_IsAllowedType, PatternElementType.Normal, -1);
@@ -67,9 +69,9 @@ namespace de.unika.ipd.grGen.actions.test
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[ (int) NodeNums.@a - 1 ];
-			LGSPNode node_f = match.Nodes[ (int) NodeNums.@f - 1 ];
-			LGSPNode node_m = match.Nodes[ (int) NodeNums.@m - 1 ];
+			LGSPNode node_a = match.Nodes[ (int) NodeNums.@a];
+			LGSPNode node_f = match.Nodes[ (int) NodeNums.@f];
+			LGSPNode node_m = match.Nodes[ (int) NodeNums.@m];
 			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
 			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
 			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
@@ -87,9 +89,9 @@ namespace de.unika.ipd.grGen.actions.test
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			LGSPNode node_a = match.Nodes[ (int) NodeNums.@a - 1 ];
-			LGSPNode node_f = match.Nodes[ (int) NodeNums.@f - 1 ];
-			LGSPNode node_m = match.Nodes[ (int) NodeNums.@m - 1 ];
+			LGSPNode node_a = match.Nodes[ (int) NodeNums.@a];
+			LGSPNode node_f = match.Nodes[ (int) NodeNums.@f];
+			LGSPNode node_m = match.Nodes[ (int) NodeNums.@m];
 			Node_D2211_2222_31 node_are = (Node_D2211_2222_31) graph.Retype(node_a, NodeType_D2211_2222_31.typeVar);
 			Node_D231_4121 node_fre = (Node_D231_4121) graph.Retype(node_f, NodeType_D231_4121.typeVar);
 			Node_D11_2221 node_mre = (Node_D11_2221) graph.Retype(node_m, NodeType_D11_2221.typeVar);
@@ -117,7 +119,6 @@ namespace de.unika.ipd.grGen.actions.test
 		{
 			ActionName = "testRule";
 			this.RulePattern = Rule_testRule.Instance;
-			isRule = true;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F,  };
 			NegNodeCost = new float[][] { };
@@ -127,19 +128,22 @@ namespace de.unika.ipd.grGen.actions.test
 #endif
 
 
-    public class Action_testRule : LGSPAction
-    {
-        private static Action_testRule instance = new Action_testRule();
+	public class Action_testRule : LGSPAction
+	{
+		public Action_testRule() {
+			rulePattern = Rule_testRule.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 2, 0);
+		}
 
-        public Action_testRule() { rulePattern = Rule_testRule.Instance; DynamicMatch = myMatch; matches = new LGSPMatches(this, 3, 2); matchesList = matches.matches;}
+		public override string Name { get { return "testRule"; } }
+		private LGSPMatches matches;
 
-        public override string Name { get { return "testRule"; } }
-        public static LGSPAction Instance { get { return instance; } }
-        private LGSPMatches matches;
-        private LGSPMatchesList matchesList;
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_testRule instance = new Action_testRule();
+
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
-            matches.matches.Clear();
+            matches.matchesList.Clear();
             // Lookup edge__edge1 
             int edge_type_id_edge__edge1 = 0;
             for(LGSPEdge edge_head_edge__edge1 = graph.edgesByTypeHeads[edge_type_id_edge__edge1], edge_cur_edge__edge1 = edge_head_edge__edge1.typeNext; edge_cur_edge__edge1 != edge_head_edge__edge1; edge_cur_edge__edge1 = edge_cur_edge__edge1.typeNext)
@@ -176,14 +180,14 @@ namespace de.unika.ipd.grGen.actions.test
                         if(!NodeType_D231_4121.isMyType[node_cur_node_a.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matchesList.GetNewMatch();
-                        match.Nodes[0] = node_cur_node_a;
-                        match.Nodes[1] = node_cur_node_f;
-                        match.Nodes[2] = node_cur_node_m;
-                        match.Edges[0] = edge_cur_edge__edge0;
-                        match.Edges[1] = edge_cur_edge__edge1;
-                        matchesList.CommitMatch();
-                        if(maxMatches > 0 && matchesList.Count >= maxMatches)
+                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.Nodes[(int)Rule_testRule.NodeNums.@a] = node_cur_node_a;
+                        match.Nodes[(int)Rule_testRule.NodeNums.@f] = node_cur_node_f;
+                        match.Nodes[(int)Rule_testRule.NodeNums.@m] = node_cur_node_m;
+                        match.Edges[(int)Rule_testRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                        match.Edges[(int)Rule_testRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_f.MoveInHeadAfter(edge_cur_edge__edge0);
                             graph.MoveHeadAfter(edge_cur_edge__edge1);
@@ -197,7 +201,7 @@ namespace de.unika.ipd.grGen.actions.test
             }
             return matches;
         }
-    }
+	}
 
     public class testActions : LGSPActions
     {
@@ -219,6 +223,6 @@ namespace de.unika.ipd.grGen.actions.test
         }
 
         public override String Name { get { return "testActions"; } }
-        public override String ModelMD5Hash { get { return "72976c7fc07bd75a73674984ca518dfc"; } }
+        public override String ModelMD5Hash { get { return "5611468dbde59171328518182a9d2069"; } }
     }
 }

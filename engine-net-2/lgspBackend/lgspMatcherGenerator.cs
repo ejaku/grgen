@@ -1158,7 +1158,11 @@ exitSecondLoop: ;
                 sb.Append("\tpublic class " + className + " : LGSPAction\n\t{\n");
                 sb.Append("\t\tpublic " + className + "() {\n"
                     + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
-                    + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " + patternGraph.Nodes.Length + ", " + patternGraph.Edges.Length + ");\n");
+                    + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " 
+                    + patternGraph.Nodes.Length + ", " 
+                    + patternGraph.Edges.Length + ", " 
+                    + patternGraph.EmbeddedGraphs.Length +
+                    ");\n");
                 sb.Append("\t\t}\n\n");
                 sb.Append("\t\tpublic override string Name { get { return \"" + rulePattern.name + "\"; } }\n"
                     + "\t\tprivate LGSPMatches matches;\n\n");

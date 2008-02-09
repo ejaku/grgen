@@ -300,7 +300,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Indent();
                 //            // [0] Matches matches = new Matches(this);
                 //            sourceCode.AppendFront("LGSPMatches matches = new LGSPMatches(this);\n");
-                sourceCode.AppendFront("matches.matches.Clear();\n");
+                sourceCode.AppendFront("matches.matchesList.Clear();\n");
                 
                 if (SetupSubpatternMatching)
                 {
@@ -1642,12 +1642,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("LGSPMatch match = matches.matches.GetNewMatch();\n");
+            sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();\n");
 
             // emit match building operations
             MatchBuildingOperations.Emit(sourceCode);
 
-            sourceCode.AppendFront("matches.matches.CommitMatch();\n");
+            sourceCode.AppendFront("matches.matchesList.EmptyMatchWasFilledFixIt();\n");
         }
 
         public SearchProgramList MatchBuildingOperations;
@@ -1989,7 +1989,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (SubpatternLevel)
                 sourceCode.AppendFront("if(maxMatches > 0 && partialMatchesFound.Count >= maxMatches)\n");
             else
-                sourceCode.AppendFront("if(maxMatches > 0 && matches.matches.Count >= maxMatches)\n");
+                sourceCode.AppendFront("if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)\n");
                 
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();

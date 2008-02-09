@@ -99,7 +99,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 		}
 		public override String Name { get { return "Node"; } }
-		public override INode CreateNode() { return new Node_Node(); }
+		public override INode CreateNode()
+		{
+			return new Node_Node();
+		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
 		public override AttributeType GetAttributeType(String name) { return null; }
@@ -109,9 +112,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_Node newNode = new Node_Node();
-			return newNode;
+			return new Node_Node();
 		}
 
 	}
@@ -218,7 +219,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "BandPosition"; } }
-		public override INode CreateNode() { return new Node_BandPosition(); }
+		public override INode CreateNode()
+		{
+			return new Node_BandPosition();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -338,7 +342,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 		}
 		public override String Name { get { return "State"; } }
-		public override INode CreateNode() { return new Node_State(); }
+		public override INode CreateNode()
+		{
+			return new Node_State();
+		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
 		public override AttributeType GetAttributeType(String name) { return null; }
@@ -348,9 +355,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_State newNode = new Node_State();
-			return newNode;
+			return new Node_State();
 		}
 
 	}
@@ -457,7 +462,10 @@ namespace de.unika.ipd.grGen.models.Turing3
 			AttributeType_value = new AttributeType("value", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "WriteValue"; } }
-		public override INode CreateNode() { return new Node_WriteValue(); }
+		public override INode CreateNode()
+		{
+			return new Node_WriteValue();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -580,7 +588,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 	// Edge types
 	//
 
-	public enum EdgeTypes { @Edge, @moveLeft, @moveRight, @readOne, @readZero, @right };
+	public enum EdgeTypes { @Edge, @right, @readZero, @readOne, @moveLeft, @moveRight };
 
 	// *** Edge Edge ***
 
@@ -678,39 +686,37 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_Edge newEdge = new Edge_Edge((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
-	// *** Edge moveLeft ***
+	// *** Edge right ***
 
-	public interface IEdge_moveLeft : IEdge_Edge
+	public interface IEdge_right : IEdge_Edge
 	{
 	}
 
-	public sealed class Edge_moveLeft : LGSPEdge, IEdge_moveLeft
+	public sealed class Edge_right : LGSPEdge, IEdge_right
 	{
 		private static int poolLevel = 0;
-		private static Edge_moveLeft[] pool = new Edge_moveLeft[10];
-		public Edge_moveLeft(LGSPNode source, LGSPNode target)
-			: base(EdgeType_moveLeft.typeVar, source, target)
+		private static Edge_right[] pool = new Edge_right[10];
+		public Edge_right(LGSPNode source, LGSPNode target)
+			: base(EdgeType_right.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new Edge_right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_moveLeft(Edge_moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_moveLeft.typeVar, newSource, newTarget)
+		private Edge_right(Edge_right oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_right.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_moveLeft edge;
+			Edge_right edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveLeft(source, target);
+				edge = new Edge_right(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -722,11 +728,11 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return edge;
 		}
 
-		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_moveLeft edge;
+			Edge_right edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveLeft(source, target);
+				edge = new Edge_right(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -747,30 +753,30 @@ namespace de.unika.ipd.grGen.models.Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
 		}
 	}
 
-	public sealed class EdgeType_moveLeft : EdgeType
+	public sealed class EdgeType_right : EdgeType
 	{
-		public static EdgeType_moveLeft typeVar = new EdgeType_moveLeft();
+		public static EdgeType_right typeVar = new EdgeType_right();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, };
-		public EdgeType_moveLeft() : base((int) EdgeTypes.@moveLeft)
+		public EdgeType_right() : base((int) EdgeTypes.@right)
 		{
 		}
-		public override String Name { get { return "moveLeft"; } }
+		public override String Name { get { return "right"; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
+			return new Edge_right((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -781,39 +787,37 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_moveLeft newEdge = new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_right((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
-	// *** Edge moveRight ***
+	// *** Edge readZero ***
 
-	public interface IEdge_moveRight : IEdge_Edge
+	public interface IEdge_readZero : IEdge_Edge
 	{
 	}
 
-	public sealed class Edge_moveRight : LGSPEdge, IEdge_moveRight
+	public sealed class Edge_readZero : LGSPEdge, IEdge_readZero
 	{
 		private static int poolLevel = 0;
-		private static Edge_moveRight[] pool = new Edge_moveRight[10];
-		public Edge_moveRight(LGSPNode source, LGSPNode target)
-			: base(EdgeType_moveRight.typeVar, source, target)
+		private static Edge_readZero[] pool = new Edge_readZero[10];
+		public Edge_readZero(LGSPNode source, LGSPNode target)
+			: base(EdgeType_readZero.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new Edge_readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_moveRight(Edge_moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_moveRight.typeVar, newSource, newTarget)
+		private Edge_readZero(Edge_readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_readZero.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_moveRight edge;
+			Edge_readZero edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveRight(source, target);
+				edge = new Edge_readZero(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -825,11 +829,11 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return edge;
 		}
 
-		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_moveRight edge;
+			Edge_readZero edge;
 			if(poolLevel == 0)
-				edge = new Edge_moveRight(source, target);
+				edge = new Edge_readZero(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -850,30 +854,30 @@ namespace de.unika.ipd.grGen.models.Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
 		}
 	}
 
-	public sealed class EdgeType_moveRight : EdgeType
+	public sealed class EdgeType_readZero : EdgeType
 	{
-		public static EdgeType_moveRight typeVar = new EdgeType_moveRight();
+		public static EdgeType_readZero typeVar = new EdgeType_readZero();
 		public static bool[] isA = new bool[] { true, false, true, false, false, false, };
 		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, };
-		public EdgeType_moveRight() : base((int) EdgeTypes.@moveRight)
+		public EdgeType_readZero() : base((int) EdgeTypes.@readZero)
 		{
 		}
-		public override String Name { get { return "moveRight"; } }
+		public override String Name { get { return "readZero"; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
+			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -884,9 +888,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_moveRight newEdge = new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -987,39 +989,37 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_readOne newEdge = new Edge_readOne((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_readOne((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
-	// *** Edge readZero ***
+	// *** Edge moveLeft ***
 
-	public interface IEdge_readZero : IEdge_Edge
+	public interface IEdge_moveLeft : IEdge_Edge
 	{
 	}
 
-	public sealed class Edge_readZero : LGSPEdge, IEdge_readZero
+	public sealed class Edge_moveLeft : LGSPEdge, IEdge_moveLeft
 	{
 		private static int poolLevel = 0;
-		private static Edge_readZero[] pool = new Edge_readZero[10];
-		public Edge_readZero(LGSPNode source, LGSPNode target)
-			: base(EdgeType_readZero.typeVar, source, target)
+		private static Edge_moveLeft[] pool = new Edge_moveLeft[10];
+		public Edge_moveLeft(LGSPNode source, LGSPNode target)
+			: base(EdgeType_moveLeft.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_readZero(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new Edge_moveLeft(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_readZero(Edge_readZero oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_readZero.typeVar, newSource, newTarget)
+		private Edge_moveLeft(Edge_moveLeft oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_moveLeft.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_readZero edge;
+			Edge_moveLeft edge;
 			if(poolLevel == 0)
-				edge = new Edge_readZero(source, target);
+				edge = new Edge_moveLeft(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1031,11 +1031,11 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return edge;
 		}
 
-		public static Edge_readZero CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static Edge_moveLeft CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_readZero edge;
+			Edge_moveLeft edge;
 			if(poolLevel == 0)
-				edge = new Edge_readZero(source, target);
+				edge = new Edge_moveLeft(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1056,30 +1056,30 @@ namespace de.unika.ipd.grGen.models.Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"readZero\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveLeft\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
 		}
 	}
 
-	public sealed class EdgeType_readZero : EdgeType
+	public sealed class EdgeType_moveLeft : EdgeType
 	{
-		public static EdgeType_readZero typeVar = new EdgeType_readZero();
+		public static EdgeType_moveLeft typeVar = new EdgeType_moveLeft();
 		public static bool[] isA = new bool[] { true, false, false, false, true, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, };
-		public EdgeType_readZero() : base((int) EdgeTypes.@readZero)
+		public EdgeType_moveLeft() : base((int) EdgeTypes.@moveLeft)
 		{
 		}
-		public override String Name { get { return "readZero"; } }
+		public override String Name { get { return "moveLeft"; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_readZero((LGSPNode) source, (LGSPNode) target);
+			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1090,39 +1090,37 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_readZero newEdge = new Edge_readZero((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_moveLeft((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
 
-	// *** Edge right ***
+	// *** Edge moveRight ***
 
-	public interface IEdge_right : IEdge_Edge
+	public interface IEdge_moveRight : IEdge_Edge
 	{
 	}
 
-	public sealed class Edge_right : LGSPEdge, IEdge_right
+	public sealed class Edge_moveRight : LGSPEdge, IEdge_moveRight
 	{
 		private static int poolLevel = 0;
-		private static Edge_right[] pool = new Edge_right[10];
-		public Edge_right(LGSPNode source, LGSPNode target)
-			: base(EdgeType_right.typeVar, source, target)
+		private static Edge_moveRight[] pool = new Edge_moveRight[10];
+		public Edge_moveRight(LGSPNode source, LGSPNode target)
+			: base(EdgeType_moveRight.typeVar, source, target)
 		{
 		}
 		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_right(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
+		{ return new Edge_moveRight(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
 
-		private Edge_right(Edge_right oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_right.typeVar, newSource, newTarget)
+		private Edge_moveRight(Edge_moveRight oldElem, LGSPNode newSource, LGSPNode newTarget)
+			: base(EdgeType_moveRight.typeVar, newSource, newTarget)
 		{
 		}
-		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
+		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
 		{
-			Edge_right edge;
+			Edge_moveRight edge;
 			if(poolLevel == 0)
-				edge = new Edge_right(source, target);
+				edge = new Edge_moveRight(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1134,11 +1132,11 @@ namespace de.unika.ipd.grGen.models.Turing3
 			return edge;
 		}
 
-		public static Edge_right CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
+		public static Edge_moveRight CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
 		{
-			Edge_right edge;
+			Edge_moveRight edge;
 			if(poolLevel == 0)
-				edge = new Edge_right(source, target);
+				edge = new Edge_moveRight(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
@@ -1159,30 +1157,30 @@ namespace de.unika.ipd.grGen.models.Turing3
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"right\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"moveRight\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
 		}
 	}
 
-	public sealed class EdgeType_right : EdgeType
+	public sealed class EdgeType_moveRight : EdgeType
 	{
-		public static EdgeType_right typeVar = new EdgeType_right();
+		public static EdgeType_moveRight typeVar = new EdgeType_moveRight();
 		public static bool[] isA = new bool[] { true, false, false, false, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, };
-		public EdgeType_right() : base((int) EdgeTypes.@right)
+		public EdgeType_moveRight() : base((int) EdgeTypes.@moveRight)
 		{
 		}
-		public override String Name { get { return "right"; } }
+		public override String Name { get { return "moveRight"; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_right((LGSPNode) source, (LGSPNode) target);
+			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -1193,9 +1191,7 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_right newEdge = new Edge_right((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_moveRight((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -1210,13 +1206,34 @@ namespace de.unika.ipd.grGen.models.Turing3
 		{
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
+				EdgeType_right.typeVar,
+				EdgeType_readZero.typeVar,
+				EdgeType_readOne.typeVar,
 				EdgeType_moveLeft.typeVar,
 				EdgeType_moveRight.typeVar,
-				EdgeType_readOne.typeVar,
-				EdgeType_readZero.typeVar,
-				EdgeType_right.typeVar,
 			};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_right.typeVar,
+			};
+			EdgeType_right.typeVar.superOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_right.typeVar,
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_readZero.typeVar,
+			};
+			EdgeType_readZero.typeVar.superOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_readZero.typeVar,
+				EdgeType_Edge.typeVar,
+			};
+			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new EdgeType[] {
+				EdgeType_readOne.typeVar,
+			};
+			EdgeType_readOne.typeVar.superOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new EdgeType[] {
+				EdgeType_readOne.typeVar,
 				EdgeType_Edge.typeVar,
 			};
 			EdgeType_moveLeft.typeVar.subOrSameGrGenTypes = EdgeType_moveLeft.typeVar.subOrSameTypes = new EdgeType[] {
@@ -1233,27 +1250,6 @@ namespace de.unika.ipd.grGen.models.Turing3
 				EdgeType_moveRight.typeVar,
 				EdgeType_Edge.typeVar,
 			};
-			EdgeType_readOne.typeVar.subOrSameGrGenTypes = EdgeType_readOne.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_readOne.typeVar,
-			};
-			EdgeType_readOne.typeVar.superOrSameGrGenTypes = EdgeType_readOne.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_readOne.typeVar,
-				EdgeType_Edge.typeVar,
-			};
-			EdgeType_readZero.typeVar.subOrSameGrGenTypes = EdgeType_readZero.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_readZero.typeVar,
-			};
-			EdgeType_readZero.typeVar.superOrSameGrGenTypes = EdgeType_readZero.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_readZero.typeVar,
-				EdgeType_Edge.typeVar,
-			};
-			EdgeType_right.typeVar.subOrSameGrGenTypes = EdgeType_right.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_right.typeVar,
-			};
-			EdgeType_right.typeVar.superOrSameGrGenTypes = EdgeType_right.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_right.typeVar,
-				EdgeType_Edge.typeVar,
-			};
 		}
 		public bool IsNodeModel { get { return false; } }
 		public EdgeType RootType { get { return EdgeType_Edge.typeVar; } }
@@ -1263,11 +1259,11 @@ namespace de.unika.ipd.grGen.models.Turing3
 			switch(name)
 			{
 				case "Edge" : return EdgeType_Edge.typeVar;
+				case "right" : return EdgeType_right.typeVar;
+				case "readZero" : return EdgeType_readZero.typeVar;
+				case "readOne" : return EdgeType_readOne.typeVar;
 				case "moveLeft" : return EdgeType_moveLeft.typeVar;
 				case "moveRight" : return EdgeType_moveRight.typeVar;
-				case "readOne" : return EdgeType_readOne.typeVar;
-				case "readZero" : return EdgeType_readZero.typeVar;
-				case "right" : return EdgeType_right.typeVar;
 			}
 			return null;
 		}
@@ -1277,21 +1273,21 @@ namespace de.unika.ipd.grGen.models.Turing3
 		}
 		private EdgeType[] types = {
 			EdgeType_Edge.typeVar,
+			EdgeType_right.typeVar,
+			EdgeType_readZero.typeVar,
+			EdgeType_readOne.typeVar,
 			EdgeType_moveLeft.typeVar,
 			EdgeType_moveRight.typeVar,
-			EdgeType_readOne.typeVar,
-			EdgeType_readZero.typeVar,
-			EdgeType_right.typeVar,
 		};
 		public EdgeType[] Types { get { return types; } }
 		GrGenType[] ITypeModel.Types { get { return types; } }
 		private Type[] typeTypes = {
 			typeof(EdgeType_Edge),
+			typeof(EdgeType_right),
+			typeof(EdgeType_readZero),
+			typeof(EdgeType_readOne),
 			typeof(EdgeType_moveLeft),
 			typeof(EdgeType_moveRight),
-			typeof(EdgeType_readOne),
-			typeof(EdgeType_readZero),
-			typeof(EdgeType_right),
 		};
 		public Type[] TypeTypes { get { return typeTypes; } }
 		private AttributeType[] attributeTypes = {
@@ -1315,6 +1311,6 @@ namespace de.unika.ipd.grGen.models.Turing3
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "5a78f363d1b6a0cc5cea759830c3e6b1"; } }
+		public String MD5Hash { get { return "8cb50c8b43853ce8acdce396430d4346"; } }
 	}
 }

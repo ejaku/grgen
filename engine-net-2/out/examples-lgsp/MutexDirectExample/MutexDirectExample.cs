@@ -43,17 +43,17 @@ namespace Mutex
             for(int i = 0; i < n - 2; i++)
             {
                 matches = newRule.Match(graph, 1, null);
-                newRule.Modify(graph, matches.matches.First);
+                newRule.Modify(graph, matches.matchesList.First);
             }
 
             matches = Action_mountRule.Instance.Match(graph, 1, null);
-            Action_mountRule.Instance.Modify(graph, matches.matches.First);
+            Action_mountRule.Instance.Modify(graph, matches.matchesList.First);
 
             LGSPAction requestRule = Action_requestRule.Instance;
             for(int i = 0; i < n; i++)
             {
                 matches = requestRule.Match(graph, 1, null);
-                requestRule.Modify(graph, matches.matches.First);
+                requestRule.Modify(graph, matches.matchesList.First);
             }
 
             /**
@@ -83,11 +83,11 @@ namespace Mutex
             for(int i = 0; i < n; i++)
             {
                 matches = takeRule.Match(graph, 1, null);
-                takeRule.Modify(graph, matches.matches.First);
+                takeRule.Modify(graph, matches.matchesList.First);
                 matches = releaseRule.Match(graph, 1, null);
-                releaseRule.Modify(graph, matches.matches.First);
+                releaseRule.Modify(graph, matches.matchesList.First);
                 matches = giveRule.Match(graph, 1, null);
-                giveRule.Modify(graph, matches.matches.First);
+                giveRule.Modify(graph, matches.matchesList.First);
             }
 
             int endTime = Environment.TickCount;

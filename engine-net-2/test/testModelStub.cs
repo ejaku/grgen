@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Thu Jan 24 13:47:01 CET 2008
+// Generated from "test.grg" on Sat Feb 09 11:56:56 GMT+01:00 2008
 
 using System;
 using System.Collections.Generic;
@@ -19,20 +19,13 @@ namespace test
 
 		private D231_4121_Impl(D231_4121_Impl oldElem) : base()
 		{
-			_d231_4121 = oldElem._d231_4121;
 			_a2 = oldElem._a2;
 			_b23 = oldElem._b23;
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 			_b42 = oldElem._b42;
 			_a5 = oldElem._a5;
-		}
-
-		private int _d231_4121;
-		public override int @d231_4121
-		{
-			get { return _d231_4121; }
-			set { _d231_4121 = value; }
+			_d231_4121 = oldElem._d231_4121;
 		}
 
 		private int _a2;
@@ -75,6 +68,13 @@ namespace test
 		{
 			get { return _a5; }
 			set { _a5 = value; }
+		}
+
+		private int _d231_4121;
+		public override int @d231_4121
+		{
+			get { return _d231_4121; }
+			set { _d231_4121 = value; }
 		}
 	}
 }

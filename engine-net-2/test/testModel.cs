@@ -99,7 +99,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 		}
 		public override String Name { get { return "Node"; } }
-		public override INode CreateNode() { return new Node_Node(); }
+		public override INode CreateNode()
+		{
+			return new Node_Node();
+		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
 		public override AttributeType GetAttributeType(String name) { return null; }
@@ -109,9 +112,7 @@ namespace de.unika.ipd.grGen.models.test
 		}
 		public override INode CreateNodeWithCopyCommons(INode oldINode)
 		{
-			LGSPNode oldNode = (LGSPNode) oldINode;
-			Node_Node newNode = new Node_Node();
-			return newNode;
+			return new Node_Node();
 		}
 
 	}
@@ -218,7 +219,10 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_a1 = new AttributeType("a1", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "A1"; } }
-		public override INode CreateNode() { return new Node_A1(); }
+		public override INode CreateNode()
+		{
+			return new Node_A1();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -361,7 +365,10 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_a2 = new AttributeType("a2", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "A2"; } }
-		public override INode CreateNode() { return new Node_A2(); }
+		public override INode CreateNode()
+		{
+			return new Node_A2();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -511,7 +518,10 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_a3 = new AttributeType("a3", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "A3"; } }
-		public override INode CreateNode() { return new Node_A3(); }
+		public override INode CreateNode()
+		{
+			return new Node_A3();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -654,7 +664,10 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_a4 = new AttributeType("a4", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "A4"; } }
-		public override INode CreateNode() { return new Node_A4(); }
+		public override INode CreateNode()
+		{
+			return new Node_A4();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -805,7 +818,10 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_a5 = new AttributeType("a5", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "A5"; } }
-		public override INode CreateNode() { return new Node_A5(); }
+		public override INode CreateNode()
+		{
+			return new Node_A5();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -865,8 +881,8 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_B21(Node_B21 oldElem) : base(NodeType_B21.typeVar)
 		{
-			_b21 = oldElem._b21;
 			_a2 = oldElem._a2;
+			_b21 = oldElem._b21;
 		}
 		public static Node_B21 CreateNode(LGSPGraph graph)
 		{
@@ -879,8 +895,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b21 = 0;
 				node.@a2 = 0;
+				node.@b21 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -897,8 +913,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b21 = 0;
 				node.@a2 = 0;
+				node.@b21 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -911,25 +927,25 @@ namespace de.unika.ipd.grGen.models.test
 		}
 
 
-		private int _b21;
-		public int @b21
-		{
-			get { return _b21; }
-			set { _b21 = value; }
-		}
-
 		private int _a2;
 		public int @a2
 		{
 			get { return _a2; }
 			set { _a2 = value; }
 		}
+
+		private int _b21;
+		public int @b21
+		{
+			get { return _b21; }
+			set { _b21 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "b21": return this.@b21;
 				case "a2": return this.@a2;
+				case "b21": return this.@b21;
 			}
 			throw new NullReferenceException(
 				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
@@ -938,16 +954,16 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b21": this.@b21 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
+				case "b21": this.@b21 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B21\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@b21 = 0;
 			this.@a2 = 0;
+			this.@b21 = 0;
 		}
 	}
 
@@ -962,22 +978,25 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_b21 = new AttributeType("b21", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "B21"; } }
-		public override INode CreateNode() { return new Node_B21(); }
+		public override INode CreateNode()
+		{
+			return new Node_B21();
+		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_b21;
 				yield return NodeType_A2.AttributeType_a2;
+				yield return AttributeType_b21;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "b21" : return AttributeType_b21;
 				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "b21" : return AttributeType_b21;
 			}
 			return null;
 		}
@@ -1009,8 +1028,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B21
 					{
 						INode_B21 old = (INode_B21) oldNode;
-						newNode.@b21 = old.@b21;
 						newNode.@a2 = old.@a2;
+						newNode.@b21 = old.@b21;
 					}
 					break;
 			}
@@ -1037,8 +1056,8 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_B22(Node_B22 oldElem) : base(NodeType_B22.typeVar)
 		{
-			_b22 = oldElem._b22;
 			_a2 = oldElem._a2;
+			_b22 = oldElem._b22;
 		}
 		public static Node_B22 CreateNode(LGSPGraph graph)
 		{
@@ -1051,8 +1070,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b22 = 0;
 				node.@a2 = 0;
+				node.@b22 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -1069,8 +1088,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b22 = 0;
 				node.@a2 = 0;
+				node.@b22 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1083,25 +1102,25 @@ namespace de.unika.ipd.grGen.models.test
 		}
 
 
-		private int _b22;
-		public int @b22
-		{
-			get { return _b22; }
-			set { _b22 = value; }
-		}
-
 		private int _a2;
 		public int @a2
 		{
 			get { return _a2; }
 			set { _a2 = value; }
 		}
+
+		private int _b22;
+		public int @b22
+		{
+			get { return _b22; }
+			set { _b22 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "b22": return this.@b22;
 				case "a2": return this.@a2;
+				case "b22": return this.@b22;
 			}
 			throw new NullReferenceException(
 				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
@@ -1110,16 +1129,16 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b22": this.@b22 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
+				case "b22": this.@b22 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B22\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@b22 = 0;
 			this.@a2 = 0;
+			this.@b22 = 0;
 		}
 	}
 
@@ -1134,22 +1153,25 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_b22 = new AttributeType("b22", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "B22"; } }
-		public override INode CreateNode() { return new Node_B22(); }
+		public override INode CreateNode()
+		{
+			return new Node_B22();
+		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_b22;
 				yield return NodeType_A2.AttributeType_a2;
+				yield return AttributeType_b22;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "b22" : return AttributeType_b22;
 				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "b22" : return AttributeType_b22;
 			}
 			return null;
 		}
@@ -1181,8 +1203,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B22
 					{
 						INode_B22 old = (INode_B22) oldNode;
-						newNode.@b22 = old.@b22;
 						newNode.@a2 = old.@a2;
+						newNode.@b22 = old.@b22;
 					}
 					break;
 			}
@@ -1209,8 +1231,8 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_B23(Node_B23 oldElem) : base(NodeType_B23.typeVar)
 		{
-			_b23 = oldElem._b23;
 			_a2 = oldElem._a2;
+			_b23 = oldElem._b23;
 		}
 		public static Node_B23 CreateNode(LGSPGraph graph)
 		{
@@ -1223,8 +1245,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b23 = 0;
 				node.@a2 = 0;
+				node.@b23 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -1241,8 +1263,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b23 = 0;
 				node.@a2 = 0;
+				node.@b23 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1255,25 +1277,25 @@ namespace de.unika.ipd.grGen.models.test
 		}
 
 
-		private int _b23;
-		public int @b23
-		{
-			get { return _b23; }
-			set { _b23 = value; }
-		}
-
 		private int _a2;
 		public int @a2
 		{
 			get { return _a2; }
 			set { _a2 = value; }
 		}
+
+		private int _b23;
+		public int @b23
+		{
+			get { return _b23; }
+			set { _b23 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "b23": return this.@b23;
 				case "a2": return this.@a2;
+				case "b23": return this.@b23;
 			}
 			throw new NullReferenceException(
 				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
@@ -1282,16 +1304,16 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b23": this.@b23 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
+				case "b23": this.@b23 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B23\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@b23 = 0;
 			this.@a2 = 0;
+			this.@b23 = 0;
 		}
 	}
 
@@ -1306,22 +1328,25 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_b23 = new AttributeType("b23", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "B23"; } }
-		public override INode CreateNode() { return new Node_B23(); }
+		public override INode CreateNode()
+		{
+			return new Node_B23();
+		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_b23;
 				yield return NodeType_A2.AttributeType_a2;
+				yield return AttributeType_b23;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "b23" : return AttributeType_b23;
 				case "a2" : return NodeType_A2.AttributeType_a2;
+				case "b23" : return AttributeType_b23;
 			}
 			return null;
 		}
@@ -1353,8 +1378,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B23
 					{
 						INode_B23 old = (INode_B23) oldNode;
-						newNode.@b23 = old.@b23;
 						newNode.@a2 = old.@a2;
+						newNode.@b23 = old.@b23;
 					}
 					break;
 			}
@@ -1381,8 +1406,8 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_B41(Node_B41 oldElem) : base(NodeType_B41.typeVar)
 		{
-			_b41 = oldElem._b41;
 			_a4 = oldElem._a4;
+			_b41 = oldElem._b41;
 		}
 		public static Node_B41 CreateNode(LGSPGraph graph)
 		{
@@ -1395,8 +1420,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b41 = 0;
 				node.@a4 = 0;
+				node.@b41 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -1413,8 +1438,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b41 = 0;
 				node.@a4 = 0;
+				node.@b41 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1427,25 +1452,25 @@ namespace de.unika.ipd.grGen.models.test
 		}
 
 
-		private int _b41;
-		public int @b41
-		{
-			get { return _b41; }
-			set { _b41 = value; }
-		}
-
 		private int _a4;
 		public int @a4
 		{
 			get { return _a4; }
 			set { _a4 = value; }
 		}
+
+		private int _b41;
+		public int @b41
+		{
+			get { return _b41; }
+			set { _b41 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "b41": return this.@b41;
 				case "a4": return this.@a4;
+				case "b41": return this.@b41;
 			}
 			throw new NullReferenceException(
 				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
@@ -1454,16 +1479,16 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b41": this.@b41 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
+				case "b41": this.@b41 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B41\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@b41 = 0;
 			this.@a4 = 0;
+			this.@b41 = 0;
 		}
 	}
 
@@ -1478,22 +1503,25 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_b41 = new AttributeType("b41", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "B41"; } }
-		public override INode CreateNode() { return new Node_B41(); }
+		public override INode CreateNode()
+		{
+			return new Node_B41();
+		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_b41;
 				yield return NodeType_A4.AttributeType_a4;
+				yield return AttributeType_b41;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "b41" : return AttributeType_b41;
 				case "a4" : return NodeType_A4.AttributeType_a4;
+				case "b41" : return AttributeType_b41;
 			}
 			return null;
 		}
@@ -1526,8 +1554,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 			}
@@ -1554,8 +1582,8 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_B42(Node_B42 oldElem) : base(NodeType_B42.typeVar)
 		{
-			_b42 = oldElem._b42;
 			_a4 = oldElem._a4;
+			_b42 = oldElem._b42;
 		}
 		public static Node_B42 CreateNode(LGSPGraph graph)
 		{
@@ -1568,8 +1596,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b42 = 0;
 				node.@a4 = 0;
+				node.@b42 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -1586,8 +1614,8 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@b42 = 0;
 				node.@a4 = 0;
+				node.@b42 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1600,25 +1628,25 @@ namespace de.unika.ipd.grGen.models.test
 		}
 
 
-		private int _b42;
-		public int @b42
-		{
-			get { return _b42; }
-			set { _b42 = value; }
-		}
-
 		private int _a4;
 		public int @a4
 		{
 			get { return _a4; }
 			set { _a4 = value; }
 		}
+
+		private int _b42;
+		public int @b42
+		{
+			get { return _b42; }
+			set { _b42 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "b42": return this.@b42;
 				case "a4": return this.@a4;
+				case "b42": return this.@b42;
 			}
 			throw new NullReferenceException(
 				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
@@ -1627,16 +1655,16 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "b42": this.@b42 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
+				case "b42": this.@b42 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"B42\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@b42 = 0;
 			this.@a4 = 0;
+			this.@b42 = 0;
 		}
 	}
 
@@ -1651,22 +1679,25 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_b42 = new AttributeType("b42", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "B42"; } }
-		public override INode CreateNode() { return new Node_B42(); }
+		public override INode CreateNode()
+		{
+			return new Node_B42();
+		}
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_b42;
 				yield return NodeType_A4.AttributeType_a4;
+				yield return AttributeType_b42;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "b42" : return AttributeType_b42;
 				case "a4" : return NodeType_A4.AttributeType_a4;
+				case "b42" : return AttributeType_b42;
 			}
 			return null;
 		}
@@ -1699,8 +1730,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					break;
 			}
@@ -1808,7 +1839,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 		}
 		public override String Name { get { return "B43"; } }
-		public override INode CreateNode() { return new Node_B43(); }
+		public override INode CreateNode()
+		{
+			return new Node_B43();
+		}
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -1881,9 +1915,9 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_C221(Node_C221 oldElem) : base(NodeType_C221.typeVar)
 		{
-			_c221 = oldElem._c221;
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
+			_c221 = oldElem._c221;
 		}
 		public static Node_C221 CreateNode(LGSPGraph graph)
 		{
@@ -1896,9 +1930,9 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c221 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
+				node.@c221 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -1915,9 +1949,9 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c221 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
+				node.@c221 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -1929,13 +1963,6 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-
-		private int _c221;
-		public int @c221
-		{
-			get { return _c221; }
-			set { _c221 = value; }
-		}
 
 		private int _a2;
 		public int @a2
@@ -1950,13 +1977,20 @@ namespace de.unika.ipd.grGen.models.test
 			get { return _b22; }
 			set { _b22 = value; }
 		}
+
+		private int _c221;
+		public int @c221
+		{
+			get { return _c221; }
+			set { _c221 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "c221": return this.@c221;
 				case "a2": return this.@a2;
 				case "b22": return this.@b22;
+				case "c221": return this.@c221;
 			}
 			throw new NullReferenceException(
 				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
@@ -1965,18 +1999,18 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c221": this.@c221 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
 				case "b22": this.@b22 = (int) value; return;
+				case "c221": this.@c221 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C221\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@c221 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
+			this.@c221 = 0;
 		}
 	}
 
@@ -1991,24 +2025,27 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_c221 = new AttributeType("c221", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "C221"; } }
-		public override INode CreateNode() { return new Node_C221(); }
+		public override INode CreateNode()
+		{
+			return new Node_C221();
+		}
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_c221;
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_B22.AttributeType_b22;
+				yield return AttributeType_c221;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "c221" : return AttributeType_c221;
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "b22" : return NodeType_B22.AttributeType_b22;
+				case "c221" : return AttributeType_c221;
 			}
 			return null;
 		}
@@ -2038,8 +2075,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B22
 					{
 						INode_B22 old = (INode_B22) oldNode;
-						newNode.@b22 = old.@b22;
 						newNode.@a2 = old.@a2;
+						newNode.@b22 = old.@b22;
 					}
 					break;
 				case (int) NodeTypes.@C221:
@@ -2047,9 +2084,9 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: C221
 					{
 						INode_C221 old = (INode_C221) oldNode;
-						newNode.@c221 = old.@c221;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
+						newNode.@c221 = old.@c221;
 					}
 					break;
 			}
@@ -2076,11 +2113,11 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_C222_411(Node_C222_411 oldElem) : base(NodeType_C222_411.typeVar)
 		{
-			_c222_411 = oldElem._c222_411;
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
+			_c222_411 = oldElem._c222_411;
 		}
 		public static Node_C222_411 CreateNode(LGSPGraph graph)
 		{
@@ -2093,11 +2130,11 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c222_411 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
+				node.@c222_411 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -2114,11 +2151,11 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c222_411 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
+				node.@c222_411 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2130,13 +2167,6 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-
-		private int _c222_411;
-		public int @c222_411
-		{
-			get { return _c222_411; }
-			set { _c222_411 = value; }
-		}
 
 		private int _a2;
 		public int @a2
@@ -2165,15 +2195,22 @@ namespace de.unika.ipd.grGen.models.test
 			get { return _b41; }
 			set { _b41 = value; }
 		}
+
+		private int _c222_411;
+		public int @c222_411
+		{
+			get { return _c222_411; }
+			set { _c222_411 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "c222_411": return this.@c222_411;
 				case "a2": return this.@a2;
 				case "b22": return this.@b22;
 				case "a4": return this.@a4;
 				case "b41": return this.@b41;
+				case "c222_411": return this.@c222_411;
 			}
 			throw new NullReferenceException(
 				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
@@ -2182,22 +2219,22 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c222_411": this.@c222_411 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
 				case "b22": this.@b22 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
 				case "b41": this.@b41 = (int) value; return;
+				case "c222_411": this.@c222_411 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C222_411\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@c222_411 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@a4 = 0;
 			this.@b41 = 0;
+			this.@c222_411 = 0;
 		}
 	}
 
@@ -2212,28 +2249,31 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_c222_411 = new AttributeType("c222_411", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "C222_411"; } }
-		public override INode CreateNode() { return new Node_C222_411(); }
+		public override INode CreateNode()
+		{
+			return new Node_C222_411();
+		}
 		public override int NumAttributes { get { return 5; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_c222_411;
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_B22.AttributeType_b22;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_B41.AttributeType_b41;
+				yield return AttributeType_c222_411;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "c222_411" : return AttributeType_c222_411;
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "b22" : return NodeType_B22.AttributeType_b22;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "b41" : return NodeType_B41.AttributeType_b41;
+				case "c222_411" : return AttributeType_c222_411;
 			}
 			return null;
 		}
@@ -2271,8 +2311,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B22
 					{
 						INode_B22 old = (INode_B22) oldNode;
-						newNode.@b22 = old.@b22;
 						newNode.@a2 = old.@a2;
+						newNode.@b22 = old.@b22;
 					}
 					break;
 				case (int) NodeTypes.@B41:
@@ -2280,8 +2320,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@C222_411:
@@ -2290,11 +2330,11 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: C222_411
 					{
 						INode_C222_411 old = (INode_C222_411) oldNode;
-						newNode.@c222_411 = old.@c222_411;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
+						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
 				case (int) NodeTypes.@D231_4121:
@@ -2306,8 +2346,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 			}
@@ -2454,7 +2494,10 @@ namespace de.unika.ipd.grGen.models.test
 		{
 		}
 		public override String Name { get { return "C412_421_431_51"; } }
-		public override INode CreateNode() { return new Node_C412_421_431_51(); }
+		public override INode CreateNode()
+		{
+			return new Node_C412_421_431_51();
+		}
 		public override int NumAttributes { get { return 4; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
@@ -2508,16 +2551,16 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					break;
 				case (int) NodeTypes.@B43:
@@ -2542,8 +2585,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					// copy attributes for: B43
 						// already copied: a4
@@ -2572,9 +2615,9 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_C432_422(Node_C432_422 oldElem) : base(NodeType_C432_422.typeVar)
 		{
-			_c432_422 = oldElem._c432_422;
 			_a4 = oldElem._a4;
 			_b42 = oldElem._b42;
+			_c432_422 = oldElem._c432_422;
 		}
 		public static Node_C432_422 CreateNode(LGSPGraph graph)
 		{
@@ -2587,9 +2630,9 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c432_422 = 0;
 				node.@a4 = 0;
 				node.@b42 = 0;
+				node.@c432_422 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -2606,9 +2649,9 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@c432_422 = 0;
 				node.@a4 = 0;
 				node.@b42 = 0;
+				node.@c432_422 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2620,13 +2663,6 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-
-		private int _c432_422;
-		public int @c432_422
-		{
-			get { return _c432_422; }
-			set { _c432_422 = value; }
-		}
 
 		private int _a4;
 		public int @a4
@@ -2641,13 +2677,20 @@ namespace de.unika.ipd.grGen.models.test
 			get { return _b42; }
 			set { _b42 = value; }
 		}
+
+		private int _c432_422;
+		public int @c432_422
+		{
+			get { return _c432_422; }
+			set { _c432_422 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "c432_422": return this.@c432_422;
 				case "a4": return this.@a4;
 				case "b42": return this.@b42;
+				case "c432_422": return this.@c432_422;
 			}
 			throw new NullReferenceException(
 				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
@@ -2656,18 +2699,18 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "c432_422": this.@c432_422 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
 				case "b42": this.@b42 = (int) value; return;
+				case "c432_422": this.@c432_422 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"C432_422\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@c432_422 = 0;
 			this.@a4 = 0;
 			this.@b42 = 0;
+			this.@c432_422 = 0;
 		}
 	}
 
@@ -2682,24 +2725,27 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_c432_422 = new AttributeType("c432_422", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "C432_422"; } }
-		public override INode CreateNode() { return new Node_C432_422(); }
+		public override INode CreateNode()
+		{
+			return new Node_C432_422();
+		}
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_c432_422;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_B42.AttributeType_b42;
+				yield return AttributeType_c432_422;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "c432_422" : return AttributeType_c432_422;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "b42" : return NodeType_B42.AttributeType_b42;
+				case "c432_422" : return AttributeType_c432_422;
 			}
 			return null;
 		}
@@ -2728,8 +2774,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					break;
 				case (int) NodeTypes.@B43:
@@ -2744,8 +2790,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					// copy attributes for: B43
 						// already copied: a4
@@ -2754,9 +2800,9 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: C432_422
 					{
 						INode_C432_422 old = (INode_C432_422) oldNode;
-						newNode.@c432_422 = old.@c432_422;
 						newNode.@a4 = old.@a4;
 						newNode.@b42 = old.@b42;
+						newNode.@c432_422 = old.@c432_422;
 					}
 					break;
 			}
@@ -2783,13 +2829,13 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_D11_2221(Node_D11_2221 oldElem) : base(NodeType_D11_2221.typeVar)
 		{
-			_d11_2221 = oldElem._d11_2221;
 			_a1 = oldElem._a1;
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 			_a4 = oldElem._a4;
 			_b41 = oldElem._b41;
 			_c222_411 = oldElem._c222_411;
+			_d11_2221 = oldElem._d11_2221;
 		}
 		public static Node_D11_2221 CreateNode(LGSPGraph graph)
 		{
@@ -2802,13 +2848,13 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d11_2221 = 0;
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@c222_411 = 0;
+				node.@d11_2221 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -2825,13 +2871,13 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d11_2221 = 0;
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@c222_411 = 0;
+				node.@d11_2221 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -2843,13 +2889,6 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-
-		private int _d11_2221;
-		public int @d11_2221
-		{
-			get { return _d11_2221; }
-			set { _d11_2221 = value; }
-		}
 
 		private int _a1;
 		public int @a1
@@ -2892,17 +2931,24 @@ namespace de.unika.ipd.grGen.models.test
 			get { return _c222_411; }
 			set { _c222_411 = value; }
 		}
+
+		private int _d11_2221;
+		public int @d11_2221
+		{
+			get { return _d11_2221; }
+			set { _d11_2221 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "d11_2221": return this.@d11_2221;
 				case "a1": return this.@a1;
 				case "a2": return this.@a2;
 				case "b22": return this.@b22;
 				case "a4": return this.@a4;
 				case "b41": return this.@b41;
 				case "c222_411": return this.@c222_411;
+				case "d11_2221": return this.@d11_2221;
 			}
 			throw new NullReferenceException(
 				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
@@ -2911,26 +2957,26 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d11_2221": this.@d11_2221 = (int) value; return;
 				case "a1": this.@a1 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
 				case "b22": this.@b22 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
 				case "b41": this.@b41 = (int) value; return;
 				case "c222_411": this.@c222_411 = (int) value; return;
+				case "d11_2221": this.@d11_2221 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D11_2221\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@d11_2221 = 0;
 			this.@a1 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@a4 = 0;
 			this.@b41 = 0;
 			this.@c222_411 = 0;
+			this.@d11_2221 = 0;
 		}
 	}
 
@@ -2945,32 +2991,35 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_d11_2221 = new AttributeType("d11_2221", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "D11_2221"; } }
-		public override INode CreateNode() { return new Node_D11_2221(); }
+		public override INode CreateNode()
+		{
+			return new Node_D11_2221();
+		}
 		public override int NumAttributes { get { return 7; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_d11_2221;
 				yield return NodeType_A1.AttributeType_a1;
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_B22.AttributeType_b22;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_B41.AttributeType_b41;
 				yield return NodeType_C222_411.AttributeType_c222_411;
+				yield return AttributeType_d11_2221;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "d11_2221" : return AttributeType_d11_2221;
 				case "a1" : return NodeType_A1.AttributeType_a1;
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "b22" : return NodeType_B22.AttributeType_b22;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "b41" : return NodeType_B41.AttributeType_b41;
 				case "c222_411" : return NodeType_C222_411.AttributeType_c222_411;
+				case "d11_2221" : return AttributeType_d11_2221;
 			}
 			return null;
 		}
@@ -3015,8 +3064,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B22
 					{
 						INode_B22 old = (INode_B22) oldNode;
-						newNode.@b22 = old.@b22;
 						newNode.@a2 = old.@a2;
+						newNode.@b22 = old.@b22;
 					}
 					break;
 				case (int) NodeTypes.@B41:
@@ -3024,8 +3073,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@C222_411:
@@ -3033,24 +3082,24 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: C222_411
 					{
 						INode_C222_411 old = (INode_C222_411) oldNode;
-						newNode.@c222_411 = old.@c222_411;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
+						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
 				case (int) NodeTypes.@D11_2221:
 					// copy attributes for: D11_2221
 					{
 						INode_D11_2221 old = (INode_D11_2221) oldNode;
-						newNode.@d11_2221 = old.@d11_2221;
 						newNode.@a1 = old.@a1;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@c222_411 = old.@c222_411;
+						newNode.@d11_2221 = old.@d11_2221;
 					}
 					break;
 				case (int) NodeTypes.@D231_4121:
@@ -3062,8 +3111,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 			}
@@ -3090,7 +3139,6 @@ namespace de.unika.ipd.grGen.models.test
 
 		private Node_D2211_2222_31(Node_D2211_2222_31 oldElem) : base(NodeType_D2211_2222_31.typeVar)
 		{
-			_d2211_2222_31 = oldElem._d2211_2222_31;
 			_a2 = oldElem._a2;
 			_b22 = oldElem._b22;
 			_c221 = oldElem._c221;
@@ -3098,6 +3146,7 @@ namespace de.unika.ipd.grGen.models.test
 			_b41 = oldElem._b41;
 			_c222_411 = oldElem._c222_411;
 			_a3 = oldElem._a3;
+			_d2211_2222_31 = oldElem._d2211_2222_31;
 		}
 		public static Node_D2211_2222_31 CreateNode(LGSPGraph graph)
 		{
@@ -3110,7 +3159,6 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d2211_2222_31 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3118,6 +3166,7 @@ namespace de.unika.ipd.grGen.models.test
 				node.@b41 = 0;
 				node.@c222_411 = 0;
 				node.@a3 = 0;
+				node.@d2211_2222_31 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -3134,7 +3183,6 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d2211_2222_31 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3142,6 +3190,7 @@ namespace de.unika.ipd.grGen.models.test
 				node.@b41 = 0;
 				node.@c222_411 = 0;
 				node.@a3 = 0;
+				node.@d2211_2222_31 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -3153,13 +3202,6 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-
-		private int _d2211_2222_31;
-		public int @d2211_2222_31
-		{
-			get { return _d2211_2222_31; }
-			set { _d2211_2222_31 = value; }
-		}
 
 		private int _a2;
 		public int @a2
@@ -3209,11 +3251,17 @@ namespace de.unika.ipd.grGen.models.test
 			get { return _a3; }
 			set { _a3 = value; }
 		}
+
+		private int _d2211_2222_31;
+		public int @d2211_2222_31
+		{
+			get { return _d2211_2222_31; }
+			set { _d2211_2222_31 = value; }
+		}
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "d2211_2222_31": return this.@d2211_2222_31;
 				case "a2": return this.@a2;
 				case "b22": return this.@b22;
 				case "c221": return this.@c221;
@@ -3221,6 +3269,7 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41": return this.@b41;
 				case "c222_411": return this.@c222_411;
 				case "a3": return this.@a3;
+				case "d2211_2222_31": return this.@d2211_2222_31;
 			}
 			throw new NullReferenceException(
 				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
@@ -3229,7 +3278,6 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d2211_2222_31": this.@d2211_2222_31 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
 				case "b22": this.@b22 = (int) value; return;
 				case "c221": this.@c221 = (int) value; return;
@@ -3237,13 +3285,13 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41": this.@b41 = (int) value; return;
 				case "c222_411": this.@c222_411 = (int) value; return;
 				case "a3": this.@a3 = (int) value; return;
+				case "d2211_2222_31": this.@d2211_2222_31 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D2211_2222_31\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@d2211_2222_31 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@c221 = 0;
@@ -3251,6 +3299,7 @@ namespace de.unika.ipd.grGen.models.test
 			this.@b41 = 0;
 			this.@c222_411 = 0;
 			this.@a3 = 0;
+			this.@d2211_2222_31 = 0;
 		}
 	}
 
@@ -3265,13 +3314,15 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_d2211_2222_31 = new AttributeType("d2211_2222_31", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "D2211_2222_31"; } }
-		public override INode CreateNode() { return new Node_D2211_2222_31(); }
+		public override INode CreateNode()
+		{
+			return new Node_D2211_2222_31();
+		}
 		public override int NumAttributes { get { return 8; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_d2211_2222_31;
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_B22.AttributeType_b22;
 				yield return NodeType_C221.AttributeType_c221;
@@ -3279,13 +3330,13 @@ namespace de.unika.ipd.grGen.models.test
 				yield return NodeType_B41.AttributeType_b41;
 				yield return NodeType_C222_411.AttributeType_c222_411;
 				yield return NodeType_A3.AttributeType_a3;
+				yield return AttributeType_d2211_2222_31;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "d2211_2222_31" : return AttributeType_d2211_2222_31;
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "b22" : return NodeType_B22.AttributeType_b22;
 				case "c221" : return NodeType_C221.AttributeType_c221;
@@ -3293,6 +3344,7 @@ namespace de.unika.ipd.grGen.models.test
 				case "b41" : return NodeType_B41.AttributeType_b41;
 				case "c222_411" : return NodeType_C222_411.AttributeType_c222_411;
 				case "a3" : return NodeType_A3.AttributeType_a3;
+				case "d2211_2222_31" : return AttributeType_d2211_2222_31;
 			}
 			return null;
 		}
@@ -3336,8 +3388,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B22
 					{
 						INode_B22 old = (INode_B22) oldNode;
-						newNode.@b22 = old.@b22;
 						newNode.@a2 = old.@a2;
+						newNode.@b22 = old.@b22;
 					}
 					break;
 				case (int) NodeTypes.@B41:
@@ -3345,17 +3397,17 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@C221:
 					// copy attributes for: C221
 					{
 						INode_C221 old = (INode_C221) oldNode;
-						newNode.@c221 = old.@c221;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
+						newNode.@c221 = old.@c221;
 					}
 					break;
 				case (int) NodeTypes.@C222_411:
@@ -3363,18 +3415,17 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: C222_411
 					{
 						INode_C222_411 old = (INode_C222_411) oldNode;
-						newNode.@c222_411 = old.@c222_411;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
+						newNode.@c222_411 = old.@c222_411;
 					}
 					break;
 				case (int) NodeTypes.@D2211_2222_31:
 					// copy attributes for: D2211_2222_31
 					{
 						INode_D2211_2222_31 old = (INode_D2211_2222_31) oldNode;
-						newNode.@d2211_2222_31 = old.@d2211_2222_31;
 						newNode.@a2 = old.@a2;
 						newNode.@b22 = old.@b22;
 						newNode.@c221 = old.@c221;
@@ -3382,6 +3433,7 @@ namespace de.unika.ipd.grGen.models.test
 						newNode.@b41 = old.@b41;
 						newNode.@c222_411 = old.@c222_411;
 						newNode.@a3 = old.@a3;
+						newNode.@d2211_2222_31 = old.@d2211_2222_31;
 					}
 					break;
 				case (int) NodeTypes.@D231_4121:
@@ -3393,8 +3445,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 			}
@@ -3428,13 +3480,13 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d231_4121 = 0;
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
 				node.@a5 = 0;
+				node.@d231_4121 = 0;
 			}
 			graph.AddNode(node);
 			return node;
@@ -3451,13 +3503,13 @@ namespace de.unika.ipd.grGen.models.test
 				node.inhead = null;
 				node.outhead = null;
 				node.hasVariables = false;
-				node.@d231_4121 = 0;
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
 				node.@a5 = 0;
+				node.@d231_4121 = 0;
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -3469,24 +3521,24 @@ namespace de.unika.ipd.grGen.models.test
 				pool[poolLevel++] = this;
 		}
 
-		public abstract int @d231_4121 { get; set; }
 		public abstract int @a2 { get; set; }
 		public abstract int @b23 { get; set; }
 		public abstract int @a4 { get; set; }
 		public abstract int @b41 { get; set; }
 		public abstract int @b42 { get; set; }
 		public abstract int @a5 { get; set; }
+		public abstract int @d231_4121 { get; set; }
 		public override object GetAttribute(string attrName)
 		{
 			switch(attrName)
 			{
-				case "d231_4121": return this.@d231_4121;
 				case "a2": return this.@a2;
 				case "b23": return this.@b23;
 				case "a4": return this.@a4;
 				case "b41": return this.@b41;
 				case "b42": return this.@b42;
 				case "a5": return this.@a5;
+				case "d231_4121": return this.@d231_4121;
 			}
 			throw new NullReferenceException(
 				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");
@@ -3495,26 +3547,26 @@ namespace de.unika.ipd.grGen.models.test
 		{
 			switch(attrName)
 			{
-				case "d231_4121": this.@d231_4121 = (int) value; return;
 				case "a2": this.@a2 = (int) value; return;
 				case "b23": this.@b23 = (int) value; return;
 				case "a4": this.@a4 = (int) value; return;
 				case "b41": this.@b41 = (int) value; return;
 				case "b42": this.@b42 = (int) value; return;
 				case "a5": this.@a5 = (int) value; return;
+				case "d231_4121": this.@d231_4121 = (int) value; return;
 			}
 			throw new NullReferenceException(
 				"The node type \"D231_4121\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			this.@d231_4121 = 0;
 			this.@a2 = 0;
 			this.@b23 = 0;
 			this.@a4 = 0;
 			this.@b41 = 0;
 			this.@b42 = 0;
 			this.@a5 = 0;
+			this.@d231_4121 = 0;
 		}
 	}
 
@@ -3529,32 +3581,35 @@ namespace de.unika.ipd.grGen.models.test
 			AttributeType_d231_4121 = new AttributeType("d231_4121", this, AttributeKind.IntegerAttr, null);
 		}
 		public override String Name { get { return "D231_4121"; } }
-		public override INode CreateNode() { return new global::test.D231_4121_Impl(); }
+		public override INode CreateNode()
+		{
+			return new global::test.D231_4121_Impl();
+		}
 		public override int NumAttributes { get { return 7; } }
 		public override IEnumerable<AttributeType> AttributeTypes
 		{
 			get
 			{
-				yield return AttributeType_d231_4121;
 				yield return NodeType_A2.AttributeType_a2;
 				yield return NodeType_B23.AttributeType_b23;
 				yield return NodeType_A4.AttributeType_a4;
 				yield return NodeType_B41.AttributeType_b41;
 				yield return NodeType_B42.AttributeType_b42;
 				yield return NodeType_A5.AttributeType_a5;
+				yield return AttributeType_d231_4121;
 			}
 		}
 		public override AttributeType GetAttributeType(String name)
 		{
 			switch(name)
 			{
-				case "d231_4121" : return AttributeType_d231_4121;
 				case "a2" : return NodeType_A2.AttributeType_a2;
 				case "b23" : return NodeType_B23.AttributeType_b23;
 				case "a4" : return NodeType_A4.AttributeType_a4;
 				case "b41" : return NodeType_B41.AttributeType_b41;
 				case "b42" : return NodeType_B42.AttributeType_b42;
 				case "a5" : return NodeType_A5.AttributeType_a5;
+				case "d231_4121" : return AttributeType_d231_4121;
 			}
 			return null;
 		}
@@ -3596,24 +3651,24 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B23
 					{
 						INode_B23 old = (INode_B23) oldNode;
-						newNode.@b23 = old.@b23;
 						newNode.@a2 = old.@a2;
+						newNode.@b23 = old.@b23;
 					}
 					break;
 				case (int) NodeTypes.@B41:
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@B42:
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					break;
 				case (int) NodeTypes.@B43:
@@ -3634,8 +3689,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B41
 					{
 						INode_B41 old = (INode_B41) oldNode;
-						newNode.@b41 = old.@b41;
 						newNode.@a4 = old.@a4;
+						newNode.@b41 = old.@b41;
 					}
 					break;
 				case (int) NodeTypes.@C412_421_431_51:
@@ -3652,8 +3707,8 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: B42
 					{
 						INode_B42 old = (INode_B42) oldNode;
-						newNode.@b42 = old.@b42;
 						newNode.@a4 = old.@a4;
+						newNode.@b42 = old.@b42;
 					}
 					// copy attributes for: B43
 						// already copied: a4
@@ -3662,13 +3717,13 @@ namespace de.unika.ipd.grGen.models.test
 					// copy attributes for: D231_4121
 					{
 						INode_D231_4121 old = (INode_D231_4121) oldNode;
-						newNode.@d231_4121 = old.@d231_4121;
 						newNode.@a2 = old.@a2;
 						newNode.@b23 = old.@b23;
 						newNode.@a4 = old.@a4;
 						newNode.@b41 = old.@b41;
 						newNode.@b42 = old.@b42;
 						newNode.@a5 = old.@a5;
+						newNode.@d231_4121 = old.@d231_4121;
 					}
 					break;
 			}
@@ -4119,9 +4174,7 @@ namespace de.unika.ipd.grGen.models.test
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			LGSPEdge oldEdge = (LGSPEdge) oldIEdge;
-			Edge_Edge newEdge = new Edge_Edge((LGSPNode) source, (LGSPNode) target);
-			return newEdge;
+			return new Edge_Edge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -4185,6 +4238,6 @@ namespace de.unika.ipd.grGen.models.test
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "72976c7fc07bd75a73674984ca518dfc"; } }
+		public String MD5Hash { get { return "5611468dbde59171328518182a9d2069"; } }
 	}
 }
