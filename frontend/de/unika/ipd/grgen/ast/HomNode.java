@@ -110,7 +110,7 @@ public class HomNode extends BaseNode {
 		for(BaseNode n : childrenNode) {
 			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
 		}
-		TypeChecker edgeTypeChecker = new TypeChecker(DirectedEdgeTypeNode.class);
+		TypeChecker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
 		for(BaseNode n : childrenEdge) {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}

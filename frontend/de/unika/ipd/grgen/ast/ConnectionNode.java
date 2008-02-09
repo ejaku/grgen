@@ -113,7 +113,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 */
 	protected boolean checkLocal() {
 		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
-		Checker edgeChecker = new TypeChecker(DirectedEdgeTypeNode.class);
+		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
 		return nodeChecker.check(left, error)
 			& edgeChecker.check(edge, error)
 			& nodeChecker.check(right, error)

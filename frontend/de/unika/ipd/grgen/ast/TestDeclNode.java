@@ -178,7 +178,7 @@ public class TestDeclNode extends ActionDeclNode {
 						node.reportError("\"" + node + "\" is undeclared");
 					} else {
 						TypeNode type = ((IdentNode)node).getDecl().getDeclType();
-						res = (type instanceof NodeTypeNode) || (type instanceof DirectedEdgeTypeNode);
+						res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode);
 						if (!res) {
 							node.reportError("\"" + node + "\" is neither a node nor an edge type");
 						}

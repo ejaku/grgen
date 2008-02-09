@@ -40,7 +40,7 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 		setName(DirectedEdgeTypeNode.class, "directed edge type");
 	}
 
-	CollectNode<DirectedEdgeTypeNode> extend;
+	CollectNode<EdgeTypeNode> extend;
 
 	/**
 	 * Make a new directed edge type node.
@@ -87,10 +87,10 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
 		CollectPairResolver<BaseNode> bodyResolver =
 			new CollectPairResolver<BaseNode>(bodyPairResolver);
-		DeclarationTypeResolver<DirectedEdgeTypeNode> typeResolver =
-			new DeclarationTypeResolver<DirectedEdgeTypeNode>(DirectedEdgeTypeNode.class);
-		CollectResolver<DirectedEdgeTypeNode> extendResolver =
-			new CollectResolver<DirectedEdgeTypeNode>(typeResolver);
+		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
+			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
+		CollectResolver<EdgeTypeNode> extendResolver =
+			new CollectResolver<EdgeTypeNode>(typeResolver);
 		body = bodyResolver.resolve(bodyUnresolved);
 		
 		// ensure that all supertypes are resolved
@@ -173,7 +173,7 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 	}
 
 	@Override
-	public Collection<DirectedEdgeTypeNode> getDirectSuperTypes() {
+	public Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();

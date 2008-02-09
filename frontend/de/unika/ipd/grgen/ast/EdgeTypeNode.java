@@ -19,8 +19,8 @@
 
 
 /**
- * @author Sebastian Hack
- * @version $Id: DirectedEdgeTypeNode.java 17629 2008-02-07 18:44:43Z buchwald $
+ * @author Sebastian Buchwald
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -58,6 +58,12 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     		}
     	}
     }
+	
+	/**
+	 * Get the edge type IR object.
+	 * @return The edge type IR object for this AST node.
+	 */
+	public abstract EdgeType getEdgeType();
 	
 	protected abstract void constructIR(InheritanceType inhType);
 

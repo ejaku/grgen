@@ -19,8 +19,8 @@
 
 
 /**
- * @author Sebastian Hack
- * @version $Id: DirectedEdgeTypeNode.java 17625 2008-02-07 14:53:55Z buchwald $
+ * @author Sebastian Buchwald
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -40,7 +40,7 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 		setName(UndirectedEdgeTypeNode.class, "undirected edge type");
 	}
 
-	CollectNode<UndirectedEdgeTypeNode> extend;
+	CollectNode<EdgeTypeNode> extend;
 
 	/**
 	 * Make a new undirected edge type node.
@@ -87,10 +87,10 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
 		CollectPairResolver<BaseNode> bodyResolver =
 			new CollectPairResolver<BaseNode>(bodyPairResolver);
-		DeclarationTypeResolver<UndirectedEdgeTypeNode> typeResolver =
-			new DeclarationTypeResolver<UndirectedEdgeTypeNode>(UndirectedEdgeTypeNode.class);
-		CollectResolver<UndirectedEdgeTypeNode> extendResolver =
-			new CollectResolver<UndirectedEdgeTypeNode>(typeResolver);
+		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
+			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
+		CollectResolver<EdgeTypeNode> extendResolver =
+			new CollectResolver<EdgeTypeNode>(typeResolver);
 		body = bodyResolver.resolve(bodyUnresolved);
 		
 		// ensure that all supertypes are resolved
@@ -173,7 +173,7 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 	}
 
 	@Override
-		public Collection<UndirectedEdgeTypeNode> getDirectSuperTypes() {
+		public Collection<EdgeTypeNode> getDirectSuperTypes() {
 		assert isResolved();
 
 	    return extend.getChildren();

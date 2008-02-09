@@ -134,7 +134,7 @@ public class ModelNode extends DeclNode {
 
 			assert (
 					   ((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
-				((inhType instanceof DirectedEdgeTypeNode) && (t instanceof DirectedEdgeTypeNode))
+				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode))
 			): "nodes should extend nodes and edges should extend edges";
 
 			InheritanceTypeNode superType = (InheritanceTypeNode) t;

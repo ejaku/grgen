@@ -108,7 +108,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 
 	protected boolean checkLocal() {
-		Checker typeChecker = new TypeChecker(DirectedEdgeTypeNode.class);
+		Checker typeChecker = new TypeChecker(EdgeTypeNode.class);
 		return super.checkLocal()
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}

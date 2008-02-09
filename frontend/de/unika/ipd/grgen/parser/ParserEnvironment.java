@@ -33,6 +33,8 @@ import java.util.Hashtable;
 import antlr.TokenStreamException;
 
 import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ast.ArbitraryDirectedEdgeTypeNode;
+import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
 import de.unika.ipd.grgen.ast.CollectNode;
@@ -46,6 +48,7 @@ import de.unika.ipd.grgen.ast.NodeDeclNode;
 import de.unika.ipd.grgen.ast.NodeTypeNode;
 import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
+import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
@@ -73,7 +76,10 @@ public abstract class ParserEnvironment extends Base {
 
 	private final IdentNode nodeRoot;
 
+	private final IdentNode arbitraryEdgeRoot;
+	private final IdentNode arbitraryDirectedEdgeRoot;
 	private final IdentNode directedEdgeRoot;
+	private final IdentNode undirectedEdgeRoot;
 
 	private final Sys system;
 
@@ -110,11 +116,24 @@ public abstract class ParserEnvironment extends Base {
 				new NodeTypeNode(new CollectNode<IdentNode>(), new CollectNode<BaseNode>(), 0, null));
 
 		// The edge type roots
+		
+		arbitraryEdgeRoot = predefineType("AEdge",
+				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
+		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
+		superTypes.addChild(arbitraryEdgeRoot);
+
+		arbitraryDirectedEdgeRoot = predefineType("ADEdge",
+				new ArbitraryDirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
 		directedEdgeRoot = predefineType("Edge",
-				new DirectedEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
+				new DirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
+		undirectedEdgeRoot = predefineType("UEdge",
+				new UndirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
 
 		stdModelChilds.addChild(nodeRoot);
+		stdModelChilds.addChild(arbitraryEdgeRoot);
+		stdModelChilds.addChild(arbitraryDirectedEdgeRoot);
 		stdModelChilds.addChild(directedEdgeRoot);
+		stdModelChilds.addChild(undirectedEdgeRoot);
 
 		stdModelChilds.addChild(predefineType("int", BasicTypeNode.intType));
 		stdModelChilds.addChild(predefineType("string", BasicTypeNode.stringType));
@@ -217,11 +236,35 @@ public abstract class ParserEnvironment extends Base {
 	}
 
 	/**
-	 * Get the edge root identifier.
-	 * @return The edge root type identifier.
+	 * Get the directed edge root identifier.
+	 * @return The directed edge root type identifier.
 	 */
 	public IdentNode getDirectedEdgeRoot() {
 		return directedEdgeRoot;
+	}
+
+	/**
+	 * Get the arbitrary edge root identifier.
+	 * @return The arbitrary edge root type identifier.
+	 */
+	public IdentNode getArbitraryEdgeRoot() {
+		return arbitraryEdgeRoot;
+	}
+
+	/**
+	 * Get the arbitrary directed edge root identifier.
+	 * @return The directed edge root type identifier.
+	 */
+	public IdentNode getArbitraryDirectedEdgeRoot() {
+		return arbitraryDirectedEdgeRoot;
+	}
+
+	/**
+	 * Get the undirected edge root identifier.
+	 * @return The undirected edge root type identifier.
+	 */
+	public IdentNode getUndirectedEdgeRoot() {
+		return undirectedEdgeRoot;
 	}
 
 	public IntConstNode getOne() {

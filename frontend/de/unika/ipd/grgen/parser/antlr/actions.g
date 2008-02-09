@@ -544,7 +544,7 @@ forwardOrUndirectedEdgeOcc [int context] returns [ BaseNode res = env.initNode()
 	| mm:MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 		}
 	;
 
@@ -557,15 +557,6 @@ backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
 	: LARROW ( res=edgeDecl[context] | res=entIdentUse ) MINUS
 	| mm:DOUBLE_LARROW
 		{
-			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
-			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
-		}
-	;
-
-undirectedEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
-	: MINUS ( res=edgeDecl[context] | res=entIdentUse ) MINUS
-	| mm:MINUSMINUS
-		{ // TODO
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 		}
