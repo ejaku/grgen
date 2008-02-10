@@ -1,3 +1,7 @@
+pattern R {
+	x:Node -e:Edge-> x;
+}
+
 pattern P {
 	x:Node;
 	x -e:Edge-> y:Node;
@@ -6,6 +10,7 @@ pattern P {
 pattern Q {
 	x:Node <-e:Edge- y;
 	y:Node;
+	r:R();
 }
 
 test t {
@@ -15,4 +20,10 @@ test t {
 	p1:P();
 	p2:P();
 	q:Q();
+}
+
+test s {
+	x:Node;
+	y:Node;
+	x -e:Edge-> y;
 }

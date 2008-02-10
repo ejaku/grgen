@@ -75,8 +75,7 @@ namespace de.unika.ipd.grGen.lgsp
                             neededElementsForCheckOperation,
                             enclosingCheckNegative ?? enclosingSearchProgram);
 
-                        // unlike all other check operations with their flat check failed code
-                        // check preset has a further check operations nested within check failed code
+                        // check preset has a further check maximum matches nested within check failed code
                         // give it its special bit of attention here
                         CompleteCheckOperations(checkPreset.CheckFailedOperations,
                             enclosingSearchProgram,
@@ -122,6 +121,38 @@ namespace de.unika.ipd.grGen.lgsp
                             enclosingCheckNegative ?? enclosingSearchProgram,
                             checkNegative);
                     }
+                    else if (currentOperation is CheckPartialMatchForSubpatternsFound)
+                    {
+                        CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
+                            (CheckPartialMatchForSubpatternsFound)currentOperation;
+
+                        // determine insertion point within check failed operations
+                        // to append the nested check maximum matches
+                        SearchProgramOperation insertionPoint =
+                            checkSubpatternsFound.CheckFailedOperations;
+                        while (insertionPoint.Next != null)
+                        {
+                            insertionPoint = insertionPoint.Next;
+                        }
+
+                        // append nested check maximum matches
+                        CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
+                            new CheckContinueMatchingMaximumMatchesReached(true, false);
+                        insertionPoint.Append(checkMaximumMatches);
+
+                        string[] neededElementsForCheckOperation = 
+                            ((SearchProgram)enclosingSearchProgram).NamesOfPatternGraphElements;
+                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                            checkSubpatternsFound,
+                            neededElementsForCheckOperation,
+                            enclosingCheckNegative ?? enclosingSearchProgram);
+
+                        // check subpatterns found has a further check maximum matches nested within check failed code
+                        // give it its special bit of attention here
+                        CompleteCheckOperations(checkSubpatternsFound.CheckFailedOperations,
+                            enclosingSearchProgram,
+                            enclosingCheckNegative);
+                    }
                     else
                     {
                         Debug.Assert(false, "unknown check partial match operation");
@@ -150,16 +181,48 @@ namespace de.unika.ipd.grGen.lgsp
                             neededElementsForCheckOperation,
                             enclosingSearchProgram);
                     }
-                    else if (currentOperation is CheckContinueMatchingFailed)
+                    else if (currentOperation is CheckContinueMatchingOfNegativeFailed)
                     {
-                        CheckContinueMatchingFailed checkFailed =
-                            (CheckContinueMatchingFailed)currentOperation;
+                        CheckContinueMatchingOfNegativeFailed checkFailed =
+                            (CheckContinueMatchingOfNegativeFailed)currentOperation;
                         checkFailed.CheckFailedOperations =
                             new SearchProgramList(checkFailed);
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkFailed,
                             enclosingCheckNegative.NeededElements,
                             enclosingSearchProgram);
+                    }
+                    else if (currentOperation is CheckContinueMatchingTasksLeft)
+                    {
+                        CheckContinueMatchingTasksLeft tasksLeft =
+                            (CheckContinueMatchingTasksLeft)currentOperation;
+
+                        // determine insertion point within check failed operations
+                        // to append the nested check maximum matches
+                        SearchProgramOperation insertionPoint =
+                            tasksLeft.CheckFailedOperations;
+                        while (insertionPoint.Next != null)
+                        {
+                            insertionPoint = insertionPoint.Next;
+                        }
+
+                        // append nested check maximum matches
+                        CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
+                            new CheckContinueMatchingMaximumMatchesReached(true, false);
+                        insertionPoint.Append(checkMaximumMatches);
+
+                        string[] neededElementsForCheckOperation =
+                            ((SearchProgram)enclosingSearchProgram).NamesOfPatternGraphElements;
+                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                            tasksLeft,
+                            neededElementsForCheckOperation,
+                            enclosingCheckNegative ?? enclosingSearchProgram);
+
+                        // check tasks left has a further check maximum matches nested within check failed code
+                        // give it its special bit of attention here
+                        CompleteCheckOperations(tasksLeft.CheckFailedOperations,
+                            enclosingSearchProgram,
+                            enclosingCheckNegative);
                     }
                     else
                     {
@@ -268,6 +331,27 @@ namespace de.unika.ipd.grGen.lgsp
                             writeIsomorphy.IsNode);
                     insertionPoint = insertionPoint.Append(restoreIsomorphy);
                 }
+                // insert code to clean up isomorphy information written by global candidate acceptance
+                // in between the operation to continue and the check operation
+                if (op is AcceptCandidateGlobal)
+                {
+                    AcceptCandidateGlobal writeIsomorphy =
+                        op as AcceptCandidateGlobal;
+                    AbandonCandidateGlobal removeIsomorphy =
+                        new AbandonCandidateGlobal(
+                            writeIsomorphy.PatternElementName,
+                            writeIsomorphy.IsNode);
+                    insertionPoint = insertionPoint.Append(removeIsomorphy);
+                }
+                // insert code to undo subpattern matching initialization if we leave the subpattern matching method
+                if (op is InitalizeSubpatternMatching)
+                {
+                    InitalizeSubpatternMatching initialize =
+                        op as InitalizeSubpatternMatching;
+                    FinalizeSubpatternMatching finalize =
+                        new FinalizeSubpatternMatching();
+                    insertionPoint = insertionPoint.Append(finalize);
+                }
 
                 // determine operation to continue at
                 // found by looking at the graph elements 
@@ -314,7 +398,8 @@ namespace de.unika.ipd.grGen.lgsp
                 ContinueOperation continueByReturn =
                     new ContinueOperation(
                         ContinueOperationType.ByReturn,
-                        !searchProgramRoot.IsSubprogram);
+                        !searchProgramRoot.IsSubprogram && !searchProgramRoot.IsSubpattern
+                        );
                 insertionPoint.Append(continueByReturn);
 
                 return;

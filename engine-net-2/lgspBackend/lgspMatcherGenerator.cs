@@ -1137,7 +1137,7 @@ exitSecondLoop: ;
                     PatternNode node = patternGraph.nodes[i];
                     if (node.PatternElementType == PatternElementType.Preset)
                     {
-                        sb.Append("\t\tLGSPNode " + node.name + ";\n");
+                        sb.Append("\t\tpublic LGSPNode " + node.name + ";\n");
                     }
                 }
                 for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -1145,7 +1145,7 @@ exitSecondLoop: ;
                     PatternEdge edge = patternGraph.edges[i];
                     if (edge.PatternElementType == PatternElementType.Preset)
                     {
-                        sb.Append("\t\tLGSPEdge " + edge.name + ";\n");
+                        sb.Append("\t\tpublic LGSPEdge " + edge.name + ";\n");
                     }
                 }
                 sb.Append("\n");

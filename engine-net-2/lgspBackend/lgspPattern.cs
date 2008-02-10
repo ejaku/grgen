@@ -303,8 +303,10 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph patternGraph;
         public PatternGraph[] negativePatternGraphs;
 
-        public GrGenType[] inputs; // information already given by the PatternElements within PatternGraph
+        public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
+        public string[] inputNames;
         public GrGenType[] outputs;
+        public string[] outputNames;
 
         public String name;
         public bool isSubpattern; // are we a rule or a subpattern?

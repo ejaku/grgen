@@ -492,11 +492,23 @@ public class ActionsGen extends CSharpBase {
 			for(Entity ent : ((MatchingAction)action).getParameters())
 				sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
 		sb.append("};\n");
+		
+		sb.append("\t\t\tinputNames = new string[] { ");
+		if(action instanceof MatchingAction)
+			for(Entity ent : ((MatchingAction)action).getParameters())
+				sb.append("\"" + formatEntity(ent, null, 0) + "\", ");
+		sb.append("};\n");
 
 		sb.append("\t\t\toutputs = new GrGenType[] { ");
 		if(action instanceof MatchingAction)
 			for(Entity ent : ((MatchingAction)action).getReturns())
 				sb.append(formatTypeClass(ent.getType()) + ".typeVar, ");
+		sb.append("};\n");
+		
+		sb.append("\t\t\toutputNames = new string[] { ");
+		if(action instanceof MatchingAction)
+			for(Entity ent : ((MatchingAction)action).getReturns())
+				sb.append("\"" + formatEntity(ent, null, 0) + "\", ");
 		sb.append("};\n");
 	}
 
