@@ -41,6 +41,14 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	static {
 		setName(ConnectionNode.class, "connection");
 	}
+	
+	/** possible direction */
+	public static final int ARBITRARY = 0;
+	public static final int ARBITRARY_DIRECTED = 1;
+	public static final int DIRECTED = 2;
+	public static final int UNDIRECTED = 3;
+	
+	private int direction;
 
 	NodeDeclNode left;
 	EdgeDeclNode edge;
@@ -54,8 +62,11 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  A connection node has two node nodes and one edge node
 	 *  @param n1 First node
 	 *  @param edge Edge that connects n1 with n2
-	 *  @param n2 Second node. */
-	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2) {
+	 *  @param n2 Second node.
+	 *  @param n2 Second node.
+	 *  @param d Direction of the connection.
+	 */
+	public ConnectionNode(BaseNode n1, BaseNode e, BaseNode n2, int d) {
 		super(e.getCoords());
 		leftUnresolved = n1;
 		becomeParent(leftUnresolved);
@@ -63,15 +74,18 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		becomeParent(edgeUnresolved);
 		rightUnresolved = n2;
 		becomeParent(rightUnresolved);
+		direction = d;
 	}
 
 	/** Construct a new already resolved and checked connection node.
 	 *  A connection node has two node nodes and one edge node
 	 *  @param n1 First node
 	 *  @param edge Edge that connects n1 with n2
-	 *  @param n2 Second node. */
-	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, boolean resolvedAndChecked) {
-		this(n1, e, n2);
+	 *  @param n2 Second node.
+	 *  @param d Direction of the connection.
+	 */
+	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, boolean resolvedAndChecked) {
+		this(n1, e, n2, d);
 		assert(resolvedAndChecked);
 		resolve();
 		check();

@@ -429,18 +429,18 @@ nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode<BaseNod
 	: n2=nodeOcc[context] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
 			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2));
+				conn.addChild(new ConnectionNode(n1, e, n2, ConnectionNode.DIRECTED));
 			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1));
+				conn.addChild(new ConnectionNode(n2, e, n1, ConnectionNode.DIRECTED));
 			}
 		}
 		edgeContinuation[n2, conn, context]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
 			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2));
+				conn.addChild(new ConnectionNode(n1, e, n2, ConnectionNode.DIRECTED));
 			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1));
+				conn.addChild(new ConnectionNode(n2, e, n1, ConnectionNode.DIRECTED));
 			}
 		}
 	;

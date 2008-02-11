@@ -620,9 +620,9 @@ public class PatternGraphNode extends GraphNode {
 
 				ConnectionCharacter conn = null;
 				if (direction == INCOMING) {
-					conn = new ConnectionNode(dummyNode, edge, singleNodeNegNode, true);
+					conn = new ConnectionNode(dummyNode, edge, singleNodeNegNode, ConnectionNode.DIRECTED, true);
 				} else {
-					conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, true);
+					conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.DIRECTED, true);
 				}
 				conn.addToGraph(neg);
 
@@ -792,7 +792,7 @@ public class PatternGraphNode extends GraphNode {
 			// add another edge of type edgeRoot to the NAC
 			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, true);
+			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.DIRECTED, true);
 
 			conn.addToGraph(neg);
 

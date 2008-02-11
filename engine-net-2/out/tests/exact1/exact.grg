@@ -27,6 +27,19 @@ rule init2
     }
 }
 
+rule init3
+{
+
+    replace
+    {
+        x:Node;
+        y:Node;
+        
+        x --> y;
+        y --> y;
+    }
+}
+
 exact rule deleteSrcNode
 {
     x:Node;
@@ -49,4 +62,19 @@ exact rule deleteNodeWithDanglingEdge
     replace
     {
     }
+}
+
+exact rule testHom
+{
+	x: Node;
+	y: Node;
+	
+	hom(x,y);
+	
+	-e:Edge-> x -f:Edge-> y;
+	
+	modify
+	{
+		delete(y);
+	}
 }
