@@ -448,7 +448,7 @@ public abstract class BaseNode extends Base
 	 * @return true, if resolution of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
-	protected final boolean resolve() {
+	public final boolean resolve() {
 		if(isResolved()) {
 			return resolutionResult();
 		}

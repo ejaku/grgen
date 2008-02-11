@@ -24,6 +24,7 @@
 package de.unika.ipd.grgen.ast.util;
 
 import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.ast.DeclNode;
 import de.unika.ipd.grgen.ast.IdentNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.util.Util;
@@ -67,7 +68,15 @@ public class DeclarationTypeResolver<T extends BaseNode> extends Resolver<T>
 	 * returns null if n's declaration can't be cast to R.
 	 */
 	public T resolve(IdentNode n) {
-		TypeNode resolved = n.getDecl().getDeclType();
+		// ensure that the used types are resolved
+		DeclarationResolver<DeclNode> declResolver =
+			new DeclarationResolver<DeclNode>(DeclNode.class);
+		DeclNode decl = declResolver.resolve(n);
+		if (decl != null) {
+			decl.resolve();
+		}
+
+		TypeNode resolved = decl.getDeclType();
 		if(cls.isInstance(resolved)) {
 			return (T) resolved;
 		}

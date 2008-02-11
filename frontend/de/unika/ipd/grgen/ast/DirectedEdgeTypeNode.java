@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
@@ -91,18 +90,7 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
 		CollectResolver<EdgeTypeNode> extendResolver =
 			new CollectResolver<EdgeTypeNode>(typeResolver);
-		body = bodyResolver.resolve(bodyUnresolved);
-		
-		// ensure that all supertypes are resolved
-		DeclarationResolver<TypeDeclNode> declResolver =
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
-		CollectResolver<TypeDeclNode> declsResolver =
-			new CollectResolver<TypeDeclNode>(declResolver);
-		CollectNode<TypeDeclNode> decls = declsResolver.resolve(extendUnresolved);
-		if (decls != null) {
-			decls.resolve();
-		}
-		
+		body = bodyResolver.resolve(bodyUnresolved);		
 		extend = extendResolver.resolve(extendUnresolved);
 		return body != null && extend != null;
 	}

@@ -124,7 +124,7 @@ OK     should_pass/enum_009.grg
 OK     should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
 ERROR  should_pass/enum_100.grg
-ABEND  should_pass/enum_101.grg
+OK     should_pass/enum_101.grg
 OK     should_pass/exact_001.grg
 OK     should_pass/exact_002.grg
 OK     should_pass/exact_003.grg
