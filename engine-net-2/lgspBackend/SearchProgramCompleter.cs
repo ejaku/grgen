@@ -136,8 +136,9 @@ namespace de.unika.ipd.grGen.lgsp
                         }
 
                         // append nested check maximum matches
+                        bool subpatternLevel = ((SearchProgram)enclosingSearchProgram).IsSubpattern;
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(true, false);
+                            new CheckContinueMatchingMaximumMatchesReached(subpatternLevel, false);
                         insertionPoint.Append(checkMaximumMatches);
 
                         string[] neededElementsForCheckOperation = 

@@ -69,8 +69,7 @@ namespace de.unika.ipd.grGen.lgsp
             // initialize task/result-pushdown handling in subpattern matcher
             if (rulePattern.isSubpattern)
             {
-                InitalizeSubpatternMatching initialize =
-                    new InitalizeSubpatternMatching(rulePattern.name);
+                InitalizeSubpatternMatching initialize = new InitalizeSubpatternMatching();
                 insertionPoint = insertionPoint.Append(initialize);
             }
 
@@ -316,6 +315,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool positive = enclosingPositiveOperation == null;
             Debug.Assert(positive, "Positive maybe preset in negative search plan");
+            Debug.Assert(!rulePattern.isSubpattern, "Maybe preset in subpattern");
 
             // get candidate from inputs
             GetCandidateByDrawing fromInputs =
@@ -558,6 +558,16 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
+            // check candidate for global isomorphy 
+            if (rulePattern.isSubpattern)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
+                        isNode);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
             // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
@@ -655,6 +665,16 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
+            // check candidate for global isomorphy 
+            if (rulePattern.isSubpattern)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
+                        true);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
             // accept candidate (write isomorphy information)
             if (isomorphy.SetIsMatchedBit)
             {
@@ -746,6 +766,16 @@ namespace de.unika.ipd.grGen.lgsp
                         target.PatternElement.Name,
                         isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
                         positive,
+                        false);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for global isomorphy 
+            if (rulePattern.isSubpattern)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
                         false);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }

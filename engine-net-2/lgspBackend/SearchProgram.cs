@@ -280,7 +280,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if PRODUCE_UNSAFE_MATCHERS
                 soureCode.AppendFront("unsafe ");
 #endif
-                sourceCode.AppendFront("public override void " + Name + "()\n");
+                sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches)\n");
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
@@ -1172,6 +1172,56 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing "check whether candidate is not already mapped 
+    ///   to some other pattern element, to ensure required isomorphy" operation
+    /// required graph element to pattern element mapping is written by AcceptCandidate
+    /// </summary>
+    class CheckCandidateForIsomorphyGlobal : CheckCandidate
+    {
+        public CheckCandidateForIsomorphyGlobal(
+            string patternElementName,
+            bool isNode)
+        {
+            PatternElementName = patternElementName;
+            IsNode = isNode;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump check
+            builder.AppendFront("CheckCandidate ForIsomorphyGlobal ");
+            builder.AppendFormat("on {0} node:{1} ",
+                PatternElementName, IsNode);
+            // then operations for case check failed
+            if (CheckFailedOperations != null)
+            {
+                builder.Indent();
+                CheckFailedOperations.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            // fail if graph element contained within candidate was already matched
+            // (in another subpattern to another pattern element)
+            // as this would cause a inter-pattern-homomorphic match
+            string variableContainingCandidate = NamesOfEntities.CandidateVariable(
+                PatternElementName, IsNode);
+            sourceCode.AppendFrontFormat("if({0}.isMatchedByEnclosingPattern)\n", variableContainingCandidate);
+
+            // emit check failed code
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+            CheckFailedOperations.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public bool IsNode; // node|edge
+    }
+
+    /// <summary>
     /// Class representing "check whether candidate was preset (not null)" operation
     /// </summary>
     class CheckCandidateForPreset : CheckCandidate
@@ -1990,7 +2040,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFront("// Check whether there are subpattern matching task left to execute\n");
+                sourceCode.AppendFront("// Check whether there are subpattern matching tasks left to execute\n");
 
             sourceCode.AppendFront("if(openTasks.Count==0)\n");
             sourceCode.AppendFront("{\n");
@@ -2407,7 +2457,7 @@ namespace de.unika.ipd.grGen.lgsp
             // create matching task for subpattern
             string variableContainingTask = NamesOfEntities.TaskVariable(SubpatternElementName);
             string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(SubpatternName);
-            sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, maxMatches, openTasks, matchesList);\n", 
+            sourceCode.AppendFrontFormat("{0} {1} = new {0}(graph, maxMatches, openTasks);\n", 
                 typeOfVariableContainingTask, variableContainingTask);
 
             // fill in connections
@@ -2476,7 +2526,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (sourceCode.CommentSourceCode)
                 sourceCode.AppendFront("// Match subpatterns\n");
 
-            sourceCode.AppendFront("openTasks.Peek().myMatch();\n");
+            sourceCode.AppendFront("openTasks.Peek().myMatch(matchesList);\n");
         }
     }
 
@@ -2496,12 +2546,12 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("if(matchesList==ownTask.foundPartialMatches) {\n");
+            sourceCode.AppendFront("if(matchesList==foundPartialMatches) {\n");
             sourceCode.AppendFront("    matchesList = new List<Stack<LGSPMatch>>();\n");
             sourceCode.AppendFront("} else {\n");
             sourceCode.AppendFront("    foreach(Stack<LGSPMatch> match in matchesList)\n");
             sourceCode.AppendFront("    {\n");
-            sourceCode.AppendFront("        ownTask.foundPartialMatches.Add(match);\n");
+            sourceCode.AppendFront("        foundPartialMatches.Add(match);\n");
             sourceCode.AppendFront("    }\n");
             sourceCode.AppendFront("    matchesList.Clear();\n");
             sourceCode.AppendFront("}\n");
@@ -2513,9 +2563,8 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class InitalizeSubpatternMatching : SearchProgramOperation
     {
-        public InitalizeSubpatternMatching(string subpatternName)
+        public InitalizeSubpatternMatching()
         {
-            SubpatternName = subpatternName;
         }
 
         public override void Dump(SourceBuilder builder)
@@ -2525,13 +2574,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("{0} ownTask = ({0})openTasks.Pop();\n",
-                NamesOfEntities.TypeOfTaskVariable(SubpatternName));
+            sourceCode.AppendFront("openTasks.Pop();\n");
             sourceCode.AppendFront("List<Stack<LGSPMatch>> matchesList = foundPartialMatches;\n");
             sourceCode.AppendFront("if(matchesList.Count!=0) throw new ApplicationException(); //debug assert\n");
         }
-
-        string SubpatternName;
     }
 
     /// <summary>
@@ -2550,7 +2596,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("openTasks.Push(ownTask);\n");
+            sourceCode.AppendFrontFormat("openTasks.Push(this);\n");
         }
     }
 }

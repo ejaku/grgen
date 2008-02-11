@@ -874,16 +874,11 @@ invalidCommand:
         /// The inheriting class contains the preset subpattern connection elements
         /// </summary>
         protected Stack<LGSPSubpatternAction> openTasks;
-
-        /// <summary>
-        /// The already found matches, get completed step by step on leaving called actions
-        /// </summary>
-        protected List<Stack<LGSPMatch>> foundPartialMatches;
         
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
-        /// Takes care of search state as given by open tasks and found partial matches.
+        /// Takes care of search state as given by found partial matches (and open tasks via this).
         /// </summary>
-        public abstract void myMatch();
+        public abstract void myMatch(List<Stack<LGSPMatch>> foundPartialMatches);
     }
 }

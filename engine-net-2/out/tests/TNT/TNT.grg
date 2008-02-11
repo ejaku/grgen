@@ -1,0 +1,213 @@
+using TNT;
+
+pattern Hydrogen(anchor:C) {
+	anchor-->:H;
+}
+
+pattern Hydroxyl(anchor:C) {
+	anchor-->:O-->:H;
+}
+
+pattern Methyl(anchor:C) {
+	anchor-->c:C;
+	c-->:H;
+	c-->:H;
+	c-->:H;
+}
+
+pattern Nitro(anchor:C) {
+	anchor-->n:N;
+	n-->:O;
+	n-->:O;
+}
+
+test TNT {
+	// Benzolring
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	:Methyl(c1);
+	:Nitro(c2);
+	:Hydrogen(c3);
+	:Nitro(c4);
+	:Hydrogen(c5);
+	:Nitro(c6);
+}
+
+test TNTUnfolded {
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	c1-->c:C;
+	c-->:H;
+	c-->:H;
+	c-->:H;
+
+	c2-->n2:N;
+	n2-->:O;
+	n2-->:O;
+
+	c3-->:H;
+
+	c4-->n4:N;
+	n4-->:O;
+	n4-->:O;
+
+	c5-->:H;
+	
+	c6-->n6:N;
+	n6-->:O;
+	n6-->:O;
+}
+
+rule createTNT {
+	replace {
+		c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+		c1-->c2; c3-->c4; c5-->c6;
+
+		c1-->c:C;
+		c-->:H;
+		c-->:H;
+		c-->:H;
+
+		c2-->n2:N;
+		n2-->:O;
+		n2-->:O;
+
+		c3-->:H;
+
+		c4-->n4:N;
+		n4-->:O;
+		n4-->:O;
+
+		c5-->:H;
+		
+		c6-->n6:N;
+		n6-->:O;
+		n6-->:O;
+	}
+}
+
+test DNT {
+	// Benzolring
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	:Methyl(c1);
+	:Nitro(c2);
+	:Hydrogen(c3);
+	:Nitro(c4);
+	:Hydrogen(c5);
+	:Hydrogen(c6);
+}
+
+test DNTUnfolded {
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	c1-->c:C;
+	c-->:H;
+	c-->:H;
+	c-->:H;
+
+	c2-->n2:N;
+	n2-->:O;
+	n2-->:O;
+
+	c3-->:H;
+
+	c4-->n4:N;
+	n4-->:O;
+	n4-->:O;
+
+	c5-->:H;
+	
+	c6-->:H;
+}
+
+rule createDNT {
+	replace {
+		c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+		c1-->c2; c3-->c4; c5-->c6;
+
+		c1-->c:C;
+		c-->:H;
+		c-->:H;
+		c-->:H;
+
+		c2-->n2:N;
+		n2-->:O;
+		n2-->:O;
+
+		c3-->:H;
+
+		c4-->n4:N;
+		n4-->:O;
+		n4-->:O;
+
+		c5-->:H;
+		
+		c6-->:H;
+	}
+}
+
+test TNB {
+	// Benzolring
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	:Hydrogen(c1);
+	:Nitro(c2);
+	:Hydrogen(c3);
+	:Nitro(c4);
+	:Hydrogen(c5);
+	:Nitro(c6);
+}
+
+test TNBUnfolded {
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+
+	c1-->:H;
+
+	c2-->n2:N;
+	n2-->:O;
+	n2-->:O;
+
+	c3-->:H;
+
+	c4-->n4:N;
+	n4-->:O;
+	n4-->:O;
+
+	c5-->:H;
+	
+	c6-->n6:N;
+	n6-->:O;
+	n6-->:O;
+}
+
+rule createTNB {
+	replace {
+		c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+		c1-->c2; c3-->c4; c5-->c6;
+
+		c1-->:H;
+
+		c2-->n2:N;
+		n2-->:O;
+		n2-->:O;
+
+		c3-->:H;
+
+		c4-->n4:N;
+		n4-->:O;
+		n4-->:O;
+
+		c5-->:H;
+		
+		c6-->n6:N;
+		n6-->:O;
+		n6-->:O;
+	}
+}

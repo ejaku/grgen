@@ -1,0 +1,23 @@
+new graph "TNT"
+
+debug set layout Circular
+
+xgrs createTNT
+xgrs [?TNTUnfolded]
+xgrs [?TNT]
+
+custom graph analyze_graph
+custom actions gen_searchplan TNT
+
+xgrs [?TNTUnfolded]
+xgrs [?TNT]
+xgrs [?DNTUnfolded]
+xgrs [?DNT]
+
+xgrs createDNT
+xgrs [?DNTUnfolded]
+xgrs [?DNT]
+xgrs [?TNT]
+xgrs [?TNB]
+
+quit
