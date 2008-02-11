@@ -332,9 +332,9 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 	}
 
 	:   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; } // get first edge
-		| e=backwardEdgeOcc[context] { forward=false; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
 		)
-			nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
+		nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
 	;
 
 firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
@@ -455,7 +455,7 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
-		| e=backwardEdgeOcc[context] { forward=false; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
 		)
 			nodeContinuation[e, n, forward, conn, context] // continue looking for node
 	;
@@ -469,7 +469,7 @@ edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 
 	:   // nothing following? -> connection end reached
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
-		| e=backwardEdgeOcc[context] { forward=false; }
+		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
 		)
 			nodeContinuation[e, left, forward, conn, context] // continue looking for node
 	;
@@ -556,13 +556,23 @@ forwardOrUndirectedEdgeOccContinuation [Integer direction]
 	| RARROW { direction = ConnectionNode.DIRECTED; }
 	;
 
-backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
-	: LARROW ( res=edgeDecl[context] | res=entIdentUse ) MINUS
-	| mm:DOUBLE_LARROW
+backwardOrArbitraryDirectedEdgeOcc [ int context, Integer direction ] returns [ BaseNode res = env.initNode() ]
+	: LARROW ( res=edgeDecl[context] | res=entIdentUse ) backwardOrArbitraryDirectedEdgeOccContinuation[ direction ]
+	| da:DOUBLE_LARROW
 		{
-			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
+			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 		}
+	| lr:LRARROW
+		{
+			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
+			res = new EdgeDeclNode(id, env.getArbitraryDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+		}
+	;
+
+backwardOrArbitraryDirectedEdgeOccContinuation [Integer direction]
+	: MINUS { direction = ConnectionNode.DIRECTED; }
+	| RARROW { direction = ConnectionNode.ARBITRARY_DIRECTED; }
 	;
 
 edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]

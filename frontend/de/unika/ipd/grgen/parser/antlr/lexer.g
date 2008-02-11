@@ -32,7 +32,7 @@ class GRLexer extends Lexer;
 options {
 	charVocabulary = '\u0000'..'\u00FF';
 	testLiterals=false;    // don't automatically test for literals
-	k=3;
+	k=4;
 	codeGenBitsetTestThreshold=20;
 	exportVocab = GRBase;
 }
@@ -123,6 +123,7 @@ LE				:	"<="	;
 LT				:	'<'		;
 RARROW			:	"->"	;
 LARROW			:	"<-"	;
+LRARROW			:	"<-->"	;
 DOUBLE_LARROW	:	"<--"	;
 DOUBLE_RARROW	:	"-->"	;
 BXOR			:	'^'		;
