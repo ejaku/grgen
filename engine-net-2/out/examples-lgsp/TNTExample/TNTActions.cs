@@ -1549,98 +1549,98 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_H node__node9 = Node_H.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_H node__node9 = Node_H.CreateNode(graph);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
 			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
 			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_H node__node9 = Node_H.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_H node__node9 = Node_H.CreateNode(graph);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
-			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
 			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
 			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
+			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
+			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node5", "c", "_node7", "c2", "c4", "_node2", "c5", "n4", "_node6", "c1", "_node9" };
+		private static String[] addedNodeNames = new String[] { "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge11", "_edge12", "_edge4", "_edge19", "_edge16", "_edge5", "_edge7", "_edge1", "_edge13", "_edge17", "_edge14", "_edge8", "_edge10", "_edge21", "_edge2", "_edge9", "_edge18" };
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge21", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -1697,94 +1697,94 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_O node__node8 = Node_O.CreateNode(graph);
+			Node_O node__node5 = Node_O.CreateNode(graph);
+			Node_H node__node6 = Node_H.CreateNode(graph);
 			Node_H node__node3 = Node_H.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_O node__node8 = Node_O.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_O node__node1 = Node_O.CreateNode(graph);
-			Node_O node__node5 = Node_O.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
-			Node_N node_n6 = Node_N.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_H node__node6 = Node_H.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_n6, node__node8);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n4, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_O node__node8 = Node_O.CreateNode(graph);
+			Node_O node__node5 = Node_O.CreateNode(graph);
+			Node_H node__node6 = Node_H.CreateNode(graph);
 			Node_H node__node3 = Node_H.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_O node__node8 = Node_O.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_O node__node1 = Node_O.CreateNode(graph);
-			Node_O node__node5 = Node_O.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
-			Node_N node_n6 = Node_N.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_H node__node6 = Node_H.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_n6, node__node8);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n4, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node5", "_node7", "c2", "c4", "_node2", "c5", "n6", "n4", "_node6", "c1" };
+		private static String[] addedNodeNames = new String[] { "n6", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge11", "_edge12", "_edge4", "_edge19", "_edge16", "_edge5", "_edge7", "_edge1", "_edge13", "_edge17", "_edge14", "_edge8", "_edge10", "_edge2", "_edge9", "_edge18" };
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -1841,106 +1841,106 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_O node__node10 = Node_O.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node9 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_O node__node10 = Node_O.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
-			Node_N node_n6 = Node_N.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node9 = Node_O.CreateNode(graph);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
-			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
+			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
+			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_O node__node10 = Node_O.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node9 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_N node_n2 = Node_N.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_O node__node10 = Node_O.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_C node_c4 = Node_C.CreateNode(graph);
 			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_C node_c5 = Node_C.CreateNode(graph);
-			Node_N node_n6 = Node_N.CreateNode(graph);
 			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node9 = Node_O.CreateNode(graph);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
+			Node_C node_c2 = Node_C.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_C node_c5 = Node_C.CreateNode(graph);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
-			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
 			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
+			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
+			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node10", "_node5", "c", "_node7", "c2", "c4", "_node2", "c5", "n6", "n4", "_node6", "c1", "_node9" };
+		private static String[] addedNodeNames = new String[] { "n6", "_node10", "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge23", "_edge16", "_edge5", "_edge13", "_edge8", "_edge10", "_edge21", "_edge18", "_edge22", "_edge11", "_edge12", "_edge4", "_edge19", "_edge7", "_edge1", "_edge17", "_edge14", "_edge2", "_edge9" };
+		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4", "_edge21", "_edge20", "_edge23", "_edge22" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -1962,15 +1962,14 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 	public class PatternAction_Hydrogen : LGSPSubpatternAction
 	{
-		public PatternAction_Hydrogen(LGSPGraph graph_, int maxMatches_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; maxMatches = maxMatches_;
-			openTasks = openTasks_;
+		public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
 			rulePattern = Pattern_Hydrogen.Instance;
 		}
 
 		public LGSPNode node_anchor;
 
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
@@ -2006,6 +2005,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
                         LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Pattern_Hydrogen.NodeNums.@anchor] = node_cur_node_anchor;
                         match.Nodes[(int)Pattern_Hydrogen.NodeNums.@_node0] = node_cur_node__node0;
                         match.Edges[(int)Pattern_Hydrogen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
@@ -2021,13 +2021,14 @@ namespace de.unika.ipd.grGen.actions.TNT
                     node_cur_node__node0.isMatchedByEnclosingPattern = true;
                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                     // Match subpatterns
-                    openTasks.Peek().myMatch(matchesList);
+                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                     // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
                         // subpatterns were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
                             LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
+                            match.patternGraph = rulePattern.patternGraph;
                             match.Nodes[(int)Pattern_Hydrogen.NodeNums.@anchor] = node_cur_node_anchor;
                             match.Nodes[(int)Pattern_Hydrogen.NodeNums.@_node0] = node_cur_node__node0;
                             match.Edges[(int)Pattern_Hydrogen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
@@ -2065,15 +2066,14 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 	public class PatternAction_Hydroxyl : LGSPSubpatternAction
 	{
-		public PatternAction_Hydroxyl(LGSPGraph graph_, int maxMatches_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; maxMatches = maxMatches_;
-			openTasks = openTasks_;
+		public PatternAction_Hydroxyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
 			rulePattern = Pattern_Hydroxyl.Instance;
 		}
 
 		public LGSPNode node_anchor;
 
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
@@ -2142,6 +2142,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                 foundPartialMatches.Add(currentFoundPartialMatch);
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
+                                match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@anchor] = node_cur_node_anchor;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node0] = node_cur_node__node0;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node1] = node_cur_node__node1;
@@ -2162,13 +2163,14 @@ namespace de.unika.ipd.grGen.actions.TNT
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                             edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
                             // Match subpatterns
-                            openTasks.Peek().myMatch(matchesList);
+                            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                             // Check whether subpatterns were found 
                             if(matchesList.Count>0) {
                                 // subpatterns were found, extend the partial matches by our local match object
                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                 {
                                     LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
+                                    match.patternGraph = rulePattern.patternGraph;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@anchor] = node_cur_node_anchor;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node0] = node_cur_node__node0;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node1] = node_cur_node__node1;
@@ -2219,15 +2221,14 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 	public class PatternAction_Methyl : LGSPSubpatternAction
 	{
-		public PatternAction_Methyl(LGSPGraph graph_, int maxMatches_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; maxMatches = maxMatches_;
-			openTasks = openTasks_;
+		public PatternAction_Methyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
 			rulePattern = Pattern_Methyl.Instance;
 		}
 
 		public LGSPNode node_anchor;
 
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
@@ -2393,6 +2394,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                 foundPartialMatches.Add(currentFoundPartialMatch);
                                                 LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                match.patternGraph = rulePattern.patternGraph;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@anchor] = node_cur_node_anchor;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@c] = node_cur_node_c;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@_node0] = node_cur_node__node0;
@@ -2425,13 +2427,14 @@ namespace de.unika.ipd.grGen.actions.TNT
                                             edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
                                             edge_cur_edge__edge3.isMatchedByEnclosingPattern = true;
                                             // Match subpatterns
-                                            openTasks.Peek().myMatch(matchesList);
+                                            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                                             // Check whether subpatterns were found 
                                             if(matchesList.Count>0) {
                                                 // subpatterns were found, extend the partial matches by our local match object
                                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                 {
                                                     LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
+                                                    match.patternGraph = rulePattern.patternGraph;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@anchor] = node_cur_node_anchor;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@c] = node_cur_node_c;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@_node0] = node_cur_node__node0;
@@ -2512,15 +2515,14 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 	public class PatternAction_Nitro : LGSPSubpatternAction
 	{
-		public PatternAction_Nitro(LGSPGraph graph_, int maxMatches_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; maxMatches = maxMatches_;
-			openTasks = openTasks_;
+		public PatternAction_Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
 			rulePattern = Pattern_Nitro.Instance;
 		}
 
 		public LGSPNode node_anchor;
 
-        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches)
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
@@ -2632,6 +2634,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                         foundPartialMatches.Add(currentFoundPartialMatch);
                                         LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0]);
+                                        match.patternGraph = rulePattern.patternGraph;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@anchor] = node_cur_node_anchor;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@n] = node_cur_node_n;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@_node0] = node_cur_node__node0;
@@ -2658,13 +2661,14 @@ namespace de.unika.ipd.grGen.actions.TNT
                                     edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
                                     edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
                                     // Match subpatterns
-                                    openTasks.Peek().myMatch(matchesList);
+                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                                     // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
                                         // subpatterns were found, extend the partial matches by our local match object
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0]);
+                                            match.patternGraph = rulePattern.patternGraph;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@anchor] = node_cur_node_anchor;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@n] = node_cur_node_n;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@_node0] = node_cur_node__node0;
@@ -3040,27 +3044,27 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, maxMatches, openTasks);
+                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 node_cur_node_c1.isMatchedByEnclosingPattern = true;
@@ -3079,7 +3083,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
                                                                                 // Match subpatterns
-                                                                                openTasks.Peek().myMatch(matchesList);
+                                                                                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                                                                                 //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
                                                                                 //Pop subpattern matching task for _subpattern1
@@ -3098,6 +3102,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_DNT.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_DNT.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Rule_DNT.NodeNums.@c3] = node_cur_node_c3;
@@ -4157,6 +4162,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
                                                                                                                                                                                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                        match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                         match.Nodes[(int)Rule_DNTUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                         match.Nodes[(int)Rule_DNTUnfolded.NodeNums.@c2] = node_cur_node_c2;
                                                                                                                                                                                         match.Nodes[(int)Rule_DNTUnfolded.NodeNums.@c3] = node_cur_node_c3;
@@ -4677,27 +4683,27 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Hydrogen taskFor__subpattern0 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern0 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 node_cur_node_c1.isMatchedByEnclosingPattern = true;
@@ -4716,7 +4722,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
                                                                                 // Match subpatterns
-                                                                                openTasks.Peek().myMatch(matchesList);
+                                                                                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                                                                                 //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
                                                                                 //Pop subpattern matching task for _subpattern1
@@ -4735,6 +4741,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_TNB.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_TNB.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Rule_TNB.NodeNums.@c3] = node_cur_node_c3;
@@ -5733,6 +5740,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                     continue;
                                                                                                                                                                                 }
                                                                                                                                                                                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                 match.Nodes[(int)Rule_TNBUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                 match.Nodes[(int)Rule_TNBUnfolded.NodeNums.@c2] = node_cur_node_c2;
                                                                                                                                                                                 match.Nodes[(int)Rule_TNBUnfolded.NodeNums.@c3] = node_cur_node_c3;
@@ -6243,27 +6251,27 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     continue;
                                                                                 }
                                                                                 // Push subpattern matching task for _subpattern5
-                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
                                                                                 // Push subpattern matching task for _subpattern4
-                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
                                                                                 // Push subpattern matching task for _subpattern3
-                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
                                                                                 // Push subpattern matching task for _subpattern2
-                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, maxMatches, openTasks);
+                                                                                PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
                                                                                 // Push subpattern matching task for _subpattern1
-                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, maxMatches, openTasks);
+                                                                                PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
                                                                                 // Push subpattern matching task for _subpattern0
-                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, maxMatches, openTasks);
+                                                                                PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
                                                                                 node_cur_node_c1.isMatchedByEnclosingPattern = true;
@@ -6282,7 +6290,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
                                                                                 // Match subpatterns
-                                                                                openTasks.Peek().myMatch(matchesList);
+                                                                                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
                                                                                 //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
                                                                                 //Pop subpattern matching task for _subpattern1
@@ -6301,6 +6309,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_TNT.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_TNT.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Rule_TNT.NodeNums.@c3] = node_cur_node_c3;
@@ -7477,6 +7486,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                                             continue;
                                                                                                                                                                                                         }
                                                                                                                                                                                                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                                        match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                                         match.Nodes[(int)Rule_TNTUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                                         match.Nodes[(int)Rule_TNTUnfolded.NodeNums.@c2] = node_cur_node_c2;
                                                                                                                                                                                                         match.Nodes[(int)Rule_TNTUnfolded.NodeNums.@c3] = node_cur_node_c3;
@@ -7722,6 +7732,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.EmptyMatchWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -7748,6 +7759,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.EmptyMatchWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
@@ -7774,6 +7786,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.EmptyMatchWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)

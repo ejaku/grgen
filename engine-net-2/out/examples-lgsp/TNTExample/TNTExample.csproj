@@ -31,7 +31,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TNTActions.cs" />
     <Compile Include="TNTExample.cs" />
     <Compile Include="TNTModel.cs" />
@@ -45,6 +44,9 @@
       <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
       <Name>libGr</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

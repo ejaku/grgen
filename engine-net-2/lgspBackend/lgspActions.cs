@@ -865,11 +865,6 @@ invalidCommand:
         protected LGSPGraph graph;
 
         /// <summary>
-        /// The maximum number of matches to search for (zero = find all matches)
-        /// </summary>
-        protected int maxMatches;
-
-        /// <summary>
         /// The subpattern actions which have to be executed until a full match is found
         /// The inheriting class contains the preset subpattern connection elements
         /// </summary>
@@ -877,8 +872,10 @@ invalidCommand:
         
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
-        /// Takes care of search state as given by found partial matches (and open tasks via this).
+        /// Takes care of search state as given by found partial matches 
+        /// and maximum number of matches to search for (zero = find all matches) 
+        /// (and open tasks via this).
         /// </summary>
-        public abstract void myMatch(List<Stack<LGSPMatch>> foundPartialMatches);
+        public abstract void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches);
     }
 }

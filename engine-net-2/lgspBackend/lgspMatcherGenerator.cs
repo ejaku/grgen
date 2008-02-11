@@ -1125,10 +1125,8 @@ exitSecondLoop: ;
                 String className = namePrefix + rulePattern.name;
 
                 sb.Append("\tpublic class " + className + " : LGSPSubpatternAction\n\t{\n");
-                sb.Append("\t\tpublic " + className + "(LGSPGraph graph_, int maxMatches_, "
-                    + "Stack<LGSPSubpatternAction> openTasks_) {\n"
-                    + "\t\t\tgraph = graph_; maxMatches = maxMatches_;\n"
-                    + "\t\t\topenTasks = openTasks_;\n"
+                sb.Append("\t\tpublic " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n"
+                    + "\t\t\tgraph = graph_; openTasks = openTasks_;\n"
                     + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
                 sb.Append("\t\t}\n\n");
 
