@@ -1,0 +1,8 @@
+edge class A
+	connect	B [*] -> B [*];
+
+enum e { eItem }
+
+node class B {
+	id: e;
+}

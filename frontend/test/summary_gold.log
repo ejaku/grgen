@@ -123,6 +123,8 @@ OK     should_pass/enum_008.grg
 OK     should_pass/enum_009.grg
 OK     should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
+ERROR  should_pass/enum_100.grg
+ABEND  should_pass/enum_101.grg
 OK     should_pass/exact_001.grg
 OK     should_pass/exact_002.grg
 OK     should_pass/exact_003.grg
@@ -169,8 +171,8 @@ OK     should_pass/param_003.grg
 OK     should_pass/param_004.grg
 OK     should_pass/param_005.grg
 OK     should_pass/param_006.grg
-FAILED should_pass/pattern_001.grg
-FAILED should_pass/pattern_002.grg
+OK     should_pass/pattern_001.grg
+OK     should_pass/pattern_002.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
