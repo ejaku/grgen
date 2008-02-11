@@ -364,8 +364,8 @@ public class ActionsGen extends CSharpBase {
 			if(outer != null && outer.hasSubpatternUsage(sub)) {
 				continue;
 			}
-			sb.append("\t\t\tPatternGraphEmbedding " + sub.getIdent().toString() + " = new PatternGraphEmbedding(");
-			sb.append("\"" + sub.getIdent().toString() + "\", ");
+			sb.append("\t\t\tPatternGraphEmbedding " + formatIdentifiable(sub) + " = new PatternGraphEmbedding(");
+			sb.append("\"" + formatIdentifiable(sub) + "\", ");
 			sb.append("Pattern_"+ sub.getSubpatternAction().getIdent().toString() + ".Instance, ");
 			sb.append("new PatternElement[] ");
 			genEntitySet(sb, sub.getSubpatternConnections(), "", "", true, outer, negCount);

@@ -111,7 +111,7 @@ public abstract class CSharpBase {
 			sb.append("{ ");
 		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
 			SubpatternUsage spu = iter.next();
-			sb.append(pre + spu.getIdent().toString() + post);
+			sb.append(pre + formatIdentifiable(spu) + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
