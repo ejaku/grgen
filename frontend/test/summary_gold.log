@@ -103,6 +103,9 @@ OK     should_pass/dpo_006.grg
 OK     should_pass/edge_001.grg
 OK     should_pass/edge_002.grg
 OK     should_pass/edge_003.grg
+OK     should_pass/edge_004.grg
+OK     should_pass/edge_005.grg
+OK     should_pass/edge_006.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg

@@ -333,6 +333,7 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 
 	:   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; } // get first edge
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
+		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
 		)
 		nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
 	;
@@ -456,6 +457,7 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
+		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
 		)
 			nodeContinuation[e, n, forward, conn, context] // continue looking for node
 	;
@@ -470,6 +472,7 @@ edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 	:   // nothing following? -> connection end reached
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
+		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
 		)
 			nodeContinuation[e, left, forward, conn, context] // continue looking for node
 	;
@@ -573,6 +576,15 @@ backwardOrArbitraryDirectedEdgeOcc [ int context, Integer direction ] returns [ 
 backwardOrArbitraryDirectedEdgeOccContinuation [Integer direction]
 	: MINUS { direction = ConnectionNode.DIRECTED; }
 	| RARROW { direction = ConnectionNode.ARBITRARY_DIRECTED; }
+	;
+
+arbitraryEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
+	: QUESTIONMINUS ( res=edgeDecl[context] | res=entIdentUse) MINUSQUESTION  
+	| q:QMMQ
+		{
+			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));
+			res = new EdgeDeclNode(id, env.getArbitraryEdgeRoot(), context, TypeExprNode.getEmpty());
+		}
 	;
 
 edgeDecl [ int context ] returns [ EdgeDeclNode res = null ]

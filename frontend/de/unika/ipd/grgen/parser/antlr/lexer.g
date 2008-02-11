@@ -94,6 +94,9 @@ tokens {
 
 
 QUESTION		:	'?'		;
+QUESTIONMINUS	:	"?-"	;
+MINUSQUESTION	:	"-?"	;
+QMMQ			:	"?--?"	;
 LPAREN			:	'('		;
 RPAREN			:	')'		;
 LBRACK			:	'['		;
