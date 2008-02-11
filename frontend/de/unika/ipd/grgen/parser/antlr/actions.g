@@ -328,9 +328,10 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
+		Integer direction = new Integer(ConnectionNode.ARBITRARY);
 	}
 
-	:   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; } // get first edge
+	:   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; } // get first edge
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
@@ -449,10 +450,11 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
+		Integer direction = new Integer(ConnectionNode.ARBITRARY);
 	}
 
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
-	|   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, n, forward, conn, context] // continue looking for node
@@ -462,10 +464,11 @@ edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
+		Integer direction = new Integer(ConnectionNode.ARBITRARY);
 	}
 
 	:   // nothing following? -> connection end reached
-	|   ( e=forwardOrUndirectedEdgeOcc[context] { forward=true; }
+	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardEdgeOcc[context] { forward=false; }
 		)
 			nodeContinuation[e, left, forward, conn, context] // continue looking for node
@@ -534,8 +537,8 @@ nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 			}
 	;
 
-forwardOrUndirectedEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
-	: MINUS ( res=edgeDecl[context] | res=entIdentUse) forwardOrUndirectedEdgeOccContinuation
+forwardOrUndirectedEdgeOcc [int context, Integer direction] returns [ BaseNode res = env.initNode() ]
+	: MINUS ( res=edgeDecl[context] | res=entIdentUse) forwardOrUndirectedEdgeOccContinuation[ direction ]
 	| da:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
@@ -548,9 +551,9 @@ forwardOrUndirectedEdgeOcc [int context] returns [ BaseNode res = env.initNode()
 		}
 	;
 
-forwardOrUndirectedEdgeOccContinuation
-	: MINUS
-	| RARROW
+forwardOrUndirectedEdgeOccContinuation [Integer direction]
+	: MINUS { direction = ConnectionNode.UNDIRECTED; }
+	| RARROW { direction = ConnectionNode.DIRECTED; }
 	;
 
 backwardEdgeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
