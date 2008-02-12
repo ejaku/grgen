@@ -7,6 +7,399 @@ using de.unika.ipd.grGen.models.TNT;
 
 namespace de.unika.ipd.grGen.actions.TNT
 {
+	public class Pattern_BenzolRing : LGSPRulePattern
+	{
+		private static Pattern_BenzolRing instance = null;
+		public static Pattern_BenzolRing Instance { get { if (instance==null) instance = new Pattern_BenzolRing(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+		public static EdgeType[] edge__edge0_AllowedTypes = null;
+		public static EdgeType[] edge__edge1_AllowedTypes = null;
+		public static EdgeType[] edge__edge2_AllowedTypes = null;
+		public static EdgeType[] edge__edge3_AllowedTypes = null;
+		public static EdgeType[] edge__edge4_AllowedTypes = null;
+		public static EdgeType[] edge__edge5_AllowedTypes = null;
+		public static EdgeType[] edge__edge6_AllowedTypes = null;
+		public static EdgeType[] edge__edge7_AllowedTypes = null;
+		public static EdgeType[] edge__edge8_AllowedTypes = null;
+		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge__edge1_IsAllowedType = null;
+		public static bool[] edge__edge2_IsAllowedType = null;
+		public static bool[] edge__edge3_IsAllowedType = null;
+		public static bool[] edge__edge4_IsAllowedType = null;
+		public static bool[] edge__edge5_IsAllowedType = null;
+		public static bool[] edge__edge6_IsAllowedType = null;
+		public static bool[] edge__edge7_IsAllowedType = null;
+		public static bool[] edge__edge8_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
+		public enum PatternNums { };
+
+		private Pattern_BenzolRing()
+		{
+			name = "BenzolRing";
+			isSubpattern = true;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			patternGraph = new PatternGraph(
+				"pattern BenzolRing.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[9, 9] {
+					{ true, false, false, false, false, false, false, false, false, },
+					{ false, true, false, false, false, false, false, false, false, },
+					{ false, false, true, false, false, false, false, false, false, },
+					{ false, false, false, true, false, false, false, false, false, },
+					{ false, false, false, false, true, false, false, false, false, },
+					{ false, false, false, false, false, true, false, false, false, },
+					{ false, false, false, false, false, false, true, false, false, },
+					{ false, false, false, false, false, false, false, true, false, },
+					{ false, false, false, false, false, false, false, false, true, },
+				},
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {
+					false, false, false, false, false, false, false, false, false, },
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {
+					true, true, true, true, true, true, true, true, true, }
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_BenzolRing : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_BenzolRing()
+		{
+			ActionName = "BenzolRing";
+			this.RulePattern = Pattern_BenzolRing.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Pattern_BenzolRingC123456Exposed : LGSPRulePattern
+	{
+		private static Pattern_BenzolRingC123456Exposed instance = null;
+		public static Pattern_BenzolRingC123456Exposed Instance { get { if (instance==null) instance = new Pattern_BenzolRingC123456Exposed(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+		public static EdgeType[] edge__edge0_AllowedTypes = null;
+		public static EdgeType[] edge__edge1_AllowedTypes = null;
+		public static EdgeType[] edge__edge2_AllowedTypes = null;
+		public static EdgeType[] edge__edge3_AllowedTypes = null;
+		public static EdgeType[] edge__edge4_AllowedTypes = null;
+		public static EdgeType[] edge__edge5_AllowedTypes = null;
+		public static EdgeType[] edge__edge6_AllowedTypes = null;
+		public static EdgeType[] edge__edge7_AllowedTypes = null;
+		public static EdgeType[] edge__edge8_AllowedTypes = null;
+		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge__edge1_IsAllowedType = null;
+		public static bool[] edge__edge2_IsAllowedType = null;
+		public static bool[] edge__edge3_IsAllowedType = null;
+		public static bool[] edge__edge4_IsAllowedType = null;
+		public static bool[] edge__edge5_IsAllowedType = null;
+		public static bool[] edge__edge6_IsAllowedType = null;
+		public static bool[] edge__edge7_IsAllowedType = null;
+		public static bool[] edge__edge8_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
+		public enum PatternNums { };
+
+		private Pattern_BenzolRingC123456Exposed()
+		{
+			name = "BenzolRingC123456Exposed";
+			isSubpattern = true;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Preset, 2);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 3);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Preset, 4);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 5);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			patternGraph = new PatternGraph(
+				"pattern BenzolRingC123456Exposed.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[9, 9] {
+					{ true, false, false, false, false, false, false, false, false, },
+					{ false, true, false, false, false, false, false, false, false, },
+					{ false, false, true, false, false, false, false, false, false, },
+					{ false, false, false, true, false, false, false, false, false, },
+					{ false, false, false, false, true, false, false, false, false, },
+					{ false, false, false, false, false, true, false, false, false, },
+					{ false, false, false, false, false, false, true, false, false, },
+					{ false, false, false, false, false, false, false, true, false, },
+					{ false, false, false, false, false, false, false, false, true, },
+				},
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {
+					false, false, false, false, false, false, false, false, false, },
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {
+					true, true, true, true, true, true, true, true, true, }
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
+			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_BenzolRingC123456Exposed : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_BenzolRingC123456Exposed()
+		{
+			ActionName = "BenzolRingC123456Exposed";
+			this.RulePattern = Pattern_BenzolRingC123456Exposed.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Pattern_BenzolRingC1Exposed : LGSPRulePattern
+	{
+		private static Pattern_BenzolRingC1Exposed instance = null;
+		public static Pattern_BenzolRingC1Exposed Instance { get { if (instance==null) instance = new Pattern_BenzolRingC1Exposed(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+		public static EdgeType[] edge__edge0_AllowedTypes = null;
+		public static EdgeType[] edge__edge1_AllowedTypes = null;
+		public static EdgeType[] edge__edge2_AllowedTypes = null;
+		public static EdgeType[] edge__edge3_AllowedTypes = null;
+		public static EdgeType[] edge__edge4_AllowedTypes = null;
+		public static EdgeType[] edge__edge5_AllowedTypes = null;
+		public static EdgeType[] edge__edge6_AllowedTypes = null;
+		public static EdgeType[] edge__edge7_AllowedTypes = null;
+		public static EdgeType[] edge__edge8_AllowedTypes = null;
+		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge__edge1_IsAllowedType = null;
+		public static bool[] edge__edge2_IsAllowedType = null;
+		public static bool[] edge__edge3_IsAllowedType = null;
+		public static bool[] edge__edge4_IsAllowedType = null;
+		public static bool[] edge__edge5_IsAllowedType = null;
+		public static bool[] edge__edge6_IsAllowedType = null;
+		public static bool[] edge__edge7_IsAllowedType = null;
+		public static bool[] edge__edge8_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { @_edge0, @_edge1, @_edge2, @_edge3, @_edge4, @_edge5, @_edge6, @_edge7, @_edge8, };
+		public enum PatternNums { };
+
+		private Pattern_BenzolRingC1Exposed()
+		{
+			name = "BenzolRingC1Exposed";
+			isSubpattern = true;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			patternGraph = new PatternGraph(
+				"pattern BenzolRingC1Exposed.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[9, 9] {
+					{ true, false, false, false, false, false, false, false, false, },
+					{ false, true, false, false, false, false, false, false, false, },
+					{ false, false, true, false, false, false, false, false, false, },
+					{ false, false, false, true, false, false, false, false, false, },
+					{ false, false, false, false, true, false, false, false, false, },
+					{ false, false, false, false, false, true, false, false, false, },
+					{ false, false, false, false, false, false, true, false, false, },
+					{ false, false, false, false, false, false, false, true, false, },
+					{ false, false, false, false, false, false, false, false, true, },
+				},
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {
+					false, false, false, false, false, false, false, false, false, },
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {
+					true, true, true, true, true, true, true, true, true, }
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { NodeType_C.typeVar, };
+			inputNames = new string[] { "node_c1", };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_BenzolRingC1Exposed : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_BenzolRingC1Exposed()
+		{
+			ActionName = "BenzolRingC1Exposed";
+			this.RulePattern = Pattern_BenzolRingC1Exposed.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
 	public class Pattern_Hydrogen : LGSPRulePattern
 	{
 		private static Pattern_Hydrogen instance = null;
@@ -76,9 +469,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_Hydrogen : LGSPStaticScheduleInfo
+	public class Schedule_Pattern_Hydrogen : LGSPStaticScheduleInfo
 	{
-		public Schedule_Hydrogen()
+		public Schedule_Pattern_Hydrogen()
 		{
 			ActionName = "Hydrogen";
 			this.RulePattern = Pattern_Hydrogen.Instance;
@@ -167,9 +560,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_Hydroxyl : LGSPStaticScheduleInfo
+	public class Schedule_Pattern_Hydroxyl : LGSPStaticScheduleInfo
 	{
-		public Schedule_Hydroxyl()
+		public Schedule_Pattern_Hydroxyl()
 		{
 			ActionName = "Hydroxyl";
 			this.RulePattern = Pattern_Hydroxyl.Instance;
@@ -274,9 +667,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_Methyl : LGSPStaticScheduleInfo
+	public class Schedule_Pattern_Methyl : LGSPStaticScheduleInfo
 	{
-		public Schedule_Methyl()
+		public Schedule_Pattern_Methyl()
 		{
 			ActionName = "Methyl";
 			this.RulePattern = Pattern_Methyl.Instance;
@@ -373,14 +766,346 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_Nitro : LGSPStaticScheduleInfo
+	public class Schedule_Pattern_Nitro : LGSPStaticScheduleInfo
 	{
-		public Schedule_Nitro()
+		public Schedule_Pattern_Nitro()
 		{
 			ActionName = "Nitro";
 			this.RulePattern = Pattern_Nitro.Instance;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Pattern_Oxygen : LGSPRulePattern
+	{
+		private static Pattern_Oxygen instance = null;
+		public static Pattern_Oxygen Instance { get { if (instance==null) instance = new Pattern_Oxygen(); return instance; } }
+
+		public static NodeType[] node_o1_AllowedTypes = null;
+		public static NodeType[] node_o2_AllowedTypes = null;
+		public static bool[] node_o1_IsAllowedType = null;
+		public static bool[] node_o2_IsAllowedType = null;
+		public static EdgeType[] edge__edge0_AllowedTypes = null;
+		public static EdgeType[] edge__edge1_AllowedTypes = null;
+		public static bool[] edge__edge0_IsAllowedType = null;
+		public static bool[] edge__edge1_IsAllowedType = null;
+
+		public enum NodeNums { @o1, @o2, };
+		public enum EdgeNums { @_edge0, @_edge1, };
+		public enum PatternNums { };
+
+		private Pattern_Oxygen()
+		{
+			name = "Oxygen";
+			isSubpattern = true;
+			PatternNode node_o1 = new PatternNode((int) NodeTypes.@O, "node_o1", node_o1_AllowedTypes, node_o1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_o2 = new PatternNode((int) NodeTypes.@O, "node_o2", node_o2_AllowedTypes, node_o2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_o1, node_o2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_o2, node_o1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			patternGraph = new PatternGraph(
+				"pattern Oxygen.pattern",
+				new PatternNode[] { node_o1, node_o2 }, 
+				new PatternEdge[] { edge__edge0, edge__edge1 }, 
+				new PatternGraphEmbedding[] {  }, 
+				new Condition[] { },
+				new bool[2, 2] {
+					{ true, false, },
+					{ false, true, },
+				},
+				new bool[2, 2] {
+					{ true, false, },
+					{ false, true, },
+				},
+				new bool[] {
+					false, false, },
+				new bool[] {
+					false, false, },
+				new bool[] {
+					true, true, },
+				new bool[] {
+					true, true, }
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_Oxygen : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_Oxygen()
+		{
+			ActionName = "Oxygen";
+			this.RulePattern = Pattern_Oxygen.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F,  };
+			EdgeCost = new float[] { 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Pattern_ToluolCoreThenTriNitro : LGSPRulePattern
+	{
+		private static Pattern_ToluolCoreThenTriNitro instance = null;
+		public static Pattern_ToluolCoreThenTriNitro Instance { get { if (instance==null) instance = new Pattern_ToluolCoreThenTriNitro(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, };
+
+		private Pattern_ToluolCoreThenTriNitro()
+		{
+			name = "ToluolCoreThenTriNitro";
+			isSubpattern = true;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Preset, 2);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 3);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Preset, 4);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 5);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
+			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
+			PatternGraphEmbedding _subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, new PatternElement[] { node_c2, node_c4, node_c6 });
+			patternGraph = new PatternGraph(
+				"pattern ToluolCoreThenTriNitro.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3 }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
+			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_ToluolCoreThenTriNitro : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_ToluolCoreThenTriNitro()
+		{
+			ActionName = "ToluolCoreThenTriNitro";
+			this.RulePattern = Pattern_ToluolCoreThenTriNitro.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] {  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Pattern_TriNitro : LGSPRulePattern
+	{
+		private static Pattern_TriNitro instance = null;
+		public static Pattern_TriNitro Instance { get { if (instance==null) instance = new Pattern_TriNitro(); return instance; } }
+
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+
+		public enum NodeNums { @c2, @c4, @c6, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, @_subpattern2, };
+
+		private Pattern_TriNitro()
+		{
+			name = "TriNitro";
+			isSubpattern = true;
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 0);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 2);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c4 });
+			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
+			patternGraph = new PatternGraph(
+				"pattern TriNitro.pattern",
+				new PatternNode[] { node_c2, node_c4, node_c6 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2 }, 
+				new Condition[] { },
+				new bool[3, 3] {
+					{ true, false, false, },
+					{ false, true, false, },
+					{ false, false, true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
+			inputNames = new string[] { "node_c2", "node_c4", "node_c6", };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // currently empty
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Pattern_TriNitro : LGSPStaticScheduleInfo
+	{
+		public Schedule_Pattern_TriNitro()
+		{
+			ActionName = "TriNitro";
+			this.RulePattern = Pattern_TriNitro.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] {  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Rule_BenzolRing : LGSPRulePattern
+	{
+		private static Rule_BenzolRing instance = null;
+		public static Rule_BenzolRing Instance { get { if (instance==null) instance = new Rule_BenzolRing(); return instance; } }
+
+
+		public enum NodeNums { };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, };
+
+		private Rule_BenzolRing()
+		{
+			name = "BenzolRing";
+			isSubpattern = false;
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
+			patternGraph = new PatternGraph(
+				"test BenzolRing.pattern",
+				new PatternNode[] {  }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0 }, 
+				new Condition[] { },
+				new bool[0, 0] ,
+				new bool[0, 0] ,
+				new bool[] {},
+				new bool[] {},
+				new bool[] {},
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Rule_BenzolRing : LGSPStaticScheduleInfo
+	{
+		public Schedule_Rule_BenzolRing()
+		{
+			ActionName = "BenzolRing";
+			this.RulePattern = Rule_BenzolRing.Instance;
+			NodeCost = new float[] {  };
+			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { };
 			NegEdgeCost = new float[][] { };
 		}
@@ -510,9 +1235,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_DNT : LGSPStaticScheduleInfo
+	public class Schedule_Rule_DNT : LGSPStaticScheduleInfo
 	{
-		public Schedule_DNT()
+		public Schedule_Rule_DNT()
 		{
 			ActionName = "DNT";
 			this.RulePattern = Rule_DNT.Instance;
@@ -745,9 +1470,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_DNTUnfolded : LGSPStaticScheduleInfo
+	public class Schedule_Rule_DNTUnfolded : LGSPStaticScheduleInfo
 	{
-		public Schedule_DNTUnfolded()
+		public Schedule_Rule_DNTUnfolded()
 		{
 			ActionName = "DNTUnfolded";
 			this.RulePattern = Rule_DNTUnfolded.Instance;
@@ -882,9 +1607,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_TNB : LGSPStaticScheduleInfo
+	public class Schedule_Rule_TNB : LGSPStaticScheduleInfo
 	{
-		public Schedule_TNB()
+		public Schedule_Rule_TNB()
 		{
 			ActionName = "TNB";
 			this.RulePattern = Rule_TNB.Instance;
@@ -1109,9 +1834,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_TNBUnfolded : LGSPStaticScheduleInfo
+	public class Schedule_Rule_TNBUnfolded : LGSPStaticScheduleInfo
 	{
-		public Schedule_TNBUnfolded()
+		public Schedule_Rule_TNBUnfolded()
 		{
 			ActionName = "TNBUnfolded";
 			this.RulePattern = Rule_TNBUnfolded.Instance;
@@ -1246,14 +1971,207 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_TNT : LGSPStaticScheduleInfo
+	public class Schedule_Rule_TNT : LGSPStaticScheduleInfo
 	{
-		public Schedule_TNT()
+		public Schedule_Rule_TNT()
 		{
 			ActionName = "TNT";
 			this.RulePattern = Rule_TNT.Instance;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Rule_TNTChain : LGSPRulePattern
+	{
+		private static Rule_TNTChain instance = null;
+		public static Rule_TNTChain Instance { get { if (instance==null) instance = new Rule_TNTChain(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, };
+
+		private Rule_TNTChain()
+		{
+			name = "TNTChain";
+			isSubpattern = false;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
+			patternGraph = new PatternGraph(
+				"test TNTChain.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Rule_TNTChain : LGSPStaticScheduleInfo
+	{
+		public Schedule_Rule_TNTChain()
+		{
+			ActionName = "TNTChain";
+			this.RulePattern = Rule_TNTChain.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] {  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Rule_TNTTotallyFolded : LGSPRulePattern
+	{
+		private static Rule_TNTTotallyFolded instance = null;
+		public static Rule_TNTTotallyFolded Instance { get { if (instance==null) instance = new Rule_TNTTotallyFolded(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
+
+		private Rule_TNTTotallyFolded()
+		{
+			name = "TNTTotallyFolded";
+			isSubpattern = false;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
+			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
+			PatternGraphEmbedding _subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
+			PatternGraphEmbedding _subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Nitro.Instance, new PatternElement[] { node_c4 });
+			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
+			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
+			patternGraph = new PatternGraph(
+				"test TNTTotallyFolded.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Rule_TNTTotallyFolded : LGSPStaticScheduleInfo
+	{
+		public Schedule_Rule_TNTTotallyFolded()
+		{
+			ActionName = "TNTTotallyFolded";
+			this.RulePattern = Rule_TNTTotallyFolded.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { };
 			NegEdgeCost = new float[][] { };
 		}
@@ -1497,14 +2415,187 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_TNTUnfolded : LGSPStaticScheduleInfo
+	public class Schedule_Rule_TNTUnfolded : LGSPStaticScheduleInfo
 	{
-		public Schedule_TNTUnfolded()
+		public Schedule_Rule_TNTUnfolded()
 		{
 			ActionName = "TNTUnfolded";
 			this.RulePattern = Rule_TNTUnfolded.Instance;
 			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
 			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Rule_Toluol : LGSPRulePattern
+	{
+		private static Rule_Toluol instance = null;
+		public static Rule_Toluol Instance { get { if (instance==null) instance = new Rule_Toluol(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static NodeType[] node_c2_AllowedTypes = null;
+		public static NodeType[] node_c3_AllowedTypes = null;
+		public static NodeType[] node_c4_AllowedTypes = null;
+		public static NodeType[] node_c5_AllowedTypes = null;
+		public static NodeType[] node_c6_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+		public static bool[] node_c2_IsAllowedType = null;
+		public static bool[] node_c3_IsAllowedType = null;
+		public static bool[] node_c4_IsAllowedType = null;
+		public static bool[] node_c5_IsAllowedType = null;
+		public static bool[] node_c6_IsAllowedType = null;
+
+		public enum NodeNums { @c1, @c2, @c3, @c4, @c5, @c6, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
+
+		private Rule_Toluol()
+		{
+			name = "Toluol";
+			isSubpattern = false;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
+			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c2 });
+			PatternGraphEmbedding _subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
+			PatternGraphEmbedding _subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { node_c4 });
+			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
+			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, new PatternElement[] { node_c6 });
+			patternGraph = new PatternGraph(
+				"test Toluol.pattern",
+				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
+				new Condition[] { },
+				new bool[6, 6] {
+					{ true, false, false, false, false, false, },
+					{ false, true, false, false, false, false, },
+					{ false, false, true, false, false, false, },
+					{ false, false, false, true, false, false, },
+					{ false, false, false, false, true, false, },
+					{ false, false, false, false, false, true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, false, false, false, false, false, },
+				new bool[] {},
+				new bool[] {
+					true, true, true, true, true, true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Rule_Toluol : LGSPStaticScheduleInfo
+	{
+		public Schedule_Rule_Toluol()
+		{
+			ActionName = "Toluol";
+			this.RulePattern = Rule_Toluol.Instance;
+			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F, 5.5F, 5.5F,  };
+			EdgeCost = new float[] {  };
+			NegNodeCost = new float[][] { };
+			NegEdgeCost = new float[][] { };
+		}
+	}
+#endif
+
+	public class Rule_ToluolCore : LGSPRulePattern
+	{
+		private static Rule_ToluolCore instance = null;
+		public static Rule_ToluolCore Instance { get { if (instance==null) instance = new Rule_ToluolCore(); return instance; } }
+
+		public static NodeType[] node_c1_AllowedTypes = null;
+		public static bool[] node_c1_IsAllowedType = null;
+
+		public enum NodeNums { @c1, };
+		public enum EdgeNums { };
+		public enum PatternNums { @_subpattern0, @_subpattern1, };
+
+		private Rule_ToluolCore()
+		{
+			name = "ToluolCore";
+			isSubpattern = false;
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, new PatternElement[] { node_c1 });
+			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
+			patternGraph = new PatternGraph(
+				"test ToluolCore.pattern",
+				new PatternNode[] { node_c1 }, 
+				new PatternEdge[] {  }, 
+				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
+				new Condition[] { },
+				new bool[1, 1] {
+					{ true, },
+				},
+				new bool[0, 0] ,
+				new bool[] {
+					false, },
+				new bool[] {},
+				new bool[] {
+					true, },
+				new bool[] {}
+			);
+
+			negativePatternGraphs = new PatternGraph[] {};
+			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
+		}
+
+
+		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
+		{  // test does not have modifications
+			return EmptyReturnElements;
+		}
+		private static String[] addedNodeNames = new String[] {};
+		public override String[] AddedNodeNames { get { return addedNodeNames; } }
+		private static String[] addedEdgeNames = new String[] {};
+		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
+	}
+
+#if INITIAL_WARMUP
+	public class Schedule_Rule_ToluolCore : LGSPStaticScheduleInfo
+	{
+		public Schedule_Rule_ToluolCore()
+		{
+			ActionName = "ToluolCore";
+			this.RulePattern = Rule_ToluolCore.Instance;
+			NodeCost = new float[] { 5.5F,  };
+			EdgeCost = new float[] {  };
 			NegNodeCost = new float[][] { };
 			NegEdgeCost = new float[][] { };
 		}
@@ -1645,9 +2736,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_createDNT : LGSPStaticScheduleInfo
+	public class Schedule_Rule_createDNT : LGSPStaticScheduleInfo
 	{
-		public Schedule_createDNT()
+		public Schedule_Rule_createDNT()
 		{
 			ActionName = "createDNT";
 			this.RulePattern = Rule_createDNT.Instance;
@@ -1789,9 +2880,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_createTNB : LGSPStaticScheduleInfo
+	public class Schedule_Rule_createTNB : LGSPStaticScheduleInfo
 	{
-		public Schedule_createTNB()
+		public Schedule_Rule_createTNB()
 		{
 			ActionName = "createTNB";
 			this.RulePattern = Rule_createTNB.Instance;
@@ -1945,9 +3036,9 @@ namespace de.unika.ipd.grGen.actions.TNT
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_createTNT : LGSPStaticScheduleInfo
+	public class Schedule_Rule_createTNT : LGSPStaticScheduleInfo
 	{
-		public Schedule_createTNT()
+		public Schedule_Rule_createTNT()
 		{
 			ActionName = "createTNT";
 			this.RulePattern = Rule_createTNT.Instance;
@@ -1960,6 +3051,1590 @@ namespace de.unika.ipd.grGen.actions.TNT
 #endif
 
 
+	public class PatternAction_BenzolRing : LGSPSubpatternAction
+	{
+		public PatternAction_BenzolRing(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_BenzolRing.Instance;
+		}
+
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // Lookup edge__edge0 
+            int edge_type_id_edge__edge0 = 2;
+            for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
+            {
+                if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
+                {
+                    continue;
+                }
+                bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
+                edge_cur_edge__edge0.isMatched = true;
+                // Implicit source node_c1 from edge__edge0 
+                LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
+                if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_c1.isMatchedByEnclosingPattern)
+                {
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
+                node_cur_node_c1.isMatched = true;
+                // Implicit target node_c2 from edge__edge0 
+                LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
+                if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
+                    node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_c2.isMatched
+                    && node_cur_node_c2==node_cur_node_c1
+                    )
+                {
+                    node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_c2.isMatchedByEnclosingPattern)
+                {
+                    node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
+                node_cur_node_c2.isMatched = true;
+                // Extend outgoing edge__edge6 from node_c1 
+                LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
+                if(edge_head_edge__edge6 != null)
+                {
+                    LGSPEdge edge_cur_edge__edge6 = edge_head_edge__edge6;
+                    do
+                    {
+                        if(!EdgeType_Edge.isMyType[edge_cur_edge__edge6.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge6.target != node_cur_node_c2) {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge6.isMatched
+                            && edge_cur_edge__edge6==edge_cur_edge__edge0
+                            )
+                        {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge6.isMatchedByEnclosingPattern)
+                        {
+                            continue;
+                        }
+                        bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
+                        edge_cur_edge__edge6.isMatched = true;
+                        // Extend outgoing edge__edge1 from node_c2 
+                        LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
+                        if(edge_head_edge__edge1 != null)
+                        {
+                            LGSPEdge edge_cur_edge__edge1 = edge_head_edge__edge1;
+                            do
+                            {
+                                if(!EdgeType_Edge.isMyType[edge_cur_edge__edge1.type.TypeID]) {
+                                    continue;
+                                }
+                                if(edge_cur_edge__edge1.isMatched
+                                    && (edge_cur_edge__edge1==edge_cur_edge__edge0
+                                        || edge_cur_edge__edge1==edge_cur_edge__edge6
+                                        )
+                                    )
+                                {
+                                    continue;
+                                }
+                                if(edge_cur_edge__edge1.isMatchedByEnclosingPattern)
+                                {
+                                    continue;
+                                }
+                                bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
+                                edge_cur_edge__edge1.isMatched = true;
+                                // Implicit target node_c3 from edge__edge1 
+                                LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
+                                if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
+                                    edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                    continue;
+                                }
+                                if(node_cur_node_c3.isMatched
+                                    && (node_cur_node_c3==node_cur_node_c1
+                                        || node_cur_node_c3==node_cur_node_c2
+                                        )
+                                    )
+                                {
+                                    edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                    continue;
+                                }
+                                if(node_cur_node_c3.isMatchedByEnclosingPattern)
+                                {
+                                    edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                    continue;
+                                }
+                                bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
+                                node_cur_node_c3.isMatched = true;
+                                // Extend outgoing edge__edge2 from node_c3 
+                                LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
+                                if(edge_head_edge__edge2 != null)
+                                {
+                                    LGSPEdge edge_cur_edge__edge2 = edge_head_edge__edge2;
+                                    do
+                                    {
+                                        if(!EdgeType_Edge.isMyType[edge_cur_edge__edge2.type.TypeID]) {
+                                            continue;
+                                        }
+                                        if(edge_cur_edge__edge2.isMatched
+                                            && (edge_cur_edge__edge2==edge_cur_edge__edge0
+                                                || edge_cur_edge__edge2==edge_cur_edge__edge6
+                                                || edge_cur_edge__edge2==edge_cur_edge__edge1
+                                                )
+                                            )
+                                        {
+                                            continue;
+                                        }
+                                        if(edge_cur_edge__edge2.isMatchedByEnclosingPattern)
+                                        {
+                                            continue;
+                                        }
+                                        bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
+                                        edge_cur_edge__edge2.isMatched = true;
+                                        // Implicit target node_c4 from edge__edge2 
+                                        LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
+                                        if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
+                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                            continue;
+                                        }
+                                        if(node_cur_node_c4.isMatched
+                                            && (node_cur_node_c4==node_cur_node_c1
+                                                || node_cur_node_c4==node_cur_node_c2
+                                                || node_cur_node_c4==node_cur_node_c3
+                                                )
+                                            )
+                                        {
+                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                            continue;
+                                        }
+                                        if(node_cur_node_c4.isMatchedByEnclosingPattern)
+                                        {
+                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                            continue;
+                                        }
+                                        bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
+                                        node_cur_node_c4.isMatched = true;
+                                        // Extend outgoing edge__edge7 from node_c3 
+                                        LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
+                                        if(edge_head_edge__edge7 != null)
+                                        {
+                                            LGSPEdge edge_cur_edge__edge7 = edge_head_edge__edge7;
+                                            do
+                                            {
+                                                if(!EdgeType_Edge.isMyType[edge_cur_edge__edge7.type.TypeID]) {
+                                                    continue;
+                                                }
+                                                if(edge_cur_edge__edge7.target != node_cur_node_c4) {
+                                                    continue;
+                                                }
+                                                if(edge_cur_edge__edge7.isMatched
+                                                    && (edge_cur_edge__edge7==edge_cur_edge__edge0
+                                                        || edge_cur_edge__edge7==edge_cur_edge__edge6
+                                                        || edge_cur_edge__edge7==edge_cur_edge__edge1
+                                                        || edge_cur_edge__edge7==edge_cur_edge__edge2
+                                                        )
+                                                    )
+                                                {
+                                                    continue;
+                                                }
+                                                if(edge_cur_edge__edge7.isMatchedByEnclosingPattern)
+                                                {
+                                                    continue;
+                                                }
+                                                bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
+                                                edge_cur_edge__edge7.isMatched = true;
+                                                // Extend outgoing edge__edge3 from node_c4 
+                                                LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
+                                                if(edge_head_edge__edge3 != null)
+                                                {
+                                                    LGSPEdge edge_cur_edge__edge3 = edge_head_edge__edge3;
+                                                    do
+                                                    {
+                                                        if(!EdgeType_Edge.isMyType[edge_cur_edge__edge3.type.TypeID]) {
+                                                            continue;
+                                                        }
+                                                        if(edge_cur_edge__edge3.isMatched
+                                                            && (edge_cur_edge__edge3==edge_cur_edge__edge0
+                                                                || edge_cur_edge__edge3==edge_cur_edge__edge6
+                                                                || edge_cur_edge__edge3==edge_cur_edge__edge1
+                                                                || edge_cur_edge__edge3==edge_cur_edge__edge2
+                                                                || edge_cur_edge__edge3==edge_cur_edge__edge7
+                                                                )
+                                                            )
+                                                        {
+                                                            continue;
+                                                        }
+                                                        if(edge_cur_edge__edge3.isMatchedByEnclosingPattern)
+                                                        {
+                                                            continue;
+                                                        }
+                                                        bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
+                                                        edge_cur_edge__edge3.isMatched = true;
+                                                        // Implicit target node_c5 from edge__edge3 
+                                                        LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
+                                                        if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
+                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                            continue;
+                                                        }
+                                                        if(node_cur_node_c5.isMatched
+                                                            && (node_cur_node_c5==node_cur_node_c1
+                                                                || node_cur_node_c5==node_cur_node_c2
+                                                                || node_cur_node_c5==node_cur_node_c3
+                                                                || node_cur_node_c5==node_cur_node_c4
+                                                                )
+                                                            )
+                                                        {
+                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                            continue;
+                                                        }
+                                                        if(node_cur_node_c5.isMatchedByEnclosingPattern)
+                                                        {
+                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                            continue;
+                                                        }
+                                                        bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
+                                                        node_cur_node_c5.isMatched = true;
+                                                        // Extend outgoing edge__edge4 from node_c5 
+                                                        LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
+                                                        if(edge_head_edge__edge4 != null)
+                                                        {
+                                                            LGSPEdge edge_cur_edge__edge4 = edge_head_edge__edge4;
+                                                            do
+                                                            {
+                                                                if(!EdgeType_Edge.isMyType[edge_cur_edge__edge4.type.TypeID]) {
+                                                                    continue;
+                                                                }
+                                                                if(edge_cur_edge__edge4.isMatched
+                                                                    && (edge_cur_edge__edge4==edge_cur_edge__edge0
+                                                                        || edge_cur_edge__edge4==edge_cur_edge__edge6
+                                                                        || edge_cur_edge__edge4==edge_cur_edge__edge1
+                                                                        || edge_cur_edge__edge4==edge_cur_edge__edge2
+                                                                        || edge_cur_edge__edge4==edge_cur_edge__edge7
+                                                                        || edge_cur_edge__edge4==edge_cur_edge__edge3
+                                                                        )
+                                                                    )
+                                                                {
+                                                                    continue;
+                                                                }
+                                                                if(edge_cur_edge__edge4.isMatchedByEnclosingPattern)
+                                                                {
+                                                                    continue;
+                                                                }
+                                                                bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
+                                                                edge_cur_edge__edge4.isMatched = true;
+                                                                // Implicit target node_c6 from edge__edge4 
+                                                                LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
+                                                                if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
+                                                                    edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                    continue;
+                                                                }
+                                                                if(node_cur_node_c6.isMatched
+                                                                    && (node_cur_node_c6==node_cur_node_c1
+                                                                        || node_cur_node_c6==node_cur_node_c2
+                                                                        || node_cur_node_c6==node_cur_node_c3
+                                                                        || node_cur_node_c6==node_cur_node_c4
+                                                                        || node_cur_node_c6==node_cur_node_c5
+                                                                        )
+                                                                    )
+                                                                {
+                                                                    edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                    continue;
+                                                                }
+                                                                if(node_cur_node_c6.isMatchedByEnclosingPattern)
+                                                                {
+                                                                    edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                    continue;
+                                                                }
+                                                                // Extend outgoing edge__edge8 from node_c5 
+                                                                LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
+                                                                if(edge_head_edge__edge8 != null)
+                                                                {
+                                                                    LGSPEdge edge_cur_edge__edge8 = edge_head_edge__edge8;
+                                                                    do
+                                                                    {
+                                                                        if(!EdgeType_Edge.isMyType[edge_cur_edge__edge8.type.TypeID]) {
+                                                                            continue;
+                                                                        }
+                                                                        if(edge_cur_edge__edge8.target != node_cur_node_c6) {
+                                                                            continue;
+                                                                        }
+                                                                        if(edge_cur_edge__edge8.isMatched
+                                                                            && (edge_cur_edge__edge8==edge_cur_edge__edge0
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge6
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge1
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge2
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge7
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge3
+                                                                                || edge_cur_edge__edge8==edge_cur_edge__edge4
+                                                                                )
+                                                                            )
+                                                                        {
+                                                                            continue;
+                                                                        }
+                                                                        if(edge_cur_edge__edge8.isMatchedByEnclosingPattern)
+                                                                        {
+                                                                            continue;
+                                                                        }
+                                                                        bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
+                                                                        edge_cur_edge__edge8.isMatched = true;
+                                                                        // Extend outgoing edge__edge5 from node_c6 
+                                                                        LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
+                                                                        if(edge_head_edge__edge5 != null)
+                                                                        {
+                                                                            LGSPEdge edge_cur_edge__edge5 = edge_head_edge__edge5;
+                                                                            do
+                                                                            {
+                                                                                if(!EdgeType_Edge.isMyType[edge_cur_edge__edge5.type.TypeID]) {
+                                                                                    continue;
+                                                                                }
+                                                                                if(edge_cur_edge__edge5.target != node_cur_node_c1) {
+                                                                                    continue;
+                                                                                }
+                                                                                if(edge_cur_edge__edge5.isMatched
+                                                                                    && (edge_cur_edge__edge5==edge_cur_edge__edge0
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge6
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge1
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge2
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge7
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge3
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge4
+                                                                                        || edge_cur_edge__edge5==edge_cur_edge__edge8
+                                                                                        )
+                                                                                    )
+                                                                                {
+                                                                                    continue;
+                                                                                }
+                                                                                if(edge_cur_edge__edge5.isMatchedByEnclosingPattern)
+                                                                                {
+                                                                                    continue;
+                                                                                }
+                                                                                // Check whether there are subpattern matching tasks left to execute
+                                                                                if(openTasks.Count==0)
+                                                                                {
+                                                                                    Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
+                                                                                    foundPartialMatches.Add(currentFoundPartialMatch);
+                                                                                    LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                    match.patternGraph = rulePattern.patternGraph;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c1] = node_cur_node_c1;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c2] = node_cur_node_c2;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c3] = node_cur_node_c3;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c4] = node_cur_node_c4;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c5] = node_cur_node_c5;
+                                                                                    match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c6] = node_cur_node_c6;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                    match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                    currentFoundPartialMatch.Push(match);
+                                                                                    // if enough matches were found, we leave
+                                                                                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                    {
+                                                                                        edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                        edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                        node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                                                        edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                        edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                        node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                                                                        edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                        node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                                                                        edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                        edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                        node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                                                                        node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                                                                                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                        openTasks.Push(this);
+                                                                                        return;
+                                                                                    }
+                                                                                    continue;
+                                                                                }
+                                                                                node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                                                                                node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                                                                node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                                                                node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                                                                node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                                                                node_cur_node_c6.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge3.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge4.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge5.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
+                                                                                edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                // Match subpatterns
+                                                                                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                // Check whether subpatterns were found 
+                                                                                if(matchesList.Count>0) {
+                                                                                    // subpatterns were found, extend the partial matches by our local match object
+                                                                                    foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                                                                    {
+                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c1] = node_cur_node_c1;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c2] = node_cur_node_c2;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c3] = node_cur_node_c3;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c4] = node_cur_node_c4;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c5] = node_cur_node_c5;
+                                                                                        match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c6] = node_cur_node_c6;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                        match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                        currentFoundPartialMatch.Push(match);
+                                                                                    }
+                                                                                    if(matchesList==foundPartialMatches) {
+                                                                                        matchesList = new List<Stack<LGSPMatch>>();
+                                                                                    } else {
+                                                                                        foreach(Stack<LGSPMatch> match in matchesList)
+                                                                                        {
+                                                                                            foundPartialMatches.Add(match);
+                                                                                        }
+                                                                                        matchesList.Clear();
+                                                                                    }
+                                                                                    // if enough matches were found, we leave
+                                                                                    if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                    {
+                                                                                        edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                        edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                        node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                                                        edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                        edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                        node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                                                                        edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                        node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                                                                        edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                        edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                        node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                                                                        node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                                                                                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                        openTasks.Push(this);
+                                                                                        return;
+                                                                                    }
+                                                                                    edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                    continue;
+                                                                                }
+                                                                                node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                            }
+                                                                            while( (edge_cur_edge__edge5 = edge_cur_edge__edge5.outNext) != edge_head_edge__edge5 );
+                                                                        }
+                                                                        edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                    }
+                                                                    while( (edge_cur_edge__edge8 = edge_cur_edge__edge8.outNext) != edge_head_edge__edge8 );
+                                                                }
+                                                                edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                            }
+                                                            while( (edge_cur_edge__edge4 = edge_cur_edge__edge4.outNext) != edge_head_edge__edge4 );
+                                                        }
+                                                        node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                        edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                    }
+                                                    while( (edge_cur_edge__edge3 = edge_cur_edge__edge3.outNext) != edge_head_edge__edge3 );
+                                                }
+                                                edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                            }
+                                            while( (edge_cur_edge__edge7 = edge_cur_edge__edge7.outNext) != edge_head_edge__edge7 );
+                                        }
+                                        node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                        edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                    }
+                                    while( (edge_cur_edge__edge2 = edge_cur_edge__edge2.outNext) != edge_head_edge__edge2 );
+                                }
+                                node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                            }
+                            while( (edge_cur_edge__edge1 = edge_cur_edge__edge1.outNext) != edge_head_edge__edge1 );
+                        }
+                        edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                    }
+                    while( (edge_cur_edge__edge6 = edge_cur_edge__edge6.outNext) != edge_head_edge__edge6 );
+                }
+                node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
+                edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
+	public class PatternAction_BenzolRingC123456Exposed : LGSPSubpatternAction
+	{
+		public PatternAction_BenzolRingC123456Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_BenzolRingC123456Exposed.Instance;
+		}
+
+		public LGSPNode node_c1;
+		public LGSPNode node_c2;
+		public LGSPNode node_c3;
+		public LGSPNode node_c4;
+		public LGSPNode node_c5;
+		public LGSPNode node_c6;
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset node_c1 
+            LGSPNode node_cur_node_c1 = node_c1;
+            // SubPreset node_c2 
+            LGSPNode node_cur_node_c2 = node_c2;
+            // SubPreset node_c3 
+            LGSPNode node_cur_node_c3 = node_c3;
+            // SubPreset node_c4 
+            LGSPNode node_cur_node_c4 = node_c4;
+            // SubPreset node_c5 
+            LGSPNode node_cur_node_c5 = node_c5;
+            // SubPreset node_c6 
+            LGSPNode node_cur_node_c6 = node_c6;
+            // Extend outgoing edge__edge0 from node_c1 
+            LGSPEdge edge_head_edge__edge0 = node_cur_node_c1.outhead;
+            if(edge_head_edge__edge0 != null)
+            {
+                LGSPEdge edge_cur_edge__edge0 = edge_head_edge__edge0;
+                do
+                {
+                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge0.type.TypeID]) {
+                        continue;
+                    }
+                    if(edge_cur_edge__edge0.target != node_cur_node_c2) {
+                        continue;
+                    }
+                    if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
+                    {
+                        continue;
+                    }
+                    bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
+                    edge_cur_edge__edge0.isMatched = true;
+                    // Extend outgoing edge__edge6 from node_c1 
+                    LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
+                    if(edge_head_edge__edge6 != null)
+                    {
+                        LGSPEdge edge_cur_edge__edge6 = edge_head_edge__edge6;
+                        do
+                        {
+                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge6.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.target != node_cur_node_c2) {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.isMatched
+                                && edge_cur_edge__edge6==edge_cur_edge__edge0
+                                )
+                            {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.isMatchedByEnclosingPattern)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
+                            edge_cur_edge__edge6.isMatched = true;
+                            // Extend outgoing edge__edge1 from node_c2 
+                            LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
+                            if(edge_head_edge__edge1 != null)
+                            {
+                                LGSPEdge edge_cur_edge__edge1 = edge_head_edge__edge1;
+                                do
+                                {
+                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge1.type.TypeID]) {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge__edge1.target != node_cur_node_c3) {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge__edge1.isMatched
+                                        && (edge_cur_edge__edge1==edge_cur_edge__edge0
+                                            || edge_cur_edge__edge1==edge_cur_edge__edge6
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge__edge1.isMatchedByEnclosingPattern)
+                                    {
+                                        continue;
+                                    }
+                                    bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
+                                    edge_cur_edge__edge1.isMatched = true;
+                                    // Extend outgoing edge__edge2 from node_c3 
+                                    LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
+                                    if(edge_head_edge__edge2 != null)
+                                    {
+                                        LGSPEdge edge_cur_edge__edge2 = edge_head_edge__edge2;
+                                        do
+                                        {
+                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge2.type.TypeID]) {
+                                                continue;
+                                            }
+                                            if(edge_cur_edge__edge2.target != node_cur_node_c4) {
+                                                continue;
+                                            }
+                                            if(edge_cur_edge__edge2.isMatched
+                                                && (edge_cur_edge__edge2==edge_cur_edge__edge0
+                                                    || edge_cur_edge__edge2==edge_cur_edge__edge6
+                                                    || edge_cur_edge__edge2==edge_cur_edge__edge1
+                                                    )
+                                                )
+                                            {
+                                                continue;
+                                            }
+                                            if(edge_cur_edge__edge2.isMatchedByEnclosingPattern)
+                                            {
+                                                continue;
+                                            }
+                                            bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
+                                            edge_cur_edge__edge2.isMatched = true;
+                                            // Extend outgoing edge__edge7 from node_c3 
+                                            LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
+                                            if(edge_head_edge__edge7 != null)
+                                            {
+                                                LGSPEdge edge_cur_edge__edge7 = edge_head_edge__edge7;
+                                                do
+                                                {
+                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge7.type.TypeID]) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.target != node_cur_node_c4) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.isMatched
+                                                        && (edge_cur_edge__edge7==edge_cur_edge__edge0
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge6
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge1
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge2
+                                                            )
+                                                        )
+                                                    {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.isMatchedByEnclosingPattern)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
+                                                    edge_cur_edge__edge7.isMatched = true;
+                                                    // Extend outgoing edge__edge3 from node_c4 
+                                                    LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
+                                                    if(edge_head_edge__edge3 != null)
+                                                    {
+                                                        LGSPEdge edge_cur_edge__edge3 = edge_head_edge__edge3;
+                                                        do
+                                                        {
+                                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge3.type.TypeID]) {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_edge__edge3.target != node_cur_node_c5) {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_edge__edge3.isMatched
+                                                                && (edge_cur_edge__edge3==edge_cur_edge__edge0
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge6
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge1
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge2
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge7
+                                                                    )
+                                                                )
+                                                            {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_edge__edge3.isMatchedByEnclosingPattern)
+                                                            {
+                                                                continue;
+                                                            }
+                                                            bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
+                                                            edge_cur_edge__edge3.isMatched = true;
+                                                            // Extend outgoing edge__edge4 from node_c5 
+                                                            LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
+                                                            if(edge_head_edge__edge4 != null)
+                                                            {
+                                                                LGSPEdge edge_cur_edge__edge4 = edge_head_edge__edge4;
+                                                                do
+                                                                {
+                                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge4.type.TypeID]) {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_edge__edge4.target != node_cur_node_c6) {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_edge__edge4.isMatched
+                                                                        && (edge_cur_edge__edge4==edge_cur_edge__edge0
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge6
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge1
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge2
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge7
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge3
+                                                                            )
+                                                                        )
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_edge__edge4.isMatchedByEnclosingPattern)
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
+                                                                    edge_cur_edge__edge4.isMatched = true;
+                                                                    // Extend outgoing edge__edge8 from node_c5 
+                                                                    LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
+                                                                    if(edge_head_edge__edge8 != null)
+                                                                    {
+                                                                        LGSPEdge edge_cur_edge__edge8 = edge_head_edge__edge8;
+                                                                        do
+                                                                        {
+                                                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge8.type.TypeID]) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.target != node_cur_node_c6) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.isMatched
+                                                                                && (edge_cur_edge__edge8==edge_cur_edge__edge0
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge6
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge1
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge2
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge7
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge3
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge4
+                                                                                    )
+                                                                                )
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.isMatchedByEnclosingPattern)
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
+                                                                            edge_cur_edge__edge8.isMatched = true;
+                                                                            // Extend outgoing edge__edge5 from node_c6 
+                                                                            LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
+                                                                            if(edge_head_edge__edge5 != null)
+                                                                            {
+                                                                                LGSPEdge edge_cur_edge__edge5 = edge_head_edge__edge5;
+                                                                                do
+                                                                                {
+                                                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge5.type.TypeID]) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.target != node_cur_node_c1) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.isMatched
+                                                                                        && (edge_cur_edge__edge5==edge_cur_edge__edge0
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge6
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge1
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge2
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge7
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge3
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge4
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge8
+                                                                                            )
+                                                                                        )
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.isMatchedByEnclosingPattern)
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    // Check whether there are subpattern matching tasks left to execute
+                                                                                    if(openTasks.Count==0)
+                                                                                    {
+                                                                                        Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
+                                                                                        foundPartialMatches.Add(currentFoundPartialMatch);
+                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c1] = node_cur_node_c1;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c2] = node_cur_node_c2;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c3] = node_cur_node_c3;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c4] = node_cur_node_c4;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c5] = node_cur_node_c5;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c6] = node_cur_node_c6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                        currentFoundPartialMatch.Push(match);
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                            edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        continue;
+                                                                                    }
+                                                                                    edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge3.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge4.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge5.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                    // Match subpatterns
+                                                                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                    // Check whether subpatterns were found 
+                                                                                    if(matchesList.Count>0) {
+                                                                                        // subpatterns were found, extend the partial matches by our local match object
+                                                                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                                                                        {
+                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                            match.patternGraph = rulePattern.patternGraph;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c1] = node_cur_node_c1;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c2] = node_cur_node_c2;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c3] = node_cur_node_c3;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c4] = node_cur_node_c4;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c5] = node_cur_node_c5;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c6] = node_cur_node_c6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                            currentFoundPartialMatch.Push(match);
+                                                                                        }
+                                                                                        if(matchesList==foundPartialMatches) {
+                                                                                            matchesList = new List<Stack<LGSPMatch>>();
+                                                                                        } else {
+                                                                                            foreach(Stack<LGSPMatch> match in matchesList)
+                                                                                            {
+                                                                                                foundPartialMatches.Add(match);
+                                                                                            }
+                                                                                            matchesList.Clear();
+                                                                                        }
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                            edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                        continue;
+                                                                                    }
+                                                                                    edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                }
+                                                                                while( (edge_cur_edge__edge5 = edge_cur_edge__edge5.outNext) != edge_head_edge__edge5 );
+                                                                            }
+                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                        }
+                                                                        while( (edge_cur_edge__edge8 = edge_cur_edge__edge8.outNext) != edge_head_edge__edge8 );
+                                                                    }
+                                                                    edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                }
+                                                                while( (edge_cur_edge__edge4 = edge_cur_edge__edge4.outNext) != edge_head_edge__edge4 );
+                                                            }
+                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                        }
+                                                        while( (edge_cur_edge__edge3 = edge_cur_edge__edge3.outNext) != edge_head_edge__edge3 );
+                                                    }
+                                                    edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                }
+                                                while( (edge_cur_edge__edge7 = edge_cur_edge__edge7.outNext) != edge_head_edge__edge7 );
+                                            }
+                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                        }
+                                        while( (edge_cur_edge__edge2 = edge_cur_edge__edge2.outNext) != edge_head_edge__edge2 );
+                                    }
+                                    edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                }
+                                while( (edge_cur_edge__edge1 = edge_cur_edge__edge1.outNext) != edge_head_edge__edge1 );
+                            }
+                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                        }
+                        while( (edge_cur_edge__edge6 = edge_cur_edge__edge6.outNext) != edge_head_edge__edge6 );
+                    }
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                }
+                while( (edge_cur_edge__edge0 = edge_cur_edge__edge0.outNext) != edge_head_edge__edge0 );
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
+	public class PatternAction_BenzolRingC1Exposed : LGSPSubpatternAction
+	{
+		public PatternAction_BenzolRingC1Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_BenzolRingC1Exposed.Instance;
+		}
+
+		public LGSPNode node_c1;
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset node_c1 
+            LGSPNode node_cur_node_c1 = node_c1;
+            // Extend outgoing edge__edge0 from node_c1 
+            LGSPEdge edge_head_edge__edge0 = node_cur_node_c1.outhead;
+            if(edge_head_edge__edge0 != null)
+            {
+                LGSPEdge edge_cur_edge__edge0 = edge_head_edge__edge0;
+                do
+                {
+                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge0.type.TypeID]) {
+                        continue;
+                    }
+                    if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
+                    {
+                        continue;
+                    }
+                    bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
+                    edge_cur_edge__edge0.isMatched = true;
+                    // Implicit target node_c2 from edge__edge0 
+                    LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
+                    if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
+                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_node_c2.isMatched
+                        && node_cur_node_c2==node_cur_node_c1
+                        )
+                    {
+                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    if(node_cur_node_c2.isMatchedByEnclosingPattern)
+                    {
+                        edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                        continue;
+                    }
+                    bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
+                    node_cur_node_c2.isMatched = true;
+                    // Extend outgoing edge__edge6 from node_c1 
+                    LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
+                    if(edge_head_edge__edge6 != null)
+                    {
+                        LGSPEdge edge_cur_edge__edge6 = edge_head_edge__edge6;
+                        do
+                        {
+                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge6.type.TypeID]) {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.target != node_cur_node_c2) {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.isMatched
+                                && edge_cur_edge__edge6==edge_cur_edge__edge0
+                                )
+                            {
+                                continue;
+                            }
+                            if(edge_cur_edge__edge6.isMatchedByEnclosingPattern)
+                            {
+                                continue;
+                            }
+                            bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
+                            edge_cur_edge__edge6.isMatched = true;
+                            // Extend outgoing edge__edge1 from node_c2 
+                            LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
+                            if(edge_head_edge__edge1 != null)
+                            {
+                                LGSPEdge edge_cur_edge__edge1 = edge_head_edge__edge1;
+                                do
+                                {
+                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge1.type.TypeID]) {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge__edge1.isMatched
+                                        && (edge_cur_edge__edge1==edge_cur_edge__edge0
+                                            || edge_cur_edge__edge1==edge_cur_edge__edge6
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    if(edge_cur_edge__edge1.isMatchedByEnclosingPattern)
+                                    {
+                                        continue;
+                                    }
+                                    bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
+                                    edge_cur_edge__edge1.isMatched = true;
+                                    // Implicit target node_c3 from edge__edge1 
+                                    LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
+                                    if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
+                                        edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    if(node_cur_node_c3.isMatched
+                                        && (node_cur_node_c3==node_cur_node_c1
+                                            || node_cur_node_c3==node_cur_node_c2
+                                            )
+                                        )
+                                    {
+                                        edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    if(node_cur_node_c3.isMatchedByEnclosingPattern)
+                                    {
+                                        edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                        continue;
+                                    }
+                                    bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
+                                    node_cur_node_c3.isMatched = true;
+                                    // Extend outgoing edge__edge2 from node_c3 
+                                    LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
+                                    if(edge_head_edge__edge2 != null)
+                                    {
+                                        LGSPEdge edge_cur_edge__edge2 = edge_head_edge__edge2;
+                                        do
+                                        {
+                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge2.type.TypeID]) {
+                                                continue;
+                                            }
+                                            if(edge_cur_edge__edge2.isMatched
+                                                && (edge_cur_edge__edge2==edge_cur_edge__edge0
+                                                    || edge_cur_edge__edge2==edge_cur_edge__edge6
+                                                    || edge_cur_edge__edge2==edge_cur_edge__edge1
+                                                    )
+                                                )
+                                            {
+                                                continue;
+                                            }
+                                            if(edge_cur_edge__edge2.isMatchedByEnclosingPattern)
+                                            {
+                                                continue;
+                                            }
+                                            bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
+                                            edge_cur_edge__edge2.isMatched = true;
+                                            // Implicit target node_c4 from edge__edge2 
+                                            LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
+                                            if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
+                                                edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            if(node_cur_node_c4.isMatched
+                                                && (node_cur_node_c4==node_cur_node_c1
+                                                    || node_cur_node_c4==node_cur_node_c2
+                                                    || node_cur_node_c4==node_cur_node_c3
+                                                    )
+                                                )
+                                            {
+                                                edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            if(node_cur_node_c4.isMatchedByEnclosingPattern)
+                                            {
+                                                edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                continue;
+                                            }
+                                            bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
+                                            node_cur_node_c4.isMatched = true;
+                                            // Extend outgoing edge__edge7 from node_c3 
+                                            LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
+                                            if(edge_head_edge__edge7 != null)
+                                            {
+                                                LGSPEdge edge_cur_edge__edge7 = edge_head_edge__edge7;
+                                                do
+                                                {
+                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge7.type.TypeID]) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.target != node_cur_node_c4) {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.isMatched
+                                                        && (edge_cur_edge__edge7==edge_cur_edge__edge0
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge6
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge1
+                                                            || edge_cur_edge__edge7==edge_cur_edge__edge2
+                                                            )
+                                                        )
+                                                    {
+                                                        continue;
+                                                    }
+                                                    if(edge_cur_edge__edge7.isMatchedByEnclosingPattern)
+                                                    {
+                                                        continue;
+                                                    }
+                                                    bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
+                                                    edge_cur_edge__edge7.isMatched = true;
+                                                    // Extend outgoing edge__edge3 from node_c4 
+                                                    LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
+                                                    if(edge_head_edge__edge3 != null)
+                                                    {
+                                                        LGSPEdge edge_cur_edge__edge3 = edge_head_edge__edge3;
+                                                        do
+                                                        {
+                                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge3.type.TypeID]) {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_edge__edge3.isMatched
+                                                                && (edge_cur_edge__edge3==edge_cur_edge__edge0
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge6
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge1
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge2
+                                                                    || edge_cur_edge__edge3==edge_cur_edge__edge7
+                                                                    )
+                                                                )
+                                                            {
+                                                                continue;
+                                                            }
+                                                            if(edge_cur_edge__edge3.isMatchedByEnclosingPattern)
+                                                            {
+                                                                continue;
+                                                            }
+                                                            bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
+                                                            edge_cur_edge__edge3.isMatched = true;
+                                                            // Implicit target node_c5 from edge__edge3 
+                                                            LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
+                                                            if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
+                                                                edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            if(node_cur_node_c5.isMatched
+                                                                && (node_cur_node_c5==node_cur_node_c1
+                                                                    || node_cur_node_c5==node_cur_node_c2
+                                                                    || node_cur_node_c5==node_cur_node_c3
+                                                                    || node_cur_node_c5==node_cur_node_c4
+                                                                    )
+                                                                )
+                                                            {
+                                                                edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            if(node_cur_node_c5.isMatchedByEnclosingPattern)
+                                                            {
+                                                                edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                continue;
+                                                            }
+                                                            bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
+                                                            node_cur_node_c5.isMatched = true;
+                                                            // Extend outgoing edge__edge4 from node_c5 
+                                                            LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
+                                                            if(edge_head_edge__edge4 != null)
+                                                            {
+                                                                LGSPEdge edge_cur_edge__edge4 = edge_head_edge__edge4;
+                                                                do
+                                                                {
+                                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge4.type.TypeID]) {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_edge__edge4.isMatched
+                                                                        && (edge_cur_edge__edge4==edge_cur_edge__edge0
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge6
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge1
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge2
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge7
+                                                                            || edge_cur_edge__edge4==edge_cur_edge__edge3
+                                                                            )
+                                                                        )
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    if(edge_cur_edge__edge4.isMatchedByEnclosingPattern)
+                                                                    {
+                                                                        continue;
+                                                                    }
+                                                                    bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
+                                                                    edge_cur_edge__edge4.isMatched = true;
+                                                                    // Implicit target node_c6 from edge__edge4 
+                                                                    LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
+                                                                    if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
+                                                                        edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    if(node_cur_node_c6.isMatched
+                                                                        && (node_cur_node_c6==node_cur_node_c1
+                                                                            || node_cur_node_c6==node_cur_node_c2
+                                                                            || node_cur_node_c6==node_cur_node_c3
+                                                                            || node_cur_node_c6==node_cur_node_c4
+                                                                            || node_cur_node_c6==node_cur_node_c5
+                                                                            )
+                                                                        )
+                                                                    {
+                                                                        edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    if(node_cur_node_c6.isMatchedByEnclosingPattern)
+                                                                    {
+                                                                        edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                        continue;
+                                                                    }
+                                                                    // Extend outgoing edge__edge8 from node_c5 
+                                                                    LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
+                                                                    if(edge_head_edge__edge8 != null)
+                                                                    {
+                                                                        LGSPEdge edge_cur_edge__edge8 = edge_head_edge__edge8;
+                                                                        do
+                                                                        {
+                                                                            if(!EdgeType_Edge.isMyType[edge_cur_edge__edge8.type.TypeID]) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.target != node_cur_node_c6) {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.isMatched
+                                                                                && (edge_cur_edge__edge8==edge_cur_edge__edge0
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge6
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge1
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge2
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge7
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge3
+                                                                                    || edge_cur_edge__edge8==edge_cur_edge__edge4
+                                                                                    )
+                                                                                )
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            if(edge_cur_edge__edge8.isMatchedByEnclosingPattern)
+                                                                            {
+                                                                                continue;
+                                                                            }
+                                                                            bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
+                                                                            edge_cur_edge__edge8.isMatched = true;
+                                                                            // Extend outgoing edge__edge5 from node_c6 
+                                                                            LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
+                                                                            if(edge_head_edge__edge5 != null)
+                                                                            {
+                                                                                LGSPEdge edge_cur_edge__edge5 = edge_head_edge__edge5;
+                                                                                do
+                                                                                {
+                                                                                    if(!EdgeType_Edge.isMyType[edge_cur_edge__edge5.type.TypeID]) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.target != node_cur_node_c1) {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.isMatched
+                                                                                        && (edge_cur_edge__edge5==edge_cur_edge__edge0
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge6
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge1
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge2
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge7
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge3
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge4
+                                                                                            || edge_cur_edge__edge5==edge_cur_edge__edge8
+                                                                                            )
+                                                                                        )
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    if(edge_cur_edge__edge5.isMatchedByEnclosingPattern)
+                                                                                    {
+                                                                                        continue;
+                                                                                    }
+                                                                                    // Check whether there are subpattern matching tasks left to execute
+                                                                                    if(openTasks.Count==0)
+                                                                                    {
+                                                                                        Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
+                                                                                        foundPartialMatches.Add(currentFoundPartialMatch);
+                                                                                        LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c1] = node_cur_node_c1;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c2] = node_cur_node_c2;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c3] = node_cur_node_c3;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c4] = node_cur_node_c4;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c5] = node_cur_node_c5;
+                                                                                        match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c6] = node_cur_node_c6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                        match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                        currentFoundPartialMatch.Push(match);
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                                                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                            node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                                                                            edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                            node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                                                                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        continue;
+                                                                                    }
+                                                                                    node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c6.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge3.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge4.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge5.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
+                                                                                    edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
+                                                                                    // Match subpatterns
+                                                                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                                                                    // Check whether subpatterns were found 
+                                                                                    if(matchesList.Count>0) {
+                                                                                        // subpatterns were found, extend the partial matches by our local match object
+                                                                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                                                                        {
+                                                                                            LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
+                                                                                            match.patternGraph = rulePattern.patternGraph;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c1] = node_cur_node_c1;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c2] = node_cur_node_c2;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c3] = node_cur_node_c3;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c4] = node_cur_node_c4;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c5] = node_cur_node_c5;
+                                                                                            match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c6] = node_cur_node_c6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge2] = edge_cur_edge__edge2;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge3] = edge_cur_edge__edge3;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge4] = edge_cur_edge__edge4;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge5] = edge_cur_edge__edge5;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge6] = edge_cur_edge__edge6;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
+                                                                                            match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
+                                                                                            currentFoundPartialMatch.Push(match);
+                                                                                        }
+                                                                                        if(matchesList==foundPartialMatches) {
+                                                                                            matchesList = new List<Stack<LGSPMatch>>();
+                                                                                        } else {
+                                                                                            foreach(Stack<LGSPMatch> match in matchesList)
+                                                                                            {
+                                                                                                foundPartialMatches.Add(match);
+                                                                                            }
+                                                                                            matchesList.Clear();
+                                                                                        }
+                                                                                        // if enough matches were found, we leave
+                                                                                        if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                                                                                        {
+                                                                                            edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                                            edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                                                            edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                                                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                                                                            node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                                                                            edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                                                                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                                                                                            node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                                                                            edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                                                                            openTasks.Push(this);
+                                                                                            return;
+                                                                                        }
+                                                                                        edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                        edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                        continue;
+                                                                                    }
+                                                                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge4.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge5.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge6.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge7.isMatchedByEnclosingPattern = false;
+                                                                                    edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
+                                                                                }
+                                                                                while( (edge_cur_edge__edge5 = edge_cur_edge__edge5.outNext) != edge_head_edge__edge5 );
+                                                                            }
+                                                                            edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
+                                                                        }
+                                                                        while( (edge_cur_edge__edge8 = edge_cur_edge__edge8.outNext) != edge_head_edge__edge8 );
+                                                                    }
+                                                                    edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
+                                                                }
+                                                                while( (edge_cur_edge__edge4 = edge_cur_edge__edge4.outNext) != edge_head_edge__edge4 );
+                                                            }
+                                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                                            edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
+                                                        }
+                                                        while( (edge_cur_edge__edge3 = edge_cur_edge__edge3.outNext) != edge_head_edge__edge3 );
+                                                    }
+                                                    edge_cur_edge__edge7.isMatched = edge_cur_edge__edge7_prevIsMatched;
+                                                }
+                                                while( (edge_cur_edge__edge7 = edge_cur_edge__edge7.outNext) != edge_head_edge__edge7 );
+                                            }
+                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                            edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
+                                        }
+                                        while( (edge_cur_edge__edge2 = edge_cur_edge__edge2.outNext) != edge_head_edge__edge2 );
+                                    }
+                                    node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                    edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
+                                }
+                                while( (edge_cur_edge__edge1 = edge_cur_edge__edge1.outNext) != edge_head_edge__edge1 );
+                            }
+                            edge_cur_edge__edge6.isMatched = edge_cur_edge__edge6_prevIsMatched;
+                        }
+                        while( (edge_cur_edge__edge6 = edge_cur_edge__edge6.outNext) != edge_head_edge__edge6 );
+                    }
+                    node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                }
+                while( (edge_cur_edge__edge0 = edge_cur_edge__edge0.outNext) != edge_head_edge__edge0 );
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
 	public class PatternAction_Hydrogen : LGSPSubpatternAction
 	{
 		public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
@@ -2730,6 +5405,394 @@ namespace de.unika.ipd.grGen.actions.TNT
             }
             openTasks.Push(this);
             return;
+        }
+	}
+	public class PatternAction_Oxygen : LGSPSubpatternAction
+	{
+		public PatternAction_Oxygen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_Oxygen.Instance;
+		}
+
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // Lookup edge__edge0 
+            int edge_type_id_edge__edge0 = 2;
+            for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
+            {
+                if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
+                {
+                    continue;
+                }
+                bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
+                edge_cur_edge__edge0.isMatched = true;
+                // Implicit source node_o1 from edge__edge0 
+                LGSPNode node_cur_node_o1 = edge_cur_edge__edge0.source;
+                if(!NodeType_O.isMyType[node_cur_node_o1.type.TypeID]) {
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_o1.isMatchedByEnclosingPattern)
+                {
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                bool node_cur_node_o1_prevIsMatched = node_cur_node_o1.isMatched;
+                node_cur_node_o1.isMatched = true;
+                // Implicit target node_o2 from edge__edge0 
+                LGSPNode node_cur_node_o2 = edge_cur_edge__edge0.target;
+                if(!NodeType_O.isMyType[node_cur_node_o2.type.TypeID]) {
+                    node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_o2.isMatched
+                    && node_cur_node_o2==node_cur_node_o1
+                    )
+                {
+                    node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                if(node_cur_node_o2.isMatchedByEnclosingPattern)
+                {
+                    node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                    edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                    continue;
+                }
+                // Extend outgoing edge__edge1 from node_o2 
+                LGSPEdge edge_head_edge__edge1 = node_cur_node_o2.outhead;
+                if(edge_head_edge__edge1 != null)
+                {
+                    LGSPEdge edge_cur_edge__edge1 = edge_head_edge__edge1;
+                    do
+                    {
+                        if(!EdgeType_Edge.isMyType[edge_cur_edge__edge1.type.TypeID]) {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge1.target != node_cur_node_o1) {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge1.isMatched
+                            && edge_cur_edge__edge1==edge_cur_edge__edge0
+                            )
+                        {
+                            continue;
+                        }
+                        if(edge_cur_edge__edge1.isMatchedByEnclosingPattern)
+                        {
+                            continue;
+                        }
+                        // Check whether there are subpattern matching tasks left to execute
+                        if(openTasks.Count==0)
+                        {
+                            Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
+                            foundPartialMatches.Add(currentFoundPartialMatch);
+                            LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
+                            match.patternGraph = rulePattern.patternGraph;
+                            match.Nodes[(int)Pattern_Oxygen.NodeNums.@o1] = node_cur_node_o1;
+                            match.Nodes[(int)Pattern_Oxygen.NodeNums.@o2] = node_cur_node_o2;
+                            match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                            match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                            currentFoundPartialMatch.Push(match);
+                            // if enough matches were found, we leave
+                            if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                            {
+                                node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                                edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                openTasks.Push(this);
+                                return;
+                            }
+                            continue;
+                        }
+                        node_cur_node_o1.isMatchedByEnclosingPattern = true;
+                        node_cur_node_o2.isMatchedByEnclosingPattern = true;
+                        edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
+                        edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
+                        // Match subpatterns
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                        // Check whether subpatterns were found 
+                        if(matchesList.Count>0) {
+                            // subpatterns were found, extend the partial matches by our local match object
+                            foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                            {
+                                LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
+                                match.patternGraph = rulePattern.patternGraph;
+                                match.Nodes[(int)Pattern_Oxygen.NodeNums.@o1] = node_cur_node_o1;
+                                match.Nodes[(int)Pattern_Oxygen.NodeNums.@o2] = node_cur_node_o2;
+                                match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
+                                match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge1] = edge_cur_edge__edge1;
+                                currentFoundPartialMatch.Push(match);
+                            }
+                            if(matchesList==foundPartialMatches) {
+                                matchesList = new List<Stack<LGSPMatch>>();
+                            } else {
+                                foreach(Stack<LGSPMatch> match in matchesList)
+                                {
+                                    foundPartialMatches.Add(match);
+                                }
+                                matchesList.Clear();
+                            }
+                            // if enough matches were found, we leave
+                            if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                            {
+                                edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                                edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                node_cur_node_o2.isMatchedByEnclosingPattern = false;
+                                node_cur_node_o1.isMatchedByEnclosingPattern = false;
+                                node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                                edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+                                openTasks.Push(this);
+                                return;
+                            }
+                            edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                            edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                            node_cur_node_o2.isMatchedByEnclosingPattern = false;
+                            node_cur_node_o1.isMatchedByEnclosingPattern = false;
+                            continue;
+                        }
+                        node_cur_node_o1.isMatchedByEnclosingPattern = false;
+                        node_cur_node_o2.isMatchedByEnclosingPattern = false;
+                        edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                        edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
+                    }
+                    while( (edge_cur_edge__edge1 = edge_cur_edge__edge1.outNext) != edge_head_edge__edge1 );
+                }
+                node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
+                edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
+	public class PatternAction_ToluolCoreThenTriNitro : LGSPSubpatternAction
+	{
+		public PatternAction_ToluolCoreThenTriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_ToluolCoreThenTriNitro.Instance;
+		}
+
+		public LGSPNode node_c1;
+		public LGSPNode node_c2;
+		public LGSPNode node_c3;
+		public LGSPNode node_c4;
+		public LGSPNode node_c5;
+		public LGSPNode node_c6;
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset node_c1 
+            LGSPNode node_cur_node_c1 = node_c1;
+            // SubPreset node_c2 
+            LGSPNode node_cur_node_c2 = node_c2;
+            // SubPreset node_c3 
+            LGSPNode node_cur_node_c3 = node_c3;
+            // SubPreset node_c4 
+            LGSPNode node_cur_node_c4 = node_c4;
+            // SubPreset node_c5 
+            LGSPNode node_cur_node_c5 = node_c5;
+            // SubPreset node_c6 
+            LGSPNode node_cur_node_c6 = node_c6;
+            // Push subpattern matching task for _subpattern3
+            PatternAction_TriNitro taskFor__subpattern3 = new PatternAction_TriNitro(graph, openTasks);
+            taskFor__subpattern3.node_c2 = node_cur_node_c2;
+            taskFor__subpattern3.node_c4 = node_cur_node_c4;
+            taskFor__subpattern3.node_c6 = node_cur_node_c6;
+            openTasks.Push(taskFor__subpattern3);
+            // Push subpattern matching task for _subpattern2
+            PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+            taskFor__subpattern2.node_anchor = node_cur_node_c5;
+            openTasks.Push(taskFor__subpattern2);
+            // Push subpattern matching task for _subpattern1
+            PatternAction_Hydrogen taskFor__subpattern1 = new PatternAction_Hydrogen(graph, openTasks);
+            taskFor__subpattern1.node_anchor = node_cur_node_c3;
+            openTasks.Push(taskFor__subpattern1);
+            // Push subpattern matching task for _subpattern0
+            PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
+            taskFor__subpattern0.node_anchor = node_cur_node_c1;
+            openTasks.Push(taskFor__subpattern0);
+            // Match subpatterns
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
+            openTasks.Pop();
+            //Pop subpattern matching task for _subpattern1
+            openTasks.Pop();
+            //Pop subpattern matching task for _subpattern2
+            openTasks.Pop();
+            //Pop subpattern matching task for _subpattern3
+            openTasks.Pop();
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns were found, extend the partial matches by our local match object
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[0], new LGSPMatch[4]);
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c1] = node_cur_node_c1;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c2] = node_cur_node_c2;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c3] = node_cur_node_c3;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c4] = node_cur_node_c4;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c5] = node_cur_node_c5;
+                    match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c6] = node_cur_node_c6;
+                    match.EmbeddedGraphs[(int)Pattern_ToluolCoreThenTriNitro.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                    match.EmbeddedGraphs[(int)Pattern_ToluolCoreThenTriNitro.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                    match.EmbeddedGraphs[(int)Pattern_ToluolCoreThenTriNitro.PatternNums.@_subpattern2] = currentFoundPartialMatch.Pop();
+                    match.EmbeddedGraphs[(int)Pattern_ToluolCoreThenTriNitro.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
+                    currentFoundPartialMatch.Push(match);
+                }
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList)
+                    {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
+                }
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                {
+                    openTasks.Push(this);
+                    return;
+                }
+                openTasks.Push(this);
+                return;
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
+	public class PatternAction_TriNitro : LGSPSubpatternAction
+	{
+		public PatternAction_TriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+			graph = graph_; openTasks = openTasks_;
+			rulePattern = Pattern_TriNitro.Instance;
+		}
+
+		public LGSPNode node_c2;
+		public LGSPNode node_c4;
+		public LGSPNode node_c6;
+
+        public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
+        {
+            openTasks.Pop();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
+            // SubPreset node_c2 
+            LGSPNode node_cur_node_c2 = node_c2;
+            // SubPreset node_c4 
+            LGSPNode node_cur_node_c4 = node_c4;
+            // SubPreset node_c6 
+            LGSPNode node_cur_node_c6 = node_c6;
+            // Push subpattern matching task for _subpattern2
+            PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
+            taskFor__subpattern2.node_anchor = node_cur_node_c6;
+            openTasks.Push(taskFor__subpattern2);
+            // Push subpattern matching task for _subpattern1
+            PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
+            taskFor__subpattern1.node_anchor = node_cur_node_c4;
+            openTasks.Push(taskFor__subpattern1);
+            // Push subpattern matching task for _subpattern0
+            PatternAction_Nitro taskFor__subpattern0 = new PatternAction_Nitro(graph, openTasks);
+            taskFor__subpattern0.node_anchor = node_cur_node_c2;
+            openTasks.Push(taskFor__subpattern0);
+            // Match subpatterns
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
+            openTasks.Pop();
+            //Pop subpattern matching task for _subpattern1
+            openTasks.Pop();
+            //Pop subpattern matching task for _subpattern2
+            openTasks.Pop();
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns were found, extend the partial matches by our local match object
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[0], new LGSPMatch[3]);
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.Nodes[(int)Pattern_TriNitro.NodeNums.@c2] = node_cur_node_c2;
+                    match.Nodes[(int)Pattern_TriNitro.NodeNums.@c4] = node_cur_node_c4;
+                    match.Nodes[(int)Pattern_TriNitro.NodeNums.@c6] = node_cur_node_c6;
+                    match.EmbeddedGraphs[(int)Pattern_TriNitro.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                    match.EmbeddedGraphs[(int)Pattern_TriNitro.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                    match.EmbeddedGraphs[(int)Pattern_TriNitro.PatternNums.@_subpattern2] = currentFoundPartialMatch.Pop();
+                    currentFoundPartialMatch.Push(match);
+                }
+                if(matchesList==foundPartialMatches) {
+                    matchesList = new List<Stack<LGSPMatch>>();
+                } else {
+                    foreach(Stack<LGSPMatch> match in matchesList)
+                    {
+                        foundPartialMatches.Add(match);
+                    }
+                    matchesList.Clear();
+                }
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
+                {
+                    openTasks.Push(this);
+                    return;
+                }
+                openTasks.Push(this);
+                return;
+            }
+            openTasks.Push(this);
+            return;
+        }
+	}
+	public class Action_BenzolRing : LGSPAction
+	{
+		public Action_BenzolRing() {
+			rulePattern = Rule_BenzolRing.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1);
+		}
+
+		public override string Name { get { return "BenzolRing"; } }
+		private LGSPMatches matches;
+
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_BenzolRing instance = new Action_BenzolRing();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Push subpattern matching task for _subpattern0
+            PatternAction_BenzolRing taskFor__subpattern0 = new PatternAction_BenzolRing(graph, openTasks);
+            openTasks.Push(taskFor__subpattern0);
+            // Match subpatterns
+            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+            //Pop subpattern matching task for _subpattern0
+            openTasks.Pop();
+            // Check whether subpatterns were found 
+            if(matchesList.Count>0) {
+                // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                {
+                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    match.patternGraph = rulePattern.patternGraph;
+                    match.EmbeddedGraphs[(int)Rule_BenzolRing.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                }
+                matchesList.Clear();
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                {
+                    return matches;
+                }
+                return matches;
+            }
+            return matches;
         }
 	}
 	public class Action_DNT : LGSPAction
@@ -6440,6 +9503,414 @@ namespace de.unika.ipd.grGen.actions.TNT
             return matches;
         }
 	}
+	public class Action_TNTChain : LGSPAction
+	{
+		public Action_TNTChain() {
+			rulePattern = Rule_TNTChain.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 2);
+		}
+
+		public override string Name { get { return "TNTChain"; } }
+		private LGSPMatches matches;
+
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_TNTChain instance = new Action_TNTChain();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup node_c3 
+            int node_type_id_node_c3 = 1;
+            for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
+            {
+                bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
+                node_cur_node_c3.isMatched = true;
+                // Lookup node_c5 
+                int node_type_id_node_c5 = 1;
+                for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
+                {
+                    if(node_cur_node_c5.isMatched
+                        && node_cur_node_c5==node_cur_node_c3
+                        )
+                    {
+                        continue;
+                    }
+                    bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
+                    node_cur_node_c5.isMatched = true;
+                    // Lookup node_c6 
+                    int node_type_id_node_c6 = 1;
+                    for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
+                    {
+                        if(node_cur_node_c6.isMatched
+                            && (node_cur_node_c6==node_cur_node_c3
+                                || node_cur_node_c6==node_cur_node_c5
+                                )
+                            )
+                        {
+                            continue;
+                        }
+                        bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
+                        node_cur_node_c6.isMatched = true;
+                        // Lookup node_c4 
+                        int node_type_id_node_c4 = 1;
+                        for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
+                        {
+                            if(node_cur_node_c4.isMatched
+                                && (node_cur_node_c4==node_cur_node_c3
+                                    || node_cur_node_c4==node_cur_node_c5
+                                    || node_cur_node_c4==node_cur_node_c6
+                                    )
+                                )
+                            {
+                                continue;
+                            }
+                            bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
+                            node_cur_node_c4.isMatched = true;
+                            // Lookup node_c2 
+                            int node_type_id_node_c2 = 1;
+                            for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
+                            {
+                                if(node_cur_node_c2.isMatched
+                                    && (node_cur_node_c2==node_cur_node_c3
+                                        || node_cur_node_c2==node_cur_node_c5
+                                        || node_cur_node_c2==node_cur_node_c6
+                                        || node_cur_node_c2==node_cur_node_c4
+                                        )
+                                    )
+                                {
+                                    continue;
+                                }
+                                bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
+                                node_cur_node_c2.isMatched = true;
+                                // Lookup node_c1 
+                                int node_type_id_node_c1 = 1;
+                                for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
+                                {
+                                    if(node_cur_node_c1.isMatched
+                                        && (node_cur_node_c1==node_cur_node_c3
+                                            || node_cur_node_c1==node_cur_node_c5
+                                            || node_cur_node_c1==node_cur_node_c6
+                                            || node_cur_node_c1==node_cur_node_c4
+                                            || node_cur_node_c1==node_cur_node_c2
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    // Push subpattern matching task for _subpattern1
+                                    PatternAction_ToluolCoreThenTriNitro taskFor__subpattern1 = new PatternAction_ToluolCoreThenTriNitro(graph, openTasks);
+                                    taskFor__subpattern1.node_c1 = node_cur_node_c1;
+                                    taskFor__subpattern1.node_c2 = node_cur_node_c2;
+                                    taskFor__subpattern1.node_c3 = node_cur_node_c3;
+                                    taskFor__subpattern1.node_c4 = node_cur_node_c4;
+                                    taskFor__subpattern1.node_c5 = node_cur_node_c5;
+                                    taskFor__subpattern1.node_c6 = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    taskFor__subpattern0.node_c1 = node_cur_node_c1;
+                                    taskFor__subpattern0.node_c2 = node_cur_node_c2;
+                                    taskFor__subpattern0.node_c3 = node_cur_node_c3;
+                                    taskFor__subpattern0.node_c4 = node_cur_node_c4;
+                                    taskFor__subpattern0.node_c5 = node_cur_node_c5;
+                                    taskFor__subpattern0.node_c6 = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern0);
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
+                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
+                                    openTasks.Pop();
+                                    // Check whether subpatterns were found 
+                                    if(matchesList.Count>0) {
+                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                        {
+                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            match.patternGraph = rulePattern.patternGraph;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c1] = node_cur_node_c1;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c2] = node_cur_node_c2;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c3] = node_cur_node_c3;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c4] = node_cur_node_c4;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c5] = node_cur_node_c5;
+                                            match.Nodes[(int)Rule_TNTChain.NodeNums.@c6] = node_cur_node_c6;
+                                            match.EmbeddedGraphs[(int)Rule_TNTChain.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTChain.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                        }
+                                        matchesList.Clear();
+                                        // if enough matches were found, we leave
+                                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                        {
+                                            node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                            node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                            node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                            return matches;
+                                        }
+                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                        continue;
+                                    }
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                }
+                                node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                            }
+                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                        }
+                        node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                    }
+                    node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                }
+                node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+            }
+            return matches;
+        }
+	}
+	public class Action_TNTTotallyFolded : LGSPAction
+	{
+		public Action_TNTTotallyFolded() {
+			rulePattern = Rule_TNTTotallyFolded.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+		}
+
+		public override string Name { get { return "TNTTotallyFolded"; } }
+		private LGSPMatches matches;
+
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_TNTTotallyFolded instance = new Action_TNTTotallyFolded();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup node_c3 
+            int node_type_id_node_c3 = 1;
+            for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
+            {
+                bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
+                node_cur_node_c3.isMatched = true;
+                // Lookup node_c5 
+                int node_type_id_node_c5 = 1;
+                for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
+                {
+                    if(node_cur_node_c5.isMatched
+                        && node_cur_node_c5==node_cur_node_c3
+                        )
+                    {
+                        continue;
+                    }
+                    bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
+                    node_cur_node_c5.isMatched = true;
+                    // Lookup node_c6 
+                    int node_type_id_node_c6 = 1;
+                    for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
+                    {
+                        if(node_cur_node_c6.isMatched
+                            && (node_cur_node_c6==node_cur_node_c3
+                                || node_cur_node_c6==node_cur_node_c5
+                                )
+                            )
+                        {
+                            continue;
+                        }
+                        bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
+                        node_cur_node_c6.isMatched = true;
+                        // Lookup node_c4 
+                        int node_type_id_node_c4 = 1;
+                        for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
+                        {
+                            if(node_cur_node_c4.isMatched
+                                && (node_cur_node_c4==node_cur_node_c3
+                                    || node_cur_node_c4==node_cur_node_c5
+                                    || node_cur_node_c4==node_cur_node_c6
+                                    )
+                                )
+                            {
+                                continue;
+                            }
+                            bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
+                            node_cur_node_c4.isMatched = true;
+                            // Lookup node_c2 
+                            int node_type_id_node_c2 = 1;
+                            for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
+                            {
+                                if(node_cur_node_c2.isMatched
+                                    && (node_cur_node_c2==node_cur_node_c3
+                                        || node_cur_node_c2==node_cur_node_c5
+                                        || node_cur_node_c2==node_cur_node_c6
+                                        || node_cur_node_c2==node_cur_node_c4
+                                        )
+                                    )
+                                {
+                                    continue;
+                                }
+                                bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
+                                node_cur_node_c2.isMatched = true;
+                                // Lookup node_c1 
+                                int node_type_id_node_c1 = 1;
+                                for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
+                                {
+                                    if(node_cur_node_c1.isMatched
+                                        && (node_cur_node_c1==node_cur_node_c3
+                                            || node_cur_node_c1==node_cur_node_c5
+                                            || node_cur_node_c1==node_cur_node_c6
+                                            || node_cur_node_c1==node_cur_node_c4
+                                            || node_cur_node_c1==node_cur_node_c2
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    // Push subpattern matching task for _subpattern6
+                                    PatternAction_Nitro taskFor__subpattern6 = new PatternAction_Nitro(graph, openTasks);
+                                    taskFor__subpattern6.node_anchor = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern6);
+                                    // Push subpattern matching task for _subpattern5
+                                    PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern5.node_anchor = node_cur_node_c5;
+                                    openTasks.Push(taskFor__subpattern5);
+                                    // Push subpattern matching task for _subpattern4
+                                    PatternAction_Nitro taskFor__subpattern4 = new PatternAction_Nitro(graph, openTasks);
+                                    taskFor__subpattern4.node_anchor = node_cur_node_c4;
+                                    openTasks.Push(taskFor__subpattern4);
+                                    // Push subpattern matching task for _subpattern3
+                                    PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern3.node_anchor = node_cur_node_c3;
+                                    openTasks.Push(taskFor__subpattern3);
+                                    // Push subpattern matching task for _subpattern2
+                                    PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
+                                    taskFor__subpattern2.node_anchor = node_cur_node_c2;
+                                    openTasks.Push(taskFor__subpattern2);
+                                    // Push subpattern matching task for _subpattern1
+                                    PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                                    taskFor__subpattern1.node_anchor = node_cur_node_c1;
+                                    openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    taskFor__subpattern0.node_c1 = node_cur_node_c1;
+                                    taskFor__subpattern0.node_c2 = node_cur_node_c2;
+                                    taskFor__subpattern0.node_c3 = node_cur_node_c3;
+                                    taskFor__subpattern0.node_c4 = node_cur_node_c4;
+                                    taskFor__subpattern0.node_c5 = node_cur_node_c5;
+                                    taskFor__subpattern0.node_c6 = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern0);
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
+                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern2
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern3
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern4
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern5
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern6
+                                    openTasks.Pop();
+                                    // Check whether subpatterns were found 
+                                    if(matchesList.Count>0) {
+                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                        {
+                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            match.patternGraph = rulePattern.patternGraph;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c1] = node_cur_node_c1;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c2] = node_cur_node_c2;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c3] = node_cur_node_c3;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c4] = node_cur_node_c4;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c5] = node_cur_node_c5;
+                                            match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c6] = node_cur_node_c6;
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern2] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern6] = currentFoundPartialMatch.Pop();
+                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                        }
+                                        matchesList.Clear();
+                                        // if enough matches were found, we leave
+                                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                        {
+                                            node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                            node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                            node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                            return matches;
+                                        }
+                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                        continue;
+                                    }
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                }
+                                node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                            }
+                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                        }
+                        node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                    }
+                    node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                }
+                node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+            }
+            return matches;
+        }
+	}
 	public class Action_TNTUnfolded : LGSPAction
 	{
 		public Action_TNTUnfolded() {
@@ -7715,6 +11186,290 @@ namespace de.unika.ipd.grGen.actions.TNT
             return matches;
         }
 	}
+	public class Action_Toluol : LGSPAction
+	{
+		public Action_Toluol() {
+			rulePattern = Rule_Toluol.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+		}
+
+		public override string Name { get { return "Toluol"; } }
+		private LGSPMatches matches;
+
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_Toluol instance = new Action_Toluol();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup node_c3 
+            int node_type_id_node_c3 = 1;
+            for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
+            {
+                bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
+                node_cur_node_c3.isMatched = true;
+                // Lookup node_c5 
+                int node_type_id_node_c5 = 1;
+                for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
+                {
+                    if(node_cur_node_c5.isMatched
+                        && node_cur_node_c5==node_cur_node_c3
+                        )
+                    {
+                        continue;
+                    }
+                    bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
+                    node_cur_node_c5.isMatched = true;
+                    // Lookup node_c6 
+                    int node_type_id_node_c6 = 1;
+                    for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
+                    {
+                        if(node_cur_node_c6.isMatched
+                            && (node_cur_node_c6==node_cur_node_c3
+                                || node_cur_node_c6==node_cur_node_c5
+                                )
+                            )
+                        {
+                            continue;
+                        }
+                        bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
+                        node_cur_node_c6.isMatched = true;
+                        // Lookup node_c4 
+                        int node_type_id_node_c4 = 1;
+                        for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
+                        {
+                            if(node_cur_node_c4.isMatched
+                                && (node_cur_node_c4==node_cur_node_c3
+                                    || node_cur_node_c4==node_cur_node_c5
+                                    || node_cur_node_c4==node_cur_node_c6
+                                    )
+                                )
+                            {
+                                continue;
+                            }
+                            bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
+                            node_cur_node_c4.isMatched = true;
+                            // Lookup node_c2 
+                            int node_type_id_node_c2 = 1;
+                            for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
+                            {
+                                if(node_cur_node_c2.isMatched
+                                    && (node_cur_node_c2==node_cur_node_c3
+                                        || node_cur_node_c2==node_cur_node_c5
+                                        || node_cur_node_c2==node_cur_node_c6
+                                        || node_cur_node_c2==node_cur_node_c4
+                                        )
+                                    )
+                                {
+                                    continue;
+                                }
+                                bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
+                                node_cur_node_c2.isMatched = true;
+                                // Lookup node_c1 
+                                int node_type_id_node_c1 = 1;
+                                for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
+                                {
+                                    if(node_cur_node_c1.isMatched
+                                        && (node_cur_node_c1==node_cur_node_c3
+                                            || node_cur_node_c1==node_cur_node_c5
+                                            || node_cur_node_c1==node_cur_node_c6
+                                            || node_cur_node_c1==node_cur_node_c4
+                                            || node_cur_node_c1==node_cur_node_c2
+                                            )
+                                        )
+                                    {
+                                        continue;
+                                    }
+                                    // Push subpattern matching task for _subpattern6
+                                    PatternAction_Hydrogen taskFor__subpattern6 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern6.node_anchor = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern6);
+                                    // Push subpattern matching task for _subpattern5
+                                    PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern5.node_anchor = node_cur_node_c5;
+                                    openTasks.Push(taskFor__subpattern5);
+                                    // Push subpattern matching task for _subpattern4
+                                    PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern4.node_anchor = node_cur_node_c4;
+                                    openTasks.Push(taskFor__subpattern4);
+                                    // Push subpattern matching task for _subpattern3
+                                    PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern3.node_anchor = node_cur_node_c3;
+                                    openTasks.Push(taskFor__subpattern3);
+                                    // Push subpattern matching task for _subpattern2
+                                    PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
+                                    taskFor__subpattern2.node_anchor = node_cur_node_c2;
+                                    openTasks.Push(taskFor__subpattern2);
+                                    // Push subpattern matching task for _subpattern1
+                                    PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                                    taskFor__subpattern1.node_anchor = node_cur_node_c1;
+                                    openTasks.Push(taskFor__subpattern1);
+                                    // Push subpattern matching task for _subpattern0
+                                    PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
+                                    taskFor__subpattern0.node_c1 = node_cur_node_c1;
+                                    taskFor__subpattern0.node_c2 = node_cur_node_c2;
+                                    taskFor__subpattern0.node_c3 = node_cur_node_c3;
+                                    taskFor__subpattern0.node_c4 = node_cur_node_c4;
+                                    taskFor__subpattern0.node_c5 = node_cur_node_c5;
+                                    taskFor__subpattern0.node_c6 = node_cur_node_c6;
+                                    openTasks.Push(taskFor__subpattern0);
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = true;
+                                    // Match subpatterns
+                                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                                    //Pop subpattern matching task for _subpattern0
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern1
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern2
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern3
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern4
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern5
+                                    openTasks.Pop();
+                                    //Pop subpattern matching task for _subpattern6
+                                    openTasks.Pop();
+                                    // Check whether subpatterns were found 
+                                    if(matchesList.Count>0) {
+                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                                        foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                                        {
+                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            match.patternGraph = rulePattern.patternGraph;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c1] = node_cur_node_c1;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c2] = node_cur_node_c2;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c3] = node_cur_node_c3;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c4] = node_cur_node_c4;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c5] = node_cur_node_c5;
+                                            match.Nodes[(int)Rule_Toluol.NodeNums.@c6] = node_cur_node_c6;
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern2] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
+                                            match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern6] = currentFoundPartialMatch.Pop();
+                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                        }
+                                        matchesList.Clear();
+                                        // if enough matches were found, we leave
+                                        if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                                        {
+                                            node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                                            node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                                            node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                                            node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+                                            return matches;
+                                        }
+                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                        continue;
+                                    }
+                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                }
+                                node_cur_node_c2.isMatched = node_cur_node_c2_prevIsMatched;
+                            }
+                            node_cur_node_c4.isMatched = node_cur_node_c4_prevIsMatched;
+                        }
+                        node_cur_node_c6.isMatched = node_cur_node_c6_prevIsMatched;
+                    }
+                    node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
+                }
+                node_cur_node_c3.isMatched = node_cur_node_c3_prevIsMatched;
+            }
+            return matches;
+        }
+	}
+	public class Action_ToluolCore : LGSPAction
+	{
+		public Action_ToluolCore() {
+			rulePattern = Rule_ToluolCore.Instance;
+			DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2);
+		}
+
+		public override string Name { get { return "ToluolCore"; } }
+		private LGSPMatches matches;
+
+		public static LGSPAction Instance { get { return instance; } }
+		private static Action_ToluolCore instance = new Action_ToluolCore();
+
+        public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
+        {
+            matches.matchesList.Clear();
+            Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
+            List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
+            List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
+            // Lookup node_c1 
+            int node_type_id_node_c1 = 1;
+            for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
+            {
+                // Push subpattern matching task for _subpattern1
+                PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
+                taskFor__subpattern1.node_anchor = node_cur_node_c1;
+                openTasks.Push(taskFor__subpattern1);
+                // Push subpattern matching task for _subpattern0
+                PatternAction_BenzolRingC1Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC1Exposed(graph, openTasks);
+                taskFor__subpattern0.node_c1 = node_cur_node_c1;
+                openTasks.Push(taskFor__subpattern0);
+                node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                // Match subpatterns
+                openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
+                //Pop subpattern matching task for _subpattern0
+                openTasks.Pop();
+                //Pop subpattern matching task for _subpattern1
+                openTasks.Pop();
+                // Check whether subpatterns were found 
+                if(matchesList.Count>0) {
+                    // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
+                    foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
+                    {
+                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
+                        match.Nodes[(int)Rule_ToluolCore.NodeNums.@c1] = node_cur_node_c1;
+                        match.EmbeddedGraphs[(int)Rule_ToluolCore.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
+                        match.EmbeddedGraphs[(int)Rule_ToluolCore.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
+                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                    }
+                    matchesList.Clear();
+                    // if enough matches were found, we leave
+                    if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
+                    {
+                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                        return matches;
+                    }
+                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                    continue;
+                }
+                node_cur_node_c1.isMatchedByEnclosingPattern = false;
+            }
+            return matches;
+        }
+	}
 	public class Action_createDNT : LGSPAction
 	{
 		public Action_createDNT() {
@@ -7813,12 +11568,17 @@ namespace de.unika.ipd.grGen.actions.TNT
 
         private void InitActions()
         {
+            actions.Add("BenzolRing", (LGSPAction) Action_BenzolRing.Instance);
             actions.Add("DNT", (LGSPAction) Action_DNT.Instance);
             actions.Add("DNTUnfolded", (LGSPAction) Action_DNTUnfolded.Instance);
             actions.Add("TNB", (LGSPAction) Action_TNB.Instance);
             actions.Add("TNBUnfolded", (LGSPAction) Action_TNBUnfolded.Instance);
             actions.Add("TNT", (LGSPAction) Action_TNT.Instance);
+            actions.Add("TNTChain", (LGSPAction) Action_TNTChain.Instance);
+            actions.Add("TNTTotallyFolded", (LGSPAction) Action_TNTTotallyFolded.Instance);
             actions.Add("TNTUnfolded", (LGSPAction) Action_TNTUnfolded.Instance);
+            actions.Add("Toluol", (LGSPAction) Action_Toluol.Instance);
+            actions.Add("ToluolCore", (LGSPAction) Action_ToluolCore.Instance);
             actions.Add("createDNT", (LGSPAction) Action_createDNT.Instance);
             actions.Add("createTNB", (LGSPAction) Action_createTNB.Instance);
             actions.Add("createTNT", (LGSPAction) Action_createTNT.Instance);

@@ -1,5 +1,26 @@
 using TNT;
 
+pattern BenzolRing {
+	c1:C-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+}
+
+pattern BenzolRingC123456Exposed(c1:C, c2:C, c3:C, c4:C, c5:C, c6:C) {
+	c1-->c2-->c3-->c4-->c5-->c6-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+}
+
+pattern BenzolRingC1Exposed(c1:C) {
+	c1-->c2:C-->c3:C-->c4:C-->c5:C-->c6:C-->c1;
+	c1-->c2; c3-->c4; c5-->c6;
+}
+
+pattern Oxygen {
+	o1:O; o2:O;
+	o1-->o2;
+	o2-->o1;
+}
+
 pattern Hydrogen(anchor:C) {
 	anchor-->:H;
 }
@@ -19,6 +40,60 @@ pattern Nitro(anchor:C) {
 	anchor-->n:N;
 	n-->:O;
 	n-->:O;
+}
+
+pattern TriNitro(c2:C, c4:C, c6:C) {
+	:Nitro(c2);
+	:Nitro(c4);
+	:Nitro(c6);
+}
+
+pattern ToluolCoreThenTriNitro(c1:C, c2:C, c3:C, c4:C, c5:C, c6:C) {
+	:Methyl(c1);
+	:Hydrogen(c3);
+	:Hydrogen(c5);
+	:TriNitro(c2, c4, c6);
+}
+
+test BenzolRing {
+	:BenzolRing();
+}
+
+test TNTTotallyFolded {
+	c1:C; c2:C; c3:C; c4:C; c5:C; c6:C;
+	:BenzolRingC123456Exposed(c1, c2, c3, c4, c5, c6);
+
+	:Methyl(c1);
+	:Nitro(c2);
+	:Hydrogen(c3);
+	:Nitro(c4);
+	:Hydrogen(c5);
+	:Nitro(c6);
+}
+
+test TNTChain {
+	c1:C; c2:C; c3:C; c4:C; c5:C; c6:C;
+	:BenzolRingC123456Exposed(c1, c2, c3, c4, c5, c6);
+	
+	:ToluolCoreThenTriNitro(c1, c2, c3, c4, c5, c6);
+}
+
+test ToluolCore {
+	c1:C;
+	:BenzolRingC1Exposed(c1);
+	:Methyl(c1);
+}
+
+test Toluol {
+	c1:C; c2:C; c3:C; c4:C; c5:C; c6:C;
+	:BenzolRingC123456Exposed(c1, c2, c3, c4, c5, c6);
+	
+	:Methyl(c1);
+	:Hydrogen(c2);
+	:Hydrogen(c3);
+	:Hydrogen(c4);
+	:Hydrogen(c5);
+	:Hydrogen(c6);
 }
 
 test TNT {
