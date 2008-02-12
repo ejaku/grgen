@@ -1,0 +1,17 @@
+using attrib_model_100;
+
+rule r1(a:A, as:ASTR) : (AINT) {
+  x:AINT;
+  modify{
+    exec(r2(a,as)&&r2(as,a)&&r2(as,as)||r2(a,a));
+    return (x);
+  }
+}
+
+rule r2(n:Node, a:A) {
+   modify {
+     as : ASTR;
+     exec((ai)=r1(a, as) && (ai)=r1(ai, as) && (aii)=r1(ai, as));
+   }
+}
+

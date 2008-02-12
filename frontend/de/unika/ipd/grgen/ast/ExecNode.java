@@ -26,7 +26,6 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
@@ -47,11 +46,11 @@ public class ExecNode extends BaseNode {
 
 	private StringBuilder sb = new StringBuilder();
 
-	private Vector<BaseNode> childrenUnresolved = new Vector<BaseNode>();
-	private Vector<ConstraintDeclNode> children = new Vector<ConstraintDeclNode>();
+	private CollectNode<CallActionNode> actions = new CollectNode<CallActionNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
+		becomeParent(actions);
 	}
 
 	public void append(Object n) {
@@ -63,37 +62,29 @@ public class ExecNode extends BaseNode {
 		return sb.toString();
 	}
 
-	public void addParameter(BaseNode n) {
+	public void addCallAction(CallActionNode n) {
 		assert(!isResolved());
 		becomeParent(n);
-		childrenUnresolved.add(n);
+		actions.addChild(n);
 	}
 
 	/** returns children of this node */
-	public Collection<BaseNode> getChildren() {
-		return getValidVersionVector(childrenUnresolved, children);
+	public Collection<? extends BaseNode> getChildren() {
+		Vector<BaseNode> res = new Vector<BaseNode>();
+		res.add(actions);
+		return res;
 	}
 
 	/** returns names of the children, same order as in getChildren */
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		// nameless children
+		childrenNames.add("actions");
 		return childrenNames;
 	}
 
-	private static DeclarationResolver<ConstraintDeclNode> resolver = new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class);
-
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		for(BaseNode uc : childrenUnresolved) {
-			final ConstraintDeclNode resolved = resolver.resolve(uc, this);
-			if (resolved != null)
-				children.add(resolved);
-			else
-				successfullyResolved = false;
-		}
-		return successfullyResolved;
+		return true;
 	}
 
 	protected boolean checkLocal() {
@@ -106,8 +97,9 @@ public class ExecNode extends BaseNode {
 
 	protected IR constructIR() {
 		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
-		for(BaseNode child : getChildren())
-			parameters.add((GraphEntity) child.getIR());
+		for(CallActionNode callActionNode : actions.getChildren())
+			for(ConstraintDeclNode param : callActionNode.getParams().getChildren())
+			parameters.add((GraphEntity) param.getIR());
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
 	}

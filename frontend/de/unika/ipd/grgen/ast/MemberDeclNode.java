@@ -30,6 +30,8 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.parser.Symbol;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -73,21 +75,50 @@ public class MemberDeclNode extends DeclNode {
 		return isConst;
 	}
 
+	/*
+	 * This sets the symbol defintion to the right place, if the defintion is behind the actual position.
+	 * TODO: extract and unify this method to a common place/code duplication
+	 */
+	public boolean fixupDefinition(IdentNode id) {
+		Scope scope = id.getScope().getIdentNode().getScope();
+
+		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getLocalDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// The result is true, if the definition's valid.
+		boolean res = def.isValid();
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else, an error is emitted,
+		// since this ident was supposed to be defined in this scope.
+		if(res) {
+			id.setSymDef(def);
+		} else {
+			reportError("Identifier " + id + " not declared in this scope: " + scope);
+		}
+
+		return res;
+	}
+
+	private static final DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		DeclarationTypeResolver<TypeNode> typeResolver =
-			new DeclarationTypeResolver<TypeNode>(TypeNode.class);
+		if(typeUnresolved instanceof IdentNode)
+			fixupDefinition((IdentNode)typeUnresolved);
 		type = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type!=null && successfullyResolved;
-		return successfullyResolved;
+		return type!=null;
 	}
 
 	/** @return The type node of the declaration */
 	@Override
-	public TypeNode getDeclType() {
+		public TypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 

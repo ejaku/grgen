@@ -579,7 +579,7 @@ backwardOrArbitraryDirectedEdgeOccContinuation [Integer direction]
 	;
 
 arbitraryEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]
-	: QUESTIONMINUS ( res=edgeDecl[context] | res=entIdentUse) MINUSQUESTION  
+	: QUESTIONMINUS ( res=edgeDecl[context] | res=entIdentUse) MINUSQUESTION
 	| q:QMMQ
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(q));
@@ -770,6 +770,9 @@ emitStmt[CollectNode<BaseNode> imperativeStmts]
 
 // Due to a bug in ANTLR it is not possible to use the obvious "xgrs3 ( (DOLLAR)? LAND xgrs2 )?"
 xgrs[ExecNode xg]
+/*
+	: xgrs2 ( DOLLAR LOR xgrs | LOR xgrs | )
+*/
 	: xgrs6[xg] (	DOLLAR (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
 	        		|      (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
 	        		|
@@ -819,44 +822,45 @@ iterSequence[ExecNode xg]
 
 simpleSequence[ExecNode xg]
 	{
-		CollectNode<IdentNode> results = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> returns = new CollectNode<IdentNode>();
 	}
 	: LPAREN {xg.append("(");}
 		(
 			(entIdentUse COMMA|entIdentUse RPAREN ASSIGN) =>
-				paramListOfEntIdentUse[results]
+				paramListOfEntIdentUse[returns]
 					{
-						for(Iterator i =results.getChildren().iterator(); i.hasNext();) {
-								xg.append(i.next());
+						for(Iterator<IdentNode> i =returns.getChildren().iterator(); i.hasNext();) {
+								IdentNode r = i.next();
+								xg.append(r);
 								if(i.hasNext()) xg.append(",");
 							}
 					}
-				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg]
+				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg, returns]
 			| xgrs[xg] RPAREN {xg.append(")");}
 		)
-	| parallelCallRule[xg]
+	| parallelCallRule[xg, returns]
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
 	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
 	;
 
-parallelCallRule[ExecNode xg]
-	: LBRACK {xg.append("[");} callRule[xg] RBRACK {xg.append("]");}
-	| callRule[xg]
+parallelCallRule[ExecNode xg, CollectNode<IdentNode> returns]
+	: LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
+	| callRule[xg, returns]
 	;
 
-callRule[ExecNode xg]
+callRule[ExecNode xg, CollectNode<IdentNode> returns]
 	{
 		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
 		IdentNode id;
 	}
-	: id=entIdentUse {xg.append(id);}
+	: id=actionIdentUse {xg.append(id);}
 		(LPAREN paramListOfEntIdentUse[params]
 			{
+				xg.addCallAction(new CallActionNode(id.getCoords(), id, params, returns));
 				xg.append("(");
 				for(Iterator<IdentNode> i =params.getChildren().iterator(); i.hasNext();) {
-					BaseNode p = i.next();
-					xg.addParameter(p);
+					IdentNode p = i.next();
 					xg.append(p);
 					if(i.hasNext()) xg.append(",");
 				}
@@ -883,6 +887,8 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
+
 
 
 

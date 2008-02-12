@@ -75,23 +75,23 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
+	private static final DeclarationResolver<MemberDeclNode> memberResolver = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		/* 1) resolve left hand side identifier, yielding a declaration of a type owning a scope
 		 * 2) the scope owned by the lhs allows the ident node of the right hand side to fix/find its definition therein
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
 		boolean successfullyResolved = true;
-		DeclarationResolver<DeclNode> ownerResolver = new DeclarationResolver<DeclNode>(DeclNode.class);
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
 
 		if (owner != null && (owner instanceof NodeCharacter || owner instanceof EdgeCharacter)) {
 			TypeNode ownerType = owner.getDeclType();
-
 			if(ownerType instanceof ScopeOwner) {
 				ScopeOwner o = (ScopeOwner) ownerType;
 				o.fixupDefinition(memberUnresolved);
-				DeclarationResolver<MemberDeclNode> memberResolver = new DeclarationResolver<MemberDeclNode>(MemberDeclNode.class);
 				member = memberResolver.resolve(memberUnresolved, this);
 				successfullyResolved = member!=null && successfullyResolved;
 			} else {

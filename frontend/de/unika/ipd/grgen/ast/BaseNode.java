@@ -453,15 +453,19 @@ public abstract class BaseNode extends Base
 			return resolutionResult();
 		}
 
-		debug.report(NOTE, "resolve in: " + getId() + "(" + getClass() + ")");
+		debug.report(NOTE, getCoords(), "resolve in: " + getId() + "(" + getClass() + ")");
 		boolean successfullyResolved = resolveLocal();
 		nodeResolvedSetResult(successfullyResolved); // local result
 		if(!successfullyResolved) {
-			debug.report(NOTE, "resolve error");
+			debug.report(NOTE, getCoords(), "local resolve ERROR in " + this);
 		}
 
 		for(BaseNode c : getChildren())
 			successfullyResolved &= (c!=null) && c.resolve();
+
+		if(!successfullyResolved) {
+			debug.report(NOTE, getCoords(), "child resolve ERROR in " + this);
+		}
 
 		return successfullyResolved;
 	}
@@ -509,6 +513,8 @@ public abstract class BaseNode extends Base
 	 * false, if there was some error.
 	 */
 	protected final boolean check() {
+		debug.report(NOTE, getCoords(), "check in: " + getId() + "(" + getClass() + ")");
+
 		if(!resolutionResult()) {
 			return false;
 		}
@@ -516,18 +522,24 @@ public abstract class BaseNode extends Base
 			return getChecked();
 		}
 
-		boolean childrenChecked = true;
+		boolean sucessfullyChecked = true;
 		if(!visitedDuringCheck()) {
 			setCheckVisited();
 
 			for(BaseNode child : getChildren())
-				childrenChecked = child.check() && childrenChecked;
+				sucessfullyChecked = child.check() && sucessfullyChecked;
 		}
+
+		if(!sucessfullyChecked)
+			debug.report(NOTE, getCoords(), "child check ERROR in " + this);
 
 		boolean locallyChecked = checkLocal();
 		nodeCheckedSetResult(locallyChecked);
 
-		return childrenChecked && locallyChecked;
+		if(!locallyChecked)
+			debug.report(NOTE, getCoords(), "local check ERROR in " + this);
+
+		return sucessfullyChecked && locallyChecked;
 	}
 
 	/** Mark this node as checked and set the result of the check. */
@@ -586,7 +598,7 @@ public abstract class BaseNode extends Base
 	public final IR checkIR(Class<? extends IR> cls) {
 		IR ir = getIR();
 
-		debug.report(NOTE, "checking ir object in \"" + getName()
+		debug.report(NOTE, getCoords(), "checking ir object in \"" + getName()
 						 + "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"");
 		assert cls.isInstance(ir) : "checking ir object in \"" + getName()
 			+ "\" should be \"" + cls + "\" is \"" + ir.getClass() + "\"";
@@ -660,3 +672,4 @@ public abstract class BaseNode extends Base
 		return "" + edge;
 	}
 }
+

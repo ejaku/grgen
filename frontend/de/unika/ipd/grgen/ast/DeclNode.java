@@ -45,8 +45,8 @@ public abstract class DeclNode extends BaseNode implements DeclaredCharacter
 
 	IdentNode ident;
 	BaseNode typeUnresolved;
-	
-	
+
+
 	/** An invalid declaration. */
 	private static final DeclNode invalidDecl = new InvalidDeclNode(IdentNode.getInvalid());
 

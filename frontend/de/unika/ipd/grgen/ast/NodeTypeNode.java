@@ -80,17 +80,18 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationTypeResolver<NodeTypeNode> typeResolver =
+		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
+	private static final CollectResolver<NodeTypeNode> extendResolver =
+		new CollectResolver<NodeTypeNode>(typeResolver);
+	private static final DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
+		new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
+	private static final CollectPairResolver<BaseNode> bodyResolver =
+		new CollectPairResolver<BaseNode>(bodyPairResolver);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationTypeResolver<NodeTypeNode> typeResolver =
-			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
-		CollectResolver<NodeTypeNode> extendResolver =
-			new CollectResolver<NodeTypeNode>(typeResolver);
-		DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
-			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
-		CollectPairResolver<BaseNode> bodyResolver =
-			new CollectPairResolver<BaseNode>(bodyPairResolver);
-		body = bodyResolver.resolve(bodyUnresolved);		
+		body = bodyResolver.resolve(bodyUnresolved);
 		extend = extendResolver.resolve(extendUnresolved);
 		return body != null && extend != null;
 	}
