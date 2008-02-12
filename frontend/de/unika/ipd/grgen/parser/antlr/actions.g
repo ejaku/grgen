@@ -328,14 +328,14 @@ firstEdge [ CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
-		Integer direction = new Integer(ConnectionNode.ARBITRARY);
+		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
 	:   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; } // get first edge
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
+		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-		nodeContinuation[e, env.getDummyNodeDecl(context), forward, conn, context] // and continue looking for node
+		nodeContinuation[e, env.getDummyNodeDecl(context), forward, direction, conn, context] // and continue looking for node
 	;
 
 firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, int context ]
@@ -425,24 +425,24 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpat
 		firstEdgeContinuation[n, conn, context] // and continue looking for first edge
 	;
 
-nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, CollectNode<BaseNode> conn, int context ]
+nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, CollectNode<BaseNode> conn, int context ]
 	{ BaseNode n2 = env.getDummyNodeDecl(context); }
 
 	: n2=nodeOcc[context] // node following - get it and build connection with it, then continue with looking for follwing edge
 		{
-			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2, ConnectionNode.DIRECTED));
+			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
+				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue()));
 			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1, ConnectionNode.DIRECTED));
+				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue()));
 			}
 		}
 		edgeContinuation[n2, conn, context]
 	|   // nothing following - build connection with edge dangeling on the right (see n2 initialization)
 		{
-			if (forward) {
-				conn.addChild(new ConnectionNode(n1, e, n2, ConnectionNode.DIRECTED));
+			if (direction.getValue() == ConnectionNode.DIRECTED && !forward) {
+				conn.addChild(new ConnectionNode(n2, e, n1, direction.getValue()));
 			} else {
-				conn.addChild(new ConnectionNode(n2, e, n1, ConnectionNode.DIRECTED));
+				conn.addChild(new ConnectionNode(n1, e, n2, direction.getValue()));
 			}
 		}
 	;
@@ -451,30 +451,30 @@ firstEdgeContinuation [ BaseNode n, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
-		Integer direction = new Integer(ConnectionNode.ARBITRARY);
+		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
 	:   { conn.addChild(new SingleNodeConnNode(n)); } // nothing following? -> one single node
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
+		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, n, forward, conn, context] // continue looking for node
+			nodeContinuation[e, n, forward, direction, conn, context] // continue looking for node
 	;
 
 edgeContinuation [ BaseNode left, CollectNode<BaseNode> conn, int context ]
 	{
 		BaseNode e;
 		boolean forward = true;
-		Integer direction = new Integer(ConnectionNode.ARBITRARY);
+		MutableInteger direction = new MutableInteger(ConnectionNode.ARBITRARY);
 	}
 
 	:   // nothing following? -> connection end reached
 	|   ( e=forwardOrUndirectedEdgeOcc[context, direction] { forward=true; }
 		| e=backwardOrArbitraryDirectedEdgeOcc[context, direction] { forward=false; }
-		| e=arbitraryEdgeOcc[context] { forward=false; direction=ConnectionNode.ARBITRARY;}
+		| e=arbitraryEdgeOcc[context] { forward=false; direction.setValue(ConnectionNode.ARBITRARY);}
 		)
-			nodeContinuation[e, left, forward, conn, context] // continue looking for node
+			nodeContinuation[e, left, forward, direction, conn, context] // continue looking for node
 	;
 
 nodeOcc [ int context ] returns [ BaseNode res = env.initNode() ]
@@ -540,42 +540,46 @@ nodeDecl [ int context ] returns [ NodeDeclNode res = null ]
 			}
 	;
 
-forwardOrUndirectedEdgeOcc [int context, Integer direction] returns [ BaseNode res = env.initNode() ]
+forwardOrUndirectedEdgeOcc [int context, MutableInteger direction] returns [ BaseNode res = env.initNode() ]
 	: MINUS ( res=edgeDecl[context] | res=entIdentUse) forwardOrUndirectedEdgeOccContinuation[ direction ]
 	| da:DOUBLE_RARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			direction.setValue(ConnectionNode.DIRECTED);
 		}
 	| mm:MINUSMINUS
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(mm));
 			res = new EdgeDeclNode(id, env.getUndirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			direction.setValue(ConnectionNode.UNDIRECTED);
 		}
 	;
 
-forwardOrUndirectedEdgeOccContinuation [Integer direction]
-	: MINUS { direction = ConnectionNode.UNDIRECTED; }
-	| RARROW { direction = ConnectionNode.DIRECTED; }
+forwardOrUndirectedEdgeOccContinuation [MutableInteger direction]
+	: MINUS { direction.setValue(ConnectionNode.UNDIRECTED); }
+	| RARROW { direction.setValue(ConnectionNode.DIRECTED); }
 	;
 
-backwardOrArbitraryDirectedEdgeOcc [ int context, Integer direction ] returns [ BaseNode res = env.initNode() ]
+backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction ] returns [ BaseNode res = env.initNode() ]
 	: LARROW ( res=edgeDecl[context] | res=entIdentUse ) backwardOrArbitraryDirectedEdgeOccContinuation[ direction ]
 	| da:DOUBLE_LARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(da));
 			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			direction.setValue(ConnectionNode.DIRECTED);
 		}
 	| lr:LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
 			res = new EdgeDeclNode(id, env.getArbitraryDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			direction.setValue(ConnectionNode.ARBITRARY_DIRECTED);
 		}
 	;
 
-backwardOrArbitraryDirectedEdgeOccContinuation [Integer direction]
-	: MINUS { direction = ConnectionNode.DIRECTED; }
-	| RARROW { direction = ConnectionNode.ARBITRARY_DIRECTED; }
+backwardOrArbitraryDirectedEdgeOccContinuation [MutableInteger direction]
+	: MINUS { direction.setValue(ConnectionNode.DIRECTED); }
+	| RARROW { direction.setValue(ConnectionNode.ARBITRARY_DIRECTED); }
 	;
 
 arbitraryEdgeOcc [int context] returns [ BaseNode res = env.initNode() ]

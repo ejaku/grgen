@@ -81,6 +81,7 @@ OK     should_pass/basic_201.grg
 OK     should_pass/basic_202.grg
 OK     should_pass/basic_203.grg
 OK     should_pass/basic_300.grg
+OK     should_pass/basic_400.grg
 OK     should_pass/cast_001.grg
 OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
