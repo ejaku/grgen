@@ -550,9 +550,9 @@ public class ActionsGen extends CSharpBase {
 	private void genSchedule(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
 		String actionName = formatIdentifiable(action);
 		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("\tpublic class Schedule_" + actionName + " : LGSPStaticScheduleInfo\n");
+		sb.append("\tpublic class Schedule_" + (isSubpattern ? "Pattern_" : "Rule_") + actionName + " : LGSPStaticScheduleInfo\n");
 		sb.append("\t{\n");
-		sb.append("\t\tpublic Schedule_" + actionName + "()\n");
+		sb.append("\t\tpublic Schedule_" + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "()\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tActionName = \"" + actionName + "\";\n");
 		sb.append("\t\t\tthis.RulePattern = " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + ".Instance;\n");
