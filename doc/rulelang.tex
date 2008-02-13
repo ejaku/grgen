@@ -95,7 +95,7 @@ GraphletNode: (Ident |
     '.' |
     (() | IdentDecl) ':' NodeType (() | TypeConstraint | '<' Ident '>')) ;   
 \end{rail}\ixnterm{GraphletNode}
-Specifies a node\indexmain{node (graphlet)} of type \emph{NodeType} with respect to \emph{TypeConstraint}\indexmain{type contraint} (see Section~\ref{typeexpressions}, \emph{TypeConstraint}). 
+Specifies a node\indexmain{node (graphlet)} of type \emph{NodeType} with respect to \emph{TypeConstraint}\indexmain{type constraint} (see Section~\ref{typeexpressions}, \emph{TypeConstraint}). 
 Type constraints are allowed in the pattern part only. 
 The \texttt{.}\ is an anonymous node of the base type \texttt{Node}. 
 Remember that every node type has \texttt{Node} as super type. The \texttt{<>} operator retypes\indexmain{retyping} a node. Retyping is allowed in the replace/modify part only (see Section~\ref{replacepart}, \emph{Retyping}).
@@ -616,7 +616,7 @@ The \texttt{eval} statements are executed before the execution statements, i.e.\
 The graph element names have to be in the same order as the corresponding return types in the signature. 
 The named elements must be compatible to the declared type.
 
-\section{Rule and Pattern Modifiers}\indexmain{Modifier} 
+\section{Rule and Pattern Modifiers}\indexmain{modifier} 
 \label{sct:patternmodifier}
 By default \GrG\ performs rewriting according to \indexmain{SPO} semantics as explained in section \ref{rule:morphismr}.
 This behaviour can be changed with \newterm{rule / pattern modifiers}.
@@ -710,27 +710,80 @@ Composing single graph rewrite rules to an expression not only yields more compl
 Graph rewrite sequences have a boolean return value; 
 For a single rule, \texttt{true} means the rule could successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
-Graph rewrite sequences are transactional.
+Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
 If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
 
-In order to pass return values of rules to other rules, \emph{parameters} can be defined.
-A parameter is an arbitrary identifier which is defined by assigning it a graph element or another parameter.
+In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
+A variable is an arbitrary identifier which is defined by assigning a graph element, a boolean value, or another variable to it.
+You may use named graph elements of the enclosing rule as read-only variables.
 A parameter is alive from its first assignment until the end of the enclosing \texttt{exec} statement.
+
+Note that we have two kinds of return values in graph rewrite sequences.
+Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed.
+Additionally rules may return graph elements.
+These return values can be assigned to variables on the fly (see example \ref{ex:grsreturn}).
+\begin{figure}[htbp]
+\begin{example}
+	\label{ex:grsreturn}
+	The graph rewrite sequence
+	\begin{grgen}	 
+a = ((b,c) = R(x,y,z))}
+	\end{grgen}
+	is valid. 
+	It assigns returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}.
+\end{example}
+\end{figure}
 
 \makeatletter
 \begin{rail}
   RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
-  RewriteTerm: (() | '(' (Parameter+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule) |
-    'def' '(' (Parameter+',') ')' |
+\end{rail}\ixnterm{RewriteSequence}
+A graph rewrite sequence consists of several, logically linked rewrite terms.
+The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
+In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
+A sequence can further be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
+Such a sequence always returns \texttt{true}.
+The braces (\texttt{\{\}}) let execute a sequence repeatedly as long as its execution does not fail but \emph{Number} times at most.
+
+\begin{rail} 
+  RewriteTerm: RuleExecution |
+    VarAssignment |
+    '<' RewriteSequence '>' | 
+    '(' RewriteSequence ')' |
+    Variable |
+    'def' '(' (Variable+',') ')' |
     'true' |
-    'false' |
-    Parameter '=' Ident |
-    '(' RewriteSequence ')' ;
-  Rule: RuleIdent (() | '(' (Ident+',') ')');
-\end{rail}\ixnterm{RewriteSequence}\ixnterm{RewriteTerm}\ixnterm{Rule}\ixnterm{Parameter}
-\makeatother
-\mbox{\quad}\\
-Table~\ref{ruletab} lists graph rewrite expressions at a glance. Unless you use the \texttt{\$} modifier, operands will evaluated from left to right. 
+    'false';
+\end{rail}\ixnterm{RewriteTerm}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
+Rewrite terms are the building blocks of graph rewrite sequences.
+They either act as a rule application or assign a value to a variable
+A variable in the \emph{Variable} term must contain a boolean value, accordingly.
+A \texttt{def} term is successful iff all the the variables are defined.
+
+\begin{rail}    
+  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule);   
+  Rule: RuleIdent (() | '(' (Variable+',') ')');
+\end{rail}\ixnterm{RuleExecution} \ixnterm{Rule} 
+The \emph{RuleExecution} clause applies a single rule or test.
+In case of a rule, the first found pattern match will be rewritten.
+Variables and named graph elements from the enclosing rule can be passed.
+The returned graph elements can be assigned to variables again.
+The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
+The operator \texttt{\%} is a multi-purpose flag. In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout}; in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point}; you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
+The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application: Every pattern match produced by the will be rewritten. \textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match. If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
+
+\begin{rail}
+  VarAssignment: Variable '=' (Variable | 
+    '(' RewriteSequence ')' | 
+    'true' | 
+    'false');
+\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
+Variables can hold graph elements or boolean values.
+Graph elments are initially assigned by the \emph{RuleExecution} statement.
+An \emph{VarAssignment} rewrite term ist always true.
+
+Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 
 \makeatletter
 \begin{table}[htbp]
@@ -741,29 +794,29 @@ Table~\ref{ruletab} lists graph rewrite expressions at a glance. Unless you use 
 \texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
 \texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed iff \texttt{s} and \texttt{t} is successful.\\
 \texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
-\texttt{s \^ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^ t} is successfully executed iff \texttt{s} is successful or \texttt{t} successfully but not both; so this an XOR sequence.\\
+\texttt{s \^\ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^\ t} is successfully executed iff \texttt{s} is successful or \texttt{t} successfully but not both; i.e.\ this an XOR sequence.\\
+\texttt{<s>}	& Execute \texttt{s} transactionally.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
-\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. Usually operands are executed/evaluated from left to right with respect to bracketing (left-\indexed{associative}). In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed/evaluated in arbitrary order. \\
+\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
 \texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
 \texttt{s \{n\}}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
-\texttt{?\emph{Rule}} & Switches \emph{Rule} to a \texttt{test}, i.e.\ does not perform the rewrite part of the rule but only tests if a match exists. \\
-\texttt{\%\emph{Rule}} & This is a multi-purpose flag. In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout}; in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point}; you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).\\
-\texttt{\emph{Rule}} & Rewrite the first found pattern match produced by the action \emph{Rule}.\\
-\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}. \textbf{Note:} Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match. If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.\\
-\texttt{def(\emph{Parameters})} & Is \emph{successful} if all the graph elements in \emph{Parameters} exist, i.e.\ if all the variables are defined.\\
+\texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
+\texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \libGr. Also used for graph dumping and break points. \\
+\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
+\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\ \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
-\ixkeyw{def}
 \end{minipage}\\
 \\ 
 {\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{||}, \texttt{\&}, \texttt{\&\&}\}$ and \texttt{n} $\in \N_0$.}
-\caption{XGRS expressions}
+\caption{GRS expressions at a glance}
 \label{ruletab}
 \end{table}
 \makeatother
 
+\begin{figure}[htbp]
 \begin{example}
 	The following example works on a hypothetical network flow.
 	We don't define all the rules nor the graph meta model.
@@ -782,3 +835,4 @@ rule AddRedundancy {
 }  
 	\end{grgen}
 \end{example}
+\end{figure}

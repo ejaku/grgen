@@ -134,7 +134,6 @@ test CheckStartState {
         x;
         y: StartState;
     }
-    emit ("Error, graph has not exactly one start state");
 }
 
 test CheckDoublettes {
@@ -145,7 +144,6 @@ test CheckDoublettes {
         if { typeof(doublette) == typeof(e); }
         if { ((typeof(e) == EpsilonTransition) || (e.Trigger == doublette.Trigger)); }
     }
-    emit ("Error, there is a redundant transition from state " + x.id + " to " + y.id);
 }
 
 rule ForwardTransition {
@@ -165,7 +163,8 @@ rule ForwardTransition {
 rule AddStartFinalState {
     x:StartState -:EpsilonTransition-> :FinalState;
     modify {
-        y:StartFinalState<x>;        
+        y:StartFinalState<x>;
+        emit ("Start state (" + x.id +  ") mutated into a start-and-final state");
     }
 }
 
@@ -216,7 +215,7 @@ For instance we don't want to forward just one $\varepsilon$-transition as \text
 Such a rule composing is done by a \emph{graph rewrite sequence} (see section \ref{sct:xgrs}).
 We add the following line to our shell script \texttt{remove\_epsilons.grs}:
 \begin{grgen}
-debug xgrs CheckStartState && CheckDoublettes && (ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*)
+debug xgrs (CheckStartState && CheckDoublettes) && <ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*>
 \end{grgen}
 This looks like a boolean expression and in fact it behaves similar.
 The whole expression is evaluated from left to right.
@@ -225,6 +224,7 @@ We first check for a valid state machine, i.e.\ if the host graph has exactly on
 Thereafter we do the actual rewriting.
 These three steps are connected by lazy-evaluation-ands (\texttt{\&\&}), i.e.\ if one of them fails the evaluation will be canceled.
 We continue by disjunctive connected rules (connected by \texttt{|}).
+The angle brackets (\texttt{<>}) around the transformation rules indicate transactional processing: If the enclosed sequence returns \texttt{false} for some reason, all the already performed graph operations will be rolled back.
 That means not all of the rules must find a match.
 The \texttt{*} is used to apply the rule repeatedly as long as a match can be found.
 This includes applying the rule zero times.

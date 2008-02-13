@@ -28,7 +28,7 @@ The extended graph rewrite sequences (XGRS) are available within the \GrShell\ a
 \makeatletter
 \begin{rail}
   GraphRewriteSequence: (() | 'debug') 'grs' SimpleRewriteSequence ;
-\end{rail}\ixkeyw{debug}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+\end{rail}\ixkeyw{debug}\ixkeyw{grs}\indexmain{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 \begin{rail}
   SimpleRewriteSequence: (SimpleTerm (() | ('*' | lbrace Number rbrace))) + ((() | dollar) (';' | '|' | ampersand));
