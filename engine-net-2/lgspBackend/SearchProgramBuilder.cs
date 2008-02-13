@@ -931,7 +931,44 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (positive)
             {
-                return buildMatchCompletePositive(insertionPoint);
+                // may be a top-level-pattern with/out subpatterns, may be a subpattern with/out subpatterns
+                PatternGraph patternGraph = rulePattern.patternGraph;
+                bool isSubpattern = rulePattern.isSubpattern;
+                bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1;
+
+                // push subpattern tasks (in case there are some)
+                if (containsSubpatterns)
+                    insertionPoint = insertPushSubpatternTasks(insertionPoint);
+
+                // if this is a subpattern without subpatterns
+                // it may be the last to be matched - handle that case
+                if (isSubpattern && !containsSubpatterns)
+                    insertionPoint = insertCheckForTasksLeft(insertionPoint);
+
+                // if this is a subpattern or a top-level pattern which contains subpatterns
+                if (isSubpattern || containsSubpatterns)
+                {
+                    // we do the global accept of all candidate elements (write isomorphy information)
+                    insertionPoint = insertGlobalAccept(insertionPoint);
+
+                    // and execute the open subpattern matching tasks
+                    MatchSubpatterns matchSubpatterns = new MatchSubpatterns();
+                    insertionPoint = insertionPoint.Append(matchSubpatterns);
+                }
+
+                // pop subpattern tasks (in case there are/were some)
+                if (containsSubpatterns)
+                    insertionPoint = insertPopSubpatternTasks(insertionPoint);
+
+                // subpattern or top-level pattern which contains subpatterns
+                if (isSubpattern || containsSubpatterns)
+                    insertionPoint = insertCheckForSubpatternsFound(insertionPoint);
+                else // top-level-pattern without subpatterns
+                    insertionPoint = insertPatternFound(insertionPoint);
+
+                // global abandon of all accepted candidate elements (remove isomorphy information)
+                if (isSubpattern || containsSubpatterns)
+                    insertionPoint = insertGlobalAbandon(insertionPoint);
             }
             else
             {
@@ -946,307 +983,304 @@ namespace de.unika.ipd.grGen.lgsp
                 CheckContinueMatchingOfNegativeFailed abortMatching =
                     new CheckContinueMatchingOfNegativeFailed();
                 insertionPoint = insertionPoint.Append(abortMatching);
-
-                return insertionPoint;
             }
+
+            return insertionPoint;
         }
 
         /// <summary>
-        /// Search program operations completing the matching process of a positive pattern
-        /// after all pattern elements have been found are created and inserted into the program
-        /// may be a top-level-pattern with/out subpatterns, may be a subpattern with/out subpatterns
+        /// Inserts code to build the match object
+        /// at the given position, returns position after inserted operations
         /// </summary>
-        private SearchProgramOperation buildMatchCompletePositive(
-            SearchProgramOperation insertionPoint)
+        private SearchProgramOperation insertMatchObjectBuilding(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+
+            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Node,
+                        patternGraph.nodes[i].UnprefixedName(),
+                        patternGraph.nodes[i].Name,
+                        rulePattern.name,
+                        rulePattern.isSubpattern
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Edge,
+                        patternGraph.edges[i].UnprefixedName(),
+                        patternGraph.edges[i].Name,
+                        rulePattern.name,
+                        rulePattern.isSubpattern
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+            for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
+            {
+                BuildMatchObject buildMatch =
+                    new BuildMatchObject(
+                        BuildMatchObjectType.Subpattern,
+                        patternGraph.embeddedGraphs[i].name,
+                        patternGraph.embeddedGraphs[i].name,
+                        rulePattern.name,
+                        rulePattern.isSubpattern
+                    );
+                insertionPoint = insertionPoint.Append(buildMatch);
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to push the subpattern tasks to the open tasks stack 
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertPushSubpatternTasks(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+
+            // to handle subpatterns in linear order we've to push them in reverse order on the stack
+            for (int i = patternGraph.embeddedGraphs.Length - 1; i >= 0; --i)
+            {
+                PatternGraphEmbedding subpattern = patternGraph.embeddedGraphs[i];
+                Debug.Assert(subpattern.ruleOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
+                string[] connectionName = subpattern.ruleOfEmbeddedGraph.inputNames;
+                string[] patternElementBoundToConnectionName = new string[subpattern.connections.Length];
+                bool[] patternElementBoundToConnectionIsNode = new bool[subpattern.connections.Length];
+                for (int j = 0; j < subpattern.connections.Length; ++j)
+                {
+                    patternElementBoundToConnectionName[j] = subpattern.connections[j].name;
+                    patternElementBoundToConnectionIsNode[j] = subpattern.connections[j] is PatternNode;
+                }
+
+                PushSubpatternTask pushTask =
+                    new PushSubpatternTask(
+                        subpattern.ruleOfEmbeddedGraph.name,
+                        subpattern.name,
+                        connectionName,
+                        patternElementBoundToConnectionName,
+                        patternElementBoundToConnectionIsNode
+                    );
+                insertionPoint = insertionPoint.Append(pushTask);
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to pop the subpattern tasks from the open tasks stack
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertPopSubpatternTasks(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+
+            foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphs)
+            {
+                PopSubpatternTask popTask =
+                    new PopSubpatternTask(
+                        subpattern.name
+                    );
+                insertionPoint = insertionPoint.Append(popTask);
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to check whether there are open tasks to handle left and code for case there are none
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertCheckForTasksLeft(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+            
+            CheckContinueMatchingTasksLeft tasksLeft =
+                new CheckContinueMatchingTasksLeft();
+            SearchProgramOperation continuationPointAfterTasksLeft =
+                insertionPoint.Append(tasksLeft);
+            tasksLeft.CheckFailedOperations =
+                new SearchProgramList(tasksLeft);
+            insertionPoint = tasksLeft.CheckFailedOperations;
+
+            // ---- check failed, no tasks left, leaf subpattern was matched
+            LeafSubpatternMatched leafMatched = new LeafSubpatternMatched(
+                patternGraph.nodes.Length.ToString(), patternGraph.edges.Length.ToString());
+            SearchProgramOperation continuationPointAfterLeafMatched =
+                insertionPoint.Append(leafMatched);
+            leafMatched.MatchBuildingOperations =
+                new SearchProgramList(leafMatched);
+            insertionPoint = leafMatched.MatchBuildingOperations;
+
+            // ---- ---- fill the match object with the candidates 
+            // ---- ---- which have passed all the checks for being a match
+            insertionPoint = insertMatchObjectBuilding(insertionPoint);
+
+            // ---- nesting level up
+            insertionPoint = continuationPointAfterLeafMatched;
+
+            // ---- check max matches reached will be inserted here by completion pass
+
+            // nesting level up
+            insertionPoint = continuationPointAfterTasksLeft;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to accept the matched elements globally
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertGlobalAccept(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+
+            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            {
+                if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
+                {
+                    AcceptCandidateGlobal acceptGlobal =
+                        new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
+                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                }
+            }
+            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            {
+                if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
+                {
+                    AcceptCandidateGlobal acceptGlobal =
+                        new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
+                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                }
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to abandon the matched elements globally
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertGlobalAbandon(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+
+            // global abandon of all candidate elements (remove isomorphy information)
+            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            {
+                if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
+                {
+                    AbandonCandidateGlobal abandonGlobal =
+                        new AbandonCandidateGlobal(patternGraph.nodes[i].name, true);
+                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                }
+            }
+            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            {
+                if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
+                {
+                    AbandonCandidateGlobal abandonGlobal =
+                        new AbandonCandidateGlobal(patternGraph.edges[i].name, false);
+                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                }
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to check whether the subpatterns were found and code for case there were some
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint)
         {
             PatternGraph patternGraph = rulePattern.patternGraph;
             bool isSubpattern = rulePattern.isSubpattern;
-            bool containsSubpatterns = patternGraph.embeddedGraphs.Length >= 1;
 
-            // push subpattern tasks (in case there are some)
-            if (containsSubpatterns)
+            // check whether there were no subpattern matches found
+            CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
+                new CheckPartialMatchForSubpatternsFound();
+            SearchProgramOperation continuationPointAfterSubpatternsFound =
+                   insertionPoint.Append(checkSubpatternsFound);
+            checkSubpatternsFound.CheckFailedOperations =
+                new SearchProgramList(checkSubpatternsFound);
+            insertionPoint = checkSubpatternsFound.CheckFailedOperations;
+
+            // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
+            PatternAndSubpatternsMatched patternAndSubpatternsMatched =
+                !isSubpattern ? new PatternAndSubpatternsMatched() :
+                    new PatternAndSubpatternsMatched(
+                        patternGraph.nodes.Length,
+                        patternGraph.edges.Length,
+                        patternGraph.embeddedGraphs.Length
+                    );
+            SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
+                insertionPoint.Append(patternAndSubpatternsMatched);
+            patternAndSubpatternsMatched.MatchBuildingOperations =
+                new SearchProgramList(patternAndSubpatternsMatched);
+            insertionPoint = patternAndSubpatternsMatched.MatchBuildingOperations;
+
+            // ---- ---- fill the match object with the candidates 
+            // ---- ---- which have passed all the checks for being a match
+            insertionPoint = insertMatchObjectBuilding(insertionPoint);
+
+            // ---- nesting level up
+            insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
+
+            // ---- create new matches list to search on or copy found matches into own matches list
+            if (isSubpattern)
             {
-                // to handle subpatterns in linear order we've to push them in reverse order on the stack
-                for (int i = patternGraph.embeddedGraphs.Length-1; i >= 0; --i)
-                {
-                    PatternGraphEmbedding subpattern = patternGraph.embeddedGraphs[i];
-                    Debug.Assert(subpattern.ruleOfEmbeddedGraph.inputNames.Length == subpattern.connections.Length);
-                    string[] connectionName = subpattern.ruleOfEmbeddedGraph.inputNames;
-                    string[] patternElementBoundToConnectionName = new string[subpattern.connections.Length];
-                    bool[] patternElementBoundToConnectionIsNode = new bool[subpattern.connections.Length];
-                    for (int j = 0; j < subpattern.connections.Length; ++j)
-                    {
-                        patternElementBoundToConnectionName[j] = subpattern.connections[j].name;
-                        patternElementBoundToConnectionIsNode[j] = subpattern.connections[j] is PatternNode;
-                    }
-
-                    PushSubpatternTask pushTask =
-                        new PushSubpatternTask(
-                            subpattern.ruleOfEmbeddedGraph.name,
-                            subpattern.name,
-                            connectionName,
-                            patternElementBoundToConnectionName,
-                            patternElementBoundToConnectionIsNode
-                        );
-                    insertionPoint = insertionPoint.Append(pushTask);
-                }
+                NewMatchesListForFollowingMatches newMatchesList =
+                    new NewMatchesListForFollowingMatches();
+                insertionPoint = insertionPoint.Append(newMatchesList);
             }
 
-            // if this is a subpattern without subpatterns
-            // it may be the last to be matched - handle that case
-            if (isSubpattern && !containsSubpatterns)
-            {
-                // check whether to continue matching as there are tasks to execute left
-                CheckContinueMatchingTasksLeft tasksLeft =
-                    new CheckContinueMatchingTasksLeft();
-                SearchProgramOperation continuationPointAfterTasksLeft =
-                    insertionPoint.Append(tasksLeft);
-                tasksLeft.CheckFailedOperations =
-                    new SearchProgramList(tasksLeft);
-                insertionPoint = tasksLeft.CheckFailedOperations;
+            // ---- check max matches reached will be inserted here by completion pass
 
-                // ---- check failed, no tasks left, leaf subpattern was matched
-                LeafSubpatternMatched leafMatched = new LeafSubpatternMatched(
-                    patternGraph.nodes.Length.ToString(), patternGraph.edges.Length.ToString());
-                SearchProgramOperation continuationPointAfterLeafMatched =
-                    insertionPoint.Append(leafMatched);
-                leafMatched.MatchBuildingOperations =
-                    new SearchProgramList(leafMatched);
-                insertionPoint = leafMatched.MatchBuildingOperations;
+            // nesting level up
+            insertionPoint = continuationPointAfterSubpatternsFound;
 
-                // ---- ---- fill the match object with the candidates 
-                // ---- ---- which have passed all the checks for being a match
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Node,
-                            patternGraph.nodes[i].UnprefixedName(),
-                            patternGraph.nodes[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Edge,
-                            patternGraph.edges[i].UnprefixedName(),
-                            patternGraph.edges[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
+            return insertionPoint;
+        }
 
-                // ---- nesting level up
-                insertionPoint = continuationPointAfterLeafMatched;
+        /// <summary>
+        /// Inserts code to handle case pattern was found
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertPatternFound(SearchProgramOperation insertionPoint)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+ 
+            // build the pattern was matched operation
+            PositivePatternWithoutSubpatternsMatched patternMatched =
+                new PositivePatternWithoutSubpatternsMatched();
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(patternMatched);
+            patternMatched.MatchBuildingOperations =
+                new SearchProgramList(patternMatched);
+            insertionPoint = patternMatched.MatchBuildingOperations;
 
-                // ---- check max matches reached will be inserted here by completion pass
+            // ---- fill the match object with the candidates 
+            // ---- which have passed all the checks for being a match
+            insertionPoint = insertMatchObjectBuilding(insertionPoint);
 
-                // nesting level up
-                insertionPoint = continuationPointAfterTasksLeft;
-            }
+            // ---- nesting level up
+            insertionPoint = continuationPoint;
 
-            // if this is a subpattern or a top-level pattern which contains subpatterns
-            if (isSubpattern || containsSubpatterns)
-            {
-                // we do the global accept of all candidate elements (write isomorphy information)
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
-                    {
-                        AcceptCandidateGlobal acceptGlobal =
-                            new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
-                        insertionPoint = insertionPoint.Append(acceptGlobal);
-                    }
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
-                    {
-                        AcceptCandidateGlobal acceptGlobal =
-                            new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
-                        insertionPoint = insertionPoint.Append(acceptGlobal);
-                    }
-                }
-
-                // and execute the open subpattern matching tasks
-                MatchSubpatterns matchSubpatterns = new MatchSubpatterns();
-                insertionPoint = insertionPoint.Append(matchSubpatterns);
-            }
-
-            if (containsSubpatterns)
-            {
-                // pop subpattern tasks (in case there are/were some)
-                foreach (PatternGraphEmbedding subpattern in patternGraph.embeddedGraphs)
-                {
-                    PopSubpatternTask popTask =
-                        new PopSubpatternTask(
-                            subpattern.name
-                        );
-                    insertionPoint = insertionPoint.Append(popTask);
-                }
-            }
-
-            // if this is a subpattern or a top-level pattern which contains subpatterns
-            if (isSubpattern || containsSubpatterns)
-            {
-                // check whether there were no subpattern matches found
-                CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                    new CheckPartialMatchForSubpatternsFound();
-                SearchProgramOperation continuationPointAfterSubpatternsFound =
-                       insertionPoint.Append(checkSubpatternsFound);
-                checkSubpatternsFound.CheckFailedOperations =
-                    new SearchProgramList(checkSubpatternsFound);
-                insertionPoint = checkSubpatternsFound.CheckFailedOperations;
-
-                // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
-                PatternAndSubpatternsMatched patternAndSubpatternsMatched = 
-                    !isSubpattern ? new PatternAndSubpatternsMatched() :
-                        new PatternAndSubpatternsMatched(
-                            patternGraph.nodes.Length,
-                            patternGraph.edges.Length,
-                            patternGraph.embeddedGraphs.Length
-                        );
-                SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
-                    insertionPoint.Append(patternAndSubpatternsMatched);
-                patternAndSubpatternsMatched.MatchBuildingOperations =
-                    new SearchProgramList(patternAndSubpatternsMatched);
-                insertionPoint = patternAndSubpatternsMatched.MatchBuildingOperations;
-
-                // ---- ---- fill the match object with the candidates 
-                // ---- ---- which have passed all the checks for being a match
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Node,
-                            patternGraph.nodes[i].UnprefixedName(),
-                            patternGraph.nodes[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Edge,
-                            patternGraph.edges[i].UnprefixedName(),
-                            patternGraph.edges[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-                for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Subpattern,
-                            patternGraph.embeddedGraphs[i].name,
-                            patternGraph.embeddedGraphs[i].name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-
-                // ---- nesting level up
-                insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
-
-                // ---- create new matches list to search on or copy found matches into own matches list
-                if (isSubpattern)
-                {
-                    NewMatchesListForFollowingMatches newMatchesList =
-                        new NewMatchesListForFollowingMatches();
-                    insertionPoint = insertionPoint.Append(newMatchesList);
-                }
-
-                // ---- check max matches reached will be inserted here by completion pass
-
-                // nesting level up
-                insertionPoint = continuationPointAfterSubpatternsFound;
-            }
-            else // top-level-pattern without subpatterns
-            {
-                // build the pattern was matched operation
-                PositivePatternWithoutSubpatternsMatched patternMatched =
-                    new PositivePatternWithoutSubpatternsMatched();
-                SearchProgramOperation continuationPoint =
-                    insertionPoint.Append(patternMatched);
-                patternMatched.MatchBuildingOperations =
-                    new SearchProgramList(patternMatched);
-                insertionPoint = patternMatched.MatchBuildingOperations;
-
-                // ---- fill the match object with the candidates 
-                // ---- which have passed all the checks for being a match
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Node,
-                            patternGraph.nodes[i].UnprefixedName(),
-                            patternGraph.nodes[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    BuildMatchObject buildMatch =
-                        new BuildMatchObject(
-                            BuildMatchObjectType.Edge,
-                            patternGraph.edges[i].UnprefixedName(),
-                            patternGraph.edges[i].Name,
-                            rulePattern.name,
-                            rulePattern.isSubpattern
-                        );
-                    insertionPoint = insertionPoint.Append(buildMatch);
-                }
-
-                // ---- nesting level up
-                insertionPoint = continuationPoint;
-
-                // check whether to continue the matching process
-                // or abort because the maximum desired number of maches was reached
-                CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
+            // check whether to continue the matching process
+            // or abort because the maximum desired number of maches was reached
+            CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
 #if NO_ADJUST_LIST_HEADS
-                new CheckContinueMatchingMaximumMatchesReached(false, false);
+            new CheckContinueMatchingMaximumMatchesReached(false, false);
 #else
-                new CheckContinueMatchingMaximumMatchesReached(false, true);
+            new CheckContinueMatchingMaximumMatchesReached(false, true);
 #endif
-                insertionPoint = insertionPoint.Append(checkMaximumMatches);
-            }
-
-            // if this is a subpattern or a top-level pattern which contains subpatterns
-            if (isSubpattern || containsSubpatterns)
-            {
-                // global abandon of all candidate elements (remove isomorphy information)
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
-                    {
-                        AbandonCandidateGlobal abandonGlobal =
-                            new AbandonCandidateGlobal(patternGraph.nodes[i].name, true);
-                        insertionPoint = insertionPoint.Append(abandonGlobal);
-                    }
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
-                    {
-                        AbandonCandidateGlobal abandonGlobal =
-                            new AbandonCandidateGlobal(patternGraph.edges[i].name, false);
-                        insertionPoint = insertionPoint.Append(abandonGlobal);
-                    }
-                }
-            }
+            insertionPoint = insertionPoint.Append(checkMaximumMatches);
 
             return insertionPoint;
         }
