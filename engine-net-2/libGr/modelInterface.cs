@@ -399,23 +399,51 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Array containing this type first and following all sub types.
+        /// </summary>
+        /// <remarks>
         /// Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
         /// It is ugly, but one of the few ways to override a property of
         /// an abstract class with another return type.
         /// Not meant to be used by users, but public because of assignments from
         /// generated code.
-        /// </summary>
+        /// </remarks>
         public GrGenType[] subOrSameGrGenTypes;
 
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        /// <remarks>
+        /// Must be assigned the same array as DirectSubTypes of NodeType/EdgeType.
+        /// It is ugly, but one of the few ways to override a property of
+        /// an abstract class with another return type.
+        /// Not meant to be used by users, but public because of assignments from
+        /// generated code.
+        /// </remarks>
+        public GrGenType[] directSubGrGenTypes;
+
+        /// <summary>
         /// Array containing this type first and following all super types.
+        /// </summary>
+        /// <remarks>
         /// Must be assigned the same array as SubOrSameTypes of NodeType/EdgeType.
         /// It is ugly, but one of the few ways to override a property of
         /// an abstract class with another return type.
         /// Not meant to be used by users, but public because of assignments from
         /// generated code.
-        /// </summary>
+        /// </remarks>
         public GrGenType[] superOrSameGrGenTypes;
+
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        /// <remarks>
+        /// Must be assigned the same array as DirectSuperTypes of NodeType/EdgeType.
+        /// It is ugly, but one of the few ways to override a property of
+        /// an abstract class with another return type.
+        /// Not meant to be used by users, but public because of assignments from
+        /// generated code.
+        /// </remarks>
+        public GrGenType[] directSuperGrGenTypes;
 
         /// <summary>
         /// Array containing this type first and following all sub types.
@@ -423,9 +451,19 @@ namespace de.unika.ipd.grGen.libGr
         public GrGenType[] SubOrSameTypes { get { return subOrSameGrGenTypes; } }
 
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        public GrGenType[] DirectSubTypes { get { return directSubGrGenTypes; } }
+
+        /// <summary>
         /// Array containing this type first and following all super types.
         /// </summary>
         public GrGenType[] SuperOrSameTypes { get { return superOrSameGrGenTypes; } }
+
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        public GrGenType[] DirectSuperTypes { get { return directSuperGrGenTypes; } }
 
         /// <summary>
         /// Enumerates over all real subtypes of this type
@@ -576,9 +614,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public NodeType[] subOrSameTypes;
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        public NodeType[] directSubTypes;
+        /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
         public NodeType[] superOrSameTypes;
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        public NodeType[] directSuperTypes;
 
         /// <summary>
         /// Array containing this type first and following all sub types
@@ -586,9 +632,19 @@ namespace de.unika.ipd.grGen.libGr
         public new NodeType[] SubOrSameTypes { get { return subOrSameTypes; } }
 
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        public new NodeType[] DirectSubTypes { get { return directSubTypes; } }
+
+        /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
         public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        public new NodeType[] DirectSuperTypes { get { return directSuperTypes; } }
     }
 
     /// <summary>
@@ -630,9 +686,17 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public EdgeType[] subOrSameTypes;
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        public EdgeType[] directSubTypes;
+        /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
         public EdgeType[] superOrSameTypes;
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        public EdgeType[] directSuperTypes;
 
         /// <summary>
         /// Array containing this type first and following all sub types
@@ -640,9 +704,19 @@ namespace de.unika.ipd.grGen.libGr
         public new EdgeType[] SubOrSameTypes { get { return subOrSameTypes; } }
 
         /// <summary>
+        /// Array containing all direct sub types of this type.
+        /// </summary>
+        public new EdgeType[] DirectSubTypes { get { return directSubTypes; } }
+
+        /// <summary>
         /// Array containing this type first and following all super types
         /// </summary>
         public new EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
+
+        /// <summary>
+        /// Array containing all direct super types of this type.
+        /// </summary>
+        public new EdgeType[] DirectSuperTypes { get { return directSuperTypes; } }
     }
 
     /// <summary>

@@ -76,7 +76,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -102,9 +104,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_aux_attachResource : LGSPStaticScheduleInfo
+	public class Schedule_Rule_aux_attachResource : LGSPStaticScheduleInfo
 	{
-		public Schedule_aux_attachResource()
+		public Schedule_Rule_aux_attachResource()
 		{
 			ActionName = "aux_attachResource";
 			this.RulePattern = Rule_aux_attachResource.Instance;
@@ -172,7 +174,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -198,9 +202,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_blockedRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_blockedRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_blockedRule()
+		public Schedule_Rule_blockedRule()
 		{
 			ActionName = "blockedRule";
 			this.RulePattern = Rule_blockedRule.Instance;
@@ -268,7 +272,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -298,9 +304,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_giveRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_giveRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_giveRule()
+		public Schedule_Rule_giveRule()
 		{
 			ActionName = "giveRule";
 			this.RulePattern = Rule_giveRule.Instance;
@@ -392,7 +398,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -416,9 +424,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_ignoreRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_ignoreRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_ignoreRule()
+		public Schedule_Rule_ignoreRule()
 		{
 			ActionName = "ignoreRule";
 			this.RulePattern = Rule_ignoreRule.Instance;
@@ -486,7 +494,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -533,9 +543,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_killRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_killRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_killRule()
+		public Schedule_Rule_killRule()
 		{
 			ActionName = "killRule";
 			this.RulePattern = Rule_killRule.Instance;
@@ -584,7 +594,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -610,9 +622,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_mountRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_mountRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_mountRule()
+		public Schedule_Rule_mountRule()
 		{
 			ActionName = "mountRule";
 			this.RulePattern = Rule_mountRule.Instance;
@@ -672,7 +684,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -713,9 +727,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_newRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_newRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_newRule()
+		public Schedule_Rule_newRule()
 		{
 			ActionName = "newRule";
 			this.RulePattern = Rule_newRule.Instance;
@@ -812,7 +826,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -849,9 +865,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_passRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_passRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_passRule()
+		public Schedule_Rule_passRule()
 		{
 			ActionName = "passRule";
 			this.RulePattern = Rule_passRule.Instance;
@@ -943,7 +959,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -973,9 +991,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_releaseRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_releaseRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_releaseRule()
+		public Schedule_Rule_releaseRule()
 		{
 			ActionName = "releaseRule";
 			this.RulePattern = Rule_releaseRule.Instance;
@@ -1051,7 +1069,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1081,9 +1101,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_releaseStarRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_releaseStarRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_releaseStarRule()
+		public Schedule_Rule_releaseStarRule()
 		{
 			ActionName = "releaseStarRule";
 			this.RulePattern = Rule_releaseStarRule.Instance;
@@ -1197,7 +1217,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, negPattern_1, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1223,9 +1245,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_requestRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_requestRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_requestRule()
+		public Schedule_Rule_requestRule()
 		{
 			ActionName = "requestRule";
 			this.RulePattern = Rule_requestRule.Instance;
@@ -1314,7 +1336,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1340,9 +1364,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_requestSimpleRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_requestSimpleRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_requestSimpleRule()
+		public Schedule_Rule_requestSimpleRule()
 		{
 			ActionName = "requestSimpleRule";
 			this.RulePattern = Rule_requestSimpleRule.Instance;
@@ -1447,7 +1471,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {negPattern_0, };
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1473,9 +1499,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_requestStarRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_requestStarRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_requestStarRule()
+		public Schedule_Rule_requestStarRule()
 		{
 			ActionName = "requestStarRule";
 			this.RulePattern = Rule_requestStarRule.Instance;
@@ -1539,7 +1565,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1547,11 +1575,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			LGSPNode node_r = match.Nodes[ (int) NodeNums.@r];
 			LGSPNode node_p = match.Nodes[ (int) NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			LGSPEdge edge_t = match.Edges[ (int) EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 
@@ -1559,11 +1587,11 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 		{
 			LGSPNode node_r = match.Nodes[ (int) NodeNums.@r];
 			LGSPNode node_p = match.Nodes[ (int) NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			LGSPEdge edge_t = match.Edges[ (int) EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -1573,9 +1601,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_takeRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_takeRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_takeRule()
+		public Schedule_Rule_takeRule()
 		{
 			ActionName = "takeRule";
 			this.RulePattern = Rule_takeRule.Instance;
@@ -1639,7 +1667,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1673,9 +1703,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_unlockRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_unlockRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_unlockRule()
+		public Schedule_Rule_unlockRule()
 		{
 			ActionName = "unlockRule";
 			this.RulePattern = Rule_unlockRule.Instance;
@@ -1735,7 +1765,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1765,9 +1797,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_unmountRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_unmountRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_unmountRule()
+		public Schedule_Rule_unmountRule()
 		{
 			ActionName = "unmountRule";
 			this.RulePattern = Rule_unmountRule.Instance;
@@ -1847,7 +1879,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 
 			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
+			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
+			outputNames = new string[] { };
 		}
 
 
@@ -1890,9 +1924,9 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
 	}
 
 #if INITIAL_WARMUP
-	public class Schedule_waitingRule : LGSPStaticScheduleInfo
+	public class Schedule_Rule_waitingRule : LGSPStaticScheduleInfo
 	{
-		public Schedule_waitingRule()
+		public Schedule_Rule_waitingRule()
 		{
 			ActionName = "waitingRule";
 			this.RulePattern = Rule_waitingRule.Instance;
@@ -1948,8 +1982,10 @@ namespace de.unika.ipd.grGen.actions.MutexPimped
                     }
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_aux_attachResource.NodeNums.@p] = node_cur_node_p;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(node_cur_node_p);
@@ -2014,12 +2050,14 @@ label0: ;
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_blockedRule.NodeNums.@r] = node_cur_node_r;
                         match.Nodes[(int)Rule_blockedRule.NodeNums.@p1] = node_cur_node_p1;
                         match.Nodes[(int)Rule_blockedRule.NodeNums.@p2] = node_cur_node_p2;
                         match.Edges[(int)Rule_blockedRule.EdgeNums.@req] = edge_cur_edge_req;
                         match.Edges[(int)Rule_blockedRule.EdgeNums.@hb] = edge_cur_edge_hb;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_r.MoveInHeadAfter(edge_cur_edge_req);
@@ -2091,12 +2129,14 @@ label0: ;
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_giveRule.NodeNums.@r] = node_cur_node_r;
                         match.Nodes[(int)Rule_giveRule.NodeNums.@p1] = node_cur_node_p1;
                         match.Nodes[(int)Rule_giveRule.NodeNums.@p2] = node_cur_node_p2;
                         match.Edges[(int)Rule_giveRule.EdgeNums.@rel] = edge_cur_edge_rel;
                         match.Edges[(int)Rule_giveRule.EdgeNums.@n] = edge_cur_edge_n;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_p1.MoveInHeadAfter(edge_cur_edge_rel);
@@ -2165,10 +2205,12 @@ label0: ;
                     }
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_ignoreRule.NodeNums.@r] = node_cur_node_r;
                 match.Nodes[(int)Rule_ignoreRule.NodeNums.@p] = node_cur_node_p;
                 match.Edges[(int)Rule_ignoreRule.EdgeNums.@b] = edge_cur_edge_b;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_b);
@@ -2256,12 +2298,14 @@ label1: ;
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_killRule.NodeNums.@p1] = node_cur_node_p1;
                         match.Nodes[(int)Rule_killRule.NodeNums.@p] = node_cur_node_p;
                         match.Nodes[(int)Rule_killRule.NodeNums.@p2] = node_cur_node_p2;
                         match.Edges[(int)Rule_killRule.EdgeNums.@n1] = edge_cur_edge_n1;
                         match.Edges[(int)Rule_killRule.EdgeNums.@n2] = edge_cur_edge_n2;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_p.MoveInHeadAfter(edge_cur_edge_n1);
@@ -2302,8 +2346,10 @@ label1: ;
             for(LGSPNode node_head_node_p = graph.nodesByTypeHeads[node_type_id_node_p], node_cur_node_p = node_head_node_p.typeNext; node_cur_node_p != node_head_node_p; node_cur_node_p = node_cur_node_p.typeNext)
             {
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_mountRule.NodeNums.@p] = node_cur_node_p;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(node_cur_node_p);
@@ -2354,10 +2400,12 @@ label1: ;
                     continue;
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_newRule.NodeNums.@p1] = node_cur_node_p1;
                 match.Nodes[(int)Rule_newRule.NodeNums.@p2] = node_cur_node_p2;
                 match.Edges[(int)Rule_newRule.EdgeNums.@n] = edge_cur_edge_n;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_n);
@@ -2445,12 +2493,14 @@ label1: ;
                             }
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_passRule.NodeNums.@r] = node_cur_node_r;
                         match.Nodes[(int)Rule_passRule.NodeNums.@p1] = node_cur_node_p1;
                         match.Nodes[(int)Rule_passRule.NodeNums.@p2] = node_cur_node_p2;
                         match.Edges[(int)Rule_passRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                         match.Edges[(int)Rule_passRule.EdgeNums.@n] = edge_cur_edge_n;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_p1.MoveInHeadAfter(edge_cur_edge__edge0);
@@ -2520,10 +2570,12 @@ label2: ;
                     }
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_releaseRule.NodeNums.@r] = node_cur_node_r;
                 match.Nodes[(int)Rule_releaseRule.NodeNums.@p] = node_cur_node_p;
                 match.Edges[(int)Rule_releaseRule.EdgeNums.@hb] = edge_cur_edge_hb;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_hb);
@@ -2622,6 +2674,7 @@ label3: ;
                                     continue;
                                 }
                                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_releaseStarRule.NodeNums.@p1] = node_cur_node_p1;
                                 match.Nodes[(int)Rule_releaseStarRule.NodeNums.@r1] = node_cur_node_r1;
                                 match.Nodes[(int)Rule_releaseStarRule.NodeNums.@p2] = node_cur_node_p2;
@@ -2630,6 +2683,7 @@ label3: ;
                                 match.Edges[(int)Rule_releaseStarRule.EdgeNums.@h1] = edge_cur_edge_h1;
                                 match.Edges[(int)Rule_releaseStarRule.EdgeNums.@h2] = edge_cur_edge_h2;
                                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
                                     node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
@@ -2720,9 +2774,11 @@ label3: ;
                         }
                     }
                     LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    match.patternGraph = rulePattern.patternGraph;
                     match.Nodes[(int)Rule_requestRule.NodeNums.@p] = node_cur_node_p;
                     match.Nodes[(int)Rule_requestRule.NodeNums.@r] = node_cur_node_r;
                     matches.matchesList.EmptyMatchWasFilledFixIt();
+                    // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
                         graph.MoveHeadAfter(node_cur_node_p);
@@ -2787,10 +2843,12 @@ label5: ;
                     }
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_requestSimpleRule.NodeNums.@r] = node_cur_node_r;
                 match.Nodes[(int)Rule_requestSimpleRule.NodeNums.@p] = node_cur_node_p;
                 match.Edges[(int)Rule_requestSimpleRule.EdgeNums.@t] = edge_cur_edge_t;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_t);
@@ -2909,6 +2967,7 @@ label6: ;
                                     }
                                 }
                                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_requestStarRule.NodeNums.@r1] = node_cur_node_r1;
                                 match.Nodes[(int)Rule_requestStarRule.NodeNums.@p1] = node_cur_node_p1;
                                 match.Nodes[(int)Rule_requestStarRule.NodeNums.@p2] = node_cur_node_p2;
@@ -2917,6 +2976,7 @@ label6: ;
                                 match.Edges[(int)Rule_requestStarRule.EdgeNums.@n] = edge_cur_edge_n;
                                 match.Edges[(int)Rule_requestStarRule.EdgeNums.@h2] = edge_cur_edge_h2;
                                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
                                     node_cur_node_p2.MoveInHeadAfter(edge_cur_edge_h2);
@@ -2985,11 +3045,13 @@ label7: ;
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_takeRule.NodeNums.@r] = node_cur_node_r;
                         match.Nodes[(int)Rule_takeRule.NodeNums.@p] = node_cur_node_p;
                         match.Edges[(int)Rule_takeRule.EdgeNums.@t] = edge_cur_edge_t;
                         match.Edges[(int)Rule_takeRule.EdgeNums.@req] = edge_cur_edge_req;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_t);
@@ -3047,11 +3109,13 @@ label7: ;
                             continue;
                         }
                         LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_unlockRule.NodeNums.@r] = node_cur_node_r;
                         match.Nodes[(int)Rule_unlockRule.NodeNums.@p] = node_cur_node_p;
                         match.Edges[(int)Rule_unlockRule.EdgeNums.@b] = edge_cur_edge_b;
                         match.Edges[(int)Rule_unlockRule.EdgeNums.@hb] = edge_cur_edge_hb;
                         matches.matchesList.EmptyMatchWasFilledFixIt();
+                        // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_r.MoveOutHeadAfter(edge_cur_edge_hb);
@@ -3096,10 +3160,12 @@ label7: ;
                     continue;
                 }
                 LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                match.patternGraph = rulePattern.patternGraph;
                 match.Nodes[(int)Rule_unmountRule.NodeNums.@r] = node_cur_node_r;
                 match.Nodes[(int)Rule_unmountRule.NodeNums.@p] = node_cur_node_p;
                 match.Edges[(int)Rule_unmountRule.EdgeNums.@t] = edge_cur_edge_t;
                 matches.matchesList.EmptyMatchWasFilledFixIt();
+                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     graph.MoveHeadAfter(edge_cur_edge_t);
@@ -3201,6 +3267,7 @@ label7: ;
                                         continue;
                                     }
                                     LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                    match.patternGraph = rulePattern.patternGraph;
                                     match.Nodes[(int)Rule_waitingRule.NodeNums.@r] = node_cur_node_r;
                                     match.Nodes[(int)Rule_waitingRule.NodeNums.@r2] = node_cur_node_r2;
                                     match.Nodes[(int)Rule_waitingRule.NodeNums.@p1] = node_cur_node_p1;
@@ -3210,6 +3277,7 @@ label7: ;
                                     match.Edges[(int)Rule_waitingRule.EdgeNums.@hb] = edge_cur_edge_hb;
                                     match.Edges[(int)Rule_waitingRule.EdgeNums.@req] = edge_cur_edge_req;
                                     matches.matchesList.EmptyMatchWasFilledFixIt();
+                                    // if enough matches were found, we leave
                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                     {
                                         node_cur_node_r1.MoveInHeadAfter(edge_cur_edge_req);
@@ -3272,6 +3340,6 @@ label7: ;
         }
 
         public override String Name { get { return "MutexPimpedActions"; } }
-        public override String ModelMD5Hash { get { return "695af33d397b52a85331a2c4498d12cd"; } }
+        public override String ModelMD5Hash { get { return "d8054f816a978a28e16e06e5133502cd"; } }
     }
 }

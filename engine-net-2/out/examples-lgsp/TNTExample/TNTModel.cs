@@ -722,50 +722,90 @@ namespace de.unika.ipd.grGen.models.TNT
 				NodeType_P.typeVar,
 				NodeType_S.typeVar,
 			};
+			NodeType_Node.typeVar.directSubGrGenTypes = NodeType_Node.typeVar.directSubTypes = new NodeType[] {
+								NodeType_C.typeVar,
+				NodeType_H.typeVar,
+				NodeType_O.typeVar,
+				NodeType_N.typeVar,
+				NodeType_P.typeVar,
+				NodeType_S.typeVar,
+			};
 			NodeType_Node.typeVar.superOrSameGrGenTypes = NodeType_Node.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_Node.typeVar,
 			};
+			NodeType_Node.typeVar.directSuperGrGenTypes = NodeType_Node.typeVar.directSuperTypes = new NodeType[] {
+							};
 			NodeType_C.typeVar.subOrSameGrGenTypes = NodeType_C.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 			};
+			NodeType_C.typeVar.directSubGrGenTypes = NodeType_C.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_C.typeVar.superOrSameGrGenTypes = NodeType_C.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_C.typeVar,
 				NodeType_Node.typeVar,
 			};
+			NodeType_C.typeVar.directSuperGrGenTypes = NodeType_C.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
+			};
 			NodeType_H.typeVar.subOrSameGrGenTypes = NodeType_H.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_H.typeVar,
 			};
+			NodeType_H.typeVar.directSubGrGenTypes = NodeType_H.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_H.typeVar.superOrSameGrGenTypes = NodeType_H.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_H.typeVar,
 				NodeType_Node.typeVar,
 			};
+			NodeType_H.typeVar.directSuperGrGenTypes = NodeType_H.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
+			};
 			NodeType_O.typeVar.subOrSameGrGenTypes = NodeType_O.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_O.typeVar,
 			};
+			NodeType_O.typeVar.directSubGrGenTypes = NodeType_O.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_O.typeVar.superOrSameGrGenTypes = NodeType_O.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_O.typeVar,
 				NodeType_Node.typeVar,
 			};
+			NodeType_O.typeVar.directSuperGrGenTypes = NodeType_O.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
+			};
 			NodeType_N.typeVar.subOrSameGrGenTypes = NodeType_N.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_N.typeVar,
 			};
+			NodeType_N.typeVar.directSubGrGenTypes = NodeType_N.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_N.typeVar.superOrSameGrGenTypes = NodeType_N.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_N.typeVar,
 				NodeType_Node.typeVar,
 			};
+			NodeType_N.typeVar.directSuperGrGenTypes = NodeType_N.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
+			};
 			NodeType_P.typeVar.subOrSameGrGenTypes = NodeType_P.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_P.typeVar,
 			};
+			NodeType_P.typeVar.directSubGrGenTypes = NodeType_P.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_P.typeVar.superOrSameGrGenTypes = NodeType_P.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_P.typeVar,
 				NodeType_Node.typeVar,
 			};
+			NodeType_P.typeVar.directSuperGrGenTypes = NodeType_P.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
+			};
 			NodeType_S.typeVar.subOrSameGrGenTypes = NodeType_S.typeVar.subOrSameTypes = new NodeType[] {
 				NodeType_S.typeVar,
 			};
+			NodeType_S.typeVar.directSubGrGenTypes = NodeType_S.typeVar.directSubTypes = new NodeType[] {
+							};
 			NodeType_S.typeVar.superOrSameGrGenTypes = NodeType_S.typeVar.superOrSameTypes = new NodeType[] {
 				NodeType_S.typeVar,
 				NodeType_Node.typeVar,
+			};
+			NodeType_S.typeVar.directSuperGrGenTypes = NodeType_S.typeVar.directSuperTypes = new NodeType[] {
+								NodeType_Node.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return true; } }
@@ -1239,29 +1279,51 @@ namespace de.unika.ipd.grGen.models.TNT
 				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
+			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
+								EdgeType_ADEdge.typeVar,
+				EdgeType_Edge.typeVar,
+				EdgeType_UEdge.typeVar,
+			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_AEdge.typeVar,
 			};
+			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
+							};
 			EdgeType_ADEdge.typeVar.subOrSameGrGenTypes = EdgeType_ADEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_ADEdge.typeVar,
 			};
+			EdgeType_ADEdge.typeVar.directSubGrGenTypes = EdgeType_ADEdge.typeVar.directSubTypes = new EdgeType[] {
+							};
 			EdgeType_ADEdge.typeVar.superOrSameGrGenTypes = EdgeType_ADEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_ADEdge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
+			EdgeType_ADEdge.typeVar.directSuperGrGenTypes = EdgeType_ADEdge.typeVar.directSuperTypes = new EdgeType[] {
+								EdgeType_AEdge.typeVar,
+			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 			};
+			EdgeType_Edge.typeVar.directSubGrGenTypes = EdgeType_Edge.typeVar.directSubTypes = new EdgeType[] {
+							};
 			EdgeType_Edge.typeVar.superOrSameGrGenTypes = EdgeType_Edge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_AEdge.typeVar,
 			};
+			EdgeType_Edge.typeVar.directSuperGrGenTypes = EdgeType_Edge.typeVar.directSuperTypes = new EdgeType[] {
+								EdgeType_AEdge.typeVar,
+			};
 			EdgeType_UEdge.typeVar.subOrSameGrGenTypes = EdgeType_UEdge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 			};
+			EdgeType_UEdge.typeVar.directSubGrGenTypes = EdgeType_UEdge.typeVar.directSubTypes = new EdgeType[] {
+							};
 			EdgeType_UEdge.typeVar.superOrSameGrGenTypes = EdgeType_UEdge.typeVar.superOrSameTypes = new EdgeType[] {
 				EdgeType_UEdge.typeVar,
 				EdgeType_AEdge.typeVar,
+			};
+			EdgeType_UEdge.typeVar.directSuperGrGenTypes = EdgeType_UEdge.typeVar.directSuperTypes = new EdgeType[] {
+								EdgeType_AEdge.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
