@@ -254,39 +254,25 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum AttributeKind 
     {
-        /// <summary>
-        /// The attribute is an integer.
-        /// </summary>
+        /// <summary>The attribute is an integer.</summary>
         IntegerAttr,
 
-        /// <summary>
-        /// The attribute is a boolean.
-        /// </summary>
+        /// <summary>The attribute is a boolean.</summary>
         BooleanAttr,
 
-        /// <summary>
-        /// The attribute is a string.
-        /// </summary>
+        /// <summary>The attribute is a string.</summary>
         StringAttr,
 
-        /// <summary>
-        /// The attribute is an enum.
-        /// </summary>
+        /// <summary>The attribute is an enum.</summary>
         EnumAttr,
 
-        /// <summary>
-        /// The attribute is a float.
-        /// </summary>
+        /// <summary>The attribute is a float.</summary>
         FloatAttr,
 
-        /// <summary>
-        /// The attribute is a double.
-        /// </summary>
+        /// <summary>The attribute is a double.</summary>
         DoubleAttr,
 
-        /// <summary>
-        /// The attribute is an object.
-        /// </summary>
+        /// <summary>The attribute is an object.</summary>
         ObjectAttr
     }
 
