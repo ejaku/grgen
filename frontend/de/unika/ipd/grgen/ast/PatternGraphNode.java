@@ -107,7 +107,7 @@ public class PatternGraphNode extends GraphNode {
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
 
 	public PatternGraphNode(String nameOfGraph, Coords coords, CollectNode<BaseNode> connections,
-			CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> conditions,
+			CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> conditions, CollectNode<AlternativeNode> alts,
 			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);

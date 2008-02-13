@@ -273,15 +273,21 @@ patternBody [ Coords coords, CollectNode<PatternGraphNode> negs, int mod, int co
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
-		res = new PatternGraphNode(nameOfGraph+".pattern", coords, connections, subpatterns, conditions, returnz, homs, exact, induced, mod, context);
+		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
+		res = new PatternGraphNode(nameOfGraph+".pattern", coords, connections, subpatterns, conditions, alts,
+				returnz, homs, exact, induced, mod, context);
 		int negCounter = 0;
+		int altCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, subpatterns, conditions, negs, negCounter, returnz, homs, exact, induced, context, nameOfGraph+".pattern"] )*
+	: ( negCounter = patternStmt[connections, subpatterns, conditions, negs, negCounter, alts, altCounter,
+			 returnz, homs, exact, induced, context, nameOfGraph+".pattern"] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond,
-	CollectNode<PatternGraphNode> negs, int negCount, CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced, int context, String nameOfGraph ]
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond, 
+			CollectNode<PatternGraphNode> negs, int negCount, CollectNode<AlternativeNode> alts, int altCount,
+			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			int context, String nameOfGraph ]
 	returns [ int newNegCount ]
 	{
 		int mod = 0;
@@ -293,6 +299,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 		//nesting of negative Parts is not allowed.
 		CollectNode<PatternGraphNode> negsInNegs = new CollectNode<PatternGraphNode>();
 		newNegCount = negCount;
+		AlternativeNode alt;
 	}
 
 	: connectionsOrSubpattern[conn, subpatterns, context] SEMI
@@ -313,6 +320,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 	| COND LBRACE
 		( e=expr[false] { cond.addChild(e); } SEMI )*
 		RBRACE
+	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCount, context] { alts.addChild(alt); ++altCount; } RBRACE 
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -720,6 +728,19 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseN
 	| emitStmt[imperativeStmts] SEMI
 	;
 
+alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords); ]
+	{
+		IdentNode id;
+		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
+		PatternGraphNode left;
+		int mod = 0;
+	}
+	: ( id=entIdentDecl l:LBRACE pushScopeStr[ "alt" + altCount, getCoords(l) ] 
+		left=patternPart[getCoords(l), negs, mod, context, "alternative "+id.toString()] 
+		RBRACE popScope
+		{ alt.addChild(left); negs = new CollectNode<PatternGraphNode>();} )*
+	;
+	
 rets[CollectNode<IdentNode> res, int context]
 	{
 		IdentNode id;

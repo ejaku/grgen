@@ -40,6 +40,7 @@ options {
 tokens {
   ABSTRACT = "abstract";
   ACTIONS = "actions";
+  ALTERNATIVE = "alternative";
   CLASS = "class";
   COND = "if";
   CONNECT = "connect";
