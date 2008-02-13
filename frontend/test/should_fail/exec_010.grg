@@ -1,0 +1,11 @@
+using deep_model_001;
+
+rule r(y : Acc) : (B) {
+  hom(a,b);
+  a : A;
+  b : B;
+  modify{
+    exec((b)=r(b));
+    return (b);
+  }
+}
