@@ -29,8 +29,10 @@ import de.unika.ipd.grgen.ast.ConstraintDeclNode;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Bad;
+import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
@@ -139,18 +141,6 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 		new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
-	/**
-	 * Method resolveLocal
-	 *
-	 * @return   a boolean
-	 *
-	 */
-	/**
-	 * Method resolveLocal
-	 *
-	 * @return   a boolean
-	 *
-	 */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
 		fixupDefinition(actionUnresolved);
@@ -165,48 +155,6 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 		successfullyResolved = returns!=null && successfullyResolved;
 
 		return successfullyResolved;
-	}
-
-	/**
-	 * check if actual return entities are conformant
-	 * to the formal return parameters.
-	 */
-	// TODO: check types
-	protected boolean checkReturnParams(CollectNode<IdentNode> typeReturns, CollectNode<IdentNode> actualReturns) {
-		boolean returnTypes = true;
-
-		/*
-		 System.out.println("\n*** this          = " + this.getClass());
-		 System.out.println("    this          = " + this.getChildren());
-		 System.out.println("*** typeReturns   = "   + typeReturns);
-		 System.out.println("    typeReturns   = "   + typeReturns.getChildren());
-		 System.out.println("*** actualReturns = " + actualReturns);
-		 System.out.println("    actualReturns = " + actualReturns.getChildren());
-		 */
-
-		if(actualReturns.children.size() != typeReturns.children.size()) {
-			error.error(getCoords(), "Actual and formal return-parameter count mismatch (" +
-							actualReturns.children.size() + " vs. " + typeReturns.children.size() +")");
-			returnTypes = false;
-		} else {
-			Iterator<IdentNode> itAR = actualReturns.children.iterator();
-
-			for(BaseNode n : typeReturns.getChildren()) {
-				IdentNode       tReturnAST  = (IdentNode)n;
-				InheritanceType tReturn     = (InheritanceType)tReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-
-				IdentNode       aReturnAST  = itAR.next();
-				InheritanceType aReturnType = (InheritanceType)aReturnAST.getDecl().getDeclType().checkIR(InheritanceType.class);
-
-				if(!aReturnType.isCastableTo(tReturn)) {
-					error.error(aReturnAST.getCoords(), "Actual return-parameter is not conformant to formal parameter (" +
-									aReturnType + " not castable to " + tReturn + ")");
-					returnTypes = false;
-				}
-			}
-		}
-
-		return returnTypes;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -228,13 +176,33 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 	 * @return   a  boolean
 	 */
 	private boolean checkParams(CollectNode<ConstraintDeclNode> formalParams, CollectNode<ConstraintDeclNode> actualParams) {
-		// TODO
 		boolean res = true;
 		if(formalParams.children.size() != actualParams.children.size()) {
-			error.error(getCoords(), "Formal and actural parameter(s) of action " + this.getUseString() + " mismatch in number (" +
+			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString() + " mismatch in number (" +
 							formalParams.children.size() + " vs. " + actualParams.children.size() +")");
 			res = false;
 		} else {
+			Iterator<ConstraintDeclNode> iterAP = actualParams.children.iterator();
+			for(ConstraintDeclNode formalParam : formalParams.getChildren()) {
+				InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+
+				ConstraintDeclNode actualParam     = iterAP.next();
+				InheritanceType    actualParamType = (InheritanceType)actualParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+
+				if(actualParamType instanceof EdgeType && formalParamType instanceof NodeType ||
+				   actualParamType instanceof NodeType && formalParamType instanceof EdgeType){
+					reportError("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
+									"\" parameter types are incommensurable, because nodes and edges are distinct.");
+					res = false;
+
+				}
+				/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
+				else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
+					reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
+									  "\" parameter types are incommensurable. The called rule might never match.");
+				}
+				 */
+			}
 		}
 		return res;
 	}
@@ -250,17 +218,20 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<ConstraintDeclNode> actualReturns) {
 		// TODO
 		boolean res = true;
-		if(formalReturns.children.size() != actualReturns.children.size()) {
-			error.error(getCoords(), "Formal and actural return-parameter(s) of action " + this.getUseString() + " mismatch in number (" +
+		// Its ok to have no actrual returns, but if there are some, then they have to fit.
+		if(actualReturns.children.size() >0 && formalReturns.children.size() != actualReturns.children.size()) {
+			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString() + " mismatch in number (" +
 							formalReturns.children.size() + " vs. " + actualReturns.children.size() +")");
 			res = false;
 		} else {
+
 		}
 		return res;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
+		assert false;
 		return Bad.getBad(); // TODO fix this
 	}
 }

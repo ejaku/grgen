@@ -1,0 +1,7 @@
+rule r1(-x:Edge->) {
+  n:Node;
+  modify{
+    exec(r1(n));
+  }
+}
+
