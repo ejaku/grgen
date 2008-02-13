@@ -61,9 +61,10 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * the AST is already checked.
 	 * TODO Change type of type iff CollectNode support generics
 	 */
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, boolean resolvedAndChecked) {
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent) {
 		this(id, type, declLocation, TypeExprNode.getEmpty());
-		assert(resolvedAndChecked);
+		parent.becomeParent(this);
+
 		resolve();
 		check();
 	}

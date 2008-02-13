@@ -80,7 +80,7 @@ public class ModelNode extends DeclNode {
 			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
 		CollectResolver<TypeDeclNode> declsResolver =
 			new CollectResolver<TypeDeclNode>(declResolver);
-		decls = declsResolver.resolve(declsUnresolved);
+		decls = declsResolver.resolve(declsUnresolved, this);
 		successfullyResolved = decls!=null && successfullyResolved;
 		DeclarationTypeResolver<ModelTypeNode> typeResolver = 
 			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);

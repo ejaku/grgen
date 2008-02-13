@@ -91,7 +91,7 @@ public class UndirectedEdgeTypeNode extends EdgeTypeNode {
 		CollectResolver<EdgeTypeNode> extendResolver =
 			new CollectResolver<EdgeTypeNode>(typeResolver);
 		body = bodyResolver.resolve(bodyUnresolved);
-		extend = extendResolver.resolve(extendUnresolved);
+		extend = extendResolver.resolve(extendUnresolved, this);
 		return body != null && extend != null;
 	}
 

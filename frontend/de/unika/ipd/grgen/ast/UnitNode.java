@@ -105,8 +105,8 @@ public class UnitNode extends DeclNode {
 		DeclarationTypeResolver<MainTypeNode> typeResolver =
 			new DeclarationTypeResolver<MainTypeNode>(MainTypeNode.class);
 		type        = typeResolver.resolve(typeUnresolved, this);
-		actions     = declsResolver.resolve(actionsUnresolved);
-		subpatterns = declsResolver.resolve(subpatternsUnresolved);
+		actions     = declsResolver.resolve(actionsUnresolved, this);
+		subpatterns = declsResolver.resolve(subpatternsUnresolved, this);
 		return type != null && actions != null && subpatterns != null;
 	}
 

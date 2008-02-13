@@ -158,10 +158,10 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 		successfullyResolved = action!=null && successfullyResolved;
 
 		//TODO this is wrong!
-		params = entityResolver.resolve(paramsUnresolved);
+		params = entityResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
 
-		returns = entityResolver.resolve(returnsUnresolved);
+		returns = entityResolver.resolve(returnsUnresolved, this);
 		successfullyResolved = returns!=null && successfullyResolved;
 
 		return successfullyResolved;

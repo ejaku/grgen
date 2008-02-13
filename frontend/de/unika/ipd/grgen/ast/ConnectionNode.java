@@ -84,9 +84,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 *  @param n2 Second node.
 	 *  @param d Direction of the connection.
 	 */
-	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, boolean resolvedAndChecked) {
+	public ConnectionNode(NodeDeclNode n1, EdgeDeclNode e, NodeDeclNode n2, int d, BaseNode parent) {
 		this(n1, e, n2, d);
-		assert(resolvedAndChecked);
+		parent.becomeParent(this);
+
 		resolve();
 		check();
 	}
@@ -120,19 +121,50 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		boolean successfullyResolved = left!=null && edge!=null && right!=null;
 		return successfullyResolved;
 	}
+	
+	private static Checker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
+	private static Checker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
 
 	/**
 	 * Check, if the AST node is correctly built.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		Checker nodeChecker = new TypeChecker(NodeTypeNode.class);
-		Checker edgeChecker = new TypeChecker(EdgeTypeNode.class);
-		return nodeChecker.check(left, error)
-			& edgeChecker.check(edge, error)
-			& nodeChecker.check(right, error)
+		return nodeTypeChecker.check(left, error)
+			& edgeTypeChecker.check(edge, error)
+			& nodeTypeChecker.check(right, error)
+			& checkEdgeRootType()
 			& areDanglingEdgesInReplacementDeclaredInPattern();
 	}
+
+	private boolean checkEdgeRootType() {
+		TypeDeclNode rootDecl = null;
+		switch (direction) {
+        case ARBITRARY:
+	        rootDecl = getArbitraryEdgeRootType();
+	        break;
+	        
+        case ARBITRARY_DIRECTED:
+        	rootDecl = getArbitraryDirectedEdgeRootType();
+        	break;
+	        
+        case DIRECTED:
+        	rootDecl = getDirectedEdgeRootType();
+        	break;
+	        
+        case UNDIRECTED:
+        	rootDecl = getUndirectedEdgeRootType();
+        	break;
+
+        default:
+	        assert false;
+        	break;
+        }
+		
+		DeclaredTypeNode rootType = rootDecl.getDeclType();
+		
+		return edge.getDeclType().isCompatibleTo(rootType);
+    }
 
 	protected boolean areDanglingEdgesInReplacementDeclaredInPattern() {
 		if(!(left instanceof DummyNodeDeclNode)

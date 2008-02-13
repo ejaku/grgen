@@ -85,7 +85,7 @@ public abstract class ExprNode extends BaseNode {
 		}
 
 		if( src.isCompatibleTo(tgt) ) {
-			return new CastNode(getCoords(), tgt, this, true);
+			return new CastNode(getCoords(), tgt, this, this);
 		}
 
 		/* in general we would have to compute a shortest path in the conceptual
@@ -96,7 +96,7 @@ public abstract class ExprNode extends BaseNode {
 		src.getCompatibleToTypes(coll);
 		for (TypeNode t : coll) {
 			if (t.isCompatibleTo(tgt)) {
-				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, true), true);
+				return new CastNode(getCoords(), tgt, new CastNode(getCoords(), t, this, this), this);
 			}
 		}
 

@@ -671,5 +671,73 @@ public abstract class BaseNode extends Base
 		}
 		return "" + edge;
 	}
+
+	protected TypeDeclNode getNodeRootType()
+    {
+    	// get root node
+    	BaseNode root = this;
+    	while (!root.isRoot()) {
+    		root = root.getParents().iterator().next();
+    	}
+    
+    	// find an edgeRoot-type and nodeRoot
+    	TypeDeclNode nodeRoot = null;
+    	BaseNode model = ((UnitNode) root).models.children.firstElement();
+    	assert model.isResolved();
+    	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
+    
+    	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
+    		TypeDeclNode candidate = it.next();
+    		String name = candidate.ident.getSymbol().getText();
+    		if (name.equals("Node")) {
+    			nodeRoot = candidate;
+    		}
+    	}
+    	return nodeRoot;
+    }
+	
+	private TypeDeclNode findType(String rootName)
+    {
+    	// get root node
+    	BaseNode root = this;
+    	while (!root.isRoot()) {
+    		root = root.getParents().iterator().next();
+    	}
+    
+    	// find a root-type
+    	TypeDeclNode edgeRoot = null;
+    	BaseNode model = ((UnitNode) root).models.children.firstElement();
+    	assert model.isResolved();
+    	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
+    
+    	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
+    		TypeDeclNode candidate = it.next();
+    		String name = candidate.ident.getSymbol().getText();
+    		if (name.equals(rootName)) {
+    			edgeRoot = candidate;
+    		}
+    	}
+    	return edgeRoot;
+    }
+
+	protected TypeDeclNode getArbitraryEdgeRootType()
+    {
+    	return findType("AEdge");
+    }
+
+	protected TypeDeclNode getArbitraryDirectedEdgeRootType()
+    {
+    	return findType("ADEdge");
+    }
+
+	protected TypeDeclNode getDirectedEdgeRootType()
+    {
+    	return findType("Edge");
+    }
+
+	protected TypeDeclNode getUndirectedEdgeRootType()
+    {
+    	return findType("UEdge");
+    }
 }
 

@@ -27,7 +27,6 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -592,7 +591,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		BaseNode edgeRoot = getEdgeRootType();
+		BaseNode edgeRoot = getDirectedEdgeRootType();
 		BaseNode nodeRoot = getNodeRootType();
 
 		// generate and add pattern graphs
@@ -620,9 +619,9 @@ public class PatternGraphNode extends GraphNode {
 
 				ConnectionCharacter conn = null;
 				if (direction == INCOMING) {
-					conn = new ConnectionNode(dummyNode, edge, singleNodeNegNode, ConnectionNode.DIRECTED, true);
+					conn = new ConnectionNode(dummyNode, edge, singleNodeNegNode, ConnectionNode.DIRECTED, this);
 				} else {
-					conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.DIRECTED, true);
+					conn = new ConnectionNode(singleNodeNegNode, edge, dummyNode, ConnectionNode.DIRECTED, this);
 				}
 				conn.addToGraph(neg);
 
@@ -713,31 +712,8 @@ public class PatternGraphNode extends GraphNode {
 	private EdgeDeclNode getAnonymousEdgeDecl(BaseNode edgeRoot, int context) {
 		IdentNode edgeName = new IdentNode(getScope().defineAnonymous(
 				"edge", SymbolTable.getInvalid(), Coords.getBuiltin()));
-		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, true);
+		EdgeDeclNode edge = new EdgeDeclNode(edgeName, edgeRoot, context, this);
 		return edge;
-	}
-
-	private BaseNode getNodeRootType() {
-		// get root node
-		BaseNode root = this;
-		while (!root.isRoot()) {
-			root = root.getParents().iterator().next();
-		}
-
-		// find an edgeRoot-type and nodeRoot
-		BaseNode nodeRoot = null;
-		BaseNode model = ((UnitNode) root).models.children.firstElement();
-		assert model.isResolved();
-		Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
-
-		for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
-			TypeDeclNode candidate = it.next();
-			String name = candidate.ident.getSymbol().getText();
-			if (name.equals("Node")) {
-				nodeRoot = candidate;
-			}
-		}
-		return nodeRoot;
 	}
 
 	/**
@@ -763,7 +739,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
-		BaseNode edgeRoot = getEdgeRootType();
+		BaseNode edgeRoot = getDirectedEdgeRootType();
 
 		for (List<NodeDeclNode> pair : doubleNodeNegPairs) {
 			NodeDeclNode src = pair.get(0);
@@ -792,7 +768,7 @@ public class PatternGraphNode extends GraphNode {
 			// add another edge of type edgeRoot to the NAC
 			EdgeDeclNode edge = getAnonymousEdgeDecl(edgeRoot, context);
 
-			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.DIRECTED, true);
+			ConnectionCharacter conn = new ConnectionNode(src, edge, tgt, ConnectionNode.DIRECTED, this);
 
 			conn.addToGraph(neg);
 
@@ -858,29 +834,5 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 		}
-	}
-
-	// TODO Change return-type iff CollectNode support generics
-	private BaseNode getEdgeRootType() {
-		// get root node
-		BaseNode root = this;
-		while (!root.isRoot()) {
-			root = root.getParents().iterator().next();
-		}
-
-		// find an edgeRoot-type
-		BaseNode edgeRoot = null;
-		BaseNode model = ((UnitNode) root).models.children.firstElement();
-		assert model.isResolved();
-		Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
-
-		for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
-			TypeDeclNode candidate = it.next();
-			String name = candidate.ident.getSymbol().getText();
-			if (name.equals("Edge")) {
-				edgeRoot = candidate;
-			}
-		}
-		return edgeRoot;
 	}
 }

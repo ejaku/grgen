@@ -82,7 +82,7 @@ public class TypeConstraintNode extends TypeExprNode {
 			new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
 		CollectResolver<InheritanceTypeNode> operandsResolver =
 			new CollectResolver<InheritanceTypeNode>(typeResolver);
-		operands = operandsResolver.resolve(operandsUnresolved);
+		operands = operandsResolver.resolve(operandsUnresolved, this);
 		successfullyResolved = operands!=null && successfullyResolved;
 		return successfullyResolved;
 	}

@@ -92,7 +92,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		body = bodyResolver.resolve(bodyUnresolved);
-		extend = extendResolver.resolve(extendUnresolved);
+		extend = extendResolver.resolve(extendUnresolved, this);
 		return body != null && extend != null;
 	}
 

@@ -79,9 +79,10 @@ public class CastNode extends ExprNode {
 	 * @param expr The expression to be casted.
 	 * @param resolveResult Resolution result (should be true)
 	 */
-	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, boolean resolvedAndChecked) {
+	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, BaseNode parent) {
 		this(coords, targetType, expr);
-		assert resolvedAndChecked;
+		parent.becomeParent(this);
+		
 		resolve();
 		check();
 	}
