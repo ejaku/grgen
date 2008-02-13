@@ -419,8 +419,8 @@ The \texttt{GrGen.exe} assembly implements the \GrG\ generator.
 The \GrG\ generator parses a rule set and its model files and compiles them into .NET assemblies.
 The compiled assemblies form a specific graph rewriting system by interacting with the \GrG\ backend.
 \begin{description}
-  \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>]}\\
-        &\texttt{[-debug] [-o <output-dir>] <rule-set>}\end{tabular*}
+  \item[Usage] \begin{tabular*}{\linewidth}{@{}l@{}l}\texttt{[mono] GrGen.exe } & \texttt{[-keep [<dest-dir>]] [-use <existing-dir>] [-debug]}\\
+        &\texttt{[-b <backend-dll>] [-o <output-dir>] <rule-set>}\end{tabular*}
     \emph{rule-set} is a file containing a rule set specification according to chapter~\ref{chaprulelang}. Usually such a file has the suffix \texttt{\indexed{.grg}}. The suffix \texttt{.grg} may be omitted.
 By default \GrG\ tries to write the compiled assemblies into the same directory as the rule set file. This can be changed by the optional parameter \emph{output-dir}.
   \item[Options] \mbox{} 
@@ -434,6 +434,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\	
       \texttt{-debug} & Compile the assemblies with debug information.\\
+      \texttt{-b} & Use the backend library \emph{backend-dll} (default is LGSPBackend).\\
       \texttt{-o} & Store generated assemblies in \emph{output-dir}.
     \end{tabularx}
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above). Java Runtime Environment 1.5 (or above).
