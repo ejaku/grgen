@@ -955,6 +955,15 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			}
 			sb.append("\t\t\t};\n");
 
+			sb.append("\t\t\t" + ctype + ".typeVar.directSubGrGenTypes = "
+					+ formatTypeClass(type) + ".typeVar.directSubTypes = new "
+					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+			sb.append("\t\t\t\t");
+			for(InheritanceType subType : type.getDirectSubTypes()) {
+					sb.append("\t\t\t\t" + formatTypeClass(subType) + ".typeVar,\n");
+			}
+			sb.append("\t\t\t};\n");
+
 			sb.append("\t\t\t" + ctype + ".typeVar.superOrSameGrGenTypes = "
 					+ formatTypeClass(type) + ".typeVar.superOrSameTypes = new "
 					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
@@ -964,6 +973,16 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 					sb.append("\t\t\t\t" + formatTypeClass(otherType) + ".typeVar,\n");
 			}
 			sb.append("\t\t\t};\n");
+
+			sb.append("\t\t\t" + ctype + ".typeVar.directSuperGrGenTypes = "
+					+ formatTypeClass(type) + ".typeVar.directSuperTypes = new "
+					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+			sb.append("\t\t\t\t");
+			for(InheritanceType superType : type.getDirectSuperTypes()) {
+					sb.append("\t\t\t\t" + formatTypeClass(superType) + ".typeVar,\n");
+			}
+			sb.append("\t\t\t};\n");
+
 			if(type.isRoot())
 				rootType = type;
 		}
