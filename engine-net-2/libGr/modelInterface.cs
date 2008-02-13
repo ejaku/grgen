@@ -40,6 +40,9 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<AttributeType> AttributeTypes { get; }
     }
 
+    /// <summary>
+    /// A type model for nodes.
+    /// </summary>
     public interface INodeModel : ITypeModel
     {
         /// <summary>
@@ -58,6 +61,9 @@ namespace de.unika.ipd.grGen.libGr
         new NodeType[] Types { get; }
     }
 
+    /// <summary>
+    /// A type model for edges.
+    /// </summary>
     public interface IEdgeModel : ITypeModel
     {
         /// <summary>
@@ -76,6 +82,10 @@ namespace de.unika.ipd.grGen.libGr
         new EdgeType[] Types { get; }
     }
 
+    /// <summary>
+    /// A representation of a GrGen connection assertion.
+    /// Used by BaseGraph.Validate().
+    /// </summary>
     public class ValidateInfo
     {
         /// <summary>
@@ -93,11 +103,36 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public readonly NodeType TargetType;
 
+        /// <summary>
+        /// The lower bound on the out-degree of the source node according to edges compatible to EdgeType.
+        /// </summary>
         public readonly long SourceLower;
+
+        /// <summary>
+        /// The upper bound on the out-degree of the source node according to edges compatible to EdgeType.
+        /// </summary>
         public readonly long SourceUpper;
+
+        /// <summary>
+        /// The lower bound on the in-degree of the target node according to edges compatible to EdgeType.
+        /// </summary>
         public readonly long TargetLower;
+
+        /// <summary>
+        /// The upper bound on the in-degree of the target node according to edges compatible to EdgeType.
+        /// </summary>
         public readonly long TargetUpper;
 
+        /// <summary>
+        /// Constructs a ValidateInfo instance.
+        /// </summary>
+        /// <param name="edgeType">The edge type to which this constraint applies.</param>
+        /// <param name="sourceType">The node type to which applicable source nodes must be compatible.</param>
+        /// <param name="targetType">The node type to which applicable target nodes must be compatible.</param>
+        /// <param name="sourceLower">The lower bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
+        /// <param name="sourceUpper">The upper bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
+        /// <param name="targetLower">The lower bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
+        /// <param name="targetUpper">The upper bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
         public ValidateInfo(EdgeType edgeType, NodeType sourceType, NodeType targetType,
 			long sourceLower, long sourceUpper, long targetLower, long targetUpper)
         {
@@ -217,7 +252,43 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Specifies the kind of a GrGen attribute.
     /// </summary>
-    public enum AttributeKind { IntegerAttr, BooleanAttr, StringAttr, EnumAttr, FloatAttr, DoubleAttr, ObjectAttr }
+    public enum AttributeKind 
+    {
+        /// <summary>
+        /// The attribute is an integer.
+        /// </summary>
+        IntegerAttr,
+
+        /// <summary>
+        /// The attribute is a boolean.
+        /// </summary>
+        BooleanAttr,
+
+        /// <summary>
+        /// The attribute is a string.
+        /// </summary>
+        StringAttr,
+
+        /// <summary>
+        /// The attribute is an enum.
+        /// </summary>
+        EnumAttr,
+
+        /// <summary>
+        /// The attribute is a float.
+        /// </summary>
+        FloatAttr,
+
+        /// <summary>
+        /// The attribute is a double.
+        /// </summary>
+        DoubleAttr,
+
+        /// <summary>
+        /// The attribute is an object.
+        /// </summary>
+        ObjectAttr
+    }
 
     /// <summary>
     /// Describes a GrGen attribute.
@@ -484,8 +555,15 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    /// <summary>
+    /// A representation of a GrGen node type.
+    /// </summary>
     public abstract class NodeType : GrGenType
     {
+        /// <summary>
+        /// Constructs a NodeType instance with the given type ID.
+        /// </summary>
+        /// <param name="typeID">The unique type ID.</param>
         public NodeType(int typeID) : base(typeID) { }
 
         /// <summary>
@@ -527,8 +605,15 @@ namespace de.unika.ipd.grGen.libGr
         public new NodeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
     }
 
+    /// <summary>
+    /// A representation of a GrGen edge type.
+    /// </summary>
     public abstract class EdgeType : GrGenType
     {
+        /// <summary>
+        /// Constructs an EdgeType instance with the given type ID.
+        /// </summary>
+        /// <param name="typeID">The unique type ID.</param>
         public EdgeType(int typeID) : base(typeID) { }
 
         /// <summary>
@@ -574,49 +659,10 @@ namespace de.unika.ipd.grGen.libGr
         public new EdgeType[] SuperOrSameTypes { get { return superOrSameTypes; } }
     }
 
-#if OLD
-    /// <summary>
-    /// A helper class for the type framework
-    /// </summary>
-    public abstract class TypeFramework<TypeClass, AttributeClass, AttributeInterface> : GrGenType
-        where TypeClass : class, new()
-        where AttributeClass : class, IAttributes, new()
-    {
-        /// <summary>
-        /// A singleton instance of the GrGen element type TypeClass
-        /// </summary>
-        public static TypeClass typeVar = new TypeClass();
-
-        public static bool[] isA;
-        public static bool[] isMyType;
-
-        /// <summary>
-        /// Checks, whether this type is compatible to the given type, i.e. this type is the same type as the given type
-        /// or it is a sub type of the given type.
-        /// </summary>
-        /// <param name="other">The type to be compared to.</param>
-        /// <returns>True, if this type is compatible to the given type.</returns>
-        public override bool IsA(IType other)
-        {
-            // return other.GetType().IsAssignableFrom(typeof(T));
-
-            // return ((ITypeFramework)other).IsMyType(this);            
-            return (this == other) || isA[((GrGenType) other).TypeID];          // first condition just for speed up
-        }
-
-/*        public override IAttributes CreateAttributes()                                  // grs newRule{79998} mountRule requestRule{80000}
-        {
-            return (IAttributes) Activator.CreateInstance(AttributesType);            // rewrite: 846 ms
-//            return (IAttributes) Activator.CreateInstance<AttributeClass>();          // rewrite: 1733 ms
-//            return new AttributeClass();                                                // rewrite: 1811 ms (without class constraint)
-        }*/
-    }
-#endif
-
     /// <summary>
     /// A interface implemented by all GrGen attribute classes.
     /// </summary>
-    public interface IAttributes // : ICloneable
+    public interface IAttributes
     {
     }
 }
