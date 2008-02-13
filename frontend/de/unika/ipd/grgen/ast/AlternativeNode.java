@@ -19,7 +19,7 @@
 
 /**
  * @author buchwald
- * @version $Id: InducedNode.java 17576 2008-01-31 17:05:39Z rubino $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
