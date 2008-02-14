@@ -1,5 +1,5 @@
 rule r {
-  -e:Edge->;
+  . -e:Edge-> .;
   replace {
     . -e:Edge-> .;
   }

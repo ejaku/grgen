@@ -1,5 +1,5 @@
-rule r(e:Edge->) {
+rule r(-e:Edge->) {
   modify {
-    -e:Edge->;
+    . -e:Edge-> .;
   }
 }
