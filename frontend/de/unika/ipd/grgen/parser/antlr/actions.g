@@ -580,7 +580,7 @@ backwardOrArbitraryDirectedEdgeOcc [ int context, MutableInteger direction ] ret
 	| lr:LRARROW
 		{
 			IdentNode id = env.defineAnonymousEntity("edge", getCoords(lr));
-			res = new EdgeDeclNode(id, env.getArbitraryDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
+			res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), context, TypeExprNode.getEmpty());
 			direction.setValue(ConnectionNode.ARBITRARY_DIRECTED);
 		}
 	;

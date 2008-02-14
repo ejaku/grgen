@@ -33,7 +33,6 @@ import java.util.Hashtable;
 import antlr.TokenStreamException;
 
 import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.ArbitraryDirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.ArbitraryEdgeTypeNode;
 import de.unika.ipd.grgen.ast.BaseNode;
 import de.unika.ipd.grgen.ast.BasicTypeNode;
@@ -77,7 +76,6 @@ public abstract class ParserEnvironment extends Base {
 	private final IdentNode nodeRoot;
 
 	private final IdentNode arbitraryEdgeRoot;
-	private final IdentNode arbitraryDirectedEdgeRoot;
 	private final IdentNode directedEdgeRoot;
 	private final IdentNode undirectedEdgeRoot;
 
@@ -122,8 +120,6 @@ public abstract class ParserEnvironment extends Base {
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
 		superTypes.addChild(arbitraryEdgeRoot);
 
-		arbitraryDirectedEdgeRoot = predefineType("ADEdge",
-				new ArbitraryDirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
 		directedEdgeRoot = predefineType("Edge",
 				new DirectedEdgeTypeNode(superTypes, new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
 		undirectedEdgeRoot = predefineType("UEdge",
@@ -131,7 +127,6 @@ public abstract class ParserEnvironment extends Base {
 
 		stdModelChilds.addChild(nodeRoot);
 		stdModelChilds.addChild(arbitraryEdgeRoot);
-		stdModelChilds.addChild(arbitraryDirectedEdgeRoot);
 		stdModelChilds.addChild(directedEdgeRoot);
 		stdModelChilds.addChild(undirectedEdgeRoot);
 
@@ -249,14 +244,6 @@ public abstract class ParserEnvironment extends Base {
 	 */
 	public IdentNode getArbitraryEdgeRoot() {
 		return arbitraryEdgeRoot;
-	}
-
-	/**
-	 * Get the arbitrary directed edge root identifier.
-	 * @return The directed edge root type identifier.
-	 */
-	public IdentNode getArbitraryDirectedEdgeRoot() {
-		return arbitraryDirectedEdgeRoot;
 	}
 
 	/**

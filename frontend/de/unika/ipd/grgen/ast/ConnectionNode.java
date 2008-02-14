@@ -130,12 +130,37 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		return nodeTypeChecker.check(left, error)
+		boolean sucess = nodeTypeChecker.check(left, error)
 			& edgeTypeChecker.check(edge, error)
 			& nodeTypeChecker.check(right, error)
 			& checkEdgeRootType()
 			& areDanglingEdgesInReplacementDeclaredInPattern();
+
+		if(!sucess) {
+			return false;
+		}
+		warnArbitraryRootType();
+		
+		return true;
+		
 	}
+
+	private void warnArbitraryRootType()
+    {
+		if (direction != ARBITRARY) {
+			return;
+		}
+	    
+		DeclaredTypeNode rootType = getArbitraryEdgeRootType().getDeclType();
+		
+		boolean res = edge.getDeclType().isEqual(rootType);
+		
+		if (!res) {
+			edge.reportWarning("The type of " + edge.getName() + " differs from AEdge, please use another edge kind instead of ?--? (e.g. -->)");
+		}
+
+		return;
+    }
 
 	private boolean checkEdgeRootType() {
 		TypeDeclNode rootDecl = null;
@@ -145,7 +170,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	        break;
 	        
         case ARBITRARY_DIRECTED:
-        	rootDecl = getArbitraryDirectedEdgeRootType();
+        	rootDecl = getDirectedEdgeRootType();
         	break;
 	        
         case DIRECTED:

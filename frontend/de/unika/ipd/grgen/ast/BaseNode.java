@@ -725,11 +725,6 @@ public abstract class BaseNode extends Base
     	return findType("AEdge");
     }
 
-	protected TypeDeclNode getArbitraryDirectedEdgeRootType()
-    {
-    	return findType("ADEdge");
-    }
-
 	protected TypeDeclNode getDirectedEdgeRootType()
     {
     	return findType("Edge");
