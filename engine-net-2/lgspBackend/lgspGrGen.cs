@@ -409,38 +409,37 @@ namespace de.unika.ipd.grGen.lgsp
 			switch(seq.SequenceType)
 			{
 				case SequenceType.Rule:
-				{
+                case SequenceType.RuleAll:
+                {
 					SequenceRule seqRule = (SequenceRule) seq;
 					RuleObject ruleObj = seqRule.RuleObj;
-					source.AppendFront("IGraphElement[] ret_" + seqID + " = rule_" + ruleObj.RuleName
-						+ ".Apply(graph");
-					foreach(String paramName in ruleObj.ParamVars)
-						source.Append(", var_" + paramName);
+                    String specialStr = seqRule.Special ? "true" : "false";
+					source.AppendFront("LGSPMatches mat_" + seqID + " = rule_" + ruleObj.RuleName
+						+ ".Match(graph, " + (seq.SequenceType == SequenceType.Rule ? "1" : "actions.MaxMatches"));
+                    if(ruleObj.ParamVars.Length != 0)
+                    {
+                        source.Append(", new IGraphElement[] {");
+                        foreach(String paramName in ruleObj.ParamVars)
+                            source.Append("var_" + paramName + ", ");
+                        source.Append("}");
+                    }
+                    else source.Append(", null");
 					source.Append(");\n");
-					if(ruleObj.ReturnVars.Length != 0)
-					{
-						source.AppendFront("if(ret_" + seqID + " != null)\n");
-						source.AppendFront("{\n");
-						source.Indent();
-						for(int i = 0; i < ruleObj.ReturnVars.Length; i++)
-							source.AppendFront("var_" + ruleObj.ReturnVars[i] + " = ret_" + seqID + "[" + i + "];\n");
-						source.Unindent();
-						source.AppendFront("}\n");
-					}
-					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
-					break;
-				}
+                    source.AppendFront("actions.Matched(mat_" + seqID + ", " + specialStr + ");\n");
+                    source.AppendFront("if(mat_" + seqID + ".Count == 0)\n");
+                    source.AppendFront("\tres_" + seqID + " = false;\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+                    source.AppendFront("actions.Finishing(mat_" + seqID + ", " + specialStr + ");\n");
+                    source.AppendFront("IGraphElement[] ret_" + seqID + " = ");
+                    if(seq.SequenceType == SequenceType.Rule)
+                        source.Append("rule_" + ruleObj.RuleName + ".Modify(graph, mat_" + seqID + ".matchesList.First);\n");
+                    else
+                        source.Append("actions.Replace(mat_" + seqID + ", -1, null);\n");
+                    source.AppendFront("actions.Finished(mat_" + seqID + ", " + specialStr + ");\n");
 
-				case SequenceType.RuleAll:
-				{
-					SequenceRule seqRule = (SequenceRule) seq;
-					RuleObject ruleObj = seqRule.RuleObj;
-					source.AppendFront("IGraphElement[] ret_" + seqID + " = rule_" + ruleObj.RuleName
-						+ ".ApplyAll(0, graph");						// TODO: maxMatches is always set to zero!
-					foreach(String paramName in ruleObj.ParamVars)
-						source.Append(", var_" + paramName);
-					source.Append(");\n");
-					if(ruleObj.ReturnVars.Length != 0)
+                    if(ruleObj.ReturnVars.Length != 0)
 					{
 						source.AppendFront("if(ret_" + seqID + " != null)\n");
 						source.AppendFront("{\n");
@@ -451,7 +450,9 @@ namespace de.unika.ipd.grGen.lgsp
 						source.AppendFront("}\n");
 					}
 					source.AppendFront("res_" + seqID + " = ret_" + seqID + " != null;\n");
-					break;
+                    source.Unindent(); ;
+                    source.AppendFront("}\n");
+                    break;
 				}
 
 				case SequenceType.Not:

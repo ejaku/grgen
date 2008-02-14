@@ -89,6 +89,14 @@ namespace de.unika.ipd.grGen.libGr
         IGraphElement[] Modify(IGraph graph, IMatch match);
 
         /// <summary>
+        /// Performs the rule specific modifications to the given graph with all of the given matches.
+        /// The graph and match object must have the correct type for the used backend.
+        /// No OnRewritingNextMatch events are triggered by this function.
+        /// </summary>
+        /// <returns>An array of elements returned by the rule.</returns>
+        IGraphElement[] ModifyAll(IGraph graph, IMatches matches);
+
+        /// <summary>
         /// Tries to apply this rule to the given graph once.
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.

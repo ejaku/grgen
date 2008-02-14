@@ -454,13 +454,16 @@ namespace de.unika.ipd.grGen.grShell
             markedNodes.Clear();
             markedEdges.Clear();
 
+            curRulePattern = matches.Producer.RulePattern;
+
             foreach(IMatch match in matches)
             {
                 int i = 0;
                 foreach(INode node in match.Nodes)
                 {
                     ycompClient.ChangeNode(node, ycompClient.MatchedNodeRealizer);
-                    ycompClient.AnnotateElement(node, matches.Producer.RulePattern.PatternGraph.Nodes[i].Name.Substring(5));
+                    // Node names have a "node_" prefix. Don't include this in annotation.
+                    ycompClient.AnnotateElement(node, curRulePattern.PatternGraph.Nodes[i].Name.Substring(5));
                     markedNodes[node] = true;
                     i++;
                 }
@@ -468,7 +471,8 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(IEdge edge in match.Edges)
                 {
                     ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
-                    ycompClient.AnnotateElement(edge, matches.Producer.RulePattern.PatternGraph.Edges[i].Name.Substring(5));
+                    // Edge names have an "edge_" prefix. Don't include this in annotation.
+                    ycompClient.AnnotateElement(edge, curRulePattern.PatternGraph.Edges[i].Name.Substring(5));
                     markedEdges[edge] = true;
                     i++;
                 }
@@ -484,14 +488,12 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(INode node in match.Nodes)
                 {
                     ycompClient.ChangeNode(node, null);
-//                    ycompClient.AnnotateElement(node, null);
                     i++;
                 }
                 i = 0;
                 foreach(IEdge edge in match.Edges)
                 {
                     ycompClient.ChangeEdge(edge, null);
-//                    ycompClient.AnnotateElement(edge, null);
                     i++;
                 }
             }
@@ -501,7 +503,6 @@ namespace de.unika.ipd.grGen.grShell
             ycompClient.EdgeRealizer = ycompClient.NewEdgeRealizer;
             nextAddedNodeIndex = 0;
             nextAddedEdgeIndex = 0;
-            curRulePattern = matches.Producer.RulePattern;
         }
 
         void DebugNextMatch()

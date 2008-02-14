@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
-    /// It is returned by IAction.Match() and given to the OnMatched event.
+    /// It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
     /// </summary>
     public class LGSPMatches : IMatches
     {
@@ -216,7 +216,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="producer">The action object used to generate this LGSPMatches object</param>
         /// <param name="numNodes">The number of nodes which will be matched by the given action.</param>
         /// <param name="numEdges">The number of edges which will be matched by the given action.</param>
-        /// <param name="numEdges">The number of subpatterns which will be matched by the given action.</param>
+        /// <param name="numSubpats">The number of subpatterns which will be matched by the given action.</param>
         public LGSPMatches(LGSPAction producer, int numNodes, int numEdges, int numSubpats)
         {
             this.producer = producer;
@@ -304,6 +304,27 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Performs the rule specific modifications to the given graph with all of the given matches.
+        /// No OnRewritingNextMatch events are triggered by this function.
+        /// </summary>
+        /// <returns>An array of elements returned by the rule.</returns>
+        public IGraphElement[] ModifyAll(LGSPGraph graph, LGSPMatches matches)
+        {
+            IGraphElement[] retElems = null;
+            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization)
+            {
+                foreach(LGSPMatch match in matches)
+                    retElems = rulePattern.Modify(graph, match);
+            }
+            else
+            {
+                foreach(LGSPMatch match in matches)
+                    retElems = rulePattern.ModifyNoReuse(graph, match);
+            }
+            return retElems;
+        }
+
+        /// <summary>
         /// Tries to apply this rule to the given graph once.
         /// The rule must not require any parameters.
         /// No Matched/Finished events are triggered by this function.
@@ -346,7 +367,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// The rule may not require any parameters.
         /// No Matched/Finished events are triggered by this function.
         /// </summary>
-        /// <param name="maxMatches">The maximum number of matches to be rewritten.</param>
+        /// <param name="maxMatches">The maximum number of matches to be rewritten or 0 for no limit.</param>
         /// <param name="graph">Host graph for this rule</param>
         /// <returns>A possibly empty array of IGraphElement instances returned by the last applicance of the rule,
         /// or null, if no match was found.</returns>
@@ -424,6 +445,16 @@ namespace de.unika.ipd.grGen.lgsp
                 return rulePattern.Modify((LGSPGraph) graph, (LGSPMatch) match);
             else
                 return rulePattern.ModifyNoReuse((LGSPGraph) graph, (LGSPMatch) match);
+        }
+
+        /// <summary>
+        /// Performs the rule specific modifications to the given graph with all of the given matches.
+        /// No OnRewritingNextMatch events are triggered by this function.
+        /// </summary>
+        /// <returns>An array of elements returned by the rule.</returns>
+        IGraphElement[] IAction.ModifyAll(IGraph graph, IMatches matches)
+        {
+            return ModifyAll((LGSPGraph) graph, (LGSPMatches) matches);
         }
 
         /// <summary>

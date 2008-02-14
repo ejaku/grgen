@@ -259,6 +259,8 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Fired after the rewrite step of a rule.
+        /// Note, that the given matches object may contain invalid entries,
+        /// as parts of the match may have been deleted!
         /// </summary>
         public event AfterFinishHandler OnFinished;
 
@@ -273,7 +275,7 @@ namespace de.unika.ipd.grGen.libGr
         public event ExitSequenceHandler OnExitingSequence;
 
         /// <summary>
-        /// Fires a OnEnteringSequence event.
+        /// Fires an OnEnteringSequence event.
         /// </summary>
         /// <param name="seq">The sequence which is entered.</param>
         public void EnteringSequence(Sequence seq)
@@ -283,13 +285,46 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Fires a OnExitingSequence event.
+        /// Fires an OnExitingSequence event.
         /// </summary>
         /// <param name="seq">The sequence which is exited.</param>
         public void ExitingSequence(Sequence seq)
         {
             ExitSequenceHandler handler = OnExitingSequence;
             if(handler != null) handler(seq);
+        }
+
+        /// <summary>
+        /// Fires an OnMatched event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Matched(IMatches matches, bool special)
+        {
+            AfterMatchHandler handler = OnMatched;
+            if(handler != null) handler(matches, special);
+        }
+
+        /// <summary>
+        /// Fires an OnFinishing event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finishing(IMatches matches, bool special)
+        {
+            BeforeFinishHandler handler = OnFinishing;
+            if(handler != null) handler(matches, special);
+        }
+
+        /// <summary>
+        /// Fires an OnFinished event.
+        /// </summary>
+        /// <param name="matches">The match result.</param>
+        /// <param name="special">The "special" flag of this rule application.</param>
+        public void Finished(IMatches matches, bool special)
+        {
+            AfterFinishHandler handler = OnFinished;
+            if(handler != null) handler(matches, special);
         }
         #endregion Events
     }
