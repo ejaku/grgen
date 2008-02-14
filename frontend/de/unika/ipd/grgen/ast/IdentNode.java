@@ -104,7 +104,8 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return true;
+		// there must be exactly one definition
+		return getSymDef().isValid();
 	}
 
 	/**

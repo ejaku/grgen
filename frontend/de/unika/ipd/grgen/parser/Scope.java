@@ -199,20 +199,17 @@ public class Scope {
 
 		if(sym.isKeyword() && sym.getDefinitionCount() > 0) {
 			reporter.error(coords, "Cannot redefine keyword \"" + sym + "\"");
-			def = Symbol.Definition.getInvalid();
+			def = Symbol.Definition.getInvalid(); // do not redefine a keyword
+		} else if(definedHere(sym)) {
+			def = getLocalDef(sym); // the previous definition
+			reporter.error(coords, "Symbol \"" + sym + "\" has already been defined in this scope (at: " + def.coords + ")");
+			def = Symbol.Definition.getInvalid(); // do not redefine a symbol
 		} else {
-
-			if(definedHere(sym)) {
-				def = getLocalDef(sym);
-				reporter.error(coords, "Symbol \"" + sym + "\" has already been "
-								   + "defined in this scope (at: " + def.coords + ")");
-			} else {
-				try {
-					def = sym.define(this, coords);
-					defs.put(sym, def);
-				} catch(SymbolTableException e) {
-					reporter.error(e.getMessage());
-				}
+			try {
+				def = sym.define(this, coords);
+				defs.put(sym, def);
+			} catch(SymbolTableException e) {
+				reporter.error(e.getMessage());
 			}
 		}
 
