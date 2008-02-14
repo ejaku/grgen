@@ -181,103 +181,106 @@ SKIP: {
 }
 
 TOKEN: {
-	< NL: "\n" >
-|	< QUOTE: "\"" >
-|	< SINGLEQUOTE: "\'" >
-|	< COLON: ":" >
-|	< DOUBLESEMICOLON: ";;" >
-|	< SEMICOLON: ";" >
-|	< EQUAL: "=" >
-|	< DOT: "." >
-|	< COMMA: "," >
-|	< DOLLAR: "$" >
+    < NL: "\n" >
+|   < QUOTE: "\"" >
+|   < SINGLEQUOTE: "\'" >
+|   < COLON: ":" >
+|   < DOUBLESEMICOLON: ";;" >
+|   < SEMICOLON: ";" >
+|   < EQUAL: "=" >
+|   < DOT: "." >
+|   < COMMA: "," >
+|   < DOLLAR: "$" >
 |   < DOUBLEAMPERSAND: "&&" >
-|	< AMPERSAND: "&" >
+|   < AMPERSAND: "&" >
 |   < DOUBLEPIPE: "||" >
-|	< PIPE: "|" >
+|   < PIPE: "|" >
 |   < CIRCUMFLEX: "^" >
-|	< ARROW: "->" >
-|	< MINUS: "-" >
-|	< STAR: "*" >
-|	< PLUS: "+" >
-|	< EXCLAMATIONMARK: "!" >
+|   < ARROW: "->" >
+|   < MINUS: "-" >
+|   < STAR: "*" >
+|   < PLUS: "+" >
+|   < EXCLAMATIONMARK: "!" >
 |   < QUESTIONMARK: "?" >
 |   < PERCENT: "%" >
-|	< LPARENTHESIS: "(" >
-|	< RPARENTHESIS: ")" >
-|	< LBRACE: "{" >
-|	< RBRACE: "}" >
-|	< LBOXBRACKET: "[" >
-|	< RBOXBRACKET: "]" >
+|   < LPARENTHESIS: "(" >
+|   < RPARENTHESIS: ")" >
+|   < LBRACE: "{" >
+|   < RBRACE: "}" >
+|   < LBOXBRACKET: "[" >
+|   < RBOXBRACKET: "]" >
 |   < LANGLE: "<" >
 |   < RANGLE: ">" >
-|	< AT : "@" >
+|   < AT : "@" >
 }
 
 TOKEN: {
-	< HELP:	"help" >
-|   < INCLUDE: "include" >
-|	< NEW: "new" >
-|	< OPEN: "open" >
-|	< SELECT: "select" >
-|	< BACKEND: "backend" >
-|	< GRAPH: "graph" >
-|	< GRAPHS: "graphs" >
-|	< ACTIONS: "actions" >
-|	< PARSER: "parser" >
-|	< PARSE: "parse" >
-|	< FILE: "file" >
-|	< NODE: "node" >
-|	< EDGE: "edge" >
-|	< DELETE: "delete" >
-|	< CLEAR: "clear" >
-|   < GRS: "grs" >
-|   < XGRS: "xgrs" >
+    < ACTIONS: "actions" >
+|   < ADD: "add" >
+|   < ATTRIBUTES: "attributes" >
+|   < BACKEND: "backend" >
+|   < BORDERCOLOR: "bordercolor" >
+|   < BY: "by" >
+|   < CLEAR: "clear" >
+|   < COLOR: "color" >
+|   < CUSTOM: "custom" >
 |   < DEBUG: "debug" >
-|   < ENABLE: "enable" >
+|   < DEF: "def" >
+|   < DELETE: "delete" >
 |   < DISABLE: "disable" >
-|   < LAYOUT: "layout" >
-|	< TYPE: "type" >
-|	< TYPES: "types" >
-|	< SUPER: "super" >
-|	< SUB: "sub" >
-|	< IS: "is" >
-|	< SHOW: "show" >
-|	< NODES: "nodes" >
-|	< EDGES: "edges" >
-|	< NUM: "num" >
-|	< ONLY: "only" >
-|	< ATTRIBUTES: "attributes" >
-|	< DUMP: "dump" >
-|   < SET: "set" >
+|   < DUMP: "dump" >
+|   < ECHO: "echo">
+|   < EDGE: "edge" >
+|   < EDGES: "edges" >
+|   < ENABLE: "enable" >
+|   < EXCLUDE: "exclude" >
+|   < EXIT: "exit" >
+|   < FALSE: "false" >
+|   < FILE: "file" >
 |   < GET: "get" >
+|   < GRAPH: "graph" >
+|   < GRAPHS: "graphs" >
+|   < GROUP: "group" >
+|   < GRS: "grs" >
+|   < HELP: "help" >
+|   < HIDDEN: "hidden" >
+|   < INCLUDE: "include" >
+|   < INFOTAG: "infotag" >
+|   < IO: "io" >
+|   < IS: "is" >
+|   < LABELS: "labels" >
+|   < LAYOUT: "layout" >
+|   < NEW: "new" >
+|   < NODE: "node" >
+|   < NODES: "nodes" >
+|   < NULL: "null" >
+|   < NUM: "num" >
+|   < OFF: "off" >
+|   < ON: "on" >
+|   < ONLY: "only" >
+|   < OPEN: "open" >
 |   < OPTION: "option" >
 |   < OPTIONS: "options" >
-|	< COLOR: "color" >
-|   < BORDERCOLOR: "bordercolor" >
+|   < PARSE: "parse" >
+|   < PARSER: "parser" >
+|   < QUIT: "quit" >
+|   < RESET: "reset" >
+|   < SAVE: "save" >
+|   < SELECT: "select" >
+|   < SET: "set" >
 |   < SHAPE: "shape" >
+|   < SHOW: "show" >
+|   < STRICT: "strict" >
+|   < SUB: "sub" >
+|   < SUPER: "super" >
+|   < SYNC: "sync" >
 |   < TEXTCOLOR: "textcolor" >
-|   < ADD: "add" >
-|	< GROUP: "group" >
-|	< EXCLUDE: "exclude" >
-|	< LABELS: "labels" >
-|	< ON: "on" >
-|	< OFF: "off" >
-|   < INFOTAG: "infotag" >
-|	< RESET: "reset" >
-|	< SAVE: "save" >
-|	< VALIDATE: "validate" >
-|	< STRICT: "strict" >
-|	< ECHO: "echo">
-|	< CUSTOM: "custom" >
-|	< QUIT: "quit" >
-|	< EXIT: "exit" >
-|	< DEF: "def" >
-|	< SYNC: "sync" >
-|	< IO: "io" >
 |   < TRUE: "true" >
-|   < FALSE: "false" >
-|   < NULL: "null" >
+|   < TYPE: "type" >
+|   < TYPES: "types" >
+|   < VALIDATE: "validate" >
+|   < WITH: "with" >
+|   < XGRS: "xgrs" >
 }
 
 TOKEN: {
@@ -360,6 +363,17 @@ String AnyString():
 {
     {token_source.SwitchTo(WithinAnyString);}
     (tok=<DOUBLEQUOTEDANYSTRING> | tok=<SINGLEQUOTEDANYSTRING> | tok=<ANYSTRING>)
+    {
+        return tok.image;
+    }
+}
+
+String Word():
+{
+    Token tok;
+}
+{
+    tok=<WORD>
     {
         return tok.image;
     }
@@ -620,7 +634,7 @@ void ShellCommand():
     {
         try
         {
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, impl.CurrentGraph);
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -647,7 +661,7 @@ void ShellCommand():
 	    {
             try
             {
-                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, impl.CurrentGraph);
     	        impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
@@ -1028,7 +1042,7 @@ void DebugCommand():
     {
         try
         {
-            seq = SequenceParser.ParseSequence(str, impl.CurrentActions);
+            seq = SequenceParser.ParseSequence(str, impl.CurrentActions, impl.CurrentGraph);
             impl.DebugRewriteSequence(seq);
             noError = !impl.OperationCancelled;
         }
@@ -1345,10 +1359,11 @@ void DumpSet():
 
 void DumpAdd():
 {
-	NodeType nodeType;
-	EdgeType edgeType;
-	String attrName;
-	bool only = false;
+	NodeType nodeType, adjNodeType = impl.CurrentGraph.Model.NodeModel.RootType;
+	EdgeType edgeType = impl.CurrentGraph.Model.EdgeModel.RootType;
+	String attrName, groupModeStr = "incoming";
+	bool only = false, onlyEdge = false, onlyAdjNode = false, hidden = false;
+	GroupMode groupMode;
 }
 {
 	"node" ("only" { only=true; })? nodeType=NodeType()
@@ -1358,13 +1373,38 @@ void DumpAdd():
 			impl.AddDumpExcludeNodeType(nodeType, only);
 		}
 	|
-		"group" LineEnd()		// TODO: Add "only" option?
+		"group" 
+		(
+		    "by" ("hidden" { hidden = true; })? groupModeStr=Word()
+		    (
+	            ("only" { onlyEdge=true; })? edgeType=EdgeType()
+	            (
+	                "with" ("only" { onlyAdjNode=true; })? adjNodeType=NodeType()
+	            )?
+	        )?
+		)? LineEnd()
 		{
-			if(only)
-				Console.WriteLine("The 'only' modifier is not allowed for 'dump add group'!");
-			else
-				impl.AddDumpGroupNodes(nodeType);
-		}
+	        switch(groupModeStr)
+	        {
+	            case "no":       groupMode = GroupMode.None;               break;
+	            case "incoming": groupMode = GroupMode.GroupIncomingNodes; break;
+	            case "outgoing": groupMode = GroupMode.GroupOutgoingNodes; break;
+	            case "any":      groupMode = GroupMode.GroupAllNodes;      break;
+	            default:
+	                Console.WriteLine("Group mode must be one of: no, incoming, outgoing, any");
+	                return;
+	        }
+	        if(hidden)
+	        {
+	            if(groupMode == GroupMode.None)
+	            {
+	                Console.WriteLine("The 'hidden' modifier can not be used with the group mode 'no'!");
+	                return;
+	            }
+	            groupMode |= GroupMode.Hidden;
+	        }
+            impl.AddDumpGroupNodesBy(nodeType, only, edgeType, onlyEdge, adjNodeType, onlyAdjNode, groupMode);
+	    }
 	|
 		"infotag" attrName=Text() LineEnd()
 		{
