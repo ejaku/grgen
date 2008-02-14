@@ -1,0 +1,5 @@
+rule r {
+  -x:Edge->;
+  x;
+  modify { }
+}

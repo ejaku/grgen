@@ -1,0 +1,6 @@
+test t {
+  -e:Edge->;
+  negative {
+    -e:Edge->;
+  }
+}

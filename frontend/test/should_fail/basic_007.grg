@@ -1,0 +1,7 @@
+rule r {
+  x:Node;
+  negative {
+    x:Node;
+  }
+  modify { }
+}

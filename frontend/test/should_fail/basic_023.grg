@@ -1,0 +1,6 @@
+rule r {
+  -x:Edge->;
+  modify { 
+    x:Node;
+  }
+}

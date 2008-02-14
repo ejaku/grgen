@@ -1,0 +1,8 @@
+rule r {
+  -e:Edge->;
+  negative {
+    -e:Edge->;
+  }
+  modify {
+  }
+}

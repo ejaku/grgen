@@ -1,0 +1,5 @@
+rule r(x:Node) {
+  replace {
+    x:Node;
+  }
+}

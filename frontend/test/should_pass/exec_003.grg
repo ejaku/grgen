@@ -1,0 +1,19 @@
+using deep_model_001;
+
+rule r(b : B) : (B) {
+  negative {
+    b:B;
+  }
+  modify{
+    x; x:B;
+    exec(r(b));
+    exec((x:B)=r(b));
+    exec((x:B)=r(x));
+    exec((x:B)=r(b) && r(x));
+    exec((x:B)=r(b) && (x)=r(x));
+    exec((x:B)=r(x) && (x)=r(x));
+    exec((x:B)=r(b) && (x)=r(b));
+    exec((x)=r(b) && (x:B)=r(b));
+    return (b);
+  }
+}

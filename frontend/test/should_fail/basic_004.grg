@@ -1,0 +1,6 @@
+rule r {
+  -e:Edge->;
+  modify {
+    -e:Edge->;
+  }
+}
