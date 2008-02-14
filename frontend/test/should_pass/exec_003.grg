@@ -1,11 +1,7 @@
 using deep_model_001;
 
 rule r(b : B) : (B) {
-  negative {
-    b:B;
-  }
   modify{
-    x; x:B;
     exec(r(b));
     exec((x:B)=r(b));
     exec((x:B)=r(x));

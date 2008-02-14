@@ -284,7 +284,7 @@ patternBody [ Coords coords, CollectNode<PatternGraphNode> negs, int mod, int co
 			 returnz, homs, exact, induced, context, nameOfGraph+".pattern"] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond, 
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond,
 			CollectNode<PatternGraphNode> negs, int negCount, CollectNode<AlternativeNode> alts, int altCount,
 			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, String nameOfGraph ]
@@ -320,7 +320,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 	| COND LBRACE
 		( e=expr[false] { cond.addChild(e); } SEMI )*
 		RBRACE
-	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCount, context] { alts.addChild(alt); ++altCount; } RBRACE 
+	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCount, context] { alts.addChild(alt); ++altCount; } RBRACE
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -735,12 +735,12 @@ alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNo
 		PatternGraphNode left;
 		int mod = 0;
 	}
-	: ( id=entIdentDecl l:LBRACE pushScopeStr[ "alt" + altCount, getCoords(l) ] 
-		left=patternPart[getCoords(l), negs, mod, context, "alternative "+id.toString()] 
+	: ( id=entIdentDecl l:LBRACE pushScopeStr[ "alt" + altCount, getCoords(l) ]
+		left=patternPart[getCoords(l), negs, mod, context, "alternative "+id.toString()]
 		RBRACE popScope
 		{ alt.addChild(left); negs = new CollectNode<PatternGraphNode>();} )*
 	;
-	
+
 rets[CollectNode<IdentNode> res, int context]
 	{
 		IdentNode id;
@@ -773,11 +773,36 @@ paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
 	;
 
+paramListOfEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
+	{ IdentNode id, type; }
+	: paramListOfEntIdentUseOrEntIdentDeclONE[res]
+		( COMMA paramListOfEntIdentUseOrEntIdentDeclONE[res] )*
+	;
+
+paramListOfEntIdentUseOrEntIdentDeclONE[CollectNode<BaseNode> res]	{ IdentNode id, type; }
+	:
+	(
+		id=entIdentUse { res.addChild(id); }
+	|
+		id=entIdentDecl COLON type=typeIdentUse
+			{
+				res.addChild(new NodeDeclNode(id, type,
+					BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty()));
+			}
+	|
+		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW
+		{
+			res.addChild(new EdgeDeclNode(id, type,
+				BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty()));
+		}
+	)
+	;
+
 execStmt[CollectNode<BaseNode> imperativeStmts]
     {
     	ExecNode exec = null;
     }
-	: e:EXEC { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN { imperativeStmts.addChild(exec); }
+	: e:EXEC pushScopeStr["exec_", getCoords(e)] { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN { imperativeStmts.addChild(exec); } popScope
 	;
 
 emitStmt[CollectNode<BaseNode> imperativeStmts]
@@ -847,15 +872,15 @@ iterSequence[ExecNode xg]
 
 simpleSequence[ExecNode xg]
 	{
-		CollectNode<IdentNode> returns = new CollectNode<IdentNode>();
+		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 	}
 	: LPAREN {xg.append("(");}
 		(
-			(entIdentUse COMMA|entIdentUse RPAREN ASSIGN) =>
-				paramListOfEntIdentUse[returns]
+			(entIdentUse COMMA|entIdentUse RPAREN ASSIGN|entIdentUse COLON) =>
+				paramListOfEntIdentUseOrEntIdentDecl[returns]
 					{
-						for(Iterator<IdentNode> i =returns.getChildren().iterator(); i.hasNext();) {
-								IdentNode r = i.next();
+						for(Iterator<BaseNode> i =returns.getChildren().iterator(); i.hasNext();) {
+								BaseNode r = i.next();
 								xg.append(r);
 								if(i.hasNext()) xg.append(",");
 							}
@@ -869,12 +894,12 @@ simpleSequence[ExecNode xg]
 	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
 	;
 
-parallelCallRule[ExecNode xg, CollectNode<IdentNode> returns]
+parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
 	| callRule[xg, returns]
 	;
 
-callRule[ExecNode xg, CollectNode<IdentNode> returns]
+callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	{
 		CollectNode<IdentNode> params = new CollectNode<IdentNode>();
 		IdentNode id;

@@ -43,17 +43,17 @@ import java.util.Vector;
 /**
  * An expression that results from a declared identifier.
  */
-public class CallActionNode extends BaseNode implements ScopeOwner {
+public class CallActionNode extends BaseNode {
 
 	static {
 		setName(CallActionNode.class, "call action");
 	}
 
 	private IdentNode actionUnresolved;
-	private TestDeclNode action;
 	private CollectNode<IdentNode> paramsUnresolved;
-	private CollectNode<IdentNode> returnsUnresolved;
+	private CollectNode<BaseNode> returnsUnresolved;
 
+	private TestDeclNode action;
 	protected CollectNode<ConstraintDeclNode> params;
 	protected CollectNode<ConstraintDeclNode> returns;
 
@@ -62,7 +62,7 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 	 * @param    paramsUnresolved    a  CollectNode<IdentNode>
 	 * @param    returnsUnresolved   a  CollectNode<IdentNode>
 	 */
-	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<IdentNode> paramsUnresolved, CollectNode<IdentNode> returnsUnresolved) {
+	public CallActionNode(Coords coords, IdentNode ruleUnresolved, CollectNode<IdentNode> paramsUnresolved, CollectNode<BaseNode> returnsUnresolved) {
 		super(coords);
 		this.actionUnresolved = ruleUnresolved;
 		this.paramsUnresolved = paramsUnresolved;
@@ -111,9 +111,7 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 	 * This sets the symbol defintion to the right place, if the defintion is behind the actual position.
 	 * TODO: extract and unify this method to a common place/code duplication
 	 */
-	public boolean fixupDefinition(IdentNode id) {
-		Scope scope = id.getScope().getIdentNode().getScope();
-
+	public static boolean fixupDefinition(IdentNode id, Scope scope) {
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -130,28 +128,30 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 		if(res) {
 			id.setSymDef(def);
 		} else {
-			reportError("Identifier " + id + " not declared in this scope: " + scope);
+			error.error(id.getCoords(), "Identifier " + id + " not declared in this scope: " + scope);
 		}
 
 		return res;
 	}
 
-	private static DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
-	private static CollectResolver<ConstraintDeclNode> entityResolver = new CollectResolver<ConstraintDeclNode>(
+	private static final DeclarationResolver<TestDeclNode> actionResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
+
+	private static final CollectResolver<ConstraintDeclNode> constraintDeclNodeResolver = new CollectResolver<ConstraintDeclNode>(
 		new DeclarationResolver<ConstraintDeclNode>(ConstraintDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		fixupDefinition(actionUnresolved);
+		fixupDefinition(actionUnresolved, actionUnresolved.getScope().getIdentNode().getScope().getIdentNode().getScope());
 		action = actionResolver.resolve(actionUnresolved);
 		successfullyResolved = action!=null && successfullyResolved;
 
 		//TODO this is wrong!
-		params = entityResolver.resolve(paramsUnresolved, this);
+
+		params = constraintDeclNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
 
-		returns = entityResolver.resolve(returnsUnresolved, this);
+		returns = constraintDeclNodeResolver.resolve(returnsUnresolved, this);
 		successfullyResolved = returns!=null && successfullyResolved;
 
 		return successfullyResolved;
@@ -182,26 +182,28 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 							formalParams.children.size() + " vs. " + actualParams.children.size() +")");
 			res = false;
 		} else {
-			Iterator<ConstraintDeclNode> iterAP = actualParams.children.iterator();
-			for(ConstraintDeclNode formalParam : formalParams.getChildren()) {
-				InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+			if(actualParams.getChildren().iterator().next() instanceof ConstraintDeclNode) {
+				Iterator<ConstraintDeclNode> iterAP = ((CollectNode<ConstraintDeclNode>)(CollectNode)actualParams).children.iterator();
+				for(ConstraintDeclNode formalParam : formalParams.getChildren()) {
+					InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
 
-				ConstraintDeclNode actualParam     = iterAP.next();
-				InheritanceType    actualParamType = (InheritanceType)actualParam.getDecl().getDeclType().checkIR(InheritanceType.class);
+					ConstraintDeclNode actualParam     = iterAP.next();
+					InheritanceType    actualParamType = (InheritanceType)actualParam.getDecl().getDeclType().checkIR(InheritanceType.class);
 
-				if(actualParamType instanceof EdgeType && formalParamType instanceof NodeType ||
-				   actualParamType instanceof NodeType && formalParamType instanceof EdgeType){
-					reportError("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
-									"\" parameter types are incommensurable, because nodes and edges are distinct.");
-					res = false;
+					if(actualParamType instanceof EdgeType && formalParamType instanceof NodeType ||
+					   actualParamType instanceof NodeType && formalParamType instanceof EdgeType){
+						reportError("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
+										"\" parameter types are incommensurable, because nodes and edges are distinct.");
+						res = false;
 
+					}
+					/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
+					 else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
+					 reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
+					 "\" parameter types are incommensurable. The called rule might never match.");
+					 }
+					 */
 				}
-				/* TODO: Maybe we want to warn: but diamond inheritace makes this not trivial
-				else if(!actualParamType.isCastableTo(formalParamType) && !formalParamType.isCastableTo(actualParamType) ) {
-					reportWarning("Actual \"" + actualParamType + "\" and formal \"" + formalParamType +
-									  "\" parameter types are incommensurable. The called rule might never match.");
-				}
-				 */
 			}
 		}
 		return res;
@@ -235,4 +237,5 @@ public class CallActionNode extends BaseNode implements ScopeOwner {
 		return Bad.getBad(); // TODO fix this
 	}
 }
+
 

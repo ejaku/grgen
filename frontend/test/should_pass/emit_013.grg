@@ -13,7 +13,7 @@ rule r1(a:A, as:ASTR) : (AINT) {
 rule r2(n:Node, a:A) {
    modify {
      as : ASTR;
-     exec((ai)=r1(a, as) && (ai)=r1(ai, as) && (aii)=r1(ai, as));
+     exec((ai:AINT)=r1(a, as) && (ai)=r1(ai, as) && (aii:AINT)=r1(ai, as));
    }
 }
 

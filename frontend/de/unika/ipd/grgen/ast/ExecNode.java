@@ -46,11 +46,11 @@ public class ExecNode extends BaseNode {
 
 	private StringBuilder sb = new StringBuilder();
 
-	private CollectNode<CallActionNode> actions = new CollectNode<CallActionNode>();
+	private CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
-		becomeParent(actions);
+		becomeParent(callActions);
 	}
 
 	public void append(Object n) {
@@ -65,13 +65,13 @@ public class ExecNode extends BaseNode {
 	public void addCallAction(CallActionNode n) {
 		assert(!isResolved());
 		becomeParent(n);
-		actions.addChild(n);
+		callActions.addChild(n);
 	}
 
 	/** returns children of this node */
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> res = new Vector<BaseNode>();
-		res.add(actions);
+		res.add(callActions);
 		return res;
 	}
 
@@ -97,8 +97,8 @@ public class ExecNode extends BaseNode {
 
 	protected IR constructIR() {
 		Set<GraphEntity> parameters = new LinkedHashSet<GraphEntity>();
-		for(CallActionNode callActionNode : actions.getChildren())
-			for(ConstraintDeclNode param : callActionNode.getParams().getChildren())
+		for(CallActionNode callActionNode : callActions.getChildren())
+			for(DeclNode param : callActionNode.getParams().getChildren())
 			parameters.add((GraphEntity) param.getIR());
 		Exec res= new Exec(getXGRSString(), parameters);
 		return res;
