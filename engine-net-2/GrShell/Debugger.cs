@@ -24,6 +24,8 @@ namespace de.unika.ipd.grGen.grShell
         bool alwaysShow = true;
         Sequence curStepSequence = null;
 
+        int matchDepth = 0;
+
         IRulePattern curRulePattern = null;
         int nextAddedNodeIndex = 0;
         int nextAddedEdgeIndex = 0;
@@ -454,8 +456,11 @@ namespace de.unika.ipd.grGen.grShell
             if(recordMode)
             {
                 DebugFinished(null, false);
-                Console.WriteLine("Matched " + matches.Producer.Name);
+                matchDepth++;
             }
+
+            if(matchDepth++ > 0)
+                Console.WriteLine("Matched " + matches.Producer.Name);
 
             markedNodes.Clear();
             markedEdges.Clear();
@@ -638,6 +643,7 @@ namespace de.unika.ipd.grGen.grShell
             deletedEdges.Clear();
             deletedNodes.Clear();
             recordMode = false;
+            matchDepth--;
         }
 
         void DebugOnConnectionLost()
