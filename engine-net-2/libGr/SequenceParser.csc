@@ -16,11 +16,12 @@ PARSER_BEGIN(SequenceParser)
 	public class SequenceParser
 	{
 		BaseActions actions;
+		NamedGraph namedGraph;
 		
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
         /// </summary>
-        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test{7} &amp;&amp; (chicken+ || egg)*")</param>
+        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
@@ -30,6 +31,24 @@ PARSER_BEGIN(SequenceParser)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
+			return parser.RewriteSequence();
+		}		
+
+        /// <summary>
+        /// Parses a given string in xgrs syntax and builds a Sequence object.
+        /// </summary>
+        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
+        /// <returns>The sequence object according to sequenceStr.</returns>
+        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
+        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+        /// or return parameters.</exception>
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, NamedGraph namedGraph)
+		{
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
+			parser.actions = actions;
+			parser.namedGraph = namedGraph;
 			return parser.RewriteSequence();
 		}		
 	}
@@ -281,7 +300,6 @@ Sequence SimpleSequence():
 	Sequence seq;
 	ArrayList defParamVars = new ArrayList();
 	String toVarName, fromName;
-	NamedGraph namedGraph;
 	IGraphElement elem;
 }
 {
@@ -296,12 +314,9 @@ Sequence SimpleSequence():
         {
             if(actions == null)
                 throw new ParseException("The @-operator is not allowed without an BaseActions instance!");
-
-//            namedGraph = actions.Graph as NamedGraph;         // CSharpCC does not know "as" yet...
-            
-            if(!(actions.Graph is NamedGraph))
+            if(namedGraph == null)
                 throw new ParseException("The @-operator can only be used with NamedGraphs!");
-            namedGraph = (NamedGraph) actions.Graph;
+                
             elem = namedGraph.GetGraphElement(fromName);
             if(elem == null)
                 throw new ParseException("Graph element does not exist: \"" + fromName + "\"!");
