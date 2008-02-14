@@ -451,6 +451,12 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(detailedMode == false || matches.Count == 0) return;
 
+            if(recordMode)
+            {
+                DebugFinished(null, false);
+                Console.WriteLine("Matched " + matches.Producer.Name);
+            }
+
             markedNodes.Clear();
             markedEdges.Clear();
 

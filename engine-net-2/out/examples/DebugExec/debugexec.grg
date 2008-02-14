@@ -1,0 +1,29 @@
+rule Init {
+    modify {
+        a:Node --> :Node --> a;
+    }
+}
+
+rule Enlarge {
+    a:Node -e:Edge-> b:Node;
+    modify{
+        delete(e);
+        a --> :Node --> b;
+    }
+}
+
+rule DestroyRing {
+    a:Node -e:Edge-> b:Node;
+    modify {
+        delete(e);
+        exec(DestroyEnd[*]);
+    }
+}
+
+rule DestroyEnd {
+    a:Node -e:Edge-> b:Node;
+    negative { b -->; }
+    modify {
+        delete(b);
+    }
+}
