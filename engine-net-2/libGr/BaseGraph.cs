@@ -904,7 +904,7 @@ namespace de.unika.ipd.grGen.libGr
 
         private void DumpEdgesFromNode(INode node, DumpContext ctx)
         {
-            foreach(IEdge edge in node.Outgoing)
+            foreach(IEdge edge in node.Outgoing)        // TODO: This is probably wrong for group nodes grouped by outgoing edges
             {
                 if(ctx.DumpInfo.IsExcludedEdgeType(edge.Type)) continue;
                 if(ctx.ExcludedEdges.Contains(edge)) continue;
@@ -934,53 +934,62 @@ namespace de.unika.ipd.grGen.libGr
 
         private void DumpGroups(int iteration, Set<INode> rootNodes, DumpContext ctx)
         {
-            if(ctx.DumpInfo.GroupNodeTypes.Count > 0 && iteration < ctx.DumpInfo.GroupNodeTypes.Count)
+            Set<INode> roots = new Set<INode>();
+            int i = 0;
+            foreach(GroupNodeType groupNodeType in ctx.DumpInfo.GroupNodeTypes)
             {
-                Set<INode> roots = new Set<INode>();            
-                for(int i = iteration; i < ctx.DumpInfo.GroupNodeTypes.Count; i++)
+                if(i++ < iteration) continue;
+
+                roots.Clear();
+
+                foreach(INode node in GetCompatibleNodes(groupNodeType.NodeType))
                 {
-                    roots.Clear();
-
-                    NodeType nodeType = ctx.DumpInfo.GroupNodeTypes[i];
-                    foreach(INode node in GetCompatibleNodes(nodeType))
+                    if(rootNodes.Contains(node))
                     {
-                        if(rootNodes.Contains(node))
-                        {
-                            roots.Add(node);
-                            ctx.Nodes.Remove(node);
-                            rootNodes.Remove(node);
-                        }
+                        roots.Add(node);
+                        ctx.Nodes.Remove(node);
+                        rootNodes.Remove(node);
                     }
-                    foreach(INode root in roots)
+                }
+                foreach(INode root in roots)
+                {
+                    GrElemDumpType dumpType = GrElemDumpType.Normal;
+                    if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(root))
                     {
-                        GrElemDumpType dumpType = GrElemDumpType.Normal;
-                        if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(root))
-                        {
-                            if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(root))
-                                dumpType = GrElemDumpType.MultiMatched;
-                            else
-                                dumpType = GrElemDumpType.SingleMatched;
-                        }
-
-                        ctx.Dumper.StartSubgraph(root, GetElemLabel(root, ctx.DumpInfo), DumpAttributes(root),
-                            ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType), ctx.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
-
-                        Set<INode> leafNodes = new Set<INode>();
-                        foreach(IEdge edge in root.Incoming)
-                        {
-                            if(!ctx.Nodes.Contains(edge.Source)) continue;
-                            leafNodes.Add(edge.Source);
-                            ctx.ExcludedEdges.Add(edge);
-                        }
-
-                        DumpGroups(iteration + 1, leafNodes, ctx);
-
-                        rootNodes.Remove(leafNodes);
-                        ctx.Dumper.FinishSubgraph();
-
-                        // Dump edges from this subgraph
-                        DumpEdgesFromNode(root, ctx);
+                        if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(root))
+                            dumpType = GrElemDumpType.MultiMatched;
+                        else
+                            dumpType = GrElemDumpType.SingleMatched;
                     }
+
+                    ctx.Dumper.StartSubgraph(root, GetElemLabel(root, ctx.DumpInfo), DumpAttributes(root),
+                        ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType), ctx.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
+
+                    Set<INode> leafNodes = new Set<INode>();
+                    foreach(IEdge edge in root.Incoming)
+                    {
+                        GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
+                        if((grpMode & GroupMode.GroupIncomingNodes) == 0) continue;
+                        if(!ctx.Nodes.Contains(edge.Source)) continue;
+                        leafNodes.Add(edge.Source);
+                        ctx.ExcludedEdges.Add(edge);
+                    }
+                    foreach(IEdge edge in root.Outgoing)
+                    {
+                        GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
+                        if((grpMode & GroupMode.GroupOutgoingNodes) == 0) continue;
+                        if(!ctx.Nodes.Contains(edge.Target)) continue;
+                        leafNodes.Add(edge.Target);
+                        ctx.ExcludedEdges.Add(edge);
+                    }
+
+                    DumpGroups(iteration + 1, leafNodes, ctx);
+
+                    rootNodes.Remove(leafNodes);
+                    ctx.Dumper.FinishSubgraph();
+
+                    // Dump edges from this subgraph
+                    DumpEdgesFromNode(root, ctx);
                 }
             }
 
@@ -1020,11 +1029,12 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Dumps one or more matches with a given graph dumper.
+        /// Dumps the current graph and highlights any given matches.
+        /// If no match is given, the whole graph is dumped without any changes.
         /// </summary>
         /// <param name="dumper">The graph dumper to be used.</param>
         /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
-        /// <param name="matches">An IMatches object containing the matches.</param>
+        /// <param name="matches">An IMatches object containing the matches or null, if the graph is to be dumped normally.</param>
         /// <param name="which">Which match to dump, or AllMatches for dumping all matches
         /// adding connections between them, or OnlyMatches to dump the matches only</param>
         public void DumpMatch(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which)

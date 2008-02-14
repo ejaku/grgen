@@ -78,6 +78,8 @@ namespace de.unika.ipd.grGen.grShell
         bool isDirty = false;
         bool isLayoutDirty = false;
 
+        Dictionary<IEdge, bool> hiddenEdges = new Dictionary<IEdge,bool>();
+
         Dictionary<NodeRealizer, NodeRealizer> nodeRealizers = new Dictionary<NodeRealizer, NodeRealizer>();
         int nextNodeRealizerID = 5;
 
@@ -226,6 +228,8 @@ namespace de.unika.ipd.grGen.grShell
             dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
             dumpInfo.OnTypeInfotagsChanged += new TypeInfotagsChangedHandler(OnTypeInfotagsChanged);
+
+            // TODO: Add group related events
         }
 
         /// <summary>
@@ -458,7 +462,10 @@ namespace de.unika.ipd.grGen.grShell
             String nrName = nodeRealizer ?? GetNodeRealizer(node.Type);
 
             String name = graph.GetElementName(node);
-            ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
+            if(dumpInfo.GetGroupNodeType(node.Type) != null)
+                ycompStream.Write("addSubgraphNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
+            else
+                ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
             foreach(AttributeType attrType in node.Type.AttributeTypes)
             {
                 object attr = node.GetAttribute(attrType.Name);
@@ -472,13 +479,45 @@ namespace de.unika.ipd.grGen.grShell
 
         public void AddEdge(IEdge edge)
         {
-            if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
 
             String erName = edgeRealizer ?? GetEdgeRealizer(edge.Type);
 
             String edgeName = graph.GetElementName(edge);
             String srcName = graph.GetElementName(edge.Source);
             String tgtName = graph.GetElementName(edge.Target);
+
+            if(edge.Source != edge.Target)
+            {
+                GroupNodeType groupNodeType = dumpInfo.GetGroupNodeType(edge.Target.Type);
+                if(groupNodeType != null)
+                {
+                    GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
+                    if((grpMode & GroupMode.GroupIncomingNodes) != 0)
+                        ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
+                    else
+                    {
+                        groupNodeType = dumpInfo.GetGroupNodeType(edge.Source.Type);
+                        if(groupNodeType != null)
+                        {
+                            grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
+                            if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
+                                ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
+                        }
+                    }
+                    // If no grouping rule applies, grpMode is GroupMode.No (= 0)
+                    if((grpMode & GroupMode.Hidden) != 0)
+                    {
+                        hiddenEdges[edge] = true;
+                        isDirty = true;
+                        isLayoutDirty = true;
+                        return;
+                    }
+                }
+            }
+
             ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
                 + "\" \"" + erName + "\" \"" + GetElemLabel(edge) + "\"\n");
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
@@ -538,7 +577,10 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public void ChangeEdge(IEdge edge, String realizer)
         {
-            if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
+            if(hiddenEdges.ContainsKey(edge)) return;
 
             if(realizer == null) realizer = GetEdgeRealizer(edge.Type);
             String name = graph.GetElementName(edge);
@@ -563,6 +605,7 @@ namespace de.unika.ipd.grGen.grShell
         public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, String attrValue)
         {
             if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(hiddenEdges.ContainsKey(edge)) return;
 
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
@@ -589,7 +632,10 @@ namespace de.unika.ipd.grGen.grShell
 
         public void ClearEdgeAttribute(IEdge edge, AttributeType attrType)
         {
-            if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
+            if(hiddenEdges.ContainsKey(edge)) return;
 
             String name = graph.GetElementName(edge);
             ycompStream.Write("clearEdgeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
@@ -606,25 +652,30 @@ namespace de.unika.ipd.grGen.grShell
             GrGenType oldType = oldElem.Type;
             GrGenType newType = newElem.Type;
 
+            // TODO: Add element, if old element was excluded, but new element is not
             if(isNode)
             {
                 if(dumpInfo.IsExcludedNodeType((NodeType) oldType)) return;
             }
             else
             {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) oldType)) return;
+                IEdge oldEdge = (IEdge) oldElem;
+                if(dumpInfo.IsExcludedEdgeType(oldEdge.Type)
+                    || dumpInfo.IsExcludedNodeType(oldEdge.Source.Type)
+                    || dumpInfo.IsExcludedNodeType(oldEdge.Target.Type)) return;
+                if(hiddenEdges.ContainsKey(oldEdge)) return;       // TODO: Update group relation
             }
 
             String elemKind = isNode ? "Node" : "Edge";
             String elemNamePrefix = isNode ? "n" : "e";
-            String name = elemNamePrefix + graph.GetElementName(oldElem);
+            String oldName = elemNamePrefix + graph.GetElementName(oldElem);
 
-            ycompStream.Write("set" + elemKind + "Label \"" + name + "\" \"" + GetElemLabel(newElem) + "\"\n");
+            ycompStream.Write("set" + elemKind + "Label \"" + oldName + "\" \"" + GetElemLabel(newElem) + "\"\n");
 
             // remove the old attributes
             foreach(AttributeType attrType in oldType.AttributeTypes)
             {
-                ycompStream.Write("clear" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("clear" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\"\n");
             }
             // set the new attributes
@@ -632,7 +683,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 object attr = newElem.GetAttribute(attrType.Name);
                 String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
-                ycompStream.Write("change" + elemKind + "Attr \"" + name + "\" \"" + attrType.OwnerType.Name + "::"
+                ycompStream.Write("change" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::"
                     + attrType.Name + " : " + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
             }
 
@@ -650,6 +701,10 @@ namespace de.unika.ipd.grGen.grShell
                 if(oldEr != newEr)
                     ChangeEdge((IEdge) oldElem, newEr);
             }
+
+            String newName = elemNamePrefix + graph.GetElementName(newElem);
+            ycompStream.Write("rename" + elemKind + " \"" + oldName + "\" \"" + newName + "\"\n");
+
             isDirty = true;
         }
 
@@ -669,6 +724,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DeleteEdge(String edgeName)
         {
+            // TODO: Update group relation...
+
             ycompStream.Write("deleteEdge \"e" + edgeName + "\"\n");
             isDirty = true;
             isLayoutDirty = true;
@@ -676,7 +733,14 @@ namespace de.unika.ipd.grGen.grShell
 
         public void DeleteEdge(IEdge edge)
         {
-            if(dumpInfo.IsExcludedEdgeType(edge.Type)) return;
+            if(hiddenEdges.ContainsKey(edge))
+            {
+                // TODO: Update group relation
+                hiddenEdges.Remove(edge);
+            }
+            if(dumpInfo.IsExcludedEdgeType(edge.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Source.Type)
+                || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
 
             DeleteEdge(graph.GetElementName(edge));
         }
@@ -696,6 +760,7 @@ namespace de.unika.ipd.grGen.grShell
             ycompStream.Write("deleteGraph\n");
             isDirty = false;
             isLayoutDirty = false;
+            hiddenEdges.Clear();
         }
 
         public void Close()

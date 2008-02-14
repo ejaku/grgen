@@ -9,6 +9,7 @@ namespace de.unika.ipd.grGen.libGr
     /// Specifies flags how the graph should be displayed by a graph layouter.
     /// </summary>
     /// <remarks>YComp does not support all flags.</remarks>
+    [Flags]
     public enum VCGFlags
     {
         /// <summary>

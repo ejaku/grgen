@@ -1839,10 +1839,12 @@ namespace de.unika.ipd.grGen.grShell
                     curShellGraph.DumpInfo.ExcludeEdgeType(subType);
         }
 
-        public void AddDumpGroupNodes(NodeType nodeType)
+        public void AddDumpGroupNodesBy(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
+                NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
         {
-            if(nodeType == null) return;
-            curShellGraph.DumpInfo.GroupNodes(nodeType);
+            if(nodeType == null || edgeType == null || adjNodeType == null) return;
+            curShellGraph.DumpInfo.AddOrExtendGroupNodeType(nodeType, exactNodeType, edgeType, exactEdgeType,
+                adjNodeType, exactAdjNodeType, groupMode);
         }
 
         public void SetDumpEdgeLabels(bool showLabels)
@@ -1997,8 +1999,26 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(EdgeType excludedEdgeType in curShellGraph.DumpInfo.ExcludedEdgeTypes)
                     sw.WriteLine("dump add exclude edge only " + excludedEdgeType.Name);
 
-                foreach(NodeType groupNodeType in curShellGraph.DumpInfo.GroupNodeTypes)
-                    sw.WriteLine("dump add group node " + groupNodeType.Name);
+                foreach(GroupNodeType groupNodeType in curShellGraph.DumpInfo.GroupNodeTypes)
+                {
+                    foreach(KeyValuePair<EdgeType, Dictionary<NodeType, GroupMode>> ekvp in groupNodeType.GroupEdges)
+                    {
+                        foreach(KeyValuePair<NodeType, GroupMode> nkvp in ekvp.Value)
+                        {
+                            String groupModeStr;
+                            switch(nkvp.Value & GroupMode.GroupAllNodes)
+                            {
+                                case GroupMode.None:               groupModeStr = "no";       break;
+                                case GroupMode.GroupIncomingNodes: groupModeStr = "incoming"; break;
+                                case GroupMode.GroupOutgoingNodes: groupModeStr = "outgoing"; break;
+                                case GroupMode.GroupAllNodes:      groupModeStr = "any";      break;
+                            }
+                            sw.WriteLine("dump add node only " + groupNodeType.NodeType.Name
+                                + "by " + ((nkvp.Value & GroupMode.Hidden) != 0 ? "hidden " : "")
+                                + "only " + ekvp.Key.Name + " with only " + nkvp.Key.Name);
+                        }
+                    }
+                }
 
                 foreach(KeyValuePair<GrGenType, List<AttributeType>> infoTag in curShellGraph.DumpInfo.InfoTags)
                 {
