@@ -765,13 +765,13 @@ namespace de.unika.ipd.grGen.actions.Turing3
                     if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                         continue;
                     }
-                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
                     match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@wv] = node_cur_node_wv;
                     match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@_node0] = node_cur_node__node0;
                     match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@bp] = node_cur_node_bp;
                     match.Edges[(int)Rule_ensureMoveLeftValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                    matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -850,13 +850,13 @@ namespace de.unika.ipd.grGen.actions.Turing3
                         if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@_node0] = node_cur_node__node0;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_ensureMoveLeftValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -924,13 +924,13 @@ label0: ;
                         if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@_node0] = node_cur_node__node0;
                         match.Nodes[(int)Rule_ensureMoveLeftValidRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_ensureMoveLeftValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -1037,13 +1037,13 @@ label1: ;
                     if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                         continue;
                     }
-                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
                     match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@wv] = node_cur_node_wv;
                     match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@_node0] = node_cur_node__node0;
                     match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@bp] = node_cur_node_bp;
                     match.Edges[(int)Rule_ensureMoveRightValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                    matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1122,13 +1122,13 @@ label1: ;
                         if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@_node0] = node_cur_node__node0;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_ensureMoveRightValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -1196,13 +1196,13 @@ label2: ;
                         if(!NodeType_State.isMyType[node_cur_node__node0.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@_node0] = node_cur_node__node0;
                         match.Nodes[(int)Rule_ensureMoveRightValidRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_ensureMoveRightValidRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -1300,7 +1300,7 @@ label3: ;
                             {
                                 continue;
                             }
-                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                             match.patternGraph = rulePattern.patternGraph;
                             match.Nodes[(int)Rule_moveLeftRule.NodeNums.@wv] = node_cur_node_wv;
                             match.Nodes[(int)Rule_moveLeftRule.NodeNums.@s] = node_cur_node_s;
@@ -1308,7 +1308,7 @@ label3: ;
                             match.Nodes[(int)Rule_moveLeftRule.NodeNums.@bp] = node_cur_node_bp;
                             match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                             match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                            matches.matchesList.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                             {
@@ -1384,7 +1384,7 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@wv] = node_cur_node_wv;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@s] = node_cur_node_s;
@@ -1392,7 +1392,7 @@ label3: ;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@bp] = node_cur_node_bp;
                                 match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                                 match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                                matches.matchesList.EmptyMatchWasFilledFixIt();
+                                matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
@@ -1456,7 +1456,7 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@wv] = node_cur_node_wv;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@s] = node_cur_node_s;
@@ -1464,7 +1464,7 @@ label3: ;
                                 match.Nodes[(int)Rule_moveLeftRule.NodeNums.@bp] = node_cur_node_bp;
                                 match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                                 match.Edges[(int)Rule_moveLeftRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                                matches.matchesList.EmptyMatchWasFilledFixIt();
+                                matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
@@ -1567,7 +1567,7 @@ label3: ;
                             {
                                 continue;
                             }
-                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                             match.patternGraph = rulePattern.patternGraph;
                             match.Nodes[(int)Rule_moveRightRule.NodeNums.@wv] = node_cur_node_wv;
                             match.Nodes[(int)Rule_moveRightRule.NodeNums.@s] = node_cur_node_s;
@@ -1575,7 +1575,7 @@ label3: ;
                             match.Nodes[(int)Rule_moveRightRule.NodeNums.@rbp] = node_cur_node_rbp;
                             match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                             match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                            matches.matchesList.PositionWasFilledFixIt();
                             // if enough matches were found, we leave
                             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                             {
@@ -1651,7 +1651,7 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@wv] = node_cur_node_wv;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@s] = node_cur_node_s;
@@ -1659,7 +1659,7 @@ label3: ;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@rbp] = node_cur_node_rbp;
                                 match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                                 match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                                matches.matchesList.EmptyMatchWasFilledFixIt();
+                                matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
@@ -1723,7 +1723,7 @@ label3: ;
                                 {
                                     continue;
                                 }
-                                LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                 match.patternGraph = rulePattern.patternGraph;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@wv] = node_cur_node_wv;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@s] = node_cur_node_s;
@@ -1731,7 +1731,7 @@ label3: ;
                                 match.Nodes[(int)Rule_moveRightRule.NodeNums.@rbp] = node_cur_node_rbp;
                                 match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                                 match.Edges[(int)Rule_moveRightRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                                matches.matchesList.EmptyMatchWasFilledFixIt();
+                                matches.matchesList.PositionWasFilledFixIt();
                                 // if enough matches were found, we leave
                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                 {
@@ -1815,13 +1815,13 @@ label3: ;
                     if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                         continue;
                     }
-                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
                     match.Nodes[(int)Rule_readOneRule.NodeNums.@s] = node_cur_node_s;
                     match.Nodes[(int)Rule_readOneRule.NodeNums.@wv] = node_cur_node_wv;
                     match.Nodes[(int)Rule_readOneRule.NodeNums.@bp] = node_cur_node_bp;
                     match.Edges[(int)Rule_readOneRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                    matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -1872,13 +1872,13 @@ label3: ;
                         if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@s] = node_cur_node_s;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_readOneRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -1917,13 +1917,13 @@ label3: ;
                         if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@s] = node_cur_node_s;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Nodes[(int)Rule_readOneRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Edges[(int)Rule_readOneRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -2001,13 +2001,13 @@ label3: ;
                     if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                         continue;
                     }
-                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
                     match.Nodes[(int)Rule_readZeroRule.NodeNums.@bp] = node_cur_node_bp;
                     match.Nodes[(int)Rule_readZeroRule.NodeNums.@s] = node_cur_node_s;
                     match.Nodes[(int)Rule_readZeroRule.NodeNums.@wv] = node_cur_node_wv;
                     match.Edges[(int)Rule_readZeroRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                    matches.matchesList.PositionWasFilledFixIt();
                     // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
@@ -2058,13 +2058,13 @@ label3: ;
                         if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@s] = node_cur_node_s;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Edges[(int)Rule_readZeroRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -2099,13 +2099,13 @@ label3: ;
                         if(!NodeType_WriteValue.isMyType[node_cur_node_wv.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@bp] = node_cur_node_bp;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@s] = node_cur_node_s;
                         match.Nodes[(int)Rule_readZeroRule.NodeNums.@wv] = node_cur_node_wv;
                         match.Edges[(int)Rule_readZeroRule.EdgeNums.@rv] = edge_cur_edge_rv;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         // if enough matches were found, we leave
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
@@ -2146,6 +2146,6 @@ label3: ;
         }
 
         public override String Name { get { return "Turing3Actions"; } }
-        public override String ModelMD5Hash { get { return "2fca8238f45c4d711a0d38478f504b85"; } }
+        public override String ModelMD5Hash { get { return "dd293b9e81b5738fab048536f3ca21ef"; } }
     }
 }

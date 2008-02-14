@@ -148,18 +148,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// returns an empty match object from the matches list 
         /// to be filled by the matching action with the found nodes, edges and subpatterns.
-        /// unless EmptyMatchWasFilledCommitIt is called you always get the same element
+        /// unless PositionWasFilledFixIt is called you always get the same element
         /// </summary>
-        public LGSPMatch GetEmptyMatchFromList()
+        public LGSPMatch GetNextUnfilledPosition()
         {
             return last;    
         }
 
         /// <summary>
-        /// the element returned by GetEmptyMatchFromList was filled,
-        /// now fix it within the list, so that the next call to GetEmptyMatchFromList returns a new element
+        /// the match object returned by GetNextUnfilledPosition was filled,
+        /// now fix it within the list, so that the next call to GetNextUnfilledPosition returns a new element
         /// </summary>
-        public void EmptyMatchWasFilledFixIt()
+        public void PositionWasFilledFixIt()
         {
             count++;
             if (last.nextMatch == null)

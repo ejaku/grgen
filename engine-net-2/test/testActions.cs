@@ -180,13 +180,13 @@ namespace de.unika.ipd.grGen.actions.test
                         if(!NodeType_D231_4121.isMyType[node_cur_node_a.type.TypeID]) {
                             continue;
                         }
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.Nodes[(int)Rule_testRule.NodeNums.@a] = node_cur_node_a;
                         match.Nodes[(int)Rule_testRule.NodeNums.@f] = node_cur_node_f;
                         match.Nodes[(int)Rule_testRule.NodeNums.@m] = node_cur_node_m;
                         match.Edges[(int)Rule_testRule.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                         match.Edges[(int)Rule_testRule.EdgeNums.@_edge1] = edge_cur_edge__edge1;
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                         {
                             node_cur_node_f.MoveInHeadAfter(edge_cur_edge__edge0);

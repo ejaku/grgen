@@ -1699,13 +1699,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();\n");
+            sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
             sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
 
             // emit match building operations
             MatchBuildingOperations.Emit(sourceCode);
 
-            sourceCode.AppendFront("matches.matchesList.EmptyMatchWasFilledFixIt();\n");
+            sourceCode.AppendFront("matches.matchesList.PositionWasFilledFixIt();\n");
         }
 
         public SearchProgramList MatchBuildingOperations;
@@ -1812,10 +1812,10 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();\n");
+                sourceCode.AppendFront("LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();\n");
                 sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
                 MatchBuildingOperations.Emit(sourceCode); // emit match building operations
-                sourceCode.AppendFront("matches.matchesList.EmptyMatchWasFilledFixIt();\n");
+                sourceCode.AppendFront("matches.matchesList.PositionWasFilledFixIt();\n");
 
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");

@@ -3065,7 +3065,7 @@ namespace de.unika.ipd.grGen.actions.TNT
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
@@ -5421,7 +5421,7 @@ namespace de.unika.ipd.grGen.actions.TNT
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 if(edge_cur_edge__edge0.isMatchedByEnclosingPattern)
@@ -5779,10 +5779,10 @@ namespace de.unika.ipd.grGen.actions.TNT
                 // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
-                    LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                    LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                     match.patternGraph = rulePattern.patternGraph;
                     match.EmbeddedGraphs[(int)Rule_BenzolRing.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
-                    matches.matchesList.EmptyMatchWasFilledFixIt();
+                    matches.matchesList.PositionWasFilledFixIt();
                 }
                 matchesList.Clear();
                 // if enough matches were found, we leave
@@ -5815,7 +5815,7 @@ namespace de.unika.ipd.grGen.actions.TNT
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -6164,7 +6164,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
-                                                                                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                         match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_DNT.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_DNT.NodeNums.@c2] = node_cur_node_c2;
@@ -6187,7 +6187,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                         match.EmbeddedGraphs[(int)Rule_DNT.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_DNT.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_DNT.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
-                                                                                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                        matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
                                                                                     // if enough matches were found, we leave
@@ -6313,7 +6313,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -7224,7 +7224,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                         {
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
-                                                                                                                                                                                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                                                                                                                         match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                         match.Nodes[(int)Rule_DNTUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                         match.Nodes[(int)Rule_DNTUnfolded.NodeNums.@c2] = node_cur_node_c2;
@@ -7267,7 +7267,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.EdgeNums.@_edge19] = edge_cur_edge__edge19;
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.EdgeNums.@_edge20] = edge_cur_edge__edge20;
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.EdgeNums.@_edge21] = edge_cur_edge__edge21;
-                                                                                                                                                                                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                                                                                                                        matches.matchesList.PositionWasFilledFixIt();
                                                                                                                                                                                         // if enough matches were found, we leave
                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                         {
@@ -7454,7 +7454,7 @@ namespace de.unika.ipd.grGen.actions.TNT
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -7803,7 +7803,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
-                                                                                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                         match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_TNB.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_TNB.NodeNums.@c2] = node_cur_node_c2;
@@ -7826,7 +7826,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                         match.EmbeddedGraphs[(int)Rule_TNB.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_TNB.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_TNB.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
-                                                                                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                        matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
                                                                                     // if enough matches were found, we leave
@@ -7952,7 +7952,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -8802,7 +8802,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                 {
                                                                                                                                                                                     continue;
                                                                                                                                                                                 }
-                                                                                                                                                                                LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                                                                                                                 match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                 match.Nodes[(int)Rule_TNBUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                 match.Nodes[(int)Rule_TNBUnfolded.NodeNums.@c2] = node_cur_node_c2;
@@ -8843,7 +8843,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.EdgeNums.@_edge18] = edge_cur_edge__edge18;
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.EdgeNums.@_edge19] = edge_cur_edge__edge19;
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.EdgeNums.@_edge20] = edge_cur_edge__edge20;
-                                                                                                                                                                                matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                                                                                                                matches.matchesList.PositionWasFilledFixIt();
                                                                                                                                                                                 // if enough matches were found, we leave
                                                                                                                                                                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                 {
@@ -9022,7 +9022,7 @@ namespace de.unika.ipd.grGen.actions.TNT
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -9371,7 +9371,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                     // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
-                                                                                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                         match.patternGraph = rulePattern.patternGraph;
                                                                                         match.Nodes[(int)Rule_TNT.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Rule_TNT.NodeNums.@c2] = node_cur_node_c2;
@@ -9394,7 +9394,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                         match.EmbeddedGraphs[(int)Rule_TNT.PatternNums.@_subpattern3] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_TNT.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
                                                                                         match.EmbeddedGraphs[(int)Rule_TNT.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
-                                                                                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                        matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
                                                                                     // if enough matches were found, we leave
@@ -9635,7 +9635,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                         // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
-                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                             match.patternGraph = rulePattern.patternGraph;
                                             match.Nodes[(int)Rule_TNTChain.NodeNums.@c1] = node_cur_node_c1;
                                             match.Nodes[(int)Rule_TNTChain.NodeNums.@c2] = node_cur_node_c2;
@@ -9645,7 +9645,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                             match.Nodes[(int)Rule_TNTChain.NodeNums.@c6] = node_cur_node_c6;
                                             match.EmbeddedGraphs[(int)Rule_TNTChain.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                                             match.EmbeddedGraphs[(int)Rule_TNTChain.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
-                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                            matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
                                         // if enough matches were found, we leave
@@ -9849,7 +9849,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                         // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
-                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                             match.patternGraph = rulePattern.patternGraph;
                                             match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c1] = node_cur_node_c1;
                                             match.Nodes[(int)Rule_TNTTotallyFolded.NodeNums.@c2] = node_cur_node_c2;
@@ -9864,7 +9864,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                             match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
                                             match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
                                             match.EmbeddedGraphs[(int)Rule_TNTTotallyFolded.PatternNums.@_subpattern6] = currentFoundPartialMatch.Pop();
-                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                            matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
                                         // if enough matches were found, we leave
@@ -9928,7 +9928,7 @@ namespace de.unika.ipd.grGen.actions.TNT
         {
             matches.matchesList.Clear();
             // Lookup edge__edge0 
-            int edge_type_id_edge__edge0 = 2;
+            int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
@@ -10956,7 +10956,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                                         {
                                                                                                                                                                                                             continue;
                                                                                                                                                                                                         }
-                                                                                                                                                                                                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                                                                                                                                                                                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                                                                                                                                                                                         match.patternGraph = rulePattern.patternGraph;
                                                                                                                                                                                                         match.Nodes[(int)Rule_TNTUnfolded.NodeNums.@c1] = node_cur_node_c1;
                                                                                                                                                                                                         match.Nodes[(int)Rule_TNTUnfolded.NodeNums.@c2] = node_cur_node_c2;
@@ -11003,7 +11003,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.EdgeNums.@_edge21] = edge_cur_edge__edge21;
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.EdgeNums.@_edge22] = edge_cur_edge__edge22;
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.EdgeNums.@_edge23] = edge_cur_edge__edge23;
-                                                                                                                                                                                                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                                                                                                                                                                                                        matches.matchesList.PositionWasFilledFixIt();
                                                                                                                                                                                                         // if enough matches were found, we leave
                                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                                         {
@@ -11343,7 +11343,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                         // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
-                                            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                                            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                                             match.patternGraph = rulePattern.patternGraph;
                                             match.Nodes[(int)Rule_Toluol.NodeNums.@c1] = node_cur_node_c1;
                                             match.Nodes[(int)Rule_Toluol.NodeNums.@c2] = node_cur_node_c2;
@@ -11358,7 +11358,7 @@ namespace de.unika.ipd.grGen.actions.TNT
                                             match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern4] = currentFoundPartialMatch.Pop();
                                             match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern5] = currentFoundPartialMatch.Pop();
                                             match.EmbeddedGraphs[(int)Rule_Toluol.PatternNums.@_subpattern6] = currentFoundPartialMatch.Pop();
-                                            matches.matchesList.EmptyMatchWasFilledFixIt();
+                                            matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
                                         // if enough matches were found, we leave
@@ -11448,12 +11448,12 @@ namespace de.unika.ipd.grGen.actions.TNT
                     // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
-                        LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+                        LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
                         match.patternGraph = rulePattern.patternGraph;
                         match.Nodes[(int)Rule_ToluolCore.NodeNums.@c1] = node_cur_node_c1;
                         match.EmbeddedGraphs[(int)Rule_ToluolCore.PatternNums.@_subpattern0] = currentFoundPartialMatch.Pop();
                         match.EmbeddedGraphs[(int)Rule_ToluolCore.PatternNums.@_subpattern1] = currentFoundPartialMatch.Pop();
-                        matches.matchesList.EmptyMatchWasFilledFixIt();
+                        matches.matchesList.PositionWasFilledFixIt();
                     }
                     matchesList.Clear();
                     // if enough matches were found, we leave
@@ -11486,9 +11486,9 @@ namespace de.unika.ipd.grGen.actions.TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
-            matches.matchesList.EmptyMatchWasFilledFixIt();
+            matches.matchesList.PositionWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
@@ -11513,9 +11513,9 @@ namespace de.unika.ipd.grGen.actions.TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
-            matches.matchesList.EmptyMatchWasFilledFixIt();
+            matches.matchesList.PositionWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
@@ -11540,9 +11540,9 @@ namespace de.unika.ipd.grGen.actions.TNT
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            LGSPMatch match = matches.matchesList.GetEmptyMatchFromList();
+            LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
-            matches.matchesList.EmptyMatchWasFilledFixIt();
+            matches.matchesList.PositionWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
@@ -11585,6 +11585,6 @@ namespace de.unika.ipd.grGen.actions.TNT
         }
 
         public override String Name { get { return "TNTActions"; } }
-        public override String ModelMD5Hash { get { return "271b47a37bac7e7d1b30af05a6a923c8"; } }
+        public override String ModelMD5Hash { get { return "b3154fd7520f415d5f335e9dae2cdf16"; } }
     }
 }

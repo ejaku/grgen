@@ -399,7 +399,7 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	// Edge types
 	//
 
-	public enum EdgeTypes { @next, @blocked, @held_by, @token, @release, @request, @AEdge, @ADEdge, @Edge, @UEdge };
+	public enum EdgeTypes { @next, @blocked, @held_by, @token, @release, @request, @AEdge, @Edge, @UEdge };
 
 	// *** Edge next ***
 
@@ -478,8 +478,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_next : EdgeType
 	{
 		public static EdgeType_next typeVar = new EdgeType_next();
-		public static bool[] isA = new bool[] { true, false, false, false, false, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { true, false, false, false, false, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { true, false, false, false, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { true, false, false, false, false, false, false, false, false, };
 		public EdgeType_next() : base((int) EdgeTypes.@next)
 		{
 		}
@@ -579,8 +579,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_blocked : EdgeType
 	{
 		public static EdgeType_blocked typeVar = new EdgeType_blocked();
-		public static bool[] isA = new bool[] { false, true, false, false, false, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { false, true, false, false, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, true, false, false, false, false, false, false, false, };
 		public EdgeType_blocked() : base((int) EdgeTypes.@blocked)
 		{
 		}
@@ -680,8 +680,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_held_by : EdgeType
 	{
 		public static EdgeType_held_by typeVar = new EdgeType_held_by();
-		public static bool[] isA = new bool[] { false, false, true, false, false, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { false, false, true, false, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, };
 		public EdgeType_held_by() : base((int) EdgeTypes.@held_by)
 		{
 		}
@@ -781,8 +781,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_token : EdgeType
 	{
 		public static EdgeType_token typeVar = new EdgeType_token();
-		public static bool[] isA = new bool[] { false, false, false, true, false, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { false, false, false, true, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, };
 		public EdgeType_token() : base((int) EdgeTypes.@token)
 		{
 		}
@@ -882,8 +882,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_release : EdgeType
 	{
 		public static EdgeType_release typeVar = new EdgeType_release();
-		public static bool[] isA = new bool[] { false, false, false, false, true, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { false, false, false, false, true, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, };
 		public EdgeType_release() : base((int) EdgeTypes.@release)
 		{
 		}
@@ -983,8 +983,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_request : EdgeType
 	{
 		public static EdgeType_request typeVar = new EdgeType_request();
-		public static bool[] isA = new bool[] { false, false, false, false, false, true, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, };
+		public static bool[] isA = new bool[] { false, false, false, false, false, true, true, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, };
 		public EdgeType_request() : base((int) EdgeTypes.@request)
 		{
 		}
@@ -1084,8 +1084,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_AEdge : EdgeType
 	{
 		public static EdgeType_AEdge typeVar = new EdgeType_AEdge();
-		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, false, false, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, };
+		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, false, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, };
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -1104,107 +1104,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
 			return new Edge_AEdge((LGSPNode) source, (LGSPNode) target);
-		}
-
-	}
-
-	// *** Edge ADEdge ***
-
-	public interface IEdge_ADEdge : IEdge_AEdge
-	{
-	}
-
-	public sealed class Edge_ADEdge : LGSPEdge, IEdge_ADEdge
-	{
-		private static int poolLevel = 0;
-		private static Edge_ADEdge[] pool = new Edge_ADEdge[10];
-		public Edge_ADEdge(LGSPNode source, LGSPNode target)
-			: base(EdgeType_ADEdge.typeVar, source, target)
-		{
-		}
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_ADEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
-
-		private Edge_ADEdge(Edge_ADEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_ADEdge.typeVar, newSource, newTarget)
-		{
-		}
-		public static Edge_ADEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
-		{
-			Edge_ADEdge edge;
-			if(poolLevel == 0)
-				edge = new Edge_ADEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.hasVariables = false;
-				edge.source = source;
-				edge.target = target;
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static Edge_ADEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
-		{
-			Edge_ADEdge edge;
-			if(poolLevel == 0)
-				edge = new Edge_ADEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.hasVariables = false;
-				edge.source = source;
-				edge.target = target;
-			}
-			graph.AddEdge(edge, varName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"ADEdge\" does not have the attribute \" + attrName + \"\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"ADEdge\" does not have the attribute \" + attrName + \"\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-		}
-	}
-
-	public sealed class EdgeType_ADEdge : EdgeType
-	{
-		public static EdgeType_ADEdge typeVar = new EdgeType_ADEdge();
-		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, true, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, };
-		public EdgeType_ADEdge() : base((int) EdgeTypes.@ADEdge)
-		{
-		}
-		public override String Name { get { return "ADEdge"; } }
-		public override IEdge CreateEdge(INode source, INode target)
-		{
-			return new Edge_ADEdge((LGSPNode) source, (LGSPNode) target);
-		}
-		public override int NumAttributes { get { return 0; } }
-		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
-		public override AttributeType GetAttributeType(String name) { return null; }
-		public override bool IsA(GrGenType other)
-		{
-			return (this == other) || isA[other.TypeID];
-		}
-		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
-		{
-			return new Edge_ADEdge((LGSPNode) source, (LGSPNode) target);
 		}
 
 	}
@@ -1286,8 +1185,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_Edge : EdgeType
 	{
 		public static EdgeType_Edge typeVar = new EdgeType_Edge();
-		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, false, true, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, false, false, true, false, };
+		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, true, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, false, true, false, };
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -1387,8 +1286,8 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 	public sealed class EdgeType_UEdge : EdgeType
 	{
 		public static EdgeType_UEdge typeVar = new EdgeType_UEdge();
-		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, false, false, true, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, };
+		public static bool[] isA = new bool[] { false, false, false, false, false, false, true, false, true, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, };
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -1505,13 +1404,11 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 				EdgeType_token.typeVar,
 				EdgeType_release.typeVar,
 				EdgeType_request.typeVar,
-				EdgeType_ADEdge.typeVar,
 				EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.directSubGrGenTypes = EdgeType_AEdge.typeVar.directSubTypes = new EdgeType[] {
-								EdgeType_ADEdge.typeVar,
-				EdgeType_Edge.typeVar,
+								EdgeType_Edge.typeVar,
 				EdgeType_UEdge.typeVar,
 			};
 			EdgeType_AEdge.typeVar.superOrSameGrGenTypes = EdgeType_AEdge.typeVar.superOrSameTypes = new EdgeType[] {
@@ -1519,18 +1416,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			};
 			EdgeType_AEdge.typeVar.directSuperGrGenTypes = EdgeType_AEdge.typeVar.directSuperTypes = new EdgeType[] {
 							};
-			EdgeType_ADEdge.typeVar.subOrSameGrGenTypes = EdgeType_ADEdge.typeVar.subOrSameTypes = new EdgeType[] {
-				EdgeType_ADEdge.typeVar,
-			};
-			EdgeType_ADEdge.typeVar.directSubGrGenTypes = EdgeType_ADEdge.typeVar.directSubTypes = new EdgeType[] {
-							};
-			EdgeType_ADEdge.typeVar.superOrSameGrGenTypes = EdgeType_ADEdge.typeVar.superOrSameTypes = new EdgeType[] {
-				EdgeType_ADEdge.typeVar,
-				EdgeType_AEdge.typeVar,
-			};
-			EdgeType_ADEdge.typeVar.directSuperGrGenTypes = EdgeType_ADEdge.typeVar.directSuperTypes = new EdgeType[] {
-								EdgeType_AEdge.typeVar,
-			};
 			EdgeType_Edge.typeVar.subOrSameGrGenTypes = EdgeType_Edge.typeVar.subOrSameTypes = new EdgeType[] {
 				EdgeType_Edge.typeVar,
 				EdgeType_next.typeVar,
@@ -1582,7 +1467,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 				case "release" : return EdgeType_release.typeVar;
 				case "request" : return EdgeType_request.typeVar;
 				case "AEdge" : return EdgeType_AEdge.typeVar;
-				case "ADEdge" : return EdgeType_ADEdge.typeVar;
 				case "Edge" : return EdgeType_Edge.typeVar;
 				case "UEdge" : return EdgeType_UEdge.typeVar;
 			}
@@ -1600,7 +1484,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			EdgeType_release.typeVar,
 			EdgeType_request.typeVar,
 			EdgeType_AEdge.typeVar,
-			EdgeType_ADEdge.typeVar,
 			EdgeType_Edge.typeVar,
 			EdgeType_UEdge.typeVar,
 		};
@@ -1614,7 +1497,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 			typeof(EdgeType_release),
 			typeof(EdgeType_request),
 			typeof(EdgeType_AEdge),
-			typeof(EdgeType_ADEdge),
 			typeof(EdgeType_Edge),
 			typeof(EdgeType_UEdge),
 		};
@@ -1645,6 +1527,6 @@ namespace de.unika.ipd.grGen.models.MutexPimped
 		public INodeModel NodeModel { get { return nodeModel; } }
 		public IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<ValidateInfo> ValidateInfo { get { return validateInfos; } }
-		public String MD5Hash { get { return "d8054f816a978a28e16e06e5133502cd"; } }
+		public String MD5Hash { get { return "ac160ef7c8b339e3f8207121808da3a1"; } }
 	}
 }
