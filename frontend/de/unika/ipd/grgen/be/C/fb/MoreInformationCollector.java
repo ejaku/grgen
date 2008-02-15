@@ -256,12 +256,11 @@ public class MoreInformationCollector extends InformationCollector {
 			
 			negMap[act_id] = new HashMap<PatternGraph,Integer>();
 			
-			//check wether its graphs node and edge set sizes are greater
+			//check whether its graphs node and edge set sizes are greater
 			if (act instanceof MatchingAction) {
 				int size;
 				
-				for(PatternGraph negPattern : ((MatchingAction)act).getNegs()) {
-					
+				for(PatternGraph negPattern : ((MatchingAction)act).getPattern().getNegs()) {
 					negMap[act_id].put(negPattern, new Integer(negs++));
 					
 					size = negPattern.getNodes().size();

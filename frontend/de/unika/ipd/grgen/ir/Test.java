@@ -29,7 +29,6 @@ package de.unika.ipd.grgen.ir;
  * A Subgraph Test.
  */
 public class Test extends MatchingAction {
-
 	public Test(Ident ident, PatternGraph pattern) {
 		super("test", ident, pattern);
 		pattern.setNameSuffix("test");

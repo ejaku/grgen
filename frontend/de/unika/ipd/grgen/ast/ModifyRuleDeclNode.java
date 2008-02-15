@@ -276,7 +276,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
-		constructImplicitNegs(rule);
+		constructImplicitNegs(left);
 		constructIRaux(rule, this.right.returns);
 
 		// add Params to the IR

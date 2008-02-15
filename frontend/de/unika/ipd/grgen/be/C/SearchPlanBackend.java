@@ -353,7 +353,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		genConditionFunction(sb, indent, rule.getLeft(), nodeIds, edgeIds);
 
 		// conditions  for NACs
-		for(PatternGraph neg : rule.getNegs()) {
+		for(PatternGraph neg : rule.getLeft().getNegs()) {
 			genConditionFunction(sb, indent, neg,  nodeIds, edgeIds);
 		}
 		sb.append("\n");
@@ -482,7 +482,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 		// code for the negative graphs
 		sb.append(indent + "  /* The negative parts of the pattern */\n");
 		int i = 0;
-		for(PatternGraph neg : rule.getNegs()) {
+		for(PatternGraph neg : rule.getLeft().getNegs()) {
 			sb.append(indent + "  { /* NAC " + i + "  */\n");
 			genPatternGraph(sb, indent+"    ", "ext_grs_act_impose_negative",
 							neg, nodeIds, edgeIds, GraphType.Negative);

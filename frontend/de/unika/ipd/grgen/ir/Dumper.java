@@ -39,7 +39,6 @@ import java.util.LinkedList;
  * A custom dumper for the IR.
  */
 public class Dumper {
-	
 	/** Draw edges between graphs. */
 	private final boolean interGraphEdges;
 	/** Draw cond and eval as string not as expression tree */
@@ -87,7 +86,7 @@ public class Dumper {
 	}
 	
 	public final void dump(MatchingAction act, GraphDumper gd) {
-		Graph pattern = act.getPattern();
+		PatternGraph pattern = act.getPattern();
 		Collection<Graph> graphs = new LinkedList<Graph>();
 		Graph right = null;
 		
@@ -96,7 +95,7 @@ public class Dumper {
 			graphs.add(right);
 		}
 		
-		graphs.addAll(act.getNegs());
+		graphs.addAll(pattern.getNegs());
 		
 		gd.beginSubgraph(act);
 		dump(pattern, gd);

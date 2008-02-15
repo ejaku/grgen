@@ -190,7 +190,7 @@ public class ActionsGen extends CSharpBase {
 	private void genTypeCondition(StringBuffer sb, MatchingAction action) {
 		genAllowedTypeArrays(sb, action.getPattern(), null, -1);
 		int i = 0;
-		for(PatternGraph neg : action.getNegs())
+		for(PatternGraph neg : action.getPattern().getNegs())
 			genAllowedTypeArrays(sb, neg, action.getPattern(), i++);
 	}
 
@@ -308,7 +308,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\n");
 
 		int i = 0;
-		for(PatternGraph neg : action.getNegs()) {
+		for(PatternGraph neg : action.getPattern().getNegs()) {
 			String negName = "negPattern_" + i;
 			sb.append("\t\t\tPatternGraph " + negName + ";\n");
 			sb.append("\t\t\t{\n");
@@ -318,7 +318,7 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		sb.append("\t\t\tnegativePatternGraphs = new PatternGraph[] {");
-		for(i = 0; i < action.getNegs().size(); i++) {
+		for(i = 0; i < action.getPattern().getNegs().size(); i++) {
 			sb.append("negPattern_" + i + ", ");
 		}
 		sb.append("};\n");
@@ -569,7 +569,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genActionConditions(StringBuffer sb, MatchingAction action) {
 		int condCnt = genConditions(sb, action.getPattern().getConditions(), 0);
-		for(PatternGraph neg : action.getNegs())
+		for(PatternGraph neg : action.getPattern().getNegs())
 			condCnt = genConditions(sb, neg.getConditions(), condCnt);
 	}
 
@@ -1215,9 +1215,9 @@ public class ActionsGen extends CSharpBase {
 
 		max = computePriosMax(action.getPattern().getNodes(), -1);
 		max = computePriosMax(action.getPattern().getEdges(), max);
-		for(PatternGraph neg : action.getNegs())
+		for(PatternGraph neg : action.getPattern().getNegs())
 			max = computePriosMax(neg.getNodes(), max);
-		for(PatternGraph neg : action.getNegs())
+		for(PatternGraph neg : action.getPattern().getNegs())
 			max = computePriosMax(neg.getEdges(), max);
 
 		sb.append("\t\t\tNodeCost = new float[] { ");
@@ -1229,7 +1229,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" };\n");
 
 		sb.append("\t\t\tNegNodeCost = new float[][] { ");
-		for(PatternGraph neg : action.getNegs()) {
+		for(PatternGraph neg : action.getPattern().getNegs()) {
 			sb.append("new float[] { ");
 			genPriosNoE(sb, neg.getNodes(), max);
 			sb.append("}, ");
@@ -1237,7 +1237,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 
 		sb.append("\t\t\tNegEdgeCost = new float[][] { ");
-		for(PatternGraph neg : action.getNegs()) {
+		for(PatternGraph neg : action.getPattern().getNegs()) {
 			sb.append("new float[] { ");
 			genPriosNoE(sb, neg.getEdges(), max);
 			sb.append("}, ");

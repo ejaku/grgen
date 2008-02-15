@@ -260,32 +260,6 @@ public class TestDeclNode extends ActionDeclNode {
 	protected void constructIRaux(MatchingAction ma, CollectNode<IdentNode> aReturns) {
 		PatternGraph patternGraph = ma.getPattern();
 
-		// add negative parts to the IR
-		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
-			PatternGraph neg = pgn.getPatternGraph();
-
-			// add Condition elements only mentioned in Condition to the IR
-			Set<Node> neededNodes = new LinkedHashSet<Node>();
-			Set<Edge> neededEdges = new LinkedHashSet<Edge>();
-
-			for(Expression cond : neg.getConditions()) {
-				cond.collectNodesnEdges(neededNodes, neededEdges);
-			}
-			for(Node neededNode : neededNodes) {
-				if(!neg.hasNode(neededNode)) {
-					neg.addSingleNode(neededNode);
-					neg.addHomToAll(neededNode);
-				}
-			}
-			for(Edge neededEdge : neededEdges) {
-				if(!neg.hasEdge(neededEdge)) {
-					neg.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
-					neg.addHomToAll(neededEdge);
-				}
-			}
-			ma.addNegGraph(neg);
-		}
-
 		// add Params to the IR
 		for(BaseNode n : param.getChildren()) {
 			DeclNode param = (DeclNode)n;

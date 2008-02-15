@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,18 +32,14 @@ import java.util.List;
  * An action that represents something that does graph matching.
  */
 public abstract class MatchingAction extends Action {
-	
 	/** Children names of this node. */
 	private static final String[] childrenNames = {
-		"pattern", "negative"
+		"pattern"
 	};
 	
 	/** The graph pattern to match against. */
 	protected final PatternGraph pattern;
-	
-	/** The NAC part of the rule. */
-	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
-	
+		
 	/** A list of the pattern parameter */
 	private final List<Entity> params = new LinkedList<Entity>();
 		
@@ -69,18 +64,6 @@ public abstract class MatchingAction extends Action {
 		return pattern;
 	}
 	
-	public void addNegGraph(PatternGraph neg) {
-		//if(!neg.getNodes().isEmpty()) { // TODO WHY???
-			neg.setName("N" + negs.size());
-			negs.add(neg);
-		//}
-	}
-	
-	/** @return The NAC graphs of the rule. */
-	public Collection<PatternGraph> getNegs() {
-		return Collections.unmodifiableCollection(negs);
-	}
-	
 	/** Add a parameter to the graph. */
 	public void addParameter(Entity id) {
 		params.add(id);
@@ -99,14 +82,5 @@ public abstract class MatchingAction extends Action {
 	/** Get all Returns of this graph. */
 	public List<Entity> getReturns() {
 		return Collections.unmodifiableList(returns);
-	}
-	
-	/**
-	 * Get all graphs that are involved in this rule besides the pattern part.
-	 * For an ordinary matching actions, these are the negative ones.
-	 * @return A collection holding all additional graphs in this matching action.
-	 */
-	public Collection<? extends Graph> getAdditionalGraphs() {
-		return negs;
 	}
 }

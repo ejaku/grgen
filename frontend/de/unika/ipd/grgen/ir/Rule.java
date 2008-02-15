@@ -56,7 +56,6 @@ public class Rule extends MatchingAction {
 		this.right = right;
 		left.setName("L");
 		right.setName("R");
-		// coalesceAnonymousEdges(); not here, because neg-graphs not added yet.
 	}
 	
 	/** @return A collection containing all eval assignments of this rule. */
@@ -81,17 +80,6 @@ public class Rule extends MatchingAction {
 		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
 		return common;
-	}
-	
-	/**
-	 * Get all graphs that are involved in this rule besides the pattern part.
-	 * For an ordinary matching actions, these are the negative ones.
-	 * @return A collection holding all additional graphs in this matching action.
-	 */
-	public Collection<Graph> getAdditionalGraphs() {
-		Collection<Graph> res = new LinkedList<Graph>(super.getAdditionalGraphs());
-		res.add(right);
-		return res;
 	}
 	
 	/** @return The left hand side graph. */

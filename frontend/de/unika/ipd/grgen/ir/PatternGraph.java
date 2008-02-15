@@ -46,6 +46,9 @@ public class PatternGraph extends Graph {
     /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
 
+	/** The NAC part of the rule. */
+	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
+
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
 	/** Make a new pattern graph. */
@@ -61,6 +64,17 @@ public class PatternGraph extends Graph {
 		return imperativeStmts;
 	}
 
+	public void addNegGraph(PatternGraph neg) {
+		int patternNameNumber = negs.size();
+		neg.setName("N" + patternNameNumber);
+		negs.add(neg);
+	}
+	
+	/** @return The NAC graphs of the rule. */
+	public Collection<PatternGraph> getNegs() {
+		return Collections.unmodifiableCollection(negs);
+	}
+	
 	/** Add a condition given by it's expression expr to the graph. */
 	public void addCondition(Expression expr) {
 		conds.add(expr);

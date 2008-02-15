@@ -35,9 +35,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
@@ -291,6 +293,32 @@ public class PatternGraphNode extends GraphNode {
             }
 		}
 
+		// add negative parts to the IR
+		for (PatternGraphNode pgn : negs.getChildren()) {
+			PatternGraph neg = pgn.getPatternGraph();
+
+			// add Condition elements only mentioned in Condition to the IR
+			Set<Node> neededNodes = new LinkedHashSet<Node>();
+			Set<Edge> neededEdges = new LinkedHashSet<Edge>();
+
+			for(Expression cond : neg.getConditions()) {
+				cond.collectNodesnEdges(neededNodes, neededEdges);
+			}
+			for(Node neededNode : neededNodes) {
+				if(!neg.hasNode(neededNode)) {
+					neg.addSingleNode(neededNode);
+					neg.addHomToAll(neededNode);
+				}
+			}
+			for(Edge neededEdge : neededEdges) {
+				if(!neg.hasEdge(neededEdge)) {
+					neg.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+					neg.addHomToAll(neededEdge);
+				}
+			}
+			gr.addNegGraph(neg);
+		}
+		
 		return gr;
 	}
 

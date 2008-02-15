@@ -473,7 +473,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 
-		constructImplicitNegs(rule);
+		constructImplicitNegs(left);
 		constructIRaux(rule, this.right.returns);
 
 		// add Eval statements to the IR
@@ -487,10 +487,10 @@ public class RuleDeclNode extends TestDeclNode {
 	/**
 	 * add NACs for induced- or DPO-semantic
 	 */
-	protected void constructImplicitNegs(Rule rule) {
+	protected void constructImplicitNegs(PatternGraph left) {
 		PatternGraphNode leftNode = pattern;
 		for (PatternGraph neg : leftNode.getImplicitNegGraphs()) {
-			rule.addNegGraph(neg);
+			left.addNegGraph(neg);
 		}
 	}
 
