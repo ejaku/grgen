@@ -1,0 +1,8 @@
+rule r {
+	x:Node ?-e:AEdge-? y:Node;
+	x ?-f:typeof(e)-? y;
+
+	modify {
+		delete(e);
+	}
+}

@@ -1,3 +1,4 @@
+OK     should_pass/alternative_001.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
@@ -108,6 +109,7 @@ OK     should_pass/edge_003.grg
 OK     should_pass/edge_004.grg
 OK     should_pass/edge_005.grg
 OK     should_pass/edge_006.grg
+OK     should_pass/edge_007.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg
@@ -227,6 +229,7 @@ WARNED should_warn/del_002.grg
 WARNED should_warn/del_003.grg
 WARNED should_warn/dpo_001.grg
 WARNED should_warn/edge_001.grg
+WARNED should_warn/edge_002.grg
 WARNED should_warn/exact_001.grg
 WARNED should_warn/exact_002.grg
 WARNED should_warn/exact_003.grg
@@ -520,6 +523,10 @@ ERROR  should_fail/reuse_001.grg
 ERROR  should_fail/reuse_002.grg
 ERROR  should_fail/reuse_003.grg
 ERROR  should_fail/reuse_004.grg
+ERROR  should_fail/reuse_005.grg
+ERROR  should_fail/reuse_006.grg
+ERROR  should_fail/reuse_007.grg
+ERROR  should_fail/reuse_008.grg
 ERROR  should_fail/test_001.grg
 ERROR  should_fail/unary_001.grg
 ERROR  should_fail/unary_002.grg

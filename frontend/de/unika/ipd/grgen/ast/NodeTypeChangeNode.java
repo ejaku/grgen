@@ -89,7 +89,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 	/**
 	 * @return the original node for this retyped node
 	 */
-	public NodeCharacter getOldNode() {
+	public NodeDeclNode getOldNode() {
 		assert isResolved();
 		return old;
 	}

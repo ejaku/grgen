@@ -183,7 +183,7 @@ public class CallActionNode extends BaseNode {
 			res = false;
 		} else {
 			if(actualParams.getChildren().iterator().next() instanceof ConstraintDeclNode) {
-				Iterator<ConstraintDeclNode> iterAP = ((CollectNode<ConstraintDeclNode>)(CollectNode)actualParams).children.iterator();
+				Iterator<ConstraintDeclNode> iterAP = actualParams.children.iterator();
 				for(ConstraintDeclNode formalParam : formalParams.getChildren()) {
 					InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
 

@@ -170,12 +170,13 @@ public class TestDeclNode extends ActionDeclNode {
 
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
-		//Check if reused names of edges connect the same nodes in the same direction for each usage
+		//Check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean edgeReUse = false;
 		if (childs) {
 			edgeReUse = true;
 
-			//get the pattern and the negative graphs of this TestDeclNode
+			//get the negative graphs and the pattern of this TestDeclNode
+			// NOTE: the order affect the error coords
 			Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
 			leftHandGraphs.add(pattern);
 			for (PatternGraphNode pgn : pattern.negs.getChildren()) {
@@ -188,16 +189,16 @@ public class TestDeclNode extends ActionDeclNode {
 			for (int i=0; i<graphs.length; i++) {
 				for (int o=i+1; o<graphs.length; o++) {
 					for (BaseNode iBN : graphs[i].getConnections()) {
-						ConnectionCharacter iConn = (ConnectionCharacter)iBN;
-						if (! (iConn instanceof ConnectionNode)) {
+						if (! (iBN instanceof ConnectionNode)) {
 							continue;
 						}
+						ConnectionNode iConn = (ConnectionNode)iBN;
 
 						for (BaseNode oBN : graphs[o].getConnections()) {
-							ConnectionCharacter oConn = (ConnectionCharacter)oBN;
-							if (! (oConn instanceof ConnectionNode)) {
+							if (! (oBN instanceof ConnectionNode)) {
 								continue;
 							}
+							ConnectionNode oConn = (ConnectionNode)oBN;
 
 							if (iConn.getEdge().equals(oConn.getEdge()) && !alreadyReported.contains(iConn.getEdge())) {
 								NodeCharacter oSrc, oTgt, iSrc, iTgt;
@@ -231,7 +232,13 @@ public class TestDeclNode extends ActionDeclNode {
 
 								if ( iSrc != oSrc || iTgt != oTgt ) {
 									alreadyReported.add(iConn.getEdge());
-									((ConnectionNode) oConn).reportError("Reused edge does not connect the same nodes");
+									iConn.reportError("Reused edge does not connect the same nodes");
+									edgeReUse = false;
+								}
+								
+								if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
+									alreadyReported.add(iConn.getEdge());
+									iConn.reportError("Reused edge does not have the same connection kind");
 									edgeReUse = false;
 								}
 							}

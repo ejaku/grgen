@@ -42,13 +42,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		setName(ConnectionNode.class, "connection");
 	}
 	
-	/** possible direction */
+	/** possible connection kinds */
 	public static final int ARBITRARY = 0;
 	public static final int ARBITRARY_DIRECTED = 1;
 	public static final int DIRECTED = 2;
 	public static final int UNDIRECTED = 3;
 	
-	private int direction;
+	private int connectionKind;
 
 	NodeDeclNode left;
 	EdgeDeclNode edge;
@@ -74,7 +74,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		becomeParent(edgeUnresolved);
 		rightUnresolved = n2;
 		becomeParent(rightUnresolved);
-		direction = d;
+		connectionKind = d;
 	}
 
 	/** Construct a new already resolved and checked connection node.
@@ -147,7 +147,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	private void warnArbitraryRootType()
     {
-		if (direction != ARBITRARY) {
+		if (connectionKind != ARBITRARY) {
 			return;
 		}
 	    
@@ -164,7 +164,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 	private boolean checkEdgeRootType() {
 		TypeDeclNode rootDecl = null;
-		switch (direction) {
+		switch (connectionKind) {
         case ARBITRARY:
 	        rootDecl = getArbitraryEdgeRootType();
 	        break;
@@ -235,6 +235,10 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	 */
 	public void addEdge(Set<BaseNode> set) {
 		set.add(edge);
+	}
+	
+	public int getConnectionKind() {
+		return connectionKind;
 	}
 
 	public EdgeDeclNode getEdge() {

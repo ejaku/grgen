@@ -264,38 +264,49 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
 		for (BaseNode lc : left.getConnections()) {
+			if (!(lc instanceof ConnectionNode)) {
+				continue;
+			}
 			for (BaseNode rc : right.getConnections()) {
-				if (lc instanceof SingleNodeConnNode ||	rc instanceof SingleNodeConnNode ) {
+				if (!(rc instanceof ConnectionNode)) {
 					continue;
 				}
 
 				ConnectionNode lConn = (ConnectionNode) lc;
 				ConnectionNode rConn = (ConnectionNode) rc;
+					
+				EdgeDeclNode le = lConn.getEdge();
+				EdgeDeclNode re = rConn.getEdge();
 
-				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
-				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
+				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
+					res = false;
+					rConn.reportError("Reused edge does not have the same connection kind");
+					// if you don't add to alreadyReported erroneous errors can occur,
+					// e.g. lhs=x-e->y, rhs=y-e-x
+					alreadyReported.add(re);
+				}
 
 				if (re instanceof EdgeTypeChangeNode) {
-					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+					re = ((EdgeTypeChangeNode)re).getOldEdge();
 				}
 
 				if ( ! le.equals(re) ) {
 					continue;
 				}
 
-				NodeDeclNode lSrc = (NodeDeclNode) lConn.getSrc();
-				NodeDeclNode lTgt = (NodeDeclNode) lConn.getTgt();
-				NodeDeclNode rSrc = (NodeDeclNode) rConn.getSrc();
-				NodeDeclNode rTgt = (NodeDeclNode) rConn.getTgt();
+				NodeDeclNode lSrc = lConn.getSrc();
+				NodeDeclNode lTgt = lConn.getTgt();
+				NodeDeclNode rSrc = rConn.getSrc();
+				NodeDeclNode rTgt = rConn.getTgt();
 
 				Collection<BaseNode> rhsNodes = right.getNodes();
 
 				if (rSrc instanceof NodeTypeChangeNode) {
-					rSrc = (NodeDeclNode) ((NodeTypeChangeNode)rSrc).getOldNode();
+					rSrc = ((NodeTypeChangeNode)rSrc).getOldNode();
 					rhsNodes.add(rSrc);
 				}
 				if (rTgt instanceof NodeTypeChangeNode) {
-					rTgt = (NodeDeclNode) ((NodeTypeChangeNode)rTgt).getOldNode();
+					rTgt = ((NodeTypeChangeNode)rTgt).getOldNode();
 					rhsNodes.add(rTgt);
 				}
 
@@ -309,7 +320,7 @@ public class RuleDeclNode extends TestDeclNode {
 							rConn.reportError("The source node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
-					} else if (lSrc != rSrc) {
+					} else if (lSrc != rSrc && ! alreadyReported.contains(re)) {
 						res = false;
 						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
@@ -326,7 +337,7 @@ public class RuleDeclNode extends TestDeclNode {
 							rConn.reportError("The target node of reused edge \"" + le + "\" must be reused, too");
 							alreadyReported.add(re);
 						}
-					} else if ( lTgt != rTgt ) {
+					} else if ( lTgt != rTgt && ! alreadyReported.contains(re)) {
 						res = false;
 						rConn.reportError("Reused edge \"" + le + "\" does not connect the same nodes");
 						alreadyReported.add(re);
