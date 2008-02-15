@@ -18,7 +18,7 @@
  */
 
 /**
- * @author buchwald
+ * @author Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;

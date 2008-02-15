@@ -64,9 +64,9 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 * @param eval The evaluations.
 	 */
-	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<PatternGraphNode> neg,
-						CollectNode<AssignNode> eval, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
-		super(id, ruleType, left, neg, params, rets);
+	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
+			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+		super(id, ruleType, left, params, rets);
 		this.right = right;
 		becomeParent(this.right);
 		this.eval = eval;
@@ -81,7 +81,6 @@ public class RuleDeclNode extends TestDeclNode {
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
-		children.add(neg);
 		children.add(right);
 		children.add(eval);
 		return children;
@@ -95,7 +94,6 @@ public class RuleDeclNode extends TestDeclNode {
 		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
-		childrenNames.add("neg");
 		childrenNames.add("right");
 		childrenNames.add("eval");
 		return childrenNames;
@@ -107,12 +105,6 @@ public class RuleDeclNode extends TestDeclNode {
 			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type != null;
-	}
-
-	protected Collection<GraphNode> getGraphs() {
-		Collection<GraphNode> res = super.getGraphs();
-		res.add(right);
-		return res;
 	}
 
 	protected Set<DeclNode> getDelete() {

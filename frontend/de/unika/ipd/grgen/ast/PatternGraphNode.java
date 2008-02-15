@@ -67,6 +67,8 @@ public class PatternGraphNode extends GraphNode {
 	private static final int OUTGOING = 1;
 
 	CollectNode<ExprNode> conditions;
+	CollectNode<AlternativeNode> alts;
+	CollectNode<PatternGraphNode> negs;
 	CollectNode<HomNode> homs;
 	CollectNode<ExactNode> exact;
 	CollectNode<InducedNode> induced;
@@ -106,11 +108,16 @@ public class PatternGraphNode extends GraphNode {
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
 
-	public PatternGraphNode(String nameOfGraph, Coords coords, CollectNode<BaseNode> connections,
-			CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> conditions, CollectNode<AlternativeNode> alts,
+	public PatternGraphNode(String nameOfGraph, Coords coords,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
+			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions, 
 			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);
+		this.alts = alts;
+		becomeParent(this.alts);
+		this.negs = negs;
+		becomeParent(this.negs);
 		this.conditions = conditions;
 		becomeParent(this.conditions);
 		this.homs = homs;
@@ -127,6 +134,8 @@ public class PatternGraphNode extends GraphNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(connections);
 		children.add(subpatterns);
+		children.add(alts);
+		children.add(negs);
 		children.add(returns);
 		children.add(conditions);
 		children.add(homs);
@@ -140,6 +149,8 @@ public class PatternGraphNode extends GraphNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("subpatterns");
+		childrenNames.add("alternatives");
+		childrenNames.add("negatives");
 		childrenNames.add("return");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
@@ -190,9 +201,18 @@ public class PatternGraphNode extends GraphNode {
 
 		}
 
-		return childs && expr && homcheck;
+		return childs && expr && homcheck && checkNoNestedNegatives();
 	}
 
+	protected boolean checkNoNestedNegatives() {
+		for (PatternGraphNode neg : negs.getChildren()) {
+			if(!neg.negs.getChildren().isEmpty())
+				return false;
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * Get the correctly casted IR object.
 	 *
@@ -233,13 +253,17 @@ public class PatternGraphNode extends GraphNode {
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph);
 
-		for (BaseNode n : connections.getChildren()) {
-			ConnectionCharacter conn = (ConnectionCharacter) n;
+		for (BaseNode connection : connections.getChildren()) {
+			ConnectionCharacter conn = (ConnectionCharacter) connection;
 			conn.addToGraph(gr);
 		}
 
-		for(BaseNode n : subpatterns.getChildren()) {
-			gr.addSubpatternUsage((SubpatternUsage)n.getIR());
+		for(BaseNode subpatternUsage : subpatterns.getChildren()) {
+			gr.addSubpatternUsage((SubpatternUsage)subpatternUsage.getIR());
+		}
+
+		for(AlternativeNode alt : alts.getChildren()) {
+			// TODO
 		}
 
 		for (ExprNode expr : conditions.getChildren()) {

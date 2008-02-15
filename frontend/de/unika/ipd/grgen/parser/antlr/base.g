@@ -176,6 +176,10 @@ actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identDecl[ParserEnvironment.ACTIONS]
 	;
 
+altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: res=identDecl[ParserEnvironment.ALTERNATIVES]
+	;
+	
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.TYPES]
 	;
@@ -186,6 +190,10 @@ entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: res=identUse[ParserEnvironment.ACTIONS]
+	;
+
+altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: res=identUse[ParserEnvironment.ALTERNATIVES]
 	;
 
 annotations returns [ DefaultAnnotations annots = new DefaultAnnotations() ]

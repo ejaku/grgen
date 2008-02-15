@@ -43,13 +43,13 @@ public class TestDeclNode extends ActionDeclNode {
 
 	CollectNode<ConstraintDeclNode> param;
 	CollectNode<IdentNode> returnFormalParameters;
-	PatternGraphNode pattern;
-	CollectNode<PatternGraphNode> neg;
 	TestTypeNode type;
+	PatternGraphNode pattern;
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, CollectNode<PatternGraphNode> neg, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, 
+			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
 		super(id, type);
 		this.param = params;
 		becomeParent(this.param);
@@ -57,12 +57,11 @@ public class TestDeclNode extends ActionDeclNode {
 		becomeParent(this.returnFormalParameters);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
-		this.neg = neg;
-		becomeParent(this.neg);
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern, CollectNode<PatternGraphNode> neg, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
-		this(id, testType, pattern, neg, params, rets);
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern,	
+			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+		this(id, testType, pattern, params, rets);
 	}
 
 	/** returns children of this node */
@@ -73,7 +72,6 @@ public class TestDeclNode extends ActionDeclNode {
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
-		children.add(neg);
 		return children;
 	}
 
@@ -85,7 +83,6 @@ public class TestDeclNode extends ActionDeclNode {
 		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
-		childrenNames.add("neg");
 		return childrenNames;
 	}
 
@@ -95,23 +92,6 @@ public class TestDeclNode extends ActionDeclNode {
 			new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
 		return type != null;
-	}
-
-	protected Collection<GraphNode> getGraphs() {
-		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		res.add(pattern);
-		for (BaseNode n : neg.getChildren()) {
-			res.add((GraphNode)n);
-		}
-		return res;
-	}
-
-	protected Collection<GraphNode> getNegativeGraphs() {
-		Collection<GraphNode> res = new LinkedList<GraphNode>();
-		for (BaseNode n : neg.getChildren()) {
-			res.add((GraphNode)n);
-		}
-		return res;
 	}
 
 	/**
@@ -195,9 +175,12 @@ public class TestDeclNode extends ActionDeclNode {
 		if (childs) {
 			edgeReUse = true;
 
-			//get the negative graphs and the pattern of this TestDeclNode
-			Collection<GraphNode> leftHandGraphs = getNegativeGraphs();
+			//get the pattern and the negative graphs of this TestDeclNode
+			Collection<PatternGraphNode> leftHandGraphs = new LinkedList<PatternGraphNode>();
 			leftHandGraphs.add(pattern);
+			for (PatternGraphNode pgn : pattern.negs.getChildren()) {
+				leftHandGraphs.add(pgn);
+			}
 
 			GraphNode[] graphs = leftHandGraphs.toArray(new GraphNode[0]);
 			Collection<EdgeCharacter> alreadyReported = new HashSet<EdgeCharacter>();
@@ -271,8 +254,8 @@ public class TestDeclNode extends ActionDeclNode {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add negative parts to the IR
-		for (BaseNode n : neg.getChildren()) {
-			PatternGraph neg = ((PatternGraphNode)n).getPatternGraph();
+		for (PatternGraphNode pgn : pattern.negs.getChildren()) {
+			PatternGraph neg = pgn.getPatternGraph();
 
 			// add Condition elements only mentioned in Condition to the IR
 			Set<Node> neededNodes = new LinkedHashSet<Node>();

@@ -152,15 +152,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		GraphNode right;
 		CollectNode<ConstraintDeclNode> params;
 		CollectNode<IdentNode> ret;
-		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 	}
 
 	: t:TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(t), negs, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, "test "+id.toString()]
+		left=patternPart[getCoords(t), mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, "test "+id.toString()]
 			{
-				id.setDecl(new TestDeclNode(id, left, negs, params, ret));
+				id.setDecl(new TestDeclNode(id, left, params, ret));
 				actionChilds.addChild(id);
 			}
 		RBRACE popScope
@@ -170,24 +169,24 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		}
 	| r:RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS] ret=returnTypes LBRACE
-		left=patternPart[getCoords(r), negs, mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, "rule "+id.toString()]
+		left=patternPart[getCoords(r), mod, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, "rule "+id.toString()]
 		( right=replacePart[eval, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, "rule "+id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, ret));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, params, ret));
 				actionChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, "rule "+id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, ret, dels));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, ret, dels));
 				actionChilds.addChild(id);
 			}
 		)
 		RBRACE popScope
 	| p:PATTERN id=typeIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS] LBRACE
-		left=patternPart[getCoords(p), negs, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, "pattern "+id.toString()]
+		left=patternPart[getCoords(p), mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, "pattern "+id.toString()]
 		(
 			{
-				id.setDecl(new TestDeclNode(id, left, negs, params, new CollectNode<IdentNode>()));
+				id.setDecl(new TestDeclNode(id, left, params, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
 				if((mod & PatternGraphNode.MOD_DPO)!=0) {
 					reportError(getCoords(t), "no \"dpo\" modifier allowed");
@@ -195,12 +194,12 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		| right=replacePart[eval, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, "pattern "+id.toString()]
 			{
-				id.setDecl(new RuleDeclNode(id, left, right, negs, eval, params, new CollectNode<IdentNode>()));
+				id.setDecl(new RuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>()));
 				patternChilds.addChild(id);
 			}
 		| right=modifyPart[eval, dels, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, "pattern "+id.toString()]
 			{
-				id.setDecl(new ModifyRuleDeclNode(id, left, right, negs, eval, params, new CollectNode<IdentNode>(), dels));
+				id.setDecl(new ModifyRuleDeclNode(id, left, right, eval, params, new CollectNode<IdentNode>(), dels));
 				patternChilds.addChild(id);
 			}
 		)
@@ -232,12 +231,12 @@ returnTypes returns [ CollectNode<IdentNode> res = new CollectNode<IdentNode>() 
 	|
 	;
 
-patternPart [ Coords pattern_coords, CollectNode<PatternGraphNode> negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternPart [ Coords pattern_coords, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	: p:PATTERN LBRACE
-		res=patternBody[getCoords(p), negs, mod, context, nameOfGraph]
+		res=patternBody[getCoords(p), mod, context, nameOfGraph]
 		RBRACE
 			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
-	| res=patternBody[pattern_coords, negs, mod, context, nameOfGraph]
+	| res=patternBody[pattern_coords, mod, context, nameOfGraph]
 	;
 
 replacePart [ CollectNode<AssignNode> eval, int context, String nameOfGraph ] returns [ GraphNode res = null ]
@@ -264,63 +263,46 @@ evalBody [ CollectNode<AssignNode> n  ]
 	: ( a=assignment { n.addChild(a); } SEMI )*
 	;
 
-patternBody [ Coords coords, CollectNode<PatternGraphNode> negs, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternBody [ Coords coords, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
+		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
+		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<ExprNode> conditions = new CollectNode<ExprNode>();
 		CollectNode<IdentNode> returnz = new CollectNode<IdentNode>();
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		CollectNode<BaseNode> subpatterns = new CollectNode<BaseNode>();
-		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
-		res = new PatternGraphNode(nameOfGraph+".pattern", coords, connections, subpatterns, conditions, alts,
+		res = new PatternGraphNode(nameOfGraph+".pattern", coords, connections, subpatterns, alts, negs, conditions,
 				returnz, homs, exact, induced, mod, context);
-		int negCounter = 0;
-		int altCounter = 0;
 	}
 
-	: ( negCounter = patternStmt[connections, subpatterns, conditions, negs, negCounter, alts, altCounter,
+	: ( patternStmt[connections, subpatterns, alts, negs, conditions,
 			 returnz, homs, exact, induced, context, nameOfGraph+".pattern"] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<ExprNode> cond,
-			CollectNode<PatternGraphNode> negs, int negCount, CollectNode<AlternativeNode> alts, int altCount,
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, CollectNode<AlternativeNode> alts,
+			CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> cond,
 			CollectNode<IdentNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, String nameOfGraph ]
-	returns [ int newNegCount ]
 	{
-		int mod = 0;
+		AlternativeNode alt;
+		int altCounter = 0;
+		PatternGraphNode neg;		
+		int negCounter = 0;
+		int mod = 0; // TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 		ExprNode e;
-		PatternGraphNode neg;
 		HomNode hom;
 		ExactNode exa;
 		InducedNode ind;
-		//nesting of negative Parts is not allowed.
-		CollectNode<PatternGraphNode> negsInNegs = new CollectNode<PatternGraphNode>();
-		newNegCount = negCount;
-		AlternativeNode alt;
 	}
 
 	: connectionsOrSubpattern[conn, subpatterns, context] SEMI
-		// TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
-	| p:NEGATIVE pushScopeStr[ "neg" + negCount, getCoords(p) ] LBRACE
-		neg=patternBody[getCoords(p), negsInNegs, mod, context, nameOfGraph+".negative"]
-			{
-				newNegCount = negCount + 1;
-				negs.addChild(neg);
-			}
-		RBRACE popScope
-			{
-				if(negsInNegs.getChildren().size() != 0) {
-					reportError(getCoords(p), "Nesting of negative parts not allowed");
-				}
-			}
+	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCounter, context] { alts.addChild(alt); ++altCounter; } RBRACE
+	| neg=negative[negCounter, context] { negs.addChild(neg); ++negCounter; }
 	| COND e=expr[false] { cond.addChild(e); } SEMI //'false' means that expr is not an enum item initializer
-	| COND LBRACE
-		( e=expr[false] { cond.addChild(e); } SEMI )*
-		RBRACE
-	| a:ALTERNATIVE LBRACE alt=alternative[getCoords(a), altCount, context] { alts.addChild(alt); ++altCount; } RBRACE
+	| COND LBRACE ( e=expr[false] { cond.addChild(e); } SEMI )* RBRACE
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -728,19 +710,27 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<BaseN
 	| emitStmt[imperativeStmts] SEMI
 	;
 
-alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords); ]
+alternative [ Coords coords, int altCount, int context ] returns [ AlternativeNode alt = new AlternativeNode(coords) ]
 	{
 		IdentNode id;
-		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		PatternGraphNode left;
 		int mod = 0;
 	}
-	: ( id=entIdentDecl l:LBRACE pushScopeStr[ "alt" + altCount, getCoords(l) ]
-		left=patternPart[getCoords(l), negs, mod, context, "alternative "+id.toString()]
-		RBRACE popScope
-		{ alt.addChild(left); negs = new CollectNode<PatternGraphNode>();} )*
+	: ( id=entIdentDecl l:LBRACE pushScopeStr["alt"+altCount, getCoords(l)]
+		left=patternBody[getCoords(l), mod, context, "alternative "+id.toString()]
+		RBRACE popScope	{ alt.addChild(left); }
+	  ) *
 	;
 
+negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
+	{
+		int mod = 0;
+	}
+	: n:NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
+		res=patternBody[getCoords(n), mod, context, "negative"+negCount]
+		RBRACE popScope
+	;
+		
 rets[CollectNode<IdentNode> res, int context]
 	{
 		IdentNode id;

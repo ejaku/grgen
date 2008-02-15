@@ -36,14 +36,17 @@ import java.util.Vector;
 
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
+	static {
+		setName(RuleDeclNode.class, "modify rule declaration");
+	}
 	CollectNode<IdentNode> deleteUnresolved;
 	CollectNode<ConstraintDeclNode> delete;
 	RuleTypeNode type;
 
 
-	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right,
-			CollectNode<PatternGraphNode> neg, CollectNode<AssignNode> eval, CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets, CollectNode<IdentNode> dels) {
-		super(id, left, right, neg, eval, params, rets);
+	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
+			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets, CollectNode<IdentNode> dels) {
+		super(id, left, right, eval, params, rets);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
 	}
@@ -56,7 +59,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		children.add(param);
 		children.add(returnFormalParameters);
 		children.add(pattern);
-		children.add(neg);
 		children.add(right);
 		children.add(eval);
 		children.add(getValidVersion(deleteUnresolved, delete));
@@ -71,7 +73,6 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		childrenNames.add("param");
 		childrenNames.add("ret");
 		childrenNames.add("pattern");
-		childrenNames.add("neg");
 		childrenNames.add("right");
 		childrenNames.add("eval");
 		childrenNames.add("delete");

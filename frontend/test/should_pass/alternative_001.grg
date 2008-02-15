@@ -1,0 +1,39 @@
+pattern P(x:Node) {
+	-y:Edge->;
+	alternative {
+	foo {
+		-y->z:Node;
+	}
+	bar {
+		z:Node;
+	}
+	leer {
+	}
+	}
+}
+
+test t {
+	x:Node;
+	x -e:Edge-> y:Node --> x;
+	alternative {
+	blub {
+		p1:P(x);
+	}
+	bla {
+		p2:P(y);
+		a:Node --> b:Node;
+	}
+	}
+	alternative {
+	huh {
+		x --> y;
+	}
+	}
+}
+
+test s {
+	alternative {
+	leer {
+	}
+	}
+}

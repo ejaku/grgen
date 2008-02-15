@@ -58,11 +58,13 @@ public abstract class ParserEnvironment extends Base {
 	public static final int TYPES = 0;
 	public static final int ENTITIES = 1;
 	public static final int ACTIONS = 2;
+	public static final int ALTERNATIVES = 3;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types"),
 		new SymbolTable("entities"),
-		new SymbolTable("actions")
+		new SymbolTable("actions"),
+		new SymbolTable("alternatives")
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
