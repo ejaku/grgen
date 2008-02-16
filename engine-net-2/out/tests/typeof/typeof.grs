@@ -1,0 +1,42 @@
+new graph typeof/typeof
+
+show num nodes
+show num edges
+show num nodes "BB"
+show num nodes "ABB"
+show num nodes "A"
+show num nodes "B"
+show num nodes "AA"
+xgrs Init
+show num nodes
+show num edges
+show num nodes "BB"
+show num nodes "ABB"
+show num nodes "A"
+show num nodes "B"
+show num nodes "AA"
+xgrs [?AtoB]
+show num nodes
+show num edges
+show num nodes "BB"
+show num nodes "ABB"
+show num nodes "A"
+show num nodes "B"
+show num nodes "AA"
+xgrs AtoB*
+show num nodes
+show num edges
+show num nodes "BB"
+show num nodes "ABB"
+show num nodes "A"
+show num nodes "B"
+show num nodes "AA"
+validate xgrs Verify
+show num nodes
+show num edges
+show num nodes "BB"
+show num nodes "ABB"
+show num nodes "A"
+show num nodes "B"
+show num nodes "AA"
+quit

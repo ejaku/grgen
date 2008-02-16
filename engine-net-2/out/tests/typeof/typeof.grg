@@ -1,0 +1,28 @@
+using typeofModel;
+
+rule Init
+{
+	modify {
+		:AA --> :BB --> :ABB;
+	}
+}
+
+rule AtoB
+{
+	a:A --> b:B;
+	modify {
+		:typeof(b)<a>;
+		:typeof(a)<b>;
+	}
+}
+
+test Verify
+{
+	bb:BB -e1:Edge-> abb:ABB -e2:Edge-> aa:AA;
+	negative { bb <--; }
+	negative { -e1->; bb -->; }
+	negative { -e1->; abb <--; }
+	negative { -e2->; abb -->; }
+	negative { -e2->; aa <--; }
+	negative { aa -->; }
+}

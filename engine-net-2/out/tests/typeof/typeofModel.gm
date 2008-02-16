@@ -1,0 +1,5 @@
+node class A;
+node class B;
+node class AA extends A;
+node class BB extends B;
+node class ABB extends A, BB;
