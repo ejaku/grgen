@@ -1,0 +1,38 @@
+using basic_model_001;
+
+rule to_9(p_a : A, p_c : C, p_nx : NX, p_cz : CZ) {
+	a : A;
+	b : B;
+	c : C;
+	nx : NX;
+	ax : AX;
+	bx : BX;
+	cx : CX;
+	cz : CZ;
+	modify {
+		:A;
+		:N;
+		:AA;
+		:BB;
+		:CC;
+		:AB;
+		:AC;
+		:BC;
+		:NZ;
+		:AZ;
+		:BZ;
+		:CZ;
+		:typeof(a);
+		:typeof(b);
+		:typeof(c);
+		:typeof(nx);
+		:typeof(ax);
+		:typeof(bx);
+		:typeof(cx);
+		:typeof(cz);
+		:typeof(p_a);
+		:typeof(p_c);
+		:typeof(p_nx);
+		:typeof(p_cz);
+	}
+}

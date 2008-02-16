@@ -223,6 +223,7 @@ OK     should_pass/to_005.grg
 OK     should_pass/to_006.grg
 OK     should_pass/to_007.grg
 OK     should_pass/to_008.grg
+ERROR  should_pass/to_009.grg
 OK     should_pass/unary_001.grg
 WARNED should_warn/del_001.grg
 WARNED should_warn/del_002.grg
