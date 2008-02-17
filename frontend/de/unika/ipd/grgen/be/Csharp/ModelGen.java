@@ -52,7 +52,8 @@ public class ModelGen extends CSharpBase {
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.models.m_" + formatIdentifiable(be.unit) + "\n");
+		
+		sb.append("namespace de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + "\n");
 		sb.append("{\n");
 
 		System.out.println("    generating enums...");

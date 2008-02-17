@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.models.TNT;
+using de.unika.ipd.grGen.Model_TNT;
 
-namespace de.unika.ipd.grGen.actions.TNT
+namespace de.unika.ipd.grGen.Action_TNT
 {
 	public class Pattern_BenzolRing : LGSPRulePattern
 	{
@@ -67,11 +67,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern BenzolRing.pattern",
+				"BenzolRing",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -101,7 +103,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -198,11 +199,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern BenzolRingC123456Exposed.pattern",
+				"BenzolRingC123456Exposed",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -232,7 +235,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
 			outputs = new GrGenType[] { };
@@ -329,11 +331,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern BenzolRingC1Exposed.pattern",
+				"BenzolRingC1Exposed",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -363,7 +367,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", };
 			outputs = new GrGenType[] { };
@@ -424,11 +427,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern Hydrogen.pattern",
+				"Hydrogen",
 				new PatternNode[] { node_anchor, node__node0 }, 
 				new PatternEdge[] { edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -446,7 +451,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
 			outputs = new GrGenType[] { };
@@ -513,11 +517,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge1 = new PatternEdge(node__node0, node__node1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern Hydroxyl.pattern",
+				"Hydroxyl",
 				new PatternNode[] { node_anchor, node__node0, node__node1 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -537,7 +543,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
 			outputs = new GrGenType[] { };
@@ -616,11 +621,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge2 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge3 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern Methyl.pattern",
+				"Methyl",
 				new PatternNode[] { node_anchor, node_c, node__node0, node__node1, node__node2 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -644,7 +651,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
 			outputs = new GrGenType[] { };
@@ -717,11 +723,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge1 = new PatternEdge(node_n, node__node0, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge2 = new PatternEdge(node_n, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern Nitro.pattern",
+				"Nitro",
 				new PatternNode[] { node_anchor, node_n, node__node0, node__node1 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -743,7 +751,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
 			outputs = new GrGenType[] { };
@@ -807,11 +814,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge0 = new PatternEdge(node_o1, node_o2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge1 = new PatternEdge(node_o2, node_o1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"pattern Oxygen.pattern",
+				"Oxygen",
 				new PatternNode[] { node_o1, node_o2 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -830,7 +839,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -904,11 +912,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, new PatternElement[] { node_c2, node_c4, node_c6 });
 			patternGraph = new PatternGraph(
-				"pattern ToluolCoreThenTriNitro.pattern",
+				"ToluolCoreThenTriNitro",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -926,7 +936,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
 			outputs = new GrGenType[] { };
@@ -990,11 +999,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c4 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"pattern TriNitro.pattern",
+				"TriNitro",
 				new PatternNode[] { node_c2, node_c4, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1009,7 +1020,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c2", "node_c4", "node_c6", };
 			outputs = new GrGenType[] { };
@@ -1062,11 +1072,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			isSubpattern = false;
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
 			patternGraph = new PatternGraph(
-				"test BenzolRing.pattern",
+				"BenzolRing",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				new bool[] {},
@@ -1075,7 +1087,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -1178,11 +1189,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"test DNT.pattern",
+				"DNT",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1212,7 +1225,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -1387,11 +1399,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge20 = new PatternEdge(node_c5, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge21 = new PatternEdge(node_c6, node__node9, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"test DNTUnfolded.pattern",
+				"DNTUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node__node9 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20, edge__edge21 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[19, 19] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -1447,7 +1461,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -1550,11 +1563,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"test TNB.pattern",
+				"TNB",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1584,7 +1599,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -1753,11 +1767,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge19 = new PatternEdge(node_n6, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge20 = new PatternEdge(node_n6, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"test TNBUnfolded.pattern",
+				"TNBUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node__node0, node_n2, node__node1, node__node2, node__node3, node_n4, node__node4, node__node5, node__node6, node_n6, node__node7, node__node8 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[18, 18] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -1811,7 +1827,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -1914,11 +1929,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern4 = new PatternGraphEmbedding("_subpattern4", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"test TNT.pattern",
+				"TNT",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1948,7 +1965,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2020,11 +2036,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			patternGraph = new PatternGraph(
-				"test TNTChain.pattern",
+				"TNTChain",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -2042,7 +2060,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2119,11 +2136,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"test TNTTotallyFolded.pattern",
+				"TNTTotallyFolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -2141,7 +2160,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2328,11 +2346,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternEdge edge__edge22 = new PatternEdge(node_n6, node__node9, (int) EdgeTypes.@Edge, "edge__edge22", edge__edge22_AllowedTypes, edge__edge22_IsAllowedType, PatternElementType.Normal, -1);
 			PatternEdge edge__edge23 = new PatternEdge(node_n6, node__node10, (int) EdgeTypes.@Edge, "edge__edge23", edge__edge23_AllowedTypes, edge__edge23_IsAllowedType, PatternElementType.Normal, -1);
 			patternGraph = new PatternGraph(
-				"test TNTUnfolded.pattern",
+				"TNTUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node_n6, node__node9, node__node10 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20, edge__edge21, edge__edge22, edge__edge23 }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[21, 21] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -2392,7 +2412,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2469,11 +2488,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
 			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
-				"test Toluol.pattern",
+				"Toluol",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -2491,7 +2512,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2548,11 +2568,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			patternGraph = new PatternGraph(
-				"test ToluolCore.pattern",
+				"ToluolCore",
 				new PatternNode[] { node_c1 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2565,7 +2587,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2617,11 +2638,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			name = "createDNT";
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
-				"rule createDNT.pattern",
+				"createDNT",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				new bool[] {},
@@ -2630,7 +2653,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2640,98 +2662,98 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_H node__node9 = Node_H.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_H node__node9 = Node_H.CreateNode(graph);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
 			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_H node__node9 = Node_H.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_H node__node9 = Node_H.CreateNode(graph);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
 			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node__node9);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
+		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node5", "c", "_node7", "c2", "c4", "_node2", "c5", "n4", "_node6", "c1", "_node9" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge21", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
+		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge11", "_edge12", "_edge4", "_edge19", "_edge16", "_edge5", "_edge7", "_edge1", "_edge13", "_edge17", "_edge14", "_edge8", "_edge10", "_edge21", "_edge2", "_edge9", "_edge18" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -2765,11 +2787,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			name = "createTNB";
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
-				"rule createTNB.pattern",
+				"createTNB",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				new bool[] {},
@@ -2778,7 +2802,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2788,94 +2811,94 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_N node_n6 = Node_N.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_O node__node8 = Node_O.CreateNode(graph);
-			Node_O node__node5 = Node_O.CreateNode(graph);
-			Node_H node__node6 = Node_H.CreateNode(graph);
 			Node_H node__node3 = Node_H.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_O node__node1 = Node_O.CreateNode(graph);
-			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_O node__node8 = Node_O.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_O node__node1 = Node_O.CreateNode(graph);
+			Node_O node__node5 = Node_O.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_O node__node2 = Node_O.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_H node__node6 = Node_H.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_n6, node__node8);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n4, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
 			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_N node_n6 = Node_N.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_O node__node8 = Node_O.CreateNode(graph);
-			Node_O node__node5 = Node_O.CreateNode(graph);
-			Node_H node__node6 = Node_H.CreateNode(graph);
 			Node_H node__node3 = Node_H.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_O node__node1 = Node_O.CreateNode(graph);
-			Node_O node__node2 = Node_O.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_O node__node8 = Node_O.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_O node__node1 = Node_O.CreateNode(graph);
+			Node_O node__node5 = Node_O.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_O node__node2 = Node_O.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_H node__node6 = Node_H.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
 			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_n6, node__node8);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n4, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
 			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_n2, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_n2, node__node2);
 			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n6, node__node7);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_n4, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c3, node__node3);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c5, node__node6);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node__node0);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "n6", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
+		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node5", "_node7", "c2", "c4", "_node2", "c5", "n6", "n4", "_node6", "c1" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge20", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4" };
+		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge11", "_edge12", "_edge4", "_edge19", "_edge16", "_edge5", "_edge7", "_edge1", "_edge13", "_edge17", "_edge14", "_edge8", "_edge10", "_edge2", "_edge9", "_edge18" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -2909,11 +2932,13 @@ namespace de.unika.ipd.grGen.actions.TNT
 			name = "createTNT";
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
-				"rule createTNT.pattern",
+				"createTNT",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
-				new Condition[] { },
+				new Alternative[] {  }, 
+				new PatternGraph[] {  }, 
+				new Condition[] {  }, 
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				new bool[] {},
@@ -2922,7 +2947,6 @@ namespace de.unika.ipd.grGen.actions.TNT
 				new bool[] {}
 			);
 
-			negativePatternGraphs = new PatternGraph[] {};
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GrGenType[] { };
@@ -2932,106 +2956,106 @@ namespace de.unika.ipd.grGen.actions.TNT
 
 		public override IGraphElement[] Modify(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_N node_n6 = Node_N.CreateNode(graph);
-			Node_O node__node10 = Node_O.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node9 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_O node__node10 = Node_O.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node9 = Node_O.CreateNode(graph);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
 			return EmptyReturnElements;
 		}
 
 		public override IGraphElement[] ModifyNoReuse(LGSPGraph graph, LGSPMatch match)
 		{
-			Node_N node_n6 = Node_N.CreateNode(graph);
-			Node_O node__node10 = Node_O.CreateNode(graph);
-			Node_C node_c = Node_C.CreateNode(graph);
-			Node_O node__node9 = Node_O.CreateNode(graph);
-			Node_C node_c1 = Node_C.CreateNode(graph);
-			Node_O node__node7 = Node_O.CreateNode(graph);
-			Node_H node__node8 = Node_H.CreateNode(graph);
-			Node_H node__node5 = Node_H.CreateNode(graph);
-			Node_O node__node6 = Node_O.CreateNode(graph);
 			Node_O node__node3 = Node_O.CreateNode(graph);
+			Node_H node__node0 = Node_H.CreateNode(graph);
 			Node_C node_c6 = Node_C.CreateNode(graph);
 			Node_O node__node4 = Node_O.CreateNode(graph);
-			Node_H node__node1 = Node_H.CreateNode(graph);
-			Node_H node__node2 = Node_H.CreateNode(graph);
-			Node_N node_n4 = Node_N.CreateNode(graph);
-			Node_C node_c2 = Node_C.CreateNode(graph);
-			Node_H node__node0 = Node_H.CreateNode(graph);
-			Node_C node_c3 = Node_C.CreateNode(graph);
 			Node_N node_n2 = Node_N.CreateNode(graph);
+			Node_H node__node8 = Node_H.CreateNode(graph);
+			Node_C node_c3 = Node_C.CreateNode(graph);
+			Node_H node__node1 = Node_H.CreateNode(graph);
+			Node_O node__node10 = Node_O.CreateNode(graph);
+			Node_H node__node5 = Node_H.CreateNode(graph);
+			Node_C node_c = Node_C.CreateNode(graph);
+			Node_O node__node7 = Node_O.CreateNode(graph);
+			Node_C node_c2 = Node_C.CreateNode(graph);
 			Node_C node_c4 = Node_C.CreateNode(graph);
+			Node_H node__node2 = Node_H.CreateNode(graph);
 			Node_C node_c5 = Node_C.CreateNode(graph);
-			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
-			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
-			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
-			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
+			Node_N node_n6 = Node_N.CreateNode(graph);
+			Node_N node_n4 = Node_N.CreateNode(graph);
+			Node_O node__node6 = Node_O.CreateNode(graph);
+			Node_C node_c1 = Node_C.CreateNode(graph);
+			Node_O node__node9 = Node_O.CreateNode(graph);
+			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge3 = Edge_Edge.CreateEdge(graph, node_c4, node_c5);
-			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
-			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
-			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
 			Edge_Edge edge__edge15 = Edge_Edge.CreateEdge(graph, node_n2, node__node4);
 			Edge_Edge edge__edge0 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
-			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
-			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
 			Edge_Edge edge__edge6 = Edge_Edge.CreateEdge(graph, node_c1, node_c2);
-			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
-			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
-			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
-			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
-			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
-			Edge_Edge edge__edge20 = Edge_Edge.CreateEdge(graph, node_c5, node__node8);
 			Edge_Edge edge__edge23 = Edge_Edge.CreateEdge(graph, node_n6, node__node10);
+			Edge_Edge edge__edge16 = Edge_Edge.CreateEdge(graph, node_c3, node__node5);
+			Edge_Edge edge__edge5 = Edge_Edge.CreateEdge(graph, node_c6, node_c1);
+			Edge_Edge edge__edge13 = Edge_Edge.CreateEdge(graph, node_c2, node_n2);
+			Edge_Edge edge__edge8 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge10 = Edge_Edge.CreateEdge(graph, node_c, node__node0);
+			Edge_Edge edge__edge21 = Edge_Edge.CreateEdge(graph, node_c6, node_n6);
+			Edge_Edge edge__edge18 = Edge_Edge.CreateEdge(graph, node_n4, node__node6);
 			Edge_Edge edge__edge22 = Edge_Edge.CreateEdge(graph, node_n6, node__node9);
+			Edge_Edge edge__edge11 = Edge_Edge.CreateEdge(graph, node_c, node__node1);
+			Edge_Edge edge__edge12 = Edge_Edge.CreateEdge(graph, node_c, node__node2);
+			Edge_Edge edge__edge4 = Edge_Edge.CreateEdge(graph, node_c5, node_c6);
+			Edge_Edge edge__edge19 = Edge_Edge.CreateEdge(graph, node_n4, node__node7);
+			Edge_Edge edge__edge7 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge1 = Edge_Edge.CreateEdge(graph, node_c2, node_c3);
+			Edge_Edge edge__edge17 = Edge_Edge.CreateEdge(graph, node_c4, node_n4);
+			Edge_Edge edge__edge14 = Edge_Edge.CreateEdge(graph, node_n2, node__node3);
+			Edge_Edge edge__edge2 = Edge_Edge.CreateEdge(graph, node_c3, node_c4);
+			Edge_Edge edge__edge9 = Edge_Edge.CreateEdge(graph, node_c1, node_c);
 			return EmptyReturnElements;
 		}
-		private static String[] addedNodeNames = new String[] { "n6", "_node10", "c", "_node9", "c1", "_node7", "_node8", "_node5", "_node6", "_node3", "c6", "_node4", "_node1", "_node2", "n4", "c2", "_node0", "c3", "n2", "c4", "c5" };
+		private static String[] addedNodeNames = new String[] { "_node3", "_node0", "c6", "_node4", "n2", "_node8", "c3", "_node1", "_node10", "_node5", "c", "_node7", "c2", "c4", "_node2", "c5", "n6", "n4", "_node6", "c1", "_node9" };
 		public override String[] AddedNodeNames { get { return addedNodeNames; } }
-		private static String[] addedEdgeNames = new String[] { "_edge8", "_edge9", "_edge19", "_edge10", "_edge18", "_edge3", "_edge17", "_edge2", "_edge16", "_edge1", "_edge15", "_edge0", "_edge14", "_edge7", "_edge13", "_edge6", "_edge12", "_edge5", "_edge11", "_edge4", "_edge21", "_edge20", "_edge23", "_edge22" };
+		private static String[] addedEdgeNames = new String[] { "_edge20", "_edge3", "_edge15", "_edge0", "_edge6", "_edge23", "_edge16", "_edge5", "_edge13", "_edge8", "_edge10", "_edge21", "_edge18", "_edge22", "_edge11", "_edge12", "_edge4", "_edge19", "_edge7", "_edge1", "_edge17", "_edge14", "_edge2", "_edge9" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
@@ -11552,15 +11576,15 @@ namespace de.unika.ipd.grGen.actions.TNT
         }
 	}
 
-    public class TNTActions : LGSPActions
+    public class Model_TNT_Actions : LGSPActions
     {
-        public TNTActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
+        public Model_TNT_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
             : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
 
-        public TNTActions(LGSPGraph lgspgraph)
+        public Model_TNT_Actions(LGSPGraph lgspgraph)
             : base(lgspgraph)
         {
             InitActions();

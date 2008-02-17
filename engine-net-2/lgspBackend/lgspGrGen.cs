@@ -850,15 +850,15 @@ namespace de.unika.ipd.grGen.lgsp
 
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
-                endSource.AppendFront("public class " + unitName + "Actions : LGSPActions\n");
+                endSource.AppendFront("public class " + unitName + "_Actions : LGSPActions\n");
                 endSource.AppendFront("{\n");
                 endSource.Indent();
-                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)\n");
+                endSource.AppendFront("public " + unitName + "_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)\n");
                 endSource.AppendFront("    : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
                 endSource.AppendFront("}\n\n");
-                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph)\n");
+                endSource.AppendFront("public " + unitName + "_Actions(LGSPGraph lgspgraph)\n");
                 endSource.AppendFront("    : base(lgspgraph)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");

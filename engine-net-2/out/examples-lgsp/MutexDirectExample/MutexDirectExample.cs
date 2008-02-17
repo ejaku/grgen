@@ -1,7 +1,7 @@
 ﻿using System;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.models.MutexPimped;
-using de.unika.ipd.grGen.actions.MutexPimped;
+using de.unika.ipd.grGen.Model_MutexPimped;
+using de.unika.ipd.grGen.Action_MutexPimped;
 using de.unika.ipd.grGen.libGr;
 
 namespace Mutex
@@ -31,7 +31,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            MutexPimpedActions actions = new MutexPimpedActions(graph);
+            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
@@ -109,7 +109,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            MutexPimpedActions actions = new MutexPimpedActions(graph);
+            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
@@ -148,7 +148,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            MutexPimpedActions actions = new MutexPimpedActions(graph);
+            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);

@@ -50,9 +50,10 @@ public class ActionsGen extends CSharpBase {
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.models.m_" + formatIdentifiable(be.unit) + ";\n");
+		sb.append("using de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + ";\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.actions.a_" + formatIdentifiable(be.unit) + "\n");
+		
+		sb.append("namespace de.unika.ipd.grGen.Action_" + formatIdentifiable(be.unit) + "\n");
 		sb.append("{\n");
 
 		for(Action action : be.patternMap.keySet())

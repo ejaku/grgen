@@ -1,8 +1,8 @@
 ﻿using System;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.actions.Turing3;
-using de.unika.ipd.grGen.models.Turing3;
+using de.unika.ipd.grGen.Action_Turing3;
+using de.unika.ipd.grGen.Model_Turing3;
 
 namespace BusyBeaver
 {
@@ -12,7 +12,7 @@ namespace BusyBeaver
         const int R = 1;
 
         LGSPGraph graph;
-        Turing3Actions actions;
+        Model_Turing3_Actions actions;
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
         {
@@ -38,7 +38,7 @@ namespace BusyBeaver
             int startTime = Environment.TickCount;
 
             graph = new LGSPGraph(new Turing3GraphModel());
-            actions = new Turing3Actions(graph);
+            actions = new Model_Turing3_Actions(graph);
 
             // Enable step counting
             actions.PerformanceInfo = new PerformanceInfo();
