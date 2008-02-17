@@ -263,20 +263,31 @@ public class RuleDeclNode extends TestDeclNode {
 	protected boolean checkRhsReuse(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode lc : left.getConnections()) {
-			if (!(lc instanceof ConnectionNode)) {
+		for (BaseNode rc : right.getConnections()) {
+			if (!(rc instanceof ConnectionNode)) {
 				continue;
 			}
-			for (BaseNode rc : right.getConnections()) {
-				if (!(rc instanceof ConnectionNode)) {
+			boolean occursInLHS = false;
+			ConnectionNode rConn = (ConnectionNode) rc;
+			EdgeDeclNode re = rConn.getEdge();
+			
+			if (re instanceof EdgeTypeChangeNode) {
+				re = ((EdgeTypeChangeNode)re).getOldEdge();
+			}
+			
+			for (BaseNode lc : left.getConnections()) {
+				if (!(lc instanceof ConnectionNode)) {
 					continue;
 				}
 
 				ConnectionNode lConn = (ConnectionNode) lc;
-				ConnectionNode rConn = (ConnectionNode) rc;
 					
 				EdgeDeclNode le = lConn.getEdge();
-				EdgeDeclNode re = rConn.getEdge();
+
+				if ( ! le.equals(re) ) {
+					continue;
+				}
+				occursInLHS = true;
 
 				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
 					res = false;
@@ -284,14 +295,6 @@ public class RuleDeclNode extends TestDeclNode {
 					// if you don't add to alreadyReported erroneous errors can occur,
 					// e.g. lhs=x-e->y, rhs=y-e-x
 					alreadyReported.add(re);
-				}
-
-				if (re instanceof EdgeTypeChangeNode) {
-					re = ((EdgeTypeChangeNode)re).getOldEdge();
-				}
-
-				if ( ! le.equals(re) ) {
-					continue;
 				}
 
 				NodeDeclNode lSrc = lConn.getSrc();
@@ -356,6 +359,18 @@ public class RuleDeclNode extends TestDeclNode {
 						alreadyReported.add(re);
 					}
 				}
+			}
+			if (!occursInLHS) {
+				// alreadyReported can not be set here
+				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
+					res = false;
+					rConn.reportError("New instances of ?--? are not allowed in RHS");
+				}
+				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
+					res = false;
+					rConn.reportError("New instances of <--> are not allowed in RHS");
+				}
+
 			}
 		}
 		return res;

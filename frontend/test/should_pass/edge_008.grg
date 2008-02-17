@@ -1,0 +1,13 @@
+rule r {
+	x:Node;
+	y:Node;
+	x -e:Edge-> y;
+	x -f:UEdge- y;
+
+	replace {
+		x;
+		y;
+		x -e-> y;
+		x -f- y;
+	}
+}

@@ -28,15 +28,18 @@ import de.unika.ipd.grgen.util.Base;
 
 /**
  * something, that resolves a node to another node.
+ *
+ * @param <T> the type of the resolution result.
  */
 public abstract class Resolver<T> extends Base {
 	/**
-	 * Resolves a node to another node. (but doesn't replace the node in the AST)
+	 * Resolves a node to another node.
+	 * (but doesn't replace the node in the AST)
+	 *
 	 * @param node The original node to resolve.
-	 * @param node The new parent of the resolved node.
-	 * @return The node the original node was resolved to (which might be the original node itself),
-	 *         or null if the resolving failed
+	 * @param parent The new parent of the resolved node.
+	 * @return The node the original node was resolved to (which might be the
+	 *         original node itself), or null if the resolving failed.
 	 */
 	public abstract T resolve(BaseNode node, BaseNode parent);
 }
-

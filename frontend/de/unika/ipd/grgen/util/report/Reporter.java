@@ -72,7 +72,7 @@ public abstract class Reporter {
 	}
 
 	/**
-	 * Disbales reporting on this reporter.
+	 * Disables reporting on this reporter.
 	 * Re-enable it by setting the level to some value > 0
 	 */
 	public void disable() {
