@@ -451,6 +451,7 @@ ERROR  should_fail/hom_001.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg
+ERROR  should_fail/hom_010.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
 ERROR  should_fail/induced_003.grg

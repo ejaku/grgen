@@ -201,7 +201,6 @@ public class PatternGraphNode extends GraphNode {
 					homEnts.add(decl);
 				}
 			}
-
 		}
 
 		return childs && expr && homcheck && checkNoNestedNegatives();

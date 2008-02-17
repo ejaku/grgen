@@ -71,6 +71,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	/** The TYPE child could be an edge in case the type is
 	 *  inherited dynamically via the typeof operator */
+	// TODO this should return a EdgeTypeNode
 	public TypeNode getDeclType() {
 		assert isResolved();
 		

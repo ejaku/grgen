@@ -69,13 +69,15 @@ public class HomNode extends BaseNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
+		new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> resolver =
-			new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+		
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
-			Pair<NodeDeclNode, EdgeDeclNode> resolved = resolver.resolve(childrenUnresolved.get(i), this);
+			Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(childrenUnresolved.get(i), this);
 			successfullyResolved = (resolved != null) && successfullyResolved;
 			if (resolved != null) {
 				if(resolved.fst!=null) {
@@ -89,6 +91,8 @@ public class HomNode extends BaseNode {
 		return successfullyResolved;
 	}
 
+	private static final TypeChecker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
+	private static final TypeChecker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
 
 	/**
 	 * Check whether all children are of same type (node or edge)
@@ -105,17 +109,39 @@ public class HomNode extends BaseNode {
 			return false;
 		}
 
-		boolean successfullyChecked = true;
-		TypeChecker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
+		boolean successfullyChecked = checkEdgeTypes();
 		for(BaseNode n : childrenNode) {
 			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
 		}
-		TypeChecker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
 		for(BaseNode n : childrenEdge) {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
 		return successfullyChecked;
 	}
+
+	/** Checks whether all edges are compatible to each other.*/
+	private boolean checkEdgeTypes()
+    {
+	    boolean isDirectedEdge = false;
+	    boolean isUndirectedEdge = false;
+		
+		for (int i=0; i < childrenEdge.size(); i++ ) {
+			TypeNode type = childrenEdge.get(i).getDeclType();
+			if (type instanceof DirectedEdgeTypeNode) {
+				isDirectedEdge = true;
+			}
+			if (type instanceof UndirectedEdgeTypeNode) {
+				isUndirectedEdge = true;
+			}
+        }
+		
+		if (isDirectedEdge && isUndirectedEdge) {
+			reportError("Hom statement may only contain directed or undirected edges at a time");
+			return false;
+		}
+		
+	    return true;
+    }
 
 	public Color getNodeColor() {
 		return Color.PINK;
