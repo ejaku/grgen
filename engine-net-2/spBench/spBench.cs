@@ -168,14 +168,17 @@ namespace spBench
 
         private ScheduledSearchPlan GenerateLibGrSearchPlan()
         {
-            PlanGraph planGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.PatternGraph, false, false);
+            LGSPRulePattern rulePattern = Action.rulePattern;
+            PatternGraph patternGraph = rulePattern.patternGraph;
+            PlanGraph planGraph = MatchGen.GeneratePlanGraph(Graph, patternGraph, false, false);
             MatchGen.MarkMinimumSpanningArborescence(planGraph, Action.Name);
             SearchPlanGraph searchPlanGraph = MatchGen.GenerateSearchPlanGraph(planGraph);
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[Action.RulePattern.NegativePatternGraphs.Length];
-            for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
             {
-                PlanGraph negPlanGraph = MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true, false);
+                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
+                PlanGraph negPlanGraph = MatchGen.GeneratePlanGraph(Graph, negPatternGraph, true, false);
                 MatchGen.MarkMinimumSpanningArborescence(negPlanGraph, Action.Name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = MatchGen.GenerateSearchPlanGraph(negPlanGraph);
             }
@@ -461,21 +464,24 @@ namespace spBench
         /// </summary>
         private void InitNegativePatterns()
         {
-            NegSPGraphs = new SearchPlanGraph[Action.RulePattern.NegativePatternGraphs.Length];
-            NegRemainingNeededElements = new Dictionary<String, bool>[Action.RulePattern.NegativePatternGraphs.Length];
-            NegEdges = new SearchPlanEdge[Action.RulePattern.NegativePatternGraphs.Length];
-            for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
+            PatternGraph patternGraph = Action.rulePattern.patternGraph;
+            NegSPGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
+            NegRemainingNeededElements = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
+            NegEdges = new SearchPlanEdge[patternGraph.negativePatternGraphs.Length];
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
             {
-                NegSPGraphs[i] = GenSPGraphFromPlanGraph(MatchGen.GeneratePlanGraph(Graph, (PatternGraph) Action.RulePattern.NegativePatternGraphs[i], true, false),
-                    Action.RulePattern.NegativePatternGraphs[i].HomomorphicNodes);
+                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
+                NegSPGraphs[i] = GenSPGraphFromPlanGraph(
+                    MatchGen.GeneratePlanGraph(Graph, negPatternGraph, true, false),
+                    negPatternGraph.HomomorphicNodes);
                 NegSPGraphs[i].Root.ElementID = i;
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
-                foreach(PatternNode node in Action.RulePattern.NegativePatternGraphs[i].Nodes)
+                foreach(PatternNode node in negPatternGraph.Nodes)
                 {
                     if(node.PatternElementType != PatternElementType.NegElement)
                         neededElemNames.Add(node.Name, true);
                 }
-                foreach(PatternEdge edge in Action.RulePattern.NegativePatternGraphs[i].Edges)
+                foreach(PatternEdge edge in negPatternGraph.Edges)
                 {
                     if(edge.PatternElementType != PatternElementType.NegElement)
                         neededElemNames.Add(edge.Name, true);
@@ -484,7 +490,7 @@ namespace spBench
                 NegEdges[i] = new SearchPlanEdge(SearchOperationType.NegativePattern, SearchPlanGraph.Root, NegSPGraphs[i].Root, 0);
             }
             ElemToNegs = new Dictionary<String, List<int>>();
-            foreach(PatternNode node in Action.RulePattern.PatternGraph.Nodes)
+            foreach(PatternNode node in patternGraph.Nodes)
             {
                 for(int i = 0; i < NegSPGraphs.Length; i++)
                 {
@@ -501,7 +507,7 @@ namespace spBench
                     }
                 }
             }
-            foreach(PatternEdge edge in Action.RulePattern.PatternGraph.Edges)
+            foreach(PatternEdge edge in patternGraph.Edges)
             {
                 for(int i = 0; i < NegSPGraphs.Length; i++)
                 {
@@ -530,20 +536,20 @@ namespace spBench
         /// </summary>
         private void InitConditions()
         {
-            PatternGraph patternGraph = (PatternGraph) Action.RulePattern.PatternGraph;
+            PatternGraph patternGraph = Action.rulePattern.patternGraph;
             CondNeededElementVisitedArray = CalcNeededCondElementsArray(patternGraph);
             NumCondsRemainingNeededElements = new int[patternGraph.Conditions.Length];
             for(int i = 0; i < patternGraph.Conditions.Length; i++)
                 NumCondsRemainingNeededElements[i] = CondNeededElementVisitedArray[i].Count;
 
-            NegCondNeededNegElementVisitedArray = new Dictionary<String, bool>[Action.RulePattern.NegativePatternGraphs.Length][];
-            for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
-                NegCondNeededNegElementVisitedArray[i] = CalcNeededCondElementsArray((PatternGraph) Action.RulePattern.NegativePatternGraphs[i]);
+            NegCondNeededNegElementVisitedArray = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length][];
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
+                NegCondNeededNegElementVisitedArray[i] = CalcNeededCondElementsArray(patternGraph.negativePatternGraphs[i]);
 
             ElemToConds = CalcCondElementMap(patternGraph, CondNeededElementVisitedArray, false);
-            ElemToNegCondsArray = new Dictionary<String, List<int>>[Action.RulePattern.NegativePatternGraphs.Length];
-            for(int i = 0; i < Action.RulePattern.NegativePatternGraphs.Length; i++)
-                ElemToNegCondsArray[i] = CalcCondElementMap((PatternGraph) Action.RulePattern.NegativePatternGraphs[i],
+            ElemToNegCondsArray = new Dictionary<String, List<int>>[patternGraph.negativePatternGraphs.Length];
+            for(int i = 0; i < patternGraph.negativePatternGraphs.Length; i++)
+                ElemToNegCondsArray[i] = CalcCondElementMap(patternGraph.negativePatternGraphs[i],
                     NegCondNeededNegElementVisitedArray[i], true);
         }
 

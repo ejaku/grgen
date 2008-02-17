@@ -92,12 +92,12 @@ public abstract class CSharpBase {
 	}
 
 	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
-							 PatternGraph outer, int negCount) {
+							 PatternGraph outer, int negCount, String altCaseName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
 			Entity id = iter.next();
-			sb.append(pre + formatEntity(id, outer, negCount) + post);
+			sb.append(pre + formatEntity(id, outer, negCount, altCaseName) + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
@@ -112,6 +112,20 @@ public abstract class CSharpBase {
 		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
 			SubpatternUsage spu = iter.next();
 			sb.append(pre + formatIdentifiable(spu) + post);
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		if (brackets)
+			sb.append(" }");
+	}
+
+	public void genAlternativesSet(StringBuffer sb, Collection<? extends PatternGraph> set, 
+			String pre, String post, boolean brackets) {
+		if (brackets)
+			sb.append("{ ");
+		for(Iterator<? extends PatternGraph> iter = set.iterator(); iter.hasNext();) {
+			PatternGraph altCase = iter.next();
+			sb.append(pre + altCase.getNameOfGraph() + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
@@ -190,21 +204,30 @@ public abstract class CSharpBase {
 		return "AttributeType_" + formatIdentifiable(e);
 	}
 
-	public String formatEntity(Entity entity, PatternGraph outer, int negCount) {
+	public String formatEntity(Entity entity, PatternGraph outer, int count, String altCaseName) {
 		if(entity instanceof Node) {
-			return ( (outer !=null && !outer.getNodes().contains(entity)) ? "neg_" + negCount + "_" : "")
+			if(altCaseName!="") {
+				return ( (outer !=null && !outer.getNodes().contains(entity)) ? "alt_" + count + "_" + altCaseName + "_" : "" )
+					+ "node_" + formatIdentifiable(entity);
+			}
+			return ( (outer !=null && !outer.getNodes().contains(entity)) ? "neg_" + count + "_" : "")
 				+ "node_" + formatIdentifiable(entity);
 		}
 		else if (entity instanceof Edge) {
-			return ( (outer !=null && !outer.getEdges().contains(entity)) ? "neg_" + negCount + "_" : "")
+			if(altCaseName!="") {
+				return ( (outer !=null && !outer.getEdges().contains(entity)) ? "alt_" + count + "_" + altCaseName + "_" : "" )
+					+ "edge_" + formatIdentifiable(entity);
+			}
+			return ( (outer !=null && !outer.getEdges().contains(entity)) ? "neg_" + count + "_" : "")
 				+ "edge_" + formatIdentifiable(entity);
 		}
-		else
+		else {
 			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
+		}
 	}
 
 	public String formatEntity(Entity entity) {
-		return formatEntity(entity, null, 0);
+		return formatEntity(entity, null, 0, "");
 	}
 
 	public String formatInt(int i) {

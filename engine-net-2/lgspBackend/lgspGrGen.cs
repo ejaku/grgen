@@ -306,18 +306,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// out of static schedule information (giving access to rule pattern) and graph model
         /// utilizing code of the lgsp matcher generator
         /// </summary>
-        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPStaticScheduleInfo schedule, IGraphModel model, LGSPMatcherGenerator matcherGen)
+        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPStaticScheduleInfo schedule,
+            IGraphModel model, LGSPMatcherGenerator matcherGen)
         {
-            PlanGraph planGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.PatternGraph,
-                schedule.NodeCost, schedule.EdgeCost, false, schedule.RulePattern.isSubpattern);
+            LGSPRulePattern rulePattern = schedule.RulePattern;
+            PatternGraph patternGraph = rulePattern.patternGraph;
+            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph,
+                schedule.NodeCost, schedule.EdgeCost, false, rulePattern.isSubpattern);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[schedule.RulePattern.NegativePatternGraphs.Length];
-            for (int i = 0; i < schedule.RulePattern.NegativePatternGraphs.Length; ++i)
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
+            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
-                PlanGraph negPlanGraph = GenerateStaticPlanGraph((PatternGraph)schedule.RulePattern.NegativePatternGraphs[i],
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, schedule.RulePattern.isSubpattern);
+                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
+                PlanGraph negPlanGraph = GenerateStaticPlanGraph(negPatternGraph,
+                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, rulePattern.isSubpattern);
                 matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
             }

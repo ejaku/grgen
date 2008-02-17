@@ -23,6 +23,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
@@ -73,5 +76,15 @@ public class AlternativeNode extends BaseNode {
 		}
 
 		return true;
+	}
+
+	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
+	protected IR constructIR() {
+		Alternative alternative = new Alternative();
+		for (PatternGraphNode alternativeCaseNode : children) {
+			PatternGraph alternativeCase = alternativeCaseNode.getPatternGraph();
+			alternative.addAlternativeCase(alternativeCase);
+		}
+		return alternative;
 	}
 }

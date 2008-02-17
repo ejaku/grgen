@@ -33,6 +33,11 @@ import java.util.*;
  * Additionally it can have conditions referring to its items that restrict the set of possible matchings.
  */
 public class PatternGraph extends Graph {
+	/** The alternative statements of the pattern graph */
+	private final Collection<Alternative> alts = new LinkedList<Alternative>();
+
+	/** The NAC part of the rule. */
+	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
 
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
@@ -45,10 +50,7 @@ public class PatternGraph extends Graph {
 
     /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
-
-	/** The NAC part of the rule. */
-	private final Collection<PatternGraph> negs = new LinkedList<PatternGraph>();
-
+	
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
 	/** Make a new pattern graph. */
@@ -62,6 +64,14 @@ public class PatternGraph extends Graph {
 
 	public List<ImperativeStmt> getImperativeStmts() {
 		return imperativeStmts;
+	}
+
+	public void addAlternative(Alternative alternative) {
+		alts.add(alternative);
+	}
+
+	public Collection<Alternative> getAlts() {
+		return Collections.unmodifiableCollection(alts);
 	}
 
 	public void addNegGraph(PatternGraph neg) {

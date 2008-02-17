@@ -1182,14 +1182,16 @@ exitSecondLoop: ;
         /// </summary>
         public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern, LGSPGraph graph, bool isSubpattern)
         {
-            PlanGraph planGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.PatternGraph, false, isSubpattern);
+            PatternGraph patternGraph = rulePattern.patternGraph;
+            PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph, false, isSubpattern);
             MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[rulePattern.NegativePatternGraphs.Length];
-            for (int i = 0; i < rulePattern.NegativePatternGraphs.Length; ++i)
+            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
+            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
-                PlanGraph negPlanGraph = GeneratePlanGraph(graph, (PatternGraph)rulePattern.NegativePatternGraphs[i], true, isSubpattern);
+                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
+                PlanGraph negPlanGraph = GeneratePlanGraph(graph, negPatternGraph, true, isSubpattern);
                 MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
             }

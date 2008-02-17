@@ -225,6 +225,8 @@ namespace de.unika.ipd.grGen.lgsp
         public bool[] IsomorphicToAllNodes { get { return isoToAllNodes; } }
         public bool[] IsomorphicToAllEdges { get { return isoToAllEdges; } }
         public IPatternGraphEmbedding[] EmbeddedGraphs { get { return embeddedGraphs; } }
+        public IAlternative[] Alternatives { get { return alternatives; } }
+        public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
         public String name;
         public PatternNode[] nodes;
@@ -236,11 +238,14 @@ namespace de.unika.ipd.grGen.lgsp
         public bool[] isoToAllNodes;
         public bool[] isoToAllEdges;
         public PatternGraphEmbedding[] embeddedGraphs;
+        public Alternative[] alternatives;
+        public PatternGraph[] negativePatternGraphs;
 
         public Condition[] Conditions;
 
         public PatternGraph(String name, PatternNode[] nodes, PatternEdge[] edges,
-            PatternGraphEmbedding[] embeddedGraphs, Condition[] conditions,
+            PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
+            PatternGraph[] negativePatternGraphs, Condition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[] homToAllNodes, bool[] homToAllEdges,
             bool[] isoToAllNodes, bool[] isoToAllEdges)
@@ -249,6 +254,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.nodes = nodes;
             this.edges = edges;
             this.embeddedGraphs = embeddedGraphs;
+            this.alternatives = alternatives;
+            this.negativePatternGraphs = negativePatternGraphs;
             this.Conditions = conditions;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
@@ -277,11 +284,22 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    public class Alternative : IAlternative
+    {
+        public IPatternGraph[] AlternativeCases { get { return alternativeCases; } }
+        
+        public PatternGraph[] alternativeCases;
+
+        public Alternative(PatternGraph[] cases)
+        {
+            this.alternativeCases = cases;
+        }
+    }
+
     public abstract class LGSPRulePattern : IRulePattern
     {
         public IPatternGraph PatternGraph { get { return patternGraph; } }
-        public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
-
+        
         public GrGenType[] Inputs { get { return inputs; } }
         public GrGenType[] Outputs { get { return outputs; } }
 
@@ -301,7 +319,6 @@ namespace de.unika.ipd.grGen.lgsp
         public static IGraphElement[] EmptyReturnElements = new IGraphElement[] { };
 
         public PatternGraph patternGraph;
-        public PatternGraph[] negativePatternGraphs;
 
         public GrGenType[] inputs; // redundant convenience, information already given by/within the PatternElements
         public string[] inputNames;
