@@ -347,6 +347,7 @@ public class RuleDeclNode extends TestDeclNode {
 					}
 				}
 
+				//check, whether RHS "adds" a node to a dangling end of a edge
 				if ( ! alreadyReported.contains(re) ) {
 					if ( lSrc.isDummy() && ! rSrc.isDummy() ) {
 						res = false;
@@ -370,7 +371,6 @@ public class RuleDeclNode extends TestDeclNode {
 					res = false;
 					rConn.reportError("New instances of <--> are not allowed in RHS");
 				}
-
 			}
 		}
 		return res;

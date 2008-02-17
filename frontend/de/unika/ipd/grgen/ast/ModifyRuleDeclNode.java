@@ -148,24 +148,38 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	protected boolean checkRhsReuse(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
-		for (BaseNode lc : left.getConnections()) {
-			for (BaseNode rc : right.getConnections()) {
-				if (lc instanceof SingleNodeConnNode || rc instanceof SingleNodeConnNode ) {
+		for (BaseNode rc : right.getConnections()) {
+			if (!(rc instanceof ConnectionNode)) {
+				continue;
+			}
+			boolean occursInLHS = false;
+			ConnectionNode rConn = (ConnectionNode) rc;
+			EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
+			
+			if (re instanceof EdgeTypeChangeNode) {
+				re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
+			}
+			
+			for (BaseNode lc : left.getConnections()) {
+				if (!(lc instanceof ConnectionNode)) {
 					continue;
 				}
 
 				ConnectionNode lConn = (ConnectionNode) lc;
-				ConnectionNode rConn = (ConnectionNode) rc;
 
 				EdgeDeclNode le = (EdgeDeclNode) lConn.getEdge();
-				EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
-
-				if (re instanceof EdgeTypeChangeNode) {
-					re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
-				}
 
 				if ( ! le.equals(re) ) {
 					continue;
+				}
+				occursInLHS = true;
+
+				if (lConn.getConnectionKind() != rConn.getConnectionKind()) {
+					res = false;
+					rConn.reportError("Reused edge does not have the same connection kind");
+					// if you don't add to alreadyReported erroneous errors can occur,
+					// e.g. lhs=x-e->y, rhs=y-e-x
+					alreadyReported.add(re);
 				}
 
 				NodeDeclNode lSrc = lConn.getSrc();
@@ -213,6 +227,17 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 						rConn.reportError("Reused edge dangles on LHS, but has a target node on RHS");
 						alreadyReported.add(re);
 					}
+				}
+			}
+			if (!occursInLHS) {
+				// alreadyReported can not be set here
+				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
+					res = false;
+					rConn.reportError("New instances of ?--? are not allowed in RHS");
+				}
+				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
+					res = false;
+					rConn.reportError("New instances of <--> are not allowed in RHS");
 				}
 			}
 		}
