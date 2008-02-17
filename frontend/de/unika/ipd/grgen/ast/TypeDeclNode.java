@@ -75,8 +75,40 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return true;
+		return checkNoArbitraryEdgeChildren();
 	}
+
+	/**
+	 * Only Edge and UEdge should extends AEdge.
+	 * 
+	 * @return Whether this type is not an illegal extend of AEdge.
+	 */
+	private boolean checkNoArbitraryEdgeChildren()
+    {
+	    if (!(type instanceof EdgeTypeNode)) {
+	    	return true;
+	    }
+	    
+	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
+		
+		boolean extendAEdge = false;
+	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
+	        if (inh instanceof ArbitraryEdgeTypeNode) {
+	        	extendAEdge = true;
+	        }
+        }
+	    
+	    if (!extendAEdge) {
+	    	return true;
+	    }
+	    
+	    if (!ident.getNodeLabel().equals("UEdge")
+	    	&& !ident.getNodeLabel().equals("Edge")) {
+	    	reportError("Illegal extension of AEdge");
+	    	return false;
+	    }
+		return true;
+    }
 
 	/**
 	 * A type declaration returns the declared type

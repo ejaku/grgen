@@ -78,7 +78,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
-	protected boolean checkLocal() 
+	protected boolean checkLocal()
 	{
 		getAllSuperTypes();
 		
