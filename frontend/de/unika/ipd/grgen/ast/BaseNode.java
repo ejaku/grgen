@@ -444,7 +444,10 @@ public abstract class BaseNode extends Base
 	/**
 	 * Resolve the identifier nodes in the AST
 	 * f.ex. replace an identifier AST node representing a declared type by the declared type AST node.
-	 * Resolving is organized as a preorder walk over the AST with the current node calling resolve on its children.
+	 * Resolving is organized as a preorder walk over the AST.
+	 * The walk is implemented here once and for all, calling resolve on it's children;
+	 * first doing local resolve, then descending to the children
+	 * but only if the node was not yet visited during resolving (AST in reality a DAG, so it might happen)
 	 * @return true, if resolution of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
 	 */
@@ -472,10 +475,8 @@ public abstract class BaseNode extends Base
 
 
 	/**
-	 * Resolve the identifier nodes in the AST
-	 * This must be implemented in the subclasses, first doing local resolution then descending to the children,
-	 * but only if the node was not yet visited during resolution (AST in reality a DAG, so it might happen)
-	 * @return true, if resolution of the AST beginning with this node finished successfully;
+	 * local resolving of the current node to be implemented by the subclasses, called from the resolve AST walk
+	 * @return true, if resolution of the AST locally finished successfully;
 	 * false, if there was some error.
 	 */
 	protected abstract boolean resolveLocal();
@@ -498,16 +499,10 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Checking is organized as a postorder walk over the AST with the current node calling check on it's children and then checkLocal() is called.
-	 * @return true, if checking of the AST locally finished successfully;
-	 * false, if there was some error.
-	 */
-	protected abstract boolean checkLocal();
-
-	/**
 	 * Check the sanity and types of the AST
-	 * Checking is organized as a postorder walk over the AST with the current node calling check on it's children
-	 * This order must not be changed in subclasses: first descending to the children, then doing local checking
+	 * Checking is organized as a postorder walk over the AST.
+	 * The walk is implemented here once and for all, calling check on it's children;
+	 * first descending to the children, then doing local checking
 	 * but only if the node was not yet visited during checking (AST in reality a DAG, so it might happen)
 	 * @return true, if checking of the AST beginning with this node finished successfully;
 	 * false, if there was some error.
@@ -541,6 +536,13 @@ public abstract class BaseNode extends Base
 
 		return sucessfullyChecked && locallyChecked;
 	}
+
+	/**
+	 * local checking of the current node to be implemented by the subclasses, called from the check AST walk
+	 * @return true, if checking of the AST locally finished successfully;
+	 * false, if there was some error.
+	 */
+	protected abstract boolean checkLocal();
 
 	/** Mark this node as checked and set the result of the check. */
 	protected final void nodeCheckedSetResult(boolean checkResult) {
@@ -588,10 +590,9 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Checks whether the IR object of this AST node is an instance of a certain
-	 * Class <code>cls</code>.
-	 * If it is not, an assertion is raised, else, the IR object
-	 * is returned.
+	 * Checks whether the IR object of this AST node is an instance 
+	 * of a certain, given Class <code>cls</code>.
+	 * If it is not, an assertion is raised, else, the IR object is returned.
 	 * @param cls The class to check the IR object for.
 	 * @return The IR object.
 	 */
