@@ -1,0 +1,9 @@
+using edge_model_002;
+
+rule r {
+	x:Node;
+	x -e:A- x;
+	
+	modify {
+	}
+}

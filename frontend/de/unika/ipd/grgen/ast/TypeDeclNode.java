@@ -75,8 +75,41 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
-		return checkNoArbitraryEdgeChildren();
+		return checkNoArbitraryEdgeChildren() & checkNoConflictionEdgeParents();
 	}
+
+	/**
+	 * Checks whether an edge class extends a directed and an undirected edge
+	 * class.
+	 * 
+	 * @return Check pass without an error.
+	 */
+	private boolean checkNoConflictionEdgeParents()
+    {
+		if (!(type instanceof EdgeTypeNode)) {
+	    	return true;
+	    }
+	    
+	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
+		
+		boolean extendEdge = false;
+		boolean extendUEdge = false;
+	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
+	        if (inh instanceof DirectedEdgeTypeNode) {
+	        	extendEdge = true;
+	        }
+	        if (inh instanceof UndirectedEdgeTypeNode) {
+	        	extendUEdge = true;
+	        }
+        }
+	    
+	    if (extendEdge && extendUEdge) {
+	    	reportError("An edge class can't extend a directed and a undirected edge class");
+	    	return false;
+	    }
+	    
+	    return true;
+    }
 
 	/**
 	 * Only Edge and UEdge should extends AEdge.
