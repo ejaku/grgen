@@ -99,11 +99,12 @@ public class RuleDeclNode extends TestDeclNode {
 		return childrenNames;
 	}
 
+	protected static final DeclarationTypeResolver<RuleTypeNode> typeResolver =	new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationTypeResolver<RuleTypeNode> typeResolver =
-			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
+
 		return type != null;
 	}
 

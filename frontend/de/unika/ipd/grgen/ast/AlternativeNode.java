@@ -64,8 +64,7 @@ public class AlternativeNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		return successfullyResolved;
+		return true;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

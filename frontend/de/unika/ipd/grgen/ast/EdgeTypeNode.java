@@ -26,6 +26,10 @@ package de.unika.ipd.grgen.ast;
 
 import java.util.Map;
 
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -35,6 +39,12 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
+	
+	protected static final CollectPairResolver<BaseNode> bodyResolver = new CollectPairResolver<BaseNode>(
+    		new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class));
+	
+	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
+    		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
 
 	protected CollectNode<BaseNode> body;
 	protected CollectNode<ConnAssertNode> cas;

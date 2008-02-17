@@ -87,13 +87,10 @@ public class ConnAssertNode extends BaseNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		
 		src = nodeResolver.resolve(srcUnresolved, this);
-		successfullyResolved = src!=null && successfullyResolved;
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
-		successfullyResolved = tgt!=null && successfullyResolved;
-		return successfullyResolved;
+
+		return src != null && tgt != null;
 	}
 
 	/**

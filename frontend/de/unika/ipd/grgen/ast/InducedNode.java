@@ -63,12 +63,13 @@ public class InducedNode extends BaseNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<NodeDeclNode> childrenResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationResolver<NodeDeclNode> resolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
-			children.add(resolver.resolve(childrenUnresolved.get(i), this));
+			children.add(childrenResolver.resolve(childrenUnresolved.get(i), this));
 			successfullyResolved = children.get(i)!=null && successfullyResolved;
 		}
 		return successfullyResolved;
@@ -76,8 +77,6 @@ public class InducedNode extends BaseNode {
 
 	/**
 	 * Check whether all children are of node type.
-	 *
-	 * TODO warn if some statements are redundant.
 	 */
 	protected boolean checkLocal() {
 		if (children.isEmpty()) {

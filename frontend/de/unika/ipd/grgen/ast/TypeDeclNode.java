@@ -65,11 +65,12 @@ public class TypeDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
+	DeclarationTypeResolver<DeclaredTypeNode> typeResolver = new DeclarationTypeResolver<DeclaredTypeNode>(DeclaredTypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationTypeResolver<DeclaredTypeNode> typeResolver =
-			new DeclarationTypeResolver<DeclaredTypeNode>(DeclaredTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this); 
+
 		return type != null;
 	}
 

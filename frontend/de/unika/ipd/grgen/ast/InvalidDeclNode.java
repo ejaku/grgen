@@ -59,11 +59,12 @@ public class InvalidDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
+	DeclarationResolver<ErrorTypeNode> typeResolver = new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationResolver<ErrorTypeNode> typeResolver =
-			new DeclarationResolver<ErrorTypeNode>(ErrorTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
+
 		return type != null;
 	}
 

@@ -76,14 +76,12 @@ public class EnumItemNode extends MemberDeclNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationTypeResolver<EnumTypeNode> typeResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		DeclarationTypeResolver<EnumTypeNode> typeResolver =
-			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type!=null && successfullyResolved;
-		return successfullyResolved;
+		return type != null;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */

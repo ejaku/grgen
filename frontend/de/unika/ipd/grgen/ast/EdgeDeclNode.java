@@ -106,6 +106,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			typeEdgeDecl = resolved.fst;
 			typeTypeDecl = resolved.snd;
 		}
+
 		return successfullyResolved;
 	}
 

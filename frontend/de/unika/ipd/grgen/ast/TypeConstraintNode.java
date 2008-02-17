@@ -75,16 +75,14 @@ public class TypeConstraintNode extends TypeExprNode {
 		return childrenNames;
 	}
 
+	private static final CollectResolver<InheritanceTypeNode> operandsResolver = new CollectResolver<InheritanceTypeNode>(
+			new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class));
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		DeclarationTypeResolver<InheritanceTypeNode> typeResolver =
-			new DeclarationTypeResolver<InheritanceTypeNode>(InheritanceTypeNode.class);
-		CollectResolver<InheritanceTypeNode> operandsResolver =
-			new CollectResolver<InheritanceTypeNode>(typeResolver);
 		operands = operandsResolver.resolve(operandsUnresolved, this);
-		successfullyResolved = operands!=null && successfullyResolved;
-		return successfullyResolved;
+
+		return operands != null;
 	}
 
 

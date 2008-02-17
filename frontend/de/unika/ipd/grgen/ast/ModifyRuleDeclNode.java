@@ -27,7 +27,6 @@ import de.unika.ipd.grgen.ir.*;
 
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -78,21 +77,16 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		childrenNames.add("delete");
 		return childrenNames;
 	}
+	
+	private static final CollectPairResolver<ConstraintDeclNode> deleteResolver = new CollectPairResolver<ConstraintDeclNode>(
+		new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> deleteResolver = new
-			DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
-		CollectPairResolver<ConstraintDeclNode> collectResolver =
-			new CollectPairResolver<ConstraintDeclNode>(deleteResolver);
-		delete = collectResolver.resolve(deleteUnresolved);
-		successfullyResolved = delete!=null && successfullyResolved;
-		DeclarationTypeResolver<RuleTypeNode> typeResolver =
-			new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
+		delete = deleteResolver.resolve(deleteUnresolved);
 		type = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type!=null && successfullyResolved;
-		return successfullyResolved;
+		
+		return delete != null && type != null;
 	}
 
 	protected Set<DeclNode> getDelete() {

@@ -76,15 +76,15 @@ public class MemberInitNode extends BaseNode {
 		return childrenNames;
 	}
 
+	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>(DeclNode.class);
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>(DeclNode.class);
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});
-		lhs = lhsResolver.resolve(lhsUnresolved, this);
-		successfullyResolved = lhs!=null && successfullyResolved;
 		//successfullyResolved = rhsResolver.resolve(this, RHS) && successfullyResolved;
-		return successfullyResolved;
+		lhs = lhsResolver.resolve(lhsUnresolved, this);
+
+		return lhs != null;
 	}
 
 	/**

@@ -105,12 +105,13 @@ public class GraphNode extends BaseNode {
 		return true;
 	}
 
+	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
+
 	/**
 	 * A pattern node contains just a collect node with connection nodes as its children.
 	 * @see de.unika.ipd.grgen.ast.BaseNode#checkLocal()
 	 */
 	protected boolean checkLocal() {
-		Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
 		boolean connCheck = connectionsChecker.check(connections, error);
 
 		boolean edgeUsage = true;

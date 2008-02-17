@@ -55,25 +55,27 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		children.add(getValidVersion(memberUnresolved, member));
 		return children;
 	}
+	
+	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
+
+	private static final DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationTypeResolver<EnumTypeNode> ownerResolver =
-			new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
 
 		if(owner != null) {
 			owner.fixupDefinition(memberUnresolved);
 
-			DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);
 			member = memberResolver.resolve(memberUnresolved, this);
 			successfullyResolved = member!=null && successfullyResolved;
 		} else {
 			reportError("Left hand side of '::' is not an enum type");
 			successfullyResolved = false;
 		}
+
 		return successfullyResolved;
 	}
 

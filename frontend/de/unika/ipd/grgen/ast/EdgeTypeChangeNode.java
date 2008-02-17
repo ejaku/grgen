@@ -72,10 +72,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		return childrenNames;
 	}
 
+	private static final DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
 		Pair<EdgeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
 		successfullyResolved = (resolved != null) && successfullyResolved;
 		if (resolved != null) {
@@ -84,6 +85,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		}
 		old = edgeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old != null && successfullyResolved;
+		
 		return successfullyResolved;
 	}
 

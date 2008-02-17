@@ -118,8 +118,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		left = nodeResolver.resolve(leftUnresolved, this);
 		edge = edgeResolver.resolve(edgeUnresolved, this);
 		right = nodeResolver.resolve(rightUnresolved, this);
-		boolean successfullyResolved = left!=null && edge!=null && right!=null;
-		return successfullyResolved;
+
+		return left != null && edge != null && right != null;
 	}
 	
 	private static Checker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);

@@ -73,20 +73,17 @@ public class ModelNode extends DeclNode {
 		return childrenNames;
 	}
 
+	CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
+		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+	
+	DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-		DeclarationResolver<TypeDeclNode> declResolver =
-			new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class);
-		CollectResolver<TypeDeclNode> declsResolver =
-			new CollectResolver<TypeDeclNode>(declResolver);
 		decls = declsResolver.resolve(declsUnresolved, this);
-		successfullyResolved = decls!=null && successfullyResolved;
-		DeclarationTypeResolver<ModelTypeNode> typeResolver = 
-			new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = type!=null && successfullyResolved;
-		return successfullyResolved;
+
+		return decls != null && type != null;
 	}
 
 	/**

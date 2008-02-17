@@ -65,21 +65,18 @@ public class TypeofNode extends ExprNode {
 		childrenNames.add("entity");
 		return childrenNames;
 	}
+	
+	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver = new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
-
-		DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver =
-			new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
-
 		Pair<EdgeDeclNode, NodeDeclNode> resolved = entityResolver.resolve(entityUnresolved, this);
-		successfullyResolved = (resolved != null) && successfullyResolved;
 		if (resolved != null) {
 			entityEdgeDecl = resolved.fst;
 			entityNodeDecl = resolved.snd;
 		}
-		return successfullyResolved;
+
+		return (resolved != null);
 	}
 
 	/**

@@ -69,8 +69,7 @@ public class DeclExprNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver =
-		new MemberPairResolver<MemberDeclNode, QualIdentNode>(MemberDeclNode.class, QualIdentNode.class);
+	private static MemberPairResolver<MemberDeclNode, QualIdentNode> memberInitResolver = new MemberPairResolver<MemberDeclNode, QualIdentNode>(MemberDeclNode.class, QualIdentNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -81,6 +80,7 @@ public class DeclExprNode extends ExprNode {
 			declMember = resolved.fst;
 			declQualIdent = resolved.snd;
 		}
+
 		return successfullyResolved;
 	}
 

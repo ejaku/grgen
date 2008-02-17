@@ -24,15 +24,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
-import java.util.Collection;
-import java.util.Vector;
 
 public class DirectedEdgeTypeNode extends EdgeTypeNode {
 	static {
@@ -82,16 +79,9 @@ public class DirectedEdgeTypeNode extends EdgeTypeNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
-			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
-		CollectPairResolver<BaseNode> bodyResolver =
-			new CollectPairResolver<BaseNode>(bodyPairResolver);
-		DeclarationTypeResolver<EdgeTypeNode> typeResolver =
-			new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class);
-		CollectResolver<EdgeTypeNode> extendResolver =
-			new CollectResolver<EdgeTypeNode>(typeResolver);
 		body = bodyResolver.resolve(bodyUnresolved);		
 		extend = extendResolver.resolve(extendUnresolved, this);
+
 		return body != null && extend != null;
 	}
 

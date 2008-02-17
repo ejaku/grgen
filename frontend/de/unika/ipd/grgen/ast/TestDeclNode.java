@@ -86,11 +86,12 @@ public class TestDeclNode extends ActionDeclNode {
 		return childrenNames;
 	}
 
+	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationTypeResolver<TestTypeNode> typeResolver =
-			new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
 		type = typeResolver.resolve(typeUnresolved, this);
+
 		return type != null;
 	}
 
@@ -135,15 +136,8 @@ public class TestDeclNode extends ActionDeclNode {
 
 		return returnTypes;
 	}
-
-	/**
-	 * Method check
-	 *
-	 * @return   a boolean
-	 *
-	 */
-	protected boolean checkLocal() {
-		Checker retDeclarationChecker = new CollectChecker(
+	
+	private static final Checker retDeclarationChecker = new CollectChecker(
 			new Checker() {
 				public boolean check(BaseNode node, ErrorReporter reporter) {
 					boolean res = true;
@@ -167,6 +161,15 @@ public class TestDeclNode extends ActionDeclNode {
 				}
 			}
 		);
+
+	/**
+	 * Method check
+	 *
+	 * @return   a boolean
+	 *
+	 */
+	protected boolean checkLocal() {
+		
 
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 

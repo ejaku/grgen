@@ -97,16 +97,17 @@ public class UnitNode extends DeclNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationResolver<TestDeclNode> declResolver = new DeclarationResolver<TestDeclNode>(TestDeclNode.class);
-	private static final CollectResolver<TestDeclNode> declsResolver = new CollectResolver<TestDeclNode>(declResolver);
+	private static final CollectResolver<TestDeclNode> declsResolver = new CollectResolver<TestDeclNode>(
+			new DeclarationResolver<TestDeclNode>(TestDeclNode.class));
+
+	private static final DeclarationTypeResolver<MainTypeNode> typeResolver = new DeclarationTypeResolver<MainTypeNode>(MainTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		DeclarationTypeResolver<MainTypeNode> typeResolver =
-			new DeclarationTypeResolver<MainTypeNode>(MainTypeNode.class);
 		type        = typeResolver.resolve(typeUnresolved, this);
 		actions     = declsResolver.resolve(actionsUnresolved, this);
 		subpatterns = declsResolver.resolve(subpatternsUnresolved, this);
+
 		return type != null && actions != null && subpatterns != null;
 	}
 

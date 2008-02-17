@@ -80,19 +80,17 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationTypeResolver<NodeTypeNode> typeResolver =
-		new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class);
-	private static final CollectResolver<NodeTypeNode> extendResolver =
-		new CollectResolver<NodeTypeNode>(typeResolver);
-	private static final DeclarationPairResolver<MemberDeclNode, MemberInitNode> bodyPairResolver =
-		new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class);
-	private static final CollectPairResolver<BaseNode> bodyResolver =
-		new CollectPairResolver<BaseNode>(bodyPairResolver);
+	private static final CollectResolver<NodeTypeNode> extendResolver =	new CollectResolver<NodeTypeNode>(
+			new DeclarationTypeResolver<NodeTypeNode>(NodeTypeNode.class));
+
+	private static final CollectPairResolver<BaseNode> bodyResolver = new CollectPairResolver<BaseNode>(
+			new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		body = bodyResolver.resolve(bodyUnresolved);
 		extend = extendResolver.resolve(extendUnresolved, this);
+
 		return body != null && extend != null;
 	}
 

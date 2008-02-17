@@ -69,8 +69,7 @@ public class HomNode extends BaseNode {
 		return childrenNames;
 	}
 
-	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver =
-		new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
+	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver = new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
 	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
@@ -88,6 +87,7 @@ public class HomNode extends BaseNode {
 				}
 			}
 		}
+
 		return successfullyResolved;
 	}
 

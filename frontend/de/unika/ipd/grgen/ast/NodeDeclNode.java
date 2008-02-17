@@ -87,18 +87,18 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		boolean successfullyResolved = true;
 		Pair<NodeDeclNode, TypeDeclNode> resolved = typeResolver.resolve(typeUnresolved, this);
-		successfullyResolved = (resolved != null) && successfullyResolved;
 		if (resolved != null) {
 			typeNodeDecl = resolved.fst;
 			typeTypeDecl = resolved.snd;
 		}
-		return successfullyResolved;
+
+		return resolved != null;
 	}
 
+	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
+
 	protected boolean checkLocal() {
-		Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 		return super.checkLocal()
 			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
 	}
