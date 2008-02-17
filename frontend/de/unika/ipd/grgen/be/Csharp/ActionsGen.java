@@ -50,9 +50,9 @@ public class ActionsGen extends CSharpBase {
 		sb.append("using System.Text;\n");
 		sb.append("using de.unika.ipd.grGen.libGr;\n");
 		sb.append("using de.unika.ipd.grGen.lgsp;\n");
-		sb.append("using de.unika.ipd.grGen.models." + formatIdentifiable(be.unit) + ";\n");
+		sb.append("using de.unika.ipd.grGen.models.m_" + formatIdentifiable(be.unit) + ";\n");
 		sb.append("\n");
-		sb.append("namespace de.unika.ipd.grGen.actions." + formatIdentifiable(be.unit) + "\n");
+		sb.append("namespace de.unika.ipd.grGen.actions.a_" + formatIdentifiable(be.unit) + "\n");
 		sb.append("{\n");
 
 		for(Action action : be.patternMap.keySet())
@@ -1023,8 +1023,18 @@ public class ActionsGen extends CSharpBase {
 				reusedElements.add(delNode);
 				continue NN;
 			}
-			String etype = formatElementClass(node.getType());
-			sb2.append("\t\t\t" + etype + " " + formatEntity(node) + " = " + etype + ".CreateNode(graph);\n");
+			if(node.inheritsType()) {
+				nodesNeededAsElements.add(node.getTypeof());
+				nodesNeededAsTypes.add(node.getTypeof());
+				sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = (LGSPNode) "
+						+ formatEntity(node.getTypeof()) + "_type.CreateNode();\n"
+						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
+			}
+			else
+			{
+				String etype = formatElementClass(node.getType());
+				sb2.append("\t\t\t" + etype + " " + formatEntity(node) + " = " + etype + ".CreateNode(graph);\n");
+			}
 		}
 	}
 
@@ -1059,6 +1069,12 @@ public class ActionsGen extends CSharpBase {
 			if(edge.inheritsType()) {
 				edgesNeededAsElements.add(edge.getTypeof());
 				edgesNeededAsTypes.add(edge.getTypeof());
+
+				sb2.append("\t\t\tLGSPEdge " + formatEntity(edge) + " = (LGSPEdge) "
+						+ formatEntity(edge.getTypeof()) + "_type.CreateEdge("
+						+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
+						+ "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
+				continue;
 			}
 			else if(reuseNodeAndEdges) {
 				Edge bestDelEdge = null;
