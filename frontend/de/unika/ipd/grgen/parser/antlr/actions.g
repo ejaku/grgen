@@ -150,7 +150,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		IdentNode id;
 		PatternGraphNode left;
 		GraphNode right;
-		CollectNode<ConstraintDeclNode> params;
+		CollectNode<BaseNode> params;
 		CollectNode<IdentNode> ret;
 		CollectNode<AssignNode> eval = new CollectNode<AssignNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -206,20 +206,35 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		RBRACE popScope
 	;
 
-parameters [ int context ] returns [ CollectNode<ConstraintDeclNode> res = new CollectNode<ConstraintDeclNode>() ]
+parameters [ int context ] returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	: LPAREN (paramList[res, context])? RPAREN
 	|
 	;
 
-paramList [ CollectNode<ConstraintDeclNode> params, int context ]
-	{ ConstraintDeclNode p; }
+paramList [ CollectNode<BaseNode> params, int context ]
+	{ BaseNode p; }
 
 	: p=param[context] { params.addChild(p); } ( COMMA p=param[context] { params.addChild(p); } )*
 	;
 
-param [ int context ] returns [ ConstraintDeclNode res = null ]
-	: MINUS res=edgeDecl[context] RARROW
+param [ int context ] returns [ BaseNode res = null ]
+	{
+		int direction;
+		EdgeDeclNode edge = null;
+	}
+
+	: MINUS edge=edgeDecl[context] direction = forwardOrUndirectedEdgeParam
+	{
+		BaseNode dummy = env.getDummyNodeDecl(context);
+		res = new ConnectionNode(dummy, edge, dummy, direction);
+	}
+	
 	| res=nodeDecl[context]
+	;
+
+forwardOrUndirectedEdgeParam returns [ int res = ConnectionNode.ARBITRARY ]
+	: RARROW { res = ConnectionNode.DIRECTED; }
+	| MINUS  { res = ConnectionNode.UNDIRECTED; }
 	;
 
 returnTypes returns [ CollectNode<IdentNode> res = new CollectNode<IdentNode>() ]

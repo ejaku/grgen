@@ -231,6 +231,7 @@ OK     should_pass/to_007.grg
 OK     should_pass/to_008.grg
 ERROR  should_pass/to_009.grg
 OK     should_pass/unary_001.grg
+WARNED should_warn/del_001.grg
 WARNED should_warn/del_002.grg
 WARNED should_warn/del_003.grg
 WARNED should_warn/dpo_001.grg
@@ -240,7 +241,6 @@ WARNED should_warn/exact_001.grg
 WARNED should_warn/exact_002.grg
 WARNED should_warn/exact_003.grg
 WARNED should_warn/exact_004.grg
-OK     should_warn/exec_001.grg
 OK     should_warn/hom_001.grg
 WARNED should_warn/hom_010.grg
 WARNED should_warn/hom_ret_001.grg

@@ -65,7 +65,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param eval The evaluations.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
-			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
 		super(id, ruleType, left, params, rets);
 		this.right = right;
 		becomeParent(this.right);
@@ -123,7 +123,7 @@ public class RuleDeclNode extends TestDeclNode {
 				res.add((DeclNode)x);
 			}
 		}
-		for (BaseNode x : param.getChildren()) {
+		for (BaseNode x : getParamDecls()) {
 			assert (x instanceof DeclNode);
 			if ( !( right.getNodes().contains(x) || right.getEdges().contains(x)) ) {
 				res.add((DeclNode)x);
@@ -179,7 +179,7 @@ public class RuleDeclNode extends TestDeclNode {
 				//		NodeDeclNode or EdgeDevleNode respectively.
 				if ( ! (left.getNodes().contains(oldElem)
 							|| left.getEdges().contains(oldElem)
-							|| param.getChildren().contains(retElem))) {
+							|| getParamDecls().contains(retElem))) {
 					ident.reportError(
 						"\"" + ident + "\", that is neither a parameter, " +
 							"nor contained in LHS, nor in RHS, occurs in a return");

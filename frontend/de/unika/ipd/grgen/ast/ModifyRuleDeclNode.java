@@ -44,7 +44,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 
 
 	public ModifyRuleDeclNode(IdentNode id, PatternGraphNode left, GraphNode right, CollectNode<AssignNode> eval,
-			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets, CollectNode<IdentNode> dels) {
+			CollectNode<BaseNode> params, CollectNode<IdentNode> rets, CollectNode<IdentNode> dels) {
 		super(id, left, right, eval, params, rets);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
@@ -127,7 +127,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 					nodeOrEdge = "element";
 				}
 
-				if (left.getNodes().contains(retElem) || param.getChildren().contains(retElem)) {
+				if (left.getNodes().contains(retElem) || getParamDecls().contains(retElem)) {
 					ident.reportError("The deleted " + nodeOrEdge + " \"" + ident + "\" must not be returned");
 				} else {
 					assert false: "the " + nodeOrEdge + " \"" + ident + "\", that is" +
@@ -299,13 +299,12 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		constructIRaux(rule, this.right.returns);
 
 		// add Params to the IR
-		for(BaseNode n : param.getChildren()) {
-			DeclNode param = (DeclNode)n;
-			if(!deleteSet.contains(param.getIR())) {
-				if(param instanceof NodeCharacter) {
-					right.addSingleNode(((NodeCharacter)param).getNode());
-				} else if (param instanceof EdgeCharacter) {
-					Edge e = ((EdgeCharacter)param).getEdge();
+		for(DeclNode decl : getParamDecls()) {
+			if(!deleteSet.contains(decl.getIR())) {
+				if(decl instanceof NodeCharacter) {
+					right.addSingleNode(((NodeCharacter)decl).getNode());
+				} else if (decl instanceof EdgeCharacter) {
+					Edge e = ((EdgeCharacter)decl).getEdge();
 					if(!deleteSet.contains(e)
 					   && !deleteSet.contains(left.getSource(e))
 					   && !deleteSet.contains(left.getTarget(e))) {
@@ -313,7 +312,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 						//right.addConnection(left.getSource(e),e, left.getTarget((e)));
 					}
 				} else {
-					throw new IllegalArgumentException("unknown Class: " + n);
+					throw new IllegalArgumentException("unknown Class: " + decl);
 				}
 			}
 		}

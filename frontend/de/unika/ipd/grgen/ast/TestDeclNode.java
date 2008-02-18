@@ -41,7 +41,7 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	CollectNode<ConstraintDeclNode> param;
+	CollectNode<BaseNode> param;
 	CollectNode<IdentNode> returnFormalParameters;
 	TestTypeNode type;
 	PatternGraphNode pattern;
@@ -49,7 +49,7 @@ public class TestDeclNode extends ActionDeclNode {
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, 
-			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
 		super(id, type);
 		this.param = params;
 		becomeParent(this.param);
@@ -60,7 +60,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern,	
-			CollectNode<ConstraintDeclNode> params, CollectNode<IdentNode> rets) {
+			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
 		this(id, testType, pattern, params, rets);
 	}
 
@@ -93,6 +93,23 @@ public class TestDeclNode extends ActionDeclNode {
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
+	}
+
+	public Collection<DeclNode> getParamDecls() {
+		Collection<DeclNode> res = new Vector<DeclNode>();
+
+		for (BaseNode para : param.getChildren()) {
+	        if (para instanceof ConnectionNode) {
+	        	ConnectionNode conn = (ConnectionNode) para;
+	        	res.add(conn.getEdge().getDecl());
+	        }
+	        if (para instanceof NodeDeclNode) {
+	        	NodeDeclNode node = (NodeDeclNode) para;
+	        	res.add(node);
+	        }
+        }
+
+		return res;
 	}
 
 	/**
@@ -264,16 +281,15 @@ public class TestDeclNode extends ActionDeclNode {
 		PatternGraph patternGraph = ma.getPattern();
 
 		// add Params to the IR
-		for(BaseNode n : param.getChildren()) {
-			DeclNode param = (DeclNode)n;
-			ma.addParameter((Entity) param.checkIR(Entity.class));
-			if(param instanceof NodeCharacter) {
-				patternGraph.addSingleNode(((NodeCharacter)param).getNode());
-			} else if (param instanceof EdgeCharacter) {
-				Edge e = ((EdgeCharacter)param).getEdge();
+		for(DeclNode decl : getParamDecls()) {
+			ma.addParameter((Entity) decl.checkIR(Entity.class));
+			if(decl instanceof NodeCharacter) {
+				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
+			} else if (decl instanceof EdgeCharacter) {
+				Edge e = ((EdgeCharacter)decl).getEdge();
 				patternGraph.addSingleEdge(e);
 			} else {
-				throw new IllegalArgumentException("unknown Class: " + n);
+				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
 

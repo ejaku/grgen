@@ -161,7 +161,7 @@ public class CallActionNode extends BaseNode {
 	protected boolean checkLocal() {
 		boolean res = true;
 
-		res &= checkParams(action.param, params);
+		res &= checkParams(action.getParamDecls(), params.getChildren());
 		res &= checkReturns(action.returnFormalParameters, returns);
 
 		return res;
@@ -175,19 +175,19 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkParams(CollectNode<ConstraintDeclNode> formalParams, CollectNode<ConstraintDeclNode> actualParams) {
+	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends DeclNode> actualParams) {
 		boolean res = true;
-		if(formalParams.children.size() != actualParams.children.size()) {
+		if(formalParams.size() != actualParams.size()) {
 			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString() + " mismatch in number (" +
-							formalParams.children.size() + " vs. " + actualParams.children.size() +")");
+							formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
 		} else {
-			if(actualParams.getChildren().iterator().next() instanceof ConstraintDeclNode) {
-				Iterator<ConstraintDeclNode> iterAP = actualParams.children.iterator();
-				for(ConstraintDeclNode formalParam : formalParams.getChildren()) {
+			if(actualParams.iterator().next() instanceof ConstraintDeclNode) {
+				Iterator<? extends DeclNode> iterAP = actualParams.iterator();
+				for(DeclNode formalParam : formalParams) {
 					InheritanceType    formalParamType = (InheritanceType)formalParam.getDecl().getDeclType().checkIR(InheritanceType.class);
 
-					ConstraintDeclNode actualParam     = iterAP.next();
+					DeclNode actualParam     = iterAP.next();
 					InheritanceType    actualParamType = (InheritanceType)actualParam.getDecl().getDeclType().checkIR(InheritanceType.class);
 
 					if(actualParamType instanceof EdgeType && formalParamType instanceof NodeType ||
