@@ -109,18 +109,20 @@ public class HomNode extends BaseNode {
 			return false;
 		}
 
-		boolean successfullyChecked = checkEdgeTypes();
+		boolean successfullyChecked = true;
 		for(BaseNode n : childrenNode) {
 			successfullyChecked = nodeTypeChecker.check(n, error) && successfullyChecked;
 		}
 		for(BaseNode n : childrenEdge) {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
+		warnEdgeTypes();
+		
 		return successfullyChecked;
 	}
 
 	/** Checks whether all edges are compatible to each other.*/
-	private boolean checkEdgeTypes()
+	private void warnEdgeTypes()
     {
 	    boolean isDirectedEdge = false;
 	    boolean isUndirectedEdge = false;
@@ -136,11 +138,10 @@ public class HomNode extends BaseNode {
         }
 		
 		if (isDirectedEdge && isUndirectedEdge) {
-			reportError("Hom statement may only contain directed or undirected edges at a time");
-			return false;
+			reportWarning("Hom statement may only contain directed or undirected edges at a time");
 		}
 		
-	    return true;
+	    return;
     }
 
 	public Color getNodeColor() {
