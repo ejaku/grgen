@@ -1,0 +1,6 @@
+rule r(-e:Edge-) {
+  x:Node-e-;
+  modify {
+    delete(x);
+  }
+}
