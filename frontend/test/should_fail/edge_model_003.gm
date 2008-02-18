@@ -1,7 +1,7 @@
 edge class A extends Edge;
 edge class AA extends A;
 
-edge class B extends Edge;
-edge class BB extends B;
+undirected edge class B extends Edge;
+undirected edge class BB extends B;
 
 edge class C extends AA,BB;

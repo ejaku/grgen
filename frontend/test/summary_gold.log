@@ -424,7 +424,7 @@ ERROR  should_fail/edge_006.grg
 ERROR  should_fail/edge_007.grg
 ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_009.grg
-OK     should_fail/edge_010.grg
+ERROR  should_fail/edge_010.grg
 ERROR  should_fail/empty_001.grg
 ERROR  should_fail/enum_001.grg
 ERROR  should_fail/enum_002.grg
