@@ -40,6 +40,36 @@ rule init3
     }
 }
 
+rule init4
+{
+
+    replace
+    {
+        a:Node;
+        b:Node;
+        c:Node;
+        d:Node;
+        
+        a --> a;
+        b --> c;
+    }
+}
+
+rule initParam : (Node, Edge, Node, Edge, Node)
+{
+
+    replace {
+	    a:Node;
+	    b:Node;
+	    c:Node;
+	    
+        a -e:Edge-> b;
+        b -f:Edge-> c;
+        
+        return(a, e, b, f, c);
+    }
+}
+
 exact rule deleteSrcNode
 {
     x:Node;
@@ -82,5 +112,48 @@ exact rule testHom
 exact rule withDot
 {
 	.-->.;
+	modify {}
+}
+
+rule oneOfTwoExact
+{
+    a:Node;
+    b:Node;
+    
+    exact(a);
+
+    modify
+    {
+        delete(a);
+    }    
+}
+
+rule twoOfThreeExact
+{
+    a:Node;
+    b:Node;
+    c:Node;
+    
+    exact(a,b);
+
+    replace
+    {
+    }    
+}
+
+exact rule exactParamNode(a:Node)
+{
+	modify {}
+}
+
+exact rule exactParamEdge(-e:Edge->)
+{
+	modify {}
+}
+
+exact rule exactParamEdgeWithNodes(-e:Edge->)
+{
+	.-e->.;
+
 	modify {}
 }

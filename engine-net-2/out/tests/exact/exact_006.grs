@@ -1,0 +1,19 @@
+new graph "lib\lgsp-exactModel.dll" "Nice Graph"
+select actions "lib\lgsp-exactActions.dll"
+
+show num nodes
+show num edges
+xgrs (a, e, b, f, c)=initParam
+show num nodes
+show num edges
+xgrs [?exactParamNode(a)]
+xgrs [?exactParamNode(b)]
+xgrs [?exactParamNode(c)]
+
+xgrs [?exactParamEdge(e)]
+xgrs [?exactParamEdge(f)]
+
+xgrs [?exactParamEdgeWithNodes(e)]
+xgrs [?exactParamEdgeWithNodes(f)]
+
+quit
