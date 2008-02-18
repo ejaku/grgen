@@ -105,17 +105,24 @@ edgeClassDecl[int modifiers] returns [ IdentNode res = env.getDummyIdent() ]
 		CollectNode<IdentNode> ext;
 		CollectNode<ConnAssertNode> cas;
 		String externalName = null;
+		boolean undirected = false;
 	}
 
-	:	EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
-	  	ext=edgeExtends[id] cas=connectAssertions pushScope[id]
+	:	(UNDIRECTED { undirected = true; } )?
+		EDGE CLASS id=typeIdentDecl (LT externalName=fullQualIdent GT)?
+	  	ext=edgeExtends[id, undirected] cas=connectAssertions pushScope[id]
 		(
 			LBRACE body=edgeClassBody RBRACE
 		|	SEMI
 			{ body = new CollectNode<BaseNode>(); }
 		)
 		{
-			DirectedEdgeTypeNode et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+			EdgeTypeNode et;
+			if (undirected) {
+				et = new UndirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+			} else {
+				et = new DirectedEdgeTypeNode(ext, cas, body, modifiers, externalName);
+			}
 			id.setDecl(new TypeDeclNode(id, et));
 			res = id;
 		}
@@ -177,12 +184,18 @@ connectAssertion [ CollectNode<ConnAssertNode> c ]
 			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
 	;
 
-edgeExtends [IdentNode clsId] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
-	: EXTENDS edgeExtendsCont[clsId, c]
-	|	{ c.addChild(env.getDirectedEdgeRoot()); }
+edgeExtends [IdentNode clsId, boolean undirected] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
+	: EXTENDS edgeExtendsCont[clsId, c, undirected]
+	|	{
+			if(undirected) {
+				c.addChild(env.getUndirectedEdgeRoot());
+			} else {
+				c.addChild(env.getDirectedEdgeRoot());
+			}
+		}
 	;
 
-edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
+edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c, boolean undirected ]
 	{
 		IdentNode e;
 		int extCount = 0;
@@ -203,7 +216,15 @@ edgeExtendsCont [ IdentNode clsId, CollectNode<IdentNode> c ]
 				reportError(e.getCoords(), "A class must not extend itself");
 		}
 	)*
-		{ if ( c.getChildren().size() == 0 ) c.addChild(env.getDirectedEdgeRoot()); }
+		{
+			if (c.getChildren().size() == 0) {
+				if (undirected) {
+					c.addChild(env.getUndirectedEdgeRoot());
+				} else {
+					c.addChild(env.getDirectedEdgeRoot());
+				}
+			}
+		}
 	;
 
 nodeExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]

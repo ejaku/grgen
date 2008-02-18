@@ -53,6 +53,7 @@ tokens {
   ENUM = "enum";
   EVAL = "eval";
   EXACT = "exact";
+  EXEC = "exec";
   EXTENDS = "extends";
   FALSE = "false";
   HOM = "hom";
@@ -70,8 +71,8 @@ tokens {
   TEST = "test";
   TRUE = "true";
   TYPEOF = "typeof";
+  UNDIRECTED = "undirected";
   USING = "using";
-  EXEC = "exec";
   NUM_INTEGER;
   NUM_FLOAT;
   NUM_DOUBLE;

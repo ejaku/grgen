@@ -1,1 +1,1 @@
-edge class A extends UEdge;
+undirected edge class A;
