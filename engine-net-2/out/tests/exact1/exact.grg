@@ -78,3 +78,9 @@ exact rule testHom
 		delete(y);
 	}
 }
+
+exact rule withDot
+{
+	.-->.;
+	modify {}
+}

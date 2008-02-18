@@ -1,0 +1,11 @@
+new graph "lib\lgsp-exactModel.dll" "Exact graph"
+select actions "lib\lgsp-exactActions.dll"
+
+show num nodes
+show num edges
+xgrs init1
+show num nodes
+show num edges
+xgrs [?withDot]
+
+quit
