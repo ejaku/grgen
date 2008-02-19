@@ -17,6 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         public String name;
         public GrGenType[] AllowedTypes;
         public bool[] IsAllowedType;
+        public float Cost; // default cost/priority from frontend, user priority if given
         public int ParameterIndex; // only valid if pattern element is handed in as rule parameter
 
         /// <summary>
@@ -30,14 +31,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each node/edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
+        /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternElement(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
-            int parameterIndex)
+            float cost, int parameterIndex)
         {
             this.TypeID = typeID;
             this.name = name;
             this.AllowedTypes = allowedTypes;
             this.IsAllowedType = isAllowedType;
+            this.Cost = cost;
             this.ParameterIndex = parameterIndex;
         }
     }
@@ -58,29 +61,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
         ///     If it is null, all subtypes of the type specified by typeID (including itself)
         ///     are allowed for this pattern element.</param>
-        /// <param name="isAllowedType">An array containing a bool for each node type (order defined by the TypeIDs)
-        ///     which is true iff the corresponding type is allowed for this pattern element.
-        ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType)
-            : base(typeID, name, allowedTypes, isAllowedType, -1)
-        { 
-        }
-
-        /// <summary>
-        /// Instantiates a new PatternNode object
-        /// </summary>
-        /// <param name="typeID">The type ID of the pattern node</param>
-        /// <param name="name">The name of the pattern node</param>
-        /// <param name="allowedTypes">An array of allowed types for this pattern element.
-        ///     If it is null, all subtypes of the type specified by typeID (including itself)
-        ///     are allowed for this pattern element.</param>
         /// <param name="isAllowedType">An array containing a bool for each node/edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
+        /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
-            int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, parameterIndex)
+            float cost, int parameterIndex)
+            : base(typeID, name, allowedTypes, isAllowedType, cost, parameterIndex)
         {
         }
 
@@ -112,32 +100,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name,
-            GrGenType[] allowedTypes, bool[] isAllowedType)
-            : base(typeID, name, allowedTypes, isAllowedType, -1)
-        {
-            this.source = source;
-            this.target = target;
-        }
-
-        /// <summary>
-        /// Instantiates a new PatternEdge object
-        /// </summary>
-        /// <param name="source">The source pattern node for this edge.</param>
-        /// <param name="target">The target pattern node for this edge.</param>
-        /// <param name="typeID">The type ID of the pattern edge.</param>
-        /// <param name="name">The name of the pattern edge.</param>
-        /// <param name="allowedTypes">An array of allowed types for this pattern element.
-        ///     If it is null, all subtypes of the type specified by typeID (including itself)
-        ///     are allowed for this pattern element.</param>
-        /// <param name="isAllowedType">An array containing a bool for each edge type (order defined by the TypeIDs)
-        ///     which is true iff the corresponding type is allowed for this pattern element.
-        ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
+        /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         public PatternEdge(PatternNode source, PatternNode target, int typeID, String name,
-            GrGenType[] allowedTypes, bool[] isAllowedType, int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, parameterIndex)
+            GrGenType[] allowedTypes, bool[] isAllowedType, float cost, int parameterIndex)
+            : base(typeID, name, allowedTypes, isAllowedType, cost, parameterIndex)
         {
             this.source = source;
             this.target = target;
@@ -168,6 +136,13 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
+    /// <summary>
+    /// Representation of the pattern to search for, 
+    /// containing nested alternative and negative-patterns, plus references to the rules of the used subpatterns.
+    /// Accessible via IPatternGraph as meta information to the user about the matching action.
+    /// Skeleton data structure for the matcher generation pipeline which stores intermediate results here, 
+    /// which saves us from representing the nesting structure again and again in the pipeline's data structures
+    /// </summary>
     public class PatternGraph : IPatternGraph
     {
         public String Name { get { return name; } }
@@ -195,7 +170,6 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraphEmbedding[] embeddedGraphs;
         public Alternative[] alternatives;
         public PatternGraph[] negativePatternGraphs;
-
         public Condition[] Conditions;
 
         public PatternGraph(String name, PatternNode[] nodes, PatternEdge[] edges,

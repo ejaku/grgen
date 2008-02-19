@@ -909,7 +909,8 @@ namespace spBench
                     }
                 }
 
-                ScheduledSearchPlan ssp = new ScheduledSearchPlan(ops, (PatternGraph) ctx.Action.RulePattern.PatternGraph, spcostproduct);
+                ScheduledSearchPlan ssp = new ScheduledSearchPlan(
+                    (PatternGraph)ctx.Action.RulePattern.PatternGraph, ops, spcostproduct);
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
 
@@ -1049,7 +1050,7 @@ namespace spBench
                 CalcScheduleCost(negCtx.Context, ops, out costflat, out costbatz, out spcostproduct,
                     out spcostimplproduct, out spcostsum);          // TODO: spcostsum is not used, yet
 
-                ScheduledSearchPlan negssp = new ScheduledSearchPlan(ops, negCtx.SP.PatternGraph, spcostproduct);
+                ScheduledSearchPlan negssp = new ScheduledSearchPlan(negCtx.SP.PatternGraph, ops, spcostproduct);
 
                 SearchOperation newOp = new SearchOperation(SearchOperationType.NegativePattern, negssp, null, costflat);
                 negCtx.Context.Schedule.AddLast(newOp);

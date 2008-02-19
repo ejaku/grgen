@@ -135,14 +135,14 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class ScheduledSearchPlan
     {
+        public PatternGraph PatternGraph; // the pattern graph originating this schedule
+        public SearchOperation[] Operations; // the scheduled list of search operations
         public float Cost; // (needed for scheduling nac-subgraphs into the full graph)
-        public SearchOperation[] Operations;
-        public PatternGraph PatternGraph;
-
-        public ScheduledSearchPlan(SearchOperation[] ops, PatternGraph patternGraph, float cost)
+        
+        public ScheduledSearchPlan(PatternGraph patternGraph, SearchOperation[] ops, float cost)
         {
-            Operations = ops;
             PatternGraph = patternGraph;
+            Operations = ops;
             Cost = cost;
         }
     }

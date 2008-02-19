@@ -13,19 +13,6 @@ using de.unika.ipd.grGen.libGr.sequenceParser;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    public class LGSPStaticScheduleInfo
-    {
-        public String ActionName;
-        public LGSPRulePattern RulePattern;
-
-        // Indices according to the pattern element enums
-        public float[] NodeCost;
-        public float[] EdgeCost;
-
-        public float[][] NegNodeCost;
-        public float[][] NegEdgeCost;
-    }
-
 	public class LGSPXGRSInfo
 	{
 		public LGSPXGRSInfo(String[] parameters, String xgrs)
@@ -153,12 +140,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Generate plan graph for given pattern graph with costs from initial static schedule handed in as cost parameters.
+        /// Generate plan graph for given pattern graph with costs from initial static schedule handed in with graph elements.
         /// Plan graph contains nodes representing the pattern elements (nodes and edges)
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, float[] nodeCost, float[] edgeCost, bool negPatternGraph, bool isSubpattern)
+        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
         {
             ///
             /// If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
@@ -205,7 +192,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    cost = 2 * nodeCost[i] + 10;
+                    cost = 2 * node.Cost + 10;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -241,7 +228,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    cost = 2 * edgeCost[i] + 10;
+                    cost = 2 * edge.Cost + 10;
                     isPreset = false;
                     searchOperationType = SearchOperationType.Lookup;
                 }
@@ -282,14 +269,14 @@ namespace de.unika.ipd.grGen.lgsp
                     // no outgoing if no source
                     if(edge.source != null)
                     {
-                        PlanEdge outPlanEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, planNodes[nodesIndex], edgeCost[i]);
+                        PlanEdge outPlanEdge = new PlanEdge(SearchOperationType.Outgoing, edge.source.TempPlanMapping, planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
                     // no incoming if no target
                     if(edge.target != null)
                     {
-                        PlanEdge inPlanEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, planNodes[nodesIndex], edgeCost[i]);
+                        PlanEdge inPlanEdge = new PlanEdge(SearchOperationType.Incoming, edge.target.TempPlanMapping, planNodes[nodesIndex], edge.Cost);
                         planEdges.Add(inPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(inPlanEdge);
                     }
@@ -303,26 +290,23 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Generates ScheduledSearchPlan needed for matcher code generation for action compilation
-        /// out of static schedule information (giving access to rule pattern) and graph model
+        /// out of static schedule information (given by rulePattern elements) and graph model
         /// utilizing code of the lgsp matcher generator
         /// </summary>
-        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPStaticScheduleInfo schedule,
+        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern,
             IGraphModel model, LGSPMatcherGenerator matcherGen)
         {
-            LGSPRulePattern rulePattern = schedule.RulePattern;
             PatternGraph patternGraph = rulePattern.patternGraph;
-            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph,
-                schedule.NodeCost, schedule.EdgeCost, false, rulePattern.isSubpattern);
-            matcherGen.MarkMinimumSpanningArborescence(planGraph, schedule.ActionName);
+            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, false, rulePattern.isSubpattern);
+            matcherGen.MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
 
             SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
                 PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
-                PlanGraph negPlanGraph = GenerateStaticPlanGraph(negPatternGraph,
-                    schedule.NegNodeCost[i], schedule.NegEdgeCost[i], true, rulePattern.isSubpattern);
-                matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, schedule.ActionName + "_neg_" + (i + 1));
+                PlanGraph negPlanGraph = GenerateStaticPlanGraph(negPatternGraph, true, rulePattern.isSubpattern);
+                matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
                 negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
             }
 
@@ -740,7 +724,6 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.ReferencedAssemblies.Add("System.dll");
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IBackend)).Location);
             compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPActions)).Location);
-            compParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(LGSPStaticScheduleInfo)).Location);
             compParams.ReferencedAssemblies.Add(modelAssemblyName);
 
             String actionsOutputSource;
@@ -870,22 +853,22 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Type type in initialAssembly.GetTypes())
                 {
                     if(!type.IsClass || type.IsNotPublic) continue;
-                    if(type.BaseType == typeof(LGSPStaticScheduleInfo))
+                    if(type.BaseType == typeof(LGSPRulePattern))
                     {
-                        LGSPStaticScheduleInfo schedule = (LGSPStaticScheduleInfo) initialAssembly.CreateInstance(type.FullName);
+                        LGSPRulePattern rulePattern = (LGSPRulePattern) initialAssembly.CreateInstance(type.FullName);
                         
                         ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                            schedule, model, matcherGen);
+                            rulePattern, model, matcherGen);
                         
                         String matcherSourceCode = matcherGen.GenerateMatcherSourceCode(
-                            scheduledSearchPlan, schedule.ActionName, schedule.RulePattern);
+                            scheduledSearchPlan, rulePattern.name, rulePattern);
                         
                         matcherGen.GenerateMatcherClass(source, matcherSourceCode,
-                            schedule.RulePattern, true);
+                            rulePattern, true);
 
-                        if (!schedule.RulePattern.isSubpattern) // normal rule
+                        if (!rulePattern.isSubpattern) // normal rule
                         {
-                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", schedule.ActionName);
+                            endSource.AppendFrontFormat("actions.Add(\"{0}\", (LGSPAction) Action_{0}.Instance);\n", rulePattern.name);
                         }
                     }
                 }

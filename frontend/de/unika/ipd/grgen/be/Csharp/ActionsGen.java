@@ -127,8 +127,6 @@ public class ActionsGen extends CSharpBase {
 		
 		sb.append("\t}\n");
 		sb.append("\n");
-
-		genSchedule(sb, action, true);
 	}
 
 	/**
@@ -184,8 +182,6 @@ public class ActionsGen extends CSharpBase {
 		
 		sb.append("\t}\n");
 		sb.append("\n");
-
-		genSchedule(sb, action, false);
 	}
 
 	////////////////////////////////
@@ -328,7 +324,11 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 		sb.append("\n");
 
+		sb.append("#if INITIAL_WARMUP\n");
+		sb.append("\t\tpublic " + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action) + "()\n");
+		sb.append("#else\n");
 		sb.append("\t\tprivate " + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(action) + "()\n");
+		sb.append("#endif\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
 		sb.append("\t\t\tisSubpattern = " + (isSubpattern ? "true" : "false") + ";\n");
@@ -336,9 +336,11 @@ public class ActionsGen extends CSharpBase {
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
 		HashMap<Identifiable, String> alreadyDefinedIdentifiableToName = new HashMap<Identifiable, String>();
 		
+		double max = computePriosMax(-1, action.getPattern());
+		
 		StringBuilder aux = new StringBuilder();
 		genPatternGraph(sb, aux, pattern, "patternGraph", "", 
-				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, 0, action.getParameters());
+				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
 		sb.append(aux);
 		sb.append("\n");
 
@@ -350,10 +352,10 @@ public class ActionsGen extends CSharpBase {
 	private int genPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern, String patternName,
 			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName, 
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
-			int condCntInit, List<Entity> parameters)
+			int condCntInit, List<Entity> parameters, double max)
 	{	
 		genElementsRequiredByPatternGraph(sb, aux, pattern, patternName, pathPrefix, 
-				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters);
+				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters, max);
 		
 		sb.append("\t\t\t" + patternName + " = new PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + pattern.getNameOfGraph() + "\",\n");
@@ -473,7 +475,7 @@ public class ActionsGen extends CSharpBase {
 			PatternGraph pattern, String patternName,
 			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName, 
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName, 
-			int condCntInit, List<Entity> parameters)
+			int condCntInit, List<Entity> parameters, double max)
 	{
 		for(Node node : pattern.getNodes()) {
 			if(alreadyDefinedEntityToName.get(node)!=null) {
@@ -484,6 +486,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("(int) NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + nodeName + "\"");
 			sb.append(", " + nodeName + "_AllowedTypes, ");
 			sb.append(nodeName + "_IsAllowedType, ");
+			appendPrio(sb, node, max);
 			sb.append(parameters.indexOf(node)+");\n");
 			alreadyDefinedEntityToName.put(node, nodeName);
 			aux.append("\t\t\t" + nodeName + ".PointOfDefinition = " + (parameters.indexOf(node)==-1 ? patternName : "null") + ";\n");
@@ -502,6 +505,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append("(int) EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + edgeName + "\"");
 			sb.append(", " + edgeName + "_AllowedTypes, ");
 			sb.append(edgeName + "_IsAllowedType, ");
+			appendPrio(sb, edge, max);
 			sb.append(parameters.indexOf(edge)+");\n");
 			alreadyDefinedEntityToName.put(edge, edgeName);
 			aux.append("\t\t\t" + edgeName + ".PointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patternName : "null") + ";\n");
@@ -545,7 +549,7 @@ public class ActionsGen extends CSharpBase {
 						pathPrefix+altCasePatternName+"_pattern", pathPrefix+altCasePatternName+"_", 
 						(HashMap<Entity,String>)alreadyDefinedEntityToName.clone(), 
 						(HashMap<Identifiable,String>)alreadyDefinedIdentifiableToName.clone(), 
-						condCnt, parameters);
+						condCnt, parameters, max);
 			}
 			++i;
 		}
@@ -567,7 +571,7 @@ public class ActionsGen extends CSharpBase {
 					pathPrefix+negName+"_pattern", pathPrefix+negName+"_", 
 					(HashMap<Entity,String>)alreadyDefinedEntityToName.clone(),
 					(HashMap<Identifiable,String>)alreadyDefinedIdentifiableToName.clone(),
-					condCnt, parameters);
+					condCnt, parameters, max);
 			++i;
 		}				
 	}
@@ -631,22 +635,6 @@ public class ActionsGen extends CSharpBase {
 			} else assert false :"unkown ImperativeStmt: " + istmt + " in " + rule;
 		}
 		sb.append("#endif\n");
-	}
-
-	private void genSchedule(StringBuffer sb, MatchingAction action, boolean isSubpattern) {
-		String actionName = formatIdentifiable(action);
-		sb.append("#if INITIAL_WARMUP\n");
-		sb.append("\tpublic class Schedule_" + (isSubpattern ? "Pattern_" : "Rule_") + actionName + " : LGSPStaticScheduleInfo\n");
-		sb.append("\t{\n");
-		sb.append("\t\tpublic Schedule_" + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "()\n");
-		sb.append("\t\t{\n");
-		sb.append("\t\t\tActionName = \"" + actionName + "\";\n");
-		sb.append("\t\t\tthis.RulePattern = " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + ".Instance;\n");
-		genPrios(action, sb);
-		sb.append("\t\t}\n");
-		sb.append("\t}\n");
-		sb.append("#endif\n");
-		sb.append("\n");
 	}
 
 	//////////////////////////
@@ -1312,41 +1300,20 @@ public class ActionsGen extends CSharpBase {
 	// Static searchplan cost generation //
 	///////////////////////////////////////
 
-	private void genPrios(MatchingAction action, StringBuffer sb) {
-		double max;
-
-		max = computePriosMax(action.getPattern().getNodes(), -1);
-		max = computePriosMax(action.getPattern().getEdges(), max);
-		for(PatternGraph neg : action.getPattern().getNegs())
-			max = computePriosMax(neg.getNodes(), max);
-		for(PatternGraph neg : action.getPattern().getNegs())
-			max = computePriosMax(neg.getEdges(), max);
-
-		sb.append("\t\t\tNodeCost = new float[] { ");
-		genPriosNoE(sb, action.getPattern().getNodes(), max);
-		sb.append(" };\n");
-
-		sb.append("\t\t\tEdgeCost = new float[] { ");
-		genPriosNoE(sb, action.getPattern().getEdges(), max);
-		sb.append(" };\n");
-
-		sb.append("\t\t\tNegNodeCost = new float[][] { ");
-		for(PatternGraph neg : action.getPattern().getNegs()) {
-			sb.append("new float[] { ");
-			genPriosNoE(sb, neg.getNodes(), max);
-			sb.append("}, ");
+	private double computePriosMax(double max, PatternGraph pattern) {
+		max = computePriosMax(pattern.getNodes(), max);
+		max = computePriosMax(pattern.getEdges(), max);
+		for(PatternGraph neg : pattern.getNegs()) {
+			max = computePriosMax(max, neg);
 		}
-		sb.append("};\n");
-
-		sb.append("\t\t\tNegEdgeCost = new float[][] { ");
-		for(PatternGraph neg : action.getPattern().getNegs()) {
-			sb.append("new float[] { ");
-			genPriosNoE(sb, neg.getEdges(), max);
-			sb.append("}, ");
+		for(Alternative alt : pattern.getAlts()) {
+			for(PatternGraph altCase : alt.getAlternativeCases()) {
+				max = computePriosMax(max, altCase);
+			}
 		}
-		sb.append("};\n");
+		return max;
 	}
-
+	
 	private double computePriosMax(Collection<? extends Entity> nodesOrEdges, double max) {
 		for(Entity noe : nodesOrEdges) {
 			Object prioO = noe.getAnnotations().get("prio");
@@ -1361,21 +1328,20 @@ public class ActionsGen extends CSharpBase {
 		}
 		return max;
 	}
+	
+	private void appendPrio(StringBuffer sb, Entity entity, double max) {
+		Object prioO = entity.getAnnotations().get("prio");
 
-	private void genPriosNoE(StringBuffer sb, Collection<? extends Entity> nodesOrEdges, double max) {
-		for(Entity noe : nodesOrEdges) {
-			Object prioO = noe.getAnnotations().get("prio");
-
-			double prio;
-			if (prioO != null && prioO instanceof Integer) {
-				prio = ((Integer)prioO).doubleValue();
-				prio = 10.0 - (prio / max) * 9.0;
-			}
-			else
-				prio = 5.5;
-
-			sb.append(prio + "F, ");
+		double prio;
+		if (prioO != null && prioO instanceof Integer) {
+			prio = ((Integer)prioO).doubleValue();
+			prio = 10.0 - (prio / max) * 9.0;
 		}
+		else {
+			prio = 5.5;
+		}
+
+		sb.append(prio + "F, ");
 	}
 
 	//////////////////////

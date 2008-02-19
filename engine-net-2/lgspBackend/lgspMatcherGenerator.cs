@@ -768,7 +768,7 @@ exitSecondLoop: ;
             InsertConditionsIntoSchedule(spGraph.PatternGraph.Conditions, operations);
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
-            return new ScheduledSearchPlan(operations.ToArray(), spGraph.PatternGraph, cost);
+            return new ScheduledSearchPlan(spGraph.PatternGraph, operations.ToArray(), cost);
         }
 
         /// <summary>

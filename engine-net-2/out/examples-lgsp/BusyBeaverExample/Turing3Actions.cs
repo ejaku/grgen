@@ -29,17 +29,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @_edge0, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_ensureMoveLeftValidRule()
+#else
 		private Rule_ensureMoveLeftValidRule()
+#endif
 		{
 			name = "ensureMoveLeftValidRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, 5.5F, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node__node0, node_bp, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node__node0, node_bp, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node__node0, node_bp }, 
@@ -124,21 +128,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_ensureMoveLeftValidRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_ensureMoveLeftValidRule()
-		{
-			ActionName = "ensureMoveLeftValidRule";
-			this.RulePattern = Rule_ensureMoveLeftValidRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_ensureMoveRightValidRule : LGSPRulePattern
 	{
 		private static Rule_ensureMoveRightValidRule instance = null;
@@ -161,17 +150,21 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @_edge0, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_ensureMoveRightValidRule()
+#else
 		private Rule_ensureMoveRightValidRule()
+#endif
 		{
 			name = "ensureMoveRightValidRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, 5.5F, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(node_bp, neg_0_node__node0, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(node_bp, neg_0_node__node0, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_bp, neg_0_node__node0 }, 
@@ -256,21 +249,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_ensureMoveRightValidRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_ensureMoveRightValidRule()
-		{
-			ActionName = "ensureMoveRightValidRule";
-			this.RulePattern = Rule_ensureMoveRightValidRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_moveLeftRule : LGSPRulePattern
 	{
 		private static Rule_moveLeftRule instance = null;
@@ -293,16 +271,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @_edge0, @_edge1, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_moveLeftRule()
+#else
 		private Rule_moveLeftRule()
+#endif
 		{
 			name = "moveLeftRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, -1);
-			PatternNode node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "node_lbp", node_lbp_AllowedTypes, node_lbp_IsAllowedType, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_lbp, node_bp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, 0);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 5.5F, -1);
+			PatternNode node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "node_lbp", node_lbp_AllowedTypes, node_lbp_IsAllowedType, 5.5F, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_lbp, node_bp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"moveLeftRule",
 				new PatternNode[] { node_wv, node_s, node_lbp, node_bp }, 
@@ -363,21 +345,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_moveLeftRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_moveLeftRule()
-		{
-			ActionName = "moveLeftRule";
-			this.RulePattern = Rule_moveLeftRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_moveRightRule : LGSPRulePattern
 	{
 		private static Rule_moveRightRule instance = null;
@@ -400,16 +367,20 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @_edge0, @_edge1, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_moveRightRule()
+#else
 		private Rule_moveRightRule()
+#endif
 		{
 			name = "moveRightRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternNode node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "node_rbp", node_rbp_AllowedTypes, node_rbp_IsAllowedType, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_bp, node_rbp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, 0);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 5.5F, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternNode node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "node_rbp", node_rbp_AllowedTypes, node_rbp_IsAllowedType, 5.5F, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_bp, node_rbp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"moveRightRule",
 				new PatternNode[] { node_wv, node_s, node_bp, node_rbp }, 
@@ -470,21 +441,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_moveRightRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_moveRightRule()
-		{
-			ActionName = "moveRightRule";
-			this.RulePattern = Rule_moveRightRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_readOneRule : LGSPRulePattern
 	{
 		private static Rule_readOneRule instance = null;
@@ -503,14 +459,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @rv, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_readOneRule()
+#else
 		private Rule_readOneRule()
+#endif
 		{
 			name = "readOneRule";
 			isSubpattern = false;
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 0);
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readOne, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, -1);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 5.5F, 0);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readOne, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, 5.5F, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
 				"readOneRule",
@@ -582,21 +542,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_readOneRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_readOneRule()
-		{
-			ActionName = "readOneRule";
-			this.RulePattern = Rule_readOneRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_readZeroRule : LGSPRulePattern
 	{
 		private static Rule_readZeroRule instance = null;
@@ -615,14 +560,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum EdgeNums { @rv, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_readZeroRule()
+#else
 		private Rule_readZeroRule()
+#endif
 		{
 			name = "readZeroRule";
 			isSubpattern = false;
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 0);
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, -1);
-			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readZero, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 5.5F, 1);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 5.5F, 0);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readZero, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, 5.5F, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
 				"readZeroRule",
@@ -693,21 +642,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private static String[] addedEdgeNames = new String[] {  };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
-
-#if INITIAL_WARMUP
-	public class Schedule_Rule_readZeroRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_readZeroRule()
-		{
-			ActionName = "readZeroRule";
-			this.RulePattern = Rule_readZeroRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
 
 
 	public class Action_ensureMoveLeftValidRule : LGSPAction

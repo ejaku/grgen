@@ -23,14 +23,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_aux_attachResource()
+#else
 		private Rule_aux_attachResource()
+#endif
 		{
 			name = "aux_attachResource";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternNode neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_r", neg_0_node_r_AllowedTypes, neg_0_node_r_IsAllowedType, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			PatternNode neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_r", neg_0_node_r_AllowedTypes, neg_0_node_r_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node_r, node_p }, 
@@ -106,21 +110,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_aux_attachResource : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_aux_attachResource()
-		{
-			ActionName = "aux_attachResource";
-			this.RulePattern = Rule_aux_attachResource.Instance;
-			NodeCost = new float[] { 5.5F,  };
-			EdgeCost = new float[] {  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_blockedRule : LGSPRulePattern
 	{
 		private static Rule_blockedRule instance = null;
@@ -141,15 +130,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @req, @hb, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_blockedRule()
+#else
 		private Rule_blockedRule()
+#endif
 		{
 			name = "blockedRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"blockedRule",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
@@ -210,21 +203,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_blockedRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_blockedRule()
-		{
-			ActionName = "blockedRule";
-			this.RulePattern = Rule_blockedRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_giveRule : LGSPRulePattern
 	{
 		private static Rule_giveRule instance = null;
@@ -245,15 +223,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @rel, @n, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_giveRule()
+#else
 		private Rule_giveRule()
+#endif
 		{
 			name = "giveRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge_rel = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@release, "edge_rel", edge_rel_AllowedTypes, edge_rel_IsAllowedType, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 5.5F, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_rel = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@release, "edge_rel", edge_rel_AllowedTypes, edge_rel_IsAllowedType, 1.0F, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"giveRule",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
@@ -318,21 +300,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_giveRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_giveRule()
-		{
-			ActionName = "giveRule";
-			this.RulePattern = Rule_giveRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 1.0F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_ignoreRule : LGSPRulePattern
 	{
 		private static Rule_ignoreRule instance = null;
@@ -353,16 +320,20 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @b, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_ignoreRule()
+#else
 		private Rule_ignoreRule()
+#endif
 		{
 			name = "ignoreRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, -1);
-			PatternEdge neg_0_edge_hb = new PatternEdge(neg_0_node_m, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, -1);
+			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_0_edge_hb = new PatternEdge(neg_0_node_m, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node_m, node_p }, 
@@ -443,21 +414,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_ignoreRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_ignoreRule()
-		{
-			ActionName = "ignoreRule";
-			this.RulePattern = Rule_ignoreRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_killRule : LGSPRulePattern
 	{
 		private static Rule_killRule instance = null;
@@ -478,15 +434,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @n1, @n2, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_killRule()
+#else
 		private Rule_killRule()
+#endif
 		{
 			name = "killRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge_n1 = new PatternEdge(node_p1, node_p, (int) EdgeTypes.@next, "edge_n1", edge_n1_AllowedTypes, edge_n1_IsAllowedType, -1);
-			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_n1 = new PatternEdge(node_p1, node_p, (int) EdgeTypes.@next, "edge_n1", edge_n1_AllowedTypes, edge_n1_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"killRule",
 				new PatternNode[] { node_p1, node_p, node_p2 }, 
@@ -568,21 +528,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_killRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_killRule()
-		{
-			ActionName = "killRule";
-			this.RulePattern = Rule_killRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_mountRule : LGSPRulePattern
 	{
 		private static Rule_mountRule instance = null;
@@ -595,11 +540,15 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_mountRule()
+#else
 		private Rule_mountRule()
+#endif
 		{
 			name = "mountRule";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"mountRule",
 				new PatternNode[] { node_p }, 
@@ -649,21 +598,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_mountRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_mountRule()
-		{
-			ActionName = "mountRule";
-			this.RulePattern = Rule_mountRule.Instance;
-			NodeCost = new float[] { 5.5F,  };
-			EdgeCost = new float[] {  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_newRule : LGSPRulePattern
 	{
 		private static Rule_newRule instance = null;
@@ -680,13 +614,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @n, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_newRule()
+#else
 		private Rule_newRule()
+#endif
 		{
 			name = "newRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, 1.0F, -1);
 			patternGraph = new PatternGraph(
 				"newRule",
 				new PatternNode[] { node_p1, node_p2 }, 
@@ -758,21 +696,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_newRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_newRule()
-		{
-			ActionName = "newRule";
-			this.RulePattern = Rule_newRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 1.0F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_passRule : LGSPRulePattern
 	{
 		private static Rule_passRule instance = null;
@@ -795,17 +718,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @_edge0, @n, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_passRule()
+#else
 		private Rule_passRule()
+#endif
 		{
 			name = "passRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@token, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@token, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p1, node_r }, 
@@ -902,21 +829,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_passRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_passRule()
-		{
-			ActionName = "passRule";
-			this.RulePattern = Rule_passRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 1.0F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_releaseRule : LGSPRulePattern
 	{
 		private static Rule_releaseRule instance = null;
@@ -937,16 +849,20 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @hb, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_releaseRule()
+#else
 		private Rule_releaseRule()
+#endif
 		{
 			name = "releaseRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 5.5F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, 1.0F, -1);
 			PatternGraph neg_0_pattern;
-			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, -1);
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p, neg_0_node_m, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p, neg_0_node_m, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, neg_0_node_m }, 
@@ -1033,21 +949,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_releaseRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_releaseRule()
-		{
-			ActionName = "releaseRule";
-			this.RulePattern = Rule_releaseRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 1.0F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_releaseStarRule : LGSPRulePattern
 	{
 		private static Rule_releaseStarRule instance = null;
@@ -1072,17 +973,21 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @rq, @h1, @h2, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_releaseStarRule()
+#else
 		private Rule_releaseStarRule()
+#endif
 		{
 			name = "releaseStarRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
-			PatternEdge edge_rq = new PatternEdge(node_p1, node_r1, (int) EdgeTypes.@request, "edge_rq", edge_rq_AllowedTypes, edge_rq_IsAllowedType, -1);
-			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_rq = new PatternEdge(node_p1, node_r1, (int) EdgeTypes.@request, "edge_rq", edge_rq_AllowedTypes, edge_rq_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"releaseStarRule",
 				new PatternNode[] { node_p1, node_r1, node_p2, node_r2 }, 
@@ -1151,21 +1056,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_releaseStarRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_releaseStarRule()
-		{
-			ActionName = "releaseStarRule";
-			this.RulePattern = Rule_releaseStarRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_requestRule : LGSPRulePattern
 	{
 		private static Rule_requestRule instance = null;
@@ -1186,14 +1076,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_requestRule()
+#else
 		private Rule_requestRule()
+#endif
 		{
 			name = "requestRule";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
 			PatternGraph neg_0_pattern;
-			PatternEdge neg_0_edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, -1);
+			PatternEdge neg_0_edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_r, node_p }, 
@@ -1219,8 +1113,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					true, }
 			);
 			PatternGraph neg_1_pattern;
-			PatternNode neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_1_node_m", neg_1_node_m_AllowedTypes, neg_1_node_m_IsAllowedType, -1);
-			PatternEdge neg_1_edge_req = new PatternEdge(node_p, neg_1_node_m, (int) EdgeTypes.@request, "neg_1_edge_req", neg_1_edge_req_AllowedTypes, neg_1_edge_req_IsAllowedType, -1);
+			PatternNode neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_1_node_m", neg_1_node_m_AllowedTypes, neg_1_node_m_IsAllowedType, 5.5F, -1);
+			PatternEdge neg_1_edge_req = new PatternEdge(node_p, neg_1_node_m, (int) EdgeTypes.@request, "neg_1_edge_req", neg_1_edge_req_AllowedTypes, neg_1_edge_req_IsAllowedType, 5.5F, -1);
 			neg_1_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, neg_1_node_m }, 
@@ -1299,21 +1193,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_requestRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_requestRule()
-		{
-			ActionName = "requestRule";
-			this.RulePattern = Rule_requestRule.Instance;
-			NodeCost = new float[] { 5.5F, 1.0F,  };
-			EdgeCost = new float[] {  };
-			NegNodeCost = new float[][] { new float[] { 1.0F, 5.5F, }, new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_requestSimpleRule : LGSPRulePattern
 	{
 		private static Rule_requestSimpleRule instance = null;
@@ -1332,15 +1211,19 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @t, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_requestSimpleRule()
+#else
 		private Rule_requestSimpleRule()
+#endif
 		{
 			name = "requestSimpleRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, node_r }, 
@@ -1422,21 +1305,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_requestSimpleRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_requestSimpleRule()
-		{
-			ActionName = "requestSimpleRule";
-			this.RulePattern = Rule_requestSimpleRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 1.0F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_requestStarRule : LGSPRulePattern
 	{
 		private static Rule_requestStarRule instance = null;
@@ -1463,19 +1331,23 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @h1, @n, @h2, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_requestStarRule()
+#else
 		private Rule_requestStarRule()
+#endif
 		{
 			name = "requestStarRule";
 			isSubpattern = false;
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
-			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, -1);
-			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, 5.5F, -1);
 			PatternGraph neg_0_pattern;
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r2, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r2, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, 5.5F, -1);
 			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p1, node_r2 }, 
@@ -1565,21 +1437,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_requestStarRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_requestStarRule()
-		{
-			ActionName = "requestStarRule";
-			this.RulePattern = Rule_requestStarRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { new float[] { 5.5F, 5.5F, }, };
-			NegEdgeCost = new float[][] { new float[] { 5.5F, }, };
-		}
-	}
-#endif
-
 	public class Rule_takeRule : LGSPRulePattern
 	{
 		private static Rule_takeRule instance = null;
@@ -1598,14 +1455,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @t, @req, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_takeRule()
+#else
 		private Rule_takeRule()
+#endif
 		{
 			name = "takeRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
-			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 5.5F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, 1.0F, -1);
+			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"takeRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1647,11 +1508,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_r = match.Nodes[ (int) NodeNums.@r];
 			LGSPNode node_p = match.Nodes[ (int) NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			LGSPEdge edge_t = match.Edges[ (int) EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 
@@ -1659,11 +1520,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			LGSPNode node_r = match.Nodes[ (int) NodeNums.@r];
 			LGSPNode node_p = match.Nodes[ (int) NodeNums.@p];
-			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			LGSPEdge edge_t = match.Edges[ (int) EdgeNums.@t];
+			LGSPEdge edge_req = match.Edges[ (int) EdgeNums.@req];
 			Edge_held_by edge_hb = Edge_held_by.CreateEdge(graph, node_r, node_p);
-			graph.Remove(edge_req);
 			graph.Remove(edge_t);
+			graph.Remove(edge_req);
 			return EmptyReturnElements;
 		}
 		private static String[] addedNodeNames = new String[] {  };
@@ -1671,21 +1532,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] addedEdgeNames = new String[] { "hb" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
-
-#if INITIAL_WARMUP
-	public class Schedule_Rule_takeRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_takeRule()
-		{
-			ActionName = "takeRule";
-			this.RulePattern = Rule_takeRule.Instance;
-			NodeCost = new float[] { 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 1.0F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
 
 	public class Rule_unlockRule : LGSPRulePattern
 	{
@@ -1705,14 +1551,18 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @b, @hb, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_unlockRule()
+#else
 		private Rule_unlockRule()
+#endif
 		{
 			name = "unlockRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"unlockRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1779,21 +1629,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_unlockRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_unlockRule()
-		{
-			ActionName = "unlockRule";
-			this.RulePattern = Rule_unlockRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_unmountRule : LGSPRulePattern
 	{
 		private static Rule_unmountRule instance = null;
@@ -1810,13 +1645,17 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @t, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_unmountRule()
+#else
 		private Rule_unmountRule()
+#endif
 		{
 			name = "unmountRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"unmountRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1877,21 +1716,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
 
-#if INITIAL_WARMUP
-	public class Schedule_Rule_unmountRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_unmountRule()
-		{
-			ActionName = "unmountRule";
-			this.RulePattern = Rule_unmountRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
-
 	public class Rule_waitingRule : LGSPRulePattern
 	{
 		private static Rule_waitingRule instance = null;
@@ -1918,18 +1742,22 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum EdgeNums { @b, @hb, @req, };
 		public enum PatternNums { };
 
+#if INITIAL_WARMUP
+		public Rule_waitingRule()
+#else
 		private Rule_waitingRule()
+#endif
 		{
 			name = "waitingRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
-			PatternEdge edge_b = new PatternEdge(node_r2, node_p1, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
-			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, 1.0F, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, 5.5F, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, 5.5F, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, 5.5F, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_b = new PatternEdge(node_r2, node_p1, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, 5.5F, -1);
+			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"waitingRule",
 				new PatternNode[] { node_r, node_r2, node_p1, node_r1, node_p2 }, 
@@ -2012,21 +1840,6 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private static String[] addedEdgeNames = new String[] { "bn" };
 		public override String[] AddedEdgeNames { get { return addedEdgeNames; } }
 	}
-
-#if INITIAL_WARMUP
-	public class Schedule_Rule_waitingRule : LGSPStaticScheduleInfo
-	{
-		public Schedule_Rule_waitingRule()
-		{
-			ActionName = "waitingRule";
-			this.RulePattern = Rule_waitingRule.Instance;
-			NodeCost = new float[] { 1.0F, 5.5F, 5.5F, 5.5F, 5.5F,  };
-			EdgeCost = new float[] { 5.5F, 5.5F, 5.5F,  };
-			NegNodeCost = new float[][] { };
-			NegEdgeCost = new float[][] { };
-		}
-	}
-#endif
 
 
 	public class Action_aux_attachResource : LGSPAction
