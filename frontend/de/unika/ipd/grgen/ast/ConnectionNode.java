@@ -187,8 +187,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
         }
 		
 		DeclaredTypeNode rootType = rootDecl.getDeclType();
+
+		if (!edge.getDeclType().isCompatibleTo(rootType)) {
+			reportError("Edge kind is incompatible with edge type");
+			return false;
+		}
 		
-		return edge.getDeclType().isCompatibleTo(rootType);
+		return true;
     }
 
 	protected boolean areDanglingEdgesInReplacementDeclaredInPattern() {

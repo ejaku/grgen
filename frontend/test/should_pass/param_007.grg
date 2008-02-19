@@ -1,4 +1,4 @@
-rule r(-e:Edge-) {
+rule r(-e:UEdge-) {
   x:Node-e-;
   modify {
     delete(x);
