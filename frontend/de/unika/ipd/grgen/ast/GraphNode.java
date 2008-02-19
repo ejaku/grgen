@@ -123,8 +123,12 @@ public class GraphNode extends BaseNode {
 				ConnectionCharacter cc = (ConnectionCharacter)n;
 				EdgeCharacter ec = cc.getEdge();
 
-				// add returns false iff edges already contains ec
-				if (ec != null && !edges.add(ec)) {
+				// add() returns false iff edges already contains ec
+				if (ec != null
+					&& !(cc instanceof ConnectionNode
+							&& cc.getSrc() instanceof DummyNodeDeclNode
+							&& cc.getTgt() instanceof DummyNodeDeclNode)
+					&& !edges.add(ec)) {
 					((EdgeDeclNode) ec).reportError("This (named) edge is used more than once in a graph of this action");
 					edgeUsage = false;
 				}

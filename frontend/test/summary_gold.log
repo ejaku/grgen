@@ -77,7 +77,7 @@ OK     should_pass/basic_065.grg
 OK     should_pass/basic_066.grg
 OK     should_pass/basic_067.grg
 OK     should_pass/basic_068.grg
-ERROR  should_pass/basic_069.grg
+OK     should_pass/basic_069.grg
 OK     should_pass/basic_100.grg
 OK     should_pass/basic_200.grg
 OK     should_pass/basic_201.grg
