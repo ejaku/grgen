@@ -68,10 +68,10 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 
 		Pair<S,T> pair = new Pair<S,T>();
 		if(clsS.isInstance(n)) {
-			pair.fst = (S) n;
+			pair.fst = clsS.cast(n);
 		}
 		if(clsT.isInstance(n)) {
-			pair.snd = (T) n;
+			pair.snd = clsT.cast(n);
 		}
 		if(pair.fst!=null || pair.snd!=null) {
 			assert pair.fst==null || pair.snd==null;
@@ -101,10 +101,10 @@ public class MemberPairResolver<S extends BaseNode, T extends BaseNode> extends 
 		}
 		Pair<S,T> pair = new Pair<S,T>();
 		if (clsS.isInstance(res)) {
-			pair.fst = (S) res;
+			pair.fst = clsS.cast(res);
 		}
 		if (clsT.isInstance(res)) {
-			pair.snd = (T) res;
+			pair.snd = clsT.cast(res);
 		}
 		if(pair.fst!=null || pair.snd!=null) {
 			return pair;

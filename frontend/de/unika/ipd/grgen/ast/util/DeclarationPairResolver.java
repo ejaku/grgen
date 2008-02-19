@@ -56,10 +56,10 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 		
 		Pair<R,S> pair = new Pair<R,S>();
 		if(clsR.isInstance(n)) {
-			pair.fst = (R) n;
+			pair.fst = clsR.cast(n);
 		}
 		if(clsS.isInstance(n)) {
-			pair.snd = (S) n;
+			pair.snd = clsS.cast(n);
 		}		
 		if(pair.fst!=null || pair.snd!=null) {
 			assert pair.fst==null || pair.snd==null;
@@ -77,10 +77,10 @@ public class DeclarationPairResolver<R extends BaseNode, S extends BaseNode> ext
 		Pair<R,S> pair = new Pair<R,S>();
 		DeclNode resolved = n.getDecl();
 		if(clsR.isInstance(resolved)) {
-			pair.fst = (R) resolved;
+			pair.fst = clsR.cast(resolved);
 		}
 		if(clsS.isInstance(resolved)) {
-			pair.snd = (S) resolved;
+			pair.snd = clsS.cast(resolved);
 		}
 		if(pair.fst!=null || pair.snd!=null) {
 			return pair;

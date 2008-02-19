@@ -59,7 +59,7 @@ public class MemberResolver<T extends BaseNode> extends Resolver<T>
 			return resolved;
 		}
 		if(cls.isInstance(n)) {
-			return (T) n;
+			return cls.cast(n);
 		}
 		n.reportError("\"" + n + "\" is a " + n.getUseString() +
 				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
@@ -75,7 +75,7 @@ public class MemberResolver<T extends BaseNode> extends Resolver<T>
 
 		if(!(res instanceof InvalidDeclNode)) {
 			if (cls.isInstance(res)) {
-				return (T) res;
+				return cls.cast(res);
 			}
 			n.reportError("\"" + n + "\" is a " + res.getUseString() +
 					" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
@@ -93,7 +93,7 @@ public class MemberResolver<T extends BaseNode> extends Resolver<T>
 		}
 
 		if (cls.isInstance(res)) {
-			return (T) res;
+			return cls.cast(res);
 		}
 		n.reportError("\"" + n + "\" is a " + res.getUseString() +
 				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");

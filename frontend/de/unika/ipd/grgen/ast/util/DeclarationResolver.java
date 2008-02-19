@@ -47,7 +47,7 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 			return resolved;
 		} 
 		if(cls.isInstance(n)) {
-			return (R) n;
+			return cls.cast(n);
 		}
 		n.reportError("\"" + n + "\" is a " + n.getUseString() +
 				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
@@ -59,7 +59,7 @@ public class DeclarationResolver<R extends BaseNode> extends Resolver<R>
 	public R resolve(IdentNode n) {
 		DeclNode resolved = n.getDecl();
 		if(cls.isInstance(resolved)) {
-			return (R) resolved;
+			return cls.cast(resolved);
 		}
 		n.reportError("\"" + n + "\" is a " + resolved.getUseString() +
 				" but a " + Util.getStr(cls, BaseNode.class, "getUseStr") + " is expected");
