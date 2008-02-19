@@ -221,6 +221,7 @@ param [ int context ] returns [ BaseNode res = null ]
 	{
 		int direction;
 		EdgeDeclNode edge = null;
+		NodeDeclNode node = null;
 	}
 
 	: MINUS edge=edgeDecl[context] direction = forwardOrUndirectedEdgeParam
@@ -229,7 +230,10 @@ param [ int context ] returns [ BaseNode res = null ]
 		res = new ConnectionNode(dummy, edge, dummy, direction);
 	}
 
-	| res=nodeDecl[context]
+	| node=nodeDecl[context]
+	{
+		res = new SingleNodeConnNode(node); 
+	}
 	;
 
 forwardOrUndirectedEdgeParam returns [ int res = ConnectionNode.ARBITRARY ]

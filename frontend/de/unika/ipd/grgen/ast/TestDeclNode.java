@@ -103,8 +103,8 @@ public class TestDeclNode extends ActionDeclNode {
 	        	ConnectionNode conn = (ConnectionNode) para;
 	        	res.add(conn.getEdge().getDecl());
 	        }
-	        if (para instanceof NodeDeclNode) {
-	        	NodeDeclNode node = (NodeDeclNode) para;
+	        if (para instanceof SingleNodeConnNode) {
+	        	NodeDeclNode node = ((SingleNodeConnNode) para).getNode();
 	        	res.add(node);
 	        }
         }
