@@ -27,12 +27,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "aux_attachResource";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternNode neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_r", neg_0_node_r_AllowedTypes, neg_0_node_r_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternNode neg_0_node_r = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_r", neg_0_node_r_AllowedTypes, neg_0_node_r_IsAllowedType, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node_r, node_p }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
@@ -56,15 +55,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"aux_attachResource",
 				new PatternNode[] { node_p }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[1, 1] {
 					{ true, },
@@ -77,6 +74,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					true, },
 				new bool[] {}
 			);
+			node_p.PointOfDefinition = patternGraph;
+			neg_0_node_r.PointOfDefinition = neg_0_pattern;
+			neg_0_edge__edge0.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -145,11 +145,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "blockedRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p2, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"blockedRule",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
@@ -176,6 +176,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge_req.PointOfDefinition = patternGraph;
+			edge_hb.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -244,11 +249,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "giveRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_rel = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@release, "edge_rel", edge_rel_AllowedTypes, edge_rel_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge_rel = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@release, "edge_rel", edge_rel_AllowedTypes, edge_rel_IsAllowedType, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"giveRule",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
@@ -275,6 +280,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge_rel.PointOfDefinition = patternGraph;
+			edge_n.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -347,14 +357,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "ignoreRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_0_edge_hb = new PatternEdge(neg_0_node_m, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, -1);
+			PatternEdge neg_0_edge_hb = new PatternEdge(neg_0_node_m, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node_m, node_p }, 
 				new PatternEdge[] { neg_0_edge_hb }, 
@@ -378,15 +387,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"ignoreRule",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_b }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -404,6 +411,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_b.PointOfDefinition = patternGraph;
+			neg_0_node_m.PointOfDefinition = neg_0_pattern;
+			neg_0_edge_hb.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -470,11 +482,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "killRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n1 = new PatternEdge(node_p1, node_p, (int) EdgeTypes.@next, "edge_n1", edge_n1_AllowedTypes, edge_n1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge_n1 = new PatternEdge(node_p1, node_p, (int) EdgeTypes.@next, "edge_n1", edge_n1_AllowedTypes, edge_n1_IsAllowedType, -1);
+			PatternEdge edge_n2 = new PatternEdge(node_p, node_p2, (int) EdgeTypes.@next, "edge_n2", edge_n2_AllowedTypes, edge_n2_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"killRule",
 				new PatternNode[] { node_p1, node_p, node_p2 }, 
@@ -501,6 +513,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_p1.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge_n1.PointOfDefinition = patternGraph;
+			edge_n2.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -582,7 +599,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "mountRule";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"mountRule",
 				new PatternNode[] { node_p }, 
@@ -602,6 +619,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					true, },
 				new bool[] {}
 			);
+			node_p.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -666,9 +684,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "newRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"newRule",
 				new PatternNode[] { node_p1, node_p2 }, 
@@ -693,6 +711,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
+			node_p1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge_n.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -778,15 +799,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "passRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@token, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_r, node_p1, (int) EdgeTypes.@token, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge_n = new PatternEdge(node_p1, node_p2, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p1, node_r }, 
 				new PatternEdge[] { neg_0_edge_req }, 
@@ -810,15 +830,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"passRule",
 				new PatternNode[] { node_r, node_p1, node_p2 }, 
 				new PatternEdge[] { edge__edge0, edge_n }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -838,6 +856,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge_n.PointOfDefinition = patternGraph;
+			neg_0_edge_req.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -917,14 +941,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "releaseRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p, neg_0_node_m, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternNode neg_0_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_0_node_m", neg_0_node_m_AllowedTypes, neg_0_node_m_IsAllowedType, -1);
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p, neg_0_node_m, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, neg_0_node_m }, 
 				new PatternEdge[] { neg_0_edge_req }, 
@@ -948,15 +971,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"releaseRule",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_hb }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -974,6 +995,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_hb.PointOfDefinition = patternGraph;
+			neg_0_node_m.PointOfDefinition = neg_0_pattern;
+			neg_0_edge_req.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1050,13 +1076,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "releaseStarRule";
 			isSubpattern = false;
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_rq = new PatternEdge(node_p1, node_r1, (int) EdgeTypes.@request, "edge_rq", edge_rq_AllowedTypes, edge_rq_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
+			PatternEdge edge_rq = new PatternEdge(node_p1, node_r1, (int) EdgeTypes.@request, "edge_rq", edge_rq_AllowedTypes, edge_rq_IsAllowedType, -1);
+			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p2, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"releaseStarRule",
 				new PatternNode[] { node_p1, node_r1, node_p2, node_r2 }, 
@@ -1085,6 +1111,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, true, }
 			);
+			node_p1.PointOfDefinition = patternGraph;
+			node_r1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			node_r2.PointOfDefinition = patternGraph;
+			edge_rq.PointOfDefinition = patternGraph;
+			edge_h1.PointOfDefinition = patternGraph;
+			edge_h2.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1157,12 +1190,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "requestRule";
 			isSubpattern = false;
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternEdge neg_0_edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternEdge neg_0_edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "neg_0_edge_hb", neg_0_edge_hb_AllowedTypes, neg_0_edge_hb_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { neg_0_edge_hb }, 
@@ -1186,13 +1218,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
-			PatternGraph negPattern_1;
-			{
-			PatternNode neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_1_node_m", neg_1_node_m_AllowedTypes, neg_1_node_m_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_1_edge_req = new PatternEdge(node_p, neg_1_node_m, (int) EdgeTypes.@request, "neg_1_edge_req", neg_1_edge_req_AllowedTypes, neg_1_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_1 = new PatternGraph(
+			PatternGraph neg_1_pattern;
+			PatternNode neg_1_node_m = new PatternNode((int) NodeTypes.@Resource, "neg_1_node_m", neg_1_node_m_AllowedTypes, neg_1_node_m_IsAllowedType, -1);
+			PatternEdge neg_1_edge_req = new PatternEdge(node_p, neg_1_node_m, (int) EdgeTypes.@request, "neg_1_edge_req", neg_1_edge_req_AllowedTypes, neg_1_edge_req_IsAllowedType, -1);
+			neg_1_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, neg_1_node_m }, 
 				new PatternEdge[] { neg_1_edge_req }, 
@@ -1216,15 +1245,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"requestRule",
 				new PatternNode[] { node_p, node_r }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0, negPattern_1,  }, 
+				new PatternGraph[] { neg_0_pattern, neg_1_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1238,6 +1265,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 					true, true, },
 				new bool[] {}
 			);
+			node_p.PointOfDefinition = patternGraph;
+			node_r.PointOfDefinition = patternGraph;
+			neg_0_edge_hb.PointOfDefinition = neg_0_pattern;
+			neg_1_node_m.PointOfDefinition = neg_1_pattern;
+			neg_1_edge_req.PointOfDefinition = neg_1_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1304,13 +1336,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "requestSimpleRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p, node_r }, 
 				new PatternEdge[] { neg_0_edge_req }, 
@@ -1334,15 +1365,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"requestSimpleRule",
 				new PatternNode[] { node_r, node_p }, 
 				new PatternEdge[] { edge_t }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[2, 2] {
 					{ true, false, },
@@ -1360,6 +1389,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_t.PointOfDefinition = patternGraph;
+			neg_0_edge_req.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1434,17 +1467,16 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "requestStarRule";
 			isSubpattern = false;
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r2, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
+			PatternEdge edge_h1 = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_h1", edge_h1_AllowedTypes, edge_h1_IsAllowedType, -1);
+			PatternEdge edge_n = new PatternEdge(node_p2, node_p1, (int) EdgeTypes.@next, "edge_n", edge_n_AllowedTypes, edge_n_IsAllowedType, -1);
+			PatternEdge edge_h2 = new PatternEdge(node_r2, node_p2, (int) EdgeTypes.@held_by, "edge_h2", edge_h2_AllowedTypes, edge_h2_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternEdge neg_0_edge_req = new PatternEdge(node_p1, node_r2, (int) EdgeTypes.@request, "neg_0_edge_req", neg_0_edge_req_AllowedTypes, neg_0_edge_req_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_p1, node_r2 }, 
 				new PatternEdge[] { neg_0_edge_req }, 
@@ -1468,15 +1500,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"requestStarRule",
 				new PatternNode[] { node_r1, node_p1, node_p2, node_r2 }, 
 				new PatternEdge[] { edge_h1, edge_n, edge_h2 }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[4, 4] {
 					{ true, false, false, false, },
@@ -1498,6 +1528,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, true, }
 			);
+			node_r1.PointOfDefinition = patternGraph;
+			node_p1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			node_r2.PointOfDefinition = patternGraph;
+			edge_h1.PointOfDefinition = patternGraph;
+			edge_n.PointOfDefinition = patternGraph;
+			edge_h2.PointOfDefinition = patternGraph;
+			neg_0_edge_req.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1564,10 +1602,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "takeRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
+			PatternEdge edge_req = new PatternEdge(node_p, node_r, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"takeRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1593,6 +1631,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_t.PointOfDefinition = patternGraph;
+			edge_req.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1667,10 +1709,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "unlockRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_b = new PatternEdge(node_r, node_p, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r, node_p, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"unlockRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1696,6 +1738,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_b.PointOfDefinition = patternGraph;
+			edge_hb.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1768,9 +1814,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "unmountRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_p = new PatternNode((int) NodeTypes.@Process, "node_p", node_p_AllowedTypes, node_p_IsAllowedType, -1);
+			PatternEdge edge_t = new PatternEdge(node_r, node_p, (int) EdgeTypes.@token, "edge_t", edge_t_AllowedTypes, edge_t_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"unmountRule",
 				new PatternNode[] { node_r, node_p }, 
@@ -1795,6 +1841,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_p.PointOfDefinition = patternGraph;
+			edge_t.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1873,14 +1922,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		{
 			name = "waitingRule";
 			isSubpattern = false;
-			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_b = new PatternEdge(node_r2, node_p1, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_r = new PatternNode((int) NodeTypes.@Resource, "node_r", node_r_AllowedTypes, node_r_IsAllowedType, -1);
+			PatternNode node_r2 = new PatternNode((int) NodeTypes.@Resource, "node_r2", node_r2_AllowedTypes, node_r2_IsAllowedType, -1);
+			PatternNode node_p1 = new PatternNode((int) NodeTypes.@Process, "node_p1", node_p1_AllowedTypes, node_p1_IsAllowedType, -1);
+			PatternNode node_r1 = new PatternNode((int) NodeTypes.@Resource, "node_r1", node_r1_AllowedTypes, node_r1_IsAllowedType, -1);
+			PatternNode node_p2 = new PatternNode((int) NodeTypes.@Process, "node_p2", node_p2_AllowedTypes, node_p2_IsAllowedType, -1);
+			PatternEdge edge_b = new PatternEdge(node_r2, node_p1, (int) EdgeTypes.@blocked, "edge_b", edge_b_AllowedTypes, edge_b_IsAllowedType, -1);
+			PatternEdge edge_hb = new PatternEdge(node_r1, node_p1, (int) EdgeTypes.@held_by, "edge_hb", edge_hb_AllowedTypes, edge_hb_IsAllowedType, -1);
+			PatternEdge edge_req = new PatternEdge(node_p2, node_r1, (int) EdgeTypes.@request, "edge_req", edge_req_AllowedTypes, edge_req_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"waitingRule",
 				new PatternNode[] { node_r, node_r2, node_p1, node_r1, node_p2 }, 
@@ -1910,6 +1959,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				new bool[] {
 					true, true, true, }
 			);
+			node_r.PointOfDefinition = patternGraph;
+			node_r2.PointOfDefinition = patternGraph;
+			node_p1.PointOfDefinition = patternGraph;
+			node_r1.PointOfDefinition = patternGraph;
+			node_p2.PointOfDefinition = patternGraph;
+			edge_b.PointOfDefinition = patternGraph;
+			edge_hb.PointOfDefinition = patternGraph;
+			edge_req.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };

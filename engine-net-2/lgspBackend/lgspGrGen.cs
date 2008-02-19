@@ -191,13 +191,13 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(node.PatternElementType == PatternElementType.Preset)
+                if(node.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negPatternGraph && node.PatternElementType == PatternElementType.Normal)
+                else if(negPatternGraph && node.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;
@@ -227,13 +227,13 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(edge.PatternElementType == PatternElementType.Preset)
+                if(edge.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negPatternGraph && edge.PatternElementType == PatternElementType.Normal)
+                else if(negPatternGraph && edge.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;

@@ -1142,21 +1142,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
-                {
-                    AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
-                    insertionPoint = insertionPoint.Append(acceptGlobal);
-                }
+                AcceptCandidateGlobal acceptGlobal =
+                    new AcceptCandidateGlobal(patternGraph.nodes[i].name, true);
+                insertionPoint = insertionPoint.Append(acceptGlobal);
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
             {
-                if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
-                {
-                    AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
-                    insertionPoint = insertionPoint.Append(acceptGlobal);
-                }
+                AcceptCandidateGlobal acceptGlobal =
+                    new AcceptCandidateGlobal(patternGraph.edges[i].name, false);
+                insertionPoint = insertionPoint.Append(acceptGlobal);
             }
 
             return insertionPoint;
@@ -1173,21 +1167,15 @@ namespace de.unika.ipd.grGen.lgsp
             // global abandon of all candidate elements (remove isomorphy information)
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                if (patternGraph.nodes[i].PatternElementType != PatternElementType.Preset)
-                {
-                    AbandonCandidateGlobal abandonGlobal =
-                        new AbandonCandidateGlobal(patternGraph.nodes[i].name, true);
-                    insertionPoint = insertionPoint.Append(abandonGlobal);
-                }
+                AbandonCandidateGlobal abandonGlobal =
+                    new AbandonCandidateGlobal(patternGraph.nodes[i].name, true);
+                insertionPoint = insertionPoint.Append(abandonGlobal);
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
             {
-                if (patternGraph.edges[i].PatternElementType != PatternElementType.Preset)
-                {
-                    AbandonCandidateGlobal abandonGlobal =
-                        new AbandonCandidateGlobal(patternGraph.edges[i].name, false);
-                    insertionPoint = insertionPoint.Append(abandonGlobal);
-                }
+                AbandonCandidateGlobal abandonGlobal =
+                    new AbandonCandidateGlobal(patternGraph.edges[i].name, false);
+                insertionPoint = insertionPoint.Append(abandonGlobal);
             }
 
             return insertionPoint;

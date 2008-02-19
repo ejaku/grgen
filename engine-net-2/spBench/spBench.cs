@@ -207,13 +207,13 @@ namespace spBench
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(node.PatternElementType == PatternElementType.Preset)
+                if(node.PointOfDefinition == null)
                 {
                     cost = 1;
                     isPreset = true;
                     searchOperationType = SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
+                else if(negativePatternGraph && node.PointOfDefinition != patternGraph)
                 {
                     cost = 1;
                     isPreset = true;
@@ -242,14 +242,14 @@ namespace spBench
 #if !NO_EDGE_LOOKUP
                 float splitcost, localcost;
                 SearchOperationType searchOperationType;
-                if(edge.PatternElementType == PatternElementType.Preset)
+                if(edge.PointOfDefinition == null)
                 {
                     splitcost = localcost = 1;
 
                     isPreset = true;
                     searchOperationType = SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
+                else if(negativePatternGraph && edge.PointOfDefinition != patternGraph)
                 {
                     splitcost = localcost = 1;
 
@@ -478,12 +478,12 @@ namespace spBench
                 Dictionary<String, bool> neededElemNames = new Dictionary<String, bool>();
                 foreach(PatternNode node in negPatternGraph.Nodes)
                 {
-                    if(node.PatternElementType != PatternElementType.NegElement)
+                    if(node.PointOfDefinition != negPatternGraph)
                         neededElemNames.Add(node.Name, true);
                 }
                 foreach(PatternEdge edge in negPatternGraph.Edges)
                 {
-                    if(edge.PatternElementType != PatternElementType.NegElement)
+                    if(edge.PointOfDefinition != negPatternGraph)
                         neededElemNames.Add(edge.Name, true);
                 }
                 NegRemainingNeededElements[i] = neededElemNames;
@@ -568,14 +568,18 @@ namespace spBench
             return neededElemsArray;
         }
 
-        private Dictionary<String, List<int>> CalcCondElementMap(PatternGraph patternGraph, Dictionary<String, bool>[] neededElemDicts,
-            bool isNegPattern)
+        private Dictionary<String, List<int>> CalcCondElementMap(PatternGraph patternGraph, 
+            Dictionary<String, bool>[] neededElemDicts, bool isNegPattern)
         {
             Dictionary<String, List<int>> elemToCond = new Dictionary<String, List<int>>();
             foreach(PatternNode node in patternGraph.Nodes)
             {
-                if(node.PatternElementType == PatternElementType.Preset || isNegPattern && node.PatternElementType == PatternElementType.Normal)
+                if (node.PointOfDefinition == null
+                    || isNegPattern && node.PointOfDefinition != patternGraph)
+                {
                     continue;
+                }
+
                 for(int i = 0; i < patternGraph.Conditions.Length; i++)
                 {
                     if(neededElemDicts[i].ContainsKey(node.Name))
@@ -589,8 +593,12 @@ namespace spBench
             }
             foreach(PatternEdge edge in patternGraph.Edges)
             {
-                if(edge.PatternElementType == PatternElementType.Preset || isNegPattern && edge.PatternElementType == PatternElementType.Normal)
+                if (edge.PointOfDefinition == null
+                    || isNegPattern && edge.PointOfDefinition != patternGraph)
+                {
                     continue;
+                }
+
                 for(int i = 0; i < patternGraph.Conditions.Length; i++)
                 {
                     if(neededElemDicts[i].ContainsKey(edge.Name))

@@ -7,25 +7,17 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.lgsp
 {
-    /// <summary>
-    /// Preset is for elements which are handed in to the pattern/action and don't need to be matched
-    /// Normal is for elements of the pattern which have to be matched
-    /// NegElement is for elements of negative patterns which have to be matched
-    /// Elements which are handed in to the negative pattern are Normal if matched in the pattern or Preset if handed in to the pattern
-    /// </summary>
-    public enum PatternElementType { Normal, Preset, NegElement };
-
     [DebuggerDisplay("PatternElement ({name}:{TypeID})")]
     public abstract class PatternElement : IPatternElement
     {
         public String Name { get { return name; } }
+        public PatternGraph PointOfDefinition; // the pattern this element gets matched (null if rule parameter)
 
         public int TypeID;
         public String name;
         public GrGenType[] AllowedTypes;
         public bool[] IsAllowedType;
-        public PatternElementType PatternElementType;
-        public int ParameterIndex;                      // only valid if PatternElementType == PatternElementType.Preset
+        public int ParameterIndex; // only valid if pattern element is handed in as rule parameter
 
         /// <summary>
         /// Instantiates a new PatternElement object
@@ -38,16 +30,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each node/edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternElement(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType,
-            PatternElementType patternElementType, int parameterIndex)
+        public PatternElement(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
+            int parameterIndex)
         {
             this.TypeID = typeID;
             this.name = name;
             this.AllowedTypes = allowedTypes;
             this.IsAllowedType = isAllowedType;
-            this.PatternElementType = patternElementType;
             this.ParameterIndex = parameterIndex;
         }
     }
@@ -72,23 +62,9 @@ namespace de.unika.ipd.grGen.lgsp
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType)
-            : base(typeID, name, allowedTypes, isAllowedType, PatternElementType.Normal, -1) { }
-
-        /// <summary>
-        /// Instantiates a new PatternNode object
-        /// </summary>
-        /// <param name="typeID">The type ID of the pattern node</param>
-        /// <param name="name">The name of the pattern node</param>
-        /// <param name="allowedTypes">An array of allowed types for this pattern element.
-        ///     If it is null, all subtypes of the type specified by typeID (including itself)
-        ///     are allowed for this pattern element.</param>
-        /// <param name="isAllowedType">An array containing a bool for each node type (order defined by the TypeIDs)
-        ///     which is true iff the corresponding type is allowed for this pattern element.
-        ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
-        public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType,
-            PatternElementType patternElementType)
-            : base(typeID, name, allowedTypes, isAllowedType, patternElementType, -1) { }
+            : base(typeID, name, allowedTypes, isAllowedType, -1)
+        { 
+        }
 
         /// <summary>
         /// Instantiates a new PatternNode object
@@ -101,11 +77,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each node/edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType,
-            PatternElementType patternElementType, int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, patternElementType, parameterIndex) { }
+        public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
+            int parameterIndex)
+            : base(typeID, name, allowedTypes, isAllowedType, parameterIndex)
+        {
+        }
 
         public string UnprefixedName()
         {
@@ -135,31 +112,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="isAllowedType">An array containing a bool for each edge type (order defined by the TypeIDs)
         ///     which is true iff the corresponding type is allowed for this pattern element.
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name, GrGenType[] allowedTypes,
-            bool[] isAllowedType)
-            : base(typeID, name, allowedTypes, isAllowedType, PatternElementType.Normal, -1)
-        {
-            this.source = source;
-            this.target = target;
-        }
-
-        /// <summary>
-        /// Instantiates a new PatternEdge object
-        /// </summary>
-        /// <param name="source">The source pattern node for this edge.</param>
-        /// <param name="target">The target pattern node for this edge.</param>
-        /// <param name="typeID">The type ID of the pattern edge.</param>
-        /// <param name="name">The name of the pattern edge.</param>
-        /// <param name="allowedTypes">An array of allowed types for this pattern element.
-        ///     If it is null, all subtypes of the type specified by typeID (including itself)
-        ///     are allowed for this pattern element.</param>
-        /// <param name="isAllowedType">An array containing a bool for each edge type (order defined by the TypeIDs)
-        ///     which is true iff the corresponding type is allowed for this pattern element.
-        ///     It should be null if allowedTypes is null or empty or has only one element.</param>
-        /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
-        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name, GrGenType[] allowedTypes,
-            bool[] isAllowedType, PatternElementType patternElementType)
-            : base(typeID, name, allowedTypes, isAllowedType, patternElementType, -1)
+        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name,
+            GrGenType[] allowedTypes, bool[] isAllowedType)
+            : base(typeID, name, allowedTypes, isAllowedType, -1)
         {
             this.source = source;
             this.target = target;
@@ -180,9 +135,9 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name, GrGenType[] allowedTypes,
-            bool[] isAllowedType, PatternElementType patternElementType, int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, patternElementType, parameterIndex)
+        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name,
+            GrGenType[] allowedTypes, bool[] isAllowedType, int parameterIndex)
+            : base(typeID, name, allowedTypes, isAllowedType, parameterIndex)
         {
             this.source = source;
             this.target = target;
@@ -271,6 +226,7 @@ namespace de.unika.ipd.grGen.lgsp
         public String Name { get { return name; } }
         public IPatternGraph EmbeddedGraph { get { return ruleOfEmbeddedGraph.patternGraph; } }
         public IPatternElement[] Connections { get { return connections; } }
+        public PatternGraph PointOfDefinition; // the pattern this complex subpattern element gets matched
 
         public String name;
         public LGSPRulePattern ruleOfEmbeddedGraph;

@@ -51,21 +51,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "BenzolRing";
 			isSubpattern = true;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRing",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
@@ -102,6 +102,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -183,21 +198,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "BenzolRingC123456Exposed";
 			isSubpattern = true;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Preset, 2);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 3);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Preset, 4);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 5);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, 1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, 2);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, 3);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, 4);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, 5);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRingC123456Exposed",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
@@ -234,6 +249,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = null;
+			node_c2.PointOfDefinition = null;
+			node_c3.PointOfDefinition = null;
+			node_c4.PointOfDefinition = null;
+			node_c5.PointOfDefinition = null;
+			node_c6.PointOfDefinition = null;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
@@ -315,21 +345,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "BenzolRingC1Exposed";
 			isSubpattern = true;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRingC1Exposed",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
@@ -366,6 +396,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = null;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", };
@@ -423,9 +468,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Hydrogen";
 			isSubpattern = true;
-			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"Hydrogen",
 				new PatternNode[] { node_anchor, node__node0 }, 
@@ -450,6 +495,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, }
 			);
+			node_anchor.PointOfDefinition = null;
+			node__node0.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
@@ -511,11 +559,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Hydroxyl";
 			isSubpattern = true;
-			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@O, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node__node0, node__node1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@O, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node__node0, node__node1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"Hydroxyl",
 				new PatternNode[] { node_anchor, node__node0, node__node1 }, 
@@ -542,6 +590,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, }
 			);
+			node_anchor.PointOfDefinition = null;
+			node__node0.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
@@ -611,15 +664,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Methyl";
 			isSubpattern = true;
-			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node_c, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, 0);
+			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, -1);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node_c, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"Methyl",
 				new PatternNode[] { node_anchor, node_c, node__node0, node__node1, node__node2 }, 
@@ -650,6 +703,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, }
 			);
+			node_anchor.PointOfDefinition = null;
+			node_c.PointOfDefinition = patternGraph;
+			node__node0.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			node__node2.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
@@ -715,13 +777,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Nitro";
 			isSubpattern = true;
-			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_n = new PatternNode((int) NodeTypes.@N, "node_n", node_n_AllowedTypes, node_n_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@O, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@O, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node_n, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_n, node__node0, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_n, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_anchor = new PatternNode((int) NodeTypes.@C, "node_anchor", node_anchor_AllowedTypes, node_anchor_IsAllowedType, 0);
+			PatternNode node_n = new PatternNode((int) NodeTypes.@N, "node_n", node_n_AllowedTypes, node_n_IsAllowedType, -1);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@O, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@O, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node_n, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_n, node__node0, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_n, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"Nitro",
 				new PatternNode[] { node_anchor, node_n, node__node0, node__node1 }, 
@@ -750,6 +812,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, }
 			);
+			node_anchor.PointOfDefinition = null;
+			node_n.PointOfDefinition = patternGraph;
+			node__node0.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, };
 			inputNames = new string[] { "node_anchor", };
@@ -809,10 +878,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Oxygen";
 			isSubpattern = true;
-			PatternNode node_o1 = new PatternNode((int) NodeTypes.@O, "node_o1", node_o1_AllowedTypes, node_o1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_o2 = new PatternNode((int) NodeTypes.@O, "node_o2", node_o2_AllowedTypes, node_o2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_o1, node_o2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_o2, node_o1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_o1 = new PatternNode((int) NodeTypes.@O, "node_o1", node_o1_AllowedTypes, node_o1_IsAllowedType, -1);
+			PatternNode node_o2 = new PatternNode((int) NodeTypes.@O, "node_o2", node_o2_AllowedTypes, node_o2_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_o1, node_o2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_o2, node_o1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"Oxygen",
 				new PatternNode[] { node_o1, node_o2 }, 
@@ -838,6 +907,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, }
 			);
+			node_o1.PointOfDefinition = patternGraph;
+			node_o2.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -901,12 +974,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "ToluolCoreThenTriNitro";
 			isSubpattern = true;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Preset, 2);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 3);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Preset, 4);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 5);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, 0);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, 1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, 2);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, 3);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, 4);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, 5);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c5 });
@@ -935,6 +1008,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
+			node_c1.PointOfDefinition = null;
+			node_c2.PointOfDefinition = null;
+			node_c3.PointOfDefinition = null;
+			node_c4.PointOfDefinition = null;
+			node_c5.PointOfDefinition = null;
+			node_c6.PointOfDefinition = null;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c1", "node_c2", "node_c3", "node_c4", "node_c5", "node_c6", };
@@ -992,9 +1075,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TriNitro";
 			isSubpattern = true;
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Preset, 1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Preset, 2);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, 0);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, 1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, 2);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c4 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
@@ -1019,6 +1102,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, },
 				new bool[] {}
 			);
+			node_c2.PointOfDefinition = null;
+			node_c4.PointOfDefinition = null;
+			node_c6.PointOfDefinition = null;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_C.typeVar, NodeType_C.typeVar, NodeType_C.typeVar, };
 			inputNames = new string[] { "node_c2", "node_c4", "node_c6", };
@@ -1086,6 +1175,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {},
 				new bool[] {}
 			);
+			_subpattern0.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1167,21 +1257,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "DNT";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
@@ -1224,6 +1314,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
+			_subpattern4.PointOfDefinition = patternGraph;
+			_subpattern5.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1357,47 +1468,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "DNTUnfolded";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node3 = new PatternNode((int) NodeTypes.@O, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node5 = new PatternNode((int) NodeTypes.@H, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node6 = new PatternNode((int) NodeTypes.@O, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node8 = new PatternNode((int) NodeTypes.@H, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node9 = new PatternNode((int) NodeTypes.@H, "node__node9", node__node9_AllowedTypes, node__node9_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge9 = new PatternEdge(node_c1, node_c, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge10 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge11 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge12 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge13 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge14 = new PatternEdge(node_n2, node__node3, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge15 = new PatternEdge(node_n2, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge16 = new PatternEdge(node_c3, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge17 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge18 = new PatternEdge(node_n4, node__node6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge19 = new PatternEdge(node_n4, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge20 = new PatternEdge(node_c5, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge21 = new PatternEdge(node_c6, node__node9, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, -1);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, -1);
+			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, -1);
+			PatternNode node__node3 = new PatternNode((int) NodeTypes.@O, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, -1);
+			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, -1);
+			PatternNode node__node5 = new PatternNode((int) NodeTypes.@H, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, -1);
+			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, -1);
+			PatternNode node__node6 = new PatternNode((int) NodeTypes.@O, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, -1);
+			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, -1);
+			PatternNode node__node8 = new PatternNode((int) NodeTypes.@H, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, -1);
+			PatternNode node__node9 = new PatternNode((int) NodeTypes.@H, "node__node9", node__node9_AllowedTypes, node__node9_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
+			PatternEdge edge__edge9 = new PatternEdge(node_c1, node_c, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, -1);
+			PatternEdge edge__edge10 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, -1);
+			PatternEdge edge__edge11 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, -1);
+			PatternEdge edge__edge12 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, -1);
+			PatternEdge edge__edge13 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, -1);
+			PatternEdge edge__edge14 = new PatternEdge(node_n2, node__node3, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, -1);
+			PatternEdge edge__edge15 = new PatternEdge(node_n2, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, -1);
+			PatternEdge edge__edge16 = new PatternEdge(node_c3, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, -1);
+			PatternEdge edge__edge17 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, -1);
+			PatternEdge edge__edge18 = new PatternEdge(node_n4, node__node6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, -1);
+			PatternEdge edge__edge19 = new PatternEdge(node_n4, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, -1);
+			PatternEdge edge__edge20 = new PatternEdge(node_c5, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, -1);
+			PatternEdge edge__edge21 = new PatternEdge(node_c6, node__node9, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"DNTUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node__node9 }, 
@@ -1460,6 +1571,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			node_c.PointOfDefinition = patternGraph;
+			node__node0.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			node__node2.PointOfDefinition = patternGraph;
+			node_n2.PointOfDefinition = patternGraph;
+			node__node3.PointOfDefinition = patternGraph;
+			node__node4.PointOfDefinition = patternGraph;
+			node__node5.PointOfDefinition = patternGraph;
+			node_n4.PointOfDefinition = patternGraph;
+			node__node6.PointOfDefinition = patternGraph;
+			node__node7.PointOfDefinition = patternGraph;
+			node__node8.PointOfDefinition = patternGraph;
+			node__node9.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			edge__edge9.PointOfDefinition = patternGraph;
+			edge__edge10.PointOfDefinition = patternGraph;
+			edge__edge11.PointOfDefinition = patternGraph;
+			edge__edge12.PointOfDefinition = patternGraph;
+			edge__edge13.PointOfDefinition = patternGraph;
+			edge__edge14.PointOfDefinition = patternGraph;
+			edge__edge15.PointOfDefinition = patternGraph;
+			edge__edge16.PointOfDefinition = patternGraph;
+			edge__edge17.PointOfDefinition = patternGraph;
+			edge__edge18.PointOfDefinition = patternGraph;
+			edge__edge19.PointOfDefinition = patternGraph;
+			edge__edge20.PointOfDefinition = patternGraph;
+			edge__edge21.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1541,21 +1693,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNB";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Hydrogen.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
@@ -1598,6 +1750,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
+			_subpattern4.PointOfDefinition = patternGraph;
+			_subpattern5.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1727,45 +1900,45 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNBUnfolded";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@O, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node2 = new PatternNode((int) NodeTypes.@O, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node3 = new PatternNode((int) NodeTypes.@H, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node5 = new PatternNode((int) NodeTypes.@O, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node6 = new PatternNode((int) NodeTypes.@H, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n6 = new PatternNode((int) NodeTypes.@N, "node_n6", node_n6_AllowedTypes, node_n6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node8 = new PatternNode((int) NodeTypes.@O, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge9 = new PatternEdge(node_c1, node__node0, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge10 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge11 = new PatternEdge(node_n2, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge12 = new PatternEdge(node_n2, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge13 = new PatternEdge(node_c3, node__node3, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge14 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge15 = new PatternEdge(node_n4, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge16 = new PatternEdge(node_n4, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge17 = new PatternEdge(node_c5, node__node6, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge18 = new PatternEdge(node_c6, node_n6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge19 = new PatternEdge(node_n6, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge20 = new PatternEdge(node_n6, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@O, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternNode node__node2 = new PatternNode((int) NodeTypes.@O, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, -1);
+			PatternNode node__node3 = new PatternNode((int) NodeTypes.@H, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, -1);
+			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, -1);
+			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, -1);
+			PatternNode node__node5 = new PatternNode((int) NodeTypes.@O, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, -1);
+			PatternNode node__node6 = new PatternNode((int) NodeTypes.@H, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, -1);
+			PatternNode node_n6 = new PatternNode((int) NodeTypes.@N, "node_n6", node_n6_AllowedTypes, node_n6_IsAllowedType, -1);
+			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, -1);
+			PatternNode node__node8 = new PatternNode((int) NodeTypes.@O, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
+			PatternEdge edge__edge9 = new PatternEdge(node_c1, node__node0, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, -1);
+			PatternEdge edge__edge10 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, -1);
+			PatternEdge edge__edge11 = new PatternEdge(node_n2, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, -1);
+			PatternEdge edge__edge12 = new PatternEdge(node_n2, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, -1);
+			PatternEdge edge__edge13 = new PatternEdge(node_c3, node__node3, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, -1);
+			PatternEdge edge__edge14 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, -1);
+			PatternEdge edge__edge15 = new PatternEdge(node_n4, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, -1);
+			PatternEdge edge__edge16 = new PatternEdge(node_n4, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, -1);
+			PatternEdge edge__edge17 = new PatternEdge(node_c5, node__node6, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, -1);
+			PatternEdge edge__edge18 = new PatternEdge(node_c6, node_n6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, -1);
+			PatternEdge edge__edge19 = new PatternEdge(node_n6, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, -1);
+			PatternEdge edge__edge20 = new PatternEdge(node_n6, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"TNBUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node__node0, node_n2, node__node1, node__node2, node__node3, node_n4, node__node4, node__node5, node__node6, node_n6, node__node7, node__node8 }, 
@@ -1826,6 +1999,45 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			node__node0.PointOfDefinition = patternGraph;
+			node_n2.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			node__node2.PointOfDefinition = patternGraph;
+			node__node3.PointOfDefinition = patternGraph;
+			node_n4.PointOfDefinition = patternGraph;
+			node__node4.PointOfDefinition = patternGraph;
+			node__node5.PointOfDefinition = patternGraph;
+			node__node6.PointOfDefinition = patternGraph;
+			node_n6.PointOfDefinition = patternGraph;
+			node__node7.PointOfDefinition = patternGraph;
+			node__node8.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			edge__edge9.PointOfDefinition = patternGraph;
+			edge__edge10.PointOfDefinition = patternGraph;
+			edge__edge11.PointOfDefinition = patternGraph;
+			edge__edge12.PointOfDefinition = patternGraph;
+			edge__edge13.PointOfDefinition = patternGraph;
+			edge__edge14.PointOfDefinition = patternGraph;
+			edge__edge15.PointOfDefinition = patternGraph;
+			edge__edge16.PointOfDefinition = patternGraph;
+			edge__edge17.PointOfDefinition = patternGraph;
+			edge__edge18.PointOfDefinition = patternGraph;
+			edge__edge19.PointOfDefinition = patternGraph;
+			edge__edge20.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -1907,21 +2119,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNT";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c3 });
@@ -1964,6 +2176,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
+			_subpattern4.PointOfDefinition = patternGraph;
+			_subpattern5.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2027,12 +2260,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNTChain";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			patternGraph = new PatternGraph(
@@ -2059,6 +2292,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2122,12 +2363,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNTTotallyFolded";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c2 });
@@ -2159,6 +2400,19 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
+			_subpattern4.PointOfDefinition = patternGraph;
+			_subpattern5.PointOfDefinition = patternGraph;
+			_subpattern6.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2300,51 +2554,51 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "TNTUnfolded";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node3 = new PatternNode((int) NodeTypes.@O, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node5 = new PatternNode((int) NodeTypes.@H, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node6 = new PatternNode((int) NodeTypes.@O, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node8 = new PatternNode((int) NodeTypes.@H, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_n6 = new PatternNode((int) NodeTypes.@N, "node_n6", node_n6_AllowedTypes, node_n6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node9 = new PatternNode((int) NodeTypes.@O, "node__node9", node__node9_AllowedTypes, node__node9_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node__node10 = new PatternNode((int) NodeTypes.@O, "node__node10", node__node10_AllowedTypes, node__node10_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge9 = new PatternEdge(node_c1, node_c, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge10 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge11 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge12 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge13 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge14 = new PatternEdge(node_n2, node__node3, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge15 = new PatternEdge(node_n2, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge16 = new PatternEdge(node_c3, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge17 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge18 = new PatternEdge(node_n4, node__node6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge19 = new PatternEdge(node_n4, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge20 = new PatternEdge(node_c5, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge21 = new PatternEdge(node_c6, node_n6, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge22 = new PatternEdge(node_n6, node__node9, (int) EdgeTypes.@Edge, "edge__edge22", edge__edge22_AllowedTypes, edge__edge22_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge23 = new PatternEdge(node_n6, node__node10, (int) EdgeTypes.@Edge, "edge__edge23", edge__edge23_AllowedTypes, edge__edge23_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
+			PatternNode node_c = new PatternNode((int) NodeTypes.@C, "node_c", node_c_AllowedTypes, node_c_IsAllowedType, -1);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@H, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node__node1 = new PatternNode((int) NodeTypes.@H, "node__node1", node__node1_AllowedTypes, node__node1_IsAllowedType, -1);
+			PatternNode node__node2 = new PatternNode((int) NodeTypes.@H, "node__node2", node__node2_AllowedTypes, node__node2_IsAllowedType, -1);
+			PatternNode node_n2 = new PatternNode((int) NodeTypes.@N, "node_n2", node_n2_AllowedTypes, node_n2_IsAllowedType, -1);
+			PatternNode node__node3 = new PatternNode((int) NodeTypes.@O, "node__node3", node__node3_AllowedTypes, node__node3_IsAllowedType, -1);
+			PatternNode node__node4 = new PatternNode((int) NodeTypes.@O, "node__node4", node__node4_AllowedTypes, node__node4_IsAllowedType, -1);
+			PatternNode node__node5 = new PatternNode((int) NodeTypes.@H, "node__node5", node__node5_AllowedTypes, node__node5_IsAllowedType, -1);
+			PatternNode node_n4 = new PatternNode((int) NodeTypes.@N, "node_n4", node_n4_AllowedTypes, node_n4_IsAllowedType, -1);
+			PatternNode node__node6 = new PatternNode((int) NodeTypes.@O, "node__node6", node__node6_AllowedTypes, node__node6_IsAllowedType, -1);
+			PatternNode node__node7 = new PatternNode((int) NodeTypes.@O, "node__node7", node__node7_AllowedTypes, node__node7_IsAllowedType, -1);
+			PatternNode node__node8 = new PatternNode((int) NodeTypes.@H, "node__node8", node__node8_AllowedTypes, node__node8_IsAllowedType, -1);
+			PatternNode node_n6 = new PatternNode((int) NodeTypes.@N, "node_n6", node_n6_AllowedTypes, node_n6_IsAllowedType, -1);
+			PatternNode node__node9 = new PatternNode((int) NodeTypes.@O, "node__node9", node__node9_AllowedTypes, node__node9_IsAllowedType, -1);
+			PatternNode node__node10 = new PatternNode((int) NodeTypes.@O, "node__node10", node__node10_AllowedTypes, node__node10_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_c2, node_c3, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
+			PatternEdge edge__edge2 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, -1);
+			PatternEdge edge__edge3 = new PatternEdge(node_c4, node_c5, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, -1);
+			PatternEdge edge__edge4 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge4", edge__edge4_AllowedTypes, edge__edge4_IsAllowedType, -1);
+			PatternEdge edge__edge5 = new PatternEdge(node_c6, node_c1, (int) EdgeTypes.@Edge, "edge__edge5", edge__edge5_AllowedTypes, edge__edge5_IsAllowedType, -1);
+			PatternEdge edge__edge6 = new PatternEdge(node_c1, node_c2, (int) EdgeTypes.@Edge, "edge__edge6", edge__edge6_AllowedTypes, edge__edge6_IsAllowedType, -1);
+			PatternEdge edge__edge7 = new PatternEdge(node_c3, node_c4, (int) EdgeTypes.@Edge, "edge__edge7", edge__edge7_AllowedTypes, edge__edge7_IsAllowedType, -1);
+			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, -1);
+			PatternEdge edge__edge9 = new PatternEdge(node_c1, node_c, (int) EdgeTypes.@Edge, "edge__edge9", edge__edge9_AllowedTypes, edge__edge9_IsAllowedType, -1);
+			PatternEdge edge__edge10 = new PatternEdge(node_c, node__node0, (int) EdgeTypes.@Edge, "edge__edge10", edge__edge10_AllowedTypes, edge__edge10_IsAllowedType, -1);
+			PatternEdge edge__edge11 = new PatternEdge(node_c, node__node1, (int) EdgeTypes.@Edge, "edge__edge11", edge__edge11_AllowedTypes, edge__edge11_IsAllowedType, -1);
+			PatternEdge edge__edge12 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge12", edge__edge12_AllowedTypes, edge__edge12_IsAllowedType, -1);
+			PatternEdge edge__edge13 = new PatternEdge(node_c2, node_n2, (int) EdgeTypes.@Edge, "edge__edge13", edge__edge13_AllowedTypes, edge__edge13_IsAllowedType, -1);
+			PatternEdge edge__edge14 = new PatternEdge(node_n2, node__node3, (int) EdgeTypes.@Edge, "edge__edge14", edge__edge14_AllowedTypes, edge__edge14_IsAllowedType, -1);
+			PatternEdge edge__edge15 = new PatternEdge(node_n2, node__node4, (int) EdgeTypes.@Edge, "edge__edge15", edge__edge15_AllowedTypes, edge__edge15_IsAllowedType, -1);
+			PatternEdge edge__edge16 = new PatternEdge(node_c3, node__node5, (int) EdgeTypes.@Edge, "edge__edge16", edge__edge16_AllowedTypes, edge__edge16_IsAllowedType, -1);
+			PatternEdge edge__edge17 = new PatternEdge(node_c4, node_n4, (int) EdgeTypes.@Edge, "edge__edge17", edge__edge17_AllowedTypes, edge__edge17_IsAllowedType, -1);
+			PatternEdge edge__edge18 = new PatternEdge(node_n4, node__node6, (int) EdgeTypes.@Edge, "edge__edge18", edge__edge18_AllowedTypes, edge__edge18_IsAllowedType, -1);
+			PatternEdge edge__edge19 = new PatternEdge(node_n4, node__node7, (int) EdgeTypes.@Edge, "edge__edge19", edge__edge19_AllowedTypes, edge__edge19_IsAllowedType, -1);
+			PatternEdge edge__edge20 = new PatternEdge(node_c5, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, -1);
+			PatternEdge edge__edge21 = new PatternEdge(node_c6, node_n6, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, -1);
+			PatternEdge edge__edge22 = new PatternEdge(node_n6, node__node9, (int) EdgeTypes.@Edge, "edge__edge22", edge__edge22_AllowedTypes, edge__edge22_IsAllowedType, -1);
+			PatternEdge edge__edge23 = new PatternEdge(node_n6, node__node10, (int) EdgeTypes.@Edge, "edge__edge23", edge__edge23_AllowedTypes, edge__edge23_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"TNTUnfolded",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node_n6, node__node9, node__node10 }, 
@@ -2411,6 +2665,51 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[] {
 					true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, }
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			node_c.PointOfDefinition = patternGraph;
+			node__node0.PointOfDefinition = patternGraph;
+			node__node1.PointOfDefinition = patternGraph;
+			node__node2.PointOfDefinition = patternGraph;
+			node_n2.PointOfDefinition = patternGraph;
+			node__node3.PointOfDefinition = patternGraph;
+			node__node4.PointOfDefinition = patternGraph;
+			node__node5.PointOfDefinition = patternGraph;
+			node_n4.PointOfDefinition = patternGraph;
+			node__node6.PointOfDefinition = patternGraph;
+			node__node7.PointOfDefinition = patternGraph;
+			node__node8.PointOfDefinition = patternGraph;
+			node_n6.PointOfDefinition = patternGraph;
+			node__node9.PointOfDefinition = patternGraph;
+			node__node10.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
+			edge__edge2.PointOfDefinition = patternGraph;
+			edge__edge3.PointOfDefinition = patternGraph;
+			edge__edge4.PointOfDefinition = patternGraph;
+			edge__edge5.PointOfDefinition = patternGraph;
+			edge__edge6.PointOfDefinition = patternGraph;
+			edge__edge7.PointOfDefinition = patternGraph;
+			edge__edge8.PointOfDefinition = patternGraph;
+			edge__edge9.PointOfDefinition = patternGraph;
+			edge__edge10.PointOfDefinition = patternGraph;
+			edge__edge11.PointOfDefinition = patternGraph;
+			edge__edge12.PointOfDefinition = patternGraph;
+			edge__edge13.PointOfDefinition = patternGraph;
+			edge__edge14.PointOfDefinition = patternGraph;
+			edge__edge15.PointOfDefinition = patternGraph;
+			edge__edge16.PointOfDefinition = patternGraph;
+			edge__edge17.PointOfDefinition = patternGraph;
+			edge__edge18.PointOfDefinition = patternGraph;
+			edge__edge19.PointOfDefinition = patternGraph;
+			edge__edge20.PointOfDefinition = patternGraph;
+			edge__edge21.PointOfDefinition = patternGraph;
+			edge__edge22.PointOfDefinition = patternGraph;
+			edge__edge23.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2474,12 +2773,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "Toluol";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
+			PatternNode node_c2 = new PatternNode((int) NodeTypes.@C, "node_c2", node_c2_AllowedTypes, node_c2_IsAllowedType, -1);
+			PatternNode node_c3 = new PatternNode((int) NodeTypes.@C, "node_c3", node_c3_AllowedTypes, node_c3_IsAllowedType, -1);
+			PatternNode node_c4 = new PatternNode((int) NodeTypes.@C, "node_c4", node_c4_AllowedTypes, node_c4_IsAllowedType, -1);
+			PatternNode node_c5 = new PatternNode((int) NodeTypes.@C, "node_c5", node_c5_AllowedTypes, node_c5_IsAllowedType, -1);
+			PatternNode node_c6 = new PatternNode((int) NodeTypes.@C, "node_c6", node_c6_AllowedTypes, node_c6_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC123456Exposed.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Hydrogen.Instance, new PatternElement[] { node_c2 });
@@ -2511,6 +2810,19 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, true, true, true, true, true, },
 				new bool[] {}
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			node_c2.PointOfDefinition = patternGraph;
+			node_c3.PointOfDefinition = patternGraph;
+			node_c4.PointOfDefinition = patternGraph;
+			node_c5.PointOfDefinition = patternGraph;
+			node_c6.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
+			_subpattern2.PointOfDefinition = patternGraph;
+			_subpattern3.PointOfDefinition = patternGraph;
+			_subpattern4.PointOfDefinition = patternGraph;
+			_subpattern5.PointOfDefinition = patternGraph;
+			_subpattern6.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -2564,7 +2876,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			name = "ToluolCore";
 			isSubpattern = false;
-			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_c1 = new PatternNode((int) NodeTypes.@C, "node_c1", node_c1_AllowedTypes, node_c1_IsAllowedType, -1);
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRingC1Exposed.Instance, new PatternElement[] { node_c1 });
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			patternGraph = new PatternGraph(
@@ -2586,6 +2898,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					true, },
 				new bool[] {}
 			);
+			node_c1.PointOfDefinition = patternGraph;
+			_subpattern0.PointOfDefinition = patternGraph;
+			_subpattern1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { };
 			inputNames = new string[] { };
@@ -3971,6 +4286,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         continue;
                                                                                     }
+                                                                                    node_cur_node_c1.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c2.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c3.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c4.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c5.isMatchedByEnclosingPattern = true;
+                                                                                    node_cur_node_c6.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
@@ -4027,6 +4348,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
                                                                                             edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
                                                                                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c1.isMatchedByEnclosingPattern = false;
                                                                                             edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -4047,8 +4374,20 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
                                                                                         edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
                                                                                         edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
                                                                                         continue;
                                                                                     }
+                                                                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                                                                                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
                                                                                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                                                                                     edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
                                                                                     edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
@@ -4505,6 +4844,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         continue;
                                                                                     }
+                                                                                    node_cur_node_c1.isMatchedByEnclosingPattern = true;
                                                                                     node_cur_node_c2.isMatchedByEnclosingPattern = true;
                                                                                     node_cur_node_c3.isMatchedByEnclosingPattern = true;
                                                                                     node_cur_node_c4.isMatchedByEnclosingPattern = true;
@@ -4571,6 +4911,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             node_cur_node_c4.isMatchedByEnclosingPattern = false;
                                                                                             node_cur_node_c3.isMatchedByEnclosingPattern = false;
                                                                                             node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                            node_cur_node_c1.isMatchedByEnclosingPattern = false;
                                                                                             edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                                             node_cur_node_c5.isMatched = node_cur_node_c5_prevIsMatched;
@@ -4600,8 +4941,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         node_cur_node_c4.isMatchedByEnclosingPattern = false;
                                                                                         node_cur_node_c3.isMatchedByEnclosingPattern = false;
                                                                                         node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                                                                                        node_cur_node_c1.isMatchedByEnclosingPattern = false;
                                                                                         continue;
                                                                                     }
+                                                                                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
                                                                                     node_cur_node_c2.isMatchedByEnclosingPattern = false;
                                                                                     node_cur_node_c3.isMatchedByEnclosingPattern = false;
                                                                                     node_cur_node_c4.isMatchedByEnclosingPattern = false;
@@ -4717,6 +5060,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         continue;
                     }
+                    node_cur_node_anchor.isMatchedByEnclosingPattern = true;
                     node_cur_node__node0.isMatchedByEnclosingPattern = true;
                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                     // Match subpatterns
@@ -4747,13 +5091,16 @@ namespace de.unika.ipd.grGen.Action_TNT
                         {
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                             node_cur_node__node0.isMatchedByEnclosingPattern = false;
+                            node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                             openTasks.Push(this);
                             return;
                         }
                         edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                         node_cur_node__node0.isMatchedByEnclosingPattern = false;
+                        node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                         continue;
                     }
+                    node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                     node_cur_node__node0.isMatchedByEnclosingPattern = false;
                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                 }
@@ -4857,6 +5204,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 continue;
                             }
+                            node_cur_node_anchor.isMatchedByEnclosingPattern = true;
                             node_cur_node__node0.isMatchedByEnclosingPattern = true;
                             node_cur_node__node1.isMatchedByEnclosingPattern = true;
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
@@ -4893,6 +5241,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                                     node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                     node_cur_node__node0.isMatchedByEnclosingPattern = false;
+                                    node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
                                     openTasks.Push(this);
                                     return;
@@ -4901,8 +5250,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
                                 node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                 node_cur_node__node0.isMatchedByEnclosingPattern = false;
+                                node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                 continue;
                             }
+                            node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                             node_cur_node__node0.isMatchedByEnclosingPattern = false;
                             node_cur_node__node1.isMatchedByEnclosingPattern = false;
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
@@ -5117,6 +5468,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 continue;
                                             }
+                                            node_cur_node_anchor.isMatchedByEnclosingPattern = true;
                                             node_cur_node_c.isMatchedByEnclosingPattern = true;
                                             node_cur_node__node0.isMatchedByEnclosingPattern = true;
                                             node_cur_node__node1.isMatchedByEnclosingPattern = true;
@@ -5165,6 +5517,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                                     node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                                     node_cur_node_c.isMatchedByEnclosingPattern = false;
+                                                    node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                                     node_cur_node__node1.isMatched = node_cur_node__node1_prevIsMatched;
                                                     edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
                                                     node_cur_node__node0.isMatched = node_cur_node__node0_prevIsMatched;
@@ -5181,8 +5534,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                                 node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                                 node_cur_node_c.isMatchedByEnclosingPattern = false;
+                                                node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                                 continue;
                                             }
+                                            node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                             node_cur_node_c.isMatchedByEnclosingPattern = false;
                                             node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                             node_cur_node__node1.isMatchedByEnclosingPattern = false;
@@ -5353,6 +5708,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         continue;
                                     }
+                                    node_cur_node_anchor.isMatchedByEnclosingPattern = true;
                                     node_cur_node_n.isMatchedByEnclosingPattern = true;
                                     node_cur_node__node0.isMatchedByEnclosingPattern = true;
                                     node_cur_node__node1.isMatchedByEnclosingPattern = true;
@@ -5395,6 +5751,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                             node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                             node_cur_node_n.isMatchedByEnclosingPattern = false;
+                                            node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                             node_cur_node__node0.isMatched = node_cur_node__node0_prevIsMatched;
                                             edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
                                             edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -5407,8 +5764,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         node_cur_node__node1.isMatchedByEnclosingPattern = false;
                                         node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                         node_cur_node_n.isMatchedByEnclosingPattern = false;
+                                        node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                         continue;
                                     }
+                                    node_cur_node_anchor.isMatchedByEnclosingPattern = false;
                                     node_cur_node_n.isMatchedByEnclosingPattern = false;
                                     node_cur_node__node0.isMatchedByEnclosingPattern = false;
                                     node_cur_node__node1.isMatchedByEnclosingPattern = false;
@@ -5642,6 +6001,12 @@ namespace de.unika.ipd.grGen.Action_TNT
             PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
             taskFor__subpattern0.node_anchor = node_cur_node_c1;
             openTasks.Push(taskFor__subpattern0);
+            node_cur_node_c1.isMatchedByEnclosingPattern = true;
+            node_cur_node_c2.isMatchedByEnclosingPattern = true;
+            node_cur_node_c3.isMatchedByEnclosingPattern = true;
+            node_cur_node_c4.isMatchedByEnclosingPattern = true;
+            node_cur_node_c5.isMatchedByEnclosingPattern = true;
+            node_cur_node_c6.isMatchedByEnclosingPattern = true;
             // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
             //Pop subpattern matching task for _subpattern0
@@ -5683,12 +6048,30 @@ namespace de.unika.ipd.grGen.Action_TNT
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
+                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c1.isMatchedByEnclosingPattern = false;
                     openTasks.Push(this);
                     return;
                 }
+                node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                node_cur_node_c5.isMatchedByEnclosingPattern = false;
+                node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                node_cur_node_c3.isMatchedByEnclosingPattern = false;
+                node_cur_node_c2.isMatchedByEnclosingPattern = false;
+                node_cur_node_c1.isMatchedByEnclosingPattern = false;
                 openTasks.Push(this);
                 return;
             }
+            node_cur_node_c1.isMatchedByEnclosingPattern = false;
+            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+            node_cur_node_c3.isMatchedByEnclosingPattern = false;
+            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+            node_cur_node_c5.isMatchedByEnclosingPattern = false;
+            node_cur_node_c6.isMatchedByEnclosingPattern = false;
             openTasks.Push(this);
             return;
         }
@@ -5727,6 +6110,9 @@ namespace de.unika.ipd.grGen.Action_TNT
             PatternAction_Nitro taskFor__subpattern0 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern0.node_anchor = node_cur_node_c2;
             openTasks.Push(taskFor__subpattern0);
+            node_cur_node_c2.isMatchedByEnclosingPattern = true;
+            node_cur_node_c4.isMatchedByEnclosingPattern = true;
+            node_cur_node_c6.isMatchedByEnclosingPattern = true;
             // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
             //Pop subpattern matching task for _subpattern0
@@ -5762,12 +6148,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
+                    node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                    node_cur_node_c2.isMatchedByEnclosingPattern = false;
                     openTasks.Push(this);
                     return;
                 }
+                node_cur_node_c6.isMatchedByEnclosingPattern = false;
+                node_cur_node_c4.isMatchedByEnclosingPattern = false;
+                node_cur_node_c2.isMatchedByEnclosingPattern = false;
                 openTasks.Push(this);
                 return;
             }
+            node_cur_node_c2.isMatchedByEnclosingPattern = false;
+            node_cur_node_c4.isMatchedByEnclosingPattern = false;
+            node_cur_node_c6.isMatchedByEnclosingPattern = false;
             openTasks.Push(this);
             return;
         }

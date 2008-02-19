@@ -33,15 +33,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "ensureMoveLeftValidRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node__node0, node_bp, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(neg_0_node__node0, node_bp, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { neg_0_node__node0, node_bp }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
@@ -65,15 +64,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"ensureMoveLeftValidRule",
 				new PatternNode[] { node_wv, node__node0, node_bp }, 
 				new PatternEdge[] { edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -92,6 +89,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
+			node_wv.PointOfDefinition = null;
+			node__node0.PointOfDefinition = patternGraph;
+			node_bp.PointOfDefinition = null;
+			edge__edge0.PointOfDefinition = patternGraph;
+			neg_0_node__node0.PointOfDefinition = neg_0_pattern;
+			neg_0_edge__edge0.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_wv", "node_bp", };
@@ -162,15 +165,14 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "ensureMoveRightValidRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternGraph negPattern_0;
-			{
-			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, PatternElementType.NegElement, -1);
-			PatternEdge neg_0_edge__edge0 = new PatternEdge(node_bp, neg_0_node__node0, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, PatternElementType.NegElement, -1);
-			negPattern_0 = new PatternGraph(
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
+			PatternNode node__node0 = new PatternNode((int) NodeTypes.@State, "node__node0", node__node0_AllowedTypes, node__node0_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node__node0, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternGraph neg_0_pattern;
+			PatternNode neg_0_node__node0 = new PatternNode((int) NodeTypes.@BandPosition, "neg_0_node__node0", neg_0_node__node0_AllowedTypes, neg_0_node__node0_IsAllowedType, -1);
+			PatternEdge neg_0_edge__edge0 = new PatternEdge(node_bp, neg_0_node__node0, (int) EdgeTypes.@right, "neg_0_edge__edge0", neg_0_edge__edge0_AllowedTypes, neg_0_edge__edge0_IsAllowedType, -1);
+			neg_0_pattern = new PatternGraph(
 				"negative0",
 				new PatternNode[] { node_bp, neg_0_node__node0 }, 
 				new PatternEdge[] { neg_0_edge__edge0 }, 
@@ -194,15 +196,13 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
-			}
-
 			patternGraph = new PatternGraph(
 				"ensureMoveRightValidRule",
 				new PatternNode[] { node_wv, node__node0, node_bp }, 
 				new PatternEdge[] { edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
 				new Alternative[] {  }, 
-				new PatternGraph[] { negPattern_0,  }, 
+				new PatternGraph[] { neg_0_pattern,  }, 
 				new Condition[] {  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
@@ -221,6 +221,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
+			node_wv.PointOfDefinition = null;
+			node__node0.PointOfDefinition = patternGraph;
+			node_bp.PointOfDefinition = null;
+			edge__edge0.PointOfDefinition = patternGraph;
+			neg_0_node__node0.PointOfDefinition = neg_0_pattern;
+			neg_0_edge__edge0.PointOfDefinition = neg_0_pattern;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_wv", "node_bp", };
@@ -291,12 +297,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "moveLeftRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "node_lbp", node_lbp_AllowedTypes, node_lbp_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_lbp, node_bp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, -1);
+			PatternNode node_lbp = new PatternNode((int) NodeTypes.@BandPosition, "node_lbp", node_lbp_AllowedTypes, node_lbp_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveLeft, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_lbp, node_bp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"moveLeftRule",
 				new PatternNode[] { node_wv, node_s, node_lbp, node_bp }, 
@@ -324,6 +330,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, true, }
 			);
+			node_wv.PointOfDefinition = null;
+			node_s.PointOfDefinition = patternGraph;
+			node_lbp.PointOfDefinition = patternGraph;
+			node_bp.PointOfDefinition = null;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_wv", "node_bp", };
@@ -392,12 +404,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "moveRightRule";
 			isSubpattern = false;
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternNode node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "node_rbp", node_rbp_AllowedTypes, node_rbp_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge__edge1 = new PatternEdge(node_bp, node_rbp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, 0);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternNode node_rbp = new PatternNode((int) NodeTypes.@BandPosition, "node_rbp", node_rbp_AllowedTypes, node_rbp_IsAllowedType, -1);
+			PatternEdge edge__edge0 = new PatternEdge(node_wv, node_s, (int) EdgeTypes.@moveRight, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, -1);
+			PatternEdge edge__edge1 = new PatternEdge(node_bp, node_rbp, (int) EdgeTypes.@right, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, -1);
 			patternGraph = new PatternGraph(
 				"moveRightRule",
 				new PatternNode[] { node_wv, node_s, node_bp, node_rbp }, 
@@ -425,6 +437,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, true, }
 			);
+			node_wv.PointOfDefinition = null;
+			node_s.PointOfDefinition = patternGraph;
+			node_bp.PointOfDefinition = null;
+			node_rbp.PointOfDefinition = patternGraph;
+			edge__edge0.PointOfDefinition = patternGraph;
+			edge__edge1.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_WriteValue.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_wv", "node_bp", };
@@ -489,10 +507,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "readOneRule";
 			isSubpattern = false;
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Normal, -1);
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readOne, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 0);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readOne, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
 				"readOneRule",
@@ -519,6 +537,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
+			node_s.PointOfDefinition = null;
+			node_wv.PointOfDefinition = patternGraph;
+			node_bp.PointOfDefinition = null;
+			edge_rv.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_s", "node_bp", };
@@ -597,10 +619,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		{
 			name = "readZeroRule";
 			isSubpattern = false;
-			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, PatternElementType.Preset, 1);
-			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, PatternElementType.Preset, 0);
-			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, PatternElementType.Normal, -1);
-			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readZero, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, PatternElementType.Normal, -1);
+			PatternNode node_bp = new PatternNode((int) NodeTypes.@BandPosition, "node_bp", node_bp_AllowedTypes, node_bp_IsAllowedType, 1);
+			PatternNode node_s = new PatternNode((int) NodeTypes.@State, "node_s", node_s_AllowedTypes, node_s_IsAllowedType, 0);
+			PatternNode node_wv = new PatternNode((int) NodeTypes.@WriteValue, "node_wv", node_wv_AllowedTypes, node_wv_IsAllowedType, -1);
+			PatternEdge edge_rv = new PatternEdge(node_s, node_wv, (int) EdgeTypes.@readZero, "edge_rv", edge_rv_AllowedTypes, edge_rv_IsAllowedType, -1);
 			Condition cond_0 = new Condition(0, new String[] { "node_bp" }, new String[] {  });
 			patternGraph = new PatternGraph(
 				"readZeroRule",
@@ -627,6 +649,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				new bool[] {
 					true, }
 			);
+			node_bp.PointOfDefinition = null;
+			node_s.PointOfDefinition = null;
+			node_wv.PointOfDefinition = patternGraph;
+			edge_rv.PointOfDefinition = patternGraph;
 
 			inputs = new GrGenType[] { NodeType_State.typeVar, NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "node_s", "node_bp", };

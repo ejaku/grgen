@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(node.PatternElementType == PatternElementType.Preset)
+                if(node.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
+                else if(negativePatternGraph && node.PointOfDefinition != patternGraph)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -150,7 +150,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if !NO_EDGE_LOOKUP
                 float cost;
                 SearchOperationType searchOperationType;
-                if(edge.PatternElementType == PatternElementType.Preset)
+                if(edge.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -161,7 +161,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
+                else if(negativePatternGraph && edge.PointOfDefinition != patternGraph)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -1133,7 +1133,7 @@ exitSecondLoop: ;
                 for (int i = 0; i < patternGraph.nodes.Length; ++i)
                 {
                     PatternNode node = patternGraph.nodes[i];
-                    if (node.PatternElementType == PatternElementType.Preset)
+                    if (node.PointOfDefinition == null)
                     {
                         sb.Append("\t\tpublic LGSPNode " + node.name + ";\n");
                     }
@@ -1141,7 +1141,7 @@ exitSecondLoop: ;
                 for (int i = 0; i < patternGraph.edges.Length; ++i)
                 {
                     PatternEdge edge = patternGraph.edges[i];
-                    if (edge.PatternElementType == PatternElementType.Preset)
+                    if (edge.PointOfDefinition == null)
                     {
                         sb.Append("\t\tpublic LGSPEdge " + edge.name + ";\n");
                     }

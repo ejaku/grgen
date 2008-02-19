@@ -31,6 +31,7 @@ package de.unika.ipd.grgen.be.Csharp;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -91,27 +92,27 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post, boolean brackets,
-							 PatternGraph outer, int negCount, String altCaseName) {
+	public void genEntitySet(StringBuffer sb, Collection<? extends Entity> set, String pre, String post,
+			boolean brackets, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends Entity> iter = set.iterator(); iter.hasNext();) {
 			Entity id = iter.next();
-			sb.append(pre + formatEntity(id, outer, negCount, altCaseName) + post);
+			sb.append(pre + formatEntity(id, pathPrefix, alreadyDefinedEntityToName) + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
 		if (brackets)
 			sb.append(" }");
 	}
-
-	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post, boolean brackets,
-			 PatternGraph outer, int negCount) {
+	
+	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
+			boolean brackets, String pathPrefix, HashMap<Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
 			sb.append("{ ");
 		for(Iterator<? extends SubpatternUsage> iter = set.iterator(); iter.hasNext();) {
 			SubpatternUsage spu = iter.next();
-			sb.append(pre + formatIdentifiable(spu) + post);
+			sb.append(pre + formatIdentifiable(spu, pathPrefix, alreadyDefinedIdentifiableToName) + post);
 			if(iter.hasNext())
 				sb.append(", ");
 		}
@@ -136,6 +137,21 @@ public abstract class CSharpBase {
 	public String formatIdentifiable(Identifiable id) {
 		String res = id.getIdent().toString();
 		return res.replace('$', '_');
+	}
+
+	public String formatIdentifiable(Identifiable id, String pathPrefix)
+	{
+		String ident = id.getIdent().toString();
+		return pathPrefix+ident.replace('$', '_');
+	}
+
+	public String formatIdentifiable(Identifiable id, String pathPrefix, 
+			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName)
+	{
+		if(alreadyDefinedIdentifiableToName!=null && alreadyDefinedIdentifiableToName.get(id)!=null)
+			return alreadyDefinedIdentifiableToName.get(id);
+		String ident = id.getIdent().toString();
+		return pathPrefix+ident.replace('$', '_');
 	}
 
 	public String formatNodeOrEdge(boolean isNode) {
@@ -204,30 +220,38 @@ public abstract class CSharpBase {
 		return "AttributeType_" + formatIdentifiable(e);
 	}
 
-	public String formatEntity(Entity entity, PatternGraph outer, int count, String altCaseName) {
+	public String formatEntity(Entity entity) {
+		return formatEntity(entity, "");
+	}
+
+	public String formatEntity(Entity entity, String pathPrefix) {
 		if(entity instanceof Node) {
-			if(altCaseName!="") {
-				return ( (outer !=null && !outer.getNodes().contains(entity)) ? "alt_" + count + "_" + altCaseName + "_" : "" )
-					+ "node_" + formatIdentifiable(entity);
-			}
-			return ( (outer !=null && !outer.getNodes().contains(entity)) ? "neg_" + count + "_" : "")
-				+ "node_" + formatIdentifiable(entity);
+			return pathPrefix+"node_"+formatIdentifiable(entity);
 		}
 		else if (entity instanceof Edge) {
-			if(altCaseName!="") {
-				return ( (outer !=null && !outer.getEdges().contains(entity)) ? "alt_" + count + "_" + altCaseName + "_" : "" )
-					+ "edge_" + formatIdentifiable(entity);
-			}
-			return ( (outer !=null && !outer.getEdges().contains(entity)) ? "neg_" + count + "_" : "")
-				+ "edge_" + formatIdentifiable(entity);
+			return pathPrefix+"edge_"+formatIdentifiable(entity);
 		}
 		else {
 			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
 		}
 	}
 
-	public String formatEntity(Entity entity) {
-		return formatEntity(entity, null, 0, "");
+	public String formatEntity(Entity entity, String pathPrefix, 
+			HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		if(entity instanceof Node) {
+			if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
+				return alreadyDefinedEntityToName.get(entity);
+			return pathPrefix+"node_"+formatIdentifiable(entity);
+		}
+		else if (entity instanceof Edge) {
+			if(alreadyDefinedEntityToName!=null && alreadyDefinedEntityToName.get(entity)!=null)
+				return alreadyDefinedEntityToName.get(entity);
+			return pathPrefix+"edge_"+formatIdentifiable(entity);
+		}
+		else {
+			throw new IllegalArgumentException("Unknown entity" + entity + "(" + entity.getClass() + ")");
+		}
 	}
 
 	public String formatInt(int i) {

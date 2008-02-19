@@ -653,7 +653,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getCorrespondentHomSet(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph(nameOfGraph+".implicit negative");
+				PatternGraph neg = new PatternGraph(nameOfGraph);
 
 				// add edges to NAC
 				for (ConnectionNode conn : edgeSet) {
@@ -805,7 +805,7 @@ public class PatternGraphNode extends GraphNode {
 			Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 
-			PatternGraph neg = new PatternGraph(nameOfGraph+".implicit negative");
+			PatternGraph neg = new PatternGraph(nameOfGraph);
 
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {
