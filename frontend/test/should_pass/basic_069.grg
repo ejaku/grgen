@@ -1,0 +1,7 @@
+rule r
+{
+	-e->;
+	x:Node -e:Edge-> y:Node;
+	
+	replace{}
+}
