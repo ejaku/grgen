@@ -162,6 +162,12 @@ public class PatternGraphNode extends GraphNode {
 		return childrenNames;
 	}
 
+	protected void addParams(CollectNode<BaseNode> params) {
+		for (BaseNode n : params.getChildren()) {
+	        connections.addChild(n);
+        }
+	}
+
 	public Collection<HomNode> getHoms() {
 		return homs.getChildren();
 	}

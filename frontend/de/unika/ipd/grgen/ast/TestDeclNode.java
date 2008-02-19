@@ -57,6 +57,10 @@ public class TestDeclNode extends ActionDeclNode {
 		becomeParent(this.returnFormalParameters);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
+		
+		if (this.pattern != null) {
+			this.pattern.addParams(this.param);
+		}
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern,	
