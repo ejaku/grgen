@@ -9,6 +9,10 @@ rule r(p : B) : (B) {
     exec(r(l));
     exec(r(r));
 
+    exec([r(p)]);
+    exec([r(l)]);
+    exec([r(r)]);
+
     exec((r(p)));
     exec(((r(l))));
     exec((((r(r)))));
@@ -37,6 +41,18 @@ rule r(p : B) : (B) {
     exec(r(p) $&& r(p));
     exec(r(p) $^  r(p));
 
+    exec([r(p)] |  r(p));
+    exec([r(p)] &  r(p));
+    exec(r(p) || [r(p)]);
+    exec(r(p) && [r(p)]);
+    exec(r(p) ^  [r(p)]);
+
+    exec(r(p) $|  [r(p)]);
+    exec(r(p) $&  [r(p)]);
+    exec(r(p) $|| [r(p)]);
+    exec(r(p) $&& [r(p)]);
+    exec(r(p) $^  [r(p)]);
+
     exec((h:B)=r(p) |  (h)=r(p));
     exec((h:B)=r(p) &  (h)=r(p));
     exec((h:B)=r(p) || (h)=r(p));
@@ -59,17 +75,17 @@ rule r(p : B) : (B) {
     exec(<r(p) & (r(p) & r(p))>);
     exec(<r(p) & <r(p) & r(p)> >);
 
-    exec((h:B)=r(p) |  (h)=r(p) |  def(h));
-    exec((h:B)=r(p) &  (h)=r(p) &  def(h));
-    exec((h:B)=r(p) || (h)=r(p) || def(h));
-    exec((h:B)=r(p) && (h)=r(p) && def(h));
-    exec((h:B)=r(p) ^  (h)=r(p) ^  def(h));
-    
-    exec((h:B)=r(p) |  (k:B)=r(p) |  def(h,k));
-    exec((h:B)=r(p) &  (k:B)=r(p) &  def(h,k));
-    exec((h:B)=r(p) || (k:B)=r(p) || def(h,k));
-    exec((h:B)=r(p) && (k:B)=r(p) && def(h,k));
-    exec((h:B)=r(p) ^  (k:B)=r(p) ^  def(h,k));
+//    exec((h:B)=r(p) |  (h)=r(p) |  def(h));
+//    exec((h:B)=r(p) &  (h)=r(p) &  def(h));
+//    exec((h:B)=r(p) || (h)=r(p) || def(h));
+//    exec((h:B)=r(p) && (h)=r(p) && def(h));
+//    exec((h:B)=r(p) ^  (h)=r(p) ^  def(h));
+//    
+//    exec((h:B)=r(p) |  (k:B)=r(p) |  def(h,k));
+//    exec((h:B)=r(p) &  (k:B)=r(p) &  def(h,k));
+//    exec((h:B)=r(p) || (k:B)=r(p) || def(h,k));
+//    exec((h:B)=r(p) && (k:B)=r(p) && def(h,k));
+//    exec((h:B)=r(p) ^  (k:B)=r(p) ^  def(h,k));
     
     exec((h:B)=r(p) |  (k:B)=r(p) |  h=k);
     exec((h:B)=r(p) &  (k:B)=r(p) &  k=h);
@@ -113,12 +129,6 @@ rule r(p : B) : (B) {
     exec( b:boolean=( ( (h:B)=r(p) && (h)=r(p) )[+]   ) && b && (h)=r(p) );
     exec( b:boolean=( ( (h:B)=r(p) ^  (h)=r(p) )[2:*] ) ^  b ^  (h)=r(p) );
 
-    exec( b=( ( (h:B)=r(p) |  (h)=r(p) )[1]   ) |  b:boolean |  (h)=r(p) );
-    exec( b=( ( (h:B)=r(p) &  (h)=r(p) )[1:5] ) &  b:boolean &  (h)=r(p) );
-    exec( b=( ( (h:B)=r(p) || (h)=r(p) )[*]   ) || b:boolean || (h)=r(p) );
-    exec( b=( ( (h:B)=r(p) && (h)=r(p) )[+]   ) && b:boolean && (h)=r(p) );
-    exec( b=( ( (h:B)=r(p) ^  (h)=r(p) )[2:*] ) ^  b:boolean ^  (h)=r(p) );
-
     exec(b:boolean=(r(p)));
     exec(b:boolean=(!r(l)));
     exec(b:boolean=(!(h:B)=r(r)));
@@ -141,8 +151,13 @@ rule r(p : B) : (B) {
     exec(true && false);
     exec(true ^  false);
 
-    exec(b:boolean=true & (b=(r(p)) & !b)*);
-    exec(b=true & (b=(r(p)) & !b:boolean)*);
+    exec(b:boolean=true & (b=(r(p)) & !b)[*]);
+//    exec(b=true & (b:boolean=(r(p)) & !b)[*]);
+//    exec((b:boolean=true) & (b=(r(p)) & !b)[*]);
+//    exec(b=true & (b:boolean=((r(p)) & !b))[*]);
+//    exec(b=true & (b:boolean=((r(p))) & !b)[*]);
+//    exec(b=true & b:boolean=((r(p))) & !b[*]);
+//    exec(b=true & b:boolean=(r(p) & !b[*]));
 
     return (r);
   }

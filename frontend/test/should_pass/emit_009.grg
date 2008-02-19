@@ -1,9 +1,0 @@
-using enum_model_001;
-
-rule r1(x:Node) {
-  y:A;
-  replace {
-    exec(r1(y));
-  }
-}
-

@@ -19,7 +19,7 @@
 
 
 /**
- * @author Sebastian Hack
+ * @author Rubino Geiss
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -41,7 +41,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * An expression that results from a declared identifier.
+ * Call of an action with parameters and returns.
  */
 public class CallActionNode extends BaseNode {
 

@@ -5,7 +5,7 @@ rule r1 {
   negative { x <-- ; }
   modify{
     emit("(", x.a, ")");
-    exec(r2(x) || r2(x)); // OR is only a test
+    exec(r2(x));
   }
 }
 

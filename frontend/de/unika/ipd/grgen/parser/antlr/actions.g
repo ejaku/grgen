@@ -228,7 +228,7 @@ param [ int context ] returns [ BaseNode res = null ]
 		BaseNode dummy = env.getDummyNodeDecl(context);
 		res = new ConnectionNode(dummy, edge, dummy, direction);
 	}
-	
+
 	| res=nodeDecl[context]
 	;
 
@@ -304,7 +304,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<BaseNode> subpatterns, Col
 	{
 		AlternativeNode alt;
 		int altCounter = 0;
-		PatternGraphNode neg;		
+		PatternGraphNode neg;
 		int negCounter = 0;
 		int mod = 0; // TODO: insert mod=patternModifiers iff nesting of negative parts is allowed
 		ExprNode e;
@@ -745,7 +745,7 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 		res=patternBody[getCoords(n), mod, context, "negative"+negCount]
 		RBRACE popScope
 	;
-		
+
 rets[CollectNode<IdentNode> res, int context]
 	{
 		IdentNode id;
@@ -779,26 +779,25 @@ paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	;
 
 paramListOfEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
-	{ IdentNode id, type; }
-	: paramListOfEntIdentUseOrEntIdentDeclONE[res]
-		( COMMA paramListOfEntIdentUseOrEntIdentDeclONE[res] )*
+	{ BaseNode child; }
+	: child=entIdentUseOrEntIdentDecl { res.addChild(child); }
+		( COMMA child=entIdentUseOrEntIdentDecl { res.addChild(child); } )*
 	;
 
-paramListOfEntIdentUseOrEntIdentDeclONE[CollectNode<BaseNode> res]	{ IdentNode id, type; }
+entIdentUseOrEntIdentDecl returns [BaseNode res = null]
+	{ IdentNode id, type; }
 	:
 	(
-		id=entIdentUse { res.addChild(id); }
+		id=entIdentUse { res = id; }
 	|
 		id=entIdentDecl COLON type=typeIdentUse
 			{
-				res.addChild(new NodeDeclNode(id, type,
-					BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty()));
+				res = new NodeDeclNode(id, type, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty());
 			}
 	|
 		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW
 		{
-			res.addChild(new EdgeDeclNode(id, type,
-				BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty()));
+			res = new EdgeDeclNode(id, type, BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, TypeExprNode.getEmpty());
 		}
 	)
 	;
@@ -878,6 +877,7 @@ iterSequence[ExecNode xg]
 simpleSequence[ExecNode xg]
 	{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+		IdentNode id;
 	}
 	: LPAREN {xg.append("(");}
 		(
@@ -892,6 +892,17 @@ simpleSequence[ExecNode xg]
 					}
 				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg, returns]
 			| xgrs[xg] RPAREN {xg.append(")");}
+		)
+	| (entIdentUse ASSIGN | entIdentDecl COLON | MINUS entIdentDecl) =>
+	entIdentUseOrEntIdentDecl ASSIGN
+		(
+			id=entIdentUse { xg.append(id); }
+		|
+			TRUE { xg.append("true"); }
+		|
+			FALSE { xg.append("false"); }
+		|
+			LPAREN xgrs[xg] RPAREN
 		)
 	| parallelCallRule[xg, returns]
 	| TRUE { xg.append("true"); }
@@ -942,6 +953,7 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
 	| LPAREN res=typeAddExpr RPAREN
 	;
+
 
 
 
