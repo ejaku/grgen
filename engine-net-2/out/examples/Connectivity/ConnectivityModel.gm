@@ -1,0 +1,3 @@
+node class CountNode extends Node {
+	count:int = 1; 
+}

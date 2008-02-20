@@ -1,0 +1,95 @@
+using ConnectivityModel;
+
+// example graph
+rule init {
+	replace {
+		n1:CountNode;
+		n2:CountNode;
+		n3:CountNode;
+		n4:CountNode;
+		n5:CountNode;
+		n6:CountNode;
+		n7:CountNode;
+		
+		n1 --> n2;
+		n2 --> n3;
+		n3 --> n4;
+		n4 --> n1;
+
+		n5 --> n6;
+		n6 --> n7;
+	}
+}
+
+rule removeLoop {
+	x:CountNode;
+	y:CountNode;
+
+	x -e:Edge-> x;
+
+	modify {
+		delete(e);
+	}
+}
+
+rule removeMultipleEdges {
+	x:CountNode;
+	y:CountNode;
+
+	x -e:Edge-> y;
+	x -f:Edge-> y;
+
+	modify {
+		delete(f);
+	}
+}
+
+induced rule addReverseEdge {
+	x:CountNode;
+	y:CountNode;
+
+	x -e:Edge-> y;
+
+	modify {
+		x <-f:Edge- y;
+	}
+}
+
+dpo rule reduceComponentDpo {
+	x:CountNode;
+	y:CountNode;
+
+	x -e:Edge-> y;
+	x <-f:Edge- y;
+
+	modify {
+		delete(x);
+
+		eval {
+			y.count = x.count + y.count;
+		}
+	}
+}
+
+rule breakCycle {
+	x:CountNode;
+	y:CountNode;
+
+	x -e:Edge-> y;
+	
+	modify {
+		delete(x);
+
+		eval {
+			y.count = x.count + y.count;
+		}
+	}
+}
+
+exact rule reportSize {
+	x:CountNode;
+	
+	replace {
+		emit("size=", x.count);
+	}
+}	
