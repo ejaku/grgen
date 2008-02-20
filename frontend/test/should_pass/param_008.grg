@@ -1,4 +1,4 @@
-rule r(<-e:UEdge->)
+rule r(<-e:Edge->)
 {
     x:Node <-e- y:Node;
 

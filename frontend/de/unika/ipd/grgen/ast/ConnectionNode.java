@@ -156,7 +156,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		boolean res = edge.getDeclType().isEqual(rootType);
 		
 		if (!res) {
-			edge.reportWarning("The type of " + edge.getName() + " differs from AEdge, please use another edge kind instead of ?--? (e.g. -->)");
+			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
+					+ getArbitraryEdgeRootType().getIdentNode().toString()
+					+ ", please use another edge kind instead of ?--? (e.g. -->)");
 		}
 
 		return;

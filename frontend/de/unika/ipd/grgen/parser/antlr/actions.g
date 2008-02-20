@@ -230,6 +230,18 @@ param [ int context ] returns [ BaseNode res = null ]
 		res = new ConnectionNode(dummy, edge, dummy, direction);
 	}
 
+	| LARROW edge=edgeDecl[context] RARROW
+	{
+		BaseNode dummy = env.getDummyNodeDecl(context);
+		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY_DIRECTED);
+	}
+
+	| QUESTIONMINUS edge=edgeDecl[context] MINUSQUESTION
+	{
+		BaseNode dummy = env.getDummyNodeDecl(context);
+		res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
+	}
+
 	| node=nodeDecl[context]
 	{
 		res = new SingleNodeConnNode(node); 
