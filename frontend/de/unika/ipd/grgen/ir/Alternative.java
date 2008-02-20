@@ -20,7 +20,7 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: Assignment.java 17396 2008-01-15 17:59:32Z eja $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
