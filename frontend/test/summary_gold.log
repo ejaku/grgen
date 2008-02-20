@@ -229,6 +229,7 @@ OK     should_pass/to_006.grg
 OK     should_pass/to_007.grg
 OK     should_pass/to_008.grg
 ERROR  should_pass/to_009.grg
+OK     should_pass/typeof_001.grg
 OK     should_pass/unary_001.grg
 WARNED should_warn/del_001.grg
 WARNED should_warn/del_002.grg
@@ -533,6 +534,8 @@ ERROR  should_fail/retype_003.grg
 ABEND  should_fail/retype_004.grg
 ERROR  should_fail/retype_005.grg
 ERROR  should_fail/retype_006.grg
+ERROR  should_fail/retype_010.grg
+ERROR  should_fail/retype_011.grg
 ERROR  should_fail/retype_101.grg
 ABEND  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg
@@ -547,6 +550,7 @@ ERROR  should_fail/reuse_006.grg
 ERROR  should_fail/reuse_007.grg
 ERROR  should_fail/reuse_008.grg
 ERROR  should_fail/test_001.grg
+ERROR  should_fail/typeof_001.grg
 ERROR  should_fail/unary_001.grg
 ERROR  should_fail/unary_002.grg
 ERROR  should_fail/unary_003.grg
