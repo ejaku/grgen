@@ -90,6 +90,21 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Builds search program for alternative from scheduled search plans of the alternative cases
+        /// </summary>
+        public SearchProgram BuildSearchProgram(
+            ScheduledSearchPlan[] scheduledSearchPlans_,
+            string nameOfSearchProgram,
+            List<string> parametersList,
+            List<bool> parameterIsNodeList,
+            LGSPRulePattern rulePattern_,
+            IGraphModel model_)
+        {
+            // todo: implement it
+            return null;
+        }
+
+        /// <summary>
         /// Create an extra search subprogram per MaybePreset operation.
         /// Created search programs are added to search program next field, forming list.
         /// Destroys the scheduled search program.

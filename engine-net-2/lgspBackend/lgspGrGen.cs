@@ -862,12 +862,8 @@ namespace de.unika.ipd.grGen.lgsp
                         GenerateScheduledSearchPlans(rulePattern.patternGraph, matcherGen, rulePattern.isSubpattern, false);
 
                         matcherGen.MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
-                        
-                        String matcherSourceCode = matcherGen.GenerateMatcherSourceCode(
-                            rulePattern.patternGraph.ScheduleIncludingNegatives, rulePattern.name, rulePattern);
-                        
-                        matcherGen.GenerateMatcherClass(source, matcherSourceCode,
-                            rulePattern, true);
+
+                        matcherGen.GenerateMatcherSourceCode(source, rulePattern, true);
 
                         if (!rulePattern.isSubpattern) // normal rule
                         {

@@ -1083,30 +1083,106 @@ exitSecondLoop: ;
                     conditions[i], null, costToEnd));
             }
         }
-     
+
         /// <summary>
-        /// Generates the source code of the matcher function for the given scheduled search plan
-        /// new version building first abstract search program then search program code
+        /// Generates the matcher source code for the given rule pattern into the given source builder
         /// </summary>
-        public String GenerateMatcherSourceCode(ScheduledSearchPlan scheduledSearchPlan,
-            String actionName, LGSPRulePattern rulePattern)
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+            bool isInitialStatic)
         {
+            // generate the search program out of the schedule within the pattern graph of the rule
+            SearchProgram searchProgram = GenerateSearchProgram(rulePattern);
+
+            // emit matcher class head, body, tail; body is source code representing search program
+            GenerateMatcherClassHead(sb, rulePattern, isInitialStatic);
+            searchProgram.Emit(sb);
+            GenerateMatcherClassTail(sb);
+
+            // finally generate matcher source for all the nested alternatives of the pattern graph
+            // nested alternatives are the direct alternatives and their nested alternatives
+            foreach(Alternative alt in rulePattern.patternGraph.alternatives)
+            {
+                GenerateMatcherSourceCode(sb, rulePattern, alt, isInitialStatic);
+            }
+            // or the alternatives nested within the negatives
+            foreach (PatternGraph neg in rulePattern.patternGraph.negativePatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, rulePattern, neg, isInitialStatic);
+            }
+        }
+
+        /// <summary>
+        /// Generates the matcher source code for the given alternative into the given source builder
+        /// </summary>
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+            Alternative alt, bool isInitialStatic)
+        {
+            // generate the search program out of the schedules within the pattern graphs of the alternative cases
+            SearchProgram searchProgram = GenerateSearchProgram(rulePattern, alt);
+
+            // emit matcher class head, body, tail; body is source code representing search program
+            GenerateMatcherClassHead(sb, rulePattern, isInitialStatic);
+            searchProgram.Emit(sb);
+            GenerateMatcherClassTail(sb);
+
+            // handle nested alternatives
+            foreach (PatternGraph altCase in alt.alternativeCases)
+            {
+                foreach (Alternative nestedAlt in altCase.alternatives)
+                {
+                    GenerateMatcherSourceCode(sb, rulePattern, nestedAlt, isInitialStatic);
+                }
+                foreach (PatternGraph neg in altCase.negativePatternGraphs)
+                {
+                    GenerateMatcherSourceCode(sb, rulePattern, neg, isInitialStatic);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates the matcher source code for the nested alternatives within the given negative pattern graph
+        /// into the given source builder
+        /// </summary>
+        public void GenerateMatcherSourceCode(SourceBuilder sb, LGSPRulePattern rulePattern,
+            PatternGraph neg, bool isInitialStatic)
+        {
+            // nothing to do locally ..
+
+            // .. just move on to the nested alternatives
+            foreach (Alternative alt in neg.alternatives)
+            {
+                GenerateMatcherSourceCode(sb, rulePattern, alt, isInitialStatic);
+            }
+            foreach (PatternGraph nestedNeg in neg.negativePatternGraphs)
+            {
+                GenerateMatcherSourceCode(sb, rulePattern, nestedNeg, isInitialStatic);
+            }
+        }
+
+        /// <summary>
+        /// Generates the serach program for the pattern graph of the given rule
+        /// </summary>
+        SearchProgram GenerateSearchProgram(LGSPRulePattern rulePattern)
+        {
+            PatternGraph patternGraph = rulePattern.patternGraph;
+            ScheduledSearchPlan scheduledSearchPlan = patternGraph.ScheduleIncludingNegatives;
+
             // build pass: build nested program from scheduled search plan
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
             SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
-                scheduledSearchPlan, 
+                scheduledSearchPlan,
                 "myMatch", null, null, rulePattern, model);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
             SourceBuilder builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            StreamWriter writer = new StreamWriter(actionName + "_" + searchProgram.Name + "_built_dump.txt");
+            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_built_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
 
-            // build additional: create extra search subprogram per MaybePreset operation
+            // build additional: create extra search subprogram per MaybePreset operation;
             // will be called when preset element is not available
             if (!rulePattern.isSubpattern)
                 searchProgramBuilder.BuildAddionalSearchSubprograms(
@@ -1115,20 +1191,58 @@ exitSecondLoop: ;
             // complete pass: complete check operations in all search programs
             SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
             searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
-            
+
 #if DUMP_SEARCHPROGRAMS
             // dump completed search program for debugging
             builder = new SourceBuilder(CommentSourceCode);
             searchProgram.Dump(builder);
-            writer = new StreamWriter(actionName + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_completed_dump.txt");
             writer.Write(builder.ToString());
             writer.Close();
 #endif
 
-            // emit pass: emit source code from search program 
-            SourceBuilder sourceCode = new SourceBuilder(CommentSourceCode);
-            searchProgram.Emit(sourceCode);
-            return sourceCode.ToString();
+            return searchProgram;
+        }
+
+        /// <summary>
+        /// Generates the serach program for the given alternative 
+        /// </summary>
+        SearchProgram GenerateSearchProgram(LGSPRulePattern rulePattern, Alternative alt)
+        {
+            ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
+            int i=0;
+            foreach (PatternGraph altCase in alt.alternativeCases)
+                scheduledSearchPlans[i] = altCase.ScheduleIncludingNegatives;
+
+            // build pass: build nested program from scheduled search plans of the alternative cases
+            SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
+                scheduledSearchPlans,
+                "myMatch", null, null, rulePattern, model);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump built search program for debugging
+            SourceBuilder builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            StreamWriter writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_built_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            // complete pass: complete check operations in all search programs
+            SearchProgramCompleter searchProgramCompleter = new SearchProgramCompleter();
+            searchProgramCompleter.CompleteCheckOperationsInAllSearchPrograms(searchProgram);
+
+#if DUMP_SEARCHPROGRAMS
+            // dump completed search program for debugging
+            builder = new SourceBuilder(CommentSourceCode);
+            searchProgram.Dump(builder);
+            writer = new StreamWriter(rulePattern.name + "_" + searchProgram.Name + "_completed_dump.txt");
+            writer.Write(builder.ToString());
+            writer.Close();
+#endif
+
+            return searchProgram;
         }
 
         /// <summary>
@@ -1144,13 +1258,11 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates matcher class source code for subpattern given in rulePattern into given source builder,
-        /// class is generated here, the matcher method(s) itself must be handed in within matcherSourceCode.
+        /// Generates matcher class head source code for pattern given in rulePattern into given source builder
         /// name is the prefix-less name of the rule pattern to generate the action for.
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClass(SourceBuilder sb, String matcherSourceCode,
-                LGSPRulePattern rulePattern, bool isInitialStatic)
+        public void GenerateMatcherClassHead(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 
@@ -1205,9 +1317,13 @@ exitSecondLoop: ;
                     + "\t\tprivate static " + className + " instance = new " + className + "();\n\n");
                 }
             }
+        }
 
-            sb.Append(matcherSourceCode);
-
+        /// <summary>
+        /// Generates matcher class tail source code
+        /// </summary>
+        public void GenerateMatcherClassTail(SourceBuilder sb)
+        {
             sb.Append("\t}\n");
         }
 
@@ -1275,11 +1391,12 @@ exitSecondLoop: ;
             // can't generate new subpattern matchers due to missing scheduled search plans for them / missing graph analyze data
             Debug.Assert(action.rulePattern.patternGraph.embeddedGraphs.Length == 0);
 
-            String matcherSourceCode = GenerateMatcherSourceCode(
+            // todo: wieder einbauen
+            /*String matcherSourceCode = GenerateMatcherSourceCode(
                 scheduledSearchPlan, action.Name, action.rulePattern);
 
             GenerateMatcherClass(sourceCode, matcherSourceCode,
-                action.rulePattern, false);
+                action.rulePattern, false);*/
 
             // close namespace
             sourceCode.Append("}");
@@ -1385,11 +1502,7 @@ exitSecondLoop: ;
 
                 MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
 
-                String matcherSourceCode = GenerateMatcherSourceCode(
-                    rulePattern.patternGraph.ScheduleIncludingNegatives, rulePattern.name, rulePattern);
-
-                GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    rulePattern, false);
+                GenerateMatcherSourceCode(sourceCode, rulePattern, false);
             }
 
             // generate code for actions
@@ -1399,11 +1512,7 @@ exitSecondLoop: ;
 
                 MergeNegativeSchedulesIntoPositiveSchedules(action.rulePattern.patternGraph);
 
-                String matcherSourceCode = GenerateMatcherSourceCode(
-                    action.rulePattern.patternGraph.ScheduleIncludingNegatives, action.rulePattern.name, action.rulePattern);
-
-                GenerateMatcherClass(sourceCode, matcherSourceCode,
-                    action.rulePattern, false);
+                GenerateMatcherSourceCode(sourceCode, action.rulePattern, false);
             }
 
             // close namespace
