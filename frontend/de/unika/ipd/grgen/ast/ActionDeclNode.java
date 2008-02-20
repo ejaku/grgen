@@ -34,7 +34,7 @@ public abstract class ActionDeclNode extends DeclNode
 	public ActionDeclNode(IdentNode id, TypeNode type) {
         super(id, type);
     }
-	
+
     /**
      * Get the IR object for this action node.
      * The IR object is instance of Action here.
