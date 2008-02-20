@@ -172,6 +172,9 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph[] negativePatternGraphs;
         public Condition[] Conditions;
 
+        public ScheduledSearchPlan Schedule;
+        public ScheduledSearchPlan ScheduleIncludingNegatives;
+
         public PatternGraph(String name, PatternNode[] nodes, PatternEdge[] edges,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,

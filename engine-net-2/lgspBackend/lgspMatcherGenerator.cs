@@ -712,11 +712,9 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates a scheduled search plan for a given search plan graph and optional negative search plan graphs
+        /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
-        /// <param name="negSpGraphs">a list - possibly empty - if a positive search plan graph is given,
-        /// null if a negative search plan graph is scheduled </param>
-        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, SearchPlanGraph[] negSpGraphs)
+        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, bool isNegative)
         {
             // the schedule
             List<SearchOperation> operations = new List<SearchOperation>();
@@ -734,7 +732,7 @@ exitSecondLoop: ;
 
                     // note: here a normal preset is converted into a neg preset operation if in negative pattern
                     SearchOperation newOp = new SearchOperation(
-                        negSpGraphs == null ? SearchOperationType.NegPreset : edge.Type,
+                        isNegative ? SearchOperationType.NegPreset : edge.Type,
                         edge.Target, spGraph.Root, 0);
 
                     operations.Add(newOp);
@@ -761,9 +759,6 @@ exitSecondLoop: ;
                 operations.Add(newOp);
             }
 
-            // schedule negative search plans and insert them into the schedule
-            InsertNegativesIntoSchedule(negSpGraphs, operations);
-
             // insert conditions into the schedule
             InsertConditionsIntoSchedule(spGraph.PatternGraph.Conditions, operations);
 
@@ -773,7 +768,7 @@ exitSecondLoop: ;
 
         /// <summary>
         /// Appends homomorphy information to each operation of the scheduled search plan
-         /// </summary>
+        /// </summary>
         public void AppendHomomorphyInformation(ScheduledSearchPlan ssp)
         {
             // no operation -> nothing which could be homomorph
@@ -915,6 +910,24 @@ exitSecondLoop: ;
             }
         }
 
+        public void MergeNegativeSchedulesIntoPositiveSchedules(PatternGraph patternGraph)
+        {
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                MergeNegativeSchedulesIntoPositiveSchedules(neg);
+            }
+
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    MergeNegativeSchedulesIntoPositiveSchedules(altCase);
+                }
+            }
+
+            InsertNegativesIntoSchedule(patternGraph);
+        }
+
         /// <summary>
         /// Returns the elements the given condition needs in order to be evaluated
         /// </summary>
@@ -931,56 +944,75 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Calculates the elements the given search plan graph doesn't compute locally
-        /// but expects to be preset from outwards  (non-recursive)
+        /// Calculates the elements the given pattern graph and it's nested pattern graphs don't compute locally
+        /// but expect to be preset from outwards
         /// </summary>
-        Dictionary<String, bool> CalculateNeededElements(SearchPlanGraph spGraph)
+        void CalculateNeededElements(PatternGraph patternGraph, Dictionary<String, bool> neededElements)
         {
-            Dictionary<String, bool> neededElements = new Dictionary<string, bool>();
+            // algorithm descends top down to the nested patterns,
+            // computes within each leaf pattern the locally needed elements
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                CalculateNeededElements(neg, neededElements);
+            }
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    CalculateNeededElements(altCase, neededElements);
+                }
+            }
 
-            foreach (Condition cond in spGraph.PatternGraph.Conditions)
+            // and on ascending bottom up
+            // a) it adds it's own locally needed elements
+            foreach (Condition cond in patternGraph.Conditions)
             {
                 foreach (String neededNode in cond.NeededNodes)
                     neededElements[neededNode] = true;
                 foreach (String neededEdge in cond.NeededEdges)
                     neededElements[neededEdge] = true;
             }
+            foreach (PatternNode node in patternGraph.nodes)
+                if (node.PointOfDefinition != patternGraph)
+                    neededElements[node.name] = true;
+            foreach (PatternEdge edge in patternGraph.edges)
+                if (edge.PointOfDefinition != patternGraph)
+                    neededElements[edge.name] = true;
 
-            foreach (SearchPlanNode node in spGraph.Nodes)
-            {
-                if (node.IsPreset)
-                    neededElements[node.PatternElement.Name] = true;
-            }
-
-            return neededElements;
+            // b) it filters out the elements needed (by the nested patterns) which are defined locally
+            foreach (PatternNode node in patternGraph.nodes)
+                if (node.PointOfDefinition == patternGraph)
+                    neededElements.Remove(node.name);
+            foreach (PatternEdge edge in patternGraph.edges)
+                if (edge.PointOfDefinition == patternGraph)
+                    neededElements.Remove(edge.name);
         }
 
         /// <summary>
-        /// First schedules the negative search plan graphs given,
-        /// then inserts them into the schedule given by the operations list at their best position 
+        /// Inserts schedules of negative pattern graphs into the schedule of the positive pattern graph
         /// </summary>
-        public void InsertNegativesIntoSchedule(SearchPlanGraph[] negSpGraphs, List<SearchOperation> operations)
+        public void InsertNegativesIntoSchedule(PatternGraph patternGraph)
         {
             // todo: erst implicit node, dann negative, auch wenn negative mit erstem implicit moeglich wird
-            if (negSpGraphs == null)
-            {
-                return;
-            }
 
-            // schedule each negative search plan
-            ScheduledSearchPlan[] negScheduledSPs = new ScheduledSearchPlan[negSpGraphs.Length];
-            for (int i = 0; i < negSpGraphs.Length; ++i)
-                negScheduledSPs[i] = ScheduleSearchPlan(negSpGraphs[i], null);
+            Debug.Assert(patternGraph.ScheduleIncludingNegatives == null);
+            List<SearchOperation> operations = new List<SearchOperation>();
+            for (int i = 0; i < patternGraph.Schedule.Operations.Length; ++i)
+                operations.Add(patternGraph.Schedule.Operations[i]);
 
             // calculate needed elements of each negative search plan / search plan graph
             // (elements from the positive graph needed in order to execute the nac)
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[negSpGraphs.Length];
-            for (int i = 0; i < negSpGraphs.Length; ++i)
-                neededElements[i] = CalculateNeededElements(negSpGraphs[i]);
+            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
+            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            {
+                neededElements[i] = new Dictionary<String, bool>();
+                CalculateNeededElements(patternGraph.negativePatternGraphs[i], neededElements[i]);
+            }
 
             // iterate over all negative scheduled search plans (TODO: order?)
-            for (int i = 0; i < negSpGraphs.Length; ++i)
+            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
+                ScheduledSearchPlan negSchedule = patternGraph.negativePatternGraphs[i].ScheduleIncludingNegatives;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
@@ -995,7 +1027,7 @@ exitSecondLoop: ;
                     if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
                         break;
 
-                    if (negScheduledSPs[i].Cost <= op.CostToEnd)
+                    if (negSchedule.Cost <= op.CostToEnd)
                     {
                         // best fit as CostToEnd is monotonously growing towards operation[0]
                         bestFitIndex = j;
@@ -1005,12 +1037,15 @@ exitSecondLoop: ;
 
                 // insert pattern at best position
                 operations.Insert(bestFitIndex, new SearchOperation(SearchOperationType.NegativePattern,
-                    negScheduledSPs[i], null, bestFitCostToEnd + negScheduledSPs[i].Cost));
+                    negSchedule, null, bestFitCostToEnd + negSchedule.Cost));
 
                 // update costs of operations before best position
                 for (int j = 0; j < bestFitIndex; ++j)
-                    operations[j].CostToEnd += negScheduledSPs[i].Cost;
+                    operations[j].CostToEnd += negSchedule.Cost;
             }
+
+            float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
+            patternGraph.ScheduleIncludingNegatives = new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
         /// <summary>
@@ -1177,29 +1212,32 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates ScheduledSearchPlan needed for matcher code generation for action/subpattern-action compilation
-        /// out of rule pattern and graph with analyze information
+        /// Generates scheduled search plans needed for matcher code generation for action compilation
+        /// out of graph with analyze information, 
+        /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
-        public ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern, LGSPGraph graph, bool isSubpattern)
+        public void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraph graph,
+            bool isSubpattern, bool isNegative)
         {
-            PatternGraph patternGraph = rulePattern.patternGraph;
-            PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph, false, isSubpattern);
-            MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
+            PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph, isNegative, isSubpattern);
+            MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, isNegative);
+            AppendHomomorphyInformation(scheduledSearchPlan);
+            patternGraph.Schedule = scheduledSearchPlan;
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
-            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
-                PlanGraph negPlanGraph = GeneratePlanGraph(graph, negPatternGraph, true, isSubpattern);
-                MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
-                negSearchPlanGraphs[i] = GenerateSearchPlanGraph(negPlanGraph);
+                GenerateScheduledSearchPlans(neg, graph, isSubpattern, true);
             }
 
-            ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-            AppendHomomorphyInformation(scheduledSearchPlan);
-
-            return scheduledSearchPlan;
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    GenerateScheduledSearchPlans(altCase, graph, isSubpattern, false);
+                }
+            }
         }
 
         /// <summary>
@@ -1343,11 +1381,12 @@ exitSecondLoop: ;
             {
                 LGSPRulePattern rulePattern = subpatternRule.Key;
 
-                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                    rulePattern, graph, true);
+                GenerateScheduledSearchPlans(rulePattern.patternGraph, graph, true, false);
+
+                MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
 
                 String matcherSourceCode = GenerateMatcherSourceCode(
-                    scheduledSearchPlan, rulePattern.name, rulePattern);
+                    rulePattern.patternGraph.ScheduleIncludingNegatives, rulePattern.name, rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
                     rulePattern, false);
@@ -1356,11 +1395,12 @@ exitSecondLoop: ;
             // generate code for actions
             foreach(LGSPAction action in actions)
             {
-                ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                    action.rulePattern, graph, false);
+                GenerateScheduledSearchPlans(action.rulePattern.patternGraph, graph, false, false);
+
+                MergeNegativeSchedulesIntoPositiveSchedules(action.rulePattern.patternGraph);
 
                 String matcherSourceCode = GenerateMatcherSourceCode(
-                    scheduledSearchPlan, action.rulePattern.name, action.rulePattern);
+                    action.rulePattern.patternGraph.ScheduleIncludingNegatives, action.rulePattern.name, action.rulePattern);
 
                 GenerateMatcherClass(sourceCode, matcherSourceCode,
                     action.rulePattern, false);

@@ -287,33 +287,35 @@ namespace de.unika.ipd.grGen.lgsp
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray(), patternGraph);
         }
-
+       
         /// <summary>
-        /// Generates ScheduledSearchPlan needed for matcher code generation for action compilation
-        /// out of static schedule information (given by rulePattern elements) and graph model
-        /// utilizing code of the lgsp matcher generator
+        /// Generates scheduled search plans needed for matcher code generation for action compilation
+        /// out of static schedule information given by rulePattern elements, 
+        /// utilizing code of the lgsp matcher generator.
+        /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
-        protected ScheduledSearchPlan GenerateScheduledSearchPlan(LGSPRulePattern rulePattern,
-            IGraphModel model, LGSPMatcherGenerator matcherGen)
+        protected void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
+            bool isSubpattern, bool isNegative)
         {
-            PatternGraph patternGraph = rulePattern.patternGraph;
-            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, false, rulePattern.isSubpattern);
-            matcherGen.MarkMinimumSpanningArborescence(planGraph, rulePattern.name);
+            PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, isNegative, isSubpattern);
+            matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
+            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, isNegative);
+            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
+            patternGraph.Schedule = scheduledSearchPlan;
 
-            SearchPlanGraph[] negSearchPlanGraphs = new SearchPlanGraph[patternGraph.negativePatternGraphs.Length];
-            for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                PatternGraph negPatternGraph = patternGraph.negativePatternGraphs[i];
-                PlanGraph negPlanGraph = GenerateStaticPlanGraph(negPatternGraph, true, rulePattern.isSubpattern);
-                matcherGen.MarkMinimumSpanningArborescence(negPlanGraph, rulePattern.name + "_neg_" + (i + 1));
-                negSearchPlanGraphs[i] = matcherGen.GenerateSearchPlanGraph(negPlanGraph);
+                GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
             }
 
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, negSearchPlanGraphs);
-            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
-
-            return scheduledSearchPlan;
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    GenerateScheduledSearchPlans(altCase, matcherGen, isSubpattern, false);
+                }
+            }
         }
 
 		int xgrsNextSequenceID = 0;
@@ -856,12 +858,13 @@ namespace de.unika.ipd.grGen.lgsp
                     if(type.BaseType == typeof(LGSPRulePattern))
                     {
                         LGSPRulePattern rulePattern = (LGSPRulePattern) initialAssembly.CreateInstance(type.FullName);
-                        
-                        ScheduledSearchPlan scheduledSearchPlan = GenerateScheduledSearchPlan(
-                            rulePattern, model, matcherGen);
+
+                        GenerateScheduledSearchPlans(rulePattern.patternGraph, matcherGen, rulePattern.isSubpattern, false);
+
+                        matcherGen.MergeNegativeSchedulesIntoPositiveSchedules(rulePattern.patternGraph);
                         
                         String matcherSourceCode = matcherGen.GenerateMatcherSourceCode(
-                            scheduledSearchPlan, rulePattern.name, rulePattern);
+                            rulePattern.patternGraph.ScheduleIncludingNegatives, rulePattern.name, rulePattern);
                         
                         matcherGen.GenerateMatcherClass(source, matcherSourceCode,
                             rulePattern, true);
