@@ -15,7 +15,7 @@ For the rewrite step, our tool implements the well-founded \newterm{single-pusho
 We also support the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoapproach}).
 
 For ease of use, {\scshape GrGen} features an expressive specification language and generates program code with a convenient interface.
-In contrast to systems like \indexed{Fujaba}~\cite{fujaba} our pattern matching algorithm is fully automatic and does not need to be tuned or partly be implemented by hand.
+In contrast to systems like \indexed{Fujaba}~\cite{fujaba}, our pattern matching algorithm is fully automatic and does not need to be tuned nor to be partly implemented by hand.
 \GrG~\cite{grgen_web} is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
 The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO}.
 
@@ -29,11 +29,10 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
 \begin{itemize}
   \item The graph model (meta-model) supports:
   \begin{itemize}
-    \item Directed graphs
-    \item Undirected and arbitrarily directed edges (will be implemented in version 2.0)
     \item Typed nodes and edges, with multiple inheritance on types
+    \item Directed multigraphs (including multiple edges of the same type)
+    \item Undirected and arbitrarily directed edges (will be implemented in version 2.0)
     \item Node and edge types can be equipped with typed attributes (like structs)
-    \item Multigraphs (including multiple edges of the same type)
     \item Connection assertions to restrict the ``shape'' of graphs
     \item Turing complete language for checking complex conditions
   \end{itemize}
@@ -41,8 +40,8 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item The pattern language supports:
   \begin{itemize}
     \item Plain isomorphic subgraph matching (injective mapping)
-    \item Homomorphic matching for a selectable set of nodes/edges, so that the matching is not injective
-    \item Three modes for the semantics of a rule application additional to SPO: matching of exact patterns only, matching of induced subgraphs only, and DPO semantics
+    \item Homomorphic matching for a selectable set of nodes / edges, so that the matching is not injective
+    \item Besides SPO, three additional modes for the semantics of a rule application can be choosen: matching of exact patterns only, matching of induced subgraphs only, and DPO semantics
     \item Attribute conditions (including arithmetic operations on the attributes)
     \item Type conditions (including powerful instanceof-like type expressions)
     \item Parameter passing to rules
@@ -52,7 +51,7 @@ We have organized the features of \GrG\ according to this breakdown of graph rew
   \item The rewrite language supports:
   \begin{itemize}
     \item Attribute re-calculation (using arithmetic operations on the attributes)
-    \item Retyping of nodes/edges (a stronger version of casts known from common programming languages)
+    \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
     \item Creation of new nodes/edges of statically as well as dynamically computed types (some kind of generic templates)
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match (the semantics is always mapped to SPO)
     \item Returning certain edges/nodes for further computations
@@ -131,7 +130,7 @@ Figure~\ref{figsys} gives an overview of the \GrG\ system components.
 %\end{table}
 
 A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
-Such a graph rewrite system is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
+It is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
 Figure~\ref{process} shows the generation process.
 
 \begin{figure}[htbp]
@@ -177,7 +176,7 @@ In general you have to distinguish carefully between a graph model (meta level),
 In \GrG\ pattern graphs are implicitly defined by rules, i.e.\ each rule defines its pattern.
 On the technical side, specification documents for a graph rewrite system can be available as source documents for graph models and rule sets (plain text *.gm and *.grg files) or as their translated .NET modules, either C\# source files or their compiled assemblies (*.dll).
 
-Generating a \GrG\ graph rewrite system may be considered as preliminary task.
+Generating a \GrG\ graph rewrite system may be considered a preliminary task.
 The actual process of rewriting as well as dealing with host graphs is performed by \GrG's backend.
 \GrG\ provides a backend \indexed{API}---the .NET library \LibGr.
 For most issues---in particular for experimental purposes---you might rather want to work with the \GrShell\ because of its more convenient interface.
@@ -429,7 +428,7 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 \begin{itemize}
   \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
   \item \emph{Name}\texttt{Model.cs}---the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
-  \item \emph{Name}\texttt{Actions\_intermediate.cs}---a preliminary the C\# source file of the \emph{rule-set}'s actions assembly. This file is for internal debug purposes only.
+  \item \emph{Name}\texttt{Actions\_intermediate.cs}---a preliminary version of the C\# source file of the \emph{rule-set}'s actions assembly. This file is for internal debug purposes only.
   \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\	
@@ -467,7 +466,7 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG. \yComp
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
   \item[Hints] Do not use the \indexedsee{compiler graph}{layout algorithm} \indexed{layout algorithm} (\yComp's default setting). 
   Instead \texttt{\indexedsee{organic}{layout algorithm}} or \texttt{\indexedsee{orthogonal}{layout algorithm}} might be good choices. 
-  Use the rightmost blue play button to start layout process. This may take a while, depending on the graph size:
+  Use the rightmost blue play button to start layout process. Depending on the graph size this may take a while:
 \begin{center}
 \includegraphics[width=0.45\linewidth]{fig/ycomp1.pdf} \includegraphics[width=0.45\linewidth]{fig/ycomp2.pdf}
 \end{center}

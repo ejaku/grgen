@@ -6,7 +6,7 @@ In this chapter we'll build a \GrG\ system from scratch.
 You should already have read chapter \ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
 We will use \GrG\ to construct non-deterministic state machines.
 We further show some actual graph rewriting by removing $\varepsilon$-transitions from our state machines.
-This is not too much about details but rather about the \GrG\ look and feel.
+This chapter is mostly about the \GrG\ look and feel; please take a look at the succeeding chapters for comprehensive specifications.
 
 \section{Downloading \& Installing}
 If you are reading this document, you probably did already download the \GrG\ software from our website (\url{http://www.grgen.net}).
@@ -58,7 +58,7 @@ You can see two base types, \texttt{State} for state nodes and \texttt{Transitio
 \texttt{State} has an integer attribute \texttt{id} and \texttt{Transition} has a string attribute \texttt{Trigger} which indicates the character sequence for switching from the source state node to the destination state node.
 For the rest of the types we use inheritance (keyword \texttt{extends}) which works more or less like inheritance in object oriented languages.
 Accordingly the \texttt{abstract} modifier for \texttt{SpecialState} means that you cannot create a node of that precise type, but you might create nodes of non-abstract subtypes.
-As you can see \GrG\ supports multiple inheritance and with \texttt{StartFinalState} we have constructed a ``diamond'' type hierarchy.
+As you can see \GrG\ supports multiple inheritance, and with \texttt{StartFinalState} we have constructed a ``diamond'' type hierarchy.
 
 \section{Creating Graphs}
 \label{sct:quick:create}
@@ -96,7 +96,7 @@ show graph ycomp
     \caption{Constructing a state machine graph in \GrShell}
     \label{fig:quick:shell}
 \end{figure}
-The graph viewer \yComp\ opens and you get a window similiar to figure \ref{fig:quick:ycomp} after clicking the blue ``layout graph'' button on the very right side of the button bar (see also section \ref{tools:ycomp}).
+The graph viewer \yComp\ opens and after clicking the blue ``layout graph'' button on the very right side of the button bar, you get a window similiar to figure \ref{fig:quick:ycomp} (see also section \ref{tools:ycomp}).
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{fig/quickycomp}
@@ -115,12 +115,12 @@ As you can see, attributes of graph elements can be set during creation with a c
 \makeatletter
 The \texttt{\$} and \texttt{@} notation is due to the fact that we have two kinds of ``names'' in the \GrShell.
 Namely we have \emph{shell variables}---which we did not use, no shell variable is explicitly defined in this script---and \emph{persistent names} that denote a specific graph element.
-Persistent names are set by \texttt{\$=Identifier} on creation and accessed by \texttt{@(Identifier)}.
+Persistent names are set by \texttt{\$=Identifier} on creation and they are accessed by \texttt{@(Identifier)}.
 \makeatother
 The quote chars around \texttt{"1"} and \texttt{"2"} are used to type these characters as (identifier) strings rather than numbers.
 
 \section{The Rewrite Rules}
-We will now add the actual rewrite rules to the rule set file \texttt{remove\_epsilons.grg}.
+We will now add the real rewrite rules to the rule set file \texttt{remove\_epsilons.grg}.
 The idea is to ``forward'' the $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -EpsilonTransition-> b:State -e:Transition-> c:State} we forward to \texttt{a -e-> c}.
 After all such transitions are forwarded we can remove the $\varepsilon$-transitions alltogether.
 The complete rule set is shown in figure \ref{fig:quick:ruleset}.
@@ -187,22 +187,23 @@ rule RemoveEpsilonTransition {
 	\label{fig:quick:ruleset}
 \end{figure}
 
-In detail: The rule set file consists of a number of rules and tests, each of them has a name, like \texttt{ForwardTransition}.
+In detail: The rule set file consists of a number of rules and tests, each of them bearing a name, like \texttt{ForwardTransition}.
 Rules contain a pattern expressed as several semicolon-separated pattern statements and a modify part or a rewrite part.
-Tests contain only a pattern; they are used to check for a certain pattern without doing any rewrite operations.
+Tests contain only a pattern; they are used to check for a certain pattern without doing any rewrite operation.
 If a rule is applied, \GrG\ tries to find the pattern within a host graph, for instance within the graph we created in section \ref{sct:quick:create}.
-Of couse there could be several matches for a pattern---\GrG\ will choose one of them arbitrarily.
+Of course there could be several matches for a pattern---\GrG\ will choose one of them arbitrarily.
 
-Figure \ref{fig:quick:ruleset} also shows the syntax \texttt{x:NodeType} for nodes and \texttt{-e:EdgeType->} for Edges, as we have already seen it in section \ref{sct:quick:create}.
+Figure \ref{fig:quick:ruleset} also shows the syntax \texttt{x:NodeType} for nodes and \texttt{-e:EdgeType->} for Edges, which we have already seen in section \ref{sct:quick:create}.
 There are also statements like \texttt{:FinalState} or \texttt{-:EpsilonTransistion->}, i.e.\ we are searching for a node of type \texttt{FinalState} resp.\ an edge of type \texttt{EpsilonTransition}, but we are not assigning these graph elements to a name (like \texttt{x} or \texttt{e} above).
-Such a defining of names is a key concept of the \GrG\ rule sets: names work as connection points between several pattern statements and between the pattern and the replace / modify part.
-As a general rule: If you want to do something with your found graph element, define a name; otherwise an anonymous graph element will do fine.
+Defining of names is a key concept of the \GrG\ rule sets: names work as connection points between several pattern statements and between the pattern and the replace / modify part.
+As a rule of thumb: If you want to do something with your found graph element, define a name; otherwise an anonymous graph element will do fine.
 Also have a look at example \ref{ex:somegraphlets} on page \pageref{ex:somegraphlets} for additional pattern specifications.
-The difference between a replace part and a modify part is that a replace part deletes every graph element of the pattern which is not explicitly mentioned in the replace part.
-The modify part deletes nothing (by default), but just adds or adjusts graph elements.
+The difference between a replace part and a modify part is that a replace part deletes every graph element of the pattern which is not explicitly mentioned within its body.
+The modify part, in contrast, deletes nothing (by default), but just adds or adjusts graph elements.
+However, the modify part allows for \emph{explicit} deletion of graph elements by using the \texttt{delete} statement.
 
 What else can we do? 
-We have negative application conditions (NACs), expressed by \texttt{negative \{\dots\}}; this prevents a rule to be applicated if the negative pattern is found.
+We have negative application conditions (NACs), expressed by \texttt{negative \{\dots\}}; they prevent rules to be applied if the negative pattern is found.
 We also have boolean conditions, expressed by \texttt{if \{\dots\}}; a rule is only applicable if all such conditions hold true.
 Note, the dot notation to access attributes (as in \texttt{e.Trigger}).
 The \texttt{emit} statement prints a string to \texttt{stdout}.
@@ -210,22 +211,23 @@ The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embrac
 The \texttt{eval \{\dots\}} statement is used to recalculate attributes of graph elements.
 Have a look at the statement \texttt{y:StartFinalState<x>} in \texttt{AddStartFinalState}: we \emph{retype} the node \texttt{x}.
 That means the newly created node \texttt{y} is actually the node \texttt{x} (including its incident edges and attribute values) except for the node type which is changed to \texttt{StartFinalState}.
-Imagine retyping as kind of a type cast.
+Imagine retyping as a kind of a type cast.
 
-Now that we have the rules as rewrite primitives we have to compose them to a sequence of rules.
+The created rewrite rules might be considered as rewrite primitives.
+In order to implement more complex functionality, we will compose a sequence of rewrite rules out of them. 
 For instance we don't want to forward just one $\varepsilon$-transition as \texttt{ForwardTransition} would do; we want to forward them all.
-Such a rule composing is done by a \emph{graph rewrite sequence} (see section \ref{sct:xgrs}).
+Such a rule composing is called \emph{graph rewrite sequence} (see section \ref{sct:xgrs}).
 We add the following line to our shell script \texttt{remove\_epsilons.grs}:
 \begin{grgen}
 debug xgrs (CheckStartState && CheckDoublettes) && <ForwardTransition* | AddStartFinalState | AddFinalState* | RemoveEpsilonTransition*>
 \end{grgen}
 This looks like a boolean expression and in fact it behaves similar.
 The whole expression is evaluated from left to right.
-A rule is successful evaluated if a match could be found.
-We first check for a valid state machine, i.e.\ if the host graph has exactly one start state and no redundant transitions.
+A rule is successfully evaluated if a match could be found.
+We first check for a valid state machine, i.e.\ if the host graph contains exactly one start state and no redundant transitions.
 Thereafter we do the actual rewriting.
 These three steps are connected by lazy-evaluation-ands (\texttt{\&\&}), i.e.\ if one of them fails the evaluation will be canceled.
-We continue by disjunctive connected rules (connected by \texttt{|}).
+We continue by disjunctively connected rules (connected by \texttt{|}).
 The angle brackets (\texttt{<>}) around the transformation rules indicate transactional processing: If the enclosed sequence returns \texttt{false} for some reason, all the already performed graph operations will be rolled back.
 That means not all of the rules must find a match.
 The \texttt{*} is used to apply the rule repeatedly as long as a match can be found.

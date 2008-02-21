@@ -600,7 +600,7 @@ This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
     'exec' lbrace (RewriteSequence+';') rbrace
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
 The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
-That means, these statements are executed in the order as they appear within the rule.
+That means, these statements are executed in the same order as they appear within the rule.
 The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
@@ -702,13 +702,12 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \end{figure}
 
 \section{Extended Graph Rewrite Sequences (XGRS)}
-\label{sct:xgrs}
+\label{sct:xgrs}\indexmainsee{XGRS}{graph rewrite sequence}
 
-Graph rewrite sequences are an imperative enhancement to the rule set language.
-Graph rewrite seuences are syntactically expressed as expressions similar to boolean expressions.
-Composing single graph rewrite rules to an expression not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
-Graph rewrite sequences have a boolean return value; 
-For a single rule, \texttt{true} means the rule could successfully applied to the host graph.
+Graph rewrite sequences\indexmain{graph rewrite sequence} are an imperative enhancement to the rule set language.
+Graph rewrite sequences are syntactically expressed as expressions similar to boolean expressions.
+Composing an expresiion out of single graph rewrite rules not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
+Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
 If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
@@ -728,7 +727,7 @@ These return values can be assigned to variables on the fly (see example \ref{ex
 	\label{ex:grsreturn}
 	The graph rewrite sequence
 	\begin{grgen}	 
-a = ((b,c) = R(x,y,z))}
+a = ((b,c) = R(x,y,z))
 	\end{grgen}
 	is valid. 
 	It assigns returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}.

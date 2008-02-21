@@ -5,9 +5,9 @@ The key features of \GrG\ \emph{graph models}\indexmain{graph model} as describe
 \begin{description}
 \item[Types] Nodes and edges are typed. 
   This is similar to classes in common programming languages, except for the concept of methods that \GrG\ nodes and edges don't support. 
-\item[Attributes] Nodes and edges can possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
-\item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths.
-\item[Connection Assertions] To specify that certain edge types should only connect specific nodes, we include connection assertions. Furthermore the number of outgoing and incoming edges can be constrained.
+\item[Attributes] Nodes and edges may possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
+\item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore, if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths.
+\item[Connection Assertions] To specify that certain edge types should only connect specific nodes, we include connection assertions. In particular this allows for constraints on the number of outgoing and incoming edges.
 \end{description}
 
 \begin{figure}[htbf]
@@ -72,7 +72,7 @@ These are (semantic) specializations of \emph{Ident} to restrict an identifier t
 \begin{rail}
   GraphModel: () + (ClassDeclaration | EnumDeclaration);
 \end{rail}\ixnterm{GraphModel}
-The \indexed{graph model} consists of zero or multiple type declarations. Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type for use as attribute of nodes or edges. Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
+The \indexed{graph model} consists of zero or multiple type declarations. Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges. Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
