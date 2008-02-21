@@ -635,7 +635,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Modifier & \bf Meaning \\\hline
-        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, iff all its incident edges in the host graph are specified in the pattern. This modifier superseeds all the other modifiers.\\
+        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern. This modifier superseeds all the other modifiers.\\
         \texttt{induced} & Switches to the induced-mode, where nodes contained in the same induced statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
         \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. Accordingly nodes going to be deleted due to the rewrite part have to be specified exactly (\texttt{exact} semantics) in order to be matched. Furthermore if you specify two pattern nodes to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern nodes will never actually be matched to the same host graph node. In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
     \end{tabularx}    
@@ -759,7 +759,7 @@ The braces (\texttt{\{\}}) let execute a sequence repeatedly as long as its exec
 Rewrite terms are the building blocks of graph rewrite sequences.
 They either act as a rule application or assign a value to a variable
 A variable in the \emph{Variable} term must contain a boolean value, accordingly.
-A \texttt{def} term is successful iff all the the variables are defined.
+A \texttt{def} term is successful if all the the variables are defined.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule);   
@@ -790,11 +790,11 @@ Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{s | t}		& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed iff \texttt{s} or \texttt{t} is successfully executed.\\
+\texttt{s | t}		& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed if \texttt{s} or \texttt{t} is successfully executed.\\
 \texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
-\texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed iff \texttt{s} and \texttt{t} is successful.\\
+\texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed if \texttt{s} and \texttt{t} is successful.\\
 \texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
-\texttt{s \^\ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^\ t} is successfully executed iff \texttt{s} is successful or \texttt{t} successfully but not both; i.e.\ this an XOR sequence.\\
+\texttt{s \^\ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^\ t} is successfully executed if \texttt{s} is successful or \texttt{t} successfully but not both; i.e.\ this an XOR sequence.\\
 \texttt{<s>}	& Execute \texttt{s} transactionally.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
