@@ -1,5 +1,7 @@
 \chapter{Quickstart}\indexmain{quickstart}
 
+\TODO{Coding Convention Rules?}
+
 In this chapter we'll build a \GrG\ system from scratch. 
 You should already have read chapter \ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
 We will use \GrG\ to construct non-deterministic state machines.
@@ -11,7 +13,7 @@ If you are reading this document, you probably did already download the \GrG\ so
 Make sure you have the following system requirements installed
 \begin{itemize}
 	\item Java 1.5 or above
-	\item Mono 1.2.3 on Unix-like platforms / .NET 2.0 or above on Microsoft Windows 
+	\item Mono 1.2.3 or above on Unix-like platforms / .NET 2.0 or above on Microsoft Windows 
 \end{itemize}
 Unpack the package to a directory of your choice, for example into \texttt{/opt/grgen} and \texttt{/opt/ycomp}:
 \begin{bash}
@@ -27,7 +29,7 @@ export PATH=/opt/grgen/bin:$PATH
 Furthermore we create a directory for our \GrG\ data, for instance by \texttt{mkdir /home/grgen}.
 
 \section{Creating a Graph Model}
-In the directory \texttt{/home/grgen} we create a text file \texttt{state\_machine.gm} that contains the graph meta model for our state machine.
+In the directory \texttt{/home/grgen} we create a text file \texttt{state\_machine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
 By graph meta model we mean a set of node types and edge types which are available for building state machine graphs (see chapter \ref{chapmodellang}).
 Figure \ref{fig:quick:mm} shows the meta model.
 \begin{figure}[htbp]
@@ -61,7 +63,7 @@ As you can see \GrG\ supports multiple inheritance and with \texttt{StartFinalSt
 \section{Creating Graphs}
 \label{sct:quick:create}
 Let's test our graph meta model by creating a state machine graph.
-We will use the \GrShell\ (see chapter chapgrshell) and---for visualization---\yComp.
+We will use the \GrShell\ (see chapter \ref{chapgrshell}) and---for visualization---\yComp.
 To get everything working we need a rule set file, too.
 For the moment we just create an almost empty file \texttt{remove\_epsilons.grg} in the \texttt{/home/grgen} directory, containing only the line
 \begin{grgen}
@@ -107,7 +109,7 @@ Quit \yComp\ and exit the \GrShell\ by typing \texttt{exit}.
 
 This script starts with creating an empty graph of the meta model \texttt{StateMachine} (which is referenced by the rule set \texttt{remove\_epsilons.grg}) with the name \texttt{StateMachineGraph}.
 Thereafter we create nodes and edges.
-The double point notation indicates a node or edge type.
+The colon notation indicates a node or edge type.
 Also note the inplace-arrow notation for edges (\texttt{-Edge->} resp.\ \texttt{-:EdgeType->}).
 As you can see, attributes of graph elements can be set during creation with a call-like syntax.
 \makeatletter
@@ -204,7 +206,7 @@ We have negative application conditions (NACs), expressed by \texttt{negative \{
 We also have boolean conditions, expressed by \texttt{if \{\dots\}}; a rule is only applicable if all such conditions hold true.
 Note, the dot notation to access attributes (as in \texttt{e.Trigger}).
 The \texttt{emit} statement prints a string to \texttt{stdout}.
-The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embraced nodes homomorphically'', i.e.\ they can actually be matched to the same node within the host graph.
+The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embraced nodes homomorphically'', i.e.\ they can (but they don't have to) actually be matched to the same node within the host graph.
 The \texttt{eval \{\dots\}} statement is used to recalculate attributes of graph elements.
 Have a look at the statement \texttt{y:StartFinalState<x>} in \texttt{AddStartFinalState}: we \emph{retype} the node \texttt{x}.
 That means the newly created node \texttt{y} is actually the node \texttt{x} (including its incident edges and attribute values) except for the node type which is changed to \texttt{StartFinalState}.

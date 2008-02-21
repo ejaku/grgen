@@ -630,14 +630,14 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
     Internally all the modifier-annotated rules are resolved into equivalent rules in standard SPO semantics.
     The semantics of the modifiers is mostly implemented by NACs.
     In particular you might want to use such modifiers in order to avoid writing a bunch of NACs yourself.
-    The number of internally created NACs is bounded by $\mathcal{O}(n^2)$, where $n$ is the number of specified nodes.
+    The number of internally created NACs is bounded by $\mathcal{O}(n)$ for \texttt{exact} and \texttt{dpo} and by $\mathcal{O}(n^2)$ for \texttt{induced} respectively, where $n$ is the number of specified nodes.
 \end{note} 
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Modifier & \bf Meaning \\\hline
-        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern. This modifier superseeds all the other modifiers.\\
+        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
         \texttt{induced} & Switches to the induced-mode, where nodes contained in the same induced statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
-        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. Accordingly nodes going to be deleted due to the rewrite part have to be specified exactly (\texttt{exact} semantics) in order to be matched. Furthermore if you specify two pattern nodes to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern nodes will never actually be matched to the same host graph node. In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
+        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. Accordingly nodes going to be deleted due to the rewrite part have to be specified exactly (\texttt{exact} semantics) in order to be matched. Furthermore if you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
     \end{tabularx}    
     \caption{Semantics of rule and pattern modifiers}
     \label{tbl:rules:modifiers}
