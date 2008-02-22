@@ -118,7 +118,7 @@ public abstract class ParserEnvironment extends Base {
 		// The edge type roots
 		
 		arbitraryEdgeRoot = predefineType("AEdge",
-				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>(), 0, null));
+				new ArbitraryEdgeTypeNode(new CollectNode<IdentNode>(), new CollectNode<ConnAssertNode>(), new CollectNode<BaseNode>()));
 		CollectNode<IdentNode> superTypes = new CollectNode<IdentNode>();
 		superTypes.addChild(arbitraryEdgeRoot);
 

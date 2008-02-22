@@ -47,16 +47,15 @@ public class ArbitraryEdgeTypeNode extends EdgeTypeNode {
 	 * @param modifiers The modifiers for this type.
 	 * @param externalName The name of the external implementation of this type or null.
 	 */
-	public ArbitraryEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body,
-						int modifiers, String externalName) {
+	public ArbitraryEdgeTypeNode(CollectNode<IdentNode> ext, CollectNode<ConnAssertNode> cas, CollectNode<BaseNode> body) {
 		this.extendUnresolved = ext;
 		becomeParent(this.extendUnresolved);
 		this.bodyUnresolved = body;
 		becomeParent(this.bodyUnresolved);
 		this.cas = cas;
 		becomeParent(this.cas);
-		setModifiers(modifiers);
-		setExternalName(externalName);
+		setModifiers(InheritanceTypeNode.MOD_ABSTRACT);
+		setExternalName(null);
 	}
 
 	/** returns children of this node */

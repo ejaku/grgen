@@ -224,11 +224,8 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 				}
 			}
 			if (!occursInLHS) {
+				// No error for ?--? needed, since ArbitraryEdgeType is abstract
 				// alreadyReported can not be set here
-				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY) {
-					res = false;
-					rConn.reportError("New instances of ?--? are not allowed in RHS");
-				}
 				if (rConn.getConnectionKind() == ConnectionNode.ARBITRARY_DIRECTED) {
 					res = false;
 					rConn.reportError("New instances of <--> are not allowed in RHS");
