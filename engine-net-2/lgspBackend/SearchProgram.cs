@@ -156,18 +156,22 @@ namespace de.unika.ipd.grGen.lgsp
     ///   yielding a search program tree in fact
     /// representing/assembling a backtracking search program
     /// for finding a homomorphic mapping of the pattern graph within the host graph.
-    /// is itself the outermost enclosing operation
+    /// is itself the outermost enclosing operation.
     /// list forming concatenation field used for adding search subprograms
     /// </summary>
     class SearchProgram : SearchProgramOperation
     {
-        public SearchProgram(string name, 
-            string[] parameters, 
-            bool[] parameterIsNode,
+        public SearchProgram(
+            SearchProgramType programType,
+            string name,
+            string[] parameters, bool[] parameterIsNode,
             bool containsSubpatterns,
-            bool isSubpattern,
             string[] namesOfPatternGraphElements)
         {
+            Debug.Assert(parameters != null && parameterIsNode != null && programType == SearchProgramType.MissingPreset
+                || parameters == null && parameters == null && programType != SearchProgramType.MissingPreset);
+
+            ProgramType = programType;
             Name = name;
 
             Parameters = parameters;
@@ -175,14 +179,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             NamesOfPatternGraphElements = namesOfPatternGraphElements;
 
-            IsSubprogram = parameters!=null;
-            SetupSubpatternMatching = containsSubpatterns && !isSubpattern;
-            IsSubpattern = isSubpattern;
-
-            // check constraints regarding kind of search program
-            Debug.Assert(IsSubprogram ? !SetupSubpatternMatching && !IsSubpattern : true);
-            Debug.Assert(SetupSubpatternMatching ? !IsSubpattern && !IsSubprogram : true);
-            Debug.Assert(IsSubpattern ? !SetupSubpatternMatching && !IsSubprogram : true);
+            SetupSubpatternMatching = programType == SearchProgramType.Action && containsSubpatterns;
         }
 
         /// <summary>
@@ -191,9 +188,16 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("{0}Search {1}program {2}{3}",
-                IsSubpattern ? "Subpattern " : "", IsSubprogram ? "sub" : "",
-                Name, SetupSubpatternMatching ? " with subpattern matching setup" : "");
+            string searchProgramType;
+            switch (ProgramType)
+            {
+                case SearchProgramType.MissingPreset: searchProgramType = "MissingPreset"; break;
+                case SearchProgramType.Subpattern: searchProgramType = "Subpattern"; break;
+                case SearchProgramType.AlternativeCase: searchProgramType = "AlternativeCase"; break;
+                default: searchProgramType = "Action"; break;
+            }
+            builder.AppendFrontFormat("Search program {0} of type {1} {2}",
+                Name, searchProgramType, SetupSubpatternMatching ? "with subpattern matching setup" : "");
             // parameters
             if (Parameters != null)
             {
@@ -239,7 +243,7 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("private Random random = new Random(13795661);\n");
 #endif
 
-            if (IsSubprogram)
+            if (ProgramType == SearchProgramType.MissingPreset)
             {
 #if PRODUCE_UNSAFE_MATCHERS
                 sourceCode.AppendFront("unsafe ");
@@ -272,11 +276,8 @@ namespace de.unika.ipd.grGen.lgsp
                     Next.Emit(sourceCode);
                 }
             }
-            else if (IsSubpattern)
+            else if (ProgramType == SearchProgramType.Subpattern)
             {
-                sourceCode.Indent(); // we're within some namespace
-                sourceCode.Indent(); // we're within some class
-
 #if PRODUCE_UNSAFE_MATCHERS
                 soureCode.AppendFront("unsafe ");
 #endif
@@ -290,11 +291,23 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Unindent();
                 sourceCode.AppendFront("}\n");
             }
-            else // !IsSubprogram && !IsSubpattern
+            else if (ProgramType == SearchProgramType.AlternativeCase)
             {
-                sourceCode.Indent(); // we're within some namespace
-                sourceCode.Indent(); // we're within some class
+#if PRODUCE_UNSAFE_MATCHERS
+                soureCode.AppendFront("unsafe ");
+#endif
+                sourceCode.AppendFront("public override void " + Name + "(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)\n");
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
 
+                OperationsList.Emit(sourceCode);
+
+                sourceCode.AppendFront("return;\n");
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            else // ProgramType==SearchProgramType.Action
+            {
 #if PRODUCE_UNSAFE_MATCHERS
                 soureCode.AppendFront("unsafe ");
 #endif
@@ -338,16 +351,66 @@ namespace de.unika.ipd.grGen.lgsp
             return OperationsList;
         }
 
+        public SearchProgramType ProgramType;
         public string Name;
 
         public string[] Parameters;
         public bool[] ParameterIsNode;
 
-        public string[] NamesOfPatternGraphElements;
+        public string[] NamesOfPatternGraphElements; // names of all the elements in the pattern graph, needed in completion pass for determining the first continuation point which changes one of the pattern elements for the first time
 
-        public bool IsSubprogram;
         public bool SetupSubpatternMatching;
-        public bool IsSubpattern;
+
+        public SearchProgramList OperationsList;
+    }
+
+    /// <summary>
+    /// Class representing "match the pattern of the alternative case" operation
+    /// </summary>
+    class GetPartialMatchOfAlternative : SearchProgramOperation
+    {
+        public GetPartialMatchOfAlternative(string name)
+        {
+            Name = name;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("GetPartialMatchOfAlternative case {0}\n", Name);
+
+            // then nested content
+            if (OperationsList != null)
+            {
+                builder.Indent();
+                OperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFrontFormat("// Alternative case {0} \n", Name);
+
+            sourceCode.AppendFront("do {\n");
+            sourceCode.Indent();
+            OperationsList.Emit(sourceCode);
+            sourceCode.Unindent();
+            sourceCode.AppendFront("} while(false);\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true; // contains complete nested search program of alternative case
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return OperationsList;
+        }
+
+        public string Name;
 
         public SearchProgramList OperationsList;
     }
@@ -1742,7 +1805,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFrontFormat("LGSPMatch match = new LGSPMatch(new LGSPNode[{0}], new LGSPEdge[{1}], new LGSPMatch[0]);\n",
                 NumNodes, NumEdges);
-            sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
+            sourceCode.AppendFront("match.patternGraph = patternGraph;\n");
             MatchBuildingOperations.Emit(sourceCode); // emit match building operations
             sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
         }
@@ -1764,18 +1827,20 @@ namespace de.unika.ipd.grGen.lgsp
             IsSubpattern = false;
         }
 
-        public PatternAndSubpatternsMatched(int numNodes, int numEdges, int numSubpatterns)
+        public PatternAndSubpatternsMatched(int numNodes, int numEdges, int numSubpatterns,
+            string whichAlternative)
         {
             IsSubpattern = true;
             NumNodes = numNodes;
             NumEdges = numEdges;
             NumSubpatterns = numSubpatterns;
+            WhichAlternative = whichAlternative;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             builder.AppendFront("PatternAndSubpatternsMatched ");
-            builder.AppendFormat("isSubpattern:{0} \n", IsSubpattern);
+            builder.AppendFormat("isSubpattern:{0} whichAlternative:{1}\n", IsSubpattern, WhichAlternative);
 
             if (MatchBuildingOperations != null)
             {
@@ -1797,7 +1862,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 sourceCode.AppendFrontFormat("LGSPMatch match = new LGSPMatch(new LGSPNode[{0}], new LGSPEdge[{1}], new LGSPMatch[{2}]);\n",
                     NumNodes, NumEdges, NumSubpatterns);
-                sourceCode.AppendFront("match.patternGraph = rulePattern.patternGraph;\n");
+                sourceCode.AppendFrontFormat("match.patternGraph = patternGraph{0};\n", WhichAlternative);
                 MatchBuildingOperations.Emit(sourceCode); // emit match building operations
                 sourceCode.AppendFront("currentFoundPartialMatch.Push(match);\n");
 
@@ -1827,6 +1892,7 @@ namespace de.unika.ipd.grGen.lgsp
         public int NumNodes;
         public int NumEdges;
         public int NumSubpatterns;
+        public string WhichAlternative; // non-"" if we're within an alternative matcher subpattern
 
         public SearchProgramList MatchBuildingOperations;
     }
@@ -1871,24 +1937,21 @@ namespace de.unika.ipd.grGen.lgsp
             BuildMatchObjectType type,
             string patternElementUnprefixedName,
             string patternElementName,
-            string rulePatternName,
-            bool isSubpattern)
+            string rulePatternClassName)
         {
             Type = type;
             PatternElementUnprefixedName = patternElementUnprefixedName;
             PatternElementName = patternElementName;
-            RulePatternName = rulePatternName;
-            IsSubpattern = isSubpattern;
+            RulePatternClassName = rulePatternClassName;
         }
 
         public override void Dump(SourceBuilder builder)
         {
-            string rulePatternClassName = NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
             builder.AppendFront("BuildMatchObject ");
             if (Type == BuildMatchObjectType.Node) builder.Append("Node ");
             if (Type == BuildMatchObjectType.Edge) builder.Append("Edge ");
             if (Type == BuildMatchObjectType.Subpattern) builder.Append("Subpattern ");
-            builder.AppendFormat("with {0} within {1}\n", PatternElementName, rulePatternClassName);
+            builder.AppendFormat("with {0} within {1}\n", PatternElementName, RulePatternClassName);
         }
 
         public override void Emit(SourceBuilder sourceCode)
@@ -1901,17 +1964,14 @@ namespace de.unika.ipd.grGen.lgsp
                     Type==BuildMatchObjectType.Node ? "Nodes" : "Edges";
                 string nameToIndexEnum =
                     Type==BuildMatchObjectType.Node ? "NodeNums" : "EdgeNums";
-                string rulePatternClassName =
-                    NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
-                sourceCode.AppendFrontFormat("match.{0}[(int){1}.{2}.@{3}] = {4};\n",
-                    matchObjectElementMember, rulePatternClassName, nameToIndexEnum, PatternElementUnprefixedName,
+                 sourceCode.AppendFrontFormat("match.{0}[(int){1}.{2}.@{3}] = {4};\n",
+                    matchObjectElementMember, RulePatternClassName, nameToIndexEnum, PatternElementUnprefixedName,
                     variableContainingCandidate);
             }
             else
             {
-                string rulePatternClassName = NamesOfEntities.RulePatternClassName(RulePatternName, IsSubpattern);
                 sourceCode.AppendFrontFormat("match.EmbeddedGraphs[(int){0}.PatternNums.@{1}]",
-                    rulePatternClassName, PatternElementUnprefixedName);
+                    RulePatternClassName, PatternElementUnprefixedName);
                 sourceCode.Append(" = currentFoundPartialMatch.Pop();\n");
             }
         }
@@ -1919,8 +1979,7 @@ namespace de.unika.ipd.grGen.lgsp
         public BuildMatchObjectType Type;
         public string PatternElementUnprefixedName;
         public string PatternElementName;
-        public string RulePatternName;
-        public bool IsSubpattern;
+        public string RulePatternClassName;
     }
 
     /// <summary>

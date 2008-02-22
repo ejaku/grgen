@@ -159,6 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph[] NegativePatternGraphs { get { return negativePatternGraphs; } }
 
         public String name;
+        public String pathPrefix;
         public PatternNode[] nodes;
         public PatternEdge[] edges;
         public bool[,] homomorphicNodes;
@@ -175,7 +176,8 @@ namespace de.unika.ipd.grGen.lgsp
         public ScheduledSearchPlan Schedule;
         public ScheduledSearchPlan ScheduleIncludingNegatives;
 
-        public PatternGraph(String name, PatternNode[] nodes, PatternEdge[] edges,
+        public PatternGraph(String name, String pathPrefix,
+            PatternNode[] nodes, PatternEdge[] edges,
             PatternGraphEmbedding[] embeddedGraphs, Alternative[] alternatives, 
             PatternGraph[] negativePatternGraphs, Condition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
@@ -183,6 +185,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool[] isoToAllNodes, bool[] isoToAllEdges)
         {
             this.name = name;
+            this.pathPrefix = pathPrefix;
             this.nodes = nodes;
             this.edges = edges;
             this.embeddedGraphs = embeddedGraphs;
@@ -220,11 +223,13 @@ namespace de.unika.ipd.grGen.lgsp
     public class Alternative : IAlternative
     {
         public IPatternGraph[] AlternativeCases { get { return alternativeCases; } }
-        
+
+        public String name;
         public PatternGraph[] alternativeCases;
 
-        public Alternative(PatternGraph[] cases)
+        public Alternative(String name, PatternGraph[] cases)
         {
+            this.name = name;
             this.alternativeCases = cases;
         }
     }
@@ -258,7 +263,7 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] outputs;
         public string[] outputNames;
 
-        public String name;
+        public string name;
         public bool isSubpattern; // are we a rule or a subpattern?
     }
 }

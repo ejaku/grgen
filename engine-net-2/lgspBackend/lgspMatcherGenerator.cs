@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ++nodesIndex;
             }
 
-            return new PlanGraph(planRoot, planNodes, planEdges.ToArray(), patternGraph);
+            return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
 
         /// <summary>
@@ -708,13 +708,14 @@ exitSecondLoop: ;
                 ++i;
             }
 
-            return new SearchPlanGraph(searchPlanRoot, searchPlanNodes, searchPlanEdges, planGraph.PatternGraph);
+            return new SearchPlanGraph(searchPlanRoot, searchPlanNodes, searchPlanEdges);
         }
 
         /// <summary>
         /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
-        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, bool isNegative)
+        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, 
+            PatternGraph patternGraph, bool isNegative)
         {
             // the schedule
             List<SearchOperation> operations = new List<SearchOperation>();
@@ -760,10 +761,10 @@ exitSecondLoop: ;
             }
 
             // insert conditions into the schedule
-            InsertConditionsIntoSchedule(spGraph.PatternGraph.Conditions, operations);
+            InsertConditionsIntoSchedule(patternGraph.Conditions, operations);
 
             float cost = operations.Count > 0 ? operations[0].CostToEnd : 0;
-            return new ScheduledSearchPlan(spGraph.PatternGraph, operations.ToArray(), cost);
+            return new ScheduledSearchPlan(patternGraph, operations.ToArray(), cost);
         }
 
         /// <summary>
@@ -1170,8 +1171,7 @@ exitSecondLoop: ;
             // build pass: build nested program from scheduled search plan
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
             SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
-                scheduledSearchPlan,
-                "myMatch", null, null, rulePattern, model);
+                model, rulePattern, null, null, null);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1205,20 +1205,21 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the serach program for the given alternative 
+        /// Generates the search program for the given alternative 
         /// </summary>
         SearchProgram GenerateSearchProgram(LGSPRulePattern rulePattern, Alternative alt)
         {
             ScheduledSearchPlan[] scheduledSearchPlans = new ScheduledSearchPlan[alt.alternativeCases.Length];
             int i=0;
-            foreach (PatternGraph altCase in alt.alternativeCases)
+            foreach (PatternGraph altCase in alt.alternativeCases) {
                 scheduledSearchPlans[i] = altCase.ScheduleIncludingNegatives;
+                ++i;
+            }
 
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
             SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
-                scheduledSearchPlans,
-                "myMatch", null, null, rulePattern, model);
+                model, alt);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1251,10 +1252,12 @@ exitSecondLoop: ;
         public void GenerateFileHeaderForActionsFile(SourceBuilder sb,
                 String namespaceOfModel, String namespaceOfRulePatterns)
         {
-            sb.Append("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
+            sb.AppendFront("using System;\nusing System.Collections.Generic;\nusing de.unika.ipd.grGen.libGr;\nusing de.unika.ipd.grGen.lgsp;\n"
                 + "using " + namespaceOfModel + ";\n"
                 + "using " + namespaceOfRulePatterns + ";\n\n");
-            sb.Append("namespace de.unika.ipd.grGen.lgspActions\n{\n");
+            sb.AppendFront("namespace de.unika.ipd.grGen.lgspActions\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); // namespace level
         }
 
         /// <summary>
@@ -1271,18 +1274,22 @@ exitSecondLoop: ;
                 String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
                 String className = namePrefix + rulePattern.name;
 
-                sb.Append("\tpublic class " + className + " : LGSPSubpatternAction\n\t{\n");
-                sb.Append("\t\tpublic " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n"
-                    + "\t\t\tgraph = graph_; openTasks = openTasks_;\n"
-                    + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
-                sb.Append("\t\t}\n\n");
+                sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
+                sb.AppendFront("{\n");
+                sb.Indent(); // class level
+                sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+                sb.Indent(); // method body level
+                sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
+                sb.AppendFront("patternGraph = " + rulePattern.GetType().Name + ".Instance.patternGraph;\n");
+                sb.Unindent(); // class level
+                sb.AppendFront("}\n\n");
 
                 for (int i = 0; i < patternGraph.nodes.Length; ++i)
                 {
                     PatternNode node = patternGraph.nodes[i];
                     if (node.PointOfDefinition == null)
                     {
-                        sb.Append("\t\tpublic LGSPNode " + node.name + ";\n");
+                        sb.AppendFront("public LGSPNode " + node.name + ";\n");
                     }
                 }
                 for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -1290,31 +1297,36 @@ exitSecondLoop: ;
                     PatternEdge edge = patternGraph.edges[i];
                     if (edge.PointOfDefinition == null)
                     {
-                        sb.Append("\t\tpublic LGSPEdge " + edge.name + ";\n");
+                        sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
                     }
                 }
-                sb.Append("\n");
+                sb.AppendFront("\n");
             }
             else
             {
                 String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
                 String className = namePrefix + rulePattern.name;
 
-                sb.Append("\tpublic class " + className + " : LGSPAction\n\t{\n");
-                sb.Append("\t\tpublic " + className + "() {\n"
-                    + "\t\t\trulePattern = " + rulePattern.GetType().Name + ".Instance;\n"
-                    + "\t\t\tDynamicMatch = myMatch; matches = new LGSPMatches(this, " 
+                sb.AppendFront("public class " + className + " : LGSPAction\n");
+                sb.AppendFront("\t{\n");
+                sb.Indent(); // class level
+                sb.AppendFront("public " + className + "() {\n");
+                sb.Indent(); // method body level
+                sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
+                sb.AppendFront("DynamicMatch = myMatch; matches = new LGSPMatches(this, " 
                     + patternGraph.Nodes.Length + ", " 
                     + patternGraph.Edges.Length + ", " 
                     + patternGraph.EmbeddedGraphs.Length +
                     ");\n");
-                sb.Append("\t\t}\n\n");
-                sb.Append("\t\tpublic override string Name { get { return \"" + rulePattern.name + "\"; } }\n"
-                    + "\t\tprivate LGSPMatches matches;\n\n");
+                sb.Unindent(); // class level
+                sb.AppendFront("}\n\n");
+
+                sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
+                sb.AppendFront("private LGSPMatches matches;\n\n");
                 if (isInitialStatic)
                 {
-                    sb.Append("\t\tpublic static LGSPAction Instance { get { return instance; } }\n"
-                    + "\t\tprivate static " + className + " instance = new " + className + "();\n\n");
+                    sb.AppendFront("public static LGSPAction Instance { get { return instance; } }\n");
+                    sb.AppendFront("private static " + className + " instance = new " + className + "();\n\n");
                 }
             }
         }
@@ -1324,7 +1336,8 @@ exitSecondLoop: ;
         /// </summary>
         public void GenerateMatcherClassTail(SourceBuilder sb)
         {
-            sb.Append("\t}\n");
+            sb.Unindent();
+            sb.AppendFront("}\n\n");
         }
 
         /// <summary>
@@ -1338,7 +1351,8 @@ exitSecondLoop: ;
             PlanGraph planGraph = GeneratePlanGraph(graph, patternGraph, isNegative, isSubpattern);
             MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(searchPlanGraph, isNegative);
+            ScheduledSearchPlan scheduledSearchPlan = ScheduleSearchPlan(
+                searchPlanGraph, patternGraph, isNegative);
             AppendHomomorphyInformation(scheduledSearchPlan);
             patternGraph.Schedule = scheduledSearchPlan;
 

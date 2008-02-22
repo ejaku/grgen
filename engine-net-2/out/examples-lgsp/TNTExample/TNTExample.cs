@@ -26,6 +26,9 @@ namespace TNT
 
             LGSPMatches matches = actions.GetAction("TNT").Match(graph, 0, null);
             Console.WriteLine(matches.Count + " matches found.");
+
+            matches = actions.GetAction("ToluolCore").Match(graph, 0, null);
+            Console.WriteLine(matches.Count + " matches found.");
         }
 
         static void Main(string[] args)

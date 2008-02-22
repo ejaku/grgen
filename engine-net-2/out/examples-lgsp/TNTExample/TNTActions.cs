@@ -72,6 +72,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRing",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -208,6 +209,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRingC123456Exposed",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -344,6 +346,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge8 = new PatternEdge(node_c5, node_c6, (int) EdgeTypes.@Edge, "edge__edge8", edge__edge8_AllowedTypes, edge__edge8_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"BenzolRingC1Exposed",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -444,6 +447,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge0 = new PatternEdge(node_anchor, node__node0, (int) EdgeTypes.@Edge, "edge__edge0", edge__edge0_AllowedTypes, edge__edge0_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"Hydrogen",
+				"",
 				new PatternNode[] { node_anchor, node__node0 }, 
 				new PatternEdge[] { edge__edge0 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -526,6 +530,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge1 = new PatternEdge(node__node0, node__node1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"Hydroxyl",
+				"",
 				new PatternNode[] { node_anchor, node__node0, node__node1 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -624,6 +629,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge3 = new PatternEdge(node_c, node__node2, (int) EdgeTypes.@Edge, "edge__edge3", edge__edge3_AllowedTypes, edge__edge3_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"Methyl",
+				"",
 				new PatternNode[] { node_anchor, node_c, node__node0, node__node1, node__node2 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -724,6 +730,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge2 = new PatternEdge(node_n, node__node1, (int) EdgeTypes.@Edge, "edge__edge2", edge__edge2_AllowedTypes, edge__edge2_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"Nitro",
+				"",
 				new PatternNode[] { node_anchor, node_n, node__node0, node__node1 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -811,6 +818,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge1 = new PatternEdge(node_o2, node_o1, (int) EdgeTypes.@Edge, "edge__edge1", edge__edge1_AllowedTypes, edge__edge1_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"Oxygen",
+				"",
 				new PatternNode[] { node_o1, node_o2 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -902,6 +910,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern3 = new PatternGraphEmbedding("_subpattern3", Pattern_TriNitro.Instance, new PatternElement[] { node_c2, node_c4, node_c6 });
 			patternGraph = new PatternGraph(
 				"ToluolCoreThenTriNitro",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3 }, 
@@ -988,6 +997,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern2 = new PatternGraphEmbedding("_subpattern2", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"TriNitro",
+				"",
 				new PatternNode[] { node_c2, node_c4, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2 }, 
@@ -1056,6 +1066,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern0 = new PatternGraphEmbedding("_subpattern0", Pattern_BenzolRing.Instance, new PatternElement[] {  });
 			patternGraph = new PatternGraph(
 				"BenzolRing",
+				"",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0 }, 
@@ -1163,6 +1174,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Hydrogen.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"DNT",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
@@ -1383,6 +1395,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge21 = new PatternEdge(node_c6, node__node9, (int) EdgeTypes.@Edge, "edge__edge21", edge__edge21_AllowedTypes, edge__edge21_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"DNTUnfolded",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node__node9 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20, edge__edge21 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -1577,6 +1590,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"TNB",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
@@ -1791,6 +1805,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge20 = new PatternEdge(node_n6, node__node8, (int) EdgeTypes.@Edge, "edge__edge20", edge__edge20_AllowedTypes, edge__edge20_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"TNBUnfolded",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node__node0, node_n2, node__node1, node__node2, node__node3, node_n4, node__node4, node__node5, node__node6, node_n6, node__node7, node__node8 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -1981,6 +1996,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern5 = new PatternGraphEmbedding("_subpattern5", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"TNT",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8 }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5 }, 
@@ -2098,6 +2114,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_ToluolCoreThenTriNitro.Instance, new PatternElement[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 });
 			patternGraph = new PatternGraph(
 				"TNTChain",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
@@ -2195,6 +2212,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Nitro.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"TNTTotallyFolded",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
@@ -2407,6 +2425,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternEdge edge__edge23 = new PatternEdge(node_n6, node__node10, (int) EdgeTypes.@Edge, "edge__edge23", edge__edge23_AllowedTypes, edge__edge23_IsAllowedType, 5.5F, -1);
 			patternGraph = new PatternGraph(
 				"TNTUnfolded",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6, node_c, node__node0, node__node1, node__node2, node_n2, node__node3, node__node4, node__node5, node_n4, node__node6, node__node7, node__node8, node_n6, node__node9, node__node10 }, 
 				new PatternEdge[] { edge__edge0, edge__edge1, edge__edge2, edge__edge3, edge__edge4, edge__edge5, edge__edge6, edge__edge7, edge__edge8, edge__edge9, edge__edge10, edge__edge11, edge__edge12, edge__edge13, edge__edge14, edge__edge15, edge__edge16, edge__edge17, edge__edge18, edge__edge19, edge__edge20, edge__edge21, edge__edge22, edge__edge23 }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -2583,6 +2602,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern6 = new PatternGraphEmbedding("_subpattern6", Pattern_Hydrogen.Instance, new PatternElement[] { node_c6 });
 			patternGraph = new PatternGraph(
 				"Toluol",
+				"",
 				new PatternNode[] { node_c1, node_c2, node_c3, node_c4, node_c5, node_c6 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1, _subpattern2, _subpattern3, _subpattern4, _subpattern5, _subpattern6 }, 
@@ -2665,6 +2685,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			PatternGraphEmbedding _subpattern1 = new PatternGraphEmbedding("_subpattern1", Pattern_Methyl.Instance, new PatternElement[] { node_c1 });
 			patternGraph = new PatternGraph(
 				"ToluolCore",
+				"",
 				new PatternNode[] { node_c1 }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] { _subpattern0, _subpattern1 }, 
@@ -2727,6 +2748,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
 				"createDNT",
+				"",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -2865,6 +2887,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
 				"createTNB",
+				"",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -2999,6 +3022,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			isSubpattern = false;
 			patternGraph = new PatternGraph(
 				"createTNT",
+				"",
 				new PatternNode[] {  }, 
 				new PatternEdge[] {  }, 
 				new PatternGraphEmbedding[] {  }, 
@@ -3126,20 +3150,19 @@ namespace de.unika.ipd.grGen.Action_TNT
 	}
 
 
-	public class PatternAction_BenzolRing : LGSPSubpatternAction
-	{
-		public PatternAction_BenzolRing(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_BenzolRing.Instance;
-		}
+    public class PatternAction_BenzolRing : LGSPSubpatternAction
+    {
+        public PatternAction_BenzolRing(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_BenzolRing.Instance.patternGraph;
+        }
 
-
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
@@ -3149,7 +3172,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -3162,7 +3184,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -3185,7 +3206,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -3210,7 +3230,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge1 from node_c2 
                         LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                         if(edge_head_edge__edge1 != null)
                         {
@@ -3234,7 +3253,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                 edge_cur_edge__edge1.isMatched = true;
-                                // Implicit target node_c3 from edge__edge1 
                                 LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                     edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -3256,7 +3274,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                 node_cur_node_c3.isMatched = true;
-                                // Extend outgoing edge__edge2 from node_c3 
                                 LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                 if(edge_head_edge__edge2 != null)
                                 {
@@ -3281,7 +3298,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                         edge_cur_edge__edge2.isMatched = true;
-                                        // Implicit target node_c4 from edge__edge2 
                                         LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                             edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -3304,7 +3320,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                         node_cur_node_c4.isMatched = true;
-                                        // Extend outgoing edge__edge7 from node_c3 
                                         LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                         if(edge_head_edge__edge7 != null)
                                         {
@@ -3333,7 +3348,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                 edge_cur_edge__edge7.isMatched = true;
-                                                // Extend outgoing edge__edge3 from node_c4 
                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                 if(edge_head_edge__edge3 != null)
                                                 {
@@ -3360,7 +3374,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                         edge_cur_edge__edge3.isMatched = true;
-                                                        // Implicit target node_c5 from edge__edge3 
                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -3384,7 +3397,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                         node_cur_node_c5.isMatched = true;
-                                                        // Extend outgoing edge__edge4 from node_c5 
                                                         LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                         if(edge_head_edge__edge4 != null)
                                                         {
@@ -3412,7 +3424,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                 edge_cur_edge__edge4.isMatched = true;
-                                                                // Implicit target node_c6 from edge__edge4 
                                                                 LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -3435,7 +3446,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
-                                                                // Extend outgoing edge__edge8 from node_c5 
                                                                 LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                 if(edge_head_edge__edge8 != null)
                                                                 {
@@ -3467,7 +3477,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                         edge_cur_edge__edge8.isMatched = true;
-                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                         if(edge_head_edge__edge5 != null)
                                                                         {
@@ -3498,13 +3507,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
-                                                                                // Check whether there are subpattern matching tasks left to execute
                                                                                 if(openTasks.Count==0)
                                                                                 {
                                                                                     Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                                                     foundPartialMatches.Add(currentFoundPartialMatch);
                                                                                     LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                    match.patternGraph = rulePattern.patternGraph;
+                                                                                    match.patternGraph = patternGraph;
                                                                                     match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c1] = node_cur_node_c1;
                                                                                     match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c2] = node_cur_node_c2;
                                                                                     match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c3] = node_cur_node_c3;
@@ -3521,7 +3529,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge7] = edge_cur_edge__edge7;
                                                                                     match.Edges[(int)Pattern_BenzolRing.EdgeNums.@_edge8] = edge_cur_edge__edge8;
                                                                                     currentFoundPartialMatch.Push(match);
-                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
@@ -3557,15 +3564,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
-                                                                                    // subpatterns were found, extend the partial matches by our local match object
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.patternGraph = patternGraph;
                                                                                         match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Pattern_BenzolRing.NodeNums.@c3] = node_cur_node_c3;
@@ -3592,7 +3596,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         matchesList.Clear();
                                                                                     }
-                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -3699,39 +3702,33 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_BenzolRingC123456Exposed : LGSPSubpatternAction
-	{
-		public PatternAction_BenzolRingC123456Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_BenzolRingC123456Exposed.Instance;
-		}
+    }
 
-		public LGSPNode node_c1;
-		public LGSPNode node_c2;
-		public LGSPNode node_c3;
-		public LGSPNode node_c4;
-		public LGSPNode node_c5;
-		public LGSPNode node_c6;
+    public class PatternAction_BenzolRingC123456Exposed : LGSPSubpatternAction
+    {
+        public PatternAction_BenzolRingC123456Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_BenzolRingC123456Exposed.Instance.patternGraph;
+        }
 
+        public LGSPNode node_c1;
+        public LGSPNode node_c2;
+        public LGSPNode node_c3;
+        public LGSPNode node_c4;
+        public LGSPNode node_c5;
+        public LGSPNode node_c6;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_c1 
             LGSPNode node_cur_node_c1 = node_c1;
-            // SubPreset node_c2 
             LGSPNode node_cur_node_c2 = node_c2;
-            // SubPreset node_c3 
             LGSPNode node_cur_node_c3 = node_c3;
-            // SubPreset node_c4 
             LGSPNode node_cur_node_c4 = node_c4;
-            // SubPreset node_c5 
             LGSPNode node_cur_node_c5 = node_c5;
-            // SubPreset node_c6 
             LGSPNode node_cur_node_c6 = node_c6;
-            // Extend outgoing edge__edge0 from node_c1 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_c1.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -3750,7 +3747,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                     edge_cur_edge__edge0.isMatched = true;
-                    // Extend outgoing edge__edge6 from node_c1 
                     LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                     if(edge_head_edge__edge6 != null)
                     {
@@ -3775,7 +3771,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                             edge_cur_edge__edge6.isMatched = true;
-                            // Extend outgoing edge__edge1 from node_c2 
                             LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                             if(edge_head_edge__edge1 != null)
                             {
@@ -3802,7 +3797,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                     edge_cur_edge__edge1.isMatched = true;
-                                    // Extend outgoing edge__edge2 from node_c3 
                                     LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                     if(edge_head_edge__edge2 != null)
                                     {
@@ -3830,7 +3824,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                             edge_cur_edge__edge2.isMatched = true;
-                                            // Extend outgoing edge__edge7 from node_c3 
                                             LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                             if(edge_head_edge__edge7 != null)
                                             {
@@ -3859,7 +3852,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                     edge_cur_edge__edge7.isMatched = true;
-                                                    // Extend outgoing edge__edge3 from node_c4 
                                                     LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                     if(edge_head_edge__edge3 != null)
                                                     {
@@ -3889,7 +3881,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                             edge_cur_edge__edge3.isMatched = true;
-                                                            // Extend outgoing edge__edge4 from node_c5 
                                                             LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                             if(edge_head_edge__edge4 != null)
                                                             {
@@ -3920,7 +3911,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     }
                                                                     bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                     edge_cur_edge__edge4.isMatched = true;
-                                                                    // Extend outgoing edge__edge8 from node_c5 
                                                                     LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                     if(edge_head_edge__edge8 != null)
                                                                     {
@@ -3952,7 +3942,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             }
                                                                             bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                             edge_cur_edge__edge8.isMatched = true;
-                                                                            // Extend outgoing edge__edge5 from node_c6 
                                                                             LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                             if(edge_head_edge__edge5 != null)
                                                                             {
@@ -3983,13 +3972,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     {
                                                                                         continue;
                                                                                     }
-                                                                                    // Check whether there are subpattern matching tasks left to execute
                                                                                     if(openTasks.Count==0)
                                                                                     {
                                                                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                                                         foundPartialMatches.Add(currentFoundPartialMatch);
                                                                                         LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.patternGraph = patternGraph;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c3] = node_cur_node_c3;
@@ -4006,7 +3994,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
                                                                                         match.Edges[(int)Pattern_BenzolRingC123456Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
                                                                                         currentFoundPartialMatch.Push(match);
-                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
@@ -4037,15 +4024,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                    // Check whether subpatterns were found 
                                                                                     if(matchesList.Count>0) {
-                                                                                        // subpatterns were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                         {
                                                                                             LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                            match.patternGraph = rulePattern.patternGraph;
+                                                                                            match.patternGraph = patternGraph;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c1] = node_cur_node_c1;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c2] = node_cur_node_c2;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC123456Exposed.NodeNums.@c3] = node_cur_node_c3;
@@ -4072,7 +4056,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             }
                                                                                             matchesList.Clear();
                                                                                         }
-                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -4171,24 +4154,23 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_BenzolRingC1Exposed : LGSPSubpatternAction
-	{
-		public PatternAction_BenzolRingC1Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_BenzolRingC1Exposed.Instance;
-		}
+    }
 
-		public LGSPNode node_c1;
+    public class PatternAction_BenzolRingC1Exposed : LGSPSubpatternAction
+    {
+        public PatternAction_BenzolRingC1Exposed(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_BenzolRingC1Exposed.Instance.patternGraph;
+        }
 
+        public LGSPNode node_c1;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_c1 
             LGSPNode node_cur_node_c1 = node_c1;
-            // Extend outgoing edge__edge0 from node_c1 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_c1.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -4204,7 +4186,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                     edge_cur_edge__edge0.isMatched = true;
-                    // Implicit target node_c2 from edge__edge0 
                     LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                     if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -4224,7 +4205,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                     node_cur_node_c2.isMatched = true;
-                    // Extend outgoing edge__edge6 from node_c1 
                     LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                     if(edge_head_edge__edge6 != null)
                     {
@@ -4249,7 +4229,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                             edge_cur_edge__edge6.isMatched = true;
-                            // Extend outgoing edge__edge1 from node_c2 
                             LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                             if(edge_head_edge__edge1 != null)
                             {
@@ -4273,7 +4252,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                     edge_cur_edge__edge1.isMatched = true;
-                                    // Implicit target node_c3 from edge__edge1 
                                     LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                     if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                         edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -4295,7 +4273,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                     node_cur_node_c3.isMatched = true;
-                                    // Extend outgoing edge__edge2 from node_c3 
                                     LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                     if(edge_head_edge__edge2 != null)
                                     {
@@ -4320,7 +4297,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                             edge_cur_edge__edge2.isMatched = true;
-                                            // Implicit target node_c4 from edge__edge2 
                                             LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                             if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                                 edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -4343,7 +4319,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                             node_cur_node_c4.isMatched = true;
-                                            // Extend outgoing edge__edge7 from node_c3 
                                             LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                             if(edge_head_edge__edge7 != null)
                                             {
@@ -4372,7 +4347,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                     edge_cur_edge__edge7.isMatched = true;
-                                                    // Extend outgoing edge__edge3 from node_c4 
                                                     LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                     if(edge_head_edge__edge3 != null)
                                                     {
@@ -4399,7 +4373,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                             edge_cur_edge__edge3.isMatched = true;
-                                                            // Implicit target node_c5 from edge__edge3 
                                                             LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                             if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                                 edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -4423,7 +4396,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             }
                                                             bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                             node_cur_node_c5.isMatched = true;
-                                                            // Extend outgoing edge__edge4 from node_c5 
                                                             LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                             if(edge_head_edge__edge4 != null)
                                                             {
@@ -4451,7 +4423,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     }
                                                                     bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                     edge_cur_edge__edge4.isMatched = true;
-                                                                    // Implicit target node_c6 from edge__edge4 
                                                                     LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                     if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                         edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -4474,7 +4445,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                         continue;
                                                                     }
-                                                                    // Extend outgoing edge__edge8 from node_c5 
                                                                     LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                     if(edge_head_edge__edge8 != null)
                                                                     {
@@ -4506,7 +4476,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             }
                                                                             bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                             edge_cur_edge__edge8.isMatched = true;
-                                                                            // Extend outgoing edge__edge5 from node_c6 
                                                                             LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                             if(edge_head_edge__edge5 != null)
                                                                             {
@@ -4537,13 +4506,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     {
                                                                                         continue;
                                                                                     }
-                                                                                    // Check whether there are subpattern matching tasks left to execute
                                                                                     if(openTasks.Count==0)
                                                                                     {
                                                                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                                                         foundPartialMatches.Add(currentFoundPartialMatch);
                                                                                         LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                        match.patternGraph = rulePattern.patternGraph;
+                                                                                        match.patternGraph = patternGraph;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c1] = node_cur_node_c1;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c2] = node_cur_node_c2;
                                                                                         match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c3] = node_cur_node_c3;
@@ -4560,7 +4528,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge7] = edge_cur_edge__edge7;
                                                                                         match.Edges[(int)Pattern_BenzolRingC1Exposed.EdgeNums.@_edge8] = edge_cur_edge__edge8;
                                                                                         currentFoundPartialMatch.Push(match);
-                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_edge__edge8.isMatched = edge_cur_edge__edge8_prevIsMatched;
@@ -4595,15 +4562,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                     edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                    // Check whether subpatterns were found 
                                                                                     if(matchesList.Count>0) {
-                                                                                        // subpatterns were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                         {
                                                                                             LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[9], new LGSPMatch[0]);
-                                                                                            match.patternGraph = rulePattern.patternGraph;
+                                                                                            match.patternGraph = patternGraph;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c1] = node_cur_node_c1;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c2] = node_cur_node_c2;
                                                                                             match.Nodes[(int)Pattern_BenzolRingC1Exposed.NodeNums.@c3] = node_cur_node_c3;
@@ -4630,7 +4594,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                             }
                                                                                             matchesList.Clear();
                                                                                         }
-                                                                                        // if enough matches were found, we leave
                                                                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                                                         {
                                                                                             edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -4737,24 +4700,23 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_Hydrogen : LGSPSubpatternAction
-	{
-		public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_Hydrogen.Instance;
-		}
+    }
 
-		public LGSPNode node_anchor;
+    public class PatternAction_Hydrogen : LGSPSubpatternAction
+    {
+        public PatternAction_Hydrogen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_Hydrogen.Instance.patternGraph;
+        }
 
+        public LGSPNode node_anchor;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_anchor 
             LGSPNode node_cur_node_anchor = node_anchor;
-            // Extend outgoing edge__edge0 from node_anchor 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_anchor.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -4768,7 +4730,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     {
                         continue;
                     }
-                    // Implicit target node__node0 from edge__edge0 
                     LGSPNode node_cur_node__node0 = edge_cur_edge__edge0.target;
                     if(!NodeType_H.isMyType[node_cur_node__node0.type.TypeID]) {
                         continue;
@@ -4777,18 +4738,16 @@ namespace de.unika.ipd.grGen.Action_TNT
                     {
                         continue;
                     }
-                    // Check whether there are subpattern matching tasks left to execute
                     if(openTasks.Count==0)
                     {
                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                         foundPartialMatches.Add(currentFoundPartialMatch);
                         LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
-                        match.patternGraph = rulePattern.patternGraph;
+                        match.patternGraph = patternGraph;
                         match.Nodes[(int)Pattern_Hydrogen.NodeNums.@anchor] = node_cur_node_anchor;
                         match.Nodes[(int)Pattern_Hydrogen.NodeNums.@_node0] = node_cur_node__node0;
                         match.Edges[(int)Pattern_Hydrogen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                         currentFoundPartialMatch.Push(match);
-                        // if enough matches were found, we leave
                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                         {
                             openTasks.Push(this);
@@ -4799,15 +4758,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                     node_cur_node_anchor.isMatchedByEnclosingPattern = true;
                     node_cur_node__node0.isMatchedByEnclosingPattern = true;
                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
-                    // Match subpatterns
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                    // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
-                        // subpatterns were found, extend the partial matches by our local match object
                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                         {
                             LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[1], new LGSPMatch[0]);
-                            match.patternGraph = rulePattern.patternGraph;
+                            match.patternGraph = patternGraph;
                             match.Nodes[(int)Pattern_Hydrogen.NodeNums.@anchor] = node_cur_node_anchor;
                             match.Nodes[(int)Pattern_Hydrogen.NodeNums.@_node0] = node_cur_node__node0;
                             match.Edges[(int)Pattern_Hydrogen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
@@ -4822,7 +4778,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             matchesList.Clear();
                         }
-                        // if enough matches were found, we leave
                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                         {
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = false;
@@ -4845,24 +4800,23 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_Hydroxyl : LGSPSubpatternAction
-	{
-		public PatternAction_Hydroxyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_Hydroxyl.Instance;
-		}
+    }
 
-		public LGSPNode node_anchor;
+    public class PatternAction_Hydroxyl : LGSPSubpatternAction
+    {
+        public PatternAction_Hydroxyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_Hydroxyl.Instance.patternGraph;
+        }
 
+        public LGSPNode node_anchor;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_anchor 
             LGSPNode node_cur_node_anchor = node_anchor;
-            // Extend outgoing edge__edge0 from node_anchor 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_anchor.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -4878,7 +4832,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                     edge_cur_edge__edge0.isMatched = true;
-                    // Implicit target node__node0 from edge__edge0 
                     LGSPNode node_cur_node__node0 = edge_cur_edge__edge0.target;
                     if(!NodeType_O.isMyType[node_cur_node__node0.type.TypeID]) {
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -4889,7 +4842,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
                         continue;
                     }
-                    // Extend outgoing edge__edge1 from node__node0 
                     LGSPEdge edge_head_edge__edge1 = node_cur_node__node0.outhead;
                     if(edge_head_edge__edge1 != null)
                     {
@@ -4909,7 +4861,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             {
                                 continue;
                             }
-                            // Implicit target node__node1 from edge__edge1 
                             LGSPNode node_cur_node__node1 = edge_cur_edge__edge1.target;
                             if(!NodeType_H.isMyType[node_cur_node__node1.type.TypeID]) {
                                 continue;
@@ -4918,20 +4869,18 @@ namespace de.unika.ipd.grGen.Action_TNT
                             {
                                 continue;
                             }
-                            // Check whether there are subpattern matching tasks left to execute
                             if(openTasks.Count==0)
                             {
                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                 foundPartialMatches.Add(currentFoundPartialMatch);
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
-                                match.patternGraph = rulePattern.patternGraph;
+                                match.patternGraph = patternGraph;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@anchor] = node_cur_node_anchor;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node0] = node_cur_node__node0;
                                 match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node1] = node_cur_node__node1;
                                 match.Edges[(int)Pattern_Hydroxyl.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                                 match.Edges[(int)Pattern_Hydroxyl.EdgeNums.@_edge1] = edge_cur_edge__edge1;
                                 currentFoundPartialMatch.Push(match);
-                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                 {
                                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -4945,15 +4894,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                             node_cur_node__node1.isMatchedByEnclosingPattern = true;
                             edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                             edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
-                            // Match subpatterns
                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                            // Check whether subpatterns were found 
                             if(matchesList.Count>0) {
-                                // subpatterns were found, extend the partial matches by our local match object
                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                 {
                                     LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[2], new LGSPMatch[0]);
-                                    match.patternGraph = rulePattern.patternGraph;
+                                    match.patternGraph = patternGraph;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@anchor] = node_cur_node_anchor;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node0] = node_cur_node__node0;
                                     match.Nodes[(int)Pattern_Hydroxyl.NodeNums.@_node1] = node_cur_node__node1;
@@ -4970,7 +4916,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     matchesList.Clear();
                                 }
-                                // if enough matches were found, we leave
                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                 {
                                     edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
@@ -5004,24 +4949,23 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_Methyl : LGSPSubpatternAction
-	{
-		public PatternAction_Methyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_Methyl.Instance;
-		}
+    }
 
-		public LGSPNode node_anchor;
+    public class PatternAction_Methyl : LGSPSubpatternAction
+    {
+        public PatternAction_Methyl(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_Methyl.Instance.patternGraph;
+        }
 
+        public LGSPNode node_anchor;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_anchor 
             LGSPNode node_cur_node_anchor = node_anchor;
-            // Extend outgoing edge__edge0 from node_anchor 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_anchor.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -5037,7 +4981,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                     edge_cur_edge__edge0.isMatched = true;
-                    // Implicit target node_c from edge__edge0 
                     LGSPNode node_cur_node_c = edge_cur_edge__edge0.target;
                     if(!NodeType_C.isMyType[node_cur_node_c.type.TypeID]) {
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -5055,7 +4998,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
                         continue;
                     }
-                    // Extend outgoing edge__edge1 from node_c 
                     LGSPEdge edge_head_edge__edge1 = node_cur_node_c.outhead;
                     if(edge_head_edge__edge1 != null)
                     {
@@ -5077,7 +5019,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                             edge_cur_edge__edge1.isMatched = true;
-                            // Implicit target node__node0 from edge__edge1 
                             LGSPNode node_cur_node__node0 = edge_cur_edge__edge1.target;
                             if(!NodeType_H.isMyType[node_cur_node__node0.type.TypeID]) {
                                 edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -5090,7 +5031,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_node__node0_prevIsMatched = node_cur_node__node0.isMatched;
                             node_cur_node__node0.isMatched = true;
-                            // Extend outgoing edge__edge2 from node_c 
                             LGSPEdge edge_head_edge__edge2 = node_cur_node_c.outhead;
                             if(edge_head_edge__edge2 != null)
                             {
@@ -5114,7 +5054,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                     edge_cur_edge__edge2.isMatched = true;
-                                    // Implicit target node__node1 from edge__edge2 
                                     LGSPNode node_cur_node__node1 = edge_cur_edge__edge2.target;
                                     if(!NodeType_H.isMyType[node_cur_node__node1.type.TypeID]) {
                                         edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -5134,7 +5073,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     }
                                     bool node_cur_node__node1_prevIsMatched = node_cur_node__node1.isMatched;
                                     node_cur_node__node1.isMatched = true;
-                                    // Extend outgoing edge__edge3 from node_c 
                                     LGSPEdge edge_head_edge__edge3 = node_cur_node_c.outhead;
                                     if(edge_head_edge__edge3 != null)
                                     {
@@ -5157,7 +5095,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             {
                                                 continue;
                                             }
-                                            // Implicit target node__node2 from edge__edge3 
                                             LGSPNode node_cur_node__node2 = edge_cur_edge__edge3.target;
                                             if(!NodeType_H.isMyType[node_cur_node__node2.type.TypeID]) {
                                                 continue;
@@ -5174,13 +5111,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             {
                                                 continue;
                                             }
-                                            // Check whether there are subpattern matching tasks left to execute
                                             if(openTasks.Count==0)
                                             {
                                                 Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                                 foundPartialMatches.Add(currentFoundPartialMatch);
                                                 LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
-                                                match.patternGraph = rulePattern.patternGraph;
+                                                match.patternGraph = patternGraph;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@anchor] = node_cur_node_anchor;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@c] = node_cur_node_c;
                                                 match.Nodes[(int)Pattern_Methyl.NodeNums.@_node0] = node_cur_node__node0;
@@ -5191,7 +5127,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 match.Edges[(int)Pattern_Methyl.EdgeNums.@_edge2] = edge_cur_edge__edge2;
                                                 match.Edges[(int)Pattern_Methyl.EdgeNums.@_edge3] = edge_cur_edge__edge3;
                                                 currentFoundPartialMatch.Push(match);
-                                                // if enough matches were found, we leave
                                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                 {
                                                     node_cur_node__node1.isMatched = node_cur_node__node1_prevIsMatched;
@@ -5213,15 +5148,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
                                             edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
                                             edge_cur_edge__edge3.isMatchedByEnclosingPattern = true;
-                                            // Match subpatterns
                                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                            // Check whether subpatterns were found 
                                             if(matchesList.Count>0) {
-                                                // subpatterns were found, extend the partial matches by our local match object
                                                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                 {
                                                     LGSPMatch match = new LGSPMatch(new LGSPNode[5], new LGSPEdge[4], new LGSPMatch[0]);
-                                                    match.patternGraph = rulePattern.patternGraph;
+                                                    match.patternGraph = patternGraph;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@anchor] = node_cur_node_anchor;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@c] = node_cur_node_c;
                                                     match.Nodes[(int)Pattern_Methyl.NodeNums.@_node0] = node_cur_node__node0;
@@ -5242,7 +5174,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     }
                                                     matchesList.Clear();
                                                 }
-                                                // if enough matches were found, we leave
                                                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                                 {
                                                     edge_cur_edge__edge3.isMatchedByEnclosingPattern = false;
@@ -5302,24 +5233,23 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_Nitro : LGSPSubpatternAction
-	{
-		public PatternAction_Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_Nitro.Instance;
-		}
+    }
 
-		public LGSPNode node_anchor;
+    public class PatternAction_Nitro : LGSPSubpatternAction
+    {
+        public PatternAction_Nitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_Nitro.Instance.patternGraph;
+        }
 
+        public LGSPNode node_anchor;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_anchor 
             LGSPNode node_cur_node_anchor = node_anchor;
-            // Extend outgoing edge__edge0 from node_anchor 
             LGSPEdge edge_head_edge__edge0 = node_cur_node_anchor.outhead;
             if(edge_head_edge__edge0 != null)
             {
@@ -5335,7 +5265,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                     edge_cur_edge__edge0.isMatched = true;
-                    // Implicit target node_n from edge__edge0 
                     LGSPNode node_cur_node_n = edge_cur_edge__edge0.target;
                     if(!NodeType_N.isMyType[node_cur_node_n.type.TypeID]) {
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -5346,7 +5275,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
                         continue;
                     }
-                    // Extend outgoing edge__edge1 from node_n 
                     LGSPEdge edge_head_edge__edge1 = node_cur_node_n.outhead;
                     if(edge_head_edge__edge1 != null)
                     {
@@ -5368,7 +5296,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                             edge_cur_edge__edge1.isMatched = true;
-                            // Implicit target node__node0 from edge__edge1 
                             LGSPNode node_cur_node__node0 = edge_cur_edge__edge1.target;
                             if(!NodeType_O.isMyType[node_cur_node__node0.type.TypeID]) {
                                 edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -5381,7 +5308,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_node__node0_prevIsMatched = node_cur_node__node0.isMatched;
                             node_cur_node__node0.isMatched = true;
-                            // Extend outgoing edge__edge2 from node_n 
                             LGSPEdge edge_head_edge__edge2 = node_cur_node_n.outhead;
                             if(edge_head_edge__edge2 != null)
                             {
@@ -5403,7 +5329,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
-                                    // Implicit target node__node1 from edge__edge2 
                                     LGSPNode node_cur_node__node1 = edge_cur_edge__edge2.target;
                                     if(!NodeType_O.isMyType[node_cur_node__node1.type.TypeID]) {
                                         continue;
@@ -5418,13 +5343,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
-                                    // Check whether there are subpattern matching tasks left to execute
                                     if(openTasks.Count==0)
                                     {
                                         Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                                         foundPartialMatches.Add(currentFoundPartialMatch);
                                         LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0]);
-                                        match.patternGraph = rulePattern.patternGraph;
+                                        match.patternGraph = patternGraph;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@anchor] = node_cur_node_anchor;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@n] = node_cur_node_n;
                                         match.Nodes[(int)Pattern_Nitro.NodeNums.@_node0] = node_cur_node__node0;
@@ -5433,7 +5357,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         match.Edges[(int)Pattern_Nitro.EdgeNums.@_edge1] = edge_cur_edge__edge1;
                                         match.Edges[(int)Pattern_Nitro.EdgeNums.@_edge2] = edge_cur_edge__edge2;
                                         currentFoundPartialMatch.Push(match);
-                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                         {
                                             node_cur_node__node0.isMatched = node_cur_node__node0_prevIsMatched;
@@ -5451,15 +5374,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                                     edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
                                     edge_cur_edge__edge2.isMatchedByEnclosingPattern = true;
-                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
-                                        // subpatterns were found, extend the partial matches by our local match object
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = new LGSPMatch(new LGSPNode[4], new LGSPEdge[3], new LGSPMatch[0]);
-                                            match.patternGraph = rulePattern.patternGraph;
+                                            match.patternGraph = patternGraph;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@anchor] = node_cur_node_anchor;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@n] = node_cur_node_n;
                                             match.Nodes[(int)Pattern_Nitro.NodeNums.@_node0] = node_cur_node__node0;
@@ -5478,7 +5398,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             }
                                             matchesList.Clear();
                                         }
-                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                                         {
                                             edge_cur_edge__edge2.isMatchedByEnclosingPattern = false;
@@ -5525,21 +5444,21 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_Oxygen : LGSPSubpatternAction
-	{
-		public PatternAction_Oxygen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_Oxygen.Instance;
-		}
+    }
 
+    public class PatternAction_Oxygen : LGSPSubpatternAction
+    {
+        public PatternAction_Oxygen(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_Oxygen.Instance.patternGraph;
+        }
 
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
@@ -5549,7 +5468,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_o1 from edge__edge0 
                 LGSPNode node_cur_node_o1 = edge_cur_edge__edge0.source;
                 if(!NodeType_O.isMyType[node_cur_node_o1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -5562,7 +5480,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_o1_prevIsMatched = node_cur_node_o1.isMatched;
                 node_cur_node_o1.isMatched = true;
-                // Implicit target node_o2 from edge__edge0 
                 LGSPNode node_cur_node_o2 = edge_cur_edge__edge0.target;
                 if(!NodeType_O.isMyType[node_cur_node_o2.type.TypeID]) {
                     node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
@@ -5583,7 +5500,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
                     continue;
                 }
-                // Extend outgoing edge__edge1 from node_o2 
                 LGSPEdge edge_head_edge__edge1 = node_cur_node_o2.outhead;
                 if(edge_head_edge__edge1 != null)
                 {
@@ -5606,19 +5522,17 @@ namespace de.unika.ipd.grGen.Action_TNT
                         {
                             continue;
                         }
-                        // Check whether there are subpattern matching tasks left to execute
                         if(openTasks.Count==0)
                         {
                             Stack<LGSPMatch> currentFoundPartialMatch = new Stack<LGSPMatch>();
                             foundPartialMatches.Add(currentFoundPartialMatch);
                             LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
-                            match.patternGraph = rulePattern.patternGraph;
+                            match.patternGraph = patternGraph;
                             match.Nodes[(int)Pattern_Oxygen.NodeNums.@o1] = node_cur_node_o1;
                             match.Nodes[(int)Pattern_Oxygen.NodeNums.@o2] = node_cur_node_o2;
                             match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
                             match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge1] = edge_cur_edge__edge1;
                             currentFoundPartialMatch.Push(match);
-                            // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
                                 node_cur_node_o1.isMatched = node_cur_node_o1_prevIsMatched;
@@ -5632,15 +5546,12 @@ namespace de.unika.ipd.grGen.Action_TNT
                         node_cur_node_o2.isMatchedByEnclosingPattern = true;
                         edge_cur_edge__edge0.isMatchedByEnclosingPattern = true;
                         edge_cur_edge__edge1.isMatchedByEnclosingPattern = true;
-                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                        // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
-                            // subpatterns were found, extend the partial matches by our local match object
                             foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                             {
                                 LGSPMatch match = new LGSPMatch(new LGSPNode[2], new LGSPEdge[2], new LGSPMatch[0]);
-                                match.patternGraph = rulePattern.patternGraph;
+                                match.patternGraph = patternGraph;
                                 match.Nodes[(int)Pattern_Oxygen.NodeNums.@o1] = node_cur_node_o1;
                                 match.Nodes[(int)Pattern_Oxygen.NodeNums.@o2] = node_cur_node_o2;
                                 match.Edges[(int)Pattern_Oxygen.EdgeNums.@_edge0] = edge_cur_edge__edge0;
@@ -5656,7 +5567,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 matchesList.Clear();
                             }
-                            // if enough matches were found, we leave
                             if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                             {
                                 edge_cur_edge__edge1.isMatchedByEnclosingPattern = false;
@@ -5687,53 +5597,44 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_ToluolCoreThenTriNitro : LGSPSubpatternAction
-	{
-		public PatternAction_ToluolCoreThenTriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_ToluolCoreThenTriNitro.Instance;
-		}
+    }
 
-		public LGSPNode node_c1;
-		public LGSPNode node_c2;
-		public LGSPNode node_c3;
-		public LGSPNode node_c4;
-		public LGSPNode node_c5;
-		public LGSPNode node_c6;
+    public class PatternAction_ToluolCoreThenTriNitro : LGSPSubpatternAction
+    {
+        public PatternAction_ToluolCoreThenTriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_ToluolCoreThenTriNitro.Instance.patternGraph;
+        }
 
+        public LGSPNode node_c1;
+        public LGSPNode node_c2;
+        public LGSPNode node_c3;
+        public LGSPNode node_c4;
+        public LGSPNode node_c5;
+        public LGSPNode node_c6;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_c1 
             LGSPNode node_cur_node_c1 = node_c1;
-            // SubPreset node_c2 
             LGSPNode node_cur_node_c2 = node_c2;
-            // SubPreset node_c3 
             LGSPNode node_cur_node_c3 = node_c3;
-            // SubPreset node_c4 
             LGSPNode node_cur_node_c4 = node_c4;
-            // SubPreset node_c5 
             LGSPNode node_cur_node_c5 = node_c5;
-            // SubPreset node_c6 
             LGSPNode node_cur_node_c6 = node_c6;
-            // Push subpattern matching task for _subpattern3
             PatternAction_TriNitro taskFor__subpattern3 = new PatternAction_TriNitro(graph, openTasks);
             taskFor__subpattern3.node_c2 = node_cur_node_c2;
             taskFor__subpattern3.node_c4 = node_cur_node_c4;
             taskFor__subpattern3.node_c6 = node_cur_node_c6;
             openTasks.Push(taskFor__subpattern3);
-            // Push subpattern matching task for _subpattern2
             PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
             taskFor__subpattern2.node_anchor = node_cur_node_c5;
             openTasks.Push(taskFor__subpattern2);
-            // Push subpattern matching task for _subpattern1
             PatternAction_Hydrogen taskFor__subpattern1 = new PatternAction_Hydrogen(graph, openTasks);
             taskFor__subpattern1.node_anchor = node_cur_node_c3;
             openTasks.Push(taskFor__subpattern1);
-            // Push subpattern matching task for _subpattern0
             PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
             taskFor__subpattern0.node_anchor = node_cur_node_c1;
             openTasks.Push(taskFor__subpattern0);
@@ -5743,23 +5644,16 @@ namespace de.unika.ipd.grGen.Action_TNT
             node_cur_node_c4.isMatchedByEnclosingPattern = true;
             node_cur_node_c5.isMatchedByEnclosingPattern = true;
             node_cur_node_c6.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
-            //Pop subpattern matching task for _subpattern1
             openTasks.Pop();
-            //Pop subpattern matching task for _subpattern2
             openTasks.Pop();
-            //Pop subpattern matching task for _subpattern3
             openTasks.Pop();
-            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
-                // subpatterns were found, extend the partial matches by our local match object
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[6], new LGSPEdge[0], new LGSPMatch[4]);
-                    match.patternGraph = rulePattern.patternGraph;
+                    match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c1] = node_cur_node_c1;
                     match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c2] = node_cur_node_c2;
                     match.Nodes[(int)Pattern_ToluolCoreThenTriNitro.NodeNums.@c3] = node_cur_node_c3;
@@ -5781,7 +5675,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     matchesList.Clear();
                 }
-                // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
                     node_cur_node_c6.isMatchedByEnclosingPattern = false;
@@ -5811,59 +5704,48 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class PatternAction_TriNitro : LGSPSubpatternAction
-	{
-		public PatternAction_TriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
-			graph = graph_; openTasks = openTasks_;
-			rulePattern = Pattern_TriNitro.Instance;
-		}
+    }
 
-		public LGSPNode node_c2;
-		public LGSPNode node_c4;
-		public LGSPNode node_c6;
+    public class PatternAction_TriNitro : LGSPSubpatternAction
+    {
+        public PatternAction_TriNitro(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {
+            graph = graph_; openTasks = openTasks_;
+            patternGraph = Pattern_TriNitro.Instance.patternGraph;
+        }
 
+        public LGSPNode node_c2;
+        public LGSPNode node_c4;
+        public LGSPNode node_c6;
+        
         public override void myMatch(List<Stack<LGSPMatch>> foundPartialMatches, int maxMatches)
         {
             openTasks.Pop();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset node_c2 
             LGSPNode node_cur_node_c2 = node_c2;
-            // SubPreset node_c4 
             LGSPNode node_cur_node_c4 = node_c4;
-            // SubPreset node_c6 
             LGSPNode node_cur_node_c6 = node_c6;
-            // Push subpattern matching task for _subpattern2
             PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern2.node_anchor = node_cur_node_c6;
             openTasks.Push(taskFor__subpattern2);
-            // Push subpattern matching task for _subpattern1
             PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern1.node_anchor = node_cur_node_c4;
             openTasks.Push(taskFor__subpattern1);
-            // Push subpattern matching task for _subpattern0
             PatternAction_Nitro taskFor__subpattern0 = new PatternAction_Nitro(graph, openTasks);
             taskFor__subpattern0.node_anchor = node_cur_node_c2;
             openTasks.Push(taskFor__subpattern0);
             node_cur_node_c2.isMatchedByEnclosingPattern = true;
             node_cur_node_c4.isMatchedByEnclosingPattern = true;
             node_cur_node_c6.isMatchedByEnclosingPattern = true;
-            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
-            //Pop subpattern matching task for _subpattern1
             openTasks.Pop();
-            //Pop subpattern matching task for _subpattern2
             openTasks.Pop();
-            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
-                // subpatterns were found, extend the partial matches by our local match object
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
                     LGSPMatch match = new LGSPMatch(new LGSPNode[3], new LGSPEdge[0], new LGSPMatch[3]);
-                    match.patternGraph = rulePattern.patternGraph;
+                    match.patternGraph = patternGraph;
                     match.Nodes[(int)Pattern_TriNitro.NodeNums.@c2] = node_cur_node_c2;
                     match.Nodes[(int)Pattern_TriNitro.NodeNums.@c4] = node_cur_node_c4;
                     match.Nodes[(int)Pattern_TriNitro.NodeNums.@c6] = node_cur_node_c6;
@@ -5881,7 +5763,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     matchesList.Clear();
                 }
-                // if enough matches were found, we leave
                 if(maxMatches > 0 && foundPartialMatches.Count >= maxMatches)
                 {
                     node_cur_node_c6.isMatchedByEnclosingPattern = false;
@@ -5902,19 +5783,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             openTasks.Push(this);
             return;
         }
-	}
-	public class Action_BenzolRing : LGSPAction
-	{
-		public Action_BenzolRing() {
-			rulePattern = Rule_BenzolRing.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1);
-		}
+    }
 
-		public override string Name { get { return "BenzolRing"; } }
-		private LGSPMatches matches;
+    public class Action_BenzolRing : LGSPAction
+    	{
+        public Action_BenzolRing() {
+            rulePattern = Rule_BenzolRing.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 1);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_BenzolRing instance = new Action_BenzolRing();
+        public override string Name { get { return "BenzolRing"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_BenzolRing instance = new Action_BenzolRing();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -5922,16 +5804,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Push subpattern matching task for _subpattern0
             PatternAction_BenzolRing taskFor__subpattern0 = new PatternAction_BenzolRing(graph, openTasks);
             openTasks.Push(taskFor__subpattern0);
-            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-            //Pop subpattern matching task for _subpattern0
             openTasks.Pop();
-            // Check whether subpatterns were found 
             if(matchesList.Count>0) {
-                // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                 {
                     LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -5940,7 +5817,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     matches.matchesList.PositionWasFilledFixIt();
                 }
                 matchesList.Clear();
-                // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                 {
                     return matches;
@@ -5949,19 +5825,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_DNT : LGSPAction
-	{
-		public Action_DNT() {
-			rulePattern = Rule_DNT.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
-		}
+    }
 
-		public override string Name { get { return "DNT"; } }
-		private LGSPMatches matches;
+    public class Action_DNT : LGSPAction
+    	{
+        public Action_DNT() {
+            rulePattern = Rule_DNT.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_DNT instance = new Action_DNT();
+        public override string Name { get { return "DNT"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_DNT instance = new Action_DNT();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -5969,13 +5846,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -5983,7 +5858,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -6000,7 +5874,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -6021,7 +5894,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge1 from node_c2 
                         LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                         if(edge_head_edge__edge1 != null)
                         {
@@ -6041,7 +5913,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                 edge_cur_edge__edge1.isMatched = true;
-                                // Implicit target node_c3 from edge__edge1 
                                 LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                     edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -6058,7 +5929,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                 node_cur_node_c3.isMatched = true;
-                                // Extend outgoing edge__edge2 from node_c3 
                                 LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                 if(edge_head_edge__edge2 != null)
                                 {
@@ -6079,7 +5949,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                         edge_cur_edge__edge2.isMatched = true;
-                                        // Implicit target node_c4 from edge__edge2 
                                         LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                             edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -6097,7 +5966,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                         node_cur_node_c4.isMatched = true;
-                                        // Extend outgoing edge__edge7 from node_c3 
                                         LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                         if(edge_head_edge__edge7 != null)
                                         {
@@ -6122,7 +5990,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                 edge_cur_edge__edge7.isMatched = true;
-                                                // Extend outgoing edge__edge3 from node_c4 
                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                 if(edge_head_edge__edge3 != null)
                                                 {
@@ -6145,7 +6012,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                         edge_cur_edge__edge3.isMatched = true;
-                                                        // Implicit target node_c5 from edge__edge3 
                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -6164,7 +6030,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                         node_cur_node_c5.isMatched = true;
-                                                        // Extend outgoing edge__edge4 from node_c5 
                                                         LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                         if(edge_head_edge__edge4 != null)
                                                         {
@@ -6188,7 +6053,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                 edge_cur_edge__edge4.isMatched = true;
-                                                                // Implicit target node_c6 from edge__edge4 
                                                                 LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -6206,7 +6070,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
-                                                                // Extend outgoing edge__edge8 from node_c5 
                                                                 LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                 if(edge_head_edge__edge8 != null)
                                                                 {
@@ -6234,7 +6097,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                         edge_cur_edge__edge8.isMatched = true;
-                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                         if(edge_head_edge__edge5 != null)
                                                                         {
@@ -6261,27 +6123,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
-                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
-                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
-                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
-                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
-                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
-                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -6300,23 +6156,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
-                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
-                                                                                    // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -6345,7 +6192,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
-                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -6450,30 +6296,29 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_DNTUnfolded : LGSPAction
-	{
-		public Action_DNTUnfolded() {
-			rulePattern = Rule_DNTUnfolded.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 19, 22, 0);
-		}
+    }
 
-		public override string Name { get { return "DNTUnfolded"; } }
-		private LGSPMatches matches;
+    public class Action_DNTUnfolded : LGSPAction
+    	{
+        public Action_DNTUnfolded() {
+            rulePattern = Rule_DNTUnfolded.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 19, 22, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_DNTUnfolded instance = new Action_DNTUnfolded();
+        public override string Name { get { return "DNTUnfolded"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_DNTUnfolded instance = new Action_DNTUnfolded();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -6481,7 +6326,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -6498,7 +6342,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -6519,7 +6362,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge9 from node_c1 
                         LGSPEdge edge_head_edge__edge9 = node_cur_node_c1.outhead;
                         if(edge_head_edge__edge9 != null)
                         {
@@ -6539,7 +6381,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge9_prevIsMatched = edge_cur_edge__edge9.isMatched;
                                 edge_cur_edge__edge9.isMatched = true;
-                                // Implicit target node_c from edge__edge9 
                                 LGSPNode node_cur_node_c = edge_cur_edge__edge9.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c.type.TypeID]) {
                                     edge_cur_edge__edge9.isMatched = edge_cur_edge__edge9_prevIsMatched;
@@ -6556,7 +6397,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c_prevIsMatched = node_cur_node_c.isMatched;
                                 node_cur_node_c.isMatched = true;
-                                // Extend outgoing edge__edge1 from node_c2 
                                 LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                                 if(edge_head_edge__edge1 != null)
                                 {
@@ -6577,7 +6417,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                         edge_cur_edge__edge1.isMatched = true;
-                                        // Implicit target node_c3 from edge__edge1 
                                         LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                             edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -6595,7 +6434,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                         node_cur_node_c3.isMatched = true;
-                                        // Extend outgoing edge__edge13 from node_c2 
                                         LGSPEdge edge_head_edge__edge13 = node_cur_node_c2.outhead;
                                         if(edge_head_edge__edge13 != null)
                                         {
@@ -6617,7 +6455,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge13_prevIsMatched = edge_cur_edge__edge13.isMatched;
                                                 edge_cur_edge__edge13.isMatched = true;
-                                                // Implicit target node_n2 from edge__edge13 
                                                 LGSPNode node_cur_node_n2 = edge_cur_edge__edge13.target;
                                                 if(!NodeType_N.isMyType[node_cur_node_n2.type.TypeID]) {
                                                     edge_cur_edge__edge13.isMatched = edge_cur_edge__edge13_prevIsMatched;
@@ -6625,7 +6462,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_node_n2_prevIsMatched = node_cur_node_n2.isMatched;
                                                 node_cur_node_n2.isMatched = true;
-                                                // Extend outgoing edge__edge10 from node_c 
                                                 LGSPEdge edge_head_edge__edge10 = node_cur_node_c.outhead;
                                                 if(edge_head_edge__edge10 != null)
                                                 {
@@ -6648,7 +6484,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge10_prevIsMatched = edge_cur_edge__edge10.isMatched;
                                                         edge_cur_edge__edge10.isMatched = true;
-                                                        // Implicit target node__node0 from edge__edge10 
                                                         LGSPNode node_cur_node__node0 = edge_cur_edge__edge10.target;
                                                         if(!NodeType_H.isMyType[node_cur_node__node0.type.TypeID]) {
                                                             edge_cur_edge__edge10.isMatched = edge_cur_edge__edge10_prevIsMatched;
@@ -6656,7 +6491,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node__node0_prevIsMatched = node_cur_node__node0.isMatched;
                                                         node_cur_node__node0.isMatched = true;
-                                                        // Extend outgoing edge__edge11 from node_c 
                                                         LGSPEdge edge_head_edge__edge11 = node_cur_node_c.outhead;
                                                         if(edge_head_edge__edge11 != null)
                                                         {
@@ -6680,7 +6514,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge11_prevIsMatched = edge_cur_edge__edge11.isMatched;
                                                                 edge_cur_edge__edge11.isMatched = true;
-                                                                // Implicit target node__node1 from edge__edge11 
                                                                 LGSPNode node_cur_node__node1 = edge_cur_edge__edge11.target;
                                                                 if(!NodeType_H.isMyType[node_cur_node__node1.type.TypeID]) {
                                                                     edge_cur_edge__edge11.isMatched = edge_cur_edge__edge11_prevIsMatched;
@@ -6695,7 +6528,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool node_cur_node__node1_prevIsMatched = node_cur_node__node1.isMatched;
                                                                 node_cur_node__node1.isMatched = true;
-                                                                // Extend outgoing edge__edge12 from node_c 
                                                                 LGSPEdge edge_head_edge__edge12 = node_cur_node_c.outhead;
                                                                 if(edge_head_edge__edge12 != null)
                                                                 {
@@ -6720,7 +6552,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge12_prevIsMatched = edge_cur_edge__edge12.isMatched;
                                                                         edge_cur_edge__edge12.isMatched = true;
-                                                                        // Implicit target node__node2 from edge__edge12 
                                                                         LGSPNode node_cur_node__node2 = edge_cur_edge__edge12.target;
                                                                         if(!NodeType_H.isMyType[node_cur_node__node2.type.TypeID]) {
                                                                             edge_cur_edge__edge12.isMatched = edge_cur_edge__edge12_prevIsMatched;
@@ -6737,7 +6568,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_node__node2_prevIsMatched = node_cur_node__node2.isMatched;
                                                                         node_cur_node__node2.isMatched = true;
-                                                                        // Extend outgoing edge__edge2 from node_c3 
                                                                         LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                                                         if(edge_head_edge__edge2 != null)
                                                                         {
@@ -6763,7 +6593,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                                                                 edge_cur_edge__edge2.isMatched = true;
-                                                                                // Implicit target node_c4 from edge__edge2 
                                                                                 LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                                                                 if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                                                                     edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -6782,7 +6611,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                                                                 node_cur_node_c4.isMatched = true;
-                                                                                // Extend outgoing edge__edge7 from node_c3 
                                                                                 LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                                                                 if(edge_head_edge__edge7 != null)
                                                                                 {
@@ -6812,7 +6640,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                                                         edge_cur_edge__edge7.isMatched = true;
-                                                                                        // Extend outgoing edge__edge16 from node_c3 
                                                                                         LGSPEdge edge_head_edge__edge16 = node_cur_node_c3.outhead;
                                                                                         if(edge_head_edge__edge16 != null)
                                                                                         {
@@ -6840,7 +6667,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_edge__edge16_prevIsMatched = edge_cur_edge__edge16.isMatched;
                                                                                                 edge_cur_edge__edge16.isMatched = true;
-                                                                                                // Implicit target node__node5 from edge__edge16 
                                                                                                 LGSPNode node_cur_node__node5 = edge_cur_edge__edge16.target;
                                                                                                 if(!NodeType_H.isMyType[node_cur_node__node5.type.TypeID]) {
                                                                                                     edge_cur_edge__edge16.isMatched = edge_cur_edge__edge16_prevIsMatched;
@@ -6858,7 +6684,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_node__node5_prevIsMatched = node_cur_node__node5.isMatched;
                                                                                                 node_cur_node__node5.isMatched = true;
-                                                                                                // Extend outgoing edge__edge14 from node_n2 
                                                                                                 LGSPEdge edge_head_edge__edge14 = node_cur_node_n2.outhead;
                                                                                                 if(edge_head_edge__edge14 != null)
                                                                                                 {
@@ -6887,7 +6712,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_edge__edge14_prevIsMatched = edge_cur_edge__edge14.isMatched;
                                                                                                         edge_cur_edge__edge14.isMatched = true;
-                                                                                                        // Implicit target node__node3 from edge__edge14 
                                                                                                         LGSPNode node_cur_node__node3 = edge_cur_edge__edge14.target;
                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node3.type.TypeID]) {
                                                                                                             edge_cur_edge__edge14.isMatched = edge_cur_edge__edge14_prevIsMatched;
@@ -6895,7 +6719,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_node__node3_prevIsMatched = node_cur_node__node3.isMatched;
                                                                                                         node_cur_node__node3.isMatched = true;
-                                                                                                        // Extend outgoing edge__edge15 from node_n2 
                                                                                                         LGSPEdge edge_head_edge__edge15 = node_cur_node_n2.outhead;
                                                                                                         if(edge_head_edge__edge15 != null)
                                                                                                         {
@@ -6925,7 +6748,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_edge__edge15_prevIsMatched = edge_cur_edge__edge15.isMatched;
                                                                                                                 edge_cur_edge__edge15.isMatched = true;
-                                                                                                                // Implicit target node__node4 from edge__edge15 
                                                                                                                 LGSPNode node_cur_node__node4 = edge_cur_edge__edge15.target;
                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node4.type.TypeID]) {
                                                                                                                     edge_cur_edge__edge15.isMatched = edge_cur_edge__edge15_prevIsMatched;
@@ -6940,7 +6762,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool node_cur_node__node4_prevIsMatched = node_cur_node__node4.isMatched;
                                                                                                                 node_cur_node__node4.isMatched = true;
-                                                                                                                // Extend outgoing edge__edge3 from node_c4 
                                                                                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                                                                                 if(edge_head_edge__edge3 != null)
                                                                                                                 {
@@ -6971,7 +6792,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                                                                                         edge_cur_edge__edge3.isMatched = true;
-                                                                                                                        // Implicit target node_c5 from edge__edge3 
                                                                                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                                                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                                                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -6991,7 +6811,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                                                                                         node_cur_node_c5.isMatched = true;
-                                                                                                                        // Extend outgoing edge__edge17 from node_c4 
                                                                                                                         LGSPEdge edge_head_edge__edge17 = node_cur_node_c4.outhead;
                                                                                                                         if(edge_head_edge__edge17 != null)
                                                                                                                         {
@@ -7023,7 +6842,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_edge__edge17_prevIsMatched = edge_cur_edge__edge17.isMatched;
                                                                                                                                 edge_cur_edge__edge17.isMatched = true;
-                                                                                                                                // Implicit target node_n4 from edge__edge17 
                                                                                                                                 LGSPNode node_cur_node_n4 = edge_cur_edge__edge17.target;
                                                                                                                                 if(!NodeType_N.isMyType[node_cur_node_n4.type.TypeID]) {
                                                                                                                                     edge_cur_edge__edge17.isMatched = edge_cur_edge__edge17_prevIsMatched;
@@ -7036,7 +6854,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                     edge_cur_edge__edge17.isMatched = edge_cur_edge__edge17_prevIsMatched;
                                                                                                                                     continue;
                                                                                                                                 }
-                                                                                                                                // Extend outgoing edge__edge4 from node_c5 
                                                                                                                                 LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                                                                                                 if(edge_head_edge__edge4 != null)
                                                                                                                                 {
@@ -7069,7 +6886,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                                                                                         edge_cur_edge__edge4.isMatched = true;
-                                                                                                                                        // Implicit target node_c6 from edge__edge4 
                                                                                                                                         LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                                                                                         if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -7088,7 +6904,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                                                                                             continue;
                                                                                                                                         }
-                                                                                                                                        // Extend outgoing edge__edge8 from node_c5 
                                                                                                                                         LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                                                                                         if(edge_head_edge__edge8 != null)
                                                                                                                                         {
@@ -7125,7 +6940,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                                                                                                 edge_cur_edge__edge8.isMatched = true;
-                                                                                                                                                // Extend outgoing edge__edge20 from node_c5 
                                                                                                                                                 LGSPEdge edge_head_edge__edge20 = node_cur_node_c5.outhead;
                                                                                                                                                 if(edge_head_edge__edge20 != null)
                                                                                                                                                 {
@@ -7160,7 +6974,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_edge__edge20_prevIsMatched = edge_cur_edge__edge20.isMatched;
                                                                                                                                                         edge_cur_edge__edge20.isMatched = true;
-                                                                                                                                                        // Implicit target node__node8 from edge__edge20 
                                                                                                                                                         LGSPNode node_cur_node__node8 = edge_cur_edge__edge20.target;
                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_node__node8.type.TypeID]) {
                                                                                                                                                             edge_cur_edge__edge20.isMatched = edge_cur_edge__edge20_prevIsMatched;
@@ -7179,7 +6992,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool node_cur_node__node8_prevIsMatched = node_cur_node__node8.isMatched;
                                                                                                                                                         node_cur_node__node8.isMatched = true;
-                                                                                                                                                        // Extend outgoing edge__edge18 from node_n4 
                                                                                                                                                         LGSPEdge edge_head_edge__edge18 = node_cur_node_n4.outhead;
                                                                                                                                                         if(edge_head_edge__edge18 != null)
                                                                                                                                                         {
@@ -7215,7 +7027,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_edge__edge18_prevIsMatched = edge_cur_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_edge__edge18.isMatched = true;
-                                                                                                                                                                // Implicit target node__node6 from edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_node__node6 = edge_cur_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node6.type.TypeID]) {
                                                                                                                                                                     edge_cur_edge__edge18.isMatched = edge_cur_edge__edge18_prevIsMatched;
@@ -7232,7 +7043,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool node_cur_node__node6_prevIsMatched = node_cur_node__node6.isMatched;
                                                                                                                                                                 node_cur_node__node6.isMatched = true;
-                                                                                                                                                                // Extend outgoing edge__edge19 from node_n4 
                                                                                                                                                                 LGSPEdge edge_head_edge__edge19 = node_cur_node_n4.outhead;
                                                                                                                                                                 if(edge_head_edge__edge19 != null)
                                                                                                                                                                 {
@@ -7269,7 +7079,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_edge__edge19_prevIsMatched = edge_cur_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_edge__edge19.isMatched = true;
-                                                                                                                                                                        // Implicit target node__node7 from edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_node__node7 = edge_cur_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_edge__edge19.isMatched = edge_cur_edge__edge19_prevIsMatched;
@@ -7285,7 +7094,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                             edge_cur_edge__edge19.isMatched = edge_cur_edge__edge19_prevIsMatched;
                                                                                                                                                                             continue;
                                                                                                                                                                         }
-                                                                                                                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                                                                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                                                                                                                         if(edge_head_edge__edge5 != null)
                                                                                                                                                                         {
@@ -7326,7 +7134,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 }
                                                                                                                                                                                 bool edge_cur_edge__edge5_prevIsMatched = edge_cur_edge__edge5.isMatched;
                                                                                                                                                                                 edge_cur_edge__edge5.isMatched = true;
-                                                                                                                                                                                // Extend outgoing edge__edge21 from node_c6 
                                                                                                                                                                                 LGSPEdge edge_head_edge__edge21 = node_cur_node_c6.outhead;
                                                                                                                                                                                 if(edge_head_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -7363,7 +7170,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         {
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
-                                                                                                                                                                                        // Implicit target node__node9 from edge__edge21 
                                                                                                                                                                                         LGSPNode node_cur_node__node9 = edge_cur_edge__edge21.target;
                                                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_node__node9.type.TypeID]) {
                                                                                                                                                                                             continue;
@@ -7423,7 +7229,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.EdgeNums.@_edge20] = edge_cur_edge__edge20;
                                                                                                                                                                                         match.Edges[(int)Rule_DNTUnfolded.EdgeNums.@_edge21] = edge_cur_edge__edge21;
                                                                                                                                                                                         matches.matchesList.PositionWasFilledFixIt();
-                                                                                                                                                                                        // if enough matches were found, we leave
                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                         {
                                                                                                                                                                                             node_cur_node_c6.MoveOutHeadAfter(edge_cur_edge__edge21);
@@ -7588,19 +7393,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNB : LGSPAction
-	{
-		public Action_TNB() {
-			rulePattern = Rule_TNB.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
-		}
+    }
 
-		public override string Name { get { return "TNB"; } }
-		private LGSPMatches matches;
+    public class Action_TNB : LGSPAction
+    	{
+        public Action_TNB() {
+            rulePattern = Rule_TNB.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNB instance = new Action_TNB();
+        public override string Name { get { return "TNB"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNB instance = new Action_TNB();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -7608,13 +7414,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -7622,7 +7426,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -7639,7 +7442,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -7660,7 +7462,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge1 from node_c2 
                         LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                         if(edge_head_edge__edge1 != null)
                         {
@@ -7680,7 +7481,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                 edge_cur_edge__edge1.isMatched = true;
-                                // Implicit target node_c3 from edge__edge1 
                                 LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                     edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -7697,7 +7497,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                 node_cur_node_c3.isMatched = true;
-                                // Extend outgoing edge__edge2 from node_c3 
                                 LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                 if(edge_head_edge__edge2 != null)
                                 {
@@ -7718,7 +7517,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                         edge_cur_edge__edge2.isMatched = true;
-                                        // Implicit target node_c4 from edge__edge2 
                                         LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                             edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -7736,7 +7534,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                         node_cur_node_c4.isMatched = true;
-                                        // Extend outgoing edge__edge7 from node_c3 
                                         LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                         if(edge_head_edge__edge7 != null)
                                         {
@@ -7761,7 +7558,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                 edge_cur_edge__edge7.isMatched = true;
-                                                // Extend outgoing edge__edge3 from node_c4 
                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                 if(edge_head_edge__edge3 != null)
                                                 {
@@ -7784,7 +7580,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                         edge_cur_edge__edge3.isMatched = true;
-                                                        // Implicit target node_c5 from edge__edge3 
                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -7803,7 +7598,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                         node_cur_node_c5.isMatched = true;
-                                                        // Extend outgoing edge__edge4 from node_c5 
                                                         LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                         if(edge_head_edge__edge4 != null)
                                                         {
@@ -7827,7 +7621,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                 edge_cur_edge__edge4.isMatched = true;
-                                                                // Implicit target node_c6 from edge__edge4 
                                                                 LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -7845,7 +7638,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
-                                                                // Extend outgoing edge__edge8 from node_c5 
                                                                 LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                 if(edge_head_edge__edge8 != null)
                                                                 {
@@ -7873,7 +7665,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                         edge_cur_edge__edge8.isMatched = true;
-                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                         if(edge_head_edge__edge5 != null)
                                                                         {
@@ -7900,27 +7691,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
-                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
-                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
-                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
-                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
-                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
-                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Hydrogen taskFor__subpattern0 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -7939,23 +7724,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
-                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
-                                                                                    // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -7984,7 +7760,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
-                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -8089,30 +7864,29 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNBUnfolded : LGSPAction
-	{
-		public Action_TNBUnfolded() {
-			rulePattern = Rule_TNBUnfolded.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 18, 21, 0);
-		}
+    }
 
-		public override string Name { get { return "TNBUnfolded"; } }
-		private LGSPMatches matches;
+    public class Action_TNBUnfolded : LGSPAction
+    	{
+        public Action_TNBUnfolded() {
+            rulePattern = Rule_TNBUnfolded.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 18, 21, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNBUnfolded instance = new Action_TNBUnfolded();
+        public override string Name { get { return "TNBUnfolded"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNBUnfolded instance = new Action_TNBUnfolded();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -8120,7 +7894,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -8137,7 +7910,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -8158,7 +7930,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge9 from node_c1 
                         LGSPEdge edge_head_edge__edge9 = node_cur_node_c1.outhead;
                         if(edge_head_edge__edge9 != null)
                         {
@@ -8178,7 +7949,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge9_prevIsMatched = edge_cur_edge__edge9.isMatched;
                                 edge_cur_edge__edge9.isMatched = true;
-                                // Implicit target node__node0 from edge__edge9 
                                 LGSPNode node_cur_node__node0 = edge_cur_edge__edge9.target;
                                 if(!NodeType_H.isMyType[node_cur_node__node0.type.TypeID]) {
                                     edge_cur_edge__edge9.isMatched = edge_cur_edge__edge9_prevIsMatched;
@@ -8186,7 +7956,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node__node0_prevIsMatched = node_cur_node__node0.isMatched;
                                 node_cur_node__node0.isMatched = true;
-                                // Extend outgoing edge__edge1 from node_c2 
                                 LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                                 if(edge_head_edge__edge1 != null)
                                 {
@@ -8207,7 +7976,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                         edge_cur_edge__edge1.isMatched = true;
-                                        // Implicit target node_c3 from edge__edge1 
                                         LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                             edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -8224,7 +7992,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                         node_cur_node_c3.isMatched = true;
-                                        // Extend outgoing edge__edge10 from node_c2 
                                         LGSPEdge edge_head_edge__edge10 = node_cur_node_c2.outhead;
                                         if(edge_head_edge__edge10 != null)
                                         {
@@ -8246,7 +8013,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge10_prevIsMatched = edge_cur_edge__edge10.isMatched;
                                                 edge_cur_edge__edge10.isMatched = true;
-                                                // Implicit target node_n2 from edge__edge10 
                                                 LGSPNode node_cur_node_n2 = edge_cur_edge__edge10.target;
                                                 if(!NodeType_N.isMyType[node_cur_node_n2.type.TypeID]) {
                                                     edge_cur_edge__edge10.isMatched = edge_cur_edge__edge10_prevIsMatched;
@@ -8254,7 +8020,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_node_n2_prevIsMatched = node_cur_node_n2.isMatched;
                                                 node_cur_node_n2.isMatched = true;
-                                                // Extend outgoing edge__edge2 from node_c3 
                                                 LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                                 if(edge_head_edge__edge2 != null)
                                                 {
@@ -8277,7 +8042,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                                         edge_cur_edge__edge2.isMatched = true;
-                                                        // Implicit target node_c4 from edge__edge2 
                                                         LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                                         if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                                             edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -8295,7 +8059,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                                         node_cur_node_c4.isMatched = true;
-                                                        // Extend outgoing edge__edge7 from node_c3 
                                                         LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                                         if(edge_head_edge__edge7 != null)
                                                         {
@@ -8322,7 +8085,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                                 edge_cur_edge__edge7.isMatched = true;
-                                                                // Extend outgoing edge__edge13 from node_c3 
                                                                 LGSPEdge edge_head_edge__edge13 = node_cur_node_c3.outhead;
                                                                 if(edge_head_edge__edge13 != null)
                                                                 {
@@ -8347,7 +8109,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge13_prevIsMatched = edge_cur_edge__edge13.isMatched;
                                                                         edge_cur_edge__edge13.isMatched = true;
-                                                                        // Implicit target node__node3 from edge__edge13 
                                                                         LGSPNode node_cur_node__node3 = edge_cur_edge__edge13.target;
                                                                         if(!NodeType_H.isMyType[node_cur_node__node3.type.TypeID]) {
                                                                             edge_cur_edge__edge13.isMatched = edge_cur_edge__edge13_prevIsMatched;
@@ -8362,7 +8123,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_node__node3_prevIsMatched = node_cur_node__node3.isMatched;
                                                                         node_cur_node__node3.isMatched = true;
-                                                                        // Extend outgoing edge__edge11 from node_n2 
                                                                         LGSPEdge edge_head_edge__edge11 = node_cur_node_n2.outhead;
                                                                         if(edge_head_edge__edge11 != null)
                                                                         {
@@ -8388,7 +8148,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_edge__edge11_prevIsMatched = edge_cur_edge__edge11.isMatched;
                                                                                 edge_cur_edge__edge11.isMatched = true;
-                                                                                // Implicit target node__node1 from edge__edge11 
                                                                                 LGSPNode node_cur_node__node1 = edge_cur_edge__edge11.target;
                                                                                 if(!NodeType_O.isMyType[node_cur_node__node1.type.TypeID]) {
                                                                                     edge_cur_edge__edge11.isMatched = edge_cur_edge__edge11_prevIsMatched;
@@ -8396,7 +8155,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_node__node1_prevIsMatched = node_cur_node__node1.isMatched;
                                                                                 node_cur_node__node1.isMatched = true;
-                                                                                // Extend outgoing edge__edge12 from node_n2 
                                                                                 LGSPEdge edge_head_edge__edge12 = node_cur_node_n2.outhead;
                                                                                 if(edge_head_edge__edge12 != null)
                                                                                 {
@@ -8423,7 +8181,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_edge__edge12_prevIsMatched = edge_cur_edge__edge12.isMatched;
                                                                                         edge_cur_edge__edge12.isMatched = true;
-                                                                                        // Implicit target node__node2 from edge__edge12 
                                                                                         LGSPNode node_cur_node__node2 = edge_cur_edge__edge12.target;
                                                                                         if(!NodeType_O.isMyType[node_cur_node__node2.type.TypeID]) {
                                                                                             edge_cur_edge__edge12.isMatched = edge_cur_edge__edge12_prevIsMatched;
@@ -8438,7 +8195,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool node_cur_node__node2_prevIsMatched = node_cur_node__node2.isMatched;
                                                                                         node_cur_node__node2.isMatched = true;
-                                                                                        // Extend outgoing edge__edge3 from node_c4 
                                                                                         LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                                                         if(edge_head_edge__edge3 != null)
                                                                                         {
@@ -8466,7 +8222,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                                                                 edge_cur_edge__edge3.isMatched = true;
-                                                                                                // Implicit target node_c5 from edge__edge3 
                                                                                                 LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                                                                 if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                                                                     edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -8485,7 +8240,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                                                                 node_cur_node_c5.isMatched = true;
-                                                                                                // Extend outgoing edge__edge14 from node_c4 
                                                                                                 LGSPEdge edge_head_edge__edge14 = node_cur_node_c4.outhead;
                                                                                                 if(edge_head_edge__edge14 != null)
                                                                                                 {
@@ -8514,7 +8268,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_edge__edge14_prevIsMatched = edge_cur_edge__edge14.isMatched;
                                                                                                         edge_cur_edge__edge14.isMatched = true;
-                                                                                                        // Implicit target node_n4 from edge__edge14 
                                                                                                         LGSPNode node_cur_node_n4 = edge_cur_edge__edge14.target;
                                                                                                         if(!NodeType_N.isMyType[node_cur_node_n4.type.TypeID]) {
                                                                                                             edge_cur_edge__edge14.isMatched = edge_cur_edge__edge14_prevIsMatched;
@@ -8529,7 +8282,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_node_n4_prevIsMatched = node_cur_node_n4.isMatched;
                                                                                                         node_cur_node_n4.isMatched = true;
-                                                                                                        // Extend outgoing edge__edge4 from node_c5 
                                                                                                         LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                                                                         if(edge_head_edge__edge4 != null)
                                                                                                         {
@@ -8559,7 +8311,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                                                                 edge_cur_edge__edge4.isMatched = true;
-                                                                                                                // Implicit target node_c6 from edge__edge4 
                                                                                                                 LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                                                                 if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -8577,7 +8328,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                                                                     continue;
                                                                                                                 }
-                                                                                                                // Extend outgoing edge__edge8 from node_c5 
                                                                                                                 LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                                                                 if(edge_head_edge__edge8 != null)
                                                                                                                 {
@@ -8611,7 +8361,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                                                                         edge_cur_edge__edge8.isMatched = true;
-                                                                                                                        // Extend outgoing edge__edge17 from node_c5 
                                                                                                                         LGSPEdge edge_head_edge__edge17 = node_cur_node_c5.outhead;
                                                                                                                         if(edge_head_edge__edge17 != null)
                                                                                                                         {
@@ -8643,7 +8392,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_edge__edge17_prevIsMatched = edge_cur_edge__edge17.isMatched;
                                                                                                                                 edge_cur_edge__edge17.isMatched = true;
-                                                                                                                                // Implicit target node__node6 from edge__edge17 
                                                                                                                                 LGSPNode node_cur_node__node6 = edge_cur_edge__edge17.target;
                                                                                                                                 if(!NodeType_H.isMyType[node_cur_node__node6.type.TypeID]) {
                                                                                                                                     edge_cur_edge__edge17.isMatched = edge_cur_edge__edge17_prevIsMatched;
@@ -8658,7 +8406,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                     edge_cur_edge__edge17.isMatched = edge_cur_edge__edge17_prevIsMatched;
                                                                                                                                     continue;
                                                                                                                                 }
-                                                                                                                                // Extend outgoing edge__edge15 from node_n4 
                                                                                                                                 LGSPEdge edge_head_edge__edge15 = node_cur_node_n4.outhead;
                                                                                                                                 if(edge_head_edge__edge15 != null)
                                                                                                                                 {
@@ -8691,7 +8438,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_edge__edge15_prevIsMatched = edge_cur_edge__edge15.isMatched;
                                                                                                                                         edge_cur_edge__edge15.isMatched = true;
-                                                                                                                                        // Implicit target node__node4 from edge__edge15 
                                                                                                                                         LGSPNode node_cur_node__node4 = edge_cur_edge__edge15.target;
                                                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node4.type.TypeID]) {
                                                                                                                                             edge_cur_edge__edge15.isMatched = edge_cur_edge__edge15_prevIsMatched;
@@ -8708,7 +8454,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool node_cur_node__node4_prevIsMatched = node_cur_node__node4.isMatched;
                                                                                                                                         node_cur_node__node4.isMatched = true;
-                                                                                                                                        // Extend outgoing edge__edge16 from node_n4 
                                                                                                                                         LGSPEdge edge_head_edge__edge16 = node_cur_node_n4.outhead;
                                                                                                                                         if(edge_head_edge__edge16 != null)
                                                                                                                                         {
@@ -8742,7 +8487,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_edge__edge16_prevIsMatched = edge_cur_edge__edge16.isMatched;
                                                                                                                                                 edge_cur_edge__edge16.isMatched = true;
-                                                                                                                                                // Implicit target node__node5 from edge__edge16 
                                                                                                                                                 LGSPNode node_cur_node__node5 = edge_cur_edge__edge16.target;
                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node5.type.TypeID]) {
                                                                                                                                                     edge_cur_edge__edge16.isMatched = edge_cur_edge__edge16_prevIsMatched;
@@ -8760,7 +8504,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool node_cur_node__node5_prevIsMatched = node_cur_node__node5.isMatched;
                                                                                                                                                 node_cur_node__node5.isMatched = true;
-                                                                                                                                                // Extend outgoing edge__edge5 from node_c6 
                                                                                                                                                 LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                                                                                                 if(edge_head_edge__edge5 != null)
                                                                                                                                                 {
@@ -8798,7 +8541,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_edge__edge5_prevIsMatched = edge_cur_edge__edge5.isMatched;
                                                                                                                                                         edge_cur_edge__edge5.isMatched = true;
-                                                                                                                                                        // Extend outgoing edge__edge18 from node_c6 
                                                                                                                                                         LGSPEdge edge_head_edge__edge18 = node_cur_node_c6.outhead;
                                                                                                                                                         if(edge_head_edge__edge18 != null)
                                                                                                                                                         {
@@ -8834,7 +8576,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_edge__edge18_prevIsMatched = edge_cur_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_edge__edge18.isMatched = true;
-                                                                                                                                                                // Implicit target node_n6 from edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_node_n6 = edge_cur_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_N.isMyType[node_cur_node_n6.type.TypeID]) {
                                                                                                                                                                     edge_cur_edge__edge18.isMatched = edge_cur_edge__edge18_prevIsMatched;
@@ -8849,7 +8590,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                     edge_cur_edge__edge18.isMatched = edge_cur_edge__edge18_prevIsMatched;
                                                                                                                                                                     continue;
                                                                                                                                                                 }
-                                                                                                                                                                // Extend outgoing edge__edge19 from node_n6 
                                                                                                                                                                 LGSPEdge edge_head_edge__edge19 = node_cur_node_n6.outhead;
                                                                                                                                                                 if(edge_head_edge__edge19 != null)
                                                                                                                                                                 {
@@ -8886,7 +8626,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_edge__edge19_prevIsMatched = edge_cur_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_edge__edge19.isMatched = true;
-                                                                                                                                                                        // Implicit target node__node7 from edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_node__node7 = edge_cur_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_edge__edge19.isMatched = edge_cur_edge__edge19_prevIsMatched;
@@ -8905,7 +8644,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool node_cur_node__node7_prevIsMatched = node_cur_node__node7.isMatched;
                                                                                                                                                                         node_cur_node__node7.isMatched = true;
-                                                                                                                                                                        // Extend outgoing edge__edge20 from node_n6 
                                                                                                                                                                         LGSPEdge edge_head_edge__edge20 = node_cur_node_n6.outhead;
                                                                                                                                                                         if(edge_head_edge__edge20 != null)
                                                                                                                                                                         {
@@ -8941,7 +8679,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 {
                                                                                                                                                                                     continue;
                                                                                                                                                                                 }
-                                                                                                                                                                                // Implicit target node__node8 from edge__edge20 
                                                                                                                                                                                 LGSPNode node_cur_node__node8 = edge_cur_edge__edge20.target;
                                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node8.type.TypeID]) {
                                                                                                                                                                                     continue;
@@ -8999,7 +8736,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.EdgeNums.@_edge19] = edge_cur_edge__edge19;
                                                                                                                                                                                 match.Edges[(int)Rule_TNBUnfolded.EdgeNums.@_edge20] = edge_cur_edge__edge20;
                                                                                                                                                                                 matches.matchesList.PositionWasFilledFixIt();
-                                                                                                                                                                                // if enough matches were found, we leave
                                                                                                                                                                                 if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                 {
                                                                                                                                                                                     node_cur_node_n6.MoveOutHeadAfter(edge_cur_edge__edge20);
@@ -9156,19 +8892,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNT : LGSPAction
-	{
-		public Action_TNT() {
-			rulePattern = Rule_TNT.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
-		}
+    }
 
-		public override string Name { get { return "TNT"; } }
-		private LGSPMatches matches;
+    public class Action_TNT : LGSPAction
+    	{
+        public Action_TNT() {
+            rulePattern = Rule_TNT.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 9, 6);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNT instance = new Action_TNT();
+        public override string Name { get { return "TNT"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNT instance = new Action_TNT();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -9176,13 +8913,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -9190,7 +8925,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -9207,7 +8941,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -9228,7 +8961,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge1 from node_c2 
                         LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                         if(edge_head_edge__edge1 != null)
                         {
@@ -9248,7 +8980,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                 edge_cur_edge__edge1.isMatched = true;
-                                // Implicit target node_c3 from edge__edge1 
                                 LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                     edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -9265,7 +8996,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                 node_cur_node_c3.isMatched = true;
-                                // Extend outgoing edge__edge2 from node_c3 
                                 LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                 if(edge_head_edge__edge2 != null)
                                 {
@@ -9286,7 +9016,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                         edge_cur_edge__edge2.isMatched = true;
-                                        // Implicit target node_c4 from edge__edge2 
                                         LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                             edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -9304,7 +9033,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                         node_cur_node_c4.isMatched = true;
-                                        // Extend outgoing edge__edge7 from node_c3 
                                         LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                         if(edge_head_edge__edge7 != null)
                                         {
@@ -9329,7 +9057,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                 edge_cur_edge__edge7.isMatched = true;
-                                                // Extend outgoing edge__edge3 from node_c4 
                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                 if(edge_head_edge__edge3 != null)
                                                 {
@@ -9352,7 +9079,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                         edge_cur_edge__edge3.isMatched = true;
-                                                        // Implicit target node_c5 from edge__edge3 
                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -9371,7 +9097,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                         node_cur_node_c5.isMatched = true;
-                                                        // Extend outgoing edge__edge4 from node_c5 
                                                         LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                         if(edge_head_edge__edge4 != null)
                                                         {
@@ -9395,7 +9120,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                 edge_cur_edge__edge4.isMatched = true;
-                                                                // Implicit target node_c6 from edge__edge4 
                                                                 LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                 if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -9413,7 +9137,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                     continue;
                                                                 }
-                                                                // Extend outgoing edge__edge8 from node_c5 
                                                                 LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                 if(edge_head_edge__edge8 != null)
                                                                 {
@@ -9441,7 +9164,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                         edge_cur_edge__edge8.isMatched = true;
-                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                         if(edge_head_edge__edge5 != null)
                                                                         {
@@ -9468,27 +9190,21 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 {
                                                                                     continue;
                                                                                 }
-                                                                                // Push subpattern matching task for _subpattern5
                                                                                 PatternAction_Nitro taskFor__subpattern5 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern5.node_anchor = node_cur_node_c6;
                                                                                 openTasks.Push(taskFor__subpattern5);
-                                                                                // Push subpattern matching task for _subpattern4
                                                                                 PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern4.node_anchor = node_cur_node_c5;
                                                                                 openTasks.Push(taskFor__subpattern4);
-                                                                                // Push subpattern matching task for _subpattern3
                                                                                 PatternAction_Nitro taskFor__subpattern3 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern3.node_anchor = node_cur_node_c4;
                                                                                 openTasks.Push(taskFor__subpattern3);
-                                                                                // Push subpattern matching task for _subpattern2
                                                                                 PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                                                                 taskFor__subpattern2.node_anchor = node_cur_node_c3;
                                                                                 openTasks.Push(taskFor__subpattern2);
-                                                                                // Push subpattern matching task for _subpattern1
                                                                                 PatternAction_Nitro taskFor__subpattern1 = new PatternAction_Nitro(graph, openTasks);
                                                                                 taskFor__subpattern1.node_anchor = node_cur_node_c2;
                                                                                 openTasks.Push(taskFor__subpattern1);
-                                                                                // Push subpattern matching task for _subpattern0
                                                                                 PatternAction_Methyl taskFor__subpattern0 = new PatternAction_Methyl(graph, openTasks);
                                                                                 taskFor__subpattern0.node_anchor = node_cur_node_c1;
                                                                                 openTasks.Push(taskFor__subpattern0);
@@ -9507,23 +9223,14 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 edge_cur_edge__edge6.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge7.isMatchedByEnclosingPattern = true;
                                                                                 edge_cur_edge__edge8.isMatchedByEnclosingPattern = true;
-                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                                                                //Pop subpattern matching task for _subpattern0
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern1
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern2
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern3
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern4
                                                                                 openTasks.Pop();
-                                                                                //Pop subpattern matching task for _subpattern5
                                                                                 openTasks.Pop();
-                                                                                // Check whether subpatterns were found 
                                                                                 if(matchesList.Count>0) {
-                                                                                    // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                                                                     {
                                                                                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -9552,7 +9259,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         matches.matchesList.PositionWasFilledFixIt();
                                                                                     }
                                                                                     matchesList.Clear();
-                                                                                    // if enough matches were found, we leave
                                                                                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                     {
                                                                                         edge_cur_edge__edge8.isMatchedByEnclosingPattern = false;
@@ -9657,19 +9363,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNTChain : LGSPAction
-	{
-		public Action_TNTChain() {
-			rulePattern = Rule_TNTChain.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 2);
-		}
+    }
 
-		public override string Name { get { return "TNTChain"; } }
-		private LGSPMatches matches;
+    public class Action_TNTChain : LGSPAction
+    	{
+        public Action_TNTChain() {
+            rulePattern = Rule_TNTChain.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 2);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNTChain instance = new Action_TNTChain();
+        public override string Name { get { return "TNTChain"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNTChain instance = new Action_TNTChain();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -9677,13 +9384,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup node_c3 
             int node_type_id_node_c3 = 1;
             for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
             {
                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                 node_cur_node_c3.isMatched = true;
-                // Lookup node_c5 
                 int node_type_id_node_c5 = 1;
                 for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
                 {
@@ -9695,7 +9400,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                     node_cur_node_c5.isMatched = true;
-                    // Lookup node_c6 
                     int node_type_id_node_c6 = 1;
                     for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
                     {
@@ -9709,7 +9413,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
                         node_cur_node_c6.isMatched = true;
-                        // Lookup node_c4 
                         int node_type_id_node_c4 = 1;
                         for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
                         {
@@ -9724,7 +9427,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                             node_cur_node_c4.isMatched = true;
-                            // Lookup node_c2 
                             int node_type_id_node_c2 = 1;
                             for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
                             {
@@ -9740,7 +9442,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                                 node_cur_node_c2.isMatched = true;
-                                // Lookup node_c1 
                                 int node_type_id_node_c1 = 1;
                                 for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
                                 {
@@ -9755,7 +9456,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
-                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_ToluolCoreThenTriNitro taskFor__subpattern1 = new PatternAction_ToluolCoreThenTriNitro(graph, openTasks);
                                     taskFor__subpattern1.node_c1 = node_cur_node_c1;
                                     taskFor__subpattern1.node_c2 = node_cur_node_c2;
@@ -9764,7 +9464,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     taskFor__subpattern1.node_c5 = node_cur_node_c5;
                                     taskFor__subpattern1.node_c6 = node_cur_node_c6;
                                     openTasks.Push(taskFor__subpattern1);
-                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.node_c1 = node_cur_node_c1;
                                     taskFor__subpattern0.node_c2 = node_cur_node_c2;
@@ -9779,15 +9478,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c6.isMatchedByEnclosingPattern = true;
-                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
-                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
-                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -9803,7 +9497,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
-                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_node_c6.isMatchedByEnclosingPattern = false;
@@ -9846,19 +9539,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNTTotallyFolded : LGSPAction
-	{
-		public Action_TNTTotallyFolded() {
-			rulePattern = Rule_TNTTotallyFolded.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
-		}
+    }
 
-		public override string Name { get { return "TNTTotallyFolded"; } }
-		private LGSPMatches matches;
+    public class Action_TNTTotallyFolded : LGSPAction
+    	{
+        public Action_TNTTotallyFolded() {
+            rulePattern = Rule_TNTTotallyFolded.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNTTotallyFolded instance = new Action_TNTTotallyFolded();
+        public override string Name { get { return "TNTTotallyFolded"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNTTotallyFolded instance = new Action_TNTTotallyFolded();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -9866,13 +9560,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup node_c3 
             int node_type_id_node_c3 = 1;
             for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
             {
                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                 node_cur_node_c3.isMatched = true;
-                // Lookup node_c5 
                 int node_type_id_node_c5 = 1;
                 for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
                 {
@@ -9884,7 +9576,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                     node_cur_node_c5.isMatched = true;
-                    // Lookup node_c6 
                     int node_type_id_node_c6 = 1;
                     for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
                     {
@@ -9898,7 +9589,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
                         node_cur_node_c6.isMatched = true;
-                        // Lookup node_c4 
                         int node_type_id_node_c4 = 1;
                         for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
                         {
@@ -9913,7 +9603,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                             node_cur_node_c4.isMatched = true;
-                            // Lookup node_c2 
                             int node_type_id_node_c2 = 1;
                             for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
                             {
@@ -9929,7 +9618,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                                 node_cur_node_c2.isMatched = true;
-                                // Lookup node_c1 
                                 int node_type_id_node_c1 = 1;
                                 for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
                                 {
@@ -9944,31 +9632,24 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
-                                    // Push subpattern matching task for _subpattern6
                                     PatternAction_Nitro taskFor__subpattern6 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern6.node_anchor = node_cur_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
-                                    // Push subpattern matching task for _subpattern5
                                     PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern5.node_anchor = node_cur_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
-                                    // Push subpattern matching task for _subpattern4
                                     PatternAction_Nitro taskFor__subpattern4 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern4.node_anchor = node_cur_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
-                                    // Push subpattern matching task for _subpattern3
                                     PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern3.node_anchor = node_cur_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
-                                    // Push subpattern matching task for _subpattern2
                                     PatternAction_Nitro taskFor__subpattern2 = new PatternAction_Nitro(graph, openTasks);
                                     taskFor__subpattern2.node_anchor = node_cur_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
-                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                                     taskFor__subpattern1.node_anchor = node_cur_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
-                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.node_c1 = node_cur_node_c1;
                                     taskFor__subpattern0.node_c2 = node_cur_node_c2;
@@ -9983,25 +9664,15 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c6.isMatchedByEnclosingPattern = true;
-                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
-                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
-                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -10022,7 +9693,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
-                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_node_c6.isMatchedByEnclosingPattern = false;
@@ -10065,30 +9735,29 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_TNTUnfolded : LGSPAction
-	{
-		public Action_TNTUnfolded() {
-			rulePattern = Rule_TNTUnfolded.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 21, 24, 0);
-		}
+    }
 
-		public override string Name { get { return "TNTUnfolded"; } }
-		private LGSPMatches matches;
+    public class Action_TNTUnfolded : LGSPAction
+    	{
+        public Action_TNTUnfolded() {
+            rulePattern = Rule_TNTUnfolded.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 21, 24, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_TNTUnfolded instance = new Action_TNTUnfolded();
+        public override string Name { get { return "TNTUnfolded"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_TNTUnfolded instance = new Action_TNTUnfolded();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
             matches.matchesList.Clear();
-            // Lookup edge__edge0 
             int edge_type_id_edge__edge0 = 1;
             for(LGSPEdge edge_head_edge__edge0 = graph.edgesByTypeHeads[edge_type_id_edge__edge0], edge_cur_edge__edge0 = edge_head_edge__edge0.typeNext; edge_cur_edge__edge0 != edge_head_edge__edge0; edge_cur_edge__edge0 = edge_cur_edge__edge0.typeNext)
             {
                 bool edge_cur_edge__edge0_prevIsMatched = edge_cur_edge__edge0.isMatched;
                 edge_cur_edge__edge0.isMatched = true;
-                // Implicit source node_c1 from edge__edge0 
                 LGSPNode node_cur_node_c1 = edge_cur_edge__edge0.source;
                 if(!NodeType_C.isMyType[node_cur_node_c1.type.TypeID]) {
                     edge_cur_edge__edge0.isMatched = edge_cur_edge__edge0_prevIsMatched;
@@ -10096,7 +9765,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c1_prevIsMatched = node_cur_node_c1.isMatched;
                 node_cur_node_c1.isMatched = true;
-                // Implicit target node_c2 from edge__edge0 
                 LGSPNode node_cur_node_c2 = edge_cur_edge__edge0.target;
                 if(!NodeType_C.isMyType[node_cur_node_c2.type.TypeID]) {
                     node_cur_node_c1.isMatched = node_cur_node_c1_prevIsMatched;
@@ -10113,7 +9781,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                 }
                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                 node_cur_node_c2.isMatched = true;
-                // Extend outgoing edge__edge6 from node_c1 
                 LGSPEdge edge_head_edge__edge6 = node_cur_node_c1.outhead;
                 if(edge_head_edge__edge6 != null)
                 {
@@ -10134,7 +9801,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool edge_cur_edge__edge6_prevIsMatched = edge_cur_edge__edge6.isMatched;
                         edge_cur_edge__edge6.isMatched = true;
-                        // Extend outgoing edge__edge9 from node_c1 
                         LGSPEdge edge_head_edge__edge9 = node_cur_node_c1.outhead;
                         if(edge_head_edge__edge9 != null)
                         {
@@ -10154,7 +9820,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool edge_cur_edge__edge9_prevIsMatched = edge_cur_edge__edge9.isMatched;
                                 edge_cur_edge__edge9.isMatched = true;
-                                // Implicit target node_c from edge__edge9 
                                 LGSPNode node_cur_node_c = edge_cur_edge__edge9.target;
                                 if(!NodeType_C.isMyType[node_cur_node_c.type.TypeID]) {
                                     edge_cur_edge__edge9.isMatched = edge_cur_edge__edge9_prevIsMatched;
@@ -10171,7 +9836,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c_prevIsMatched = node_cur_node_c.isMatched;
                                 node_cur_node_c.isMatched = true;
-                                // Extend outgoing edge__edge1 from node_c2 
                                 LGSPEdge edge_head_edge__edge1 = node_cur_node_c2.outhead;
                                 if(edge_head_edge__edge1 != null)
                                 {
@@ -10192,7 +9856,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool edge_cur_edge__edge1_prevIsMatched = edge_cur_edge__edge1.isMatched;
                                         edge_cur_edge__edge1.isMatched = true;
-                                        // Implicit target node_c3 from edge__edge1 
                                         LGSPNode node_cur_node_c3 = edge_cur_edge__edge1.target;
                                         if(!NodeType_C.isMyType[node_cur_node_c3.type.TypeID]) {
                                             edge_cur_edge__edge1.isMatched = edge_cur_edge__edge1_prevIsMatched;
@@ -10210,7 +9873,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         }
                                         bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                                         node_cur_node_c3.isMatched = true;
-                                        // Extend outgoing edge__edge13 from node_c2 
                                         LGSPEdge edge_head_edge__edge13 = node_cur_node_c2.outhead;
                                         if(edge_head_edge__edge13 != null)
                                         {
@@ -10232,7 +9894,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool edge_cur_edge__edge13_prevIsMatched = edge_cur_edge__edge13.isMatched;
                                                 edge_cur_edge__edge13.isMatched = true;
-                                                // Implicit target node_n2 from edge__edge13 
                                                 LGSPNode node_cur_node_n2 = edge_cur_edge__edge13.target;
                                                 if(!NodeType_N.isMyType[node_cur_node_n2.type.TypeID]) {
                                                     edge_cur_edge__edge13.isMatched = edge_cur_edge__edge13_prevIsMatched;
@@ -10240,7 +9901,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 }
                                                 bool node_cur_node_n2_prevIsMatched = node_cur_node_n2.isMatched;
                                                 node_cur_node_n2.isMatched = true;
-                                                // Extend outgoing edge__edge10 from node_c 
                                                 LGSPEdge edge_head_edge__edge10 = node_cur_node_c.outhead;
                                                 if(edge_head_edge__edge10 != null)
                                                 {
@@ -10263,7 +9923,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool edge_cur_edge__edge10_prevIsMatched = edge_cur_edge__edge10.isMatched;
                                                         edge_cur_edge__edge10.isMatched = true;
-                                                        // Implicit target node__node0 from edge__edge10 
                                                         LGSPNode node_cur_node__node0 = edge_cur_edge__edge10.target;
                                                         if(!NodeType_H.isMyType[node_cur_node__node0.type.TypeID]) {
                                                             edge_cur_edge__edge10.isMatched = edge_cur_edge__edge10_prevIsMatched;
@@ -10271,7 +9930,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         }
                                                         bool node_cur_node__node0_prevIsMatched = node_cur_node__node0.isMatched;
                                                         node_cur_node__node0.isMatched = true;
-                                                        // Extend outgoing edge__edge11 from node_c 
                                                         LGSPEdge edge_head_edge__edge11 = node_cur_node_c.outhead;
                                                         if(edge_head_edge__edge11 != null)
                                                         {
@@ -10295,7 +9953,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool edge_cur_edge__edge11_prevIsMatched = edge_cur_edge__edge11.isMatched;
                                                                 edge_cur_edge__edge11.isMatched = true;
-                                                                // Implicit target node__node1 from edge__edge11 
                                                                 LGSPNode node_cur_node__node1 = edge_cur_edge__edge11.target;
                                                                 if(!NodeType_H.isMyType[node_cur_node__node1.type.TypeID]) {
                                                                     edge_cur_edge__edge11.isMatched = edge_cur_edge__edge11_prevIsMatched;
@@ -10310,7 +9967,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 }
                                                                 bool node_cur_node__node1_prevIsMatched = node_cur_node__node1.isMatched;
                                                                 node_cur_node__node1.isMatched = true;
-                                                                // Extend outgoing edge__edge12 from node_c 
                                                                 LGSPEdge edge_head_edge__edge12 = node_cur_node_c.outhead;
                                                                 if(edge_head_edge__edge12 != null)
                                                                 {
@@ -10335,7 +9991,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool edge_cur_edge__edge12_prevIsMatched = edge_cur_edge__edge12.isMatched;
                                                                         edge_cur_edge__edge12.isMatched = true;
-                                                                        // Implicit target node__node2 from edge__edge12 
                                                                         LGSPNode node_cur_node__node2 = edge_cur_edge__edge12.target;
                                                                         if(!NodeType_H.isMyType[node_cur_node__node2.type.TypeID]) {
                                                                             edge_cur_edge__edge12.isMatched = edge_cur_edge__edge12_prevIsMatched;
@@ -10352,7 +10007,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         }
                                                                         bool node_cur_node__node2_prevIsMatched = node_cur_node__node2.isMatched;
                                                                         node_cur_node__node2.isMatched = true;
-                                                                        // Extend outgoing edge__edge2 from node_c3 
                                                                         LGSPEdge edge_head_edge__edge2 = node_cur_node_c3.outhead;
                                                                         if(edge_head_edge__edge2 != null)
                                                                         {
@@ -10378,7 +10032,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool edge_cur_edge__edge2_prevIsMatched = edge_cur_edge__edge2.isMatched;
                                                                                 edge_cur_edge__edge2.isMatched = true;
-                                                                                // Implicit target node_c4 from edge__edge2 
                                                                                 LGSPNode node_cur_node_c4 = edge_cur_edge__edge2.target;
                                                                                 if(!NodeType_C.isMyType[node_cur_node_c4.type.TypeID]) {
                                                                                     edge_cur_edge__edge2.isMatched = edge_cur_edge__edge2_prevIsMatched;
@@ -10397,7 +10050,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 }
                                                                                 bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                                                                                 node_cur_node_c4.isMatched = true;
-                                                                                // Extend outgoing edge__edge7 from node_c3 
                                                                                 LGSPEdge edge_head_edge__edge7 = node_cur_node_c3.outhead;
                                                                                 if(edge_head_edge__edge7 != null)
                                                                                 {
@@ -10427,7 +10079,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                         }
                                                                                         bool edge_cur_edge__edge7_prevIsMatched = edge_cur_edge__edge7.isMatched;
                                                                                         edge_cur_edge__edge7.isMatched = true;
-                                                                                        // Extend outgoing edge__edge16 from node_c3 
                                                                                         LGSPEdge edge_head_edge__edge16 = node_cur_node_c3.outhead;
                                                                                         if(edge_head_edge__edge16 != null)
                                                                                         {
@@ -10455,7 +10106,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool edge_cur_edge__edge16_prevIsMatched = edge_cur_edge__edge16.isMatched;
                                                                                                 edge_cur_edge__edge16.isMatched = true;
-                                                                                                // Implicit target node__node5 from edge__edge16 
                                                                                                 LGSPNode node_cur_node__node5 = edge_cur_edge__edge16.target;
                                                                                                 if(!NodeType_H.isMyType[node_cur_node__node5.type.TypeID]) {
                                                                                                     edge_cur_edge__edge16.isMatched = edge_cur_edge__edge16_prevIsMatched;
@@ -10473,7 +10123,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 }
                                                                                                 bool node_cur_node__node5_prevIsMatched = node_cur_node__node5.isMatched;
                                                                                                 node_cur_node__node5.isMatched = true;
-                                                                                                // Extend outgoing edge__edge14 from node_n2 
                                                                                                 LGSPEdge edge_head_edge__edge14 = node_cur_node_n2.outhead;
                                                                                                 if(edge_head_edge__edge14 != null)
                                                                                                 {
@@ -10502,7 +10151,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool edge_cur_edge__edge14_prevIsMatched = edge_cur_edge__edge14.isMatched;
                                                                                                         edge_cur_edge__edge14.isMatched = true;
-                                                                                                        // Implicit target node__node3 from edge__edge14 
                                                                                                         LGSPNode node_cur_node__node3 = edge_cur_edge__edge14.target;
                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node3.type.TypeID]) {
                                                                                                             edge_cur_edge__edge14.isMatched = edge_cur_edge__edge14_prevIsMatched;
@@ -10510,7 +10158,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         }
                                                                                                         bool node_cur_node__node3_prevIsMatched = node_cur_node__node3.isMatched;
                                                                                                         node_cur_node__node3.isMatched = true;
-                                                                                                        // Extend outgoing edge__edge15 from node_n2 
                                                                                                         LGSPEdge edge_head_edge__edge15 = node_cur_node_n2.outhead;
                                                                                                         if(edge_head_edge__edge15 != null)
                                                                                                         {
@@ -10540,7 +10187,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool edge_cur_edge__edge15_prevIsMatched = edge_cur_edge__edge15.isMatched;
                                                                                                                 edge_cur_edge__edge15.isMatched = true;
-                                                                                                                // Implicit target node__node4 from edge__edge15 
                                                                                                                 LGSPNode node_cur_node__node4 = edge_cur_edge__edge15.target;
                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node4.type.TypeID]) {
                                                                                                                     edge_cur_edge__edge15.isMatched = edge_cur_edge__edge15_prevIsMatched;
@@ -10555,7 +10201,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 }
                                                                                                                 bool node_cur_node__node4_prevIsMatched = node_cur_node__node4.isMatched;
                                                                                                                 node_cur_node__node4.isMatched = true;
-                                                                                                                // Extend outgoing edge__edge3 from node_c4 
                                                                                                                 LGSPEdge edge_head_edge__edge3 = node_cur_node_c4.outhead;
                                                                                                                 if(edge_head_edge__edge3 != null)
                                                                                                                 {
@@ -10586,7 +10231,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool edge_cur_edge__edge3_prevIsMatched = edge_cur_edge__edge3.isMatched;
                                                                                                                         edge_cur_edge__edge3.isMatched = true;
-                                                                                                                        // Implicit target node_c5 from edge__edge3 
                                                                                                                         LGSPNode node_cur_node_c5 = edge_cur_edge__edge3.target;
                                                                                                                         if(!NodeType_C.isMyType[node_cur_node_c5.type.TypeID]) {
                                                                                                                             edge_cur_edge__edge3.isMatched = edge_cur_edge__edge3_prevIsMatched;
@@ -10606,7 +10250,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                         }
                                                                                                                         bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                                                                                                                         node_cur_node_c5.isMatched = true;
-                                                                                                                        // Extend outgoing edge__edge17 from node_c4 
                                                                                                                         LGSPEdge edge_head_edge__edge17 = node_cur_node_c4.outhead;
                                                                                                                         if(edge_head_edge__edge17 != null)
                                                                                                                         {
@@ -10638,7 +10281,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool edge_cur_edge__edge17_prevIsMatched = edge_cur_edge__edge17.isMatched;
                                                                                                                                 edge_cur_edge__edge17.isMatched = true;
-                                                                                                                                // Implicit target node_n4 from edge__edge17 
                                                                                                                                 LGSPNode node_cur_node_n4 = edge_cur_edge__edge17.target;
                                                                                                                                 if(!NodeType_N.isMyType[node_cur_node_n4.type.TypeID]) {
                                                                                                                                     edge_cur_edge__edge17.isMatched = edge_cur_edge__edge17_prevIsMatched;
@@ -10653,7 +10295,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                 }
                                                                                                                                 bool node_cur_node_n4_prevIsMatched = node_cur_node_n4.isMatched;
                                                                                                                                 node_cur_node_n4.isMatched = true;
-                                                                                                                                // Extend outgoing edge__edge4 from node_c5 
                                                                                                                                 LGSPEdge edge_head_edge__edge4 = node_cur_node_c5.outhead;
                                                                                                                                 if(edge_head_edge__edge4 != null)
                                                                                                                                 {
@@ -10686,7 +10327,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                         }
                                                                                                                                         bool edge_cur_edge__edge4_prevIsMatched = edge_cur_edge__edge4.isMatched;
                                                                                                                                         edge_cur_edge__edge4.isMatched = true;
-                                                                                                                                        // Implicit target node_c6 from edge__edge4 
                                                                                                                                         LGSPNode node_cur_node_c6 = edge_cur_edge__edge4.target;
                                                                                                                                         if(!NodeType_C.isMyType[node_cur_node_c6.type.TypeID]) {
                                                                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
@@ -10705,7 +10345,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                             edge_cur_edge__edge4.isMatched = edge_cur_edge__edge4_prevIsMatched;
                                                                                                                                             continue;
                                                                                                                                         }
-                                                                                                                                        // Extend outgoing edge__edge8 from node_c5 
                                                                                                                                         LGSPEdge edge_head_edge__edge8 = node_cur_node_c5.outhead;
                                                                                                                                         if(edge_head_edge__edge8 != null)
                                                                                                                                         {
@@ -10742,7 +10381,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                 }
                                                                                                                                                 bool edge_cur_edge__edge8_prevIsMatched = edge_cur_edge__edge8.isMatched;
                                                                                                                                                 edge_cur_edge__edge8.isMatched = true;
-                                                                                                                                                // Extend outgoing edge__edge20 from node_c5 
                                                                                                                                                 LGSPEdge edge_head_edge__edge20 = node_cur_node_c5.outhead;
                                                                                                                                                 if(edge_head_edge__edge20 != null)
                                                                                                                                                 {
@@ -10777,7 +10415,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                         }
                                                                                                                                                         bool edge_cur_edge__edge20_prevIsMatched = edge_cur_edge__edge20.isMatched;
                                                                                                                                                         edge_cur_edge__edge20.isMatched = true;
-                                                                                                                                                        // Implicit target node__node8 from edge__edge20 
                                                                                                                                                         LGSPNode node_cur_node__node8 = edge_cur_edge__edge20.target;
                                                                                                                                                         if(!NodeType_H.isMyType[node_cur_node__node8.type.TypeID]) {
                                                                                                                                                             edge_cur_edge__edge20.isMatched = edge_cur_edge__edge20_prevIsMatched;
@@ -10794,7 +10431,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                             edge_cur_edge__edge20.isMatched = edge_cur_edge__edge20_prevIsMatched;
                                                                                                                                                             continue;
                                                                                                                                                         }
-                                                                                                                                                        // Extend outgoing edge__edge18 from node_n4 
                                                                                                                                                         LGSPEdge edge_head_edge__edge18 = node_cur_node_n4.outhead;
                                                                                                                                                         if(edge_head_edge__edge18 != null)
                                                                                                                                                         {
@@ -10830,7 +10466,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool edge_cur_edge__edge18_prevIsMatched = edge_cur_edge__edge18.isMatched;
                                                                                                                                                                 edge_cur_edge__edge18.isMatched = true;
-                                                                                                                                                                // Implicit target node__node6 from edge__edge18 
                                                                                                                                                                 LGSPNode node_cur_node__node6 = edge_cur_edge__edge18.target;
                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node6.type.TypeID]) {
                                                                                                                                                                     edge_cur_edge__edge18.isMatched = edge_cur_edge__edge18_prevIsMatched;
@@ -10847,7 +10482,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                 }
                                                                                                                                                                 bool node_cur_node__node6_prevIsMatched = node_cur_node__node6.isMatched;
                                                                                                                                                                 node_cur_node__node6.isMatched = true;
-                                                                                                                                                                // Extend outgoing edge__edge19 from node_n4 
                                                                                                                                                                 LGSPEdge edge_head_edge__edge19 = node_cur_node_n4.outhead;
                                                                                                                                                                 if(edge_head_edge__edge19 != null)
                                                                                                                                                                 {
@@ -10884,7 +10518,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool edge_cur_edge__edge19_prevIsMatched = edge_cur_edge__edge19.isMatched;
                                                                                                                                                                         edge_cur_edge__edge19.isMatched = true;
-                                                                                                                                                                        // Implicit target node__node7 from edge__edge19 
                                                                                                                                                                         LGSPNode node_cur_node__node7 = edge_cur_edge__edge19.target;
                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node7.type.TypeID]) {
                                                                                                                                                                             edge_cur_edge__edge19.isMatched = edge_cur_edge__edge19_prevIsMatched;
@@ -10902,7 +10535,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                         }
                                                                                                                                                                         bool node_cur_node__node7_prevIsMatched = node_cur_node__node7.isMatched;
                                                                                                                                                                         node_cur_node__node7.isMatched = true;
-                                                                                                                                                                        // Extend outgoing edge__edge5 from node_c6 
                                                                                                                                                                         LGSPEdge edge_head_edge__edge5 = node_cur_node_c6.outhead;
                                                                                                                                                                         if(edge_head_edge__edge5 != null)
                                                                                                                                                                         {
@@ -10943,7 +10575,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                 }
                                                                                                                                                                                 bool edge_cur_edge__edge5_prevIsMatched = edge_cur_edge__edge5.isMatched;
                                                                                                                                                                                 edge_cur_edge__edge5.isMatched = true;
-                                                                                                                                                                                // Extend outgoing edge__edge21 from node_c6 
                                                                                                                                                                                 LGSPEdge edge_head_edge__edge21 = node_cur_node_c6.outhead;
                                                                                                                                                                                 if(edge_head_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -10982,7 +10613,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                         }
                                                                                                                                                                                         bool edge_cur_edge__edge21_prevIsMatched = edge_cur_edge__edge21.isMatched;
                                                                                                                                                                                         edge_cur_edge__edge21.isMatched = true;
-                                                                                                                                                                                        // Implicit target node_n6 from edge__edge21 
                                                                                                                                                                                         LGSPNode node_cur_node_n6 = edge_cur_edge__edge21.target;
                                                                                                                                                                                         if(!NodeType_N.isMyType[node_cur_node_n6.type.TypeID]) {
                                                                                                                                                                                             edge_cur_edge__edge21.isMatched = edge_cur_edge__edge21_prevIsMatched;
@@ -10997,7 +10627,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                             edge_cur_edge__edge21.isMatched = edge_cur_edge__edge21_prevIsMatched;
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
-                                                                                                                                                                                        // Extend outgoing edge__edge22 from node_n6 
                                                                                                                                                                                         LGSPEdge edge_head_edge__edge22 = node_cur_node_n6.outhead;
                                                                                                                                                                                         if(edge_head_edge__edge22 != null)
                                                                                                                                                                                         {
@@ -11037,7 +10666,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                 }
                                                                                                                                                                                                 bool edge_cur_edge__edge22_prevIsMatched = edge_cur_edge__edge22.isMatched;
                                                                                                                                                                                                 edge_cur_edge__edge22.isMatched = true;
-                                                                                                                                                                                                // Implicit target node__node9 from edge__edge22 
                                                                                                                                                                                                 LGSPNode node_cur_node__node9 = edge_cur_edge__edge22.target;
                                                                                                                                                                                                 if(!NodeType_O.isMyType[node_cur_node__node9.type.TypeID]) {
                                                                                                                                                                                                     edge_cur_edge__edge22.isMatched = edge_cur_edge__edge22_prevIsMatched;
@@ -11056,7 +10684,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                 }
                                                                                                                                                                                                 bool node_cur_node__node9_prevIsMatched = node_cur_node__node9.isMatched;
                                                                                                                                                                                                 node_cur_node__node9.isMatched = true;
-                                                                                                                                                                                                // Extend outgoing edge__edge23 from node_n6 
                                                                                                                                                                                                 LGSPEdge edge_head_edge__edge23 = node_cur_node_n6.outhead;
                                                                                                                                                                                                 if(edge_head_edge__edge23 != null)
                                                                                                                                                                                                 {
@@ -11095,7 +10722,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                         {
                                                                                                                                                                                                             continue;
                                                                                                                                                                                                         }
-                                                                                                                                                                                                        // Implicit target node__node10 from edge__edge23 
                                                                                                                                                                                                         LGSPNode node_cur_node__node10 = edge_cur_edge__edge23.target;
                                                                                                                                                                                                         if(!NodeType_O.isMyType[node_cur_node__node10.type.TypeID]) {
                                                                                                                                                                                                             continue;
@@ -11159,7 +10785,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.EdgeNums.@_edge22] = edge_cur_edge__edge22;
                                                                                                                                                                                                         match.Edges[(int)Rule_TNTUnfolded.EdgeNums.@_edge23] = edge_cur_edge__edge23;
                                                                                                                                                                                                         matches.matchesList.PositionWasFilledFixIt();
-                                                                                                                                                                                                        // if enough matches were found, we leave
                                                                                                                                                                                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                                                                                                                                                                                         {
                                                                                                                                                                                                             node_cur_node_n6.MoveOutHeadAfter(edge_cur_edge__edge23);
@@ -11340,19 +10965,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_Toluol : LGSPAction
-	{
-		public Action_Toluol() {
-			rulePattern = Rule_Toluol.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
-		}
+    }
 
-		public override string Name { get { return "Toluol"; } }
-		private LGSPMatches matches;
+    public class Action_Toluol : LGSPAction
+    	{
+        public Action_Toluol() {
+            rulePattern = Rule_Toluol.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 6, 0, 7);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_Toluol instance = new Action_Toluol();
+        public override string Name { get { return "Toluol"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_Toluol instance = new Action_Toluol();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -11360,13 +10986,11 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup node_c3 
             int node_type_id_node_c3 = 1;
             for(LGSPNode node_head_node_c3 = graph.nodesByTypeHeads[node_type_id_node_c3], node_cur_node_c3 = node_head_node_c3.typeNext; node_cur_node_c3 != node_head_node_c3; node_cur_node_c3 = node_cur_node_c3.typeNext)
             {
                 bool node_cur_node_c3_prevIsMatched = node_cur_node_c3.isMatched;
                 node_cur_node_c3.isMatched = true;
-                // Lookup node_c5 
                 int node_type_id_node_c5 = 1;
                 for(LGSPNode node_head_node_c5 = graph.nodesByTypeHeads[node_type_id_node_c5], node_cur_node_c5 = node_head_node_c5.typeNext; node_cur_node_c5 != node_head_node_c5; node_cur_node_c5 = node_cur_node_c5.typeNext)
                 {
@@ -11378,7 +11002,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                     }
                     bool node_cur_node_c5_prevIsMatched = node_cur_node_c5.isMatched;
                     node_cur_node_c5.isMatched = true;
-                    // Lookup node_c6 
                     int node_type_id_node_c6 = 1;
                     for(LGSPNode node_head_node_c6 = graph.nodesByTypeHeads[node_type_id_node_c6], node_cur_node_c6 = node_head_node_c6.typeNext; node_cur_node_c6 != node_head_node_c6; node_cur_node_c6 = node_cur_node_c6.typeNext)
                     {
@@ -11392,7 +11015,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         }
                         bool node_cur_node_c6_prevIsMatched = node_cur_node_c6.isMatched;
                         node_cur_node_c6.isMatched = true;
-                        // Lookup node_c4 
                         int node_type_id_node_c4 = 1;
                         for(LGSPNode node_head_node_c4 = graph.nodesByTypeHeads[node_type_id_node_c4], node_cur_node_c4 = node_head_node_c4.typeNext; node_cur_node_c4 != node_head_node_c4; node_cur_node_c4 = node_cur_node_c4.typeNext)
                         {
@@ -11407,7 +11029,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                             }
                             bool node_cur_node_c4_prevIsMatched = node_cur_node_c4.isMatched;
                             node_cur_node_c4.isMatched = true;
-                            // Lookup node_c2 
                             int node_type_id_node_c2 = 1;
                             for(LGSPNode node_head_node_c2 = graph.nodesByTypeHeads[node_type_id_node_c2], node_cur_node_c2 = node_head_node_c2.typeNext; node_cur_node_c2 != node_head_node_c2; node_cur_node_c2 = node_cur_node_c2.typeNext)
                             {
@@ -11423,7 +11044,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 }
                                 bool node_cur_node_c2_prevIsMatched = node_cur_node_c2.isMatched;
                                 node_cur_node_c2.isMatched = true;
-                                // Lookup node_c1 
                                 int node_type_id_node_c1 = 1;
                                 for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
                                 {
@@ -11438,31 +11058,24 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     {
                                         continue;
                                     }
-                                    // Push subpattern matching task for _subpattern6
                                     PatternAction_Hydrogen taskFor__subpattern6 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern6.node_anchor = node_cur_node_c6;
                                     openTasks.Push(taskFor__subpattern6);
-                                    // Push subpattern matching task for _subpattern5
                                     PatternAction_Hydrogen taskFor__subpattern5 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern5.node_anchor = node_cur_node_c5;
                                     openTasks.Push(taskFor__subpattern5);
-                                    // Push subpattern matching task for _subpattern4
                                     PatternAction_Hydrogen taskFor__subpattern4 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern4.node_anchor = node_cur_node_c4;
                                     openTasks.Push(taskFor__subpattern4);
-                                    // Push subpattern matching task for _subpattern3
                                     PatternAction_Hydrogen taskFor__subpattern3 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern3.node_anchor = node_cur_node_c3;
                                     openTasks.Push(taskFor__subpattern3);
-                                    // Push subpattern matching task for _subpattern2
                                     PatternAction_Hydrogen taskFor__subpattern2 = new PatternAction_Hydrogen(graph, openTasks);
                                     taskFor__subpattern2.node_anchor = node_cur_node_c2;
                                     openTasks.Push(taskFor__subpattern2);
-                                    // Push subpattern matching task for _subpattern1
                                     PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                                     taskFor__subpattern1.node_anchor = node_cur_node_c1;
                                     openTasks.Push(taskFor__subpattern1);
-                                    // Push subpattern matching task for _subpattern0
                                     PatternAction_BenzolRingC123456Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC123456Exposed(graph, openTasks);
                                     taskFor__subpattern0.node_c1 = node_cur_node_c1;
                                     taskFor__subpattern0.node_c2 = node_cur_node_c2;
@@ -11477,25 +11090,15 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     node_cur_node_c4.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c5.isMatchedByEnclosingPattern = true;
                                     node_cur_node_c6.isMatchedByEnclosingPattern = true;
-                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                                    //Pop subpattern matching task for _subpattern0
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern1
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern2
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern3
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern4
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern5
                                     openTasks.Pop();
-                                    //Pop subpattern matching task for _subpattern6
                                     openTasks.Pop();
-                                    // Check whether subpatterns were found 
                                     if(matchesList.Count>0) {
-                                        // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                                         {
                                             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -11516,7 +11119,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             matches.matchesList.PositionWasFilledFixIt();
                                         }
                                         matchesList.Clear();
-                                        // if enough matches were found, we leave
                                         if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                                         {
                                             node_cur_node_c6.isMatchedByEnclosingPattern = false;
@@ -11559,19 +11161,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_ToluolCore : LGSPAction
-	{
-		public Action_ToluolCore() {
-			rulePattern = Rule_ToluolCore.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2);
-		}
+    }
 
-		public override string Name { get { return "ToluolCore"; } }
-		private LGSPMatches matches;
+    public class Action_ToluolCore : LGSPAction
+    	{
+        public Action_ToluolCore() {
+            rulePattern = Rule_ToluolCore.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 1, 0, 2);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_ToluolCore instance = new Action_ToluolCore();
+        public override string Name { get { return "ToluolCore"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_ToluolCore instance = new Action_ToluolCore();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -11579,28 +11182,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             Stack<LGSPSubpatternAction> openTasks = new Stack<LGSPSubpatternAction>();
             List<Stack<LGSPMatch>> foundPartialMatches = new List<Stack<LGSPMatch>>();
             List<Stack<LGSPMatch>> matchesList = foundPartialMatches;
-            // Lookup node_c1 
             int node_type_id_node_c1 = 1;
             for(LGSPNode node_head_node_c1 = graph.nodesByTypeHeads[node_type_id_node_c1], node_cur_node_c1 = node_head_node_c1.typeNext; node_cur_node_c1 != node_head_node_c1; node_cur_node_c1 = node_cur_node_c1.typeNext)
             {
-                // Push subpattern matching task for _subpattern1
                 PatternAction_Methyl taskFor__subpattern1 = new PatternAction_Methyl(graph, openTasks);
                 taskFor__subpattern1.node_anchor = node_cur_node_c1;
                 openTasks.Push(taskFor__subpattern1);
-                // Push subpattern matching task for _subpattern0
                 PatternAction_BenzolRingC1Exposed taskFor__subpattern0 = new PatternAction_BenzolRingC1Exposed(graph, openTasks);
                 taskFor__subpattern0.node_c1 = node_cur_node_c1;
                 openTasks.Push(taskFor__subpattern0);
                 node_cur_node_c1.isMatchedByEnclosingPattern = true;
-                // Match subpatterns
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count);
-                //Pop subpattern matching task for _subpattern0
                 openTasks.Pop();
-                //Pop subpattern matching task for _subpattern1
                 openTasks.Pop();
-                // Check whether subpatterns were found 
                 if(matchesList.Count>0) {
-                    // subpatterns were found, extend the partial matches by our local match object, becoming a complete match object and save it
                     foreach(Stack<LGSPMatch> currentFoundPartialMatch in matchesList)
                     {
                         LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
@@ -11611,7 +11206,6 @@ namespace de.unika.ipd.grGen.Action_TNT
                         matches.matchesList.PositionWasFilledFixIt();
                     }
                     matchesList.Clear();
-                    // if enough matches were found, we leave
                     if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
                     {
                         node_cur_node_c1.isMatchedByEnclosingPattern = false;
@@ -11624,19 +11218,20 @@ namespace de.unika.ipd.grGen.Action_TNT
             }
             return matches;
         }
-	}
-	public class Action_createDNT : LGSPAction
-	{
-		public Action_createDNT() {
-			rulePattern = Rule_createDNT.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
-		}
+    }
 
-		public override string Name { get { return "createDNT"; } }
-		private LGSPMatches matches;
+    public class Action_createDNT : LGSPAction
+    	{
+        public Action_createDNT() {
+            rulePattern = Rule_createDNT.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_createDNT instance = new Action_createDNT();
+        public override string Name { get { return "createDNT"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_createDNT instance = new Action_createDNT();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -11644,26 +11239,26 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
-            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
             }
             return matches;
         }
-	}
-	public class Action_createTNB : LGSPAction
-	{
-		public Action_createTNB() {
-			rulePattern = Rule_createTNB.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
-		}
+    }
 
-		public override string Name { get { return "createTNB"; } }
-		private LGSPMatches matches;
+    public class Action_createTNB : LGSPAction
+    	{
+        public Action_createTNB() {
+            rulePattern = Rule_createTNB.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_createTNB instance = new Action_createTNB();
+        public override string Name { get { return "createTNB"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_createTNB instance = new Action_createTNB();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -11671,26 +11266,26 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
-            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
             }
             return matches;
         }
-	}
-	public class Action_createTNT : LGSPAction
-	{
-		public Action_createTNT() {
-			rulePattern = Rule_createTNT.Instance;
-			DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
-		}
+    }
 
-		public override string Name { get { return "createTNT"; } }
-		private LGSPMatches matches;
+    public class Action_createTNT : LGSPAction
+    	{
+        public Action_createTNT() {
+            rulePattern = Rule_createTNT.Instance;
+            DynamicMatch = myMatch; matches = new LGSPMatches(this, 0, 0, 0);
+        }
 
-		public static LGSPAction Instance { get { return instance; } }
-		private static Action_createTNT instance = new Action_createTNT();
+        public override string Name { get { return "createTNT"; } }
+        private LGSPMatches matches;
+
+        public static LGSPAction Instance { get { return instance; } }
+        private static Action_createTNT instance = new Action_createTNT();
 
         public LGSPMatches myMatch(LGSPGraph graph, int maxMatches, IGraphElement[] parameters)
         {
@@ -11698,14 +11293,14 @@ namespace de.unika.ipd.grGen.Action_TNT
             LGSPMatch match = matches.matchesList.GetNextUnfilledPosition();
             match.patternGraph = rulePattern.patternGraph;
             matches.matchesList.PositionWasFilledFixIt();
-            // if enough matches were found, we leave
             if(maxMatches > 0 && matches.matchesList.Count >= maxMatches)
             {
                 return matches;
             }
             return matches;
         }
-	}
+    }
+
 
     public class Model_TNT_Actions : LGSPActions
     {

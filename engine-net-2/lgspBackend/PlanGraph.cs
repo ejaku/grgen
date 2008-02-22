@@ -329,17 +329,15 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class PlanGraph
     {
-        public PatternGraph PatternGraph; // the originating pattern graph
         public PlanNode Root; // the root node of the plan graph
         public PlanNode[] Nodes; // nodes of the plan graph without the root node, representing pattern elements
         public PlanEdge[] Edges; // edges of the plan graph, represeneting search operations
 
-        public PlanGraph(PlanNode root, PlanNode[] nodes, PlanEdge[] edges, PatternGraph patternGraph)
+        public PlanGraph(PlanNode root, PlanNode[] nodes, PlanEdge[] edges)
         {
             Root = root;
             Nodes = nodes;
             Edges = edges;
-            PatternGraph = patternGraph;
         }
     }
 }

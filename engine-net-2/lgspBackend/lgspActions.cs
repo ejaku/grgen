@@ -886,9 +886,9 @@ invalidCommand:
     public abstract class LGSPSubpatternAction
     {
         /// <summary>
-        /// The LGSPRulePattern object from which this object has been created.
+        /// The PatternGraph object from which this object has been created.
         /// </summary>
-        protected LGSPRulePattern rulePattern;
+        protected PatternGraph patternGraph;
 
         /// <summary>
         /// The host graph in which to search for matches

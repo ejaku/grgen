@@ -136,9 +136,10 @@ namespace de.unika.ipd.grGen.lgsp
                         }
 
                         // append nested check maximum matches
-                        bool subpatternLevel = ((SearchProgram)enclosingSearchProgram).IsSubpattern;
+                        bool atSubpatternLevel = ((SearchProgram)enclosingSearchProgram).ProgramType==SearchProgramType.Subpattern
+                            || ((SearchProgram)enclosingSearchProgram).ProgramType == SearchProgramType.AlternativeCase;
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(subpatternLevel, false);
+                            new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
                         insertionPoint.Append(checkMaximumMatches);
 
                         string[] neededElementsForCheckOperation = 
@@ -399,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ContinueOperation continueByReturn =
                     new ContinueOperation(
                         ContinueOperationType.ByReturn,
-                        !searchProgramRoot.IsSubprogram && !searchProgramRoot.IsSubpattern
+                        searchProgramRoot.ProgramType==SearchProgramType.Action
                         );
                 insertionPoint.Append(continueByReturn);
 

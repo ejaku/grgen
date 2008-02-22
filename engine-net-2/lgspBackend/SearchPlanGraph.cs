@@ -152,15 +152,13 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode Root;
         public SearchPlanNode[] Nodes;
         public SearchPlanEdge[] Edges;
-        public PatternGraph PatternGraph;
         public int NumPresetElements;
 
-        public SearchPlanGraph(SearchPlanNode root, SearchPlanNode[] nodes, SearchPlanEdge[] edges, PatternGraph patternGraph)
+        public SearchPlanGraph(SearchPlanNode root, SearchPlanNode[] nodes, SearchPlanEdge[] edges)
         {
             Root = root;
             Nodes = nodes;
             Edges = edges;
-            PatternGraph = patternGraph;
             NumPresetElements = 0;
             foreach (SearchPlanNode node in nodes)
                 if (node.IsPreset)

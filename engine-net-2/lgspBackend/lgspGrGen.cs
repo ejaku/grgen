@@ -285,7 +285,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ++nodesIndex;
             }
 
-            return new PlanGraph(planRoot, planNodes, planEdges.ToArray(), patternGraph);
+            return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
        
         /// <summary>
@@ -300,7 +300,8 @@ namespace de.unika.ipd.grGen.lgsp
             PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, isNegative, isSubpattern);
             matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
             SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(searchPlanGraph, isNegative);
+            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
+                searchPlanGraph, patternGraph, isNegative);
             matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
             patternGraph.Schedule = scheduledSearchPlan;
 
