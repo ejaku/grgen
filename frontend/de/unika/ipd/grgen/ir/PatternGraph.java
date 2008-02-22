@@ -42,8 +42,11 @@ public class PatternGraph extends Graph {
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
 
-	/** A list of all potentially homomorphic sets. */
-	private final List<Collection<GraphEntity>> homs = new LinkedList<Collection<GraphEntity>>();
+	/** A list of all potentially homomorphic node sets. */
+	private final List<Collection<Node>> homNodes = new LinkedList<Collection<Node>>();
+
+	/** A list of all potentially homomorphic edge sets. */
+	private final List<Collection<Edge>> homEdges = new LinkedList<Collection<Edge>>();
 
 	/** A set of all pattern nodes, which may be homomorphically matched to any other pattern nodes. */
 	private final HashSet<Node> homToAllNodes = new HashSet<Node>();
@@ -91,8 +94,13 @@ public class PatternGraph extends Graph {
 	}
 
 	/** Add a potentially homomorphic set to the graph. */
-	public void addHomomorphic(Collection<GraphEntity> hom) {
-		homs.add(hom);
+	public void addHomomorphicNodes(Collection<Node> hom) {
+		homNodes.add(hom);
+	}
+
+	/** Add a potentially homomorphic set to the graph. */
+	public void addHomomorphicEdges(Collection<Edge> hom) {
+		homEdges.add(hom);
 	}
 
 	public void addHomToAll(Node node) {
@@ -109,14 +117,18 @@ public class PatternGraph extends Graph {
 	}
 
 	/** Get all potentially homomorphic sets in this graph. */
-	public Collection<Collection<GraphEntity>> getHomomorphic() {
-		return Collections.unmodifiableCollection(homs);
+	public Collection<Collection<? extends GraphEntity>> getHomomorphic() {
+		Collection<Collection<? extends GraphEntity>> ret = new LinkedHashSet<Collection<? extends GraphEntity>>();
+		ret.addAll(homEdges);
+		ret.addAll(homNodes);
+
+		return Collections.unmodifiableCollection(ret);
 	}
 
 	public Collection<Node> getHomomorphic(Node n) {
-		for(Collection<? extends GraphEntity> c : homs) {
+		for(Collection<Node> c : homNodes) {
 			if (c.contains(n)) {
-				return (Collection<Node>)c;
+				return c;
 			}
 		}
 
@@ -126,9 +138,9 @@ public class PatternGraph extends Graph {
 	}
 
 	public Collection<Edge> getHomomorphic(Edge e) {
-		for(Collection<? extends GraphEntity> c : homs) {
+		for(Collection<Edge> c : homEdges) {
 			if (c.contains(e)) {
-				return (Collection<Edge>)c;
+				return c;
 			}
 		}
 
@@ -162,7 +174,7 @@ public class PatternGraph extends Graph {
 	}
 
 	public boolean isIsoToAll(Node node) {
-		for(Collection<? extends GraphEntity> c : homs) {
+		for(Collection<? extends GraphEntity> c : homNodes) {
 			if (c.contains(node)) {
 				return false;
 			}
@@ -171,7 +183,7 @@ public class PatternGraph extends Graph {
 	}
 
 	public boolean isIsoToAll(Edge edge) {
-		for(Collection<? extends GraphEntity> c : homs) {
+		for(Collection<? extends GraphEntity> c : homEdges) {
 			if (c.contains(edge)) {
 				return false;
 			}

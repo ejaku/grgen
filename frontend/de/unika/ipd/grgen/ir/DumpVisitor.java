@@ -103,11 +103,11 @@ public class DumpVisitor extends GraphDumpVisitor
 		if (gr instanceof PatternGraph) {
 			PatternGraph pg = (PatternGraph) gr;
 
-			for (Collection<GraphEntity> homSet : pg.getHomomorphic()) {
+			for (Collection<? extends GraphEntity> homSet : pg.getHomomorphic()) {
 				if (!homSet.isEmpty()) {
-					for (Iterator<GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext(); ) {
+					for (Iterator<? extends GraphEntity> homIt1 = homSet.iterator(); homIt1.hasNext(); ) {
 						Entity hom1 = homIt1.next();
-						for (Iterator<GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext(); ) {
+						for (Iterator<? extends GraphEntity> homIt2 = homSet.iterator(); homIt2.hasNext(); ) {
 							Entity hom2 = homIt2.next();
 							PrefixNode from = prefixMap.get(hom1);
 							PrefixNode to = prefixMap.get(hom2);

@@ -288,15 +288,25 @@ public class PatternGraphNode extends GraphNode {
 			genTypeCondsFromTypeof(gr, e);
 		}
 
-		for (BaseNode n : getHoms()) {
-			HomNode hom = (HomNode) n;
+		for (HomNode hom : getHoms()) {
 			Set<Set<DeclNode>> homSets = splitHoms(hom.getChildren());
 			for (Set<DeclNode> homSet : homSets) {
-	            HashSet<GraphEntity> homSetIR = new HashSet<GraphEntity>();
-	    		for (DeclNode decl : homSet) {
-	    			homSetIR.add((GraphEntity) decl.checkIR(GraphEntity.class));
-	    		}
-	            gr.addHomomorphic(homSetIR);
+	            // homSet is not empty
+				if (homSet.iterator().next() instanceof NodeDeclNode) {
+    				HashSet<Node> homSetIR = new HashSet<Node>();
+    	    		for (DeclNode decl : homSet) {
+    	    			homSetIR.add((Node) decl.checkIR(Node.class));
+    	    		}
+    	            gr.addHomomorphicNodes(homSetIR);
+	            }
+				// homSet is not empty
+	            if (homSet.iterator().next() instanceof EdgeDeclNode) {
+    				HashSet<Edge> homSetIR = new HashSet<Edge>();
+    	    		for (DeclNode decl : homSet) {
+    	    			homSetIR.add((Edge) decl.checkIR(Edge.class));
+    	    		}
+    	            gr.addHomomorphicEdges(homSetIR);
+	            }
             }
 		}
 
@@ -846,31 +856,31 @@ public class PatternGraphNode extends GraphNode {
     {
 	    // inherit homomorphic nodes
 	    for (NodeDeclNode node : allNegNodes) {
-	    	Set<GraphEntity> homSet = new LinkedHashSet<GraphEntity>();
+	    	Set<Node> homSet = new LinkedHashSet<Node>();
 	    	Set<NodeDeclNode> homNodes = getCorrespondentHomSet(node);
 
 	    	for (NodeDeclNode homNode : homNodes) {
 	            if (allNegNodes.contains(homNode)) {
-	    			homSet.add((GraphEntity) homNode.checkIR(GraphEntity.class));
+	    			homSet.add((Node) homNode.checkIR(Node.class));
 	            }
 	        }
 	    	if (homSet.size() > 1) {
-	    		neg.addHomomorphic(homSet);
+	    		neg.addHomomorphicNodes(homSet);
 	    	}
 	    }
 
     	// inherit homomorphic edges
 	    for (EdgeDeclNode edge : allNegEdges) {
-	    	Set<GraphEntity> homSet = new LinkedHashSet<GraphEntity>();
+	    	Set<Edge> homSet = new LinkedHashSet<Edge>();
 	    	Set<EdgeDeclNode> homEdges = getCorrespondentHomSet(edge);
 
 	    	for (EdgeDeclNode homEdge : homEdges) {
 	            if (allNegEdges.contains(homEdge)) {
-	    			homSet.add((GraphEntity) homEdge.checkIR(GraphEntity.class));
+	    			homSet.add((Edge) homEdge.checkIR(Edge.class));
 	            }
 	        }
 	    	if (homSet.size() > 1) {
-	    		neg.addHomomorphic(homSet);
+	    		neg.addHomomorphicEdges(homSet);
 	    	}
 	    }
     }

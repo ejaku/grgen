@@ -115,7 +115,12 @@ public abstract class Type extends Identifiable {
 		return COMPARATOR;
 	}
 	
-	public int compareTo(Object obj) {
-		return COMPARATOR.compare(this, (Type) obj);
+	public int compareTo(Identifiable id) {
+		if (id instanceof Type) {
+			return COMPARATOR.compare(this, (Type) id);
+		}
+
+		assert false;
+		return super.compareTo(id);
 	}
 }

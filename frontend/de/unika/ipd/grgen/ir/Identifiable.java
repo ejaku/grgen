@@ -32,9 +32,9 @@ import java.util.Map;
  * Identifiable with an identifier.
  * This is a super class for all classes which are associated with an identifier.
  */
-public abstract class Identifiable extends IR implements Annotated, Comparable {
+public abstract class Identifiable extends IR implements Annotated, Comparable<Identifiable> {
 	/** helper class for comparing objects of type Identifiable, used in compareTo */
-	static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
+	protected static final Comparator<Identifiable> COMPARATOR = new Comparator<Identifiable>() {
 		public int compare(Identifiable lt, Identifiable rt) {
 			return lt.getIdent().compareTo(rt.getIdent());
 		}
@@ -81,8 +81,8 @@ public abstract class Identifiable extends IR implements Annotated, Comparable {
 		return getIdent().hashCode();
 	}
 	
-	public int compareTo(Object obj) {
-		return COMPARATOR.compare(this,(Identifiable) obj);
+	public int compareTo(Identifiable id) {
+		return COMPARATOR.compare(this, id);
 	}
 	
 	/** @return The annotations. */
