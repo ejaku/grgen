@@ -83,9 +83,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Returns name of the type of the task variable
         /// </summary>
-        public static string TypeOfTaskVariable(string subpatternName)
+        public static string TypeOfTaskVariable(string subpatternName, bool isAlternative)
         {
-            return "PatternAction_" + subpatternName;
+            return (isAlternative ? "AlternativeAction_" : "PatternAction_") + subpatternName;
         }
 
         /// <summary>

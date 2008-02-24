@@ -867,74 +867,6 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 	}
 
-	public sealed class Edge_AEdge : LGSPEdge, IEdge_AEdge
-	{
-		private static int poolLevel = 0;
-		private static Edge_AEdge[] pool = new Edge_AEdge[10];
-		public Edge_AEdge(LGSPNode source, LGSPNode target)
-			: base(EdgeType_AEdge.typeVar, source, target)
-		{
-		}
-		public override IEdge Clone(INode newSource, INode newTarget)
-		{ return new Edge_AEdge(this, (LGSPNode) newSource, (LGSPNode) newTarget); }
-
-		private Edge_AEdge(Edge_AEdge oldElem, LGSPNode newSource, LGSPNode newTarget)
-			: base(EdgeType_AEdge.typeVar, newSource, newTarget)
-		{
-		}
-		public static Edge_AEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target)
-		{
-			Edge_AEdge edge;
-			if(poolLevel == 0)
-				edge = new Edge_AEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.hasVariables = false;
-				edge.source = source;
-				edge.target = target;
-			}
-			graph.AddEdge(edge);
-			return edge;
-		}
-
-		public static Edge_AEdge CreateEdge(LGSPGraph graph, LGSPNode source, LGSPNode target, String varName)
-		{
-			Edge_AEdge edge;
-			if(poolLevel == 0)
-				edge = new Edge_AEdge(source, target);
-			else
-			{
-				edge = pool[--poolLevel];
-				edge.hasVariables = false;
-				edge.source = source;
-				edge.target = target;
-			}
-			graph.AddEdge(edge, varName);
-			return edge;
-		}
-
-		public override void Recycle()
-		{
-			if(poolLevel < 10)
-				pool[poolLevel++] = this;
-		}
-
-		public override object GetAttribute(string attrName)
-		{
-			throw new NullReferenceException(
-				"The edge type \"AEdge\" does not have the attribute \" + attrName + \"\"!");
-		}
-		public override void SetAttribute(string attrName, object value)
-		{
-			throw new NullReferenceException(
-				"The edge type \"AEdge\" does not have the attribute \" + attrName + \"\"!");
-		}
-		public override void ResetAllAttributes()
-		{
-		}
-	}
-
 	public sealed class EdgeType_AEdge : EdgeType
 	{
 		public static EdgeType_AEdge typeVar = new EdgeType_AEdge();
@@ -946,7 +878,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public override String Name { get { return "AEdge"; } }
 		public override IEdge CreateEdge(INode source, INode target)
 		{
-			return new Edge_AEdge((LGSPNode) source, (LGSPNode) target);
+			throw new Exception("The abstract edge type AEdge cannot be instantiated!");
 		}
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<AttributeType> AttributeTypes { get { yield break; } }
@@ -957,9 +889,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		}
 		public override IEdge CreateEdgeWithCopyCommons(INode source, INode target, IEdge oldIEdge)
 		{
-			return new Edge_AEdge((LGSPNode) source, (LGSPNode) target);
+			throw new Exception("Cannot retype to the abstract type AEdge!");
 		}
-
 	}
 
 	// *** Edge Edge ***

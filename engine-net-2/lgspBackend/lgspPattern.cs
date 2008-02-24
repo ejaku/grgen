@@ -11,10 +11,13 @@ namespace de.unika.ipd.grGen.lgsp
     public abstract class PatternElement : IPatternElement
     {
         public String Name { get { return name; } }
+        public String UnprefixedName { get { return unprefixedName; } }
+
         public PatternGraph PointOfDefinition; // the pattern this element gets matched (null if rule parameter)
 
         public int TypeID;
         public String name;
+        public String unprefixedName;
         public GrGenType[] AllowedTypes;
         public bool[] IsAllowedType;
         public float Cost; // default cost/priority from frontend, user priority if given
@@ -25,6 +28,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="typeID">The type ID of the pattern element</param>
         /// <param name="name">The name of the pattern element</param>
+        /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
         ///     If it is null, all subtypes of the type specified by typeID (including itself)
         ///     are allowed for this pattern element.</param>
@@ -33,11 +37,13 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternElement(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
+        public PatternElement(int typeID, String name, String unprefixedName, 
+            GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
         {
             this.TypeID = typeID;
             this.name = name;
+            this.unprefixedName = unprefixedName;
             this.AllowedTypes = allowedTypes;
             this.IsAllowedType = isAllowedType;
             this.Cost = cost;
@@ -58,6 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="typeID">The type ID of the pattern node</param>
         /// <param name="name">The name of the pattern node</param>
+        /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
         ///     If it is null, all subtypes of the type specified by typeID (including itself)
         ///     are allowed for this pattern element.</param>
@@ -66,15 +73,11 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternNode(int typeID, String name, GrGenType[] allowedTypes, bool[] isAllowedType, 
+        public PatternNode(int typeID, String name, String unprefixedName,
+            GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, cost, parameterIndex)
+            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
-        }
-
-        public string UnprefixedName()
-        {
-            return name.Substring("node_".Length);
         }
     }
 
@@ -94,6 +97,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="target">The target pattern node for this edge.</param>
         /// <param name="typeID">The type ID of the pattern edge.</param>
         /// <param name="name">The name of the pattern edge.</param>
+        /// <param name="unprefixedName">Pure name of the pattern element as specified in the .grg without any prefixes</param>
         /// <param name="allowedTypes">An array of allowed types for this pattern element.
         ///     If it is null, all subtypes of the type specified by typeID (including itself)
         ///     are allowed for this pattern element.</param>
@@ -103,9 +107,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="patternElementType">Specifies what kind of pattern element this is.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
-        public PatternEdge(PatternNode source, PatternNode target, int typeID, String name,
-            GrGenType[] allowedTypes, bool[] isAllowedType, float cost, int parameterIndex)
-            : base(typeID, name, allowedTypes, isAllowedType, cost, parameterIndex)
+        public PatternEdge(PatternNode source, PatternNode target, 
+            int typeID, String name, String unprefixedName,
+            GrGenType[] allowedTypes, bool[] isAllowedType,
+            float cost, int parameterIndex)
+            : base(typeID, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
         {
             this.source = source;
             this.target = target;
@@ -114,11 +120,6 @@ namespace de.unika.ipd.grGen.lgsp
         public override string ToString()
         {
             return source.Name + " -" + Name + ":" + TypeID + "-> " + target.Name;
-        }
-
-        public string UnprefixedName()
-        {
-            return name.Substring("edge_".Length);
         }
     }
 
@@ -225,11 +226,13 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph[] AlternativeCases { get { return alternativeCases; } }
 
         public String name;
+        public String pathPrefix;
         public PatternGraph[] alternativeCases;
 
-        public Alternative(String name, PatternGraph[] cases)
+        public Alternative(String name, String pathPrefix, PatternGraph[] cases)
         {
             this.name = name;
+            this.pathPrefix = pathPrefix;
             this.alternativeCases = cases;
         }
     }

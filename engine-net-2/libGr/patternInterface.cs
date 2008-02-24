@@ -12,6 +12,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         String Name { get; }
 
+        /// <summary>
+        /// The pure name of the pattern element as specified in the .grg without any prefixes.
+        /// </summary>
+        String UnprefixedName { get; }
+
 /*        /// <summary>
         /// The GrGen type of the element.
         /// </summary>

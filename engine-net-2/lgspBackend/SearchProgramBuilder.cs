@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramBuilder
     {
         /// <summary>
-        /// Builds search program from scheduled search plan
+        /// Builds search program from scheduled search plan in pattern graph of the action rule pattern
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
@@ -31,21 +31,21 @@ namespace de.unika.ipd.grGen.lgsp
             List<string> parametersList,
             List<bool> parameterIsNodeList)
         {
-            programType = rulePattern.isSubpattern ? SearchProgramType.Subpattern : SearchProgramType.Action;
-            programType = nameOfSearchProgram != null ? SearchProgramType.MissingPreset : programType;
+            Debug.Assert(!rulePattern.isSubpattern);
+            Debug.Assert(nameOfSearchProgram == null && parametersList == null && parameterIsNodeList == null
+                || nameOfSearchProgram != null && parametersList != null && parameterIsNodeList != null);
+
+            programType = nameOfSearchProgram != null ? SearchProgramType.MissingPreset : SearchProgramType.Action;
             this.model = model;
             patternGraph = rulePattern.patternGraph;
-            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern);
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             enclosingPositiveOperation = null;
 
-            Debug.Assert(nameOfSearchProgram == null && parametersList == null && parameterIsNodeList == null
-                    || nameOfSearchProgram != null && parametersList != null && parameterIsNodeList != null);
-            string[] parameters = null;
-            bool[] parameterIsNode = null;
+            SearchProgram searchProgram;
             if (parametersList != null)
             {
-                parameters = new string[parametersList.Count];
-                parameterIsNode = new bool[parameterIsNodeList.Count];
+                string[] parameters = new string[parametersList.Count];
+                bool[] parameterIsNode = new bool[parameterIsNodeList.Count];
                 int i = 0;
                 foreach (string p in parametersList)
                 {
@@ -58,36 +58,54 @@ namespace de.unika.ipd.grGen.lgsp
                     parameterIsNode[i] = pis;
                     ++i;
                 }
-            }
 
-            // todo: compute recursivly, not only flat
-            string[] namesOfPatternGraphElements =
-                new string[patternGraph.edges.Length + patternGraph.nodes.Length];
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
-            {
-                namesOfPatternGraphElements[i] = patternGraph.edges[i].name;
+                // build outermost search program operation, create the list anchor starting it's program
+                searchProgram = new SearchProgramOfMissingPreset(
+                    nameOfSearchProgram,
+                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0,
+                    parameters, parameterIsNode);
             }
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            else
             {
-                namesOfPatternGraphElements[i + patternGraph.edges.Length] = patternGraph.nodes[i].name;
+                // build outermost search program operation, create the list anchor starting it's program
+                searchProgram = new SearchProgramOfAction(
+                    "myMatch",
+                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0);
             }
+            searchProgram.OperationsList = new SearchProgramList(searchProgram);
+            SearchProgramOperation insertionPoint = searchProgram.OperationsList;
+
+            // start building with first operation in scheduled search plan
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                0,
+                insertionPoint);
+
+            return searchProgram;
+        }
+
+        /// <summary>
+        /// Builds search program from scheduled search plan in pattern graph of the subpattern rule pattern
+        /// </summary>
+        public SearchProgram BuildSearchProgram(
+            IGraphModel model,
+            LGSPRulePattern rulePattern)
+        {
+            Debug.Assert(rulePattern.isSubpattern);
+
+            programType = SearchProgramType.Subpattern;
+            this.model = model;
+            patternGraph = rulePattern.patternGraph;
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, true);
+            enclosingPositiveOperation = null;
 
             // build outermost search program operation, create the list anchor starting it's program
-            SearchProgram searchProgram = new SearchProgram(
-                programType,
-                nameOfSearchProgram ?? "myMatch",
-                parameters, parameterIsNode,
-                patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0,
-                namesOfPatternGraphElements);
+            SearchProgram searchProgram = new SearchProgramOfSubpattern("myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            if (rulePattern.isSubpattern)
-            {
-                InitalizeSubpatternMatching initialize = new InitalizeSubpatternMatching();
-                insertionPoint = insertionPoint.Append(initialize);
-            }
+            InitalizeSubpatternMatching initialize = new InitalizeSubpatternMatching();
+            insertionPoint = insertionPoint.Append(initialize);
 
             // start building with first operation in scheduled search plan
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
@@ -95,12 +113,9 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint);
 
             // finalize task/result-pushdown handling in subpattern matcher
-            if (rulePattern.isSubpattern)
-            {
-                FinalizeSubpatternMatching finalize =
-                    new FinalizeSubpatternMatching();
-                insertionPoint = insertionPoint.Append(finalize);
-            }
+            FinalizeSubpatternMatching finalize =
+                new FinalizeSubpatternMatching();
+            insertionPoint = insertionPoint.Append(finalize);
 
             return searchProgram;
         }
@@ -110,32 +125,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
+            LGSPRulePattern rulePattern,
             Alternative alternative)
         {
+            programType = SearchProgramType.AlternativeCase;
             this.model = model;
             this.alternative = alternative;
-            
+            rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, rulePattern.isSubpattern);
             enclosingPositiveOperation = null;
 
-            // todo: compute recursivly, not only flat
-            string[] namesOfPatternGraphElements =
-                new string[patternGraph.edges.Length + patternGraph.nodes.Length];
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
-            {
-                namesOfPatternGraphElements[i] = patternGraph.edges[i].name;
-            }
-            for (int i = 0; i < patternGraph.nodes.Length; ++i)
-            {
-                namesOfPatternGraphElements[i + patternGraph.edges.Length] = patternGraph.nodes[i].name;
-            }
-
             // build outermost search program operation, create the list anchor starting it's program
-            SearchProgram searchProgram = new SearchProgram(
-                SearchProgramType.AlternativeCase,
-                "myMatch",
-                null, null,
-                patternGraph.embeddedGraphs.Length > 0 || patternGraph.alternatives.Length > 0,
-                namesOfPatternGraphElements);
+            SearchProgram searchProgram = new SearchProgramOfAlternative("myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -149,7 +149,9 @@ namespace de.unika.ipd.grGen.lgsp
                 ScheduledSearchPlan scheduledSearchPlan = altCase.ScheduleIncludingNegatives;
 
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
-                    scheduledSearchPlan.PatternGraph.name);
+                    scheduledSearchPlan.PatternGraph.pathPrefix, 
+                    scheduledSearchPlan.PatternGraph.name,
+                    rulePatternClassName);
                 matchAlternative.OperationsList = new SearchProgramList(matchAlternative);
                 insertionPoint = insertionPoint.Append(matchAlternative);
 
@@ -406,8 +408,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode = target.NodeType == PlanNodeType.Node;
             bool positive = enclosingPositiveOperation == null;
             Debug.Assert(positive, "Positive maybe preset in negative search plan");
-            Debug.Assert(programType == SearchProgramType.Subpattern, "Maybe preset in subpattern");
-            Debug.Assert(programType == SearchProgramType.AlternativeCase, "Maybe preset in alternative");
+            Debug.Assert(programType != SearchProgramType.Subpattern, "Maybe preset in subpattern");
+            Debug.Assert(programType != SearchProgramType.AlternativeCase, "Maybe preset in alternative");
 
             // get candidate from inputs
             GetCandidateByDrawing fromInputs =
@@ -1055,8 +1057,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // subpattern or top-level pattern which contains subpatterns
                 if (isSubpattern || containsSubpatterns)
-                    insertionPoint = insertCheckForSubpatternsFound(insertionPoint,
-                        programType == SearchProgramType.AlternativeCase ? patternGraph.name : null);
+                    insertionPoint = insertCheckForSubpatternsFound(insertionPoint);
                 else // top-level-pattern without subpatterns
                     insertionPoint = insertPatternFound(insertionPoint);
 
@@ -1093,9 +1094,10 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Node,
-                        patternGraph.nodes[i].UnprefixedName(),
+                        patternGraph.nodes[i].UnprefixedName,
                         patternGraph.nodes[i].Name,
-                        rulePatternClassName
+                        rulePatternClassName,
+                        patternGraph.pathPrefix + patternGraph.name + "_"
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1104,9 +1106,10 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Edge,
-                        patternGraph.edges[i].UnprefixedName(),
+                        patternGraph.edges[i].UnprefixedName,
                         patternGraph.edges[i].Name,
-                        rulePatternClassName
+                        rulePatternClassName,
+                        patternGraph.pathPrefix + patternGraph.name + "_"
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1117,7 +1120,8 @@ namespace de.unika.ipd.grGen.lgsp
                         BuildMatchObjectType.Subpattern,
                         patternGraph.embeddedGraphs[i].name,
                         patternGraph.embeddedGraphs[i].name,
-                        rulePatternClassName
+                        rulePatternClassName,
+                        patternGraph.pathPrefix+patternGraph.name+"_"
                     );
                 insertionPoint = insertionPoint.Append(buildMatch);
             }
@@ -1130,7 +1134,31 @@ namespace de.unika.ipd.grGen.lgsp
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertPushSubpatternTasks(SearchProgramOperation insertionPoint)
-        {
+        {            
+            // first alternatives, so that they get processed last
+            // to handle subpatterns in linear order we've to push them in reverse order on the stack
+            for (int i = patternGraph.alternatives.Length - 1; i >= 0; --i)
+            {
+                Alternative alternative = patternGraph.alternatives[i];
+
+                // todo compute connections recursivly
+                string[] connectionName = new string[0];
+                string[] patternElementBoundToConnectionName = new string[0];
+                bool[] patternElementBoundToConnectionIsNode = new bool[0];
+
+                PushSubpatternTask pushTask =
+                    new PushSubpatternTask(
+                        alternative.pathPrefix,
+                        alternative.name,
+                        rulePatternClassName,
+                        connectionName,
+                        patternElementBoundToConnectionName,
+                        patternElementBoundToConnectionIsNode
+                    );
+                insertionPoint = insertionPoint.Append(pushTask);
+            }
+            
+            // then subpatterns of the pattern
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
             for (int i = patternGraph.embeddedGraphs.Length - 1; i >= 0; --i)
             {
@@ -1264,8 +1292,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Inserts code to check whether the subpatterns were found and code for case there were some
         /// at the given position, returns position after inserted operations
         /// </summary>
-        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint,
-            string whichAlternative)
+        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint)
         {
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
@@ -1287,8 +1314,7 @@ namespace de.unika.ipd.grGen.lgsp
                 patternAndSubpatternsMatched = new PatternAndSubpatternsMatched(
                     patternGraph.nodes.Length,
                     patternGraph.edges.Length,
-                    patternGraph.embeddedGraphs.Length,
-                    whichAlternative
+                    patternGraph.embeddedGraphs.Length
                 );
             }
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =

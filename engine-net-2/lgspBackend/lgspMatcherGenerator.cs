@@ -1,5 +1,4 @@
-﻿//#define PRODUCE_UNSAFE_MATCHERS // todo: what for ?
-#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
+﻿#define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define NO_EDGE_LOOKUP
 //#define NO_ADJUST_LIST_HEADS
 //#define RANDOM_LOOKUP_LIST_START      // currently broken
@@ -1095,7 +1094,10 @@ exitSecondLoop: ;
             SearchProgram searchProgram = GenerateSearchProgram(rulePattern);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            GenerateMatcherClassHead(sb, rulePattern, isInitialStatic);
+            if(rulePattern.isSubpattern)
+                GenerateMatcherClassHeadSubpattern(sb, rulePattern, isInitialStatic);
+            else
+                GenerateMatcherClassHeadAction(sb, rulePattern, isInitialStatic);
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
@@ -1122,7 +1124,7 @@ exitSecondLoop: ;
             SearchProgram searchProgram = GenerateSearchProgram(rulePattern, alt);
 
             // emit matcher class head, body, tail; body is source code representing search program
-            GenerateMatcherClassHead(sb, rulePattern, isInitialStatic);
+            GenerateMatcherClassHeadAlternative(sb, rulePattern, alt, isInitialStatic);
             searchProgram.Emit(sb);
             GenerateMatcherClassTail(sb);
 
@@ -1170,8 +1172,11 @@ exitSecondLoop: ;
 
             // build pass: build nested program from scheduled search plan
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
-                model, rulePattern, null, null, null);
+            SearchProgram searchProgram;
+            if(rulePattern.isSubpattern)
+                searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern);
+            else
+                searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern, null, null, null);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1218,8 +1223,7 @@ exitSecondLoop: ;
 
             // build pass: build nested program from scheduled search plans of the alternative cases
             SearchProgramBuilder searchProgramBuilder = new SearchProgramBuilder();
-            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(
-                model, alt);
+            SearchProgram searchProgram = searchProgramBuilder.BuildSearchProgram(model, rulePattern, alt);
 
 #if DUMP_SEARCHPROGRAMS
             // dump built search program for debugging
@@ -1261,74 +1265,122 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates matcher class head source code for pattern given in rulePattern into given source builder
-        /// name is the prefix-less name of the rule pattern to generate the action for.
+        /// Generates matcher class head source code for the pattern of the rulePattern into given source builder
         /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
         /// </summary>
-        public void GenerateMatcherClassHead(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
+        public void GenerateMatcherClassHeadAction(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
         {
+            Debug.Assert(!rulePattern.isSubpattern);
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
                 
-            if (rulePattern.isSubpattern)
+            String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
+            String className = namePrefix + rulePattern.name;
+
+            sb.AppendFront("public class " + className + " : LGSPAction\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); // class level
+            sb.AppendFront("public " + className + "() {\n");
+            sb.Indent(); // method body level
+            sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
+            sb.AppendFront("patternGraph = rulePattern.patternGraph;\n");
+            sb.AppendFront("DynamicMatch = myMatch; matches = new LGSPMatches(this, " 
+                + patternGraph.Nodes.Length + ", " 
+                + patternGraph.Edges.Length + ", " 
+                + patternGraph.EmbeddedGraphs.Length +
+                ");\n");
+            sb.Unindent(); // class level
+            sb.AppendFront("}\n\n");
+
+            sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
+            sb.AppendFront("private LGSPMatches matches;\n\n");
+            if (isInitialStatic)
             {
-                String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
-                String className = namePrefix + rulePattern.name;
-
-                sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
-                sb.AppendFront("{\n");
-                sb.Indent(); // class level
-                sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
-                sb.Indent(); // method body level
-                sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
-                sb.AppendFront("patternGraph = " + rulePattern.GetType().Name + ".Instance.patternGraph;\n");
-                sb.Unindent(); // class level
-                sb.AppendFront("}\n\n");
-
-                for (int i = 0; i < patternGraph.nodes.Length; ++i)
-                {
-                    PatternNode node = patternGraph.nodes[i];
-                    if (node.PointOfDefinition == null)
-                    {
-                        sb.AppendFront("public LGSPNode " + node.name + ";\n");
-                    }
-                }
-                for (int i = 0; i < patternGraph.edges.Length; ++i)
-                {
-                    PatternEdge edge = patternGraph.edges[i];
-                    if (edge.PointOfDefinition == null)
-                    {
-                        sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
-                    }
-                }
-                sb.AppendFront("\n");
+                sb.AppendFront("public static LGSPAction Instance { get { return instance; } }\n");
+                sb.AppendFront("private static " + className + " instance = new " + className + "();\n\n");
             }
-            else
+        }
+
+        /// <summary>
+        /// Generates matcher class head source code for the subpattern of the rulePattern into given source builder
+        /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+        /// </summary>
+        public void GenerateMatcherClassHeadSubpattern(SourceBuilder sb, LGSPRulePattern rulePattern, bool isInitialStatic)
+        {
+            Debug.Assert(rulePattern.isSubpattern);
+            PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+
+            String namePrefix = (isInitialStatic ? "" : "Dyn") + "PatternAction_";
+            String className = namePrefix + rulePattern.name;
+
+            sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); // class level
+            sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_) {\n");
+            sb.Indent(); // method body level
+            sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
+            sb.AppendFront("patternGraph = " + rulePattern.GetType().Name + ".Instance.patternGraph;\n");
+            sb.Unindent(); // class level
+            sb.AppendFront("}\n\n");
+
+            for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
-                String className = namePrefix + rulePattern.name;
-
-                sb.AppendFront("public class " + className + " : LGSPAction\n");
-                sb.AppendFront("\t{\n");
-                sb.Indent(); // class level
-                sb.AppendFront("public " + className + "() {\n");
-                sb.Indent(); // method body level
-                sb.AppendFront("rulePattern = " + rulePattern.GetType().Name + ".Instance;\n");
-                sb.AppendFront("DynamicMatch = myMatch; matches = new LGSPMatches(this, " 
-                    + patternGraph.Nodes.Length + ", " 
-                    + patternGraph.Edges.Length + ", " 
-                    + patternGraph.EmbeddedGraphs.Length +
-                    ");\n");
-                sb.Unindent(); // class level
-                sb.AppendFront("}\n\n");
-
-                sb.AppendFront("public override string Name { get { return \"" + rulePattern.name + "\"; } }\n");
-                sb.AppendFront("private LGSPMatches matches;\n\n");
-                if (isInitialStatic)
+                PatternNode node = patternGraph.nodes[i];
+                if (node.PointOfDefinition == null)
                 {
-                    sb.AppendFront("public static LGSPAction Instance { get { return instance; } }\n");
-                    sb.AppendFront("private static " + className + " instance = new " + className + "();\n\n");
+                    sb.AppendFront("public LGSPNode " + node.name + ";\n");
                 }
             }
+            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            {
+                PatternEdge edge = patternGraph.edges[i];
+                if (edge.PointOfDefinition == null)
+                {
+                    sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
+                }
+            }
+            sb.AppendFront("\n");
+        }
+
+        /// <summary>
+        /// Generates matcher class head source code for the given alternative into given source builder
+        /// isInitialStatic tells whether the initial static version or a dynamic version after analyze is to be generated.
+        /// </summary>
+        public void GenerateMatcherClassHeadAlternative(SourceBuilder sb, LGSPRulePattern rulePattern, Alternative alternative, bool isInitialStatic)
+        {
+            PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
+
+            String namePrefix = (isInitialStatic ? "" : "Dyn") + "AlternativeAction_";
+            String className = namePrefix + alternative.pathPrefix+alternative.name;
+
+            sb.AppendFront("public class " + className + " : LGSPSubpatternAction\n");
+            sb.AppendFront("{\n");
+            sb.Indent(); // class level
+            sb.AppendFront("public " + className + "(LGSPGraph graph_, Stack<LGSPSubpatternAction> openTasks_, PatternGraph[] patternGraphs_) {\n");
+            sb.Indent(); // method body level
+            sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
+            // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
+            sb.AppendFront("patternGraphs = patternGraphs_;\n");
+            sb.Unindent(); // class level
+            sb.AppendFront("}\n\n");
+
+            // todo: implement
+            /*for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            {
+                PatternNode node = patternGraph.nodes[i];
+                if (node.PointOfDefinition == null)
+                {
+                    sb.AppendFront("public LGSPNode " + node.name + ";\n");
+                }
+            }
+            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            {
+                PatternEdge edge = patternGraph.edges[i];
+                if (edge.PointOfDefinition == null)
+                {
+                    sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
+                }
+            }*/
+            sb.AppendFront("\n");
         }
 
         /// <summary>
@@ -1383,11 +1435,7 @@ exitSecondLoop: ;
             compParams.ReferencedAssemblies.Add(actionAssemblyLocation);
 
             compParams.GenerateInMemory = true;
-#if PRODUCE_UNSAFE_MATCHERS
-            compParams.CompilerOptions = "/optimize /unsafe";
-#else
             compParams.CompilerOptions = "/optimize";
-#endif
             return compParams;
         }
 

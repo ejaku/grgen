@@ -136,17 +136,15 @@ namespace de.unika.ipd.grGen.lgsp
                         }
 
                         // append nested check maximum matches
-                        bool atSubpatternLevel = ((SearchProgram)enclosingSearchProgram).ProgramType==SearchProgramType.Subpattern
-                            || ((SearchProgram)enclosingSearchProgram).ProgramType == SearchProgramType.AlternativeCase;
+                        bool atSubpatternLevel = enclosingSearchProgram is SearchProgramOfSubpattern
+                            || enclosingSearchProgram is SearchProgramOfAlternative;
                         CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
                             new CheckContinueMatchingMaximumMatchesReached(atSubpatternLevel, false);
                         insertionPoint.Append(checkMaximumMatches);
 
-                        string[] neededElementsForCheckOperation = 
-                            ((SearchProgram)enclosingSearchProgram).NamesOfPatternGraphElements;
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             checkSubpatternsFound,
-                            neededElementsForCheckOperation,
+                            null,
                             enclosingCheckNegative ?? enclosingSearchProgram);
 
                         // check subpatterns found has a further check maximum matches nested within check failed code
@@ -213,11 +211,9 @@ namespace de.unika.ipd.grGen.lgsp
                             new CheckContinueMatchingMaximumMatchesReached(true, false);
                         insertionPoint.Append(checkMaximumMatches);
 
-                        string[] neededElementsForCheckOperation =
-                            ((SearchProgram)enclosingSearchProgram).NamesOfPatternGraphElements;
                         MoveOutwardsAppendingRemoveIsomorphyAndJump(
                             tasksLeft,
-                            neededElementsForCheckOperation,
+                            null,
                             enclosingCheckNegative ?? enclosingSearchProgram);
 
                         // check tasks left has a further check maximum matches nested within check failed code
@@ -367,14 +363,25 @@ namespace de.unika.ipd.grGen.lgsp
                     GetCandidate getCandidate = op as GetCandidate;
                     if (creationPointOfDominatingElementFound == false)
                     {
-                        foreach (string dominating in neededElementsForCheckOperation)
+                        if (neededElementsForCheckOperation != null)
                         {
-                            if (getCandidate.PatternElementName == dominating)
+                            foreach (string dominating in neededElementsForCheckOperation)
                             {
-                                creationPointOfDominatingElementFound = true;
-                                iterationReached = false;
-                                break;
+                                if (getCandidate.PatternElementName == dominating)
+                                {
+                                    creationPointOfDominatingElementFound = true;
+                                    iterationReached = false;
+                                    break;
+                                }
                             }
+                        }
+                        else
+                        {
+                            // needed elements == null means everything fits, 
+                            // take first element iteration on our way outwards the search program
+                            // (or the outermost operation if no iteration is found until it is reached)
+                            creationPointOfDominatingElementFound = true;
+                            iterationReached = false;
                         }
                     }
                     if (op is GetCandidateByIteration)
@@ -400,7 +407,7 @@ namespace de.unika.ipd.grGen.lgsp
                 ContinueOperation continueByReturn =
                     new ContinueOperation(
                         ContinueOperationType.ByReturn,
-                        searchProgramRoot.ProgramType==SearchProgramType.Action
+                        searchProgramRoot is SearchProgramOfAction
                         );
                 insertionPoint.Append(continueByReturn);
 

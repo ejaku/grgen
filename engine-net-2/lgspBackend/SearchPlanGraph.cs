@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, rootName, null, null, 0.0f, -1);
+            PatternElement = new PatternNode(-1, rootName, rootName, null, null, 0.0f, -1);
         }
 
         protected SearchPlanNode(PlanNode planNode)

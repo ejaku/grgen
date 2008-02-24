@@ -269,6 +269,11 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPRulePattern rulePattern;
 
         /// <summary>
+        /// The PatternGraph object of the main graph
+        /// </summary>
+        public PatternGraph patternGraph;
+
+        /// <summary>
         /// The RulePattern object from which this LGSPAction object has been created.
         /// </summary>
         public IRulePattern RulePattern { get { return rulePattern; } }
@@ -880,15 +885,22 @@ invalidCommand:
 
     /// <summary>
     /// Abstract base class for generated subpattern matching actions
-    /// each object of an inheriting class represents a single subpattern matching tasks
-    /// which might be stored on the open tasks stack and executed later on
+    /// each object of an inheriting class represents a subpattern matching tasks
+    /// which might be stored on the open tasks stack and executed later on.
+    /// In addition to user-specified subpatterns, alternatives are mapped to subpattern actions, too.
     /// </summary>
     public abstract class LGSPSubpatternAction
     {
         /// <summary>
-        /// The PatternGraph object from which this object has been created.
+        /// The PatternGraph object from which this matching task object has been created
         /// </summary>
         protected PatternGraph patternGraph;
+
+        /// <summary>
+        /// The PatternGraph objects from which this matching task object has been created
+        /// (non-null in case of an alternative, contains the pattern graphs of the alternative cases then)
+        /// </summary>
+        protected PatternGraph[] patternGraphs;
 
         /// <summary>
         /// The host graph in which to search for matches
