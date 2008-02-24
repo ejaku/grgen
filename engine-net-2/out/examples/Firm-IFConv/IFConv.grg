@@ -1,6 +1,7 @@
 using Firm;
 
 #include "Sad.grg"
+#include "test.gri"
 
 rule InitDiamond
 {
@@ -85,7 +86,7 @@ rule BuildCDep(cur:Block, top:Block, bottom:Block) : (Block)
 {
     cur <-:pdom- next:Block;
     modify {
-        next -:cf-> top;
+        next -:cdep-> top;
         return(next);
     }
 }
@@ -94,6 +95,7 @@ rule IFConv
 {
     bottom:Block -l:df-> :Jmp -:df-> lb:Block -:cdep-> top      ;
     bottom       -r:df-> :Jmp -:df-> rb:Block -:cdep-> top:Block;
+    negative { bottom -:ifconv->; }
     modify {
         exec(ICCheckLeftEnd(lb, top, lb, rb, bottom));
     }
@@ -101,6 +103,7 @@ rule IFConv
 
 rule ICCheckLeftEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block)
 {
+	hom(cur, left);
     cur -:df-> :Proj -:df-> top;
     modify {
         exec(ICCheckRightEnd(right, top, left, right, bottom));
@@ -109,8 +112,10 @@ rule ICCheckLeftEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block)
 
 rule ICCheckRightEnd(cur:Block, top:Block, left:Block, right:Block, bottom:Block)
 {
+	hom(cur, right);
     cur -:df-> :Proj -:df-> top;
     modify {
+		bottom -:ifconv-> top;
         exec(MoveToBlock(left, top)[*] | MoveToBlock(right, top)[*]);
     }
 }
@@ -122,6 +127,14 @@ rule MoveToBlock(from:Block, to:Block)
         delete(d);
         n -:df-> to;
     }
+}
+
+rule TestRef
+{
+	:Add -d:df-> :Proj;
+	modify {
+		delete(d);
+	}
 }
 
 

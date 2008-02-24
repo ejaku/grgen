@@ -1,10 +1,16 @@
 new graph IFConv
 
-dump add node Block group
+debug set layout Compilergraph
+debug set layout option CREATE_LOOP_TREE false
+dump set edge pdom color blue
+dump set edge cdep color green
+dump add node Block group by hidden incoming df
 dump add node Mode exclude
+dump add edge df infotag pos
 
-xgrs sad_variant0
+#xgrs sad_variant0
 #xgrs InitDiamond
+xgrs g
 
 xgrs CreateEndBlock && InitPDom*
 
@@ -12,15 +18,8 @@ xgrs InitPDomEnd && CalcPDom*
 xgrs KillReflexivePDom* && ReducePDom*
 xgrs [WalkBlocks]
 
-#debug enable
+debug enable
 
-#debug set layout Compilergraph
-#debug set layout option CREATE_LOOP_TREE false
-#dump set edge pdom color blue
-#dump set edge cdep color green
+#xgrs %IFConv
 
-xgrs %IFConv
-
-//xgrs IFConv*
-
-show graph ycomp
+#xgrs IFConv*

@@ -447,6 +447,7 @@ node class EndBlock extends Block;
 edge class pdom;
 edge class cdep;
 
+edge class ifconv;
 
 /******************
  * SIMD Extension *

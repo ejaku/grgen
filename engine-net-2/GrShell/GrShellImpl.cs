@@ -79,6 +79,13 @@ namespace de.unika.ipd.grGen.grShell
         bool pendingDebugEnable = false;
         String debugLayout = "Orthogonal";
 
+        /// <summary>
+        /// Maps layouts to layout option names to their values.
+        /// This only reflects the settings made by the user and may even contain illegal entries,
+        /// if the options were set before yComp was attached.
+        /// </summary>
+        Dictionary<String, Dictionary<String, String>> debugLayoutOptions = new Dictionary<String, Dictionary<String, String>>();
+
         IWorkaround workaround = WorkaroundManager.GetWorkaround();
         public LinkedList<GrShellTokenManager> TokenSourceStack = new LinkedList<GrShellTokenManager>();
 
@@ -1594,7 +1601,9 @@ namespace de.unika.ipd.grGen.grShell
                     return;
                 }
 
-                debugger = new Debugger(this, debugLayout);
+                Dictionary<String, String> optMap;
+                debugLayoutOptions.TryGetValue(debugLayout, out optMap);
+                debugger = new Debugger(this, debugLayout, optMap);
 
                 pendingDebugEnable = false;
             }
@@ -1683,12 +1692,20 @@ namespace de.unika.ipd.grGen.grShell
 
         public void SetDebugLayoutOption(String optionName, String optionValue)
         {
+            Dictionary<String, String> optMap;
+            if(!debugLayoutOptions.TryGetValue(debugLayout, out optMap))
+            {
+                optMap = new Dictionary<String, String>();
+                debugLayoutOptions[debugLayout] = optMap;
+            }
+
             if(!InDebugMode)
             {
-                Console.WriteLine("Layout options can only be set, when YComp is active!");
+                optMap[optionName] = optionValue;       // remember option for debugger startup
                 return;
             }
-            debugger.SetLayoutOption(optionName, optionValue);
+            if(debugger.SetLayoutOption(optionName, optionValue))
+                optMap[optionName] = optionValue;       // only remember option if no error was reported
         }
 
         #region "dump" commands
@@ -1933,7 +1950,12 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     sw.Write("new :{0}($ = {1}", node.Type.Name, StringToTextToken(graph.GetElementName(node)));
                     foreach(AttributeType attrType in node.Type.AttributeTypes)
-                        sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(node.GetAttribute(attrType.Name).ToString()));
+                    {
+                        object value = node.GetAttribute(attrType.Name);
+                        // TODO: Add support for null values, as the default initializers could assign non-null values!
+                        if(value != null)                                   
+                            sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+                    }
                     sw.WriteLine(")");
                     LinkedList<Variable> vars = graph.GetElementVariables(node);
                     if(vars != null)
@@ -1956,7 +1978,12 @@ namespace de.unika.ipd.grGen.grShell
                         sw.Write("new @({0}) - :{1}($ = {2}", StringToTextToken(graph.GetElementName(node)),
                             edge.Type.Name, StringToTextToken(graph.GetElementName(edge)));
                         foreach(AttributeType attrType in edge.Type.AttributeTypes)
-                            sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(edge.GetAttribute(attrType.Name).ToString()));
+                        {
+                            object value = edge.GetAttribute(attrType.Name);
+                            // TODO: Add support for null values, as the default initializers could assign non-null values!
+                            if(value != null)
+                                sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+                        }
                         sw.WriteLine(") -> @({0})", StringToTextToken(graph.GetElementName(edge.Target)));
                         LinkedList<Variable> vars = graph.GetElementVariables(node);
                         if(vars != null)
@@ -1994,10 +2021,10 @@ namespace de.unika.ipd.grGen.grShell
                     sw.WriteLine("dump set edge labels off");
 
                 foreach(NodeType excludedNodeType in curShellGraph.DumpInfo.ExcludedNodeTypes)
-                    sw.WriteLine("dump add exclude node only " + excludedNodeType.Name);
+                    sw.WriteLine("dump add node only " + excludedNodeType.Name + " exclude");
 
                 foreach(EdgeType excludedEdgeType in curShellGraph.DumpInfo.ExcludedEdgeTypes)
-                    sw.WriteLine("dump add exclude edge only " + excludedEdgeType.Name);
+                    sw.WriteLine("dump add edge only " + excludedEdgeType.Name + " exclude");
 
                 foreach(GroupNodeType groupNodeType in curShellGraph.DumpInfo.GroupNodeTypes)
                 {
@@ -2012,10 +2039,11 @@ namespace de.unika.ipd.grGen.grShell
                                 case GroupMode.GroupIncomingNodes: groupModeStr = "incoming"; break;
                                 case GroupMode.GroupOutgoingNodes: groupModeStr = "outgoing"; break;
                                 case GroupMode.GroupAllNodes:      groupModeStr = "any";      break;
+                                default: groupModeStr = "This case does not exist by definition..."; break;
                             }
                             sw.WriteLine("dump add node only " + groupNodeType.NodeType.Name
-                                + "by " + ((nkvp.Value & GroupMode.Hidden) != 0 ? "hidden " : "")
-                                + "only " + ekvp.Key.Name + " with only " + nkvp.Key.Name);
+                                + " group by " + ((nkvp.Value & GroupMode.Hidden) != 0 ? "hidden " : "") + groupModeStr
+                                + " only " + ekvp.Key.Name + " with only " + nkvp.Key.Name);
                         }
                     }
                 }
@@ -2023,11 +2051,22 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(KeyValuePair<GrGenType, List<AttributeType>> infoTag in curShellGraph.DumpInfo.InfoTags)
                 {
                     String kind;
-                    if(infoTag.Key.IsA(graph.Model.NodeModel.RootType)) kind = "node";      // TODO: this does not work as type ids are used!
+                    if(infoTag.Key.IsNodeType) kind = "node";
                     else kind = "edge";
 
                     foreach(AttributeType attrType in infoTag.Value)
-                        sw.WriteLine("dump add infotag " + kind + " only " + infoTag.Key.Name + " " + attrType.Name);
+                        sw.WriteLine("dump add " + kind + " only " + infoTag.Key.Name + " infotag " + attrType.Name);
+                }
+
+                if(debugLayoutOptions.Count != 0)
+                {
+                    foreach(KeyValuePair<String, Dictionary<String, String>> layoutOptions in debugLayoutOptions)
+                    {
+                        sw.WriteLine("debug set layout " + layoutOptions.Key);
+                        foreach(KeyValuePair<String, String> option in layoutOptions.Value)
+                            sw.WriteLine("debug set layout option " + option.Key + " " + option.Value);
+                    }
+                    sw.WriteLine("debug set layout " + debugLayout);
                 }
 
                 sw.WriteLine("# end of graph \"{0}\" saved by grShell", graph.Name);

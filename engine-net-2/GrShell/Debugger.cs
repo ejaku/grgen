@@ -39,9 +39,18 @@ namespace de.unika.ipd.grGen.grShell
         Dictionary<IEdge, bool> addedEdges = new Dictionary<IEdge, bool>();
         LinkedList<String> deletedEdges = new LinkedList<String>();
 
-        public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal") {}
+        public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal", null) {}
+        public Debugger(GrShellImpl grShellImpl, String debugLayout) : this(grShellImpl, debugLayout, null) {}
 
-        public Debugger(GrShellImpl grShellImpl, String debugLayout)
+        /// <summary>
+        /// Initializes a new Debugger instance using the given layout and options.
+        /// Any invalid options will be removed from layoutOptions.
+        /// </summary>
+        /// <param name="grShellImpl">An GrShellImpl instance.</param>
+        /// <param name="debugLayout">The name of the layout to be used.</param>
+        /// <param name="layoutOptions">An dictionary mapping layout option names to their values.
+        /// It may be null, if no options are to be applied.</param>
+        public Debugger(GrShellImpl grShellImpl, String debugLayout, Dictionary<String, String> layoutOptions)
         {
             this.grShellImpl = grShellImpl;
             this.shellGraph = grShellImpl.CurrentShellGraph;
@@ -75,6 +84,24 @@ namespace de.unika.ipd.grGen.grShell
 
             try
             {
+                if(layoutOptions != null)
+                {
+                    LinkedList<String> illegalOptions = null;
+                    foreach(KeyValuePair<String, String> option in layoutOptions)
+                    {
+                        if(!SetLayoutOption(option.Key, option.Value))
+                        {
+                            if(illegalOptions == null) illegalOptions = new LinkedList<String>();
+                            illegalOptions.AddLast(option.Key);
+                        }
+                    }
+                    if(illegalOptions != null)
+                    {
+                        foreach(String illegalOption in illegalOptions)
+                            layoutOptions.Remove(illegalOption);
+                    }
+                }
+
                 UploadGraph();
             }
             catch(OperationCanceledException)
@@ -167,11 +194,18 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("Available layout options and their current values:\n\n" + str);
         }
 
-        public void SetLayoutOption(String optionName, String optionValue)
+        /// <summary>
+        /// Sets a layout option for the current layout in yComp.
+        /// </summary>
+        /// <param name="optionName">The name of the option.</param>
+        /// <param name="optionValue">The new value for the option.</param>
+        /// <returns>True, iff yComp did not report an error.</returns>
+        public bool SetLayoutOption(String optionName, String optionValue)
         {
             String errorMessage = ycompClient.SetLayoutOption(optionName, optionValue);
             if(errorMessage != null)
                 Console.WriteLine(errorMessage);
+            return errorMessage == null;
         }
 
 
