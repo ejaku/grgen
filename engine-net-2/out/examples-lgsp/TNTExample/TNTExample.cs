@@ -9,12 +9,12 @@ namespace TNT
     class TNTExample
     {
         LGSPGraph graph;
-        Model_TNT_Actions actions;
+        TNTActions actions;
 
         void DoTNT()
         {
             graph = new LGSPGraph(new TNTGraphModel());
-            actions = new Model_TNT_Actions(graph);
+            actions = new TNTActions(graph);
 
             actions.PerformanceInfo = new PerformanceInfo();
 

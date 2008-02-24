@@ -101,7 +101,7 @@ public class ModelGen extends CSharpBase {
 					+ "using System.Collections.Generic;\n"
 					+ "using de.unika.ipd.grGen.libGr;\n"
 					+ "using de.unika.ipd.grGen.lgsp;\n"
-					+ "using de.unika.ipd.grGen.models." + formatIdentifiable(be.unit) + ";\n");
+					+ "using de.unika.ipd.grGen.Model_" + formatIdentifiable(be.unit) + ";\n");
 		}
 		return stubsb;
 	}

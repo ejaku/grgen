@@ -11412,15 +11412,15 @@ namespace de.unika.ipd.grGen.Action_TNT
     }
 
 
-    public class Model_TNT_Actions : LGSPActions
+    public class TNTActions : LGSPActions
     {
-        public Model_TNT_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
+        public TNTActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
             : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
 
-        public Model_TNT_Actions(LGSPGraph lgspgraph)
+        public TNTActions(LGSPGraph lgspgraph)
             : base(lgspgraph)
         {
             InitActions();

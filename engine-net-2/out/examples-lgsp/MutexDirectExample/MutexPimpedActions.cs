@@ -3260,15 +3260,15 @@ label7: ;
     }
 
 
-    public class Model_MutexPimped_Actions : LGSPActions
+    public class MutexPimpedActions : LGSPActions
     {
-        public Model_MutexPimped_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
+        public MutexPimpedActions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
             : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
 
-        public Model_MutexPimped_Actions(LGSPGraph lgspgraph)
+        public MutexPimpedActions(LGSPGraph lgspgraph)
             : base(lgspgraph)
         {
             InitActions();

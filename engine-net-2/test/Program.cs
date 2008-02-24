@@ -1,8 +1,8 @@
 using System;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.lgsp;
-using de.unika.ipd.grGen.models.test;
-using de.unika.ipd.grGen.actions.test;
+using de.unika.ipd.grGen.Model_test;
+using de.unika.ipd.grGen.Action_test;
 
 namespace test
 {

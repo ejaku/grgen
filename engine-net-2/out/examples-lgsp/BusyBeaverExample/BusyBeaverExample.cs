@@ -12,7 +12,7 @@ namespace BusyBeaver
         const int R = 1;
 
         LGSPGraph graph;
-        Model_Turing3_Actions actions;
+        Turing3Actions actions;
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
         {
@@ -38,7 +38,7 @@ namespace BusyBeaver
             int startTime = Environment.TickCount;
 
             graph = new LGSPGraph(new Turing3GraphModel());
-            actions = new Model_Turing3_Actions(graph);
+            actions = new Turing3Actions(graph);
 
             // Enable step counting
             actions.PerformanceInfo = new PerformanceInfo();

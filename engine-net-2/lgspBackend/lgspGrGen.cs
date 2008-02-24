@@ -832,19 +832,19 @@ namespace de.unika.ipd.grGen.lgsp
                 String modelNamespace = model.GetType().Namespace;
                 int lastDot = modelNamespace.LastIndexOf(".");
                 if(lastDot == -1) unitName = "";
-                else unitName = modelNamespace.Substring(lastDot + 1);
+                else unitName = modelNamespace.Substring(lastDot + 7);  // skip ".Model_"
 
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
-                endSource.AppendFront("public class " + unitName + "_Actions : LGSPActions\n");
+                endSource.AppendFront("public class " + unitName + "Actions : LGSPActions\n");
                 endSource.AppendFront("{\n");
                 endSource.Indent();
-                endSource.AppendFront("public " + unitName + "_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)\n");
+                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)\n");
                 endSource.AppendFront("    : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");
                 endSource.AppendFront("}\n\n");
-                endSource.AppendFront("public " + unitName + "_Actions(LGSPGraph lgspgraph)\n");
+                endSource.AppendFront("public " + unitName + "Actions(LGSPGraph lgspgraph)\n");
                 endSource.AppendFront("    : base(lgspgraph)\n");
                 endSource.AppendFront("{\n");
                 endSource.AppendFront("    InitActions();\n");

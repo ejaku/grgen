@@ -31,7 +31,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
+            MutexPimpedActions actions = new MutexPimpedActions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
@@ -109,7 +109,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
+            MutexPimpedActions actions = new MutexPimpedActions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);
@@ -148,7 +148,7 @@ namespace Mutex
             int startTime = Environment.TickCount;
 
             LGSPGraph graph = new LGSPGraph(new MutexPimpedGraphModel());
-            Model_MutexPimped_Actions actions = new Model_MutexPimped_Actions(graph);
+            MutexPimpedActions actions = new MutexPimpedActions(graph);
 
             LGSPNode p1 = graph.AddNode(NodeType_Process.typeVar);
             LGSPNode p2 = graph.AddNode(NodeType_Process.typeVar);

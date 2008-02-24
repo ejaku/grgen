@@ -2006,15 +2006,15 @@ label3: ;
     }
 
 
-    public class Model_Turing3_Actions : LGSPActions
+    public class Turing3Actions : LGSPActions
     {
-        public Model_Turing3_Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
+        public Turing3Actions(LGSPGraph lgspgraph, IDumperFactory dumperfactory, String modelAsmName, String actionsAsmName)
             : base(lgspgraph, dumperfactory, modelAsmName, actionsAsmName)
         {
             InitActions();
         }
 
-        public Model_Turing3_Actions(LGSPGraph lgspgraph)
+        public Turing3Actions(LGSPGraph lgspgraph)
             : base(lgspgraph)
         {
             InitActions();
