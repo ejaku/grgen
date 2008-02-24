@@ -473,8 +473,7 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(INode node in match.Nodes)
                 {
                     ycompClient.ChangeNode(node, ycompClient.MatchedNodeRealizer);
-                    // Node names have a "node_" prefix. Don't include this in annotation.
-                    ycompClient.AnnotateElement(node, curRulePattern.PatternGraph.Nodes[i].Name.Substring(5));
+                    ycompClient.AnnotateElement(node, curRulePattern.PatternGraph.Nodes[i].UnprefixedName);
                     markedNodes[node] = true;
                     i++;
                 }
@@ -482,8 +481,7 @@ namespace de.unika.ipd.grGen.grShell
                 foreach(IEdge edge in match.Edges)
                 {
                     ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
-                    // Edge names have an "edge_" prefix. Don't include this in annotation.
-                    ycompClient.AnnotateElement(edge, curRulePattern.PatternGraph.Edges[i].Name.Substring(5));
+                    ycompClient.AnnotateElement(edge, curRulePattern.PatternGraph.Edges[i].UnprefixedName);
                     markedEdges[edge] = true;
                     i++;
                 }
@@ -727,8 +725,26 @@ namespace de.unika.ipd.grGen.grShell
                 try
                 {
                     IPEndPoint endpoint = new IPEndPoint(IPAddress.Loopback, i);
+                    // Check whether the current socket is already open by connecting to it
                     using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
                     {
+                        try
+                        {
+                            socket.Connect(endpoint);
+                            socket.Disconnect(false);
+                            // Someone is already listening at the current port, so try another one
+                            continue;
+                        }
+                        catch(SocketException) { } // Nobody there? Good...
+                    }
+
+                    // Unable to connect, so try to bind the current port.
+                    // Trying to bind directly (without the connect-check before), does not
+                    // work on Windows Vista even with ExclusiveAddressUse set to true.
+                    // It will bind to already used ports without any notice.
+                    using(Socket socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+                    {
+                        socket.ExclusiveAddressUse = true;
                         socket.Bind(endpoint);
                     }
                 }

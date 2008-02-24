@@ -1,4 +1,4 @@
 #! /bin/sh
 YCOMP=`readlink -f "$0"`
 YCOMP_HOME=`dirname "$YCOMP"`
-java -jar "$YCOMP_HOME/yComp.jar" $*
+java -Xmx256M -jar "$YCOMP_HOME/yComp.jar" $*
