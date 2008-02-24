@@ -2636,7 +2636,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (sourceCode.CommentSourceCode) {
                 string type = Type==PushSubpatternTaskTypes.Alternative ? "alternative" : "subpattern";
-                sourceCode.AppendFrontFormat("// Push {0} matching task for {1}\n", type, SubpatternElementName);
+                string what = Type==PushSubpatternTaskTypes.Alternative ? PathPrefix+AlternativeName : SubpatternElementName;
+                sourceCode.AppendFrontFormat("// Push {0} matching task for {1}\n", type, what);
             }
 
             bool isAlternative = Type == PushSubpatternTaskTypes.Alternative;

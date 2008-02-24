@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="graph">The host graph to optimize the matcher program for, 
         /// providing statistical information about its structure </param>
-        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph, bool isSubpattern)
+        public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negPatternGraph, bool isSubpattern)
         {
             /// 
             /// If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(node.PointOfDefinition == null)
+                if (node.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && node.PointOfDefinition != patternGraph)
+                else if (node.PointOfDefinition != patternGraph)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -118,7 +118,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 1;
 #endif
                     isPreset = true;
-                    searchOperationType = SearchOperationType.NegPreset;
+                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.lgsp
 #if !NO_EDGE_LOOKUP
                 float cost;
                 SearchOperationType searchOperationType;
-                if(edge.PointOfDefinition == null)
+                if (edge.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negativePatternGraph && edge.PointOfDefinition != patternGraph)
+                else if (edge.PointOfDefinition != patternGraph)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -169,7 +169,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                     isPreset = true;
-                    searchOperationType = SearchOperationType.NegPreset;
+                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -947,46 +947,64 @@ exitSecondLoop: ;
         /// Calculates the elements the given pattern graph and it's nested pattern graphs don't compute locally
         /// but expect to be preset from outwards
         /// </summary>
-        void CalculateNeededElements(PatternGraph patternGraph, Dictionary<String, bool> neededElements)
+        public static void CalculateNeededElements(PatternGraph patternGraph,
+            Dictionary<String, bool> neededNodes, Dictionary<String, bool> neededEdges)
         {
             // algorithm descends top down to the nested patterns,
             // computes within each leaf pattern the locally needed elements
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                CalculateNeededElements(neg, neededElements);
+                CalculateNeededElements(neg, neededNodes, neededEdges);
             }
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    CalculateNeededElements(altCase, neededElements);
+                    CalculateNeededElements(altCase, neededNodes, neededEdges);
                 }
             }
 
             // and on ascending bottom up
             // a) it adds it's own locally needed elements
+            //    - in conditions
             foreach (Condition cond in patternGraph.Conditions)
             {
                 foreach (String neededNode in cond.NeededNodes)
-                    neededElements[neededNode] = true;
+                    neededNodes[neededNode] = true;
                 foreach (String neededEdge in cond.NeededEdges)
-                    neededElements[neededEdge] = true;
+                    neededEdges[neededEdge] = true;
             }
+            //    - in the pattern
             foreach (PatternNode node in patternGraph.nodes)
                 if (node.PointOfDefinition != patternGraph)
-                    neededElements[node.name] = true;
+                    neededNodes[node.name] = true;
             foreach (PatternEdge edge in patternGraph.edges)
                 if (edge.PointOfDefinition != patternGraph)
-                    neededElements[edge.name] = true;
+                    neededEdges[edge.name] = true;
+            //    - as subpattern connections
+            foreach (PatternGraphEmbedding sub in patternGraph.embeddedGraphs)
+            {
+                foreach (PatternElement element in sub.connections)
+                {
+                    if (element.PointOfDefinition!=patternGraph)
+                    {
+                        if (element is PatternNode)
+                            neededNodes[element.name] = true;
+                        else // element is PatternEdge
+                            neededEdges[element.name] = true;
+                    }
+                }
+            }
 
             // b) it filters out the elements needed (by the nested patterns) which are defined locally
             foreach (PatternNode node in patternGraph.nodes)
                 if (node.PointOfDefinition == patternGraph)
-                    neededElements.Remove(node.name);
+                    neededNodes.Remove(node.name);
             foreach (PatternEdge edge in patternGraph.edges)
                 if (edge.PointOfDefinition == patternGraph)
-                    neededElements.Remove(edge.name);
+                    neededEdges.Remove(edge.name);
         }
+
 
         /// <summary>
         /// Inserts schedules of negative pattern graphs into the schedule of the positive pattern graph
@@ -1002,11 +1020,13 @@ exitSecondLoop: ;
 
             // calculate needed elements of each negative search plan / search plan graph
             // (elements from the positive graph needed in order to execute the nac)
-            Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
+            Dictionary<String, bool>[] neededNodes = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
+            Dictionary<String, bool>[] neededEdges = new Dictionary<String, bool>[patternGraph.negativePatternGraphs.Length];
             for (int i = 0; i < patternGraph.negativePatternGraphs.Length; ++i)
             {
-                neededElements[i] = new Dictionary<String, bool>();
-                CalculateNeededElements(patternGraph.negativePatternGraphs[i], neededElements[i]);
+                neededNodes[i] = new Dictionary<String, bool>();
+                neededEdges[i] = new Dictionary<String, bool>();
+                CalculateNeededElements(patternGraph.negativePatternGraphs[i], neededNodes[i], neededEdges[i]);
             }
 
             // iterate over all negative scheduled search plans (TODO: order?)
@@ -1022,10 +1042,14 @@ exitSecondLoop: ;
                 {
                     SearchOperation op = operations[j];
                     if (op.Type == SearchOperationType.NegativePattern
-                        || op.Type == SearchOperationType.Condition) continue;
+                        || op.Type == SearchOperationType.Condition) {
+                        continue;
+                    }
 
-                    if (neededElements[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name))
-                        break;
+                    if (neededNodes[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)
+                        || neededEdges[i].ContainsKey(((SearchPlanNode)op.Element).PatternElement.Name)) { 
+                        break; 
+                    }
 
                     if (negSchedule.Cost <= op.CostToEnd)
                     {
@@ -1363,23 +1387,20 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            // todo: implement
-            /*for (int i = 0; i < patternGraph.nodes.Length; ++i)
+            Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
+            Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
+            foreach (PatternGraph pg in alternative.alternativeCases)
             {
-                PatternNode node = patternGraph.nodes[i];
-                if (node.PointOfDefinition == null)
-                {
-                    sb.AppendFront("public LGSPNode " + node.name + ";\n");
-                }
+                CalculateNeededElements(pg, neededNodes, neededEdges);
             }
-            for (int i = 0; i < patternGraph.edges.Length; ++i)
+            foreach(KeyValuePair<string, bool> node in neededNodes)
             {
-                PatternEdge edge = patternGraph.edges[i];
-                if (edge.PointOfDefinition == null)
-                {
-                    sb.AppendFront("public LGSPEdge " + edge.name + ";\n");
-                }
-            }*/
+                sb.AppendFront("public LGSPNode " + node.Key + ";\n");
+            }
+            foreach(KeyValuePair<string, bool> edge in neededEdges)
+            {
+                sb.AppendFront("public LGSPEdge " + edge.Key + ";\n");
+            }
             sb.AppendFront("\n");
         }
 

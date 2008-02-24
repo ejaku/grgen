@@ -270,6 +270,29 @@ public class PatternGraphNode extends GraphNode {
 			gr.addSubpatternUsage((SubpatternUsage)subpatternUsage.getIR());
 		}
 
+		// add subpattern usage connection elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
+		for(BaseNode n : subpatterns.getChildren()) {
+			List<GraphEntity> connections = ((SubpatternUsage)n.getIR()).getSubpatternConnections();
+			for(GraphEntity connection : connections) {
+				if(connection instanceof Node) {
+					Node neededNode = (Node)connection;
+					if(!gr.hasNode(neededNode)) {
+						gr.addSingleNode(neededNode);
+					}
+				}
+				else if(connection instanceof Edge) {
+					Edge neededEdge = (Edge)connection;
+					if(!gr.hasEdge(neededEdge)) {
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we loose context here
+					}
+				}
+				else {
+					assert(false);
+				}
+			}
+		}
+
 		for(AlternativeNode alternativeNode : alts.getChildren()) {
 			Alternative alternative = (Alternative)alternativeNode.getIR();
 			gr.addAlternative(alternative);

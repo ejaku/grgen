@@ -1141,10 +1141,32 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Alternative alternative = patternGraph.alternatives[i];
 
-                // todo compute connections recursivly
-                string[] connectionName = new string[0];
-                string[] patternElementBoundToConnectionName = new string[0];
-                bool[] patternElementBoundToConnectionIsNode = new bool[0];
+                Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
+                Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
+                foreach (PatternGraph pg in alternative.alternativeCases)
+                {
+                    LGSPMatcherGenerator.CalculateNeededElements(pg, neededNodes, neededEdges);
+                }
+
+                int numElements = neededNodes.Count + neededEdges.Count;
+                string[] connectionName = new string[numElements];
+                string[] patternElementBoundToConnectionName = new string[numElements];
+                bool[] patternElementBoundToConnectionIsNode = new bool[numElements];
+                int j = 0;
+                foreach (KeyValuePair<string, bool> node in neededNodes)
+                {
+                    connectionName[j] = node.Key;
+                    patternElementBoundToConnectionName[j] = node.Key;
+                    patternElementBoundToConnectionIsNode[j] = true;
+                    ++j;
+                }
+                foreach (KeyValuePair<string, bool> edge in neededEdges)
+                {
+                    connectionName[j] = edge.Key;
+                    patternElementBoundToConnectionName[j] = edge.Key;
+                    patternElementBoundToConnectionIsNode[j] = false;
+                    ++j;
+                }
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(

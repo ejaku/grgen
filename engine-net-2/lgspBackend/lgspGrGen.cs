@@ -178,17 +178,17 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(node.PointOfDefinition == null)
+                if (node.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negPatternGraph && node.PointOfDefinition != patternGraph)
+                else if (node.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = SearchOperationType.NegPreset;
+                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -214,17 +214,17 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if(edge.PointOfDefinition == null)
+                if (edge.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
                 }
-                else if(negPatternGraph && edge.PointOfDefinition != patternGraph)
+                else if (edge.PointOfDefinition != patternGraph)
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = SearchOperationType.NegPreset;
+                    searchOperationType = negPatternGraph ? SearchOperationType.NegPreset : SearchOperationType.SubPreset;
                 }
                 else
                 {
@@ -769,7 +769,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // take action intermediate file until action insertion point as base for action file 
                 ///////////////////////////////////////////////
 
-				SourceBuilder source = new SourceBuilder(false);
+				SourceBuilder source = new SourceBuilder(keepGeneratedFiles);
 				source.Indent();
 				source.Indent();
 				bool actionPointFound = false;
