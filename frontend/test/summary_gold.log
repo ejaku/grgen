@@ -416,6 +416,7 @@ ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
 ERROR  should_fail/dpo_001.grg
+ERROR  should_fail/dpo_002.grg
 ERROR  should_fail/edge_001.grg
 ERROR  should_fail/edge_002.grg
 ERROR  should_fail/edge_003.grg
