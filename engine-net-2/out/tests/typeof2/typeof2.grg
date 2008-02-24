@@ -1,0 +1,43 @@
+using typeof2Model;
+
+rule Init : (Node, Node, Node)
+{
+	modify {
+		aa:AA --> bb:BB --> abb:ABB;
+		eval {
+			aa.a = 3;
+			aa.aa = 7;
+			bb.b = 13;
+			bb.bb = 17;
+			abb.a = 53;
+			abb.b = 57;
+			abb.bb = 69;
+		}
+		return (aa, bb, abb);
+	}
+}
+
+rule AtoB
+{
+	a:A --> b:B;
+	modify {
+		newa:typeof(b)<a>;
+		newb:typeof(a)<b>;
+		
+		eval {
+			newa.b = b.b;
+			newb.a = a.a;
+		}
+	}
+}
+
+test Verify
+{
+	bb:BB -e1:Edge-> abb:ABB -e2:Edge-> aa:AA;
+	negative { bb <--; }
+	negative { -e1->; bb -->; }
+	negative { -e1->; abb <--; }
+	negative { -e2->; abb -->; }
+	negative { -e2->; aa <--; }
+	negative { aa -->; }
+}

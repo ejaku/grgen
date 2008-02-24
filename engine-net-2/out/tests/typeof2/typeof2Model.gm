@@ -1,0 +1,5 @@
+node class A { a : int; }
+node class B { b : int; }
+node class AA extends A { aa : int; }
+node class BB extends B { bb : int; }
+node class ABB extends A, BB { abb : int; }
