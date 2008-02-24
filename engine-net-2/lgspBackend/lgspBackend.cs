@@ -469,19 +469,19 @@ namespace de.unika.ipd.grGen.lgsp
 
             DateTime actionsTime = File.GetLastWriteTime(actionsFilename);
             DateTime modelTime = File.GetLastWriteTime(modelFilename);
-            DateTime newestOutputTime = actionsTime > modelTime ? actionsTime : modelTime;
+            DateTime oldestOutputTime = actionsTime < modelTime ? actionsTime : modelTime;
 
             // LibGr, LGSPBackend, or GrGen newer than generated files?
             DateTime libGrTime = File.GetLastWriteTime(typeof(IGraph).Assembly.Location);
             DateTime lgspTime = File.GetLastWriteTime(typeof(LGSPBackend).Assembly.Location);
             DateTime grGenTime = File.GetLastWriteTime(
                 Path.GetDirectoryName(typeof(LGSPBackend).Assembly.Location) + Path.DirectorySeparatorChar + "grgen.jar");
-            if(libGrTime > newestOutputTime || lgspTime > newestOutputTime || grGenTime > newestOutputTime)
+            if(libGrTime > oldestOutputTime || lgspTime > oldestOutputTime || grGenTime > oldestOutputTime)
                 return true;
 
             // Rule specification newer than libraries?
             DateTime grgTime = File.GetLastWriteTime(grgFilename);
-            if(grgTime > newestOutputTime)
+            if(grgTime > oldestOutputTime)
                 return true;
 
             // Check used file dates
@@ -498,7 +498,7 @@ namespace de.unika.ipd.grGen.lgsp
 				}
                 // Specification file newer than libraries?
 				DateTime gmTime = File.GetLastWriteTime(neededFilename);
-                if(gmTime > newestOutputTime)
+                if(gmTime > oldestOutputTime)
                     return true;
             }
 
