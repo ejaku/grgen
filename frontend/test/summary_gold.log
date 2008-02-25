@@ -1,4 +1,4 @@
-FAILED should_pass/alternative_001.grg
+OK     should_pass/alternative_001.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
@@ -130,7 +130,7 @@ OK     should_pass/enum_006.grg
 OK     should_pass/enum_007.grg
 OK     should_pass/enum_008.grg
 OK     should_pass/enum_009.grg
-OK     should_pass/enum_010.grg
+FAILED should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
 OK     should_pass/enum_100.grg
 OK     should_pass/enum_101.grg
@@ -150,7 +150,7 @@ OK     should_pass/exec_005.grg
 FAILED should_pass/exec_006.grg
 OK     should_pass/exec_007.grg
 FAILED should_pass/exec_008.grg
-FAILED should_pass/external_001.grg
+OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
 OK     should_pass/hom_003.grg
