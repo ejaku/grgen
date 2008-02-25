@@ -194,22 +194,16 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public static IWorkaround GetWorkaround()
         {
-            if(Environment.OSVersion.Platform == PlatformID.Unix)
+            Type t = Type.GetType("System.Int32");
+            if(t.GetType().ToString() == "System.MonoType")
             {
-                Type t = Type.GetType("System.Int32");
-                if(t.GetType().ToString() == "System.MonoType")
+                if(Environment.OSVersion.Platform == PlatformID.Unix)
                     return new MonoLinuxWorkaroundConsoleIO();
                 else
-                    return new NoWorkaroundConsoleIO();
+                    return new MonoWindowsWorkaroundConsoleIO();
             }
             else
-            {
-                Type t = Type.GetType("System.Int32");
-                if(t.GetType().ToString() == "System.MonoType")
-                    return new MonoWindowsWorkaroundConsoleIO();
-                else
-                    return new NoWorkaroundConsoleIO();
-            }
+                return new NoWorkaroundConsoleIO();
         }
     }
 }
