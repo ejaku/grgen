@@ -464,16 +464,20 @@ public class RuleDeclNode extends TestDeclNode {
 		warnHomDeleteReturnConflict();
 
 		boolean abstr = true;
-		for(BaseNode n : right.getNodes())
-			if(((InheritanceTypeNode)((NodeDeclNode)n).getDeclType()).isAbstract() && !left.getNodes().contains(n)) {
-				error.error(n.getCoords(), "Instances of abstract nodes are not allowed");
+		for(BaseNode n : right.getNodes()) {
+			NodeDeclNode node = (NodeDeclNode)n; 
+			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !left.getNodes().contains(node)) {
+				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
-		for(BaseNode e : right.getEdges())
-			if(((InheritanceTypeNode)((EdgeDeclNode)e).getDeclType()).isAbstract() && !left.getEdges().contains(e)) {
-				error.error(e.getCoords(), "Instances of abstract edges are not allowed");
+		}
+		for(BaseNode e : right.getEdges()) {
+			EdgeDeclNode edge = (EdgeDeclNode) e;
+			if(!edge.hasTypeof() && ((InheritanceTypeNode)edge.getDeclType()).isAbstract() && !left.getEdges().contains(edge)) {
+				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
 				abstr = false;
 			}
+		}
 
 		return leftHandGraphsOk & checkRhsReuse(left, right) & noReturnInPatternOk & abstr
 			& checkReturnedElemsNotDeleted(left, right)

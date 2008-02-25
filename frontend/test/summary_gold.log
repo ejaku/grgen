@@ -130,7 +130,7 @@ OK     should_pass/enum_006.grg
 OK     should_pass/enum_007.grg
 OK     should_pass/enum_008.grg
 OK     should_pass/enum_009.grg
-FAILED should_pass/enum_010.grg
+OK     should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
 OK     should_pass/enum_100.grg
 OK     should_pass/enum_101.grg
@@ -228,7 +228,7 @@ OK     should_pass/to_005.grg
 OK     should_pass/to_006.grg
 OK     should_pass/to_007.grg
 OK     should_pass/to_008.grg
-ERROR  should_pass/to_009.grg
+OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
 OK     should_pass/unary_001.grg
 WARNED should_warn/del_001.grg

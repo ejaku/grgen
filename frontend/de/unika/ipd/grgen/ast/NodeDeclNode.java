@@ -95,6 +95,13 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 		return resolved != null;
 	}
+	
+	/** Returns whether the node type is a typeof statement. */
+	public boolean hasTypeof() {
+		assert isResolved();
+		
+		return typeNodeDecl != null;
+	}
 
 	private static final Checker typeChecker = new TypeChecker(NodeTypeNode.class);
 
