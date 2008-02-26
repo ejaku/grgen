@@ -50,8 +50,8 @@ public class EdgeType extends InheritanceType {
 	}
 
 	/**
-	 * Sorts the Connection assertion of this edge type, 
-	 * so that the computed graph model digest is stable according to semantically equivalent connection assertions. 
+	 * Sorts the Connection assertion of this edge type,
+	 * so that the computed graph model digest is stable according to semantically equivalent connection assertions.
 	 * The order of the sorting is given by the <code>compareTo</code> method.
 	 */
 	public void canonicalizeConnectionAsserts() {

@@ -24,14 +24,15 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * A node representing the current type of a
@@ -65,7 +66,7 @@ public class TypeofNode extends ExprNode {
 		childrenNames.add("entity");
 		return childrenNames;
 	}
-	
+
 	private static final DeclarationPairResolver<EdgeDeclNode, NodeDeclNode> entityResolver = new DeclarationPairResolver<EdgeDeclNode, NodeDeclNode>(EdgeDeclNode.class, NodeDeclNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */

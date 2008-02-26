@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -44,7 +45,6 @@ import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Typeof;
-import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.SymbolTable;
 
@@ -113,7 +113,7 @@ public class PatternGraphNode extends GraphNode {
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> subpatterns,
-			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions, 
+			CollectNode<AlternativeNode> alts, CollectNode<PatternGraphNode> negs, CollectNode<ExprNode> conditions,
 			CollectNode<IdentNode> returns, CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, subpatterns, returns, null, context);
@@ -217,10 +217,10 @@ public class PatternGraphNode extends GraphNode {
 			if(!neg.negs.getChildren().isEmpty())
 				return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Get the correctly casted IR object.
 	 *
@@ -358,7 +358,7 @@ public class PatternGraphNode extends GraphNode {
 			}
 			gr.addNegGraph(neg);
 		}
-		
+
 		return gr;
 	}
 

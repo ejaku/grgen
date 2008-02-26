@@ -24,14 +24,15 @@
  */
 package de.unika.ipd.grgen.parser;
 
-import de.unika.ipd.grgen.ast.IdentNode;
-import de.unika.ipd.grgen.parser.Symbol.Definition;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import de.unika.ipd.grgen.ast.IdentNode;
+import de.unika.ipd.grgen.parser.Symbol.Definition;
+import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
  * A namespace.

@@ -25,6 +25,8 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -34,12 +36,12 @@ public abstract class OpNode extends ExprNode
 {
 	/** The ID of the operator. */
 	private int opId;
-	
+
 	/** The corresponding operator. */
 	private OperatorSignature operator;
-	
+
 	Vector<ExprNode> children = new Vector<ExprNode>();
-	
+
 	/**
 	 * Make a new operator node.
 	 * @param coords The source coordinates of that node.
@@ -54,7 +56,7 @@ public abstract class OpNode extends ExprNode
 		becomeParent(n);
 		children.add(n);
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	protected boolean checkLocal() {
 		boolean res = true;
@@ -137,7 +139,7 @@ public abstract class OpNode extends ExprNode
 
 		return operator;
 	}
-	
+
 	protected final int getOpId() {
 		return opId;
 	}

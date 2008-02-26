@@ -48,11 +48,11 @@ public abstract class Type extends Identifiable {
 				else if(distT1 > distT2)
 					return 1;
 			}
-			
+
 			return t1.getIdent().compareTo(t2.getIdent());
 		}
 	};
-	
+
 	public static final int IS_UNKNOWN = 0;
 	public static final int IS_INTEGER = 1;
 	public static final int IS_FLOAT = 2;
@@ -62,7 +62,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_TYPE  = 6;
 	public static final int IS_OBJECT = 7;
 
-	
+
 	/**
 	 * Make a new type.
 	 * @param name The name of the type (test, group, ...).
@@ -71,7 +71,7 @@ public abstract class Type extends Identifiable {
 	public Type(String name, Ident ident) {
 		super(name, ident);
 	}
- 
+
 	/**
 	 * Decides, if two types are equal.
 	 * @param t The other type.
@@ -80,7 +80,7 @@ public abstract class Type extends Identifiable {
 	public boolean isEqual(Type t) {
 		return t == this;
 	}
-  
+
 	/**
 	 * Compute, if this type is castable to another type.
 	 * You do not have to check, if <code>t == this</code>.
@@ -90,7 +90,7 @@ public abstract class Type extends Identifiable {
 	protected boolean castableTo(Type t) {
 		return false;
 	}
-  
+
 	/**
 	 * Checks, if this type is castable to another type.
 	 * This method is final, to implement the castability, overwrite <code>castableTo</code>, which is called by this method.
@@ -100,21 +100,21 @@ public abstract class Type extends Identifiable {
 	public final boolean isCastableTo(Type t) {
 		return isEqual(t) || castableTo(t);
 	}
-  
+
 	/** @return true, if this type is a void type. */
 	public boolean isVoid() {
 		return false;
 	}
-  
+
 	/** Return a classification of a type for the IR. */
 	public int classify() {
 		return IS_UNKNOWN;
 	}
-	
+
 	static final Comparator<Type> getComparator() {
 		return COMPARATOR;
 	}
-	
+
 	public int compareTo(Identifiable id) {
 		if (id instanceof Type) {
 			return COMPARATOR.compare(this, (Type) id);

@@ -32,21 +32,21 @@ import java.util.Set;
 public abstract class Expression extends IR
 {
 	private static final String[] childrenNames = { "type" };
-	
+
 	/** The type of the expression. */
 	protected Type type;
-	
+
 	public Expression(String name, Type type) {
 		super(name);
 		setChildrenNames(childrenNames);
 		this.type = type;
 	}
-	
+
 	/** @return The type of the expression. */
 	public Type getType()	{
 		return type;
 	}
-	
+
 	/**
 	 * Method collectNodesnEdges extracts the nodes and edges occurring in this Expression.
 	 * @param nodes A set to receive the nodes

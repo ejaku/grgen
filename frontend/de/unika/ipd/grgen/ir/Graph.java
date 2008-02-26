@@ -114,7 +114,7 @@ public abstract class Graph extends IR {
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
 	private String nameOfGraph;
-	
+
 	/** Make a new graph. */
 	public Graph(String nameOfGraph) {
 		super("graph");
@@ -124,7 +124,7 @@ public abstract class Graph extends IR {
 	public String getNameOfGraph() {
 		return nameOfGraph;
 	}
-	
+
 	private GraphNode getOrSetNode(Node n) {
 		GraphNode res;
 		if (n == null) return null;

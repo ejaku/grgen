@@ -24,7 +24,6 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.ir.IR;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;

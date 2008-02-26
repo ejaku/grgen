@@ -39,10 +39,10 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	static {
 		setName(EdgeTypeNode.class, "edge type");
 	}
-	
+
 	protected static final CollectPairResolver<BaseNode> bodyResolver = new CollectPairResolver<BaseNode>(
     		new DeclarationPairResolver<MemberDeclNode, MemberInitNode>(MemberDeclNode.class, MemberInitNode.class));
-	
+
 	protected static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(
     		new DeclarationTypeResolver<EdgeTypeNode>(EdgeTypeNode.class));
 
@@ -53,11 +53,11 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     protected void getMembers(Map<String, DeclNode> members)
     {
     	assert isResolved();
-    
+
     	for(BaseNode n : body.getChildren()) {
     		if(n instanceof DeclNode) {
     			DeclNode decl = (DeclNode)n;
-    
+
     			DeclNode old=members.put(decl.getIdentNode().toString(), decl);
     			if(old!=null && !(old instanceof AbstractMemberDeclNode)) {
     				error.error(decl.getCoords(), "member " + decl.toString() +" of " +
@@ -68,13 +68,13 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     		}
     	}
     }
-	
+
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
 	 */
 	public abstract EdgeType getEdgeType();
-	
+
 	protected abstract void constructIR(InheritanceType inhType);
 
 	/**
@@ -84,14 +84,14 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
     {
     	EdgeType et = new EdgeType(getDecl().getIdentNode().getIdent(),
     							   getIRModifiers(), getExternalName());
-    
+
     	constructIR(et);
-    
+
     	for(BaseNode n : cas.getChildren()) {
     		ConnAssertNode can = (ConnAssertNode)n;
     		et.addConnAssert((ConnAssert)can.checkIR(ConnAssert.class));
     	}
-    
+
     	return et;
     }
 }

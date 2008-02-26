@@ -27,10 +27,10 @@ package de.unika.ipd.grgen.ir;
 import java.util.Set;
 
 public class Constant extends Expression {
-	
+
 	/** The value of the constant. */
 	protected Object value;
-	
+
 	/**
 	 * @param type The type of the constant.
 	 * @param value The value of the constant.
@@ -39,17 +39,17 @@ public class Constant extends Expression {
 		super("constant", type);
 		this.value = value;
 	}
-	
+
 	/** @return The value of the constant. */
 	public Object getValue() {
 		return value;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeLabel() */
 	public String getNodeLabel() {
 		return getName() + " " + value;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
 	}

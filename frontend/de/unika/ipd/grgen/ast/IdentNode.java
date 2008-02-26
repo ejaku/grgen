@@ -26,15 +26,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.parser.Symbol;
 import de.unika.ipd.grgen.util.Annotated;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node that represents an Identifier (name that appears within the specification)

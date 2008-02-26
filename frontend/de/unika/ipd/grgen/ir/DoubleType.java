@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * A double precision floating point type. 
+ * A double precision floating point type.
  */
 public class DoubleType extends PrimitiveType {
 

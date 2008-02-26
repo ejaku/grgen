@@ -54,7 +54,7 @@ public class FunctionSignature extends Base {
 	public int getArity() {
 		return opTypes.length;
 	}
-	
+
 	/**
 	 * Get the result type of this function signature.
 	 * @return The result type.
@@ -62,7 +62,7 @@ public class FunctionSignature extends Base {
 	public TypeNode getResultType() {
 		return resType;
 	}
-	
+
 	/**
 	 * Get the operand types of this function signature.
 	 * @return The operand types.
@@ -70,7 +70,7 @@ public class FunctionSignature extends Base {
 	public TypeNode[] getOperandTypes() {
 		return opTypes;
 	}
-	
+
 	/**
 	 * Checks, if this function can be applied to th given operands.
 	 * @param ops The operands.
@@ -80,7 +80,7 @@ public class FunctionSignature extends Base {
 	public boolean isApplicable(TypeNode[] ops) {
 		return getDistance(ops) != Integer.MAX_VALUE;
 	}
-	
+
 	/**
 	 * Get the number of implicit type casts needed for calling this
 	 * function signature with the given operands.
@@ -91,13 +91,13 @@ public class FunctionSignature extends Base {
 	 */
 	public int getDistance(TypeNode[] ops) {
 		int res = Integer.MAX_VALUE;
-		
+
 		if(ops.length == opTypes.length) {
 			res = 0;
 			for(int i = 0; i < opTypes.length; i++) {
 				debug.report(NOTE, "" + i + ": arg type: " + ops[i]
 					+ ", op type: " + opTypes[i]);
-				
+
 				boolean equal = ops[i].isEqual(opTypes[i]);
 				boolean compatible = ops[i].isCompatibleTo(opTypes[i]);
 
@@ -106,9 +106,9 @@ public class FunctionSignature extends Base {
 				 * compatibility of distance two. If you need more you have to
 				 * implement it!!! */
 				int compatDist = ops[i].compatibilityDist(opTypes[i]);
-				
+
 				debug.report(NOTE, "equal: " + equal + ", compatible: " + compatible);
-				
+
 				if (equal)
 					continue;
 				else if (compatible)
@@ -119,7 +119,7 @@ public class FunctionSignature extends Base {
 					res = Integer.MAX_VALUE;
 					break;
 				}
-				
+
 				/*
 				if(!compatible) {
 					res = Integer.MAX_VALUE;
@@ -129,7 +129,7 @@ public class FunctionSignature extends Base {
 				 */
 			}
 		}
-		
+
 		return res;
 	}
 

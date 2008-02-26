@@ -32,7 +32,7 @@ class InvalidConstNode extends ConstNode
 	public InvalidConstNode(Coords coords, String name, Object value) {
 		super(coords, name, value);
 	}
-	
+
 	protected boolean isValid() {
 		return false;
 	}

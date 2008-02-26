@@ -43,32 +43,32 @@ public class TableHandler implements TableModel, Handler {
 	private static final String[] msgNames = {
 		"error", "warning", "note", "debug", "note"
 	};
-	
+
 	private static final int COL_DEGREE = 0;
 	private static final int COL_MSG = 1;
-	
+
 	private static final String[] columnNames = {
 		"degree", "message"
 	};
-	
+
 	private static class Message {
 
 		byte degree;
 		String msg;
-		
+
 		public Message(int degree, String msg) {
 			this.degree = (byte) degree;
 			this.msg = msg;
-			
+
 			if(degree < 0 || degree > 4)
 				throw new IllegalArgumentException("degree is out of range!");
 		}
 	}
-	
+
 	private List<TableModelListener> listeners = new LinkedList<TableModelListener>();
-	
+
 	private Vector<TableHandler.Message> messages = new Vector<TableHandler.Message>();
-	
+
 	/**
 	 * Add a listener.
 	 * @param listener The listener.
@@ -107,7 +107,7 @@ public class TableHandler implements TableModel, Handler {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public int getRowCount() {
 		return messages.size();
@@ -119,7 +119,7 @@ public class TableHandler implements TableModel, Handler {
 	public Object getValueAt(int row, int col) {
 		Message m = messages.get(row);
 		String res = "";
-		
+
 		switch(col) {
 		case COL_DEGREE:
 			res = msgNames[m.degree];
@@ -128,7 +128,7 @@ public class TableHandler implements TableModel, Handler {
 			res = m.msg;
 			break;
 		}
-		
+
 		return res;
 	}
 
@@ -147,14 +147,14 @@ public class TableHandler implements TableModel, Handler {
 	 */
 	public void setValueAt(Object arg0, int arg1, int arg2) {
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.util.report.Handler#entering(java.lang.String)
 	 */
 	public void entering(String s) {
 		// left empty.
 	}
-	
+
 	public void leaving() {
 		// left empty.
 	}

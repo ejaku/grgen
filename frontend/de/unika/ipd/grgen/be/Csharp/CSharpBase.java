@@ -105,7 +105,7 @@ public abstract class CSharpBase {
 		if (brackets)
 			sb.append(" }");
 	}
-	
+
 	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
 			boolean brackets, String pathPrefix, HashMap<Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
@@ -120,7 +120,7 @@ public abstract class CSharpBase {
 			sb.append(" }");
 	}
 
-	public void genAlternativesSet(StringBuffer sb, Collection<? extends PatternGraph> set, 
+	public void genAlternativesSet(StringBuffer sb, Collection<? extends PatternGraph> set,
 			String pre, String post, boolean brackets) {
 		if (brackets)
 			sb.append("{ ");
@@ -145,7 +145,7 @@ public abstract class CSharpBase {
 		return pathPrefix+ident.replace('$', '_');
 	}
 
-	public String formatIdentifiable(Identifiable id, String pathPrefix, 
+	public String formatIdentifiable(Identifiable id, String pathPrefix,
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToName)
 	{
 		if(alreadyDefinedIdentifiableToName!=null && alreadyDefinedIdentifiableToName.get(id)!=null)
@@ -236,7 +236,7 @@ public abstract class CSharpBase {
 		}
 	}
 
-	public String formatEntity(Entity entity, String pathPrefix, 
+	public String formatEntity(Entity entity, String pathPrefix,
 			HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
 		if(entity instanceof Node) {

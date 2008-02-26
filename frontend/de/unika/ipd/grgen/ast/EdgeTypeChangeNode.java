@@ -24,6 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -32,8 +35,6 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.RetypedEdge;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  *
@@ -73,7 +74,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	}
 
 	private static final DeclarationResolver<EdgeDeclNode> edgeResolver = new DeclarationResolver<EdgeDeclNode>(EdgeDeclNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
@@ -85,7 +86,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		}
 		old = edgeResolver.resolve(oldUnresolved, this);
 		successfullyResolved = old != null && successfullyResolved;
-		
+
 		return successfullyResolved;
 	}
 

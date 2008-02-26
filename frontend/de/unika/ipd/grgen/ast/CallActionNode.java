@@ -25,7 +25,10 @@
 package de.unika.ipd.grgen.ast;
 
 
-import de.unika.ipd.grgen.ast.ConstraintDeclNode;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Bad;
@@ -36,9 +39,6 @@ import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Vector;
 
 /**
  * Call of an action with parameters and returns.

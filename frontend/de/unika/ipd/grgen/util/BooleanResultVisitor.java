@@ -25,7 +25,7 @@ package de.unika.ipd.grgen.util;
 
 /**
  * A visitor that returns a boolean value.
- * They are occurring rather often, so they're an own class. 
+ * They are occurring rather often, so they're an own class.
  */
 public abstract class BooleanResultVisitor implements ResultVisitor<Boolean>
 {

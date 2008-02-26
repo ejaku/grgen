@@ -24,15 +24,16 @@
 package de.unika.ipd.grgen.ast;
 
 
-import de.unika.ipd.grgen.ir.Emit;
-import de.unika.ipd.grgen.ir.Expression;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Emit;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *

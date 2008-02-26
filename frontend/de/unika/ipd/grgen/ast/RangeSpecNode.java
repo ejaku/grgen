@@ -24,9 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing a range specification (used by ConnAssertNode).

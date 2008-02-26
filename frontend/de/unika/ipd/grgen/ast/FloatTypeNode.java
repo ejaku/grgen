@@ -20,18 +20,18 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.IR;
 
 /**
  * The floating point basic type.
  */
-public class FloatTypeNode extends BasicTypeNode 
+public class FloatTypeNode extends BasicTypeNode
 {
 	static {
 		setName(FloatTypeNode.class, "float type");
 	}
-	
+
 	protected IR constructIR() {
 		return new FloatType(getIdentNode().getIdent());
 	}

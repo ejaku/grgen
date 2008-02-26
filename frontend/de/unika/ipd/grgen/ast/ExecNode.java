@@ -25,16 +25,16 @@ package de.unika.ipd.grgen.ast;
 
 
 
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.ir.Exec;
-import de.unika.ipd.grgen.ir.GraphEntity;
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *

@@ -57,37 +57,37 @@ public class Operator extends Expression {
 	public static final int BIT_NOT = 21;
 	public static final int NEG = 22;
 	public static final int CAST = 23;
-	
+
 	private static final String[] opNames = {
 		"COND",	"LOG_OR", "LOG_AND", "BIT_OR", "BIT_XOR", "BIT_AND",
 			"EQ", "NE", "LT", "LE", "GT", "GE", "SHL", "SHR", "BIT_SHR", "ADD",
 			"SUB", "MUL", "DIV", "MOD", "LOG_NOT", "BIT_NOT", "NEG", "CAST",
 	};
-	
+
 	/** The operands of the expression. */
 	protected List<Expression> operands = new ArrayList<Expression>();
-	
+
 	/** The opcode of the operator. */
 	private int opCode;
-	
-	
-	
+
+
+
 	/** @param type The type of the operator. */
 	public Operator(PrimitiveType type, int opCode) {
 		super("operator", type);
 		this.opCode = opCode;
 	}
-	
+
 	/** @return The opcode of this operator. */
 	public int getOpCode() {
 		return opCode;
 	}
-	
+
 	/** @return The number of operands. */
 	public int arity() {
 		return operands.size();
 	}
-	
+
 	/**
 	 * Get the ith operand.
 	 * @param index The index of the operand
@@ -96,25 +96,25 @@ public class Operator extends Expression {
 	public Expression getOperand(int index) {
 		return index >= 0 || index < operands.size() ? operands.get(index) : null;
 	}
-	
+
 	/** Adds an operand e to the expression. */
 	public void addOperand(Expression e) {
 		operands.add(e);
 	}
-	
+
 	public String getEdgeLabel(int edge) {
 		return "op " + edge;
 	}
-	
+
 	public String getNodeLabel() {
 		return getType().getIdent() + " " + opNames[opCode].toLowerCase()
 			+ "(" + opCode + ")";
 	}
-	
+
 	public Collection<Expression> getWalkableChildren() {
 		return operands;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ir.Expression#collectNodesnEdges() */
 	public void collectNodesnEdges(Set<Node> nodes, Set<Edge> edges) {
 		for(Expression child : getWalkableChildren())

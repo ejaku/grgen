@@ -37,10 +37,10 @@ import de.unika.ipd.grgen.ir.Type;
 public interface TypeID {
 
 	int getId(NodeType nt);
-	
+
 	int getId(EdgeType et);
-	
+
 	int getId(Type type, boolean forNode);
-	
+
 	short[][] getIsAMatrix(boolean forNode);
 }

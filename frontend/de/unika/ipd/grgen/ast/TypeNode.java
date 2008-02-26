@@ -25,13 +25,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.Type;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import de.unika.ipd.grgen.ir.Type;
 
 /**
  * Base class for all AST nodes representing types.

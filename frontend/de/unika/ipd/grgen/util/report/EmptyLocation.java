@@ -30,7 +30,7 @@ package de.unika.ipd.grgen.util.report;
 public class EmptyLocation implements Location {
 
 	private static final EmptyLocation EMPTY;
-	
+
 	static {
 		EMPTY = new EmptyLocation();
 	}
@@ -50,7 +50,7 @@ public class EmptyLocation implements Location {
   public boolean hasLocation() {
     return false;
   }
-  
+
   /**
    * Get a new empty location
    * @return an empty location

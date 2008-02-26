@@ -17,7 +17,6 @@
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
 /**
  * Created: Wed Jul  2 15:29:49 2003
  *
@@ -27,7 +26,15 @@
 
 package de.unika.ipd.grgen.ast;
 
-import java.util.*;
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
@@ -36,7 +43,6 @@ import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.GraphDumpable;
 import de.unika.ipd.grgen.util.GraphDumper;
 import de.unika.ipd.grgen.util.Walkable;
-import java.awt.Color;
 
 /**
  * The base class for AST nodes.
@@ -590,7 +596,7 @@ public abstract class BaseNode extends Base
 	}
 
 	/**
-	 * Checks whether the IR object of this AST node is an instance 
+	 * Checks whether the IR object of this AST node is an instance
 	 * of a certain, given Class <code>cls</code>.
 	 * If it is not, an assertion is raised, else, the IR object is returned.
 	 * @param cls The class to check the IR object for.
@@ -680,13 +686,13 @@ public abstract class BaseNode extends Base
     	while (!root.isRoot()) {
     		root = root.getParents().iterator().next();
     	}
-    
+
     	// find an edgeRoot-type and nodeRoot
     	TypeDeclNode nodeRoot = null;
     	BaseNode model = ((UnitNode) root).models.children.firstElement();
     	assert model.isResolved();
     	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
-    
+
     	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
     		TypeDeclNode candidate = it.next();
     		String name = candidate.ident.getSymbol().getText();
@@ -696,7 +702,7 @@ public abstract class BaseNode extends Base
     	}
     	return nodeRoot;
     }
-	
+
 	private TypeDeclNode findType(String rootName)
     {
     	// get root node
@@ -704,13 +710,13 @@ public abstract class BaseNode extends Base
     	while (!root.isRoot()) {
     		root = root.getParents().iterator().next();
     	}
-    
+
     	// find a root-type
     	TypeDeclNode edgeRoot = null;
     	BaseNode model = ((UnitNode) root).models.children.firstElement();
     	assert model.isResolved();
     	Collection<TypeDeclNode> types = ((ModelNode) model).decls.children;
-    
+
     	for (Iterator<TypeDeclNode> it = types.iterator(); it.hasNext();) {
     		TypeDeclNode candidate = it.next();
     		String name = candidate.ident.getSymbol().getText();

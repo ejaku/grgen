@@ -26,17 +26,56 @@
  */
 package de.unika.ipd.grgen.be.Csharp;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import java.io.File;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import de.unika.ipd.grgen.Sys;
 import de.unika.ipd.grgen.be.Backend;
 import de.unika.ipd.grgen.be.BackendException;
 import de.unika.ipd.grgen.be.BackendFactory;
 import de.unika.ipd.grgen.be.IDBase;
+import de.unika.ipd.grgen.ir.Action;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.ConnAssert;
+import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.DoubleType;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EdgeType;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.EnumExpression;
+import de.unika.ipd.grgen.ir.EnumItem;
+import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.ObjectType;
+import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.RetypedEdge;
+import de.unika.ipd.grgen.ir.RetypedNode;
+import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.StringType;
+import de.unika.ipd.grgen.ir.Test;
+import de.unika.ipd.grgen.ir.Type;
+import de.unika.ipd.grgen.ir.Typeof;
+import de.unika.ipd.grgen.ir.Unit;
 import de.unika.ipd.grgen.util.Util;
-import java.io.File;
-import java.io.PrintStream;
 
 public class SearchPlanBackend extends IDBase implements Backend, BackendFactory {
 

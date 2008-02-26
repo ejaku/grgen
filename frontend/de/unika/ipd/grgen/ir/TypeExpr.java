@@ -30,22 +30,22 @@ import java.util.Collection;
 import java.util.Collections;
 
 public abstract class TypeExpr extends IR {
-	
+
 	public TypeExpr() {
 		super("type expr");
 	}
-	
+
 	/**
 	 * Evaluate this type expression by returning a set
 	 * of all types that are represented by the expression.
 	 * @return A collection of types that correspond to the expression.
 	 */
 	public abstract Collection<InheritanceType> evaluate();
-	
+
 	public static final TypeExpr EMPTY = new TypeExpr() {
 		public Collection<InheritanceType> evaluate() {
 			return Collections.emptySet();
 		}
-	};	
+	};
 }
 

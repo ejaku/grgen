@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * A Primitive type. 
+ * A Primitive type.
  */
 public class PrimitiveType extends Type {
 

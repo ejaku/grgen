@@ -24,15 +24,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Vector;
 
 
 /**
@@ -82,7 +83,7 @@ public class CastNode extends ExprNode {
 	public CastNode(Coords coords, TypeNode targetType, ExprNode expr, BaseNode parent) {
 		this(coords, targetType, expr);
 		parent.becomeParent(this);
-		
+
 		resolve();
 		check();
 	}

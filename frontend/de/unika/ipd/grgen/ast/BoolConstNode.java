@@ -33,7 +33,7 @@ public class BoolConstNode extends ConstNode
 	public BoolConstNode(Coords coords, boolean value) {
 		super(coords, "boolean", new Boolean(value));
 	}
-		
+
 	public TypeNode getType() {
 		return BasicTypeNode.booleanType;
 	}
@@ -48,7 +48,7 @@ public class BoolConstNode extends ConstNode
 		} else if (type.isEqual(BasicTypeNode.stringType)) {
 			res = new StringConstNode(getCoords(), "" + value);
 		}
-		
+
 		return res;
 	}
 }

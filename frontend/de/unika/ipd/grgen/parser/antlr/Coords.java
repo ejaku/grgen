@@ -37,7 +37,7 @@ public class Coords extends de.unika.ipd.grgen.parser.Coords {
 	public Coords(antlr.Token tok) {
 		super(tok.getLine(), tok.getColumn());
 	}
-	
+
 	/**
 	 * Get the coordinates from an ANTLR recognition exception.
 	 * @param e The ANTLR recognition exception.

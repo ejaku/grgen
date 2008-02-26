@@ -33,7 +33,7 @@ import java.util.prefs.PreferencesFactory;
 public class MyPreferencesFactory implements PreferencesFactory {
 
 	private MyPreferences systemRoot, userRoot;
-	
+
 	public MyPreferencesFactory() {
 		systemRoot = new MyPreferences(null, "");
 		userRoot = new MyPreferences(null, "");

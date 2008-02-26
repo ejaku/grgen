@@ -33,16 +33,16 @@ public class Evaluation extends IR {
 	 * Applying them in a random order will lead to different results.
 	 */
 	private LinkedList<IR> evaluations = new LinkedList<IR>();
-	
+
 	Evaluation() {
 		super("eval");
 	}
-	
+
 	/** Adds an element to the list of evaluations. */
 	public void add(IR aeval) {
 		evaluations.add(aeval);
 	}
-	
+
 	/** @return the list of evaluations as collection */
 	public Collection<? extends IR> getWalkableChildren() {
 		return evaluations;

@@ -28,7 +28,7 @@ import de.unika.ipd.grgen.ast.CollectNode;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 /**
- * A checker that checks if the node is a collection node 
+ * A checker that checks if the node is a collection node
  * and if so applies a contained child checker to all the children
  */
 public class CollectChecker implements Checker

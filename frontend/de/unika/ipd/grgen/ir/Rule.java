@@ -37,13 +37,13 @@ public class Rule extends MatchingAction {
 	private static final String[] childrenNames = {
 		"left", "right", "eval"
 	};
-	
+
 	/** The right hand side of the rule. */
 	private final Graph right;
-	
+
 	/** The evaluation assignments of this rule. */
 	private final Collection<Assignment> evals = new LinkedList<Assignment>();
-	
+
 	/**
 	 * Make a new rule.
 	 * @param ident The identifier with which the rule was declared.
@@ -57,36 +57,36 @@ public class Rule extends MatchingAction {
 		left.setName("L");
 		right.setName("R");
 	}
-	
+
 	/** @return A collection containing all eval assignments of this rule. */
 	public Collection<Assignment> getEvals() {
 		return Collections.unmodifiableCollection(evals);
 	}
-	
+
 	/** Add an assignment to the list of evaluations. */
 	public void addEval(Assignment a) {
 		evals.add(a);
 	}
-	
+
 	/** @return A set with nodes, that occur on the left _and_ on the right side of the rule. */
 	public Collection<Node> getCommonNodes() {
 		Collection<Node> common = new HashSet<Node>(pattern.getNodes());
 		common.retainAll(right.getNodes());
 		return common;
 	}
-	
+
 	/** @return A set with edges, that occur on the left _and_ on the right side of the rule. */
 	public Collection<Edge> getCommonEdges() {
 		Collection<Edge> common = new HashSet<Edge>(pattern.getEdges());
 		common.retainAll(right.getEdges());
 		return common;
 	}
-	
+
 	/** @return The left hand side graph. */
 	public PatternGraph getLeft() {
 		return pattern;
 	}
-	
+
 	/** @return The right hand side graph. */
 	public Graph getRight() {
 		return right;

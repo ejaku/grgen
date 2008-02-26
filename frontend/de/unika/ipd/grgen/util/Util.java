@@ -51,12 +51,12 @@ public class Util
 	{
 		String res = filename;
 		int lastSepPos = filename.lastIndexOf(File.separatorChar);
-		
+
 		if (lastSepPos < 0) return filename;
-		
+
 		return filename.substring(lastSepPos + 1);
 	}
-	
+
 	/**
 	 * Removes from a filename the suffix that contains file type information,
 	 * '.grg' for example.
@@ -71,9 +71,9 @@ public class Util
 	public static String removeFileSuffix(String filename, String suffix)
 	{
 		int lastDotPos = filename.lastIndexOf('.');
-		
+
 		if (lastDotPos < 0) return filename;
-		
+
 		if (lastDotPos == filename.length()-1) {
 			if ( ! suffix.equals("") ) return filename;
 			else return filename.substring(0, lastDotPos);
@@ -81,10 +81,10 @@ public class Util
 
 		if (filename.substring(lastDotPos+1).equals(suffix))
 			return filename.substring(0, lastDotPos);
-		
+
 		return filename;
 	}
-	
+
 	/**
 	 * Creates a action name only consisting of characters, numbers, and '_'
 	 * from a given filename.
@@ -108,25 +108,25 @@ public class Util
 			if(curr.exists())
 				return curr;
 		}
-		
+
 		return null;
 	}
-	
+
 	private static final char[] hexChars = "0123456789abcdef".toCharArray();
-	
+
 	public static String hexString(byte[] arr) {
 		StringBuffer sb = new StringBuffer();
-		
+
 		for(int i = 0; i < arr.length; i++) {
 			byte b = arr[i];
-			
+
 			sb.append(hexChars[b & 0xf]);
 			sb.append(hexChars[(b >>> 4) & 0xf]);
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Write a string buffer to a file.
 	 * @param file The file.
@@ -140,15 +140,15 @@ public class Util
 			PrintStream ps = new PrintStream(bos);
 			ps.print(cs);
 			ps.close();
-			
+
 		} catch(FileNotFoundException e) {
 			reporter.error(e.toString());
 		}
   }
-	
+
 	public static PrintStream openFile(File file, ErrorReporter reporter) {
 		OutputStream os = NullOutputStream.STREAM;
-		
+
 		try {
 			os = new BufferedOutputStream(new FileOutputStream(file));
 
@@ -158,7 +158,7 @@ public class Util
 
 		return new PrintStream(os);
 	}
-	
+
 	public static void closeFile(PrintStream ps) {
 		ps.flush();
 		ps.close();
@@ -171,7 +171,7 @@ public class Util
 	{
 		for (Class<?> c = c1; c != Object.class; c = c.getSuperclass())
 			if (c == c2) return true;
-		
+
 		return false;
 	}
 	/**
@@ -183,7 +183,7 @@ public class Util
 	{
 		Vector<Method> allMethods = new Vector<Method>();
 		for (Method mm: c.getMethods()) allMethods.add(mm);
-		
+
 		try	{
 			return allMethods.contains(c.getMethod(m));
 		}
@@ -196,12 +196,12 @@ public class Util
 	 * @param sc A class all the given classes must be subclass of
 	 * @param m The Name of the method
 	 */
-	
+
 	public static String getStrList(Class<?>[] classes, Class<?> sc, String m)
 	{
 		StringBuffer res = new StringBuffer();
 		boolean first = true;
-		
+
 		for (Class<?> c: classes) {
 			if ( !first ) res.append(", ");
 			try {
@@ -219,7 +219,7 @@ public class Util
 		}
 		return res.toString();
 	}
-	
+
 	/**
 	 * Get a comma separated list of strings characterising the kinds of
 	 * the given class objects. Between the last two entries there is an 'or'.
@@ -229,7 +229,7 @@ public class Util
 		StringBuffer res = new StringBuffer();
 		boolean first = true;
 		int l = classes.length;
-		
+
 		for (int i = 0; i < l; i++) {
 			try {
 				Class<?> c = classes[i];
@@ -248,7 +248,7 @@ public class Util
 		}
 		return res.toString();
 	}
-	
+
 	/** return result string of invoking method m on c */
 	public static String getStr(Class<?> c, Class<?> sc, String m)
 	{
@@ -261,11 +261,11 @@ public class Util
 			return "<invalid>";
 		}
 		catch(Exception e)
-		{ 
+		{
 			return "<invalid>";
 		}
 	}
-	
+
 	public static String toString(StreamDumpable dumpable) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(bos);

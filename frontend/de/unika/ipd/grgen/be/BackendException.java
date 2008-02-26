@@ -25,7 +25,7 @@ package de.unika.ipd.grgen.be;
 
 /**
  * A backend exception.
- * 
+ *
  * NOTE: recalculate the serialVersionUID if you change the class.
  */
 public class BackendException extends Exception {

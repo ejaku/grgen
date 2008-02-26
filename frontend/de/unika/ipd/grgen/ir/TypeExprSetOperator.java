@@ -36,27 +36,27 @@ public class TypeExprSetOperator extends TypeExpr {
 	public static final int UNION = 0;
 	public static final int DIFFERENCE = 1;
 	public static final int INTERSECT = 2;
-	
+
 	private final int op;
-	
+
 	private final List<TypeExpr> children = new ArrayList<TypeExpr>();
-	
+
 	public TypeExprSetOperator(int op) {
 		this.op = op;
 		assert op >= 0 && op <= INTERSECT : "Illegal operand";
 	}
-	
+
 	public final void addOperand(TypeExpr operand) {
 		children.add(operand);
 	}
-	
+
 	public Collection<InheritanceType> evaluate() {
 		Collection<InheritanceType> res = new HashSet<InheritanceType>();
 		assert children.size() == 2 : "Arity 2 required";
-		
+
 		Collection<InheritanceType> lhs = children.get(0).evaluate();
 		Collection<InheritanceType> rhs = children.get(1).evaluate();
-		
+
 		res.addAll(lhs);
 
 		switch(op) {
@@ -70,7 +70,7 @@ public class TypeExprSetOperator extends TypeExpr {
 				res.retainAll(rhs);
 				break;
 		}
-		
+
 		return res;
 	}
 }

@@ -27,8 +27,8 @@
 package de.unika.ipd.grgen.util;
 
 public interface GraphDumperFactory {
-	
+
 	GraphDumper get(String fileNamePart);
-	
+
 }
 

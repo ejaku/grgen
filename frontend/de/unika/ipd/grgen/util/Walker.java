@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.util;
 
 /**
- * User interface of walkers, 
+ * User interface of walkers,
  * walking over structures of walkable objects (i.e. containing walkable children)
  */
 public interface Walker

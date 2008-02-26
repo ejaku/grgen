@@ -34,17 +34,17 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class XMLDumper {
-	
+
 	private final PrintStream ps;
-	
+
 	private int indent = 0;
-	
+
 	private final String indentString;
-	
+
 	private boolean printingAttributes = false;
-	
+
 	private final Collection<XMLDumpable> visited = new HashSet<XMLDumpable>();
-	
+
 	public XMLDumper(PrintStream ps) {
 		this(ps, "  ");
 	}
@@ -53,19 +53,19 @@ public class XMLDumper {
 		this.ps = ps;
 		this.indentString = indentString;
 	}
-	
+
 	public void dump(XMLDumpable dumpable) {
 		if(visited.contains(dumpable)) {
 			dumpRef(dumpable);
 			return;
 		}
-		
+
 		visited.add(dumpable);
 
 		Map<String, Object> fields = new HashMap<String, Object>();
 		dumpable.addFields(fields);
 		String tagName = dumpable.getTagName();
-		
+
 		indent();
 		ps.print('<');
 		ps.print(tagName);
@@ -100,12 +100,12 @@ public class XMLDumper {
 					ps.print(tag);
 					ps.println('>');
 					indent++;
-					
+
 					while(childs.hasNext()) {
 						XMLDumpable d = childs.next();
 						dump(d);
 					}
-					
+
 					indent--;
 					indent();
 					ps.print("</");
@@ -130,11 +130,11 @@ public class XMLDumper {
 		ps.print(dumpable.getXMLId());
 		ps.println("\"/>");
 	}
-	
+
 	private void indent() {
 		for(int i = 0; i < indent; i++)
 			ps.print(indentString);
 	}
-	
+
 }
 

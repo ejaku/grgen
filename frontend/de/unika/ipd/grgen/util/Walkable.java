@@ -24,8 +24,9 @@
  */
 package de.unika.ipd.grgen.util;
 
-import de.unika.ipd.grgen.ast.BaseNode;
 import java.util.Collection;
+
+import de.unika.ipd.grgen.ast.BaseNode;
 
 /**
  * Something you can walk on. This means, that there are children to visit.

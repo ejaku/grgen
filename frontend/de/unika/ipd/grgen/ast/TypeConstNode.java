@@ -34,7 +34,7 @@ public class TypeConstNode extends ConstNode
 {
 	/** The name of the type. */
 	private IdentNode id;
-	
+
 	/**
 	 * @param coords The source code coordinates.
 	 * @param id The name of the enum item.
@@ -44,23 +44,23 @@ public class TypeConstNode extends ConstNode
 		super(id.getCoords(), "type const", "DO NOT USE");
 		this.id = id;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type)	{
 		ConstNode res = ConstNode.getInvalid();
-		
+
 		if(type.isEqual(BasicTypeNode.stringType)) {
 			return new StringConstNode(getCoords(), id.toString());
 		}
-		
+
 		return res;
 	}
-	
+
     /** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		return new Constant(getType().getType(), id.getDecl().getDeclType().getIR());
 	}
-	
+
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */
 	public TypeNode getType() {
 		return BasicTypeNode.typeType;

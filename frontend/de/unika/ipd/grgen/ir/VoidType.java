@@ -36,7 +36,7 @@ public class VoidType extends PrimitiveType {
 	public boolean isVoid() {
 		return true;
 	}
-	
+
 	public boolean isEqual(Type t) {
 		return t.isVoid();
 	}

@@ -27,20 +27,22 @@
 
 package de.unika.ipd.grgen.parser.antlr;
 
-import antlr.ANTLRException;
-import antlr.ANTLRHashString;
-import antlr.Parser;
-import antlr.TokenStreamException;
-import antlr.TokenStreamSelector;
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ast.BaseNode;
-import de.unika.ipd.grgen.parser.ParserEnvironment;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Stack;
+
+import antlr.ANTLRException;
+import antlr.ANTLRHashString;
+import antlr.Parser;
+import antlr.TokenStreamException;
+import antlr.TokenStreamSelector;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ast.BaseNode;
+import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 /**
  * Ease the ANTLR parser calling

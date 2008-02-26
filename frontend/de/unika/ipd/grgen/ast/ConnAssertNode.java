@@ -24,12 +24,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node that represents a Connection Assertion

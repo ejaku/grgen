@@ -39,7 +39,7 @@ public class TypeDeclNode extends DeclNode {
 	}
 
 	DeclaredTypeNode type;
-	
+
 	public TypeDeclNode(IdentNode i, BaseNode t) {
 		super(i, t);
 
@@ -69,7 +69,7 @@ public class TypeDeclNode extends DeclNode {
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
-		type = typeResolver.resolve(typeUnresolved, this); 
+		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
 	}
@@ -82,7 +82,7 @@ public class TypeDeclNode extends DeclNode {
 	/**
 	 * Checks whether an edge class extends a directed and an undirected edge
 	 * class.
-	 * 
+	 *
 	 * @return Check pass without an error.
 	 */
 	private boolean checkNoConflictionEdgeParents()
@@ -90,9 +90,9 @@ public class TypeDeclNode extends DeclNode {
 		if (!(type instanceof EdgeTypeNode)) {
 	    	return true;
 	    }
-	    
+
 	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
-		
+
 		boolean extendEdge = false;
 		boolean extendUEdge = false;
 	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
@@ -103,18 +103,18 @@ public class TypeDeclNode extends DeclNode {
 	        	extendUEdge = true;
 	        }
         }
-	    
+
 	    if (extendEdge && extendUEdge) {
 	    	reportError("An edge class can't extend a directed and a undirected edge class");
 	    	return false;
 	    }
-	    
+
 	    return true;
     }
 
 	/**
 	 * Only Edge and UEdge should extends AEdge.
-	 * 
+	 *
 	 * @return Whether this type is not an illegal extend of AEdge.
 	 */
 	private boolean checkNoArbitraryEdgeChildren()
@@ -122,20 +122,20 @@ public class TypeDeclNode extends DeclNode {
 	    if (!(type instanceof EdgeTypeNode)) {
 	    	return true;
 	    }
-	    
+
 	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
-		
+
 		boolean extendAEdge = false;
 	    for (InheritanceTypeNode inh : edgeType.getDirectSuperTypes()) {
 	        if (inh instanceof ArbitraryEdgeTypeNode) {
 	        	extendAEdge = true;
 	        }
         }
-	    
+
 	    if (!extendAEdge) {
 	    	return true;
 	    }
-	    
+
 	    if (!ident.getNodeLabel().equals("UEdge")
 	    	&& !ident.getNodeLabel().equals("Edge")) {
 	    	reportError("Illegal extension of AEdge");
@@ -165,7 +165,7 @@ public class TypeDeclNode extends DeclNode {
 	public DeclaredTypeNode getDeclType()
 	{
 		assert isResolved();
-		
+
 		return type;
 	}
 }

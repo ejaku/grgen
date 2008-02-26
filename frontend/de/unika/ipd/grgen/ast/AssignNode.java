@@ -24,11 +24,16 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-
-import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node representing an assignment.

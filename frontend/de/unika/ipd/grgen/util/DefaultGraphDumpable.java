@@ -26,11 +26,12 @@
  */
 package de.unika.ipd.grgen.util;
 
-import de.unika.ipd.grgen.ast.BaseNode;
 import java.awt.Color;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
+
+import de.unika.ipd.grgen.ast.BaseNode;
 
 
 
@@ -40,24 +41,24 @@ import java.util.Collection;
 public abstract class DefaultGraphDumpable extends Base implements GraphDumpable, Walkable {
 
 	private Collection<BaseNode> children = null;
-	
+
 	private final Color color;
 	private final int shape;
 	private final String label;
 	private final String info;
-	
-	
+
+
 	protected DefaultGraphDumpable(String label, String info, Color col, int shape) {
 		this.label = label;
 		this.shape = shape;
 		this.color = col;
 		this.info = info;
 	}
-	
+
 	protected DefaultGraphDumpable(String label, String info, Color col) {
 		this(label, info, col, GraphDumper.DEFAULT);
 	}
-	
+
 	protected DefaultGraphDumpable(String label, String info) {
 		this(label, info, Color.WHITE);
 	}
@@ -65,7 +66,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	protected DefaultGraphDumpable(String label) {
 		this(label, null);
 	}
-	
+
 	protected final void setChildren(Collection children) {
 		this.children = children;
 	}
@@ -73,7 +74,7 @@ public abstract class DefaultGraphDumpable extends Base implements GraphDumpable
 	protected final void setChildren(Object[] children) {
 		setChildren(Arrays.asList(children));
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
 	 */

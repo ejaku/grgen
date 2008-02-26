@@ -24,6 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
@@ -35,8 +38,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Unit;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * The main node of the text. It is the root of the AST.
@@ -156,7 +157,7 @@ public class UnitNode extends DeclNode {
 	@Override
 	public MainTypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 }

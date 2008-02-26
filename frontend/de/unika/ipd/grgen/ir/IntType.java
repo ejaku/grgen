@@ -25,7 +25,7 @@
 package de.unika.ipd.grgen.ir;
 
 /**
- * A Integer type. 
+ * A Integer type.
  */
 public class IntType extends PrimitiveType {
 

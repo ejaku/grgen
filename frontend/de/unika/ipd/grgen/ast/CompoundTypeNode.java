@@ -36,7 +36,7 @@ import de.unika.ipd.grgen.parser.Symbol;
  */
 public abstract class CompoundTypeNode extends DeclaredTypeNode
 	implements ScopeOwner
-{	
+{
 	public boolean fixupDefinition(IdentNode id) {
 		return fixupDefinition(id, true);
 	}
@@ -54,9 +54,9 @@ public abstract class CompoundTypeNode extends DeclaredTypeNode
 		// The result is true, if the definition's valid.
 		boolean res = def.isValid();
 
-		// If this definition is valid, i.e. it exists, 
-		// the definition of the ident is rewritten to this definition, 
-		// else, an error is emitted, 
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else, an error is emitted,
 		// since this ident was supposed to be defined in this scope.
 		if(res) {
 			id.setSymDef(def);

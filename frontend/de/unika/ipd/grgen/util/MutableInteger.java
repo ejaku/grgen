@@ -3,7 +3,7 @@ package de.unika.ipd.grgen.util;
 public class MutableInteger
 {
 	int value;
-	
+
 	public MutableInteger (int v) {
 		value = v;
 	}

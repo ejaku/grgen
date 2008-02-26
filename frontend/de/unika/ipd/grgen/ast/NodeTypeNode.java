@@ -24,6 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.CollectPairResolver;
 import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
@@ -32,9 +36,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Vector;
 
 /**
  * A class representing a node type

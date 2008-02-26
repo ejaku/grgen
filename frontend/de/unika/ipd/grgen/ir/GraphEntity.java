@@ -24,11 +24,11 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Annotations;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+
+import de.unika.ipd.grgen.util.Annotations;
 
 /**
  * Abstract base class for entities occurring in graphs
@@ -43,13 +43,13 @@ public abstract class GraphEntity extends Entity {
 
 	/** The retyped version of this entity if any. */
 	protected GraphEntity retyped = null;
-	
+
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
 
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
-	
-	
+
+
 	/**
 	 * Make a new graph entity of a given type
 	 * @param name The name of the entity.
@@ -62,7 +62,7 @@ public abstract class GraphEntity extends Entity {
 		this.type = type;
 		this.annotations = annots;
 	}
-	
+
 	public InheritanceType getInheritanceType() {
 		return type;
 	}
@@ -71,34 +71,34 @@ public abstract class GraphEntity extends Entity {
 	public void setTypeof(GraphEntity typeof) {
 		this.typeof = typeof;
 	}
-	
+
 	/** Sets the type constraints for this entity */
 	public void setConstraints(TypeExpr expr) {
 		this.constraints = expr.evaluate();
 	}
-	
+
 	/** @return The annotations. */
 	public Annotations getAnnotations() {
 		return annotations;
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("valid_types", constraints.iterator());
 		fields.put("retyped", Collections.singleton(retyped));
 		fields.put("typeof", Collections.singleton(typeof));
 	}
-	
+
 	/** @return true, if this is a retyped entity */
 	public boolean isRetyped() {
 		return false;
 	}
-	
+
 	/** @return true, if this entity changes its type */
 	public boolean changesType() {
 		return retyped != null;
 	}
-	
+
 	/**
 	 * Sets the corresponding retyped version of this entity
 	 * @param retyped The retyped version
@@ -106,7 +106,7 @@ public abstract class GraphEntity extends Entity {
 	public void setRetypedEntity(GraphEntity retyped) {
 		this.retyped = retyped;
 	}
-	
+
 	/**
 	 * Returns the corresponding retyped version of this entity
 	 * @return The retyped version or <code>null</code>
@@ -114,12 +114,12 @@ public abstract class GraphEntity extends Entity {
 	public GraphEntity getRetypedEntity() {
 		return this.retyped;
 	}
-	
+
 	/** Get the entity from which this entity inherits its dynamic type */
 	public GraphEntity getTypeof() {
 		return typeof;
 	}
-	
+
 	/** @return true, if this entity inherits its type from some other entitiy */
 	public boolean inheritsType() {
 		return typeof != null;
@@ -128,7 +128,7 @@ public abstract class GraphEntity extends Entity {
 	public final Collection<InheritanceType> getConstraints() {
 		return Collections.unmodifiableCollection(constraints);
 	}
-	
+
 	public String getNodeInfo() {
 		return super.getNodeInfo()
 			+ "\nconstraints: " + getConstraints();

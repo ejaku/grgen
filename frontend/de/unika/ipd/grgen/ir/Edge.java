@@ -34,7 +34,7 @@ public class Edge extends GraphEntity {
 
 	/** Type of the edge. */
 	protected final EdgeType type;
-	
+
 	/**
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
@@ -44,7 +44,7 @@ public class Edge extends GraphEntity {
 		super("edge", ident, type, annots);
 		this.type = type;
 	}
-	
+
 	/**
 	 * Make a new edge.
 	 * @param ident The identifier for the edge.
@@ -53,7 +53,7 @@ public class Edge extends GraphEntity {
 	public Edge(Ident ident, EdgeType type) {
 		this(ident, type, EmptyAnnotations.get());
 	}
-	
+
 	/** @return The type of the edge. */
 	public EdgeType getEdgeType() {
 		return type;
@@ -71,7 +71,7 @@ public class Edge extends GraphEntity {
 	public void setRetypedEdge(Edge retyped) {
 		this.retyped = retyped;
 	}
-	
+
 	/**
 	 * Returns the corresponding retyped version of this edge
 	 * @return The retyped version or <code>null</code>

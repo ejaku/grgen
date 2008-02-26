@@ -26,7 +26,13 @@
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A pattern graph is a graph as it occurs in left hand rule sides and negative parts.
@@ -53,14 +59,14 @@ public class PatternGraph extends Graph {
 
     /** A set of all pattern edges, which may be homomorphically matched to any other pattern edges. */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
-	
+
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
 	/** Make a new pattern graph. */
 	public PatternGraph(String nameOfGraph) {
 		super(nameOfGraph);
 	}
-	
+
 	public void addImperativeStmt(ImperativeStmt emit) {
 		imperativeStmts.add(emit);
 	}
@@ -82,12 +88,12 @@ public class PatternGraph extends Graph {
 		neg.setName("N" + patternNameNumber);
 		negs.add(neg);
 	}
-	
+
 	/** @return The NAC graphs of the rule. */
 	public Collection<PatternGraph> getNegs() {
 		return Collections.unmodifiableCollection(negs);
 	}
-	
+
 	/** Add a condition given by it's expression expr to the graph. */
 	public void addCondition(Expression expr) {
 		conds.add(expr);

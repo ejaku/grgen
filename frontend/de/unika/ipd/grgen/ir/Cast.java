@@ -17,7 +17,7 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
- 
+
 /**
  * @author G. Veit Batz
  * @version $Id$
@@ -32,7 +32,7 @@ import java.util.Vector;
 public class Cast extends Expression
 {
 	protected Expression expr;
-	
+
 	public Cast(Type type, Expression expr) {
 		super("cast", type);
 		this.expr = expr;
@@ -41,7 +41,7 @@ public class Cast extends Expression
 	public String getNodeLabel() {
 		return "Cast to " + type;
 	}
-	
+
 	public Expression getExpression() {
 		return expr;
 	}

@@ -23,11 +23,12 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  *
@@ -64,7 +65,7 @@ public class ExactNode extends BaseNode {
 	}
 
 	private static final DeclarationResolver<NodeDeclNode> childrenResolver = new DeclarationResolver<NodeDeclNode>(NodeDeclNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;

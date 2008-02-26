@@ -24,6 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -31,9 +35,6 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 
 public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	static {
@@ -74,7 +75,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	// TODO this should return a EdgeTypeNode
 	public TypeNode getDeclType() {
 		assert isResolved();
-		
+
 		DeclNode curr = getValidResolvedVersion(typeEdgeDecl, typeTypeDecl);
 		return curr.getDeclType();
 	}
@@ -115,11 +116,11 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		return super.checkLocal()
 			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
 	}
-	
+
 	/** Returns whether the edge type is a typeof statement. */
 	public boolean hasTypeof() {
 		assert isResolved();
-		
+
 		return typeEdgeDecl != null;
 	}
 

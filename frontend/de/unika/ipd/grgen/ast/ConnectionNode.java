@@ -25,13 +25,14 @@
 package de.unika.ipd.grgen.ast;
 
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.Graph;
-import java.util.Collection;
-import java.util.Set;
-import java.util.Vector;
 
 /**
  * AST node that represents a Connection (an edge connecting two nodes)
@@ -41,13 +42,13 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	static {
 		setName(ConnectionNode.class, "connection");
 	}
-	
+
 	/** possible connection kinds */
 	public static final int ARBITRARY = 0;
 	public static final int ARBITRARY_DIRECTED = 1;
 	public static final int DIRECTED = 2;
 	public static final int UNDIRECTED = 3;
-	
+
 	private int connectionKind;
 
 	NodeDeclNode left;
@@ -121,7 +122,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 		return left != null && edge != null && right != null;
 	}
-	
+
 	private static Checker nodeTypeChecker = new TypeChecker(NodeTypeNode.class);
 	private static Checker edgeTypeChecker = new TypeChecker(EdgeTypeNode.class);
 
@@ -140,9 +141,9 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			return false;
 		}
 		warnArbitraryRootType();
-		
+
 		return true;
-		
+
 	}
 
 	private void warnArbitraryRootType()
@@ -150,11 +151,11 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 		if (connectionKind != ARBITRARY) {
 			return;
 		}
-	    
+
 		DeclaredTypeNode rootType = getArbitraryEdgeRootType().getDeclType();
-		
+
 		boolean res = edge.getDeclType().isEqual(rootType);
-		
+
 		if (!res) {
 			edge.reportWarning("The type of " + edge.getIdentNode().toString() + " differs from "
 					+ getArbitraryEdgeRootType().getIdentNode().toString()
@@ -170,15 +171,15 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
         case ARBITRARY:
 	        rootDecl = getArbitraryEdgeRootType();
 	        break;
-	        
+
         case ARBITRARY_DIRECTED:
         	rootDecl = getDirectedEdgeRootType();
         	break;
-	        
+
         case DIRECTED:
         	rootDecl = getDirectedEdgeRootType();
         	break;
-	        
+
         case UNDIRECTED:
         	rootDecl = getUndirectedEdgeRootType();
         	break;
@@ -187,14 +188,14 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	        assert false;
         	break;
         }
-		
+
 		DeclaredTypeNode rootType = rootDecl.getDeclType();
 
 		if (!edge.getDeclType().isCompatibleTo(rootType)) {
 			reportError("Edge kind is incompatible with edge type");
 			return false;
 		}
-		
+
 		return true;
     }
 
@@ -243,7 +244,7 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 	public void addEdge(Set<BaseNode> set) {
 		set.add(edge);
 	}
-	
+
 	public int getConnectionKind() {
 		return connectionKind;
 	}

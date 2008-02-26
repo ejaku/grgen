@@ -25,6 +25,9 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EnumExpression;
@@ -32,8 +35,6 @@ import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.Vector;
 
 public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 	static {
@@ -55,7 +56,7 @@ public class EnumExprNode extends QualIdentNode implements DeclaredCharacter {
 		children.add(getValidVersion(memberUnresolved, member));
 		return children;
 	}
-	
+
 	private static final DeclarationTypeResolver<EnumTypeNode> ownerResolver = new DeclarationTypeResolver<EnumTypeNode>(EnumTypeNode.class);
 
 	private static final DeclarationResolver<EnumItemNode> memberResolver = new DeclarationResolver<EnumItemNode>(EnumItemNode.class);

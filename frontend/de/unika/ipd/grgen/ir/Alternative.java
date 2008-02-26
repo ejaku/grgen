@@ -31,17 +31,17 @@ import java.util.Vector;
 /**
  * Represents an alternative statement in the IR.
  */
-public class Alternative extends IR {	
+public class Alternative extends IR {
 	public Alternative() {
 		super("alternative");
 	}
-	
+
 	Vector<PatternGraph> alternativeCases = new Vector<PatternGraph>();
-	
+
 	public Collection<PatternGraph> getAlternativeCases() {
 		return alternativeCases;
 	}
-	
+
 	public void addAlternativeCase(PatternGraph alternativeCase)
 	{
 		alternativeCases.add(alternativeCase);

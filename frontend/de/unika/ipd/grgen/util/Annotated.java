@@ -33,9 +33,9 @@ package de.unika.ipd.grgen.util;
 public interface Annotated {
 
 	/**
-	 * Get the annotations. 
+	 * Get the annotations.
 	 * @return The annotations.
 	 */
 	Annotations getAnnotations();
-	
+
 }

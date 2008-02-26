@@ -75,7 +75,7 @@ public class ModelNode extends DeclNode {
 
 	CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
 		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
-	
+
 	DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -182,7 +182,7 @@ public class ModelNode extends DeclNode {
 	@Override
 	public ModelTypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 

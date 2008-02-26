@@ -20,16 +20,16 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.DoubleType;
+import de.unika.ipd.grgen.ir.IR;
 
 /** The double precision floating point basic type. */
-public class DoubleTypeNode extends BasicTypeNode 
+public class DoubleTypeNode extends BasicTypeNode
 {
 	static {
 		setName(DoubleTypeNode.class, "double type");
 	}
-	
+
 	protected IR constructIR() {
 		return new DoubleType(getIdentNode().getIdent());
 	}

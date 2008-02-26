@@ -26,12 +26,12 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-import java.util.Vector;
-import java.util.Set;
-import java.util.Map;
-import java.util.HashSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Assignment;
@@ -271,18 +271,18 @@ public class RuleDeclNode extends TestDeclNode {
 			boolean occursInLHS = false;
 			ConnectionNode rConn = (ConnectionNode) rc;
 			EdgeDeclNode re = rConn.getEdge();
-			
+
 			if (re instanceof EdgeTypeChangeNode) {
 				re = ((EdgeTypeChangeNode)re).getOldEdge();
 			}
-			
+
 			for (BaseNode lc : left.getConnections()) {
 				if (!(lc instanceof ConnectionNode)) {
 					continue;
 				}
 
 				ConnectionNode lConn = (ConnectionNode) lc;
-					
+
 				EdgeDeclNode le = lConn.getEdge();
 
 				if ( ! le.equals(re) ) {
@@ -465,7 +465,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean abstr = true;
 		for(BaseNode n : right.getNodes()) {
-			NodeDeclNode node = (NodeDeclNode)n; 
+			NodeDeclNode node = (NodeDeclNode)n;
 			if(!node.hasTypeof() && ((InheritanceTypeNode)node.getDeclType()).isAbstract() && !left.getNodes().contains(node)) {
 				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
@@ -517,7 +517,7 @@ public class RuleDeclNode extends TestDeclNode {
 	@Override
 		public RuleTypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 }

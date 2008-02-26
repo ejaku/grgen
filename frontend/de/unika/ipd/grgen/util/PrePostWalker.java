@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A walker calling visitors 
+ * A walker calling visitors
  * pre before descending to the first child
  * post after ascending from the last child.
  */
@@ -63,11 +63,11 @@ public class PrePostWalker extends Base implements Walker
 			if (pre != null) {
 				pre.visit(node);
 			}
-			
+
 			for (Walkable p : node.getWalkableChildren()) {
 				walk(p);
 			}
-			
+
 			if (post != null) {
 				post.visit(node);
 			}

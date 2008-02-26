@@ -33,11 +33,11 @@ package de.unika.ipd.grgen.util;
 public class EmptyAnnotations implements Annotations {
 
 	private static final Annotations EMPTY = new EmptyAnnotations();
-	
+
 	public static Annotations get() {
 		return EMPTY;
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.util.Annotations#containsKey(java.lang.String)
 	 */

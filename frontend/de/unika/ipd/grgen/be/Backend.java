@@ -24,15 +24,17 @@
  */
 package de.unika.ipd.grgen.be;
 
-import de.unika.ipd.grgen.Sys;
-import de.unika.ipd.grgen.ir.Unit;
 import java.io.File;
+
+import de.unika.ipd.grgen.Sys;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Unit;
 
 /**
  * Generic Backend interface.
  */
 public interface Backend {
-	
+
 	/**
 	 * Initialize the backend with the intermediate representation.
 	 * @param unit The intermediate representation unit to
@@ -42,7 +44,7 @@ public interface Backend {
 	 * all generated files should go.
 	 */
 	void init(Unit unit, Sys system, File outputPath);
-	
+
 	/**
 	 * Initiates the generation of code.
 	 * It is always called after {@link #init(IR)}.

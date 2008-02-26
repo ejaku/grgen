@@ -38,7 +38,7 @@ public abstract class ParamVisitor implements Visitor {
 	 * parameters.
 	 */
 	protected Object getParameter(int i) {
-		return i < parameters.length ? parameters[i] : null; 
+		return i < parameters.length ? parameters[i] : null;
 	}
 
   /**
@@ -48,9 +48,9 @@ public abstract class ParamVisitor implements Visitor {
   public ParamVisitor(Object[] params) {
     parameters = params;
   }
-  
+
   /**
-   * Make a new parameter visitor with one parameter. 
+   * Make a new parameter visitor with one parameter.
    * @param param The parameter.
    */
   public ParamVisitor(Object param) {

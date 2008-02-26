@@ -26,12 +26,12 @@ import de.unika.ipd.grgen.ir.StringType;
 /**
  * The string basic type.
  */
-public class StringTypeNode extends BasicTypeNode 
+public class StringTypeNode extends BasicTypeNode
 {
 	static {
 		setName(StringTypeNode.class, "string type");
 	}
-	
+
 	protected IR constructIR() {
 		return new StringType(getIdentNode().getIdent());
 	}

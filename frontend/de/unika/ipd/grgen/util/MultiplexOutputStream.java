@@ -30,21 +30,21 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class MultiplexOutputStream extends OutputStream {
-	
+
 	private final OutputStream[] mux = new OutputStream[32];
-	
+
 	private int fill = 0;
-	
+
 	public void addStream(OutputStream s) {
 
 		if(fill == mux.length - 1) {
 			OutputStream[] newMux = new OutputStream[2 * fill];
 			System.arraycopy(mux, 0, newMux, 0, mux.length);
 		}
-		
+
 		mux[fill++] = s;
 	}
-	
+
 	/**
 	 * Writes the specified byte to this output stream. The general
 	 * contract for <code>write</code> is that one byte is written
@@ -64,7 +64,7 @@ public class MultiplexOutputStream extends OutputStream {
 		for(int i = 0; i < fill; i++)
 			mux[i].write(b);
 	}
-	
+
 	/**
 	 * Writes <code>len</code> bytes from the specified byte array
 	 * starting at offset <code>off</code> to this output stream.
@@ -97,7 +97,7 @@ public class MultiplexOutputStream extends OutputStream {
 		for(int i = 0; i < fill; i++)
 			mux[i].write(b, off, len);
 	}
-	
+
 	/**
 	 * Writes <code>b.length</code> bytes from the specified byte array
 	 * to this output stream. The general contract for <code>write(b)</code>
@@ -111,7 +111,7 @@ public class MultiplexOutputStream extends OutputStream {
 	public void write(byte[] b) throws IOException {
 		write(b, 0, b.length);
 	}
-	
+
 	/**
 	 * Flushes this output stream and forces any buffered output bytes
 	 * to be written out. The general contract of <code>flush</code> is
@@ -134,7 +134,7 @@ public class MultiplexOutputStream extends OutputStream {
 		for(int i = 0; i < fill; i++)
 			mux[i].flush();
 	}
-	
+
 	/**
 	 * Closes this output stream and releases any system resources
 	 * associated with this stream. The general contract of <code>close</code>
@@ -149,10 +149,10 @@ public class MultiplexOutputStream extends OutputStream {
 		for(int i = 0; i < fill; i++)
 			mux[i].close();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }
 

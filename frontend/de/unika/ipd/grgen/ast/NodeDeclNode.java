@@ -24,6 +24,10 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
@@ -31,9 +35,6 @@ import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * Declaration of a node.
@@ -62,7 +63,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 *  inherited dynamically via the typeof operator */
 	public TypeNode getDeclType() {
 		assert isResolved();
-		
+
 		DeclNode curr = getValidResolvedVersion(typeNodeDecl, typeTypeDecl);
 		return curr.getDeclType();
 	}
@@ -95,11 +96,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 		return resolved != null;
 	}
-	
+
 	/** Returns whether the node type is a typeof statement. */
 	public boolean hasTypeof() {
 		assert isResolved();
-		
+
 		return typeNodeDecl != null;
 	}
 

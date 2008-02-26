@@ -36,7 +36,7 @@ public class TypeChecker implements Checker
 {
 	/** The types the declaration type is to be checked against */
 	private Class<?>[] validTypes;
-	
+
 	/** Create checker with one type to check the declared type of the AST declaration node against */
 	public TypeChecker(Class<?>[] types)
 	{
@@ -48,7 +48,7 @@ public class TypeChecker implements Checker
 	{
 		this(new Class[] { type });
 	}
-	
+
 	/**
 	 * Check if node is an instance of DeclNode
 	 * if so check whether the declaration has the right type
@@ -57,14 +57,14 @@ public class TypeChecker implements Checker
 	public boolean check(BaseNode node, ErrorReporter reporter)
 	{
 		boolean res = (node instanceof DeclNode);
-		
+
 		if(!res) {
 			node.reportError("Not a " + BaseNode.getName(DeclNode.class));
 		}
 		else
 		{
 			TypeNode type = ((DeclNode)node).getDeclType();
-			
+
 			res = false;
 			for(Class<?> c : this.validTypes)
 			{
@@ -74,14 +74,14 @@ public class TypeChecker implements Checker
 					break;
 				}
 			}
-			
+
 			if(!res)
 				((DeclNode)node).getIdentNode().reportError(getErrorMsg(validTypes, node));
 
 		}
 		return res;
 	}
-	
+
 	protected String getExpection(Class<?> cls)
 	{
 		String res = "";
@@ -89,14 +89,14 @@ public class TypeChecker implements Checker
 		try {
 			res = (String) cls.getMethod("getKindStr").invoke(null);
 		}
-		catch(Exception e) 
-		{ 
+		catch(Exception e)
+		{
 			res = "<invalid>";
 		}
 
 		return res;
 	}
-	
+
 	protected String getExpectionList(Class<?>[] classes)
 	{
 		StringBuffer list = new StringBuffer();

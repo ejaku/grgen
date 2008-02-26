@@ -24,20 +24,21 @@
  */
 package de.unika.ipd.grgen.ir;
 
-import de.unika.ipd.grgen.util.Base;
-import de.unika.ipd.grgen.util.GraphDumpable;
-import de.unika.ipd.grgen.util.GraphDumper;
-import de.unika.ipd.grgen.util.XMLDumpable;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+import de.unika.ipd.grgen.util.Base;
+import de.unika.ipd.grgen.util.GraphDumpable;
+import de.unika.ipd.grgen.util.GraphDumper;
+import de.unika.ipd.grgen.util.XMLDumpable;
+
 /**
  * Base class for all IR classes.
  */
 public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
-	
+
 	private static final IR bad = new Bad();
 
 	/** The name of this IR object */
@@ -50,34 +51,34 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	private static final String[] noChildrenNames = { };
 
 	private boolean canonicalValid = false;
-	
-	
+
+
 	/** Make a new IR object and name it. */
 	protected IR(String name) {
 		this.name = name;
 		childrenNames = noChildrenNames;
 	}
-	
+
 	/** @return true, if this ir object is bad, false otherwise. */
 	public boolean isBad() {
 		return false;
 	}
-	
+
 	/** @return A bad ir object. */
 	public static IR getBad() {
 		return bad;
 	}
-	
+
 	/** @return The name of this IR object (that is group, node, edge, test, ...). */
 	public String getName() {
 		return name;
 	}
-	
+
 	/** Set the name of this IR object. */
 	protected void setName(String newName) {
 		name = newName;
 	}
-	
+
 	/**
 	 * View an IR object as a string.
 	 * The string of an IR object is its name.
@@ -86,7 +87,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	public String toString() {
 		return name;
 	}
-	
+
 	/**
 	 * Set the names of the children of this node.
 	 * @param names A string array with the names.
@@ -94,34 +95,34 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	protected void setChildrenNames(String[] names) {
 		this.childrenNames = names;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<? extends IR> getWalkableChildren() {
 		return Collections.emptySet();
 	}
-	
+
 	/**
 	 * Build the canonical form.
 	 * Compound types must sort their members alphabetically.
 	 */
 	protected void canonicalizeLocal() {
 	}
-	
+
 	public final void canonicalize() {
 		if(!canonicalValid) {
 			canonicalizeLocal();
 			canonicalValid = true;
 		}
 	}
-	
+
 	protected final void invalidateCanonical() {
 		canonicalValid = false;
 	}
-	
+
 	/** Add this type to the digest. */
 	void addToDigest(StringBuffer sb) {
 	}
-	
+
 //////////////////////////////////////////////////////////////////////////////////////////
 	// XML dumping
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +131,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	public String getTagName() {
 		return getName().replace(' ', '_');
 	}
-	
+
 	/** @return Name of the tag that expresses a reference to this object. */
 	public String getRefTagName() {
 		return getName().replace(' ', '_') + "_ref";
@@ -142,7 +143,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	 */
 	public void addFields(Map<String, Object> fields) {
 	}
-	
+
 	/** @return A unique ID for this object. */
 	public String getXMLId() {
 		return getId();
@@ -151,12 +152,12 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 //////////////////////////////////////////////////////////////////////////////////////////
 	// graph dumping
 //////////////////////////////////////////////////////////////////////////////////////////
-	
+
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId() */
 	public String getNodeId() {
 		return getId();
 	}
-	
+
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeColor() */
 	public Color getNodeColor() {
 		return Color.WHITE;
@@ -171,7 +172,7 @@ public abstract class IR extends Base implements GraphDumpable, XMLDumpable {
 	public String getNodeLabel() {
 		return name;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.util.GraphDumpable#getNodeInfo() */
 	public String getNodeInfo() {
 		return "ID: " + getId();

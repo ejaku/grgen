@@ -34,7 +34,7 @@ public class NullConstNode extends ConstNode
 	public NullConstNode(Coords coords) {
 		super(coords, "null", null);
 	}
-	
+
 	public TypeNode getType() {
 		return BasicTypeNode.objectType;
 	}

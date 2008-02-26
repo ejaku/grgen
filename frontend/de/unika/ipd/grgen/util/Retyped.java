@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.unika.ipd.grgen.util;
 
@@ -11,6 +11,6 @@ import de.unika.ipd.grgen.ir.Entity;
  */
 public interface Retyped {
 	void setOldEntity(Entity old);
-	
+
 	Entity getOldEntity();
 }

@@ -23,12 +23,13 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.Alternative;
-import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node that represents an alternative, containing the alternative graph patterns

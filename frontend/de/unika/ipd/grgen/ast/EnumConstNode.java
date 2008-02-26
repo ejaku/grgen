@@ -42,7 +42,7 @@ public class EnumConstNode extends ConstNode
 		super(coords, "enum item", new Integer(value));
 		this.id = id;
 	}
-		
+
 	/** @see de.unika.ipd.grgen.ast.ConstNode#doCastTo(de.unika.ipd.grgen.ast.TypeNode) */
 	protected ConstNode doCastTo(TypeNode type) {
 		ConstNode res = ConstNode.getInvalid();

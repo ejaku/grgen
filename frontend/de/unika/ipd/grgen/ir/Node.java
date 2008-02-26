@@ -34,7 +34,7 @@ public class Node extends GraphEntity {
 
 	/** Type of the node. */
 	protected final NodeType type;
-		
+
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -53,7 +53,7 @@ public class Node extends GraphEntity {
 	public Node(Ident ident, NodeType type) {
 		this(ident, type, EmptyAnnotations.get());
 	}
-	
+
 	/** @return The type of the node. */
 	public NodeType getNodeType() {
 		return type;
@@ -71,7 +71,7 @@ public class Node extends GraphEntity {
 	public void setRetypedNode(Node retyped) {
 		this.retyped = retyped;
 	}
-	
+
 	/**
 	 * Returns the corresponding retyped version of this node
 	 * @return The retyped version or <code>null</code>

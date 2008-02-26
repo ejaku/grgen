@@ -32,10 +32,10 @@ public class Redirection {
 	public final EdgeType edgeType;
 	public final NodeType nodeType;
 	public final boolean incoming;
-	
+
 	public Redirection(Node from, Node to, EdgeType edgeType,
 					   NodeType nodeType, boolean incoming) {
-		
+
 		this.from = from;
 		this.to = to;
 		this.edgeType = edgeType;

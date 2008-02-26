@@ -33,7 +33,7 @@ public class FloatConstNode extends ConstNode
 	public FloatConstNode(Coords coords, double v) {
 		super(coords, "float", new Float(v));
 	}
-	
+
 	public TypeNode getType() {
 		return BasicTypeNode.floatType;
 	}
@@ -51,7 +51,7 @@ public class FloatConstNode extends ConstNode
 		} else if (type.isEqual(BasicTypeNode.intType)) {
 			res = new IntConstNode(getCoords(), (int) value);
 		}
-		
+
 		return res;
 	}
 }

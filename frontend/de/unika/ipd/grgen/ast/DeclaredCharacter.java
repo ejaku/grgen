@@ -31,7 +31,7 @@ public interface DeclaredCharacter {
 
 	/**
 	 * Get the declaration of this declaration character.
-	 * @return 
+	 * @return
 	 */
 	DeclNode getDecl();
 

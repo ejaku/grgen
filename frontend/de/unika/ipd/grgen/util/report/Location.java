@@ -26,14 +26,14 @@ package de.unika.ipd.grgen.util.report;
 
 /**
  * Represents a location known to the user, where a message can be
- * generated. For example, in parser, the file and line number in 
- * the file that is parsed. 
+ * generated. For example, in parser, the file and line number in
+ * the file that is parsed.
  */
 public interface Location {
 
 	/**
 	 * Get the location's string representation.
-	 * This string is only meaningful, if #hasLocation() returns true. 
+	 * This string is only meaningful, if #hasLocation() returns true.
 	 * @return The string representation of the location.
 	 */
 	String getLocation();

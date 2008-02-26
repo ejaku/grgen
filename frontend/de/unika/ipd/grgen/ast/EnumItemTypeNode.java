@@ -26,12 +26,12 @@ import de.unika.ipd.grgen.ir.IntType;
 /**
  * The enum member type.
  */
-public class EnumItemTypeNode extends BasicTypeNode 
+public class EnumItemTypeNode extends BasicTypeNode
 {
 	static {
 		setName(EnumItemTypeNode.class, "enum item type");
 	}
-	
+
 	protected IR constructIR() {
 		return new IntType(getIdentNode().getIdent());
 	}

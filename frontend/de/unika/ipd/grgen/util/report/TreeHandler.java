@@ -31,24 +31,29 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 /**
- * 
+ *
  */
 public class TreeHandler extends DefaultTreeModel implements Handler {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 9154761780509127571L;
 
 	class EnterNode implements TreeNode {
 		private Vector<TreeNode> children = new Vector<TreeNode>();
 		private String text;
 		private TreeNode parent;
-	
+
 		public EnterNode(TreeNode parent, String text) {
 			this.text = text;
 			this.parent = parent;
 		}
-	
+
 		public void add(TreeNode n) {
 			children.add(n);
 		}
-	
+
 		public TreeNode getChildAt(int i) {
 			return children.get(i);
 		}
@@ -80,7 +85,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
 		public String toString() {
 			return text;
 		}
-	
+
 		public int[] getAddedChildIndices() {
 			int[] res = new int[children.size()];
 			for(int i = 0; i < res.length; i++)
@@ -97,7 +102,7 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
 		private TreeNode parent;
 		private String msg;
 		private int level;
-		private Location loc; 
+		private Location loc;
 
 		public MsgNode(TreeNode parent, int level, Location loc, String msg) {
 			this.level = level;
@@ -133,20 +138,20 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
     public Enumeration children() {
       return null;
     }
-    
+
     public String toString() {
     	return msg;
     }
   }
-  
+
   private EnterNode current, root;
-  
+
   /**
-   * 
+   *
    */
   public TreeHandler() {
   	super(null);
-  	EnterNode root = new EnterNode(null, "ROOT"); 
+  	EnterNode root = new EnterNode(null, "ROOT");
   	setRoot(root);
   	current = root;
   }
@@ -175,5 +180,5 @@ public class TreeHandler extends DefaultTreeModel implements Handler {
 		if(p != null)
 		  current = p;
   }
- 
+
 }

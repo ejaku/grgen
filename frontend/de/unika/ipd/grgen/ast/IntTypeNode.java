@@ -26,12 +26,12 @@ import de.unika.ipd.grgen.ir.IntType;
 /**
  * The integer basic type.
  */
-public class IntTypeNode extends BasicTypeNode 
+public class IntTypeNode extends BasicTypeNode
 {
 	static {
 		setName(IntTypeNode.class, "int type");
 	}
-		
+
 	protected IR constructIR() {
 		return new IntType(getIdentNode().getIdent());
 	}

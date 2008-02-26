@@ -32,12 +32,12 @@ import java.awt.Color;
 public class GraphDumpableProxy implements GraphDumpable {
 
 	/** The GraphDumpable to be proxy for. */
-	private GraphDumpable gd; 
+	private GraphDumpable gd;
 
 	public GraphDumpableProxy(GraphDumpable gd) {
 		this.gd = gd;
 	}
-	
+
 	/**
 	 * Get the proxied object.
 	 * @return The proxied GraphDumpable object.
@@ -45,7 +45,7 @@ public class GraphDumpableProxy implements GraphDumpable {
 	protected GraphDumpable getGraphDumpable() {
 		return gd;
 	}
-	
+
   /**
    * @see de.unika.ipd.grgen.util.GraphDumpable#getNodeId()
    */

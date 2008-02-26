@@ -23,15 +23,21 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-
-import de.unika.ipd.grgen.ast.util.CollectPairResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.ast.util.CollectPairResolver;
+import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
+import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.Graph;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Rule;
 
 
 public class ModifyRuleDeclNode extends RuleDeclNode {
@@ -77,7 +83,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 		childrenNames.add("delete");
 		return childrenNames;
 	}
-	
+
 	private static final CollectPairResolver<ConstraintDeclNode> deleteResolver = new CollectPairResolver<ConstraintDeclNode>(
 		new DeclarationPairResolver<NodeDeclNode, EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class));
 
@@ -85,7 +91,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	protected boolean resolveLocal() {
 		delete = deleteResolver.resolve(deleteUnresolved);
 		type = typeResolver.resolve(typeUnresolved, this);
-		
+
 		return delete != null && type != null;
 	}
 
@@ -149,11 +155,11 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 			boolean occursInLHS = false;
 			ConnectionNode rConn = (ConnectionNode) rc;
 			EdgeDeclNode re = (EdgeDeclNode) rConn.getEdge();
-			
+
 			if (re instanceof EdgeTypeChangeNode) {
 				re = (EdgeDeclNode) ((EdgeTypeChangeNode)re).getOldEdge();
 			}
-			
+
 			for (BaseNode lc : left.getConnections()) {
 				if (!(lc instanceof ConnectionNode)) {
 					continue;
@@ -325,7 +331,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	@Override
 		public RuleTypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 }

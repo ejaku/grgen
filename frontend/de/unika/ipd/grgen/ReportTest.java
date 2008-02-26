@@ -43,47 +43,51 @@ import de.unika.ipd.grgen.util.report.TreeHandler;
  *
  */
 public class ReportTest extends JPanel {
-	
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 3732095867547713469L;
 	Reporter reporter;
-	
+
 	public ReportTest(JFrame frame) {
 		TreeHandler treeHandler = new TreeHandler();
 		StreamHandler streamHandler = new StreamHandler(System.out);
 		reporter = new ErrorReporter();
 		reporter.addHandler(treeHandler);
 		reporter.addHandler(streamHandler);
-		
+
 		reportSomething();
-		
+
 		JTree tree = new JTree(treeHandler);
-		
+
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(800, 600));
 		add(tree, BorderLayout.CENTER);
 	}
-	
-	
+
+
 	public static void main(String[] args) {
-		
+
 		JFrame frame = new JFrame("Tree Handler Demo");
 		ReportTest test = new ReportTest(frame);
-		
+
 		Container contentPane = frame.getContentPane();
 		contentPane.setLayout(new GridLayout(1, 0));
 		contentPane.add(test);
-		
+
 		frame.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent e) {
 						System.exit(0);
 					}
 				});
-		
+
 		frame.pack();
 		frame.setVisible(true);
-		
-		
+
+
 	}
-	
+
 	public void reportSomething() {
 		reporter.report(0, "Hallo");
 		reporter.report(1, "Hallo1");

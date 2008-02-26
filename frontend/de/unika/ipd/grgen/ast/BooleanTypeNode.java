@@ -20,18 +20,18 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.BooleanType;
+import de.unika.ipd.grgen.ir.IR;
 
 /**
  * The boolean basic type.
  */
-public class BooleanTypeNode extends BasicTypeNode 
+public class BooleanTypeNode extends BasicTypeNode
 {
 	static {
 		setName(BooleanTypeNode.class, "boolean type");
 	}
-	
+
 	protected IR constructIR() {
 		return new BooleanType(getIdentNode().getIdent());
 	}

@@ -27,6 +27,11 @@ package de.unika.ipd.grgen.parser;
 import antlr.SemanticException;
 
 public class CoordsException extends SemanticException {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -591773510258505385L;
+
 	public CoordsException(String msg, Coords c) {
 		super(msg, c.filename, c.line, c.col);
 	}

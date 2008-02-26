@@ -33,7 +33,7 @@ public class Bad extends IR {
   public Bad() {
     super("bad");
   }
-  
+
   public boolean isBad() {
   	return true;
   }

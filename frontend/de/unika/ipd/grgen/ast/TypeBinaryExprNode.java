@@ -20,12 +20,13 @@
 
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.TypeExpr;
 import de.unika.ipd.grgen.ir.TypeExprSetOperator;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node representing binary type expressions.

@@ -30,20 +30,20 @@ public class DummyNodeDeclNode extends NodeDeclNode
 	static {
 		setName(DummyNodeDeclNode.class, "dummy node");
 	}
-		
+
 	public DummyNodeDeclNode(IdentNode id, BaseNode type, int context) {
 		super(id, type, context, TypeExprNode.getEmpty());
 	}
-			
+
 	public Node getNode() {
 		return null;
 	}
-	
+
 	public boolean isDummy() {
 		return true;
 	}
 
 	public String toString() {
 		return "a dummy node";
-	}		
+	}
 };

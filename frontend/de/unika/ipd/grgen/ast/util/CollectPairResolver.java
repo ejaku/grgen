@@ -25,17 +25,17 @@ import de.unika.ipd.grgen.ast.CollectNode;
 
 /**
  * A resolver, that resolves a source AST CollectNode into a target AST CollectNode of type T,
- * by using a given resolver. 
+ * by using a given resolver.
  */
 public class CollectPairResolver<T extends BaseNode>
 {
 	private Resolver<? extends Pair<? extends T, ? extends T>> resolver;
-	
+
 	public CollectPairResolver(Resolver<? extends Pair<? extends T, ? extends T>> resolver) {
 		this.resolver = resolver;
 	}
-	
-	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise 
+
+	/** resolves n to node of type R, via declaration if n is an identifier, via simple cast otherwise
 	 *  returns null if n's declaration or n can't be cast to R */
 	public CollectNode<T> resolve(CollectNode<?> collect) {
 		CollectNode<T> res = new CollectNode<T>();

@@ -34,7 +34,7 @@ public interface IDTypeModel extends TypeID {
 	String getTypeName(boolean forNode, int obj);
 
 	int[] getSuperTypes(boolean forNode, int obj);
-	
+
 	int[] getSubTypes(boolean forNode, int obj);
 
 	int getRootType(boolean forNode);

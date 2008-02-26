@@ -24,12 +24,22 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ir.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.CollectChecker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Entity;
+import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Test;
 import de.unika.ipd.grgen.util.report.ErrorReporter;
 
 
@@ -48,7 +58,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 	private static final TypeNode testType = new TestTypeNode();
 
-	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern, 
+	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
 			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
 		super(id, type);
 		this.param = params;
@@ -57,13 +67,13 @@ public class TestDeclNode extends ActionDeclNode {
 		becomeParent(this.returnFormalParameters);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
-		
+
 		if (this.pattern != null) {
 			this.pattern.addParams(this.param);
 		}
 	}
 
-	public TestDeclNode(IdentNode id, PatternGraphNode pattern,	
+	public TestDeclNode(IdentNode id, PatternGraphNode pattern,
 			CollectNode<BaseNode> params, CollectNode<IdentNode> rets) {
 		this(id, testType, pattern, params, rets);
 	}
@@ -91,7 +101,7 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -157,7 +167,7 @@ public class TestDeclNode extends ActionDeclNode {
 
 		return returnTypes;
 	}
-	
+
 	private static final Checker retDeclarationChecker = new CollectChecker(
 			new Checker() {
 				public boolean check(BaseNode node, ErrorReporter reporter) {
@@ -190,7 +200,7 @@ public class TestDeclNode extends ActionDeclNode {
 	 *
 	 */
 	protected boolean checkLocal() {
-		
+
 
 		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
 
@@ -259,7 +269,7 @@ public class TestDeclNode extends ActionDeclNode {
 									iConn.reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
 								}
-								
+
 								if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
 									alreadyReported.add(iConn.getEdge());
 									iConn.reportError("Reused edge does not have the same connection kind");
@@ -317,7 +327,7 @@ public class TestDeclNode extends ActionDeclNode {
 	@Override
 		public TypeNode getDeclType() {
 		assert isResolved();
-		
+
 		return type;
 	}
 }

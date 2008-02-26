@@ -35,11 +35,11 @@ public class Typeof extends Expression {
 		super("typeof", entity.getType());
 		this.entity = entity;
 	}
-	
+
 	public Entity getEntity() {
 		return entity;
 	}
-	
+
 	public String getNodeLabel() {
 		return "typeof<" + entity + ">";
 	}

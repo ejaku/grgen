@@ -31,19 +31,19 @@ import java.util.regex.Pattern;
  * A debug message reporter.
  */
 public class DebugReporter extends Reporter {
-	
+
 	private Pattern pattern = Pattern.compile(".*");
 	private Matcher matcher = pattern.matcher("");
 	private boolean inclusive = true;
 	private boolean includeClassName = false;
-	
+
 	private String prefix = "";
 	private boolean enableStackTrace = true;
-	
+
 	public DebugReporter(int mask) {
 		setMask(mask);
 	}
-	
+
 	/**
 	 * Set the class filter.
 	 * The class filter is a regular expression. Each class calling
@@ -55,7 +55,7 @@ public class DebugReporter extends Reporter {
 		pattern = Pattern.compile(regex);
 		matcher = pattern.matcher("");
 	}
-	
+
 	/**
 	 * Determines the meaning of the filter.
 	 * If <code>value</code> is true, than all debug zones matching
@@ -67,11 +67,11 @@ public class DebugReporter extends Reporter {
 	public void setFilterInclusive(boolean value) {
 		inclusive = value;
 	}
-	
+
 	public void setStackTrace(boolean enabled) {
 		enableStackTrace = enabled;
 	}
-	
+
 	protected void makePrefix() {
 		if(enableStackTrace) {
 			StackTraceElement[] st = (new Exception()).getStackTrace();
@@ -80,11 +80,11 @@ public class DebugReporter extends Reporter {
 			for(int i = 0; i < st.length; i++)
 				sb.append(' ');
 			String className = ste.getClassName();
-			
+
 			int lastDot = className.lastIndexOf('.');
 			if(lastDot != -1)
 				className = className.substring(lastDot + 1);
-			
+
 			if(includeClassName) {
 				sb.append(className);
 				sb.append('.');
@@ -94,7 +94,7 @@ public class DebugReporter extends Reporter {
 		} else
 			prefix = "";
 	}
-	
+
 	/**
 	 * Checks, whether a message supplied with this level will be reported
 	 * @param channel The channel to check
@@ -102,24 +102,24 @@ public class DebugReporter extends Reporter {
 	 */
 	public boolean willReport(int channel) {
 		int res = inclusive ? 1 : 0;
-		
+
 		if(prefix.length() != 0) {
 			boolean matches = matcher.reset(prefix).matches();
 			res += matches ? 1 : 0;
 		}
-		
+
 		return (res == 0 || res == 2) && super.willReport(channel);
 	}
-	
+
 	public void report(int level, Location loc, String msg) {
 		makePrefix();
 		super.report(level, loc, prefix + ": " + msg);
 	}
-	
+
 	public void report(int channel, String msg) {
 		makePrefix();
 		super.report(channel, EmptyLocation.getEmptyLocation(),
 								 prefix + ": " + msg);
-		
+
 	}
 }

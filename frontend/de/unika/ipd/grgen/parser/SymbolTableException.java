@@ -30,14 +30,19 @@ package de.unika.ipd.grgen.parser;
  * A symbol table exception.
  */
 public class SymbolTableException extends Exception {
-	
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7291849597287733435L;
+
 	public SymbolTableException(String text) {
 		super(text);
 	}
-	
+
 	public SymbolTableException(Coords coords, String text) {
 		this(coords + ": " + text);
 	}
-	
+
 }
 

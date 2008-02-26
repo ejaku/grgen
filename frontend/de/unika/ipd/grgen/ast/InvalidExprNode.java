@@ -20,9 +20,10 @@
 
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Vector;
+
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * representing invalid expressions.

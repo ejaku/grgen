@@ -25,13 +25,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.awt.Color;
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.Pair;
 import de.unika.ipd.grgen.ast.util.TypeChecker;
 import de.unika.ipd.grgen.parser.Coords;
-import java.awt.Color;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node that represents a set of potentially homomorph nodes
@@ -70,11 +71,11 @@ public class HomNode extends BaseNode {
 	}
 
 	private static final DeclarationPairResolver<NodeDeclNode, EdgeDeclNode> declResolver = new DeclarationPairResolver<NodeDeclNode,EdgeDeclNode>(NodeDeclNode.class, EdgeDeclNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		
+
 		for(int i=0; i<childrenUnresolved.size(); ++i) {
 			Pair<NodeDeclNode, EdgeDeclNode> resolved = declResolver.resolve(childrenUnresolved.get(i), this);
 			successfullyResolved = (resolved != null) && successfullyResolved;
@@ -117,7 +118,7 @@ public class HomNode extends BaseNode {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
 		warnEdgeTypes();
-		
+
 		return successfullyChecked;
 	}
 
@@ -126,7 +127,7 @@ public class HomNode extends BaseNode {
     {
 	    boolean isDirectedEdge = false;
 	    boolean isUndirectedEdge = false;
-		
+
 		for (int i=0; i < childrenEdge.size(); i++ ) {
 			TypeNode type = childrenEdge.get(i).getDeclType();
 			if (type instanceof DirectedEdgeTypeNode) {
@@ -136,11 +137,11 @@ public class HomNode extends BaseNode {
 				isUndirectedEdge = true;
 			}
         }
-		
+
 		if (isDirectedEdge && isUndirectedEdge) {
 			reportWarning("Hom statement may only contain directed or undirected edges at a time");
 		}
-		
+
 	    return;
     }
 

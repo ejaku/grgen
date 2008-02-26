@@ -24,6 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.Checker;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
@@ -32,8 +35,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * A compound type member declaration.

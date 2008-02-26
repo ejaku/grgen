@@ -24,6 +24,9 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.IR;
@@ -31,8 +34,6 @@ import de.unika.ipd.grgen.util.BooleanResultVisitor;
 import de.unika.ipd.grgen.util.PostWalker;
 import de.unika.ipd.grgen.util.Walkable;
 import de.unika.ipd.grgen.util.Walker;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * A class for enum items.

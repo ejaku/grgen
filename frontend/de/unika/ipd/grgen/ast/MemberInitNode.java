@@ -25,14 +25,15 @@
 package de.unika.ipd.grgen.ast;
 
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.MemberResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberInit;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node representing a member initialization.
@@ -77,7 +78,7 @@ public class MemberInitNode extends BaseNode {
 	}
 
 	private static final MemberResolver<DeclNode> lhsResolver = new MemberResolver<DeclNode>(DeclNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		//Resolver rhsResolver = new OneOfResolver(new Resolver[] {new DeclResolver(DeclNode.class), new MemberInitResolver(DeclNode.class)});

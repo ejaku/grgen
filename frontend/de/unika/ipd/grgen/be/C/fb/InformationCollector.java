@@ -63,8 +63,8 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.util.Annotations;
 
 public class InformationCollector extends CBackend {
-	
-	
+
+
 	/* some information extracted from the grg-fiel, collected
 	 during the generation process */
 	/* overall number of types, attrs, ... */
@@ -73,41 +73,41 @@ public class InformationCollector extends CBackend {
 	protected int n_enum_types;
 	protected int n_node_attrs;
 	protected int n_edge_attrs;
-	
+
 	/* inheritance information of node and edge types */
 	protected short[][] node_is_a_matrix;
 	protected short[][] edge_is_a_matrix;
-	
+
 	/* the number of attributes a node/edge type has */
 	protected int[] n_attr_of_node_type;
 	protected int[] n_attr_of_edge_type;
-	
+
 	/* information describing node and edge attributes */
 	protected AttrTypeDescriptor[] node_attr_info;
 	protected AttrTypeDescriptor[] edge_attr_info;
-	
+
 	/* during gen process an attr layout of each node/edge type will
 	 be computed, the result is stored in these two arrays:
 	 node_attr_index[nt_id][attr_id] = n  means that for the given
 	 node type and given attr the attr value is stored at pos n*/
 	protected int[][] node_attr_index;
 	protected int[][] edge_attr_index;
-	
+
 	/* array of objects describing the rnum types declared in the grg file */
 	protected EnumDescriptor[] enum_type_descriptors;
-	
+
 	/* the overall number of graph actions */
 	protected int n_graph_actions;
-	
+
 	/* overall number off conditions of all pattern graphs */
 	protected int n_conditions;
-	
+
 	/* overall max number of some things */
 	protected int max_n_pattern_nodes;
 	protected int max_n_pattern_edges;
 	protected int max_n_replacement_nodes;
 	protected int max_n_replacement_edges;
-	
+
 	/* a map  action_id --> node --> pattern_node_num, e.g
 	 pattern_node_num[act_id].get(someNode)
 	 yields an Integer object wrapping node number for an fb_acts_graph_t */
@@ -118,7 +118,7 @@ public class InformationCollector extends CBackend {
 	 otherwise the array yields a null pointer instead of a map */
 	protected Map<Node,Integer>[] replacement_node_num;
 	protected Map<Edge,Integer>[] replacement_edge_num;
-	
+
 	/* realizes a map
 	 cond_num -> pattern_node_num -> Collection_of_attr_ids,
 	 i.e. yields a Collection of attr-ids occuring in Qualification expressions
@@ -127,7 +127,7 @@ public class InformationCollector extends CBackend {
 	protected Map<Expression, Map<Node,Collection<Integer>>> involvedPatternNodeAttrIds;
 	/* just the same, but edge attrs */
 	protected Map<Expression, Map<Edge,Collection<Integer>>> involvedPatternEdgeAttrIds;
-	
+
 	/* the conditions of the pattern graphs are decomposed into subexpression
 	 down to sub expressions, which are not AND-Operations. These "conjunctive"
 	 parts are the units the fb backend is working with */
@@ -142,7 +142,7 @@ public class InformationCollector extends CBackend {
 	protected Map<Expression, Collection<Node>> conditionsInvolvedNodes = new HashMap<Expression, Collection<Node>>();
 	/* maps asubconditoin to a Collection of edges involved in */
 	protected Map<Expression, Collection<Edge>> conditionsInvolvedEdges = new HashMap<Expression, Collection<Edge>>();
-	
+
 	protected Collection<Collection<InheritanceType>>[] typeConditions;
 	/* maps a subcondition to the condition number created for it */
 	protected Map<Collection<InheritanceType>, Integer> typeConditionNumbers = new HashMap<Collection<InheritanceType>, Integer>();
@@ -150,40 +150,40 @@ public class InformationCollector extends CBackend {
 	protected Map<Collection<InheritanceType>, Collection<Node>> typeConditionsInvolvedNodes = new HashMap<Collection<InheritanceType>, Collection<Node>>();
 	/* maps a subcondition to a Collection of edges involved in */
 	protected Map<Collection<InheritanceType>, Collection<Edge>> typeConditionsInvolvedEdges = new HashMap<Collection<InheritanceType>, Collection<Edge>>();
-	
-	
-	
+
+
+
 	/* maps an action id to a Node Object which is that actions start node  */
 	protected Node[] start_node;
-	
+
 	//tells wether two pattern nodes of a given action are pot hom or not
 	//e.g. : potHomMatrices[act_id][node_1][node_2]
 	protected int[][][] potHomNodeMatrices;
-	
+
 	//Tells wether a pattern node is to be kept. If so, the value indexed by
 	//the pattern node number is the node number of the corresponding replacement
 	//node, and a negative value otherwise
 	//usage: patternNodeIsToBeKept[act_id][node_num]
 	protected int[][] patternNodeIsToBeKept;
-	
+
 	//Tells wether a replacement nodes is a is a node preserved by the
 	//replacement.  If so, the value indexed by the replacement node number
 	//is the node number of the corresponding pattern node, and a negative
 	//value otherwise
 	//usage: replacementNodeIsPresevedNode[act_id][node_num]
 	protected int[][] replacementNodeIsPreservedNode;
-	
+
 	//Tells wether a replacement nodes is a is a node preserved by the
 	//replacement.  If so, the value indexed by the replacement node number
 	//is the node number of the corresponding pattern node, and a negative
 	//value otherwise
 	//usage: replacementNodeIsPresevedNode[act_id][node_num]
 	protected int[][] replacementNodeChangesTypeTo;
-	
+
 	//yields the replacement edge numbers to be newly inserted by
 	//the replacement step according to the given action
 	protected Collection<Edge>[] newEdgesOfAction;
-	
+
 	/* compares conditions by their condition numbers */
 	protected Comparator<Expression> conditionsComparator = new Comparator<Expression>() {
 		public int compare(Expression expr1, Expression expr2) {
@@ -194,7 +194,7 @@ public class InformationCollector extends CBackend {
 			return cmp;
 		}
 	};
-	
+
 	protected Comparator<Collection<InheritanceType>> typeConditionsComparator = new Comparator<Collection<InheritanceType>>() {
 		public int compare(Collection<InheritanceType> type_col1, Collection<InheritanceType> type_col2) {
 			//if o1 and o2 are Collections, the the conditions represented
@@ -210,15 +210,15 @@ public class InformationCollector extends CBackend {
 			return cmp;
 		}
 	};
-	
+
 	/* compares integer objects */
 	protected Comparator<Integer> integerComparator = new Comparator<Integer>() {
 		public int compare(Integer i1, Integer i2) {
 			return i1.compareTo(i2);
 		}
 	};
-	
-	
+
+
 	/**
 	 * Method genMatch
 	 *
@@ -230,7 +230,7 @@ public class InformationCollector extends CBackend {
 	protected void genMatch(PrintStream sb, MatchingAction a, int id) {
 		//TODO
 	}
-	
+
 	/**
 	 * Method genFinish
 	 *
@@ -242,7 +242,7 @@ public class InformationCollector extends CBackend {
 	protected void genFinish(PrintStream sb, MatchingAction a, int id) {
 		// TODO
 	}
-	
+
 	/**
 	 * Generate some extra stuff.
 	 * This function is called after everything else is generated.
@@ -250,22 +250,22 @@ public class InformationCollector extends CBackend {
 	protected void genExtra() {
 		// TODO
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/*
 	 * collect some information needed for code gen process of the data
 	 * structures representing the graph actions
 	 *
 	 */
 	protected void collectActionInfo() {
-		
+
 		/* get the overall number of graph actions */
 		n_graph_actions = actionMap.keySet().size();
-		
-		
+
+
 		/* get the overall maximum numbers of nodes and edges of all pattern
 		 and replacement graphs respectively */
 		max_n_pattern_nodes = 0;
@@ -275,16 +275,16 @@ public class InformationCollector extends CBackend {
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
-			
+
 			//check whether its graphs node and edge set sizes are greater
 			if (act instanceof MatchingAction) {
 				int size;
-				
+
 				size = ((MatchingAction)act).getPattern().getNodes().size();
 				if (size > max_n_pattern_nodes)	max_n_pattern_nodes = size;
 				size = ((MatchingAction)act).getPattern().getEdges().size();
 				if (size > max_n_pattern_edges) max_n_pattern_edges = size;
-				
+
 				if (act instanceof Rule) {
 					size = ((Rule)act).getRight().getNodes().size();
 					if (size > max_n_replacement_nodes)
@@ -295,8 +295,8 @@ public class InformationCollector extends CBackend {
 				}
 			}
 		}
-		
-		
+
+
 		/* compute the numbers of nodes/edges of all pattern/replacement-graphs */
 		pattern_node_num = new Map[n_graph_actions];
 		pattern_edge_num = new Map[n_graph_actions];
@@ -308,12 +308,12 @@ public class InformationCollector extends CBackend {
 			int act_id = actionMap.get(act).intValue();
 			assert act_id < n_graph_actions:
 				"action id found which was graeter than the number of graph actions";
-			
+
 			//if action has a pattern graph, compute node/edge numbers
 			if (act instanceof MatchingAction) {
 				pattern_node_num[act_id] = new HashMap<Node,Integer>();
 				pattern_edge_num[act_id] = new HashMap<Edge,Integer>();
-				
+
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
 				Iterator<Node> node_it =
@@ -324,7 +324,7 @@ public class InformationCollector extends CBackend {
 				}
 				assert node_num == ((MatchingAction)act).getPattern().getNodes().size():
 					"Wrong number of node_nums was created";
-				
+
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
 				Iterator<Edge> edge_it =
@@ -340,12 +340,12 @@ public class InformationCollector extends CBackend {
 				pattern_node_num[act_id] = null;
 				pattern_edge_num[act_id] = null;
 			}
-			
+
 			//if action has a replacement graph, compute node/edge numbers
 			if (act instanceof Rule) {
 				replacement_node_num[act_id] = new HashMap<Node,Integer>();
 				replacement_edge_num[act_id] = new HashMap<Edge,Integer>();
-				
+
 				//fill the map with pairs (node, node_num)
 				int node_num = 0;
 				Iterator<Node> node_it =
@@ -356,7 +356,7 @@ public class InformationCollector extends CBackend {
 				}
 				assert node_num == ((Rule)act).getRight().getNodes().size():
 					"Wrong number of node_nums was created";
-				
+
 				//fill the map with pairs (edge, edge_num)
 				int edge_num = 0;
 				Iterator<Edge> edge_it =
@@ -373,46 +373,46 @@ public class InformationCollector extends CBackend {
 				replacement_edge_num[act_id] = null;
 			}
 		}
-		
+
 		/* for all actions decompose the conditions into conjunctive parts,
 		 give all these subexpessions a number, and setup some maps keeping
 		 information about them */
 		//init a subexpression counter
 		int subConditionCounter = 0;
-		
+
 		//setup the array for conditions
 		conditions = new HashMap<Integer, Collection<Expression>>();
-		
+
 		//iterate over all actions
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
-			
+
 			conditions.put(act_id, new TreeSet<Expression>(conditionsComparator));
-			
+
 			//iterate over all conditions of the current action
 			if (act instanceof MatchingAction)
 				for(Expression condition : ((MatchingAction)act).getPattern().getConditions()) {
-					
+
 					// divide the expression to all AND-connected parts, which do
 					//not have an AND-Operator as root themselves
 					Collection<Expression> subConditions = decomposeAndParts(condition);
-					
+
 					//for all the subconditions just computed...
 					for ( Iterator<Expression> sub_cond_it = subConditions.iterator(); sub_cond_it.hasNext(); ) {
 						Expression sub_condition = sub_cond_it.next();
-						
+
 						//...create condition numbers
 						conditionNumbers.put(sub_condition, new Integer(subConditionCounter++));
-						
+
 						//...extract the pattern nodes and edges involved in the condition
 						Collection<Node> involvedNodes = collectInvolvedNodes(sub_condition);
 						Collection<Edge> involvedEdges = collectInvolvedEdges(sub_condition);
 						//and at these Collections to prepared Maps
 						conditionsInvolvedNodes.put(sub_condition, involvedNodes);
 						conditionsInvolvedEdges.put(sub_condition, involvedEdges);
-						
+
 						//store the subcondition in an ordered Collection
 						conditions.get(act_id).add(sub_condition);
 					}
@@ -420,38 +420,38 @@ public class InformationCollector extends CBackend {
 		}
 		//store the overall number of (sub)conditions
 		n_conditions = subConditionCounter;
-		
-		
+
+
 		/* collect the type constaraints of the node of all actions pattern graphs */
 		int typeConditionCounter = n_conditions;
 		typeConditions = new Collection[n_graph_actions];
-		
+
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
-			
+
 			typeConditions[act_id] = new TreeSet<Collection<InheritanceType>>(typeConditionsComparator);
-			
+
 			if (act instanceof MatchingAction) {
-				
+
 				/* for all nodes of the current MatchingActions pattern graph
 				 extract that nodes type constraints */
 				PatternGraph pattern = ((MatchingAction)act).getPattern();
 				Iterator<Node> pattern_node_it = pattern.getNodes().iterator();
 				for ( ; pattern_node_it.hasNext() ; ) {
 					Node node = pattern_node_it.next();
-					
+
 					//if node has type constraints, register the as conditions
 					if (! node.getConstraints().isEmpty()) {
-						
+
 						//note that a type condition is the set of all types,
 						//the corresponding node/edge is not allowed to be of
 						Collection<InheritanceType> type_condition = node.getConstraints();
-						
+
 						//...create condition numbers
 						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
-						
+
 						//...extract the pattern nodes and edges involved in the condition
 						Collection<Node> involvedNodes = new HashSet<Node>();
 						involvedNodes.add(node);
@@ -459,7 +459,7 @@ public class InformationCollector extends CBackend {
 						typeConditionsInvolvedNodes.put(type_condition, involvedNodes);
 						Collection<Edge> empty = Collections.emptySet();
 						typeConditionsInvolvedEdges.put(type_condition, empty);
-						
+
 						//store the subcondition in an ordered Collection
 						typeConditions[act_id].add(type_condition);
 					}
@@ -468,17 +468,17 @@ public class InformationCollector extends CBackend {
 				Iterator<Edge> pattern_edge_it = pattern.getEdges().iterator();
 				for ( ; pattern_edge_it.hasNext() ; ) {
 					Edge edge = pattern_edge_it.next();
-					
+
 					//if node has type constraints, register the as conditions
 					if (! edge.getConstraints().isEmpty()) {
-						
+
 						//note that a type condition is the set of all types,
 						//the corresponding edge is not allowed to be of
 						Collection<InheritanceType> type_condition = edge.getConstraints();
-						
+
 						//...create condition numbers
 						typeConditionNumbers.put(type_condition, new Integer(typeConditionCounter++));
-						
+
 						//...extract the pattern edges and edges involved in the condition
 						Collection<Edge> involvedEdges = new HashSet<Edge>();
 						involvedEdges.add(edge);
@@ -486,7 +486,7 @@ public class InformationCollector extends CBackend {
 						Collection<Node> empty = Collections.emptySet();
 						typeConditionsInvolvedNodes.put(type_condition, empty);
 						typeConditionsInvolvedEdges.put(type_condition, involvedEdges);
-						
+
 						//store the subcondition in an ordered Collection
 						typeConditions[act_id].add(type_condition);
 					}
@@ -496,8 +496,8 @@ public class InformationCollector extends CBackend {
 		//update the overall number of conditions, such that type
 		//conditions are also included
 		n_conditions = typeConditionCounter;
-		
-		
+
+
 		/* for all conditions (not type conditions!) the pairs
 		 (pattern_node_num, attr_id), which occur
 		 in qualifications at the leaves of the condition, are needed.
@@ -509,17 +509,17 @@ public class InformationCollector extends CBackend {
 		 */
 		involvedPatternNodeAttrIds = new HashMap<Expression, Map<Node,Collection<Integer>>>();
 		involvedPatternEdgeAttrIds = new HashMap<Expression, Map<Edge,Collection<Integer>>>();
-		
+
 		for(Iterator<Action> it = actionMap.keySet().iterator(); it.hasNext(); ) {
 			//get the current action
 			Action act = it.next();
 			int act_id = actionMap.get(act).intValue();
-			
+
 			//collect the attr ids in dependency of condition and the pattern node
 			for (Iterator<Expression> cond_it = conditions.get(act_id).iterator(); cond_it.hasNext(); ) {
 				Expression cond = cond_it.next();
 				int cond_num = conditionNumbers.get(cond).intValue();
-				
+
 				//descent to the conditions leaves and look for qualifications
 				Map<Node, Collection<Integer>> node_map = new HashMap<Node, Collection<Integer>>();
 				Map<Edge, Collection<Integer>> edge_map = new HashMap<Edge, Collection<Integer>>();
@@ -528,16 +528,16 @@ public class InformationCollector extends CBackend {
 				involvedPatternEdgeAttrIds.put(cond,edge_map);
 			}
 		}
-		
+
 		/* for each action compute the start node used in the matching process */
 		//init the array of start nodes
 		start_node = new Node[n_graph_actions];
 		// for all actions gen matcher programs
 		for (Iterator<Action> act_it = actionMap.keySet().iterator(); act_it.hasNext(); ) {
-			
+
 			MatchingAction action = (MatchingAction) act_it.next();
 			Graph pattern = action.getPattern();
-			
+
 			//pick out the node with the highest priority as start node
 			int max_prio = 0;
 			//get any node as initial node
@@ -547,14 +547,14 @@ public class InformationCollector extends CBackend {
 			}
 			for (Iterator<Node> node_it = pattern.getNodes().iterator(); node_it.hasNext(); ) {
 				Node node = (Node) node_it.next();
-				
+
 				//get the nodes priority
 				int prio = 0;
 				Annotations a = node.getAnnotations();
 				if (a != null)
 					if (a.containsKey("prio") && a.isInteger("prio"))
 						prio = ((Integer) a.get("prio")).intValue();
-				
+
 				//if the current priority is greater, update the maximum priority node
 				if (prio > max_prio) {
 					max_prio = prio;
@@ -571,9 +571,9 @@ public class InformationCollector extends CBackend {
 		collectReplacementNodeIsPreservedNodeInfo();
 		collectReplacementNodeChangesTypeToInfo();
 		collectNewInsertEdgesInfo();
-		
+
 	}
-	
+
 	/**
 	 * Method collectNewInsertEdgesInfo
 	 *
@@ -581,17 +581,17 @@ public class InformationCollector extends CBackend {
 	private void collectNewInsertEdgesInfo() {
 		//Collection[] new_edges_of_action;
 		newEdgesOfAction = new Collection[n_graph_actions];
-		
+
 		//init the array with empty HashSets
 		for (int i = 0; i < n_graph_actions; i++)
 			newEdgesOfAction[i] = new HashSet<Edge>();
-		
+
 		//for all actions collect the edges to be newly inserted
 		Iterator<Action> act_it = actionMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			int act_id = actionMap.get(action).intValue();
-			
+
 			if (action instanceof Rule) {
 				Graph replacement = ((Rule) action).getRight();
 				//compute the set of newly inserted edges
@@ -599,9 +599,9 @@ public class InformationCollector extends CBackend {
 				newEdgesOfAction[act_id].removeAll(action.getPattern().getEdges());
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method collectReplacementNodeChangesTypeToInfo
 	 *
@@ -609,29 +609,29 @@ public class InformationCollector extends CBackend {
 	private void collectReplacementNodeChangesTypeToInfo() {
 		replacementNodeChangesTypeTo =
 			new int[n_graph_actions][max_n_replacement_nodes];
-		
+
 		//init the array with -1
 		for (int i = 0; i < n_graph_actions; i++)
 			for (int j = 0; j < max_n_replacement_nodes; j++)
 				replacementNodeChangesTypeTo[i][j] = -1;
-		
+
 		//for all nodes preserved set the corresponding array entry to the
 		//appropriate node type id
 		Iterator<Action> act_it = actionMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			int act_id = actionMap.get(action).intValue();
-			
+
 			if (action instanceof Rule) {
 				for ( Node node : ((Rule) action).getRight().getNodes() ) {
 					if(!node.changesType()) continue;
-					
+
 					int node_num =
 						((Integer) replacement_node_num[act_id].get(node)).intValue();
-					
+
 					NodeType old_type = node.getNodeType();
 					NodeType new_type = node.getRetypedNode().getNodeType();
-					
+
 					if ( ! nodeTypeMap.get(old_type).equals(nodeTypeMap.get(new_type)) )
 						replacementNodeChangesTypeTo[act_id][node_num] =
 							nodeTypeMap.get(new_type).intValue();
@@ -639,7 +639,7 @@ public class InformationCollector extends CBackend {
 			}
 		}
 	}
-	
+
 	/**
 	 * Method collectReplacementNodeIsPreservedNodeInfo
 	 *
@@ -647,19 +647,19 @@ public class InformationCollector extends CBackend {
 	private void collectReplacementNodeIsPreservedNodeInfo() {
 		replacementNodeIsPreservedNode =
 			new int[n_graph_actions][max_n_replacement_nodes];
-		
+
 		//init the array with -1
 		for (int i = 0; i < n_graph_actions; i++)
 			for (int j = 0; j < max_n_replacement_nodes; j++)
 				replacementNodeIsPreservedNode[i][j] = -1;
-		
+
 		//for all nodes preserved set the corresponding array entry to the
 		//appropriate pattern node number
 		Iterator<Action> act_it = actionMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			int act_id = actionMap.get(action).intValue();
-			
+
 			if (action instanceof Rule) {
 				//compute the set of replacement nodes preserved by this action
 				Collection<IR> replacement_nodes_preserved = new HashSet<IR>();
@@ -679,28 +679,28 @@ public class InformationCollector extends CBackend {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method coolectPatternNodesToBeKeptInfo
 	 *
 	 */
 	private void collectPatternNodesToBeKeptInfo() {
 		patternNodeIsToBeKept = new int[n_graph_actions][max_n_pattern_nodes];
-		
+
 		//init the arrays with -1
 		for (int i = 0; i < n_graph_actions; i++)
 			for (int j = 0; j < max_n_pattern_nodes; j++)
 				patternNodeIsToBeKept[i][j] = -1;
-		
+
 		//for all nodes to be kept set the corresponding array entry to the
 		//appropriate replacement node number
 		Iterator<Action> act_it = actionMap.keySet().iterator();
 		for ( ; act_it.hasNext() ; ) {
 			MatchingAction action = (MatchingAction) act_it.next();
 			int act_id = actionMap.get(action).intValue();
-			
+
 			//compute the set of pattern nodes to be kept for this action
 			Collection<IR> pattern_nodes_to_keep = new HashSet<IR>();
 			pattern_nodes_to_keep.addAll(action.getPattern().getNodes());
@@ -720,7 +720,7 @@ public class InformationCollector extends CBackend {
 			}
 		}
 	}
-	
+
 	/**
 	 * Decompose the given expression into all subexpressions, which are not
 	 * AND-operators, and store the roots of these subexpression into a
@@ -735,13 +735,13 @@ public class InformationCollector extends CBackend {
 		Collection<Expression> ret = new HashSet<Expression>();
 		//step recursive into the expression tree
 		__recursive_decompose_and(ret, expr);
-		
+
 		return ret;
 	}
 	// decomposeAndParts() is only a wrapper method for this recursive method
 	private void __recursive_decompose_and(
 		Collection<Expression> col, Expression expr) {
-		
+
 		if (expr instanceof Operator &&
 				((Operator)expr).getOpCode() == Operator.LOG_AND ) {
 			//step into subexpressions
@@ -754,8 +754,8 @@ public class InformationCollector extends CBackend {
 			//...so add the expr to the Collection
 			col.add(expr);
 	}
-	
-	
+
+
 	/**
 	 * Collects all pairs (node_num. attr_id) occuring in the qualifications
 	 * at the leafes of the given expression and stores them in a map, which
@@ -768,24 +768,24 @@ public class InformationCollector extends CBackend {
 	 */
 	protected void __recursive_qual_collect(int act_id, Map<Node, Collection<Integer>> node_map, Map<Edge, Collection<Integer>> edge_map, Expression expr) {
 		if (expr == null) return;
-		
+
 		//recursive descent
 		if (expr instanceof Operator)
 			for (int i = 0; i < ((Operator)expr).arity(); i++)
 				__recursive_qual_collect(act_id, node_map, edge_map, ((Operator)expr).getOperand(i));
-		
+
 		//get (node_num, attr_id) pairs from qualifications
 		if (expr instanceof Qualification) {
 			Qualification qual = (Qualification) expr;
 			Entity owner = qual.getOwner();
 			Entity member = qual.getMember();
-			
+
 			//if owner is a node, add to the node_map
 			if (owner instanceof Node) {
 				Node node = (Node)owner;
 				//Integer node_num = (Integer) pattern_node_num[ act_id ].get( owner );
 				Integer attr_id = nodeAttrMap.get( member );
-				
+
 				//add the pair (node_num, attr_id to the map)
 				if (node_map.containsKey( node ))
 					node_map.get( node ).add( attr_id );
@@ -795,13 +795,13 @@ public class InformationCollector extends CBackend {
 					node_map.put( node, newCol );
 				}
 			}
-			
+
 			//if owner is an edge. add to the edge_map
 			if (owner instanceof Edge) {
 				Edge egde = (Edge)owner;
 				//Integer edge_num = (Integer) pattern_edge_num[act_id].get(owner);
 				Integer attr_id = edgeAttrMap.get(member);
-				
+
 				//add the pair (edge_num, attr_id to the map)
 				if (edge_map.containsKey( egde ))
 					edge_map.get( egde ).add(attr_id);
@@ -813,8 +813,8 @@ public class InformationCollector extends CBackend {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Collects all nodes attributes of which occur in the given expression
 	 *
@@ -824,27 +824,27 @@ public class InformationCollector extends CBackend {
 	 *
 	 */
 	protected Collection<Node> collectInvolvedNodes(Expression expr) {
-		
+
 		Collection<Node> ret = new HashSet<Node>(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
 		__recursive_node_collect(ret, expr);
-		
+
 		return ret;
 	}
 	private void __recursive_node_collect(Collection<Node> col, Expression expr) {
 		if (expr == null) return;
-		
+
 		if (expr instanceof Operator)
 			for (int i = 0; i < ((Operator)expr).arity(); i++)
 				__recursive_node_collect(col, ((Operator)expr).getOperand(i));
-		
+
 		if (expr instanceof Qualification) {
 			Entity ent = ((Qualification)expr).getOwner();
 			// if the qualification selects an attr from a node, add that node
 			if (ent instanceof Node) col.add((Node)ent);
 		}
 	}
-	
+
 	/**
 	 * Collects all edges attributes of which occur in the given expresion
 	 *
@@ -854,31 +854,31 @@ public class InformationCollector extends CBackend {
 	 *
 	 */
 	protected Collection<Edge> collectInvolvedEdges(Expression expr) {
-		
+
 		Collection<Edge> ret = new HashSet<Edge>(); /* the Collection to be returned */
 		//step down into the expression and collect all involved graph nodes
 		__recursive_edge_collect(ret, expr);
-		
+
 		return ret;
 	}
 	private void __recursive_edge_collect(Collection<Edge> col, Expression expr) {
-		
+
 		if (expr == null) return;
-		
+
 		if (expr instanceof Operator)
 			for (int i = 0; i < ((Operator)expr).arity(); i++)
 				__recursive_edge_collect(col, ((Operator)expr).getOperand(i));
-		
+
 		if (expr instanceof Qualification) {
 			Entity ent = ((Qualification)expr).getOwner();
 			// if the qualification selects an attr from an edge, add that edge
 			if (ent instanceof Edge) col.add((Edge)ent);
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	/*
 	 * collect some information needed for code gen process of the graph
 	 * type model data structures
@@ -888,20 +888,20 @@ public class InformationCollector extends CBackend {
 		/* overall number of node and edge types */
 		n_node_types = getIDs(true).length;
 		n_edge_types = getIDs(false).length;
-		
+
 		/* overall number of enum types */
 		n_enum_types = enumMap.size();
-		
+
 		/* overall number of node and edge attributes declared in the grg file */
 		n_node_attrs = nodeAttrMap.size();
 		n_edge_attrs = edgeAttrMap.size();
-		
+
 		/* get the inheritance information of the node and edge types */
 		node_is_a_matrix = getIsAMatrix(true);
 		edge_is_a_matrix = getIsAMatrix(false);
-		
-		
-		
+
+
+
 		/* count the number of attrs a node type has */
 		n_attr_of_node_type = new int[n_node_types];
 		//fill that array with 0
@@ -925,10 +925,10 @@ public class InformationCollector extends CBackend {
 				if (node_is_a_matrix[nt_id][node_type_id] > 0)
 					n_attr_of_node_type[nt_id]++;
 		}
-		
-		
-		
-		
+
+
+
+
 		/* count the number of attrs an edge type has */
 		n_attr_of_edge_type = new int[n_edge_types];
 		//fill that array with 0
@@ -952,9 +952,9 @@ public class InformationCollector extends CBackend {
 				if (edge_is_a_matrix[et_id][edge_type_id] > 0)
 					n_attr_of_edge_type[et_id]++;
 		}
-		
-		
-		
+
+
+
 		/* collect all needed information about node attributes */
 		node_attr_info = new AttrTypeDescriptor[n_node_attrs];
 		for (Iterator<Entity> it = nodeAttrMap.keySet().iterator(); it.hasNext(); ) {
@@ -965,7 +965,7 @@ public class InformationCollector extends CBackend {
 			NodeType node_type = (NodeType) attr.getOwner();
 			int node_type_id = nodeTypeMap.get(node_type).intValue();
 			int attr_id = nodeAttrMap.get(attr).intValue();
-			
+
 			node_attr_info[attr_id] = new AttrTypeDescriptor();
 			//set the attr id
 			node_attr_info[attr_id].attr_id = attr_id;
@@ -990,10 +990,10 @@ public class InformationCollector extends CBackend {
 				System.exit(0);
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		/* collect all needed information about edge attributes */
 		edge_attr_info = new AttrTypeDescriptor[n_edge_attrs];
 		for (Iterator<Entity> it = edgeAttrMap.keySet().iterator(); it.hasNext(); ) {
@@ -1004,7 +1004,7 @@ public class InformationCollector extends CBackend {
 			EdgeType edge_type = (EdgeType) attr.getOwner();
 			int edge_type_id = edgeTypeMap.get(edge_type).intValue();
 			int attr_id = edgeAttrMap.get(attr).intValue();
-			
+
 			edge_attr_info[attr_id] = new AttrTypeDescriptor();
 			//set the attr id
 			edge_attr_info[attr_id].attr_id = attr_id;
@@ -1029,8 +1029,8 @@ public class InformationCollector extends CBackend {
 				System.exit(0);
 			}
 		}
-		
-		
+
+
 		/* compute the attr layout of the node types given in the grg file */
 		node_attr_index = new int[n_node_types][n_node_attrs];
 		//for all node types...
@@ -1049,8 +1049,8 @@ public class InformationCollector extends CBackend {
 					node_attr_index[nt][attr_id] = -1;
 			}
 		}
-		
-		
+
+
 		/* compute the attr layout of the edge types given in the grg file */
 		edge_attr_index = new int[n_edge_types][n_edge_attrs];
 		//for all edge types...
@@ -1069,14 +1069,14 @@ public class InformationCollector extends CBackend {
 					edge_attr_index[et][attr_id] = -1;
 			}
 		}
-		
-		
-		
+
+
+
 		//collect the information about the enumeration types
 		enum_type_descriptors = new EnumDescriptor[n_enum_types];
 		for (int et = 0; et < n_enum_types; et++)
 			enum_type_descriptors[et] = new EnumDescriptor();
-		
+
 		for (EnumType enum_type : enumMap.keySet()) {
 			//store the info about the current enum type in an array...
 			//...type id
@@ -1096,18 +1096,18 @@ public class InformationCollector extends CBackend {
 	/**  computes matrices for all actions which show wether two pattern nodes
 	 *   are allowed to be identified by the matcher */
 	protected void collectPotHomInfo () {
-		
+
 		//tells whether two pattern nodes of a given action are pot hom or not
 		//e.g. : potHomMatrices[act_id][node_1][node_2]
 		//protected int potHomMatrices[][][];
 		potHomNodeMatrices =
 			new int[n_graph_actions][max_n_pattern_nodes][max_n_pattern_nodes];
-		
+
 		for (int i = 0; i < n_graph_actions; i++)
 			for (int j =0; j < max_n_pattern_nodes; j++)
 				for (int k = 0; k < max_n_pattern_nodes; k++)
 					potHomNodeMatrices[i][j][k] = 0;
-		
+
 		//got through that m,atrices and set cells to '1' if two nodes
 		//are potentialy homomorphic
 		Iterator<Action> act_it = actionMap.keySet().iterator();
@@ -1119,7 +1119,7 @@ public class InformationCollector extends CBackend {
 				Node node_1 = node_it_1.next();
 				Collection<Node> hom_of_node_1 = new HashSet<Node>();
 				hom_of_node_1 = pattern.getHomomorphic(node_1);
-				
+
 				Iterator<Node> node_it_2 = pattern.getNodes().iterator();
 				for ( ; node_it_2.hasNext() ; ) {
 					Node node_2 = node_it_2.next();
@@ -1137,7 +1137,7 @@ public class InformationCollector extends CBackend {
 			}
 		}
 	}
-	
+
 }
 
 

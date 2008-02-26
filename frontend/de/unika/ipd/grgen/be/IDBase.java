@@ -242,7 +242,7 @@ public abstract class IDBase extends Base implements IDTypeModel {
 			patternMap.put(act, new Integer(id++));
 		}
 	}
-	
+
 	/**
 	 * Make action IDs.
 	 * @param actionMap The map to put the IDs to.

@@ -29,9 +29,9 @@ package de.unika.ipd.grgen.util;
  */
 public interface ResultVisitor<RT> extends Visitor
 {
-	/** 
+	/**
 	 * Get the result, the visitor computed.
 	 * @return The result
-	 */ 
+	 */
 	RT getResult();
 }

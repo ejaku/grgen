@@ -31,7 +31,7 @@ public class InvalidDeclNode extends DeclNode {
 	static {
 		setName(InvalidDeclNode.class, "invalid declaration");
 	}
-	
+
 	ErrorTypeNode type;
 
 	/**
@@ -89,7 +89,7 @@ public class InvalidDeclNode extends DeclNode {
 	public TypeNode getDeclType()
 	{
 		assert isResolved();
-		
+
 		return type;
 	}
 }

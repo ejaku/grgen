@@ -26,19 +26,20 @@
 
 package de.unika.ipd.grgen;
 
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.io.File;
 import java.io.OutputStream;
 
+import de.unika.ipd.grgen.util.report.ErrorReporter;
+
 public interface Sys {
-	
+
 	File[] getModelPaths();
-	
+
 	ErrorReporter getErrorReporter();
-	
+
 	OutputStream createDebugFile(File file);
-	
+
 	boolean backendEmitDebugFiles();
-	
+
 }
 

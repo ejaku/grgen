@@ -24,13 +24,14 @@
  */
 package de.unika.ipd.grgen.ast;
 
+import java.util.Collection;
+import java.util.Vector;
+
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.Collection;
-import java.util.Vector;
 
 /**
  * AST node that represents a qualified identifier

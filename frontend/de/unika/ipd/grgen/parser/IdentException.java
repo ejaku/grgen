@@ -31,7 +31,12 @@ import de.unika.ipd.grgen.ast.IdentNode;
  * An exception concerning an identifier.
  */
 public class IdentException extends CoordsException {
-	
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 104818439326249393L;
+
 	/**
 	 * @param id The identifier for which the error occurred.
 	 * @param msg The message that describes the error

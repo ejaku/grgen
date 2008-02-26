@@ -27,9 +27,9 @@ import java.util.Set;
  */
 public class EnumItem extends Identifiable {
 	private final Ident id;
-	
+
 	private final Constant value;
-	
+
 	/**
 	 * Make a new enumeration value.
 	 * @param id The enumeration item identifier.
@@ -40,23 +40,23 @@ public class EnumItem extends Identifiable {
 		this.id = id;
 		this.value = value;
 	}
-	
+
 	/** @return The identifier of the enum item. */
 	public Ident getIdent() {
 		return id;
 	}
-	
+
 	/** The string of an enum item is its identifier's text.
 	 * @see java.lang.Object#toString() */
 	public String toString() {
 		return id.toString();
 	}
-	
+
 	/** @return The value of the enum item. */
 	public Constant getValue() {
 		return value;
 	}
-	
+
 	/** @see de.unika.ipd.grgen.util.Walkable#getWalkableChildren() */
 	public Collection<IR> getWalkableChildren() {
 		Set<IR> res = new HashSet<IR>();

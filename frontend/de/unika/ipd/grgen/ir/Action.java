@@ -28,7 +28,7 @@ package de.unika.ipd.grgen.ir;
  * A graph action.
  */
 public abstract class Action extends Identifiable {
-	
+
 	public Action(String name, Ident ident) {
 		super(name, ident);
 	}

@@ -42,13 +42,13 @@ public class Unit extends Identifiable {
 	private final List<Action> actions = new LinkedList<Action>();
 
 	private final List<Action> subpatterns = new LinkedList<Action>();
-	
+
 	private final List<Model> models = new LinkedList<Model>();
-	
+
 	private String digest = "";
-	
+
 	private boolean digestValid = false;
-	
+
 	/** The source filename of this unit. */
 	private String filename;
 
@@ -56,21 +56,21 @@ public class Unit extends Identifiable {
 		super("unit", ident);
 		this.filename = filename;
 	}
-	
+
 	/** Add an action to the unit. */
 	public void addAction(Action action) {
 		actions.add(action);
 	}
-	
+
 	public Collection<Action> getActions() {
 		return Collections.unmodifiableCollection(actions);
 	}
-	
+
 	/** Add a subpattern to the unit. */
 	public void addSubpattern(Action action) {
 		subpatterns.add(action);
 	}
-	
+
 	public Collection<Action> getSubpatterns() {
 		return Collections.unmodifiableCollection(subpatterns);
 	}
@@ -80,7 +80,7 @@ public class Unit extends Identifiable {
 		models.add(model);
 		digestValid = false;
 	}
-	
+
 	/** @return The type model of this unit. */
 	public Collection<Model> getModels() {
 		return Collections.unmodifiableCollection(models);
@@ -90,17 +90,17 @@ public class Unit extends Identifiable {
 	public String getFilename() {
 		return filename;
 	}
-	
+
 	public void addFields(Map<String, Object> fields) {
 		super.addFields(fields);
 		fields.put("models", models.iterator());
 	}
-	
+
 	protected void canonicalizeLocal() {
 		Collections.sort(models, Identifiable.COMPARATOR);
 		Collections.sort(actions, Identifiable.COMPARATOR);
 		Collections.sort(subpatterns, Identifiable.COMPARATOR);
-		
+
 		for(Iterator<Model> it = models.iterator(); it.hasNext();) {
 			Model model = it.next();
 			model.canonicalize();
@@ -113,13 +113,13 @@ public class Unit extends Identifiable {
 			model.addToDigest(sb);
 		}
 	}
-	
+
 	/** Build the digest string of this type model. */
 	private void buildDigest() {
 		StringBuffer sb = new StringBuffer();
 
 		addToDigest(sb);
-		
+
 		try {
 			byte[] serialData = sb.toString().getBytes("US-ASCII");
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -128,15 +128,15 @@ public class Unit extends Identifiable {
 			e.printStackTrace(System.err);
 			digest = "<error>";
 		}
-		
+
 		digestValid = true;
 	}
-	
+
 	/** Get the digest of thia type model. */
 	public final String getTypeDigest() {
 		if(!digestValid)
 			buildDigest();
-		
+
 		return digest;
 	}
 }

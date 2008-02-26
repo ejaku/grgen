@@ -26,12 +26,12 @@ import de.unika.ipd.grgen.ir.TypeType;
 /**
  * The type basic type.
  */
-public class TypeTypeNode extends BasicTypeNode 
+public class TypeTypeNode extends BasicTypeNode
 {
 	static {
 		setName(TypeTypeNode.class, "type type");
 	}
-	
+
 	protected IR constructIR() {
 		return new TypeType(getIdentNode().getIdent());
 	}

@@ -34,7 +34,7 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 /**
  * Base class for compound types, that allow inheritance.
  */
-public abstract class InheritanceTypeNode extends CompoundTypeNode 
+public abstract class InheritanceTypeNode extends CompoundTypeNode
 {
 	public static final int MOD_CONST = 1;
 	public static final int MOD_ABSTRACT = 2;
@@ -81,13 +81,13 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	protected boolean checkLocal()
 	{
 		getAllSuperTypes();
-		
+
 		for(DeclNode member : getAllMembers().values())
 			if(member instanceof AbstractMemberDeclNode && !isAbstract())
 				error.error(getIdentNode().getCoords(),
-						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" + 
+						getUseStr() + " \"" + getIdentNode() + "\" must be declared abstract, because member \"" +
 						member + "\" is abstract.");
-		
+
 		return true;
 	}
 
@@ -117,11 +117,11 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 	}
 
 	public abstract Collection<? extends InheritanceTypeNode> getDirectSuperTypes();
-	
+
 	protected abstract void getMembers(Map<String, DeclNode> members);
 
 	/** Returns all members (including inherited ones) of this type. */
-	public Map<String, DeclNode> getAllMembers() 
+	public Map<String, DeclNode> getAllMembers()
 	{
 		if(allMembers==null) {
 			allMembers = new LinkedHashMap<String, DeclNode>();

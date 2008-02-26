@@ -24,10 +24,11 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.parser.Coords;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashSet;
+
+import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * Base class for all AST nodes representing expressions.

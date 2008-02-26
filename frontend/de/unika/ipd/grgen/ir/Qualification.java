@@ -33,21 +33,21 @@ public class Qualification extends Expression {
 
 	/** The member of the qualification. */
 	private final Entity member;
-	
+
 	public Qualification(Entity owner, Entity member) {
 		super("qual", member.getType());
 		this.owner = owner;
 		this.member = member;
 	}
-	
+
 	public Entity getOwner() {
 		return owner;
 	}
-	
+
 	public Entity getMember() {
 		return member;
 	}
-	
+
 	public String getNodeLabel() {
 		return "<" + owner + ">.<" + member + ">";
 	}

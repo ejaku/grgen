@@ -24,11 +24,11 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
 import de.unika.ipd.grgen.parser.Coords;
-import java.util.HashSet;
 
 /**
  * Operator Description class.
