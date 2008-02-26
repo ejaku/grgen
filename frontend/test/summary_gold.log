@@ -427,6 +427,12 @@ ERROR  should_fail/edge_007.grg
 ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_009.grg
 ERROR  should_fail/edge_010.grg
+ERROR  should_fail/edge_into_neg_001.grg
+ERROR  should_fail/edge_into_neg_002.grg
+ERROR  should_fail/edge_into_neg_003.grg
+ERROR  should_fail/edge_into_neg_004.grg
+ERROR  should_fail/edge_into_neg_005.grg
+ERROR  should_fail/edge_into_neg_006.grg
 ERROR  should_fail/empty_001.grg
 ERROR  should_fail/enum_001.grg
 ERROR  should_fail/enum_002.grg

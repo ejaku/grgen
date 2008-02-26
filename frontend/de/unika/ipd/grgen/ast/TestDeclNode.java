@@ -251,24 +251,23 @@ public class TestDeclNode extends ActionDeclNode {
 									"no type changes in test actions";
 
 								//check only if there's no dangling edge
-								if ( (iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy() ) {
-									continue;
-								}
-								if ( (oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy() ) {
-									continue;
-								}
-								if ( (iTgt instanceof NodeDeclNode)	&& ((NodeDeclNode)iTgt).isDummy() ) {
-									continue;
-								}
-								if ( (oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy() ) {
-									continue;
-								}
-
-								if ( iSrc != oSrc || iTgt != oTgt ) {
+								if ( !((iSrc instanceof NodeDeclNode) && ((NodeDeclNode)iSrc).isDummy())
+										&& !((oSrc instanceof NodeDeclNode) && ((NodeDeclNode)oSrc).isDummy())
+										&& iSrc != oSrc ) {
 									alreadyReported.add(iConn.getEdge());
 									iConn.reportError("Reused edge does not connect the same nodes");
 									edgeReUse = false;
 								}
+
+								//check only if there's no dangling edge
+								if ( !((iTgt instanceof NodeDeclNode) && ((NodeDeclNode)iTgt).isDummy())
+										&& !((oTgt instanceof NodeDeclNode) && ((NodeDeclNode)oTgt).isDummy())
+										&& iTgt != oTgt && !alreadyReported.contains(iConn.getEdge())) {
+									alreadyReported.add(iConn.getEdge());
+									iConn.reportError("Reused edge does not connect the same nodes");
+									edgeReUse = false;
+								}
+
 
 								if (iConn.getConnectionKind() != oConn.getConnectionKind()) {
 									alreadyReported.add(iConn.getEdge());

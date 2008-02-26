@@ -1,0 +1,6 @@
+test t {
+	-e:Edge->a:Node;
+	negative {
+		x:Node-e->y:Node;
+	}
+}
