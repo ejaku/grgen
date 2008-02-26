@@ -39,7 +39,7 @@ public class Rule extends MatchingAction {
 	};
 
 	/** The right hand side of the rule. */
-	private final Graph right;
+	private final PatternGraph right;
 
 	/** The evaluation assignments of this rule. */
 	private final Collection<Assignment> evals = new LinkedList<Assignment>();
@@ -50,7 +50,7 @@ public class Rule extends MatchingAction {
 	 * @param left The left side graph of the rule.
 	 * @param right The right side graph of the rule.
 	 */
-	public Rule(Ident ident, PatternGraph left, Graph right) {
+	public Rule(Ident ident, PatternGraph left, PatternGraph right) {
 		super("rule", ident, left);
 		setChildrenNames(childrenNames);
 		this.right = right;
@@ -88,7 +88,7 @@ public class Rule extends MatchingAction {
 	}
 
 	/** @return The right hand side graph. */
-	public Graph getRight() {
+	public PatternGraph getRight() {
 		return right;
 	}
 }

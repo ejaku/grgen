@@ -1078,4 +1078,3 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	private String nsIndent = "\t";
 }
 
-

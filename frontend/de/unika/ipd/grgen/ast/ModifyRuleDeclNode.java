@@ -268,15 +268,15 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	}
 
 	@Override
-		protected boolean checkLocal() {
+	protected boolean checkLocal() {
 		warnElemAppearsInsideAndOutsideDelete();
 		return super.checkLocal();
 	}
 
 	@Override
-		protected IR constructIR() {
+	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
-		Graph right = this.right.getGraph();
+		PatternGraph right = this.right.getGraph();
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
@@ -329,7 +329,7 @@ public class ModifyRuleDeclNode extends RuleDeclNode {
 	}
 
 	@Override
-		public RuleTypeNode getDeclType() {
+	public RuleTypeNode getDeclType() {
 		assert isResolved();
 
 		return type;

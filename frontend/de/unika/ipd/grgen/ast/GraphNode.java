@@ -181,8 +181,8 @@ public class GraphNode extends BaseNode {
 	 * Get the correctly casted IR object.
 	 * @return The IR object.
 	 */
-	public Graph getGraph() {
-		return (PatternGraph) checkIR(Graph.class);
+	public PatternGraph getGraph() {
+		return (PatternGraph) checkIR(PatternGraph.class);
 	}
 
 	/**

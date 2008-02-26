@@ -489,7 +489,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 */
 	protected IR constructIR() {
 		PatternGraph left = pattern.getPatternGraph();
-		Graph right = this.right.getGraph();
+		PatternGraph right = this.right.getGraph();
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 

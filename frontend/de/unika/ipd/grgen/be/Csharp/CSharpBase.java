@@ -155,17 +155,14 @@ public abstract class CSharpBase {
 	}
 
 	public String formatNodeOrEdge(boolean isNode) {
-		if(isNode)
-			return "Node";
-		else
-			return "Edge";
+		return isNode ? "Node" : "Edge";
 	}
 
 	public String formatNodeOrEdge(Type type) {
 		if (type instanceof NodeType)
-			return formatNodeOrEdge(true);
+			return "Node";
 		else if (type instanceof EdgeType)
-			return formatNodeOrEdge(false);
+			return "Edge";
 		else
 			throw new IllegalArgumentException("Unknown type" + type + "(" + type.getClass() + ")");
 	}
