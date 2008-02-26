@@ -1,0 +1,7 @@
+rule r {
+	a:Node-e:Edge->;
+	negative {
+		x:Node-e->y:Node;
+	}
+	replace{}
+}
