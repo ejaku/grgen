@@ -86,8 +86,10 @@ public class AssignNode extends BaseNode {
 		DeclNode owner = lhs.getOwner();
 		TypeNode ty = owner.getDeclType();
 
-		if(lhs.getDecl().isConst())
+		if(lhs.getDecl().isConst()) {
 			error.error(getCoords(), "assignment to a const member is not allowed");
+			return false;
+		}
 
 		if(ty instanceof InheritanceTypeNode) {
 			InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
